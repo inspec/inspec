@@ -33,6 +33,25 @@ if ENV['SSH_SPEC']
     c.ssh_options = options.merge(ssh_conf)
   end
 
+# Run spec on Windows via WinRM
+elsif ENV['WINRM_SPEC']
+
+  require 'winrm'
+
+  set :backend, :winrm
+  set :os, :family => 'windows'
+
+  ssl = false
+  user = "Administrator"
+  pass = "abc123!!"
+  host = ENV['TARGET_HOST']
+  port = ENV['TARGET_PORT'] || '5985'
+  endpoint = "http://#{host}:#{port}/wsman"
+
+  winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true)
+  winrm.set_timeout 300 # 5 minutes max timeout for any operation
+  Specinfra.configuration.winrm = winrm
+
 # Run spec on local machine
 else
   require 'serverspec'
