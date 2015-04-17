@@ -54,10 +54,18 @@ class SimpleConfig
     # check if it is an assignment
     m = opts[:assignment_re].match(line)
     if !m.nil?
-      @params[m[1]] ||= []
-      @params[m[1]].push(m[2])
+      if opts[:multiple_values]
+        @params[m[1]] ||= []
+        @params[m[1]].push(m[2])
+      else
+        @params[m[1]] = m[2]
+      end
     elsif !is_empty_line(line)
-      @params[line.strip] ||= []
+      if opts[:multiple_values]
+        @params[line.strip] ||= []
+      else
+        @params[line.strip] = ''
+      end
     end
 
     # return whatever is left
@@ -74,7 +82,8 @@ class SimpleConfig
       multiline: false,
       comment_char: '#',
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
-      standalone_comments: false
+      standalone_comments: false,
+      multiple_values: true
     }
   end
 
