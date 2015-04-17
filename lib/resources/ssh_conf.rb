@@ -42,7 +42,10 @@ class SshConf
 
   def read_content
     @content = read_file(@conf_path)
-    @params = SimpleConfig.new(@content, assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/).params
+    @params = SimpleConfig.new(@content,
+      assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
+      multiple_values: false
+    ).params
     @content
   end
 
