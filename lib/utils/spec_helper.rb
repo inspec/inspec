@@ -18,6 +18,7 @@ if ENV['SSH_SPEC']
     c.host = ENV['TARGET_HOST']
     options[:password] = ENV['LOGIN_PASSWORD'] || ENV['password']
     options[:user] = ENV['LOGIN_USERNAME'] || ENV['user'] || Etc.getlogin
+    options[:port] = ( ENV['LOGIN_PORT'] || 22 ).to_i
 
     if !ENV['LOGIN_KEY'].nil?
       options[:keys] = [ENV['LOGIN_KEY']]
