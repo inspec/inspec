@@ -13,8 +13,8 @@ class SshConf
     @files_contents = {}
     @content = nil
     @params = nil
-    typename = ( conf_path.include?('sshd') ? 'server' : 'client' )
-    @type = type || "SSH #{typename} configuration"
+    typename = ( conf_path.include?('sshd') ? 'Server' : 'Client' )
+    @type = type || "SSH #{typename} configuration #{conf_path}"
     read_content
   end
 
