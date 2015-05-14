@@ -38,7 +38,7 @@ class PostgresSession
     # run the query
     cmd = Serverspec::Type::Command.new("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -c \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
-    if out =~ /Can't connect to .*/ or
+    if out =~ /could not connect to .*/ or
        out.downcase =~ /^error/
       # skip this test if the server can't run the query
       RSpec.describe( cmd ) do
