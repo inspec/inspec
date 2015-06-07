@@ -27,20 +27,36 @@ module Vulcano
       # helper methods (which we don't expose)
       def rule2check(rule)
         {
-          "id"     => rule.id,
           "impact" => rule.impact,
           "title"  => rule.title,
           "desc"   => rule.desc.gsub(/\s*\n\s*/, ' ').strip
         }
       end
+      def rules2checks(rules)
+        checks = {}
+        rules.map do |rule|
+          nu = rule2check(rule)
+          if checks[rule.id].nil?
+            checks[rule.id] = nu
+          else
+            Log.error(
+              "Not redefining rule id #{rule.id}:\n"+
+              "-- #{checks[rule.id]}\n"+
+              "++ #{nu}\n"
+            )
+          end
+        end
+        checks
+      end
       def mOr(m, other)
         (m.nil? || m[1].nil?) ? other : m[1]
       end
       header = @raw.sub(/^[^#].*\Z/m,'')
+
       {
         "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
         "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        "checks" => @rules.map{|r| rule2check(r) }
+        "checks" => rules2checks(@rules)
       }
     end
 
