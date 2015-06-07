@@ -4,6 +4,9 @@
 require 'thor'
 require 'json'
 require_relative '../lib/vulcano'
+require 'vulcano/log'
+require 'vulcano/profiles'
+require 'vulcano/metadata'
 
 class VulcanoCLI < Thor
 
