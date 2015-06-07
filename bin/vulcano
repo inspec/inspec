@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# Copyright 2015 Dominik Richter. All rights reserved.
+
+require 'thor'
+require 'json'
+require_relative '../lib/vulcano'
+
+class VulcanoCLI < Thor
+
+  desc "json PATH", "read all tests in PATH and generate a JSON-profile"
+  option :output, aliases: :o, type: :string
+  option :print, aliases: :p, type: :boolean
+  def json(*paths)
+    paths.each do |path|
+      vc = Vulcano::Profiles.new({ quiet: options[:print] })
+      vc.add_folder(path)
+      if options[:print]
+        puts JSON.pretty_generate( vc.profiles )
+      else
+        dst = options[:output] || File.join( path, '.vulcano.json' )
+        if File::exist? dst
+          puts "----> updating #{dst}"
+        else
+          puts "----> creating #{dst}"
+        end
+        fdst = File::expand_path(dst)
+        File::write(fdst, JSON.dump(vc.profiles))
+      end
+    end
+  end
+
+  # desc "check PATH", "check all tests in PATH"
+  # def check(*paths)
+  #   paths.each do |path|
+  #     puts "#{path}"
+  #     Vulcano::Checks.new.valid_folder? path
+  #     puts
+  #   end
+  # end
+
+end
+VulcanoCLI.start(ARGV)

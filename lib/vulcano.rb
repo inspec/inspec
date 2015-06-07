@@ -2,6 +2,9 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
+libdir = File.dirname(__FILE__)
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
 require 'utils/spec_helper'
 
 require 'resources/audit_policy'
@@ -14,6 +17,10 @@ require 'resources/processes'
 require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/ssh_conf'
+
+require 'vulcano/log'
+require 'vulcano/metadata'
+require 'vulcano/profiles'
 require 'vulcano/rule'
 require 'vulcano/rspec_json_formatter'
 require 'vulcano/version'
