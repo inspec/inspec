@@ -2,11 +2,7 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
-class VulcanoRule
-  include Serverspec::Helper::Type
-  extend Serverspec::Helper::Type
-  include RSpec::Core::DSL
-
+class VulcanoBaseRule
   def initialize(id, &block)
     @id = id
     @impact = 1.0
@@ -33,14 +29,29 @@ class VulcanoRule
 
   def describe(sth, &block)
     r = VulcanoRule.describe(sth, &block)
-    r.examples.each {|ex|
-      ex.metadata[:id] = @id
-    }
+    set_rspec_ids(r)
   end
 
   def method_missing(m, *a, &b)
     VulcanoRule.__send__(m, *a, &b)
   end
+
+  private
+
+  def set_rspec_ids(obj)
+    obj.examples.each {|ex|
+      ex.metadata[:id] = @id
+    }
+    obj.children.each {|c|
+      set_rspec_ids(c)
+    }
+  end
+end
+
+class VulcanoRule < VulcanoBaseRule
+  include Serverspec::Helper::Type
+  extend Serverspec::Helper::Type
+  include RSpec::Core::DSL
 end
 
 def rule id, &block
