@@ -1,5 +1,5 @@
-# VulcanoSec Serverspec
+# vulcanosec cli
 
-Shared resources for Serverspec. Matchers and more.
+CLI tool for vulcanosec.
 
 Copyright 2015 Dominik Richter. All rights reserved.
