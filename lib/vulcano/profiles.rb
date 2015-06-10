@@ -31,7 +31,7 @@ module Vulcano
       end
 
       md = Metadata.for_path(path)
-      @log.ok "vmetadata.rb" unless md.nil? or md.incomplete?
+      @log.ok "vmetadata.rb" unless md.nil? or !md.valid?
 
       specs = Dir["#{path}/spec/*_spec.rb"]
       if specs.empty?

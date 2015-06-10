@@ -34,8 +34,16 @@ module Vulcano
       })
     end
 
-    def incomplete?
-      @dict['name'].nil? || @dict['version'].nil? || @dict['summary'].nil? || @dict['maintainer'].nil? || @dict['copryight'].nil?
+    def valid?
+      is_valid = true
+      err =  lambda{|msg| @log.error msg; is_valid = false }
+      warn = lambda{|msg| @log.warn msg;  is_valid = false }
+      err.("Missing profile name in vmetadata.rb") if @dict['name'].nil?
+      err.("Missing profile version in vmetadata.rb") if @dict['version'].nil?
+      err.("Missing summary in vmetadata.rb") if @dict['summary'].nil?
+      warn.("Missing maintainer in vmetadata.rb") if @dict['maintainer'].nil?
+      warn.("Missing copyright in vmetadata.rb") if @dict['copyright'].nil?
+      is_valid
     end
 
     def method_missing sth, *args
@@ -51,13 +59,6 @@ module Vulcano
       end
       res = Metadata.new(log)
       res.instance_eval(File::read(dpath))
-
-      log.error "Missing profile name in vmetadata.rb" if res.dict['name'].nil?
-      log.error "Missing profile version in vmetadata.rb" if res.dict['version'].nil?
-      log.error "Missing summary in vmetadata.rb" if res.dict['summary'].nil?
-      log.warn "Missing maintainer in vmetadata.rb" if res.dict['maintainer'].nil?
-      log.warn "Missing copyright in vmetadata.rb" if res.dict['copyright'].nil?
-
       return res
     end
   end
