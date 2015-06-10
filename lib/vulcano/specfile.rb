@@ -4,6 +4,11 @@
 require 'vulcano/base_rule'
 require 'vulcano/log'
 require 'vulcano/dummy'
+# the user may use dynamic evaluations via pry
+begin
+  require 'pry'
+rescue LoadError
+end
 
 module Vulcano
   class DummyVulcanoRule < VulcanoBaseRule
