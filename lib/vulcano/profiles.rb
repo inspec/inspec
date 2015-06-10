@@ -69,11 +69,11 @@ module Vulcano
       }
 
       meta['checks'].each do |k,v|
-        invalid("Missing impact for rule #{k}") if v['impact'].nil?
-        invalid("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
-        invalid("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
-        invalid("Missing title for rule #{k}") if v['title'].nil? || v['title'] == k
-        invalid("Missing description for rule #{k}") if v['desc'].nil?
+        invalid.("Missing impact for rule #{k}") if v['impact'].nil?
+        invalid.("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
+        invalid.("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+        invalid.("Missing title for rule #{k}") if v['title'].nil? || v['title'] == k
+        invalid.("Missing description for rule #{k}") if v['desc'].nil?
       end
 
       @log.ok "Valid spec file in #{f}" if valid && specs.instance_variable_get(:@invalid_calls).empty?
