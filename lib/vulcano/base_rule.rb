@@ -5,9 +5,9 @@
 class VulcanoBaseRule
   def initialize(id, &block)
     @id = id
-    @impact = 1.0
-    @title = id
-    @desc = ""
+    @impact = nil
+    @title = nil
+    @desc = nil
 
     self.instance_eval(&block)
   end

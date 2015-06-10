@@ -72,7 +72,7 @@ module Vulcano
         invalid.("Missing impact for rule #{k}") if v['impact'].nil?
         invalid.("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
         invalid.("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
-        invalid.("Missing title for rule #{k}") if v['title'].nil? || v['title'] == k
+        invalid.("Missing title for rule #{k}") if v['title'].nil?
         invalid.("Missing description for rule #{k}") if v['desc'].nil?
       end
 
@@ -87,12 +87,20 @@ module Vulcano
       Dir["#{path}/spec/*_spec.rb"].each do |specfile|
         rel_path = specfile.sub(File.join(path,''), '')
         specs = SpecFile.from_file(specfile)
-        allchecks[rel_path] = specs.vulcano_meta
+        allchecks[rel_path] = sanitize_specfile_json(specs.vulcano_meta)
       end
 
       res = Metadata.for_path(path, @log).dict
       res['checks'] = allchecks
       @profiles = res
+    end
+
+    def sanitize_specfile_json j
+      j['checks'].each do |k,v|
+        v['title'] = k if v['title'].nil?
+        v['desc'] = "" if v['desc'].nil?
+        v['impact'] = 1.0 if v['impact'].nil?
+      end
     end
 
   end
