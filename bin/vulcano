@@ -15,6 +15,7 @@ class VulcanoCLI < Thor
   option :print, aliases: :p, type: :boolean
   def json(*paths)
     paths.each do |path|
+      Vulcano::Profiles.new.valid_folder? path unless options[:print]
       vc = Vulcano::Profiles.new({ quiet: options[:print] })
       vc.add_folder(path)
       if options[:print]
