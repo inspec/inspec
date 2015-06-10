@@ -69,9 +69,12 @@ module Vulcano
       }
 
       meta['checks'].each do |k,v|
-        invalid.("Missing impact for rule #{k}") if v['impact'].nil?
-        invalid.("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
-        invalid.("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+        if v['impact'].nil?
+          invalid.("Missing impact for rule #{k}")
+        else
+          invalid.("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
+          invalid.("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+        end
         invalid.("Missing title for rule #{k}") if v['title'].nil?
         invalid.("Missing description for rule #{k}") if v['desc'].nil?
       end
