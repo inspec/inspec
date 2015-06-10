@@ -27,10 +27,12 @@ module Vulcano
     def vulcano_meta
       # helper methods (which we don't expose)
       def rule2check(rule)
+        d = nil
+        d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
         {
           "impact" => rule.impact,
           "title"  => rule.title,
-          "desc"   => rule.desc.gsub(/\s*\n\s*/, ' ').strip
+          "desc"   => d
         }
       end
       def rules2checks(rules)
