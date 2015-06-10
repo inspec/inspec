@@ -7,6 +7,8 @@ require 'vulcano/dummy'
 
 module Vulcano
   class DummyVulcanoRule < VulcanoBaseRule
+    include DummyServerspecTypes
+    include DummyVulcanoTypes
     def method_missing(m, *a, &b)
     end
   end
