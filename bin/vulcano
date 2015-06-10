@@ -32,14 +32,14 @@ class VulcanoCLI < Thor
     end
   end
 
-  # desc "check PATH", "check all tests in PATH"
-  # def check(*paths)
-  #   paths.each do |path|
-  #     puts "#{path}"
-  #     Vulcano::Checks.new.valid_folder? path
-  #     puts
-  #   end
-  # end
+  desc "check PATH", "check all tests in PATH"
+  def check(*paths)
+    paths.each do |path|
+      puts "#{path}"
+      Vulcano::Profiles.new.valid_folder? path
+      puts
+    end
+  end
 
 end
 VulcanoCLI.start(ARGV)

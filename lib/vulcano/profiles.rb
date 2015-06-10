@@ -43,7 +43,8 @@ module Vulcano
     def valid_spec? f
       return @log.error "Can't find spec file #{f}" unless File::file? f
       valid = true
-      meta = get_spec_meta f
+      specs = SpecFile.from_file(f)
+      meta = specs.vulcano_meta
       if meta['title'].nil?
         @log.error "Missing title in spec file #{f}"
         valid = false
@@ -58,34 +59,24 @@ module Vulcano
         find_all{|line,idx| line =~ /^[^"#]*describe.*do(\s|$)/ }.
         map{|x| x[1]+1 }
 
-      missing_describes = meta['checks'].find_all{|x| !describe_lines.include? x['line_end']}
-      missing_meta = describe_lines - meta['checks'].map{|x| x['line_end']}
-      missing_meta.each do |mm|
-        @log.error "Missing ID in file #{f} line #{mm}"
-        @log.error "Missing impact in file #{f} line #{mm}"
-        @log.error "Missing title in file #{f} line #{mm}"
-        @log.warn "Missing description in file #{f} line #{mm}"
+      unless meta['checks'][''].nil?
+        @log.error "Please configure IDs for all rules."
+      end
+
+      invalid = lambda {|msg|
+        @log.error msg
         valid = false
+      }
+
+      meta['checks'].each do |k,v|
+        invalid("Missing impact for rule #{k}") if v['impact'].nil?
+        invalid("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
+        invalid("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+        invalid("Missing title for rule #{k}") if v['title'].nil?
+        invalid("Missing description for rule #{k}") if v['desc'].nil?
       end
 
-      meta['checks'].each do |check|
-        mm = check['line_end']
-        @log.error "Missing ID in file #{f} line #{mm}" if check['id'].nil?
-        @log.error "Missing impact in file #{f} line #{mm}" if check['impact'].nil?
-        @log.error "Missing title in file #{f} line #{mm}" if check['title'].nil?
-        @log.warn "Missing description in file #{f} line #{mm}" if check['description'].nil?
-        if check['impact'].nil? or
-           check['impact'] > 1.0 or
-           check['impact'] < 0.0
-          @log.error "Impact must be a number from 0.0-1.0, not #{check['impact']} ; file #{f} line #{mm}"
-        end
-        if check['id'].nil? || check['impact'].nil? || check['title'].nil?
-          valid = false
-        end
-      end
-
-      vs = Vulcano::Spec.from_file(f)
-      @log.ok "Valid spec file in #{f}" if valid && vs.invalid_calls.empty?
+      @log.ok "Valid spec file in #{f}" if valid && specs.instance_variable_get(:@invalid_calls).empty?
     end
 
     private

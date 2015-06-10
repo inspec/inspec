@@ -20,6 +20,7 @@ module Vulcano
       @path = path
       @rules = []
       @raw = File::read(path)
+      @invalid_calls = []
       self.instance_eval(@raw)
     end
 
@@ -66,7 +67,7 @@ module Vulcano
 
     def method_missing sth, *args
       Log.warn "spec file doesn't support: #{sth} #{args.join(', ')}"
-      # @invalid_calls.push([sth, args])
+      @invalid_calls.push([sth, args])
     end
 
     def require sth
