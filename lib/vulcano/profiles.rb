@@ -64,7 +64,7 @@ module Vulcano
       end
 
       invalid = lambda {|msg|
-        @log.error msg
+        @log.error "#{msg} (#{File::basename f})"
         valid = false
       }
 
