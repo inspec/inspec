@@ -104,6 +104,7 @@ module Vulcano
         v['desc'] = "" if v['desc'].nil?
         v['impact'] = 1.0 if v['impact'].nil?
       end
+      j
     end
 
   end
