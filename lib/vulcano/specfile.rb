@@ -33,7 +33,7 @@ module Vulcano
 
     def vulcano_meta
       # helper methods (which we don't expose)
-      def rule2check(rule)
+      def rule2dict(rule)
         d = nil
         d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
         {
@@ -42,21 +42,21 @@ module Vulcano
           "desc"   => d
         }
       end
-      def rules2checks(rules)
-        checks = {}
+      def rules2dict(rules)
+        res = {}
         rules.map do |rule|
-          nu = rule2check(rule)
-          if checks[rule.id].nil?
-            checks[rule.id] = nu
+          nu = rule2dict(rule)
+          if res[rule.id].nil?
+            res[rule.id] = nu
           else
             Log.error(
               "Not redefining rule id #{rule.id}:\n"+
-              "-- #{checks[rule.id]}\n"+
+              "-- #{res[rule.id]}\n"+
               "++ #{nu}\n"
             )
           end
         end
-        checks
+        res
       end
       def mOr(m, other)
         (m.nil? || m[1].nil?) ? other : m[1]
@@ -66,7 +66,7 @@ module Vulcano
       {
         "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
         "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        "checks" => rules2checks(@rules)
+        "rules" => rules2dict(@rules)
       }
     end
 

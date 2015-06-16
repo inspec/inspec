@@ -59,7 +59,7 @@ module Vulcano
         find_all{|line,idx| line =~ /^[^"#]*describe.*do(\s|$)/ }.
         map{|x| x[1]+1 }
 
-      unless meta['checks'][''].nil?
+      unless meta['rules'][''].nil?
         @log.error "Please configure IDs for all rules."
       end
 
@@ -68,7 +68,7 @@ module Vulcano
         valid = false
       }
 
-      meta['checks'].each do |k,v|
+      meta['rules'].each do |k,v|
         if v['impact'].nil?
           invalid.("Missing impact for rule #{k}")
         else
@@ -85,21 +85,21 @@ module Vulcano
     private
 
     def add_specs_in_folder path
-      allchecks = {}
+      allrules = {}
 
       Dir["#{path}/spec/*_spec.rb"].each do |specfile|
         rel_path = specfile.sub(File.join(path,''), '')
         specs = SpecFile.from_file(specfile)
-        allchecks[rel_path] = sanitize_specfile_json(specs.vulcano_meta)
+        allrules[rel_path] = sanitize_specfile_json(specs.vulcano_meta)
       end
 
       res = Metadata.for_path(path, @log).dict
-      res['checks'] = allchecks
+      res['rules'] = allrules
       @profiles = res
     end
 
     def sanitize_specfile_json j
-      j['checks'].each do |k,v|
+      j['rules'].each do |k,v|
         v['title'] = k if v['title'].nil?
         v['desc'] = "" if v['desc'].nil?
         v['impact'] = 1.0 if v['impact'].nil?
