@@ -11,6 +11,10 @@ module Vulcano
       puts msg unless @quiet
     end
 
+    def info msg
+      show "  .  ".color(:white) + msg
+    end
+
     def error msg
       show "  ✖  ".color(:red).bright + msg
     end

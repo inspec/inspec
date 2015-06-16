@@ -79,7 +79,9 @@ module Vulcano
         invalid.("Missing description for rule #{k}") if v['desc'].nil?
       end
 
-      @log.ok "Valid spec file in #{f}" if valid && specs.instance_variable_get(:@invalid_calls).empty?
+      if valid && specs.instance_variable_get(:@invalid_calls).empty?
+        @log.ok "Valid spec file in #{f} with #{meta['rules'].length} rules"
+      end
     end
 
     private
