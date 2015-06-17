@@ -11,6 +11,12 @@ if ENV['SSH_SPEC']
   require 'net/ssh'
 
   set :backend, :ssh
+  if ENV['USE_SUDO'] == "false"
+    set :disable_sudo, true
+  end
+  if ENV['SUDO_OPTIONS'].to_s != ""
+    set :sudo_options, ENV['SUDO_OPTIONS']
+  end
 
   RSpec.configure do |c|
     options = {}
@@ -43,8 +49,8 @@ elsif ENV['WINRM_SPEC']
   set :os, :family => 'windows'
 
   ssl = false
-  user = "Administrator"
-  pass = "abc123!!"
+  user = ENV['LOGIN_USERNAME']
+  pass = ENV['LOGIN_PASSWORD']
   host = ENV['TARGET_HOST']
   port = ENV['TARGET_PORT'] || '5985'
   endpoint = "http://#{host}:#{port}/wsman"
