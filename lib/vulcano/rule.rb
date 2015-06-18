@@ -17,6 +17,10 @@ class VulcanoRule < VulcanoBaseRule
     VulcanoRule.__send__(m, *a, &b)
   end
 
+  def self.registry
+    @rules ||= {}
+  end
+
   private
 
   def set_rspec_ids(obj)
@@ -30,5 +34,30 @@ class VulcanoRule < VulcanoBaseRule
 end
 
 def rule id, &block
-  VulcanoRule.new(id, &block)
+  existing = VulcanoRule.registry[id]
+  if existing.nil?
+    VulcanoRule.registry[id] = VulcanoRule.new(id, &block)
+  else
+    # TODO: alter existing rule
+  end
+end
+
+
+def include_rules id
+  base_path = '/etc/vulcanosec/tests'
+  path = File.join( base_path, id )
+  # find all files to be included
+  files = []
+  if File::directory? path
+    # include all library paths, if they exist
+    libdir = File::join(path, 'lib')
+    if File::directory? libdir and !$LOAD_PATH.include?(libdir)
+      $LOAD_PATH.unshift(libdir)
+    end
+    files = Dir[File.join(path, 'spec','*_spec.rb')]
+  end
+  # include all files
+  files.each do |file|
+    eval(File::read(file))
+  end
 end
