@@ -18,9 +18,9 @@ require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/ssh_conf'
 
+require 'vulcano/version'
 require 'vulcano/rule'
 require 'vulcano/rspec_json_formatter'
-require 'vulcano/version'
 
 # Dummy module for handling additional attributes
 # which may be injected by the user. This covers data
