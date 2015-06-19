@@ -28,18 +28,19 @@ end
 
 module Vulcano::DSL
   def rule id, &block
-    Vulcano::Rule.new(id, &block)
+    __register_rule Vulcano::Rule.new(id, &block)
+  end
+
+  def __register_rule r
+    r
   end
 
   def require_rules id, &block
-    files = ::Vulcano::DSL.get_spec_files_for_profile id
+    ::Vulcano::DSL.load_spec_files_for_profile id, false, &block
   end
 
   def include_rules id, &block
-    files = ::Vulcano::DSL.get_spec_files_for_profile id
-    # files.each do |file|
-    #   eval(File::read(file), file, 1)
-    # end
+    ::Vulcano::DSL.load_spec_files_for_profile id, true, &block
   end
 
   # Register a given rule with RSpec and
@@ -70,6 +71,14 @@ module Vulcano::DSL
     }
   end
 
+  def self.load_spec_files_for_profile id, include_all, &block
+    files = get_spec_files_for_profile id
+    # p "LOAD FILES: #{id} -- #{include_all}"
+    # files.each do |file|
+    #   eval(File::read(file), file, 1)
+    # end
+  end
+
   def self.get_spec_files_for_profile id
     base_path = '/etc/vulcanosec/tests'
     path = File.join( base_path, id )
@@ -89,8 +98,7 @@ module Vulcano::DSL
 end
 
 module Vulcano::GlobalDSL
-  def rule id, &block
-    r = Vulcano::Rule.new(id, &block)
+  def __register_rule r
     ::Vulcano::DSL.execute_rule(r)
   end
 end
