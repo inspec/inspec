@@ -13,8 +13,8 @@ module Vulcano
     # IDs to each example group
     # TODO: remove this once IDs are in rspec-core
     def describe(sth, &block)
-      r = Rule.describe(sth, &block)
-      set_rspec_ids(r)
+      @checks ||= []
+      @checks.push(['describe', [sth], block])
     end
 
     # redirect all regular method calls to the
@@ -23,23 +23,6 @@ module Vulcano
       VulcanoRule.__send__(m, *a, &b)
     end
 
-    def self.registry
-      @rules ||= {}
-    end
-
-    private
-
-    # Attach an ID attribute to the
-    # metadata of all examples
-    # TODO: remove this once IDs are in rspec-core
-    def set_rspec_ids(obj)
-      obj.examples.each {|ex|
-        ex.metadata[:id] = @id
-      }
-      obj.children.each {|c|
-        set_rspec_ids(c)
-      }
-    end
   end
 end
 
@@ -54,13 +37,15 @@ end
 module Vulcano::DSL
 
   def rule id, &block
-    existing = Vulcano::Rule.registry[id]
-    if existing.nil?
-      Vulcano::Rule.registry[id] = Vulcano::Rule.new(id, &block)
-    else
-      p "RULE #{id} was found: #{existing}"
-      # TODO: alter existing rule
-    end
+    r = Vulcano::Rule.new(id, &block)
+    execute_rule(r)
+    # existing = Vulcano::Rule.registry[id]
+    # if existing.nil?
+    #
+    # else
+    #   p "RULE #{id} was found: #{existing}"
+    #   # TODO: alter existing rule
+    # end
   end
 
   def require_rules id, &block
@@ -75,6 +60,29 @@ module Vulcano::DSL
   end
 
   private
+
+  # Attach an ID attribute to the
+  # metadata of all examples
+  # TODO: remove this once IDs are in rspec-core
+  def set_rspec_ids(obj, id)
+    obj.examples.each {|ex|
+      ex.metadata[:id] = id
+    }
+    obj.children.each {|c|
+      set_rspec_ids(c, id)
+    }
+  end
+
+  def execute_rule r
+    checks = r.instance_variable_get(:@checks)
+    id = r.instance_variable_get(:@id)
+    checks.each do |m,a,b|
+      cres = ::Vulcano::Rule.__send__(m, *a, &b)
+      if m=='describe'
+        set_rspec_ids(cres, id)
+      end
+    end
+  end
 
   def get_spec_files_for_profile id
     base_path = '/etc/vulcanosec/tests'
