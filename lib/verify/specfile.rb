@@ -11,74 +11,36 @@ rescue LoadError
 end
 
 module Vulcano
-  class DummyVulcanoRule < VulcanoBaseRule
-    include DummyServerspecTypes
-    include DummyVulcanoTypes
-    def method_missing(m, *a, &b)
-    end
-  end
+  class DummyContext
+    include Vulcano::DSL
 
-  class SpecFile
-    include DummyServerspecTypes
-    include DummyVulcanoTypes
-    Log = ::Vulcano::Log.new()
-
-    def initialize path
+    def initialize path, profile_id
       @path = path
-      @rules = []
-      @raw = File::read(path)
-      @invalid_calls = []
-      self.instance_eval(@raw, path, 1)
+      @profile_id = profile_id
+      @rules = {}
+      @errors = []
     end
 
-    def vulcano_meta
-      # helper methods (which we don't expose)
-      def rule2dict(rule)
-        d = nil
-        d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
-        {
-          "impact" => rule.impact,
-          "title"  => rule.title,
-          "desc"   => d
-        }
+    # DSL methods
+    def __register_rule r
+      fid = VulcanoBaseRule.full_id r, @profile_id
+      if @rules[fid].nil?
+        @rules[fid] = r
+      else
+        @errors.push "Duplicate definition of rule #{fid}."
       end
-      def rules2dict(rules)
-        res = {}
-        rules.map do |rule|
-          nu = rule2dict(rule)
-          if res[rule.id].nil?
-            res[rule.id] = nu
-          else
-            Log.error(
-              "Not redefining rule id #{rule.id}:\n"+
-              "-- #{res[rule.id]}\n"+
-              "++ #{nu}\n"
-            )
-          end
-        end
-        res
+    end
+    def __unregister_rule id
+      fid = "#{@profile_id}/#{id}"
+      if @rules.key? fid
+        @rules.delete(fid)
+      else
+        @errors.push "Failed to skip rule #{fid}, it isn't defined."
       end
-      def mOr(m, other)
-        (m.nil? || m[1].nil?) ? other : m[1]
-      end
-      header = @raw.sub(/^[^#].*\Z/m,'')
-
-      {
-        "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
-        "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        "rules" => rules2dict(@rules)
-      }
     end
 
-    def rule id, &block
-      @rules.push(DummyVulcanoRule.new(id, &block))
-    end
-
-    def method_missing sth, *args
-      Log.warn "spec file doesn't support: #{sth} #{args.join(', ')}"
-      @invalid_calls.push([sth, args])
-    end
-
+    # redefine require to find files in the context
+    # of this profile
     def require sth
       # ignore vulcano includes, we already have those
       lib = File::expand_path( File.join @path, '..', '..', 'lib', "#{sth}.rb" )
@@ -87,12 +49,79 @@ module Vulcano
       end
     end
 
-    def self.from_file path
+    def method_missing sth, *args
+      @errors.push "Don't understand method #{sth} ( #{args} )."
+    end
+
+  end
+end
+
+
+module Vulcano
+  class SpecFile
+    Log = ::Vulcano::Log.new()
+
+    attr_reader :errors, :rules
+    def initialize path, metadata
+      @rules = []
+      @raw = File::read(path)
+      @profile_id = metadata.dict['name']
+      @invalid_calls = []
+
+      ctx = DummyContext.new(path, @profile_id)
+      ctx.instance_eval(@raw, path, 1)
+      @errors = ctx.instance_variable_get(:@errors)
+      @rules = ctx.instance_variable_get(:@rules)
+    end
+
+    def metadata
+      header = @raw.sub(/^[^#].*\Z/m,'')
+      {
+        "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
+        "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
+        "rules" => rules2dict(@rules)
+      }
+    end
+
+    def self.from_file path, metadata
       if !File::file?(path)
         Log.error "Can't find spec file in #{path}"
         return nil
       end
-      return SpecFile.new(path)
+      return SpecFile.new(path, metadata)
+    end
+
+    private
+
+    def rule2dict(rule)
+      d = nil
+      d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
+      {
+        "impact" => rule.impact,
+        "title"  => rule.title,
+        "desc"   => d
+      }
+    end
+
+    def rules2dict(rules)
+      res = {}
+      rules.map do |id, rule|
+        nu = rule2dict(rule)
+        if res[id].nil?
+          res[id] = nu
+        else
+          Log.error(
+            "Not redefining rule id #{id}:\n"+
+            "-- #{res[id]}\n"+
+            "++ #{nu}\n"
+          )
+        end
+      end
+      res
+    end
+
+    def mOr(m, other)
+      (m.nil? || m[1].nil?) ? other : m[1]
     end
 
   end
