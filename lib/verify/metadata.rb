@@ -12,6 +12,7 @@ module Vulcano
 
     %w{
       name
+      title
       maintainer
       maintainer_email
       copyright
@@ -39,6 +40,7 @@ module Vulcano
       err =  lambda{|msg| @log.error msg; is_valid = false }
       warn = lambda{|msg| @log.warn msg;  is_valid = false }
       err.("Missing profile name in vmetadata.rb") if @dict['name'].nil?
+      err.("Missing profile title in vmetadata.rb") if @dict['title'].nil?
       err.("Missing profile version in vmetadata.rb") if @dict['version'].nil?
       err.("Missing summary in vmetadata.rb") if @dict['summary'].nil?
       warn.("Missing maintainer in vmetadata.rb") if @dict['maintainer'].nil?
