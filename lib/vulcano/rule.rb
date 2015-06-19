@@ -20,27 +20,27 @@ module Vulcano
     # redirect all regular method calls to the
     # core DSL (which is attached to the class)
     def method_missing(m, *a, &b)
-      VulcanoRule.__send__(m, *a, &b)
+      Vulcano::Rule.__send__(m, *a, &b)
     end
 
   end
 end
 
 module Vulcano::DSL
-  def rule id, &block
+  def rule id, opts = {}, &block
     __register_rule Vulcano::Rule.new(id, &block)
   end
 
   def __register_rule r
-    r
+    @rules.push(r)
   end
 
   def require_rules id, &block
-    ::Vulcano::DSL.load_spec_files_for_profile id, false, &block
+    ::Vulcano::DSL.load_spec_files_for_profile self, id, false, &block
   end
 
   def include_rules id, &block
-    ::Vulcano::DSL.load_spec_files_for_profile id, true, &block
+    ::Vulcano::DSL.load_spec_files_for_profile self, id, true, &block
   end
 
   # Register a given rule with RSpec and
@@ -51,7 +51,7 @@ module Vulcano::DSL
     id = r.instance_variable_get(:@id)
     checks.each do |m,a,b|
       cres = ::Vulcano::Rule.__send__(m, *a, &b)
-      if m=='describe'
+      if m == 'describe'
         set_rspec_ids(cres, id)
       end
     end
@@ -71,12 +71,30 @@ module Vulcano::DSL
     }
   end
 
-  def self.load_spec_files_for_profile id, include_all, &block
+  def self.load_spec_file_for_profile id, file
+    raw = File::read(file)
+    # TODO: error-handling
+
+    ctx = Vulcano::ProfileContext.new(id)
+    ctx.instance_eval(raw, file, 1)
+    return ctx.instance_variable_get(:@rules)
+  end
+
+  def self.load_spec_files_for_profile bind_context, id, include_all, &block
+    # get all spec files
     files = get_spec_files_for_profile id
-    # p "LOAD FILES: #{id} -- #{include_all}"
-    # files.each do |file|
-    #   eval(File::read(file), file, 1)
-    # end
+    # load all rules from spec files
+    rules = files.map do |file|
+      load_spec_file_for_profile(id, file)
+    end.flatten.compact
+
+    # TODO: interpret the block and make adjustments
+    # (ie include rule, adjust rule, etc...)
+
+    # finally register all combined rules
+    rules.each do |rule|
+      bind_context.__register_rule rule
+    end
   end
 
   def self.get_spec_files_for_profile id
@@ -95,6 +113,16 @@ module Vulcano::DSL
     return files
   end
 
+end
+
+module Vulcano
+  class ProfileContext
+    include Vulcano::DSL
+    def initialize profile_id
+      @profile_id = profile_id
+      @rules = []
+    end
+  end
 end
 
 module Vulcano::GlobalDSL
