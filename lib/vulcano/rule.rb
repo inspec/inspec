@@ -30,6 +30,10 @@ module Vulcano::DSL
     __register_rule Vulcano::Rule.new(id, opts, &block)
   end
 
+  def skip_rule id
+    __unregister_rule id
+  end
+
   def require_rules id, &block
     ::Vulcano::DSL.load_spec_files_for_profile self, id, false, &block
   end
@@ -109,6 +113,8 @@ module Vulcano::DSL
       org = rule_registry[id]
       if org.nil?
         # TODO: print error because we write alter a rule that doesn't exist
+      elsif r.nil?
+        rule_registry.delete(id)
       else
         merge_rules(org, r)
       end
@@ -147,23 +153,18 @@ module Vulcano
       @rules = profile_registry
     end
 
+    def __unregister_rule id
+      full_id = "#{@profile_id}/#{id}"
+      @rules[full_id] = nil
+    end
+
     def __register_rule r
-      # Profile registry consists of profile_id + rule_id
-      # As the profile context is exclusively pulled with a
-      # profile ID, attach it to the rule if necessary.
-      rid = r.instance_variable_get(:@id)
-      if rid.nil?
-        # TODO: Message about skipping this rule
-        # due to missing ID
+      # get the full ID
+      full_id = VulcanoBaseRule::full_id(r, @profile_id)
+      if full_id.nil?
+        # TODO error
         return
       end
-      pid = r.instance_variable_get(:@profile_id)
-      if pid.nil?
-        r.instance_variable_set(:@profile_id, @profile_id)
-        pid = @profile_id
-      end
-      full_id = pid + "/" + rid
-
       # add the rule to the registry
       existing = @rules[full_id]
       if existing.nil?
@@ -179,6 +180,8 @@ end
 module Vulcano::GlobalDSL
   def __register_rule r
     ::Vulcano::DSL.execute_rule(r)
+  end
+  def __unregister_rule id
   end
 end
 
