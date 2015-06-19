@@ -2,6 +2,7 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 require 'vulcano/specfile'
+require 'vulcano/log'
 
 module Vulcano
   # Handle Vulcano Profiles
