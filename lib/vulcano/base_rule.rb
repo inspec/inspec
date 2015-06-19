@@ -9,7 +9,7 @@ class VulcanoBaseRule
     @title = nil
     @desc = nil
 
-    self.instance_eval(&block)
+    self.instance_eval(&block) if block_given?
   end
 
   def id(v = nil)
