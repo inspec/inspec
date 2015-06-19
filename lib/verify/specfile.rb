@@ -3,7 +3,7 @@
 # license: All rights reserved
 require 'vulcano/base_rule'
 require 'vulcano/log'
-require 'vulcano/dummy'
+require 'verify/dummy'
 # the user may use dynamic evaluations via pry
 begin
   require 'pry'
@@ -28,7 +28,7 @@ module Vulcano
       @rules = []
       @raw = File::read(path)
       @invalid_calls = []
-      self.instance_eval(@raw)
+      self.instance_eval(@raw, path, 1)
     end
 
     def vulcano_meta

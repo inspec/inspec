@@ -58,7 +58,7 @@ module Vulcano
         return nil
       end
       res = Metadata.new(log)
-      res.instance_eval(File::read(dpath))
+      res.instance_eval(File::read(dpath), dpath, 1)
       return res
     end
   end
