@@ -88,16 +88,16 @@ module Vulcano
 
     def add_specs_in_folder path
       allrules = {}
+      meta = Metadata.for_path(path, @log)
 
       Dir["#{path}/spec/*_spec.rb"].each do |specfile|
         rel_path = specfile.sub(File.join(path,''), '')
-        specs = SpecFile.from_file(specfile)
-        allrules[rel_path] = sanitize_specfile_json(specs.vulcano_meta)
+        specs = SpecFile.from_file(specfile, meta)
+        allrules[rel_path] = sanitize_specfile_json(specs.metadata)
       end
 
-      res = Metadata.for_path(path, @log).dict
-      res['rules'] = allrules
-      @profiles = res
+      meta.dict['rules'] = allrules
+      @profiles = meta.dict
     end
 
     def sanitize_specfile_json j
