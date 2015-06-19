@@ -13,7 +13,6 @@ module Vulcano
     # IDs to each example group
     # TODO: remove this once IDs are in rspec-core
     def describe(sth, &block)
-      @checks ||= []
       @checks.push(['describe', [sth], block])
     end
 
@@ -28,11 +27,7 @@ end
 
 module Vulcano::DSL
   def rule id, opts = {}, &block
-    __register_rule Vulcano::Rule.new(id, &block)
-  end
-
-  def __register_rule r
-    @rules.push(r)
+    __register_rule Vulcano::Rule.new(id, opts, &block)
   end
 
   def require_rules id, &block
@@ -59,6 +54,12 @@ module Vulcano::DSL
 
   private
 
+  # merge two rules completely; all defined
+  # fields from src will be overwritten in dst
+  def self.merge_rules dst, src
+    VulcanoBaseRule::merge dst, src
+  end
+
   # Attach an ID attribute to the
   # metadata of all examples
   # TODO: remove this once IDs are in rspec-core
@@ -71,28 +72,50 @@ module Vulcano::DSL
     }
   end
 
-  def self.load_spec_file_for_profile id, file
+  def self.load_spec_file_for_profile profile_id, file, rule_registry
     raw = File::read(file)
     # TODO: error-handling
 
-    ctx = Vulcano::ProfileContext.new(id)
+    ctx = Vulcano::ProfileContext.new(profile_id, rule_registry)
     ctx.instance_eval(raw, file, 1)
-    return ctx.instance_variable_get(:@rules)
   end
 
-  def self.load_spec_files_for_profile bind_context, id, include_all, &block
+  def self.load_spec_files_for_profile bind_context, profile_id, include_all, &block
     # get all spec files
-    files = get_spec_files_for_profile id
+    files = get_spec_files_for_profile profile_id
     # load all rules from spec files
-    rules = files.map do |file|
-      load_spec_file_for_profile(id, file)
-    end.flatten.compact
+    rule_registry = {}
+    files.each do |file|
+      load_spec_file_for_profile(profile_id, file, rule_registry)
+    end
 
-    # TODO: interpret the block and make adjustments
-    # (ie include rule, adjust rule, etc...)
+    # interpret the block and create a set of rules from it
+    block_registry = {}
+    if block_given?
+      ctx = Vulcano::ProfileContext.new(profile_id, block_registry)
+      ctx.instance_eval(&block)
+    end
+
+    # if all rules are not included, select only the ones
+    # that were defined in the block
+    unless include_all
+      remove = rule_registry.keys - block_registry.keys
+      remove.each{|key| rule_registry.delete(key)}
+    end
+
+    # merge the rules in the block_registry (adjustments) with
+    # the rules in the rule_registry (included)
+    block_registry.each do |id,r|
+      org = rule_registry[id]
+      if org.nil?
+        # TODO: print error because we write alter a rule that doesn't exist
+      else
+        merge_rules(org, r)
+      end
+    end
 
     # finally register all combined rules
-    rules.each do |rule|
+    rule_registry.each do |id, rule|
       bind_context.__register_rule rule
     end
   end
@@ -117,11 +140,39 @@ end
 
 module Vulcano
   class ProfileContext
+
     include Vulcano::DSL
-    def initialize profile_id
+    def initialize profile_id, profile_registry
       @profile_id = profile_id
-      @rules = []
+      @rules = profile_registry
     end
+
+    def __register_rule r
+      # Profile registry consists of profile_id + rule_id
+      # As the profile context is exclusively pulled with a
+      # profile ID, attach it to the rule if necessary.
+      rid = r.instance_variable_get(:@id)
+      if rid.nil?
+        # TODO: Message about skipping this rule
+        # due to missing ID
+        return
+      end
+      pid = r.instance_variable_get(:@profile_id)
+      if pid.nil?
+        r.instance_variable_set(:@profile_id, @profile_id)
+        pid = @profile_id
+      end
+      full_id = pid + "/" + rid
+
+      # add the rule to the registry
+      existing = @rules[full_id]
+      if existing.nil?
+        @rules[full_id] = r
+      else
+        VulcanoBaseRule::merge(existing, r)
+      end
+    end
+
   end
 end
 

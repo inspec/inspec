@@ -3,12 +3,15 @@
 # license: All rights reserved
 
 class VulcanoBaseRule
-  def initialize(id, &block)
+  def initialize(id, opts, &block)
     @id = id
     @impact = nil
     @title = nil
     @desc = nil
-
+    # not changeable by the user:
+    @profile_id = nil
+    @checks = []
+    # evaluate the given definition
     self.instance_eval(&block) if block_given?
   end
 
@@ -30,5 +33,29 @@ class VulcanoBaseRule
   def desc(v = nil)
     @desc = v unless v.nil?
     @desc
+  end
+
+  def self.merge dst, src
+    if src.id != dst.id
+      # TODO: register an error, this case should not happen
+      return
+    end
+    sp = src.instance_variable_get(:@profile_id)
+    dp = dst.instance_variable_get(:@profile_id)
+    if sp != dp
+      # TODO: register an error, this case should not happen
+      return
+    end
+    # merge all fields
+    dst.impact(src.impact) if src.impact != nil
+    dst.title(src.title)   if src.title != nil
+    dst.desc(src.desc)     if src.desc != nil
+    # merge indirect fields
+    # checks defined in the source will completely eliminate
+    # all checks that were defined in the destination
+    sc = src.instance_variable_get(:@checks)
+    unless sc.nil? || sc.empty?
+      dst.instance_variable_set(:@checks, sc)
+    end
   end
 end
