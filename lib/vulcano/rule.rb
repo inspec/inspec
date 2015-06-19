@@ -26,54 +26,26 @@ module Vulcano
   end
 end
 
-  # class Rule < ::Vulcano::Rule
-  #   def describe(sth, &block)
-  #     @examples ||= []
-  #     @examples.push([sth, block])
-  #   end
-  # end
-
-
 module Vulcano::DSL
-
   def rule id, &block
-    r = Vulcano::Rule.new(id, &block)
-    execute_rule(r)
-    # existing = Vulcano::Rule.registry[id]
-    # if existing.nil?
-    #
-    # else
-    #   p "RULE #{id} was found: #{existing}"
-    #   # TODO: alter existing rule
-    # end
+    Vulcano::Rule.new(id, &block)
   end
 
   def require_rules id, &block
-    files = get_spec_files_for_profile id
+    files = ::Vulcano::DSL.get_spec_files_for_profile id
   end
 
   def include_rules id, &block
-    files = get_spec_files_for_profile id
+    files = ::Vulcano::DSL.get_spec_files_for_profile id
     # files.each do |file|
     #   eval(File::read(file), file, 1)
     # end
   end
 
-  private
-
-  # Attach an ID attribute to the
-  # metadata of all examples
-  # TODO: remove this once IDs are in rspec-core
-  def set_rspec_ids(obj, id)
-    obj.examples.each {|ex|
-      ex.metadata[:id] = id
-    }
-    obj.children.each {|c|
-      set_rspec_ids(c, id)
-    }
-  end
-
-  def execute_rule r
+  # Register a given rule with RSpec and
+  # let it run. This happens after everything
+  # else is merged in.
+  def self.execute_rule r
     checks = r.instance_variable_get(:@checks)
     id = r.instance_variable_get(:@id)
     checks.each do |m,a,b|
@@ -84,7 +56,21 @@ module Vulcano::DSL
     end
   end
 
-  def get_spec_files_for_profile id
+  private
+
+  # Attach an ID attribute to the
+  # metadata of all examples
+  # TODO: remove this once IDs are in rspec-core
+  def self.set_rspec_ids(obj, id)
+    obj.examples.each {|ex|
+      ex.metadata[:id] = id
+    }
+    obj.children.each {|c|
+      self.set_rspec_ids(c, id)
+    }
+  end
+
+  def self.get_spec_files_for_profile id
     base_path = '/etc/vulcanosec/tests'
     path = File.join( base_path, id )
     # find all files to be included
@@ -102,10 +88,18 @@ module Vulcano::DSL
 
 end
 
+module Vulcano::GlobalDSL
+  def rule id, &block
+    r = Vulcano::Rule.new(id, &block)
+    ::Vulcano::DSL.execute_rule(r)
+  end
+end
+
 module Vulcano::DSLHelper
   def self.bind_dsl(scope)
     (class << scope; self; end).class_exec do
       include Vulcano::DSL
+      include Vulcano::GlobalDSL
     end
   end
 end
