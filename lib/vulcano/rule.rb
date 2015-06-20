@@ -45,13 +45,13 @@ module Vulcano::DSL
   # Register a given rule with RSpec and
   # let it run. This happens after everything
   # else is merged in.
-  def self.execute_rule r
+  def self.execute_rule r, profile_id
     checks = r.instance_variable_get(:@checks)
-    id = r.instance_variable_get(:@id)
+    fid = VulcanoBaseRule.full_id(r, profile_id)
     checks.each do |m,a,b|
       cres = ::Vulcano::Rule.__send__(m, *a, &b)
       if m == 'describe'
-        set_rspec_ids(cres, id)
+        set_rspec_ids(cres, fid)
       end
     end
   end
@@ -179,7 +179,8 @@ end
 
 module Vulcano::GlobalDSL
   def __register_rule r
-    ::Vulcano::DSL.execute_rule(r)
+    # make sure the profile id is attached to the rule
+    ::Vulcano::DSL.execute_rule(r, __profile_id)
   end
   def __unregister_rule id
   end
@@ -190,6 +191,9 @@ module Vulcano::DSLHelper
     (class << scope; self; end).class_exec do
       include Vulcano::DSL
       include Vulcano::GlobalDSL
+      def __profile_id
+        ENV['VULCANOSEC_PROFILE_ID']
+      end
     end
   end
 end
