@@ -92,11 +92,11 @@ module Vulcano::DSL
     }
   end
 
-  def self.load_spec_file_for_profile profile_id, file, rule_registry
+  def self.load_spec_file_for_profile profile_id, file, rule_registry, only_ifs
     raw = File::read(file)
     # TODO: error-handling
 
-    ctx = Vulcano::ProfileContext.new(profile_id, rule_registry)
+    ctx = Vulcano::ProfileContext.new(profile_id, rule_registry, only_ifs)
     ctx.instance_eval(raw, file, 1)
   end
 
@@ -105,14 +105,16 @@ module Vulcano::DSL
     files = get_spec_files_for_profile profile_id
     # load all rules from spec files
     rule_registry = {}
+    # TODO: handling of only_ifs
+    only_ifs = []
     files.each do |file|
-      load_spec_file_for_profile(profile_id, file, rule_registry)
+      load_spec_file_for_profile(profile_id, file, rule_registry, only_ifs)
     end
 
     # interpret the block and create a set of rules from it
     block_registry = {}
     if block_given?
-      ctx = Vulcano::ProfileContext.new(profile_id, block_registry)
+      ctx = Vulcano::ProfileContext.new(profile_id, block_registry, only_ifs)
       ctx.instance_eval(&block)
     end
 
@@ -164,9 +166,14 @@ module Vulcano
   class ProfileContext
 
     include Vulcano::DSL
-    def initialize profile_id, profile_registry
+    def initialize profile_id, profile_registry, only_ifs
       @profile_id = profile_id
       @rules = profile_registry
+      @only_ifs = only_ifs
+    end
+
+    def only_if *a, &b
+      @only_ifs.push([a,b])
     end
 
     def __unregister_rule id
