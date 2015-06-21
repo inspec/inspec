@@ -13,6 +13,7 @@ require 'vulcano/rule'
 require 'vulcano/rspec_json_formatter'
 
 require 'resources/audit_policy'
+require 'resources/command'
 require 'resources/file'
 require 'resources/group_policy'
 require 'resources/mysql_conf'
