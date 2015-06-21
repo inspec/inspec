@@ -27,11 +27,17 @@ end
 
 module Vulcano::DSL
   def rule id, opts = {}, &block
+    return if @skip_profile
     __register_rule Vulcano::Rule.new(id, opts, &block)
   end
 
   def skip_rule id
     __unregister_rule id
+  end
+
+  def only_if &block
+    return unless block_given?
+    @skip_profile = !block.()
   end
 
   def require_rules id, &block
