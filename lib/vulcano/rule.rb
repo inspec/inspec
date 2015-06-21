@@ -49,7 +49,17 @@ module Vulcano::DSL
     checks = r.instance_variable_get(:@checks)
     fid = VulcanoBaseRule.full_id(r, profile_id)
     checks.each do |m,a,b|
-      cres = ::Vulcano::Rule.__send__(m, *a, &b)
+      # check if the resource is skippable and skipped
+      if a.is_a?(Array) && !a.empty? &&
+         a[0].respond_to?(:resource_skipped) &&
+         !a[0].resource_skipped.nil?
+        cres = ::Vulcano::Rule.__send__(m, *a) do
+          it a[0].resource_skipped
+        end
+      else
+        # execute the method
+        cres = ::Vulcano::Rule.__send__(m, *a, &b)
+      end
       if m == 'describe'
         set_rspec_ids(cres, fid)
       end

@@ -7,6 +7,11 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'utils/spec_helper'
 
+require 'vulcano/version'
+require 'vulcano/resource'
+require 'vulcano/rule'
+require 'vulcano/rspec_json_formatter'
+
 require 'resources/audit_policy'
 require 'resources/file'
 require 'resources/group_policy'
@@ -19,10 +24,6 @@ require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/ssh_conf'
 require 'matchers/matchers'
-
-require 'vulcano/version'
-require 'vulcano/rule'
-require 'vulcano/rspec_json_formatter'
 
 # Dummy module for handling additional attributes
 # which may be injected by the user. This covers data
