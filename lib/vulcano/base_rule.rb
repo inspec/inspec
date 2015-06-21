@@ -77,6 +77,6 @@ class VulcanoBaseRule
       rule.instance_variable_set(:@profile_id, profile_id)
       pid = profile_id
     end
-    return pid + "/" + rid
+    return (pid || '') + "/" + rid
   end
 end
