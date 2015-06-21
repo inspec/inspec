@@ -4,7 +4,7 @@
 
 require 'utils/simpleconfig'
 
-class SshConf
+class SshConf < Vulcano::Resource
 
   def initialize( conf_path, type = nil )
     @runner = Specinfra::Runner
@@ -41,7 +41,15 @@ class SshConf
   end
 
   def read_content
+    # read the file
+    if !@runner.check_file_is_file(@conf_path)
+      return skip_resource "Can't find file \"#{@conf_path}\""
+    end
     @content = read_file(@conf_path)
+    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+      return skip_resource "Can't read file \"#{@conf_path}\""
+    end
+    # parse the file
     @params = SimpleConfig.new(@content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
       multiple_values: false
