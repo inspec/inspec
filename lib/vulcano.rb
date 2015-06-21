@@ -17,6 +17,7 @@ require 'resources/processes'
 require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/ssh_conf'
+require 'matchers/matchers'
 
 require 'vulcano/version'
 require 'vulcano/rule'
