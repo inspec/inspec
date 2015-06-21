@@ -8,6 +8,7 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'utils/spec_helper'
 
 require 'resources/audit_policy'
+require 'resources/file'
 require 'resources/group_policy'
 require 'resources/mysql_conf'
 require 'resources/mysql_session'
