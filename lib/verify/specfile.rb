@@ -21,6 +21,10 @@ module Vulcano
       @errors = []
     end
 
+    def only_if *a, &b
+      # always ignore
+    end
+
     # DSL methods
     def __register_rule r
       fid = VulcanoBaseRule.full_id r, @profile_id
