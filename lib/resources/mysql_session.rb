@@ -48,5 +48,5 @@ def start_mysql_session( user=nil, password=nil )
 end
 
 def __mysql__describe__helper *a, &b
-  decribe *a, &b
+  describe *a, &b
 end
