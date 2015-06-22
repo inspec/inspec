@@ -2,6 +2,8 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
+$__SCOPE
+
 class MysqlSession < Vulcano::Resource
   def initialize user, pass
     @user = user
@@ -23,7 +25,7 @@ class MysqlSession < Vulcano::Resource
       # skip this test if the server can't run the query
       skip_resource("Can't connect to MySQL instance for SQL checks.")
     else
-      __mysql__describe__helper(cmd, &block)
+      $__SCOPE.describe(cmd, &block)
     end
   end
 
@@ -45,8 +47,4 @@ end
 
 def start_mysql_session( user=nil, password=nil )
   MysqlSession.new(user, password)
-end
-
-def __mysql__describe__helper *a, &b
-  describe *a, &b
 end
