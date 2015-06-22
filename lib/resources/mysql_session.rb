@@ -2,7 +2,7 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
-$__SCOPE
+$__SCOPE = self
 
 class MysqlSession < Vulcano::Resource
   def initialize user, pass
