@@ -6,6 +6,9 @@ class MysqlSession
   def initialize user, pass
     @user = user
     @pass = pass
+    @runner = Specinfra::Runner
+    initialize_fallback if user.nil? or pass.nil?
+    skip_resource if @user.nil? or @pass.nil?
   end
 
   def describe(query, db = "", &block)
@@ -27,9 +30,23 @@ class MysqlSession
     end
   end
 
+  private
+
+  def initialize_fallback
+    # support debian mysql administration login
+    debian = @runner.run_command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
+    unless debian.empty?
+      user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)
+      pass = debian.match(/^\s*password\s*=\s*([^ ]*)\s*$/)
+      return if user.nil? or pass.nil?
+      @user = user[1]
+      @pass = pass[1]
+      return
+    end
+  end
 end
 
-def start_mysql_session( user, password )
+def start_mysql_session( user=nil, password=nil )
   MysqlSession.new(user, password)
 end
 
