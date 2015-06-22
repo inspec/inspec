@@ -21,12 +21,9 @@ class MysqlSession < Vulcano::Resource
     if out =~ /Can't connect to .* MySQL server/ or
        out.downcase =~ /^error/
       # skip this test if the server can't run the query
-      RSpec.describe( cmd ) do
-        it "is skipped", skip: out do
-        end
-      end
+      skip_resource("Can't connect to MySQL instance for SQL checks.")
     else
-      RSpec.__send__( 'describe', cmd, &block )
+      __mysql__describe__helper(cmd, &block)
     end
   end
 
@@ -50,3 +47,6 @@ def start_mysql_session( user=nil, password=nil )
   MysqlSession.new(user, password)
 end
 
+def __mysql__describe__helper *a, &b
+  decribe *a, &b
+end
