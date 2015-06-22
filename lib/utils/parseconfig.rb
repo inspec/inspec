@@ -78,6 +78,10 @@ class ParseConfig
           group = /^\[(.+)\]$/.match(line).to_a[1]
           self.add(group, {})
 
+        else
+          rest = line.strip
+          self.add(rest, true) unless rest.empty?
+
         end
       end
     end

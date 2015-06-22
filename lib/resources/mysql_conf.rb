@@ -4,6 +4,24 @@
 
 require 'utils/parseconfig'
 
+class MysqlConfEntry
+  def initialize( path, params )
+    @params = params
+    @path = path
+  end
+  def method_missing name, *args
+    k = name.to_s
+    res = @params[k]
+    return true if res.nil? && @params.key?(k)
+    @params[k]
+  end
+  def to_s
+    group = ' '
+    group = "[#{@path.join('][')}] " unless @path.nil? or @path.empty?
+    "MySQL Config entry [#{@path.join(' ')}]"
+  end
+end
+
 class MysqlConf
 
   def initialize( conf_path )
@@ -25,7 +43,12 @@ class MysqlConf
     opts.each do |opt|
       res = res[opt] unless res.nil?
     end
-    res
+    MysqlConfEntry.new(opts, res)
+  end
+
+  def method_missing name
+    @params || read_content
+    @params[name.to_s]
   end
 
   def read_content
@@ -35,7 +58,7 @@ class MysqlConf
     while !to_read.empty?
       raw_conf = read_file(to_read[0])
       @content += raw_conf
-      
+
       params = ParseConfig.new(raw_conf).params
       @params.merge!(params)
 
