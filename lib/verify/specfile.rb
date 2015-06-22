@@ -130,3 +130,7 @@ module Vulcano
 
   end
 end
+
+def os *a, &b
+  {}
+end

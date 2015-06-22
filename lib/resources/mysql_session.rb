@@ -2,13 +2,13 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
-class MysqlSession
+class MysqlSession < Vulcano::Resource
   def initialize user, pass
     @user = user
     @pass = pass
     @runner = Specinfra::Runner
     initialize_fallback if user.nil? or pass.nil?
-    skip_resource if @user.nil? or @pass.nil?
+    skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
   end
 
   def describe(query, db = "", &block)

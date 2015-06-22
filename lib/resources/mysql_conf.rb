@@ -6,6 +6,7 @@ require 'utils/parseconfig'
 
 class MysqlConfEntry
   def initialize( path, params )
+    @runner = Specinfra::Runner
     @params = params
     @path = path
   end
@@ -22,7 +23,7 @@ class MysqlConfEntry
   end
 end
 
-class MysqlConf
+class MysqlConf < Vulcano::Resource
 
   def initialize( conf_path )
     @runner = Specinfra::Runner
@@ -56,7 +57,13 @@ class MysqlConf
     @params = {}
     to_read = [@conf_path]
     while !to_read.empty?
+      if !@runner.check_file_is_file(to_read[0])
+        return skip_resource("Can't find file \"#{to_read[0]}\"")
+      end
       raw_conf = read_file(to_read[0])
+      if raw_conf.empty? && @runner.get_file_size(to_read[0]).stdout.strip.to_i > 0
+        return skip_resource("Can't read file \"#{to_read[0]}\"")
+      end
       @content += raw_conf
 
       params = ParseConfig.new(raw_conf).params

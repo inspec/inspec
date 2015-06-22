@@ -53,9 +53,9 @@ class SshConf
 end
 class PostgresConf
   def initialize *args; end
-  def params; {} end
+  def params *a, &b; {} end
 end
 class MysqlConf
   def initialize *args; end
-  def params; {} end
+  def params *a, &b; {} end
 end
