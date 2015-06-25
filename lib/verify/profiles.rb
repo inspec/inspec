@@ -10,6 +10,7 @@ module Vulcano
     attr_reader :profiles
     def initialize opts = {}
       @profiles = {}
+      @profile_id = opts[:id]
       @log = Log.new(opts)
     end
 
@@ -31,7 +32,7 @@ module Vulcano
         @log.ok "Valid directory"
       end
 
-      metadata = Metadata.for_path(path)
+      metadata = Metadata.for_path(path, @profile_id)
       @log.ok "vmetadata.rb" unless metadata.nil? or !metadata.valid?
 
       specs = Dir["#{path}/spec/*_spec.rb"]
@@ -88,7 +89,7 @@ module Vulcano
 
     def add_specs_in_folder path
       allrules = {}
-      meta = Metadata.for_path(path, @log)
+      meta = Metadata.for_path(path, @profile_id, @log)
 
       Dir["#{path}/spec/*_spec.rb"].each do |specfile|
         rel_path = specfile.sub(File.join(path,''), '')

@@ -52,7 +52,7 @@ module Vulcano
       @log.warn "vmetadata.rb doesn't support: #{sth} #{args}"
     end
 
-    def self.for_path path, log = nil
+    def self.for_path path, profile_id, log = nil
       log ||= Log.new
       dpath = File::join(path, 'vmetadata.rb')
       if !File::file?(dpath)
@@ -61,6 +61,7 @@ module Vulcano
       end
       res = Metadata.new(log)
       res.instance_eval(File::read(dpath), dpath, 1)
+      res.dict['name'] = profile_id unless profile_id.nil? or profile_id.empty?
       return res
     end
   end

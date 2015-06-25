@@ -11,10 +11,11 @@ class VulcanoCLI < Thor
   desc "json PATH", "read all tests in PATH and generate a JSON-profile"
   option :output, aliases: :o, type: :string
   option :print, aliases: :p, type: :boolean
+  option :id, type: :string
   def json(*paths)
     paths.each do |path|
       Vulcano::Profiles.new.valid_folder? path unless options[:print]
-      vc = Vulcano::Profiles.new({ quiet: options[:print] })
+      vc = Vulcano::Profiles.new({ quiet: options[:print], id: options[:id] })
       vc.add_folder(path)
       if options[:print]
         puts JSON.pretty_generate( vc.profiles )
