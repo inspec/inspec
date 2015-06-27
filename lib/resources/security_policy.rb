@@ -53,8 +53,16 @@ module Serverspec
 
         # extract variable value
         result = target.match(/[=]{1}\s*(?<value>.*)/)
-        val = result[:value]
-        val = val.to_i if val.match(/^\d+$/)
+
+        if !result.nil?
+          val = result[:value]
+          val = val.to_i if val.match(/^\d+$/)
+        else
+          # TODO we may need to return skip or failure if the 
+          # requested value is not available
+          val = nil 
+        end
+
         val
       end
 
