@@ -22,22 +22,33 @@ if ENV['SSH_SPEC']
     options = {}
     c.sudo_password = ENV['SUDO_PASSWORD'] || ENV['sudo_password']
     c.host = ENV['TARGET_HOST']
-    options[:password] = ENV['LOGIN_PASSWORD'] || ENV['password']
-    options[:user] = ENV['LOGIN_USERNAME'] || ENV['user'] || Etc.getlogin
     options[:port] = ( ENV['LOGIN_PORT'] || 22 ).to_i
+    options[:auth_methods] = ["none"]
+    options[:global_known_hosts_file ] = "/dev/null"
+    options[:user_known_hosts_file ] = "/dev/null"
+    options[:number_of_password_prompts] = 0
 
-    if !ENV['LOGIN_KEY'].nil?
-      options[:keys] = [ENV['LOGIN_KEY']]
-      options[:keys_only] = true
-    end
-
-    # TODO: optional, will be removed
+    options[:user] = ENV['LOGIN_USERNAME'] || ENV['user'] || Etc.getlogin
     if options[:user].nil?
       raise 'specify a user for login via env LOGIN_USERNAME= or by adding user='
     end
 
-    ssh_conf = Net::SSH::Config.for(c.host)
-    c.ssh_options = options.merge(ssh_conf)
+    options[:password] = ENV['LOGIN_PASSWORD'] || ENV['password']
+    if !options[:password].nil?
+      options[:auth_methods].push("password")
+    end
+
+    if !ENV['LOGIN_KEY'].nil?
+      options[:keys] = [ENV['LOGIN_KEY']]
+      options[:keys_only] = true
+      options[:auth_methods].push("publickey")
+    end
+
+    # Local alternative: use configuration from .ssh/config
+    # for the given host.
+    # ssh_conf = Net::SSH::Config.for(c.host)
+    # options.merge(ssh_conf)
+    c.ssh_options = options
   end
 
 # Run spec on Windows via WinRM
