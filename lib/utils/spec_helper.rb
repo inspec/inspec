@@ -24,8 +24,8 @@ if ENV['SSH_SPEC']
     c.host = ENV['TARGET_HOST']
     options[:port] = ( ENV['LOGIN_PORT'] || 22 ).to_i
     options[:auth_methods] = ["none"]
-    options[:global_known_hosts_file ] = "/dev/null"
     options[:user_known_hosts_file ] = "/dev/null"
+    options[:global_known_hosts_file ] = "/dev/null"
     options[:number_of_password_prompts] = 0
 
     options[:user] = ENV['LOGIN_USERNAME'] || ENV['user'] || Etc.getlogin
