@@ -62,14 +62,16 @@ elsif ENV['WINRM_SPEC']
   user = ENV['LOGIN_USERNAME']
   pass = ENV['LOGIN_PASSWORD']
   host = ENV['TARGET_HOST']
-  port = ENV['LOGIN_PORT'] || '5985'
+  port = ENV['LOGIN_PORT']
 
   # check if we should use ssl
   ssl = ENV['WINRM_SSL']
   if (ssl)
     scheme = "https"
+    port = port || '5986'
   else
     scheme = "http"
+    port = port || '5985'
   end
 
   # deactivate certificate check if requested, default is on
