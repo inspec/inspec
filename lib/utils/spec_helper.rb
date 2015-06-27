@@ -59,14 +59,29 @@ elsif ENV['WINRM_SPEC']
   set :backend, :winrm
   set :os, :family => 'windows'
 
-  ssl = false
   user = ENV['LOGIN_USERNAME']
   pass = ENV['LOGIN_PASSWORD']
   host = ENV['TARGET_HOST']
-  port = ENV['TARGET_PORT'] || '5985'
-  endpoint = "http://#{host}:#{port}/wsman"
+  port = ENV['LOGIN_PORT'] || '5985'
 
-  winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true)
+  # check if we should use ssl
+  ssl = ENV['WINRM_SSL']
+  if (ssl)
+    scheme = "https"
+  else
+    scheme = "http"
+  end
+
+  # deactivate certificate check if requested, default is on
+  accept_self_signed = false
+  if (ENV['WINRM_SELF_SIGNED_CERT'])
+    accept_self_signed = true
+  end
+
+  endpoint = "#{scheme}://#{host}:#{port}/wsman"
+  puts "Use endpoint #{endpoint}"
+
+  winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true, :no_ssl_peer_verification => accept_self_signed)
   winrm.set_timeout 300 # 5 minutes max timeout for any operation
   Specinfra.configuration.winrm = winrm
 
