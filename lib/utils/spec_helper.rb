@@ -83,7 +83,6 @@ elsif ENV['WINRM_SPEC']
   endpoint = "#{scheme}://#{host}:#{port}/wsman"
 
   winrm = ::WinRM::WinRMWebService.new(endpoint, :ssl, :user => user, :pass => pass, :basic_auth_only => true, :no_ssl_peer_verification => accept_self_signed)
-  winrm.set_timeout 300 # 5 minutes max timeout for any operation
   Specinfra.configuration.winrm = winrm
 
 # Run spec on local machine
