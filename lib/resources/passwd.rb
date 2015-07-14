@@ -34,6 +34,13 @@ module Serverspec
         arr.length
       end
 
+      def passwords
+        parsed = parse()
+        parsed.map {|x|
+          x.at(1)
+        }
+      end
+
       def homedirs
         parsed = parse()
         parsed.map {|x|
