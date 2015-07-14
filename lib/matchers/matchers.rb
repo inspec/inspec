@@ -1,4 +1,7 @@
-# Copyright (c) 2015 Vulcano Security GmbH. All rights reserved.
+# encoding: utf-8
+# copyright: 2015, Vulcano Security GmbH
+# license: All rights reserved
+
 RSpec::Matchers.define :be_readable do
   match do |file|
     file.readable?(@by_type, @by_user)
@@ -59,5 +62,23 @@ RSpec::Matchers.define :be_executable do
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
+  end
+end
+
+# matcher to check /etc/passwd, /etc/shadow and /etc/group
+RSpec::Matchers.define :contain_legacy_plus do
+  match do |file|
+    file.content.match(/^\+:/)
+  end
+end
+
+# verifies that no entry in an array contains a value
+RSpec::Matchers.define :contain_match do |regex|
+  match do |arr|
+    arr.inject { |result, i| 
+      match = i.match(regex)
+      puts "#{i} + #{match}"
+      result || i.match(/$/)
+    } 
   end
 end
