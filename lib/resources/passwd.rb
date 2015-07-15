@@ -1,6 +1,16 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
+
+# The file format consists of
+# - username
+# - password
+# - userid
+# - groupid
+# - user id info
+# - home directory
+# - command
+
 module Serverspec
   module Type
 
@@ -9,7 +19,7 @@ module Serverspec
       attr_accessor :uid
 
       def to_s
-        %Q[Passwd]
+        %Q[/etc/passwd]
       end
 
       def determine_uid ()
@@ -28,26 +38,46 @@ module Serverspec
         uids.at(0)
       end
 
-      def uids
-        determine_uid()
-      end
-
       def count
         arr = determine_uid()
         arr.length
       end
 
-      def passwords
+      def map_data (id)
         parsed = parse()
         parsed.map {|x|
-          x.at(1)
+          x.at(id)
         }
       end
 
-      def homedirs
+      def usernames
+        map_data(0)
+      end
+
+      def passwords
+        map_data(1)
+      end
+
+      def uids
+        map_data(2)
+      end
+
+      def gids
+        map_data(3)
+      end
+
+      def users
         parsed = parse()
         parsed.map {|x|
-          x.at(5)
+          {
+            "name" => x.at(0),
+            "password" => x.at(1),
+            "uid" => x.at(2),
+            "gid" => x.at(3),
+            "desc" => x.at(4),
+            "home" => x.at(5),
+            "shell" => x.at(6)
+          }
         }
       end
 
@@ -61,8 +91,8 @@ module Serverspec
 
     end
 
-    def passwd(filename, uid=nil)
-      i = Passwd.new(filename)
+    def passwd(uid=nil)
+      i = Passwd.new('/etc/passwd')
       i.uid = uid
       i
     end
