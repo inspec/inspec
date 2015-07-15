@@ -28,7 +28,6 @@ end
 module Serverspec
   module Type
     def parse_config(content)
-      p content
       PConfig.new(content)
     end
   end
