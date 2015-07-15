@@ -82,3 +82,10 @@ RSpec::Matchers.define :contain_match do |regex|
     } 
   end
 end
+
+RSpec::Matchers.define :contain_duplicates do
+  match do |arr|
+    dup = arr.select{|element| arr.count(element) > 1 }
+    !dup.uniq.empty?
+  end
+end
