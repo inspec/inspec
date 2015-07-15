@@ -1,3 +1,7 @@
+# encoding: utf-8
+# copyright: 2015, Vulcano Security GmbH
+# license: All rights reserved
+
 ## Advanced Auditing
 # As soon as you start applying Advanced Audit Configuration Policy, legacy policies will be completely ignored. 
 # reference: https://technet.microsoft.com/en-us/library/cc753632.aspx

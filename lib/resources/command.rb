@@ -1,4 +1,7 @@
-# Copyright (c) 2015 Vulcano Security GmbH. All rights reserved.
+# encoding: utf-8
+# copyright: 2015, Vulcano Security GmbH
+# license: All rights reserved
+
 module Serverspec::Type
   class Command < Base
     # Check if a given command (executable) exists

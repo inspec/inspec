@@ -1,5 +1,5 @@
 # encoding: utf-8
-# copyright: 2015, Dominik Richter
+# copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
 require 'json'

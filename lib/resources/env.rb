@@ -1,3 +1,7 @@
+# encoding: utf-8
+# copyright: 2015, Vulcano Security GmbH
+# license: All rights reserved
+
 module Serverspec
   module Type
 
