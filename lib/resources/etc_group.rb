@@ -40,7 +40,7 @@ module Serverspec
       def map_data (id)
         parsed = parse()
         parsed.map {|x|
-          x[i]
+          x[id]
         }
       end
 
