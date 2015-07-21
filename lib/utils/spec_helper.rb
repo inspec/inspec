@@ -18,6 +18,8 @@ if ENV['SSH_SPEC']
     set :sudo_options, ENV['SUDO_OPTIONS']
   end
 
+  set :request_pty, true
+
   RSpec.configure do |c|
     options = {}
     c.sudo_password = ENV['SUDO_PASSWORD'] || ENV['sudo_password']
