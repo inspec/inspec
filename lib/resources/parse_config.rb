@@ -24,11 +24,3 @@ class PConfig < Vulcano::Resource
     @content
   end
 end
-
-module Serverspec
-  module Type
-    def parse_config(content)
-      PConfig.new(content)
-    end
-  end
-end

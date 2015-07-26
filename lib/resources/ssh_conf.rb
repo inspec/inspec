@@ -62,14 +62,3 @@ class SshConf < Vulcano::Resource
   end
 end
 
-module Serverspec
-  module Type
-    def conf_ssh()
-      SshConf.new('/etc/ssh/ssh_config')
-    end
-
-    def conf_sshd()
-      SshConf.new('/etc/ssh/sshd_config')
-    end
-  end
-end

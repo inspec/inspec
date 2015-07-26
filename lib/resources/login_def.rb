@@ -41,11 +41,3 @@ class LoginDef < Vulcano::Resource
     @files_contents[path] ||= @runner.get_file_content(path).stdout
   end
 end
-
-module Serverspec
-  module Type
-    def login_def()
-      LoginDef.new()
-    end
-  end
-end
