@@ -24,6 +24,23 @@ class SimpleConfig
 
   private
 
+  def parse_values (match, values)
+    start_idx = 2
+    i = 0
+    count = values - 1
+    if (values == 1) then
+      return match[start_idx]
+    else
+      # iterate over expected parameters
+      values = Array.new
+      begin
+        values.push(match[start_idx+i])
+        i +=1;
+      end until i > count
+      return values
+    end
+  end
+
   def parse_rest( rest, opts )
     idx_nl = rest.index("\n")
     idx_comment = rest.index('#')
@@ -56,9 +73,9 @@ class SimpleConfig
     if !m.nil?
       if opts[:multiple_values]
         @params[m[1]] ||= []
-        @params[m[1]].push(m[2])
+        @params[m[1]].push(parse_values(m, opts[:key_vals]))
       else
-        @params[m[1]] = m[2]
+        @params[m[1]] = parse_values(m, opts[:key_vals])
       end
     elsif !is_empty_line(line)
       if opts[:multiple_values]
@@ -82,6 +99,7 @@ class SimpleConfig
       multiline: false,
       comment_char: '#',
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+      key_vals: 1, # default for key=value, may require for 'key val1 val2 val3' 
       standalone_comments: false,
       multiple_values: true
     }

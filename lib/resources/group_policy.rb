@@ -4,61 +4,52 @@
 
 require 'json'
 
+include Serverspec::Type
+
+# return JSON object
+def gpo (policy_path, policy_name)
+  file = ::File.read(::File.join ::File.dirname(__FILE__), "gpo.json")
+  gpo_hash = JSON.parse(file)      
+  key = "Machine--" + policy_path + "--" + policy_name
+  gpo_hash[key]
+end
+
 # Group Policy
-module Serverspec
-  module Type
+class GroupPolicy < Serverspec::Type::Base
 
-    # return JSON object
-    def gpo (policy_path, policy_name)
-      file = ::File.read(::File.join ::File.dirname(__FILE__), "gpo.json")
-      gpo_hash = JSON.parse(file)      
-      key = "Machine--" + policy_path + "--" + policy_name
-      gpo_hash[key]
-    end
+  def getRegistryValue(entry)
+    keys = entry['registry_information'][0]
+    cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
+    command_result ||= @runner.run_command(cmd)
+    val = { :exit_code => command_result.exit_status.to_i, :data => command_result.stdout }
+    val
+  end
 
-    class GroupPolicy < Base
+  def convertValue (value)
+    val = value.strip
+    val = val.to_i if val.match(/^\d+$/)
+  end
 
-      def getRegistryValue(entry)
-        keys = entry['registry_information'][0]
-        cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
-        command_result ||= @runner.run_command(cmd)
-        val = { :exit_code => command_result.exit_status.to_i, :data => command_result.stdout }
-        val
-      end
+  # returns nil, if not existant or value
+  def method_missing(meth)
+    # map gpo to registry key
+    entry = gpo(@name, meth.to_s)
 
-      def convertValue (value)
-        val = value.strip
-        val = val.to_i if val.match(/^\d+$/)
-      end
+    # get data
+    val = getRegistryValue(entry)
 
-      # returns nil, if not existant or value
-      def method_missing(meth)
-        # map gpo to registry key
-        entry = gpo(@name, meth.to_s)
-
-        # get data
-        val = getRegistryValue(entry)
-
-        # verify data
-        if (val[:exit_code] == 0)
-          val = convertValue(val[:data])
-        else
-          nil
-        end
-
-      end
-
-      def to_s
-        'Group Policy'
-      end
-
-    end
-
-    def group_policy(policy_path)
-      GroupPolicy.new(policy_path)
+    # verify data
+    if (val[:exit_code] == 0)
+      val = convertValue(val[:data])
+    else
+      nil
     end
 
   end
+
+  def to_s
+    'Group Policy'
+  end
+
 end
 
-include Serverspec::Type

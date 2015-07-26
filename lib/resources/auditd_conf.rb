@@ -4,11 +4,11 @@
 
 require 'utils/simpleconfig'
 
-class LoginDef < Vulcano::Resource
+class AuditDaemonConf < Vulcano::Resource
 
   def initialize
     @runner = Specinfra::Runner
-    @conf_path = '/etc/login.defs'
+    @conf_path = '/etc/audit/auditd.conf'
     @files_contents = {}
     @content = nil
     @params = nil
@@ -16,7 +16,7 @@ class LoginDef < Vulcano::Resource
   end
 
   def to_s
-    "login_def"
+    "audit daemon configuration file"
   end
 
   def method_missing name
@@ -35,7 +35,6 @@ class LoginDef < Vulcano::Resource
     end
     # parse the file
     @params = SimpleConfig.new(@content,
-      assignment_re: /^\s*(\S+)\s+(\S*)\s*$/,
       multiple_values: false
     ).params
     @content

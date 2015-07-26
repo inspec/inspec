@@ -4,11 +4,11 @@
 
 require 'utils/simpleconfig'
 
-class LoginDef < Vulcano::Resource
+class LimitsConf < Vulcano::Resource
 
   def initialize
     @runner = Specinfra::Runner
-    @conf_path = '/etc/login.defs'
+    @conf_path = '/etc/security/limits.conf'
     @files_contents = {}
     @content = nil
     @params = nil
@@ -16,7 +16,7 @@ class LoginDef < Vulcano::Resource
   end
 
   def to_s
-    "login_def"
+    "limits_conf"
   end
 
   def method_missing name
@@ -35,8 +35,9 @@ class LoginDef < Vulcano::Resource
     end
     # parse the file
     @params = SimpleConfig.new(@content,
-      assignment_re: /^\s*(\S+)\s+(\S*)\s*$/,
-      multiple_values: false
+      assignment_re: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
+      key_vals: 3,
+      multiple_values: true
     ).params
     @content
   end
