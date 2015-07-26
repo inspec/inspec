@@ -92,49 +92,40 @@ Further information is available at: https://msdn.microsoft.com/en-us/library/dd
 
 =end
 
-module Serverspec
-  module Type
+include Serverspec::Type
 
-    class AuditPolicy < Base
+class AuditPolicy < Serverspec::Type::Base
 
-      def method_missing(method)
-        key = method.to_s
+  def method_missing(method)
+    key = method.to_s
 
-        # expected result:
-        # Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting
-        # WIN-MB8NINQ388J,System,Kerberos Authentication Service,{0CCE9242-69AE-11D9-BED3-505054503030},No Auditing,
-        command_result ||= @runner.run_command("Auditpol /get /subcategory:'#{key}' /r")
-        result = command_result.stdout
-        result
+    # expected result:
+    # Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting
+    # WIN-MB8NINQ388J,System,Kerberos Authentication Service,{0CCE9242-69AE-11D9-BED3-505054503030},No Auditing,
+    command_result ||= @runner.run_command("Auditpol /get /subcategory:'#{key}' /r")
+    result = command_result.stdout
 
-        # find line
-        target = nil
-        result.each_line {|s| 
-          target = s.strip if s.match(/\b.*#{key}.*\b/)
-        }
+    # find line
+    target = nil
+    result.each_line {|s| 
+      target = s.strip if s.match(/\b.*#{key}.*\b/)
+    }
 
-        # extract value
-        if target != nil
-          # split csv values and return value
-          value = target.split(',')[4]
-        else 
-          value = nil
-        end
-
-        value
-      end
-
-      def to_s
-        %Q[Windows Advanced Auditing]
-      end
-
+    # extract value
+    if target != nil
+      # split csv values and return value
+      value = target.split(',')[4]
+    else 
+      value = nil
     end
 
-    def audit_policy()
-      AuditPolicy.new()
-    end
-
+    value
   end
+
+  def to_s
+    %Q[Windows Advanced Auditing]
+  end
+
 end
 
-include Serverspec::Type
+

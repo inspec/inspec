@@ -26,6 +26,10 @@ require 'resources/ssh_conf'
 module Serverspec
   module Type
 
+    def audit_policy()
+      AuditPolicy.new()
+    end
+
     def conf_ssh()
       SshConf.new('/etc/ssh/ssh_config')
     end
