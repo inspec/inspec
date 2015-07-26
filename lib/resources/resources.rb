@@ -3,6 +3,8 @@
 # license: All rights reserved
 
 require 'resources/audit_policy'
+require 'resources/auditd_conf'
+require 'resources/auditd_rules'
 require 'resources/command'
 require 'resources/env'
 require 'resources/etc_group'
@@ -25,6 +27,14 @@ require 'resources/ssh_conf'
 # extend serverspec types
 module Serverspec
   module Type
+
+    def audit_daemon_rules()
+      AuditDaemonRules.new()
+    end
+
+    def audit_daemon_conf()
+      AuditDaemonConf.new()
+    end
 
     def audit_policy()
       AuditPolicy.new()
