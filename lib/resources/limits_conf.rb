@@ -15,6 +15,10 @@ class LimitsConf < Vulcano::Resource
     read_content
   end
 
+  def to_s
+    "limits_conf"
+  end
+
   def method_missing name
     @params || read_content
     @params[name.to_s]

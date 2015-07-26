@@ -15,6 +15,10 @@ class LoginDef < Vulcano::Resource
     read_content
   end
 
+  def to_s
+    "login_def"
+  end
+
   def method_missing name
     @params || read_content
     @params[name.to_s]

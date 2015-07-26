@@ -15,6 +15,10 @@ class InetdConf < Vulcano::Resource
     read_content
   end
 
+  def to_s
+    "inetd_conf"
+  end
+
   def method_missing name
     @params || read_content
     @params[name.to_s]
