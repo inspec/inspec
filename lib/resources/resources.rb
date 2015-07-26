@@ -8,6 +8,7 @@ require 'resources/env'
 require 'resources/etc_group'
 require 'resources/file'
 require 'resources/group_policy'
+require 'resources/inetd_conf'
 require 'resources/limits_conf'
 require 'resources/login_def'
 require 'resources/mysql_conf'
@@ -45,6 +46,10 @@ module Serverspec
 
     def group_policy(policy_path)
       GroupPolicy.new(policy_path)
+    end
+
+    def inetd_conf()
+      InetdConf.new()
     end
 
     def limits_conf()
