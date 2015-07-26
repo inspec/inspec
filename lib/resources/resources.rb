@@ -15,6 +15,7 @@ require 'resources/limits_conf'
 require 'resources/login_def'
 require 'resources/mysql_conf'
 require 'resources/mysql_session'
+require 'resources/ntp_conf'
 require 'resources/parse_config'
 require 'resources/passwd'
 require 'resources/postgres_conf'
@@ -72,6 +73,10 @@ module Serverspec
 
     def login_def()
       LoginDef.new()
+    end
+
+    def ntp_conf()
+      NtpConf.new()
     end
 
     def os_env(name)
