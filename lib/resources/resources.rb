@@ -83,8 +83,14 @@ module Serverspec
       EnvironmentVariable.new(name)
     end
 
-    def parse_config(content)
-      PConfig.new(content)
+    def parse_config(content, opts={})
+      PConfig.new(content, opts)
+    end
+
+    def parse_config_file(file)
+      p = PConfig.new()
+      p.parse_file(file)
+      p
     end
 
     def passwd(uid=nil)
