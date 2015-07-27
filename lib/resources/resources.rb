@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
+require 'resources/apache_conf'
 require 'resources/audit_policy'
 require 'resources/auditd_conf'
 require 'resources/auditd_rules'
