@@ -46,9 +46,9 @@ module Vulcano
       return @log.error "Can't find spec file #{f}" unless File::file? f
       # validation tracking
       valid = true
-      invalid = lambda {|msg|
-        @log.error "#{msg} (#{File::basename f})"
-        valid = false
+      invalid = lambda {|type, msg|
+        @log.send type, "#{msg} (#{File::basename f})"
+        valid = false if type == :error
       }
       # Load the spec file
       specs = SpecFile.from_file(f, metadata)
@@ -59,25 +59,25 @@ module Vulcano
       # detect missing metadata
       meta = specs.metadata
       if meta['title'].nil?
-        invalid.("Missing title in spec file")
+        invalid.(:warn, "Missing title in spec file")
       end
       if meta['copyright'].nil?
-        invalid.("Missing copyright in spec file")
+        invalid.(:warn, "Missing copyright in spec file")
       end
       # detect empty rules
       unless meta['rules'][''].nil?
-        invalid.("Please configure IDs for all rules.")
+        invalid.(:error, "Please configure IDs for all rules.")
       end
 
       meta['rules'].each do |k,v|
         if v['impact'].nil?
-          invalid.("Missing impact for rule #{k}")
+          invalid.(:error, "Missing impact for rule #{k}")
         else
-          invalid.("Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
-          invalid.("Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+          invalid.(:error, "Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
+          invalid.(:error, "Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
         end
-        invalid.("Missing title for rule #{k}") if v['title'].nil?
-        invalid.("Missing description for rule #{k}") if v['desc'].nil?
+        invalid.(:warn, "Missing title for rule #{k}") if v['title'].nil?
+        invalid.(:warn, "Missing description for rule #{k}") if v['desc'].nil?
       end
 
       if valid && specs.instance_variable_get(:@invalid_calls).empty?
