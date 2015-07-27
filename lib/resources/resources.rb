@@ -88,8 +88,8 @@ module Serverspec
       PConfig.new(content, opts)
     end
 
-    def parse_config_file(file)
-      p = PConfig.new()
+    def config_file(file, opts={})
+      p = PConfig.new(nil, opts)
       p.parse_file(file)
       p
     end
