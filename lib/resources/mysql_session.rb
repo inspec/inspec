@@ -45,6 +45,6 @@ class MysqlSession < Vulcano::Resource
   end
 end
 
-def start_mysql_session( user=nil, password=nil )
+def mysql_session( user=nil, password=nil )
   MysqlSession.new(user, password)
 end

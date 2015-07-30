@@ -58,7 +58,7 @@ class PostgresSession
 
 end
 
-def start_postgres_session( user, password )
+def postgres_session( user, password )
   PostgresSession.new(user, password)
 end
 
