@@ -78,6 +78,12 @@ describe limits_conf do
 end
 ```
 
+You can also specify a custom path:
+
+```ruby
+limits_conf('/path/to/limits.conf')
+```
+
 ## login_def
 
 Test Linux-based `/etc/login.defs`:
