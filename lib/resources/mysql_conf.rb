@@ -3,6 +3,7 @@
 # license: All rights reserved
 
 require 'utils/parseconfig'
+require 'resources/mysql'
 
 class MysqlConfEntry
   def initialize( path, params )
@@ -89,3 +90,8 @@ class MysqlConf < Vulcano::Resource
   end
 end
 
+module Serverspec::Type
+  def mysql_conf
+    @mysql_conf ||= MysqlConf.new( mysql.conf_path )
+  end
+end
