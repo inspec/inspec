@@ -43,7 +43,7 @@ class SimpleConfig
 
   def parse_rest( rest, opts )
     idx_nl = rest.index("\n")
-    idx_comment = rest.index('#')
+    idx_comment = rest.index(opts[:comment_char])
     idx_nl = rest.length if idx_nl.nil?
     idx_comment = idx_nl+1 if idx_comment.nil?
     # is a comment inside this line
