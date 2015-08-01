@@ -99,7 +99,7 @@ end
 !!! warning "Difference to Serverspec"
     See [Serverspec resource reference](http://serverspec.org/resource_types.html#mysql_config) for comparison,
 
-Test MySQL and MariaDB configuration files:
+Test default MySQL and MariaDB configuration files:
 
 ```ruby
 mysql_conf
@@ -248,7 +248,7 @@ end
 
 ## postgres_conf
 
-Test PostgreSQL configuration files:
+Test default PostgreSQL configuration files:
 
 ```ruby
 postgres_conf
