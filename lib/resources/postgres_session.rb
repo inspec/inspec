@@ -58,7 +58,8 @@ class PostgresSession
 
 end
 
-def postgres_session( user, password )
-  PostgresSession.new(user, password)
+module Serverspec::Type
+  def postgres_session( user, password )
+    PostgresSession.new(user, password)
+  end
 end
-

@@ -3,6 +3,7 @@
 # license: All rights reserved
 
 require 'utils/simpleconfig'
+require 'resources/postgres'
 
 class PostgresConf
 
@@ -61,3 +62,9 @@ class PostgresConf
   end
 end
 
+
+module Serverspec::Type
+  def postgres_conf
+    @postgres_conf ||= PostgresConf.new( postgres.conf_path )
+  end
+end
