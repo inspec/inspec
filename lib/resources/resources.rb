@@ -43,11 +43,11 @@ module Serverspec
       AuditPolicy.new()
     end
 
-    def conf_ssh()
+    def ssh_config()
       SshConf.new('/etc/ssh/ssh_config')
     end
 
-    def conf_sshd()
+    def sshd_config()
       SshConf.new('/etc/ssh/sshd_config')
     end
 
