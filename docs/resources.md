@@ -320,8 +320,8 @@ sshd_config    # /etc/ssh/sshd_config
 Parse custom SSH client and server configuration files:
 
 ```ruby
-client = ssh_config('/etc/ssh/ssh_config')
-server = sshd_config('/etc/ssh/sshd_config')
+client = ssh_config('/path/to/ssh_config')
+server = sshd_config('/path/to/sshd_config')
 ```
 
 Usage:
