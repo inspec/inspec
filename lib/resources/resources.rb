@@ -62,10 +62,6 @@ module Serverspec
       InetdConf.new()
     end
 
-    def limits_conf()
-      LimitsConf.new()
-    end
-
     def login_def()
       LoginDef.new()
     end

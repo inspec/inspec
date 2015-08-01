@@ -6,9 +6,9 @@ require 'utils/simpleconfig'
 
 class LimitsConf < Vulcano::Resource
 
-  def initialize
+  def initialize path
     @runner = Specinfra::Runner
-    @conf_path = '/etc/security/limits.conf'
+    @conf_path = path
     @files_contents = {}
     @content = nil
     @params = nil
@@ -44,5 +44,13 @@ class LimitsConf < Vulcano::Resource
 
   def read_file(path)
     @files_contents[path] ||= @runner.get_file_content(path).stdout
+  end
+end
+
+module Serverspec::Type
+  def limits_conf(path = nil)
+    @limits_conf ||= {}
+    dpath = path || '/etc/security/limits.conf'
+    @limits_conf[dpath] ||= LimitsConf.new(dpath)
   end
 end
