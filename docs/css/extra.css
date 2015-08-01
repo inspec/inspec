@@ -1,0 +1,98 @@
+a {
+  color: #626F80;
+}
+
+.active a {
+  color: #70c2e8;
+}
+
+a:hover {
+  color: #70c2e8;
+}
+
+a:focus {
+  color: #70c2e8;
+}
+
+a:active {
+  color: #70c2e8;
+}
+
+h2 {
+  margin-top: 6rem;
+}
+
+.bs-sidebar.affix {
+  position: absolute;
+  top: 2.3rem;
+}
+
+.bs-sidenav .main {
+  display: none;
+}
+
+/*
+Original file can be found here:
+https://raw.githubusercontent.com/wolfcms/docs.wolfcms.org/master/docs/themes/wolfcms/extra-css.css
+*/
+
+.note, .attention, .caution, .danger, .error, .hint, .important, .tip, .warning, .seealso, .admonition-todo {
+  padding: 12px;
+  line-height: 24px;
+  margin-bottom: 24px;
+  background-color: #e7f2fa;
+}
+
+.note, .seealso {
+  background-color: #e7f2fa;
+}
+
+.admonition-title {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.admonition-title {
+  font-family: inherit;
+}
+
+.admonition-title {
+  font-weight: bold;
+  display: block;
+  color: #ffffff;
+  background-color: #6ab0de;
+  margin: -12px -12px 12px -12px;
+  padding: 6px 12px 6px 12px;
+}
+
+.note .admonition-title
+{
+  background-color: #6ab0de;
+}
+
+.tip .admonition-title {
+  background-color: #1ABC9C;
+}
+
+.tip {
+    background-color: #DBFAF4;
+}
+
+.warning .admonition-title {
+  background-color: #F0B37E;
+}
+
+.warning {
+    background-color: #FFEDCC;
+}
+
+.danger .admonition-title {
+  background-color: #b04040;
+}
+
+.danger {
+    background-color: #ffe9e9;
+}
