@@ -62,3 +62,14 @@ class SshConf < Vulcano::Resource
   end
 end
 
+module Serverspec::Type
+  def ssh_config( path = nil )
+    @ssh_config ||= {}
+    dpath = path || '/etc/ssh/ssh_config'
+    @ssh_config[dpath] ||= SshConf.new(dpath)
+  end
+
+  def sshd_config( path = nil )
+    ssh_config( path || '/etc/ssh/sshd_config' )
+  end
+end

@@ -44,14 +44,6 @@ module Serverspec
       AuditPolicy.new()
     end
 
-    def ssh_config()
-      SshConf.new('/etc/ssh/ssh_config')
-    end
-
-    def sshd_config()
-      SshConf.new('/etc/ssh/sshd_config')
-    end
-
     def directory(name)
       Directory.new(name)
     end
