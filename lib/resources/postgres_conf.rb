@@ -64,7 +64,9 @@ end
 
 
 module Serverspec::Type
-  def postgres_conf
-    @postgres_conf ||= PostgresConf.new( postgres.conf_path )
+  def postgres_conf(path = nil)
+    @postgres_conf ||= {}
+    dpath = path || postgres.conf_path
+    @postgres_conf[dpath] ||= PostgresConf.new( dpath )
   end
 end

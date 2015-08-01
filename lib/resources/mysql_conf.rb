@@ -91,7 +91,9 @@ class MysqlConf < Vulcano::Resource
 end
 
 module Serverspec::Type
-  def mysql_conf
-    @mysql_conf ||= MysqlConf.new( mysql.conf_path )
+  def mysql_conf(path = nil)
+    @mysql_conf ||= {}
+    dpath = path || mysql.conf_path
+    @mysql_conf[dpath] ||= MysqlConf.new( dpath )
   end
 end
