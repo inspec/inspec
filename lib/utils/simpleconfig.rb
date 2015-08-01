@@ -101,7 +101,7 @@ class SimpleConfig
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       key_vals: 1, # default for key=value, may require for 'key val1 val2 val3' 
       standalone_comments: false,
-      multiple_values: true
+      multiple_values: false
     }
   end
 
