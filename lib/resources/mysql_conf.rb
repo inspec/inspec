@@ -3,6 +3,7 @@
 # license: All rights reserved
 
 require 'utils/parseconfig'
+require 'utils/find_files'
 require 'resources/mysql'
 
 class MysqlConfEntry
@@ -75,12 +76,7 @@ class MysqlConf < Vulcano::Resource
       include_files = raw_conf.scan(/^!include\s+(.*)\s*/).flatten.compact
       include_dirs = raw_conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact
       include_dirs.map do |include_dir|
-        # get all files in the included folder (depth == 1, type == file)
-        raw = @runner.run_command("find #{include_dir} -maxdepth 1 -type f")
-        # find all files in the output
-        files = raw.stdout.split("\n").map{|x| x.strip}.find_all{|x| !x.empty?}
-        # add tiles to the included list
-        include_files += files
+        include_files += FindFiles.find(include_dir, depth: 1, type: 'file')
       end
       to_read += include_files.find_all do |fp|
         not @files_contents.key? fp

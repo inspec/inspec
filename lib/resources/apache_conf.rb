@@ -3,26 +3,7 @@
 # license: All rights reserved
 
 require 'utils/simpleconfig'
-
-class Glob
-
-  def initialize( path )
-    @runner = Specinfra::Runner
-    @command_result ||= @runner.run_command("ls -1 #{path}")
-    @content = @command_result.stdout
-    @exit_status = @command_result.exit_status.to_i
-  end
-
-  def files
-    if @exit_status != 0 then
-      return []
-    else
-      split = @content.split("\n")
-      return split
-    end
-  end
-
-end
+require 'utils/find_files'
 
 class ApacheConf
 
@@ -82,7 +63,7 @@ class ApacheConf
       required = Array.new
       include_files.each do |f|
         id = File.join(@conf_dir, f)
-        required.push(Glob.new(id).files)
+        required.push(FindFiles.find(id))
       end
 
       required.flatten!
@@ -93,7 +74,7 @@ class ApacheConf
       optional = Array.new
       include_files_optional.each do |f|
         id = File.join(@conf_dir, f)
-        optional.push(Glob.new(id).files)
+        optional.push(FindFiles.find(id))
       end
 
       optional.flatten!
