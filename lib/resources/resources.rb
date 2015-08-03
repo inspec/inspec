@@ -74,16 +74,6 @@ module Serverspec
       EnvironmentVariable.new(name)
     end
 
-    def parse_config(content, opts={})
-      PConfig.new(content, opts)
-    end
-
-    def parse_config_file(file, opts={})
-      p = PConfig.new(nil, opts)
-      p.parse_file(file)
-      p
-    end
-
     def passwd(uid=nil)
       i = Passwd.new('/etc/passwd')
       i.uid = uid

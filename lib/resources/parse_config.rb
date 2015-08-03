@@ -61,3 +61,15 @@ class PConfig < Vulcano::Resource
     @content
   end
 end
+
+module Serverspec::Type
+  def parse_config(content, opts={})
+    PConfig.new(content, opts)
+  end
+
+  def parse_config_file(file, opts={})
+    p = PConfig.new(nil, opts)
+    p.parse_file(file)
+    p
+  end
+end
