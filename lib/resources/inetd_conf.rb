@@ -6,9 +6,9 @@ require 'utils/simpleconfig'
 
 class InetdConf < Vulcano::Resource
 
-  def initialize(path = nil)
+  def initialize(path)
     @runner = Specinfra::Runner
-    @conf_path = path || '/etc/inetd.conf'
+    @conf_path = path
     @files_contents = {}
     @content = nil
     @params = nil
@@ -49,6 +49,8 @@ end
 
 module Serverspec::Type
   def inetd_conf(path = nil)
-    InetdConf.new(path)
+    @inted_conf ||= {}
+    dpath = path || '/etc/inetd.conf'
+    @inetd_conf[dpath] = InetdConf.new(dpath)
   end
 end

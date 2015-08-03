@@ -6,7 +6,7 @@ require 'utils/simpleconfig'
 
 class LimitsConf < Vulcano::Resource
 
-  def initialize path
+  def initialize(path)
     @runner = Specinfra::Runner
     @conf_path = path
     @files_contents = {}
