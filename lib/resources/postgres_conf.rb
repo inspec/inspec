@@ -3,6 +3,7 @@
 # license: All rights reserved
 
 require 'utils/simpleconfig'
+require 'utils/find_files'
 require 'resources/postgres'
 
 class PostgresConf
@@ -45,9 +46,10 @@ class PostgresConf
       # see if there is more config files to include
       include_files = params['include'] || []
       include_files += params['include_if_exists'] || []
-      (params['include_dir'] || []).each do |id|
-        id = File.join(@conf_dir, id) if id[0] != '/'
-        include_files += Dir.glob(File.join id, '*')
+      dirs = params['include_dir'] || []
+      dirs.each do |dir|
+        dir = File.join(@conf_dir, dir) if dir[0] != '/'
+        include_files += FindFiles.find(dir, depth: 1, type: 'file')
       end
       to_read += include_files.find_all do |fp|
         not @files_contents.key? fp

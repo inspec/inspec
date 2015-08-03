@@ -63,7 +63,7 @@ class ApacheConf
       required = Array.new
       include_files.each do |f|
         id = File.join(@conf_dir, f)
-        required.push(FindFiles.find(id))
+        required.push(FindFiles.find(id, depth: 1, type: 'file'))
       end
 
       required.flatten!
@@ -74,7 +74,7 @@ class ApacheConf
       optional = Array.new
       include_files_optional.each do |f|
         id = File.join(@conf_dir, f)
-        optional.push(FindFiles.find(id))
+        optional.push(FindFiles.find(id, depth: 1, type: 'file'))
       end
 
       optional.flatten!
