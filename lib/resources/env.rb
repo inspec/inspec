@@ -19,7 +19,7 @@ class EnvironmentVariable < Serverspec::Type::Base
     # where we have a trailing :
     command_result.stdout.chomp.split(':', -1)
   end
-  
+
   def stderr
     command_result.stderr
   end
@@ -32,4 +32,10 @@ class EnvironmentVariable < Serverspec::Type::Base
     %Q[Environment Variable]
   end
 
+end
+
+module Serverspec::Type
+  def os_env(name)
+    EnvironmentVariable.new(name)
+  end
 end

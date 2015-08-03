@@ -38,3 +38,9 @@ class Processes < Serverspec::Type::Base
     end
   end
 end
+
+module Serverspec::Type
+  def processes( grep )
+    Processes.new(grep)
+  end
+end

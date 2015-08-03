@@ -32,73 +32,8 @@ require 'resources/ssh_conf'
 module Serverspec
   module Type
 
-    def audit_daemon_rules()
-      AuditDaemonRules.new()
-    end
-
-    def audit_daemon_conf()
-      AuditDaemonConf.new()
-    end
-
-    def audit_policy()
-      AuditPolicy.new()
-    end
-
     def directory(name)
       Directory.new(name)
-    end
-
-    def etc_group(gid=nil)
-      i = EtcGroup.new('/etc/group')
-      i.gid = gid
-      i
-    end
-
-    def group_policy(policy_path)
-      GroupPolicy.new(policy_path)
-    end
-
-    def inetd_conf()
-      InetdConf.new()
-    end
-
-    def login_def()
-      LoginDef.new()
-    end
-
-    def ntp_conf()
-      NtpConf.new()
-    end
-
-    def os_env(name)
-      EnvironmentVariable.new(name)
-    end
-
-    def passwd(uid=nil)
-      i = Passwd.new('/etc/passwd')
-      i.uid = uid
-      i
-    end
-
-    def processes( grep )
-      Processes.new(grep)
-    end
-
-    def registry_key(name, reg_key=nil)
-
-      # if we have one parameter, we use it as name
-      if reg_key == nil
-        reg_key = name
-      end
-
-      # initialize variable
-      i = RegistryKey.new(name)
-      i.reg_key = reg_key
-      i
-    end
-
-    def security_policy()
-      SecurityPolicy.new()
     end
 
   end

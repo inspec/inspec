@@ -43,6 +43,16 @@ class RegistryKey < Serverspec::Type::Base
 
 end
 
+module Serverspec::Type
+  def registry_key(name, reg_key=nil)
+    # if we have one parameter, we use it as name
+    if reg_key == nil
+      reg_key = name
+    end
 
-
-
+    # initialize variable
+    i = RegistryKey.new(name)
+    i.reg_key = reg_key
+    i
+  end
+end

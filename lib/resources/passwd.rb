@@ -89,3 +89,11 @@ class Passwd < Serverspec::Type::File
   end
 
 end
+
+module Serverspec::Type
+  def passwd(uid=nil)
+    i = Passwd.new('/etc/passwd')
+    i.uid = uid
+    i
+  end
+end

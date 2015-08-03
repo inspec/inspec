@@ -6,9 +6,9 @@ require 'utils/simpleconfig'
 
 class NtpConf < Vulcano::Resource
 
-  def initialize
+  def initialize(path = nil)
     @runner = Specinfra::Runner
-    @conf_path = '/etc/ntp.conf'
+    @conf_path = path || '/etc/ntp.conf'
     @files_contents = {}
     @content = nil
     @params = nil
@@ -43,5 +43,11 @@ class NtpConf < Vulcano::Resource
 
   def read_file(path)
     @files_contents[path] ||= @runner.get_file_content(path).stdout
+  end
+end
+
+module Serverspec::Type
+  def ntp_conf(path = nil)
+    NtpConf.new(path)
   end
 end

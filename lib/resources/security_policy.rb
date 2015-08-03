@@ -17,7 +17,7 @@ class SecurityPolicy < Serverspec::Type::Base
   @@loaded = false
   @@policy = nil
   @@exit_status = nil
-  
+
   # load security content
   def load
     # export the security policy
@@ -69,4 +69,10 @@ class SecurityPolicy < Serverspec::Type::Base
     %Q[Security Policy]
   end
 
+end
+
+module Serverspec::Type
+  def security_policy()
+    SecurityPolicy.new()
+  end
 end

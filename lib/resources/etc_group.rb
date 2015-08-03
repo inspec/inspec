@@ -50,25 +50,33 @@ class EtcGroup < Serverspec::Type::File
   # find the gid for a group
   def group(name)
     parsed = parse()
-    item = parsed.find { |x| 
-      x[0] == name 
+    item = parsed.find { |x|
+      x[0] == name
     }
-    return nil if item.nil? 
+    return nil if item.nil?
     item[2]
   end
 
   def users
     parsed = parse()
-    item = parsed.find { |x| 
-      x[2] == @gid 
+    item = parsed.find { |x|
+      x[2] == @gid
     }
-    return Array.new if item.nil? 
+    return Array.new if item.nil?
     group_users = item[3]
-    return Array.new if group_users.nil? 
+    return Array.new if group_users.nil?
     group_users.split(',')
   end
 
   def gids
     map_data(2)
+  end
+end
+
+module Serverspec::Type
+  def etc_group(gid=nil)
+    i = EtcGroup.new('/etc/group')
+    i.gid = gid
+    i
   end
 end

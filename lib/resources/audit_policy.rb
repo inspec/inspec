@@ -128,4 +128,8 @@ class AuditPolicy < Serverspec::Type::Base
 
 end
 
-
+module Serverspec::Type
+  def audit_policy()
+    AuditPolicy.new()
+  end
+end

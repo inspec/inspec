@@ -44,3 +44,9 @@ class AuditDaemonConf < Vulcano::Resource
     @files_contents[path] ||= @runner.get_file_content(path).stdout
   end
 end
+
+module Serverspec::Type
+  def audit_daemon_conf()
+    AuditDaemonConf.new()
+  end
+end

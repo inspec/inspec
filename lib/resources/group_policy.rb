@@ -9,7 +9,7 @@ include Serverspec::Type
 # return JSON object
 def gpo (policy_path, policy_name)
   file = ::File.read(::File.join ::File.dirname(__FILE__), "gpo.json")
-  gpo_hash = JSON.parse(file)      
+  gpo_hash = JSON.parse(file)
   key = "Machine--" + policy_path + "--" + policy_name
   gpo_hash[key]
 end
@@ -53,3 +53,8 @@ class GroupPolicy < Serverspec::Type::Base
 
 end
 
+module Serverspec::Type
+  def group_policy(policy_path)
+    GroupPolicy.new(policy_path)
+  end
+end

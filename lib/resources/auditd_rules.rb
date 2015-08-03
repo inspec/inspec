@@ -42,3 +42,9 @@ class AuditDaemonRules < Vulcano::Resource
   end
 
 end
+
+module Serverspec::Type
+  def audit_daemon_rules()
+    AuditDaemonRules.new()
+  end
+end

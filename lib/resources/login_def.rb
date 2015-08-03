@@ -6,9 +6,9 @@ require 'utils/simpleconfig'
 
 class LoginDef < Vulcano::Resource
 
-  def initialize
+  def initialize(path = nil)
     @runner = Specinfra::Runner
-    @conf_path = '/etc/login.defs'
+    @conf_path = path || '/etc/login.defs'
     @files_contents = {}
     @content = nil
     @params = nil
@@ -43,5 +43,11 @@ class LoginDef < Vulcano::Resource
 
   def read_file(path)
     @files_contents[path] ||= @runner.get_file_content(path).stdout
+  end
+end
+
+module Serverspec::Type
+  def login_def(path = nil)
+    LoginDef.new(path)
   end
 end
