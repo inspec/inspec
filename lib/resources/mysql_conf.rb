@@ -62,16 +62,14 @@ class MysqlConf < Vulcano::Resource
     if !@runner.check_file_is_file(@conf_path)
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
+    raw_conf = read_file(@conf_path)
+    if raw_conf.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+      return skip_resource("Can't read file \"#{@conf_path}\"")
+    end
 
     to_read = [@conf_path]
     while !to_read.empty?
-      if !@runner.check_file_is_file(to_read[0])
-        return skip_resource("Can't find file \"#{to_read[0]}\"")
-      end
       raw_conf = read_file(to_read[0])
-      if raw_conf.empty? && @runner.get_file_size(to_read[0]).stdout.strip.to_i > 0
-        return skip_resource("Can't read file \"#{to_read[0]}\"")
-      end
       @content += raw_conf
 
       params = ParseConfig.new(raw_conf).params
