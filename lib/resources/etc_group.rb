@@ -37,7 +37,7 @@ class EtcGroup < Serverspec::Type::File
   end
 
   def users
-    entries.map{|x| x[3].split(',') }
+    entries.map{|x| x[3].split(',') }.flatten
   end
 
   def where( conditions = {} )
