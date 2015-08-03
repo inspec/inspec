@@ -55,7 +55,7 @@ class EtcGroup < Serverspec::Type::File
     conditions.each do |k,v|
       idx = fields[k.to_sym]
       next if idx.nil?
-      res = res.map{|x| x[idx] == v}
+      res = res.map{|x| x[idx] == v.to_s}
     end
     @entries = res
     self
