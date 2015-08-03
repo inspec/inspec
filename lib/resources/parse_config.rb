@@ -14,7 +14,7 @@
 class PConfig < Vulcano::Resource
 
   def initialize ( content=nil, useropts = {} )
-    
+
     default_options = {}
     @opts = default_options.merge(useropts)
     @runner = Specinfra::Runner
