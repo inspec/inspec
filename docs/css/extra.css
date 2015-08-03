@@ -31,6 +31,13 @@ h2 {
   display: none;
 }
 
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #70c2e8;
+}
+
 /*
 Original file can be found here:
 https://raw.githubusercontent.com/wolfcms/docs.wolfcms.org/master/docs/themes/wolfcms/extra-css.css
