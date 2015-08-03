@@ -54,7 +54,7 @@ module Vulcano
       specs = SpecFile.from_file(f, metadata)
       # find all errors during parsing
       specs.errors.each do |err|
-        invalid.(err)
+        invalid.(:error, err)
       end
       # detect missing metadata
       meta = specs.metadata

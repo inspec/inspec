@@ -49,7 +49,7 @@ end
 
 module Serverspec::Type
   def inetd_conf(path = nil)
-    @inted_conf ||= {}
+    @inetd_conf ||= {}
     dpath = path || '/etc/inetd.conf'
     @inetd_conf[dpath] = InetdConf.new(dpath)
   end
