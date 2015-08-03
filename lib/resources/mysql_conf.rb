@@ -57,6 +57,12 @@ class MysqlConf < Vulcano::Resource
   def read_content
     @content = ""
     @params = {}
+
+    # skip if the main configuration file doesn't exist
+    if !@runner.check_file_is_file(@conf_path)
+      return skip_resource "Can't find file \"#{@conf_path}\""
+    end
+
     to_read = [@conf_path]
     while !to_read.empty?
       if !@runner.check_file_is_file(to_read[0])
