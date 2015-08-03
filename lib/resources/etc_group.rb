@@ -19,64 +19,52 @@ class EtcGroup < Serverspec::Type::File
   end
 
   def parse
-    entries = Array.new
-    content().split("\n").each do |line|
-      entries.push(line.split(':'))
+    content().split("\n").map do |line|
+      line.split(':')
     end
-    entries
   end
 
-  # verifies that the file contains the group
-  def have_group ()
-    parsed = parse()
-    idx = parsed.index { |x| x[2] == @gid }
-    if (idx >= 0) then
-      res = true
-    end
-    res
-  end
-
-  def map_data (id)
-    parsed = parse()
-    parsed.map {|x|
-      x[id]
-    }
+  def entries
+    @entries ||= parse
   end
 
   def groups
-    map_data(0)
-  end
-
-  # find the gid for a group
-  def group(name)
-    parsed = parse()
-    item = parsed.find { |x|
-      x[0] == name
-    }
-    return nil if item.nil?
-    item[2]
-  end
-
-  def users
-    parsed = parse()
-    item = parsed.find { |x|
-      x[2] == @gid
-    }
-    return Array.new if item.nil?
-    group_users = item[3]
-    return Array.new if group_users.nil?
-    group_users.split(',')
+    entries.map{|x| x[0]}
   end
 
   def gids
-    map_data(2)
+    entries.map{|x| x[2]}
   end
+
+  def users
+    entries.map{|x| x[3].split(',') }
+  end
+
+  def where( conditions = {} )
+    return if conditions.empty?
+    fields = {
+      name: 0,
+      group_name: 0,
+      password: 1,
+      gid: 2,
+      group_id: 2,
+      group_list: 3,
+      users: 3,
+    }
+    res = entries
+    conditions.each do |k,v|
+      idx = fields[k]
+      next if idx.nil?
+      res = res.map{|x| x[idx] == v}
+    end
+    @entries = res
+    self
+  end
+
 end
 
 module Serverspec::Type
-  def etc_group(gid=nil)
-    i = EtcGroup.new('/etc/group')
-    i.gid = gid
-    i
+  def etc_group(path = nil)
+    EtcGroup.new(path || '/etc/group')
   end
 end
