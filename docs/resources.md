@@ -46,6 +46,25 @@ describe etc_group do
 end
 ```
 
+### :users
+
+Access all group names:
+
+```ruby
+describe etc_group.where(name: 'my_user') do
+  its('users') { should include 'my_user' }
+end
+```
+
+### :where
+
+Filter the list of groups. Filter choices are `name` for the group name, `gid` for a group ID (a number), `password`, and `users`.
+
+```ruby
+describe etc_group.where(name: 'my_user') do
+  its('users') { should include 'my_user' }
+end
+```
 ## group_policy
 
 Test Microsoft Windows Group Policies:
@@ -66,6 +85,12 @@ describe inetd_conf do
   its('login') { should eq nil }
   its('exec') { should eq nil }
 end
+```
+
+You can also specify a custom config path:
+
+```ruby
+inetd_conf('/path/to/inetd.conf')
 ```
 
 ## limits_conf
