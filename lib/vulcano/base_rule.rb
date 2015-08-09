@@ -6,6 +6,7 @@ class VulcanoBaseRule
   def initialize(id, opts, &block)
     @id = id
     @impact = nil
+    @__code = ""
     @title = nil
     @desc = nil
     # not changeable by the user:

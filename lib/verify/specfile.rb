@@ -25,8 +25,42 @@ module Vulcano
       # always ignore
     end
 
+    def __get_method_source path, lineno
+      raw = File::read(path)
+      src = RubyVM::InstructionSequence.compile(raw)
+      stack = src.to_a
+      if stack[0] != 'YARVInstructionSequence/SimpleDataFormat'
+        return ''
+      end
+      bcode = stack[13]
+      idx = bcode.find_index{|x| x == lineno }
+      rcode = bcode.drop(idx+1)
+      bottom = rcode.find_index{|x| x.is_a?(Fixnum) }
+      if bottom.nil?
+        lineend = -1
+      else
+        lineend = rcode[bottom]-1
+      end
+      body = rcode.find{|x| x.is_a?(Array) && x[0] == :send}
+      unless body.nil? || body.length < 2
+        bflat = body[1][:blockptr].flatten.reverse
+        i = bflat.find_index{|x| x.is_a?(Symbol) && x.to_s =~ /^label_\d+$/}
+        if i > 1 && bflat[i-1].is_a?(Fixnum) && bflat[i-1] < lineend
+          lineend = bflat[i-1]
+        end
+      end
+      raw.split("\n")[lineno-1..lineend-1].join("\n")
+    end
+
     # DSL methods
     def __register_rule r
+      src_file = @path.to_s + ':'
+      call_file = caller.find{|x| x.to_s.start_with? src_file}
+      unless call_file.nil?
+        lineno = call_file[src_file.length..-1].split(':')[0].to_i
+        src = __get_method_source(@path, lineno)
+        r.instance_variable_set(:@__code, src)
+      end
       fid = VulcanoBaseRule.full_id r, @profile_id
       if @rules[fid].nil?
         @rules[fid] = r
@@ -103,7 +137,8 @@ module Vulcano
       {
         "impact" => rule.impact,
         "title"  => rule.title,
-        "desc"   => d
+        "desc"   => d,
+        "code"   => rule.instance_variable_get(:@__code)
       }
     end
 
