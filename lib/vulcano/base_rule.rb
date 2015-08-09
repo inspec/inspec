@@ -7,6 +7,7 @@ class VulcanoBaseRule
     @id = id
     @impact = nil
     @__code = ""
+    @__block = block
     @title = nil
     @desc = nil
     # not changeable by the user:
