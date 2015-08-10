@@ -4,6 +4,7 @@
 require 'vulcano/base_rule'
 require 'vulcano/log'
 require 'verify/dummy'
+require 'method_source'
 # the user may use dynamic evaluations via pry
 begin
   require 'pry'

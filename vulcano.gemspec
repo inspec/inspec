@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'json', '~> 1.8'
   spec.add_dependency 'rainbow', '~> 2'
   spec.add_dependency 'serverspec', '~> 2.18'
+  spec.add_dependency 'method_source', '~> 0.8'
 end
