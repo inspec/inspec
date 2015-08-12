@@ -33,9 +33,12 @@ module Vulcano::DSL
   end
 
   def describe *args, &block
-    $auto_id_cnt ||= 0
-    $auto_id_cnt += 1
-    rule = Vulcano::Rule.new($auto_id_cnt.to_s, {}) do
+    path = block.source_location[0]
+    line = block.source_location[1]
+    rm = File::dirname(File::dirname(path))
+    id1 = path.sub(File::join(rm,''), '')
+    id = "#{id1}:#{line}"
+    rule = Vulcano::Rule.new(id, {}) do
       describe *args, &block
     end
     __register_rule rule, &block
