@@ -44,8 +44,19 @@ class VulcanoCLI < Thor
 
   desc "exec PATHS", "run all test files"
   option :id, type: :string
+  option :backend, type: :string, default: 'exec'
+  option :host, type: :string
+  option :port, type: :numeric
+  option :user, type: :string, default: 'root'
+  option :password, type: :string, default: nil
+  option :key_file, type: :string, default: nil
+  option :disable_sudo, type: :boolean, default: false
+  option :sudo_password, type: :string, default: nil
+  option :sudo_options, type: :string, default: ''
+  option :winrm_self_signed, type: :boolean, default: false
+  option :winrm_ssl, type: :boolean, default: false
   def exec(*files)
-    runner = Vulcano::Runner.new(options[:id])
+    runner = Vulcano::Runner.new(options[:id], options)
     files.each do |file|
       runner.add_file(file)
     end
