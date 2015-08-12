@@ -60,6 +60,7 @@ class VulcanoCLI < Thor
     files.each do |file|
       runner.add_file(file)
     end
+    runner.run
   end
 
 end

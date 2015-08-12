@@ -164,10 +164,11 @@ module Vulcano
           RSpec.world.register(example)
         end
       end
+    end
 
+    def run
       rspec_runner = RSpec::Core::Runner.new(nil)
       rspec_runner.run_specs(RSpec.world.ordered_example_groups)
-
     end
 
     def set_rspec_ids(example, id)

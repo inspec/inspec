@@ -33,9 +33,9 @@ module Vulcano::DSL
   end
 
   def describe *args, &block
-    @auto_id_cnt ||= 0
-    @auto_id_cnt += 1
-    rule = Vulcano::Rule.new(@auto_id_cnt.to_s, {}) do
+    $auto_id_cnt ||= 0
+    $auto_id_cnt += 1
+    rule = Vulcano::Rule.new($auto_id_cnt.to_s, {}) do
       describe *args, &block
     end
     __register_rule rule, &block
