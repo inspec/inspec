@@ -2,6 +2,7 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 require 'vulcano/base_rule'
+require 'serverspec'
 
 module Vulcano
   class Rule < VulcanoBaseRule
@@ -29,6 +30,15 @@ module Vulcano::DSL
   def rule id, opts = {}, &block
     return if @skip_profile
     __register_rule Vulcano::Rule.new(id, opts, &block)
+  end
+
+  def describe *args, &block
+    @auto_id_cnt ||= 0
+    @auto_id_cnt += 1
+    rule = Vulcano::Rule.new(@auto_id_cnt.to_s, {}) do
+      describe *args, &block
+    end
+    __register_rule rule, &block
   end
 
   def skip_rule id
@@ -165,7 +175,10 @@ end
 module Vulcano
   class ProfileContext
 
+    include Serverspec::Helper::Type
+    extend Serverspec::Helper::Type
     include Vulcano::DSL
+
     def initialize profile_id, profile_registry, only_ifs
       @profile_id = profile_id
       @rules = profile_registry

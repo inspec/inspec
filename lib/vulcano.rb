@@ -8,12 +8,11 @@ Encoding.default_internal = Encoding::UTF_8
 libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-require 'utils/spec_helper'
-
 require 'vulcano/version'
 require 'vulcano/resource'
-require 'vulcano/rule'
 require 'vulcano/rspec_json_formatter'
+require 'vulcano/rule'
+require 'vulcano/runner'
 
 require 'resources/resources'
 require 'matchers/matchers'

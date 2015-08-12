@@ -32,8 +32,12 @@ module Vulcano
     end
 
     # DSL methods
-    def __register_rule r
-      src = __get_block_source(&r.instance_variable_get(:@__block))
+    def __register_rule r, &block
+      if block_given?
+        src = __get_block_source(&block)
+      else
+        src = __get_block_source(&r.instance_variable_get(:@__block))
+      end
       r.instance_variable_set(:@__code, src)
       fid = VulcanoBaseRule.full_id r, @profile_id
       if @rules[fid].nil?
