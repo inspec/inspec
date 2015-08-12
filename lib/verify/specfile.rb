@@ -79,6 +79,7 @@ module Vulcano
 
     attr_reader :errors, :rules
     def initialize path, metadata
+      @filename = File::basename(path)
       @rules = []
       @raw = File::read(path)
       @profile_id = metadata.dict['name']
@@ -93,7 +94,7 @@ module Vulcano
     def metadata
       header = @raw.sub(/^[^#].*\Z/m,'')
       {
-        "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
+        "title" => mOr(header.match(/^# title: (.*)$/), @filename),
         "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
         "rules" => rules2dict(@rules)
       }
