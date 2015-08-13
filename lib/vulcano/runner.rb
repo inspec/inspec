@@ -2,6 +2,7 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 
+require 'uri'
 require 'rspec'
 require 'rspec/its'
 require 'specinfra'
@@ -18,7 +19,9 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = conf
+      @conf = conf.dup
+      resolve_target_options
+
       # RSpec.configuration.output_stream = $stdout
       # RSpec.configuration.error_stream = $stderr
       RSpec.configuration.add_formatter(:json)
@@ -26,6 +29,16 @@ module Vulcano
       # specinfra
       configure_shared_options
       configure_target
+    end
+
+    def resolve_target_options
+      return if @conf[:target].to_s.empty?
+      uri = URI::parse(@conf[:target].to_s)
+      @conf[:backend]  = @conf[:backend]  || uri.scheme
+      @conf[:host]     = @conf[:host]     || uri.host
+      @conf[:port]     = @conf[:port]     || uri.port
+      @conf[:user]     = @conf[:user]     || uri.user
+      @conf[:password] = @conf[:password] || uri.password
     end
 
     def configure_shared_options
@@ -41,7 +54,7 @@ module Vulcano
     end
 
     def configure_target
-      t = @conf[:backend]
+      t = @conf[:backend] || 'exec'
       m = BACKEND_CONFIGS[t]
       raise "Don't understand backend '#{t}'" if m.nil?
       f = method(m)

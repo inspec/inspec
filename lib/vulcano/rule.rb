@@ -35,9 +35,7 @@ module Vulcano::DSL
   def describe *args, &block
     path = block.source_location[0]
     line = block.source_location[1]
-    rm = File::dirname(File::dirname(path))
-    id1 = path.sub(File::join(rm,''), '')
-    id = "#{id1}:#{line}"
+    id = "#{File::basename(path)}:#{line}"
     rule = Vulcano::Rule.new(id, {}) do
       describe *args, &block
     end
