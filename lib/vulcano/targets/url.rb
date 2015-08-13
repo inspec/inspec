@@ -25,7 +25,7 @@ module Vulcano::Targets
       zipfile.binmode
       zipfile.write(open(url).read)
       zipfile.rewind
-      content = ZipHelper.resolve(zipfile.path)
+      content = ZipHelper.new.resolve(zipfile.path)
       zipfile.close
       zipfile.unlink
       return content
