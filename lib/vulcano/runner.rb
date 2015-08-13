@@ -37,7 +37,7 @@ module Vulcano
     end
 
     def add_resources(resources)
-      files = resources.each do |resource|
+      files = resources.map do |resource|
         Vulcano::Targets.resolve(resource)
       end
       files.flatten.each do |file|
