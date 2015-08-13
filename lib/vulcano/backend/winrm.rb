@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'winrm'
 
 module Vulcano::Backend::WinRM
 
