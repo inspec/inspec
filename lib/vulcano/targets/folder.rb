@@ -3,7 +3,7 @@ require 'vulcano/targets/dir'
 require 'vulcano/targets/file'
 
 module Vulcano::Targets
-  class FolderTarget
+  class FolderHelper
     def handles?(target)
       File::directory?(target)
     end
@@ -27,5 +27,5 @@ module Vulcano::Targets
     end
   end
 
-  Vulcano::Targets.add_module('folder', FolderTarget.new)
+  Vulcano::Targets.add_module('folder', FolderHelper.new)
 end
