@@ -1,11 +1,11 @@
 # encoding: utf-8
 
-module Vulcano
-  module Backend
+module Vulcano::Backend::Exec
 
-    def configure_localhost(conf)
-      Specinfra.configuration.backend = :exec
-    end
-
+  def self.configure(conf)
+    Specinfra.configuration.backend = :exec
   end
+
 end
+
+Vulcano::Backend.add_module('exec', Vulcano::Backend::Exec)

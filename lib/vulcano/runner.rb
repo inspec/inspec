@@ -20,8 +20,6 @@ module Vulcano
 
   class Runner
 
-    include Vulcano::Backend
-
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
@@ -32,9 +30,10 @@ module Vulcano
       RSpec.configuration.add_formatter(:json)
 
       # specinfra
-      resolve_target_options(@conf)
-      configure_shared_options(@conf)
-      configure_target(@conf)
+      backend = Vulcano::Backend.new(@conf)
+      backend.resolve_target_options
+      backend.configure_shared_options
+      backend.configure_target
     end
 
     def add_resources(resources)

@@ -10,4 +10,4 @@ class FileTarget
   end
 end
 
-Vulcano::Targets.add_module(FileTarget.new)
+Vulcano::Targets.add_module('file', FileTarget.new)
