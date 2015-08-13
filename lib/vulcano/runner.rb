@@ -37,23 +37,19 @@ module Vulcano
     end
 
     def add_resources(resources)
-      files = resources.map do |resource|
+      items = resources.map do |resource|
         Vulcano::Targets.resolve(resource)
       end
-      files.flatten.each do |file|
-        add_file(file)
+      items.flatten.each do |item|
+        add_content(item[:content], item[:ref], item[:line])
       end
     end
 
-    def add_file(path)
+    def add_content(content, source, line = nil)
       ctx = Vulcano::ProfileContext.new(@profile_id, {}, [])
 
-      # read the test file
-      apath = File::expand_path(path)
-      raw = File::read(apath)
-
       # evaluate all tests
-      ctx.instance_eval(raw, apath, 0)
+      ctx.instance_eval(content, source, line || 0)
 
       # process the resulting rules
       rules = ctx.instance_variable_get(:@rules)

@@ -5,6 +5,12 @@ module Vulcano
   module Targets
     extend Modulator
 
+    def self.__resolve(items)
+      items.map do |item|
+
+      end.flatten
+    end
+
     def self.resolve(targets)
       Array(targets).map do |target|
         handler = modules.values.find{|m| m.handles?(target)}

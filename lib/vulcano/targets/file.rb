@@ -1,13 +1,18 @@
 # encoding: utf-8
 
-class FileTarget
-  def handles?(target)
-    File::file?(target)
+module Vulcano::Targets
+  class FileTarget
+    def handles?(target)
+      File::file?(target) and target.end_with?('.rb')
+    end
+
+    def resolve(target)
+      {
+        content: File::read(target),
+        ref: target
+      }
+    end
   end
 
-  def resolve(target)
-    target
-  end
+  Vulcano::Targets.add_module('file', FileTarget.new)
 end
-
-Vulcano::Targets.add_module('file', FileTarget.new)
