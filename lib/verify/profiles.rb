@@ -105,7 +105,7 @@ module Vulcano
       j['rules'].each do |k,v|
         v['title'] = k if v['title'].nil?
         v['desc'] = "" if v['desc'].nil?
-        v['impact'] = 1.0 if v['impact'].nil?
+        v['impact'] = 0.5 if v['impact'].nil?
       end
       j
     end
