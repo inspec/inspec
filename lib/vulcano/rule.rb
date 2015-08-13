@@ -191,13 +191,13 @@ module Vulcano
     end
 
     def __unregister_rule id
-      full_id = "#{@profile_id}/#{id}"
+      full_id = VulcanoBaseRule::full_id(@profile_id, id)
       @rules[full_id] = nil
     end
 
     def __register_rule r
       # get the full ID
-      full_id = VulcanoBaseRule::full_id(r, @profile_id)
+      full_id = VulcanoBaseRule::full_id(@profile_id, r)
       if full_id.nil?
         # TODO error
         return

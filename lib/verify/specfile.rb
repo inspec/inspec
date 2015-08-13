@@ -39,17 +39,19 @@ module Vulcano
         src = __get_block_source(&r.instance_variable_get(:@__block))
       end
       r.instance_variable_set(:@__code, src)
-      fid = VulcanoBaseRule.full_id r, @profile_id
-      if @rules[fid].nil?
-        @rules[fid] = r
+
+      full_id = VulcanoBaseRule.full_id @profile_id, r
+      if @rules[full_id].nil?
+        @rules[full_id] = r
       else
         @errors.push "Duplicate definition of rule #{fid}."
       end
     end
+
     def __unregister_rule id
-      fid = "#{@profile_id}/#{id}"
-      if @rules.key? fid
-        @rules.delete(fid)
+      full_id = VulcanoBaseRule.full_id @profile_id, id
+      if @rules.key?(full_id)
+        @rules.delete(full_id)
       else
         @errors.push "Failed to skip rule #{fid}, it isn't defined."
       end
