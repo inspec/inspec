@@ -32,20 +32,26 @@ module Vulcano
     end
 
     # DSL methods
-    def __register_rule r
-      src = __get_block_source(&r.instance_variable_get(:@__block))
+    def __register_rule r, &block
+      if block_given?
+        src = __get_block_source(&block)
+      else
+        src = __get_block_source(&r.instance_variable_get(:@__block))
+      end
       r.instance_variable_set(:@__code, src)
-      fid = VulcanoBaseRule.full_id r, @profile_id
-      if @rules[fid].nil?
-        @rules[fid] = r
+
+      full_id = VulcanoBaseRule.full_id @profile_id, r
+      if @rules[full_id].nil?
+        @rules[full_id] = r
       else
         @errors.push "Duplicate definition of rule #{fid}."
       end
     end
+
     def __unregister_rule id
-      fid = "#{@profile_id}/#{id}"
-      if @rules.key? fid
-        @rules.delete(fid)
+      full_id = VulcanoBaseRule.full_id @profile_id, id
+      if @rules.key?(full_id)
+        @rules.delete(full_id)
       else
         @errors.push "Failed to skip rule #{fid}, it isn't defined."
       end
@@ -75,6 +81,7 @@ module Vulcano
 
     attr_reader :errors, :rules
     def initialize path, metadata
+      @filename = File::basename(path)
       @rules = []
       @raw = File::read(path)
       @profile_id = metadata.dict['name']
@@ -89,7 +96,7 @@ module Vulcano
     def metadata
       header = @raw.sub(/^[^#].*\Z/m,'')
       {
-        "title" => mOr(header.match(/^# title: (.*)$/), 'untitled'),
+        "title" => mOr(header.match(/^# title: (.*)$/), @filename),
         "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
         "rules" => rules2dict(@rules)
       }

@@ -65,20 +65,28 @@ class VulcanoBaseRule
   # for the rule. If the rule's profile id is empty,
   # the given profile_id will be used instead and also
   # set for the rule.
-  def self.full_id rule, profile_id
-    # As the profile context is exclusively pulled with a
-    # profile ID, attach it to the rule if necessary.
-    rid = rule.instance_variable_get(:@id)
-    if rid.nil?
-      # TODO: Message about skipping this rule
-      # due to missing ID
-      return nil
+  def self.full_id profile_id, rule
+    if rule.is_a?(String) or rule.nil?
+      rid = rule
+    else
+      # As the profile context is exclusively pulled with a
+      # profile ID, attach it to the rule if necessary.
+      rid = rule.instance_variable_get(:@id)
+      if rid.nil?
+        # TODO: Message about skipping this rule
+        # due to missing ID
+        return nil
+      end
     end
     pid = rule.instance_variable_get(:@profile_id)
     if pid.nil?
       rule.instance_variable_set(:@profile_id, profile_id)
       pid = profile_id
     end
-    return (pid || '') + "/" + rid
+    if pid.nil? or pid.empty?
+      return rid
+    else
+      return "#{pid}/#{rid}"
+    end
   end
 end

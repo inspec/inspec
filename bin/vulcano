@@ -4,7 +4,6 @@
 require 'thor'
 require 'json'
 require_relative '../lib/vulcano'
-require_relative '../lib/verify'
 
 class VulcanoCLI < Thor
 
@@ -13,6 +12,7 @@ class VulcanoCLI < Thor
   option :print, aliases: :p, type: :boolean
   option :id, type: :string
   def json(*paths)
+    require_relative '../lib/verify'
     paths.each do |path|
       Vulcano::Profiles.new.valid_folder? path unless options[:print]
       vc = Vulcano::Profiles.new({ quiet: options[:print], id: options[:id] })
@@ -34,11 +34,45 @@ class VulcanoCLI < Thor
 
   desc "check PATH", "check all tests in PATH"
   def check(*paths)
+    require_relative '../lib/verify'
     paths.each do |path|
       puts "#{path}"
       Vulcano::Profiles.new.valid_folder? path
       puts
     end
+  end
+
+  desc "exec PATHS", "run all test files"
+  option :id, type: :string,
+    desc: 'Attach a profile ID to all test results'
+  option :target, type: :string, default: nil,
+    desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
+  option :backend, type: :string, default: nil,
+    desc: 'Choose a backend: exec (run locally), ssh, winrm.'
+  option :host, type: :string,
+    desc: 'Specify a remote host which is tested.'
+  option :port, type: :numeric,
+    desc: 'Specify the login port for a remote scan.'
+  option :user, type: :string, default: 'root',
+    desc: 'The login user for a remote scan.'
+  option :password, type: :string, default: nil,
+    desc: 'Login password for a remote scan, if required.'
+  option :key_file, type: :string, default: nil,
+    desc: 'Login key or certificate file for a remote scan.'
+  option :disable_sudo, type: :boolean, default: false,
+    desc: 'To not run remote scans via sudo.'
+  option :sudo_password, type: :string, default: nil,
+    desc: 'Specify a sudo password, if it is required.'
+  option :sudo_options, type: :string, default: '',
+    desc: 'Additional sudo options for a remote scan.'
+  option :winrm_self_signed, type: :boolean, default: false,
+    desc: 'Allow remote scans with WinRM to run on self-signed certificates.'
+  option :winrm_ssl, type: :boolean, default: false,
+    desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
+  def exec(*resources)
+    runner = Vulcano::Runner.new(options[:id], options)
+    runner.add_resources(resources)
+    runner.run
   end
 
 end
