@@ -11,7 +11,7 @@ module Vulcano::Backend::WinRM
     host = conf['host'].to_s
     port = conf['port']
     user = conf['user'].to_s
-    pass = conf['pass'].to_s
+    pass = conf['password'].to_s
 
     # SSL configuration
     if conf['winrm_ssl']
