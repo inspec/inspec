@@ -57,7 +57,18 @@ module Vulcano
         #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
         checks.each do |m,a,b|
-          example = RSpec::Core::ExampleGroup.describe(*a, &b)
+          # resource skipping
+          if !a.empty? &&
+            a[0].respond_to?(:resource_skipped) &&
+            !a[0].resource_skipped.nil?
+            example = RSpec::Core::ExampleGroup.describe(*a) do
+              it a[0].resource_skipped
+            end
+          else
+            # add the resource
+            example = RSpec::Core::ExampleGroup.describe(*a, &b)
+          end
+
           set_rspec_ids(example, rule_id)
           RSpec.world.register(example)
         end
