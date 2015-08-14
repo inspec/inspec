@@ -49,7 +49,7 @@ module Vulcano
       ctx = Vulcano::ProfileContext.new(@profile_id, {}, [])
 
       # evaluate all tests
-      ctx.instance_eval(content, source, line || 0)
+      ctx.instance_eval(content, source, line || 1)
 
       # process the resulting rules
       rules = ctx.instance_variable_get(:@rules)
