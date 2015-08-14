@@ -186,10 +186,6 @@ module Vulcano
       @only_ifs = only_ifs
     end
 
-    def only_if *a, &b
-      @only_ifs.push([a,b])
-    end
-
     def __unregister_rule id
       full_id = VulcanoBaseRule::full_id(@profile_id, id)
       @rules[full_id] = nil
