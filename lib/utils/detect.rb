@@ -42,7 +42,6 @@ if os[:family] == 'windows'
   producttype = res["OS"]["ProductType"].to_s
   if producttype == "2" then producttype = "3" end
   version = producttype + res["OSVersion"]["Platform"].to_s + res["OSVersion"]["Version"]["Major"].to_s + res["OSVersion"]["Version"]["Minor"].to_s
-  puts version
   release = versions[version]
 end
 
