@@ -5,6 +5,7 @@
 require 'uri'
 require 'vulcano/backend'
 require 'vulcano/targets'
+require 'vulcano/profile_context'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
@@ -49,11 +50,10 @@ module Vulcano
       ctx = Vulcano::ProfileContext.new(@profile_id, {}, [])
 
       # evaluate all tests
-      ctx.instance_eval(content, source, line || 1)
+      ctx.load(content, source, line || 1)
 
       # process the resulting rules
-      rules = ctx.instance_variable_get(:@rules)
-      rules.each do |rule_id, rule|
+      ctx.rules.each do |rule_id, rule|
         #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
         checks.each do |m,a,b|
