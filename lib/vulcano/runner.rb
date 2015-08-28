@@ -37,9 +37,9 @@ module Vulcano
       backend.configure_target
     end
 
-    def add_resources(resources)
-      items = resources.map do |resource|
-        Vulcano::Targets.resolve(resource)
+    def add_tests(tests)
+      items = tests.map do |test|
+        Vulcano::Targets.resolve(test)
       end
       items.flatten.each do |item|
         add_content(item[:content], item[:ref], item[:line])

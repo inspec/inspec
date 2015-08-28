@@ -69,9 +69,9 @@ class VulcanoCLI < Thor
     desc: 'Allow remote scans with WinRM to run on self-signed certificates.'
   option :winrm_ssl, type: :boolean, default: false,
     desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
-  def exec(*resources)
+  def exec(*tests)
     runner = Vulcano::Runner.new(options[:id], options)
-    runner.add_resources(resources)
+    runner.add_tests(tests)
     runner.run
   end
 
