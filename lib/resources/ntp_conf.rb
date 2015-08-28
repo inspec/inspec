@@ -4,10 +4,10 @@
 
 require 'utils/simpleconfig'
 
-class NtpConf < Vulcano::Resource
+class NtpConf < Vulcano.resource(1)
+  name 'ntp_conf'
 
   def initialize(path = nil)
-    @runner = Specinfra::Runner
     @conf_path = path || '/etc/ntp.conf'
     @files_contents = {}
     @content = nil
@@ -26,11 +26,11 @@ class NtpConf < Vulcano::Resource
 
   def read_content
     # read the file
-    if !@runner.check_file_is_file(@conf_path)
+    if !@vulcano.file(@conf_path).is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = read_file(@conf_path)
-    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    @content = @vulcano.file(@conf_path).contents
+    if @content.empty? && @vulcano.file(@conf_path).size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
@@ -41,13 +41,4 @@ class NtpConf < Vulcano::Resource
     @content
   end
 
-  def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-module Serverspec::Type
-  def ntp_conf(path = nil)
-    NtpConf.new(path)
-  end
 end
