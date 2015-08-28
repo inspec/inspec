@@ -2,25 +2,22 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-module Serverspec end
-module Serverspec::Type
-  class Lines
-    def initialize raw, desc
-      @raw = raw
-      @desc = desc
-    end
+class Lines
+  def initialize raw, desc
+    @raw = raw
+    @desc = desc
+  end
 
-    def output
-      @raw
-    end
+  def output
+    @raw
+  end
 
-    def lines
-      @raw.split("\n")
-    end
+  def lines
+    @raw.split("\n")
+  end
 
-    def to_s
-      @desc
-    end
+  def to_s
+    @desc
   end
 end
 
@@ -36,7 +33,7 @@ class PostgresSession
     # that does this securely
     escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/,'\\"').gsub(/\$/,'\\$')
     # run the query
-    cmd = Serverspec::Type::Command.new("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -c \"#{escaped_query}\"")
+    cmd = @vulcano.run_command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -c \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
     if out =~ /could not connect to .*/ or
        out.downcase =~ /^error/
@@ -51,15 +48,9 @@ class PostgresSession
         sub(/(.*\n)+([-]+[+])*[-]+\n/,'').
         # remove the tail
         sub(/\n[^\n]*\n\n$/,'')
-      l = Serverspec::Type::Lines.new(lines.strip, "PostgreSQL query: #{query}")
+      l = Lines.new(lines.strip, "PostgreSQL query: #{query}")
       RSpec.__send__( 'describe', l, &block )
     end
   end
 
-end
-
-module Serverspec::Type
-  def postgres_session( user, password )
-    PostgresSession.new(user, password)
-  end
 end
