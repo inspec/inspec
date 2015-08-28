@@ -4,16 +4,14 @@
 
 require 'utils/simpleconfig'
 
-class SshConf < Vulcano::Resource
+module SshConf
 
-  def initialize( conf_path, type = nil )
-    @runner = Specinfra::Runner
-    @conf_path = conf_path
+  def create( conf_path = nil, type = nil )
+    @conf_path = conf_path || '/etc/ssh/ssh_conf'
     @conf_dir = File.expand_path(File.dirname @conf_path)
-    @files_contents = {}
-    @content = nil
-    @params = nil
-    typename = ( conf_path.include?('sshd') ? 'Server' : 'Client' )
+    @conf = nil
+    @params = {}
+    typename = ( @conf_path.include?('sshd') ? 'Server' : 'Client' )
     @type = type || "SSH #{typename} configuration #{conf_path}"
     read_content
   end
@@ -23,11 +21,10 @@ class SshConf < Vulcano::Resource
   end
 
   def content
-    @content ||= read_content
+    @conf.contents
   end
 
   def params *opts
-    @params || read_content
     res = @params
     opts.each do |opt|
       res = res[opt] unless res.nil?
@@ -36,40 +33,35 @@ class SshConf < Vulcano::Resource
   end
 
   def method_missing name
-    @params || read_content
     @params[name.to_s]
   end
 
   def read_content
+    @conf = @vulcano.file(@conf_path)
     # read the file
-    if !@runner.check_file_is_file(@conf_path)
+    if !@conf.is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = read_file(@conf_path)
-    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+
+    if @conf.contents.empty? && @conf.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
+
     # parse the file
-    @params = SimpleConfig.new(@content,
+    @params = SimpleConfig.new(@conf.contents,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
       multiple_values: false
     ).params
-    @content
   end
 
-  def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
+end
+
+module SshdConf
+  include SshConf
+  def create(path = nil)
+    super(path || '/etc/ssh/sshd_config')
   end
 end
 
-module Serverspec::Type
-  def ssh_config( path = nil )
-    @ssh_config ||= {}
-    dpath = path || '/etc/ssh/ssh_config'
-    @ssh_config[dpath] ||= SshConf.new(dpath)
-  end
-
-  def sshd_config( path = nil )
-    ssh_config( path || '/etc/ssh/sshd_config' )
-  end
-end
+Vulcano.add_resource('ssh_config', SshConf)
+Vulcano.add_resource('sshd_config', SshdConf)
