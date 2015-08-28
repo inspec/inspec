@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'utils/modulator'
 require 'vulcano/resource'
 
 # require 'resources/apache_conf'

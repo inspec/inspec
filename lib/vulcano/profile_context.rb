@@ -12,17 +12,6 @@ module Vulcano
       __CTX = self
       backend = Vulcano::Backend::Mock::Runner.new
 
-      resource_classes = {}
-      Vulcano::Resource.registry.each do |name, cl|
-        resource_classes[name] = Class.new(cl) do
-          include Vulcano::ResourceCommon
-          def initialize(backend, *args)
-            @vulcano = backend
-            super(*args)
-          end
-        end
-      end
-
       # This is the heart of the profile context
       # An instantiated object which has all resources registered to it
       # and exposes them to the a test file.
@@ -38,7 +27,7 @@ module Vulcano
           __CTX.unregister_rule(*args)
         end
 
-        resource_classes.each do |id,r|
+        Vulcano::Resource.registry.each do |id,r|
           define_method id.to_sym do |*args|
             r.new(backend, *args)
           end
