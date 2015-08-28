@@ -4,14 +4,13 @@
 # secedit /export /cfg secpol.cfg
 #
 # @link http://www.microsoft.com/en-us/download/details.aspx?id=25250
-# 
+#
 # In Windows, some security options are managed differently that the local GPO
-# All local GPO parameters can be examined via Registry, but not all security 
+# All local GPO parameters can be examined via Registry, but not all security
 # parameters. Therefore we need a combination of Registry and secedit output
 
-include Serverspec::Type
-
-class SecurityPolicy < Serverspec::Type::Base
+class SecurityPolicy < Vulcano.resource(1)
+  name 'security_policy'
 
   # static variable, shared across all instances
   @@loaded = false
@@ -46,7 +45,7 @@ class SecurityPolicy < Serverspec::Type::Base
     # find line with key
     key = method.to_s
     target = ""
-    @@policy.each_line {|s| 
+    @@policy.each_line {|s|
       target = s.strip if s.match(/\b#{key}\s*=\s*(.*)\b/)
     }
 
@@ -57,9 +56,9 @@ class SecurityPolicy < Serverspec::Type::Base
       val = result[:value]
       val = val.to_i if val.match(/^\d+$/)
     else
-      # TODO we may need to return skip or failure if the 
+      # TODO we may need to return skip or failure if the
       # requested value is not available
-      val = nil 
+      val = nil
     end
 
     val
@@ -69,10 +68,4 @@ class SecurityPolicy < Serverspec::Type::Base
     %Q[Security Policy]
   end
 
-end
-
-module Serverspec::Type
-  def security_policy()
-    SecurityPolicy.new()
-  end
 end

@@ -23,8 +23,8 @@ require 'vulcano/resource'
 # require 'resources/postgres_conf'
 # require 'resources/postgres_session'
 # require 'resources/processes'
-# require 'resources/registry_key'
-# require 'resources/security_policy'
+require 'resources/registry_key'
+require 'resources/security_policy'
 require 'resources/ssh_conf'
 
 # extend serverspec types
