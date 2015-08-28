@@ -4,10 +4,10 @@
 
 require 'utils/simpleconfig'
 
-class LoginDef < Vulcano::Resource
+class LoginDef < Vulcano.resource(1)
+  name 'login_defs'
 
   def initialize(path = nil)
-    @runner = Specinfra::Runner
     @conf_path = path || '/etc/login.defs'
     @files_contents = {}
     @content = nil
@@ -26,11 +26,12 @@ class LoginDef < Vulcano::Resource
 
   def read_content
     # read the file
-    if !@runner.check_file_is_file(@conf_path)
+    file = @vulcano.file(@conf_path)
+    if !file.is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = read_file(@conf_path)
-    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    @content = file.contents
+    if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
@@ -41,13 +42,4 @@ class LoginDef < Vulcano::Resource
     @content
   end
 
-  def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-module Serverspec::Type
-  def login_def(path = nil)
-    LoginDef.new(path)
-  end
 end

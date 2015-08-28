@@ -4,10 +4,10 @@
 
 require 'utils/simpleconfig'
 
-class LimitsConf < Vulcano::Resource
+class LimitsConf < Vulcano.resource(1)
+  name 'limits_conf'
 
   def initialize(path)
-    @runner = Specinfra::Runner
     @conf_path = path
     @files_contents = {}
     @content = nil
@@ -26,11 +26,12 @@ class LimitsConf < Vulcano::Resource
 
   def read_content
     # read the file
-    if !@runner.check_file_is_file(@conf_path)
+    file = @vulcano.file(@conf_path)
+    if !file.is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = read_file(@conf_path)
-    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    @content = file.contents
+    if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
@@ -42,15 +43,4 @@ class LimitsConf < Vulcano::Resource
     @content
   end
 
-  def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-module Serverspec::Type
-  def limits_conf(path = nil)
-    @limits_conf ||= {}
-    dpath = path || '/etc/security/limits.conf'
-    @limits_conf[dpath] ||= LimitsConf.new(dpath)
-  end
 end
