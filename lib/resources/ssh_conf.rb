@@ -4,9 +4,10 @@
 
 require 'utils/simpleconfig'
 
-module SshConf
+class SshConf < Vulcano.resource(1)
+  name 'ssh_config'
 
-  def create( conf_path = nil, type = nil )
+  def initialize( conf_path = nil, type = nil )
     @conf_path = conf_path || '/etc/ssh/ssh_conf'
     @conf_dir = File.expand_path(File.dirname @conf_path)
     @conf = nil
@@ -56,12 +57,10 @@ module SshConf
 
 end
 
-module SshdConf
-  include SshConf
-  def create(path = nil)
+class SshdConf < SshConf
+  name 'sshd_config'
+
+  def initialize(path = nil)
     super(path || '/etc/ssh/sshd_config')
   end
 end
-
-Vulcano.add_resource('ssh_config', SshConf)
-Vulcano.add_resource('sshd_config', SshdConf)

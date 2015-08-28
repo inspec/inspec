@@ -1,15 +1,6 @@
 # encoding: utf-8
 require 'utils/modulator'
-
-module Vulcano
-  class Resources
-    extend Modulator
-  end
-
-  def self.add_resource(*args)
-    Vulcano::Resources.add_module(*args)
-  end
-end
+require 'vulcano/resource'
 
 # require 'resources/apache_conf'
 # require 'resources/audit_policy'
