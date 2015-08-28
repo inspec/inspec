@@ -2,9 +2,9 @@
 require 'vulcano/resource'
 
 require 'resources/apache_conf'
-# require 'resources/audit_policy'
-# require 'resources/auditd_conf'
-# require 'resources/auditd_rules'
+require 'resources/audit_policy'
+require 'resources/auditd_conf'
+require 'resources/auditd_rules'
 # require 'resources/command'
 require 'resources/env'
 require 'resources/etc_group'
