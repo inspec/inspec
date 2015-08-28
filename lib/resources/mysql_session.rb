@@ -4,11 +4,12 @@
 
 $__SCOPE = self
 
-class MysqlSession < Vulcano::Resource
+class MysqlSession < Vulcano.resource(1)
+  name 'mysql_session'
+
   def initialize user, pass
     @user = user
     @pass = pass
-    @runner = Specinfra::Runner
     initialize_fallback if user.nil? or pass.nil?
     skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
   end
@@ -33,7 +34,7 @@ class MysqlSession < Vulcano::Resource
 
   def initialize_fallback
     # support debian mysql administration login
-    debian = @runner.run_command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
+    debian = @vulcano.run_command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
     unless debian.empty?
       user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)
       pass = debian.match(/^\s*password\s*=\s*([^ ]*)\s*$/)
@@ -42,11 +43,5 @@ class MysqlSession < Vulcano::Resource
       @pass = pass[1]
       return
     end
-  end
-end
-
-module Serverspec::Type
-  def mysql_session( user=nil, password=nil )
-    MysqlSession.new(user, password)
   end
 end

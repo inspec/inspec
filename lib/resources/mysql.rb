@@ -2,7 +2,9 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-class Mysql
+class Mysql < Vulcano.resource(1)
+  name 'mysql'
+
   attr_reader :package, :service, :conf_dir, :conf_path, :data_dir, :log_dir, :log_path, :log_group, :log_dir_group
   def initialize
     # set OS-dependent filenames and paths
@@ -53,11 +55,5 @@ class Mysql
       @log_group = 'mysql'
       @log_dir_group = 'root'
     end
-  end
-end
-
-module Serverspec::Type
-  def mysql
-    @mysql ||= Mysql.new()
   end
 end
