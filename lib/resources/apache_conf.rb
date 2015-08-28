@@ -5,12 +5,12 @@
 require 'utils/simpleconfig'
 require 'utils/find_files'
 
-class ApacheConf
+class ApacheConf < Vulcano.resource(1)
+  name 'apache_conf'
 
   def initialize( conf_path )
-    @runner = Specinfra::Runner
     @conf_path = conf_path
-    @conf_dir = File.expand_path(File.dirname @conf_path)
+    @conf_dir = File.dirname(@conf_path)
     @files_contents = {}
     @content = nil
     @params = nil
@@ -45,11 +45,13 @@ class ApacheConf
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    if !@runner.check_file_is_file(@conf_path)
+    file = @vulcano.file(@conf_path)
+    if !file.is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    raw_conf = read_file(@conf_path)
-    if raw_conf.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+
+    raw_conf = file.contents
+    if raw_conf.empty? && file.size > 0
       return skip_resource("Can't read file \"#{@conf_path}\"")
     end
 
@@ -100,6 +102,6 @@ class ApacheConf
   end
 
   def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
+    @files_contents[path] ||= @vulcano.file(path).contents
   end
 end
