@@ -40,7 +40,7 @@ module Vulcano::Backend::Mock
   end
 
   class Command
-    attr_reader :stdout, :stderr, :exit_code
+    attr_reader :stdout, :stderr, :exit_status
     def initialize(runtime, cmd)
       @exit_code = (rand < 0.7) ? 0 : (100 * rand).to_i
       @stdout = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
