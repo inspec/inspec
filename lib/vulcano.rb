@@ -10,7 +10,6 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'vulcano/version'
 require 'vulcano/resource'
-require 'vulcano/resources'
 require 'vulcano/rspec_json_formatter'
 require 'vulcano/rule'
 require 'vulcano/runner'
