@@ -30,7 +30,7 @@ class LoginDef < Vulcano.resource(1)
     if !file.is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = file.contents
+    @content = file.content
     if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end

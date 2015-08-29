@@ -31,7 +31,7 @@ class AuditDaemonConf < Vulcano.resource(1)
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
 
-    @content = file.contents
+    @content = file.content
     if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end

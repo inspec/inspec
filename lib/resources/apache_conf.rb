@@ -31,13 +31,13 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def filter_comments data
-    contents = ""
+    content = ""
     data.each_line do |line|
       if (!line.match(/^\s*#/)) then
-        contents << line
+        content << line
       end
     end
-    return contents
+    return content
   end
 
   def read_content
@@ -50,7 +50,7 @@ class ApacheConf < Vulcano.resource(1)
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
 
-    raw_conf = file.contents
+    raw_conf = file.content
     if raw_conf.empty? && file.size > 0
       return skip_resource("Can't read file \"#{@conf_path}\"")
     end
@@ -102,6 +102,6 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= @vulcano.file(path).contents
+    @files_contents[path] ||= @vulcano.file(path).content
   end
 end

@@ -8,13 +8,13 @@ module Vulcano::Backend::Mock
       @exists = (rand < 0.8) ? true : false
       @is_file = (@exists && rand < 0.7) ? true : false
       @size = 0
-      @contents = ''
+      @content = ''
       if @exists && @is_file
         @size = ( rand ** 3 * 1000 ).to_i
         @size = 0 if rand < 0.2
       end
       if @size > 0
-        @contents = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
+        @content = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
       end
     end
 
@@ -23,9 +23,9 @@ module Vulcano::Backend::Mock
       @size
     end
 
-    def contents
-      puts "----> get file #{@path} contents: #{@contents}"
-      @contents
+    def content
+      puts "----> get file #{@path} content: #{@content}"
+      @content
     end
 
     def is_file?

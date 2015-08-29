@@ -29,7 +29,7 @@ class NtpConf < Vulcano.resource(1)
     if !@vulcano.file(@conf_path).is_file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = @vulcano.file(@conf_path).contents
+    @content = @vulcano.file(@conf_path).content
     if @content.empty? && @vulcano.file(@conf_path).size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end

@@ -22,7 +22,7 @@ class SshConf < Vulcano.resource(1)
   end
 
   def content
-    @conf.contents
+    @conf.content
   end
 
   def params *opts
@@ -44,12 +44,12 @@ class SshConf < Vulcano.resource(1)
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
 
-    if @conf.contents.empty? && @conf.size > 0
+    if @conf.content.empty? && @conf.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
 
     # parse the file
-    @params = SimpleConfig.new(@conf.contents,
+    @params = SimpleConfig.new(@conf.content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
       multiple_values: false
     ).params

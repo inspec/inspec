@@ -92,6 +92,6 @@ class MysqlConf < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= @vulcano.file(path).contents
+    @files_contents[path] ||= @vulcano.file(path).content
   end
 end
