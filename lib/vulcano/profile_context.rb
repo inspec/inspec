@@ -5,12 +5,11 @@ module Vulcano
   class ProfileContext
 
     attr_reader :rules, :only_ifs
-    def initialize profile_id, profile_registry, only_ifs
+    def initialize profile_id, backend, profile_registry: {}, only_ifs: []
       @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs
       __CTX = self
-      backend = Vulcano::Backend::Mock::Runner.new
 
       # This is the heart of the profile context
       # An instantiated object which has all resources registered to it

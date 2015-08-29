@@ -24,17 +24,26 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = conf.dup
+      @conf = Vulcano::Backend.target_config(conf)
 
       # RSpec.configuration.output_stream = $stdout
       # RSpec.configuration.error_stream = $stderr
       RSpec.configuration.add_formatter(:json)
 
       # specinfra
-      backend = Vulcano::Backend.new(@conf)
-      backend.resolve_target_options
-      backend.configure_shared_options
-      backend.configure_target
+      backend_name = @conf[:backend] || 'exec'
+      backend_class = Vulcano::Backend.registry[backend_name]
+      if backend_class.nil?
+        puts "Can't find command backend '#{backend_name}'."
+        return
+      end
+
+      # create the backend based on the config
+      @backend = backend_class.new(@conf.dup)
+    end
+
+    def select_backend( conf )
+
     end
 
     def add_tests(tests)
@@ -47,7 +56,7 @@ module Vulcano
     end
 
     def add_content(content, source, line = nil)
-      ctx = Vulcano::ProfileContext.new(@profile_id, {}, [])
+      ctx = Vulcano::ProfileContext.new(@profile_id, @backend)
 
       # evaluate all tests
       ctx.load(content, source, line || 1)
