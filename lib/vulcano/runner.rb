@@ -25,25 +25,26 @@ module Vulcano
       @rules = []
       @profile_id = profile_id
       @conf = Vulcano::Backend.target_config(conf)
+      configure_output
+      configure_backend
+    end
 
+    def configure_output
       # RSpec.configuration.output_stream = $stdout
       # RSpec.configuration.error_stream = $stderr
       RSpec.configuration.add_formatter(:json)
+    end
 
+    def configure_backend
       # specinfra
       backend_name = @conf[:backend] || 'exec'
       backend_class = Vulcano::Backend.registry[backend_name]
       if backend_class.nil?
-        puts "Can't find command backend '#{backend_name}'."
-        return
+        raise "Can't find command backend '#{backend_name}'."
       end
 
       # create the backend based on the config
       @backend = backend_class.new(@conf.dup)
-    end
-
-    def select_backend( conf )
-
     end
 
     def add_tests(tests)

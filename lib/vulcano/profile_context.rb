@@ -6,6 +6,11 @@ module Vulcano
 
     attr_reader :rules, :only_ifs
     def initialize profile_id, backend, profile_registry: {}, only_ifs: []
+      if backend.nil?
+        raise "ProfileContext is initiated with a backend == nil. " +
+              "This is a backend error which must be fixed upstream."
+      end
+
       @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs

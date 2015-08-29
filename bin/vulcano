@@ -73,6 +73,8 @@ class VulcanoCLI < Thor
     runner = Vulcano::Runner.new(options[:id], options)
     runner.add_tests(tests)
     runner.run
+  rescue RuntimeError => e
+    puts e.message
   end
 
 end
