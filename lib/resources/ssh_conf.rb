@@ -8,7 +8,7 @@ class SshConf < Vulcano.resource(1)
   name 'ssh_config'
 
   def initialize( conf_path = nil, type = nil )
-    @conf_path = conf_path || '/etc/ssh/ssh_conf'
+    @conf_path = conf_path || '/etc/ssh/ssh_config'
     @conf_dir = File.expand_path(File.dirname @conf_path)
     @conf = nil
     @params = {}
