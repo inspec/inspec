@@ -45,7 +45,7 @@ if os[:family] == 'windows'
   release = versions[version]
 end
 
-# hijack os-detection from serverspec
+# print OS detection infos
 puts JSON.dump({
   os_family:   os[:family],
   os_release:  release || os[:release],

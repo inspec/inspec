@@ -19,7 +19,7 @@ class MysqlSession < Vulcano.resource(1)
     # that does this securely
     escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/,'\\"').gsub(/\$/,'\\$')
     # run the query
-    cmd = Serverspec::Type::Command.new("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
+    cmd = @vulcano.run_command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
     if out =~ /Can't connect to .* MySQL server/ or
        out.downcase =~ /^error/

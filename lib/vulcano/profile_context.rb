@@ -20,8 +20,6 @@ module Vulcano
       # An instantiated object which has all resources registered to it
       # and exposes them to the a test file.
       ctx = Class.new do
-        include Serverspec::Helper::Type
-        extend Serverspec::Helper::Type
         include Vulcano::DSL
 
         define_method :__register_rule do |*args|

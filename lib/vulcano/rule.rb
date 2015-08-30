@@ -2,12 +2,9 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 require 'vulcano/base_rule'
-require 'serverspec'
 
 module Vulcano
   class Rule < VulcanoBaseRule
-    include Serverspec::Helper::Type
-    extend Serverspec::Helper::Type
     include RSpec::Core::DSL
 
     # Override RSpec methods to add

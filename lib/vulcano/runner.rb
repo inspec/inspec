@@ -12,9 +12,6 @@ require 'rspec/its'
 require 'specinfra'
 require 'specinfra/helper'
 require 'specinfra/helper/set'
-require 'serverspec/helper'
-require 'serverspec/matcher'
-require 'serverspec/subject'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
@@ -24,7 +21,7 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = Vulcano::Backend.target_config(conf)
+      @conf = Vulcano::Backend.target_config(conf).dup
       configure_output
       configure_backend
     end
@@ -36,7 +33,7 @@ module Vulcano
     end
 
     def configure_backend
-      backend_name = @conf[:backend] || 'exec'
+      backend_name = ( @conf[:backend] ||= 'exec' )
       # all backends except for mock revert to specinfra for now
       unless %w{ mock }.include? backend_name
         backend_class = Vulcano::Backend.registry['specinfra']
@@ -49,7 +46,7 @@ module Vulcano
       end
 
       # create the backend based on the config
-      @backend = backend_class.new(@conf.dup)
+      @backend = backend_class.new(@conf)
     end
 
     def add_tests(tests)
