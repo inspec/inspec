@@ -43,14 +43,3 @@ require 'resources/processes'
 require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/ssh_conf'
-
-# extend serverspec types
-module Serverspec
-  module Type
-
-    def directory(name)
-      Directory.new(name)
-    end
-
-  end
-end
