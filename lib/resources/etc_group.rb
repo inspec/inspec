@@ -57,7 +57,7 @@ class EtcGroup < Vulcano.resource(1)
   private
 
   def parse(path)
-    @content = @vulcano.file(path).content
+    @content = vulcano.file(path).content
     @content.split("\n").map do |line|
       line.split(':')
     end

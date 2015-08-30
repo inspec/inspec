@@ -6,7 +6,7 @@ class AuditDaemonRules < Vulcano.resource(1)
   name 'audit_daemon_rules'
 
   def initialize
-    @content = @vulcano.run_command("/sbin/auditctl -l").stdout.chomp
+    @content = vulcano.run_command("/sbin/auditctl -l").stdout.chomp
 
     @opts = {
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -27,7 +27,7 @@ class AuditDaemonRules < Vulcano.resource(1)
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: false
     }
-    @status_content ||= @vulcano.run_command("/sbin/auditctl -s").stdout.chomp
+    @status_content ||= vulcano.run_command("/sbin/auditctl -s").stdout.chomp
     @status_params = SimpleConfig.new(@status_content, @status_opts).params
     status = @status_params["AUDIT_STATUS"]
     if (status == nil) then return nil end

@@ -18,7 +18,7 @@ class Passwd < Vulcano.resource(1)
 
   def initialize(path = nil, uid: nil)
     @path = path || '/etc/passwd'
-    @content = @vulcano.file(@path).content
+    @content = vulcano.file(@path).content
     @parsed = parse(@content)
   end
 

@@ -40,11 +40,11 @@ class PConfig < Vulcano.resource(1)
     @conf_path = conf_path
 
     # read the file
-    if !@vulcano.file(conf_path).file?
+    if !vulcano.file(conf_path).file?
       return skip_resource "Can't find file \"#{conf_path}\""
     end
     @content = read_file(conf_path)
-    if @content.empty? && @vulcano.file(conf_path).size > 0
+    if @content.empty? && vulcano.file(conf_path).size > 0
       return skip_resource "Can't read file \"#{conf_path}\""
     end
 
@@ -52,7 +52,7 @@ class PConfig < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= @vulcano.file(path).content
+    @files_contents[path] ||= vulcano.file(path).content
   end
 
   def read_content

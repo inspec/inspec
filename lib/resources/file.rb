@@ -10,7 +10,7 @@ module Vulcano::Resources
 
     def initialize(path)
       @path = path
-      @file = @vulcano.file(@path)
+      @file = vulcano.file(@path)
     end
 
     %w{

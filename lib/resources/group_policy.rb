@@ -19,7 +19,7 @@ class GroupPolicy < Vulcano.resource(1)
   def getRegistryValue(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
-    command_result ||= @vulcano.run_command(cmd)
+    command_result ||= vulcano.run_command(cmd)
     val = { :exit_code => command_result.exit_status.to_i, :data => command_result.stdout }
     val
   end

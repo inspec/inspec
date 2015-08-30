@@ -14,7 +14,7 @@ class Processes < Vulcano.resource(1)
     end
 
     # get all running processes
-    cmd = @vulcano.run_command('ps aux')
+    cmd = vulcano.run_command('ps aux')
     all = cmd.stdout.split("\n")[1..-1]
     all_cmds = all.map do |line|
       # user   32296  0.0  0.0  42592  7972 pts/15   Ss+  Apr06   0:00 zsh

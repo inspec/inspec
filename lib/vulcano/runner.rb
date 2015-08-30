@@ -34,13 +34,14 @@ module Vulcano
 
     def configure_backend
       backend_name = ( @conf[:backend] ||= 'exec' )
-      # all backends except for mock revert to specinfra for now
+      # @TODO all backends except for mock revert to specinfra for now
       unless %w{ mock }.include? backend_name
         backend_class = Vulcano::Backend.registry['specinfra']
       else
         backend_class = Vulcano::Backend.registry[backend_name]
       end
 
+      # Return on failure
       if backend_class.nil?
         raise "Can't find command backend '#{backend_name}'."
       end
@@ -50,9 +51,12 @@ module Vulcano
     end
 
     def add_tests(tests)
+      # retrieve the raw ruby code of all tests
       items = tests.map do |test|
         Vulcano::Targets.resolve(test)
       end
+
+      # add all tests (raw) to the runtime
       items.flatten.each do |item|
         add_content(item[:content], item[:ref], item[:line])
       end

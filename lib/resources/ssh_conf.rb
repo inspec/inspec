@@ -38,7 +38,7 @@ class SshConf < Vulcano.resource(1)
   end
 
   def read_content
-    @conf = @vulcano.file(@conf_path)
+    @conf = vulcano.file(@conf_path)
     # read the file
     if !@conf.file?
       return skip_resource "Can't find file \"#{@conf_path}\""

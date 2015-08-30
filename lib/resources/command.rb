@@ -9,7 +9,7 @@ class Command < Vulcano.resource(1)
   end
 
   def result
-    @result ||= @vulcano.run_command(@command)
+    @result ||= vulcano.run_command(@command)
   end
 
   def stdout
@@ -25,7 +25,7 @@ class Command < Vulcano.resource(1)
   end
 
   def exists?
-    res = @vulcano.run_command("type \"#{@command}\" > /dev/null")
+    res = vulcano.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
 

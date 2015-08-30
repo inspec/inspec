@@ -26,11 +26,11 @@ class NtpConf < Vulcano.resource(1)
 
   def read_content
     # read the file
-    if !@vulcano.file(@conf_path).file?
+    if !vulcano.file(@conf_path).file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = @vulcano.file(@conf_path).content
-    if @content.empty? && @vulcano.file(@conf_path).size > 0
+    @content = vulcano.file(@conf_path).content
+    if @content.empty? && vulcano.file(@conf_path).size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file

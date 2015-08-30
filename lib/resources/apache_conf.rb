@@ -45,7 +45,7 @@ class ApacheConf < Vulcano.resource(1)
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    file = @vulcano.file(@conf_path)
+    file = vulcano.file(@conf_path)
     if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
@@ -102,6 +102,6 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= @vulcano.file(path).content
+    @files_contents[path] ||= vulcano.file(path).content
   end
 end
