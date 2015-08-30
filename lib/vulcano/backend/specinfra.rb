@@ -9,7 +9,12 @@ module Vulcano::Backends
       @conf = conf
       @files = {}
       type = @conf[:backend]
+
       configure_shared_options
+
+      # configure the given backend, if we can handle it
+      # e.g. backend = exec   ==>  try to call configure_exec
+      # if we don't support it, error out
       m = "configure_#{type}"
       if self.respond_to?(m.to_sym)
         self.send(m)

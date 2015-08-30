@@ -21,7 +21,7 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = Vulcano::Backend.target_config(conf).dup
+      @conf = Vulcano::Backend.target_config(conf)
       configure_output
       configure_backend
     end
