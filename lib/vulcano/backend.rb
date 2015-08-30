@@ -28,7 +28,4 @@ module Vulcano
 end
 
 require 'vulcano/backend/mock'
-#require 'vulcano/backend/exec'
-#require 'vulcano/backend/docker'
-#require 'vulcano/backend/ssh'
-#require 'vulcano/backend/winrm'
+require 'vulcano/backend/specinfra'

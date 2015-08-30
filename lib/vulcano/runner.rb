@@ -36,9 +36,14 @@ module Vulcano
     end
 
     def configure_backend
-      # specinfra
       backend_name = @conf[:backend] || 'exec'
-      backend_class = Vulcano::Backend.registry[backend_name]
+      # all backends except for mock revert to specinfra for now
+      unless %w{ mock }.include? backend_name
+        backend_class = Vulcano::Backend.registry['specinfra']
+      else
+        backend_class = Vulcano::Backend.registry[backend_name]
+      end
+
       if backend_class.nil?
         raise "Can't find command backend '#{backend_name}'."
       end
