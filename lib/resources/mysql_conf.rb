@@ -60,7 +60,7 @@ class MysqlConf < Vulcano.resource(1)
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    if !@vulcano.file(@conf_path).is_file?
+    if !@vulcano.file(@conf_path).file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
     raw_conf = read_file(@conf_path)

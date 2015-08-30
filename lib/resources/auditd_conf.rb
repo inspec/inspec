@@ -27,7 +27,7 @@ class AuditDaemonConf < Vulcano.resource(1)
   def read_content
     # read the file
     file = @vulcano.file(@conf_path)
-    if !file.is_file?
+    if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
 

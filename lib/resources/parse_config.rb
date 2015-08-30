@@ -40,7 +40,7 @@ class PConfig < Vulcano.resource(1)
     @conf_path = conf_path
 
     # read the file
-    if !@vulcano.file(conf_path).is_file?
+    if !@vulcano.file(conf_path).file?
       return skip_resource "Can't find file \"#{conf_path}\""
     end
     @content = read_file(conf_path)

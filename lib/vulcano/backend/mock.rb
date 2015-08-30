@@ -51,7 +51,7 @@ module Vulcano::Backends
         @content
       end
 
-      def is_file?
+      def file?
         puts "----> is file #{@path} a file? #{@is_file}"
         @is_file
       end
