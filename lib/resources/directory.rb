@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'resources/directory'
+require 'resources/file'
 
 module Vulcano::Resources
   class Directory < File

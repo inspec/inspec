@@ -48,7 +48,7 @@ module Vulcano::Backends
     end
 
     def configure_docker
-      host = conf['host'].to_s
+      host = @conf['host'].to_s
       Specinfra.configuration.backend = :docker
       Specinfra.configuration.docker_container = host
     end
