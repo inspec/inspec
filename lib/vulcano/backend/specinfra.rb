@@ -153,50 +153,35 @@ module Vulcano::Backends
 
   class SpecinfraHelper
 
-    class File
+    class File < FileCommon
+      TYPES = {
+        socket:           00140000,
+        symlink:          00120000,
+        file:             00100000,
+        block_device:     00060000,
+        directory:        00040000,
+        character_device: 00020000,
+        pipe:             00010000,
+      }
       def initialize(path)
         @path = path
       end
 
       def type
         path = Shellwords.escape(@path)
-        Specinfra::Runner.run_command("stat -c %f #{path}").stdout
+        raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
+        tmask = raw_type.to_i(16)
+        res = TYPES.find{|name, mask| mask & tmask}
+        return :unknown if res.nil?
+        res[0]
       end
 
       def exists?
         Specinfra::Runner.check_file_exists(@path)
       end
 
-      def file?
-        Specinfra::Runner.check_file_is_file(@path)
-      end
-
-      def block_device?
-        Specinfra::Runner.check_file_is_block_device(@path)
-      end
-
-      def character_device?
-        Specinfra::Runner.check_file_is_character_device(@path)
-      end
-
-      def socket?
-        Specinfra::Runner.check_file_is_socket(@path)
-      end
-
-      def directory?
-        Specinfra::Runner.check_file_is_directory(@path)
-      end
-
-      def symlink?
-        Specinfra::Runner.check_file_is_symlink(@path)
-      end
-
-      def pipe?
-        Specinfra::Runner.check_file_is_pipe(@path)
-      end
-
       def mode
-        Specinfra::Runner.get_file_mode(@path).stdout
+        Specinfra::Runner.get_file_mode(@path).stdout.to_i(8)
       end
 
       def owner
@@ -232,36 +217,20 @@ module Vulcano::Backends
         Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
       end
 
-      def readable?(by_type, by_user)
-        if by_user.nil?
-          Specinfra::Runner.check_file_is_readable(@path, by_type)
-        else
-          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
-        end
-      end
-
-      def writable?(by_type, by_user)
-        if by_user.nil?
-          Specinfra::Runner.check_file_is_writable(@path, by_type)
-        else
-          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
-        end
-      end
-
-      def executable?(by_type, by_user)
-        if by_user.nil?
-          Specinfra::Runner.check_file_is_executable(@path, by_type)
-        else
-          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
-        end
-      end
-
       def mounted?(opts, only_with)
         Specinfra::Runner.check_file_is_mounted(@name, opts, only_with)
       end
 
       def immutable?
         Specinfra::Runner.get_file_immutable(@path)
+      end
+
+      def product_version
+        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").stdout.strip
+      end
+
+      def file_version
+        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").stdout.strip
       end
 
     end

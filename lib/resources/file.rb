@@ -2,8 +2,6 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-require 'digest'
-
 module Vulcano::Resources
   class File < Vulcano.resource(1)
     name 'file'
@@ -14,10 +12,12 @@ module Vulcano::Resources
     end
 
     %w{
-      type exists? file? block_device? character_device? socket?
-        directory? symlink? pipe?
-      mode owner group link_target content mtime ctime size selinux_label
-      readable? writable? executable? mounted? immutable?
+      type exists? file? block_device? character_device? socket? directory?
+        symlink? pipe?
+      mode mode? owner owned_by? group grouped_into? link_target linked_to?
+        content mtime ctime size selinux_label
+        mounted? immutable? product_version file_version version?
+        md5sum sha256sum
     }.each do |name|
       define_method name.to_sym do |*args|
         @file.method(name.to_sym).call(*args)
@@ -28,44 +28,42 @@ module Vulcano::Resources
       raise ' not yet implemented '
     end
 
-    def mode?(mode)
-      @file.mode == mode
-    end
-
-    def owned_by?(owner)
-      @file.owner == owner
-    end
-
-    def grouped_into?(group)
-      @file.group == group
-    end
-
-    def linked_to?(dst)
-      @file.linkk == dst
-    end
-
-    def md5sum
-      if @file.respond_to?(:md5sum)
-        @file.md5sum
+    def readable?(by_owner, by_user)
+      if by_user.nil?
+        m = unix_mode_mask(by_owner, 'r') ||
+            raise("#{by_owner} is not a valid unix owner.")
+        ( @file.mask & m ) != 0
       else
-        res = Digest::MD5.new
-        res.update(@file.content)
-        res.hexdigest
+        # TODO: REMOVE THIS FALLBACK
+        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
       end
     end
 
-    def sha256sum
-      if @file.respond_to?(:sha256sum)
-        @file.sha256sum
+    def writable?(by_owner, by_user)
+      if by_user.nil?
+        m = unix_mode_mask(by_owner, 'w') ||
+            raise("#{by_owner} is not a valid unix owner.")
+        ( @file.mask & m ) != 0
       else
-        res = Digest::SHA256.new
-        res.update(@file.content)
-        res.hexdigest
+        # TODO: REMOVE THIS FALLBACK
+        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
+      end
+    end
+
+    def executable?(by_owner, by_user)
+      if by_user.nil?
+        m = unix_mode_mask(by_owner, 'x') ||
+            raise("#{by_owner} is not a valid unix owner.")
+        ( @file.mask & m ) != 0
+      else
+        # TODO: REMOVE THIS FALLBACK
+        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
       end
     end
 
     def to_s
       'Path "#{@path}"'
     end
+
   end
 end

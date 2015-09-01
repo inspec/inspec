@@ -9,9 +9,6 @@ class SshConf < Vulcano.resource(1)
 
   def initialize( conf_path = nil, type = nil )
     @conf_path = conf_path || '/etc/ssh/ssh_config'
-    @conf_dir = File.expand_path(File.dirname @conf_path)
-    @conf = nil
-    @params = {}
     typename = ( @conf_path.include?('sshd') ? 'Server' : 'Client' )
     @type = type || "SSH #{typename} configuration #{conf_path}"
     read_content
@@ -36,6 +33,8 @@ class SshConf < Vulcano.resource(1)
   def method_missing name
     @params[name.to_s]
   end
+
+  private
 
   def read_content
     @conf = vulcano.file(@conf_path)
