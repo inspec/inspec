@@ -16,7 +16,7 @@ module Vulcano::Resources
     %w{
       type exists? file? block_device? character_device? socket?
         directory? symlink? pipe?
-      mode owner group link content mtime ctime size selinux_label
+      mode owner group link_target content mtime ctime size selinux_label
       readable? writable? executable? mounted? immutable?
     }.each do |name|
       define_method name.to_sym do |*args|

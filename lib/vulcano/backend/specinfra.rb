@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'shellwords'
 
 module Vulcano::Backends
 
@@ -157,17 +158,112 @@ module Vulcano::Backends
         @path = path
       end
 
+      def type
+        path = Shellwords.escape(@path)
+        Specinfra::Runner.run_command("stat -c %f #{path}").stdout
+      end
+
+      def exists?
+        Specinfra::Runner.check_file_exists(@path)
+      end
+
       def file?
         Specinfra::Runner.check_file_is_file(@path)
+      end
+
+      def block_device?
+        Specinfra::Runner.check_file_is_block_device(@path)
+      end
+
+      def character_device?
+        Specinfra::Runner.check_file_is_character_device(@path)
+      end
+
+      def socket?
+        Specinfra::Runner.check_file_is_socket(@path)
+      end
+
+      def directory?
+        Specinfra::Runner.check_file_is_directory(@path)
+      end
+
+      def symlink?
+        Specinfra::Runner.check_file_is_symlink(@path)
+      end
+
+      def pipe?
+        Specinfra::Runner.check_file_is_pipe(@path)
+      end
+
+      def mode
+        Specinfra::Runner.get_file_mode(@path).stdout
+      end
+
+      def owner
+        Specinfra::Runner.get_file_owner(@path).stdout
+      end
+
+      def group
+        Specinfra::Runner.get_file_group(@path).stdout
+      end
+
+      def link_target
+        path = Shellwords.escape(@path)
+        Specinfra::Runner.run_command("readlink #{path}").stdout
       end
 
       def content
         Specinfra::Runner.get_file_content(@path).stdout
       end
 
+      def mtime
+        Specinfra::Runner.get_file_mtime(@path).stdout.strip
+      end
+
+      def ctime
+        Specinfra::Runner.get_file_ctime(@path).stdout.strip
+      end
+
       def size
         Specinfra::Runner.get_file_size(@path).stdout.strip.to_i
       end
+
+      def selinux_label
+        Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
+      end
+
+      def readable?(by_type, by_user)
+        if by_user.nil?
+          Specinfra::Runner.check_file_is_readable(@path, by_type)
+        else
+          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
+        end
+      end
+
+      def writable?(by_type, by_user)
+        if by_user.nil?
+          Specinfra::Runner.check_file_is_writable(@path, by_type)
+        else
+          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
+        end
+      end
+
+      def executable?(by_type, by_user)
+        if by_user.nil?
+          Specinfra::Runner.check_file_is_executable(@path, by_type)
+        else
+          Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
+        end
+      end
+
+      def mounted?(opts, only_with)
+        Specinfra::Runner.check_file_is_mounted(@name, opts, only_with)
+      end
+
+      def immutable?
+        Specinfra::Runner.get_file_immutable(@path)
+      end
+
     end
 
   end
