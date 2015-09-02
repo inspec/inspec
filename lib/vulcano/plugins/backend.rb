@@ -10,7 +10,18 @@ module Vulcano::Plugins
     end
 
     def self.__register(name, obj)
-      Vulcano::Backend.registry[name] = obj
+      cl = Class.new(obj) do
+        include BackendCommon
+      end
+      Vulcano::Backend.registry[name] = cl
+    end
+
+    module BackendCommon
+      %w{ file run_command os }.each do |name|
+        define_method name do |*args|
+          raise NotImplementedError.new("Backend must implement the #{name}() method.")
+        end
+      end
     end
 
     class FileCommon
@@ -47,27 +58,27 @@ module Vulcano::Plugins
       end
 
       def block_device?
-        @file.type == :block_device
+        type == :block_device
       end
 
       def character_device?
-        @file.type == :character_device
+        type == :character_device
       end
 
       def socket?
-        @file.type == :socket
+        type == :socket
       end
 
       def directory?
-        @file.type == :directory
+        type == :directory
       end
 
       def symlink?
-        @file.type == :symlink
+        type == :symlink
       end
 
       def pipe?
-        @file.type == :pipe?
+        type == :pipe?
       end
 
       def mode?(mode)
