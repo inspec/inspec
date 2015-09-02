@@ -22,7 +22,7 @@ module Vulcano::Plugins
       }
 
       def type
-        :unkown
+        :unknown
       end
 
       # The following methods can be overwritten by a derived class
@@ -36,7 +36,7 @@ module Vulcano::Plugins
 
       def sha256sum
         res = Digest::SHA256.new
-        res.update(@file.content)
+        res.update(content)
         res.hexdigest
       end
 
