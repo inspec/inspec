@@ -1,12 +1,17 @@
 # encoding: utf-8
+require 'uri'
 require 'vulcano/plugins'
 
 module Vulcano
   class Backend
+    # Expose all registered backends
     def self.registry
       @registry ||= {}
     end
 
+    # Resolve target configuration in URI-scheme into
+    # all respective fields and merge with existing configuration.
+    # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
     def self.target_config( config )
       conf = config.dup
 
@@ -24,7 +29,7 @@ module Vulcano
     end
   end
 
-  def self.backend(version)
+  def self.backend(version = 1)
     if version != 1
       raise "Only backend version 1 is supported!"
     end
