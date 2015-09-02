@@ -29,7 +29,7 @@ module Vulcano
     def configure_output
       # RSpec.configuration.output_stream = $stdout
       # RSpec.configuration.error_stream = $stderr
-      RSpec.configuration.add_formatter(:json)
+      RSpec.configuration.add_formatter(@conf[:format] || 'progress')
     end
 
     def configure_backend
