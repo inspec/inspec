@@ -10,18 +10,15 @@ module Vulcano::Plugins
     end
 
     def self.__register(name, obj)
-      cl = Class.new(obj) do
-        include BackendCommon
-      end
-      Vulcano::Backend.registry[name] = cl
-    end
-
-    module BackendCommon
-      %w{ file run_command os }.each do |name|
-        define_method name do |*args|
+      # raise errors for all missing methods
+      %w{ file run_command os }.each do |m|
+        next if obj.public_method_defined?(m.to_sym)
+        obj.send(:define_method, m.to_sym) do |*args|
           raise NotImplementedError.new("Backend must implement the #{name}() method.")
         end
       end
+
+      Vulcano::Backend.registry[name] = obj
     end
 
     class FileCommon

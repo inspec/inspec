@@ -22,7 +22,7 @@ describe 'Vulcano::Plugins::Backend' do
 
     it 'must have the backend registered' do
       @reg.keys.must_include 'test'
-      @reg['test'].ancestors[2].must_equal @child
+      @reg['test'].must_equal @child
     end
 
     it 'must raise an error if file is not implemented' do
