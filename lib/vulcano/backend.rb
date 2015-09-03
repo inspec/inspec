@@ -15,14 +15,14 @@ module Vulcano
     def self.target_config( config )
       conf = config.dup
 
-      return conf if conf[:target].to_s.empty?
+      return conf if conf['target'].to_s.empty?
 
-      uri = URI::parse(conf[:target].to_s)
-      conf[:backend]  = conf[:backend]  || uri.scheme
-      conf[:host]     = conf[:host]     || uri.host
-      conf[:port]     = conf[:port]     || uri.port
-      conf[:user]     = conf[:user]     || uri.user
-      conf[:password] = conf[:password] || uri.password
+      uri = URI::parse(conf['target'].to_s)
+      conf['backend']  = conf['backend']  || uri.scheme
+      conf['host']     = conf['host']     || uri.host
+      conf['port']     = conf['port']     || uri.port
+      conf['user']     = conf['user']     || uri.user
+      conf['password'] = conf['password'] || uri.password
 
       # return the updated config
       conf

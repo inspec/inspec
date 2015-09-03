@@ -13,27 +13,27 @@ describe 'Vulcano::Backend' do
   describe 'target config helper' do
     it 'configures resolves target' do
       org = {
-        target: 'ssh://user:pass@host.com:123'
+        'target' => 'ssh://user:pass@host.com:123',
       }
       res = Vulcano::Backend.target_config(org)
-      res[:backend].must_equal 'ssh'
-      res[:host].must_equal 'host.com'
-      res[:user].must_equal 'user'
-      res[:password].must_equal 'pass'
-      res[:port].must_equal 123
-      res[:target].must_equal org[:target]
-      org.keys.must_equal [:target]
+      res['backend'].must_equal 'ssh'
+      res['host'].must_equal 'host.com'
+      res['user'].must_equal 'user'
+      res['password'].must_equal 'pass'
+      res['port'].must_equal 123
+      res['target'].must_equal org['target']
+      org.keys.must_equal ['target']
     end
 
     it 'resolves a target while keeping existing fields' do
       org = {
-        target: 'ssh://user:pass@host.com:123',
-        backend: rand,
-        host: rand,
-        user: rand,
-        password: rand,
-        port: rand,
-        target: rand,
+        'target' => 'ssh://user:pass@host.com:123',
+        'backend' => rand,
+        'host' => rand,
+        'user' => rand,
+        'password' => rand,
+        'port' => rand,
+        'target' => rand,
       }
       res = Vulcano::Backend.target_config(org)
       res.must_equal org
@@ -41,15 +41,15 @@ describe 'Vulcano::Backend' do
 
     it 'keeps the configuration when incorrect target is supplied' do
       org = {
-        target: 'wrong',
+        'target' => 'wrong',
       }
       res = Vulcano::Backend.target_config(org)
-      res[:backend].must_be_nil
-      res[:host].must_be_nil
-      res[:user].must_be_nil
-      res[:password].must_be_nil
-      res[:port].must_be_nil
-      res[:target].must_equal org[:target]
+      res['backend'].must_be_nil
+      res['host'].must_be_nil
+      res['user'].must_be_nil
+      res['password'].must_be_nil
+      res['port'].must_be_nil
+      res['target'].must_equal org['target']
     end
   end
 
