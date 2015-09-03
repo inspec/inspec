@@ -109,7 +109,7 @@ module Vulcano::Backends
         ssh_opts[:auth_methods].push('password')
       end
       if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
-        raise "You must configure at least one authentication method" +
+        fail "You must configure at least one authentication method" +
           ": Password or key."
       end
 

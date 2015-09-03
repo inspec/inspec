@@ -71,13 +71,13 @@ class Passwd < Vulcano.resource(1)
   def users
     @parsed.map {|x|
       {
-        "name" => x.at(0),
-        "password" => x.at(1),
-        "uid" => x.at(2),
-        "gid" => x.at(3),
-        "desc" => x.at(4),
-        "home" => x.at(5),
-        "shell" => x.at(6)
+        'name' => x.at(0),
+        'password' => x.at(1),
+        'uid' => x.at(2),
+        'gid' => x.at(3),
+        'desc' => x.at(4),
+        'home' => x.at(5),
+        'shell' => x.at(6)
       }
     }
   end

@@ -39,7 +39,7 @@ class PostgresSession
        out.downcase =~ /^error/
       # skip this test if the server can't run the query
       RSpec.describe( cmd ) do
-        it "is skipped", skip: out do
+        it 'is skipped', skip: out do
         end
       end
     else

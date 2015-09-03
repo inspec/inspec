@@ -16,7 +16,7 @@ class InetdConf < Vulcano.resource(1)
   end
 
   def to_s
-    "inetd_conf"
+    'inetd_conf'
   end
 
   def method_missing(name)

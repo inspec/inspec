@@ -29,11 +29,11 @@ module Vulcano
       if !File.directory? path
         return @log.error "This is not a folder: #{path}"
       else
-        @log.ok "Valid directory"
+        @log.ok 'Valid directory'
       end
 
       metadata = Metadata.for_path(path, @profile_id)
-      @log.ok "vmetadata.rb" unless metadata.nil? or !metadata.valid?
+      @log.ok 'vmetadata.rb' unless metadata.nil? or !metadata.valid?
 
       specs = Dir["#{path}/spec/*_spec.rb"]
       if specs.empty?

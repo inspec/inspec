@@ -31,7 +31,7 @@ module Vulcano
 
   def self.backend(version = 1)
     if version != 1
-      raise "Only backend version 1 is supported!"
+      fail 'Only backend version 1 is supported!'
     end
     Vulcano::Plugins::Backend
   end

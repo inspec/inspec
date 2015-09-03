@@ -16,7 +16,7 @@ class LimitsConf < Vulcano.resource(1)
   end
 
   def to_s
-    "limits_conf"
+    'limits_conf'
   end
 
   def method_missing(name)

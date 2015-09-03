@@ -16,7 +16,7 @@ class LoginDef < Vulcano.resource(1)
   end
 
   def to_s
-    "login_def"
+    'login_def'
   end
 
   def method_missing(name)

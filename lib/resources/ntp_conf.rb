@@ -16,7 +16,7 @@ class NtpConf < Vulcano.resource(1)
   end
 
   def to_s
-    "ntp_conf"
+    'ntp_conf'
   end
 
   def method_missing(name)

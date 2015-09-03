@@ -16,7 +16,7 @@ class AuditDaemonConf < Vulcano.resource(1)
   end
 
   def to_s
-    "audit daemon configuration file"
+    'audit daemon configuration file'
   end
 
   def method_missing(name)

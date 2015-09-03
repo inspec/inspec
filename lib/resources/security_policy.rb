@@ -45,7 +45,7 @@ class SecurityPolicy < Vulcano.resource(1)
 
     # find line with key
     key = method.to_s
-    target = ""
+    target = ''
     @@policy.each_line {|s|
       target = s.strip if s.match(/\b#{key}\s*=\s*(.*)\b/)
     }

@@ -14,8 +14,8 @@ module DummyTestTypes
 
   def command(sth)
     res = OpenStruct.new
-    res.stdout = ""
-    res.stderr = ""
+    res.stdout = ''
+    res.stderr = ''
     res
   end
 end

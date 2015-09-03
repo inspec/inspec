@@ -56,7 +56,7 @@ class MysqlConf < Vulcano.resource(1)
   end
 
   def read_content
-    @content = ""
+    @content = ''
     @params = {}
 
     # skip if the main configuration file doesn't exist

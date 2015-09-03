@@ -6,7 +6,7 @@ class VulcanoBaseRule
   def initialize(id, opts, &block)
     @id = id
     @impact = nil
-    @__code = ""
+    @__code = ''
     @__block = block
     @title = nil
     @desc = nil

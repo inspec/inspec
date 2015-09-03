@@ -95,9 +95,9 @@ module Vulcano
     def metadata
       header = @raw.sub(/^[^#].*\Z/m,'')
       {
-        "title" => mOr(header.match(/^# title: (.*)$/), @filename),
-        "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        "rules" => rules2dict(@rules)
+        'title' => mOr(header.match(/^# title: (.*)$/), @filename),
+        'copyright' => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
+        'rules' => rules2dict(@rules)
       }
     end
 
@@ -115,10 +115,10 @@ module Vulcano
       d = nil
       d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
       {
-        "impact" => rule.impact,
-        "title"  => rule.title,
-        "desc"   => d,
-        "code"   => rule.instance_variable_get(:@__code)
+        'impact' => rule.impact,
+        'title'  => rule.title,
+        'desc'   => d,
+        'code'   => rule.instance_variable_get(:@__code)
       }
     end
 
