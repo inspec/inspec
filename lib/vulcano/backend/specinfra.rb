@@ -9,7 +9,7 @@ module Vulcano::Backends
     def initialize(conf)
       @conf = conf
       @files = {}
-      type = @conf[:backend]
+      type = @conf['backend']
 
       configure_shared_options
 

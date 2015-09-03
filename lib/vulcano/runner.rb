@@ -28,18 +28,20 @@ module Vulcano
 
     def normalize_map(hm)
       res = {}
-      hm.each{|k,v| res[k.to_s] = v}
+      hm.each{|k,v|
+        res[k.to_s] = v
+      }
       res
     end
 
     def configure_output
       # RSpec.configuration.output_stream = $stdout
       # RSpec.configuration.error_stream = $stderr
-      RSpec.configuration.add_formatter(@conf[:format] || 'progress')
+      RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
     def configure_backend
-      backend_name = ( @conf[:backend] ||= 'exec' )
+      backend_name = ( @conf['backend'] ||= 'exec' )
       # @TODO all backends except for mock revert to specinfra for now
       unless %w{ mock }.include? backend_name
         backend_class = Vulcano::Backend.registry['specinfra']
