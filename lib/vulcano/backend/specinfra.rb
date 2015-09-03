@@ -11,6 +11,7 @@ module Vulcano::Backends
       @files = {}
       type = @conf['backend'].to_s
 
+      reset_backend(type)
       configure_shared_options
 
       # configure the given backend, if we can handle it
@@ -34,6 +35,20 @@ module Vulcano::Backends
 
     def to_s
       'SpecInfra Backend Runner'
+    end
+
+    def reset_backend(type)
+      # may be less nice, but avoid eval...
+      case type
+      when 'exec'
+        Specinfra::Backend::Exec.instance_variable_set(:@instance, nil)
+      when 'docker'
+        Specinfra::Backend::Docker.instance_variable_set(:@instance, nil)
+      when 'ssh'
+        Specinfra::Backend::Ssh.instance_variable_set(:@instance, nil)
+      when 'winrm'
+        Specinfra::Backend::Winrm.instance_variable_set(:@instance, nil)
+      end
     end
 
     def configure_shared_options
