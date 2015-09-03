@@ -2,8 +2,11 @@ require 'docker'
 require 'yaml'
 require_relative '../lib/vulcano'
 
-tests = ARGV.drop(1)
-exit 0 if tests.empty?
+tests = ARGV
+if tests.empty?
+  puts 'Nothing to do.'
+  exit 0
+end
 
 class DockerTester
   def initialize(tests)

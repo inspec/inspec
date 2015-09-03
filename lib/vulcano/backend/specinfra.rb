@@ -171,7 +171,7 @@ module Vulcano::Backends
         path = Shellwords.escape(@path)
         raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
         tmask = raw_type.to_i(16)
-        res = TYPES.find{|name, mask| mask & tmask}
+        res = TYPES.find{|name, mask| mask & tmask == mask}
         return :unknown if res.nil?
         res[0]
       end
