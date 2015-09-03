@@ -186,7 +186,7 @@ module Vulcano::Backends
         path = Shellwords.escape(@path)
         raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
         tmask = raw_type.to_i(16)
-        res = TYPES.find{|name, mask| mask & tmask == mask}
+        res = TYPES.find{|x, mask| mask & tmask == mask}
         return :unknown if res.nil?
         res[0]
       end
@@ -200,16 +200,16 @@ module Vulcano::Backends
       end
 
       def owner
-        Specinfra::Runner.get_file_owner(@path).stdout
+        Specinfra::Runner.get_file_owner_user(@path).stdout.strip
       end
 
       def group
-        Specinfra::Runner.get_file_group(@path).stdout
+        Specinfra::Runner.get_file_owner_group(@path).stdout.strip
       end
 
       def link_target
         path = Shellwords.escape(@path)
-        Specinfra::Runner.run_command("readlink #{path}").stdout
+        Specinfra::Runner.run_command("readlink #{path}").stdout.strip
       end
 
       def content
@@ -228,8 +228,8 @@ module Vulcano::Backends
         Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
       end
 
-      def mounted?(opts, only_with)
-        Specinfra::Runner.check_file_is_mounted(@name, opts, only_with)
+      def mounted?(opts = {}, only_with = nil)
+        Specinfra::Runner.check_file_is_mounted(@path, opts, only_with)
       end
 
       def immutable?

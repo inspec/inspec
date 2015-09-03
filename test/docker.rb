@@ -41,7 +41,7 @@ class DockerTester
   end
 
   def test_container(container_id)
-    opts = { target: "docker://#{container_id}" }
+    opts = { 'target' => "docker://#{container_id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
     runner.run

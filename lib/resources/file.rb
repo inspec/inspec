@@ -18,9 +18,9 @@ module Vulcano::Resources
         content mtime size selinux_label
         mounted? immutable? product_version file_version version?
         md5sum sha256sum
-    }.each do |name|
-      define_method name.to_sym do |*args|
-        @file.method(name.to_sym).call(*args)
+    }.each do |m|
+      define_method m.to_sym do |*args|
+        @file.method(m.to_sym).call(*args)
       end
     end
 
@@ -62,7 +62,7 @@ module Vulcano::Resources
     end
 
     def to_s
-      'Path "#{@path}"'
+      "Path '#{@path}'"
     end
 
   end
