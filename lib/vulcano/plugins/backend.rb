@@ -25,7 +25,7 @@ module Vulcano::Plugins
       # interface methods: these fields should be implemented by every
       # backend File
       %w{
-        exists? mode owner group link_target content mtime ctime size
+        exists? mode owner group link_target content mtime size
         selinux_label product_version file_version
       }
 

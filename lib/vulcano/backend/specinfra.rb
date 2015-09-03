@@ -220,10 +220,6 @@ module Vulcano::Backends
         Specinfra::Runner.get_file_mtime(@path).stdout.strip
       end
 
-      def ctime
-        Specinfra::Runner.get_file_ctime(@path).stdout.strip
-      end
-
       def size
         Specinfra::Runner.get_file_size(@path).stdout.strip.to_i
       end

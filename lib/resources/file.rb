@@ -15,7 +15,7 @@ module Vulcano::Resources
       type exists? file? block_device? character_device? socket? directory?
         symlink? pipe?
       mode mode? owner owned_by? group grouped_into? link_target linked_to?
-        content mtime ctime size selinux_label
+        content mtime size selinux_label
         mounted? immutable? product_version file_version version?
         md5sum sha256sum
     }.each do |name|
