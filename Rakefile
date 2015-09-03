@@ -19,6 +19,6 @@ namespace :test do
   task :integration do
     tests = Dir["test/resource/*.rb"]
     return if tests.empty?
-    sh(Gem.ruby, '-I', 'lib', 'test/docker.rb', *tests)
+    sh(Gem.ruby, 'test/docker.rb', *tests)
   end
 end
