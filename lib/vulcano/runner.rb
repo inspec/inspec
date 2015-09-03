@@ -21,9 +21,15 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = Vulcano::Backend.target_config(conf)
+      @conf = Vulcano::Backend.target_config(normalize_map(conf))
       configure_output
       configure_backend
+    end
+
+    def normalize_map(hm)
+      res = {}
+      hm.each{|k,v| res[k.to_s] = v}
+      res
     end
 
     def configure_output
