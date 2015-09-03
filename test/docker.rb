@@ -1,12 +1,67 @@
+require 'docker'
+require 'yaml'
 require_relative '../lib/vulcano'
-docker_id = ARGV[0]
-raise 'You must provide a valid docker container ID' if docker_id.nil?
+
 tests = ARGV.drop(1)
 exit 0 if tests.empty?
 
-opts = { target: "docker://#{docker_id}" }
-runner = Vulcano::Runner.new(nil, opts)
-p "Create runner at #{opts}"
+class DockerTester
+  def initialize(tests)
+    @tests = tests
+    @images = docker_images_by_tag
+    @conf = tests_conf
+  end
 
-runner.add_tests(tests)
-runner.run
+  def run
+    # test all images
+    @conf['images'].each{|n|
+      test_image(n)
+    }.all? or raise "Test failures"
+  end
+
+  def docker_images_by_tag
+    # get all docker image tags
+    images = {}
+    Docker::Image.all.map do |img|
+      Array(img.info['RepoTags']).each do |tag|
+        images[tag] = img
+      end
+    end
+    images
+  end
+
+  def tests_conf
+    # get the test configuration
+    conf_path = File::join(File::dirname(__FILE__), '..', '.tests.yaml')
+    raise "Can't find tests config in #{conf_path}" unless File::file?(conf_path)
+    conf = YAML.load(File::read(conf_path))
+  end
+
+  def test_container(container_id)
+    opts = { target: "docker://#{container_id}" }
+    runner = Vulcano::Runner.new(nil, opts)
+    runner.add_tests(@tests)
+    runner.run
+  end
+
+  def test_image(name)
+    dname = "docker-#{name}:latest"
+    image = @images[dname]
+    raise "Can't find docker image #{dname}" if image.nil?
+
+    container = Docker::Container.create(
+      'Cmd' => [ '/bin/bash' ],
+      'Image' => image.id,
+      'OpenStdin' => true,
+    )
+    container.start
+
+    res = test_container(container.id)
+
+    container.kill
+    container.delete(force: true)
+    res
+  end
+end
+
+DockerTester.new(tests).run

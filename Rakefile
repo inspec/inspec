@@ -17,38 +17,8 @@ namespace :test do
   end
 
   task :integration do
-    require 'docker'
-    require 'yaml'
-
     tests = Dir["test/resource/*.rb"]
     return if tests.empty?
-
-    images = {}
-    Docker::Image.all.map do |img|
-      Array(img.info['RepoTags']).each do |tag|
-        images[tag] = img
-      end
-    end
-
-    conf = YAML.load(File::read '.tests.yaml')
-    conf['images'].each do |name|
-      dname = "docker-#{name}:latest"
-      image = images[dname]
-      raise "Can't find docker image #{dname}" if image.nil?
-
-      container = Docker::Container.create(
-        'Cmd' => [ '/bin/bash' ],
-        'Image' => image.id,
-        'OpenStdin' => true,
-      )
-      container.start
-
-      res = sh(Gem.ruby, '-I', 'lib', 'test/docker.rb', container.id, *tests)
-
-      container.kill
-      container.delete(force: true)
-      res
-    end.all? or raise "Failures"
-
+    sh(Gem.ruby, '-I', 'lib', 'test/docker.rb', *tests)
   end
 end
