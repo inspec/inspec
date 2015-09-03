@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'helper'
 
 describe 'Vulcano::Plugins::Backend::FileCommon' do

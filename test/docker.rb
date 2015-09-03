@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'docker'
 require 'yaml'
 require_relative '../lib/vulcano'
