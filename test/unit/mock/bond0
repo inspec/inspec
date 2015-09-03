@@ -1,0 +1,37 @@
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+Transmit Hash Policy: layer3+4 (1)
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+
+802.3ad info
+LACP rate: fast
+Min links: 0
+Aggregator selection policy (ad_select): stable
+Active Aggregator Info:
+	Aggregator ID: 1
+	Number of ports: 1
+	Actor Key: 9
+	Partner Key: 29
+	Partner Mac Address: 0d:4b:d1:26:32:0e
+
+Slave Interface: eth0
+MII Status: up
+Speed: 100 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 2e:b7:8d:61:2c:51
+Aggregator ID: 1
+Slave queue ID: 0
+
+Slave Interface: eth2
+MII Status: down
+Speed: Unknown
+Duplex: Unknown
+Link Failure Count: 0
+Permanent HW addr: 5a:57:54:66:38:64
+Aggregator ID: 2
+Slave queue ID: 0
