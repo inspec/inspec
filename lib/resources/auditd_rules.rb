@@ -29,7 +29,7 @@ class AuditDaemonRules < Vulcano.resource(1)
     }
     @status_content ||= vulcano.run_command("/sbin/auditctl -s").stdout.chomp
     @status_params = SimpleConfig.new(@status_content, @status_opts).params
-    status = @status_params["AUDIT_STATUS"]
+    status = @status_params['AUDIT_STATUS']
     if (status == nil) then return nil end
 
     items = Hash[status.scan(/([^=]+)=(\w*)\s*/)]

@@ -16,7 +16,7 @@ RSpec::Matchers.define :be_readable do
   end
 
   description do
-    res = "be readable"
+    res = 'be readable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -37,7 +37,7 @@ RSpec::Matchers.define :be_writable do
   end
 
   description do
-    res = "be writable"
+    res = 'be writable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -58,7 +58,7 @@ RSpec::Matchers.define :be_executable do
   end
 
   description do
-    res = "be executable"
+    res = 'be executable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res

@@ -12,19 +12,19 @@ module Vulcano
     end
 
     def info msg
-      show "  .  ".color(:white) + msg
+      show '  .  '.color(:white) + msg
     end
 
     def error msg
-      show "  ✖  ".color(:red).bright + msg
+      show '  ✖  '.color(:red).bright + msg
     end
 
     def warn msg
-      show "  !  ".color(:yellow).bright + msg
+      show '  !  '.color(:yellow).bright + msg
     end
 
     def ok msg
-      show "  ✔  ".color(:green).bright + msg
+      show '  ✔  '.color(:green).bright + msg
     end
   end
 end

@@ -7,7 +7,7 @@ require_relative '../lib/vulcano'
 
 class VulcanoCLI < Thor
 
-  desc "json PATH", "read all tests in PATH and generate a JSON-profile"
+  desc 'json PATH', 'read all tests in PATH and generate a JSON-profile'
   option :output, aliases: :o, type: :string
   option :print, aliases: :p, type: :boolean
   option :id, type: :string
@@ -32,7 +32,7 @@ class VulcanoCLI < Thor
     end
   end
 
-  desc "check PATH", "check all tests in PATH"
+  desc 'check PATH', 'check all tests in PATH'
   def check(*paths)
     require_relative '../lib/verify'
     paths.each do |path|
@@ -42,7 +42,7 @@ class VulcanoCLI < Thor
     end
   end
 
-  desc "exec PATHS", "run all test files"
+  desc 'exec PATHS', 'run all test files'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
   option :target, aliases: :t, type: :string, default: nil,

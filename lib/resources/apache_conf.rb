@@ -31,7 +31,7 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def filter_comments data
-    content = ""
+    content = ''
     data.each_line do |line|
       if (!line.match(/^\s*#/)) then
         content << line
@@ -41,7 +41,7 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def read_content
-    @content = ""
+    @content = ''
     @params = {}
 
     # skip if the main configuration file doesn't exist

@@ -41,11 +41,11 @@ module Vulcano::Resources
     end
 
     def has_interface?(interface)
-      params()["Slave Interface"].include?(interface)
+      params()['Slave Interface'].include?(interface)
     end
 
     def interfaces
-      params()["Slave Interface"]
+      params()['Slave Interface']
     end
 
   end
