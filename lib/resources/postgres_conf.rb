@@ -9,7 +9,7 @@ require 'resources/postgres'
 class PostgresConf < Vulcano.resource(1)
   name 'postgres_conf'
 
-  def initialize( conf_path )
+  def initialize(conf_path)
     @conf_path = conf_path
     @conf_dir = File.expand_path(File.dirname @conf_path)
     @files_contents = {}
@@ -22,7 +22,7 @@ class PostgresConf < Vulcano.resource(1)
     @content ||= read_content
   end
 
-  def params *opts
+  def params (*opts)
     @params || read_content
     res = @params
     opts.each do |opt|

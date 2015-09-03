@@ -12,7 +12,7 @@ module DummyTestTypes
     {}
   end
 
-  def command sth
+  def command(sth)
     res = OpenStruct.new
     res.stdout = ""
     res.stderr = ""
@@ -33,7 +33,7 @@ module DummyVulcanoTypes
   def start_mysql_session *args; Describer.new end
 
   class Describer
-    def describe *args
+    def describe(*args)
     end
   end
 end

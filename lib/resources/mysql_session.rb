@@ -7,7 +7,7 @@ $__SCOPE = self
 class MysqlSession < Vulcano.resource(1)
   name 'mysql_session'
 
-  def initialize user, pass
+  def initialize(user, pass)
     @user = user
     @pass = pass
     initialize_fallback if user.nil? or pass.nil?

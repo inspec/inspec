@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 class Lines
-  def initialize raw, desc
+  def initialize(raw, desc)
     @raw = raw
     @desc = desc
   end
@@ -22,7 +22,7 @@ class Lines
 end
 
 class PostgresSession
-  def initialize user, pass
+  def initialize(user, pass)
     @user = user || 'postgres'
     @pass = pass
   end

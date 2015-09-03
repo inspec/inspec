@@ -33,7 +33,7 @@ class EtcGroup < Vulcano.resource(1)
     entries.map{|x| x[3].split(',') }.flatten
   end
 
-  def where( conditions = {} )
+  def where(conditions = {})
     return if conditions.empty?
     fields = {
       name: 0,

@@ -4,7 +4,7 @@
 
 class SimpleConfig
   attr_reader :params
-  def initialize( raw_data, opts = {} )
+  def initialize(raw_data, opts = {})
     parse(raw_data, opts)
   end
 
@@ -15,7 +15,7 @@ class SimpleConfig
   # comment_char: char which identifies comments
   # standalone_comments: comments must appear alone in a line; if set to true,
   # no comments can be added to the end of an assignment/statement line
-  def parse( raw_data, opts = {} )
+  def parse(raw_data, opts = {})
     @params = {}
     options = default_options.merge(opts)
     rest = raw_data
@@ -24,7 +24,7 @@ class SimpleConfig
 
   private
 
-  def parse_values (match, values)
+  def parse_values(match, values)
     start_idx = 2
     i = 0
     count = values - 1
@@ -41,7 +41,7 @@ class SimpleConfig
     end
   end
 
-  def parse_rest( rest, opts )
+  def parse_rest(rest, opts)
     idx_nl = rest.index("\n")
     idx_comment = rest.index(opts[:comment_char])
     idx_nl = rest.length if idx_nl.nil?
@@ -99,7 +99,7 @@ class SimpleConfig
       multiline: false,
       comment_char: '#',
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
-      key_vals: 1, # default for key=value, may require for 'key val1 val2 val3' 
+      key_vals: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
       multiple_values: false
     }

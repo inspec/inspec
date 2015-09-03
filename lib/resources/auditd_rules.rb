@@ -18,11 +18,11 @@ class AuditDaemonRules < Vulcano.resource(1)
     @params ||= SimpleConfig.new(@content, @opts).params
   end
 
-  def method_missing name
+  def method_missing(name)
     params[name.to_s]
   end
 
-  def status name
+  def status(name)
     @status_opts = {
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: false

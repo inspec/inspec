@@ -49,11 +49,11 @@ module Vulcano
       is_valid
     end
 
-    def method_missing sth, *args
+    def method_missing(sth, *args)
       @log.warn "vmetadata.rb doesn't support: #{sth} #{args}"
     end
 
-    def self.for_path path, profile_id, log = nil
+    def self.for_path(path, profile_id, log = nil)
       log ||= Log.new
       dpath = File::join(path, 'vmetadata.rb')
       if !File::file?(dpath)

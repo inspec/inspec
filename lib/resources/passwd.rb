@@ -46,7 +46,7 @@ class Passwd < Vulcano.resource(1)
     arr.length
   end
 
-  def map_data (id)
+  def map_data(id)
     @parsed.map {|x|
       x.at(id)
     }

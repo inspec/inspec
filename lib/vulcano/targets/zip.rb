@@ -5,7 +5,7 @@ require 'vulcano/targets/dir'
 module Vulcano::Targets
   class ZipHelper
 
-    def content input, filter
+    def content(input, filter)
       content = []
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
@@ -18,7 +18,7 @@ module Vulcano::Targets
       return content
     end
 
-    def structure input
+    def structure(input)
       files = Array.new
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)

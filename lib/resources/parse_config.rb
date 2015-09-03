@@ -14,7 +14,7 @@
 class PConfig < Vulcano.resource(1)
   name 'parse_config'
 
-  def initialize ( content=nil, useropts = {} )
+  def initialize(content=nil, useropts = {})
 
     default_options = {}
     @opts = default_options.merge(useropts)
@@ -31,12 +31,12 @@ class PConfig < Vulcano.resource(1)
     "parse_config #{@conf_path}"
   end
 
-  def method_missing name
+  def method_missing(name)
     @params || read_content
     @params[name.to_s]
   end
 
-  def parse_file conf_path
+  def parse_file(conf_path)
     @conf_path = conf_path
 
     # read the file

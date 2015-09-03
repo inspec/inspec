@@ -24,7 +24,7 @@ class GroupPolicy < Vulcano.resource(1)
     val
   end
 
-  def convertValue (value)
+  def convertValue(value)
     val = value.strip
     val = val.to_i if val.match(/^\d+$/)
   end

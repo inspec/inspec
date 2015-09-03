@@ -19,7 +19,7 @@ class NtpConf < Vulcano.resource(1)
     "ntp_conf"
   end
 
-  def method_missing name
+  def method_missing(name)
     @params || read_content
     @params[name.to_s]
   end

@@ -8,13 +8,13 @@ module Vulcano
   # Handle Vulcano Profiles
   class Profiles
     attr_reader :profiles
-    def initialize opts = {}
+    def initialize(opts = {})
       @profiles = {}
       @profile_id = opts[:id]
       @log = Log.new(opts)
     end
 
-    def add_folder f
+    def add_folder(f)
       path = File::expand_path(f)
       if File.directory? path
         add_specs_in_folder path
@@ -24,7 +24,7 @@ module Vulcano
       self
     end
 
-    def valid_folder? f
+    def valid_folder?(f)
       path = File::expand_path(f)
       if !File.directory? path
         return @log.error "This is not a folder: #{path}"
@@ -42,7 +42,7 @@ module Vulcano
       specs.each{|s| valid_spec? s, metadata }
     end
 
-    def valid_spec? f, metadata
+    def valid_spec?(f, metadata)
       return @log.error "Can't find spec file #{f}" unless File::file? f
       # validation tracking
       valid = true
@@ -87,7 +87,7 @@ module Vulcano
 
     private
 
-    def add_specs_in_folder path
+    def add_specs_in_folder(path)
       allrules = {}
       meta = Metadata.for_path(path, @profile_id, @log)
 
@@ -101,7 +101,7 @@ module Vulcano
       @profiles = meta.dict
     end
 
-    def sanitize_specfile_json j
+    def sanitize_specfile_json(j)
       j['rules'].each do |k,v|
         v['title'] = k if v['title'].nil?
         v['desc'] = "" if v['desc'].nil?

@@ -8,7 +8,7 @@ require 'utils/find_files'
 class ApacheConf < Vulcano.resource(1)
   name 'apache_conf'
 
-  def initialize( conf_path )
+  def initialize(conf_path)
     @conf_path = conf_path
     @conf_dir = File.dirname(@conf_path)
     @files_contents = {}
@@ -21,7 +21,7 @@ class ApacheConf < Vulcano.resource(1)
     @content ||= read_content
   end
 
-  def params *opts
+  def params(*opts)
     @params || read_content
     res = @params
     opts.each do |opt|
@@ -30,7 +30,7 @@ class ApacheConf < Vulcano.resource(1)
     res
   end
 
-  def filter_comments data
+  def filter_comments(data)
     content = ''
     data.each_line do |line|
       if (!line.match(/^\s*#/)) then

@@ -48,12 +48,12 @@ module Vulcano
       @profile_context.instance_eval(content, source, line)
     end
 
-    def unregister_rule id
+    def unregister_rule(id)
       full_id = VulcanoBaseRule::full_id(@profile_id, id)
       @rules[full_id] = nil
     end
 
-    def register_rule r
+    def register_rule(r)
       # get the full ID
       full_id = VulcanoBaseRule::full_id(@profile_id, r)
       if full_id.nil?
