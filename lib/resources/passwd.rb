@@ -11,20 +11,24 @@
 # - home directory
 # - command
 
-include Serverspec::Type
-
-class Passwd < Serverspec::Type::File
+class Passwd < Vulcano.resource(1)
+  name 'passwd'
 
   attr_accessor :uid
 
+  def initialize(path = nil, uid: nil)
+    @path = path || '/etc/passwd'
+    @content = vulcano.file(@path).content
+    @parsed = parse(@content)
+  end
+
   def to_s
-    %Q[/etc/passwd]
+    @path
   end
 
   def determine_uid ()
-    parsed = parse()
     uids = Array.new
-    parsed.each {|x| 
+    @parsed.each {|x|
       if ( x.at(2) == "#{@uid}") then
         uids.push(x.at(0))
       end
@@ -43,8 +47,7 @@ class Passwd < Serverspec::Type::File
   end
 
   def map_data (id)
-    parsed = parse()
-    parsed.map {|x|
+    @parsed.map {|x|
       x.at(id)
     }
   end
@@ -66,8 +69,7 @@ class Passwd < Serverspec::Type::File
   end
 
   def users
-    parsed = parse()
-    parsed.map {|x|
+    @parsed.map {|x|
       {
         "name" => x.at(0),
         "password" => x.at(1),
@@ -80,20 +82,12 @@ class Passwd < Serverspec::Type::File
     }
   end
 
-  def parse
-    entries = Array.new
-    content().split("\n").each do |line|
-      entries.push(line.split(':'))
+  private
+
+  def parse(content)
+    content.split("\n").map do |line|
+      line.split(':')
     end
-    entries
   end
 
-end
-
-module Serverspec::Type
-  def passwd(uid=nil)
-    i = Passwd.new('/etc/passwd')
-    i.uid = uid
-    i
-  end
 end

@@ -2,17 +2,19 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-include Serverspec::Type
+class Processes < Vulcano.resource(1)
+  name 'processes'
 
-class Processes < Serverspec::Type::Base
-  def initialize grep
+  attr_reader :list
+  def initialize(grep)
     # turn into a regexp if it isn't one yet
     if grep.class == String
       grep = '(/[^/]*)*'+grep if grep[0] != '/'
       grep = Regexp.new('^'+grep+'(\s|$)')
     end
+
     # get all running processes
-    cmd = Serverspec::Type::Command.new('ps aux')
+    cmd = vulcano.run_command('ps aux')
     all = cmd.stdout.split("\n")[1..-1]
     all_cmds = all.map do |line|
       # user   32296  0.0  0.0  42592  7972 pts/15   Ss+  Apr06   0:00 zsh
@@ -37,10 +39,5 @@ class Processes < Serverspec::Type::Base
       hm[:command] =~ grep
     end
   end
-end
 
-module Serverspec::Type
-  def processes( grep )
-    Processes.new(grep)
-  end
 end

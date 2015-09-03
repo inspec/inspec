@@ -11,13 +11,13 @@
 #  }
 #  describe parse_config(audit, options ) do
 
-class PConfig < Vulcano::Resource
+class PConfig < Vulcano.resource(1)
+  name 'parse_config'
 
   def initialize ( content=nil, useropts = {} )
 
     default_options = {}
     @opts = default_options.merge(useropts)
-    @runner = Specinfra::Runner
     @content = content
     @files_contents = {}
     @params = nil
@@ -40,11 +40,11 @@ class PConfig < Vulcano::Resource
     @conf_path = conf_path
 
     # read the file
-    if !@runner.check_file_is_file(conf_path)
+    if !vulcano.file(conf_path).file?
       return skip_resource "Can't find file \"#{conf_path}\""
     end
     @content = read_file(conf_path)
-    if @content.empty? && @runner.get_file_size(conf_path).stdout.strip.to_i > 0
+    if @content.empty? && vulcano.file(conf_path).size > 0
       return skip_resource "Can't read file \"#{conf_path}\""
     end
 
@@ -52,7 +52,7 @@ class PConfig < Vulcano::Resource
   end
 
   def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
+    @files_contents[path] ||= vulcano.file(path).content
   end
 
   def read_content
@@ -62,14 +62,11 @@ class PConfig < Vulcano::Resource
   end
 end
 
-module Serverspec::Type
-  def parse_config(content, opts={})
-    PConfig.new(content, opts)
-  end
+class PConfigFile < PConfig
+  name 'parse_config_file'
 
-  def parse_config_file(file, opts={})
-    p = PConfig.new(nil, opts)
-    p.parse_file(file)
-    p
+  def initialize(path, opts)
+    super(nil, opts)
+    parse_file(path)
   end
 end

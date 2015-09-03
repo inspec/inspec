@@ -8,24 +8,17 @@
 # - gid
 # - group list, comma seperated list
 
-include Serverspec::Type
+class EtcGroup < Vulcano.resource(1)
+  name 'etc_group'
 
-class EtcGroup < Serverspec::Type::File
-
-  attr_accessor :gid
+  attr_accessor :gid, :entries
+  def initialize(path = nil)
+    @path = path || '/etc/group'
+    @entries = parse(@path)
+  end
 
   def to_s
-    %Q[/etc/group]
-  end
-
-  def parse
-    content().split("\n").map do |line|
-      line.split(':')
-    end
-  end
-
-  def entries
-    @entries ||= parse
+    @path
   end
 
   def groups
@@ -61,10 +54,13 @@ class EtcGroup < Serverspec::Type::File
     self
   end
 
-end
+  private
 
-module Serverspec::Type
-  def etc_group(path = nil)
-    EtcGroup.new(path || '/etc/group')
+  def parse(path)
+    @content = vulcano.file(path).content
+    @content.split("\n").map do |line|
+      line.split(':')
+    end
   end
+
 end

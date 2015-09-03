@@ -1,19 +1,8 @@
 # Copyright 2014 Dominik Richter. All rights reserved.
 # Spec file for Vulcano specs
 
-module Serverspec
-end
-
 # Get types
-module DummyServerspecTypes
-  sgem = Gem::Specification.find_by_name("serverspec")
-  types = Dir[File.join sgem.gem_dir, 'lib', 'serverspec', 'type', '*'].
-    map{|x| File.basename(x).sub(/\.rb$/,'')}
-  types.each do |name|
-    define_method name do |*arg|
-    end
-  end
-
+module DummyTestTypes
   # a few commands with special handling
   def describe *args; end
   def context *args; end

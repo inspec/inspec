@@ -4,8 +4,6 @@
 
 require 'json'
 
-include Serverspec::Type
-
 # return JSON object
 def gpo (policy_path, policy_name)
   file = ::File.read(::File.join ::File.dirname(__FILE__), "gpo.json")
@@ -15,12 +13,13 @@ def gpo (policy_path, policy_name)
 end
 
 # Group Policy
-class GroupPolicy < Serverspec::Type::Base
+class GroupPolicy < Vulcano.resource(1)
+  name 'group_policy'
 
   def getRegistryValue(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
-    command_result ||= @runner.run_command(cmd)
+    command_result ||= vulcano.run_command(cmd)
     val = { :exit_code => command_result.exit_status.to_i, :data => command_result.stdout }
     val
   end
@@ -51,10 +50,4 @@ class GroupPolicy < Serverspec::Type::Base
     'Group Policy'
   end
 
-end
-
-module Serverspec::Type
-  def group_policy(policy_path)
-    GroupPolicy.new(policy_path)
-  end
 end

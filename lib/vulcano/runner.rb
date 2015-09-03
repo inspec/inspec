@@ -5,15 +5,13 @@
 require 'uri'
 require 'vulcano/backend'
 require 'vulcano/targets'
+require 'vulcano/profile_context'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
 require 'specinfra'
 require 'specinfra/helper'
 require 'specinfra/helper/set'
-require 'serverspec/helper'
-require 'serverspec/matcher'
-require 'serverspec/subject'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
@@ -23,37 +21,67 @@ module Vulcano
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
-      @conf = conf.dup
+      @conf = Vulcano::Backend.target_config(normalize_map(conf))
 
-      # RSpec.configuration.output_stream = $stdout
-      # RSpec.configuration.error_stream = $stderr
-      RSpec.configuration.add_formatter(:json)
+      # global reset
+      RSpec.world.reset
 
-      # specinfra
-      backend = Vulcano::Backend.new(@conf)
-      backend.resolve_target_options
-      backend.configure_shared_options
-      backend.configure_target
+      configure_output
+      configure_backend
     end
 
-    def add_resources(resources)
-      items = resources.map do |resource|
-        Vulcano::Targets.resolve(resource)
+    def normalize_map(hm)
+      res = {}
+      hm.each{|k,v|
+        res[k.to_s] = v
+      }
+      res
+    end
+
+    def configure_output
+      # RSpec.configuration.output_stream = $stdout
+      # RSpec.configuration.error_stream = $stderr
+      RSpec.configuration.add_formatter(@conf['format'] || 'progress')
+    end
+
+    def configure_backend
+      backend_name = ( @conf['backend'] ||= 'exec' )
+      # @TODO all backends except for mock revert to specinfra for now
+      unless %w{ mock }.include? backend_name
+        backend_class = Vulcano::Backend.registry['specinfra']
+      else
+        backend_class = Vulcano::Backend.registry[backend_name]
       end
+
+      # Return on failure
+      if backend_class.nil?
+        raise "Can't find command backend '#{backend_name}'."
+      end
+
+      # create the backend based on the config
+      @backend = backend_class.new(@conf)
+    end
+
+    def add_tests(tests)
+      # retrieve the raw ruby code of all tests
+      items = tests.map do |test|
+        Vulcano::Targets.resolve(test)
+      end
+
+      # add all tests (raw) to the runtime
       items.flatten.each do |item|
         add_content(item[:content], item[:ref], item[:line])
       end
     end
 
     def add_content(content, source, line = nil)
-      ctx = Vulcano::ProfileContext.new(@profile_id, {}, [])
+      ctx = Vulcano::ProfileContext.new(@profile_id, @backend)
 
       # evaluate all tests
-      ctx.instance_eval(content, source, line || 1)
+      ctx.load(content, source, line || 1)
 
       # process the resulting rules
-      rules = ctx.instance_variable_get(:@rules)
-      rules.each do |rule_id, rule|
+      ctx.rules.each do |rule_id, rule|
         #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
         checks.each do |m,a,b|

@@ -8,16 +8,17 @@ require 'resources/mysql'
 
 class MysqlConfEntry
   def initialize( path, params )
-    @runner = Specinfra::Runner
     @params = params
     @path = path
   end
+
   def method_missing name, *args
     k = name.to_s
     res = @params[k]
     return true if res.nil? && @params.key?(k)
     @params[k]
   end
+
   def to_s
     group = ' '
     group = "[#{@path.join('][')}] " unless @path.nil? or @path.empty?
@@ -25,10 +26,10 @@ class MysqlConfEntry
   end
 end
 
-class MysqlConf < Vulcano::Resource
+class MysqlConf < Vulcano.resource(1)
+  name 'mysql_conf'
 
   def initialize( conf_path )
-    @runner = Specinfra::Runner
     @conf_path = conf_path
     @files_contents = {}
     @content = nil
@@ -59,11 +60,11 @@ class MysqlConf < Vulcano::Resource
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    if !@runner.check_file_is_file(@conf_path)
+    if !vulcano.file(@conf_path).file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
     raw_conf = read_file(@conf_path)
-    if raw_conf.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    if raw_conf.empty? && vulcano.file(@conf_path).size > 0
       return skip_resource("Can't read file \"#{@conf_path}\"")
     end
 
@@ -91,14 +92,6 @@ class MysqlConf < Vulcano::Resource
   end
 
   def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-module Serverspec::Type
-  def mysql_conf(path = nil)
-    @mysql_conf ||= {}
-    dpath = path || mysql.conf_path
-    @mysql_conf[dpath] ||= MysqlConf.new( dpath )
+    @files_contents[path] ||= vulcano.file(path).content
   end
 end

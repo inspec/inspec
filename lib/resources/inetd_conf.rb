@@ -4,10 +4,10 @@
 
 require 'utils/simpleconfig'
 
-class InetdConf < Vulcano::Resource
+class InetdConf < Vulcano.resource(1)
+  name 'inetd_config'
 
   def initialize(path)
-    @runner = Specinfra::Runner
     @conf_path = path
     @files_contents = {}
     @content = nil
@@ -26,11 +26,12 @@ class InetdConf < Vulcano::Resource
 
   def read_content
     # read the file
-    if !@runner.check_file_is_file(@conf_path)
+    file = vulcano.file(@conf_path)
+    if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
-    @content = read_file(@conf_path)
-    if @content.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    @content = file.content
+    if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
@@ -42,15 +43,4 @@ class InetdConf < Vulcano::Resource
     @content
   end
 
-  def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-module Serverspec::Type
-  def inetd_conf(path = nil)
-    @inetd_conf ||= {}
-    dpath = path || '/etc/inetd.conf'
-    @inetd_conf[dpath] = InetdConf.new(dpath)
-  end
 end

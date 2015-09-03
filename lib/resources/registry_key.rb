@@ -2,13 +2,19 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-include Serverspec::Type
 require 'json'
 
-# Registry Key Helper
-class RegistryKey < Serverspec::Type::Base
+class RegistryKey < Vulcano.resource(1)
+  name 'registry_key'
 
   attr_accessor :reg_key
+
+  def initialize(name, reg_key = nil)
+    # if we have one parameter, we use it as name
+    reg_key = name if reg_key == nil
+    @name = name
+    @reg_key = reg_key
+  end
 
   def getRegistryValue(path, key)
     cmd = "(Get-Item 'Registry::#{path}').GetValue('#{key}')"
@@ -41,18 +47,4 @@ class RegistryKey < Serverspec::Type::Base
     "Registry Key #{@name}"
   end
 
-end
-
-module Serverspec::Type
-  def registry_key(name, reg_key=nil)
-    # if we have one parameter, we use it as name
-    if reg_key == nil
-      reg_key = name
-    end
-
-    # initialize variable
-    i = RegistryKey.new(name)
-    i.reg_key = reg_key
-    i
-  end
 end

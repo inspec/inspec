@@ -1,14 +1,32 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
+# encoding: utf-8
 # license: All rights reserved
 
-module Serverspec::Type
-  class Command < Base
-    # Check if a given command (executable) exists
-    # in the default path
-    def exists?
-      cmd = @name
-      Command.new("type \"#{cmd}\" > /dev/null").exit_status == 0
-    end
+class Command < Vulcano.resource(1)
+  name 'command'
+  def initialize(cmd)
+    @command = cmd
   end
+
+  def result
+    @result ||= vulcano.run_command(@command)
+  end
+
+  def stdout
+    result.stdout
+  end
+
+  def stderr
+    result.stderr
+  end
+
+  def exit_status
+    result.exit_status.to_i
+  end
+
+  def exists?
+    res = vulcano.run_command("type \"#{@command}\" > /dev/null")
+    res.exit_status.to_i == 0
+  end
+
 end

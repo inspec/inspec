@@ -2,12 +2,9 @@
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 require 'vulcano/base_rule'
-require 'serverspec'
 
 module Vulcano
   class Rule < VulcanoBaseRule
-    include Serverspec::Helper::Type
-    extend Serverspec::Helper::Type
     include RSpec::Core::DSL
 
     # Override RSpec methods to add
@@ -171,43 +168,6 @@ module Vulcano::DSL
     return files
   end
 
-end
-
-module Vulcano
-  class ProfileContext
-
-    include Serverspec::Helper::Type
-    extend Serverspec::Helper::Type
-    include Vulcano::DSL
-
-    def initialize profile_id, profile_registry, only_ifs
-      @profile_id = profile_id
-      @rules = profile_registry
-      @only_ifs = only_ifs
-    end
-
-    def __unregister_rule id
-      full_id = VulcanoBaseRule::full_id(@profile_id, id)
-      @rules[full_id] = nil
-    end
-
-    def __register_rule r
-      # get the full ID
-      full_id = VulcanoBaseRule::full_id(@profile_id, r)
-      if full_id.nil?
-        # TODO error
-        return
-      end
-      # add the rule to the registry
-      existing = @rules[full_id]
-      if existing.nil?
-        @rules[full_id] = r
-      else
-        VulcanoBaseRule::merge(existing, r)
-      end
-    end
-
-  end
 end
 
 module Vulcano::GlobalDSL

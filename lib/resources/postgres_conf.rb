@@ -6,10 +6,10 @@ require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'resources/postgres'
 
-class PostgresConf
+class PostgresConf < Vulcano.resource(1)
+  name 'postgres_conf'
 
   def initialize( conf_path )
-    @runner = Specinfra::Runner
     @conf_path = conf_path
     @conf_dir = File.expand_path(File.dirname @conf_path)
     @files_contents = {}
@@ -36,11 +36,11 @@ class PostgresConf
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    if !@runner.check_file_is_file(@conf_path)
+    if !vulcano.file(@conf_path).file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
     raw_conf = read_file(@conf_path)
-    if raw_conf.empty? && @runner.get_file_size(@conf_path).stdout.strip.to_i > 0
+    if raw_conf.empty? && vulcano.file(@conf_path).size > 0
       return skip_resource("Can't read file \"#{@conf_path}\"")
     end
 
@@ -70,15 +70,6 @@ class PostgresConf
   end
 
   def read_file(path)
-    @files_contents[path] ||= @runner.get_file_content(path).stdout
-  end
-end
-
-
-module Serverspec::Type
-  def postgres_conf(path = nil)
-    @postgres_conf ||= {}
-    dpath = path || postgres.conf_path
-    @postgres_conf[dpath] ||= PostgresConf.new( dpath )
+    @files_contents[path] ||= vulcano.file(path).content
   end
 end
