@@ -1,4 +1,14 @@
 images:
+- centos-5
+- centos-6
+- centos-7
+- centos-latest
+- ubuntu-1004
 - ubuntu-1204-20150612
+- ubuntu-1204
+- ubuntu-1304
 - ubuntu-1404-20150320
+- ubuntu-1404
+- ubuntu-1504
+- ubuntu-1510
 - ubuntu-latest

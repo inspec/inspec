@@ -52,6 +52,7 @@ class DockerTester
     image = @images[dname]
     raise "Can't find docker image #{dname}" if image.nil?
 
+    puts "--> start docker #{name}"
     container = Docker::Container.create(
       'Cmd' => [ '/bin/bash' ],
       'Image' => image.id,
@@ -59,8 +60,10 @@ class DockerTester
     )
     container.start
 
+    puts "--> run test on docker #{name}"
     res = test_container(container.id)
 
+    puts "--> killrm docker #{name}"
     container.kill
     container.delete(force: true)
     res
