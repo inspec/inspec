@@ -11,6 +11,7 @@ module Vulcano::Backends
     end
 
     def file(path)
+      puts "--> get file #{path}"
       newpath = @mapping[path]
       if newpath != nil
         @files[path] ||= File.new(self, newpath, false)
@@ -20,6 +21,7 @@ module Vulcano::Backends
     end
 
     def run_command(cmd)
+      puts "--> run command #{cmd}"
       Command.new(self, cmd)
     end
 
