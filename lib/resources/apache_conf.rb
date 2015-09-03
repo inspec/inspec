@@ -37,7 +37,7 @@ class ApacheConf < Vulcano.resource(1)
         content << line
       end
     end
-    return content
+    content
   end
 
   def read_content

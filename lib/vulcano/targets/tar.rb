@@ -10,7 +10,7 @@ module Vulcano::Targets
       Gem::Package::TarReader.new( Zlib::GzipReader.open input ) do |tar|
         files = tar.map{|entry| entry.full_name }
       end
-      return files
+      files
     end
 
     def content(input)
@@ -26,7 +26,7 @@ module Vulcano::Targets
           end
         end
       end
-      return content
+      content
     end
 
   end

@@ -33,7 +33,7 @@ class AuditDaemonRules < Vulcano.resource(1)
     if (status == nil) then return nil end
 
     items = Hash[status.scan(/([^=]+)=(\w*)\s*/)]
-    return items[name]
+    items[name]
   end
 
   def to_s

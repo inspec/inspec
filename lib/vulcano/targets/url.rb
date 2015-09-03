@@ -28,7 +28,7 @@ module Vulcano::Targets
       content = ZipHelper.new.resolve(zipfile.path)
       zipfile.close
       zipfile.unlink
-      return content
+      content
     end
 
   end

@@ -15,7 +15,7 @@ module Vulcano::Targets
           })
         end
       end
-      return content
+      content
     end
 
     def structure(input)
@@ -25,7 +25,7 @@ module Vulcano::Targets
            files.push(entry.name)
         end
       end
-      return files
+      files
     end
 
     def resolve(path)
