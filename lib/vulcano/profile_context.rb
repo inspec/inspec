@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'vulcano/backend'
 
 module Vulcano

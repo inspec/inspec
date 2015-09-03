@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Security Configuration and Analysis
 #
 # Export local security policy:

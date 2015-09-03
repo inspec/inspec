@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Copyright 2014 Dominik Richter. All rights reserved.
 # Spec file for Vulcano specs
 

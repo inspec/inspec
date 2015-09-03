@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Copyright 2015 Dominik Richter. All rights reserved.
 require 'vulcano/log'
 

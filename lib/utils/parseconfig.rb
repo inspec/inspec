@@ -1,3 +1,4 @@
+# encoding: utf-8
 #
 # Author::      BJ Dierkes <derks@datafolklabs.com>
 # Copyright::   Copyright (c) 2006,2013 BJ Dierkes
