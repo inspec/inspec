@@ -28,6 +28,5 @@ module Vulcano::Targets
       end
       content
     end
-
   end
 end

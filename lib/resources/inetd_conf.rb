@@ -42,5 +42,4 @@ class InetdConf < Vulcano.resource(1)
     ).params
     @content
   end
-
 end

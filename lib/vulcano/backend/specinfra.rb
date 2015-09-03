@@ -2,7 +2,6 @@
 require 'shellwords'
 
 module Vulcano::Backends
-
   class SpecinfraHelper < Vulcano.backend(1)
     name 'specinfra'
 
@@ -163,7 +162,6 @@ module Vulcano::Backends
       )
       si.winrm = winrm
     end
-
   end
 
   class SpecinfraHelper
@@ -243,8 +241,6 @@ module Vulcano::Backends
       def file_version
         Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").stdout.strip
       end
-
     end
-
   end
 end

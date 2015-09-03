@@ -28,5 +28,4 @@ class OsEnv < Vulcano.resource(1)
   def to_s
     "Environment variable #{field}"
   end
-
 end

@@ -52,5 +52,4 @@ class PostgresSession
       RSpec.__send__( 'describe', l, &block )
     end
   end
-
 end

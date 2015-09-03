@@ -30,7 +30,6 @@ class RegistryKey < Vulcano.resource(1)
 
   # returns nil, if not existant or value
   def method_missing(meth)
-
     # get data
     val = getRegistryValue(@reg_key, meth)
 
@@ -40,11 +39,9 @@ class RegistryKey < Vulcano.resource(1)
     else
       nil
     end
-
   end
 
   def to_s
     "Registry Key #{@name}"
   end
-
 end

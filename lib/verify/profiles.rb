@@ -109,6 +109,5 @@ module Vulcano
       end
       j
     end
-
   end
 end

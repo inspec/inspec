@@ -39,5 +39,4 @@ class Processes < Vulcano.resource(1)
       hm[:command] =~ grep
     end
   end
-
 end

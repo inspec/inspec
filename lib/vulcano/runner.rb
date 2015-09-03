@@ -15,9 +15,7 @@ require 'specinfra/helper/set'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
-
   class Runner
-
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
@@ -118,5 +116,4 @@ module Vulcano
       end
     end
   end
-
 end

@@ -41,7 +41,6 @@ module Vulcano
         end
       end
       @profile_context = ctx.new
-
     end
 
     def load(content, source, line)
@@ -68,6 +67,5 @@ module Vulcano
         VulcanoBaseRule::merge(existing, r)
       end
     end
-
   end
 end

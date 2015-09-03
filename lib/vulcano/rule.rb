@@ -19,7 +19,6 @@ module Vulcano
     def method_missing(m, *a, &b)
       Vulcano::Rule.__send__(m, *a, &b)
     end
-
   end
 end
 

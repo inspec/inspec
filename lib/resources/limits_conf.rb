@@ -42,5 +42,4 @@ class LimitsConf < Vulcano.resource(1)
     ).params
     @content
   end
-
 end

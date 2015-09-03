@@ -53,7 +53,6 @@ class SshConf < Vulcano.resource(1)
       multiple_values: false
     ).params
   end
-
 end
 
 class SshdConf < SshConf

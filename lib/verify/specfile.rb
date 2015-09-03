@@ -142,7 +142,6 @@ module Vulcano
     def mOr(m, other)
       (m.nil? || m[1].nil?) ? other : m[1]
     end
-
   end
 end
 

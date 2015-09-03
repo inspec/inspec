@@ -89,5 +89,4 @@ class Passwd < Vulcano.resource(1)
       line.split(':')
     end
   end
-
 end

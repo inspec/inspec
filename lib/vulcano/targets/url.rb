@@ -30,9 +30,7 @@ module Vulcano::Targets
       zipfile.unlink
       content
     end
-
   end
 
   Vulcano::Targets.add_module('url', UrlHelper.new)
-
 end

@@ -41,5 +41,4 @@ class LoginDef < Vulcano.resource(1)
     ).params
     @content
   end
-
 end

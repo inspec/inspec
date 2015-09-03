@@ -4,7 +4,6 @@ require 'vulcano/targets/dir'
 
 module Vulcano::Targets
   class ZipHelper
-
     def content(input, filter)
       content = []
       ::Zip::InputStream.open(input) do |io|

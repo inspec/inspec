@@ -43,11 +43,9 @@ class GroupPolicy < Vulcano.resource(1)
     else
       nil
     end
-
   end
 
   def to_s
     'Group Policy'
   end
-
 end
