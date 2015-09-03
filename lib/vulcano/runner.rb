@@ -53,7 +53,7 @@ module Vulcano
 
       # Return on failure
       if backend_class.nil?
-        raise "Can't find command backend '#{backend_name}'."
+        fail "Can't find command backend '#{backend_name}'."
       end
 
       # create the backend based on the config

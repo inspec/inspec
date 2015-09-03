@@ -12,7 +12,7 @@ module Vulcano
 
   def self.resource(version)
     if version != 1
-      raise "Only resource version 1 is supported!"
+      fail 'Only resource version 1 is supported!'
     end
     Vulcano::Plugins::Resource
   end

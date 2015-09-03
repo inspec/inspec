@@ -20,7 +20,7 @@ module Vulcano::Backends
       if self.respond_to?(m.to_sym)
         self.send(m)
       else
-        raise "Cannot configure Specinfra backend #{type}: it isn't supported yet."
+        fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
     end
 
@@ -92,13 +92,13 @@ module Vulcano::Backends
       }
 
       if host.empty?
-        raise "You must configure a target host."
+        fail "You must configure a target host."
       end
       unless ssh_opts[:port] > 0
-        raise "Port must be > 0 (not #{ssh_opts[:port]})"
+        fail "Port must be > 0 (not #{ssh_opts[:port]})"
       end
       if ssh_opts[:user].to_s.empty?
-        raise "User must not be empty."
+        fail "User must not be empty."
       end
       unless ssh_opts[:keys].empty?
         ssh_opts[:auth_methods].push('publickey')
@@ -138,13 +138,13 @@ module Vulcano::Backends
 
       # validation
       if host.empty?
-        raise "You must configure a target host."
+        fail 'You must configure a target host.'
       end
       unless port > 0
-        raise "Port must be > 0 (not #{port})"
+        fail 'Port must be > 0 (not #{port})'
       end
       if user.empty?
-        raise "You must configure a WinRM user for login."
+        fail 'You must configure a WinRM user for login.'
       end
       if pass.empty?
         raise "You must configure a WinRM password."

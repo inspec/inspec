@@ -16,7 +16,7 @@ module Vulcano::Targets
       # get the dirs helper
       helper = DirsHelper.getHandler(files)
       if helper.nil?
-        raise "Don't know how to handle folder #{target}"
+        fail "Don't know how to handle folder #{target}"
       end
       # get all file contents
       file_handler = Vulcano::Targets.modules['file']

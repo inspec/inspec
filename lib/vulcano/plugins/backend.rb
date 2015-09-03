@@ -14,7 +14,7 @@ module Vulcano::Plugins
       %w{ file run_command os }.each do |m|
         next if obj.public_method_defined?(m.to_sym)
         obj.send(:define_method, m.to_sym) do |*args|
-          raise NotImplementedError.new("Backend must implement the #{m}() method.")
+          fail NotImplementedError.new("Backend must implement the #{m}() method.")
         end
       end
 

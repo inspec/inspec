@@ -31,13 +31,12 @@ module Vulcano::Targets
       files = structure(path)
       helper = DirsHelper.getHandler(files)
       if helper.nil?
-        raise "Don't know how to handle folder #{path}"
+        fail "Don't know how to handle folder #{path}"
       end
       # get all file contents
       file_handler = Vulcano::Targets.modules['file']
       test_files = helper.get_filenames(files)
       content(path, test_files)
     end
-
   end
 end

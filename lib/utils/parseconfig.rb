@@ -124,7 +124,7 @@ class ParseConfig
           self.params[param_name].merge!(value)
         elsif self.params.has_key?(param_name)
           if self.params[param_name].class != value.class
-            raise ArgumentError, "#{param_name} already exists, and is of different type!"
+            fail ArgumentError, "#{param_name} already exists, and is of different type!"
           end
         end
       else
