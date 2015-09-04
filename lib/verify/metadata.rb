@@ -63,7 +63,7 @@ module Vulcano
       res = Metadata.new(log)
       res.instance_eval(File::read(dpath), dpath, 1)
       res.dict['name'] = profile_id unless profile_id.nil? or profile_id.empty?
-      return res
+      res
     end
   end
 end

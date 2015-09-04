@@ -45,7 +45,7 @@ class Mysql < Vulcano.resource(1)
       @log_group = 'mysql'
       @log_dir_group = 'root'
     else
-      # TODO could not detect
+      # TODO: could not detect
       @service = 'mysqld'
       @conf_path = '/etc/my.cnf'
       @conf_dir = '/etc/'

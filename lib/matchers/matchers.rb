@@ -75,16 +75,16 @@ end
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
-    arr.inject { |result, i| 
+    arr.inject { |result, i|
       match = i.match(regex)
       result || i.match(/$/)
-    } 
+    }
   end
 end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    dup = arr.select{|element| arr.count(element) > 1 }
+    dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end
 end

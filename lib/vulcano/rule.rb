@@ -153,7 +153,7 @@ module Vulcano::DSL
 
   def self.get_spec_files_for_profile(id)
     base_path = '/etc/vulcanosec/tests'
-    path = File.join( base_path, id )
+    path = File.join(base_path, id)
     # find all files to be included
     files = []
     if File.directory? path
@@ -164,7 +164,7 @@ module Vulcano::DSL
       end
       files = Dir[File.join(path, 'spec','*_spec.rb')]
     end
-    return files
+    files
   end
 
 end

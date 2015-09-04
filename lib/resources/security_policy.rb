@@ -37,7 +37,6 @@ class SecurityPolicy < Vulcano.resource(1)
   end
 
   def method_missing(method)
-
     # load data if needed
     if (@@loaded == false)
       load
@@ -57,7 +56,7 @@ class SecurityPolicy < Vulcano.resource(1)
       val = result[:value]
       val = val.to_i if val.match(/^\d+$/)
     else
-      # TODO we may need to return skip or failure if the
+      # TODO: we may need to return skip or failure if the
       # requested value is not available
       val = nil
     end

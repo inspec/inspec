@@ -33,7 +33,7 @@ class FindFiles
     end
   end
 
-  def self.find(path ,opts = {})
-    FindFiles.new( path, opts ).files
+  def self.find(path, opts = {})
+    FindFiles.new(path, opts).files
   end
 end

@@ -30,7 +30,7 @@ module Vulcano
           __CTX.unregister_rule(*args)
         end
 
-        Vulcano::Resource.registry.each do |id,r|
+        Vulcano::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(backend, *args)
           end

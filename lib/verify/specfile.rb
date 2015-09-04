@@ -106,7 +106,7 @@ module Vulcano
         Log.error "Can't find spec file in #{path}"
         return nil
       end
-      return SpecFile.new(path, metadata)
+      SpecFile.new(path, metadata)
     end
 
     private

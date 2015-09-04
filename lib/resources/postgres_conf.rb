@@ -22,7 +22,7 @@ class PostgresConf < Vulcano.resource(1)
     @content ||= read_content
   end
 
-  def params (*opts)
+  def params(*opts)
     @params || read_content
     res = @params
     opts.each do |opt|

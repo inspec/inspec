@@ -26,8 +26,8 @@ class Passwd < Vulcano.resource(1)
     @path
   end
 
-  def determine_uid ()
-    uids = Array.new
+  def determine_uid
+    uids = []
     @parsed.each {|x|
       if ( x.at(2) == "#{@uid}") then
         uids.push(x.at(0))
@@ -37,12 +37,12 @@ class Passwd < Vulcano.resource(1)
   end
 
   def username
-    uids = determine_uid()
+    uids = determine_uid
     uids.at(0)
   end
 
   def count
-    arr = determine_uid()
+    arr = determine_uid
     arr.length
   end
 

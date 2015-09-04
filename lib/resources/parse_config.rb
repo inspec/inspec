@@ -15,7 +15,6 @@ class PConfig < Vulcano.resource(1)
   name 'parse_config'
 
   def initialize(content=nil, useropts = {})
-
     default_options = {}
     @opts = default_options.merge(useropts)
     @content = content

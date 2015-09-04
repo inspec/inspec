@@ -39,5 +39,4 @@ class AuditDaemonRules < Vulcano.resource(1)
   def to_s
     'Audit Daemon Rules'
   end
-
 end

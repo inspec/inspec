@@ -16,7 +16,6 @@ module Vulcano::Targets
       if target.start_with? 'https://github.com' and target.end_with? '.git'
         url = target.sub(/.git$/,'') + '/archive/master.zip'
         return resolve_zip(url)
-      else
       end
     end
 

@@ -18,10 +18,10 @@ module Vulcano::Targets
     end
 
     def structure(input)
-      files = Array.new
+      files = []
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
-           files.push(entry.name)
+          files.push(entry.name)
         end
       end
       files

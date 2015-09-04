@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'shellwords'
 
 module Vulcano::Backends
@@ -119,7 +120,7 @@ module Vulcano::Backends
     def configure_winrm
       si = Specinfra.configuration
       si.backend = :winrm
-      si.os = { family: 'windows'}
+      si.os = { family: 'windows' }
 
       # common options
       host = conf['host'].to_s
@@ -130,10 +131,10 @@ module Vulcano::Backends
       # SSL configuration
       if conf['winrm_ssl']
         scheme = 'https'
-        port = port || 5986
+        port ||= 5986
       else
         scheme = 'http'
-        port = port || 5985
+        port ||= 5985
       end
 
       # validation
@@ -147,7 +148,7 @@ module Vulcano::Backends
         fail 'You must configure a WinRM user for login.'
       end
       if pass.empty?
-        raise "You must configure a WinRM password."
+        fail 'You must configure a WinRM password.'
       end
 
       # create the connection
@@ -158,7 +159,7 @@ module Vulcano::Backends
         user: user,
         pass: pass,
         basic_auth_only: true,
-        no_ssl_peer_verification: conf['winrm_self_signed'],
+        no_ssl_peer_verification: conf['winrm_self_signed']
       )
       si.winrm = winrm
     end
@@ -174,7 +175,7 @@ module Vulcano::Backends
         block_device:     00060000,
         directory:        00040000,
         character_device: 00020000,
-        pipe:             00010000,
+        pipe:             00010000
       }
       def initialize(path)
         @path = path

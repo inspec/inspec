@@ -34,7 +34,7 @@ class MysqlSession < Vulcano.resource(1)
 
   def initialize_fallback
     # support debian mysql administration login
-    debian = vulcano.run_command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
+    debian = vulcano.run_command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
     unless debian.empty?
       user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)
       pass = debian.match(/^\s*password\s*=\s*([^ ]*)\s*$/)

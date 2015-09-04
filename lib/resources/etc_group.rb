@@ -22,15 +22,15 @@ class EtcGroup < Vulcano.resource(1)
   end
 
   def groups
-    entries.map{|x| x[0]}
+    entries.map { |x| x[0] }
   end
 
   def gids
-    entries.map{|x| x[2]}
+    entries.map { |x| x[2] }
   end
 
   def users
-    entries.map{|x| x[3].split(',') }.flatten
+    entries.map { |x| x[3].split(',') }.flatten
   end
 
   def where(conditions = {})
@@ -42,13 +42,13 @@ class EtcGroup < Vulcano.resource(1)
       gid: 2,
       group_id: 2,
       group_list: 3,
-      users: 3,
+      users: 3
     }
     res = entries
-    conditions.each do |k,v|
+    conditions.each do |k, v|
       idx = fields[k.to_sym]
       next if idx.nil?
-      res = res.map{|x| x[idx] == v.to_s}
+      res = res.map { |x| x[idx] == v.to_s }
     end
     @entries = res
     self
@@ -62,5 +62,4 @@ class EtcGroup < Vulcano.resource(1)
       line.split(':')
     end
   end
-
 end

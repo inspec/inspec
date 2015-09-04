@@ -32,7 +32,7 @@ class SimpleConfig
       return match[start_idx]
     else
       # iterate over expected parameters
-      values = Array.new
+      values = []
       begin
         values.push(match[start_idx+i])
         i +=1;

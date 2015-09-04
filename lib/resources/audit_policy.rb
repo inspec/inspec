@@ -123,5 +123,4 @@ class AuditPolicy < Vulcano.resource(1)
   def to_s
     'Windows Advanced Auditing'
   end
-
 end

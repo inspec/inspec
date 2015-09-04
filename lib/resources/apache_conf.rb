@@ -72,7 +72,7 @@ class ApacheConf < Vulcano.resource(1)
       include_files = params['Include'] || []
       include_files_optional = params['IncludeOptional'] || []
 
-      required = Array.new
+      required = []
       include_files.each do |f|
         id = File.join(@conf_dir, f)
         required.push(FindFiles.find(id, depth: 1, type: 'file'))
@@ -83,7 +83,7 @@ class ApacheConf < Vulcano.resource(1)
         not @files_contents.key? fp
       end
 
-      optional = Array.new
+      optional = []
       include_files_optional.each do |f|
         id = File.join(@conf_dir, f)
         optional.push(FindFiles.find(id, depth: 1, type: 'file'))

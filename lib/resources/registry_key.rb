@@ -26,6 +26,7 @@ class RegistryKey < Vulcano.resource(1)
   def convertValue(value)
     val = value.strip
     val = val.to_i if val.match(/^\d+$/)
+    val
   end
 
   # returns nil, if not existant or value
@@ -35,9 +36,9 @@ class RegistryKey < Vulcano.resource(1)
 
     # verify data
     if (val[:exit_code] == 0)
-      val = convertValue(val[:data])
+      return convertValue(val[:data])
     else
-      nil
+      return nil
     end
   end
 
