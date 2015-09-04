@@ -11,6 +11,7 @@ module Vulcano::Backends
       @conf = conf
       @files = {}
       @commands = {}
+      trace_calls unless @conf[:quiet]
     end
 
     def file(path)
@@ -28,10 +29,32 @@ module Vulcano::Backends
     def to_s
       'Mock Backend Runner'
     end
+
+    private
+
+    def trace_calls
+      interface_methods = {
+        'Vulcano::Backends::Mock' => Vulcano::Backends::Mock.instance_methods(false),
+        'Vulcano::Backends::Mock::File' => FileCommon.instance_methods(false),
+      }
+
+      set_trace_func proc{|event, file, line, id, binding, classname|
+        next unless
+          classname.to_s.start_with?('Vulcano::Backends::Mock') and
+          event == 'call' and
+          interface_methods[classname.to_s].include?(id)
+        # kindly borrowed from the wonderful simple-tracer by matugm
+        arg_names = eval("method(__method__).parameters.map { |arg| arg[1].to_s }",binding)
+			  args = eval("#{arg_names}.map { |arg| eval(arg) }",binding).join(', ')
+        prefix = '-' * (classname.to_s.count(':') - 2) + '> '
+        puts  "#{prefix}#{id} #{args}"
+      }
+    end
+
   end
 
   class Mock
-    class File
+    class File < FileCommon
       def initialize(runtime, path)
         @path = path
         # mock dataset
