@@ -1,0 +1,46 @@
+---
+AllCops:
+  Exclude:
+  - Gemfile
+  - Rakefile
+  - 'test/**/*'
+  - 'examples/**/*'
+Documentation:
+  Enabled: false
+AlignParameters:
+  Enabled: true
+Encoding:
+  Enabled: true
+HashSyntax:
+  Enabled: true
+LineLength:
+  Enabled: false
+EmptyLinesAroundBlockBody:
+  Enabled: false
+MethodLength:
+  Max: 40
+NumericLiterals:
+  MinDigits: 10
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Max: 10
+Metrics/AbcSize:
+  Max: 29
+Style/DotPosition:
+  EnforcedStyle: trailing
+  Enabled: true
+Style/AlignHash:
+  Enabled: false
+Style/PredicateName:
+  NamePrefix:
+    - is_
+    - has_
+    - have_
+  NamePrefixBlacklist:
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/BracesAroundHashParameters:
+  Enabled: false
+BlockDelimiters:
+  Enabled: false

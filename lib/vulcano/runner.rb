@@ -15,9 +15,7 @@ require 'specinfra/helper/set'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
-
   class Runner
-
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id
@@ -55,7 +53,7 @@ module Vulcano
 
       # Return on failure
       if backend_class.nil?
-        raise "Can't find command backend '#{backend_name}'."
+        fail "Can't find command backend '#{backend_name}'."
       end
 
       # create the backend based on the config
@@ -118,5 +116,4 @@ module Vulcano
       end
     end
   end
-
 end

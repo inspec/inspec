@@ -4,7 +4,7 @@ module Vulcano::Backends
   class Mock < Vulcano.backend(1)
     name 'mock'
 
-    def initialize( conf , mapping = {})
+    def initialize(conf , mapping = {})
       @conf = conf
       @files = {}
       @mapping = mapping

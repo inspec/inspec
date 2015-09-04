@@ -7,7 +7,7 @@ require 'utils/simpleconfig'
 class SshConf < Vulcano.resource(1)
   name 'ssh_config'
 
-  def initialize( conf_path = nil, type = nil )
+  def initialize(conf_path = nil, type = nil)
     @conf_path = conf_path || '/etc/ssh/ssh_config'
     typename = ( @conf_path.include?('sshd') ? 'Server' : 'Client' )
     @type = type || "SSH #{typename} configuration #{conf_path}"
@@ -22,7 +22,7 @@ class SshConf < Vulcano.resource(1)
     @conf.content
   end
 
-  def params *opts
+  def params(*opts)
     res = @params
     opts.each do |opt|
       res = res[opt] unless res.nil?
@@ -30,7 +30,7 @@ class SshConf < Vulcano.resource(1)
     res
   end
 
-  def method_missing name
+  def method_missing(name)
     @params[name.to_s]
   end
 
@@ -53,7 +53,6 @@ class SshConf < Vulcano.resource(1)
       multiple_values: false
     ).params
   end
-
 end
 
 class SshdConf < SshConf

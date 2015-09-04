@@ -28,5 +28,4 @@ class Command < Vulcano.resource(1)
     res = vulcano.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
-
 end

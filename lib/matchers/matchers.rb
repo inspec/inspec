@@ -16,7 +16,7 @@ RSpec::Matchers.define :be_readable do
   end
 
   description do
-    res = "be readable"
+    res = 'be readable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -37,7 +37,7 @@ RSpec::Matchers.define :be_writable do
   end
 
   description do
-    res = "be writable"
+    res = 'be writable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -58,7 +58,7 @@ RSpec::Matchers.define :be_executable do
   end
 
   description do
-    res = "be executable"
+    res = 'be executable'
     res += " by #{@by_type}" unless @by_type.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -75,16 +75,16 @@ end
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
-    arr.inject { |result, i| 
+    arr.inject { |result, i|
       match = i.match(regex)
       result || i.match(/$/)
-    } 
+    }
   end
 end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    dup = arr.select{|element| arr.count(element) > 1 }
+    dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end
 end

@@ -1,8 +1,8 @@
 # encoding: utf-8
+
 require 'shellwords'
 
 module Vulcano::Backends
-
   class SpecinfraHelper < Vulcano.backend(1)
     name 'specinfra'
 
@@ -21,7 +21,7 @@ module Vulcano::Backends
       if self.respond_to?(m.to_sym)
         self.send(m)
       else
-        raise "Cannot configure Specinfra backend #{type}: it isn't supported yet."
+        fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
     end
 
@@ -93,13 +93,13 @@ module Vulcano::Backends
       }
 
       if host.empty?
-        raise "You must configure a target host."
+        fail "You must configure a target host."
       end
       unless ssh_opts[:port] > 0
-        raise "Port must be > 0 (not #{ssh_opts[:port]})"
+        fail "Port must be > 0 (not #{ssh_opts[:port]})"
       end
       if ssh_opts[:user].to_s.empty?
-        raise "User must not be empty."
+        fail "User must not be empty."
       end
       unless ssh_opts[:keys].empty?
         ssh_opts[:auth_methods].push('publickey')
@@ -109,7 +109,7 @@ module Vulcano::Backends
         ssh_opts[:auth_methods].push('password')
       end
       if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
-        raise "You must configure at least one authentication method" +
+        fail "You must configure at least one authentication method" +
           ": Password or key."
       end
 
@@ -120,7 +120,7 @@ module Vulcano::Backends
     def configure_winrm
       si = Specinfra.configuration
       si.backend = :winrm
-      si.os = { family: 'windows'}
+      si.os = { family: 'windows' }
 
       # common options
       host = conf['host'].to_s
@@ -131,24 +131,24 @@ module Vulcano::Backends
       # SSL configuration
       if conf['winrm_ssl']
         scheme = 'https'
-        port = port || 5986
+        port ||= 5986
       else
         scheme = 'http'
-        port = port || 5985
+        port ||= 5985
       end
 
       # validation
       if host.empty?
-        raise "You must configure a target host."
+        fail 'You must configure a target host.'
       end
       unless port > 0
-        raise "Port must be > 0 (not #{port})"
+        fail 'Port must be > 0 (not #{port})'
       end
       if user.empty?
-        raise "You must configure a WinRM user for login."
+        fail 'You must configure a WinRM user for login.'
       end
       if pass.empty?
-        raise "You must configure a WinRM password."
+        fail 'You must configure a WinRM password.'
       end
 
       # create the connection
@@ -159,11 +159,10 @@ module Vulcano::Backends
         user: user,
         pass: pass,
         basic_auth_only: true,
-        no_ssl_peer_verification: conf['winrm_self_signed'],
+        no_ssl_peer_verification: conf['winrm_self_signed']
       )
       si.winrm = winrm
     end
-
   end
 
   class SpecinfraHelper
@@ -176,7 +175,7 @@ module Vulcano::Backends
         block_device:     00060000,
         directory:        00040000,
         character_device: 00020000,
-        pipe:             00010000,
+        pipe:             00010000
       }
       def initialize(path)
         @path = path
@@ -243,8 +242,6 @@ module Vulcano::Backends
       def file_version
         Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").stdout.strip
       end
-
     end
-
   end
 end

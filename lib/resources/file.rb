@@ -25,13 +25,13 @@ module Vulcano::Resources
     end
 
     def contain(pattern, from, to)
-      raise ' not yet implemented '
+      fail ' not yet implemented '
     end
 
     def readable?(by_owner, by_user)
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'r') ||
-            raise("#{by_owner} is not a valid unix owner.")
+            fail("#{by_owner} is not a valid unix owner.")
         ( @file.mask & m ) != 0
       else
         # TODO: REMOVE THIS FALLBACK
@@ -42,7 +42,7 @@ module Vulcano::Resources
     def writable?(by_owner, by_user)
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'w') ||
-            raise("#{by_owner} is not a valid unix owner.")
+            fail("#{by_owner} is not a valid unix owner.")
         ( @file.mask & m ) != 0
       else
         # TODO: REMOVE THIS FALLBACK
@@ -53,7 +53,7 @@ module Vulcano::Resources
     def executable?(by_owner, by_user)
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'x') ||
-            raise("#{by_owner} is not a valid unix owner.")
+            fail("#{by_owner} is not a valid unix owner.")
         ( @file.mask & m ) != 0
       else
         # TODO: REMOVE THIS FALLBACK
@@ -64,6 +64,5 @@ module Vulcano::Resources
     def to_s
       "Path '#{@path}'"
     end
-
   end
 end

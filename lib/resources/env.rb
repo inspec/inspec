@@ -6,8 +6,9 @@ class OsEnv < Vulcano.resource(1)
   name 'os_env'
 
   attr_reader :content
-  def initialize(field)
-    @command_result = vulcano.run_command("su - root -c 'echo $#{name}'")
+  def initialize(env)
+    @osenv = env
+    @command_result = vulcano.run_command("su - root -c 'echo $#{env}'")
     @content = @command_result.stdout.chomp
   end
 
@@ -26,7 +27,6 @@ class OsEnv < Vulcano.resource(1)
   end
 
   def to_s
-    "Environment variable #{field}"
+    "Environment variable #{@osenv}"
   end
-
 end

@@ -12,7 +12,7 @@ module Vulcano
     # Resolve target configuration in URI-scheme into
     # all respective fields and merge with existing configuration.
     # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
-    def self.target_config( config )
+    def self.target_config(config)
       conf = config.dup
 
       return conf if conf['target'].to_s.empty?
@@ -31,7 +31,7 @@ module Vulcano
 
   def self.backend(version = 1)
     if version != 1
-      raise "Only backend version 1 is supported!"
+      fail 'Only backend version 1 is supported!'
     end
     Vulcano::Plugins::Backend
   end

@@ -15,24 +15,24 @@ module Vulcano
   class DummyContext
     include Vulcano::DSL
 
-    def initialize path, profile_id
+    def initialize(path, profile_id)
       @path = path
       @profile_id = profile_id
       @rules = {}
       @errors = []
     end
 
-    def only_if *a, &b
+    def only_if(*a, &b)
       # always ignore
     end
 
-    def __get_block_source &block
+    def __get_block_source(&block)
       return "" unless block_given?
       block.source.to_s
     end
 
     # DSL methods
-    def __register_rule r, &block
+    def __register_rule(r, &block)
       if block_given?
         src = __get_block_source(&block)
       else
@@ -48,7 +48,7 @@ module Vulcano
       end
     end
 
-    def __unregister_rule id
+    def __unregister_rule(id)
       full_id = VulcanoBaseRule.full_id @profile_id, id
       if @rules.key?(full_id)
         @rules.delete(full_id)
@@ -59,7 +59,7 @@ module Vulcano
 
     # redefine require to find files in the context
     # of this profile
-    def require sth
+    def require(sth)
       # ignore vulcano includes, we already have those
       lib = File::expand_path( File.join @path, '..', '..', 'lib', "#{sth}.rb" )
       if File::file? lib
@@ -67,13 +67,12 @@ module Vulcano
       end
     end
 
-    def method_missing sth, *args
+    def method_missing(sth, *args)
       @errors.push "Don't understand method #{sth} ( #{args} )."
     end
 
   end
 end
-
 
 module Vulcano
   class SpecFile
@@ -96,18 +95,18 @@ module Vulcano
     def metadata
       header = @raw.sub(/^[^#].*\Z/m,'')
       {
-        "title" => mOr(header.match(/^# title: (.*)$/), @filename),
-        "copyright" => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        "rules" => rules2dict(@rules)
+        'title' => mOr(header.match(/^# title: (.*)$/), @filename),
+        'copyright' => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
+        'rules' => rules2dict(@rules)
       }
     end
 
-    def self.from_file path, metadata
+    def self.from_file(path, metadata)
       if !File::file?(path)
         Log.error "Can't find spec file in #{path}"
         return nil
       end
-      return SpecFile.new(path, metadata)
+      SpecFile.new(path, metadata)
     end
 
     private
@@ -116,10 +115,10 @@ module Vulcano
       d = nil
       d = rule.desc.gsub(/\s*\n\s*/, ' ').strip unless rule.desc.nil?
       {
-        "impact" => rule.impact,
-        "title"  => rule.title,
-        "desc"   => d,
-        "code"   => rule.instance_variable_get(:@__code)
+        'impact' => rule.impact,
+        'title'  => rule.title,
+        'desc'   => d,
+        'code'   => rule.instance_variable_get(:@__code)
       }
     end
 
@@ -143,10 +142,9 @@ module Vulcano
     def mOr(m, other)
       (m.nil? || m[1].nil?) ? other : m[1]
     end
-
   end
 end
 
-def os *a, &b
+def os(*a, &b)
   {}
 end

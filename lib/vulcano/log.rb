@@ -1,30 +1,31 @@
+# encoding: utf-8
 # Copyright 2015 Dominik Richter. All rights reserved.
 require 'rainbow/ext/string'
 
 module Vulcano
   class Log
-    def initialize opts = {}
+    def initialize(opts = {})
       @quiet = opts[:quiet] || false
     end
 
-    def show msg
+    def show(msg)
       puts msg unless @quiet
     end
 
-    def info msg
-      show "  .  ".color(:white) + msg
+    def info(msg)
+      show '  .  '.color(:white) + msg
     end
 
-    def error msg
-      show "  ✖  ".color(:red).bright + msg
+    def error(msg)
+      show '  ✖  '.color(:red).bright + msg
     end
 
-    def warn msg
-      show "  !  ".color(:yellow).bright + msg
+    def warn(msg)
+      show '  !  '.color(:yellow).bright + msg
     end
 
-    def ok msg
-      show "  ✔  ".color(:green).bright + msg
+    def ok(msg)
+      show '  ✔  '.color(:green).bright + msg
     end
   end
 end

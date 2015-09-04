@@ -26,8 +26,8 @@ class Passwd < Vulcano.resource(1)
     @path
   end
 
-  def determine_uid ()
-    uids = Array.new
+  def determine_uid
+    uids = []
     @parsed.each {|x|
       if ( x.at(2) == "#{@uid}") then
         uids.push(x.at(0))
@@ -37,16 +37,16 @@ class Passwd < Vulcano.resource(1)
   end
 
   def username
-    uids = determine_uid()
+    uids = determine_uid
     uids.at(0)
   end
 
   def count
-    arr = determine_uid()
+    arr = determine_uid
     arr.length
   end
 
-  def map_data (id)
+  def map_data(id)
     @parsed.map {|x|
       x.at(id)
     }
@@ -71,13 +71,13 @@ class Passwd < Vulcano.resource(1)
   def users
     @parsed.map {|x|
       {
-        "name" => x.at(0),
-        "password" => x.at(1),
-        "uid" => x.at(2),
-        "gid" => x.at(3),
-        "desc" => x.at(4),
-        "home" => x.at(5),
-        "shell" => x.at(6)
+        'name' => x.at(0),
+        'password' => x.at(1),
+        'uid' => x.at(2),
+        'gid' => x.at(3),
+        'desc' => x.at(4),
+        'home' => x.at(5),
+        'shell' => x.at(6)
       }
     }
   end
@@ -89,5 +89,4 @@ class Passwd < Vulcano.resource(1)
       line.split(':')
     end
   end
-
 end

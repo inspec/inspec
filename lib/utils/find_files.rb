@@ -16,7 +16,7 @@ class FindFiles
   }
 
   attr_reader :error, :files
-  def initialize( path, opts = {} )
+  def initialize(path, opts = {})
     depth = opts[:depth]
     type = TYPES[ opts[:type].to_sym ]
 
@@ -33,9 +33,7 @@ class FindFiles
     end
   end
 
-  def self.find( path ,opts = {} )
-    FindFiles.new( path, opts ).files
+  def self.find(path, opts = {})
+    FindFiles.new(path, opts).files
   end
-
 end
-

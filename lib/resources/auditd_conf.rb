@@ -16,10 +16,10 @@ class AuditDaemonConf < Vulcano.resource(1)
   end
 
   def to_s
-    "audit daemon configuration file"
+    'audit daemon configuration file'
   end
 
-  def method_missing name
+  def method_missing(name)
     @params || read_content
     @params[name.to_s]
   end
@@ -40,5 +40,4 @@ class AuditDaemonConf < Vulcano.resource(1)
       multiple_values: false
     ).params
   end
-
 end

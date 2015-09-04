@@ -19,17 +19,16 @@ module Vulcano
     def method_missing(m, *a, &b)
       Vulcano::Rule.__send__(m, *a, &b)
     end
-
   end
 end
 
 module Vulcano::DSL
-  def rule id, opts = {}, &block
+  def rule(id, opts = {}, &block)
     return if @skip_profile
     __register_rule Vulcano::Rule.new(id, opts, &block)
   end
 
-  def describe *args, &block
+  def describe(*args, &block)
     path = block.source_location[0]
     line = block.source_location[1]
     id = "#{File::basename(path)}:#{line}"
@@ -39,27 +38,27 @@ module Vulcano::DSL
     __register_rule rule, &block
   end
 
-  def skip_rule id
+  def skip_rule(id)
     __unregister_rule id
   end
 
-  def only_if &block
+  def only_if(&block)
     return unless block_given?
     @skip_profile = !block.()
   end
 
-  def require_rules id, &block
+  def require_rules(id, &block)
     ::Vulcano::DSL.load_spec_files_for_profile self, id, false, &block
   end
 
-  def include_rules id, &block
+  def include_rules(id, &block)
     ::Vulcano::DSL.load_spec_files_for_profile self, id, true, &block
   end
 
   # Register a given rule with RSpec and
   # let it run. This happens after everything
   # else is merged in.
-  def self.execute_rule r, profile_id
+  def self.execute_rule(r, profile_id)
     checks = r.instance_variable_get(:@checks)
     fid = VulcanoBaseRule.full_id(r, profile_id)
     checks.each do |m,a,b|
@@ -84,7 +83,7 @@ module Vulcano::DSL
 
   # merge two rules completely; all defined
   # fields from src will be overwritten in dst
-  def self.merge_rules dst, src
+  def self.merge_rules(dst, src)
     VulcanoBaseRule::merge dst, src
   end
 
@@ -100,15 +99,15 @@ module Vulcano::DSL
     }
   end
 
-  def self.load_spec_file_for_profile profile_id, file, rule_registry, only_ifs
-    raw = File::read(file)
+  def self.load_spec_file_for_profile(profile_id, file, rule_registry, only_ifs)
+    raw = File.read(file)
     # TODO: error-handling
 
     ctx = Vulcano::ProfileContext.new(profile_id, rule_registry, only_ifs)
     ctx.instance_eval(raw, file, 1)
   end
 
-  def self.load_spec_files_for_profile bind_context, profile_id, include_all, &block
+  def self.load_spec_files_for_profile(bind_context, profile_id, include_all, &block)
     # get all spec files
     files = get_spec_files_for_profile profile_id
     # load all rules from spec files
@@ -135,7 +134,7 @@ module Vulcano::DSL
 
     # merge the rules in the block_registry (adjustments) with
     # the rules in the rule_registry (included)
-    block_registry.each do |id,r|
+    block_registry.each do |id, r|
       org = rule_registry[id]
       if org.nil?
         # TODO: print error because we write alter a rule that doesn't exist
@@ -152,20 +151,20 @@ module Vulcano::DSL
     end
   end
 
-  def self.get_spec_files_for_profile id
+  def self.get_spec_files_for_profile(id)
     base_path = '/etc/vulcanosec/tests'
-    path = File.join( base_path, id )
+    path = File.join(base_path, id)
     # find all files to be included
     files = []
-    if File::directory? path
+    if File.directory? path
       # include all library paths, if they exist
-      libdir = File::join(path, 'lib')
-      if File::directory? libdir and !$LOAD_PATH.include?(libdir)
+      libdir = File.join(path, 'lib')
+      if File.directory? libdir and !$LOAD_PATH.include?(libdir)
         $LOAD_PATH.unshift(libdir)
       end
       files = Dir[File.join(path, 'spec','*_spec.rb')]
     end
-    return files
+    files
   end
 
 end

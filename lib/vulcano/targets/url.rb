@@ -13,10 +13,9 @@ module Vulcano::Targets
     end
 
     def resolve(target)
-      if target.start_with? "https://github.com" and target.end_with? ".git"
+      if target.start_with? 'https://github.com' and target.end_with? '.git'
         url = target.sub(/.git$/,'') + '/archive/master.zip'
         return resolve_zip(url)
-      else
       end
     end
 
@@ -28,11 +27,9 @@ module Vulcano::Targets
       content = ZipHelper.new.resolve(zipfile.path)
       zipfile.close
       zipfile.unlink
-      return content
+      content
     end
-
   end
 
   Vulcano::Targets.add_module('url', UrlHelper.new)
-
 end

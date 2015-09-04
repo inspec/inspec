@@ -7,12 +7,12 @@ require 'utils/find_files'
 require 'resources/mysql'
 
 class MysqlConfEntry
-  def initialize( path, params )
+  def initialize(path, params)
     @params = params
     @path = path
   end
 
-  def method_missing name, *args
+  def method_missing(name, *args)
     k = name.to_s
     res = @params[k]
     return true if res.nil? && @params.key?(k)
@@ -29,7 +29,7 @@ end
 class MysqlConf < Vulcano.resource(1)
   name 'mysql_conf'
 
-  def initialize( conf_path )
+  def initialize(conf_path)
     @conf_path = conf_path
     @files_contents = {}
     @content = nil
@@ -41,7 +41,7 @@ class MysqlConf < Vulcano.resource(1)
     @content ||= read_content
   end
 
-  def params *opts
+  def params(*opts)
     @params || read_content
     res = @params
     opts.each do |opt|
@@ -50,13 +50,13 @@ class MysqlConf < Vulcano.resource(1)
     MysqlConfEntry.new(opts, res)
   end
 
-  def method_missing name
+  def method_missing(name)
     @params || read_content
     @params[name.to_s]
   end
 
   def read_content
-    @content = ""
+    @content = ''
     @params = {}
 
     # skip if the main configuration file doesn't exist

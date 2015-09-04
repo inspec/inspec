@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Security Configuration and Analysis
 #
 # Export local security policy:
@@ -36,7 +37,6 @@ class SecurityPolicy < Vulcano.resource(1)
   end
 
   def method_missing(method)
-
     # load data if needed
     if (@@loaded == false)
       load
@@ -44,7 +44,7 @@ class SecurityPolicy < Vulcano.resource(1)
 
     # find line with key
     key = method.to_s
-    target = ""
+    target = ''
     @@policy.each_line {|s|
       target = s.strip if s.match(/\b#{key}\s*=\s*(.*)\b/)
     }
@@ -56,7 +56,7 @@ class SecurityPolicy < Vulcano.resource(1)
       val = result[:value]
       val = val.to_i if val.match(/^\d+$/)
     else
-      # TODO we may need to return skip or failure if the
+      # TODO: we may need to return skip or failure if the
       # requested value is not available
       val = nil
     end
@@ -67,5 +67,4 @@ class SecurityPolicy < Vulcano.resource(1)
   def to_s
     %Q[Security Policy]
   end
-
 end

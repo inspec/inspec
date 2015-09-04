@@ -16,10 +16,10 @@ class InetdConf < Vulcano.resource(1)
   end
 
   def to_s
-    "inetd_conf"
+    'inetd_conf'
   end
 
-  def method_missing name
+  def method_missing(name)
     @params || read_content
     @params[name.to_s]
   end
@@ -42,5 +42,4 @@ class InetdConf < Vulcano.resource(1)
     ).params
     @content
   end
-
 end

@@ -23,28 +23,26 @@ class RegistryKey < Vulcano.resource(1)
     val
   end
 
-  def convertValue (value)
+  def convertValue(value)
     val = value.strip
     val = val.to_i if val.match(/^\d+$/)
+    val
   end
 
   # returns nil, if not existant or value
   def method_missing(meth)
-
     # get data
     val = getRegistryValue(@reg_key, meth)
 
     # verify data
     if (val[:exit_code] == 0)
-      val = convertValue(val[:data])
+      return convertValue(val[:data])
     else
-      nil
+      return nil
     end
-
   end
 
   def to_s
     "Registry Key #{@name}"
   end
-
 end

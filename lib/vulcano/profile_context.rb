@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'vulcano/backend'
 
 module Vulcano
@@ -7,8 +8,8 @@ module Vulcano
     attr_reader :rules, :only_ifs
     def initialize(profile_id, backend, profile_registry: {}, only_ifs: [])
       if backend.nil?
-        raise "ProfileContext is initiated with a backend == nil. " +
-              "This is a backend error which must be fixed upstream."
+        fail 'ProfileContext is initiated with a backend == nil. ' +
+              'This is a backend error which must be fixed upstream.'
       end
 
       @profile_id = profile_id
@@ -29,7 +30,7 @@ module Vulcano
           __CTX.unregister_rule(*args)
         end
 
-        Vulcano::Resource.registry.each do |id,r|
+        Vulcano::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(backend, *args)
           end
@@ -40,19 +41,18 @@ module Vulcano
         end
       end
       @profile_context = ctx.new
-
     end
 
     def load(content, source, line)
       @profile_context.instance_eval(content, source, line)
     end
 
-    def unregister_rule id
+    def unregister_rule(id)
       full_id = VulcanoBaseRule::full_id(@profile_id, id)
       @rules[full_id] = nil
     end
 
-    def register_rule r
+    def register_rule(r)
       # get the full ID
       full_id = VulcanoBaseRule::full_id(@profile_id, r)
       if full_id.nil?
@@ -67,6 +67,5 @@ module Vulcano
         VulcanoBaseRule::merge(existing, r)
       end
     end
-
   end
 end

@@ -6,7 +6,7 @@ class VulcanoBaseRule
   def initialize(id, opts, &block)
     @id = id
     @impact = nil
-    @__code = ""
+    @__code = ''
     @__block = block
     @title = nil
     @desc = nil
@@ -37,7 +37,7 @@ class VulcanoBaseRule
     @desc
   end
 
-  def self.merge dst, src
+  def self.merge(dst, src)
     if src.id != dst.id
       # TODO: register an error, this case should not happen
       return
@@ -65,7 +65,7 @@ class VulcanoBaseRule
   # for the rule. If the rule's profile id is empty,
   # the given profile_id will be used instead and also
   # set for the rule.
-  def self.full_id profile_id, rule
+  def self.full_id(profile_id, rule)
     if rule.is_a?(String) or rule.nil?
       rid = rule
     else

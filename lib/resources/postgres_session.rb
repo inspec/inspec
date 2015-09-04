@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 class Lines
-  def initialize raw, desc
+  def initialize(raw, desc)
     @raw = raw
     @desc = desc
   end
@@ -22,7 +22,7 @@ class Lines
 end
 
 class PostgresSession
-  def initialize user, pass
+  def initialize(user, pass)
     @user = user || 'postgres'
     @pass = pass
   end
@@ -39,7 +39,7 @@ class PostgresSession
        out.downcase =~ /^error/
       # skip this test if the server can't run the query
       RSpec.describe( cmd ) do
-        it "is skipped", skip: out do
+        it 'is skipped', skip: out do
         end
       end
     else
@@ -52,5 +52,4 @@ class PostgresSession
       RSpec.__send__( 'describe', l, &block )
     end
   end
-
 end

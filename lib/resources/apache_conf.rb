@@ -8,7 +8,7 @@ require 'utils/find_files'
 class ApacheConf < Vulcano.resource(1)
   name 'apache_conf'
 
-  def initialize( conf_path )
+  def initialize(conf_path)
     @conf_path = conf_path
     @conf_dir = File.dirname(@conf_path)
     @files_contents = {}
@@ -21,7 +21,7 @@ class ApacheConf < Vulcano.resource(1)
     @content ||= read_content
   end
 
-  def params *opts
+  def params(*opts)
     @params || read_content
     res = @params
     opts.each do |opt|
@@ -30,18 +30,18 @@ class ApacheConf < Vulcano.resource(1)
     res
   end
 
-  def filter_comments data
-    content = ""
+  def filter_comments(data)
+    content = ''
     data.each_line do |line|
       if (!line.match(/^\s*#/)) then
         content << line
       end
     end
-    return content
+    content
   end
 
   def read_content
-    @content = ""
+    @content = ''
     @params = {}
 
     # skip if the main configuration file doesn't exist
@@ -72,7 +72,7 @@ class ApacheConf < Vulcano.resource(1)
       include_files = params['Include'] || []
       include_files_optional = params['IncludeOptional'] || []
 
-      required = Array.new
+      required = []
       include_files.each do |f|
         id = File.join(@conf_dir, f)
         required.push(FindFiles.find(id, depth: 1, type: 'file'))
@@ -83,7 +83,7 @@ class ApacheConf < Vulcano.resource(1)
         not @files_contents.key? fp
       end
 
-      optional = Array.new
+      optional = []
       include_files_optional.each do |f|
         id = File.join(@conf_dir, f)
         optional.push(FindFiles.find(id, depth: 1, type: 'file'))

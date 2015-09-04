@@ -7,7 +7,7 @@ $__SCOPE = self
 class MysqlSession < Vulcano.resource(1)
   name 'mysql_session'
 
-  def initialize user, pass
+  def initialize(user, pass)
     @user = user
     @pass = pass
     initialize_fallback if user.nil? or pass.nil?
@@ -34,7 +34,7 @@ class MysqlSession < Vulcano.resource(1)
 
   def initialize_fallback
     # support debian mysql administration login
-    debian = vulcano.run_command("test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf").stdout
+    debian = vulcano.run_command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
     unless debian.empty?
       user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)
       pass = debian.match(/^\s*password\s*=\s*([^ ]*)\s*$/)

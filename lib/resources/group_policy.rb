@@ -8,7 +8,7 @@ require 'json'
 def gpo (policy_path, policy_name)
   file = ::File.read(::File.join ::File.dirname(__FILE__), "gpo.json")
   gpo_hash = JSON.parse(file)
-  key = "Machine--" + policy_path + "--" + policy_name
+  key = 'Machine--' + policy_path + '--' + policy_name
   gpo_hash[key]
 end
 
@@ -24,9 +24,10 @@ class GroupPolicy < Vulcano.resource(1)
     val
   end
 
-  def convertValue (value)
+  def convertValue(value)
     val = value.strip
     val = val.to_i if val.match(/^\d+$/)
+    val
   end
 
   # returns nil, if not existant or value
@@ -39,15 +40,13 @@ class GroupPolicy < Vulcano.resource(1)
 
     # verify data
     if (val[:exit_code] == 0)
-      val = convertValue(val[:data])
+      return convertValue(val[:data])
     else
-      nil
+      return nil
     end
-
   end
 
   def to_s
     'Group Policy'
   end
-
 end
