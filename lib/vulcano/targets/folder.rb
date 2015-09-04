@@ -5,7 +5,7 @@ require 'vulcano/targets/file'
 module Vulcano::Targets
   class FolderHelper
     def handles?(target)
-      File::directory?(target)
+      File.directory?(target)
     end
 
     def resolve(target)

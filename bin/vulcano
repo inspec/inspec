@@ -22,13 +22,13 @@ class VulcanoCLI < Thor
         puts JSON.pretty_generate( vc.profiles )
       else
         dst = options[:output] || File.join( path, '.vulcano.json' )
-        if File::exist? dst
+        if File.exist? dst
           puts "----> updating #{dst}"
         else
           puts "----> creating #{dst}"
         end
-        fdst = File::expand_path(dst)
-        File::write(fdst, JSON.dump(vc.profiles))
+        fdst = File.expand_path(dst)
+        File.write(fdst, JSON.dump(vc.profiles))
       end
     end
   end

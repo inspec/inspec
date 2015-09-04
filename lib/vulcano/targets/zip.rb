@@ -10,7 +10,7 @@ module Vulcano::Targets
         while (entry = io.get_next_entry)
           content.push({
             content: io.read,
-            ref: File::join(input, entry.name),
+            ref: File.join(input, entry.name)
           })
         end
       end

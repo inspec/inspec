@@ -100,7 +100,7 @@ module Vulcano::DSL
   end
 
   def self.load_spec_file_for_profile(profile_id, file, rule_registry, only_ifs)
-    raw = File::read(file)
+    raw = File.read(file)
     # TODO: error-handling
 
     ctx = Vulcano::ProfileContext.new(profile_id, rule_registry, only_ifs)
