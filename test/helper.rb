@@ -2,6 +2,15 @@
 
 require 'minitest/autorun'
 require 'minitest/spec'
+
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/test/'
+  add_group 'Resources', 'lib/resources'
+  add_group 'Matchers', 'lib/matchers'
+  add_group 'Backends', 'lib/vulcano/backend'
+end
+
 require 'vulcano/backend'
 
 # loads a resource class and instantiates the class with the given arguments
