@@ -12,7 +12,8 @@ def loadResource (resource, *args)
     '/proc/net/bonding/bond0' => IO::File.join(scriptpath, '/unit/mock/files/bond0'),
     '/etc/ssh/ssh_config' => IO::File.join(scriptpath, '/unit/mock/files/ssh_config'),
     '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/files/sshd_config'),
-    '/etc/passwd' => IO::File.join(scriptpath, '/unit/mock/files/passwd')
+    '/etc/passwd' => IO::File.join(scriptpath, '/unit/mock/files/passwd'),
+    '/etc/ntp.conf' => IO::File.join(scriptpath, '/unit/mock/files/ntp.conf')
   }
 
   @cmd_mapping = {
