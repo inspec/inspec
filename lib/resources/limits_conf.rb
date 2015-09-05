@@ -4,11 +4,17 @@
 
 require 'utils/simpleconfig'
 
+# Usage:
+#
+# describe limits_conf do
+#   its('*') { should include ['hard','core','0'] }
+# end
+
 class LimitsConf < Vulcano.resource(1)
   name 'limits_conf'
 
-  def initialize(path)
-    @conf_path = path
+  def initialize(path = nil)
+    @conf_path = path || '/etc/security/limits.conf'
     @files_contents = {}
     @content = nil
     @params = nil
