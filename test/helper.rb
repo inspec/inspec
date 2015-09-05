@@ -13,7 +13,8 @@ def loadResource (resource, *args)
     '/etc/ssh/ssh_config' => IO::File.join(scriptpath, '/unit/mock/files/ssh_config'),
     '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/files/sshd_config'),
     '/etc/passwd' => IO::File.join(scriptpath, '/unit/mock/files/passwd'),
-    '/etc/ntp.conf' => IO::File.join(scriptpath, '/unit/mock/files/ntp.conf')
+    '/etc/ntp.conf' => IO::File.join(scriptpath, '/unit/mock/files/ntp.conf'),
+    '/etc/login.defs'  => IO::File.join(scriptpath, '/unit/mock/files/login.defs')
   }
 
   @cmd_mapping = {

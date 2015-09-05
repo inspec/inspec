@@ -4,6 +4,18 @@
 
 require 'utils/simpleconfig'
 
+# Usage:
+#
+# describe login_def do
+#   its('UMASK') {
+#     should eq '077'
+#   }
+#
+#   its('PASS_MAX_DAYS.to_i') {
+#     should be <= 90
+#   }
+# end
+
 class LoginDef < Vulcano.resource(1)
   name 'login_defs'
 
