@@ -36,7 +36,8 @@ class AuditDaemonConf < Vulcano.resource(1)
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
-    @params = SimpleConfig.new(@content,
+    @params = SimpleConfig.new(
+      @content,
       multiple_values: false
     ).params
   end

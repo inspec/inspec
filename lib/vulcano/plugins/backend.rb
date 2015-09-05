@@ -5,7 +5,7 @@ require 'digest'
 module Vulcano::Plugins
 
   class Backend
-    def self.name( name )
+    def self.name(name)
       Vulcano::Plugins::Backend.__register(name, self)
     end
 
@@ -100,18 +100,19 @@ module Vulcano::Plugins
       end
 
       # helper methods provided to any implementing class
+
       private
 
       UNIX_MODE_OWNERS = {
         owner: 00700,
         group: 00070,
-        other: 00007,
+        other: 00007
       }
 
       UNIX_MODE_TYPES = {
         r: 00444,
         w: 00222,
-        x: 00111,
+        x: 00111
       }
 
       def unix_mode_mask(owner, type)
@@ -123,8 +124,6 @@ module Vulcano::Plugins
 
         t & o
       end
-
     end
-
   end
 end

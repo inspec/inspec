@@ -84,8 +84,8 @@ module Vulcano::Backends
       ssh_opts = {
         port: @conf['port'] || 22,
         auth_methods: ['none'],
-        user_known_hosts_file: "/dev/null",
-        global_known_hosts_file: "/dev/null",
+        user_known_hosts_file: '/dev/null',
+        global_known_hosts_file: '/dev/null',
         number_of_password_prompts: 0,
         user: @conf['user'],
         password: @conf['password'],
@@ -93,13 +93,13 @@ module Vulcano::Backends
       }
 
       if host.empty?
-        fail "You must configure a target host."
+        fail 'You must configure a target host.'
       end
       unless ssh_opts[:port] > 0
         fail "Port must be > 0 (not #{ssh_opts[:port]})"
       end
       if ssh_opts[:user].to_s.empty?
-        fail "User must not be empty."
+        fail 'User must not be empty.'
       end
       unless ssh_opts[:keys].empty?
         ssh_opts[:auth_methods].push('publickey')
@@ -109,12 +109,11 @@ module Vulcano::Backends
         ssh_opts[:auth_methods].push('password')
       end
       if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
-        fail "You must configure at least one authentication method" +
-          ": Password or key."
+        fail 'You must configure at least one authentication method' \
+          ': Password or key.'
       end
 
       si.ssh_options = ssh_opts
-
     end
 
     def configure_winrm
@@ -166,7 +165,6 @@ module Vulcano::Backends
   end
 
   class SpecinfraHelper
-
     class File < FileCommon
       TYPES = {
         socket:           00140000,
@@ -185,7 +183,7 @@ module Vulcano::Backends
         path = Shellwords.escape(@path)
         raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
         tmask = raw_type.to_i(16)
-        res = TYPES.find{|x, mask| mask & tmask == mask}
+        res = TYPES.find{ |x, mask| mask & tmask == mask }
         return :unknown if res.nil?
         res[0]
       end

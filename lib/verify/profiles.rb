@@ -15,7 +15,7 @@ module Vulcano
     end
 
     def add_folder(f)
-      path = File::expand_path(f)
+      path = File.expand_path(f)
       if File.directory? path
         add_specs_in_folder path
       else
@@ -25,7 +25,7 @@ module Vulcano
     end
 
     def valid_folder?(f)
-      path = File::expand_path(f)
+      path = File.expand_path(f)
       if !File.directory? path
         return @log.error "This is not a folder: #{path}"
       else
@@ -39,15 +39,15 @@ module Vulcano
       if specs.empty?
         @log.warn "No tests found in #{path}"
       end
-      specs.each{|s| valid_spec? s, metadata }
+      specs.each { |s| valid_spec? s, metadata }
     end
 
     def valid_spec?(f, metadata)
-      return @log.error "Can't find spec file #{f}" unless File::file? f
+      return @log.error "Can't find spec file #{f}" unless File.file? f
       # validation tracking
       valid = true
       invalid = lambda {|type, msg|
-        @log.send type, "#{msg} (#{File::basename f})"
+        @log.send type, "#{msg} (#{File.basename f})"
         valid = false if type == :error
       }
       # Load the spec file
@@ -59,14 +59,14 @@ module Vulcano
       # detect missing metadata
       meta = specs.metadata
       if meta['title'].nil?
-        invalid.(:warn, "Missing title in spec file")
+        invalid.(:warn, 'Missing title in spec file')
       end
       if meta['copyright'].nil?
-        invalid.(:warn, "Missing copyright in spec file")
+        invalid.(:warn, 'Missing copyright in spec file')
       end
       # detect empty rules
       unless meta['rules'][''].nil?
-        invalid.(:error, "Please configure IDs for all rules.")
+        invalid.(:error, 'Please configure IDs for all rules.')
       end
 
       meta['rules'].each do |k,v|
@@ -92,7 +92,7 @@ module Vulcano
       meta = Metadata.for_path(path, @profile_id, @log)
 
       Dir["#{path}/spec/*_spec.rb"].each do |specfile|
-        rel_path = specfile.sub(File.join(path,''), '')
+        rel_path = specfile.sub(File.join(path, ''), '')
         specs = SpecFile.from_file(specfile, meta)
         allrules[rel_path] = sanitize_specfile_json(specs.metadata)
       end
@@ -102,9 +102,9 @@ module Vulcano
     end
 
     def sanitize_specfile_json(j)
-      j['rules'].each do |k,v|
+      j['rules'].each do |k, v|
         v['title'] = k if v['title'].nil?
-        v['desc'] = "" if v['desc'].nil?
+        v['desc'] = '' if v['desc'].nil?
         v['impact'] = 0.5 if v['impact'].nil?
       end
       j

@@ -10,9 +10,9 @@ module Vulcano::Targets
 
     def resolve(target)
       # find all files in the folder
-      files = Dir[File.join(target,'**','*')]
+      files = Dir[File.join(target, '**', '*')]
       # remove the prefix
-      files = files.map{|x| x[target.length+1..-1]}
+      files = files.map { |x| x[target.length + 1..-1] }
       # get the dirs helper
       helper = DirsHelper.getHandler(files)
       if helper.nil?
@@ -22,7 +22,7 @@ module Vulcano::Targets
       file_handler = Vulcano::Targets.modules['file']
       test_files = helper.get_filenames(files)
       test_files.map do |f|
-        file_handler.resolve(File.join(target,f))
+        file_handler.resolve(File.join(target, f))
       end
     end
   end

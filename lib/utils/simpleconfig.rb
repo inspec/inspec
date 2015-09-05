@@ -28,14 +28,14 @@ class SimpleConfig
     start_idx = 2
     i = 0
     count = values - 1
-    if (values == 1) then
+    if (values == 1)
       return match[start_idx]
     else
       # iterate over expected parameters
       values = []
       begin
-        values.push(match[start_idx+i])
-        i +=1;
+        values.push(match[start_idx + i])
+        i += 1
       end until i > count
       return values
     end
@@ -45,18 +45,18 @@ class SimpleConfig
     idx_nl = rest.index("\n")
     idx_comment = rest.index(opts[:comment_char])
     idx_nl = rest.length if idx_nl.nil?
-    idx_comment = idx_nl+1 if idx_comment.nil?
+    idx_comment = idx_nl + 1 if idx_comment.nil?
     # is a comment inside this line
     if idx_comment < idx_nl
       if idx_comment == 0
         line = ''
       else
-        line = rest[0..(idx_comment-1)]
+        line = rest[0..(idx_comment - 1)]
         # in case we don't allow comments at the end
         # of an assignment/statement, ignore it and fall
         # back to treating this as a regular line
         if opts[:standalone_comments] && !is_empty_line(line)
-          line = rest[0..(idx_nl-1)]
+          line = rest[0..(idx_nl - 1)]
         end
       end
     # if there is no comment in this line
@@ -64,7 +64,7 @@ class SimpleConfig
       if idx_nl == 0
         line = ''
       else
-        line = rest[0..(idx_nl-1)]
+        line = rest[0..(idx_nl - 1)]
       end
     end
     # now line contains what we are interested in parsing
@@ -86,10 +86,10 @@ class SimpleConfig
     end
 
     # return whatever is left
-    return rest[(idx_nl+1)..-1] || ''
+    rest[(idx_nl + 1)..-1] || ''
   end
 
-  def is_empty_line l
+  def is_empty_line(l)
     l =~ /^\s*$/
   end
 
@@ -104,5 +104,4 @@ class SimpleConfig
       multiple_values: false
     }
   end
-
 end

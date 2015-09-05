@@ -6,7 +6,7 @@ module Vulcano
   # Extract vmetadata.rb information
   class Metadata
     attr_reader :dict
-    def initialize log = nil
+    def initialize(log = nil)
       @log = log || Log.new
       @dict = {}
     end
@@ -28,7 +28,7 @@ module Vulcano
       end
     end
 
-    def supports sth, version = nil
+    def supports(sth, version = nil)
       @dict['supports'] ||= []
       @dict['supports'].push({
         'os' => sth,
@@ -55,8 +55,8 @@ module Vulcano
 
     def self.for_path(path, profile_id, log = nil)
       log ||= Log.new
-      dpath = File::join(path, 'vmetadata.rb')
-      if !File::file?(dpath)
+      dpath = File.join(path, 'vmetadata.rb')
+      if !File.file?(dpath)
         log.error "Missing vmetadata.rb in #{path}"
         return nil
       end

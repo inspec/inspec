@@ -14,10 +14,10 @@ class MysqlSession < Vulcano.resource(1)
     skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
   end
 
-  def describe(query, db = "", &block)
+  def describe(query, db = '', &block)
     # TODO: simple escape, must be handled by a library
     # that does this securely
-    escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/,'\\"').gsub(/\$/,'\\$')
+    escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
     # run the query
     cmd = vulcano.run_command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr

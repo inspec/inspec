@@ -6,7 +6,7 @@ module Vulcano::Targets
   class TarHelper
     def structure(input)
       files = []
-      Gem::Package::TarReader.new( Zlib::GzipReader.open input ) do |tar|
+      Gem::Package::TarReader.new(Zlib::GzipReader.open input) do |tar|
         files = tar.map{|entry| entry.full_name }
       end
       files
@@ -14,7 +14,7 @@ module Vulcano::Targets
 
     def content(input)
       content = {}
-      Gem::Package::TarReader.new( Zlib::GzipReader.open input ) do |tar|
+      Gem::Package::TarReader.new(Zlib::GzipReader.open input) do |tar|
         tar.each do |entry|
           if entry.directory?
             # nothing to do

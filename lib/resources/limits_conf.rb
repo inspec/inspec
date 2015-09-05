@@ -35,7 +35,8 @@ class LimitsConf < Vulcano.resource(1)
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
     # parse the file
-    @params = SimpleConfig.new(@content,
+    @params = SimpleConfig.new(
+      @content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
       key_vals: 3,
       multiple_values: true

@@ -61,7 +61,8 @@ class ApacheConf < Vulcano.resource(1)
       @content += raw_conf
 
       # parse include file parameters
-      params = SimpleConfig.new(raw_conf,
+      params = SimpleConfig.new(
+        raw_conf,
         assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
         multiple_values: true
       ).params

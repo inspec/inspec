@@ -17,7 +17,8 @@ module Vulcano::Resources
     def read_content
       # parse the file
       @content = @file.content
-      @params = SimpleConfig.new(@file.content,
+      @params = SimpleConfig.new(
+        @file.content,
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true
       ).params if @file.exists?

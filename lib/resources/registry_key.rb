@@ -19,7 +19,7 @@ class RegistryKey < Vulcano.resource(1)
   def getRegistryValue(path, key)
     cmd = "(Get-Item 'Registry::#{path}').GetValue('#{key}')"
     command_result ||= @runner.run_command(cmd)
-    val = { :exit_code => command_result.exit_status.to_i, :data => command_result.stdout }
+    val = { exit_code: command_result.exit_status.to_i, data: command_result.stdout }
     val
   end
 

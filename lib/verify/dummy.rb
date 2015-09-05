@@ -21,9 +21,9 @@ module DummyTestTypes
 end
 
 module DummyVulcanoTypes
-  %w(
+  %w{
     attributes registry_key
-  ).each do |name|
+  }.each do |name|
     define_method name do |*arg|
     end
   end

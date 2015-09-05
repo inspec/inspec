@@ -13,11 +13,9 @@ module Vulcano::Resources
 
     %w{
       type exists? file? block_device? character_device? socket? directory?
-        symlink? pipe?
-      mode mode? owner owned_by? group grouped_into? link_target linked_to?
-        content mtime size selinux_label
-        mounted? immutable? product_version file_version version?
-        md5sum sha256sum
+      symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
+      linked_to? content mtime size selinux_label mounted? immutable?
+      product_version file_version version? md5sum sha256sum
     }.each do |m|
       define_method m.to_sym do |*args|
         @file.method(m.to_sym).call(*args)
@@ -32,7 +30,7 @@ module Vulcano::Resources
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'r') ||
             fail("#{by_owner} is not a valid unix owner.")
-        ( @file.mask & m ) != 0
+        (@file.mask & m) != 0
       else
         # TODO: REMOVE THIS FALLBACK
         Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
@@ -43,7 +41,7 @@ module Vulcano::Resources
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'w') ||
             fail("#{by_owner} is not a valid unix owner.")
-        ( @file.mask & m ) != 0
+        (@file.mask & m) != 0
       else
         # TODO: REMOVE THIS FALLBACK
         Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
@@ -54,7 +52,7 @@ module Vulcano::Resources
       if by_user.nil?
         m = unix_mode_mask(by_owner, 'x') ||
             fail("#{by_owner} is not a valid unix owner.")
-        ( @file.mask & m ) != 0
+        (@file.mask & m) != 0
       else
         # TODO: REMOVE THIS FALLBACK
         Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
