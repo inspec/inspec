@@ -14,10 +14,14 @@ def loadResource (resource, *args)
     '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/sshd_config')
   }
 
+  @cmd_mapping = {
+    'ps aux' => IO::File.join(scriptpath, '/unit/mock/cmd/ps-aux')
+  }
+
   # create mock backend
   conf = Vulcano::Backend.target_config({})
   backend_class = Vulcano::Backend.registry['mock']
-  @backend = backend_class.new(conf, @mapping)
+  @backend = backend_class.new(conf, @mapping, @cmd_mapping)
 
   # load resource
   @rclass = Vulcano::Resource.registry[resource]
