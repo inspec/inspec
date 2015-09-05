@@ -15,7 +15,10 @@ def loadResource (resource, *args)
   }
 
   @cmd_mapping = {
-    'ps aux' => IO::File.join(scriptpath, '/unit/mock/cmd/ps-aux')
+    'ps aux' => IO::File.join(scriptpath, '/unit/mock/cmd/ps-aux'),
+    'type win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/secedit-export'),
+    'secedit /export /cfg win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
+    'del win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success')
   }
 
   # create mock backend

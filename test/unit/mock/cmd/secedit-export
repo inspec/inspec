@@ -1,0 +1,7 @@
+[System Access]
+MaximumPasswordAge = 42
+[Registry Values]
+MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel=4,0
+[Privilege Rights]
+SeUndockPrivilege = *S-1-5-32-544
+SeRemoteInteractiveLogonRight = *S-1-5-32-544,*S-1-5-32-555
