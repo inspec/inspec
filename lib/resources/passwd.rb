@@ -11,12 +11,25 @@
 # - home directory
 # - command
 
+# usage:
+#
+# describe passwd do
+#   its(:usernames) { should eq 'root' }
+#   its(:uids) { should eq 1 }
+# end
+#
+# describe passwd.uid(0) do
+#   its(:username) { should eq 'root' }
+#   its(:count) { should eq 1 }
+# end
+
 class Passwd < Vulcano.resource(1)
   name 'passwd'
 
-  attr_accessor :uid
+  attr_reader :uid
+  attr_reader :parsed
 
-  def initialize(path = nil, uid: nil)
+  def initialize(path = nil)
     @path = path || '/etc/passwd'
     @content = vulcano.file(@path).content
     @parsed = parse(@content)
@@ -26,26 +39,13 @@ class Passwd < Vulcano.resource(1)
     @path
   end
 
-  def determine_uid
-    uids = []
-    @parsed.each {|x|
-      if ( x.at(2) == "#{@uid}") then
-        uids.push(x.at(0))
-      end
-    }
-    uids
+  # call passwd().uid(0)
+  # returns a seperate object with reference to this object
+  def uid(uid)
+    PasswdUid.new(self, uid)
   end
 
-  def username
-    uids = determine_uid
-    uids.at(0)
-  end
-
-  def count
-    arr = determine_uid
-    arr.length
-  end
-
+  # works without uid parameter
   def map_data(id)
     @parsed.map {|x|
       x.at(id)
@@ -88,5 +88,33 @@ class Passwd < Vulcano.resource(1)
     content.split("\n").map do |line|
       line.split(':')
     end
+  end
+end
+
+# object that hold a specifc uid view on passwd
+class PasswdUid
+  def initialize(passwd, uid)
+    @passwd = passwd
+    @uid = uid
+  end
+
+  def determine_uid
+    uids = []
+    @passwd.parsed.each {|x|
+      if (x.at(2) == "#{@uid}")
+        uids.push(x.at(0))
+      end
+    }
+    uids
+  end
+
+  def username
+    uids = determine_uid
+    uids.at(0)
+  end
+
+  def count
+    arr = determine_uid
+    arr.length
   end
 end
