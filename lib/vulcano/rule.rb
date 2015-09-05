@@ -31,7 +31,7 @@ module Vulcano::DSL
   def describe(*args, &block)
     path = block.source_location[0]
     line = block.source_location[1]
-    id = "#{File::basename(path)}:#{line}"
+    id = "#{File.basename(path)}:#{line}"
     rule = Vulcano::Rule.new(id, {}) do
       describe *args, &block
     end
@@ -61,7 +61,7 @@ module Vulcano::DSL
   def self.execute_rule(r, profile_id)
     checks = r.instance_variable_get(:@checks)
     fid = VulcanoBaseRule.full_id(r, profile_id)
-    checks.each do |m,a,b|
+    checks.each do |m, a, b|
       # check if the resource is skippable and skipped
       if a.is_a?(Array) && !a.empty? &&
          a[0].respond_to?(:resource_skipped) &&
@@ -84,7 +84,7 @@ module Vulcano::DSL
   # merge two rules completely; all defined
   # fields from src will be overwritten in dst
   def self.merge_rules(dst, src)
-    VulcanoBaseRule::merge dst, src
+    VulcanoBaseRule.merge dst, src
   end
 
   # Attach an ID attribute to the
@@ -129,7 +129,7 @@ module Vulcano::DSL
     # that were defined in the block
     unless include_all
       remove = rule_registry.keys - block_registry.keys
-      remove.each{|key| rule_registry.delete(key)}
+      remove.each { |key| rule_registry.delete(key) }
     end
 
     # merge the rules in the block_registry (adjustments) with
@@ -162,7 +162,7 @@ module Vulcano::DSL
       if File.directory? libdir and !$LOAD_PATH.include?(libdir)
         $LOAD_PATH.unshift(libdir)
       end
-      files = Dir[File.join(path, 'spec','*_spec.rb')]
+      files = Dir[File.join(path, 'spec', '*_spec.rb')]
     end
     files
   end
@@ -170,11 +170,11 @@ module Vulcano::DSL
 end
 
 module Vulcano::GlobalDSL
-  def __register_rule r
+  def __register_rule(r)
     # make sure the profile id is attached to the rule
     ::Vulcano::DSL.execute_rule(r, __profile_id)
   end
-  def __unregister_rule id
+  def __unregister_rule(id)
   end
 end
 

@@ -4,7 +4,7 @@ module Vulcano::Backends
   class Mock < Vulcano.backend(1)
     name 'mock'
 
-    def initialize(conf , mapping = {})
+    def initialize(conf, mapping = {})
       @conf = conf
       @files = {}
       @mapping = mapping
@@ -28,7 +28,6 @@ module Vulcano::Backends
 
   class Mock
     class File
-
       def initialize(runtime, path, mock = true)
         @path = path
         # mock dataset
@@ -38,7 +37,7 @@ module Vulcano::Backends
           @size = 0
           @content = ''
           if @exists && @is_file
-            @size = ( rand ** 3 * 1000 ).to_i
+            @size = (rand**3 * 1000).to_i
             @size = 0 if rand < 0.2
           end
           if @size > 0
@@ -82,6 +81,5 @@ module Vulcano::Backends
         @stderr = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
       end
     end
-
   end
 end

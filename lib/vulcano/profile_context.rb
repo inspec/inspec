@@ -2,13 +2,11 @@
 require 'vulcano/backend'
 
 module Vulcano
-
   class ProfileContext
-
     attr_reader :rules, :only_ifs
     def initialize(profile_id, backend, profile_registry: {}, only_ifs: [])
       if backend.nil?
-        fail 'ProfileContext is initiated with a backend == nil. ' +
+        fail 'ProfileContext is initiated with a backend == nil. ' \
               'This is a backend error which must be fixed upstream.'
       end
 
@@ -48,15 +46,15 @@ module Vulcano
     end
 
     def unregister_rule(id)
-      full_id = VulcanoBaseRule::full_id(@profile_id, id)
+      full_id = VulcanoBaseRule.full_id(@profile_id, id)
       @rules[full_id] = nil
     end
 
     def register_rule(r)
       # get the full ID
-      full_id = VulcanoBaseRule::full_id(@profile_id, r)
+      full_id = VulcanoBaseRule.full_id(@profile_id, r)
       if full_id.nil?
-        # TODO error
+        # TODO: error
         return
       end
       # add the rule to the registry
@@ -64,7 +62,7 @@ module Vulcano
       if existing.nil?
         @rules[full_id] = r
       else
-        VulcanoBaseRule::merge(existing, r)
+        VulcanoBaseRule.merge(existing, r)
       end
     end
   end

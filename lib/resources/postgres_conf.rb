@@ -65,7 +65,6 @@ class PostgresConf < Vulcano.resource(1)
         not @files_contents.key? fp
       end
     end
-    #
     @content
   end
 

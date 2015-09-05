@@ -10,7 +10,7 @@ class Processes < Vulcano.resource(1)
     # turn into a regexp if it isn't one yet
     if grep.class == String
       grep = '(/[^/]*)*'+grep if grep[0] != '/'
-      grep = Regexp.new('^'+grep+'(\s|$)')
+      grep = Regexp.new('^' + grep + '(\s|$)')
     end
 
     # get all running processes

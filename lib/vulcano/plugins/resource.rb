@@ -2,9 +2,8 @@
 
 module Vulcano
   module Plugins
-
     class Resource
-      def self.name( name )
+      def self.name(name)
         Vulcano::Plugins::Resource.__register(name, self)
       end
 
@@ -14,7 +13,7 @@ module Vulcano
           include Vulcano::Plugins::ResourceCommon
           def initialize(backend, *args)
             # attach the backend to this instance
-            self.class.send(:define_method, :vulcano){backend}
+            self.class.send(:define_method, :vulcano) { backend }
             # call the resource initializer
             super(*args)
           end
@@ -30,10 +29,9 @@ module Vulcano
         @resource_skipped
       end
 
-      def skip_resource message
+      def skip_resource(message)
         @resource_skipped = message
       end
     end
-
   end
 end

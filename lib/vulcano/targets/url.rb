@@ -5,7 +5,6 @@ require 'open-uri'
 require 'vulcano/targets/zip'
 
 module Vulcano::Targets
-
   class UrlHelper
     def handles?(target)
       uri = URI.parse(target)
@@ -14,7 +13,7 @@ module Vulcano::Targets
 
     def resolve(target)
       if target.start_with? 'https://github.com' and target.end_with? '.git'
-        url = target.sub(/.git$/,'') + '/archive/master.zip'
+        url = target.sub(/.git$/, '') + '/archive/master.zip'
         return resolve_zip(url)
       end
     end

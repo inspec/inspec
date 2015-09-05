@@ -94,24 +94,24 @@ class ParseConfig
   # DEPRECATED - will be removed in future versions
   #
   def get_value(param)
-    puts "ParseConfig Deprecation Warning: get_value() is deprecated. Use " + \
-         "config['param'] or config['group']['param'] instead."
-    return self.params[param]
+    puts 'ParseConfig Deprecation Warning: get_value() is deprecated. Use ' \
+      "config['param'] or config['group']['param'] instead."
+    self.params[param]
   end
 
   # This method is a shortcut to accessing the @params variable
   def [](param)
-    return self.params[param]
+    self.params[param]
   end
 
   # This method returns all parameters/groups defined in a config file.
   def get_params()
-    return self.params.keys
+    self.params.keys
   end
 
   # List available sub-groups of the config.
   def get_groups()
-    return self.groups
+    self.groups
   end
 
   # This method adds an element to the config object (not the config file)

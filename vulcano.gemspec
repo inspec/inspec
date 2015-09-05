@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Vulcano::VERSION
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik@vulcanosec.com']
-  spec.summary       = %q{Validate Vulcano compliance checks.}
-  spec.description   = %q{Validate Vulcano compliance checks.}
+  spec.summary       = 'Validate Vulcano compliance checks.'
+  spec.description   = 'Validate Vulcano compliance checks.'
   spec.homepage      = 'https://github.com/...'
   spec.license       = 'Proprietary'
 

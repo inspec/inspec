@@ -2,7 +2,6 @@
 
 module Vulcano::Targets
   module DirsHelper
-
     class ChefAuditDir
       def handles?(paths)
         paths.include?('recipes') and paths.include?('metadata.rb')
@@ -33,17 +32,16 @@ module Vulcano::Targets
       end
 
       def get_filenames(paths)
-        paths.find_all{|x| x.end_with?('.rb') and !x.include?('/')}
+        paths.find_all { |x| x.end_with?('.rb') and !x.include?('/') }
       end
     end
 
     HANDLERS = [
       ChefAuditDir, ServerspecDir, FlatDir
-    ].map{|x| x.new }
+    ].map { |x| x.new }
 
     def self.getHandler(paths)
-      HANDLERS.find{|x| x.handles? paths}
+      HANDLERS.find { |x| x.handles? paths }
     end
-
   end
 end

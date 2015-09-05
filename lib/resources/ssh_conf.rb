@@ -9,7 +9,7 @@ class SshConf < Vulcano.resource(1)
 
   def initialize(conf_path = nil, type = nil)
     @conf_path = conf_path || '/etc/ssh/ssh_config'
-    typename = ( @conf_path.include?('sshd') ? 'Server' : 'Client' )
+    typename = (@conf_path.include?('sshd') ? 'Server' : 'Client')
     @type = type || "SSH #{typename} configuration #{conf_path}"
     read_content
   end

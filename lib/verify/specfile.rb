@@ -8,7 +8,7 @@ require 'method_source'
 # the user may use dynamic evaluations via pry
 begin
   require 'pry'
-rescue LoadError
+  rescue LoadError
 end
 
 module Vulcano
@@ -27,7 +27,7 @@ module Vulcano
     end
 
     def __get_block_source(&block)
-      return "" unless block_given?
+      return '' unless block_given?
       block.source.to_s
     end
 
@@ -61,8 +61,8 @@ module Vulcano
     # of this profile
     def require(sth)
       # ignore vulcano includes, we already have those
-      lib = File::expand_path( File.join @path, '..', '..', 'lib', "#{sth}.rb" )
-      if File::file? lib
+      lib = File.expand_path(File.join @path, '..', '..', 'lib', "#{sth}.rb")
+      if File.file? lib
         require_relative lib
       end
     end
@@ -70,19 +70,18 @@ module Vulcano
     def method_missing(sth, *args)
       @errors.push "Don't understand method #{sth} ( #{args} )."
     end
-
   end
 end
 
 module Vulcano
   class SpecFile
-    Log = ::Vulcano::Log.new()
+    Log = ::Vulcano::Log.new
 
     attr_reader :errors, :rules
-    def initialize path, metadata
-      @filename = File::basename(path)
+    def initialize(path, metadata)
+      @filename = File.basename(path)
       @rules = []
-      @raw = File::read(path)
+      @raw = File.read(path)
       @profile_id = metadata.dict['name']
       @invalid_calls = []
 
@@ -93,7 +92,7 @@ module Vulcano
     end
 
     def metadata
-      header = @raw.sub(/^[^#].*\Z/m,'')
+      header = @raw.sub(/^[^#].*\Z/m, '')
       {
         'title' => mOr(header.match(/^# title: (.*)$/), @filename),
         'copyright' => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
@@ -102,7 +101,7 @@ module Vulcano
     end
 
     def self.from_file(path, metadata)
-      if !File::file?(path)
+      if !File.file?(path)
         Log.error "Can't find spec file in #{path}"
         return nil
       end
@@ -130,8 +129,8 @@ module Vulcano
           res[id] = nu
         else
           Log.error(
-            "Not redefining rule id #{id}:\n"+
-            "-- #{res[id]}\n"+
+            "Not redefining rule id #{id}:\n" \
+            "-- #{res[id]}\n" \
             "++ #{nu}\n"
           )
         end

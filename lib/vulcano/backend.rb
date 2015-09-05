@@ -17,7 +17,7 @@ module Vulcano
 
       return conf if conf['target'].to_s.empty?
 
-      uri = URI::parse(conf['target'].to_s)
+      uri = URI.parse(conf['target'].to_s)
       conf['backend']  = conf['backend']  || uri.scheme
       conf['host']     = conf['host']     || uri.host
       conf['port']     = conf['port']     || uri.port

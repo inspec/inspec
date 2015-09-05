@@ -21,5 +21,5 @@ require 'matchers/matchers'
 # which may be injected by the user. This covers data
 # like passwords, usernames, or configuration flags.
 def attributes(what, required: false)
-  return nil
+  nil
 end
