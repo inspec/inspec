@@ -1,0 +1,7 @@
+# Comment
+Port 22
+UsePAM yes
+# ListenAddress 1.2.3.4
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
