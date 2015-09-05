@@ -16,7 +16,8 @@ def loadResource (resource, *args)
     '/etc/ntp.conf' => IO::File.join(scriptpath, '/unit/mock/files/ntp.conf'),
     '/etc/login.defs' => IO::File.join(scriptpath, '/unit/mock/files/login.defs'),
     '/etc/security/limits.conf' => IO::File.join(scriptpath, '/unit/mock/files/limits.conf'),
-    '/etc/inetd.conf' => IO::File.join(scriptpath, '/unit/mock/files/inetd.conf')
+    '/etc/inetd.conf' => IO::File.join(scriptpath, '/unit/mock/files/inetd.conf'),
+    '/etc/group' => IO::File.join(scriptpath, '/unit/mock/files/group')
   }
 
   @cmd_mapping = {
