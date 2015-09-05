@@ -31,7 +31,10 @@ class SshConf < Vulcano.resource(1)
   end
 
   def method_missing(name)
-    @params[name.to_s]
+    param = @params[name.to_s]
+    # extract first value if we have only one value in array
+    param = param[0] if !param.nil? && param.length == 1
+    param
   end
 
   private
@@ -50,7 +53,7 @@ class SshConf < Vulcano.resource(1)
     # parse the file
     @params = SimpleConfig.new(@conf.content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: true
     ).params
   end
 end
