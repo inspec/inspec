@@ -30,17 +30,36 @@ Metrics/AbcSize:
 Style/DotPosition:
   EnforcedStyle: trailing
   Enabled: true
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  '{}'
+    '%i': ()
+    '%q': '{}'
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': '{}'
+    '%W': ()
+    '%x': ()
 Style/AlignHash:
   Enabled: false
 Style/PredicateName:
-  NamePrefix:
-    - is_
-    - has_
-    - have_
-  NamePrefixBlacklist:
+  Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/BracesAroundHashParameters:
   Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/Not:
+  Enabled: false
+Style/NegatedIf:
+  Enabled: false
+Style/UnlessElse:
+  Enabled: false
 BlockDelimiters:
+  Enabled: false
+Style/SpaceAroundOperators:
+  Enabled: false
+Style/IfUnlessModifier:
   Enabled: false
