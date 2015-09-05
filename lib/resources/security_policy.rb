@@ -43,10 +43,10 @@ class SecurityPolicy < Vulcano.resource(1)
     end
 
     # find line with key
-    key = method.to_s
+    key = Regexp.escape(method.to_s)
     target = ''
     @@policy.each_line {|s|
-      target = s.strip if s.match(/\b#{key}\s*=\s*(.*)\b/)
+      target = s.strip if s.match(/^\s*#{key}\s*=\s*(.*)\b/)
     }
 
     # extract variable value
