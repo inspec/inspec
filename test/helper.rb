@@ -9,9 +9,9 @@ def loadResource (resource, *args)
   # test mappings
   scriptpath = IO::File.realpath(IO::File.dirname(__FILE__))
   @mapping = {
-    '/proc/net/bonding/bond0' => IO::File.join(scriptpath, '/unit/mock/bond0'),
-    '/etc/ssh/ssh_config' => IO::File.join(scriptpath, '/unit/mock/ssh_config'),
-    '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/sshd_config')
+    '/proc/net/bonding/bond0' => IO::File.join(scriptpath, '/unit/mock/files/bond0'),
+    '/etc/ssh/ssh_config' => IO::File.join(scriptpath, '/unit/mock/files/ssh_config'),
+    '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/files/sshd_config')
   }
 
   @cmd_mapping = {
