@@ -13,10 +13,11 @@
 class SecurityPolicy < Vulcano.resource(1)
   name 'security_policy'
 
-  # static variable, shared across all instances
-  @@loaded = false
-  @@policy = nil
-  @@exit_status = nil
+  def initialize
+    @loaded = false
+    @policy = nil
+    @exit_status = nil
+  end
 
   # load security content
   def load
@@ -27,10 +28,9 @@ class SecurityPolicy < Vulcano.resource(1)
     # delete temp file
     vulcano.run_command('del win_secpol.cfg')
 
-    @@exit_status = command_result.exit_status.to_i
-    @@policy = command_result.stdout
-
-    @@loaded = true
+    @exit_status = command_result.exit_status.to_i
+    @policy = command_result.stdout
+    @loaded = true
 
     # returns self
     self
@@ -38,14 +38,14 @@ class SecurityPolicy < Vulcano.resource(1)
 
   def method_missing(method)
     # load data if needed
-    if (@@loaded == false)
+    if (@loaded == false)
       load
     end
 
     # find line with key
     key = Regexp.escape(method.to_s)
     target = ''
-    @@policy.each_line {|s|
+    @policy.each_line {|s|
       target = s.strip if s.match(/^\s*#{key}\s*=\s*(.*)\b/)
     }
 
