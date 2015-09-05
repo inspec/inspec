@@ -4,10 +4,11 @@ module Vulcano::Backends
   class Mock < Vulcano.backend(1)
     name 'mock'
 
-    def initialize(conf, mapping = {})
+    def initialize(conf, mapping = {}, cmd_mapping = {})
       @conf = conf
       @files = {}
       @mapping = mapping
+      @cmd_mapping = cmd_mapping
     end
 
     def file(path)
@@ -18,7 +19,12 @@ module Vulcano::Backends
 
     def run_command(cmd)
       puts "--> run command #{cmd}"
-      Command.new(self, cmd)
+      result = Command.new(self, cmd)
+
+      mapping = @cmd_mapping[cmd]
+      # read simulation data
+      return result if mapping.nil?
+      Command.new(self, cmd, File.new(self, mapping, false).content, '', 0)
     end
 
     def to_s
@@ -74,11 +80,11 @@ module Vulcano::Backends
     end
 
     class Command
-      attr_reader :stdout, :stderr, :exit_status
-      def initialize(runtime, cmd)
-        @exit_code = (rand < 0.7) ? 0 : (100 * rand).to_i
-        @stdout = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
-        @stderr = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
+      attr_accessor :stdout, :stderr, :exit_status
+      def initialize(runtime, cmd, stdout = nil, stderr = nil, exit_code = nil)
+        @exit_code = exit_code || (rand < 0.7) ? 0 : (100 * rand).to_i
+        @stdout =    stdout    || (0...50).map { ('a'..'z').to_a[rand(26)] }.join
+        @stderr =    stderr    || (0...50).map { ('a'..'z').to_a[rand(26)] }.join
       end
     end
   end
