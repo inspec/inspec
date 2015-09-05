@@ -26,7 +26,8 @@ def loadResource (resource, *args)
     'secedit /export /cfg win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
     'del win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
     'su - root -c \'echo $PATH\'' => IO::File.join(scriptpath, '/unit/mock/cmd/PATH'),
-    '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => IO::File.join(scriptpath, '/unit/mock/cmd/reg_schedule')
+    '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => IO::File.join(scriptpath, '/unit/mock/cmd/reg_schedule'),
+    'Auditpol /get /subcategory:\'User Account Management\' /r'  => IO::File.join(scriptpath, '/unit/mock/cmd/auditpol')
   }
 
   # create mock backend
