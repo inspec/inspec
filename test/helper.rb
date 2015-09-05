@@ -6,11 +6,12 @@ require 'vulcano/backend'
 
 # loads a resource class and instantiates the class with the given arguments
 def loadResource (resource, *args)
-
   # test mappings
   scriptpath = IO::File.realpath(IO::File.dirname(__FILE__))
   @mapping = {
-    '/proc/net/bonding/bond0' => IO::File.join(scriptpath, '/unit/mock/bond0')
+    '/proc/net/bonding/bond0' => IO::File.join(scriptpath, '/unit/mock/bond0'),
+    '/etc/ssh/ssh_config' => IO::File.join(scriptpath, '/unit/mock/ssh_config'),
+    '/etc/ssh/sshd_config' => IO::File.join(scriptpath, '/unit/mock/sshd_config')
   }
 
   # create mock backend
@@ -26,5 +27,4 @@ def loadResource (resource, *args)
 
   # initialize resource with backend and parameters
   @resource = @rclass.new(*args)
-
 end
