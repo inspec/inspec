@@ -17,7 +17,8 @@ def loadResource (resource, *args)
     '/etc/login.defs' => IO::File.join(scriptpath, '/unit/mock/files/login.defs'),
     '/etc/security/limits.conf' => IO::File.join(scriptpath, '/unit/mock/files/limits.conf'),
     '/etc/inetd.conf' => IO::File.join(scriptpath, '/unit/mock/files/inetd.conf'),
-    '/etc/group' => IO::File.join(scriptpath, '/unit/mock/files/group')
+    '/etc/group' => IO::File.join(scriptpath, '/unit/mock/files/group'),
+    '/etc/audit/auditd.conf' => IO::File.join(scriptpath, '/unit/mock/files/auditd.conf')
   }
 
   @cmd_mapping = {
@@ -27,7 +28,8 @@ def loadResource (resource, *args)
     'del win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
     'su - root -c \'echo $PATH\'' => IO::File.join(scriptpath, '/unit/mock/cmd/PATH'),
     '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => IO::File.join(scriptpath, '/unit/mock/cmd/reg_schedule'),
-    'Auditpol /get /subcategory:\'User Account Management\' /r'  => IO::File.join(scriptpath, '/unit/mock/cmd/auditpol')
+    'Auditpol /get /subcategory:\'User Account Management\' /r' => IO::File.join(scriptpath, '/unit/mock/cmd/auditpol'),
+    '/sbin/auditctl -l' => IO::File.join(scriptpath, '/unit/mock/cmd/auditctl')
   }
 
   # create mock backend
