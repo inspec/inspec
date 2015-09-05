@@ -20,7 +20,8 @@ def loadResource (resource, *args)
     'ps aux' => IO::File.join(scriptpath, '/unit/mock/cmd/ps-aux'),
     'type win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/secedit-export'),
     'secedit /export /cfg win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
-    'del win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success')
+    'del win_secpol.cfg' => IO::File.join(scriptpath, '/unit/mock/cmd/success'),
+    'su - root -c \'echo $PATH\'' => IO::File.join(scriptpath, '/unit/mock/cmd/PATH')
   }
 
   # create mock backend
