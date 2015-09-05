@@ -2,6 +2,14 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
+# Usage:
+# describe audit_daemon_rules do
+#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
+#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex/) }
+#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=clock_settime/)}
+#   its("LIST_RULES") {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
+# end
+
 class AuditDaemonRules < Vulcano.resource(1)
   name 'audit_daemon_rules'
 

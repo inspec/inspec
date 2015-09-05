@@ -4,6 +4,13 @@
 
 require 'utils/simpleconfig'
 
+# Usage:
+# describe audit_daemon_conf do
+#   its("space_left_action") { should eq "email" }
+#   its("action_mail_acct") { should eq "root" }
+#   its("admin_space_left_action") { should eq "halt" }
+# end
+
 class AuditDaemonConf < Vulcano.resource(1)
   name 'audit_daemon_conf'
 
