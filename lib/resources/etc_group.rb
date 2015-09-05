@@ -7,6 +7,17 @@
 # - password
 # - gid
 # - group list, comma seperated list
+#
+# Usage:
+# describe etc_group do
+#   its('gids') { should_not contain_duplicates }
+#   its('groups') { should include 'my_user' }
+#   its('users') { should include 'my_user' }
+# end
+#
+# describe etc_group.where(name: 'my_group') do
+#   its('users') { should include 'my_user' }
+# end
 
 class EtcGroup < Vulcano.resource(1)
   name 'etc_group'
@@ -21,16 +32,25 @@ class EtcGroup < Vulcano.resource(1)
     @path
   end
 
-  def groups
-    entries.map { |x| x[0] }
+  def groups(filter = nil)
+    entries = filter || @entries
+    entries.map { |x| x[0] } if !entries.nil?
   end
 
-  def gids
-    entries.map { |x| x[2] }
+  def gids(filter = nil)
+    entries = filter || @entries
+    entries.map { |x| x[2] } if !entries.nil?
   end
 
-  def users
-    entries.map { |x| x[3].split(',') }.flatten
+  def users(filter = nil)
+    entries = filter || @entries
+    return nil if entries.nil?
+    # filter the user entry
+    res = entries.map { |x|
+      x[3].split(',') if !x.nil? && !x[3].nil?
+    }.flatten
+    # filter nil elements
+    res.reject { |x| x.nil? || x.empty? }
   end
 
   def where(conditions = {})
@@ -48,10 +68,9 @@ class EtcGroup < Vulcano.resource(1)
     conditions.each do |k, v|
       idx = fields[k.to_sym]
       next if idx.nil?
-      res = res.map { |x| x[idx] == v.to_s }
+      res = res.select { |x| x[idx] == v.to_s }
     end
-    @entries = res
-    self
+    EtcGroupView.new(self, res)
   end
 
   private
@@ -62,4 +81,18 @@ class EtcGroup < Vulcano.resource(1)
       line.split(':')
     end
   end
+end
+
+# object that hold a specifc view on etc group
+class EtcGroupView
+  def initialize(parent, filter)
+    @parent = parent
+    @filter = filter
+  end
+
+  def groups; @parent.groups(@filter); end
+
+  def gids; @parent.gids(@filter); end
+
+  def users; @parent.users(@filter); end
 end
