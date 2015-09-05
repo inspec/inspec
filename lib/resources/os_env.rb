@@ -2,6 +2,13 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
+# Usage:
+#
+# describe os_env('PATH') do |dirs|
+#   its(:split) { should_not include('') }
+#   its(:split) { should_not include('.') }
+# end
+
 class OsEnv < Vulcano.resource(1)
   name 'os_env'
 
