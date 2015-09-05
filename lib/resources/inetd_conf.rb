@@ -4,11 +4,19 @@
 
 require 'utils/simpleconfig'
 
+# Usage:
+#
+# describe inetd_conf do
+#   its('shell') { should eq nil }
+#   its('login') { should eq nil }
+#   its('exec') { should eq nil }
+# end
+
 class InetdConf < Vulcano.resource(1)
   name 'inetd_config'
 
-  def initialize(path)
-    @conf_path = path
+  def initialize(path = nil)
+    @conf_path = path || '/etc/inetd.conf'
     @files_contents = {}
     @content = nil
     @params = nil
