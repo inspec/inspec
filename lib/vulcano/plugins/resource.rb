@@ -13,9 +13,13 @@ module Vulcano
           include Vulcano::Plugins::ResourceCommon
           def initialize(backend, *args)
             # attach the backend to this instance
-            self.class.send(:define_method, :vulcano) { backend }
+            @__backend_runner__ = backend
             # call the resource initializer
             super(*args)
+          end
+
+          def vulcano
+            @__backend_runner__
           end
         end
 
