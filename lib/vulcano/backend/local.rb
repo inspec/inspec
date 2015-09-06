@@ -37,7 +37,7 @@ module Vulcano::Backends
         pid, stdin, stdout, stderr = open4(cmd)
         stdin.close
 
-        ignored, status = Process::waitpid2 pid
+        _, status = Process.waitpid2 pid
 
         @stdout = stdout.read
         @stderr = stderr.read
@@ -53,8 +53,8 @@ module Vulcano::Backends
       end
 
       def content
-        @content ||= @backend.
-          run_command("cat #{@spath} 2>/dev/null || echo -n").stdout
+        @content ||= @backend.run_command(
+          "cat #{@spath} 2>/dev/null || echo -n").stdout
       end
 
       def exists?
@@ -109,7 +109,7 @@ module Vulcano::Backends
         end
 
         tmask = fields[1].to_i(16)
-        type = TYPES.find{ |x, mask| mask & tmask == mask }
+        type = TYPES.find { |_, mask| mask & tmask == mask }
         type ||= [:unknown]
 
         @stat = {
@@ -121,8 +121,6 @@ module Vulcano::Backends
           size: fields[0]
         }
       end
-
     end
-
   end
 end
