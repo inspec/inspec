@@ -1,0 +1,161 @@
+# encoding: utf-8
+
+require 'resources/file'
+
+# Usage:
+# describe yum do
+#   its('repos') { should exist }
+# end
+#
+# describe yum do
+#   its('repos') { should include 'base/7/x86_64' }
+#   its('epel') { should exist }
+#   its('epel') { should be_enabled }
+# end
+#
+# Filter for a specific repo by name
+# - use full identifier e.g. 'updates/7/x86_64'
+# - use short identifier e.g. 'updates'
+#
+# describe yum.repo('epel') do
+#   it { should exist }
+#   it { should be_enabled }
+# end
+#
+# deprecated:
+# describe yumrepo('epel') do
+#   it { should exist }
+#   it { should be_enabled }
+# end
+
+module Vulcano::Resources
+  class Yum < Vulcano.resource(1)
+    name 'yum'
+
+    def initialize
+      @cache = nil
+    end
+
+    # returns all repositories
+    # works as following:
+    # search for Repo-id
+    #   parse data in hashmap
+    #   store data in object
+    # until \n
+    def repositories
+      return @cache if !@cache.nil?
+      # parse the repository data from yum
+      # we cannot use -C, because this is not reliable and may lead to errors
+      @command_result = vulcano.run_command('yum -v repolist all')
+      @content = @command_result.stdout
+      @cache = []
+      repo = {}
+      in_repo = false
+      @content.each_line do |line|
+        # detect repo start
+        in_repo = true if line.match(/^\s*Repo-id\s*:\s*(.*)\b/)
+        # detect repo end
+        if line == "\n" && in_repo
+          in_repo = false
+          @cache.push(repo)
+          repo = {}
+        end
+        # parse repo content
+        if in_repo == true
+          val = /^\s*([^:]*?)\s*:\s*(.*?)\s*$/.match(line)
+          repo[repo_key(strip(val[1]))] = strip(val[2])
+        end
+      end
+      @cache
+    end
+
+    def repos
+      repositories.map { |repo| repo['id'] }
+    end
+
+    def repo(repo)
+      YumRepo.new(self, repo)
+    end
+
+    # alias for yum.repo('reponame')
+    def method_missing(name)
+      repo(name.to_s) if !name.nil?
+    end
+
+    private
+
+    # Removes lefthand and righthand whitespace
+    def strip(value)
+      value.lstrip.rstrip if !value.nil?
+    end
+
+    # Optimize the key value
+    def repo_key(key)
+      return key if key.nil?
+      key.gsub('Repo-', '').downcase
+    end
+  end
+end
+
+class YumRepo
+  def initialize(yum, reponame)
+    @yum = yum
+    @reponame = reponame
+    @cache = nil
+  end
+
+  # extracts the shortname from a repo id
+  # e.g. extras/7/x86_64 -> extras
+  def shortname(id)
+    val = /^\s*([^\/]*?)\/(.*?)\s*$/.match(id)
+    val[1]
+  end
+
+  def info
+    return @cache if !@cache.nil?
+    selection = @yum.repositories.select { |e| e['id'] == @reponame || shortname(e['id']) == @reponame }
+    @cache = selection[0] if !selection.nil? && selection.length == 1
+    @cache
+  end
+
+  def exists?
+    !info.nil?
+  end
+
+  def enabled?
+    repo = info
+    return false if repo.nil?
+    info['status'] == 'enabled'
+  end
+end
+
+# for compatability with serverspec
+# this is deprecated syntax and will be removed in future versions
+module Vulcano::Resources
+  class YumRepoLegacy < Yum
+    name 'yumrepo'
+
+    def initialize(name)
+      super()
+      @repository = repo(name)
+    end
+
+    def exists?
+      deprecated
+      @repository.exists?
+    end
+
+    def enabled?
+      deprecated
+      @repository.enabled?
+    end
+
+    def method_missing
+      fail 'Not supported'
+    end
+
+    def deprecated
+      warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
+    end
+  end
+end
