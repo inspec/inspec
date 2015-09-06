@@ -9,15 +9,14 @@ module Vulcano::Plugins
       Vulcano::Plugins::Backend.__register(name, self)
     end
 
-    def self.__register(id, obj)
-      # raise errors for all missing methods
-      %w{ file run_command os }.each do |m|
-        next if obj.public_method_defined?(m.to_sym)
-        obj.send(:define_method, m.to_sym) do |*args|
-          fail NotImplementedError.new("Backend must implement the #{m}() method.")
-        end
+    # raise errors for all missing methods
+    %w{ file run_command os }.each do |m|
+      define_method(m.to_sym) do |*args|
+        fail NotImplementedError.new("Backend must implement the #{m}() method.")
       end
+    end
 
+    def self.__register(id, obj)
       Vulcano::Backend.registry[id] = obj
     end
 
