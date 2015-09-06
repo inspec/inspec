@@ -7,6 +7,7 @@ describe 'Vulcano::Backend' do
   it 'should have a populated registry' do
     reg = Vulcano::Backend.registry
     reg.must_be_kind_of Hash
+    reg.keys.must_include 'local'
     reg.keys.must_include 'mock'
     reg.keys.must_include 'specinfra'
   end
