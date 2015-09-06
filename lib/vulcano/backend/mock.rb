@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 module Vulcano::Backends
+  Struct.new("MockCommand", :stdout, :stderr, :exit_status)
+
   class Mock < Vulcano.backend(1)
     name 'mock'
 
@@ -17,6 +19,10 @@ module Vulcano::Backends
 
     def run_command(cmd)
       @commands[cmd] || Command.new(self, cmd)
+    end
+
+    def mock_command(stdout, stderr, exit_status)
+      Struct::MockCommand.new(stdout, stderr, exit_status)
     end
 
     def to_s

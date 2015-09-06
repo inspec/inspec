@@ -33,10 +33,9 @@ def loadResource (resource, *args)
   }
 
   # create all mock commands
-  Struct.new("MockCommand", :stdout, :stderr, :exit_status)
   cmd = lambda {|x|
     stdout = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
-    Struct::MockCommand.new( stdout, '', 0 )
+    @backend.mock_command( stdout, '', 0 )
   }
   @backend.commands = {
     'ps aux' => cmd.('ps-aux'),
