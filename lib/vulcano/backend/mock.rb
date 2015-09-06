@@ -16,7 +16,7 @@ module Vulcano::Backends
     end
 
     def run_command(cmd)
-      @command[cmd] || Command.new(self, cmd)
+      @commands[cmd] || Command.new(self, cmd)
     end
 
     def to_s
