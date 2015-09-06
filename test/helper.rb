@@ -6,7 +6,7 @@ require 'vulcano/backend'
 
 # loads a resource class and instantiates the class with the given arguments
 def loadResource (resource, *args)
-  scriptpath = IO::File.realpath(IO::File.dirname(__FILE__))
+  scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
   # create mock backend
   conf = Vulcano::Backend.target_config({})
@@ -16,7 +16,7 @@ def loadResource (resource, *args)
   # create all mock files
   local = Vulcano::Backend.registry['local'].new({})
   mockfile = lambda { |x|
-    path = IO::File.join(scriptpath, '/unit/mock/files', x)
+    path = ::File.join(scriptpath, '/unit/mock/files', x)
     local.file(path)
   }
   @backend.files = {
@@ -35,7 +35,7 @@ def loadResource (resource, *args)
   # create all mock commands
   Struct.new("MockCommand", :stdout, :stderr, :exit_status)
   cmd = lambda {|x|
-    stdout = IO::File.read(IO::File.join(scriptpath, '/unit/mock/cmd/'+x))
+    stdout = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
     Struct::MockCommand.new( stdout, '', 0 )
   }
   @backend.commands = {
