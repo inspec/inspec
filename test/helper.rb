@@ -29,7 +29,8 @@ def loadResource (resource, *args)
     'su - root -c \'echo $PATH\'' => IO::File.join(scriptpath, '/unit/mock/cmd/PATH'),
     '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => IO::File.join(scriptpath, '/unit/mock/cmd/reg_schedule'),
     'Auditpol /get /subcategory:\'User Account Management\' /r' => IO::File.join(scriptpath, '/unit/mock/cmd/auditpol'),
-    '/sbin/auditctl -l' => IO::File.join(scriptpath, '/unit/mock/cmd/auditctl')
+    '/sbin/auditctl -l' => IO::File.join(scriptpath, '/unit/mock/cmd/auditctl'),
+    'yum -v repolist all'  => IO::File.join(scriptpath, '/unit/mock/cmd/yum-repolist-all')
   }
 
   # create mock backend
