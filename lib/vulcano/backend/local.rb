@@ -50,6 +50,7 @@ module Vulcano::Backends
         @backend = backend
         @path = path
         @spath = Shellwords.escape(@path)
+        @stat = nil
       end
 
       def content
