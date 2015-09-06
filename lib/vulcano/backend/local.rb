@@ -23,7 +23,7 @@ module Vulcano::Backends
     end
 
     def run_command(cmd)
-      Command.new(self, cmd)
+      Command.new(cmd)
     end
 
     def to_s
@@ -32,7 +32,7 @@ module Vulcano::Backends
 
     class Command
       attr_reader :stdout, :stderr, :exit_status
-      def initialize(backend, cmd)
+      def initialize(cmd)
         @cmd = cmd
         pid, stdin, stdout, stderr = open4(cmd)
         stdin.close
