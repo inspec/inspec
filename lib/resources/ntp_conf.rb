@@ -4,6 +4,13 @@
 
 require 'utils/simpleconfig'
 
+# Usage:
+#
+# describe ntp_conf do
+#   its('server') { should_not eq nil }
+#   its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+# end
+
 class NtpConf < Vulcano.resource(1)
   name 'ntp_conf'
 
@@ -21,7 +28,10 @@ class NtpConf < Vulcano.resource(1)
 
   def method_missing(name)
     @params || read_content
-    @params[name.to_s]
+    param = @params[name.to_s]
+    # extract first value if we have only one value in array
+    param = param[0] if !param.nil? && param.length == 1
+    param
   end
 
   def read_content

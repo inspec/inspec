@@ -13,24 +13,24 @@
 class SecurityPolicy < Vulcano.resource(1)
   name 'security_policy'
 
-  # static variable, shared across all instances
-  @@loaded = false
-  @@policy = nil
-  @@exit_status = nil
+  def initialize
+    @loaded = false
+    @policy = nil
+    @exit_status = nil
+  end
 
   # load security content
   def load
     # export the security policy
-    @runner.run_command('secedit /export /cfg win_secpol.cfg')
+    vulcano.run_command('secedit /export /cfg win_secpol.cfg')
     # store file content
-    command_result ||= @runner.run_command('type win_secpol.cfg')
+    command_result ||= vulcano.run_command('type win_secpol.cfg')
     # delete temp file
-    @runner.run_command('del win_secpol.cfg')
+    vulcano.run_command('del win_secpol.cfg')
 
-    @@exit_status = command_result.exit_status.to_i
-    @@policy = command_result.stdout
-
-    @@loaded = true
+    @exit_status = command_result.exit_status.to_i
+    @policy = command_result.stdout
+    @loaded = true
 
     # returns self
     self
@@ -38,15 +38,15 @@ class SecurityPolicy < Vulcano.resource(1)
 
   def method_missing(method)
     # load data if needed
-    if (@@loaded == false)
+    if (@loaded == false)
       load
     end
 
     # find line with key
-    key = method.to_s
+    key = Regexp.escape(method.to_s)
     target = ''
-    @@policy.each_line {|s|
-      target = s.strip if s.match(/\b#{key}\s*=\s*(.*)\b/)
+    @policy.each_line {|s|
+      target = s.strip if s.match(/^\s*#{key}\s*=\s*(.*)\b/)
     }
 
     # extract variable value

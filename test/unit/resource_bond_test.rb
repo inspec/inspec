@@ -20,14 +20,12 @@ describe 'Vulcano::Resources::Bond' do
     end
 
     it 'get all interfaces' do
-      _(resource.interfaces).must_equal ['eth0','eth2']
+      _(resource.interfaces).must_equal %w{eth0 eth2}
     end
 
     it 'get proc content' do
       _(resource.content).wont_equal nil
       _(resource.content).wont_equal ''
     end
-
   end
-
 end
