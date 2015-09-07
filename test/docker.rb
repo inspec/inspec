@@ -18,6 +18,8 @@ class DockerTester
   end
 
   def run
+    puts ["Running tests:", @tests].flatten.join("\n- ")
+    puts ''
     # test all images
     @conf['images'].each{|n|
       test_image(n)

@@ -26,7 +26,11 @@ module Vulcano::Plugins
       %w{
         exists? mode owner group link_target content mtime size
         selinux_label product_version file_version
-      }
+      }.each do |m|
+        define_method m.to_sym do
+          fail NotImplementedError.new("File must implement the #{m}() method.")
+        end
+      end
 
       def type
         :unknown

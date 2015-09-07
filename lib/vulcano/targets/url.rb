@@ -8,6 +8,7 @@ module Vulcano::Targets
   class UrlHelper
     def handles?(target)
       uri = URI.parse(target)
+      return false if uri.nil? or uri.scheme.nil?
       %{ http https }.include? uri.scheme
     end
 
