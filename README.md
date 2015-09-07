@@ -22,9 +22,16 @@ vulcano exec test.rb
 
 ## Installation
 
-Requires:
+Requires Ruby ( >1.9 ).
 
-* Ruby ( >1.9 )
+To simply run it without installation, you must install [bundler](http://bundler.io/):
+
+```bash
+bundle install
+bundle exec bin/vulcano help
+```
+
+To install it as a gem locally, run:
 
 ```bash
 gem build vulcano.gemspec
