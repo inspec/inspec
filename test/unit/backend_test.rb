@@ -36,7 +36,6 @@ describe 'Vulcano::Backend' do
         'user' => rand,
         'password' => rand,
         'port' => rand,
-        'target' => rand,
       }
       res = Vulcano::Backend.target_config(org)
       res.must_equal org
