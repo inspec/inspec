@@ -18,12 +18,26 @@ class DockerTester
   end
 
   def run
-    puts ['Running tests:', @tests].flatten.join("\n- ")
+    puts ["Running tests:", @tests].flatten.join("\n- ")
     puts ''
     # test all images
-    @conf['images'].each do |n|
-      test_image(n)
-    end.all? or fail 'Test failures'
+    promises = @conf['images'].map{|n|
+      Concurrent::Promise.new{ prepare_image(n) }.execute
+    }
+
+    sleep(0.1) while !promises.all?{|x|x.fulfilled?}
+
+    res = promises.map do |promise|
+      container = promise.value
+      test_container(container.id)
+    end
+
+    done = promises.map do |promise|
+      promise.then{|container| stop_container(container) }
+    end
+    sleep(0.1) while !done.all?{|x| x.fulfilled?}
+
+    res.all? or raise 'Test failures'
   end
 
   def docker_images_by_tag
@@ -39,13 +53,13 @@ class DockerTester
 
   def tests_conf
     # get the test configuration
-    conf_path = File.join(File.dirname(__FILE__), '..', '.tests.yaml')
-    fail "Can't find tests config in #{conf_path}" unless File.file?(conf_path)
-    YAML.load(File.read(conf_path))
+    conf_path = File::join(File::dirname(__FILE__), '..', '.tests.yaml')
+    raise "Can't find tests config in #{conf_path}" unless File::file?(conf_path)
+    conf = YAML.load(File::read(conf_path))
   end
 
   def test_container(container_id)
-    opts = { 'target' => "specinfra+docker://#{container_id}" }
+    opts = { 'target' => "docker://#{container_id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
     runner.run
@@ -54,13 +68,13 @@ class DockerTester
   def test_image(name)
     dname = "docker-#{name}:latest"
     image = @images[dname]
-    fail "Can't find docker image #{dname}" if image.nil?
+    raise "Can't find docker image #{dname}" if image.nil?
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => %w{ /bin/bash },
+      'Cmd' => [ '/bin/bash' ],
       'Image' => image.id,
-      'OpenStdin' => true
+      'OpenStdin' => true,
     )
     container.start
 
