@@ -2,9 +2,7 @@
 
 Test your Server, VM, or workstation.
 
-## Example
-
-Write a your tests in `test.rb`:
+Small example: Write a your checks in `test.rb`:
 
 ```ruby
 describe file('/proc/cpuinfo') do
@@ -16,7 +14,7 @@ describe ssh_config do
 end
 ```
 
-Run them locally:
+Run this file locally:
 
 ```bash
 vulcano exec test.rb
