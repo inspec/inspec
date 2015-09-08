@@ -1,2 +1,4 @@
 Gemfile.lock
 coverage
+*.gem
+.gallery
