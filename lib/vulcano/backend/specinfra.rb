@@ -168,8 +168,7 @@ module Vulcano::Backends
     class File < LinuxFile
 
       def initialize(path)
-        @path = path
-        @backend = Specinfra::Runner
+        super(Specinfra::Runner, path)
       end
 
       def exists?
