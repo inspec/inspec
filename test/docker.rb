@@ -18,12 +18,12 @@ class DockerTester
   end
 
   def run
-    puts ["Running tests:", @tests].flatten.join("\n- ")
+    puts ['Running tests:', @tests].flatten.join("\n- ")
     puts ''
     # test all images
-    @conf['images'].each{|n|
+    @conf['images'].each do |n|
       test_image(n)
-    }.all? or raise "Test failures"
+    end.all? or fail 'Test failures'
   end
 
   def docker_images_by_tag
@@ -39,13 +39,13 @@ class DockerTester
 
   def tests_conf
     # get the test configuration
-    conf_path = File::join(File::dirname(__FILE__), '..', '.tests.yaml')
-    raise "Can't find tests config in #{conf_path}" unless File::file?(conf_path)
-    conf = YAML.load(File::read(conf_path))
+    conf_path = File.join(File.dirname(__FILE__), '..', '.tests.yaml')
+    fail "Can't find tests config in #{conf_path}" unless File.file?(conf_path)
+    YAML.load(File.read(conf_path))
   end
 
   def test_container(container_id)
-    opts = { 'target' => "docker://#{container_id}" }
+    opts = { 'target' => "specinfra+docker://#{container_id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
     runner.run
@@ -54,13 +54,13 @@ class DockerTester
   def test_image(name)
     dname = "docker-#{name}:latest"
     image = @images[dname]
-    raise "Can't find docker image #{dname}" if image.nil?
+    fail "Can't find docker image #{dname}" if image.nil?
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => [ '/bin/bash' ],
+      'Cmd' => %w{ /bin/bash },
       'Image' => image.id,
-      'OpenStdin' => true,
+      'OpenStdin' => true
     )
     container.start
 

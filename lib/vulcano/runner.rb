@@ -44,12 +44,11 @@ module Vulcano
 
     def configure_backend
       backend_name = (@conf['backend'] ||= 'local')
+      bname, next_backend = backend_name.split('+')
+
       # @TODO all backends except for mock revert to specinfra for now
-      unless %w{ mock local }.include? backend_name
-        backend_class = Vulcano::Backend.registry['specinfra']
-      else
-        backend_class = Vulcano::Backend.registry[backend_name]
-      end
+      backend_class = Vulcano::Backend.registry[bname]
+      @conf['backend'] = next_backend if bname == 'specinfra'
 
       # Return on failure
       if backend_class.nil?
@@ -82,11 +81,11 @@ module Vulcano
       ctx.rules.each do |rule_id, rule|
         #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
-        checks.each do |m, a, b|
+        checks.each do |_, a, b|
           # resource skipping
           if !a.empty? &&
-            a[0].respond_to?(:resource_skipped) &&
-            !a[0].resource_skipped.nil?
+             a[0].respond_to?(:resource_skipped) &&
+             !a[0].resource_skipped.nil?
             example = RSpec::Core::ExampleGroup.describe(*a) do
               it a[0].resource_skipped
             end

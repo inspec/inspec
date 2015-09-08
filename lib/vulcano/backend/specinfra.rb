@@ -19,7 +19,7 @@ module Vulcano::Backends
       # if we don't support it, error out
       m = "configure_#{type}"
       if self.respond_to?(m.to_sym)
-        self.send(m)
+        send(m)
       else
         fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
@@ -73,12 +73,37 @@ module Vulcano::Backends
       Specinfra.configuration.backend = :exec
     end
 
+    def validate_ssh_options( ssh_opts )
+      unless ssh_opts[:port] > 0
+        fail "Port must be > 0 (not #{ssh_opts[:port]})"
+      end
+
+      if ssh_opts[:user].to_s.empty?
+        fail 'User must not be empty.'
+      end
+
+      unless ssh_opts[:keys].empty?
+        ssh_opts[:auth_methods].push('publickey')
+        ssh_opts[:keys_only] = true if ssh_opts[:password].nil?
+      end
+
+      unless ssh_opts[:password].nil?
+        ssh_opts[:auth_methods].push('password')
+      end
+
+      if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
+        fail 'You must configure at least one authentication method' \
+          ': Password or key.'
+      end
+    end
+
     def configure_ssh
       si = Specinfra.configuration
       si.backend = :ssh
       si.request_pty = true
 
       host = @conf['host'].to_s
+      fail 'You must configure a target host.' if host.empty?
       RSpec.configuration.host = host
 
       ssh_opts = {
@@ -89,30 +114,10 @@ module Vulcano::Backends
         number_of_password_prompts: 0,
         user: @conf['user'],
         password: @conf['password'],
-        keys: [@conf['key_file']].compact,
+        keys: [@conf['key_file']].compact
       }
 
-      if host.empty?
-        fail 'You must configure a target host.'
-      end
-      unless ssh_opts[:port] > 0
-        fail "Port must be > 0 (not #{ssh_opts[:port]})"
-      end
-      if ssh_opts[:user].to_s.empty?
-        fail 'User must not be empty.'
-      end
-      unless ssh_opts[:keys].empty?
-        ssh_opts[:auth_methods].push('publickey')
-        ssh_opts[:keys_only] = true if ssh_opts[:password].nil?
-      end
-      unless ssh_opts[:password].nil?
-        ssh_opts[:auth_methods].push('password')
-      end
-      if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
-        fail 'You must configure at least one authentication method' \
-          ': Password or key.'
-      end
-
+      validate_ssh_options(ssh_opts)
       si.ssh_options = ssh_opts
     end
 
@@ -165,27 +170,9 @@ module Vulcano::Backends
   end
 
   class SpecinfraHelper
-    class File < FileCommon
-      TYPES = {
-        socket:           00140000,
-        symlink:          00120000,
-        file:             00100000,
-        block_device:     00060000,
-        directory:        00040000,
-        character_device: 00020000,
-        pipe:             00010000
-      }
+    class File < LinuxFile
       def initialize(path)
-        @path = path
-      end
-
-      def type
-        path = Shellwords.escape(@path)
-        raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
-        tmask = raw_type.to_i(16)
-        res = TYPES.find{ |x, mask| mask & tmask == mask }
-        return :unknown if res.nil?
-        res[0]
+        super(Specinfra::Runner, path)
       end
 
       def exists?

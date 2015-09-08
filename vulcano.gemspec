@@ -31,8 +31,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'method_source', '~> 0.8'
   spec.add_dependency 'rubyzip', '~> 1.1'
   spec.add_dependency 'rspec', '~> 3.3'
-  spec.add_dependency 'rspec-its'
-  spec.add_dependency 'winrm'
-  spec.add_dependency 'open4'
-  spec.add_dependency 'specinfra'
+  spec.add_dependency 'rspec-its', '~> 1.2'
+  spec.add_dependency 'winrm', '~> 1.3'
+  spec.add_dependency 'open4', '~> 1.3'
+  spec.add_dependency 'specinfra', '~> 2.40'
+  spec.add_dependency 'docker-api', '~> 1.22'
 end
