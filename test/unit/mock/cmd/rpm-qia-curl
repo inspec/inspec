@@ -1,0 +1,24 @@
+Name        : curl
+Version     : 7.29.0
+Release     : 19.el7
+Architecture: x86_64
+Install Date: Thu Jun 18 12:38:01 2015
+Group       : Applications/Internet
+Size        : 535105
+License     : MIT
+Signature   : RSA/SHA256, Fri Jul  4 01:04:23 2014, Key ID 24c6a8a7f4a80eb5
+Source RPM  : curl-7.29.0-19.el7.src.rpm
+Build Date  : Mon Jun  9 23:19:16 2014
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://curl.haxx.se/
+Summary     : A utility for getting files from remote servers (FTP, HTTP, and others)
+Description :
+curl is a command line tool for transferring data with URL syntax, supporting
+FTP, FTPS, HTTP, HTTPS, SCP, SFTP, TFTP, TELNET, DICT, LDAP, LDAPS, FILE, IMAP,
+SMTP, POP3 and RTSP.  curl supports SSL certificates, HTTP POST, HTTP PUT, FTP
+uploading, HTTP form based upload, proxies, cookies, user+password
+authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer
+resume, proxy tunneling and a busload of other useful tricks.
