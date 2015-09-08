@@ -44,12 +44,11 @@ module Vulcano
 
     def configure_backend
       backend_name = (@conf['backend'] ||= 'local')
+      bname, next_backend = backend_name.split('+')
+
       # @TODO all backends except for mock revert to specinfra for now
-      unless %w{ mock local }.include? backend_name
-        backend_class = Vulcano::Backend.registry['specinfra']
-      else
-        backend_class = Vulcano::Backend.registry[backend_name]
-      end
+      backend_class = Vulcano::Backend.registry[bname]
+      @conf['backend'] = next_backend if bname == 'specinfra'
 
       # Return on failure
       if backend_class.nil?
