@@ -3,7 +3,6 @@
 require 'shellwords'
 
 class Vulcano::Plugins::Backend
-
   class LinuxFile < FileCommon
     def initialize(backend, path)
       @backend = backend

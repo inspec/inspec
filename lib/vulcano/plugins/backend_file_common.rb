@@ -9,7 +9,7 @@ class Vulcano::Plugins::Backend
       selinux_label product_version file_version
     }.each do |m|
       define_method m.to_sym do
-        fail NotImplementedError.new("File must implement the #{m}() method.")
+        fail NotImplementedError, "File must implement the #{m}() method."
       end
     end
 
@@ -62,16 +62,16 @@ class Vulcano::Plugins::Backend
       type == :pipe?
     end
 
-    def mode?(mode)
-      mode == mode
+    def mode?(sth)
+      mode == sth
     end
 
-    def owned_by?(owner)
-      owner == owner
+    def owned_by?(sth)
+      owner == sth
     end
 
-    def grouped_into?(group)
-      group == group
+    def grouped_into?(sth)
+      group == sth
     end
 
     def linked_to?(dst)
@@ -80,7 +80,7 @@ class Vulcano::Plugins::Backend
 
     def version?(version)
       product_version == version or
-      file_version == version
+        file_version == version
     end
 
     # helper methods provided to any implementing class

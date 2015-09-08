@@ -43,6 +43,5 @@ module Vulcano::Backends
         @exit_status = status.exitstatus
       end
     end
-
   end
 end
