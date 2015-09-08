@@ -28,6 +28,7 @@ class NtpConf < Vulcano.resource(1)
 
   def method_missing(name)
     @params || read_content
+    return nil if @params.nil?
     param = @params[name.to_s]
     # extract first value if we have only one value in array
     param = param[0] if !param.nil? && param.length == 1

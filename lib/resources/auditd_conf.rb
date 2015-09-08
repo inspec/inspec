@@ -28,7 +28,7 @@ class AuditDaemonConf < Vulcano.resource(1)
 
   def method_missing(name)
     @params || read_content
-    @params[name.to_s]
+    !@params.nil? ? (return @params[name.to_s]) : (return nil)
   end
 
   def read_content
