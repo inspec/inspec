@@ -81,11 +81,11 @@ module Vulcano
       ctx.rules.each do |rule_id, rule|
         #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
-        checks.each do |m, a, b|
+        checks.each do |_, a, b|
           # resource skipping
           if !a.empty? &&
-            a[0].respond_to?(:resource_skipped) &&
-            !a[0].resource_skipped.nil?
+             a[0].respond_to?(:resource_skipped) &&
+             !a[0].resource_skipped.nil?
             example = RSpec::Core::ExampleGroup.describe(*a) do
               it a[0].resource_skipped
             end
