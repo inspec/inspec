@@ -1,0 +1,21 @@
+Name           : curl
+Version        : 7.37.0-1
+Description    : An URL retrieval utility and library
+Architecture   : x86_64
+URL            : http://curl.haxx.se
+Licenses       : MIT
+Groups         : None
+Provides       : libcurl.so=4-64
+Depends On     : ca-certificates  krb5  libssh2  openssl  zlib
+Optional Deps  : None
+Required By    : pacman
+Optional For   : gnupg
+Conflicts With : None
+Replaces       : None
+Installed Size : 962.00 KiB
+Packager       : Dave Reisner <dreisner@archlinux.org>
+Build Date     : Wed May 21 17:55:21 2014
+Install Date   : Mon Jul 21 01:15:48 2014
+Install Reason : Installed as a dependency for another package
+Install Script : No
+Validated By   : Signature
