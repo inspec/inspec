@@ -3,7 +3,6 @@
 require 'digest'
 
 module Vulcano::Plugins
-
   class Backend
     autoload :FileCommon, 'vulcano/plugins/backend_file_common'
     autoload :LinuxFile,  'vulcano/plugins/backend_linux_file'
@@ -14,14 +13,13 @@ module Vulcano::Plugins
 
     # raise errors for all missing methods
     %w{ file run_command os }.each do |m|
-      define_method(m.to_sym) do |*args|
-        fail NotImplementedError.new("Backend must implement the #{m}() method.")
+      define_method(m.to_sym) do |*_|
+        fail NotImplementedError, "Backend must implement the #{m}() method."
       end
     end
 
     def self.__register(id, obj)
       Vulcano::Backend.registry[id] = obj
     end
-
   end
 end
