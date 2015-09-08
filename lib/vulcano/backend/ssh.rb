@@ -17,8 +17,35 @@ module Vulcano::Backends
     end
 
     def run_command(cmd)
-      stdout = @ssh.exec!(cmd)
-      CommandResult.new(stdout, '', 0)
+      stdout = stderr = ''
+      exit_status = nil
+
+      @ssh.open_channel do |channel|
+        channel.exec(cmd) do |ch, success|
+          unless success
+            fail "Couldn't execute command on SSH."
+          end
+
+          channel.on_data do |ch,data|
+            stdout += data
+          end
+
+          channel.on_extended_data do |ch,type,data|
+            stderr += data
+          end
+
+          channel.on_request("exit-status") do |ch,data|
+            exit_status = data.read_long
+          end
+
+          channel.on_request("exit-signal") do |ch, data|
+            exit_status = data.read_long
+          end
+        end
+      end
+      @ssh.loop
+
+      CommandResult.new(stdout, stderr, exit_status)
     end
 
     private
