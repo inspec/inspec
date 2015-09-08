@@ -49,15 +49,21 @@ def loadResource (resource, *args)
     @backend.mock_command( stdout, '', 0 )
   }
   @backend.commands = {
-    'ps aux' => cmd.('ps-aux'),
-    'type win_secpol.cfg' => cmd.('secedit-export'),
-    'secedit /export /cfg win_secpol.cfg' => cmd.('success'),
-    'del win_secpol.cfg' => cmd.('success'),
-    'su - root -c \'echo $PATH\'' => cmd.('PATH'),
-    '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => cmd.('reg_schedule'),
-    'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.('auditpol'),
-    '/sbin/auditctl -l' => cmd.('auditctl'),
-    'yum -v repolist all'  => cmd.('yum-repolist-all'),
+    'ps aux' => cmd.call('ps-aux'),
+    'type win_secpol.cfg' => cmd.call('secedit-export'),
+    'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
+    'del win_secpol.cfg' => cmd.call('success'),
+    'su - root -c \'echo $PATH\'' => cmd.call('PATH'),
+    '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => cmd.call('reg_schedule'),
+    'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
+    '/sbin/auditctl -l' => cmd.call('auditctl'),
+    'yum -v repolist all'  => cmd.call('yum-repolist-all'),
+    'dpkg -s curl' => cmd.call('dpkg-s-curl'),
+    'rpm -qia curl' => cmd.call('rpm-qia-curl'),
+    'pacman -Qi curl' => cmd.call('packman-qi-curl'),
+    'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
+    'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
+    'pip show jinja2' => cmd.call('pip-show-jinja2')
   }
 
   # load resource

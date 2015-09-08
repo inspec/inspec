@@ -88,3 +88,23 @@ RSpec::Matchers.define :contain_duplicates do
     !dup.uniq.empty?
   end
 end
+
+# for packages
+RSpec::Matchers.define :be_installed do
+  match do |package|
+    package.installed? == true
+  end
+
+  failure_message do |package|
+    "expected that `#{package}` is installed"
+  end
+
+  chain :by do
+    fail "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
+  end
+
+  chain :with_version do |version|
+    warn "[DEPRECATION] `with_version` is deprecated.  Please use `its(:version) { should eq '1.4.1' }` instead."
+    @version = version
+  end
+end
