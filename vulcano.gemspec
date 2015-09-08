@@ -35,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'winrm'
   spec.add_dependency 'open4'
   spec.add_dependency 'specinfra'
+  spec.add_dependency 'docker-api', '~> 1.22'
 end
