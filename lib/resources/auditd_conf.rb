@@ -35,12 +35,12 @@ class AuditDaemonConf < Vulcano.resource(1)
     # read the file
     file = vulcano.file(@conf_path)
     if !file.file?
-      return skip_resource "Can't find file \"#{@conf_path}\""
+      return skip_resource "Can't find file '#{@conf_path}'"
     end
 
     @content = file.content
     if @content.empty? && file.size > 0
-      return skip_resource "Can't read file \"#{@conf_path}\""
+      return skip_resource "Can't read file '#{@conf_path}'"
     end
     # parse the file
     @params = SimpleConfig.new(
