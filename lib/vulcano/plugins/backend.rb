@@ -6,6 +6,7 @@ module Vulcano::Plugins
   class Backend
     autoload :FileCommon, 'vulcano/plugins/backend_file_common'
     autoload :LinuxFile,  'vulcano/plugins/backend_linux_file'
+    CommandResult = Struct.new(:stdout, :stderr, :exit_status)
 
     def self.name(name)
       Vulcano::Plugins::Backend.__register(name, self)
