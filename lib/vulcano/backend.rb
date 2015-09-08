@@ -37,6 +37,7 @@ module Vulcano
   end
 end
 
+require 'vulcano/backend/docker'
 require 'vulcano/backend/local'
 require 'vulcano/backend/mock'
 require 'vulcano/backend/specinfra'
