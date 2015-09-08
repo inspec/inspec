@@ -165,27 +165,11 @@ module Vulcano::Backends
   end
 
   class SpecinfraHelper
-    class File < FileCommon
-      TYPES = {
-        socket:           00140000,
-        symlink:          00120000,
-        file:             00100000,
-        block_device:     00060000,
-        directory:        00040000,
-        character_device: 00020000,
-        pipe:             00010000
-      }
+    class File < LinuxFile
+
       def initialize(path)
         @path = path
-      end
-
-      def type
-        path = Shellwords.escape(@path)
-        raw_type = Specinfra::Runner.run_command("stat -c %f #{path}").stdout
-        tmask = raw_type.to_i(16)
-        res = TYPES.find{ |x, mask| mask & tmask == mask }
-        return :unknown if res.nil?
-        res[0]
+        @backend = Specinfra::Runner
       end
 
       def exists?
