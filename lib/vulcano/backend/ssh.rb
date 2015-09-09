@@ -8,7 +8,7 @@ module Vulcano::Backends
       @conf = conf
       @files = {}
       @conf['host'] ||
-        fail("You must specify a SSH host.")
+        fail('You must specify a SSH host.')
       @ssh = start_ssh
     end
 
@@ -19,26 +19,30 @@ module Vulcano::Backends
     def run_command(cmd)
       stdout = stderr = ''
       exit_status = nil
+      cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
       @ssh.open_channel do |channel|
-        channel.exec(cmd) do |ch, success|
+        channel.request_pty do |_, success|
+          abort 'Could not obtain pty on SSH channel ' if !success
+        end
+        channel.exec(cmd) do |_, success|
           unless success
-            fail "Couldn't execute command on SSH."
+            abort 'Couldn\'t execute command on SSH.'
           end
 
-          channel.on_data do |ch,data|
+          channel.on_data do |_, data|
             stdout += data
           end
 
-          channel.on_extended_data do |ch,type,data|
+          channel.on_extended_data do |_, _type, data|
             stderr += data
           end
 
-          channel.on_request("exit-status") do |ch,data|
+          channel.on_request('exit-status') do |_, data|
             exit_status = data.read_long
           end
 
-          channel.on_request("exit-signal") do |ch, data|
+          channel.on_request('exit-signal') do |_, data|
             exit_status = data.read_long
           end
         end
@@ -50,12 +54,32 @@ module Vulcano::Backends
 
     private
 
+    def validate_options(options)
+      if options[:keys].empty? and options[:password].nil?
+        fail(
+          'You must configure at least one authentication method for SSH:'\
+          ' Password or key.'
+        )
+      end
+
+      unless options[:keys].empty?
+        options[:auth_methods].push('publickey')
+        options[:keys_only] = true if options[:password].nil?
+      end
+
+      # rubocop:disable Style/GuardClause
+      unless options[:password].nil?
+        options[:auth_methods].push('password')
+      end
+      # rubocop:enable Style/GuardClause
+    end
+
     def start_ssh
       host = @conf['host']
       ssh_config = Net::SSH.configuration_for(host)
 
       user = @conf['user'] || ssh_config[:user]
-      keys = [ @conf['key_file'], ssh_config[:keys] ].flatten.compact
+      keys = [@conf['key_file'], ssh_config[:keys]].flatten.compact
       options = {
         port: @conf['port'] || ssh_config[:port] || 22,
         auth_methods: ['none'],
@@ -66,21 +90,8 @@ module Vulcano::Backends
         keys: keys,
       }
 
-      unless options[:keys].empty?
-        options[:auth_methods].push('publickey')
-        options[:keys_only] = true if options[:password].nil?
-      end
-
-      unless options[:password].nil?
-        options[:auth_methods].push('password')
-      end
-
-      if options[:keys].empty? and options[:password].nil?
-        fail('You must configure at least one authentication method for SSH:' +
-          ' Password or key.')
-      end
-
-      Net::SSH.start( host, user, options )
+      validate_options(options)
+      Net::SSH.start(host, user, options)
     end
   end
 end
