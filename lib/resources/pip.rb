@@ -18,13 +18,13 @@ class PipPackage < Vulcano.resource(1)
     params = SimpleConfig.new(
       cmd.stdout,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     ).params
     @cache = {
       name: params['Name'],
       installed: true,
       version: params['Version'],
-      type: 'pip'
+      type: 'pip',
     }
   end
 

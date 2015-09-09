@@ -12,7 +12,7 @@ class MysqlConfEntry
     @path = path
   end
 
-  def method_missing(name, *args)
+  def method_missing(name, *_)
     k = name.to_s
     res = @params[k]
     return true if res.nil? && @params.key?(k)
@@ -20,8 +20,6 @@ class MysqlConfEntry
   end
 
   def to_s
-    group = ' '
-    group = "[#{@path.join('][')}] " unless @path.nil? or @path.empty?
     "MySQL Config entry [#{@path.join(' ')}]"
   end
 end
@@ -69,7 +67,7 @@ class MysqlConf < Vulcano.resource(1)
     end
 
     to_read = [@conf_path]
-    while !to_read.empty?
+    until to_read.empty?
       raw_conf = read_file(to_read[0])
       @content += raw_conf
 

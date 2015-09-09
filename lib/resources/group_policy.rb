@@ -16,7 +16,7 @@ end
 class GroupPolicy < Vulcano.resource(1)
   name 'group_policy'
 
-  def getRegistryValue(entry)
+  def get_registry_value(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
     command_result ||= vulcano.run_command(cmd)
@@ -24,7 +24,7 @@ class GroupPolicy < Vulcano.resource(1)
     val
   end
 
-  def convertValue(value)
+  def convert_value(value)
     val = value.strip
     val = val.to_i if val.match(/^\d+$/)
     val
@@ -36,11 +36,11 @@ class GroupPolicy < Vulcano.resource(1)
     entry = gpo(@name, meth.to_s)
 
     # get data
-    val = getRegistryValue(entry)
+    val = get_registry_value(entry)
 
     # verify data
     if (val[:exit_code] == 0)
-      return convertValue(val[:data])
+      return convert_value(val[:data])
     else
       return nil
     end
