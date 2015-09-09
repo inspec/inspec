@@ -76,17 +76,23 @@ class MysqlConf < Vulcano.resource(1)
 
       to_read = to_read.drop(1)
       # see if there is more stuff to include
-      include_files = raw_conf.scan(/^!include\s+(.*)\s*/).flatten.compact
-      include_dirs = raw_conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact
-      include_dirs.map do |include_dir|
-        include_files += FindFiles.find(include_dir, depth: 1, type: 'file')
-      end
-      to_read += include_files.find_all do |fp|
+
+      to_read += include_files(conf).find_all do |fp|
         not @files_contents.key? fp
       end
     end
     #
     @content
+  end
+
+  def include_files(conf)
+    files = conf.scan(/^!include\s+(.*)\s*/).flatten.compact
+    dirs = conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact
+    dirs.map do |dir|
+      # @TODO: non local glob
+      files += FindFiles.find(dir, depth: 1, type: 'file')
+    end
+    files
   end
 
   def read_file(path)
