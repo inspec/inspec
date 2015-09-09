@@ -7,8 +7,8 @@ module Vulcano
     extend Modulator
 
     def self.__resolve(items)
-      items.map do |item|
-
+      items.map do |_|
+        # @TODO
       end.flatten
     end
 

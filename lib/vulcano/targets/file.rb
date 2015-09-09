@@ -9,7 +9,7 @@ module Vulcano::Targets
     def resolve(target)
       {
         content: File.read(target),
-        ref: target
+        ref: target,
       }
     end
   end
