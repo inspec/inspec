@@ -9,9 +9,9 @@ module Vulcano::Backends
       @conf = conf
       @files = {}
       id = @conf['host'] ||
-        fail("You must specify a docker container ID.")
+           fail('You must specify a docker container ID.')
       @container = ::Docker::Container.get(id) ||
-        fail("Can't find Docker container #{id}")
+                   fail("Can't find Docker container #{id}")
     end
 
     def file(path)
@@ -23,9 +23,9 @@ module Vulcano::Backends
         '/bin/sh', '-c', cmd
       ])
       CommandResult.new(stdout.join, stderr.join, exit_status)
-    rescue ::Docker::Error::DockerError => err
+    rescue ::Docker::Error::DockerError => _
       raise
-    rescue => err
+    rescue => _
       # @TODO: differentiate any other error
       raise
     end
