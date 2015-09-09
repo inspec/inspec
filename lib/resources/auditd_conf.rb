@@ -45,7 +45,7 @@ class AuditDaemonConf < Vulcano.resource(1)
     # parse the file
     @params = SimpleConfig.new(
       @content,
-      multiple_values: false
+      multiple_values: false,
     ).params
   end
 end

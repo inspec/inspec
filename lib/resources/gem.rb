@@ -22,7 +22,7 @@ class GemPackage < Vulcano.resource(1)
     @cache = {
       name: params[1],
       version: versions[0],
-      type: 'gem'
+      type: 'gem',
     }
   end
 
