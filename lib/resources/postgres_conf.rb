@@ -54,18 +54,23 @@ class PostgresConf < Vulcano.resource(1)
 
       to_read = to_read.drop(1)
       # see if there is more config files to include
-      include_files = params['include'] || []
-      include_files += params['include_if_exists'] || []
-      dirs = params['include_dir'] || []
-      dirs.each do |dir|
-        dir = File.join(@conf_dir, dir) if dir[0] != '/'
-        include_files += FindFiles.find(dir, depth: 1, type: 'file')
-      end
-      to_read += include_files.find_all do |fp|
+
+      to_read += include_files(params).find_all do |fp|
         not @files_contents.key? fp
       end
     end
     @content
+  end
+
+  def include_files(params)
+    include_files = params['include'] || []
+    include_files += params['include_if_exists'] || []
+    dirs = params['include_dir'] || []
+    dirs.each do |dir|
+      dir = File.join(@conf_dir, dir) if dir[0] != '/'
+      include_files += FindFiles.find(dir, depth: 1, type: 'file')
+    end
+    include_files
   end
 
   def read_file(path)
