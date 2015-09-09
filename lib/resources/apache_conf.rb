@@ -33,7 +33,7 @@ class ApacheConf < Vulcano.resource(1)
   def filter_comments(data)
     content = ''
     data.each_line do |line|
-      if (!line.match(/^\s*#/)) then
+      if !line.match(/^\s*#/)
         content << line
       end
     end
@@ -56,7 +56,7 @@ class ApacheConf < Vulcano.resource(1)
     end
 
     to_read = [@conf_path]
-    while !to_read.empty?
+    until to_read.empty?
       raw_conf = read_file(to_read[0])
       @content += raw_conf
 
@@ -64,7 +64,7 @@ class ApacheConf < Vulcano.resource(1)
       params = SimpleConfig.new(
         raw_conf,
         assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
-        multiple_values: true
+        multiple_values: true,
       ).params
       @params.merge!(params)
 

@@ -45,7 +45,7 @@ class PostgresConf < Vulcano.resource(1)
     end
 
     to_read = [@conf_path]
-    while !to_read.empty?
+    until to_read.empty?
       raw_conf = read_file(to_read[0])
       @content += raw_conf
 

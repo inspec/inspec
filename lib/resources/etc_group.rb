@@ -62,7 +62,7 @@ class EtcGroup < Vulcano.resource(1)
       gid: 2,
       group_id: 2,
       group_list: 3,
-      users: 3
+      users: 3,
     }
     res = entries
     conditions.each do |k, v|
@@ -90,9 +90,15 @@ class EtcGroupView
     @filter = filter
   end
 
-  def groups; @parent.groups(@filter); end
+  def groups
+    @parent.groups(@filter)
+  end
 
-  def gids; @parent.gids(@filter); end
+  def gids
+    @parent.gids(@filter)
+  end
 
-  def users; @parent.users(@filter); end
+  def users
+    @parent.users(@filter)
+  end
 end
