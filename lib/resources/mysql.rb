@@ -10,50 +10,66 @@ class Mysql < Vulcano.resource(1)
     # set OS-dependent filenames and paths
     case os[:family]
     when 'ubuntu', 'debian'
-      @package = 'mysql-server'
-      @service = 'mysql'
-      @conf_path = '/etc/mysql/my.cnf'
-      @conf_dir = '/etc/mysql/'
-      @data_dir = '/var/lib/mysql/'
-      @log_dir = '/var/log/'
-      @log_path = '/var/log/mysql.log'
-      @log_group = 'adm'
-      case os[:release]
-      when '14.04'
-        @log_dir_group = 'syslog'
-      else
-        @log_dir_group = 'root'
-      end
+      init_ubuntu
     when 'redhat', 'fedora'
-      @package = 'mysql-server'
-      @service = 'mysqld'
-      @conf_path = '/etc/my.cnf'
-      @conf_dir = '/etc/'
-      @data_dir = '/var/lib/mysql/'
-      @log_dir = '/var/log/'
-      @log_path = '/var/log/mysqld.log'
-      @log_group = 'mysql'
-      @log_dir_group = 'root'
+      init_redhat
     when 'arch'
-      @package = 'mariadb'
-      @service = 'mysql'
-      @conf_path = '/etc/mysql/my.cnf'
-      @conf_dir = '/etc/mysql/'
-      @data_dir = '/var/lib/mysql/'
-      @log_dir = '/var/log/'
-      @log_path = '/var/log/mysql.log'
-      @log_group = 'mysql'
-      @log_dir_group = 'root'
+      init_arch
     else
       # TODO: could not detect
-      @service = 'mysqld'
-      @conf_path = '/etc/my.cnf'
-      @conf_dir = '/etc/'
-      @data_dir = '/var/lib/mysql/'
-      @log_dir = '/var/log/'
-      @log_path = '/var/log/mysqld.log'
-      @log_group = 'mysql'
+      init_default
+    end
+  end
+
+  def init_ubuntu
+    @package = 'mysql-server'
+    @service = 'mysql'
+    @conf_path = '/etc/mysql/my.cnf'
+    @conf_dir = '/etc/mysql/'
+    @data_dir = '/var/lib/mysql/'
+    @log_dir = '/var/log/'
+    @log_path = '/var/log/mysql.log'
+    @log_group = 'adm'
+    case os[:release]
+    when '14.04'
+      @log_dir_group = 'syslog'
+    else
       @log_dir_group = 'root'
     end
+  end
+
+  def init_redhat
+    @package = 'mysql-server'
+    @service = 'mysqld'
+    @conf_path = '/etc/my.cnf'
+    @conf_dir = '/etc/'
+    @data_dir = '/var/lib/mysql/'
+    @log_dir = '/var/log/'
+    @log_path = '/var/log/mysqld.log'
+    @log_group = 'mysql'
+    @log_dir_group = 'root'
+  end
+
+  def init_arch
+    @package = 'mariadb'
+    @service = 'mysql'
+    @conf_path = '/etc/mysql/my.cnf'
+    @conf_dir = '/etc/mysql/'
+    @data_dir = '/var/lib/mysql/'
+    @log_dir = '/var/log/'
+    @log_path = '/var/log/mysql.log'
+    @log_group = 'mysql'
+    @log_dir_group = 'root'
+  end
+
+  def init_default
+    @service = 'mysqld'
+    @conf_path = '/etc/my.cnf'
+    @conf_dir = '/etc/'
+    @data_dir = '/var/lib/mysql/'
+    @log_dir = '/var/log/'
+    @log_path = '/var/log/mysqld.log'
+    @log_group = 'mysql'
+    @log_dir_group = 'root'
   end
 end
