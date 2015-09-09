@@ -13,19 +13,20 @@ module Vulcano
       @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs
-      __CTX = self
+      profile_context_owner = self
 
       # This is the heart of the profile context
       # An instantiated object which has all resources registered to it
       # and exposes them to the a test file.
+      # rubocop:disable Lint/NestedMethodDefinition
       ctx = Class.new do
         include Vulcano::DSL
 
         define_method :__register_rule do |*args|
-          __CTX.register_rule(*args)
+          profile_context_owner.register_rule(*args)
         end
         define_method :__unregister_rule do |*args|
-          __CTX.unregister_rule(*args)
+          profile_context_owner.unregister_rule(*args)
         end
 
         Vulcano::Resource.registry.each do |id, r|
@@ -38,6 +39,8 @@ module Vulcano
           'Profile Context Run'
         end
       end
+      # rubocop:enable all
+
       @profile_context = ctx.new
     end
 
