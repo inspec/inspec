@@ -38,24 +38,29 @@ module Vulcano::Backends
         'Vulcano::Backends::Mock::File' => FileCommon.instance_methods(false),
       }
 
-      set_trace_func proc{|event, file, line, id, binding, classname|
-        next unless
-          classname.to_s.start_with?('Vulcano::Backends::Mock') and
-          event == 'call' and
-          interface_methods[classname.to_s].include?(id)
+      # rubocop:disable Metrics/ParameterLists
+      # rubocop:disable Lint/Eval
+      set_trace_func proc { |event, _file, _line, id, binding, classname|
+        unless classname.to_s.start_with?('Vulcano::Backends::Mock') and
+               event == 'call' and
+               interface_methods[classname.to_s].include?(id)
+          next
+        end
         # kindly borrowed from the wonderful simple-tracer by matugm
-        arg_names = eval("method(__method__).parameters.map { |arg| arg[1].to_s }",binding)
-			  args = eval("#{arg_names}.map { |arg| eval(arg) }",binding).join(', ')
+        arg_names = eval(
+          'method(__method__).parameters.map { |arg| arg[1].to_s }',
+          binding)
+        args = eval("#{arg_names}.map { |arg| eval(arg) }", binding).join(', ')
         prefix = '-' * (classname.to_s.count(':') - 2) + '> '
-        puts  "#{prefix}#{id} #{args}"
+        puts("#{prefix}#{id} #{args}")
       }
+      # rubocop:enable all
     end
-
   end
 
   class Mock
     class File < FileCommon
-      def initialize(runtime, path)
+      def initialize(_runtime, path)
         @path = path
         # mock dataset
         @exists = (rand < 0.8) ? true : false
@@ -69,33 +74,23 @@ module Vulcano::Backends
         if @size > 0
           @content = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
         end
-      end
-
-      def size
-        @size
-      end
-
-      def content
         @content
       end
 
-      def file?
-        @is_file
-      end
-
-      def exists?
-        @exists
+      %w{ size content file? exists? }.each do |m|
+        define_method m.to_sym do
+          instance_variable_get(m.sub('?', '').to_sym)
+        end
       end
     end
 
     class Command
       attr_accessor :stdout, :stderr, :exit_status
-      def initialize(runtime, cmd)
+      def initialize(_runtime, _cmd)
         @exit_code = (rand < 0.7) ? 0 : (100 * rand).to_i
         @stdout =    (0...50).map { ('a'..'z').to_a[rand(26)] }.join
         @stderr =    (0...50).map { ('a'..'z').to_a[rand(26)] }.join
       end
     end
-
   end
 end
