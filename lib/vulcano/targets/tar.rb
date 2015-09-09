@@ -7,7 +7,7 @@ module Vulcano::Targets
     def structure(input)
       files = []
       Gem::Package::TarReader.new(Zlib::GzipReader.open input) do |tar|
-        files = tar.map{|entry| entry.full_name }
+        files = tar.map(&:full_name)
       end
       files
     end
