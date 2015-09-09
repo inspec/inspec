@@ -47,7 +47,7 @@ class InetdConf < Vulcano.resource(1)
       @content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
       key_vals: 6,
-      multiple_values: false
+      multiple_values: false,
     ).params
     @content
   end

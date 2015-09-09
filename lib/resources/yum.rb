@@ -107,7 +107,7 @@ class YumRepo
   # extracts the shortname from a repo id
   # e.g. extras/7/x86_64 -> extras
   def shortname(id)
-    val = /^\s*([^\/]*?)\/(.*?)\s*$/.match(id)
+    val = %r{^\s*([^/]*?)/(.*?)\s*$}.match(id)
     val[1]
   end
 

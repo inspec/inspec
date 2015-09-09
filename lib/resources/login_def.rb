@@ -50,7 +50,7 @@ class LoginDef < Vulcano.resource(1)
     @params = SimpleConfig.new(
       @content,
       assignment_re: /^\s*(\S+)\s+(\S*)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     ).params
     @content
   end

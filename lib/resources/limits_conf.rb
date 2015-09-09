@@ -45,7 +45,7 @@ class LimitsConf < Vulcano.resource(1)
       @content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
       key_vals: 3,
-      multiple_values: true
+      multiple_values: true,
     ).params
     @content
   end

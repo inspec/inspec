@@ -20,7 +20,7 @@ module Vulcano::Resources
       @params = SimpleConfig.new(
         @file.content,
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: true
+        multiple_values: true,
       ).params if @file.exists?
       @loaded = true
       @content

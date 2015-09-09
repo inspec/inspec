@@ -77,7 +77,7 @@ class Passwd < Vulcano.resource(1)
         'gid' => x.at(3),
         'desc' => x.at(4),
         'home' => x.at(5),
-        'shell' => x.at(6)
+        'shell' => x.at(6),
       }
     }
   end

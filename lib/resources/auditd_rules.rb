@@ -18,7 +18,7 @@ class AuditDaemonRules < Vulcano.resource(1)
 
     @opts = {
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: true
+      multiple_values: true,
     }
   end
 
@@ -33,12 +33,13 @@ class AuditDaemonRules < Vulcano.resource(1)
   def status(name)
     @status_opts = {
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     }
     @status_content ||= vulcano.run_command('/sbin/auditctl -s').stdout.chomp
     @status_params = SimpleConfig.new(@status_content, @status_opts).params
+
     status = @status_params['AUDIT_STATUS']
-    if (status == nil) then return nil end
+    return nil if status.nil?
 
     items = Hash[status.scan(/([^=]+)=(\w*)\s*/)]
     items[name]

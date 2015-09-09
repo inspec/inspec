@@ -17,13 +17,11 @@ class PConfig < Vulcano.resource(1)
   def initialize(content = nil, useropts = {})
     default_options = {}
     @opts = default_options.merge(useropts)
-    @content = content
     @files_contents = {}
     @params = nil
 
-    if @content != nil then
-      read_content
-    end
+    @content = content
+    read_content if @content.nil?
   end
 
   def to_s
