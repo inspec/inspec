@@ -19,11 +19,15 @@ module Vulcano::Backends
     def run_command(cmd)
       stdout = stderr = ''
       exit_status = nil
+      cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
       @ssh.open_channel do |channel|
+        channel.request_pty do |ch, success|
+          abort 'Could not obtain pty on SSH channel ' if !success
+        end
         channel.exec(cmd) do |ch, success|
           unless success
-            fail "Couldn't execute command on SSH."
+            abort 'Couldn\'t execute command on SSH.'
           end
 
           channel.on_data do |ch,data|
