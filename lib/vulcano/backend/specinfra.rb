@@ -115,7 +115,7 @@ module Vulcano::Backends
         user_known_hosts_file: '/dev/null',
         global_known_hosts_file: '/dev/null',
         number_of_password_prompts: 0,
-        user: @conf['user'],
+        user: @conf['user'] || 'root',
         password: @conf['password'],
         keys: [@conf['key_file']].compact,
       }
@@ -149,7 +149,11 @@ module Vulcano::Backends
       # validation
       user = @conf['user'].to_s
       pass = @conf['password'].to_s
-      fail 'You must configure a WinRM user for login.' if user.empty?
+
+      if user.empty?
+        warn "We use default 'Administrator' as WinRM user for login."
+        user = 'Administrator'
+      end
       fail 'You must configure a WinRM password.' if pass.empty?
 
       # create the connection
