@@ -27,6 +27,8 @@ end
 class MysqlConf < Vulcano.resource(1)
   name 'mysql_conf'
 
+  include FindFiles
+
   def initialize(conf_path)
     @conf_path = conf_path
     @files_contents = {}
@@ -68,7 +70,8 @@ class MysqlConf < Vulcano.resource(1)
 
     to_read = [@conf_path]
     until to_read.empty?
-      raw_conf = read_file(to_read[0])
+      cur_file = to_read[0]
+      raw_conf = read_file(cur_file)
       @content += raw_conf
 
       params = ParseConfig.new(raw_conf).params
@@ -77,7 +80,8 @@ class MysqlConf < Vulcano.resource(1)
       to_read = to_read.drop(1)
       # see if there is more stuff to include
 
-      to_read += include_files(conf).find_all do |fp|
+      dir = File.dirname(cur_file)
+      to_read += include_files(dir, raw_conf).find_all do |fp|
         not @files_contents.key? fp
       end
     end
@@ -85,14 +89,19 @@ class MysqlConf < Vulcano.resource(1)
     @content
   end
 
-  def include_files(conf)
-    files = conf.scan(/^!include\s+(.*)\s*/).flatten.compact
-    dirs = conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact
+  def include_files(reldir, conf)
+    files = conf.scan(/^!include\s+(.*)\s*/).flatten.compact.map { |x| abs_path(reldir, x) }
+    dirs = conf.scan(/^!includedir\s+(.*)\s*/).flatten.compact.map { |x| abs_path(reldir, x) }
     dirs.map do |dir|
       # @TODO: non local glob
-      files += FindFiles.find(dir, depth: 1, type: 'file')
+      files += find_files(dir, depth: 1, type: 'file')
     end
     files
+  end
+
+  def abs_path(dir, f)
+    return f if f.start_with? '/'
+    File.join(dir, f)
   end
 
   def read_file(path)
