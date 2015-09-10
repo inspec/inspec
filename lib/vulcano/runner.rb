@@ -9,9 +9,6 @@ require 'vulcano/profile_context'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
-require 'specinfra'
-require 'specinfra/helper'
-require 'specinfra/helper/set'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
