@@ -9,6 +9,8 @@ require 'resources/postgres'
 class PostgresConf < Vulcano.resource(1)
   name 'postgres_conf'
 
+  include FindFiles
+
   def initialize(conf_path)
     @conf_path = conf_path
     @conf_dir = File.expand_path(File.dirname @conf_path)
@@ -68,7 +70,7 @@ class PostgresConf < Vulcano.resource(1)
     dirs = params['include_dir'] || []
     dirs.each do |dir|
       dir = File.join(@conf_dir, dir) if dir[0] != '/'
-      include_files += FindFiles.find(dir, depth: 1, type: 'file')
+      include_files += find_files(dir, depth: 1, type: 'file')
     end
     include_files
   end
