@@ -4,6 +4,7 @@
 
 require 'utils/parseconfig'
 require 'utils/find_files'
+require 'utils/hash'
 require 'resources/mysql'
 
 class MysqlConfEntry
@@ -75,7 +76,7 @@ class MysqlConf < Vulcano.resource(1)
       @content += raw_conf
 
       params = ParseConfig.new(raw_conf).params
-      @params.merge!(params)
+      @params = @params.deep_merge(params)
 
       to_read = to_read.drop(1)
       # see if there is more stuff to include
