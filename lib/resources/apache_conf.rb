@@ -8,6 +8,8 @@ require 'utils/find_files'
 class ApacheConf < Vulcano.resource(1)
   name 'apache_conf'
 
+  include FindFiles
+
   def initialize(conf_path)
     @conf_path = conf_path
     @conf_dir = File.dirname(@conf_path)
@@ -87,13 +89,13 @@ class ApacheConf < Vulcano.resource(1)
     required = []
     include_files.each do |f|
       id = File.join(@conf_dir, f)
-      required.push(FindFiles.find(id, depth: 1, type: 'file'))
+      required.push(find_files(id, depth: 1, type: 'file'))
     end
 
     optional = []
     include_files_optional.each do |f|
       id = File.join(@conf_dir, f)
-      optional.push(FindFiles.find(id, depth: 1, type: 'file'))
+      optional.push(find_files(id, depth: 1, type: 'file'))
     end
 
     required.flatten! + optional.flatten!
