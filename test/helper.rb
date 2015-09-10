@@ -66,7 +66,8 @@ def loadResource (resource, *args)
     'pacman -Qi curl' => cmd.call('packman-qi-curl'),
     'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
     'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
-    'pip show jinja2' => cmd.call('pip-show-jinja2')
+    'pip show jinja2' => cmd.call('pip-show-jinja2'),
+    "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call('get-package'),
   }
 
   # load resource
