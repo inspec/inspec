@@ -21,7 +21,7 @@ module Vulcano
       conf['backend']  = conf['backend']  || uri.scheme
       conf['host']     = conf['host']     || uri.host
       conf['port']     = conf['port']     || uri.port
-      conf['user']     = conf['user']     || uri.user
+      conf['user']     = conf['user']     || uri.user || 'root'
       conf['password'] = conf['password'] || uri.password
 
       # return the updated config

@@ -53,7 +53,7 @@ class VulcanoCLI < Thor
     desc: 'Specify a remote host which is tested.'
   option :port, type: :numeric,
     desc: 'Specify the login port for a remote scan.'
-  option :user, type: :string, default: 'root',
+  option :user, type: :string, default: nil,
     desc: 'The login user for a remote scan.'
   option :password, type: :string, default: nil,
     desc: 'Login password for a remote scan, if required.'
