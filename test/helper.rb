@@ -12,6 +12,7 @@ SimpleCov.start do
 end
 
 require 'vulcano/backend'
+require 'vulcano/resource'
 
 # loads a resource class and instantiates the class with the given arguments
 def loadResource (resource, *args)
@@ -40,7 +41,9 @@ def loadResource (resource, *args)
     '/etc/security/limits.conf' => mockfile.('limits.conf'),
     '/etc/inetd.conf' => mockfile.('inetd.conf'),
     '/etc/group' => mockfile.('group'),
-    '/etc/audit/auditd.conf' => mockfile.('auditd.conf')
+    '/etc/audit/auditd.conf' => mockfile.('auditd.conf'),
+    '/etc/mysql/my.cnf' => mockfile.('mysql.conf'),
+    '/etc/mysql/mysql2.conf' => mockfile.('mysql2.conf')
   }
 
   # create all mock commands
