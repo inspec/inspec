@@ -1,0 +1,30 @@
+{
+    "ProviderName": "Programs",
+    "Dependencies": [],
+    "Source": "",
+    "Status": "Installed",
+    "SearchKey": "Mozilla Firefox",
+    "FullPath": "",
+    "PackageFilename": "",
+    "FromTrustedSource": false,
+    "Summary": "Mozilla Firefox 40.0.3 (x86 en-US)",
+    "CanonicalId": "programs:Mozilla Firefox 40.0.3 (x86 en-US)/40.0.3",
+    "Metadata": {},
+    "SwidTagText": "",
+    "Name": "Mozilla Firefox 40.0.3 (x86 en-US)",
+    "Version": "40.0.3",
+    "VersionScheme": "unknown",
+    "Attributes": {
+        "Keys": [
+            "name",
+            "version",
+            "versionScheme"
+        ],
+        "Values": [
+            "Mozilla Firefox 40.0.3 (x86 en-US)",
+            "40.0.3",
+            "unknown"
+        ],
+        "Count": 3
+    }
+}
