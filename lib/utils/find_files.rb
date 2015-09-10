@@ -3,7 +3,6 @@
 # license: All rights reserved
 
 class FindFiles
-
   TYPES = {
     block: 'b',
     character: 'c',
@@ -12,7 +11,7 @@ class FindFiles
     file: 'f',
     link: 'l',
     socket: 's',
-    door: 'D'
+    door: 'D',
   }
 
   attr_reader :error, :files
@@ -27,7 +26,8 @@ class FindFiles
     @result = Specinfra::Runner.run_command(cmd)
     exit_status = @result.exit_status.to_i
     if exit_status == 0
-      @files = @result.stdout.split("\n").map{ |x| x.strip }.find_all { |x| !x.empty? }
+      @files = @result.stdout.split("\n").
+               map(&:strip).find_all { |x| !x.empty? }
     else
       @files = []
     end

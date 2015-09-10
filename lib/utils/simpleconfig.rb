@@ -28,45 +28,42 @@ class SimpleConfig
     start_idx = 2
     i = 0
     count = values - 1
-    if (values == 1)
-      return match[start_idx]
-    else
-      # iterate over expected parameters
-      values = []
-      begin
-        values.push(match[start_idx + i])
-        i += 1
-      end until i > count
-      return values
+    return match[start_idx] if (values == 1)
+
+    # iterate over expected parameters
+    values = []
+    loop do
+      values.push(match[start_idx + i])
+      i += 1
+      break if i > count
     end
+    values
   end
 
-  def parse_rest(rest, opts)
+  def parse_comment_line(rest, opts)
     idx_nl = rest.index("\n")
     idx_comment = rest.index(opts[:comment_char])
     idx_nl = rest.length if idx_nl.nil?
     idx_comment = idx_nl + 1 if idx_comment.nil?
+    line = ''
+
     # is a comment inside this line
-    if idx_comment < idx_nl
-      if idx_comment == 0
-        line = ''
-      else
-        line = rest[0..(idx_comment - 1)]
-        # in case we don't allow comments at the end
-        # of an assignment/statement, ignore it and fall
-        # back to treating this as a regular line
-        if opts[:standalone_comments] && !is_empty_line(line)
-          line = rest[0..(idx_nl - 1)]
-        end
-      end
-    # if there is no comment in this line
-    else
-      if idx_nl == 0
-        line = ''
-      else
+    if idx_comment < idx_nl && idx_comment != 0
+      line = rest[0..(idx_comment - 1)]
+      # in case we don't allow comments at the end
+      # of an assignment/statement, ignore it and fall
+      # back to treating this as a regular line
+      if opts[:standalone_comments] && !is_empty_line(line)
         line = rest[0..(idx_nl - 1)]
       end
+    # if there is no comment in this line
+    elsif idx_comment > idx_nl && idx_nl != 0
+      line = rest[0..(idx_nl - 1)]
     end
+    [line, idx_nl]
+  end
+
+  def parse_line_params(line, opts)
     # now line contains what we are interested in parsing
     # check if it is an assignment
     m = opts[:assignment_re].match(line)
@@ -84,6 +81,11 @@ class SimpleConfig
         @params[line.strip] = ''
       end
     end
+  end
+
+  def parse_rest(rest, opts)
+    line, idx_nl = parse_comment_line(rest, opts)
+    parse_line_params(line, opts)
 
     # return whatever is left
     rest[(idx_nl + 1)..-1] || ''
@@ -101,7 +103,7 @@ class SimpleConfig
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       key_vals: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
-      multiple_values: false
+      multiple_values: false,
     }
   end
 end
