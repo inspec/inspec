@@ -22,7 +22,7 @@ module Vulcano::Resources
       end
     end
 
-    def contain(pattern, from, to)
+    def contain(*_)
       fail ' not yet implemented '
     end
 

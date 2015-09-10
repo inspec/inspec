@@ -38,9 +38,9 @@ module Vulcano::Targets
 
     HANDLERS = [
       ChefAuditDir, ServerspecDir, FlatDir
-    ].map { |x| x.new }
+    ].map(&:new)
 
-    def self.getHandler(paths)
+    def self.get_handler(paths)
       HANDLERS.find { |x| x.handles? paths }
     end
   end

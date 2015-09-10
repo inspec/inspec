@@ -13,13 +13,25 @@ class Processes < Vulcano.resource(1)
       grep = Regexp.new('^' + grep + '(\s|$)')
     end
 
+    all_cmds = ps_aux
+    @list = all_cmds.find_all do |hm|
+      hm[:command] =~ grep
+    end
+  end
+
+  private
+
+  def ps_aux
     # get all running processes
     cmd = vulcano.run_command('ps aux')
     all = cmd.stdout.split("\n")[1..-1]
-    all_cmds = all.map do |line|
+
+    lines = all.map do |line|
       # user   32296  0.0  0.0  42592  7972 pts/15   Ss+  Apr06   0:00 zsh
       line.match(/^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/)
-    end.compact.map do |m|
+    end.compact
+
+    lines.map do |m|
       {
         user: m[1],
         pid: m[2],
@@ -31,12 +43,8 @@ class Processes < Vulcano.resource(1)
         stat: m[8],
         start: m[9],
         time: m[10],
-        command: m[11]
+        command: m[11],
       }
-    end
-
-    @list = all_cmds.find_all do |hm|
-      hm[:command] =~ grep
     end
   end
 end

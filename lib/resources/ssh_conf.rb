@@ -51,9 +51,10 @@ class SshConf < Vulcano.resource(1)
     end
 
     # parse the file
-    @params = SimpleConfig.new(@conf.content,
+    @params = SimpleConfig.new(
+      @conf.content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
-      multiple_values: true
+      multiple_values: true,
     ).params
   end
 end

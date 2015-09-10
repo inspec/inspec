@@ -73,7 +73,7 @@ module Vulcano::Backends
       Specinfra.configuration.backend = :exec
     end
 
-    def validate_ssh_options( ssh_opts )
+    def validate_ssh_options(ssh_opts)
       unless ssh_opts[:port] > 0
         fail "Port must be > 0 (not #{ssh_opts[:port]})"
       end
@@ -91,10 +91,12 @@ module Vulcano::Backends
         ssh_opts[:auth_methods].push('password')
       end
 
+      # rubocop:disable Style/GuardClause
       if ssh_opts[:keys].empty? and ssh_opts[:password].nil?
         fail 'You must configure at least one authentication method' \
           ': Password or key.'
       end
+      # rubocop:enable Style/GuardClause
     end
 
     def configure_ssh
@@ -114,23 +116,18 @@ module Vulcano::Backends
         number_of_password_prompts: 0,
         user: @conf['user'],
         password: @conf['password'],
-        keys: [@conf['key_file']].compact
+        keys: [@conf['key_file']].compact,
       }
 
       validate_ssh_options(ssh_opts)
       si.ssh_options = ssh_opts
     end
 
-    def configure_winrm
-      si = Specinfra.configuration
-      si.backend = :winrm
-      si.os = { family: 'windows' }
-
-      # common options
+    def winrm_url(conf)
       host = conf['host'].to_s
       port = conf['port']
-      user = conf['user'].to_s
-      pass = conf['password'].to_s
+      fail 'You must configure a target host.' if host.empty?
+      fail 'Port must be > 0 (not #{port})' unless port > 0
 
       # SSL configuration
       if conf['winrm_ssl']
@@ -141,29 +138,29 @@ module Vulcano::Backends
         port ||= 5985
       end
 
+      "#{scheme}://#{host}:#{port}/wsman"
+    end
+
+    def configure_winrm
+      si = Specinfra.configuration
+      si.backend = :winrm
+      si.os = { family: 'windows' }
+
       # validation
-      if host.empty?
-        fail 'You must configure a target host.'
-      end
-      unless port > 0
-        fail 'Port must be > 0 (not #{port})'
-      end
-      if user.empty?
-        fail 'You must configure a WinRM user for login.'
-      end
-      if pass.empty?
-        fail 'You must configure a WinRM password.'
-      end
+      user = conf['user'].to_s
+      pass = conf['password'].to_s
+      fail 'You must configure a WinRM user for login.' if user.empty?
+      fail 'You must configure a WinRM password.' if pass.empty?
 
       # create the connection
-      endpoint = "#{scheme}://#{host}:#{port}/wsman"
+      endpoint = winrm_url(conf)
       winrm = ::WinRM::WinRMWebService.new(
         endpoint,
         :ssl,
         user: user,
         pass: pass,
         basic_auth_only: true,
-        no_ssl_peer_verification: conf['winrm_self_signed']
+        no_ssl_peer_verification: conf['winrm_self_signed'],
       )
       si.winrm = winrm
     end

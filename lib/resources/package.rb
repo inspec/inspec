@@ -31,7 +31,7 @@ class Package < Vulcano.resource(1)
   end
 
   # returns true if the package is installed
-  def installed?(provider = nil, version = nil)
+  def installed?(_provider, _version)
     !info.nil?
   end
 
@@ -68,13 +68,13 @@ class Deb < PkgManagement
     params = SimpleConfig.new(
       cmd.stdout.chomp,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     ).params
     {
       name: params['Package'],
       installed: true,
       version: params['Version'],
-      type: 'deb'
+      type: 'deb',
     }
   end
 end
@@ -87,13 +87,13 @@ class Rpm < PkgManagement
     params = SimpleConfig.new(
       cmd.stdout.chomp,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     ).params
     {
       name: params['Name'],
       installed: true,
       version: params['Version'],
-      type: 'rpm'
+      type: 'rpm',
     }
   end
 end
@@ -109,7 +109,7 @@ class Brew < PkgManagement
       name: "#{pkg.name}",
       installed: true,
       version: "#{pkg.installed.version}",
-      type: 'brew'
+      type: 'brew',
     }
   end
 end
@@ -123,14 +123,14 @@ class Pacman < PkgManagement
     params = SimpleConfig.new(
       cmd.stdout.chomp,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-      multiple_values: false
+      multiple_values: false,
     ).params
 
     {
       name: params['Name'],
       installed: true,
       version: params['Version'],
-      type: 'pacman'
+      type: 'pacman',
     }
   end
 end

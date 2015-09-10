@@ -15,29 +15,30 @@ if os[:family] == 'windows'
   # Server (3)
 
   # Version = product type + platform + major = minor
-  versions = Hash.new
-  versions['0'] = '3.1'
-  versions['140'] = '95'
-  versions['1410'] = '98'
-  versions['1490'] = 'ME'
-  versions['1351'] = 'NT 3.51'
-  versions['3351'] = 'NT 3.51 Server'
-  versions['1240'] = 'NT 4.0'
-  versions['3240'] = 'NT 4.0 Server'
-  versions['1250'] = '2000'
-  versions['1251'] = 'XP'
-  versions['3252'] = 'Server 2003'
-  versions['3260'] = 'Server 2003 R2'
-  versions['1252'] = 'Vista'
-  versions['3252'] = 'Server 2008'
-  versions['1261'] = '7'
-  versions['3261'] = 'Server 2008 R2'
-  versions['1262'] = '8'
-  versions['3262'] = 'Server 2012'
-  versions['1263'] = '8.1'
-  versions['3263'] = 'Server 2012 R2'
-  versions['12100'] = '10'
-  versions['32100'] = 'Server 2016'
+  versions = {
+    '0' => '3.1',
+    '140' => '95',
+    '1410' => '98',
+    '1490' => 'ME',
+    '1351' => 'NT 3.51',
+    '3351' => 'NT 3.51 Server',
+    '1240' => 'NT 4.0',
+    '3240' => 'NT 4.0 Server',
+    '1250' => '2000',
+    '1251' => 'XP',
+    '3252' => 'Server 2003',
+    '3260' => 'Server 2003 R2',
+    '1252' => 'Vista',
+    '3252' => 'Server 2008',
+    '1261' => '7',
+    '3261' => 'Server 2008 R2',
+    '1262' => '8',
+    '3262' => 'Server 2012',
+    '1263' => '8.1',
+    '3263' => 'Server 2012 R2',
+    '12100' => '10',
+    '32100' => 'Server 2016',
+  }
 
   producttype = res['OS']['ProductType'].to_s
   if producttype == '2' then producttype = '3' end
@@ -46,9 +47,10 @@ if os[:family] == 'windows'
 end
 
 # print OS detection infos
-puts JSON.dump({
-  os_family:   os[:family],
-  os_release:  release || os[:release],
-  os_arch:     os[:arch]
-})
+conf = {
+  os_family: os[:family],
+  os_release: release || os[:release],
+  os_arch: os[:arch],
+}
+puts JSON.dump(conf)
 exit 0
