@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-class FindFiles
+module FindFiles
   TYPES = {
     block: 'b',
     character: 'c',
@@ -14,8 +14,7 @@ class FindFiles
     door: 'D',
   }
 
-  attr_reader :error, :files
-  def initialize(path, opts = {})
+  def find_files(path, opts = {})
     depth = opts[:depth]
     type = TYPES[opts[:type].to_sym]
 
@@ -23,17 +22,13 @@ class FindFiles
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
     cmd += " -type #{type}" unless type.nil?
 
-    @result = Specinfra::Runner.run_command(cmd)
-    exit_status = @result.exit_status.to_i
-    if exit_status == 0
-      @files = @result.stdout.split("\n").
-               map(&:strip).find_all { |x| !x.empty? }
-    else
-      @files = []
-    end
-  end
+    result = vulcano.run_command(cmd)
+    exit_status = result.exit_status
 
-  def self.find(path, opts = {})
-    FindFiles.new(path, opts).files
+    return [nil, exit_status] unless exit_status == 0
+    files = result.stdout.split("\n").
+            map(&:strip).
+            find_all { |x| !x.empty? }
+    [files, exit_status]
   end
 end
