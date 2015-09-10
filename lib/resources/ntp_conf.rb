@@ -47,7 +47,7 @@ class NtpConf < Vulcano.resource(1)
     @params = SimpleConfig.new(
       @content,
       assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
-      multiple_values: true
+      multiple_values: true,
     ).params
     @content
   end

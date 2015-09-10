@@ -56,10 +56,8 @@ module Vulcano::Backends
 
     def validate_options(options)
       if options[:keys].empty? and options[:password].nil?
-        fail(
-          'You must configure at least one authentication method for SSH:'\
-          ' Password or key.'
-        )
+        fail 'You must configure at least one authentication method for SSH:'\
+             ' Password or key.'
       end
 
       unless options[:keys].empty?

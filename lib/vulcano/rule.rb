@@ -33,7 +33,7 @@ module Vulcano::DSL
     line = block.source_location[1]
     id = "#{File.basename(path)}:#{line}"
     rule = Vulcano::Rule.new(id, {}) do
-      describe *args, &block
+      describe(*args, &block)
     end
     __register_rule rule, &block
   end
@@ -44,7 +44,7 @@ module Vulcano::DSL
 
   def only_if(&block)
     return unless block_given?
-    @skip_profile = !block.()
+    @skip_profile = !block.call
   end
 
   def require_rules(id, &block)
@@ -95,7 +95,7 @@ module Vulcano::DSL
       ex.metadata[:id] = id
     }
     obj.children.each {|c|
-      self.set_rspec_ids(c, id)
+      set_rspec_ids(c, id)
     }
   end
 
@@ -146,7 +146,7 @@ module Vulcano::DSL
     end
 
     # finally register all combined rules
-    rule_registry.each do |id, rule|
+    rule_registry.each do |_id, rule|
       bind_context.__register_rule rule
     end
   end
@@ -166,7 +166,6 @@ module Vulcano::DSL
     end
     files
   end
-
 end
 
 module Vulcano::GlobalDSL
@@ -174,12 +173,14 @@ module Vulcano::GlobalDSL
     # make sure the profile id is attached to the rule
     ::Vulcano::DSL.execute_rule(r, __profile_id)
   end
-  def __unregister_rule(id)
+
+  def __unregister_rule(_id)
   end
 end
 
 module Vulcano::DSLHelper
   def self.bind_dsl(scope)
+    # rubocop:disable Lint/NestedMethodDefinition
     (class << scope; self; end).class_exec do
       include Vulcano::DSL
       include Vulcano::GlobalDSL
@@ -187,6 +188,7 @@ module Vulcano::DSLHelper
         ENV['VULCANOSEC_PROFILE_ID']
       end
     end
+    # rubocop:enable all
   end
 end
 

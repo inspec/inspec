@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 class VulcanoBaseRule
-  def initialize(id, opts, &block)
+  def initialize(id, _opts, &block)
     @id = id
     @impact = nil
     @__code = ''
@@ -14,10 +14,10 @@ class VulcanoBaseRule
     @profile_id = nil
     @checks = []
     # evaluate the given definition
-    self.instance_eval(&block) if block_given?
+    instance_eval(&block) if block_given?
   end
 
-  def id(v = nil)
+  def id(*_)
     # never overwrite the ID
     @id
   end
@@ -49,9 +49,9 @@ class VulcanoBaseRule
       return
     end
     # merge all fields
-    dst.impact(src.impact) if src.impact != nil
-    dst.title(src.title)   if src.title != nil
-    dst.desc(src.desc)     if src.desc != nil
+    dst.impact(src.impact) unless src.impact.nil?
+    dst.title(src.title)   unless src.title.nil?
+    dst.desc(src.desc)     unless src.desc.nil?
     # merge indirect fields
     # checks defined in the source will completely eliminate
     # all checks that were defined in the destination

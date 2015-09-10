@@ -20,7 +20,7 @@ class NpmPackage < Vulcano.resource(1)
     @cache = {
       name: @package_name,
       version: pkgs['dependencies'][@package_name]['version'],
-      type: 'npm'
+      type: 'npm',
     }
   end
 

@@ -51,7 +51,7 @@ class Vulcano::Plugins::Backend
       block_device:     00060000,
       directory:        00040000,
       character_device: 00020000,
-      pipe:             00010000
+      pipe:             00010000,
     }
 
     def stat
@@ -77,7 +77,7 @@ class Vulcano::Plugins::Backend
         owner: fields[2],
         group: fields[3],
         mtime: fields[5].to_i,
-        size: fields[0]
+        size: fields[0],
       }
     end
   end

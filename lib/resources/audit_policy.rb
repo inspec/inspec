@@ -46,14 +46,13 @@ class AuditPolicy < Vulcano.resource(1)
     }
 
     # extract value
-    if target != nil
+    values = nil
+    unless target.nil?
       # split csv values and return value
-      value = target.split(',')[4]
-    else
-      value = nil
+      values = target.split(',')[4]
     end
 
-    value
+    values
   end
 
   def to_s

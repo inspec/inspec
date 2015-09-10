@@ -4,14 +4,15 @@ require 'vulcano/targets/dir'
 
 module Vulcano::Targets
   class ZipHelper
-    def content(input, filter)
+    def content(input, _filter)
       content = []
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
-          content.push({
+          h = {
             content: io.read,
-            ref: File.join(input, entry.name)
-          })
+            ref: File.join(input, entry.name),
+          }
+          content.push(h)
         end
       end
       content
@@ -29,12 +30,13 @@ module Vulcano::Targets
 
     def resolve(path)
       files = structure(path)
-      helper = DirsHelper.getHandler(files)
+      helper = DirsHelper.get_handler(files)
       if helper.nil?
         fail "Don't know how to handle folder #{path}"
       end
       # get all file contents
-      file_handler = Vulcano::Targets.modules['file']
+      # @TODO
+      _file_handler = Vulcano::Targets.modules['file']
       test_files = helper.get_filenames(files)
       content(path, test_files)
     end

@@ -33,7 +33,7 @@ class ApacheConf < Vulcano.resource(1)
   def filter_comments(data)
     content = ''
     data.each_line do |line|
-      if (!line.match(/^\s*#/)) then
+      if !line.match(/^\s*#/)
         content << line
       end
     end
@@ -56,7 +56,7 @@ class ApacheConf < Vulcano.resource(1)
     end
 
     to_read = [@conf_path]
-    while !to_read.empty?
+    until to_read.empty?
       raw_conf = read_file(to_read[0])
       @content += raw_conf
 
@@ -64,42 +64,39 @@ class ApacheConf < Vulcano.resource(1)
       params = SimpleConfig.new(
         raw_conf,
         assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
-        multiple_values: true
+        multiple_values: true,
       ).params
       @params.merge!(params)
 
       to_read = to_read.drop(1)
-      # see if there is more config files to include
-      include_files = params['Include'] || []
-      include_files_optional = params['IncludeOptional'] || []
-
-      required = []
-      include_files.each do |f|
-        id = File.join(@conf_dir, f)
-        required.push(FindFiles.find(id, depth: 1, type: 'file'))
-      end
-
-      required.flatten!
-      to_read += required.find_all do |fp|
-        not @files_contents.key? fp
-      end
-
-      optional = []
-      include_files_optional.each do |f|
-        id = File.join(@conf_dir, f)
-        optional.push(FindFiles.find(id, depth: 1, type: 'file'))
-      end
-
-      optional.flatten!
-      to_read += optional.find_all do |fp|
+      to_read += include_files(params).find_all do |fp|
         not @files_contents.key? fp
       end
     end
 
     # fiter comments
     @content = filter_comments @content
-
     @content
+  end
+
+  def include_files(params)
+    # see if there is more config files to include
+    include_files = params['Include'] || []
+    include_files_optional = params['IncludeOptional'] || []
+
+    required = []
+    include_files.each do |f|
+      id = File.join(@conf_dir, f)
+      required.push(FindFiles.find(id, depth: 1, type: 'file'))
+    end
+
+    optional = []
+    include_files_optional.each do |f|
+      id = File.join(@conf_dir, f)
+      optional.push(FindFiles.find(id, depth: 1, type: 'file'))
+    end
+
+    required.flatten! + optional.flatten!
   end
 
   def read_file(path)

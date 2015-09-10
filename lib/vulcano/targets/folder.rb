@@ -14,7 +14,7 @@ module Vulcano::Targets
       # remove the prefix
       files = files.map { |x| x[target.length + 1..-1] }
       # get the dirs helper
-      helper = DirsHelper.getHandler(files)
+      helper = DirsHelper.get_handler(files)
       if helper.nil?
         fail "Don't know how to handle folder #{target}"
       end

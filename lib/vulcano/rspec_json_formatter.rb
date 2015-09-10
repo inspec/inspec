@@ -17,7 +17,7 @@ module RSpec::Core::Formatters
         line_number: example.metadata['line_number'],
         run_time: example.execution_result.run_time,
         pending_message: example.execution_result.pending_message,
-        id: example.metadata[:id]
+        id: example.metadata[:id],
       }
     end
   end

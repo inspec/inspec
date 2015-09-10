@@ -8,6 +8,7 @@ module Vulcano
       end
 
       def self.__register(name, obj)
+        # rubocop:disable Lint/NestedMethodDefinition
         cl = Class.new(obj) do
           # add some common methods
           include Vulcano::Plugins::ResourceCommon
@@ -22,6 +23,7 @@ module Vulcano
             @__backend_runner__
           end
         end
+        # rubocop:enable Lint/NestedMethodDefinition
 
         # add the resource to the registry by name
         Vulcano::Resource.registry[name] = cl
