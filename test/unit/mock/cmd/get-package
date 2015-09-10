@@ -1,0 +1,93 @@
+{
+    "ProviderName": "Programs",
+    "Dependencies": [],
+    "Source": "",
+    "Status": "Installed",
+    "SearchKey": "Mozilla Firefox",
+    "FullPath": "",
+    "PackageFilename": "",
+    "FromTrustedSource": false,
+    "Summary": "Mozilla Firefox 40.0.3 (x86 en-US)",
+    "SwidTags": [
+        {
+            "ProviderName": "Programs",
+            "Dependencies": "",
+            "Source": "",
+            "Status": "Installed",
+            "SearchKey": "Mozilla Firefox",
+            "FullPath": "",
+            "PackageFilename": "",
+            "FromTrustedSource": false,
+            "Summary": "Mozilla Firefox 40.0.3 (x86 en-US)",
+            "SwidTags": "Microsoft.PackageManagement.Packaging.SoftwareIdentity",
+            "CanonicalId": "programs:Mozilla Firefox 40.0.3 (x86 en-US)/40.0.3",
+            "Metadata": "",
+            "IsCorpus": null,
+            "Name": "Mozilla Firefox 40.0.3 (x86 en-US)",
+            "Version": "40.0.3",
+            "VersionScheme": "unknown",
+            "TagVersion": null,
+            "TagId": null,
+            "IsPatch": null,
+            "IsSupplemental": null,
+            "AppliesToMedia": null,
+            "Meta": "",
+            "Links": "",
+            "Entities": "",
+            "Payload": null,
+            "Evidence": null,
+            "XmlLang": null,
+            "Attributes": "{name,version,versionScheme}"
+        }
+    ],
+    "CanonicalId": "programs:Mozilla Firefox 40.0.3 (x86 en-US)/40.0.3",
+    "Metadata": {},
+    "SwidTagText": "",
+    "IsCorpus": null,
+    "Name": "Mozilla Firefox 40.0.3 (x86 en-US)",
+    "Version": "40.0.3",
+    "VersionScheme": "unknown",
+    "TagVersion": null,
+    "TagId": null,
+    "IsPatch": null,
+    "IsSupplemental": null,
+    "AppliesToMedia": null,
+    "Meta": [
+        {
+            "ActivationStatus": null,
+            "ChannelType": null,
+            "Description": null,
+            "ColloquialVersion": null,
+            "Edition": null,
+            "EntitlementKey": null,
+            "Generator": null,
+            "PersistentId": null,
+            "Product": null,
+            "ProductFamily": null,
+            "Revision": null,
+            "UnspscCode": null,
+            "UnspscVersion": null,
+            "EntitlementDataRequired": null,
+            "XmlLang": null,
+            "Attributes": ""
+        }
+    ],
+    "Links": [],
+    "Entities": [],
+    "Payload": null,
+    "Evidence": null,
+    "XmlLang": null,
+    "Attributes": {
+        "Keys": [
+            "name",
+            "version",
+            "versionScheme"
+        ],
+        "Values": [
+            "Mozilla Firefox 40.0.3 (x86 en-US)",
+            "40.0.3",
+            "unknown"
+        ],
+        "Count": 3
+    }
+}
