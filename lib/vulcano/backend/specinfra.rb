@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'shellwords'
+require 'winrm'
 
 module Vulcano::Backends
   class SpecinfraHelper < Vulcano.backend(1)
@@ -127,7 +128,6 @@ module Vulcano::Backends
       host = conf['host'].to_s
       port = conf['port']
       fail 'You must configure a target host.' if host.empty?
-      fail 'Port must be > 0 (not #{port})' unless port > 0
 
       # SSL configuration
       if conf['winrm_ssl']
@@ -147,20 +147,20 @@ module Vulcano::Backends
       si.os = { family: 'windows' }
 
       # validation
-      user = conf['user'].to_s
-      pass = conf['password'].to_s
+      user = @conf['user'].to_s
+      pass = @conf['password'].to_s
       fail 'You must configure a WinRM user for login.' if user.empty?
       fail 'You must configure a WinRM password.' if pass.empty?
 
       # create the connection
-      endpoint = winrm_url(conf)
+      endpoint = winrm_url(@conf)
       winrm = ::WinRM::WinRMWebService.new(
         endpoint,
         :ssl,
         user: user,
         pass: pass,
         basic_auth_only: true,
-        no_ssl_peer_verification: conf['winrm_self_signed'],
+        no_ssl_peer_verification: @conf['winrm_self_signed'],
       )
       si.winrm = winrm
     end
