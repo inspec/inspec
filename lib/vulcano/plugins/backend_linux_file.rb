@@ -28,7 +28,15 @@ class Vulcano::Plugins::Backend
       # @TODO: handle error
       @link_target ||= (
         @backend.
-          run_command("readlink #{@spath}").stdout
+          run_command("readlink #{@spath}").stdout.chomp
+      )
+    end
+
+    def mounted?
+      @mounted ||= (
+        !@backend.
+          run_command("mount | grep -- ' on #{@spath}'").
+          stdout.empty?
       )
     end
 
@@ -56,14 +64,14 @@ class Vulcano::Plugins::Backend
 
     def stat
       return @stat unless @stat.nil?
-      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%s\n%f\n%u\n%g\n%X\n%Y'")
+      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y'")
 
       if res.exit_status != 0
         return @stat = {}
       end
 
       fields = res.stdout.split("\n")
-      if fields.length != 6
+      if fields.length != 8
         return @stat = {}
       end
 
@@ -75,9 +83,9 @@ class Vulcano::Plugins::Backend
         type: type[0],
         mode: tmask & 00777,
         owner: fields[2],
-        group: fields[3],
-        mtime: fields[5].to_i,
-        size: fields[0],
+        group: fields[4],
+        mtime: fields[7].to_i,
+        size: fields[0].to_i,
       }
     end
   end
