@@ -29,26 +29,26 @@ class DockerTester
     # start reporting loop
     reporter.report(0) do |report|
       # test all images
-      promises = @conf['images'].map { |n|
-        Concurrent::Promise.new {
-          # prepare container
-          container = prepare_image(n)
-          # run tests
-          runner = test_container(container.id)
-          tests = runner.tests.ordered_example_groups
-          ok = tests.map { |g| g.run(report) }
-          # teardown container
-          stop_container(container)
-          # Report either 0 for all ok or an exit code
-          ok.all? ? 0 : conf.failure_exit_code
-        }.execute
-      }
+      promises = @conf['images'].map do |name|
+        run_on_target(name, report, conf)
+      end
       # wait for all tests to be finished
       sleep(0.1) until promises.all?(&:fulfilled?)
     end
 
     # check if we were successful
-    promises.map(&:value).all? or fail 'Test failures'
+    failures = promises.map(&:value).find_all { |x| x!=0 }
+    failures.empty? or fail 'Test failures'
+  end
+
+  def run_on_target(name, report, conf)
+    pr = Concurrent::Promise.new {
+      container = prepare_container(name)
+      status = test_container(container, report)
+      stop_container(container)
+      # Report either 0 for all ok or an exit code
+      status.all? ? 0 : conf.failure_exit_code
+    }.execute
   end
 
   def docker_images_by_tag
@@ -69,15 +69,16 @@ class DockerTester
     YAML.load(File.read(conf_path))
   end
 
-  def test_container(container_id)
-    puts "--> run test on docker #{container_id}"
-    opts = { 'target' => "docker://#{container_id}" }
+  def test_container(container, report)
+    puts "--> run test on docker #{container.id}"
+    opts = { 'target' => "docker://#{container.id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
-    runner
+    tests = runner.tests.ordered_example_groups
+    tests.map { |g| g.run(report) }
   end
 
-  def prepare_image(name)
+  def prepare_container(name)
     dname = "docker-#{name}:latest"
     image = @images[dname]
     fail "Can't find docker image #{dname}" if image.nil?
