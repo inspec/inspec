@@ -21,26 +21,21 @@ class DockerTester
   def run
     puts ['Running tests:', @tests].flatten.join("\n- ")
     puts ''
+    rspec_runner = RSpec::Core::Runner.new(nil)
+
     # test all images
     promises = @conf['images'].map { |n|
       Concurrent::Promise.new {
         container = prepare_image(n)
         runner = test_container(container.id)
-        [container, runner]
+        res = runner.run_with(rspec_runner)
+        stop_container(container)
+        res
       }.execute
     }
 
     sleep(0.1) until promises.all?(&:fulfilled?)
-
-    runner = promises[0].value[1]
-    ok = runner.run
-
-    done = promises.map do |promise|
-      promise.then { |c, _| stop_container(c) }
-    end
-    sleep(0.1) until done.all?(&:fulfilled?)
-
-    ok or fail 'Test failures'
+    promises.map(&:value).all? or fail 'Test failures'
   end
 
   def docker_images_by_tag

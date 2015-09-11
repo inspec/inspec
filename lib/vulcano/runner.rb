@@ -17,6 +17,7 @@ module Vulcano
       @rules = []
       @profile_id = profile_id
       @conf = Vulcano::Backend.target_config(normalize_map(conf))
+      @tests = RSpec::Core::World.new
 
       configure_output
       configure_backend
@@ -87,14 +88,17 @@ module Vulcano
           end
 
           set_rspec_ids(example, rule_id)
-          RSpec.world.register(example)
+          @tests.register(example)
         end
       end
     end
 
     def run
-      rspec_runner = RSpec::Core::Runner.new(nil)
-      rspec_runner.run_specs(RSpec.world.ordered_example_groups)
+      run_with(RSpec::Core::Runner.new(nil))
+    end
+
+    def run_with(rspec_runner)
+      rspec_runner.run_specs(@tests.ordered_example_groups)
     end
 
     def set_rspec_ids(example, id)
