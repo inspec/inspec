@@ -23,22 +23,24 @@ class DockerTester
     puts ''
     # test all images
     promises = @conf['images'].map { |n|
-      Concurrent::Promise.new { prepare_image(n) }.execute
+      Concurrent::Promise.new {
+        container = prepare_image(n)
+        runner = test_container(container.id)
+        [container, runner]
+      }.execute
     }
 
     sleep(0.1) until promises.all?(&:fulfilled?)
 
-    res = promises.map do |promise|
-      container = promise.value
-      test_container(container.id)
-    end
+    runner = promises[0].value[1]
+    ok = runner.run
 
     done = promises.map do |promise|
-      promise.then { |c| stop_container(c) }
+      promise.then { |c, _| stop_container(c) }
     end
     sleep(0.1) until done.all?(&:fulfilled?)
 
-    res.all? or fail 'Test failures'
+    ok or fail 'Test failures'
   end
 
   def docker_images_by_tag
@@ -64,7 +66,7 @@ class DockerTester
     opts = { 'target' => "docker://#{container_id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
-    runner.run
+    runner
   end
 
   def prepare_image(name)

@@ -18,9 +18,6 @@ module Vulcano
       @profile_id = profile_id
       @conf = Vulcano::Backend.target_config(normalize_map(conf))
 
-      # global reset
-      RSpec.world.reset
-
       configure_output
       configure_backend
     end
@@ -34,8 +31,6 @@ module Vulcano
     end
 
     def configure_output
-      # RSpec.configuration.output_stream = $stdout
-      # RSpec.configuration.error_stream = $stderr
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
