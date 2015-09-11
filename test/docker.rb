@@ -49,6 +49,11 @@ class DockerTester
       # Report either 0 for all ok or an exit code
       status.all? ? 0 : conf.failure_exit_code
     }.execute
+    pr.rescue do |err|
+      puts err.message
+      puts err.backtrace.join("\n")
+      conf.failure_exit_code
+    end
   end
 
   def docker_images_by_tag
