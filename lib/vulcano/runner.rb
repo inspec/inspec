@@ -13,6 +13,7 @@ require 'vulcano/rspec_json_formatter'
 
 module Vulcano
   class Runner
+    attr_reader :tests
     def initialize(profile_id, conf)
       @rules = []
       @profile_id = profile_id

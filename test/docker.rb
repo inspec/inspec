@@ -21,20 +21,33 @@ class DockerTester
   def run
     puts ['Running tests:', @tests].flatten.join("\n- ")
     puts ''
-    rspec_runner = RSpec::Core::Runner.new(nil)
 
-    # test all images
-    promises = @conf['images'].map { |n|
-      Concurrent::Promise.new {
-        container = prepare_image(n)
-        runner = test_container(container.id)
-        res = runner.run_with(rspec_runner)
-        stop_container(container)
-        res
-      }.execute
-    }
+    conf = RSpec.configuration
+    reporter = conf.reporter
+    promises = nil
 
-    sleep(0.1) until promises.all?(&:fulfilled?)
+    # start reporting loop
+    reporter.report(0) do |report|
+      # test all images
+      promises = @conf['images'].map { |n|
+        Concurrent::Promise.new {
+          # prepare container
+          container = prepare_image(n)
+          # run tests
+          runner = test_container(container.id)
+          tests = runner.tests.ordered_example_groups
+          ok = tests.map { |g| g.run(report) }
+          # teardown container
+          stop_container(container)
+          # Report either 0 for all ok or an exit code
+          ok.all? ? 0 : conf.failure_exit_code
+        }.execute
+      }
+      # wait for all tests to be finished
+      sleep(0.1) until promises.all?(&:fulfilled?)
+    end
+
+    # check if we were successful
     promises.map(&:value).all? or fail 'Test failures'
   end
 
