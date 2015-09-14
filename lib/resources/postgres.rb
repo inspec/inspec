@@ -7,7 +7,7 @@ class Postgres < Vulcano.resource(1)
 
   attr_reader :service, :data_dir, :conf_dir, :conf_path
   def initialize
-    case os[:family]
+    case vulcano.os[:family]
     when 'ubuntu', 'debian'
       @service = 'postgresql'
       @data_dir = '/var/lib/postgresql'
