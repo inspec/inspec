@@ -8,7 +8,7 @@ class Mysql < Vulcano.resource(1)
   attr_reader :package, :service, :conf_dir, :conf_path, :data_dir, :log_dir, :log_path, :log_group, :log_dir_group
   def initialize
     # set OS-dependent filenames and paths
-    case os[:family]
+    case vulcano.os[:family]
     when 'ubuntu', 'debian'
       init_ubuntu
     when 'redhat', 'fedora'

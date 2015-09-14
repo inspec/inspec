@@ -16,7 +16,7 @@ class Package < Vulcano.resource(1)
 
     # select package manager
     @pkgman = nil
-    case os[:family]
+    case vulcano.os[:family]
     when 'ubuntu', 'debian'
       @pkgman = Deb.new(vulcano)
     when 'redhat', 'fedora'
