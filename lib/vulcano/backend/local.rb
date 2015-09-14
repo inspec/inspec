@@ -74,8 +74,7 @@ module Vulcano::Backends
         begin
           file_stat = ::File.stat(@path)
         rescue RuntimeError => _
-          @stat = {}
-          return
+          return @stat = {}
         end
 
         tmask = file_stat.mode
@@ -102,6 +101,8 @@ module Vulcano::Backends
         rescue ArgumentError => _
           @stat[:group] = nil
         end
+
+        @stat
       end
     end
   end
