@@ -92,8 +92,12 @@ module Vulcano::Backends
 
     def configure_shared_options
       Specinfra::Backend::Cmd.send(:include, Specinfra::Helper::Set)
+
+      # Force specinfra to disregard any locally detected backend and instead
+      # retry backend detection.
+      Specinfra::Properties.instance.properties({})
+
       si = Specinfra.configuration
-      si.os = nil
       if @conf['disable_sudo']
         si.disable_sudo = true
       else
