@@ -6,6 +6,37 @@ require 'specinfra/helper'
 require 'specinfra/helper/set'
 require 'winrm'
 
+module Specinfra
+  module Helper
+    module Os
+      def os
+        property[:os] = {} if ! property[:os]
+        if ! property[:os].include?(:family)
+          property[:os] = detect_os
+        end
+        property[:os]
+      end
+
+      private
+      def detect_os
+        backend = Specinfra.configuration.backend
+        if backend == :cmd || backend == :winrm
+          return { :family => 'windows', :release => nil, :arch => nil }
+        end
+
+        Specinfra::Helper::DetectOs.subclasses.each do |c|
+          res = c.detect
+          if res
+            res[:arch] ||= Specinfra.backend.run_command('uname -m').stdout.strip
+            return res
+          end
+        end
+        raise NotImplementedError, "Specinfra failed os detection."
+      end
+    end
+  end
+end
+
 module Vulcano::Backends
   class SpecinfraHelper < Vulcano.backend(1)
     name 'specinfra'
@@ -27,6 +58,10 @@ module Vulcano::Backends
       else
         fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
+    end
+
+    def os
+      Specinfra::Helper::Os.os
     end
 
     def file(path)
@@ -58,6 +93,7 @@ module Vulcano::Backends
     def configure_shared_options
       Specinfra::Backend::Cmd.send(:include, Specinfra::Helper::Set)
       si = Specinfra.configuration
+      si.os = nil
       if @conf['disable_sudo']
         si.disable_sudo = true
       else
