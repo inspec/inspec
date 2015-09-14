@@ -15,7 +15,7 @@ desc 'Run robocop linter'
 task lint: [:rubocop]
 
 # run tests
-task :default => :test
+task default: :test
 Rake::TestTask.new do |t|
   t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
@@ -28,7 +28,7 @@ namespace :test do
   task :isolated do
     Dir.glob('test/**/*_test.rb').all? do |file|
       sh(Gem.ruby, '-w', '-Ilib:test', file)
-    end or raise 'Failures'
+    end or fail 'Failures'
   end
 
   task :resources do
