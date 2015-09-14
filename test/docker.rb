@@ -2,6 +2,7 @@
 
 require 'docker'
 require 'yaml'
+require 'concurrent'
 require_relative '../lib/vulcano'
 
 tests = ARGV
@@ -20,10 +21,21 @@ class DockerTester
   def run
     puts ['Running tests:', @tests].flatten.join("\n- ")
     puts ''
+    rspec_runner = RSpec::Core::Runner.new(nil)
+
     # test all images
-    @conf['images'].each do |n|
-      test_image(n)
-    end.all? or fail 'Test failures'
+    promises = @conf['images'].map { |n|
+      Concurrent::Promise.new {
+        container = prepare_image(n)
+        runner = test_container(container.id)
+        res = runner.run_with(rspec_runner)
+        stop_container(container)
+        res
+      }.execute
+    }
+
+    sleep(0.1) until promises.all?(&:fulfilled?)
+    promises.map(&:value).all? or fail 'Test failures'
   end
 
   def docker_images_by_tag
@@ -45,32 +57,32 @@ class DockerTester
   end
 
   def test_container(container_id)
-    opts = { 'target' => "specinfra+docker://#{container_id}" }
+    puts "--> run test on docker #{container_id}"
+    opts = { 'target' => "docker://#{container_id}" }
     runner = Vulcano::Runner.new(nil, opts)
     runner.add_tests(@tests)
-    runner.run
+    runner
   end
 
-  def test_image(name)
+  def prepare_image(name)
     dname = "docker-#{name}:latest"
     image = @images[dname]
     fail "Can't find docker image #{dname}" if image.nil?
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => %w{ /bin/bash },
+      'Cmd' => ['/bin/bash'],
       'Image' => image.id,
-      'OpenStdin' => true
+      'OpenStdin' => true,
     )
     container.start
+    container
+  end
 
-    puts "--> run test on docker #{name}"
-    res = test_container(container.id)
-
-    puts "--> killrm docker #{name}"
+  def stop_container(container)
+    puts "--> killrm docker #{container.id}"
     container.kill
     container.delete(force: true)
-    res
   end
 end
 
