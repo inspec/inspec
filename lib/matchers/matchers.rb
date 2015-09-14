@@ -108,3 +108,32 @@ RSpec::Matchers.define :be_installed do
     @version = version
   end
 end
+
+# for services
+RSpec::Matchers.define :be_enabled do
+  match do |service|
+    service.enabled? == true
+  end
+
+  chain :with_level do |_level|
+    fail '[UNSUPPORTED] with level is not supported'
+  end
+
+  failure_message do |service|
+    "expected that `#{service}` is enabled"
+  end
+end
+
+RSpec::Matchers.define :be_running do
+  match do |service|
+    service.running? == true
+  end
+
+  chain :under do |_under|
+    fail '[UNSUPPORTED] under is not supported'
+  end
+
+  failure_message do |service|
+    "expected that `#{service}` is running"
+  end
+end
