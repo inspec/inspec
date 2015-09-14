@@ -31,7 +31,7 @@ namespace :test do
     end or raise 'Failures'
   end
 
-  task :integration do
+  task :resources do
     tests = Dir['test/resource/*.rb']
     return if tests.empty?
     sh(Gem.ruby, 'test/docker.rb', *tests)
