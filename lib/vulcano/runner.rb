@@ -9,9 +9,6 @@ require 'vulcano/profile_context'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
-require 'specinfra'
-require 'specinfra/helper'
-require 'specinfra/helper/set'
 require 'vulcano/rspec_json_formatter'
 
 module Vulcano
@@ -20,9 +17,7 @@ module Vulcano
       @rules = []
       @profile_id = profile_id
       @conf = Vulcano::Backend.target_config(normalize_map(conf))
-
-      # global reset
-      RSpec.world.reset
+      @tests = RSpec::Core::World.new
 
       configure_output
       configure_backend
@@ -37,8 +32,6 @@ module Vulcano
     end
 
     def configure_output
-      # RSpec.configuration.output_stream = $stdout
-      # RSpec.configuration.error_stream = $stderr
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
@@ -95,14 +88,17 @@ module Vulcano
           end
 
           set_rspec_ids(example, rule_id)
-          RSpec.world.register(example)
+          @tests.register(example)
         end
       end
     end
 
     def run
-      rspec_runner = RSpec::Core::Runner.new(nil)
-      rspec_runner.run_specs(RSpec.world.ordered_example_groups)
+      run_with(RSpec::Core::Runner.new(nil))
+    end
+
+    def run_with(rspec_runner)
+      rspec_runner.run_specs(@tests.ordered_example_groups)
     end
 
     def set_rspec_ids(example, id)
