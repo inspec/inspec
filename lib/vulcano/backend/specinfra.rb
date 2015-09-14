@@ -58,8 +58,6 @@ module Vulcano::Backends
       else
         fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
-
-      clear_properties
     end
 
     def os
@@ -94,20 +92,18 @@ module Vulcano::Backends
 
     def configure_shared_options
       Specinfra::Backend::Cmd.send(:include, Specinfra::Helper::Set)
+
+      # Force specinfra to disregard any locally detected backend and instead
+      # retry backend detection.
+      Specinfra::Properties.instance.properties({})
+
       si = Specinfra.configuration
-      si.os = nil
       if @conf['disable_sudo']
         si.disable_sudo = true
       else
         si.sudo_password = @conf['sudo_password']
         si.sudo_options = @conf['sudo_options']
       end
-    end
-
-    def clear_properties
-      # Force specinfra to disregard any locally detected backend and instead
-      # retry backend detection.
-      Specinfra::Properties.instance.properties({})
     end
 
     def configure_docker
