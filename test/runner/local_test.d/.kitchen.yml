@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: shell
+  data_path: ../../../.
+
+platforms:
+  - name: ubuntu-14.04
+  - name: ubuntu-12.04
+  - name: ubuntu-10.04
+
+suites:
+  - name: default
+    run_list:
+    attributes:
