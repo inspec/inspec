@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-class Command < Vulcano.resource(1)
+class Cmd < Vulcano.resource(1)
   name 'command'
   def initialize(cmd)
     @command = cmd
