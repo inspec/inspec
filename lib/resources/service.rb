@@ -24,23 +24,23 @@ class Service < Vulcano.resource(1)
     fail 'The `service` resource is not supported on your OS yet. Please open an issue on Github.' if @service_mgmt.nil?
   end
 
-  def service_info
+  def info
     @service_mgmt.info(@service_name)
   end
 
   # verifies the service is enabled
   def enabled?(_level = nil)
-    service_info[:enabled]
+    info[:enabled]
   end
 
   # verifies the service is registered
   def installed?(_name = nil, _version = nil)
-    !service_info.nil?
+    !info.nil?
   end
 
   # verifies the service is currently running
   def running?(_under = nil)
-    service_info[:running]
+    info[:running]
   end
 
   def to_s
