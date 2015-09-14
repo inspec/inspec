@@ -58,6 +58,8 @@ module Vulcano::Backends
       else
         fail "Cannot configure Specinfra backend #{type}: it isn't supported yet."
       end
+
+      clear_properties
     end
 
     def os
@@ -100,6 +102,12 @@ module Vulcano::Backends
         si.sudo_password = @conf['sudo_password']
         si.sudo_options = @conf['sudo_options']
       end
+    end
+
+    def clear_properties
+      # Force specinfra to disregard any locally detected backend and instead
+      # retry backend detection.
+      Specinfra::Properties.instance.properties({})
     end
 
     def configure_docker
