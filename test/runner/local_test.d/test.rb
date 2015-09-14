@@ -18,4 +18,17 @@ describe 'run_command' do
     res.exit_status.must_equal(0)
   end
 
+  it 'can echo commands to stderr' do
+    res = backend.run_command('>&2 echo hello world')
+    res.stdout.must_equal('')
+    res.stderr.must_equal("hello world\n")
+    res.exit_status.must_equal(0)
+  end
+
+  it 'prints a correct exit status' do
+    res = backend.run_command('exit 123')
+    res.stdout.must_equal("")
+    res.stderr.must_equal("")
+    res.exit_status.must_equal(123)
+  end
 end
