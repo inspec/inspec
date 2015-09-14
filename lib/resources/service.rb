@@ -21,7 +21,7 @@ class Service < Vulcano.resource(1)
       @service_mgmt = WindowsSrv.new(vulcano)
     end
 
-    fail 'The `service` resource is not supported on your OS yet. Please open an issue on Github.' if @service_mgmt.nil?
+    return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
   end
 
   def info
