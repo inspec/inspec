@@ -15,8 +15,8 @@ class Service < Vulcano.resource(1)
 
     # select package manager
     @service_mgmt = nil
-
-    case os[:family]
+    @cache = nil
+    case vulcano.os[:family]
     when 'windows'
       @service_mgmt = WindowsSrv.new(vulcano)
     end
@@ -25,12 +25,13 @@ class Service < Vulcano.resource(1)
   end
 
   def info
-    @service_mgmt.info(@service_name)
+    return @cache if !@cache.nil?
+    @cache = @service_mgmt.info(@service_name)
   end
 
   # verifies the service is enabled
   def enabled?(_level = nil)
-    info[:enabled]
+    info[:enabled] if info.nil?
   end
 
   # verifies the service is registered
