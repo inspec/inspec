@@ -1,0 +1,10 @@
+{
+    "Service":  {
+                    "Name":  "dhcp",
+                    "DisplayName":  "DHCP Client",
+                    "Status":  4
+                },
+    "WMI":  {
+                "StartMode":  "Auto"
+            }
+}
