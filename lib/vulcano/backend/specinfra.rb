@@ -1,6 +1,9 @@
 # encoding: utf-8
 
 require 'shellwords'
+require 'specinfra'
+require 'specinfra/helper'
+require 'specinfra/helper/set'
 require 'winrm'
 
 module Vulcano::Backends
@@ -55,7 +58,6 @@ module Vulcano::Backends
     def configure_shared_options
       Specinfra::Backend::Cmd.send(:include, Specinfra::Helper::Set)
       si = Specinfra.configuration
-      si.os = nil
       if @conf['disable_sudo']
         si.disable_sudo = true
       else
