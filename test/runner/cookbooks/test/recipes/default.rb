@@ -5,6 +5,6 @@ execute 'bundle install' do
 end
 
 execute 'run tests' do
-  command '/opt/chef/embedded/bin/ruby -I lib test/runner/local_test.d/test.rb'
+  command '/opt/chef/embedded/bin/ruby -I lib test/runner/test.rb'
   cwd '/tmp/kitchen/data'
 end
