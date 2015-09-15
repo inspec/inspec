@@ -99,6 +99,32 @@ describe gordon_config do
 end
 ```
 
+## Tests
+
+### Runner
+
+Runner tests will make sure the backend execution layer behaves as expected.
+These tests will take a while, as a lot of different operating systems and configurations
+are being tested.
+
+You will require:
+
+* vagrant with virtualbox
+* test-kitchen
+* docker
+
+Run all tests via
+
+```bash
+rake test:runner
+
+# configure concurrency:
+CONCURRENCY=3 rake test:runner
+```
+
+This will go to `test/runner` and run `kitchen converge`. You can test specific
+operating systems and configurations via test-kitchen.
+
 ## Contributing
 
 1. Fork it
