@@ -56,7 +56,7 @@ describe 'file interface' do
 
     it 'has inode size' do
       # Must be around 11 Bytes, +- 4
-      file.size.must_be_close_to(200, 198)
+      file.size.must_be_close_to(4096, 4094)
     end
 
     it 'has no selinux_label' do
