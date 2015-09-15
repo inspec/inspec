@@ -234,7 +234,8 @@ module Vulcano::Backends
         Specinfra::Runner.get_file_owner_group(@path).stdout.strip
       end
 
-      def link_target
+      def link_path
+        return nil unless symlink?
         path = Shellwords.escape(@path)
         Specinfra::Runner.run_command("readlink #{path}").stdout.strip
       end

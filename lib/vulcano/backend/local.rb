@@ -58,6 +58,11 @@ module Vulcano::Backends
         end
       end
 
+      def link_path
+        return nil unless symlink?
+        @link_path ||= ::File.readlink(@path)
+      end
+
       def block_device?
         ::File.blockdev?(@path)
       end
