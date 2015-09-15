@@ -80,7 +80,7 @@ module Vulcano::Backends
 
         begin
           file_stat = ::File.lstat(@path)
-        rescue RuntimeError => _
+        rescue StandardError => err
           return @stat = {}
         end
 
