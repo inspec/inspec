@@ -24,12 +24,16 @@ class Vulcano::Plugins::Backend
       res = Digest::MD5.new
       res.update(content)
       res.hexdigest
+    rescue TypeError => _
+      nil
     end
 
     def sha256sum
       res = Digest::SHA256.new
       res.update(content)
       res.hexdigest
+    rescue TypeError => _
+      nil
     end
 
     # Additional methods for convenience
