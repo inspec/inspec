@@ -56,10 +56,10 @@ vulcano exec test.rb
 vulcano exec test.rb -t ssh://user@hostname
 
 # run test on remote windows host on WinRM
-vulcano exec test.rb -t winrm://Administrator@windowshost
+vulcano exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
 
 # run test on docker container
-vulcano exec test.rb -t docker://image_id
+vulcano exec test.rb -t docker://container_id
 ```
 
 ## Custom resources
