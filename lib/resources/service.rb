@@ -89,6 +89,36 @@ class Systemd < ServiceManager
     }
   end
 end
+
+# @see: http://upstart.ubuntu.com
+class Upstart < ServiceManager
+  def info(service_name)
+    # get the status of upstart service
+    cmd = @vulcano.run_command("initctl status #{service_name}")
+    return nil if cmd.exit_status != 0
+
+    # @see: http://upstart.ubuntu.com/cookbook/#job-states
+    # grep for running to indicate the service is there
+    match_running = /running/.match(cmd.stdout)
+    !match_running.nil? ? (running = true) : (running = false)
+
+    # check if a service is enabled
+    # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
+    # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
+    config = @vulcano.run_command("initctl show-config #{service_name}")
+    match_enabled = /^  start on/.match(config.stdout)
+    !match_running.nil? ? (enabled = true) : (enabled = false)
+
+    {
+      name: service_name,
+      description: '',
+      installed: true,
+      running: running,
+      enabled: enabled,
+      type: 'upstart',
+    }
+  end
+end
 # Determine the service state from Windows
 # Uses Powershell to retrieve the information
 class WindowsSrv < ServiceManager
