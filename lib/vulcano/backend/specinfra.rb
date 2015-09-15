@@ -223,15 +223,18 @@ module Vulcano::Backends
       end
 
       def mode
-        Specinfra::Runner.get_file_mode(@path).stdout.to_i(8)
+        m = Specinfra::Runner.get_file_mode(@path).stdout.strip
+        m.empty? ? nil : m.to_i(8)
       end
 
       def owner
-        Specinfra::Runner.get_file_owner_user(@path).stdout.strip
+        o = Specinfra::Runner.get_file_owner_user(@path).stdout.strip
+        o.empty? ? nil : o
       end
 
       def group
-        Specinfra::Runner.get_file_owner_group(@path).stdout.strip
+        g = Specinfra::Runner.get_file_owner_group(@path).stdout.strip
+        g.empty? ? nil : g
       end
 
       def link_path
@@ -242,7 +245,7 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout.strip
-        if s.empty? && (size > 0 or block_device?)
+        if s.empty? && (size.nil? or size > 0 or block_device?)
           nil
         else
           s
@@ -261,12 +264,13 @@ module Vulcano::Backends
 
       def mtime
         mt = Specinfra::Runner.get_file_mtime(@path).stdout.strip
-        return -1 if mt.empty?
+        return nil if mt.empty?
         mt.to_i
       end
 
       def size
-        Specinfra::Runner.get_file_size(@path).stdout.strip.to_i
+        s = Specinfra::Runner.get_file_size(@path).stdout.strip
+        s.empty? ? nil : s.to_i
       end
 
       def selinux_label
