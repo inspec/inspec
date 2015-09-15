@@ -17,6 +17,32 @@ class Service < Vulcano.resource(1)
     @service_mgmt = nil
     @cache = nil
     case vulcano.os[:family]
+    # Ubuntu
+    # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
+    # Ubuntu 15.04 : Systemd
+    #   Systemd runs with PID 1 as /sbin/init.
+    #   Upstart runs with PID 1 as /sbin/upstart.
+    # Ubuntu < 15.04 : Upstart
+    # Upstart runs with PID 1 as /sbin/init.
+    # Systemd runs with PID 1 as /lib/systemd/systemd.
+    when 'ubuntu'
+      version = os[:release].to_f
+      if version < 15.04
+        # upstart
+        @service_mgmt = Upstart.new(vulcano)
+      else
+        # sysyemd
+        @service_mgmt = Systemd.new(vulcano)
+      end
+    when 'redhat', 'fedora'
+      version = os[:release].to_i
+      if version >= 7
+        # systemd
+        @service_mgmt = Systemd.new(vulcano)
+      else
+        # sysv
+        @service_mgmt = SysV.new(vulcano)
+      end
     when 'windows'
       @service_mgmt = WindowsSrv.new(vulcano)
     end
@@ -117,6 +143,11 @@ class Upstart < ServiceManager
       enabled: enabled,
       type: 'upstart',
     }
+  end
+end
+
+class SysV < ServiceManager
+  def info(service_name)
   end
 end
 # Determine the service state from Windows
