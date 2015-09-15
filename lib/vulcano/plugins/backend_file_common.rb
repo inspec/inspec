@@ -63,7 +63,7 @@ class Vulcano::Plugins::Backend
     end
 
     def pipe?
-      target_type == :pipe?
+      target_type == :pipe
     end
 
     def mode?(sth)
