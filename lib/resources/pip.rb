@@ -33,8 +33,7 @@ class PipPackage < Vulcano.resource(1)
   end
 
   def version
-    return nil if info.nil?
-    info[:version]
+    info.nil? ? nil : info[:version]
   end
 
   def to_s
