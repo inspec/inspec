@@ -24,6 +24,11 @@ execute 'create pipe/fifo' do
   not_if 'test -e /tmp/pipe'
 end
 
+execute 'create block_device' do
+  command 'mknod /tmp/block_device b 7 20 && chmod 0666 /tmp/block_device && chown root:root /tmp/block_device'
+  not_if 'test -e /tmp/block_device'
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
