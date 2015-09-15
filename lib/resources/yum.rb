@@ -150,10 +150,6 @@ module Vulcano::Resources
       @repository.enabled?
     end
 
-    def method_missing
-      fail 'Not supported'
-    end
-
     def deprecated
       warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
     end
