@@ -18,7 +18,7 @@ task lint: [:rubocop]
 task default: :test
 Rake::TestTask.new do |t|
   t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
+  t.pattern = 'test/unit/*_test.rb'
   t.warning = true
   t.verbose = true
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
@@ -26,7 +26,7 @@ end
 
 namespace :test do
   task :isolated do
-    Dir.glob('test/**/*_test.rb').all? do |file|
+    Dir.glob('test/unit/*_test.rb').all? do |file|
       sh(Gem.ruby, '-w', '-Ilib:test', file)
     end or fail 'Failures'
   end
