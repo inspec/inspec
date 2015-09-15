@@ -19,7 +19,7 @@ describe 'file interface' do
     end
 
     it 'has no content' do
-      file.content.must_be_nil
+      file.content.must_equal('')
     end
 
     it 'has owner name root' do
@@ -43,11 +43,11 @@ describe 'file interface' do
     end
 
     it 'has no md5sum' do
-      file.md5sum.must_be_nil
+      file.md5sum.must_equal('d41d8cd98f00b204e9800998ecf8427e')
     end
 
     it 'has no sha256sum' do
-      file.sha256sum.must_be_nil
+      file.sha256sum.must_equal('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
     end
 
     it 'has a modified time' do
