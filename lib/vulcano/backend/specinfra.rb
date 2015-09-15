@@ -252,7 +252,8 @@ module Vulcano::Backends
       end
 
       def selinux_label
-        Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
+        res = Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
+        (res.empty? or res == '?') ? nil : res
       end
 
       def mounted?(opts = {}, only_with = nil)
