@@ -1,5 +1,11 @@
 # encoding: utf-8
 
+# MTime tracks the maximum range of modification time in seconds.
+# i.e. MTime == 60*60*1 is 1 hour of modification time range,
+# which translates to a modification time range of:
+#   [ now-1hour, now ]
+MTime = 60 * 60 * 1
+
 describe 'file interface' do
   let(:backend) { get_backend.call }
 
@@ -55,8 +61,7 @@ describe 'file interface' do
     end
 
     it 'has a modified time' do
-      # Must be in within 1800s (30min) of the current time
-      file.mtime.must_be_close_to(Time.now.to_i, 1000)
+      file.mtime.must_be_close_to(Time.now.to_i - MTime/2, MTime)
     end
 
     it 'has size' do
@@ -125,13 +130,81 @@ describe 'file interface' do
     end
 
     it 'has a modified time' do
-      # Must be in within 1800s (30min) of the current time
-      file.mtime.must_be_close_to(Time.now.to_i, 1000)
+      file.mtime.must_be_close_to(Time.now.to_i - MTime/2, MTime)
     end
 
     it 'has inode size' do
       # Must be around 11 Bytes, +- 4
       file.size.must_be_close_to(200, 198)
+    end
+
+    it 'has no selinux_label' do
+      file.selinux_label.must_equal(nil)
+    end
+
+    it 'has no product_version' do
+      file.product_version.must_equal(nil)
+    end
+
+    it 'has no file_version' do
+      file.file_version.must_equal(nil)
+    end
+  end
+
+  describe 'character device' do
+    let(:file) { backend.file('/dev/null') }
+
+    it 'exists' do
+      file.exists?.must_equal(true)
+    end
+
+    it 'is a character device' do
+      file.character_device?.must_equal(true)
+    end
+
+    it 'has type :character_device' do
+      file.type.must_equal(:character_device)
+    end
+
+    it 'has empty content' do
+      file.content.must_equal('')
+    end
+
+    it 'has owner name root' do
+      file.owner.must_equal('root')
+    end
+
+    it 'has group name root' do
+      file.group.must_equal('root')
+    end
+
+    it 'has mode 0666' do
+      file.mode.must_equal(00666)
+    end
+
+    it 'checks mode? 0666' do
+      file.mode?(00666).must_equal(true)
+    end
+
+    it 'has no link_path' do
+      file.link_path.must_be_nil
+    end
+
+    it 'has an md5sum' do
+      file.md5sum.must_equal('d41d8cd98f00b204e9800998ecf8427e')
+    end
+
+    it 'has an sha256sum' do
+      file.sha256sum.must_equal('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
+    end
+
+    it 'has a modified time' do
+      file.mtime.must_be_close_to(Time.now.to_i - MTime/2, MTime)
+    end
+
+    it 'has inode size of 0' do
+      # Must be around 11 Bytes, +- 4
+      file.size.must_equal(0)
     end
 
     it 'has no selinux_label' do
@@ -203,8 +276,7 @@ describe 'file interface' do
     end
 
     it 'has a modified time' do
-      # Must be in within 1800s (30min) of the current time
-      file.mtime.must_be_close_to(Time.now.to_i, 1000)
+      file.mtime.must_be_close_to(Time.now.to_i - MTime/2, MTime)
     end
 
     it 'has size' do
