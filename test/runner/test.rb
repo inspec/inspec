@@ -6,7 +6,7 @@
 # i.e. MTime == 60*60*1 is 1 hour of modification time range,
 # which translates to a modification time range of:
 #   [ now-1hour, now ]
-MTime = 60 * 60 * 1
+MTime = 60 * 60 * 24 * 1
 
 # Run all tests
 require 'minitest/autorun'
