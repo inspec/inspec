@@ -26,7 +26,7 @@ class Package < Vulcano.resource(1)
     when 'darwin'
       @pkgman = Brew.new(vulcano)
     else
-      fail 'The `package` resource is not supported on your OS yet. Please open an issue on Github.'
+      return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
   end
 
