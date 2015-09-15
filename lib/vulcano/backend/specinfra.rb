@@ -242,7 +242,7 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout.strip
-        s.empty? ? nil : s
+        (s.empty? && size > 0) ? nil : s
       end
 
       def md5sum
