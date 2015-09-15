@@ -19,6 +19,11 @@ link '/tmp/symlink'do
 	mode '0777'
 end
 
+execute 'create pipe/fifo' do
+  command 'mkfifo /tmp/pipe'
+  not_if 'test -e /tmp/pipe'
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
