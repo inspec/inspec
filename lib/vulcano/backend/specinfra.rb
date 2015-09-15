@@ -245,7 +245,7 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout.strip
-        if s.empty? && (size.nil? or size > 0 or block_device?)
+        if s.empty? && (size.nil? or size > 0)
           nil
         else
           s
