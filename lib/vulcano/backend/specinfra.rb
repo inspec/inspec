@@ -265,11 +265,17 @@ module Vulcano::Backends
       end
 
       def product_version
-        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").stdout.strip
+        res = Specinfra::Runner.
+              run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").
+              stdout.strip
+        res.empty? ? nil : res
       end
 
       def file_version
-        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").stdout.strip
+        res = Specinfra::Runner.
+              run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").
+              stdout.strip
+        res.empty? ? nil : res
       end
     end
   end
