@@ -149,7 +149,7 @@ module Vulcano::Backends
 
       host = @conf['host'].to_s
       fail 'You must configure a target host.' if host.empty?
-      RSpec.configuration.host = host
+      si.host = host
 
       ssh_opts = {
         port: @conf['port'] || 22,
