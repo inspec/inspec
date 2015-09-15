@@ -24,9 +24,9 @@ class Vulcano::Plugins::Backend
       )
     end
 
-    def link_target
-      # @TODO: handle error
-      @link_target ||= (
+    def link_path
+      return nil unless symlink?
+      @link_path ||= (
         @backend.
           run_command("readlink #{@spath}").stdout.chomp
       )
