@@ -241,7 +241,18 @@ module Vulcano::Backends
       end
 
       def content
-        Specinfra::Runner.get_file_content(@path).stdout
+        s = Specinfra::Runner.get_file_content(@path).stdout.strip
+        s.empty? ? nil : s
+      end
+
+      def md5sum
+        s = Specinfra::Runner.get_file_md5sum(@path).stdout.strip
+        s.empty? ? nil : s
+      end
+
+      def sha256sum
+        s = Specinfra::Runner.get_file_sha256sum(@path).stdout.strip
+        s.empty? ? nil : s
       end
 
       def mtime
