@@ -65,7 +65,7 @@ module Vulcano::Backends
     end
 
     def file(path)
-      @files[path] ||= File.new(path)
+      @files[path] ||= File.new(self, path)
     end
 
     def run_command(cmd)
@@ -214,8 +214,8 @@ module Vulcano::Backends
 
   class SpecinfraHelper
     class File < LinuxFile
-      def initialize(path)
-        super(Specinfra::Runner, path)
+      def initialize(backend, path)
+        super(backend, path)
       end
 
       def exists?
