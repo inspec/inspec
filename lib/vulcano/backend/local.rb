@@ -77,7 +77,7 @@ module Vulcano::Backends
         return @stat unless @stat.nil?
 
         begin
-          file_stat = ::File.stat(@path)
+          file_stat = ::File.lstat(@path)
         rescue RuntimeError => _
           return @stat = {}
         end
