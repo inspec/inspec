@@ -41,14 +41,20 @@ class Vulcano::Plugins::Backend
     end
 
     %w{
-      type mode owner group mtime size
+      type mode owner group mtime size selinux_label
     }.each do |field|
       define_method field.to_sym do
         stat[field.to_sym]
       end
     end
 
-    # @TODO: selinux_label product_version file_version
+    def product_version
+      nil
+    end
+
+    def file_version
+      nil
+    end
 
     private
 
@@ -64,14 +70,13 @@ class Vulcano::Plugins::Backend
 
     def stat
       return @stat unless @stat.nil?
-      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y'")
+      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
 
-      if res.exit_status != 0
-        return @stat = {}
-      end
+      # ignore the exit_code: it is != 0 if selinux labels are not supported
+      # on the system.
 
       fields = res.stdout.split("\n")
-      if fields.length != 8
+      if fields.length != 9
         return @stat = {}
       end
 
@@ -86,6 +91,7 @@ class Vulcano::Plugins::Backend
         group: fields[4],
         mtime: fields[7].to_i,
         size: fields[0].to_i,
+        selinux_label: fields[8],
       }
     end
   end
