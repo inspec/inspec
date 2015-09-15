@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.33.0'
   spec.add_development_dependency 'simplecov', '~> 0.10'
   spec.add_development_dependency 'concurrent-ruby', '~> 0.9'
+  spec.add_development_dependency 'test-kitchen', '~> 1.4'
 
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '~> 1.8'
