@@ -55,6 +55,40 @@ class ServiceManager
   end
 end
 
+# @see: http://www.freedesktop.org/software/systemd/man/systemctl.html
+# @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
+class Systemd < ServiceManager
+  def info(service_name)
+
+    cmd = @vulcano.run_command("systemctl show --all #{service_name}")
+    return nil if cmd.exit_status.to_i != 0
+
+    # parse data
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
+    ).params
+
+    # LoadState values eg. loaded, not-found
+    params['LoadState'] == 'loaded' ? (installed = true) : (installed = false)
+    # test via 'systemctl is-active service'
+    # SubState values running
+    params['LoadState'] == 'running' ? (running = true) : (running = false)
+    # test via systemctl --quiet is-enabled
+    # ActiveState values eg.g inactive, active
+    params['ActiveState'] == 'active' ? (enabled = true) : (enabled = false)
+
+    {
+      name: params['Id'],
+      description: params['Description'],
+      installed: installed,
+      running: running,
+      enabled: enabled,
+      type: 'systemd',
+    }
+  end
+end
 # Determine the service state from Windows
 # Uses Powershell to retrieve the information
 class WindowsSrv < ServiceManager
