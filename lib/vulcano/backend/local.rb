@@ -48,6 +48,8 @@ module Vulcano::Backends
     class File < LinuxFile
       def content
         @content ||= ::File.read(@path)
+      rescue StandardError => _
+        nil
       end
 
       %w{
