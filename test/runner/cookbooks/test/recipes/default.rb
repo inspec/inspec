@@ -6,6 +6,19 @@ file '/tmp/file' do
   content 'hello world'
 end
 
+directory '/tmp/folder' do
+  mode '0567'
+  owner 'root'
+	group 'root'
+end
+
+link '/tmp/symlink'do
+  to '/tmp/file'
+	owner 'root'
+	group 'root'
+	mode '0777'
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
