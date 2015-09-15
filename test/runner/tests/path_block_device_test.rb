@@ -4,7 +4,7 @@ describe 'file interface' do
   let(:backend) { get_backend.call }
 
   describe 'block device' do
-    let(:file) { backend.file('/dev/loop1') }
+    let(:file) { backend.file('/tmp/block_device') }
 
     it 'exists' do
       file.exists?.must_equal(true)
@@ -27,15 +27,15 @@ describe 'file interface' do
     end
 
     it 'has group name' do
-      file.group.must_equal('disk')
+      file.group.must_equal('root')
     end
 
-    it 'has mode 0660' do
-      file.mode.must_equal(00660)
+    it 'has mode 0666' do
+      file.mode.must_equal(00666)
     end
 
-    it 'checks mode? 0660' do
-      file.mode?(00660).must_equal(true)
+    it 'checks mode? 0666' do
+      file.mode?(00666).must_equal(true)
     end
 
     it 'has no link_path' do
