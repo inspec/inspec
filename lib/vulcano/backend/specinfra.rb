@@ -244,7 +244,9 @@ module Vulcano::Backends
       end
 
       def mtime
-        Specinfra::Runner.get_file_mtime(@path).stdout.strip
+        mt = Specinfra::Runner.get_file_mtime(@path).stdout.strip
+        return -1 if mt.empty?
+        mt.to_i
       end
 
       def size
