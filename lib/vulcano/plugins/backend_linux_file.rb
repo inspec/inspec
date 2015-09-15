@@ -24,6 +24,12 @@ class Vulcano::Plugins::Backend
       )
     end
 
+    def link_target
+      return @link_target unless @link_target.nil?
+      return @link_target = nil if link_path.nil?
+      @link_target = @backend.file(link_path)
+    end
+
     def link_path
       return nil unless symlink?
       @link_path ||= (

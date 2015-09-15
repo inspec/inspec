@@ -35,23 +35,23 @@ class Vulcano::Plugins::Backend
     # Additional methods for convenience
 
     def file?
-      type == :file
+      target_type == :file
     end
 
     def block_device?
-      type == :block_device
+      target_type == :block_device
     end
 
     def character_device?
-      type == :character_device
+      target_type == :character_device
     end
 
     def socket?
-      type == :socket
+      target_type == :socket
     end
 
     def directory?
-      type == :directory
+      target_type == :directory
     end
 
     def symlink?
@@ -59,7 +59,7 @@ class Vulcano::Plugins::Backend
     end
 
     def pipe?
-      type == :pipe?
+      target_type == :pipe?
     end
 
     def mode?(sth)
@@ -86,6 +86,15 @@ class Vulcano::Plugins::Backend
     # helper methods provided to any implementing class
 
     private
+
+    def target_type
+      # Just return the type unless this is a symlink
+      return type unless type == :symlink
+      # Get the link's target type, i.e. the real destination's type
+      return link_target.type unless link_target.nil?
+      # Return unknown if we don't know where this is pointing to
+      :unknown
+    end
 
     UNIX_MODE_OWNERS = {
       owner: 00700,
