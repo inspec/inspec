@@ -1,21 +1,24 @@
 # preparation
+gid = 'root'
+gid = 'wheel' if node['platform_family'] == 'freebsd'
+
 file '/tmp/file' do
   mode '0765'
   owner 'root'
-  group 'root'
+  group gid
   content 'hello world'
 end
 
 directory '/tmp/folder' do
   mode '0567'
   owner 'root'
-	group 'root'
+	group gid
 end
 
 link '/tmp/symlink'do
   to '/tmp/file'
 	owner 'root'
-	group 'root'
+	group gid
 	mode '0777'
 end
 
@@ -25,7 +28,7 @@ execute 'create pipe/fifo' do
 end
 
 execute 'create block_device' do
-  command 'mknod /tmp/block_device b 7 7 && chmod 0666 /tmp/block_device && chown root:root /tmp/block_device'
+  command "mknod /tmp/block_device b 7 7 && chmod 0666 /tmp/block_device && chown root:#{gid} /tmp/block_device"
   not_if 'test -e /tmp/block_device'
 end
 
