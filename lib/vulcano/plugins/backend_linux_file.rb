@@ -4,6 +4,7 @@ require 'shellwords'
 
 class Vulcano::Plugins::Backend
   class LinuxFile < FileCommon
+    attr_reader :path
     def initialize(backend, path)
       @backend = backend
       @path = path

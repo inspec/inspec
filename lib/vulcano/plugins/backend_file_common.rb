@@ -6,7 +6,7 @@ class Vulcano::Plugins::Backend
     # backend File
     %w{
       exists? mode owner group link_target content mtime size
-      selinux_label product_version file_version
+      selinux_label product_version file_version path
     }.each do |m|
       define_method m.to_sym do
         fail NotImplementedError, "File must implement the #{m}() method."
