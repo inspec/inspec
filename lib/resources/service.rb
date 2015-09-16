@@ -28,19 +28,15 @@ class Service < Vulcano.resource(1)
     when 'ubuntu'
       version = os[:release].to_f
       if version < 15.04
-        # upstart
         @service_mgmt = Upstart.new(vulcano)
       else
-        # sysyemd
         @service_mgmt = Systemd.new(vulcano)
       end
     when 'redhat', 'fedora'
       version = os[:release].to_i
       if version >= 7
-        # systemd
         @service_mgmt = Systemd.new(vulcano)
       else
-        # sysv
         @service_mgmt = SysV.new(vulcano)
       end
     when 'darwin'
