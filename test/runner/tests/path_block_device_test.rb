@@ -27,7 +27,7 @@ describe 'file interface' do
     end
 
     it 'has group name' do
-      file.group.must_equal('root')
+      file.group.must_equal(Test.root_group(os))
     end
 
     it 'has mode 0666' do
