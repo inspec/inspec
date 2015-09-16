@@ -55,7 +55,7 @@ describe 'file interface' do
     end
 
     it 'has inode size' do
-      file.size.must_be_close_to(4096, 4094)
+      file.size.must_be_close_to(4096, 4096)
     end
 
     it 'has selinux label handling' do
