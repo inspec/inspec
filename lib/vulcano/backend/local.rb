@@ -80,7 +80,7 @@ module Vulcano::Backends
 
         begin
           file_stat = ::File.lstat(@path)
-        rescue StandardError => err
+        rescue StandardError => _err
           return @stat = {}
         end
 
@@ -107,6 +107,11 @@ module Vulcano::Backends
           @stat[:group] = g.name
         rescue ArgumentError => _
           @stat[:group] = nil
+        end
+
+        res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%C'")
+        if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
+          @stat[:selinux_label] = res.stdout.strip
         end
 
         @stat
