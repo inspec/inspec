@@ -47,7 +47,7 @@ module Vulcano::Backends
 
     class File < LinuxFile
       def content
-        @content ||= ::File.read(@path)
+        @content ||= ::File.read(@path, encoding: 'UTF-8')
       rescue StandardError => _
         nil
       end
