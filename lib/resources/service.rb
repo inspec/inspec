@@ -152,7 +152,7 @@ class Upstart < ServiceManager
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
     config = @vulcano.run_command("initctl show-config #{service_name}")
     match_enabled = /^\s*start on/.match(config.stdout)
-    !match_running.nil? ? (enabled = true) : (enabled = false)
+    !match_enabled.nil? ? (enabled = true) : (enabled = false)
 
     {
       name: service_name,
