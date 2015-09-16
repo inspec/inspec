@@ -11,6 +11,10 @@ module Test
       60 * 60 * 24 * 1
     end
 
+    def dup(o)
+      Marshal.load(Marshal.dump(o))
+    end
+
     def selinux_label(os, path = nil)
       labels = {}
 
@@ -19,14 +23,17 @@ module Test
       h['redhat'] = {}
       h['redhat'].default = 'unconfined_u:object_r:user_tmp_t:s0'
       h['redhat']['5.11'] = 'user_u:object_r:tmp_t'
-      labels.default = h.dup
+      labels.default = dup(h)
+
+      h['redhat'].default = 'unconfined_u:object_r:tmp_t:s0'
+      labels['/tmp/block_device'] = dup(h)
 
       h = {}
       h.default = Hash.new(nil)
       h['redhat'] = {}
       h['redhat'].default = 'system_u:object_r:null_device_t:s0'
       h['redhat']['5.11'] = 'system_u:object_r:null_device_t'
-      labels['/dev/null'] = h.dup
+      labels['/dev/null'] = dup(h)
 
       labels[path][os[:family]][os[:release]]
     end
