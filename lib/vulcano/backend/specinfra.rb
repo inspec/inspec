@@ -277,9 +277,10 @@ module Vulcano::Backends
       end
 
       def selinux_label
-        return nil unless Specinfra::Runner.respond_to?(:get_file_selinuxlabel)
         res = Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
         (res.empty? or res == '?') ? nil : res
+      rescue NotImplementedError => _
+        nil
       end
 
       def mounted?(opts = {}, only_with = nil)
