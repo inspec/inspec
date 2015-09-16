@@ -148,6 +148,32 @@ end
 
 class SysV < ServiceManager
   def info(service_name)
+
+    # check if service is installed
+    filename = "/etc/init/#{service_name}.conf"
+    service = @vulcano.file(filename)
+
+    # check if service is installed
+    return nil if !service.exists?
+
+    # check if service is enabled
+    match_enabled = /^\s*start on/.match(service.content)
+    !match_enabled.nil? ? (enabled = true) : (enabled = false)
+
+    # check if service is really running
+    # service throws an exit code if the service is not installed or
+    # not enabled
+    cmd = @vulcano.run_command("service #{service_name} status")
+    cmd.exit_status == 0 ? (running = true) : (running = false)
+
+    {
+      name: service_name,
+      description: '',
+      installed: true,
+      running: running,
+      enabled: enabled,
+      type: 'upstart',
+    }
   end
 end
 
