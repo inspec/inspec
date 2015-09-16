@@ -65,7 +65,7 @@ module Vulcano::Backends
     end
 
     def file(path)
-      @files[path] ||= File.new(path)
+      @files[path] ||= File.new(self, path)
     end
 
     def run_command(cmd)
@@ -214,8 +214,8 @@ module Vulcano::Backends
 
   class SpecinfraHelper
     class File < LinuxFile
-      def initialize(path)
-        super(Specinfra::Runner, path)
+      def initialize(backend, path)
+        super(backend, path)
       end
 
       def exists?
@@ -223,36 +223,59 @@ module Vulcano::Backends
       end
 
       def mode
-        Specinfra::Runner.get_file_mode(@path).stdout.to_i(8)
+        m = Specinfra::Runner.get_file_mode(@path).stdout.strip
+        m.empty? ? nil : m.to_i(8)
       end
 
       def owner
-        Specinfra::Runner.get_file_owner_user(@path).stdout.strip
+        o = Specinfra::Runner.get_file_owner_user(@path).stdout.strip
+        o.empty? ? nil : o
       end
 
       def group
-        Specinfra::Runner.get_file_owner_group(@path).stdout.strip
+        g = Specinfra::Runner.get_file_owner_group(@path).stdout.strip
+        g.empty? ? nil : g
       end
 
-      def link_target
+      def link_path
+        return nil unless symlink?
         path = Shellwords.escape(@path)
         Specinfra::Runner.run_command("readlink #{path}").stdout.strip
       end
 
       def content
-        Specinfra::Runner.get_file_content(@path).stdout
+        s = Specinfra::Runner.get_file_content(@path).stdout.strip
+        if s.empty? && (directory? or size.nil? or size > 0)
+          nil
+        else
+          s
+        end
+      end
+
+      def md5sum
+        s = Specinfra::Runner.get_file_md5sum(@path).stdout.strip
+        s.empty? ? nil : s
+      end
+
+      def sha256sum
+        s = Specinfra::Runner.get_file_sha256sum(@path).stdout.strip
+        s.empty? ? nil : s
       end
 
       def mtime
-        Specinfra::Runner.get_file_mtime(@path).stdout.strip
+        mt = Specinfra::Runner.get_file_mtime(@path).stdout.strip
+        return nil if mt.empty?
+        mt.to_i
       end
 
       def size
-        Specinfra::Runner.get_file_size(@path).stdout.strip.to_i
+        s = Specinfra::Runner.get_file_size(@path).stdout.strip
+        s.empty? ? nil : s.to_i
       end
 
       def selinux_label
-        Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
+        res = Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
+        (res.empty? or res == '?') ? nil : res
       end
 
       def mounted?(opts = {}, only_with = nil)
@@ -264,11 +287,17 @@ module Vulcano::Backends
       end
 
       def product_version
-        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").stdout.strip
+        res = Specinfra::Runner.
+              run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").
+              stdout.strip
+        res.empty? ? nil : res
       end
 
       def file_version
-        Specinfra::Runner.run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").stdout.strip
+        res = Specinfra::Runner.
+              run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").
+              stdout.strip
+        res.empty? ? nil : res
       end
     end
   end
