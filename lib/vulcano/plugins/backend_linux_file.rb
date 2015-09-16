@@ -122,7 +122,7 @@ class Vulcano::Plugins::Backend
       # in combination with:
       #      ...
       #      gu      Display group or user name.
-      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m'")
+      res = @backend.run_command("stat -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' #{@spath}")
 
       return @bsd_stat = {} if res.exit_status != 0
 
@@ -131,7 +131,7 @@ class Vulcano::Plugins::Backend
         return @bsd_stat = {}
       end
 
-      tmask = fields[1].to_i(16)
+      tmask = fields[1].to_i(8)
       type = TYPES.find { |_, mask| mask & tmask == mask }
       type ||= [:unknown]
 
