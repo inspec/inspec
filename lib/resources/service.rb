@@ -43,6 +43,8 @@ class Service < Vulcano.resource(1)
         # sysv
         @service_mgmt = SysV.new(vulcano)
       end
+    when 'darwin'
+      @service_mgmt = LaunchCtl.new(vulcano)
     when 'windows'
       @service_mgmt = WindowsSrv.new(vulcano)
     end
@@ -152,6 +154,38 @@ class SysV < ServiceManager
   def info(service_name)
   end
 end
+
+# MacOS / Darwin
+# new launctl on macos 10.10
+class LaunchCtl < ServiceManager
+  def info(service_name)
+    # get the status of upstart service
+    cmd = @vulcano.run_command("launchctl list")
+    return nil if cmd.exit_status != 0
+
+    # search for the service
+    srv = /(^.*#{service_name}.*)/.match(cmd.stdout)
+    return nil if srv.nil? || srv[0].nil?
+
+    # extract values from service
+    parsed_srv = /^([0-9]+)\s*(\w*)\s*(\S*)/.match(srv[0])
+    !parsed_srv.nil? ? (enabled = true) : (enabled = false)
+
+    # check if the service is running
+    pid = parsed_srv[0]
+    !pid.nil? ? (running = true) : (running = false)
+
+    {
+      name: service_name,
+      description: nil,
+      installed: true,
+      running: running,
+      enabled: enabled,
+      type: 'darwin',
+    }
+  end
+end
+
 # Determine the service state from Windows
 # Uses Powershell to retrieve the information
 class WindowsSrv < ServiceManager
@@ -184,8 +218,6 @@ class WindowsSrv < ServiceManager
   # - 5: Continue Pending
   # - 6: Pause Pending
   # - 7: Paused
-  #
-
   def info(service_name)
     srv_cmd = "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json"
     cmd = @vulcano.run_command(srv_cmd)
