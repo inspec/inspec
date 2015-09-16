@@ -26,7 +26,9 @@ class Service < Vulcano.resource(1)
     # select package manager
     @service_mgmt = nil
     @cache = nil
-    case vulcano.os[:family]
+
+    family = vulcano.os[:family]
+    case family
     # Ubuntu
     # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
     # Ubuntu 15.04 : Systemd
@@ -51,7 +53,7 @@ class Service < Vulcano.resource(1)
       end
     when 'redhat', 'fedora'
       version = os[:release].to_i
-      if version >= 7
+      if (family == 'redhat' && version >= 7) || (family == 'fedora' && version >= 15)
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
