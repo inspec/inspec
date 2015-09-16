@@ -32,6 +32,13 @@ class Service < Vulcano.resource(1)
       else
         @service_mgmt = Systemd.new(vulcano)
       end
+    when 'debian'
+      version = os[:release].to_i
+      if version >= 7
+        @service_mgmt = Systemd.new(vulcano)
+      else
+        @service_mgmt = SysV.new(vulcano)
+      end
     when 'redhat', 'fedora'
       version = os[:release].to_i
       if version >= 7
@@ -132,7 +139,7 @@ class Upstart < ServiceManager
     # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
     config = @vulcano.run_command("initctl show-config #{service_name}")
-    match_enabled = /^  start on/.match(config.stdout)
+    match_enabled = /^\s*start on/.match(config.stdout)
     !match_running.nil? ? (enabled = true) : (enabled = false)
 
     {
