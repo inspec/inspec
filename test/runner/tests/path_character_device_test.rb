@@ -51,7 +51,7 @@ describe 'file interface' do
     end
 
     it 'has a modified time' do
-      file.mtime.must_be_close_to(Time.now.to_i - MTime/2, MTime)
+      file.mtime.must_be_close_to(Time.now.to_i - Test.mtime/2, Test.mtime)
     end
 
     it 'has inode size of 0' do
@@ -59,11 +59,7 @@ describe 'file interface' do
     end
 
     it 'has selinux label handling' do
-      if os[:family] == 'redhat'
-        file.selinux_label.must_equal('system_u:object_r:null_device_t:s0')
-      else
-        file.selinux_label.must_equal(nil)
-      end
+      file.selinux_label.must_equal(Test.selinux_label(os, file.path))
     end
 
     it 'has no product_version' do
