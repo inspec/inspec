@@ -104,7 +104,6 @@ end
 # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
 class Systemd < ServiceManager
   def info(service_name)
-
     cmd = @vulcano.run_command("systemctl show --all #{service_name}")
     return nil if cmd.exit_status.to_i != 0
 
@@ -205,7 +204,7 @@ end
 class LaunchCtl < ServiceManager
   def info(service_name)
     # get the status of upstart service
-    cmd = @vulcano.run_command("launchctl list")
+    cmd = @vulcano.run_command('launchctl list')
     return nil if cmd.exit_status != 0
 
     # search for the service
