@@ -7,6 +7,16 @@
 #   it { should be_installed }
 #   it { should be_running }
 # end
+#
+# We detect the init system for each operating system, based on the operating
+# system.
+#
+# Fedora 15 : systemd
+# RedHat 7 : systemd
+# Ubuntu 15.04 : systemd
+# Ubuntu < 15.04 : upstart
+#
+# TODO: extend the logic to detect the running init system, independently of OS
 class Service < Vulcano.resource(1)
   name 'service'
 
