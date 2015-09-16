@@ -58,8 +58,12 @@ describe 'file interface' do
       file.size.must_equal(0)
     end
 
-    it 'has no selinux_label' do
-      file.selinux_label.must_equal(nil)
+    it 'has selinux label handling' do
+      if os[:family] == 'redhat'
+        file.selinux_label.must_equal('system_u:object_r:null_device_t:s0')
+      else
+        file.selinux_label.must_equal(nil)
+      end
     end
 
     it 'has no product_version' do

@@ -55,12 +55,15 @@ describe 'file interface' do
     end
 
     it 'has inode size' do
-      # Must be around 11 Bytes, +- 4
       file.size.must_be_close_to(4096, 4094)
     end
 
-    it 'has no selinux_label' do
-      file.selinux_label.must_equal(nil)
+    it 'has selinux label handling' do
+      if os[:family] == 'redhat'
+        file.selinux_label.must_equal('unconfined_u:object_r:user_tmp_t:s0')
+      else
+        file.selinux_label.must_equal(nil)
+      end
     end
 
     it 'has no product_version' do
