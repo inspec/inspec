@@ -29,6 +29,7 @@ class SshConf < Vulcano.resource(1)
 
   def method_missing(name)
     param = read_params[name.to_s]
+    return nil if param.nil?
     # extract first value if we have only one value in array
     return param[0] if param.length == 1
     param

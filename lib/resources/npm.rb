@@ -19,12 +19,13 @@ class NpmPackage < Vulcano.resource(1)
     @info = {
       name: @package_name,
       type: 'npm',
-      installed: cmd.exit_status != 0,
+      installed: cmd.exit_status == 0,
     }
     return @info unless @info[:installed]
 
     pkgs = JSON.parse(cmd.stdout)
-    @info[version] = pkgs['dependencies'][@package_name]['version']
+    @info[:version] = pkgs['dependencies'][@package_name]['version']
+    @info
   end
 
   def installed?
