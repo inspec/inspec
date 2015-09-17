@@ -29,7 +29,7 @@ class NpmPackage < Vulcano.resource(1)
   end
 
   def installed?
-    info[:installed]
+    info[:installed] == true
   end
 
   def version
