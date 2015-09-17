@@ -3,6 +3,9 @@ images:
 - centos-6
 - centos-7
 - centos-latest
+- oraclelinux:5.11
+- oraclelinux:6.7
+- oraclelinux:7.1
 - debian-610
 - debian-78
 - debian-81
