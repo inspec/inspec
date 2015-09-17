@@ -14,12 +14,8 @@ require 'utils/simpleconfig'
 class AuditDaemonConf < Vulcano.resource(1)
   name 'audit_daemon_conf'
 
-  def initialize
-    @conf_path = '/etc/audit/auditd.conf'
-    @files_contents = {}
-    @content = nil
-    @params = nil
-    read_content
+  def initialize(path = nil)
+    @conf_path = path || '/etc/audit/auditd.conf'
   end
 
   def to_s
@@ -27,25 +23,32 @@ class AuditDaemonConf < Vulcano.resource(1)
   end
 
   def method_missing(name)
-    @params || read_content
-    @params.nil? ? nil : @params[name.to_s]
+    read_params[name.to_s]
   end
 
-  def read_content
+  private
+
+  def read_params
+    return @params unless @params.nil?
+
     # read the file
     file = vulcano.file(@conf_path)
     if !file.file?
-      return skip_resource "Can't find file '#{@conf_path}'"
+      skip_resource "Can't find file '#{@conf_path}'"
+      return @params = {}
     end
 
-    @content = file.content
-    if @content.empty? && file.size > 0
-      return skip_resource "Can't read file '#{@conf_path}'"
+    content = file.content
+    if content.empty? && file.size > 0
+      skip_resource "Can't read file '#{@conf_path}'"
+      return @params = {}
     end
+
     # parse the file
-    @params = SimpleConfig.new(
-      @content,
+    conf = SimpleConfig.new(
+      content,
       multiple_values: false,
-    ).params
+    )
+    @params = conf.params
   end
 end
