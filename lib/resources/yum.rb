@@ -101,14 +101,13 @@ class YumRepo
   def initialize(yum, reponame)
     @yum = yum
     @reponame = reponame
-    @cache = nil
   end
 
   # extracts the shortname from a repo id
   # e.g. extras/7/x86_64 -> extras
   def shortname(id)
     val = %r{^\s*([^/]*?)/(.*?)\s*$}.match(id)
-    val[1]
+    val.nil? ? nil : val[1]
   end
 
   def info
