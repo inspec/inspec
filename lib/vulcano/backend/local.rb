@@ -75,6 +75,18 @@ module Vulcano::Backends
 
       private
 
+      def pw_username(uid)
+        Etc.getpwuid(uid).name
+      rescue ArgumentError => _
+        nil
+      end
+
+      def pw_groupname(gid)
+        Etc.getgrgid(gid).name
+      rescue ArgumentError => _
+        nil
+      end
+
       def stat
         return @stat unless @stat.nil?
 
@@ -93,21 +105,9 @@ module Vulcano::Backends
           mode: tmask & 00777,
           mtime: file_stat.mtime.to_i,
           size: file_stat.size,
+          user: pw_username(file_stat.uid),
+          group: pw_groupname(file_stat.gid),
         }
-
-        begin
-          u = Etc.getpwuid(file_stat.uid)
-          @stat[:owner] = u.name
-        rescue ArgumentError => _
-          @stat[:owner] = nil
-        end
-
-        begin
-          g = Etc.getgrgid(file_stat.gid)
-          @stat[:group] = g.name
-        rescue ArgumentError => _
-          @stat[:group] = nil
-        end
 
         res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%C'")
         if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
