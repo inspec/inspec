@@ -12,28 +12,30 @@ class PipPackage < Vulcano.resource(1)
   end
 
   def info
+    return @info unless @info.nil?
+
+    @info = {}
+    @info[:type] = 'pip'
+
     cmd = vulcano.run_command("pip show #{@package_name}")
-    return nil if cmd.exit_status != 0
+    return @info if cmd.exit_status != 0
 
     params = SimpleConfig.new(
       cmd.stdout,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: false,
     ).params
-    @cache = {
-      name: params['Name'],
-      installed: true,
-      version: params['Version'],
-      type: 'pip',
-    }
+    @info[:name] = params['Name']
+    @info[:version] = params['Version']
+    @info[:installed] = true
+    @info
   end
 
   def installed?
-    !info.nil?
+    info[:installed] == true
   end
 
   def version
-    return nil if info.nil?
     info[:version]
   end
 

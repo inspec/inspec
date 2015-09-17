@@ -11,7 +11,6 @@ class SshConf < Vulcano.resource(1)
     @conf_path = conf_path || '/etc/ssh/ssh_config'
     typename = (@conf_path.include?('sshd') ? 'Server' : 'Client')
     @type = type || "SSH #{typename} configuration #{conf_path}"
-    read_content
   end
 
   def to_s
@@ -19,43 +18,50 @@ class SshConf < Vulcano.resource(1)
   end
 
   def content
-    @conf.content
+    read_content
   end
 
   def params(*opts)
-    res = @params
-    opts.each do |opt|
-      res = res[opt] unless res.nil?
+    opts.inject(read_params) do |res, nxt|
+      res.respond_to?(:key) ? res[nxt] : nil
     end
-    res
   end
 
   def method_missing(name)
-    param = @params[name.to_s]
+    param = read_params[name.to_s]
+    return nil if param.nil?
     # extract first value if we have only one value in array
-    param = param[0] if !param.nil? && param.length == 1
+    return param[0] if param.length == 1
     param
   end
 
   private
 
   def read_content
-    @conf = vulcano.file(@conf_path)
-    # read the file
-    if !@conf.file?
+    return @content if @content_read
+    file = vulcano.file(@conf_path)
+    if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
 
-    if @conf.content.empty? && @conf.size > 0
+    @content = file.content
+    if @content.empty? && file.size > 0
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
 
-    # parse the file
-    @params = SimpleConfig.new(
-      @conf.content,
+    @content_read = true
+    @content
+  end
+
+  def read_params
+    return @params unless @params.nil?
+    return @params = {} if read_content.nil?
+    conf = SimpleConfig.new(
+      read_content,
       assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
       multiple_values: true,
-    ).params
+    )
+    @params = conf.params
   end
 end
 

@@ -16,10 +16,6 @@ class NtpConf < Vulcano.resource(1)
 
   def initialize(path = nil)
     @conf_path = path || '/etc/ntp.conf'
-    @files_contents = {}
-    @content = nil
-    @params = nil
-    read_content
   end
 
   def to_s
@@ -27,28 +23,34 @@ class NtpConf < Vulcano.resource(1)
   end
 
   def method_missing(name)
-    @params || read_content
-    param = @params[name.to_s]
+    param = read_params[name.to_s]
     # extract first value if we have only one value in array
-    param = param[0] if !param.nil? && param.length == 1
+    return param[0] if param.is_a?(Array) and param.length == 1
     param
   end
 
-  def read_content
-    # read the file
+  private
+
+  def read_params
+    return @params unless @params.nil?
+
     if !vulcano.file(@conf_path).file?
-      return skip_resource "Can't find file \"#{@conf_path}\""
+      skip_resource "Can't find file \"#{@conf_path}\""
+      return @params = {}
     end
-    @content = vulcano.file(@conf_path).content
-    if @content.empty? && vulcano.file(@conf_path).size > 0
-      return skip_resource "Can't read file \"#{@conf_path}\""
+
+    content = vulcano.file(@conf_path).content
+    if content.empty? && vulcano.file(@conf_path).size > 0
+      skip_resource "Can't read file \"#{@conf_path}\""
+      return @params = {}
     end
+
     # parse the file
-    @params = SimpleConfig.new(
-      @content,
+    conf = SimpleConfig.new(
+      content,
       assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
       multiple_values: true,
-    ).params
-    @content
+    )
+    @params = conf.params
   end
 end

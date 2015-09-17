@@ -13,23 +13,26 @@ class NpmPackage < Vulcano.resource(1)
   end
 
   def info
-    return @cache if !@cache.nil?
+    return @info unless @info.nil?
+
     cmd = vulcano.run_command("npm ls -g --json #{@package_name}")
-    return nil if cmd.exit_status != 0
-    pkgs = JSON.parse(cmd.stdout)
-    @cache = {
+    @info = {
       name: @package_name,
-      version: pkgs['dependencies'][@package_name]['version'],
       type: 'npm',
+      installed: cmd.exit_status == 0,
     }
+    return @info unless @info[:installed]
+
+    pkgs = JSON.parse(cmd.stdout)
+    @info[:version] = pkgs['dependencies'][@package_name]['version']
+    @info
   end
 
   def installed?
-    !info.nil?
+    info[:installed] == true
   end
 
   def version
-    return nil if info.nil?
     info[:version]
   end
 

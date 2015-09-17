@@ -12,26 +12,29 @@ class GemPackage < Vulcano.resource(1)
   end
 
   def info
+    return @info unless @info.nil?
+
     cmd = vulcano.run_command("gem list --local -a -q \^#{@package_name}\$")
-    return nil if cmd.exit_status != 0
+    @info = {
+      installed: cmd.exit_status == 0,
+      type: 'gem',
+    }
+    return @info unless @info[:installed]
 
     # extract package name and version
     # parses data like winrm (1.3.4, 1.3.3)
     params = /^\s*([^\(]*?)\s*\((.*?)\)\s*$/.match(cmd.stdout.chomp)
     versions = params[2].split(',')
-    @cache = {
-      name: params[1],
-      version: versions[0],
-      type: 'gem',
-    }
+    @info[:name] = params[1]
+    @info[:version] = versions[0]
+    @info
   end
 
   def installed?
-    !info.nil?
+    info[:installed] == true
   end
 
   def version
-    return nil if info.nil?
     info[:version]
   end
 

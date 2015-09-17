@@ -8,7 +8,12 @@ describe 'Vulcano::Resources::Passwd' do
     let(:resource) { loadResource('npm', 'bower') }
 
     it 'verify npm package detail parsing' do
-      pkg = { name: 'bower', version: '1.4.1', type: 'npm'}
+      pkg = {
+        name: 'bower',
+        version: '1.4.1',
+        type: 'npm',
+        installed: true,
+      }
       _(resource.installed?).must_equal true
       _(resource.info).must_equal pkg
     end
