@@ -28,7 +28,7 @@ describe 'file interface' do
       file.owner.must_be_nil
     end
 
-    it 'has group name root' do
+    it 'has no group' do
       file.group.must_be_nil
     end
 

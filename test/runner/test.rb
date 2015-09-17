@@ -15,6 +15,14 @@ module Test
       Marshal.load(Marshal.dump(o))
     end
 
+    def root_group(os)
+      if os[:family] == 'freebsd'
+        'wheel'
+      else
+        'root'
+      end
+    end
+
     def selinux_label(os, path = nil)
       labels = {}
 
