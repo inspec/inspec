@@ -8,7 +8,12 @@ describe 'Vulcano::Resources::Passwd' do
     let(:resource) { loadResource('oneget', 'Mozilla Firefox') }
 
     it 'verify oneget package detail parsing' do
-      pkg = { name: 'Mozilla Firefox 40.0.3 (x86 en-US)', version: '40.0.3', type: 'oneget'}
+      pkg = {
+        name: 'Mozilla Firefox 40.0.3 (x86 en-US)',
+        version: '40.0.3',
+        type: 'oneget',
+        installed: true,
+      }
       _(resource.installed?).must_equal true
       _(resource.info).must_equal pkg
     end

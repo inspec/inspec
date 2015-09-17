@@ -12,33 +12,36 @@ class OneGetPackage < Vulcano.resource(1)
 
   def initialize(package_name)
     @package_name = package_name
-    @cache = nil
   end
 
   def info
-    return @cache if !@cache.nil?
+    return @info unless @info.nil?
+
+    @info = {}
+    @info[:type] = 'oneget'
+
     cmd = vulcano.run_command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0
     # try to parse json
+
     begin
       pkgs = JSON.parse(cmd.stdout)
     rescue JSON::ParserError => _e
-      return nil
+      return @info
     end
-    @cache = {
-      name: pkgs['Name'],
-      version: pkgs['Version'],
-      type: 'oneget',
-    }
+
+    @info[:name] = pkgs['Name']
+    @info[:version] = pkgs['Version']
+    @info[:installed] = true
+    @info
   end
 
   def installed?
-    !info.nil?
+    info[:installed] == true
   end
 
   def version
-    return nil if info.nil?
     info[:version]
   end
 

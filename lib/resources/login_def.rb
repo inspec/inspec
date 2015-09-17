@@ -21,10 +21,6 @@ class LoginDef < Vulcano.resource(1)
 
   def initialize(path = nil)
     @conf_path = path || '/etc/login.defs'
-    @files_contents = {}
-    @content = nil
-    @params = nil
-    read_content
   end
 
   def to_s
@@ -32,26 +28,31 @@ class LoginDef < Vulcano.resource(1)
   end
 
   def method_missing(name)
-    @params || read_content
-    @params[name.to_s]
+    read_params[name.to_s]
   end
 
-  def read_content
+  def read_params
+    return @params unless @params.nil?
+
     # read the file
     file = vulcano.file(@conf_path)
     if !file.file?
-      return skip_resource "Can't find file \"#{@conf_path}\""
+      skip_resource "Can't find file \"#{@conf_path}\""
+      return @params = {}
     end
-    @content = file.content
-    if @content.empty? && file.size > 0
-      return skip_resource "Can't read file \"#{@conf_path}\""
+
+    content = file.content
+    if content.empty? && file.size > 0
+      skip_resource "Can't read file \"#{@conf_path}\""
+      return @params = {}
     end
+
     # parse the file
-    @params = SimpleConfig.new(
-      @content,
+    conf = SimpleConfig.new(
+      content,
       assignment_re: /^\s*(\S+)\s+(\S*)\s*$/,
       multiple_values: false,
-    ).params
-    @content
+    )
+    @params = conf.params
   end
 end
