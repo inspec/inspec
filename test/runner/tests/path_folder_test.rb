@@ -18,16 +18,38 @@ describe 'file interface' do
       file.type.must_equal(:directory)
     end
 
-    it 'has no content' do
-      file.content.must_equal(nil)
+    if os[:family] == 'freebsd'
+      it 'has freebsd folder content behavior' do
+        file.content.must_equal("\u0003\u0000")
+      end
+
+      it 'has an md5sum' do
+        file.md5sum.must_equal('598f4fe64aefab8f00bcbea4c9239abf')
+      end
+
+      it 'has an sha256sum' do
+        file.sha256sum.must_equal('9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9')
+      end
+    else
+      it 'has no content' do
+        file.content.must_equal(nil)
+      end
+
+      it 'has an md5sum' do
+        file.md5sum.must_equal(nil)
+      end
+
+      it 'has an sha256sum' do
+        file.sha256sum.must_equal(nil)
+      end
     end
 
     it 'has owner name root' do
       file.owner.must_equal('root')
     end
 
-    it 'has group name root' do
-      file.group.must_equal('root')
+    it 'has group name' do
+      file.group.must_equal(Test.root_group(os))
     end
 
     it 'has mode 0567' do
@@ -40,14 +62,6 @@ describe 'file interface' do
 
     it 'has no link_path' do
       file.link_path.must_be_nil
-    end
-
-    it 'has an md5sum' do
-      file.md5sum.must_equal(nil)
-    end
-
-    it 'has an sha256sum' do
-      file.sha256sum.must_equal(nil)
     end
 
     it 'has a modified time' do

@@ -223,16 +223,19 @@ module Vulcano::Backends
       end
 
       def mode
+        return bsd_stat[:mode] unless bsd_stat.nil?
         m = Specinfra::Runner.get_file_mode(@path).stdout.strip
         m.empty? ? nil : m.to_i(8)
       end
 
       def owner
+        return bsd_stat[:owner] unless bsd_stat.nil?
         o = Specinfra::Runner.get_file_owner_user(@path).stdout.strip
         o.empty? ? nil : o
       end
 
       def group
+        return bsd_stat[:group] unless bsd_stat.nil?
         g = Specinfra::Runner.get_file_owner_group(@path).stdout.strip
         g.empty? ? nil : g
       end
@@ -244,7 +247,7 @@ module Vulcano::Backends
       end
 
       def content
-        s = Specinfra::Runner.get_file_content(@path).stdout.strip
+        s = Specinfra::Runner.get_file_content(@path).stdout
         if s.empty? && (directory? or size.nil? or size > 0)
           nil
         else
@@ -276,6 +279,8 @@ module Vulcano::Backends
       def selinux_label
         res = Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
         (res.empty? or res == '?') ? nil : res
+      rescue NotImplementedError => _
+        nil
       end
 
       def mounted?(opts = {}, only_with = nil)
