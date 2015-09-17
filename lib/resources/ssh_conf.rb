@@ -23,11 +23,9 @@ class SshConf < Vulcano.resource(1)
   end
 
   def params(*opts)
-    res = @params
-    opts.each do |opt|
-      res = res[opt] unless res.nil?
+    opts.inject(read_params) do |cur, acc|
+      cur.respond_to?(:key) ? cur[acc] : nil
     end
-    res
   end
 
   def method_missing(name)
