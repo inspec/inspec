@@ -27,7 +27,7 @@ class InetdConf < Vulcano.resource(1)
     read_params[name.to_s]
   end
 
-  def read_content
+  def read_params
     return @params unless @params.nil?
 
     # read the file
