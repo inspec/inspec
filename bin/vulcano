@@ -71,7 +71,7 @@ class VulcanoCLI < Thor
     desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
   option :format, type: :string, default: 'progress'
   def exec(*tests)
-    runner = Vulcano::Runner.new(options[:id], options)
+    runner = Vulcano::Runner.new(options)
     runner.add_tests(tests)
     runner.run
   rescue RuntimeError => e

@@ -77,7 +77,7 @@ class DockerTester
   def test_container(container, report)
     puts "--> run test on docker #{container.id}"
     opts = { 'target' => "docker://#{container.id}" }
-    runner = Vulcano::Runner.new(nil, opts)
+    runner = Vulcano::Runner.new(opts)
     runner.add_tests(@tests)
     tests = runner.tests.ordered_example_groups
     tests.map { |g| g.run(report) }
