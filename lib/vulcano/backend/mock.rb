@@ -63,11 +63,11 @@ module Vulcano::Backends
       def initialize(_runtime, path)
         @path = path
         # mock dataset
-        @exists = (rand < 0.8) ? true : false
-        @is_file = (@exists && rand < 0.7) ? true : false
+        @exist = (rand < 0.8) ? true : false
+        @is_file = (@exist && rand < 0.7) ? true : false
         @size = 0
         @content = ''
-        if @exists && @is_file
+        if @exist && @is_file
           @size = (rand**3 * 1000).to_i
           @size = 0 if rand < 0.2
         end
@@ -77,7 +77,7 @@ module Vulcano::Backends
         @content
       end
 
-      %w{ size content file? exists? }.each do |m|
+      %w{ size content file? exist? }.each do |m|
         define_method m.to_sym do
           instance_variable_get(m.sub('?', '').to_sym)
         end
