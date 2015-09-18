@@ -62,6 +62,8 @@ class Service < Vulcano.resource(1)
       @service_mgmt = LaunchCtl.new(vulcano)
     when 'windows'
       @service_mgmt = WindowsSrv.new(vulcano)
+    when 'freebsd'
+      @service_mgmt = BSDInit.new(vulcano)
     end
 
     return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
@@ -195,6 +197,40 @@ class SysV < ServiceManager
       running: running,
       enabled: enabled,
       type: 'sysv',
+    }
+  end
+end
+
+# @see: https://www.freebsd.org/doc/en/articles/linux-users/startup.html
+# @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
+class BSDInit < ServiceManager
+  def info(service_name)
+    # check if service is enabled
+    # services are enabled in /etc/rc.conf and /etc/defaults/rc.conf
+    # via #{service_name}_enable="YES"
+    # service SERVICE status returns the following result if not activated:
+    #   Cannot 'status' sshd. Set sshd_enable to YES in /etc/rc.conf or use 'onestatus' instead of 'status'.
+    # gather all enabled services
+    cmd = @vulcano.run_command('service -e')
+    return nil if cmd.exit_status != 0
+
+    # search for the service
+    srv = /(^.*#{service_name}.*)/.match(cmd.stdout)
+    return nil if srv.nil? || srv[0].nil?
+    enabled = true
+
+    # check if the service is running
+    # if the service is not available or not running, we always get an error code
+    cmd = @vulcano.run_command("service #{service_name} status")
+    cmd.exit_status == 0 ? (running = true) : (running = false)
+
+    {
+      name: service_name,
+      description: '',
+      installed: true,
+      running: running,
+      enabled: enabled,
+      type: 'bsd-init',
     }
   end
 end
