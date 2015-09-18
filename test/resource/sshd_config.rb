@@ -1,5 +1,5 @@
 
-return unless command('sshd').exists?
+return unless command('sshd').exist?
 
 describe sshd_config do
   its('AcceptEnv') { should include('GORDON_SERVER')}

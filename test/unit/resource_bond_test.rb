@@ -10,7 +10,7 @@ describe 'Vulcano::Resources::Bond' do
     let(:resource) { loadResource('bond', 'bond0') }
 
     it 'bond must be available' do
-      resource.exists?.must_equal true
+      resource.exist?.must_equal true
     end
 
     it 'eth0 is part of bond' do

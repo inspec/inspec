@@ -200,44 +200,44 @@ describe 'Vulcano::Resources::YumRepo' do
     #  its('epel') { should exist }
     #  its('epel') { should be_enabled }
     it 'test its syntax repo' do
-      _(resource.extras.exists?).must_equal true
+      _(resource.extras.exist?).must_equal true
       _(resource.extras.enabled?).must_equal true
     end
 
     it 'test enabled extra repo' do
       extras = resource.repo('extras/7/x86_64')
-      _(extras.exists?).must_equal true
+      _(extras.exist?).must_equal true
       _(extras.enabled?).must_equal true
     end
 
     it 'test enabled extra repo with short name' do
       extras = resource.repo('extras')
-      _(extras.exists?).must_equal true
+      _(extras.exist?).must_equal true
       _(extras.enabled?).must_equal true
     end
 
     it 'test disabled extra-source repo' do
       extras = resource.repo('extras-source/7')
-      _(extras.exists?).must_equal true
+      _(extras.exist?).must_equal true
       _(extras.enabled?).must_equal false
     end
 
     it 'test disabled extra-source repo with short name' do
       extras = resource.repo('extras-source/7')
-      _(extras.exists?).must_equal true
+      _(extras.exist?).must_equal true
       _(extras.enabled?).must_equal false
     end
 
     it 'test missing repo' do
       extras = resource.repo('remi')
-      _(extras.exists?).must_equal false
+      _(extras.exist?).must_equal false
       _(extras.enabled?).must_equal false
     end
 
     # test serverspec syntax
     let(:serverspec) { loadResource('yumrepo', 'extras') }
     it 'test enabled extra repo' do
-      _(serverspec.exists?).must_equal true
+      _(serverspec.exist?).must_equal true
       _(serverspec.enabled?).must_equal true
     end
   end

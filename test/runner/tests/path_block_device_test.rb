@@ -7,7 +7,7 @@ describe 'file interface' do
     let(:file) { backend.file('/tmp/block_device') }
 
     it 'exists' do
-      file.exists?.must_equal(true)
+      file.exist?.must_equal(true)
     end
 
     it 'is a block device' do
