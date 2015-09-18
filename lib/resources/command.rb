@@ -24,7 +24,7 @@ class Cmd < Vulcano.resource(1)
     result.exit_status.to_i
   end
 
-  def exists?
+  def exist?
     res = vulcano.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
