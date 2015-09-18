@@ -7,7 +7,7 @@ describe 'file interface' do
     let(:file) { backend.file('/dev/null') }
 
     it 'exists' do
-      file.exists?.must_equal(true)
+      file.exist?.must_equal(true)
     end
 
     it 'is a character device' do

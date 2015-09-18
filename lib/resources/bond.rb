@@ -21,7 +21,7 @@ module Vulcano::Resources
         @file.content,
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true,
-      ).params if @file.exists?
+      ).params if @file.exist?
       @loaded = true
       @content
     end
@@ -37,8 +37,8 @@ module Vulcano::Resources
       @content
     end
 
-    def exists?
-      @file.exists?
+    def exist?
+      @file.exist?
     end
 
     def has_interface?(interface)

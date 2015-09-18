@@ -9,7 +9,7 @@ describe 'file interface' do
     }
 
     it 'does not exist' do
-      file.exists?.must_equal(false)
+      file.exist?.must_equal(false)
     end
 
     it 'is not a file' do

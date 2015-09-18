@@ -17,14 +17,14 @@ describe command('exit 123') do
   its(:exit_status) { should eq 123 }
 end
 
-describe command('/bin/sh').exists? do
+describe command('/bin/sh').exist? do
   it { should eq true }
 end
 
-describe command('sh').exists? do
+describe command('sh').exist? do
   it { should eq true }
 end
 
-describe command('this is not existing').exists? do
+describe command('this is not existing').exist? do
   it { should eq false }
 end
