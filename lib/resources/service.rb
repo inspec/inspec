@@ -311,8 +311,11 @@ class WindowsSrv < ServiceManager
       return nil
     end
 
-    service['Service']['Status'] == 4 ? (running = true) : (running = false)
-    service['WMI']['StartMode'] == 'Auto' ? (enabled = true) : (enabled = false)
+    # check that we got a response
+    return nil if service.nil? || service['Service'].nil?
+
+    (!service['Service'].nil? && !service['Service']['Status'].nil? && service['Service']['Status'] == 4) ? (running = true) : (running = false)
+    (!service['WMI'].nil? && !service['WMI']['StartMode'].nil? && service['WMI']['StartMode'] == 'Auto') ? (enabled = true) : (enabled = false)
 
     {
       name: service['Service']['Name'],
