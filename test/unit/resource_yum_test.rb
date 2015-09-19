@@ -236,8 +236,8 @@ describe 'Vulcano::Resources::YumRepo' do
 
     # test serverspec syntax
     let(:serverspec) { loadResource('yumrepo', 'extras') }
-    it 'test enabled extra repo' do
-      _(serverspec.exist?).must_equal true
+    it 'test enabled extra repo (serverspec backwards comptability)' do
+      _(serverspec.exists?).must_equal true
       _(serverspec.enabled?).must_equal true
     end
   end
