@@ -18,15 +18,6 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.5'
-  spec.add_development_dependency 'minitest', '~> 5.5'
-  spec.add_development_dependency 'rake', '~> 10'
-  spec.add_development_dependency 'pry', '~> 0.10'
-  spec.add_development_dependency 'rubocop', '~> 0.33.0'
-  spec.add_development_dependency 'simplecov', '~> 0.10'
-  spec.add_development_dependency 'concurrent-ruby', '~> 0.9'
-  spec.add_development_dependency 'test-kitchen', '~> 1.4'
-
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '~> 1.8'
   spec.add_dependency 'rainbow', '~> 2'
