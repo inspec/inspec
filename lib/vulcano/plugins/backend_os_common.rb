@@ -62,9 +62,11 @@ class Vulcano::Plugins::Backend
       name = cmd.stdout[/^ProductName:\s+(.+)$/, 1]
       # TODO: ditto on error
       return false if name.nil?
-      @platform[:family] = name.downcase.chomp.tr(' ', '_')
+      @platform[:name] = name.downcase.chomp.tr(' ', '_')
       @platform[:release] = cmd.stdout[/^ProductVersion:\s+(.+)$/, 1]
       @platform[:build] = cmd.stdout[/^BuildVersion:\s+(.+)$/, 1]
+      # TODO: keep for now due to backwards compatibility with serverspec
+      @platform[:family] = 'darwin'
       true
     end
 
