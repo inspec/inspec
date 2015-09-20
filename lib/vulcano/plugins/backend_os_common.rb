@@ -57,7 +57,7 @@ class Vulcano::Plugins::Backend
       # as it shouldnt happen
       return false if cmd.exit_status != 0
       # TODO: ditto on error
-      return false unless cmd.stdout.empty?
+      return false if cmd.stdout.empty?
 
       name = cmd.stdout[/^ProductName:\s+(.+)$/, 1]
       # TODO: ditto on error
