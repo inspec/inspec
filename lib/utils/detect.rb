@@ -48,6 +48,7 @@ end
 
 # print OS detection infos
 conf = {
+  os_name: os[:name],
   os_family: os[:family],
   os_release: release || os[:release],
   os_arch: os[:arch],
