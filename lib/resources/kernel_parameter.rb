@@ -1,0 +1,54 @@
+# encoding: utf-8
+# license: All rights reserved
+
+# Verifies if a kernel parameter is set
+# describe kernel_parameter('net.ipv4.conf.all.forwarding') do
+#   its(:value) { should eq 0 }
+# end
+class KernelParameter < Vulcano.resource(1)
+  name 'kernel_parameter'
+
+  def initialize(parameter = nil)
+    @parameter = parameter
+
+    # this resource is only supported on Linux
+    return skip_resource 'The `kernel_module` resource is not supported on your OS.' if !%w{ubuntu debian redhat fedora arch}.include? vulcano.os[:family]
+  end
+
+  def value
+    cmd = vulcano.run_command("/sbin/sysctl -q -n #{@parameter}")
+    return nil if cmd.exit_status != 0
+    # remove whitespace
+    cmd = cmd.stdout.chomp.strip
+    # convert to number if possible
+    cmd = cmd.to_i if cmd.match(/^\d+$/)
+    cmd
+  end
+
+  def to_s
+    "Kernel Parameter #{@parameter}"
+  end
+end
+
+# for compatability with serverspec
+# this is deprecated syntax and will be removed in future versions
+class LinuxKernelParameter < KernelParameter
+  name 'linux_kernel_parameter'
+
+  def initialize(parameter)
+    super(parameter)
+  end
+
+  def value
+    deprecated
+    super()
+  end
+
+  def deprecated
+    warn '[DEPRECATION] `linux_kernel_parameter(parameter)` is deprecated.  Please use `kernel_parameter(parameter)` instead.'
+  end
+
+  def to_s
+    "Kernel Parameter #{@parameter}"
+  end
+end
