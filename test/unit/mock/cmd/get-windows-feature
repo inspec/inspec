@@ -1,0 +1,7 @@
+{
+    "Name":  "DHCP",
+    "DisplayName":  "DHCP Server",
+    "Description":  "Dynamic Host Configuration Protocol (DHCP) Server enables you to centrally configure, manage, and provide temporary IP addresses and related information for client computers.",
+    "Installed":  false,
+    "InstallState":  0
+}
