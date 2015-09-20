@@ -16,7 +16,7 @@ module Vulcano
     attr_reader :tests
     def initialize(conf = {})
       @rules = []
-      @profile_id = @conf[:id]
+      @profile_id = conf[:id]
       @conf = Vulcano::Backend.target_config(normalize_map(conf))
       @tests = RSpec::Core::World.new
 
