@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'etc'
+require 'rbconfig'
 
 if IO.respond_to?(:popen4)
   def open4(*args)
@@ -13,9 +14,11 @@ module Vulcano::Backends
   class Local < Vulcano.backend(1)
     name 'local'
 
+    attr_reader :os
     def initialize(conf)
       @conf = conf
       @files = {}
+      @os = OS.new(self)
     end
 
     def file(path)
@@ -30,18 +33,58 @@ module Vulcano::Backends
       'Local Command Runner'
     end
 
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend, { family: detect_local_os })
+      end
+
+      private
+
+      def detect_local_os
+        case ::RbConfig::CONFIG['host_os']
+        when /aix(.+)$/
+          return 'aix'
+        when /darwin(.+)$/
+          return 'darwin'
+        when /hpux(.+)$/
+          return 'hpux'
+        when /linux/
+          return 'linux'
+        when /freebsd(.+)$/
+          return 'freebsd'
+        when /openbsd(.+)$/
+          return 'openbsd'
+        when /netbsd(.*)$/
+          return 'netbsd'
+        when /solaris2/
+          return 'solaris2'
+        when /mswin|mingw32|windows/
+          # After long discussion in IRC the "powers that be" have come to a consensus
+          # that no Windows platform exists that was not based on the
+          # Windows_NT kernel, so we herby decree that "windows" will refer to all
+          # platforms built upon the Windows_NT kernel and have access to win32 or win64
+          # subsystems.
+          return 'windows'
+        else
+          return ::RbConfig::CONFIG['host_os']
+        end
+      end
+    end
+
     class Command
       attr_reader :stdout, :stderr, :exit_status
       def initialize(cmd)
         @cmd = cmd
+
         pid, stdin, stdout, stderr = open4(cmd)
         stdin.close
-
         _, status = Process.waitpid2 pid
 
         @stdout = stdout.read
         @stderr = stderr.read
         @exit_status = status.exitstatus
+      rescue Errno::ENOENT => _
+        @exit_status ||= 1
       end
     end
 
