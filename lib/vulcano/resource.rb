@@ -56,5 +56,9 @@ require 'resources/security_policy'
 require 'resources/service'
 require 'resources/ssh_conf'
 require 'resources/windows_feature'
-require 'resources/yaml'
 require 'resources/yum'
+
+# file formats, depend on json implementation
+require 'resources/json'
+require 'resources/yaml'
+require 'resources/csv'

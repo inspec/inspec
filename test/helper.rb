@@ -45,6 +45,7 @@ def loadResource (resource, *args)
     '/etc/mysql/my.cnf' => mockfile.('mysql.conf'),
     '/etc/mysql/mysql2.conf' => mockfile.('mysql2.conf'),
     'kitchen.yml' => mockfile.('kitchen.yml'),
+    'example.csv' => mockfile.('example.csv'),
     'policyfile.lock.json' => mockfile.('policyfile.lock.json'),
   }
 
