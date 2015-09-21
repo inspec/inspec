@@ -8,7 +8,7 @@ describe 'Vulcano:Resources::JSON' do
 
     let(:resource) { loadResource('json', 'policyfile.lock.json') }
 
-    it 'verify yaml parsing' do
+    it 'verify json parsing' do
       _(resource.params).wont_equal nil
       _(resource.send('name')).must_equal 'demo'
       _(resource.send('run_list')).must_equal %w{apache2 omnibus}
