@@ -19,13 +19,12 @@ class KernelModule < Vulcano.resource(1)
   def loaded?
     # get list of all modules
     cmd = vulcano.run_command('lsmod')
-    return nil if cmd.exit_status != 0
+    return false if cmd.exit_status != 0
 
     # check if module is loaded
-    module_loaded = /(^.*#{@module}.*)/.match(cmd.stdout)
-    !module_loaded.nil? ? (loaded = true) : (loaded = false)
-
-    loaded
+    re = Regexp.new('^'+Regexp.quote(@module)+'\s')
+    found = cmd.stdout.match(re)
+    !found.nil?
   end
 
   def to_s
