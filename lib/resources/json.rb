@@ -19,7 +19,7 @@ class JsonConfig < Vulcano.resource(1)
 
   def parse(content)
     require 'json'
-    JSON.parse(content, object_class: OpenStruct)
+    JSON.parse(content)
   end
 
   def extract_value(keys, value)
