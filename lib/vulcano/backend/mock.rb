@@ -6,10 +6,11 @@ module Vulcano::Backends
   class Mock < Vulcano.backend(1)
     name 'mock'
 
-    attr_accessor :files, :commands
+    attr_accessor :files, :commands, :os
     def initialize(conf)
       @conf = conf
       @files = {}
+      @os = {}
       @commands = {}
       trace_calls unless @conf[:quiet]
     end
