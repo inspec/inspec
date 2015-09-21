@@ -1,0 +1,6 @@
+addressable,2.3.6,Apache 2.0,URI Implementation,"Addressable is a replacement for the URI implementation that is part of
+Ruby's standard library. It more closely conforms to the relevant RFCs and
+adds support for IRIs and URI templates."
+ast,2.0.0,MIT,A library for working with Abstract Syntax Trees.,A library for working with Abstract Syntax Trees.
+astrolabe,1.3.0,MIT,An object-oriented AST extension for Parser,An object-oriented AST extension for Parser
+berkshelf,3.2.3,Apache 2.0,"Manages a Cookbook's, or an Application's, Cookbook dependencies","Manages a Cookbook's, or an Application's, Cookbook dependencies"
