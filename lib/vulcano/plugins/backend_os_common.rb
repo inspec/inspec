@@ -213,12 +213,6 @@ class Vulcano::Plugins::Backend
       elsif !(raw = get_config('/etc/parallels-release')).nil?
         @platform[:family] = redhatish_platform(raw)
         @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
-      # elsif !(_fedora = get_config('/etc/fedora-release')).nil?
-      #   @platform[:family] = 'fedora'
-      #   # TODO: throw error if we didn't get any data here
-      #   redhat = get_config('/etc/redhat-release')
-      #   m = redhat.match(/release (\d[\d]*)/)
-      #   @platform[:release] = m[1] unless m.nil?
       elsif !(raw = get_config('/etc/redhat-release')).nil?
         # TODO: Cisco
         @platform[:family] = redhatish_platform(raw)
