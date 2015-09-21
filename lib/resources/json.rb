@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'json'
-
 # Parses a json document
 # Usage:
 # describe yaml('policyfile.lock.json') do
@@ -20,6 +18,7 @@ class JsonConfig < Vulcano.resource(1)
   end
 
   def parse(content)
+    require 'json'
     JSON.parse(content, object_class: OpenStruct)
   end
 
