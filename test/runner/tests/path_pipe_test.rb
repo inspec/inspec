@@ -7,7 +7,7 @@ describe 'file interface' do
     let(:file) { backend.file('/tmp/pipe') }
 
     it 'exists' do
-      file.exists?.must_equal(true)
+      file.exist?.must_equal(true)
     end
 
     it 'is a pipe' do

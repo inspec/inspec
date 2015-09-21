@@ -96,7 +96,7 @@ module Vulcano::Backends
       end
 
       %w{
-        exists? file? socket? directory? symlink? pipe?
+        exist? file? socket? directory? symlink? pipe?
       }.each do |m|
         define_method m.to_sym do
           ::File.method(m.to_sym).call(@path)

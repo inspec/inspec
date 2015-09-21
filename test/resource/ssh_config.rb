@@ -1,5 +1,5 @@
 
-return unless command('ssh').exists?
+return unless command('ssh').exist?
 
 describe ssh_config do
   its('SendEnv') { should include('GORDON_CLIENT')}
