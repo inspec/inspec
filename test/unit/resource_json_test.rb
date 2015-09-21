@@ -3,7 +3,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano:Resources::JSON' do
+describe 'Vulcano::Resources::JSON' do
   describe 'json' do
 
     let(:resource) { loadResource('json', 'policyfile.lock.json') }
