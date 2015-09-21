@@ -117,7 +117,7 @@ class YumRepo
     @cache
   end
 
-  def exists?
+  def exist?
     !info.nil?
   end
 
@@ -141,7 +141,7 @@ module Vulcano::Resources
 
     def exists?
       deprecated
-      @repository.exists?
+      @repository.exist?
     end
 
     def enabled?

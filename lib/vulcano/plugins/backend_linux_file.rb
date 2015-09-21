@@ -17,8 +17,8 @@ class Vulcano::Plugins::Backend
         "cat #{@spath} 2>/dev/null || echo -n").stdout
     end
 
-    def exists?
-      @exists ||= (
+    def exist?
+      @exist ||= (
         @backend.
           run_command("test -e #{@spath}").
           exit_status == 0

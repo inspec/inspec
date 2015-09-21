@@ -173,7 +173,7 @@ class SysV < ServiceManager
     service = @vulcano.file(filename)
 
     # check if service is installed
-    return nil if !service.exists?
+    return nil if !service.exist?
 
     # check if service is enabled
     configfile = "/etc/init/#{service_name}.conf"

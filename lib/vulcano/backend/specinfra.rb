@@ -218,7 +218,7 @@ module Vulcano::Backends
         super(backend, path)
       end
 
-      def exists?
+      def exist?
         Specinfra::Runner.check_file_exists(@path)
       end
 
