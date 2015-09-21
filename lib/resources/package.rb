@@ -25,13 +25,15 @@ class Package < Vulcano.resource(1)
       @pkgman = Pacman.new(vulcano)
     when 'darwin'
       @pkgman = Brew.new(vulcano)
+    when 'windows'
+      @pkgman = WindowsPkg.new(vulcano)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
   end
 
   # returns true if the package is installed
-  def installed?(_provider, _version)
+  def installed?(_provider=nil, _version=nil)
     !info.nil?
   end
 
@@ -131,6 +133,30 @@ class Pacman < PkgManagement
       installed: true,
       version: params['Version'],
       type: 'pacman',
+    }
+  end
+end
+
+# Determines the installed packages on Windows
+# Currently we use 'Get-WmiObject -Class Win32_Product' as a detection method
+# TODO: evaluate if alternative methods as proposed by Microsoft are still valid:
+# @see: http://blogs.technet.com/b/heyscriptingguy/archive/2013/11/15/use-powershell-to-find-installed-software.aspx
+class WindowsPkg < PkgManagement
+  def info(package_name)
+    # Find the package
+    cmd = @vulcano.run_command("Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq '#{package_name}'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json")
+
+    begin
+      package = JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => _e
+      return nil
+    end
+
+    {
+      name: package['Name'],
+      installed: true,
+      version: package['Version'],
+      type: 'windows',
     }
   end
 end
