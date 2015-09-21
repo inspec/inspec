@@ -3,7 +3,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano:Resources::Service' do
+describe 'Vulcano::Resources::Service' do
   describe 'service' do
 
     # TODO: make OS dependent
