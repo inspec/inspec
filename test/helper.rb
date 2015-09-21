@@ -44,6 +44,7 @@ def loadResource (resource, *args)
     '/etc/audit/auditd.conf' => mockfile.('auditd.conf'),
     '/etc/mysql/my.cnf' => mockfile.('mysql.conf'),
     '/etc/mysql/mysql2.conf' => mockfile.('mysql2.conf'),
+    'kitchen.yml' => mockfile.('kitchen.yml'),
     'policyfile.lock.json' => mockfile.('policyfile.lock.json'),
   }
 
