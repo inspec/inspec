@@ -6,10 +6,10 @@
 
 # print OS detection infos
 conf = {
-  os_name: os[:name],
-  os_family: os[:family],
-  os_release: release || os[:release],
-  os_arch: os[:arch],
+  os_name:    os[:name],
+  os_family:  os[:family],
+  os_release: os[:release],
+  os_arch:    os[:arch],
 }
 puts JSON.dump(conf)
 exit 0
