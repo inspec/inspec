@@ -3,7 +3,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano:Resources::CSV' do
+describe 'Vulcano::Resources::CSV' do
   describe 'cars' do
 
     let(:resource) { loadResource('csv', 'example.csv') }

@@ -3,7 +3,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano:Resources::YAML' do
+describe 'Vulcano::Resources::YAML' do
   describe 'yaml' do
 
     let(:resource) { loadResource('yaml', 'kitchen.yml') }
