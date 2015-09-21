@@ -2,7 +2,7 @@
 
 # Parses a json document
 # Usage:
-# describe yaml('policyfile.lock.json') do
+# describe json('policyfile.lock.json') do
 #   its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
 # end
 class JsonConfig < Vulcano.resource(1)
