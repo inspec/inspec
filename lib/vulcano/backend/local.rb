@@ -148,7 +148,7 @@ module Vulcano::Backends
           mode: tmask & 00777,
           mtime: file_stat.mtime.to_i,
           size: file_stat.size,
-          user: pw_username(file_stat.uid),
+          owner: pw_username(file_stat.uid),
           group: pw_groupname(file_stat.gid),
         }
 
