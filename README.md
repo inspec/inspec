@@ -122,7 +122,7 @@ rake test:runner
 CONCURRENCY=3 rake test:runner
 ```
 
-This will go to `test/runner` and run `kitchen converge`. You can test specific
+This will go to `test/runner` and run `kitchen test`. You can test specific
 operating systems and configurations via test-kitchen.
 
 ## Contributing

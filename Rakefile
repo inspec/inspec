@@ -40,6 +40,6 @@ namespace :test do
   task :runner do
     concurrency = ENV['CONCURRENCY'] || 4
     path = File.join(File.dirname(__FILE__), 'test', 'runner')
-    sh('sh', '-c', "cd #{path} && kitchen converge -c #{concurrency}")
+    sh('sh', '-c', "cd #{path} && kitchen test -c #{concurrency}")
   end
 end
