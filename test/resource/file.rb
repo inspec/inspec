@@ -99,9 +99,10 @@ end
 
 # @TODO selinux_label
 
-describe file('/proc') do
-  it { should be_mounted }
-end
+# @TODO skip as the mount command is not reliably present on all test containers
+# describe file('/proc') do
+#   it { should be_mounted }
+# end
 
 describe file('/proc/cpuinfo') do
   it { should_not be_mounted }
