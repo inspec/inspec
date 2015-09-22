@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::LoginDef' do
   describe 'login_defs' do
-    let(:resource) { loadResource('login_defs') }
+  let(:resource) { load_resource('login_defs') }
 
     it 'verify login.def config parsing' do
       _(resource.UMASK).must_equal '022'

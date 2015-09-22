@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Processes' do
   describe 'processes' do
-    let(:resource) { loadResource('processes', '/bin/bash') }
+  let(:resource) { load_resource('processes', '/bin/bash') }
 
     it 'verify processes resource' do
       _(resource.list).must_equal [{

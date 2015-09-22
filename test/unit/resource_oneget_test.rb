@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Passwd' do
   describe 'oneget' do
-    let(:resource) { loadResource('oneget', 'Mozilla Firefox') }
+  let(:resource) { load_resource('oneget', 'Mozilla Firefox') }
 
     it 'verify oneget package detail parsing' do
       pkg = {

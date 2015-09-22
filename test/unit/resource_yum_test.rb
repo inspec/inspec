@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::YumRepo' do
   describe 'yum' do
-    let(:resource) { loadResource('yum') }
+  let(:resource) { MockLoader.new(:centos7).load_resource('yum') }
 
     it 'get repository details' do
       _(resource.repositories).must_equal [{

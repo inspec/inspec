@@ -6,7 +6,7 @@ require 'vulcano/resource'
 describe 'Vulcano:Resources::Feature' do
   describe 'feature' do
 
-    let(:resource) { loadResource('windows_feature', 'dhcp') }
+    let(:resource) { MockLoader.new(:windows).load_resource('windows_feature', 'dhcp') }
 
     # TODO: set windows as mock os
     it 'verify windows feature parsing' do

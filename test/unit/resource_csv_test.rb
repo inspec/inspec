@@ -5,8 +5,8 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::CSV' do
   describe 'cars' do
+  let(:resource) { load_resource('csv', 'example.csv') }
 
-    let(:resource) { loadResource('csv', 'example.csv') }
 
     it 'verify csv parsing' do
       _(resource.params).wont_equal nil

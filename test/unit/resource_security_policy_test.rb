@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::SecurityPolicy' do
   describe 'security_policy' do
-    let(:resource) { loadResource('security_policy') }
+  let(:resource) { load_resource('security_policy') }
 
     it 'verify processes resource' do
       _(resource.MaximumPasswordAge).must_equal 42

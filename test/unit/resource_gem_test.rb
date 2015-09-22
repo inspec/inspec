@@ -5,7 +5,6 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Passwd' do
   describe 'gem' do
-    let(:resource) { loadResource('gem', 'rubocop') }
 
     it 'verify gem package detail parsing' do
       pkg = {
@@ -17,6 +16,7 @@ describe 'Vulcano::Resources::Passwd' do
       _(resource.installed?).must_equal true
       _(resource.info).must_equal pkg
     end
+  let(:resource) { load_resource('gem', 'rubocop') }
 
   end
 end

@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::InetdConf' do
   describe 'inetd_config' do
-    let(:resource) { loadResource('inetd_config') }
+  let(:resource) { load_resource('inetd_config') }
 
     it 'verify limits.conf config parsing' do
       _(resource.send('shell')).must_equal nil

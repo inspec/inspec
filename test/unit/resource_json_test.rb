@@ -5,8 +5,8 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::JSON' do
   describe 'json' do
+  resource = load_resource('json', 'policyfile.lock.json')
 
-    let(:resource) { loadResource('json', 'policyfile.lock.json') }
 
     it 'verify json parsing' do
       _(resource.params).wont_equal nil

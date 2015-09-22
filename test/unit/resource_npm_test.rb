@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Passwd' do
   describe 'npm' do
-    let(:resource) { loadResource('npm', 'bower') }
+  let(:resource) { load_resource('npm', 'bower') }
 
     it 'verify npm package detail parsing' do
       pkg = {

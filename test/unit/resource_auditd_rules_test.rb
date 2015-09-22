@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::AuditDaemonRules' do
   describe 'audit_daemon_rules' do
-    let(:resource) { loadResource('audit_daemon_rules') }
+  let(:resource) { load_resource('audit_daemon_rules') }
 
     it 'check audit policy parsing' do
       _(resource.send('LIST_RULES')).must_equal [

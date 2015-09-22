@@ -6,8 +6,7 @@ require 'vulcano/resource'
 describe 'Vulcano::Resources::SshConf' do
 
   describe 'ssh_config' do
-
-    let(:resource) { loadResource('ssh_config') }
+    let(:resource) { load_resource('ssh_config') }
 
     it 'check ssh config parsing' do
       _(resource.Host).must_equal '*'
@@ -19,8 +18,7 @@ describe 'Vulcano::Resources::SshConf' do
   end
 
   describe 'sshd_config' do
-
-    let(:resource) { loadResource('sshd_config') }
+    let(:resource) { load_resource('sshd_config') }
 
     it 'check protocol version' do
       _(resource.Port).must_equal '22'

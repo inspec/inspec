@@ -5,8 +5,8 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::YAML' do
   describe 'yaml' do
+  let(:resource) { load_resource('yaml', 'kitchen.yml') }
 
-    let(:resource) { loadResource('yaml', 'kitchen.yml') }
 
     it 'verify yaml parsing' do
       _(resource.params).wont_be_nil

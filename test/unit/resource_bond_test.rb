@@ -4,10 +4,10 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Bond' do
+  let(:resource) { load_resource('bond', 'bond0') }
 
   describe 'parse bond config' do
 
-    let(:resource) { loadResource('bond', 'bond0') }
 
     it 'bond must be available' do
       resource.exist?.must_equal true

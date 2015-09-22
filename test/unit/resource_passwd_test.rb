@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Passwd' do
   describe 'passwd' do
-    let(:resource) { loadResource('passwd') }
+  let(:resource) { load_resource('passwd') }
 
     it 'verify passwd parsing' do
       _(resource.usernames).must_equal %w{root www-data}

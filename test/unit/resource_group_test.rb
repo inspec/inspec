@@ -5,7 +5,7 @@ require 'vulcano/resource'
 
 describe 'Vulcano::Resources::EtcGroup' do
   describe 'etc_group' do
-    let(:resource) { loadResource('etc_group') }
+  let(:resource) { load_resource('etc_group') }
 
     it 'verify /etc/group config parsing' do
       _(resource.gids).must_equal %w{ 0 33 }
