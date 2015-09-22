@@ -39,8 +39,14 @@ class DockerRunner
 
   def run_on_target(name, &block)
     pr = Concurrent::Promise.new {
-      container = start_container(name)
-      res = block.call(name, container)
+      begin
+        container = start_container(name)
+        res = block.call(name, container)
+      # special rescue block to handle not implemented error
+      rescue NotImplementedError => err
+        raise err.message
+      end
+      # always stop the container
       stop_container(container)
       res
     }.execute
