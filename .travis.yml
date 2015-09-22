@@ -3,9 +3,6 @@ sudo: required
 language: ruby
 cache: bundler
 
-services:
-  - docker
-
 matrix:
   include:
   - rvm: 1.9.3
@@ -15,3 +12,5 @@ matrix:
   - rvm: 2.2
     gemfile: Gemfile
     script: bundle exec rake test test:resources
+    before_script:
+      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
