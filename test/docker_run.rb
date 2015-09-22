@@ -20,6 +20,7 @@ class DockerRunner
     end
 
     @images = docker_images_by_tag
+    @image_pull = Concurrent::Promise.execute { true }
   end
 
   def run_all(&block)
@@ -60,8 +61,21 @@ class DockerRunner
 
     image = @images[name]
     if image.nil?
-      puts "--> pull docker images #{name}"
-      image = Docker::Image.create('fromImage' => name)
+      puts "\033[35;1m--> pull docker images #{name} "\
+           "(this may take a while)\033[0m"
+
+      pull = @image_pull.then do
+        Docker::Image.create('fromImage' => name)
+      end
+      cur = pull.rescue { nil }
+      @image_pull = cur
+
+      sleep(0.1) until cur.fulfilled?
+
+      image = cur.value
+      unless image.nil?
+        puts "\033[35;1m--> pull docker images finished for #{name}\033[0m"
+      end
     end
 
     fail "Can't find nor pull docker image #{name}" if image.nil?
