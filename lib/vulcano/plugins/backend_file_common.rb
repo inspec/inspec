@@ -5,7 +5,7 @@ class Vulcano::Plugins::Backend
     # interface methods: these fields should be implemented by every
     # backend File
     %w{
-      exist? mode owner group link_target content mtime size
+      exist? mode owner group link_target link_path content mtime size
       selinux_label product_version file_version path
     }.each do |m|
       define_method m.to_sym do
@@ -79,7 +79,7 @@ class Vulcano::Plugins::Backend
     end
 
     def linked_to?(dst)
-      link_target == dst
+      link_path == dst
     end
 
     def version?(version)
