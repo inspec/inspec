@@ -72,7 +72,7 @@ describe file('/dev') do
 end
 
 describe file('/dev/kcore') do
-  its(:link_target) { should eq '/proc/kcore' }
+  its(:link_path) { should eq '/proc/kcore' }
 end
 
 describe file('/dev/kcore') do
