@@ -124,7 +124,7 @@ class Vulcano::Plugins::Backend
       true
     end
 
-    def detect_via_uname(uname_s, uname_r)
+    def detect_via_uname
       case uname_s.downcase
       when /aix/
         @platform[:family] = 'aix'
@@ -188,7 +188,7 @@ class Vulcano::Plugins::Backend
       true
     end
 
-    def detect_linux_via_config(_uname_s, uname_r)
+    def detect_linux_via_config
       if !(raw = get_config('oracle-release')).nil?
         @platform[:family] = 'oracle'
         @platform[:release] = redhatish_version(raw)
@@ -277,15 +277,24 @@ class Vulcano::Plugins::Backend
       true
     end
 
-    def detect_other
-      cmd = @backend.run_command('uname -s')
-      # TODO: print an error in this step of the detection
-      return false if cmd.exit_status != 0
-      uname_s = cmd.stdout
-      return false if uname_s.empty?
-      uname_r = @backend.run_command('uname -r').stdout.strip
+    def uname_s
+      @uname_s ||= @backend.run_command('uname -s').stdout
+    end
 
-      return true if detect_linux_via_config(uname_s, uname_r)
+    def uname_r
+      @uname_r ||= (
+        res = @backend.run_command('uname -r').stdout
+        res.strip! unless res.nil?
+        res
+      )
+    end
+
+    def detect_other
+      # TODO: print an error in this step of the detection
+      return false if uname_s.nil? || uname_s.empty?
+      return false if uname_r.nil? || uname_r.empty?
+
+      return true if detect_linux_via_config
       return true if detect_linux_via_lsb
       # in all other cases we failed the detection
       @platform[:family] = 'unknown'
