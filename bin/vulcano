@@ -48,7 +48,7 @@ class VulcanoCLI < Thor
   option :target, aliases: :t, type: :string, default: nil,
     desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
   option :backend, aliases: :b, type: :string, default: nil,
-    desc: 'Choose a backend: exec (run locally), ssh, winrm.'
+    desc: 'Choose a backend: local, ssh, winrm, docker.'
   option :host, type: :string,
     desc: 'Specify a remote host which is tested.'
   option :port, type: :numeric,
