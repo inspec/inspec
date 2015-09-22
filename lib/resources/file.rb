@@ -14,7 +14,7 @@ module Vulcano::Resources
     %w{
       type exist? file? block_device? character_device? socket? directory?
       symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
-      linked_to? content mtime size selinux_label mounted? immutable?
+      link_path linked_to? content mtime size selinux_label mounted? immutable?
       product_version file_version version? md5sum sha256sum
     }.each do |m|
       define_method m.to_sym do |*args|
