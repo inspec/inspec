@@ -4,12 +4,10 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::LimitsConf' do
-  describe 'limits_conf' do
-    let(:resource) { loadResource('limits_conf') }
+  let(:resource) { load_resource('limits_conf') }
 
-    it 'verify limits.conf config parsing' do
-      _(resource.send('*')).must_equal [['soft', 'core', '0'], ['hard', 'rss', '10000']]
-      _(resource.send('ftp')).must_equal [["hard", "nproc", "0"]]
-    end
+  it 'verify limits.conf config parsing' do
+    _(resource.send('*')).must_equal [['soft', 'core', '0'], ['hard', 'rss', '10000']]
+    _(resource.send('ftp')).must_equal [["hard", "nproc", "0"]]
   end
 end
