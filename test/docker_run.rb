@@ -88,7 +88,7 @@ class DockerRunner
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => ['/bin/bash'],
+      'Cmd' => %w{sleep 3600},
       'Image' => image.id,
       'OpenStdin' => true,
     )
