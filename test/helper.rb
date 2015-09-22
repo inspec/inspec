@@ -34,11 +34,7 @@ class MockLoader
     }
 
     # selects operating system
-    if !os.nil?
-      @os = @operating_systems[os]
-    else
-      @os = @operating_systems[:ubuntu1404]
-    end
+    @os = @operating_systems[os || :ubuntu1404]
   end
 
   # loads a resource class and instantiates the class with the given arguments
