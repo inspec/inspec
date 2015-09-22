@@ -59,7 +59,12 @@ class DockerRunner
     end
 
     image = @images[name]
-    fail "Can't find docker image #{name}" if image.nil?
+    if image.nil?
+      puts "--> pull docker images #{name}"
+      image = Docker::Image.create('fromImage' => name)
+    end
+
+    fail "Can't find nor pull docker image #{name}" if image.nil?
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
