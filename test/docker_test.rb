@@ -13,7 +13,6 @@ class DockerTester
   def initialize(tests)
     @tests = tests
     @docker = DockerRunner.new
-    @conf = tests_conf
   end
 
   def run
@@ -26,23 +25,16 @@ class DockerTester
 
     # start reporting loop
     reporter.report(0) do |report|
-      results = @docker.run_all do |container|
+      results = @docker.run_all do |name, container|
         status = test_container(container, report)
-        # Report either 0 for all ok or an exit code
-        status.all? ? 0 : conf.failure_exit_code
+        status.all? ? nil : "Failed to run tests on #{name}"
       end
     end
 
     # check if we were successful
-    failures = results.find_all { |x| x!=0 }
+    failures = results.compact
+    failures.each { |f| puts "\033[31;1m#{f}\033[0m\n\n" }
     failures.empty? or fail 'Test failures'
-  end
-
-  def tests_conf
-    # get the test configuration
-    conf_path = File.join(File.dirname(__FILE__), '..', '.tests.yaml')
-    fail "Can't find tests config in #{conf_path}" unless File.file?(conf_path)
-    YAML.load(File.read(conf_path))
   end
 
   def test_container(container, report)

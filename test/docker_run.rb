@@ -39,16 +39,16 @@ class DockerRunner
   def run_on_target(name, &block)
     pr = Concurrent::Promise.new {
       container = start_container(name)
-      res = block.call(container)
+      res = block.call(name, container)
       stop_container(container)
       res
     }.execute
 
     # failure handling
     pr.rescue do |err|
-      puts err.message
-      puts err.backtrace.join("\n")
-      false
+      msg = "\033[31;1m#{err.message}\033[0m"
+      puts msg
+      msg + "\n" + err.backtrace.join("\n")
     end
   end
 
