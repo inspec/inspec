@@ -11,6 +11,11 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.2
     gemfile: Gemfile
-    script: bundle exec rake test test:resources
+    script: bundle exec rake test test:resources config=test/test.yaml
+    before_script:
+      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
+  - rvm: 2.2
+    gemfile: Gemfile
+    script: bundle exec rake test:resources config=test/test-extra.yaml
     before_script:
       - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
