@@ -34,7 +34,7 @@ namespace :test do
   task :resources do
     tests = Dir['test/resource/*.rb']
     return if tests.empty?
-    sh(Gem.ruby, 'test/docker.rb', *tests)
+    sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
 
   task :runner do
