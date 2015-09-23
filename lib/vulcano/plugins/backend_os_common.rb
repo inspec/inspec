@@ -83,7 +83,6 @@ class Vulcano::Plugins::Backend
       '1250' => '2000',
       '1251' => 'XP',
       '3252' => 'Server 2003',
-      '3260' => 'Server 2003 R2',
       '1252' => 'Vista',
       '3260' => 'Server 2008',
       '1261' => '7',
