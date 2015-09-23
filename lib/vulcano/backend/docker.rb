@@ -5,6 +5,7 @@ module Vulcano::Backends
   class Docker < Vulcano.backend(1)
     name 'docker'
 
+    attr_reader :os
     def initialize(conf)
       @conf = conf
       @files = {}
@@ -12,6 +13,7 @@ module Vulcano::Backends
            fail('You must specify a docker container ID.')
       @container = ::Docker::Container.get(id) ||
                    fail("Can't find Docker container #{id}")
+      @os = OS.new(self)
     end
 
     def file(path)
@@ -28,6 +30,14 @@ module Vulcano::Backends
     rescue => _
       # @TODO: differentiate any other error
       raise
+    end
+
+    class OS < OSCommon
+      def initialize(backend)
+        # hardcoded to unix/linux for now, until other operating systems
+        # are supported
+        super(backend, { family: 'unix' })
+      end
     end
   end
 end

@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'yaml'
 require_relative 'docker_run'
 require_relative '../lib/vulcano'
 

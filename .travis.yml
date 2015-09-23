@@ -1,8 +1,21 @@
 ---
-rvm:
-- 1.9.3
-- 2.0.0
-- 2.2.3
+sudo: required
 language: ruby
-gemfile:
-- Gemfile
+cache: bundler
+
+matrix:
+  include:
+  - rvm: 1.9.3
+    gemfile: Gemfile
+  - rvm: 2.0
+    gemfile: Gemfile
+  - rvm: 2.2
+    gemfile: Gemfile
+    script: bundle exec rake test test:resources config=test/test.yaml
+    before_script:
+      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
+  - rvm: 2.2
+    gemfile: Gemfile
+    script: bundle exec rake test:resources config=test/test-extra.yaml
+    before_script:
+      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)

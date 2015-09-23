@@ -31,20 +31,39 @@ class Vulcano::Plugins::Backend
         # backend is doing something wrong
         @platform = {}
       end
-      # TODO: base implementation for detecting the family type
+
+      # TODO: extend base implementation for detecting the family type
+      # to Windows and others
+      case uname_s
+      when /linux/i
+        @platform[:family] = 'linux'
+      when /./
+        @platform[:family] = 'unix'
+      else
+        # Don't know what this is
+        @platform[:family] = nil
+      end
+
+      # try to detect the platform
+      return nil unless @platform[:family].nil?
+      detect_family_type
     end
 
     def detect_family_type
-      case @platform[:family]
-      when 'windows'
-        detect_windows
-      when 'darwin'
-        detect_darwin
-      when 'freebsd', 'netbsd', 'openbsd', 'aix', 'solaris2'
-        detect_via_uname
-      else
-        detect_other
+      pf = @platform[:family]
+
+      return detect_windos if pf == 'windows'
+
+      return detect_darwin if pf == 'darwin'
+
+      if %w{freebsd netbsd openbsd aix solaris2}.include?(pf)
+        return detect_via_uname
       end
+
+      # unix based systems combine the above
+      return true if pf == 'unix' and (detect_darwin or detect_via_uname)
+
+      detect_linux
     end
 
     # Product Type:
@@ -289,7 +308,7 @@ class Vulcano::Plugins::Backend
       )
     end
 
-    def detect_other
+    def detect_linux
       # TODO: print an error in this step of the detection
       return false if uname_s.nil? || uname_s.empty?
       return false if uname_r.nil? || uname_r.empty?

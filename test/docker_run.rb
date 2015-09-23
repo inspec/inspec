@@ -6,6 +6,7 @@ require 'concurrent'
 class DockerRunner
   def initialize(conf_path = nil)
     @conf_path = conf_path ||
+                 ENV['config'] ||
                  File.join(File.dirname(__FILE__), 'test.yaml')
     unless File.file?(@conf_path)
       fail "Can't find configuration in #{@conf_path}"
@@ -71,6 +72,7 @@ class DockerRunner
            "(this may take a while)\033[0m"
 
       pull = @image_pull.then do
+        puts "... start pull image #{name}"
         Docker::Image.create('fromImage' => name)
       end
       cur = pull.rescue { nil }
@@ -88,7 +90,7 @@ class DockerRunner
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
-      'Cmd' => ['/bin/bash'],
+      'Cmd' => %w{sleep 3600},
       'Image' => image.id,
       'OpenStdin' => true,
     )
