@@ -1,0 +1,12 @@
+{
+  "version": "2",
+  "build_cookbook": {
+    "name": "build-cookbook",
+    "path": ".delivery/build-cookbook"
+  },
+  "skip_phases": [
+    "smoke",
+    "quality"
+	],
+  "build_nodes": {}
+}
