@@ -36,8 +36,7 @@ class Port < Vulcano.resource(1)
   end
 
   def listening?(_protocol = nil, _local_address = nil)
-    found = info.find { |p| p[:port] == @port }
-    !found.nil?
+    info.size > 0
   end
 
   def protocol
