@@ -1,0 +1,5 @@
+USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS
+root     sendmail   671   3  tcp4   127.0.0.1:25          *:*
+root     sshd       668   4  tcp6   *:22                  *:*
+root     sshd       668   4  tcp4   *:22                  *:*
+?        ?          ?     ?  udp6   *:2049                *:*
