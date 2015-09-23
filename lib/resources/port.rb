@@ -40,18 +40,18 @@ class Port < Vulcano.resource(1)
   end
 
   def protocol
-    ports = info
-    (ports.size > 0) ? ports[0][:protocol] : nil
+    res = info.map { |x| x[:protocol] }.uniq.compact
+    res.size > 0 ? res : nil
   end
 
   def process
-    ports = info
-    (ports.size > 0) ? ports[0][:process] : nil
+    res = info.map { |x| x[:process] }.uniq.compact
+    res.size > 0 ? res : nil
   end
 
   def pid
-    ports = info
-    (ports.size > 0) ? ports[0][:pid] : nil
+    res = info.map { |x| x[:pid] }.uniq.compact
+    res.size > 0 ? res : nil
   end
 
   private
