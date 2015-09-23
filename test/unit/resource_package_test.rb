@@ -10,6 +10,7 @@ describe 'Vulcano::Resources::Passwd' do
       resource = MockLoader.new(:arch).load_resource('package', 'curl')
       pkg = { name: 'curl', installed: true, version: '7.37.0-1', type: 'pacman' }
       _(resource.installed?).must_equal true
+      _(resource.version).must_equal '7.37.0-1'
       _(resource.info).must_equal pkg
     end
 
@@ -18,6 +19,7 @@ describe 'Vulcano::Resources::Passwd' do
       resource = MockLoader.new(:ubuntu1404).load_resource('package', 'curl')
       pkg = { name: 'curl', installed: true, version: '7.35.0-1ubuntu2', type: 'deb' }
       _(resource.installed?).must_equal true
+      _(resource.version).must_equal '7.35.0-1ubuntu2'
       _(resource.info).must_equal pkg
     end
 
@@ -26,6 +28,7 @@ describe 'Vulcano::Resources::Passwd' do
       resource = MockLoader.new(:centos7).load_resource('package', 'curl')
       pkg = { name: 'curl', installed: true, version: '7.29.0', type: 'rpm' }
       _(resource.installed?).must_equal true
+      _(resource.version).must_equal '7.29.0'
       _(resource.info).must_equal pkg
     end
 
