@@ -71,6 +71,7 @@ class Service < Vulcano.resource(1)
 
   def info
     return @cache if !@cache.nil?
+    return nil if @service_mgmt.nil?
     @cache = @service_mgmt.info(@service_name)
   end
 
