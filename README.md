@@ -76,7 +76,7 @@ vulcano detect -t docker://$id
 Which will provide you with:
 
 ```
-{"os_family":"ubuntu","os_release":"14.04","os_arch":null}
+{"family":"ubuntu","release":"14.04","arch":null}
 ```
 
 ## Custom resources
