@@ -81,8 +81,10 @@ class PortsInfo
   end
 end
 
+# TODO: Add UDP infromation Get-NetUDPEndpoint
 # TODO: currently Windows only supports tcp ports
 # TODO: Get-NetTCPConnection does not return PIDs
+# TODO: double-check output with 'netstat -ano'
 # @see https://connect.microsoft.com/PowerShell/feedback/details/1349420/get-nettcpconnection-does-not-show-processid
 class WindowsPorts < PortsInfo
   def info
