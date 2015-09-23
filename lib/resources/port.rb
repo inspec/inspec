@@ -36,10 +36,8 @@ class Port < Vulcano.resource(1)
   end
 
   def listening?(_protocol = nil, _local_address = nil)
-    ports = info
-    return false if ports.nil?
-    match = ports.select { |p| p[:port] == @port }
-    match.size > 0 ? true : false
+    found = info.find { |p| p[:port] == @port }
+    !found.nil?
   end
 
   def protocol
@@ -64,13 +62,8 @@ class Port < Vulcano.resource(1)
     # abort if os detection has not worked
     return @cache = [] if @port_manager.nil?
     # query ports
-    ports = @port_manager.info
-    if ports.nil?
-      @cache = []
-    else
-      @cache = ports.select { |p| p[:port] == @port }
-    end
-    @cache
+    ports = @port_manager.info || []
+    @cache = ports.select { |p| p[:port] == @port }
   end
 end
 
