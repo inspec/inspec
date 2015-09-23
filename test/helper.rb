@@ -31,6 +31,7 @@ class MockLoader
       osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
       freebsd9:   { family: 'freebsd', release: '9', arch: 'amd64' },
       freebsd10:  { family: 'freebsd', release: '10', arch: 'amd64' },
+      undefined:  { family: nil, release: nil, arch: nil },
     }
 
     # selects operating system
@@ -96,6 +97,10 @@ class MockLoader
       "Get-WindowsFeature | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json" => cmd.call('get-windows-feature'),
       'lsmod' => cmd.call('lsmod'),
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
+      'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
+      'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
+      'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      'sockstat -46l' => cmd.call('sockstat'),
     }
 
     # set os emulation
