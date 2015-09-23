@@ -44,7 +44,9 @@ You should now be able to run:
 vulcano --help
 ```
 
-## Configuration
+## Usage
+
+### exec
 
 Run tests against different targets:
 
@@ -60,6 +62,21 @@ vulcano exec test.rb -t winrm://Administrator@windowshost --password 'your-passw
 
 # run test on docker container
 vulcano exec test.rb -t docker://container_id
+```
+
+### detect
+
+Verify your configuration and detect
+
+```bash
+id=$( docker run -dti ubuntu:14.04 /bin/bash )
+vulcano detect -t docker://$id
+```
+
+Which will provide you with:
+
+```
+{"os_family":"ubuntu","os_release":"14.04","os_arch":null}
 ```
 
 ## Custom resources
