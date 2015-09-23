@@ -81,5 +81,17 @@ class VulcanoCLI < Thor
   rescue RuntimeError => e
     puts e.message
   end
+
+  desc 'detect', 'detect the target OS'
+  target_options
+  def detect
+    runner = Vulcano::Runner.new(options)
+    rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
+    detect_util = File.expand_path(rel)
+    runner.add_tests([detect_util])
+    runner.run
+  rescue RuntimeError => e
+    puts e.message
+  end
 end
 VulcanoCLI.start(ARGV)
