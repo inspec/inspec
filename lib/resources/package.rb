@@ -84,7 +84,7 @@ end
 # RHEL family
 class Rpm < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("rpm -qia  #{package_name}")
+    cmd = @vulcano.run_command("rpm -qia #{package_name}")
     return nil if cmd.exit_status.to_i != 0
     params = SimpleConfig.new(
       cmd.stdout.chomp,
@@ -119,7 +119,7 @@ end
 # Arch Linux
 class Pacman < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("pacman -Qi  #{package_name}")
+    cmd = @vulcano.run_command("pacman -Qi #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
