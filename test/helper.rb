@@ -102,6 +102,7 @@ class MockLoader
       'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
       'sockstat -46l' => cmd.call('sockstat'),
+      "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
     }
 
     # set os emulation
