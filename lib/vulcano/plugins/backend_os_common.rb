@@ -97,6 +97,7 @@ class Vulcano::Plugins::Backend
 
     def windows_version(json)
       producttype = json['OS']['ProductType'].to_s
+      # do not distigush between domain controller and server
       producttype = '3' if producttype == '2'
       platform = json['OSVersion']['Platform'].to_s
       major = json['OSVersion']['Version']['Major'].to_s
