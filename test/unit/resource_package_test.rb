@@ -32,5 +32,11 @@ describe 'Vulcano::Resources::Passwd' do
       _(resource.info).must_equal pkg
     end
 
+    # undefined
+    it 'verify package handling on unsupported os' do
+      resource = MockLoader.new(:undefined).load_resource('package', 'curl')
+      _(resource.installed?).must_equal false
+      _(resource.info).must_equal nil
+    end
   end
 end

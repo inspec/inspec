@@ -40,6 +40,7 @@ class Package < Vulcano.resource(1)
   # returns the package description
   def info
     return @cache if !@cache.nil?
+    return nil if @pkgman.nil?
     @pkgman.info(@package_name)
   end
 
