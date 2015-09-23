@@ -31,6 +31,7 @@ class MockLoader
       osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
       ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
       ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
+      ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
       windows:    { family: 'windows', release: nil, arch: nil },
       undefined:  { family: nil, release: nil, arch: nil },
     }
