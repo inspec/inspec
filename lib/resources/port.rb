@@ -28,6 +28,8 @@ class Port < Vulcano.resource(1)
       @port_manager = DarwinPorts.new(vulcano)
     when 'windows'
       @port_manager = WindowsPorts.new(vulcano)
+    when 'freebsd'
+      @port_manager = FreeBsdPorts.new(vulcano)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -194,6 +196,71 @@ class LinuxPorts < PortsInfo
         # map tcp6 and udp6
         protocol = 'tcp' if protocol.eql?('tcp6')
         protocol = 'udp' if protocol.eql?('udp6')
+
+        # map data
+        port_info = {
+          port: port,
+          address: host,
+          protocol: protocol,
+          process: process,
+          pid: pid,
+        }
+
+        # push data, if not headerfile
+        ports.push(port_info) if protocol.eql?('tcp') || protocol.eql?('udp')
+      end
+    end
+    ports
+  end
+end
+
+# extracts information from sockstat
+class FreeBsdPorts < PortsInfo
+  def info
+    cmd = @vulcano.run_command('sockstat -46l')
+    return nil if cmd.exit_status.to_i != 0
+
+    ports = []
+    # split on each newline
+    cmd.stdout.each_line do |line|
+      # 1 - USER, 2 - COMMAND, 3 - PID, 4 - FD 5 - PROTO, 6 - LOCAL ADDRESS, 7 - FOREIGN ADDRESS
+      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
+
+      if !parsed.nil?
+        protocol = parsed[5].downcase
+        net_addr = parsed[6]
+
+        # extract ip information
+        case protocol
+        when 'tcp4', 'udp4'
+          # replace * with 0.0.0.0
+          net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if /^*:(\d+)$/.match(net_addr)
+          ip_addr = URI('addr://'+net_addr)
+          host = ip_addr.host
+          port = ip_addr.port
+        when 'tcp6', 'udp6'
+          next if net_addr == '*:*' # abort for now
+          # replace * with 0:0:0:0:0:0:0:0
+          net_addr = net_addr.gsub(/^\*:/, '0:0:0:0:0:0:0:0:') if /^*:(\d+)$/.match(net_addr)
+          # extract port
+          ip6 = /^(\S+):(\d+)$/.match(net_addr)
+          ip6addr = ip6[1]
+          ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
+          # replace []
+          host = ip_addr.host[1..ip_addr.host.size-2]
+          port = ip_addr.port
+        end
+
+        # extract process
+        process = parsed[2]
+
+        # extract PID
+        pid = parsed[3]
+        pid = pid.to_i if /^\d+$/.match(pid)
+
+        # map tcp4, tcp6 and udp4, udp6
+        protocol = 'tcp' if protocol.eql?('tcp6') || protocol.eql?('tcp4')
+        protocol = 'udp' if protocol.eql?('udp6') || protocol.eql?('udp4')
 
         # map data
         port_info = {

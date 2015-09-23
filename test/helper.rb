@@ -100,6 +100,7 @@ class MockLoader
       'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
       'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      'sockstat -46l' => cmd.call('sockstat'),
     }
 
     # set os emulation
