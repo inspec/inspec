@@ -1,0 +1,3 @@
+ssh
+  start on (filesystem or runlevel [2345])
+  stop on runlevel [!2345]
