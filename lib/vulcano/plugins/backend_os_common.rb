@@ -66,6 +66,7 @@ class Vulcano::Plugins::Backend
       detect_linux
     end
 
+    # See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832%28v=vs.85%29.aspx
     # Product Type:
     # Work Station (1)
     # Domain Controller (2)
@@ -82,9 +83,8 @@ class Vulcano::Plugins::Backend
       '1250' => '2000',
       '1251' => 'XP',
       '3252' => 'Server 2003',
-      '3260' => 'Server 2003 R2',
       '1252' => 'Vista',
-      '3252' => 'Server 2008',
+      '3260' => 'Server 2008',
       '1261' => '7',
       '3261' => 'Server 2008 R2',
       '1262' => '8',
@@ -97,6 +97,7 @@ class Vulcano::Plugins::Backend
 
     def windows_version(json)
       producttype = json['OS']['ProductType'].to_s
+      # do not distigush between domain controller and server
       producttype = '3' if producttype == '2'
       platform = json['OSVersion']['Platform'].to_s
       major = json['OSVersion']['Version']['Major'].to_s
