@@ -24,6 +24,8 @@ class Port < Vulcano.resource(1)
     case vulcano.os[:family]
     when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
       @port_manager = LinuxPorts.new(vulcano)
+    when 'darwin'
+      @port_manager = DarwinPorts.new(vulcano)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -80,6 +82,42 @@ end
 class PortsInfo
   def initialize(vulcano)
     @vulcano = vulcano
+  end
+end
+
+# extracts udp and tcp ports from macos
+class DarwinPorts < PortsInfo
+  def info
+    # collects UDP and TCP information
+    cmd = @vulcano.run_command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
+    return nil if cmd.exit_status.to_i != 0
+
+    ports = []
+    # split on each newline
+    cmd.stdout.each_line do |line|
+      # parse each line
+      # 1 - COMMAND, 2 - PID, 3 - USER, 4 - FD, 5 - TYPE, 6 - DEVICE, 7 - SIZE/OFF, 8 - NODE, 9 - NAME
+      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+).*$/.match(line)
+      # extract network info
+      net_addr = parsed[9].split(':')
+      # convert to number if possible
+      net_port = net_addr[1]
+      net_port = net_port.to_i if /^\d+$/.match(net_port)
+      protocol = parsed[8].downcase
+
+      # map data
+      port_info = {
+        port: net_port,
+        address: net_addr[0],
+        protocol: protocol,
+        process: parsed[1],
+        pid: parsed[2].to_i,
+      }
+
+      # push data, if not headerfile
+      ports.push(port_info) if protocol.eql?('tcp') || protocol.eql?('udp')
+    end
+    ports
   end
 end
 
