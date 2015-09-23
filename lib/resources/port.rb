@@ -129,6 +129,10 @@ class DarwinPorts < PortsInfo
       net_port = net_port.to_i if /^\d+$/.match(net_port)
       protocol = parsed[8].downcase
 
+      # add version to protocol
+      type = parsed[5].downcase
+      protocol += '6' if type == 'IPv6'
+
       # map data
       port_info = {
         port: net_port,
@@ -139,7 +143,7 @@ class DarwinPorts < PortsInfo
       }
 
       # push data, if not headerfile
-      ports.push(port_info) if protocol.eql?('tcp') || protocol.eql?('udp')
+      ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
     end
     ports
   end
@@ -185,10 +189,6 @@ class LinuxPorts < PortsInfo
         pid = pid.to_i if /^\d+$/.match(pid)
         process = process[1]
 
-        # map tcp6 and udp6
-        protocol = 'tcp' if protocol.eql?('tcp6')
-        protocol = 'udp' if protocol.eql?('udp6')
-
         # map data
         port_info = {
           port: port,
@@ -198,8 +198,8 @@ class LinuxPorts < PortsInfo
           pid: pid,
         }
 
-        # push data, if not headerfile
-        ports.push(port_info) if protocol.eql?('tcp') || protocol.eql?('udp')
+        # push data, if its a known protocol tcp, tcp6, udp, udp6
+        ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
       end
     end
     ports
@@ -250,9 +250,9 @@ class FreeBsdPorts < PortsInfo
         pid = parsed[3]
         pid = pid.to_i if /^\d+$/.match(pid)
 
-        # map tcp4, tcp6 and udp4, udp6
-        protocol = 'tcp' if protocol.eql?('tcp6') || protocol.eql?('tcp4')
-        protocol = 'udp' if protocol.eql?('udp6') || protocol.eql?('udp4')
+        # map tcp4 and udp4
+        protocol = 'tcp' if protocol.eql?('tcp4')
+        protocol = 'udp' if protocol.eql?('udp4')
 
         # map data
         port_info = {
@@ -264,7 +264,7 @@ class FreeBsdPorts < PortsInfo
         }
 
         # push data, if not headerfile
-        ports.push(port_info) if protocol.eql?('tcp') || protocol.eql?('udp')
+        ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
       end
     end
     ports
