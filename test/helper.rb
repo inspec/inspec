@@ -31,6 +31,7 @@ class MockLoader
       osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
       freebsd9:   { family: 'freebsd', release: '9', arch: 'amd64' },
       freebsd10:  { family: 'freebsd', release: '10', arch: 'amd64' },
+      undefined:  { family: nil, release: nil, arch: nil },
     }
 
     # selects operating system
