@@ -26,6 +26,8 @@ class Port < Vulcano.resource(1)
       @port_manager = LinuxPorts.new(vulcano)
     when 'darwin'
       @port_manager = DarwinPorts.new(vulcano)
+    when 'windows'
+      @port_manager = WindowsPorts.new(vulcano)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -82,6 +84,34 @@ end
 class PortsInfo
   def initialize(vulcano)
     @vulcano = vulcano
+  end
+end
+
+# TODO: currently Windows only supports tcp ports
+# TODO: Get-NetTCPConnection does not return PIDs
+# @see https://connect.microsoft.com/PowerShell/feedback/details/1349420/get-nettcpconnection-does-not-show-processid
+class WindowsPorts < PortsInfo
+  def info
+    # get all port information
+    cmd = @vulcano.run_command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
+
+    begin
+      ports = JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => _e
+      return nil
+    end
+
+    return nil if ports.nil?
+
+    ports.map { |x|
+      {
+        port: x['LocalPort'],
+        address: x['LocalAddress'],
+        protocol: 'tcp',
+        process: nil,
+        pid: nil,
+      }
+    }
   end
 end
 
