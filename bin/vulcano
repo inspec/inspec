@@ -42,33 +42,37 @@ class VulcanoCLI < Thor
     end
   end
 
+  def self.target_options
+    option :target, aliases: :t, type: :string, default: nil,
+      desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
+    option :backend, aliases: :b, type: :string, default: nil,
+      desc: 'Choose a backend: local, ssh, winrm, docker.'
+    option :host, type: :string,
+      desc: 'Specify a remote host which is tested.'
+    option :port, type: :numeric,
+      desc: 'Specify the login port for a remote scan.'
+    option :user, type: :string, default: nil,
+      desc: 'The login user for a remote scan.'
+    option :password, type: :string, default: nil,
+      desc: 'Login password for a remote scan, if required.'
+    option :key_file, type: :string, default: nil,
+      desc: 'Login key or certificate file for a remote scan.'
+    option :disable_sudo, type: :boolean, default: false,
+      desc: 'To not run remote scans via sudo.'
+    option :sudo_password, type: :string, default: nil,
+      desc: 'Specify a sudo password, if it is required.'
+    option :sudo_options, type: :string, default: '',
+      desc: 'Additional sudo options for a remote scan.'
+    option :winrm_self_signed, type: :boolean, default: false,
+      desc: 'Allow remote scans with WinRM to run on self-signed certificates.'
+    option :winrm_ssl, type: :boolean, default: false,
+      desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
+  end
+
   desc 'exec PATHS', 'run all test files'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
-  option :target, aliases: :t, type: :string, default: nil,
-    desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
-  option :backend, aliases: :b, type: :string, default: nil,
-    desc: 'Choose a backend: local, ssh, winrm, docker.'
-  option :host, type: :string,
-    desc: 'Specify a remote host which is tested.'
-  option :port, type: :numeric,
-    desc: 'Specify the login port for a remote scan.'
-  option :user, type: :string, default: nil,
-    desc: 'The login user for a remote scan.'
-  option :password, type: :string, default: nil,
-    desc: 'Login password for a remote scan, if required.'
-  option :key_file, type: :string, default: nil,
-    desc: 'Login key or certificate file for a remote scan.'
-  option :disable_sudo, type: :boolean, default: false,
-    desc: 'To not run remote scans via sudo.'
-  option :sudo_password, type: :string, default: nil,
-    desc: 'Specify a sudo password, if it is required.'
-  option :sudo_options, type: :string, default: '',
-    desc: 'Additional sudo options for a remote scan.'
-  option :winrm_self_signed, type: :boolean, default: false,
-    desc: 'Allow remote scans with WinRM to run on self-signed certificates.'
-  option :winrm_ssl, type: :boolean, default: false,
-    desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
+  target_options
   option :format, type: :string, default: 'progress'
   def exec(*tests)
     runner = Vulcano::Runner.new(options)
