@@ -113,7 +113,7 @@ class Systemd < ServiceManager
     # parse data
     params = SimpleConfig.new(
       cmd.stdout.chomp,
-      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       multiple_values: false,
     ).params
 
