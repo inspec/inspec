@@ -21,7 +21,7 @@ class DockerRunner
 
     @images = docker_images_by_tag
     @image_pull_tickets = Concurrent::Semaphore.new(2)
-    @docker_run_tickets = Concurrent::Semaphore.new(4)
+    @docker_run_tickets = Concurrent::Semaphore.new(5)
   end
 
   def run_all(&block)
@@ -88,6 +88,7 @@ class DockerRunner
       version ||= 'latest'
       name = "#{name}:#{version}"
     end
+    puts "--> schedule docker #{name}"
 
     image = @images[name]
     if image.nil?
