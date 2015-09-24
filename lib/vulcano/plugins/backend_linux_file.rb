@@ -98,6 +98,9 @@ class Vulcano::Plugins::Backend
       type = TYPES.find { |_, mask| mask & tmask == mask }
       type ||= [:unknown]
 
+      selinux = fields[8]
+      selinux = nil if selinux == '?'
+
       @stat = {
         type: type[0],
         mode: tmask & 00777,
@@ -105,7 +108,7 @@ class Vulcano::Plugins::Backend
         group: fields[4],
         mtime: fields[7].to_i,
         size: fields[0].to_i,
-        selinux_label: fields[8],
+        selinux_label: selinux,
       }
     end
 
