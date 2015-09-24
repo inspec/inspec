@@ -38,21 +38,21 @@ class Service < Vulcano.resource(1)
     # Upstart runs with PID 1 as /sbin/init.
     # Systemd runs with PID 1 as /lib/systemd/systemd.
     when 'ubuntu'
-      version = os[:release].to_f
+      version = vulcano.os[:release].to_f
       if version < 15.04
         @service_mgmt = Upstart.new(vulcano)
       else
         @service_mgmt = Systemd.new(vulcano)
       end
     when 'debian'
-      version = os[:release].to_i
+      version = vulcano.os[:release].to_i
       if version >= 7
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
       end
     when 'redhat', 'fedora'
-      version = os[:release].to_i
+      version = vulcano.os[:release].to_i
       if (family == 'redhat' && version >= 7) || (family == 'fedora' && version >= 15)
         @service_mgmt = Systemd.new(vulcano)
       else
