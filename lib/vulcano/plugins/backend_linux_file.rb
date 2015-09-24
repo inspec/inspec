@@ -13,8 +13,13 @@ class Vulcano::Plugins::Backend
     end
 
     def content
-      @content ||= @backend.run_command(
+      return @content if @content_fetched
+      @content = @backend.run_command(
         "cat #{@spath} 2>/dev/null || echo -n").stdout
+      @content_fetched = true
+      return @content unless @content.empty?
+      @content = nil if directory? or size.nil? or size > 0
+      @content
     end
 
     def exist?
@@ -93,6 +98,9 @@ class Vulcano::Plugins::Backend
       type = TYPES.find { |_, mask| mask & tmask == mask }
       type ||= [:unknown]
 
+      selinux = fields[8]
+      selinux = nil if selinux == '?' or selinux == '(null)'
+
       @stat = {
         type: type[0],
         mode: tmask & 00777,
@@ -100,7 +108,7 @@ class Vulcano::Plugins::Backend
         group: fields[4],
         mtime: fields[7].to_i,
         size: fields[0].to_i,
-        selinux_label: fields[8],
+        selinux_label: selinux,
       }
     end
 
