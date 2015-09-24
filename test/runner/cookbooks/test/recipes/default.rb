@@ -47,16 +47,12 @@ execute 'create ssh key' do
   not_if 'test -e /root/.ssh/id_rsa'
 end
 
-remote_file 'copy ssh key to authorized keys' do
-  path '/root/.ssh/authorized_keys'
-  source 'file:///root/.ssh/id_rsa.pub'
-  owner 'root'
-  group 'root'
-  mode 0644
+execute 'add ssh key to vagrant user' do
+  command 'cat /root/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys'
 end
 
 execute 'test ssh connection' do
-  command 'ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa root@localhost "echo 1"'
+  command 'ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa vagrant@localhost "echo 1"'
 end
 
 # execute tests

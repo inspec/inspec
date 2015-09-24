@@ -6,7 +6,7 @@ backends = {}
 
 backends[:specinfra_ssh] = proc {
   backend_conf = Vulcano::Backend.target_config({
-    'target' => 'ssh://root@localhost',
+    'target' => 'ssh://vagrant@localhost',
     'key_file' => '/root/.ssh/id_rsa',
   })
   backend_class = Vulcano::Backend.registry['specinfra']
