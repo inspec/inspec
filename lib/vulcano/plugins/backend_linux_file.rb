@@ -99,7 +99,7 @@ class Vulcano::Plugins::Backend
       type ||= [:unknown]
 
       selinux = fields[8]
-      selinux = nil if selinux == '?'
+      selinux = nil if selinux == '?' or selinux == '(null)'
 
       @stat = {
         type: type[0],
