@@ -20,7 +20,8 @@ class DockerRunner
     end
 
     @images = docker_images_by_tag
-    @image_pull = Concurrent::Promise.execute { true }
+    @image_pull_tickets = Concurrent::Semaphore.new(2)
+    @docker_run_tickets = Concurrent::Semaphore.new(4)
   end
 
   def run_all(&block)
@@ -93,16 +94,11 @@ class DockerRunner
       puts "\033[35;1m--> pull docker images #{name} "\
            "(this may take a while)\033[0m"
 
-      pull = @image_pull.then do
-        puts "... start pull image #{name}"
-        Docker::Image.create('fromImage' => name)
-      end
-      cur = pull.rescue { nil }
-      @image_pull = cur
+      @image_pull_tickets.acquire(1)
+      puts "... start pull image #{name}"
+      image = Docker::Image.create('fromImage' => name)
+      @image_pull_tickets.release(1)
 
-      sleep(0.1) until cur.fulfilled?
-
-      image = cur.value
       unless image.nil?
         puts "\033[35;1m--> pull docker images finished for #{name}\033[0m"
       end
@@ -111,6 +107,8 @@ class DockerRunner
     fail "Can't find nor pull docker image #{name}" if image.nil?
 
     image, scripts = bootstrap_image(name, image)
+
+    @docker_run_tickets.acquire(1)
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
@@ -129,6 +127,7 @@ class DockerRunner
   end
 
   def stop_container(container)
+    @docker_run_tickets.release(1)
     puts "--> killrm docker #{container.id}"
     container.kill
     container.delete(force: true)
