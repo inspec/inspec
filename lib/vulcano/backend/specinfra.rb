@@ -251,7 +251,7 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout
-        if s.empty? && (directory? or size.nil? or size > 0)
+        if s.empty? && (directory? or (size || 0) > 0 or !exist?)
           nil
         else
           s
@@ -272,13 +272,13 @@ module Vulcano::Backends
 
       def mtime
         mt = Specinfra::Runner.get_file_mtime(@path).stdout.strip
-        return nil if mt.empty? || mt.include?('cannot stat')
+        return nil if mt.empty? || mt.include?(' ')
         mt.to_i
       end
 
       def size
         s = Specinfra::Runner.get_file_size(@path).stdout.strip
-        return nil if s.empty? || s.include?('cannot stat')
+        return nil if s.empty? || s.include?(' ')
         s.to_i
       end
 
