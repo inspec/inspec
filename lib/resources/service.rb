@@ -64,6 +64,8 @@ class Service < Vulcano.resource(1)
       @service_mgmt = WindowsSrv.new(vulcano)
     when 'freebsd'
       @service_mgmt = BSDInit.new(vulcano)
+    when 'arch'
+      @service_mgmt = Systemd.new(vulcano)
     end
 
     return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
