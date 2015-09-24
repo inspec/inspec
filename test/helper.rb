@@ -19,18 +19,19 @@ class MockLoader
   def initialize(os = nil)
     # collects emulation operating systems
     @operating_systems = {
-      windows:    { family: 'windows', release: nil, arch: nil },
-      debian6:    { family: 'debian', release: '6', arch: 'x86_64' },
-      debian7:    { family: 'debian', release: '7', arch: 'x86_64' },
-      debian8:    { family: 'debian', release: '8', arch: 'x86_64' },
+      arch:       { family: 'arch', release: nil, arch: nil },
       centos5:    { family: 'redhat', release: '5.11', arch: 'x86_64' },
       centos6:    { family: 'redhat', release: '6.6', arch: 'x86_64' },
       centos7:    { family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
-      ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
-      ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
-      osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
+      debian6:    { family: 'debian', release: '6', arch: 'x86_64' },
+      debian7:    { family: 'debian', release: '7', arch: 'x86_64' },
+      debian8:    { family: 'debian', release: '8', arch: 'x86_64' },
       freebsd9:   { family: 'freebsd', release: '9', arch: 'amd64' },
       freebsd10:  { family: 'freebsd', release: '10', arch: 'amd64' },
+      osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
+      ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
+      ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
+      windows:    { family: 'windows', release: nil, arch: nil },
       undefined:  { family: nil, release: nil, arch: nil },
     }
 
@@ -88,7 +89,7 @@ class MockLoader
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
-      'pacman -Qi curl' => cmd.call('packman-qi-curl'),
+      'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
@@ -101,6 +102,7 @@ class MockLoader
       'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
       'sockstat -46l' => cmd.call('sockstat'),
+      "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
     }
 
     # set os emulation

@@ -33,13 +33,14 @@ class Package < Vulcano.resource(1)
   end
 
   # returns true if the package is installed
-  def installed?(_provider=nil, _version=nil)
+  def installed?(_provider = nil, _version = nil)
     !info.nil?
   end
 
   # returns the package description
   def info
     return @cache if !@cache.nil?
+    return nil if @pkgman.nil?
     @pkgman.info(@package_name)
   end
 
@@ -84,7 +85,7 @@ end
 # RHEL family
 class Rpm < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("rpm -qia  #{package_name}")
+    cmd = @vulcano.run_command("rpm -qia #{package_name}")
     return nil if cmd.exit_status.to_i != 0
     params = SimpleConfig.new(
       cmd.stdout.chomp,
@@ -119,7 +120,7 @@ end
 # Arch Linux
 class Pacman < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("pacman -Qi  #{package_name}")
+    cmd = @vulcano.run_command("pacman -Qi #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
