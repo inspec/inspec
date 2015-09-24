@@ -1,4 +1,13 @@
-# preparation
+# encoding: utf-8
+#
+# Helper recipe to create create a few files in the operating
+# systems, which the runner will test against.
+# It also initializes the runner inside the machines
+# and makes sure all dependencies are ready to go.
+#
+# Finally (for now), it actually executes the all tests with
+# the local execution backend
+
 gid = 'root'
 gid = 'wheel' if node['platform_family'] == 'freebsd'
 
@@ -12,14 +21,14 @@ end
 directory '/tmp/folder' do
   mode '0567'
   owner 'root'
-	group gid
+  group gid
 end
 
 link '/tmp/symlink'do
   to '/tmp/file'
-	owner 'root'
-	group gid
-	mode '0777'
+  owner 'root'
+  group gid
+  mode '0777'
 end
 
 execute 'create pipe/fifo' do
