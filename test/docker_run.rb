@@ -6,8 +6,7 @@ require 'concurrent'
 class DockerRunner
   def initialize(conf_path = nil)
     @conf_path = conf_path ||
-                 ENV['config'] ||
-                 File.join(File.dirname(__FILE__), 'test.yaml')
+                 ENV['config']
     unless File.file?(@conf_path)
       fail "Can't find configuration in #{@conf_path}"
     end
