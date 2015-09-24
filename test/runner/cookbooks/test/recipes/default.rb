@@ -41,6 +41,24 @@ execute 'create block_device' do
   not_if 'test -e /tmp/block_device'
 end
 
+# prepare ssh for backend
+execute 'create ssh key' do
+  command 'ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""'
+  not_if 'test -e /root/.ssh/id_rsa'
+end
+
+remote_file 'copy ssh key to authorized keys' do
+  path '/root/.ssh/authorized_keys'
+  source 'file:///root/.ssh/id_rsa.pub'
+  owner 'root'
+  group 'root'
+  mode 0644
+end
+
+execute 'test ssh connection' do
+  command 'ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa root@localhost "echo 1"'
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
