@@ -22,7 +22,7 @@ module Vulcano
       @errors = []
     end
 
-    def only_if(*a, &b)
+    def only_if(*_a, &_b)
       # always ignore
     end
 
@@ -96,7 +96,7 @@ module Vulcano
       {
         'title' => mOr(header.match(/^# title: (.*)$/), @filename),
         'copyright' => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        'rules' => rules2dict(@rules)
+        'rules' => rules2dict(@rules),
       }
     end
 
@@ -117,7 +117,7 @@ module Vulcano
         'impact' => rule.impact,
         'title'  => rule.title,
         'desc'   => d,
-        'code'   => rule.instance_variable_get(:@__code)
+        'code'   => rule.instance_variable_get(:@__code),
       }
     end
 
@@ -144,6 +144,6 @@ module Vulcano
   end
 end
 
-def os(*a, &b)
+def os(*_a, &_b)
   {}
 end
