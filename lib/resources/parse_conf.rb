@@ -12,7 +12,7 @@
 #  describe parse_config(audit, options ) do
 
 class PConfig < Vulcano.resource(1)
-  name 'parse_config'
+  name 'parse_conf'
 
   def initialize(content = nil, useropts = {})
     default_options = {}
