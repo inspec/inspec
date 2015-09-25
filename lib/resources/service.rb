@@ -46,7 +46,7 @@ class Service < Vulcano.resource(1)
       end
     when 'debian'
       version = vulcano.os[:release].to_i
-      if version >= 7
+      if version > 7
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
