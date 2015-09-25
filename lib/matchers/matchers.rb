@@ -76,7 +76,7 @@ end
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
     arr.inject { |result, i|
-      match = i.match(regex)
+      result = i.match(regex)
       result || i.match(/$/)
     }
   end

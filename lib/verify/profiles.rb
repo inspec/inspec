@@ -54,30 +54,30 @@ module Vulcano
       specs = SpecFile.from_file(f, metadata)
       # find all errors during parsing
       specs.errors.each do |err|
-        invalid.(:error, err)
+        invalid.call(:error, err)
       end
       # detect missing metadata
       meta = specs.metadata
       if meta['title'].nil?
-        invalid.(:warn, 'Missing title in spec file')
+        invalid.call(:warn, 'Missing title in spec file')
       end
       if meta['copyright'].nil?
-        invalid.(:warn, 'Missing copyright in spec file')
+        invalid.call(:warn, 'Missing copyright in spec file')
       end
       # detect empty rules
       unless meta['rules'][''].nil?
-        invalid.(:error, 'Please configure IDs for all rules.')
+        invalid.call(:error, 'Please configure IDs for all rules.')
       end
 
-      meta['rules'].each do |k,v|
+      meta['rules'].each do |k, v|
         if v['impact'].nil?
-          invalid.(:error, "Missing impact for rule #{k}")
+          invalid.call(:error, "Missing impact for rule #{k}")
         else
-          invalid.(:error, "Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
-          invalid.(:error, "Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
+          invalid.call(:error, "Impact cannot be larger than 1.0 for rule #{k}") if v['impact'] > 1.0
+          invalid.call(:error, "Impact cannot be less than 0.0 for rule #{k}") if v['impact'] < 0.0
         end
-        invalid.(:warn, "Missing title for rule #{k}") if v['title'].nil?
-        invalid.(:warn, "Missing description for rule #{k}") if v['desc'].nil?
+        invalid.call(:warn, "Missing title for rule #{k}") if v['title'].nil?
+        invalid.call(:warn, "Missing description for rule #{k}") if v['desc'].nil?
       end
 
       if valid && specs.instance_variable_get(:@invalid_calls).empty?

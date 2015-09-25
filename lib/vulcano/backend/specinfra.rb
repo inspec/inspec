@@ -10,18 +10,19 @@ module Specinfra
   module Helper
     module Os
       def os
-        property[:os] = {} if ! property[:os]
-        if ! property[:os].include?(:family)
+        property[:os] = {} if !property[:os]
+        if !property[:os].include?(:family)
           property[:os] = detect_os
         end
         property[:os]
       end
 
       private
+
       def detect_os
         backend = Specinfra.configuration.backend
         if backend == :cmd || backend == :winrm
-          return { :family => 'windows', :release => nil, :arch => nil }
+          return { family: 'windows', release: nil, arch: nil }
         end
 
         Specinfra::Helper::DetectOs.subclasses.each do |c|
@@ -31,7 +32,7 @@ module Specinfra
             return res
           end
         end
-        raise NotImplementedError, "Specinfra failed os detection."
+        fail NotImplementedError, 'Specinfra failed os detection.'
       end
     end
   end
