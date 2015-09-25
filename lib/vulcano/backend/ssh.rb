@@ -4,12 +4,14 @@ module Vulcano::Backends
   class SSH < Vulcano.backend(1)
     name 'ssh'
 
+    attr_reader :os
     def initialize(conf)
       @conf = conf
       @files = {}
       @conf['host'] ||
         fail('You must specify a SSH host.')
       @ssh = start_ssh
+      @os = OS.new(self)
     end
 
     def file(path)
@@ -95,5 +97,12 @@ module Vulcano::Backends
       validate_options(options)
       Net::SSH.start(host, user, options)
     end
+
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend, { family: 'unix' })
+      end
+    end
+
   end
 end
