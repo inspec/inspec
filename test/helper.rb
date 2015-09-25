@@ -31,6 +31,7 @@ class MockLoader
       osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
       ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
       ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
+      ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
       windows:    { family: 'windows', release: nil, arch: nil },
       undefined:  { family: nil, release: nil, arch: nil },
     }
@@ -98,11 +99,31 @@ class MockLoader
       "Get-WindowsFeature | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json" => cmd.call('get-windows-feature'),
       'lsmod' => cmd.call('lsmod'),
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
+      # ports on windows
       'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
+      # ports on mac
       'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
+      # ports on linux
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
+      # packages on windows
       "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
+      # service status upstart on ubuntu
+      'initctl status ssh' => cmd.call('initctl-status-ssh'),
+      # service config for upstart on ubuntu
+      'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
+      # show ssh service Centos 7
+      'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      # services on macos
+      'launchctl list' => cmd.call('launchctl-list'),
+      # services on freebsd 10
+      'service -e' => cmd.call('service-e'),
+      'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
+      # services for system 5 e.g. centos6, debian 6
+      'service sshd status' => cmd.call('service-sshd-status'),
+      'find /etc/rc*.d -name S*'  => cmd.call('find-etc-rc-d-name-S'),
+      'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
     }
 
     # set os emulation

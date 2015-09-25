@@ -38,21 +38,21 @@ class Service < Vulcano.resource(1)
     # Upstart runs with PID 1 as /sbin/init.
     # Systemd runs with PID 1 as /lib/systemd/systemd.
     when 'ubuntu'
-      version = os[:release].to_f
+      version = vulcano.os[:release].to_f
       if version < 15.04
         @service_mgmt = Upstart.new(vulcano)
       else
         @service_mgmt = Systemd.new(vulcano)
       end
     when 'debian'
-      version = os[:release].to_i
-      if version >= 7
+      version = vulcano.os[:release].to_i
+      if version > 7
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
       end
     when 'redhat', 'fedora'
-      version = os[:release].to_i
+      version = vulcano.os[:release].to_i
       if (family == 'redhat' && version >= 7) || (family == 'fedora' && version >= 15)
         @service_mgmt = Systemd.new(vulcano)
       else
@@ -64,6 +64,8 @@ class Service < Vulcano.resource(1)
       @service_mgmt = WindowsSrv.new(vulcano)
     when 'freebsd'
       @service_mgmt = BSDInit.new(vulcano)
+    when 'arch'
+      @service_mgmt = Systemd.new(vulcano)
     end
 
     return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
@@ -71,6 +73,7 @@ class Service < Vulcano.resource(1)
 
   def info
     return @cache if !@cache.nil?
+    return nil if @service_mgmt.nil?
     @cache = @service_mgmt.info(@service_name)
   end
 
@@ -112,7 +115,7 @@ class Systemd < ServiceManager
     # parse data
     params = SimpleConfig.new(
       cmd.stdout.chomp,
-      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       multiple_values: false,
     ).params
 
@@ -120,7 +123,7 @@ class Systemd < ServiceManager
     params['LoadState'] == 'loaded' ? (installed = true) : (installed = false)
     # test via 'systemctl is-active service'
     # SubState values running
-    params['LoadState'] == 'running' ? (running = true) : (running = false)
+    params['SubState'] == 'running' ? (running = true) : (running = false)
     # test via systemctl --quiet is-enabled
     # ActiveState values eg.g inactive, active
     params['ActiveState'] == 'active' ? (enabled = true) : (enabled = false)
@@ -157,7 +160,7 @@ class Upstart < ServiceManager
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,
@@ -169,20 +172,24 @@ end
 class SysV < ServiceManager
   def info(service_name)
     # check if service is installed
-    filename = "/etc/init.d/#{service_name}"
-    service = @vulcano.file(filename)
+    # read all available services via ls /etc/init.d/
+    srvlist = @vulcano.run_command('ls -1 /etc/init.d/')
+    return nil if srvlist.exit_status != 0
 
-    # check if service is installed
-    return nil if !service.exist?
+    # check if the service is in list
+    service = srvlist.stdout.split("\n").select { |srv| srv == service_name }
 
-    # check if service is enabled
-    configfile = "/etc/init/#{service_name}.conf"
-    config = @vulcano.file(configfile)
-    enabled = false
-    if !config.nil?
-      match_enabled = /^\s*start on/.match(config.content)
-      !match_enabled.nil? ? (enabled = true) : (enabled = false)
-    end
+    # abort if we could not find any service
+    return nil if service.empty?
+
+    # read all enabled services from runlevel
+    # on rhel via: 'chkconfig --list', is not installed by default
+    # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
+    enabled_services_cmd = @vulcano.run_command('find /etc/rc*.d -name S*')
+    enabled_services = enabled_services_cmd.stdout.split("\n").select { |line|
+      /(^.*#{service_name}.*)/.match(line)
+    }
+    enabled_services.empty? ? enabled = false : enabled = true
 
     # check if service is really running
     # service throws an exit code if the service is not installed or
@@ -192,7 +199,7 @@ class SysV < ServiceManager
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,
@@ -221,12 +228,12 @@ class BSDInit < ServiceManager
 
     # check if the service is running
     # if the service is not available or not running, we always get an error code
-    cmd = @vulcano.run_command("service #{service_name} status")
+    cmd = @vulcano.run_command("service #{service_name} onestatus")
     cmd.exit_status == 0 ? (running = true) : (running = false)
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,
@@ -255,8 +262,11 @@ class LaunchCtl < ServiceManager
     pid = parsed_srv[0]
     !pid.nil? ? (running = true) : (running = false)
 
+    # extract service label
+    srv = parsed_srv[3] || service_name
+
     {
-      name: service_name,
+      name: srv,
       description: nil,
       installed: true,
       running: running,

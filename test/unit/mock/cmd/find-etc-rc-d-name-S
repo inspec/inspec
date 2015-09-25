@@ -1,0 +1,12 @@
+/etc/rc.d/rc0.d/S01halt
+/etc/rc.d/rc0.d/S00killall
+/etc/rc.d/rc2.d/S90crond
+/etc/rc.d/rc2.d/S55sshd
+/etc/rc.d/rc5.d/S90crond
+/etc/rc.d/rc5.d/S55sshd
+/etc/rc.d/rc1.d/S99single
+/etc/rc.d/rc3.d/S90crond
+/etc/rc.d/rc3.d/S55sshd
+/etc/rc.d/rc4.d/S08ip6tables
+/etc/rc.d/rc4.d/S90crond
+/etc/rc.d/rc4.d/S55sshd
