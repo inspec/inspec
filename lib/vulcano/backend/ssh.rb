@@ -24,9 +24,6 @@ module Vulcano::Backends
       cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
       @ssh.open_channel do |channel|
-        channel.request_pty do |_, success|
-          abort 'Could not obtain pty on SSH channel ' if !success
-        end
         channel.exec(cmd) do |_, success|
           unless success
             abort 'Couldn\'t execute command on SSH.'
