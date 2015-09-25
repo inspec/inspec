@@ -107,6 +107,8 @@ class MockLoader
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'), # Centos 7
+      # services on macos
+      'launchctl list' => cmd.call('launchctl-list'),
     }
 
     # set os emulation

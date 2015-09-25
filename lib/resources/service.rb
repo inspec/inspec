@@ -258,8 +258,11 @@ class LaunchCtl < ServiceManager
     pid = parsed_srv[0]
     !pid.nil? ? (running = true) : (running = false)
 
+    # extract service label
+    srv = parsed_srv[3] || service_name
+
     {
-      name: service_name,
+      name: srv,
       description: nil,
       installed: true,
       running: running,
