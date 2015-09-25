@@ -160,7 +160,7 @@ class Upstart < ServiceManager
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,
@@ -195,7 +195,7 @@ class SysV < ServiceManager
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,

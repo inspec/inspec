@@ -18,7 +18,7 @@ describe 'Vulcano::Resources::Service' do
   # ubuntu 14.04 with upstart
   it 'verify ubuntu package parsing' do
     resource = MockLoader.new(:ubuntu1404).load_resource('service', 'ssh')
-    srv = { name: 'ssh', description: '', installed: true, running: true, enabled: true, type: 'upstart' }
+    srv = { name: 'ssh', description: nil, installed: true, running: true, enabled: true, type: 'upstart' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
