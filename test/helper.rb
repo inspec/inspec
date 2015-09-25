@@ -109,6 +109,9 @@ class MockLoader
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'), # Centos 7
       # services on macos
       'launchctl list' => cmd.call('launchctl-list'),
+      # services on freebsd 10
+      'service -e' => cmd.call('service-e'),
+      'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
     }
 
     # set os emulation

@@ -35,6 +35,16 @@ describe 'Vulcano::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  # freebsd
+  it 'verify freebsd10 package parsing' do
+    resource = MockLoader.new(:freebsd10).load_resource('service', 'sendmail')
+    srv = { name: 'sendmail', description: nil, installed: true, running: true, enabled: true, type: 'bsd-init' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
   # arch linux with systemd
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('service', 'sshd')
