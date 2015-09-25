@@ -4,12 +4,14 @@ module Vulcano::Backends
   class SSH < Vulcano.backend(1)
     name 'ssh'
 
+    attr_reader :os
     def initialize(conf)
       @conf = conf
       @files = {}
       @conf['host'] ||
         fail('You must specify a SSH host.')
       @ssh = start_ssh
+      @os = OS.new(self)
     end
 
     def file(path)
@@ -22,9 +24,6 @@ module Vulcano::Backends
       cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
       @ssh.open_channel do |channel|
-        channel.request_pty do |_, success|
-          abort 'Could not obtain pty on SSH channel ' if !success
-        end
         channel.exec(cmd) do |_, success|
           unless success
             abort 'Couldn\'t execute command on SSH.'
@@ -84,6 +83,10 @@ module Vulcano::Backends
         user_known_hosts_file: '/dev/null',
         global_known_hosts_file: '/dev/null',
         number_of_password_prompts: 0,
+        keepalive: true,
+        keepalive_interval: 60,
+        compression: true,
+        compression_level: 6,
         password: @conf['password'] || ssh_config[:password],
         keys: keys,
       }
@@ -91,5 +94,12 @@ module Vulcano::Backends
       validate_options(options)
       Net::SSH.start(host, user, options)
     end
+
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend, { family: 'unix' })
+      end
+    end
+
   end
 end
