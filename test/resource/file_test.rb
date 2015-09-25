@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 describe file('/tmp') do
   it { should exist }
 end
