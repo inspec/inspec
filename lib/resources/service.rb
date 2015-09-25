@@ -224,12 +224,12 @@ class BSDInit < ServiceManager
 
     # check if the service is running
     # if the service is not available or not running, we always get an error code
-    cmd = @vulcano.run_command("service #{service_name} status")
+    cmd = @vulcano.run_command("service #{service_name} onestatus")
     cmd.exit_status == 0 ? (running = true) : (running = false)
 
     {
       name: service_name,
-      description: '',
+      description: nil,
       installed: true,
       running: running,
       enabled: enabled,
