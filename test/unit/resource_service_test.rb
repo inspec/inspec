@@ -46,7 +46,7 @@ describe 'Vulcano::Resources::Service' do
   end
 
   # centos 7 with systemd
-  it 'verify centos package parsing' do
+  it 'verify centos 7 package parsing' do
     resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
     srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
     _(resource.info).must_equal srv
@@ -98,7 +98,7 @@ describe 'Vulcano::Resources::Service' do
   # macos test
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:osx104).load_resource('service', 'ssh')
-    srv = { name: 'org.openbsd.ssh-agent', description: nil, installed: true, running: true, enabled: true, type: 'darwin'}
+    srv = { name: 'org.openbsd.ssh-agent', description: nil, installed: true, running: true, enabled: true, type: 'darwin' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
