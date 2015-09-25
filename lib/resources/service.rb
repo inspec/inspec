@@ -172,20 +172,24 @@ end
 class SysV < ServiceManager
   def info(service_name)
     # check if service is installed
-    filename = "/etc/init.d/#{service_name}"
-    service = @vulcano.file(filename)
+    # read all available services via ls /etc/init.d/
+    srvlist = @vulcano.run_command('ls -1 /etc/init.d/')
+    return nil if srvlist.exit_status != 0
 
-    # check if service is installed
-    return nil if !service.exist?
+    # check if the service is in list
+    service = srvlist.stdout.split("\n").select { |srv| srv == service_name }
 
-    # check if service is enabled
-    configfile = "/etc/init/#{service_name}.conf"
-    config = @vulcano.file(configfile)
-    enabled = false
-    if !config.nil?
-      match_enabled = /^\s*start on/.match(config.content)
-      !match_enabled.nil? ? (enabled = true) : (enabled = false)
-    end
+    # abort if we could not find any service
+    return nil if service.empty?
+
+    # read all enabled services from runlevel
+    # on rhel via: 'chkconfig --list', is not installed by default
+    # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
+    enabled_services_cmd = @vulcano.run_command('find /etc/rc*.d -name S*')
+    enabled_services = enabled_services_cmd.stdout.split("\n").select { |line|
+      /(^.*#{service_name}.*)/.match(line)
+    }
+    enabled_services.empty? ? enabled = false : enabled = true
 
     # check if service is really running
     # service throws an exit code if the service is not installed or
