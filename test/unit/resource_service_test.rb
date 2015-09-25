@@ -35,6 +35,16 @@ describe 'Vulcano::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  # centos 6 with systemv
+  it 'verify centos 6 package parsing' do
+    resource = MockLoader.new(:centos6).load_resource('service', 'sshd')
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
   # centos 7 with systemd
   it 'verify centos package parsing' do
     resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
@@ -59,6 +69,16 @@ describe 'Vulcano::Resources::Service' do
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('service', 'sshd')
     srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
+  # debian 7 with systemv
+  it 'verify debian 7 package parsing' do
+    resource = MockLoader.new(:debian7).load_resource('service', 'sshd')
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
