@@ -5,14 +5,15 @@
 # Get types
 module DummyTestTypes
   # a few commands with special handling
-  def describe *args; end
-  def context *args; end
+  def describe(*_args); end
+
+  def context(*_args); end
 
   def os
     {}
   end
 
-  def command(sth)
+  def command(_sth)
     res = OpenStruct.new
     res.stdout = ''
     res.stderr = ''
@@ -24,28 +25,42 @@ module DummyVulcanoTypes
   %w{
     attributes registry_key
   }.each do |name|
-    define_method name do |*arg|
+    define_method name do |*_arg|
     end
   end
 
-  def processes *args; [] end
-  def start_postgres_session *args; Describer.new end
-  def start_mysql_session *args; Describer.new end
+  def processes(*_args)
+    []
+  end
+
+  def start_postgres_session(*_args)
+    Describer.new
+  end
+
+  def start_mysql_session(*_args)
+    Describer.new
+  end
 
   class Describer
-    def describe(*args)
-    end
+    def describe(*_args); end
   end
 end
 
 class SshConf
-  def initialize *args; end
+  def initialize(*_args); end
 end
 class PostgresConf
-  def initialize *args; end
-  def params *a, &b; {} end
+  def initialize(*_args); end
+
+  def params(*_a, &_b)
+    {}
+  end
 end
+
 class MysqlConf
-  def initialize *args; end
-  def params *a, &b; {} end
+  def initialize(*_args); end
+
+  def params(*_a, &_b)
+    {}
+  end
 end
