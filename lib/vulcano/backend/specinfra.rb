@@ -225,19 +225,22 @@ module Vulcano::Backends
       def mode
         return bsd_stat[:mode] unless bsd_stat.nil?
         m = Specinfra::Runner.get_file_mode(@path).stdout.strip
-        m.empty? ? nil : m.to_i(8)
+        return nil if m.empty? || m.include?('cannot stat')
+        m.to_i(8)
       end
 
       def owner
         return bsd_stat[:owner] unless bsd_stat.nil?
         o = Specinfra::Runner.get_file_owner_user(@path).stdout.strip
-        o.empty? ? nil : o
+        return nil if o.empty? || o.include?('cannot stat')
+        o
       end
 
       def group
         return bsd_stat[:group] unless bsd_stat.nil?
         g = Specinfra::Runner.get_file_owner_group(@path).stdout.strip
-        g.empty? ? nil : g
+        return nil if g.empty? || g.include?('cannot stat')
+        g
       end
 
       def link_path
@@ -248,37 +251,57 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout
-        if s.empty? && (directory? or size.nil? or size > 0)
-          nil
-        else
-          s
-        end
+        # if we get some content, return it
+        return s unless s.empty?
+
+        # if we didn't get any content, we have to decide if this is
+        # really an empty file (i.e. where content == empty string)
+        # or if something else is going on.
+
+        # in case it is a folder or the path doesn't exist, always
+        # return nil instead of empty content
+        return nil if directory? or !exist?
+
+        # in case we can't get the size, something is wrong, so return nil
+        # in case the size is non-zero, we couldn't read the file, so
+        # return nil to indicate that
+        i = size
+        return nil if i.nil? or i > 0
+
+        # return the empty string, as the file doesn't contain anything
+        s
       end
 
       def md5sum
         s = Specinfra::Runner.get_file_md5sum(@path).stdout.strip
-        s.empty? ? nil : s
+        return nil if s.empty? or s.include?(' ')
+        s
       end
 
       def sha256sum
         s = Specinfra::Runner.get_file_sha256sum(@path).stdout.strip
-        s.empty? ? nil : s
+        return nil if s.empty? or s.include?(' ')
+        s
       end
 
       def mtime
         mt = Specinfra::Runner.get_file_mtime(@path).stdout.strip
-        return nil if mt.empty?
+        return nil if mt.empty? || mt.include?(' ')
         mt.to_i
       end
 
       def size
         s = Specinfra::Runner.get_file_size(@path).stdout.strip
-        s.empty? ? nil : s.to_i
+        return nil if s.empty? || s.include?(' ')
+        s.to_i
       end
 
       def selinux_label
         res = Specinfra::Runner.get_file_selinuxlabel(@path).stdout.strip
-        (res.empty? or res == '?') ? nil : res
+        return nil if res.empty? or res == '?' or
+                      res.include?('failed to get security context') or
+                      res.include?('cannot stat')
+        res
       rescue NotImplementedError => _
         nil
       end
@@ -292,6 +315,7 @@ module Vulcano::Backends
       end
 
       def product_version
+        return nil unless @backend.os[:family] == 'windows'
         res = Specinfra::Runner.
               run_command("(Get-Command '#{@path}').FileVersionInfo.ProductVersion").
               stdout.strip
@@ -299,6 +323,7 @@ module Vulcano::Backends
       end
 
       def file_version
+        return nil unless @backend.os[:family] == 'windows'
         res = Specinfra::Runner.
               run_command("(Get-Command '#{@path}').FileVersionInfo.FileVersion").
               stdout.strip
