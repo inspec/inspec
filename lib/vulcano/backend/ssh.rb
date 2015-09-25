@@ -84,6 +84,10 @@ module Vulcano::Backends
         user_known_hosts_file: '/dev/null',
         global_known_hosts_file: '/dev/null',
         number_of_password_prompts: 0,
+        keepalive: true,
+        keepalive_interval: 60,
+        compression: true,
+        compression_level: 6,
         password: @conf['password'] || ssh_config[:password],
         keys: keys,
       }
