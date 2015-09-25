@@ -251,11 +251,25 @@ module Vulcano::Backends
 
       def content
         s = Specinfra::Runner.get_file_content(@path).stdout
-        if s.empty? && (directory? or (size || 0) > 0 or !exist?)
-          nil
-        else
-          s
-        end
+        # if we get some content, return it
+        return s unless s.empty?
+
+        # if we didn't get any content, we have to decide if this is
+        # really an empty file (i.e. where content == empty string)
+        # or if something else is going on.
+
+        # in case it is a folder or the path doesn't exist, always
+        # return nil instead of empty content
+        return nil if directory? or !exist?
+
+        # in case we can't get the size, something is wrong, so return nil
+        # in case the size is non-zero, we couldn't read the file, so
+        # return nil to indicate that
+        i = size
+        return nil if i.nil? or i > 0
+
+        # return the empty string, as the file doesn't contain anything
+        s
       end
 
       def md5sum
