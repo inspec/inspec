@@ -87,7 +87,7 @@ describe 'Vulcano::Resources::Service' do
 
   # debian 8 with systemd
   it 'verify arch linux package parsing' do
-    resource = MockLoader.new(:debian7).load_resource('service', 'sshd')
+    resource = MockLoader.new(:debian8).load_resource('service', 'sshd')
     srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
