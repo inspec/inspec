@@ -121,7 +121,7 @@ class Systemd < ServiceManager
     params['LoadState'] == 'loaded' ? (installed = true) : (installed = false)
     # test via 'systemctl is-active service'
     # SubState values running
-    params['LoadState'] == 'running' ? (running = true) : (running = false)
+    params['SubState'] == 'running' ? (running = true) : (running = false)
     # test via systemctl --quiet is-enabled
     # ActiveState values eg.g inactive, active
     params['ActiveState'] == 'active' ? (enabled = true) : (enabled = false)

@@ -24,6 +24,16 @@ describe 'Vulcano::Resources::Service' do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
   end
+
+  # centos 7 with systemd
+  it 'verify centos package parsing' do
+    resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
   # unknown OS
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('service', 'dhcp')

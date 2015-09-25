@@ -106,6 +106,7 @@ class MockLoader
       "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
+      'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'), # Centos 7
     }
 
     # set os emulation
