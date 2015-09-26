@@ -158,53 +158,60 @@ class LinuxPorts < PortsInfo
     return nil if cmd.exit_status.to_i != 0
 
     ports = []
-    # split on each newline
+    # parse all lines
     cmd.stdout.each_line do |line|
-      # parse each line
-      # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
-      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
+      port_info = parse_netstat_line(line)
 
-      if !parsed.nil?
-        protocol = parsed[1].downcase
-
-        # parse ip4 and ip6 addresses
-        net_addr = parsed[4]
-        if protocol.eql?('tcp6') || protocol.eql?('udp6')
-          # prep for URI parsing, parse ip6 port
-          ip6 = /^(\S+:)(\d+)$/.match(net_addr)
-          ip6addr = ip6[1]
-          ip6addr = '::' if /^:::$/.match(ip6addr)
-          # build uri
-          ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
-          # replace []
-          host = ip_addr.host[1..ip_addr.host.size-2]
-          port = ip_addr.port
-        else
-          ip_addr = URI('addr://'+net_addr)
-          host = ip_addr.host
-          port = ip_addr.port
-        end
-
-        # extract PID
-        process = parsed[9].split('/')
-        pid = process[0]
-        pid = pid.to_i if /^\d+$/.match(pid)
-        process = process[1]
-
-        # map data
-        port_info = {
-          port: port,
-          address: host,
-          protocol: protocol,
-          process: process,
-          pid: pid,
-        }
-
-        # push data, if its a known protocol tcp, tcp6, udp, udp6
-        ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
-      end
+      # only push protocols we are interested in
+      next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+      ports.push(port_info)
     end
     ports
+  end
+
+  def parse_net_address(net_addr, protocol)
+    if protocol.eql?('tcp6') || protocol.eql?('udp6')
+      # prep for URI parsing, parse ip6 port
+      ip6 = /^(\S+:)(\d+)$/.match(net_addr)
+      ip6addr = ip6[1]
+      ip6addr = '::' if /^:::$/.match(ip6addr)
+      # build uri
+      ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
+      # replace []
+      host = ip_addr.host[1..ip_addr.host.size-2]
+      port = ip_addr.port
+    else
+      ip_addr = URI('addr://'+net_addr)
+      host = ip_addr.host
+      port = ip_addr.port
+    end
+    [host, port]
+  end
+
+  def parse_netstat_line(line)
+    # parse each line
+    # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
+    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
+    return {} if parsed.nil?
+
+    # parse ip4 and ip6 addresses
+    protocol = parsed[1].downcase
+    host, port = parse_net_address(parsed[4], protocol)
+
+    # extract PID
+    process = parsed[9].split('/')
+    pid = process[0]
+    pid = pid.to_i if /^\d+$/.match(pid)
+    process = process[1]
+
+    # map data
+    {
+      port: port,
+      address: host,
+      protocol: protocol,
+      process: process,
+      pid: pid,
+    }
   end
 end
 
@@ -217,58 +224,66 @@ class FreeBsdPorts < PortsInfo
     ports = []
     # split on each newline
     cmd.stdout.each_line do |line|
-      # 1 - USER, 2 - COMMAND, 3 - PID, 4 - FD 5 - PROTO, 6 - LOCAL ADDRESS, 7 - FOREIGN ADDRESS
-      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
+      port_info = parse_sockstat_line(line)
 
-      if !parsed.nil?
-        protocol = parsed[5].downcase
-        net_addr = parsed[6]
-
-        # extract ip information
-        case protocol
-        when 'tcp4', 'udp4'
-          # replace * with 0.0.0.0
-          net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if /^*:(\d+)$/.match(net_addr)
-          ip_addr = URI('addr://'+net_addr)
-          host = ip_addr.host
-          port = ip_addr.port
-        when 'tcp6', 'udp6'
-          next if net_addr == '*:*' # abort for now
-          # replace * with 0:0:0:0:0:0:0:0
-          net_addr = net_addr.gsub(/^\*:/, '0:0:0:0:0:0:0:0:') if /^*:(\d+)$/.match(net_addr)
-          # extract port
-          ip6 = /^(\S+):(\d+)$/.match(net_addr)
-          ip6addr = ip6[1]
-          ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
-          # replace []
-          host = ip_addr.host[1..ip_addr.host.size-2]
-          port = ip_addr.port
-        end
-
-        # extract process
-        process = parsed[2]
-
-        # extract PID
-        pid = parsed[3]
-        pid = pid.to_i if /^\d+$/.match(pid)
-
-        # map tcp4 and udp4
-        protocol = 'tcp' if protocol.eql?('tcp4')
-        protocol = 'udp' if protocol.eql?('udp4')
-
-        # map data
-        port_info = {
-          port: port,
-          address: host,
-          protocol: protocol,
-          process: process,
-          pid: pid,
-        }
-
-        # push data, if not headerfile
-        ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
-      end
+      # push data, if not headerfile
+      next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+      ports.push(port_info)
     end
     ports
+  end
+
+  def parse_net_address(net_addr, protocol)
+    case protocol
+    when 'tcp4', 'udp4'
+      # replace * with 0.0.0.0
+      net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if /^*:(\d+)$/.match(net_addr)
+      ip_addr = URI('addr://'+net_addr)
+      host = ip_addr.host
+      port = ip_addr.port
+    when 'tcp6', 'udp6'
+      return [] if net_addr == '*:*' # abort for now
+      # replace * with 0:0:0:0:0:0:0:0
+      net_addr = net_addr.gsub(/^\*:/, '0:0:0:0:0:0:0:0:') if /^*:(\d+)$/.match(net_addr)
+      # extract port
+      ip6 = /^(\S+):(\d+)$/.match(net_addr)
+      ip6addr = ip6[1]
+      ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
+      # replace []
+      host = ip_addr.host[1..ip_addr.host.size-2]
+      port = ip_addr.port
+    end
+    [host, port]
+  end
+
+  def parse_sockstat_line(line)
+    # 1 - USER, 2 - COMMAND, 3 - PID, 4 - FD 5 - PROTO, 6 - LOCAL ADDRESS, 7 - FOREIGN ADDRESS
+    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
+    return {} if parsed.nil?
+
+    # extract ip information
+    protocol = parsed[5].downcase
+    host, port = parse_net_address(parsed[6], protocol)
+    return {} if host.nil? or port.nil?
+
+    # extract process
+    process = parsed[2]
+
+    # extract PID
+    pid = parsed[3]
+    pid = pid.to_i if /^\d+$/.match(pid)
+
+    # map tcp4 and udp4
+    protocol = 'tcp' if protocol.eql?('tcp4')
+    protocol = 'udp' if protocol.eql?('udp4')
+
+    # map data
+    {
+      port: port,
+      address: host,
+      protocol: protocol,
+      process: process,
+      pid: pid,
+    }
   end
 end
