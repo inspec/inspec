@@ -22,12 +22,14 @@ class Service < Vulcano.resource(1)
 
   def initialize(service_name)
     @service_name = service_name
-
-    # select package manager
     @service_mgmt = nil
     @cache = nil
+    select_package_manager
+  end
 
+  def select_package_manager # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     family = vulcano.os[:family]
+
     case family
     # Ubuntu
     # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
@@ -309,8 +311,7 @@ class WindowsSrv < ServiceManager
   # - 6: Pause Pending
   # - 7: Paused
   def info(service_name)
-    srv_cmd = "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json"
-    cmd = @vulcano.run_command(srv_cmd)
+    cmd = @vulcano.run_command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
 
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0
@@ -324,27 +325,36 @@ class WindowsSrv < ServiceManager
     # check that we got a response
     return nil if service.nil? || service['Service'].nil?
 
-    # detect if service is running
-    if !service['Service']['Status'].nil? && service['Service']['Status'] == 4
-      running = true
-    else
-      running = false
-    end
-
-    # detect if service is enabled
-    if !service['WMI'].nil? && !service['WMI']['StartMode'].nil? && service['WMI']['StartMode'] == 'Auto'
-      enabled = true
-    else
-      enabled = false
-    end
-
     {
       name: service['Service']['Name'],
       description: service['Service']['DisplayName'],
       installed: true,
-      running: running,
-      enabled: enabled,
+      running: service_running?(service),
+      enabled: service_enabled?(service),
       type: 'windows',
     }
+  end
+
+  private
+
+  # detect if service is enabled
+  def service_enabled?(service)
+    if !service['WMI'].nil? &&
+       !service['WMI']['StartMode'].nil? &&
+       service['WMI']['StartMode'] == 'Auto'
+      true
+    else
+      false
+    end
+  end
+
+  # detect if service is running
+  def service_running?(service)
+    if !service['Service']['Status'].nil? &&
+       service['Service']['Status'] == 4
+      true
+    else
+      false
+    end
   end
 end

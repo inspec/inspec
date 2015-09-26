@@ -14,12 +14,4 @@ require 'vulcano/resource'
 require 'vulcano/rspec_json_formatter'
 require 'vulcano/rule'
 require 'vulcano/runner'
-
 require 'matchers/matchers'
-
-# Dummy module for handling additional attributes
-# which may be injected by the user. This covers data
-# like passwords, usernames, or configuration flags.
-def attributes(what, required: false)
-  nil
-end

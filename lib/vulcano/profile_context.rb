@@ -15,22 +15,70 @@ module Vulcano
       @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs
-      profile_context_owner = self
 
-      dsl = Module.new do
+      dsl = create_inner_dsl(backend)
+      outer_dsl = create_outer_dsl(dsl)
+      ctx = create_context(outer_dsl)
+
+      @profile_context = ctx.new
+    end
+
+    def load(content, source, line)
+      @profile_context.instance_eval(content, source, line)
+    end
+
+    def unregister_rule(id)
+      full_id = Vulcano::Rule.full_id(@profile_id, id)
+      @rules[full_id] = nil
+    end
+
+    def register_rule(r)
+      # get the full ID
+      full_id = Vulcano::Rule.full_id(@profile_id, r)
+      if full_id.nil?
+        # TODO: error
+        return
+      end
+      # add the rule to the registry
+      existing = @rules[full_id]
+      if existing.nil?
+        @rules[full_id] = r
+      else
+        Vulcano::Rule.merge(existing, r)
+      end
+    end
+
+    private
+
+    # Creates the inner DSL which includes all resources for
+    # creating tests. It is always connected to one target,
+    # which is specified via the backend argument.
+    #
+    # @param backend [BackendRunner] exposing the target to resources
+    # @return [InnerDSLModule]
+    def create_inner_dsl(backend)
+      Module.new do
         Vulcano::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(backend, *args)
           end
         end
       end
+    end
 
+    # Creates the outer DSL which includes all methods for creating
+    # tests and control structures.
+    #
+    # @param dsl [InnerDSLModule] which contains all resources
+    # @return [OuterDSLClass]
+    def create_outer_dsl(dsl)
       rule_class = Class.new(Vulcano::Rule) do
         include RSpec::Core::DSL
         include dsl
       end
 
-      outer_dsl = Class.new do
+      # rubocop:disable Lint/NestedMethodDefinition
+      Class.new do
         include dsl
 
         define_method :rule do |*args, &block|
@@ -59,12 +107,22 @@ module Vulcano
           @skip_profile = !block.call
         end
       end
+      # rubocop:enable all
+    end
 
-      # This is the heart of the profile context
-      # An instantiated object which has all resources registered to it
-      # and exposes them to the a test file.
+    # Creates the heart of the profile context:
+    # An instantiated object which has all resources registered to it
+    # and exposes them to the a test file. The profile context serves as a
+    # container for all profiles which are registered. Within the context
+    # profiles get access to all DSL calls for creating tests and controls.
+    #
+    # @param outer_dsl [OuterDSLClass]
+    # @return [ProfileContextClass]
+    def create_context(outer_dsl)
+      profile_context_owner = self
+
       # rubocop:disable Lint/NestedMethodDefinition
-      ctx = Class.new(outer_dsl) do
+      Class.new(outer_dsl) do
         include Vulcano::DSL
 
         define_method :__register_rule do |*args|
@@ -79,33 +137,6 @@ module Vulcano
         end
       end
       # rubocop:enable all
-
-      @profile_context = ctx.new
-    end
-
-    def load(content, source, line)
-      @profile_context.instance_eval(content, source, line)
-    end
-
-    def unregister_rule(id)
-      full_id = Vulcano::Rule.full_id(@profile_id, id)
-      @rules[full_id] = nil
-    end
-
-    def register_rule(r)
-      # get the full ID
-      full_id = Vulcano::Rule.full_id(@profile_id, r)
-      if full_id.nil?
-        # TODO: error
-        return
-      end
-      # add the rule to the registry
-      existing = @rules[full_id]
-      if existing.nil?
-        @rules[full_id] = r
-      else
-        Vulcano::Rule.merge(existing, r)
-      end
     end
   end
 end

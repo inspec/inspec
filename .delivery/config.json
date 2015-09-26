@@ -5,8 +5,11 @@
     "path": ".delivery/build-cookbook"
   },
   "skip_phases": [
+    "syntax",
+    "security",
+    "quality",
     "smoke",
-    "quality"
+    "deploy"
 	],
   "build_nodes": {}
 }
