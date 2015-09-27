@@ -28,6 +28,48 @@ class Vulcano::Plugins::Backend
       @platform[key]
     end
 
+    REDHAT_FAMILY = %w{
+      redhat oracle centos fedora
+    }
+
+    DEBIAN_FAMILY = %w{
+      debian ubuntu linuxmint raspbian
+    }
+
+    SUSE_FAMILY = %w{
+      suse opensuse
+    }
+
+    LINUX_FAMILY = %w{gentoo arch slackware exherbo alpine coreos} +
+                   REDHAT_FAMILY + DEBIAN_FAMILY + SUSE_FAMILY
+
+    OSX_FAMILY = %{darwin mac_os_x}
+
+    SOLARIS_FAMILY = %w{
+      solaris smartos openindiana opensolaris solaris2 nexentacore
+    }
+
+    BSD_FAMILY = %w{freebsd netbsd openbsd}
+
+    UNIX_FAMILY = %w{unix aix} + LINUX_FAMILY + OSX_FAMILY + SOLARIS_FAMILY
+
+    # Helper methods to check the OS type
+    def unix?
+      UNIX_FAMILY.include?(@platform[:family])
+    end
+
+    def bsd?
+      BSD_FAMILY.include?(@platform[:family])
+    end
+
+    def solaris?
+      SOLARIS_FAMILY.include?(@platform[:family])
+    end
+
+    def linux?
+      LINUX_FAMILY.include?(@platform[:family])
+    end
+
     private
 
     def detect_family
