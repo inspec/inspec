@@ -112,7 +112,8 @@ class Vulcano::Plugins::Backend
       end
 
       # unix based systems combine the above
-      return true if pf == 'unix' and (detect_darwin or detect_via_uname)
+      return true if pf == 'unix' and detect_darwin
+      return true if pf == 'unix' and detect_via_uname
 
       # if we arrive here, we most likey have a regular linux
       detect_linux
