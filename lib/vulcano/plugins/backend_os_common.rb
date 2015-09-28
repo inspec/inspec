@@ -30,7 +30,7 @@ class Vulcano::Plugins::Backend
 
     OS = {
       'redhat' => %w{
-        redhat oracle centos fedora
+        redhat oracle centos fedora amazon scientific xenserver
       },
       'debian' => %w{
         debian ubuntu linuxmint raspbian
