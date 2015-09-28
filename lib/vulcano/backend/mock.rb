@@ -7,12 +7,12 @@ module Vulcano::Backends
     name 'mock'
 
     attr_accessor :files, :commands, :os
-    def initialize(conf)
-      @conf = conf
+    def initialize(conf = nil)
+      @conf = conf || {}
       @files = {}
       @os = {}
       @commands = {}
-      trace_calls unless @conf[:quiet]
+      trace_calls if @conf[:verbose]
     end
 
     def file(path)
