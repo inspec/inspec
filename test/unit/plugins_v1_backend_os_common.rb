@@ -179,6 +179,13 @@ describe 'Vulcano::Plugins::Backend::OSCommon' do
     it { osc.unix?.must_equal(true) }
   end
 
+  describe 'with platform set to darwin' do
+    before { set_platform(osc, 'darwin') }
+    it { osc.bsd?.must_equal(true) }
+    it { osc.linux?.must_equal(false) }
+    it { osc.unix?.must_equal(true) }
+  end
+
   describe 'with platform set to solaris' do
     before { set_platform(osc, 'solaris') }
     it { osc.solaris?.must_equal(true) }

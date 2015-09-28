@@ -39,7 +39,7 @@ class Vulcano::Plugins::Backend
         suse opensuse
       },
       'bsd' => %w{
-        freebsd netbsd openbsd
+        freebsd netbsd openbsd darwin
       },
       'solaris' => %w{
         solaris smartos openindiana opensolaris solaris2 nexentacore
@@ -49,7 +49,7 @@ class Vulcano::Plugins::Backend
     OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
                   OS['redhat'] + OS['debian'] + OS['suse']
 
-    OS['unix'] = %w{unix aix darwin} + OS['linux'] + OS['solaris'] + OS['bsd']
+    OS['unix'] = %w{unix aix} + OS['linux'] + OS['solaris'] + OS['bsd']
 
     # Helper methods to check the OS type
     # Provides methods in the form of: linux?, unix?, solaris? ...
