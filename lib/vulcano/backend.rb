@@ -12,8 +12,8 @@ module Vulcano
     # Resolve target configuration in URI-scheme into
     # all respective fields and merge with existing configuration.
     # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
-    def self.target_config(config)
-      conf = config.dup
+    def self.target_config(config = nil)
+      conf = config.nil? ? {} : config.dup
 
       return conf if conf['target'].to_s.empty?
 
