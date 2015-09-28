@@ -45,7 +45,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    conf = Vulcano::Backend.target_config({ quiet: true })
+    conf = Vulcano::Backend.target_config()
     backend_class = Vulcano::Backend.registry['mock']
     @backend = backend_class.new(conf)
 

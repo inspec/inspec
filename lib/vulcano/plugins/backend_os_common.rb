@@ -28,6 +28,37 @@ class Vulcano::Plugins::Backend
       @platform[key]
     end
 
+    OS = {
+      'redhat' => %w{
+        redhat oracle centos fedora amazon scientific xenserver
+      },
+      'debian' => %w{
+        debian ubuntu linuxmint raspbian
+      },
+      'suse' => %w{
+        suse opensuse
+      },
+      'bsd' => %w{
+        freebsd netbsd openbsd darwin
+      },
+      'solaris' => %w{
+        solaris smartos openindiana opensolaris solaris2 nexentacore
+      },
+    }
+
+    OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
+                  OS['redhat'] + OS['debian'] + OS['suse']
+
+    OS['unix'] = %w{unix aix} + OS['linux'] + OS['solaris'] + OS['bsd']
+
+    # Helper methods to check the OS type
+    # Provides methods in the form of: linux?, unix?, solaris? ...
+    OS.keys.each do |os_family|
+      define_method((os_family+'?').to_sym) do
+        OS[os_family].include?(@platform[:family])
+      end
+    end
+
     private
 
     def detect_family
@@ -70,7 +101,8 @@ class Vulcano::Plugins::Backend
       end
 
       # unix based systems combine the above
-      return true if pf == 'unix' and (detect_darwin or detect_via_uname)
+      return true if pf == 'unix' and detect_darwin
+      return true if pf == 'unix' and detect_via_uname
 
       # if we arrive here, we most likey have a regular linux
       detect_linux
