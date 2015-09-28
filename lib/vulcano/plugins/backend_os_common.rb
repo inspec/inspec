@@ -46,7 +46,7 @@ class Vulcano::Plugins::Backend
       },
     }
 
-    OS['linux'] = %w{gentoo arch slackware exherbo alpine coreos} +
+    OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
                   OS['redhat'] + OS['debian'] + OS['suse']
 
     OS['unix'] = %w{unix aix darwin} + OS['linux'] + OS['solaris'] + OS['bsd']
