@@ -28,46 +28,35 @@ class Vulcano::Plugins::Backend
       @platform[key]
     end
 
-    REDHAT_FAMILY = %w{
-      redhat oracle centos fedora
+    OS = {
+      'redhat' => %w{
+        redhat oracle centos fedora
+      },
+      'debian' => %w{
+        debian ubuntu linuxmint raspbian
+      },
+      'suse' => %w{
+        suse opensuse
+      },
+      'bsd' => %w{
+        freebsd netbsd openbsd
+      },
+      'solaris' => %w{
+        solaris smartos openindiana opensolaris solaris2 nexentacore
+      },
     }
 
-    DEBIAN_FAMILY = %w{
-      debian ubuntu linuxmint raspbian
-    }
+    OS['linux'] = %w{gentoo arch slackware exherbo alpine coreos} +
+                  OS['redhat'] + OS['debian'] + OS['suse']
 
-    SUSE_FAMILY = %w{
-      suse opensuse
-    }
-
-    LINUX_FAMILY = %w{gentoo arch slackware exherbo alpine coreos} +
-                   REDHAT_FAMILY + DEBIAN_FAMILY + SUSE_FAMILY
-
-    OSX_FAMILY = %{darwin mac_os_x}
-
-    SOLARIS_FAMILY = %w{
-      solaris smartos openindiana opensolaris solaris2 nexentacore
-    }
-
-    BSD_FAMILY = %w{freebsd netbsd openbsd}
-
-    UNIX_FAMILY = %w{unix aix} + LINUX_FAMILY + OSX_FAMILY + SOLARIS_FAMILY
+    OS['unix'] = %w{unix aix darwin} + OS['linux'] + OS['solaris'] + OS['bsd']
 
     # Helper methods to check the OS type
-    def unix?
-      UNIX_FAMILY.include?(@platform[:family])
-    end
-
-    def bsd?
-      BSD_FAMILY.include?(@platform[:family])
-    end
-
-    def solaris?
-      SOLARIS_FAMILY.include?(@platform[:family])
-    end
-
-    def linux?
-      LINUX_FAMILY.include?(@platform[:family])
+    # Provides methods in the form of: linux?, unix?, solaris? ...
+    OS.keys.each do |os_family|
+      define_method((os_family+'?').to_sym) do
+        OS[os_family].include?(@platform[:family])
+      end
     end
 
     private
