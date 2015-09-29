@@ -5,38 +5,6 @@ require 'specinfra'
 require 'specinfra/helper'
 require 'specinfra/helper/set'
 
-module Specinfra
-  module Helper
-    module Os
-      def os
-        property[:os] = {} if !property[:os]
-        if !property[:os].include?(:family)
-          property[:os] = detect_os
-        end
-        property[:os]
-      end
-
-      private
-
-      def detect_os
-        backend = Specinfra.configuration.backend
-        if backend == :cmd || backend == :winrm
-          return { family: 'windows', release: nil, arch: nil }
-        end
-
-        Specinfra::Helper::DetectOs.subclasses.each do |c|
-          res = c.detect
-          if res
-            res[:arch] ||= Specinfra.backend.run_command('uname -m').stdout.strip
-            return res
-          end
-        end
-        fail NotImplementedError, 'Specinfra failed os detection.'
-      end
-    end
-  end
-end
-
 module Vulcano::Backends
   class SpecinfraHelper < Vulcano.backend(1)
     name 'specinfra'
@@ -47,6 +15,9 @@ module Vulcano::Backends
     autoload :Winrm,  'vulcano/backend/specinfra_winrm'
 
     autoload :File,   'vulcano/backend/specinfra_file'
+    autoload :OS,     'vulcano/backend/specinfra_os'
+
+    attr_reader :os
 
     def initialize(conf)
       @conf = conf
@@ -55,6 +26,8 @@ module Vulcano::Backends
       configure_shared_options
 
       type = @conf['backend'].to_s
+      type = 'exec' if type.empty?
+
       case type
       when 'docker'
         spec_backend = Specinfra::Backend::Docker
@@ -74,10 +47,8 @@ module Vulcano::Backends
 
       reset_backend(spec_backend)
       backend_helper.configure(@conf)
-    end
 
-    def os
-      Specinfra::Helper::Os.os
+      @os = OS.new
     end
 
     def file(path)
@@ -110,6 +81,41 @@ module Vulcano::Backends
 
     def reset_backend(x)
       x.instance_variable_set(:@instance, nil)
+    end
+  end
+end
+
+# Patch Specinfra OS detection
+# Without this section you run into:
+#   SystemStackError: stack level too deep
+module Specinfra
+  module Helper
+    module Os
+      def os
+        property[:os] = {} if !property[:os]
+        if !property[:os].include?(:family)
+          property[:os] = detect_os
+        end
+        property[:os]
+      end
+
+      private
+
+      def detect_os
+        backend = Specinfra.configuration.backend
+        if backend == :cmd || backend == :winrm
+          return { family: 'windows', release: nil, arch: nil }
+        end
+
+        Specinfra::Helper::DetectOs.subclasses.each do |c|
+          res = c.detect
+          if res
+            res[:arch] ||= Specinfra.backend.run_command('uname -m').stdout.strip
+            return res
+          end
+        end
+        fail NotImplementedError, 'Specinfra failed os detection.'
+      end
     end
   end
 end
