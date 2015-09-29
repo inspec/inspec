@@ -100,6 +100,5 @@ module Vulcano::Backends
         super(backend, { family: 'unix' })
       end
     end
-
   end
 end
