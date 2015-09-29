@@ -2,6 +2,9 @@
 
 class Vulcano::Plugins::Backend
   class FileCommon
+    autoload :Stat, 'vulcano/plugins/backend_stat'
+
+
     # interface methods: these fields should be implemented by every
     # backend File
     %w{

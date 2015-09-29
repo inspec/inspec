@@ -3,8 +3,6 @@
 require 'shellwords'
 
 class Vulcano::Plugins::Backend
-  autoload :Stat, 'vulcano/plugins/backend_stat'
-
   class LinuxFile < FileCommon
     attr_reader :path
     def initialize(backend, path)
@@ -71,7 +69,7 @@ class Vulcano::Plugins::Backend
 
     def stat
       return @stat if defined?(@stat)
-      @stat = ::Vulcano::Plugins::Backend::Stat.stat(@spath, @backend)
+      @stat = Stat.stat(@spath, @backend)
     end
   end
 end

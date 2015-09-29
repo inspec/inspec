@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-class Vulcano::Plugins::Backend
+class Vulcano::Plugins::Backend::FileCommon
   class Stat
-    TYPES = {
+    Types = {
       socket:           00140000,
       symlink:          00120000,
       file:             00100000,
@@ -11,6 +11,11 @@ class Vulcano::Plugins::Backend
       character_device: 00020000,
       pipe:             00010000,
     }
+
+    def self.find_type(mode)
+      res = Types.find { |_, mask| mask & mode == mask }
+      res.nil? ? :unknown : res[0]
+    end
 
     def self.stat(shell_escaped_path, backend)
       return bsd_stat(shell_escaped_path, backend) if backend.os.bsd?
@@ -31,14 +36,11 @@ class Vulcano::Plugins::Backend
       return {} if fields.length != 9
 
       tmask = fields[1].to_i(16)
-      type = TYPES.find { |_, mask| mask & tmask == mask }
-      type ||= [:unknown]
-
       selinux = fields[8]
       selinux = nil if selinux == '?' or selinux == '(null)'
 
       {
-        type: type[0],
+        type: find_type(tmask),
         mode: tmask & 00777,
         owner: fields[2],
         group: fields[4],
@@ -73,11 +75,9 @@ class Vulcano::Plugins::Backend
       return {} if fields.length != 8
 
       tmask = fields[1].to_i(8)
-      type = TYPES.find { |_, mask| mask & tmask == mask }
-      type ||= [:unknown]
 
       {
-        type: type[0],
+        type: find_type(tmask),
         mode: tmask & 00777,
         owner: fields[2],
         group: fields[4],

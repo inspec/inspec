@@ -11,21 +11,21 @@ class Vulcano::Backends::SpecinfraHelper
     end
 
     def mode
-      return bsd_stat[:mode] unless bsd_stat.nil?
+      return stat[:mode] if @backend.os.bsd?
       m = Specinfra::Runner.get_file_mode(@path).stdout.strip
       return nil if m.empty? || m.include?('cannot stat')
       m.to_i(8)
     end
 
     def owner
-      return bsd_stat[:owner] unless bsd_stat.nil?
+      return stat[:owner] if @backend.os.bsd?
       o = Specinfra::Runner.get_file_owner_user(@path).stdout.strip
       return nil if o.empty? || o.include?('cannot stat')
       o
     end
 
     def group
-      return bsd_stat[:group] unless bsd_stat.nil?
+      return stat[:group] if @backend.os.bsd?
       g = Specinfra::Runner.get_file_owner_group(@path).stdout.strip
       return nil if g.empty? || g.include?('cannot stat')
       g
