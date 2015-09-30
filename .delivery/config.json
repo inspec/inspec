@@ -9,7 +9,8 @@
     "security",
     "quality",
     "smoke",
-    "deploy"
+    "deploy",
+    "lint"
 	],
   "build_nodes": {}
 }
