@@ -51,16 +51,19 @@ describe 'SimpleConfig' do
     it 'handles groups' do
       cur = SimpleConfig.new('[g]')
       cur.params.must_equal({ 'g' => {} })
+      cur.groups.must_equal(['g'])
     end
 
     it 'handles non-group assignments and groups' do
       cur = SimpleConfig.new("a = b\n[g]")
       cur.params.must_equal({ 'a' => 'b', 'g' => {} })
+      cur.groups.must_equal(['g'])
     end
 
     it 'handles assignments in groups' do
       cur = SimpleConfig.new("[g]\na = b")
       cur.params.must_equal({ 'g' => { 'a' => 'b' } })
+      cur.groups.must_equal(['g'])
     end
 
     it 'handles multiple groups' do
@@ -70,6 +73,7 @@ describe 'SimpleConfig' do
         'k' => { 'c' => 'd' },
       }
       cur.params.must_equal(res)
+      cur.groups.must_equal(['g', 'k'])
     end
   end
 end

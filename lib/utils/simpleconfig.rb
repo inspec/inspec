@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 class SimpleConfig
-  attr_reader :params
+  attr_reader :params, :groups
   def initialize(raw_data, opts = {})
     parse(raw_data, opts)
   end
@@ -17,6 +17,7 @@ class SimpleConfig
   # no comments can be added to the end of an assignment/statement line
   def parse(raw_data, opts = {})
     @params = {}
+    @groups = []
     @vals = @params
     options = default_options.merge(opts || {})
     rest = raw_data
@@ -82,6 +83,7 @@ class SimpleConfig
     return nil if opts[:group_re].nil?
     m = opts[:group_re].match(line)
     return nil if m.nil?
+    @groups.push(m[1])
     @vals = @params[m[1]] = {}
   end
 
