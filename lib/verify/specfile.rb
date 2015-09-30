@@ -8,7 +8,7 @@ require 'method_source'
 # the user may use dynamic evaluations via pry
 begin
   require 'pry'
-  rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
 module Vulcano
@@ -62,9 +62,7 @@ module Vulcano
     def require(sth)
       # ignore vulcano includes, we already have those
       lib = File.expand_path(File.join @path, '..', '..', 'lib', "#{sth}.rb")
-      if File.file? lib
-        require_relative lib
-      end
+      require_relative lib if File.file? lib
     end
 
     def method_missing(sth, *args)
@@ -94,9 +92,9 @@ module Vulcano
     def metadata
       header = @raw.sub(/^[^#].*\Z/m, '')
       {
-        'title' => mOr(header.match(/^# title: (.*)$/), @filename),
-        'copyright' => mOr(header.match(/^# copyright: (.*)$/), 'All rights reserved'),
-        'rules' => rules2dict(@rules),
+        'title' =>     header[/^# title: (.*)$/, 1] || @filename,
+        'copyright' => header[/^# copyright: (.*)$/, 1] || 'All rights reserved',
+        'rules' =>     rules2dict(@rules),
       }
     end
 
@@ -131,15 +129,11 @@ module Vulcano
           Log.error(
             "Not redefining rule id #{id}:\n" \
             "-- #{res[id]}\n" \
-            "++ #{nu}\n"
+            "++ #{nu}\n",
           )
         end
       end
       res
-    end
-
-    def mOr(m, other)
-      (m.nil? || m[1].nil?) ? other : m[1]
     end
   end
 end

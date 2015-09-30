@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'yaml'
+
 # Parses a yaml document
 # Usage:
 # describe yaml('.kitchen.yaml') do

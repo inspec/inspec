@@ -139,13 +139,9 @@ module Vulcano::Backends
           return @stat = {}
         end
 
-        tmask = file_stat.mode
-        type = TYPES.find { |_, mask| mask & tmask == mask }
-        type ||= [:unknown]
-
         @stat = {
-          type: type[0],
-          mode: tmask & 00777,
+          type: Stat.find_type(file_stat.mode),
+          mode: file_stat.mode & 00777,
           mtime: file_stat.mtime.to_i,
           size: file_stat.size,
           owner: pw_username(file_stat.uid),
