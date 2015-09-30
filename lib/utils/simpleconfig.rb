@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 class SimpleConfig
-  attr_reader :params
+  attr_reader :params, :groups
   def initialize(raw_data, opts = {})
     parse(raw_data, opts)
   end
@@ -17,7 +17,9 @@ class SimpleConfig
   # no comments can be added to the end of an assignment/statement line
   def parse(raw_data, opts = {})
     @params = {}
-    options = default_options.merge(opts)
+    @groups = []
+    @vals = @params
+    options = default_options.merge(opts || {})
     rest = raw_data
     rest = parse_rest(rest, options) while rest.length > 0
   end
@@ -63,29 +65,42 @@ class SimpleConfig
     [line, idx_nl]
   end
 
-  def parse_line_params(line, opts)
+  def parse_params_line(line, opts)
     # now line contains what we are interested in parsing
     # check if it is an assignment
     m = opts[:assignment_re].match(line)
-    if !m.nil?
-      if opts[:multiple_values]
-        @params[m[1]] ||= []
-        @params[m[1]].push(parse_values(m, opts[:key_vals]))
-      else
-        @params[m[1]] = parse_values(m, opts[:key_vals])
-      end
-    elsif !is_empty_line(line)
-      if opts[:multiple_values]
-        @params[line.strip] ||= []
-      else
-        @params[line.strip] = ''
-      end
+    return nil if m.nil?
+
+    if opts[:multiple_values]
+      @vals[m[1]] ||= []
+      @vals[m[1]].push(parse_values(m, opts[:key_vals]))
+    else
+      @vals[m[1]] = parse_values(m, opts[:key_vals])
+    end
+  end
+
+  def parse_group_line(line, opts)
+    return nil if opts[:group_re].nil?
+    m = opts[:group_re].match(line)
+    return nil if m.nil?
+    @groups.push(m[1])
+    @vals = @params[m[1]] = {}
+  end
+
+  def parse_implicit_assignment_line(line, opts)
+    return nil if is_empty_line(line)
+    if opts[:multiple_values]
+      @vals[line.strip] ||= []
+    else
+      @vals[line.strip] = ''
     end
   end
 
   def parse_rest(rest, opts)
     line, idx_nl = parse_comment_line(rest, opts)
-    parse_line_params(line, opts)
+    parse_params_line(line, opts) or
+      parse_group_line(line, opts) or
+      parse_implicit_assignment_line(line, opts)
 
     # return whatever is left
     rest[(idx_nl + 1)..-1] || ''
@@ -101,6 +116,7 @@ class SimpleConfig
       multiline: false,
       comment_char: '#',
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+      group_re: /\[([^\]]+)\]\s*$/,
       key_vals: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
       multiple_values: false,

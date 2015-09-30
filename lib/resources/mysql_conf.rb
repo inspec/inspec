@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # license: All rights reserved
 
-require 'utils/parseconfig'
+require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'utils/hash'
 require 'resources/mysql'
@@ -75,7 +75,7 @@ class MysqlConf < Vulcano.resource(1)
       raw_conf = read_file(cur_file)
       @content += raw_conf
 
-      params = ParseConfig.new(raw_conf).params
+      params = SimpleConfig.new(raw_conf).params
       @params = @params.deep_merge(params)
 
       to_read = to_read.drop(1)

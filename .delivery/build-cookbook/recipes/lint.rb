@@ -8,7 +8,7 @@
 include_recipe 'build-cookbook::prepare'
 
 execute 'rubocop' do
-  command 'bundle exec rubocop -D'
+  command 'bundle exec rake lint'
   cwd node['delivery_builder']['repo']
   user node['delivery_builder']['build_user']
 end
