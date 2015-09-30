@@ -44,14 +44,25 @@ module Vulcano
 
     def valid_spec?(f, metadata)
       return @log.error "Can't find spec file #{f}" unless File.file? f
-      # validation tracking
+
+      # Load the spec file
+      specs = SpecFile.from_file(f, metadata)
+      valid = validate_spec_file(specs)
+
+      return unless valid && specs.instance_variable_get(:@invalid_calls).empty?
+      @log.ok "Valid spec file in #{f} with #{meta['rules'].length} rules"
+    end
+
+    private
+
+    def validate_spec_file(specs, invalid) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
       valid = true
+      # helper for printing violations
       invalid = lambda {|type, msg|
         @log.send type, "#{msg} (#{File.basename f})"
         valid = false if type == :error
       }
-      # Load the spec file
-      specs = SpecFile.from_file(f, metadata)
+
       # find all errors during parsing
       specs.errors.each do |err|
         invalid.call(:error, err)
@@ -80,12 +91,8 @@ module Vulcano
         invalid.call(:warn, "Missing description for rule #{k}") if v['desc'].nil?
       end
 
-      if valid && specs.instance_variable_get(:@invalid_calls).empty?
-        @log.ok "Valid spec file in #{f} with #{meta['rules'].length} rules"
-      end
+      valid
     end
-
-    private
 
     def add_specs_in_folder(path)
       allrules = {}

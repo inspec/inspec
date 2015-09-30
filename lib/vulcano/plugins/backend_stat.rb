@@ -2,7 +2,7 @@
 
 class Vulcano::Plugins::Backend::FileCommon
   class Stat
-    Types = {
+    TYPES = {
       socket:           00140000,
       symlink:          00120000,
       file:             00100000,
@@ -13,7 +13,7 @@ class Vulcano::Plugins::Backend::FileCommon
     }
 
     def self.find_type(mode)
-      res = Types.find { |_, mask| mask & mode == mask }
+      res = TYPES.find { |_, mask| mask & mode == mask }
       res.nil? ? :unknown : res[0]
     end
 
