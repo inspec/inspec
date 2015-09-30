@@ -39,7 +39,13 @@ class Vulcano::Plugins::Backend
         @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
       elsif !(raw = get_config('/etc/redhat-release')).nil?
         # TODO: Cisco
-        @platform[:family] = redhatish_platform(raw)
+        # TODO: fully investigate os-release and integrate it;
+        # here we just use it for centos
+        if !(osrel = get_config('/etc/os-release')).nil? && osrel =~ /centos/i
+          @platform[:family] = 'centos'
+        else
+          @platform[:family] = redhatish_platform(raw)
+        end
         @platform[:release] = redhatish_version(raw)
       elsif !(raw = get_config('/etc/system-release')).nil?
         # Amazon Linux
@@ -99,7 +105,9 @@ class Vulcano::Plugins::Backend
     end
 
     def redhatish_version(conf)
-      conf[/rawhide/i] ? conf[/((\d+) \(Rawhide\))/i, 1].downcase : conf[/release ([\d\.]+)/, 1]
+      return conf[/((\d+) \(Rawhide\))/i, 1].downcase if conf[/rawhide/i]
+      return conf[/Linux ((\d+|\.)+)/i, 1] if conf[/derived from .*linux/i]
+      conf[/release ([\d\.]+)/, 1]
     end
 
     def detect_linux
