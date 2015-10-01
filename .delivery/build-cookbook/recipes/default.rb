@@ -4,8 +4,6 @@
 #
 # Copyright (c) 2015 Chef Software Inc., All Rights Reserved.
 
-# clean up the build node first
-
 group 'docker' do
   members [node['delivery_builder']['build_user']]
 end
