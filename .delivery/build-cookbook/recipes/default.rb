@@ -10,6 +10,8 @@ group 'docker' do
   members [node['delivery_builder']['build_user']]
 end
 
+package 'build-essential'
+
 docker_service 'dockerd' do
   action [:delete, :create, :start]
   host 'unix:///var/run/docker.sock'
