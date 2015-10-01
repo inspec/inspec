@@ -176,7 +176,7 @@ class LinuxPorts < PortsInfo
       ip6addr = ip6[1]
       ip6addr = '::' if /^:::$/.match(ip6addr)
       # build uri
-      ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
+      ip_addr = URI("addr://[#{ip6addr}]:#{ip6[2]}")
       # replace []
       host = ip_addr.host[1..ip_addr.host.size-2]
       port = ip_addr.port
@@ -248,7 +248,7 @@ class FreeBsdPorts < PortsInfo
       # extract port
       ip6 = /^(\S+):(\d+)$/.match(net_addr)
       ip6addr = ip6[1]
-      ip_addr = URI('addr://[' + ip6addr +']:' + ip6[2])
+      ip_addr = URI("addr://[#{ip6addr}]:#{ip6[2]}")
       # replace []
       host = ip_addr.host[1..ip_addr.host.size-2]
       port = ip_addr.port

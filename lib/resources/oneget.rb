@@ -15,7 +15,7 @@ class OneGetPackage < Vulcano.resource(1)
   end
 
   def info
-    return @info unless @info.nil?
+    return @info if defined?(@info)
 
     @info = {}
     @info[:type] = 'oneget'

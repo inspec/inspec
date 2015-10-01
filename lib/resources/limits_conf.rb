@@ -26,7 +26,7 @@ class LimitsConf < Vulcano.resource(1)
   end
 
   def read_params
-    return @params unless @params.nil?
+    return @params if defined?(@params)
 
     # read the file
     file = vulcano.file(@conf_path)

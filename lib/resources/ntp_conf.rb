@@ -32,7 +32,7 @@ class NtpConf < Vulcano.resource(1)
   private
 
   def read_params
-    return @params unless @params.nil?
+    return @params if defined?(@params)
 
     if !vulcano.file(@conf_path).file?
       skip_resource "Can't find file \"#{@conf_path}\""
