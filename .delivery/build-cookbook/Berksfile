@@ -3,6 +3,8 @@ source 'https://supermarket.chef.io'
 metadata
 
 group :delivery do
+  cookbook 'delivery-sugar-extras', git: 'https://github.com/opscode-cookbooks/delivery-sugar-extras.git'
+  cookbook 'delivery-sugar', git: 'https://github.com/chef-cookbooks/delivery-sugar.git'
   cookbook 'delivery_build', git: 'https://github.com/chef-cookbooks/delivery_build'
-  cookbook 'test', path: './test/fixtures/cookbooks/test'
+  cookbook 'delivery-truck', git: 'https://github.com/opscode-cookbooks/delivery-truck.git'
 end
