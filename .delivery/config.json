@@ -4,6 +4,11 @@
     "name": "build-cookbook",
     "path": ".delivery/build-cookbook"
   },
+  "delivery-truck": {
+    "publish": {
+      "github": "chef/vulcanosec"
+    }
+  },
   "skip_phases": [
     "syntax",
     "security",
