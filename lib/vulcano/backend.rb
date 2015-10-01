@@ -15,6 +15,9 @@ module Vulcano
     def self.target_config(config = nil)
       conf = config.nil? ? {} : config.dup
 
+      key = conf['key']
+      conf['key_file'] = key if !key.nil? and File.file?(key)
+
       return conf if conf['target'].to_s.empty?
 
       uri = URI.parse(conf['target'].to_s)

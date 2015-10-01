@@ -55,7 +55,7 @@ class VulcanoCLI < Thor
       desc: 'The login user for a remote scan.'
     option :password, type: :string, default: nil,
       desc: 'Login password for a remote scan, if required.'
-    option :key_file, type: :string, default: nil,
+    option :key, type: :string, default: nil,
       desc: 'Login key or certificate file for a remote scan.'
     option :disable_sudo, type: :boolean, default: false,
       desc: 'To not run remote scans via sudo.'
