@@ -17,32 +17,7 @@ class PipPackage < Vulcano.resource(1)
 
     @info = {}
     @info[:type] = 'pip'
-
-    # Pip is not on the default path for Windows, therefore we do some logic
-    # to find the binary on Windows
-    family = vulcano.os[:family]
-    case family
-    when 'windows'
-      # we need to detect the pip command on Windows
-      cmd = vulcano.run_command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
-      begin
-        paths = JSON.parse(cmd.stdout)
-        # use pip if it on system path
-        pipcmd = paths['Pip']
-        # calculate path on windows
-        if defined?(paths['Python']) && pipcmd.nil?
-          pipdir = paths['Python'].split('\\')
-          # remove python.exe
-          pipdir.pop
-          pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
-        end
-      rescue JSON::ParserError => _e
-        return nil
-      end
-    end
-
-    pipcmd ||= 'pip'
-    cmd = vulcano.run_command("#{pipcmd} show #{@package_name}")
+    cmd = vulcano.run_command("#{pip_cmd} show #{@package_name}")
     return @info if cmd.exit_status != 0
 
     params = SimpleConfig.new(
@@ -66,5 +41,33 @@ class PipPackage < Vulcano.resource(1)
 
   def to_s
     "pip package  #{@package_name}"
+  end
+
+  private
+
+  def pip_cmd
+    # Pip is not on the default path for Windows, therefore we do some logic
+    # to find the binary on Windows
+    family = vulcano.os[:family]
+    case family
+    when 'windows'
+      # we need to detect the pip command on Windows
+      cmd = vulcano.run_command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+      begin
+        paths = JSON.parse(cmd.stdout)
+        # use pip if it on system path
+        pipcmd = paths['Pip']
+        # calculate path on windows
+        if defined?(paths['Python']) && pipcmd.nil?
+          pipdir = paths['Python'].split('\\')
+          # remove python.exe
+          pipdir.pop
+          pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
+        end
+      rescue JSON::ParserError => _e
+        return nil
+      end
+    end
+    pipcmd || 'pip'
   end
 end
