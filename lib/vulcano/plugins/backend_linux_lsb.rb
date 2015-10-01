@@ -26,7 +26,7 @@ class Vulcano::Plugins::Backend
     end
 
     def lsb
-      return @lsb unless @lsb.nil?
+      return @lsb if defined?(@lsb)
       @lsb = {}
       if !(raw = get_config('/etc/lsb-release')).nil?
         @lsb = lsb_config(raw)

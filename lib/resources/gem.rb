@@ -12,7 +12,7 @@ class GemPackage < Vulcano.resource(1)
   end
 
   def info
-    return @info unless @info.nil?
+    return @info if defined?(@info)
 
     cmd = vulcano.run_command("gem list --local -a -q \^#{@package_name}\$")
     @info = {

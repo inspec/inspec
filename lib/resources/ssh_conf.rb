@@ -38,7 +38,7 @@ class SshConf < Vulcano.resource(1)
   private
 
   def read_content
-    return @content if @content_read
+    return @content if defined?(@content)
     file = vulcano.file(@conf_path)
     if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
@@ -49,12 +49,11 @@ class SshConf < Vulcano.resource(1)
       return skip_resource "Can't read file \"#{@conf_path}\""
     end
 
-    @content_read = true
     @content
   end
 
   def read_params
-    return @params unless @params.nil?
+    return @params if defined?(@params)
     return @params = {} if read_content.nil?
     conf = SimpleConfig.new(
       read_content,

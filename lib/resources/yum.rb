@@ -32,10 +32,6 @@ module Vulcano::Resources
   class Yum < Vulcano.resource(1)
     name 'yum'
 
-    def initialize
-      @cache = nil
-    end
-
     # returns all repositories
     # works as following:
     # search for Repo-id
@@ -43,7 +39,7 @@ module Vulcano::Resources
     #   store data in object
     # until \n
     def repositories
-      return @cache if !@cache.nil?
+      return @cache if defined?(@cache)
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
       @command_result = vulcano.run_command('yum -v repolist all')
@@ -111,7 +107,7 @@ class YumRepo
   end
 
   def info
-    return @cache if !@cache.nil?
+    return @cache if defined?(@cache)
     selection = @yum.repositories.select { |e| e['id'] == @reponame || shortname(e['id']) == @reponame }
     @cache = selection[0] if !selection.nil? && selection.length == 1
     @cache

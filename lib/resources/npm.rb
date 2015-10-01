@@ -13,7 +13,7 @@ class NpmPackage < Vulcano.resource(1)
   end
 
   def info
-    return @info unless @info.nil?
+    return @info if defined?(@info)
 
     cmd = vulcano.run_command("npm ls -g --json #{@package_name}")
     @info = {
