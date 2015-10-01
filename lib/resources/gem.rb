@@ -39,6 +39,6 @@ class GemPackage < Vulcano.resource(1)
   end
 
   def to_s
-    "pip package #{@package_name}"
+    "gem package #{@package_name}"
   end
 end
