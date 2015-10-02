@@ -25,7 +25,7 @@ package 'build-essential'
 
 # get docker
 docker_service 'dockerd' do
-  action [:delete, :create, :start]
+  action [:create, :start]
   host 'unix:///var/run/docker.sock'
   group 'docker'
   provider Chef::Provider::DockerService::Execute
