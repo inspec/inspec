@@ -12,8 +12,14 @@ module Vulcano
     # Resolve target configuration in URI-scheme into
     # all respective fields and merge with existing configuration.
     # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
-    def self.target_config(config = nil)
+    def self.target_config(config = nil) # rubocop:disable Metrics/AbcSize
       conf = config.nil? ? {} : config.dup
+
+      # in case the user specified a key-file, register it that way
+      key = conf['key']
+      if !key.nil? and File.file?(key)
+        conf['key_file'] = key
+      end
 
       return conf if conf['target'].to_s.empty?
 
