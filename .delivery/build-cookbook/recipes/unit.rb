@@ -9,14 +9,14 @@ include_recipe 'build-cookbook::prepare'
 
 home = node['delivery_builder']['repo']
 
-execute 'rake test' do
-  command 'bundle exec rake test'
-  cwd home
-  user node['delivery_builder']['build_user']
-end
-
-execute 'dockerized rake' do
-  command 'bundle exec rake test:resources config=test/test.yaml'
-  cwd home
-  user node['delivery_builder']['build_user']
+{
+  'mock test resources' => 'rake test',
+  'test resources, main docker images' => 'rake test:resources config=test/test.yaml',
+  'test resources, extra docker images' => 'rake test:resources config=test/test-extra.yaml',
+}.each do |title, test|
+  execute title do
+    command 'bundle exec '+test
+    cwd home
+    user node['delivery_builder']['build_user']
+  end
 end
