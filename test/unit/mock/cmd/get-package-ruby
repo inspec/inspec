@@ -1,0 +1,18 @@
+[
+    {
+        "ProviderName":  "Programs",
+        "Status":  "Installed",
+        "SearchKey":  "Ruby 2.1.6-p336-x64",
+        "CanonicalId":  "programs:Ruby 2.1.6-p336-x64/2.1.6-p336",
+        "Name":  "Ruby 2.1.6-p336-x64",
+        "Version":  "2.1.6-p336"
+    },
+    {
+        "ProviderName":  "Programs",
+        "Status":  "Installed",
+        "SearchKey":  "Ruby 2.1.6-p336-x64",
+        "CanonicalId":  "programs:Ruby 2.1.6-p336-x64/2.1.6-p336",
+        "Name":  "Ruby 2.1.6-p336-x64",
+        "Version":  "2.1.6-p336"
+    }
+]
