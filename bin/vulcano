@@ -93,5 +93,10 @@ class VulcanoCLI < Thor
   rescue RuntimeError => e
     puts e.message
   end
+
+  desc 'version', 'prints the version of this tool'
+  def version
+    puts Vulcano::VERSION
+  end
 end
 VulcanoCLI.start(ARGV)
