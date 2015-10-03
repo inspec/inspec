@@ -16,7 +16,7 @@ describe 'Vulcano::Backend' do
   describe 'target config helper' do
     it 'configures resolves target' do
       org = {
-        'target' => 'ssh://user:pass@host.com:123',
+        'target' => 'ssh://user:pass@host.com:123/path',
       }
       res = Vulcano::Backend.target_config(org)
       res['backend'].must_equal 'ssh'
@@ -25,17 +25,19 @@ describe 'Vulcano::Backend' do
       res['password'].must_equal 'pass'
       res['port'].must_equal 123
       res['target'].must_equal org['target']
+      res['path'].must_equal '/path'
       org.keys.must_equal ['target']
     end
 
     it 'resolves a target while keeping existing fields' do
       org = {
-        'target' => 'ssh://user:pass@host.com:123',
+        'target' => 'ssh://user:pass@host.com:123/path',
         'backend' => rand,
         'host' => rand,
         'user' => rand,
         'password' => rand,
         'port' => rand,
+        'path' => rand
       }
       res = Vulcano::Backend.target_config(org)
       res.must_equal org
@@ -51,6 +53,7 @@ describe 'Vulcano::Backend' do
       res['user'].must_be_nil
       res['password'].must_be_nil
       res['port'].must_be_nil
+      res['path'].must_be_nil
       res['target'].must_equal org['target']
     end
   end
