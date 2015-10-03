@@ -47,6 +47,8 @@ class User < Vulcano.resource(1)
       @user_provider = LinuxUser.new(vulcano)
     when 'darwin'
       @user_provider = DarwinUser.new(vulcano)
+    when 'freebsd'
+      @user_provider = FreeBSDUser.new(vulcano)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
@@ -199,7 +201,7 @@ class UnixUser < UserInfo
 end
 
 class LinuxUser < UnixUser
-  def meta_info
+  def meta_info(username)
     {
       home: nil,
       shell: nil,
@@ -228,6 +230,23 @@ class DarwinUser < UnixUser
     {
       home: params['NFSHomeDirectory'],
       shell: params['UserShell'],
+    }
+  end
+end
+
+# FreeBSD recommends to use the 'pw' command for user management
+# @see: https://www.freebsd.org/doc/handbook/users-synopsis.html
+# @see: https://www.freebsd.org/cgi/man.cgi?pw(8)
+# It offers the following commands:
+# - adduser(8)	The recommended command-line application for adding new users.
+# - rmuser(8)	The recommended command-line application for removing users.
+# - chpass(1)	A flexible tool for changing user database information.
+# - passwd(1)	The command-line tool to change user passwords.
+class FreeBSDUser < UnixUser
+  def meta_info(username)
+    {
+      home: nil,
+      shell: nil,
     }
   end
 end
