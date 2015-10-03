@@ -56,6 +56,7 @@ require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/service'
 require 'resources/ssh_conf'
+require 'resources/user'
 require 'resources/windows_feature'
 require 'resources/yum'
 
