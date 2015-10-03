@@ -18,7 +18,10 @@ class Vulcano::Backends::SpecinfraHelper
         port ||= 5985
       end
 
-      "#{scheme}://#{host}:#{port}/wsman"
+      path = conf['path'] || '/wsman'
+      path.prepend('/') unless path.start_with?('/')
+
+      "#{scheme}://#{host}:#{port}#{path}"
     end
 
     def self.configure(conf)
