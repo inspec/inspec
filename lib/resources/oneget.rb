@@ -35,7 +35,7 @@ class OneGetPackage < Vulcano.resource(1)
       @info[:installed] = true
 
       # sometimes we get multiple values
-      if pkgs.kind_of?(Array)
+      if pkgs.is_a?(Array)
         # select the first entry
         pkgs = pkgs.first
       end
