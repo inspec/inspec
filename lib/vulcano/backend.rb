@@ -24,11 +24,14 @@ module Vulcano
       return conf if conf['target'].to_s.empty?
 
       uri = URI.parse(conf['target'].to_s)
-      conf['backend']  = conf['backend']  || uri.scheme
-      conf['host']     = conf['host']     || uri.host
-      conf['port']     = conf['port']     || uri.port
-      conf['user']     = conf['user']     || uri.user
-      conf['password'] = conf['password'] || uri.password
+      unless uri.host.nil? and uri.scheme.nil?
+        conf['backend']  ||= uri.scheme
+        conf['host']     ||= uri.host
+        conf['port']     ||= uri.port
+        conf['user']     ||= uri.user
+        conf['password'] ||= uri.password
+        conf['path']     ||= uri.path
+      end
 
       # return the updated config
       conf
