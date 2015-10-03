@@ -1,4 +1,5 @@
 # encoding: utf-8
+# author: Christoph Hartmann
 
 # This resource talks with OneGet (https://github.com/OneGet/oneget)
 # Its part of Windows Management Framework 5.0 and part of Windows 10
@@ -12,6 +13,9 @@ class OneGetPackage < Vulcano.resource(1)
 
   def initialize(package_name)
     @package_name = package_name
+
+    # verify that this resource is only supported on Windows
+    return skip_resource 'The `oneget` resource is not supported on your OS.' if vulcano.os[:family] != 'windows'
   end
 
   def info
@@ -19,6 +23,7 @@ class OneGetPackage < Vulcano.resource(1)
 
     @info = {}
     @info[:type] = 'oneget'
+    @info[:installed] = false
 
     cmd = vulcano.run_command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
     # cannot rely on exit code for now, successful command returns exit code 1
@@ -27,13 +32,19 @@ class OneGetPackage < Vulcano.resource(1)
 
     begin
       pkgs = JSON.parse(cmd.stdout)
+      @info[:installed] = true
+
+      # sometimes we get multiple values
+      if pkgs.is_a?(Array)
+        # select the first entry
+        pkgs = pkgs.first
+      end
     rescue JSON::ParserError => _e
       return @info
     end
 
-    @info[:name] = pkgs['Name']
-    @info[:version] = pkgs['Version']
-    @info[:installed] = true
+    @info[:name] = pkgs['Name'] if pkgs.key?('Name')
+    @info[:version] = pkgs['Version'] if pkgs.key?('Version')
     @info
   end
 
