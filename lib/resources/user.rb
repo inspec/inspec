@@ -156,10 +156,9 @@ end
 class UnixUser < UserInfo
   # parse one id entry like '0(wheel)''
   def parse_value(line)
-    # TODO: move line seperation to simple config
-    line = line.tr(',', "\n")
     SimpleConfig.new(
       line,
+      line_separator: ',',
       assignment_re: /^\s*([^\(]*?)\s*\(\s*(.*?)\)*$/,
       group_re: nil,
       multiple_values: false,
@@ -179,12 +178,10 @@ class UnixUser < UserInfo
     cmd = @vulcano.run_command("id #{username}")
     return nil if cmd.exit_status != 0
 
-    raw = cmd.stdout.chomp
-    raw = raw.tr(' ', "\n")
-
     # parse words
     params = SimpleConfig.new(
-      raw,
+      cmd.stdout.chomp,
+      line_separator: ' ',
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: nil,
       multiple_values: false,

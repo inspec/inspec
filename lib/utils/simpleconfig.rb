@@ -20,6 +20,11 @@ class SimpleConfig
     @groups = []
     @vals = @params
     options = default_options.merge(opts || {})
+
+    # prepare raw data if required
+    if !options[:line_separator].nil?
+      raw_data = raw_data.tr(options[:line_separator], "\n")
+    end
     rest = raw_data
     rest = parse_rest(rest, options) while rest.length > 0
   end
@@ -115,6 +120,7 @@ class SimpleConfig
       quotes: '',
       multiline: false,
       comment_char: '#',
+      line_separator: nil, # uses this char to seperate lines before parsing
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: /\[([^\]]+)\]\s*$/,
       key_vals: 1, # default for key=value, may require for 'key val1 val2 val3'
