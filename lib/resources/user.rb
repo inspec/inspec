@@ -57,7 +57,7 @@ class User < Vulcano.resource(1)
   end
 
   def exists?
-    !@user_provider.identity(@user).nil?
+    !@user_provider.identity(@user).nil? && !@user_provider.identity(@user)[:user].nil?
   end
 
   def uid
