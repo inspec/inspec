@@ -45,6 +45,8 @@ class User < Vulcano.resource(1)
     case vulcano.os[:family]
     when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
       @user_provider = LinuxUser.new(vulcano)
+    when 'windows'
+      @user_provider = WindowsUser.new(vulcano)
     when 'darwin'
       @user_provider = DarwinUser.new(vulcano)
     when 'freebsd'
@@ -240,7 +242,87 @@ end
 # - chpass(1)	A flexible tool for changing user database information.
 # - passwd(1)	The command-line tool to change user passwords.
 class FreeBSDUser < UnixUser
-  def meta_info(username)
+  def meta_info(_username)
+    {
+      home: nil,
+      shell: nil,
+    }
+  end
+end
+
+# For now, we stick with WMI Win32_UserAccount
+# @see https://msdn.microsoft.com/en-us/library/aa394507(v=vs.85).aspx
+# @see https://msdn.microsoft.com/en-us/library/aa394153(v=vs.85).aspx
+#
+# using Get-AdUser would be the best command for domain machines, but it will not be installed
+# on client machines by default
+# @see https://technet.microsoft.com/en-us/library/ee617241.aspx
+# @see https://technet.microsoft.com/en-us/library/hh509016(v=WS.10).aspx
+# @see http://woshub.com/get-aduser-getting-active-directory-users-data-via-powershell/
+# @see http://stackoverflow.com/questions/17548523/the-term-get-aduser-is-not-recognized-as-the-name-of-a-cmdlet
+#
+# Just for reference, we could also use ADSI (Active Directory Service Interfaces)
+# @see https://mcpmag.com/articles/2015/04/15/reporting-on-local-accounts.aspx
+class WindowsUser < UserInfo
+  # parse windows account name
+  def parse_windows_account(username)
+    account = username.split('\\')
+    name = account.pop
+    domain = account.pop if account.size > 0
+    [name, domain]
+  end
+
+  def identity(username)
+    # extract domain/user information
+    user, domain = parse_windows_account(username)
+
+    # TODO: escape content
+    if !domain.nil?
+      filter = "Name = '#{user}' and Domain = '#{domain}'"
+    else
+      filter = "Name = '#{user}' and LocalAccount = true"
+    end
+
+    script = <<-EOH
+      # find user
+      $user = Get-WmiObject Win32_UserAccount -filter "#{filter}"
+      # get related groups
+      $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
+      # filter user information
+      $user = $user | Select-Object -Property Caption, Description, Domain, Name, LocalAccount, Lockout, PasswordChangeable, PasswordExpires, PasswordRequired, SID, SIDType, Status
+      # build response object
+      New-Object -Type PSObject | `
+      Add-Member -MemberType NoteProperty -Name User -Value ($user) -PassThru | `
+      Add-Member -MemberType NoteProperty -Name Groups -Value ($groups) -PassThru | `
+      ConvertTo-Json
+    EOH
+
+    # TODO: move to winrm backend
+    require 'winrm'
+    script = WinRM::PowershellScript.new(script)
+    cmd = @vulcano.run_command("powershell -encodedCommand #{script.encoded}")
+
+    # cannot rely on exit code for now, successful command returns exit code 1
+    # return nil if cmd.exit_status != 0, try to parse json
+    begin
+      params = JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => _e
+      return @cache
+    end
+
+    user = params['User']['Caption'] unless params['User'].nil?
+    groups = params['Groups'].map { |grp| grp['Caption'] } unless params['Groups'].nil?
+
+    {
+      uid: nil,
+      user: user,
+      gid: nil,
+      group: nil,
+      groups: groups,
+    }
+  end
+
+  def meta_info(_username)
     {
       home: nil,
       shell: nil,
