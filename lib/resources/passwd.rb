@@ -23,8 +23,12 @@
 #   its(:count) { should eq 1 }
 # end
 
+require 'utils/parser'
+
 class Passwd < Vulcano.resource(1)
   name 'passwd'
+
+  include ContentParser
 
   attr_reader :uid
   attr_reader :parsed
