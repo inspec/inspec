@@ -34,6 +34,8 @@
 #   its(:encrypted_password) { should eq 1234 }
 # end
 
+require 'utils/parser'
+
 class User < Vulcano.resource(1)
   name 'user'
 
@@ -200,10 +202,16 @@ class UnixUser < UserInfo
 end
 
 class LinuxUser < UnixUser
+  include ContentParser
+
   def meta_info(username)
+    cmd = @vulcano.run_command("getent passwd #{username}")
+    return nil if cmd.exit_status != 0
+    # returns: root:x:0:0:root:/root:/bin/bash
+    passwd = parse_passwd_line(cmd.stdout.chomp)
     {
-      home: nil,
-      shell: nil,
+      home: passwd['home'],
+      shell: passwd['shell'],
     }
   end
 end
@@ -242,10 +250,16 @@ end
 # - chpass(1)	A flexible tool for changing user database information.
 # - passwd(1)	The command-line tool to change user passwords.
 class FreeBSDUser < UnixUser
-  def meta_info(_username)
+  include ContentParser
+
+  def meta_info(username)
+    cmd = @vulcano.run_command("pw #{username} -7")
+    return nil if cmd.exit_status != 0
+    # returns: root:*:0:0:Charlie &:/root:/bin/csh
+    passwd = parse_passwd_line(cmd.stdout.chomp)
     {
-      home: nil,
-      shell: nil,
+      home: passwd['home'],
+      shell: passwd['shell'],
     }
   end
 end
