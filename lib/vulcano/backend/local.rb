@@ -1,14 +1,7 @@
 # encoding: utf-8
 require 'etc'
 require 'rbconfig'
-
-if IO.respond_to?(:popen4)
-  def open4(*args)
-    IO.popen4(*args)
-  end
-else
-  require 'open4'
-end
+require 'mixlib/shellout'
 
 module Vulcano::Backends
   class Local < Vulcano.backend(1)
@@ -76,13 +69,12 @@ module Vulcano::Backends
       def initialize(cmd)
         @cmd = cmd
 
-        pid, stdin, stdout, stderr = open4(cmd)
-        stdin.close
-        _, status = Process.waitpid2 pid
+        shellout = Mixlib::ShellOut.new(cmd)
+        shellout.run_command
 
-        @stdout = stdout.read
-        @stderr = stderr.read
-        @exit_status = status.exitstatus
+        @stdout = shellout.stdout
+        @stderr = shellout.stderr
+        @exit_status = shellout.exitstatus
       rescue Errno::ENOENT => _
         @exit_status ||= 1
       end
