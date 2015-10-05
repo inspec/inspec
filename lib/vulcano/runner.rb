@@ -36,8 +36,11 @@ module Vulcano
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
-    def add_resources_to_backend(backend_class)
-      Class.new(backend_class) do
+    def create_backend_container(backend_instance)
+      Class.new do
+        define_method :backend do
+          backend_instance
+        end
         Vulcano::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(self, *args)
@@ -60,8 +63,9 @@ module Vulcano
       end
 
       # create the backend based on the config
-      enriched_backend = add_resources_to_backend(backend_class)
-      @backend = enriched_backend.new(@conf)
+      backend_instance = backend_class.new(@conf)
+      outer_cls = create_backend_container(backend_instance)
+      @backend = outer_cls.new
     end
 
     def add_tests(tests)

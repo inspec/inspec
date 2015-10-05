@@ -5,7 +5,7 @@ module Vulcano::Resources
     name 'os'
 
     def [](name)
-      vulcano.os[name]
+      vulcano.backend.os[name]
     end
   end
 end

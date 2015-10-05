@@ -9,7 +9,7 @@ class Cmd < Vulcano.resource(1)
   end
 
   def result
-    @result ||= vulcano.run_command(@command)
+    @result ||= vulcano.backend.run_command(@command)
   end
 
   def stdout
