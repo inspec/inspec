@@ -78,25 +78,6 @@ class Passwd < Vulcano.resource(1)
       x[id]
     }
   end
-
-  def parse_passwd(content)
-    content.split("\n").map do |line|
-      parse_passwd_line(line)
-    end
-  end
-
-  def parse_passwd_line(line)
-    x = line.split(':')
-    {
-      'name' => x.at(0),
-      'password' => x.at(1),
-      'uid' => x.at(2),
-      'gid' => x.at(3),
-      'desc' => x.at(4),
-      'home' => x.at(5),
-      'shell' => x.at(6),
-    }
-  end
 end
 
 # object that hold a specifc uid view on passwd
