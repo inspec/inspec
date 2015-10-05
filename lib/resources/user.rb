@@ -351,7 +351,10 @@ class WindowsUser < UserInfo
     end
 
     user = params['User']['Caption'] unless params['User'].nil?
-    groups = params['Groups'].map { |grp| grp['Caption'] } unless params['Groups'].nil?
+    groups = params['Groups']
+    # if groups is no array, generate one
+    groups = [groups] if !groups.is_a?(Array)
+    groups = groups.map { |grp| grp['Caption'] } unless params['Groups'].nil?
 
     {
       uid: nil,
