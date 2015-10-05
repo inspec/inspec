@@ -36,36 +36,19 @@ module Vulcano
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
-    def create_backend_container(backend_instance)
-      Class.new do
-        define_method :backend do
-          backend_instance
-        end
-        Vulcano::Resource.registry.each do |id, r|
-          define_method id.to_sym do |*args|
-            r.new(self, *args)
-          end
-        end
-      end
-    end
-
     def configure_backend
       backend_name = (@conf['backend'] ||= 'local')
       bname, next_backend = backend_name.split('+')
-
-      # @TODO all backends except for mock revert to specinfra for now
-      backend_class = Vulcano::Backend.registry[bname]
       @conf['backend'] = next_backend if bname == 'specinfra'
 
+      # @TODO all backends except for mock revert to specinfra for now
+      @backend = Vulcano::Backend.create(bname, @conf)
+
       # Return on failure
-      if backend_class.nil?
+      if @backend.nil?
         fail "Can't find command backend '#{backend_name}'."
       end
-
-      # create the backend based on the config
-      backend_instance = backend_class.new(@conf)
-      outer_cls = create_backend_container(backend_instance)
-      @backend = outer_cls.new
+      @backend
     end
 
     def add_tests(tests)

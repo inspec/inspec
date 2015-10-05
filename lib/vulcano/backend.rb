@@ -39,6 +39,26 @@ module Vulcano
       # return the updated config
       conf
     end
+
+    def self.create(name, conf)
+      backend_class = @registry[name]
+      return nil if backend_class.nil?
+      backend_instance = backend_class.new(conf)
+
+      # Create wrapper class with all resources
+      cls = Class.new do
+        define_method :backend do
+          backend_instance
+        end
+        Vulcano::Resource.registry.each do |id, r|
+          define_method id.to_sym do |*args|
+            r.new(self, *args)
+          end
+        end
+      end
+
+      cls.new
+    end
   end
 
   def self.backend(version = 1)
