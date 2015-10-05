@@ -23,8 +23,12 @@
 #   its(:count) { should eq 1 }
 # end
 
+require 'utils/parser'
+
 class Passwd < Vulcano.resource(1)
   name 'passwd'
+
+  include ContentParser
 
   attr_reader :uid
   attr_reader :parsed
@@ -32,7 +36,7 @@ class Passwd < Vulcano.resource(1)
   def initialize(path = nil)
     @path = path || '/etc/passwd'
     @content = vulcano.file(@path).content
-    @parsed = parse(@content)
+    @parsed = parse_passwd(@content)
   end
 
   def to_s
@@ -45,49 +49,34 @@ class Passwd < Vulcano.resource(1)
     PasswdUid.new(self, uid)
   end
 
-  # works without uid parameter
-  def map_data(id)
-    @parsed.map {|x|
-      x.at(id)
-    }
-  end
-
   def usernames
-    map_data(0)
+    map_data('name')
   end
 
   def passwords
-    map_data(1)
+    map_data('password')
   end
 
   def uids
-    map_data(2)
+    map_data('uid')
   end
 
   def gids
-    map_data(3)
+    map_data('gid')
   end
 
   def users
     @parsed.map {|x|
-      {
-        'name' => x.at(0),
-        'password' => x.at(1),
-        'uid' => x.at(2),
-        'gid' => x.at(3),
-        'desc' => x.at(4),
-        'home' => x.at(5),
-        'shell' => x.at(6),
-      }
+      x['name']
     }
   end
 
   private
 
-  def parse(content)
-    content.split("\n").map do |line|
-      line.split(':')
-    end
+  def map_data(id)
+    @parsed.map {|x|
+      x[id]
+    }
   end
 end
 
@@ -95,26 +84,14 @@ end
 class PasswdUid
   def initialize(passwd, uid)
     @passwd = passwd
-    @uid = uid
-  end
-
-  def determine_uid
-    uids = []
-    @passwd.parsed.each {|x|
-      if (x.at(2) == "#{@uid}")
-        uids.push(x.at(0))
-      end
-    }
-    uids
+    @users = @passwd.parsed.select { |x| x['uid'] == "#{uid}" }
   end
 
   def username
-    uids = determine_uid
-    uids.at(0)
+    @users.at(0)['name']
   end
 
   def count
-    arr = determine_uid
-    arr.length
+    @users.size
   end
 end
