@@ -125,6 +125,16 @@ class MockLoader
       'service sshd status' => cmd.call('service-sshd-status'),
       'find /etc/rc*.d -name S*'  => cmd.call('find-etc-rc-d-name-S'),
       'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
+      # user information for linux
+      'id root' => cmd.call('id-root'),
+      'getent passwd root' => cmd.call('getent-passwd-root'),
+      # user info for mac
+      'id chartmann' => cmd.call('id-chartmann'),
+      'dscl -q . -read /Users/chartmann NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell' => cmd.call('dscl'),
+      # user info for freebsd
+      'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
+      # user info for windows
+      '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
     }
 
     # set os emulation
