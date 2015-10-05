@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec', '~> 3.3'
   spec.add_dependency 'rspec-its', '~> 1.2'
   spec.add_dependency 'winrm', '~> 1.3'
-  spec.add_dependency 'open4', '~> 1.3'
+  spec.add_dependency 'mixlib-shellout', '~> 2'
   spec.add_dependency 'specinfra', '~> 2.40'
   spec.add_dependency 'docker-api', '~> 1.22'
 end
