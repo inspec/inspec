@@ -5,6 +5,7 @@ AllCops:
   - Rakefile
   - 'test/**/*'
   - 'examples/**/*'
+  - 'vendor/**/*'
 Documentation:
   Enabled: false
 AlignParameters:
