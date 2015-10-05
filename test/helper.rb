@@ -128,6 +128,7 @@ class MockLoader
       # user information for linux
       'id root' => cmd.call('id-root'),
       'getent passwd root' => cmd.call('getent-passwd-root'),
+      'chage -l root'  => cmd.call('chage-l-root'),
       # user info for mac
       'id chartmann' => cmd.call('id-chartmann'),
       'dscl -q . -read /Users/chartmann NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell' => cmd.call('dscl'),

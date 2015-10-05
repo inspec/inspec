@@ -35,6 +35,7 @@
 # end
 
 require 'utils/parser'
+require 'utils/convert'
 
 class User < Vulcano.resource(1)
   name 'user'
@@ -88,17 +89,17 @@ class User < Vulcano.resource(1)
 
   # returns the minimum days between password changes
   def mindays
-    nil
+    credentials.nil? ? nil : credentials[:mindays]
   end
 
   # returns the maximum days between password changes
   def maxdays
-    nil
+    credentials.nil? ? nil : credentials[:maxdays]
   end
 
   # returns the days for password change warning
   def warndays
-    nil
+    credentials.nil? ? nil : credentials[:warndays]
   end
 
   # implement 'mindays' method to be compatible with serverspec
@@ -152,11 +153,20 @@ class User < Vulcano.resource(1)
   def meta_info
     @user_provider.meta_info(@user) if !@user_provider.nil?
   end
+
+  def credentials
+    @user_provider.credentials(@user) if !@user_provider.nil?
+  end
 end
 
 class UserInfo
+  include Converter
+
   def initialize(vulcano)
     @vulcano = vulcano
+  end
+
+  def credentials(_username)
   end
 end
 
@@ -171,13 +181,6 @@ class UnixUser < UserInfo
       group_re: nil,
       multiple_values: false,
     ).params
-  end
-
-  # convert the value to an integer if we have numbers only
-  # otherwise we return the string
-  def convert_to_i(val)
-    val = val.to_i if val.match(/^\d+$/)
-    val
   end
 
   # extracts the identity
@@ -215,6 +218,24 @@ class LinuxUser < UnixUser
     {
       home: passwd['home'],
       shell: passwd['shell'],
+    }
+  end
+
+  def credentials(username)
+    cmd = @vulcano.run_command("chage -l #{username}")
+    return nil if cmd.exit_status != 0
+
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      group_re: nil,
+      multiple_values: false,
+    ).params
+
+    {
+      mindays: convert_to_i(params['Minimum number of days between password change']),
+      maxdays: convert_to_i(params['Maximum number of days between password change']),
+      warndays: convert_to_i(params['Number of days of warning before password expires']),
     }
   end
 end

@@ -13,9 +13,9 @@ describe 'Vulcano::Resources::Service' do
     _(resource.groups).must_equal ['root']
     _(resource.home).must_equal '/root'
     _(resource.shell).must_equal '/bin/bash'
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.mindays).must_equal 0
+    _(resource.maxdays).must_equal 99999
+    _(resource.warndays).must_equal 7
   end
 
   # serverspec compatibility tests (do not test matcher)
@@ -24,8 +24,8 @@ describe 'Vulcano::Resources::Service' do
     _(resource.has_uid?(0)).must_equal true
     _(resource.has_home_directory?('/root')).must_equal true
     _(resource.has_login_shell?('/bin/bash')).must_equal true
-    _(resource.minimum_days_between_password_change).must_equal nil
-    _(resource.maximum_days_between_password_change).must_equal nil
+    _(resource.minimum_days_between_password_change).must_equal 0
+    _(resource.maximum_days_between_password_change).must_equal 99999
     # _(resource.has_authorized_key?('abc')).must_equal true
   end
 
@@ -36,9 +36,9 @@ describe 'Vulcano::Resources::Service' do
     _(resource.groups).must_equal ['root']
     _(resource.home).must_equal '/root'
     _(resource.shell).must_equal '/bin/bash'
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.mindays).must_equal 0
+    _(resource.maxdays).must_equal 99999
+    _(resource.warndays).must_equal 7
   end
 
   it 'read user on freebsd' do
