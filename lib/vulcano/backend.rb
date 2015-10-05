@@ -33,6 +33,9 @@ module Vulcano
         conf['path']     ||= uri.path
       end
 
+      # ensure path is nil, if its empty; e.g. required to reset defaults for winrm
+      conf['path'] = nil if !conf['path'].nil? && conf['path'].to_s.empty?
+
       # return the updated config
       conf
     end

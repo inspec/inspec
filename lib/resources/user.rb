@@ -314,13 +314,13 @@ class WindowsUser < UserInfo
 
   def identity(username)
     # extract domain/user information
-    user, domain = parse_windows_account(username)
+    account, domain = parse_windows_account(username)
 
     # TODO: escape content
     if !domain.nil?
-      filter = "Name = '#{user}' and Domain = '#{domain}'"
+      filter = "Name = '#{account}' and Domain = '#{domain}'"
     else
-      filter = "Name = '#{user}' and LocalAccount = true"
+      filter = "Name = '#{account}' and LocalAccount = true"
     end
 
     script = <<-EOH
@@ -351,7 +351,10 @@ class WindowsUser < UserInfo
     end
 
     user = params['User']['Caption'] unless params['User'].nil?
-    groups = params['Groups'].map { |grp| grp['Caption'] } unless params['Groups'].nil?
+    groups = params['Groups']
+    # if groups is no array, generate one
+    groups = [groups] if !groups.is_a?(Array)
+    groups = groups.map { |grp| grp['Caption'] } unless params['Groups'].nil?
 
     {
       uid: nil,
