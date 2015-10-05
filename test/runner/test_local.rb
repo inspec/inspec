@@ -5,15 +5,12 @@ require 'vulcano/backend'
 backends = {}
 
 backends[:local] = proc {
-  backend_conf = Vulcano::Backend.target_config({})
-  backend_class = Vulcano::Backend.registry['local']
-  backend_class.new(backend_conf)
+  Vulcano::Backend.create('local', {}).backend
 }
 
 backends[:specinfra_local] = proc {
-  backend_conf = Vulcano::Backend.target_config({ 'backend' => 'exec' })
-  backend_class = Vulcano::Backend.registry['specinfra']
-  backend_class.new(backend_conf)
+  opt = { 'backend' => 'exec' }
+  Vulcano::Backend.create('specinfra', opt).backend
 }
 
 tests = ARGV

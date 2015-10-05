@@ -25,7 +25,7 @@ class Cmd < Vulcano.resource(1)
   end
 
   def exist?
-    res = vulcano.run_command("type \"#{@command}\" > /dev/null")
+    res = vulcano.backend.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
 end
