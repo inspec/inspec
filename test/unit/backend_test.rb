@@ -43,6 +43,20 @@ describe 'Vulcano::Backend' do
       res.must_equal org
     end
 
+    it 'resolves a winrm target' do
+      org = {
+        'target' => 'winrm://Administrator@192.168.10.140',
+        'backend' => 'winrm',
+        'host' => '192.168.10.140',
+        'user' => 'Administrator',
+        'password' => nil,
+        'port' => nil,
+        'path' => nil
+      }
+      res = Vulcano::Backend.target_config(org)
+      res.must_equal org
+    end
+
     it 'keeps the configuration when incorrect target is supplied' do
       org = {
         'target' => 'wrong',
