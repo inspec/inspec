@@ -65,10 +65,10 @@ class VulcanoCLI < Thor
       desc: 'Specify a sudo password, if it is required.'
     option :sudo_options, type: :string, default: '',
       desc: 'Additional sudo options for a remote scan.'
-    option :winrm_self_signed, type: :boolean, default: false,
-      desc: 'Allow remote scans with WinRM to run on self-signed certificates.'
-    option :winrm_ssl, type: :boolean, default: false,
-      desc: 'Configure WinRM scans to run via SSL instead of pure HTTP.'
+    option :ssl, type: :boolean, default: false,
+      desc: 'Use SSL for transport layer encryptiong (WinRM).'
+    option :self_signed, type: :boolean, default: false,
+      desc: 'Allow remote scans with self-signed certificates (WinRM).'
   end
 
   desc 'exec PATHS', 'run all test files'

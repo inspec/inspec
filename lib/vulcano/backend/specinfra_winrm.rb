@@ -10,7 +10,7 @@ class Vulcano::Backends::SpecinfraHelper
       fail 'You must configure a target host.' if host.empty?
 
       # SSL configuration
-      if conf['winrm_ssl']
+      if conf['ssl']
         scheme = 'https'
         port ||= 5986
       else
@@ -47,7 +47,7 @@ class Vulcano::Backends::SpecinfraHelper
         user: user,
         pass: pass,
         basic_auth_only: true,
-        no_ssl_peer_verification: conf['winrm_self_signed'],
+        no_ssl_peer_verification: conf['self_signed'],
       )
       si.winrm = winrm
     end
