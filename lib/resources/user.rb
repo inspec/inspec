@@ -253,7 +253,7 @@ class FreeBSDUser < UnixUser
   include ContentParser
 
   def meta_info(username)
-    cmd = @vulcano.run_command("pw #{username} -7")
+    cmd = @vulcano.run_command("pw usershow #{username} -7")
     return nil if cmd.exit_status != 0
     # returns: root:*:0:0:Charlie &:/root:/bin/csh
     passwd = parse_passwd_line(cmd.stdout.chomp)
