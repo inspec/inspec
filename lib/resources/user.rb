@@ -314,13 +314,13 @@ class WindowsUser < UserInfo
 
   def identity(username)
     # extract domain/user information
-    user, domain = parse_windows_account(username)
+    account, domain = parse_windows_account(username)
 
     # TODO: escape content
     if !domain.nil?
-      filter = "Name = '#{user}' and Domain = '#{domain}'"
+      filter = "Name = '#{account}' and Domain = '#{domain}'"
     else
-      filter = "Name = '#{user}' and LocalAccount = true"
+      filter = "Name = '#{account}' and LocalAccount = true"
     end
 
     script = <<-EOH
