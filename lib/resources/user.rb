@@ -59,37 +59,31 @@ class User < Vulcano.resource(1)
   end
 
   def exists?
-    !@user_provider.identity(@user).nil? && !@user_provider.identity(@user)[:user].nil?
+    !identiy.nil? && !identiy[:user].nil?
   end
 
   def uid
-    id = @user_provider.identity(@user)
-    id.nil? ? nil : id[:uid]
+    identiy.nil? ? nil : identiy[:uid]
   end
 
   def gid
-    id = @user_provider.identity(@user)
-    id.nil? ? nil : id[:gid]
+    identiy.nil? ? nil : identiy[:gid]
   end
 
   def group
-    id = @user_provider.identity(@user)
-    id.nil? ? nil : id[:group]
+    identiy.nil? ? nil : identiy[:group]
   end
 
   def groups
-    id = @user_provider.identity(@user)
-    id.nil? ? nil : id[:groups]
+    identiy.nil? ? nil : identiy[:groups]
   end
 
   def home
-    meta = @user_provider.meta_info(@user)
-    meta.nil? ? nil : meta[:home]
+    meta_info.nil? ? nil : meta_info[:home]
   end
 
   def shell
-    meta = @user_provider.meta_info(@user)
-    meta.nil? ? nil : meta[:shell]
+    meta_info.nil? ? nil : meta_info[:shell]
   end
 
   # returns the minimum days between password changes
@@ -148,6 +142,16 @@ class User < Vulcano.resource(1)
   def to_s
     "user #{@user}"
   end
+
+  private
+
+  def identiy
+    @user_provider.identity(@user) if !@user_provider.nil?
+  end
+
+  def meta_info
+    @user_provider.meta_info(@user) if !@user_provider.nil?
+  end
 end
 
 class UserInfo
@@ -178,7 +182,6 @@ class UnixUser < UserInfo
 
   # extracts the identity
   def identity(username)
-    # TODO: catch errors, where we do not get data
     cmd = @vulcano.run_command("id #{username}")
     return nil if cmd.exit_status != 0
 
@@ -226,7 +229,6 @@ class DarwinUser < UnixUser
     cmd = @vulcano.run_command("dscl -q . -read /Users/#{username} NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell")
     return nil if cmd.exit_status != 0
 
-    # TODO: catch cases where user does not exists
     params = SimpleConfig.new(
       cmd.stdout.chomp,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -321,7 +323,7 @@ class WindowsUser < UserInfo
     begin
       params = JSON.parse(cmd.stdout)
     rescue JSON::ParserError => _e
-      return @cache
+      return nil
     end
 
     user = params['User']['Caption'] unless params['User'].nil?
@@ -336,6 +338,7 @@ class WindowsUser < UserInfo
     }
   end
 
+  # not implemented yet
   def meta_info(_username)
     {
       home: nil,
