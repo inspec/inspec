@@ -39,7 +39,7 @@ module Vulcano::Backends
         spec_backend = Specinfra::Backend::Ssh
         backend_helper = Ssh
       when 'winrm', 'winrms'
-        @conf['winrm_ssl'] = true if type == 'winrms'
+        @conf['ssl'] = true if type == 'winrms'
         spec_backend = Specinfra::Backend::Winrm
         backend_helper = Winrm
       else
