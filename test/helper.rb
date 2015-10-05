@@ -40,14 +40,13 @@ class MockLoader
     @os = @operating_systems[os || :ubuntu1404]
   end
 
-  # loads a resource class and instantiates the class with the given arguments
-  def load_resource(resource, *args)
+  def backend
+    return @backend if defined?(@backend)
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    conf = Vulcano::Backend.target_config()
-    backend_class = Vulcano::Backend.registry['mock']
-    @backend = backend_class.new(conf)
+    @backend = Vulcano::Backend.create('mock', {})
+    mock = @backend.backend
 
     # create all mock files
     local = Vulcano::Backend.registry['local'].new({})
@@ -55,7 +54,7 @@ class MockLoader
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)
     }
-    @backend.files = {
+    mock.files = {
       '/proc/net/bonding/bond0' => mockfile.call('bond0'),
       '/etc/ssh/ssh_config' => mockfile.call('ssh_config'),
       '/etc/ssh/sshd_config' => mockfile.call('sshd_config'),
@@ -76,9 +75,9 @@ class MockLoader
     # create all mock commands
     cmd = lambda {|x|
       stdout = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
-      @backend.mock_command(stdout, '', 0)
+      mock.mock_command(stdout, '', 0)
     }
-    @backend.commands = {
+    mock.commands = {
       'ps aux' => cmd.call('ps-aux'),
       'type win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
@@ -139,16 +138,16 @@ class MockLoader
     }
 
     # set os emulation
-    @backend.os = @os
+    mock.os = @os
 
-    # load resource
-    @rclass = Vulcano::Resource.registry[resource]
+    @backend
+  end
 
-    # merge arguments
-    args = [@backend] | args
-
+  # loads a resource class and instantiates the class with the given arguments
+  def load_resource(resource, *args)
     # initialize resource with backend and parameters
-    @resource = @rclass.new(*args)
+    @resource_class = Vulcano::Resource.registry[resource]
+    @resource = @resource_class.new(backend, *args)
   end
 end
 
