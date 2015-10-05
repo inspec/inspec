@@ -3,3 +3,4 @@ coverage
 *.gem
 .gallery
 .kitchen
+.delivery/cli.toml
