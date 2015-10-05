@@ -20,7 +20,7 @@ module Vulcano::Backends
     end
 
     def run_command(cmd)
-      @commands[cmd] || Command.new(self, cmd)
+      @commands[cmd] || @commands[Digest::SHA256.hexdigest cmd] || Command.new(self, cmd)
     end
 
     def mock_command(stdout, stderr, exit_status)
