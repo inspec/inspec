@@ -23,7 +23,7 @@ class Processes < Vulcano.resource(1)
 
   def ps_aux
     # get all running processes
-    cmd = vulcano.run_command('ps aux')
+    cmd = vulcano.command('ps aux')
     all = cmd.stdout.split("\n")[1..-1]
 
     lines = all.map do |line|

@@ -18,7 +18,7 @@ class KernelModule < Vulcano.resource(1)
 
   def loaded?
     # get list of all modules
-    cmd = vulcano.run_command('lsmod')
+    cmd = vulcano.command('lsmod')
     return false if cmd.exit_status != 0
 
     # check if module is loaded

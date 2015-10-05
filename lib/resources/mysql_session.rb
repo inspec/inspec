@@ -18,7 +18,7 @@ class MysqlSession < Vulcano.resource(1)
     escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
     # run the query
-    cmd = vulcano.run_command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
+    cmd = vulcano.command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
     if out =~ /Can't connect to .* MySQL server/ or
        out.downcase =~ /^error/
@@ -34,7 +34,7 @@ class MysqlSession < Vulcano.resource(1)
 
   def init_fallback
     # support debian mysql administration login
-    debian = vulcano.run_command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
+    debian = vulcano.command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
     return if debian.empty?
 
     user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)

@@ -15,7 +15,7 @@ class OsEnv < Vulcano.resource(1)
   attr_reader :content
   def initialize(env)
     @osenv = env
-    @command_result = vulcano.run_command("su - root -c 'echo $#{env}'")
+    @command_result = vulcano.command("su - root -c 'echo $#{env}'")
     @content = @command_result.stdout.chomp
   end
 

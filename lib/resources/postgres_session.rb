@@ -33,7 +33,7 @@ class PostgresSession
     # that does this securely
     escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
     # run the query
-    cmd = vulcano.run_command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -c \"#{escaped_query}\"")
+    cmd = vulcano.command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -c \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
     if out =~ /could not connect to .*/ or
        out.downcase =~ /^error/

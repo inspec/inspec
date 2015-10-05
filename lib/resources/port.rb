@@ -89,7 +89,7 @@ end
 class WindowsPorts < PortsInfo
   def info
     # get all port information
-    cmd = @vulcano.run_command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
+    cmd = @vulcano.command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
 
     begin
       ports = JSON.parse(cmd.stdout)
@@ -115,7 +115,7 @@ end
 class DarwinPorts < PortsInfo
   def info
     # collects UDP and TCP information
-    cmd = @vulcano.run_command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
+    cmd = @vulcano.command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []
@@ -154,7 +154,7 @@ end
 # extract port information from netstat
 class LinuxPorts < PortsInfo
   def info
-    cmd = @vulcano.run_command('netstat -tulpen')
+    cmd = @vulcano.command('netstat -tulpen')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []
@@ -218,7 +218,7 @@ end
 # extracts information from sockstat
 class FreeBsdPorts < PortsInfo
   def info
-    cmd = @vulcano.run_command('sockstat -46l')
+    cmd = @vulcano.command('sockstat -46l')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []

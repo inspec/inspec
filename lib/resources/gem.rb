@@ -14,7 +14,7 @@ class GemPackage < Vulcano.resource(1)
   def info
     return @info if defined?(@info)
 
-    cmd = vulcano.run_command("gem list --local -a -q \^#{@package_name}\$")
+    cmd = vulcano.command("gem list --local -a -q \^#{@package_name}\$")
     @info = {
       installed: cmd.exit_status == 0,
       type: 'gem',

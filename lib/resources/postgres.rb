@@ -11,7 +11,7 @@ class Postgres < Vulcano.resource(1)
     when 'ubuntu', 'debian'
       @service = 'postgresql'
       @data_dir = '/var/lib/postgresql'
-      @version = vulcano.run_command('ls /etc/postgresql/').stdout.chomp
+      @version = vulcano.command('ls /etc/postgresql/').stdout.chomp
       @conf_dir = "/etc/postgresql/#{@version}/main"
       @conf_path = File.join @conf_dir, 'postgresql.conf'
 

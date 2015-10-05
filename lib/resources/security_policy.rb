@@ -22,11 +22,11 @@ class SecurityPolicy < Vulcano.resource(1)
   # load security content
   def load
     # export the security policy
-    vulcano.run_command('secedit /export /cfg win_secpol.cfg')
+    vulcano.command('secedit /export /cfg win_secpol.cfg')
     # store file content
-    command_result ||= vulcano.run_command('type win_secpol.cfg')
+    command_result ||= vulcano.command('type win_secpol.cfg')
     # delete temp file
-    vulcano.run_command('del win_secpol.cfg')
+    vulcano.command('del win_secpol.cfg')
 
     @exit_status = command_result.exit_status.to_i
     @policy = command_result.stdout

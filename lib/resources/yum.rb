@@ -42,7 +42,7 @@ module Vulcano::Resources
       return @cache if defined?(@cache)
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
-      @command_result = vulcano.run_command('yum -v repolist all')
+      @command_result = vulcano.command('yum -v repolist all')
       @content = @command_result.stdout
       @cache = []
       repo = {}
