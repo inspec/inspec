@@ -1,4 +1,5 @@
 # encoding: utf-8
+# author: Christoph Hartmann
 # license: All rights reserved
 
 # Verifies if a kernel parameter is set

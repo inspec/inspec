@@ -1,4 +1,7 @@
 # encoding: utf-8
+# author: Christoph Hartmann
+# author: Dominik Richter
+#
 # Security Configuration and Analysis
 #
 # Export local security policy:

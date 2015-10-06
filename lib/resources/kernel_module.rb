@@ -1,4 +1,6 @@
 # encoding: utf-8
+# author: Christoph Hartmann
+# author: Dominik Richter
 # license: All rights reserved
 
 # Verifies if a kernel module is loaded

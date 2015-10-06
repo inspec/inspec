@@ -1,4 +1,7 @@
 # encoding: utf-8
+# author: Dominik Richter
+# author: Christoph Hartmann
+
 describe file('/tmp') do
   it { should exist }
 end

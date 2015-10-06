@@ -1,5 +1,6 @@
 # encoding: utf-8
-
+# author: Dominik Richter
+# author: Christoph Hartmann
 module Modulator
   def modules
     @modules ||= {}

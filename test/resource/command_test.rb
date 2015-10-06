@@ -1,4 +1,6 @@
 # encoding: utf-8
+# author: Dominik Richter
+# author: Christoph Hartmann
 
 describe command('echo hello') do
   its(:stdout) { should eq "hello\n" }

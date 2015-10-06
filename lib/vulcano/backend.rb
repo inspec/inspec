@@ -1,4 +1,7 @@
 # encoding: utf-8
+# author: Dominik Richter
+# author: Christoph Hartmann
+
 require 'uri'
 require 'vulcano/plugins'
 require 'vulcano/resource'

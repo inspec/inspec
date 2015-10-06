@@ -1,4 +1,6 @@
 # encoding: utf-8
+# author: Dominik Richter
+
 require_relative 'docker_run'
 require_relative '../lib/vulcano'
 

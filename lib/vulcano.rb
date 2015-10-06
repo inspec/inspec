@@ -1,6 +1,8 @@
 # encoding: utf-8
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
+# author: Dominik Richter
+# author: Christoph Hartmann
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
