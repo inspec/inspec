@@ -4,7 +4,11 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'utils/parser'
+
 class SimpleConfig
+  include ContentParser
+
   attr_reader :params, :groups
   def initialize(raw_data, opts = {})
     parse(raw_data, opts)
@@ -47,29 +51,6 @@ class SimpleConfig
       break if i > count
     end
     values
-  end
-
-  def parse_comment_line(rest, opts)
-    idx_nl = rest.index("\n")
-    idx_comment = rest.index(opts[:comment_char])
-    idx_nl = rest.length if idx_nl.nil?
-    idx_comment = idx_nl + 1 if idx_comment.nil?
-    line = ''
-
-    # is a comment inside this line
-    if idx_comment < idx_nl && idx_comment != 0
-      line = rest[0..(idx_comment - 1)]
-      # in case we don't allow comments at the end
-      # of an assignment/statement, ignore it and fall
-      # back to treating this as a regular line
-      if opts[:standalone_comments] && !is_empty_line(line)
-        line = rest[0..(idx_nl - 1)]
-      end
-    # if there is no comment in this line
-    elsif idx_comment > idx_nl && idx_nl != 0
-      line = rest[0..(idx_nl - 1)]
-    end
-    [line, idx_nl]
   end
 
   def parse_params_line(line, opts)
