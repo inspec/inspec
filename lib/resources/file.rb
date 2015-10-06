@@ -6,6 +6,7 @@ module Vulcano::Resources
   class File < Vulcano.resource(1)
     name 'file'
 
+    attr_reader :path
     def initialize(path)
       @path = path
       @file = vulcano.backend.file(@path)
