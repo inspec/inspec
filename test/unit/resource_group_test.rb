@@ -20,4 +20,13 @@ describe 'Vulcano::Resources::Group' do
     _(resource.gid).must_equal 0
     _(resource.has_gid?(0)).must_equal true
   end
+
+  # undefined
+  it 'verify package handling on unsupported os' do
+    resource = MockLoader.new(:undefined).load_resource('group', 'root')
+    _(resource.exists?).must_equal false
+    _(resource.gid).must_equal nil
+    _(resource.has_gid?(0)).must_equal false
+  end
+
 end

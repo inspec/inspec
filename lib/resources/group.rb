@@ -35,13 +35,13 @@ class Group < Vulcano.resource(1)
   end
 
   def gid
-    # the default case should be one group
-    if group_info.gids.size == 1
-      return group_info.gids[0]
-    # return array if we got multiple gids
-    elsif group_info.gids.size == 0
+    if group_info.nil? || group_info.gids.nil? || group_info.gids.size == 0
       return nil
+    elsif group_info.gids.size == 1
+      # the default case should be one group
+      return group_info.gids[0]
     else
+      # return array if we got multiple gids
       return group_info.gids
     end
   end
