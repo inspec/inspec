@@ -1,4 +1,7 @@
 # encoding: utf-8
+# author: Dominik Richter
+# author: Christoph Hartmann
+
 require 'rspec/core'
 
 # Extend the basic RSpec JSON Formatter

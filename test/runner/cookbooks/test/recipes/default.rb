@@ -1,4 +1,5 @@
 # encoding: utf-8
+# author: Dominik Richter
 #
 # Helper recipe to create create a few files in the operating
 # systems, which the runner will test against.

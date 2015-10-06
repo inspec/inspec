@@ -1,5 +1,7 @@
 # encoding: utf-8
 # Inspired by: http://stackoverflow.com/a/9381776
+# author: Dominik Richter
+# author: Christoph Hartmann
 
 class ::Hash
   def deep_merge(second)

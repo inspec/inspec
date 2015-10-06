@@ -1,4 +1,6 @@
 # encoding: utf-8
+# author: Dominik Richter
+
 require 'docker'
 require 'yaml'
 require 'concurrent'

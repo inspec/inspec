@@ -1,4 +1,6 @@
 # encoding: utf-8
+# author: Dominik Richter
+
 require 'vulcano/backend'
 require_relative 'helper'
 
