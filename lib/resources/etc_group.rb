@@ -6,9 +6,9 @@
 
 # The file format consists of
 # - group name
-# - password
-# - gid
-# - group list, comma seperated list
+# - password - group's encrypted password
+# - gid - group's decimal ID
+# - member list - group members, comma seperated list
 #
 # Usage:
 # describe etc_group do
@@ -21,13 +21,17 @@
 #   its('users') { should include 'my_user' }
 # end
 
+require 'utils/parser'
+
 class EtcGroup < Vulcano.resource(1)
+  include ContentParser
+
   name 'etc_group'
 
   attr_accessor :gid, :entries
   def initialize(path = nil)
     @path = path || '/etc/group'
-    @entries = parse(@path)
+    @entries = parse_group(@path)
   end
 
   def to_s
@@ -77,11 +81,22 @@ class EtcGroup < Vulcano.resource(1)
 
   private
 
-  def parse(path)
+  def parse_group(path)
     @content = vulcano.file(path).content
-    @content.split("\n").map do |line|
-      line.split(':')
+    # iterate over each line and filter comments
+    @content.split("\n").each_with_object([]) do |line, lines|
+      grp_info = parse_group_line(line)
+      lines.push(grp_info) if !grp_info.nil? && grp_info.size > 0
     end
+  end
+
+  def parse_group_line(line)
+    opts = {
+      comment_char: '#',
+      standalone_comments: false,
+    }
+    line, _idx_nl = parse_comment_line(line, opts)
+    line.split(':')
   end
 end
 
