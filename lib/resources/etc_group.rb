@@ -21,9 +21,11 @@
 #   its('users') { should include 'my_user' }
 # end
 
+require 'utils/convert'
 require 'utils/parser'
 
 class EtcGroup < Vulcano.resource(1)
+  include Converter
   include ContentParser
 
   name 'etc_group'
@@ -49,7 +51,7 @@ class EtcGroup < Vulcano.resource(1)
 
   def gids(filter = nil)
     entries = filter || @entries
-    entries.map { |x| x[2] } if !entries.nil?
+    entries.map { |x| convert_to_i(x[2]) } if !entries.nil?
   end
 
   def users(filter = nil)
