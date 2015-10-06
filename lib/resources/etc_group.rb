@@ -32,6 +32,10 @@ class EtcGroup < Vulcano.resource(1)
   def initialize(path = nil)
     @path = path || '/etc/group'
     @entries = parse_group(@path)
+
+    # skip resource if it is not supported on current OS
+    return skip_resource 'The `etc_group` resource is not supported on your OS.' \
+    unless %w{ubuntu debian redhat fedora arch darwin freebsd}.include?(vulcano.os[:family])
   end
 
   def to_s
