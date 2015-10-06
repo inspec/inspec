@@ -9,7 +9,8 @@ backends[:local] = proc {
 }
 
 backends[:specinfra_local] = proc {
-  opt = { 'backend' => 'exec' }
+  c = { 'backend' => 'exec' }
+  opt = Vulcano::Backend.target_config(c)
   Vulcano::Backend.create('specinfra', opt).backend
 }
 
