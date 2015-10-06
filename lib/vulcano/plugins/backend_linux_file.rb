@@ -14,7 +14,7 @@ class Vulcano::Plugins::Backend
     def content
       return @content if @content_fetched
       @content = @backend.run_command(
-        "cat #{@spath} 2>/dev/null || echo -n").stdout
+        "cat #{@spath} || echo -n").stdout
       @content_fetched = true
       return @content unless @content.empty?
       @content = nil if directory? or size.nil? or size > 0
