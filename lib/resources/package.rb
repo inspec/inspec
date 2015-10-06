@@ -65,7 +65,7 @@ end
 # Debian / Ubuntu
 class Deb < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("dpkg -s #{package_name}")
+    cmd = @vulcano.command("dpkg -s #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
@@ -85,7 +85,7 @@ end
 # RHEL family
 class Rpm < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("rpm -qia #{package_name}")
+    cmd = @vulcano.command("rpm -qia #{package_name}")
     return nil if cmd.exit_status.to_i != 0
     params = SimpleConfig.new(
       cmd.stdout.chomp,
@@ -104,7 +104,7 @@ end
 # MacOS / Darwin implementation
 class Brew < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("brew info --json=v1 #{package_name}")
+    cmd = @vulcano.command("brew info --json=v1 #{package_name}")
     return nil if cmd.exit_status.to_i != 0
     # parse data
     pkg = JSON.parse(cmd.stdout)[0]
@@ -120,7 +120,7 @@ end
 # Arch Linux
 class Pacman < PkgManagement
   def info(package_name)
-    cmd = @vulcano.run_command("pacman -Qi #{package_name}")
+    cmd = @vulcano.command("pacman -Qi #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
@@ -145,7 +145,7 @@ end
 class WindowsPkg < PkgManagement
   def info(package_name)
     # Find the package
-    cmd = @vulcano.run_command("Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq '#{package_name}'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json")
+    cmd = @vulcano.command("Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq '#{package_name}'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json")
 
     begin
       package = JSON.parse(cmd.stdout)

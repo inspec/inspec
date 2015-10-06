@@ -11,9 +11,8 @@ puts ''
 
 backends = {}
 backends[:docker] = proc {
-  backend_conf = Vulcano::Backend.target_config({ 'host' => container_id })
-  backend_class = Vulcano::Backend.registry['docker']
-  backend_class.new(backend_conf)
+  opt = { 'host' => container_id }
+  Vulcano::Backend.create('docker', opt)
 }
 
 backends.each do |type, get_backend|

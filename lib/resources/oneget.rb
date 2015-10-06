@@ -25,7 +25,7 @@ class OneGetPackage < Vulcano.resource(1)
     @info[:type] = 'oneget'
     @info[:installed] = false
 
-    cmd = vulcano.run_command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
+    cmd = vulcano.command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0
     # try to parse json

@@ -15,7 +15,7 @@ class NpmPackage < Vulcano.resource(1)
   def info
     return @info if defined?(@info)
 
-    cmd = vulcano.run_command("npm ls -g --json #{@package_name}")
+    cmd = vulcano.command("npm ls -g --json #{@package_name}")
     @info = {
       name: @package_name,
       type: 'npm',

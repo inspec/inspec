@@ -16,7 +16,7 @@ class KernelParameter < Vulcano.resource(1)
   end
 
   def value
-    cmd = vulcano.run_command("/sbin/sysctl -q -n #{@parameter}")
+    cmd = vulcano.command("/sbin/sysctl -q -n #{@parameter}")
     return nil if cmd.exit_status != 0
     # remove whitespace
     cmd = cmd.stdout.chomp.strip

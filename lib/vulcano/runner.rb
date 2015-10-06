@@ -39,18 +39,16 @@ module Vulcano
     def configure_backend
       backend_name = (@conf['backend'] ||= 'local')
       bname, next_backend = backend_name.split('+')
-
-      # @TODO all backends except for mock revert to specinfra for now
-      backend_class = Vulcano::Backend.registry[bname]
       @conf['backend'] = next_backend if bname == 'specinfra'
 
+      # @TODO all backends except for mock revert to specinfra for now
+      @backend = Vulcano::Backend.create(bname, @conf)
+
       # Return on failure
-      if backend_class.nil?
+      if @backend.nil?
         fail "Can't find command backend '#{backend_name}'."
       end
-
-      # create the backend based on the config
-      @backend = backend_class.new(@conf)
+      @backend
     end
 
     def add_tests(tests)

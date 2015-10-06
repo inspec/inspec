@@ -188,7 +188,7 @@ class UnixUser < UserInfo
 
   # extracts the identity
   def identity(username)
-    cmd = @vulcano.run_command("id #{username}")
+    cmd = @vulcano.command("id #{username}")
     return nil if cmd.exit_status != 0
 
     # parse words
@@ -214,7 +214,7 @@ class LinuxUser < UnixUser
   include ContentParser
 
   def meta_info(username)
-    cmd = @vulcano.run_command("getent passwd #{username}")
+    cmd = @vulcano.command("getent passwd #{username}")
     return nil if cmd.exit_status != 0
     # returns: root:x:0:0:root:/root:/bin/bash
     passwd = parse_passwd_line(cmd.stdout.chomp)
@@ -225,7 +225,7 @@ class LinuxUser < UnixUser
   end
 
   def credentials(username)
-    cmd = @vulcano.run_command("chage -l #{username}")
+    cmd = @vulcano.command("chage -l #{username}")
     return nil if cmd.exit_status != 0
 
     params = SimpleConfig.new(
@@ -250,7 +250,7 @@ end
 # @see http://superuser.com/questions/592921/mac-osx-users-vs-dscl-command-to-list-user
 class DarwinUser < UnixUser
   def meta_info(username)
-    cmd = @vulcano.run_command("dscl -q . -read /Users/#{username} NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell")
+    cmd = @vulcano.command("dscl -q . -read /Users/#{username} NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell")
     return nil if cmd.exit_status != 0
 
     params = SimpleConfig.new(
@@ -279,7 +279,7 @@ class FreeBSDUser < UnixUser
   include ContentParser
 
   def meta_info(username)
-    cmd = @vulcano.run_command("pw usershow #{username} -7")
+    cmd = @vulcano.command("pw usershow #{username} -7")
     return nil if cmd.exit_status != 0
     # returns: root:*:0:0:Charlie &:/root:/bin/csh
     passwd = parse_passwd_line(cmd.stdout.chomp)
@@ -340,7 +340,7 @@ class WindowsUser < UserInfo
     # TODO: move to winrm backend
     require 'winrm'
     script = WinRM::PowershellScript.new(script)
-    cmd = @vulcano.run_command("powershell -encodedCommand #{script.encoded}")
+    cmd = @vulcano.command("powershell -encodedCommand #{script.encoded}")
 
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0, try to parse json

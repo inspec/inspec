@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 describe command('echo hello') do
   its(:stdout) { should eq "hello\n" }
   its(:stderr) { should eq '' }

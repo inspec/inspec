@@ -45,7 +45,7 @@ class WindowsFeature < Vulcano.resource(1)
   def info
     return @cache if !@cache.nil?
     features_cmd = "Get-WindowsFeature | Where-Object {$_.Name -eq '#{@feature}' -or $_.DisplayName -eq '#{@feature}'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json"
-    cmd = vulcano.run_command(features_cmd)
+    cmd = vulcano.command(features_cmd)
 
     @cache = {
       name: @feature,
