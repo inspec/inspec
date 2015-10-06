@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'uri'
 require 'vulcano/plugins'
+require 'vulcano/resource'
 
 module Vulcano
   class Backend
