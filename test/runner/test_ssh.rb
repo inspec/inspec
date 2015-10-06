@@ -9,11 +9,13 @@ backend_conf = {
 }
 
 backends[:specinfra_ssh] = proc {
-  Vulcano::Backend.create('specinfra', backend_conf).backend
+  conf = Vulcano::Backend.target_config(backend_conf)
+  Vulcano::Backend.create('specinfra', conf).backend
 }
 
 backends[:ssh] = proc {
-  Vulcano::Backend.create('ssh', backend_conf).backend
+  conf = Vulcano::Backend.target_config(backend_conf)
+  Vulcano::Backend.create('ssh', conf).backend
 }
 
 tests = ARGV
