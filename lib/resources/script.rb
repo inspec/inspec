@@ -6,6 +6,8 @@
 
 class Script < Cmd
   name 'script'
+  attr_accessor :command
+
   def initialize(script)
     case vulcano.os[:family]
     when 'windows'
