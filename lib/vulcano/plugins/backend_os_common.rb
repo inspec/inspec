@@ -46,6 +46,9 @@ class Vulcano::Plugins::Backend
       'solaris' => %w{
         solaris smartos openindiana opensolaris solaris2 nexentacore
       },
+      'windows' => %w{
+        windows
+      },
     }
 
     OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
@@ -95,7 +98,7 @@ class Vulcano::Plugins::Backend
     def detect_family_type
       pf = @platform[:family]
 
-      return detect_windos if pf == 'windows'
+      return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
 
       if %w{freebsd netbsd openbsd aix solaris2}.include?(pf)
