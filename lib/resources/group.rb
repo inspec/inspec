@@ -17,8 +17,11 @@ class Group < Vulcano.resource(1)
   name 'group'
 
   def initialize(groupname, domain = nil)
-    @group = groupname
+    @group = groupname.downcase
     @domain = domain
+    @domain = @domain.downcase unless @domain.nil?
+
+    @cache = nil
 
     # select group manager
     @group_provider = nil
@@ -122,7 +125,7 @@ class WindowsGroup < GroupInfo
         sid: grp['SID'],
         local: grp['LocalAccount'],
       }
-      grp_collection.push(grp_info) if grp_info[:name] == compare_group && (compare_domain.nil? || grp_info[:domain] == compare_domain)
+      return grp_collection.push(grp_info) if grp_info[:name].casecmp(compare_group) == 0 && (compare_domain.nil? || grp_info[:domain].casecmp(compare_domain) == 0)
     end
   end
 end
