@@ -46,12 +46,12 @@ class EtcGroup < Vulcano.resource(1)
 
   def groups(filter = nil)
     entries = filter || @entries
-    entries.map { |x| x[0] } if !entries.nil?
+    entries.map { |x| x['name'] } if !entries.nil?
   end
 
   def gids(filter = nil)
     entries = filter || @entries
-    entries.map { |x| convert_to_i(x[2]) } if !entries.nil?
+    entries.map { |x| x['gid'] } if !entries.nil?
   end
 
   def users(filter = nil)
@@ -59,7 +59,7 @@ class EtcGroup < Vulcano.resource(1)
     return nil if entries.nil?
     # filter the user entry
     res = entries.map { |x|
-      x[3].split(',') if !x.nil? && !x[3].nil?
+      x['members'].split(',') if !x.nil? && !x['members'].nil?
     }.flatten
     # filter nil elements
     res.reject { |x| x.nil? || x.empty? }
@@ -68,20 +68,22 @@ class EtcGroup < Vulcano.resource(1)
   def where(conditions = {})
     return if conditions.empty?
     fields = {
-      name: 0,
-      group_name: 0,
-      password: 1,
-      gid: 2,
-      group_id: 2,
-      group_list: 3,
-      users: 3,
+      name: 'name',
+      group_name: 'name',
+      password: 'password',
+      gid: 'gid',
+      group_id: 'gid',
+      users: 'members',
+      members: 'members',
     }
     res = entries
+
     conditions.each do |k, v|
       idx = fields[k.to_sym]
       next if idx.nil?
       res = res.select { |x| x[idx] == v.to_s }
     end
+
     EtcGroupView.new(self, res)
   end
 
@@ -102,14 +104,16 @@ class EtcGroup < Vulcano.resource(1)
       standalone_comments: false,
     }
     line, _idx_nl = parse_comment_line(line, opts)
-    line.split(':')
-    # x = line.split(':')
-    # {
-    #   'name' => x.at(0), # Name of the group.
-    #   'password' => x.at(1), # Group's encrypted password.
-    #   'gid' => convert_to_i(x.at(2)), # The group's decimal ID.
-    #   'members' => x.at(3), # Group members.
-    # }
+    x = line.split(':')
+    # abort if we have an empty or comment line
+    return nil if x.size == 0
+    # map data
+    {
+      'name' => x.at(0), # Name of the group.
+      'password' => x.at(1), # Group's encrypted password.
+      'gid' => convert_to_i(x.at(2)), # The group's decimal ID.
+      'members' => x.at(3), # Group members.
+    }
   end
 end
 
@@ -121,12 +125,12 @@ class EtcGroupView
   end
 
   # returns the group object
-  def groups
+  def entries
     @filter
   end
 
   # only returns group name
-  def group_names
+  def groups
     @parent.groups(@filter)
   end
 

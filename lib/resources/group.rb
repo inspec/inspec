@@ -13,8 +13,6 @@
 #  it { should have_gid 0 }
 # end
 
-require 'utils/convert'
-
 class Group < Vulcano.resource(1)
   name 'group'
 
@@ -89,13 +87,11 @@ end
 
 # implements generic unix groups via /etc/group
 class UnixGroup < GroupInfo
-  include Converter
-
   def group_info(group, _domain = nil)
-    @vulcano.etc_group.where(name: group).groups.map { |grp|
+    @vulcano.etc_group.where(name: group).entries.map { |grp|
       {
-        name: grp[0],
-        gid: convert_to_i(grp[2]),
+        name: grp['name'],
+        gid: grp['gid'],
       }
     }
   end
