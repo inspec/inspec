@@ -23,19 +23,8 @@ class Script < Cmd
     @command = cmd
   end
 
-  def result
-    @result ||= vulcano.command(@command)
-  end
-
-  def stdout
-    result.stdout
-  end
-
-  def stderr
-    result.stderr
-  end
-
-  def exit_status
-    result.exit_status.to_i
+  # we cannot determine if a command exists, because that does not work for scripts
+  def exist?
+    nil
   end
 end
