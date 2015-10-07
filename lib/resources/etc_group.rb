@@ -103,6 +103,13 @@ class EtcGroup < Vulcano.resource(1)
     }
     line, _idx_nl = parse_comment_line(line, opts)
     line.split(':')
+    # x = line.split(':')
+    # {
+    #   'name' => x.at(0), # Name of the group.
+    #   'password' => x.at(1), # Group's encrypted password.
+    #   'gid' => convert_to_i(x.at(2)), # The group's decimal ID.
+    #   'members' => x.at(3), # Group members.
+    # }
   end
 end
 
@@ -113,14 +120,22 @@ class EtcGroupView
     @filter = filter
   end
 
+  # returns the group object
   def groups
+    @filter
+  end
+
+  # only returns group name
+  def group_names
     @parent.groups(@filter)
   end
 
+  # only return gids
   def gids
     @parent.gids(@filter)
   end
 
+  # only returns users
   def users
     @parent.users(@filter)
   end
