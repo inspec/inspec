@@ -46,6 +46,9 @@ class Vulcano::Plugins::Backend
       'solaris' => %w{
         solaris smartos openindiana opensolaris solaris2 nexentacore
       },
+      'windows' => %w{
+        windows
+      },
     }
 
     OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
