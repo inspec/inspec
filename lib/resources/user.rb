@@ -338,10 +338,7 @@ class WindowsUser < UserInfo
       ConvertTo-Json
     EOH
 
-    # TODO: move to winrm backend
-    require 'winrm'
-    script = WinRM::PowershellScript.new(script)
-    cmd = @vulcano.command("powershell -encodedCommand #{script.encoded}")
+    cmd = @vulcano.script(script)
 
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0, try to parse json
