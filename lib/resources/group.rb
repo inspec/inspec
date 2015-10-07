@@ -25,11 +25,9 @@ class Group < Vulcano.resource(1)
 
     # select group manager
     @group_provider = nil
-    case vulcano.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch', 'darwin', 'freebsd'
-      # use /etc/group
+    if vulcano.os.unix?
       @group_provider = UnixGroup.new(vulcano)
-    when 'windows'
+    elsif vulcano.os.windows?
       @group_provider = WindowsGroup.new(vulcano)
     else
       return skip_resource 'The `group` resource is not supported on your OS yet.'
