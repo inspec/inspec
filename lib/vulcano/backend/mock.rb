@@ -33,6 +33,20 @@ module Vulcano::Backends
       'Mock Backend Runner'
     end
 
+    def os=(value)
+      @os = OS.new(self, value)
+    end
+
+    class OS < OSCommon
+      def initialize(backend, desc)
+        super(backend, desc)
+      end
+
+      def detect_family
+        # no op, we do not need to detect the os
+      end
+    end
+
     private
 
     def trace_calls
