@@ -1,2 +1,3 @@
+# comment
 root:x:0:
 www-data:x:33:www-data,root
