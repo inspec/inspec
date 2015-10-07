@@ -137,6 +137,8 @@ class MockLoader
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows
       '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
+      # group info for windows
+      'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json'  => cmd.call('GetWin32Group'),
     }
 
     # set os emulation
