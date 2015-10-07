@@ -1,7 +1,5 @@
 # Resources
 
-All basic resources known from serverspec are included. Please see its [documentation here](http://serverspec.org/resource_types.html).
-
 ## audit_policy
 
 Check Microsoft Windows Audit Policies:
