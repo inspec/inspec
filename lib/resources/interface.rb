@@ -20,6 +20,8 @@ class NetworkInterface < Vulcano.resource(1)
     @interface_provider = nil
     if vulcano.os.linux?
       @interface_provider = LinuxInterface.new(vulcano)
+    elsif vulcano.os.windows?
+      @interface_provider = WindowsInterface.new(vulcano)
     else
       return skip_resource 'The `interface` resource is not supported on your OS yet.'
     end
@@ -84,5 +86,37 @@ class LinuxInterface < InterfaceInfo
       up: state,
       speed: speed,
     }
+  end
+end
+
+class WindowsInterface < InterfaceInfo
+  def interface_info(iface)
+    # gather all network interfaces
+    cmd = @vulcano.command('Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json')
+
+    # filter network interface
+    begin
+      net_adapter = JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => _e
+      return nil
+    end
+
+    # ensure we have an array of groups
+    net_adapter = [net_adapter] if !net_adapter.is_a?(Array)
+
+    # select the requested interface
+    adapters = net_adapter.each_with_object([]) do |adapter, adapter_collection|
+      # map object
+      info = {
+        name: adapter['Name'],
+        up: adapter['State'] == 2,
+        speed: adapter['ReceiveLinkSpeed'] / 1000,
+      }
+      adapter_collection.push(info) if info[:name].casecmp(iface) == 0
+    end
+
+    return nil if adapters.size == 0
+    warn "[Possible Error] detected multiple network interfaces with the name #{iface}" if adapters.size > 1
+    adapters[0]
   end
 end

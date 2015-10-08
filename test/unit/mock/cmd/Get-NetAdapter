@@ -1,0 +1,24 @@
+[
+    {
+        "Name":  "vEthernet (Intel(R) PRO 1000 MT Network Connection - Virtual Switch)",
+        "InterfaceDescription":  "Hyper-V Virtual Ethernet Adapter #2",
+        "Status":  "Up",
+        "State":  2,
+        "MacAddress":  "00-0C-29-E3-48-9B",
+        "LinkSpeed":  "10 Gbps",
+        "ReceiveLinkSpeed":  10000000000,
+        "TransmitLinkSpeed":  10000000000,
+        "Virtual":  true
+    },
+    {
+        "Name":  "Ethernet0",
+        "InterfaceDescription":  "Intel(R) PRO/1000 MT Network Connection",
+        "Status":  "Not Present",
+        "State":  3,
+        "MacAddress":  "00-0C-29-E3-48-9B",
+        "LinkSpeed":  "0 bps",
+        "ReceiveLinkSpeed":  0,
+        "TransmitLinkSpeed":  0,
+        "Virtual":  false
+    }
+]
