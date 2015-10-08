@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mixlib-shellout', '~> 2'
   spec.add_dependency 'specinfra', '~> 2.40'
   spec.add_dependency 'docker-api', '~> 1.22'
+  spec.add_dependency 'pry', '~> 0.10'
 end

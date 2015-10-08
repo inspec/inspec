@@ -90,10 +90,18 @@ class VulcanoCLI < Thor
   target_options
   def detect
     runner = Vulcano::Runner.new(options)
-    rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
     runner.add_tests([detect_util])
     runner.run
+  rescue RuntimeError => e
+    puts e.message
+  end
+
+  desc 'shell', 'open an interactive debugging shell'
+  target_options
+  def shell_func
+    runner = Vulcano::Runner.new(options)
+    Vulcano::Shell.start(runner)
   rescue RuntimeError => e
     puts e.message
   end
