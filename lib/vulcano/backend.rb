@@ -56,7 +56,7 @@ module Vulcano
         end
         Vulcano::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
-            r.new(self, *args)
+            r.new(self, id.to_s, *args)
           end
         end
       end

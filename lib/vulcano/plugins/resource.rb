@@ -14,9 +14,10 @@ module Vulcano
         cl = Class.new(obj) do
           # add some common methods
           include Vulcano::Plugins::ResourceCommon
-          def initialize(backend, *args)
+          def initialize(backend, name, *args)
             # attach the backend to this instance
             @__backend_runner__ = backend
+            @__resource_name__ = name
             # call the resource initializer
             super(*args)
           end
@@ -29,6 +30,14 @@ module Vulcano
 
         # add the resource to the registry by name
         Vulcano::Resource.registry[name] = cl
+      end
+
+      # Define methods which are available to all resources
+      # and may be overwritten.
+
+      # Print the name of the resource
+      def to_s
+        @__resource_name__
       end
     end
 

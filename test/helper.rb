@@ -151,7 +151,7 @@ class MockLoader
   def load_resource(resource, *args)
     # initialize resource with backend and parameters
     @resource_class = Vulcano::Resource.registry[resource]
-    @resource = @resource_class.new(backend, *args)
+    @resource = @resource_class.new(backend, resource, *args)
   end
 end
 
