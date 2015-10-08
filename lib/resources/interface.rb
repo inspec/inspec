@@ -19,6 +19,13 @@ class NetworkInterface < Vulcano.resource(1)
   def initialize(iface)
     @iface = iface
     @cache = nil
+
+    @interface_provider = nil
+    if vulcano.os.linux?
+      @interface_provider = LinuxInterface.new(vulcano)
+    else
+      return skip_resource 'The `interface` resource is not supported on your OS yet.'
+    end
   end
 
   def exists?
@@ -31,6 +38,7 @@ class NetworkInterface < Vulcano.resource(1)
     key == 'up'
   end
 
+  # returns link speed in Mbits/sec
   def speed
     return nil if interface_info.nil? || !interface_info.key?('speed')
     key, _value = interface_info['speed'].first
@@ -41,8 +49,21 @@ class NetworkInterface < Vulcano.resource(1)
 
   def interface_info
     return @cache if !@cache.nil?
+    @cache = @interface_provider.interface_info(@iface) if !@interface_provider.nil?
+  end
+end
+
+class InterfaceInfo
+  def initialize(vulcano)
+    @vulcano = vulcano
+  end
+end
+
+class LinuxInterface < InterfaceInfo
+  def interface_info(iface)
+    return @cache if !@cache.nil?
     # will return "[mtu]\n1500\n[type]\n1"
-    cmd = vulcano.command("find /sys/class/net/#{@iface}/ -type f -maxdepth 1 -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
+    cmd = @vulcano.command("find /sys/class/net/#{iface}/ -type f -maxdepth 1 -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
     return nil if cmd.exit_status.to_i != 0
 
     # parse values, we only recieve values, therefore we threat them as keys
