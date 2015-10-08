@@ -79,6 +79,11 @@ class MockLoader
       stdout = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
       mock.mock_command(stdout, '', 0)
     }
+
+    empty = lambda {
+      mock.mock_command('', '', 0)
+    }
+
     mock.commands = {
       'ps aux' => cmd.call('ps-aux'),
       'type win_secpol.cfg' => cmd.call('secedit-export'),
@@ -139,6 +144,9 @@ class MockLoader
       '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
       # group info for windows
       'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
+      # network interface
+      '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
+      'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
     }
 
     # set os emulation
