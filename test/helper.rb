@@ -124,12 +124,12 @@ class MockLoader
       'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
       # services for system 5 e.g. centos6, debian 6
       'service sshd status' => cmd.call('service-sshd-status'),
-      'find /etc/rc*.d -name S*'  => cmd.call('find-etc-rc-d-name-S'),
+      'find /etc/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
       'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
       # user information for linux
       'id root' => cmd.call('id-root'),
       'getent passwd root' => cmd.call('getent-passwd-root'),
-      'chage -l root'  => cmd.call('chage-l-root'),
+      'chage -l root' => cmd.call('chage-l-root'),
       # user info for mac
       'id chartmann' => cmd.call('id-chartmann'),
       'dscl -q . -read /Users/chartmann NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell' => cmd.call('dscl'),
@@ -138,7 +138,7 @@ class MockLoader
       # user info for windows
       '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
       # group info for windows
-      'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json'  => cmd.call('GetWin32Group'),
+      'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
     }
 
     # set os emulation
