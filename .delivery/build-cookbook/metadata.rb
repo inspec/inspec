@@ -6,5 +6,7 @@ version '0.1.0'
 
 depends 'docker', '~> 1.0'
 depends 'fancy_execute'
+depends 'chef-sugar'
 depends 'delivery-truck'
+depends 'delivery-sugar'
 depends 'delivery-sugar-extras'
