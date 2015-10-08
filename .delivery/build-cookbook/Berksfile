@@ -1,10 +1,16 @@
+# encoding: utf-8
 source 'https://supermarket.chef.io'
 
 metadata
 
-group :delivery do
-  cookbook 'delivery-sugar-extras', git: 'https://github.com/chef-cookbooks/delivery-sugar-extras.git'
-  cookbook 'delivery-sugar', git: 'https://github.com/chef-cookbooks/delivery-sugar.git'
-  cookbook 'delivery_build', git: 'https://github.com/chef-cookbooks/delivery_build'
-  cookbook 'delivery-truck', git: 'https://github.com/chef-cookbooks/delivery-truck.git'
-end
+cookbook 'delivery-truck',
+         git: 'https://github.com/chef-cookbooks/delivery-truck.git',
+         branch: 'master'
+
+cookbook 'delivery-sugar',
+         git: 'https://github.com/chef-cookbooks/delivery-sugar.git',
+         branch: 'master'
+
+cookbook 'delivery-sugar-extras',
+         git: 'https://github.com/chef-cookbooks/delivery-sugar-extras.git',
+         branch: 'master'
