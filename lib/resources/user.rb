@@ -148,17 +148,17 @@ class User < Vulcano.resource(1)
   private
 
   def identiy
-    return @id_cache if !@id_cache.nil?
+    return @id_cache if defined?(@id_cache)
     @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
   end
 
   def meta_info
-    return @meta_cache if !@meta_cache.nil?
+    return @meta_cache if defined?(@meta_cache)
     @meta_cache = @user_provider.meta_info(@user) if !@user_provider.nil?
   end
 
   def credentials
-    return @cred_cache if !@cred_cache.nil?
+    return @cred_cache if defined?(@cred_cache)
     @cred_cache = @user_provider.credentials(@user) if !@user_provider.nil?
   end
 end
