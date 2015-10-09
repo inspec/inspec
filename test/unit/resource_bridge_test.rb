@@ -33,6 +33,14 @@ describe 'Vulcano::Resources::Bridge' do
     _(resource.interfaces).must_equal %w{eth1 eth2}
   end
 
+  it 'check windows bridge' do
+    resource = MockLoader.new(:windows).load_resource('bridge', 'Network Bridge')
+    _(resource.exists?).must_equal true
+
+    # get associated interfaces is not supported on windows
+    _(resource.interfaces).must_equal nil
+  end
+
   it 'check bridge on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('bridge', 'br0')
     _(resource.exists?).must_equal false

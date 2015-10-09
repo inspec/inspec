@@ -159,8 +159,11 @@ class MockLoader
       '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
-      # bridge
+      # bridge on linux
       'ls -1 /sys/class/net/br0/brif/' => cmd.call('ls-sys-class-net-br'),
+      # bridge on Windows
+      'Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json' => cmd.call('get-netadapter-binding-bridge'),
+
     }
 
     # set os emulation
