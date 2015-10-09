@@ -8,7 +8,7 @@ require 'vulcano/dsl'
 
 module Vulcano
   class ProfileContext
-    attr_reader :rules, :only_ifs
+    attr_reader :rules, :only_ifs, :profile_context
     def initialize(profile_id, backend, profile_registry: {}, only_ifs: [])
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \

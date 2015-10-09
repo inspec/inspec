@@ -65,8 +65,12 @@ module Vulcano
       end
     end
 
-    def add_content(content, source, line = nil)
-      ctx = Vulcano::ProfileContext.new(@profile_id, @backend)
+    def create_context
+      Vulcano::ProfileContext.new(@profile_id, @backend)
+    end
+
+    def add_content(content, source, line = nil, ctx = nil)
+      ctx = create_context if ctx.nil?
 
       # evaluate all tests
       ctx.load(content, source, line || 1)
@@ -92,6 +96,7 @@ module Vulcano
           @tests.register(example)
         end
       end
+      ctx
     end
 
     def run
