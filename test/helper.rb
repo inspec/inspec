@@ -163,7 +163,9 @@ class MockLoader
       'ls -1 /sys/class/net/br0/brif/' => cmd.call('ls-sys-class-net-br'),
       # bridge on Windows
       'Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json' => cmd.call('get-netadapter-binding-bridge'),
-
+      # host for Windows
+      'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
+      'Test-NetConnection -ComputerName microsoft.com | Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
     }
 
     # set os emulation
