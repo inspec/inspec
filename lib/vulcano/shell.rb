@@ -7,8 +7,9 @@ module Vulcano::Shell
     # load and configure pry
     require 'pry'
     configure_pry
-
-    runner.add_content('binding.pry', __FILE__, __LINE__)
+    # store context to run commands in this context
+    @ctx = runner.create_context
+    runner.add_content('binding.pry', __FILE__, __LINE__, @ctx)
     runner.run
   end
 
@@ -50,8 +51,8 @@ For example:
 
 You are currently running on:
 
-    OS family:  #{mark os[:family] || 'unknown'}
-    OS release: #{mark os[:release] || 'unknown'}
+    OS family:  #{mark @ctx.profile_context.os[:family] || 'unknown'}
+    OS release: #{mark @ctx.profile_context.os[:release] || 'unknown'}
 
 EOF
   end
