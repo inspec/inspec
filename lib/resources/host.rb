@@ -116,6 +116,7 @@ class WindowsHostProvider < HostProvider
     request += " -RemotePort #{port}" unless port.nil?
     request += '| Select-Object -Property ComputerName, RemoteAddress, RemotePort, SourceAddress, PingSucceeded | ConvertTo-Json'
     p request
+    request += '| Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json'
     cmd = @vulcano.command(request)
 
     begin
