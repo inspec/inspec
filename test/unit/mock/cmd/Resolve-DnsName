@@ -1,0 +1,26 @@
+[
+    {
+        "IP4Address":  "134.170.185.46",
+        "Name":  "microsoft.com",
+        "Type":  1,
+        "CharacterSet":  1,
+        "Section":  1,
+        "DataLength":  4,
+        "TTL":  5,
+        "Address":  "134.170.185.46",
+        "IPAddress":  "134.170.185.46",
+        "QueryType":  1
+    },
+    {
+        "IP4Address":  "134.170.188.221",
+        "Name":  "microsoft.com",
+        "Type":  1,
+        "CharacterSet":  1,
+        "Section":  1,
+        "DataLength":  4,
+        "TTL":  5,
+        "Address":  "134.170.188.221",
+        "IPAddress":  "134.170.188.221",
+        "QueryType":  1
+    }
+]

@@ -58,10 +58,14 @@ class MockLoader
     }
     mockdir = lambda { |x|
       md = Object.new
-      md.class.module_eval { attr_accessor :isDir }
-      md.isDir = x
+
+      class << md
+        attr_accessor :isdir
+      end
+      md.isdir = x
+
       def md.directory?
-        @isDir
+        isdir
       end
       md
     }
@@ -163,7 +167,12 @@ class MockLoader
       'ls -1 /sys/class/net/br0/brif/' => cmd.call('ls-sys-class-net-br'),
       # bridge on Windows
       'Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json' => cmd.call('get-netadapter-binding-bridge'),
-
+      # host for Windows
+      'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
+      'Test-NetConnection -ComputerName microsoft.com | Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      # host for Linux
+      'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
+      'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
     }
 
     # set os emulation
