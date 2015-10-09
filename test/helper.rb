@@ -56,6 +56,16 @@ class MockLoader
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)
     }
+    mockdir = lambda { |x|
+      md = Object.new
+      md.class.module_eval { attr_accessor :isDir }
+      md.isDir = x
+      def md.directory?
+        @isDir
+      end
+      md
+    }
+
     mock.files = {
       '/proc/net/bonding/bond0' => mockfile.call('bond0'),
       '/etc/ssh/ssh_config' => mockfile.call('ssh_config'),
@@ -72,6 +82,7 @@ class MockLoader
       'kitchen.yml' => mockfile.call('kitchen.yml'),
       'example.csv' => mockfile.call('example.csv'),
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
+      '/sys/class/net/br0/bridge' => mockdir.call(true),
     }
 
     # create all mock commands
@@ -148,6 +159,8 @@ class MockLoader
       '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
+      # bridge
+      'ls -1 /sys/class/net/br0/brif/' => cmd.call('ls-sys-class-net-br'),
     }
 
     # set os emulation
