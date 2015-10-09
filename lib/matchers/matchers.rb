@@ -167,3 +167,33 @@ RSpec::Matchers.define :belong_to_primary_group do |compare_group|
     "expected that the user belongs to primary group `#{group}`"
   end
 end
+
+# matcher to check if host is reachable
+RSpec::Matchers.define :be_reachable do
+  match do |host|
+    host.reachable? == true
+  end
+
+  chain :with do |_attr|
+    fail '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
+  end
+
+  failure_message do |host|
+    "expected that host #{host} is reachable"
+  end
+end
+
+# matcher to check if host is resolvable
+RSpec::Matchers.define :be_resolvable do
+  match do |host|
+    host.resolvable? == true
+  end
+
+  chain :by do |_type|
+    fail '[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`'
+  end
+
+  failure_message do |host|
+    "expected that host #{host} is resolvable"
+  end
+end
