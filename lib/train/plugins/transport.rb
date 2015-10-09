@@ -4,6 +4,7 @@
 # Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 require 'logger'
+require 'train/errors'
 
 class Train::Plugins
   class Transport
@@ -16,7 +17,7 @@ class Train::Plugins
     # @return [Transport] the transport object
     def initialize(config = nil)
       @config = (config || {}).dup
-      @logger = @config.delete(:logger) || Logger.new(STDOUT)
+      @log = @config[:logger] || Logger.new(STDOUT)
     end
 
     # Create a connection to the target. Options may be provided
@@ -25,7 +26,7 @@ class Train::Plugins
     # @param [Hash] _options = nil provide optional configuration params
     # @return [Connection] the connection for this configuration
     def connect(_options = nil)
-      fail ClientError, "#{self.class} does not implement #connect()"
+      fail Train::ClientError, "#{self.class} does not implement #connect()"
     end
 
     autoload :Connection, 'train/plugins/connection'
@@ -42,5 +43,10 @@ class Train::Plugins
     def self.name(name)
       Train::Plugins.registry[name] = self
     end
+
+    private
+
+    # @return [Logger] logger for reporting information
+    attr_reader :log
   end
 end
