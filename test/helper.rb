@@ -58,10 +58,14 @@ class MockLoader
     }
     mockdir = lambda { |x|
       md = Object.new
-      md.class.module_eval { attr_accessor :isDir }
-      md.isDir = x
+
+      class << md
+        attr_accessor :isdir
+      end
+      md.isdir = x
+
       def md.directory?
-        @isDir
+        isdir
       end
       md
     }
