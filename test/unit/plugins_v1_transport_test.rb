@@ -26,11 +26,15 @@ describe 'v1 Transport Plugin' do
         .must_be_instance_of(Logger)
     end
 
-    it 'can configure own loggers' do
+    it 'can configure custom loggers' do
       l = rand
       plugin.new({ logger: l })
         .instance_variable_get(:@logger)
         .must_equal(l)
+    end
+
+    it 'provides a connect method' do
+      proc { plugin.connect }.must_raise Train::ClientError
     end
   end
 

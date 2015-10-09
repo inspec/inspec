@@ -17,6 +17,6 @@ describe Train::Plugins do
   end
 
   it 'provides a registry of plugins' do
-    Train::Plugins.registry.must_equal({})
+    Train::Plugins.registry.must_be_instance_of(Hash)
   end
 end

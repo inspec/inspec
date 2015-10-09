@@ -19,6 +19,15 @@ class Train::Plugins
       @logger = @config.delete(:logger) || Logger.new(STDOUT)
     end
 
+    # Create a connection to the target. Options may be provided
+    # for additional configuration.
+    #
+    # @param [Hash] _options = nil provide optional configuration params
+    # @return [Connection] the connection for this configuration
+    def connect(_options = nil)
+      fail ClientError, "#{self.class} does not implement #connect()"
+    end
+
     autoload :Connection, 'train/plugins/connection'
     autoload :FileCommon, 'train/plugins/file_common'
     autoload :LinuxFile,  'train/plugins/linux_file'
