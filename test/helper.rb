@@ -166,6 +166,9 @@ class MockLoader
       # host for Windows
       'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
       'Test-NetConnection -ComputerName microsoft.com | Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      # host for Linux
+      'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
+      'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
     }
 
     # set os emulation
