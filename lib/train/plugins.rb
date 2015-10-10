@@ -8,6 +8,7 @@ require 'train/errors'
 module Train
   class Plugins
     autoload :Transport, 'train/plugins/transport'
+    autoload :Connection, 'train/plugins/connection'
 
     class << self
       # Retrieve the current plugin registry, containing all plugin names

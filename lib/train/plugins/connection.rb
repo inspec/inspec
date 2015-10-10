@@ -5,6 +5,7 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 require 'train/errors'
+require 'logger'
 
 class Train::Plugins
   # A Connection instance can be generated and re-generated, given new

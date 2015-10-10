@@ -6,17 +6,17 @@ describe 'v1 Transport Plugin' do
     let(:plugin) { Class.new(Train.plugin(1)) }
 
     it 'initializes an empty configuration' do
-      plugin.new.config.must_equal({})
+      plugin.new.options.must_equal({})
     end
 
     it 'saves the provided configuration' do
       conf = { a: rand }
-      plugin.new(conf).config.must_equal(conf)
+      plugin.new(conf).options.must_equal(conf)
     end
 
     it 'saves the provided configuration' do
       conf = { a: rand }
-      plugin.new(conf).config.must_equal(conf)
+      plugin.new(conf).options.must_equal(conf)
     end
 
     it 'provides a default logger' do

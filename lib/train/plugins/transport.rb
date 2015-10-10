@@ -5,20 +5,19 @@
 
 require 'logger'
 require 'train/errors'
-require 'train/plugins/connection'
 
 class Train::Plugins
   class Transport
-    # @return [Hash] configuration, which created this Transport
-    attr_reader :config
+    # @return [Hash] options, which created this Transport
+    attr_reader :options
 
     # Initialize a new Transport object
     #
     # @param [Hash] config = nil the configuration for this transport
     # @return [Transport] the transport object
-    def initialize(config = nil)
-      @config = (config || {}).dup
-      @log = @config[:logger] || Logger.new(STDOUT)
+    def initialize(options = nil)
+      @options = (options || {}).dup
+      @log = @options[:logger] || Logger.new(STDOUT)
     end
 
     # Create a connection to the target. Options may be provided
