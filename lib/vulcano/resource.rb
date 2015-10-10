@@ -22,6 +22,7 @@ module Vulcano
 end
 
 require 'resources/apache_conf'
+require 'resources/apt'
 require 'resources/audit_policy'
 require 'resources/auditd_conf'
 require 'resources/auditd_rules'
