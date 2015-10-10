@@ -36,7 +36,7 @@ class AptRepository < Vulcano.resource(1)
       @deb_url = determine_ppa_url(ppa_name)
     else
       # this resource is only supported on ubuntu and debian
-      skip_resource 'The `ppa` resource is not supported on your OS yet.'
+      skip_resource 'The `apt` resource is not supported on your OS yet.'
     end
   end
 
