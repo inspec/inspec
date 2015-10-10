@@ -3,7 +3,8 @@ require 'helper'
 
 describe 'v1 Connection Plugin' do
   describe 'empty v1 connection plugin' do
-    let(:connection) { Train::Plugins::Transport::Connection.new({}) }
+    let(:cls) { Train::Plugins::Connection }
+    let(:connection) { cls.new({}) }
 
     it 'provides a close method' do
       connection.close # wont raise
@@ -30,6 +31,11 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides a default logger' do
+      connection.method(:log).call
+                .must_be_instance_of(Logger)
+    end
+
+    it 'must use the user-provided logger' do
       connection.method(:log).call
                 .must_be_instance_of(Logger)
     end

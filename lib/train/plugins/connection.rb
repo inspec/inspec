@@ -6,7 +6,7 @@
 
 require 'train/errors'
 
-class Train::Plugins::Transport
+class Train::Plugins
   # A Connection instance can be generated and re-generated, given new
   # connection details such as connection port, hostname, credentials, etc.
   # This object is responsible for carrying out the actions on the remote
@@ -22,6 +22,11 @@ class Train::Plugins::Transport
       @config = config
       @log = config.delete(:logger) || Logger.new(STDOUT)
     end
+
+    autoload :FileCommon, 'train/plugins/file_common'
+    autoload :LinuxFile,  'train/plugins/linux_file'
+    autoload :OSCommon,   'train/plugins/os_common'
+    CommandResult = Struct.new(:stdout, :stderr, :exit_status)
 
     # Closes the session connection, if it is still active.
     def close

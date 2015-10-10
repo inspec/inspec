@@ -5,6 +5,7 @@
 
 require 'logger'
 require 'train/errors'
+require 'train/plugins/connection'
 
 class Train::Plugins
   class Transport
@@ -28,13 +29,6 @@ class Train::Plugins
     def connect(_options = nil)
       fail Train::ClientError, "#{self.class} does not implement #connect()"
     end
-
-    autoload :Connection, 'train/plugins/connection'
-    autoload :FileCommon, 'train/plugins/file_common'
-    autoload :LinuxFile,  'train/plugins/linux_file'
-    autoload :OSCommon,   'train/plugins/os_common'
-
-    CommandResult = Struct.new(:stdout, :stderr, :exit_status)
 
     # Register the inheriting class with as a train plugin using the
     # provided name.
