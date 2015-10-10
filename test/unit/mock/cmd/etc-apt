@@ -1,0 +1,7 @@
+deb http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu wily main
+# deb-src http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu wily main
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+
+deb http://archive.ubuntu.com/ubuntu/ wily main restricted
+deb-src http://archive.ubuntu.com/ubuntu/ wily main restricted
