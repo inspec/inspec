@@ -21,7 +21,7 @@ class Train::Plugins
     # @yield [self] yields itself for block-style invocation
     def initialize(config)
       @config = config
-      @log = config.delete(:logger) || Logger.new(STDOUT)
+      @log = @config.delete(:logger) || Logger.new(STDOUT)
     end
 
     autoload :FileCommon, 'train/plugins/file_common'

@@ -36,8 +36,9 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'must use the user-provided logger' do
-      connection.method(:log).call
-                .must_be_instance_of(Logger)
+      l = rand
+      cls.new({logger: l})
+         .method(:log).call.must_equal(l)
     end
   end
 end
