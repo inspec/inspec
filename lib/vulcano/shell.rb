@@ -2,44 +2,50 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano::Shell
-  def self.start(runner)
-    # load and configure pry
-    require 'pry'
-    configure_pry
-    # store context to run commands in this context
-    @ctx = runner.create_context
-    runner.add_content('binding.pry', __FILE__, __LINE__, @ctx)
-    runner.run
-  end
-
-  def self.configure_pry
-    # Remove all hooks and checks
-    Pry.hooks.clear_all
-
-    # Add the help command
-    Pry::Commands.block_command 'usage', 'Show examples' do
-      Vulcano::Shell.usage
+module Vulcano
+  class Shell
+    def initialize(runner)
+      @runner = runner
+      # load and configure pry
+      require 'pry'
+      configure_pry
     end
 
-    # Add a help menu as the default intro
-    Pry.hooks.add_hook(:before_session, :intro) do
-      intro
+    def start
+      # store context to run commands in this context
+      @runner.add_content('binding.pry', __FILE__, __LINE__)
+      @runner.run
     end
-  end
 
-  def self.mark(x)
-    "\033[1m#{x}\033[0m"
-  end
+    def configure_pry
+      # Remove all hooks and checks
+      Pry.hooks.clear_all
+      that = self
 
-  def self.intro
-    puts 'Welcome to the interactive Vulcano Shell'
-    puts "To find out how to use it, type: #{mark 'usage'}"
-    puts
-  end
+      # Add the help command
+      Pry::Commands.block_command 'usage', 'Show examples' do
+        that.usage
+      end
 
-  def self.usage
-    puts <<EOF
+      # Add a help menu as the default intro
+      Pry.hooks.add_hook(:before_session, :intro) do
+        intro
+      end
+    end
+
+    def mark(x)
+      "\033[1m#{x}\033[0m"
+    end
+
+    def intro
+      puts 'Welcome to the interactive Vulcano Shell'
+      puts "To find out how to use it, type: #{mark 'usage'}"
+      puts
+    end
+
+    def usage
+      ctx = @runner.backend
+      puts <<EOF
 
 Welcome to the interactive Vulcano Shell.
 
@@ -51,9 +57,10 @@ For example:
 
 You are currently running on:
 
-    OS family:  #{mark @ctx.profile_context.os[:family] || 'unknown'}
-    OS release: #{mark @ctx.profile_context.os[:release] || 'unknown'}
+    OS family:  #{mark ctx.os[:family] || 'unknown'}
+    OS release: #{mark ctx.os[:release] || 'unknown'}
 
 EOF
+    end
   end
 end

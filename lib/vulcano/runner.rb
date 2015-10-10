@@ -15,7 +15,7 @@ require 'vulcano/rspec_json_formatter'
 
 module Vulcano
   class Runner
-    attr_reader :tests
+    attr_reader :tests, :backend
     def initialize(conf = {})
       @rules = []
       @profile_id = conf[:id]
@@ -69,10 +69,9 @@ module Vulcano
       Vulcano::ProfileContext.new(@profile_id, @backend)
     end
 
-    def add_content(content, source, line = nil, ctx = nil)
-      ctx = create_context if ctx.nil?
-
+    def add_content(content, source, line = nil)
       # evaluate all tests
+      ctx = create_context
       ctx.load(content, source, line || 1)
 
       # process the resulting rules
@@ -96,7 +95,6 @@ module Vulcano
           @tests.register(example)
         end
       end
-      ctx
     end
 
     def run
