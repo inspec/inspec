@@ -101,7 +101,7 @@ class VulcanoCLI < Thor
   target_options
   def shell_func
     runner = Vulcano::Runner.new(options)
-    Vulcano::Shell.start(runner)
+    Vulcano::Shell.new(runner).start
   rescue RuntimeError => e
     puts e.message
   end
