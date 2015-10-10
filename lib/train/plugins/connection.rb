@@ -5,9 +5,10 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 require 'train/errors'
+require 'train/plugins/common'
 require 'logger'
 
-class Train::Plugins
+class Train::Plugins::Transport
   # A Connection instance can be generated and re-generated, given new
   # connection details such as connection port, hostname, credentials, etc.
   # This object is responsible for carrying out the actions on the remote
@@ -15,6 +16,8 @@ class Train::Plugins
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection
+    include Train::Plugins::Common
+
     # Create a new Connection instance.
     #
     # @param options [Hash] connection options
@@ -23,11 +26,6 @@ class Train::Plugins
       @config = config
       @log = @config.delete(:logger) || Logger.new(STDOUT)
     end
-
-    autoload :FileCommon, 'train/plugins/file_common'
-    autoload :LinuxFile,  'train/plugins/linux_file'
-    autoload :OSCommon,   'train/plugins/os_common'
-    CommandResult = Struct.new(:stdout, :stderr, :exit_status)
 
     # Closes the session connection, if it is still active.
     def close

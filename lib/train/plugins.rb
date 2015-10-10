@@ -8,7 +8,6 @@ require 'train/errors'
 module Train
   class Plugins
     autoload :Transport, 'train/plugins/transport'
-    autoload :Connection, 'train/plugins/connection'
 
     class << self
       # Retrieve the current plugin registry, containing all plugin names
@@ -36,6 +35,6 @@ module Train
            "initialize a train plugin #{version}, which is not supported "\
            'in the current release of train.'
     end
-    Train::Plugins::Transport
+    ::Train::Plugins::Transport
   end
 end

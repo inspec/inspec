@@ -5,9 +5,14 @@
 
 require 'logger'
 require 'train/errors'
+require 'train/plugins/common'
 
 class Train::Plugins
   class Transport
+    include Train::Plugins::Common
+
+    autoload :Connection, 'train/plugins/connection'
+
     # @return [Hash] options, which created this Transport
     attr_reader :options
 
