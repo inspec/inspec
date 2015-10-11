@@ -4,7 +4,7 @@
 
 module Train::Plugins::Common
   class FileCommon
-    autoload :Stat, 'vulcano/plugins/backend_stat'
+    autoload :Stat, 'train/plugins/stat'
 
     # interface methods: these fields should be implemented by every
     # backend File
