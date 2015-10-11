@@ -44,7 +44,7 @@ class Train::Transports::SSH
       exit_status = nil
       cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
-      @ssh.open_channel do |channel|
+      @session.open_channel do |channel|
         channel.exec(cmd) do |_, success|
           unless success
             abort 'Couldn\'t execute command on SSH.'
@@ -67,7 +67,7 @@ class Train::Transports::SSH
           end
         end
       end
-      @ssh.loop
+      @session.loop
 
       CommandResult.new(stdout, stderr, exit_status)
     rescue Net::SSH::Exception => ex
@@ -161,7 +161,6 @@ class Train::Transports::SSH
 
       sleep(opts[:delay])
       retry
-      end
     end
 
     # (see Base::Connection#init_options)
