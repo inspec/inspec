@@ -1,4 +1,8 @@
 # encoding: utf-8
+#
+# author: Dominik Richter
+# author: Christoph Hartmann
+
 require 'helper'
 require 'train/transports/local'
 
