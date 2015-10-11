@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'helper'
+require 'train/plugins/common'
 require 'train/plugins/stat'
 
 describe 'stat' do
