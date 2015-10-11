@@ -51,7 +51,7 @@ module Train::Plugins::Common
       },
     }
 
-    OS['linux'] = %w{alpine arch coreos exherbo gentoo slackware} +
+    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} +
                   OS['redhat'] + OS['debian'] + OS['suse']
 
     OS['unix'] = %w{unix aix} + OS['linux'] + OS['solaris'] + OS['bsd']

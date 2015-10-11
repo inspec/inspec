@@ -166,6 +166,12 @@ describe 'os common plugin' do
     it { os.unix?.must_equal(true) }
   end
 
+  describe 'with platform set to linux' do
+    let(:os) { mock_platform('linux') }
+    it { os.linux?.must_equal(true) }
+    it { os.unix?.must_equal(true) }
+  end
+
   describe 'with platform set to freebsd' do
     let(:os) { mock_platform('freebsd') }
     it { os.bsd?.must_equal(true) }
