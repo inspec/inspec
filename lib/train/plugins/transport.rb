@@ -69,7 +69,13 @@ class Train::Plugins
     def merge_options(base, opts)
       res = base.merge(opts || {})
       default_options.each do |field, hm|
-        res[field] = hm[:default] if !res.key?(field) and hm.key?(:default)
+        next if res.key?(field) or !hm.key?(:default)
+        default = hm[:default]
+        if default.is_a? Proc
+          res[field] = default.call(res)
+        else
+          res[field] = default
+        end
       end
       res
     end

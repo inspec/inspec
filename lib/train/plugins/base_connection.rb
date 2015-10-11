@@ -22,9 +22,9 @@ class Train::Plugins::Transport
     #
     # @param options [Hash] connection options
     # @yield [self] yields itself for block-style invocation
-    def initialize(config)
-      @config = config
-      @log = @config.delete(:logger) || Logger.new(STDOUT)
+    def initialize(options)
+      @options = options
+      @log = @options.delete(:logger) || Logger.new(STDOUT)
     end
 
     # Closes the session connection, if it is still active.

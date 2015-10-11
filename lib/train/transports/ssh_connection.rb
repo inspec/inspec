@@ -29,6 +29,16 @@ class Train::Transports::SSH
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection
+    def initialize(options)
+      super(options)
+      @username               = @options.delete(:username)
+      @hostname               = @options.delete(:hostname)
+      @port                   = @options[:port] # don't delete from options
+      @connection_retries     = @options.delete(:connection_retries)
+      @connection_retry_sleep = @options.delete(:connection_retry_sleep)
+      @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+    end
+
     # (see Base::Connection#close)
     def close
       return if @session.nil?
@@ -44,7 +54,7 @@ class Train::Transports::SSH
       exit_status = nil
       cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
 
-      @session.open_channel do |channel|
+      session.open_channel do |channel|
         channel.exec(cmd) do |_, success|
           unless success
             abort 'Couldn\'t execute command on SSH.'
@@ -142,8 +152,8 @@ class Train::Transports::SSH
     # @return [Net::SSH::Connection::Session] the SSH connection session
     # @api private
     def establish_connection(opts)
-      logger.debug("[SSH] opening connection to #{self}")
-      Net::SSH.start(hostname, username, options)
+      log.debug("[SSH] opening connection to #{self}")
+      Net::SSH.start(@hostname, @username, @options)
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
         logger.warn("[SSH] connection failed, terminating (#{e.inspect})")
@@ -163,17 +173,6 @@ class Train::Transports::SSH
       retry
     end
 
-    # (see Base::Connection#init_options)
-    def init_options(options)
-      super
-      @username               = @options.delete(:username)
-      @hostname               = @options.delete(:hostname)
-      @port                   = @options[:port] # don't delete from options
-      @connection_retries     = @options.delete(:connection_retries)
-      @connection_retry_sleep = @options.delete(:connection_retry_sleep)
-      @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
-    end
-
     # Returns a connection session, or establishes one when invoked the
     # first time.
     #
@@ -182,8 +181,8 @@ class Train::Transports::SSH
     # @api private
     def session(retry_options = {})
       @session ||= establish_connection({
-        :retries => connection_retries.to_i,
-        :delay   => connection_retry_sleep.to_i
+        retries: @connection_retries.to_i,
+        delay:   @connection_retry_sleep.to_i,
       }.merge(retry_options))
     end
 
@@ -192,7 +191,7 @@ class Train::Transports::SSH
     #
     # @api private
     def to_s
-      "#{username}@#{hostname}<#{options.inspect}>"
+      "#{@username}@#{@hostname}<#{@options.inspect}>"
     end
   end
 end
