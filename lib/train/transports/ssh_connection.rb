@@ -37,6 +37,7 @@ class Train::Transports::SSH
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+      @files                  = {}
     end
 
     # (see Base::Connection#close)
@@ -46,6 +47,14 @@ class Train::Transports::SSH
       session.close
     ensure
       @session = nil
+    end
+
+    def os
+      @os ||= OS.new(self)
+    end
+
+    def file(path)
+      @files[path] ||= LinuxFile.new(self, path)
     end
 
     # (see Base::Connection#run_command)
@@ -192,6 +201,12 @@ class Train::Transports::SSH
     # @api private
     def to_s
       "#{@username}@#{@hostname}<#{@options.inspect}>"
+    end
+
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend, { family: 'unix' })
+      end
     end
   end
 end
