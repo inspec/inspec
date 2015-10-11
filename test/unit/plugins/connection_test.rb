@@ -3,7 +3,7 @@ require 'helper'
 
 describe 'v1 Connection Plugin' do
   describe 'empty v1 connection plugin' do
-    let(:cls) { Train::Plugins::Transport::Connection }
+    let(:cls) { Train::Plugins::Transport::BaseConnection }
     let(:connection) { cls.new({}) }
 
     it 'provides a close method' do

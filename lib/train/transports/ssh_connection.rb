@@ -28,7 +28,7 @@ class Train::Transports::SSH
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < Connection
+  class Connection < BaseConnection
     # (see Base::Connection#close)
     def close
       return if @session.nil?

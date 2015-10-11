@@ -35,6 +35,8 @@ module Train::Transports
   class SSH < Train.plugin(1)
     name 'ssh'
 
+    autoload :Connection, 'train/transports/ssh_connection'
+
     # common target configuration
     option :host,     required: true
     option :port,     default: 22, required: true

@@ -11,7 +11,7 @@ class Train::Plugins
   class Transport
     include Train::Plugins::Common
 
-    autoload :Connection, 'train/plugins/connection'
+    autoload :BaseConnection, 'train/plugins/base_connection'
 
     # @return [Hash] options, which created this Transport
     attr_reader :options

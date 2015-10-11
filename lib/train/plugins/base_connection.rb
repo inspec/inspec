@@ -15,7 +15,7 @@ class Train::Plugins::Transport
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection
+  class BaseConnection
     include Train::Plugins::Common
 
     # Create a new Connection instance.
