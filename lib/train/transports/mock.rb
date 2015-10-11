@@ -24,9 +24,12 @@ module Train::Transports
       @os = OS.new(self, value)
     end
 
+    def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
+      @commands[cmd] = Command.new(stdout, stderr, exit_status)
+    end
+
     def run_command(cmd)
-      @commands[cmd] ||
-        MockCommand.new(cmd, nil, nil, 0)
+      @commands[cmd] || mock_command(cmd)
     end
 
     def file(path)

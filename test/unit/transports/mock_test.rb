@@ -10,33 +10,39 @@ describe 'mock transport' do
   end
 
   describe 'when running a mocked command' do
-    let(:mock_cmd) { Train::Transports::Mock::Command }
+    let(:mock_cmd) {  }
+
+    it 'has a simple mock command creator' do
+      out = rand
+      res = Train::Transports::Mock::Command.new(out, nil, 0)
+      transport.mock_command('test', out).must_equal res
+    end
 
     it 'gets results for stdout' do
       out = rand
       cmd = rand
-      transport.commands[cmd] = mock_cmd.new(out, nil, nil)
+      transport.mock_command(cmd, out)
       transport.run_command(cmd).stdout.must_equal(out)
     end
 
     it 'gets results for stderr' do
       err = rand
       cmd = rand
-      transport.commands[cmd] = mock_cmd.new(nil, err, nil)
+      transport.mock_command(cmd, nil, err)
       transport.run_command(cmd).stderr.must_equal(err)
     end
 
     it 'gets results for exit_status' do
       code = rand
       cmd = rand
-      transport.commands[cmd] = mock_cmd.new(nil, nil, code)
+      transport.mock_command(cmd, nil, nil, code)
       transport.run_command(cmd).exit_status.must_equal(code)
     end
   end
 
   describe 'when accessing a mocked os' do
     it 'sets the OS to the mocked value' do
-      transport.mock_os({ family: 'centos'})
+      transport.mock_os({ family: 'centos' })
       transport.os.linux?.must_equal true
       transport.os.redhat?.must_equal true
       transport.os[:family].must_equal 'centos'
