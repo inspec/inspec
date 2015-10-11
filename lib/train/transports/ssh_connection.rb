@@ -18,8 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "net/ssh"
-require "net/scp"
+require 'net/ssh'
+require 'net/scp'
 
 class Train::Transports::SSH
   # A Connection instance can be generated and re-generated, given new
@@ -131,9 +131,9 @@ class Train::Transports::SSH
     def wait_until_ready
       delay = 3
       session(
-        retries: max_wait_until_ready / delay,
+        retries: @max_wait_until_ready / delay,
         delay:   delay,
-        message: "Waiting for SSH service on #{hostname}:#{port}, " \
+        message: "Waiting for SSH service on #{@hostname}:#{@port}, " \
                  "retrying in #{delay} seconds",
       )
       execute(PING_COMMAND.dup)
