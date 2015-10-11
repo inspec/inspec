@@ -173,6 +173,8 @@ class MockLoader
       # host for Linux
       'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
+      # apt
+      "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
     }
 
     # set os emulation
