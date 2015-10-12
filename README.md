@@ -40,7 +40,7 @@ train = Train.create('ssh',
 ```ruby
 require 'train'
 train = Train.create('winrm',
-  host: '1.2.3.4', user: 'Administrator', ssl: true, self_signed: true)
+  host: '1.2.3.4', user: 'Administrator', password: '...', ssl: true, self_signed: true)
 ```
 
 ## Usage
@@ -63,31 +63,30 @@ puts conn.file('/proc/version').content
 conn.close
 ```
 
-# Kudos and Contribors
+# Kudos and Contributors
 
 Train is heavily based on the work of:
 
 * [test-kitchen](https://github.com/test-kitchen/test-kitchen)  
 
-  by Fletcher Nichol
-	and [all contributors](https://github.com/test-kitchen/test-kitchen/graphs/contributors)  
+    by [Fletcher Nichol](fnichol@nichol.ca)
+    and [a great community of contributors](https://github.com/test-kitchen/test-kitchen/graphs/contributors)
 
 * [ohai](https://github.com/chef/ohai)
 
-  by Adam Jacob, Chef Software Inc.
-	and [all contributors](https://github.com/chef/ohai/graphs/contributors)
+    by Adam Jacob, Chef Software Inc.
+    and [a great community of contributors](https://github.com/chef/ohai/graphs/contributors)
 
 
 ## Contributing
 
-	1. Fork it
-	1. Create your feature branch (git checkout -b my-new-feature)
-	1. Commit your changes (git commit -am 'Add some feature')
-	1. Push to the branch (git push origin my-new-feature)
-	1. Create new Pull Request
+1. Fork it
+1. Create your feature branch (git checkout -b my-new-feature)
+1. Commit your changes (git commit -am 'Add some feature')
+1. Push to the branch (git push origin my-new-feature)
+1. Create new Pull Request
 
 
 Copyright 2015 Chef Software Inc. All rights reserved.
 Copyright 2015 Vulcano Security GmbH. All rights reserved.
 Copyright 2015 Dominik Richter. All rights reserved.
-
