@@ -8,6 +8,8 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
+require 'json'
+
 module Train::Plugins::Common
   module DetectWindows
     # See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832%28v=vs.85%29.aspx
