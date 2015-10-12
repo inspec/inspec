@@ -27,7 +27,7 @@ describe 'file interface' do
     end
 
     it 'has group name' do
-      file.group.must_equal(Test.root_group(os))
+      file.group.must_equal(Test.root_group(backend.os))
     end
 
     it 'has mode 0765' do
@@ -64,7 +64,8 @@ describe 'file interface' do
     end
 
     it 'has selinux label handling' do
-      file.selinux_label.must_equal(Test.selinux_label(os, file.path))
+      res = Test.selinux_label(backend.os, file.path)
+      file.selinux_label.must_equal(res)
     end
 
     it 'has no product_version' do
