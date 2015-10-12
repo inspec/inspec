@@ -7,7 +7,7 @@ describe 'ssh transport' do
   let(:conf) {{
     host: rand.to_s,
     password: rand.to_s,
-    keys: rand.to_s,
+    key_files: rand.to_s,
   }}
 
   describe 'default options' do
@@ -57,7 +57,7 @@ describe 'ssh transport' do
         "-o", "IdentitiesOnly=yes",
         "-o", "LogLevel=VERBOSE",
         "-o", "ForwardAgent=no",
-        "-i", conf[:keys],
+        "-i", conf[:key_files],
         "-p", "22",
         "root@#{conf[:host]}",
       ])
@@ -74,14 +74,14 @@ describe 'ssh transport' do
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
 
-    it 'doesnt like user == nil' do
+    it 'reverts to root on user == nil' do
       conf[:user] = nil
-      proc { cls.new(conf).connection }.must_raise Train::ClientError
+      cls.new(conf).connection.method(:options).call[:user] == 'root'
     end
 
     it 'doesnt like key and password == nil' do
       conf.delete(:password)
-      conf.delete(:keys)
+      conf.delete(:key_files)
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
   end

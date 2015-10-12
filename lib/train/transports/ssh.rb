@@ -38,11 +38,11 @@ module Train::Transports
     autoload :Connection, 'train/transports/ssh_connection'
 
     # common target configuration
-    option :host,     required: true
-    option :port,     default: 22, required: true
-    option :user,     default: 'root', required: true
-    option :keys,     default: nil
-    option :password, default: nil
+    option :host,      required: true
+    option :port,      default: 22, required: true
+    option :user,      default: 'root', required: true
+    option :key_files, default: nil
+    option :password,  default: nil
 
     # additional ssh options
     option :keepalive, default: true
@@ -76,8 +76,8 @@ module Train::Transports
     def validate_options(options)
       super(options)
 
-      keys = Array(options[:keys])
-      if keys.empty? and options[:password].nil?
+      key_files = Array(options[:key_files])
+      if key_files.empty? and options[:password].nil?
         fail Train::ClientError,
              'You must configure at least one authentication method for SSH:'\
              ' Password or key.'
@@ -85,10 +85,10 @@ module Train::Transports
 
       options[:auth_methods] ||= ['none']
 
-      unless keys.empty?
+      unless key_files.empty?
         options[:auth_methods].push('publickey')
         options[:keys_only] = true if options[:password].nil?
-        options[:keys] = keys
+        options[:key_files] = key_files
       end
 
       unless options[:password].nil?
@@ -123,7 +123,7 @@ module Train::Transports
         max_wait_until_ready:   opts[:max_wait_until_ready],
         auth_methods:           opts[:auth_methods],
         keys_only:              opts[:keys_only],
-        keys:                   opts[:keys],
+        keys:                   opts[:key_files],
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
       }
