@@ -162,7 +162,7 @@ class Train::Transports::SSH
     # @return [Net::SSH::Connection::Session] the SSH connection session
     # @api private
     def establish_connection(opts)
-      log.debug("[SSH] opening connection to #{self}")
+      logger.debug("[SSH] opening connection to #{self}")
       Net::SSH.start(@hostname, @username, @options)
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0

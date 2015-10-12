@@ -22,12 +22,13 @@
 
 require 'rbconfig'
 require 'uri'
+require 'train/errors'
 
 module Train::Transports
   # Wrapped exception for any internally raised WinRM-related errors.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class WinRMFailed < TransportFailed; end
+  class WinRMFailed < Train::TransportError; end
 
   # A Transport which uses WinRM to execute commands and transfer files.
   #
@@ -54,7 +55,8 @@ module Train::Transports
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
 
-    def initialize
+    def initialize(opts)
+      super(opts)
       load_needed_dependencies!
     end
 
@@ -131,7 +133,6 @@ module Train::Transports
 
     # (see Base#load_needed_dependencies!)
     def load_needed_dependencies!
-      super
       spec_version = WINRM_TRANSPORT_SPEC_VERSION.dup
       logger.debug('Winrm Transport requested,' \
         " loading WinRM::Transport gem (#{spec_version})")
@@ -153,7 +154,7 @@ module Train::Transports
         ' or add the following to your Gemfile if you are using Bundler:' \
         " `gem 'winrm-transport', '#{spec_version}'`.",
       )
-      raise UserError,
+      raise Train::UserError,
             "Could not load or activate WinRM::Transport (#{e.message})"
     end
 
