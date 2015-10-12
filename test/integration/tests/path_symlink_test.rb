@@ -68,7 +68,7 @@ describe 'file interface' do
     end
 
     it 'has selinux label handling' do
-      res = Test.selinux_label(backend.os, file.path)
+      res = Test.selinux_label(backend, file.path)
       file.selinux_label.must_equal(res)
     end
 

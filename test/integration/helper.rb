@@ -27,7 +27,10 @@ module Test
       end
     end
 
-    def selinux_label(os, path = nil)
+    def selinux_label(backend, path = nil)
+      return nil if backend.class.to_s =~ /docker/i
+
+      os = backend.os
       labels = {}
 
       h = {}
