@@ -2,6 +2,9 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'digest/sha2'
+require 'digest/md5'
+
 module Train::Plugins::Common
   class FileCommon
     autoload :Stat, 'train/plugins/stat'
