@@ -58,11 +58,7 @@ module Train
       acc
     end
 
-    # in case the user specified a key-file, register it that way
-    key = conf[:key]
-    if !key.nil? and File.file?(key)
-      conf[:key_file] = key
-    end
+    group_keys_and_keyfiles(conf)
 
     return conf if conf[:target].to_s.empty?
 
@@ -81,5 +77,24 @@ module Train
 
     # return the updated config
     conf
+  end
+
+  private
+
+  def self.group_keys_and_keyfiles(conf)
+    # in case the user specified a key-file, register it that way
+    # we will clear the list of keys and put keys and key_files separately
+    keys_mixed = conf[:keys]
+    return if keys_mixed.nil?
+
+    conf[:key_files] = []
+    conf[:keys] = []
+    keys_mixed.each do |key|
+      if !key.nil? and File.file?(key)
+        conf[:key_files].push(key)
+      else
+        conf[:keys].push(key)
+      end
+    end
   end
 end
