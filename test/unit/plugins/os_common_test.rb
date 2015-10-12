@@ -22,6 +22,12 @@ describe 'os common plugin' do
     os[:family].must_equal family
   end
 
+  it 'provides an accessor for the full hash' do
+    x = rand.to_s
+    os = mock_platform(x)
+    os.to_hash.must_equal({ family: x })
+  end
+
   describe 'with platform set to redhat' do
     let(:os) { mock_platform('redhat') }
     it { os.redhat?.must_equal(true) }

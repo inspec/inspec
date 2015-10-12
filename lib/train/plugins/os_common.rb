@@ -30,6 +30,10 @@ module Train::Plugins::Common
       @platform[key]
     end
 
+    def to_hash
+      @platform
+    end
+
     OS = {
       'redhat' => %w{
         redhat oracle centos fedora amazon scientific xenserver
