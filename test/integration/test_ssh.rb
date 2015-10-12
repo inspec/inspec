@@ -19,6 +19,6 @@ tests = ARGV
 
 backends.each do |type, get_backend|
   tests.each do |test|
-    instance_eval(File.read(test))
+    instance_eval(File.read(test), test, 1)
   end
 end
