@@ -81,7 +81,7 @@ module Vulcano::Resources
     end
 
     def to_s
-      "yum repository"
+      'Yum Repository'
     end
 
     private
