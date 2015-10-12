@@ -33,8 +33,8 @@ describe 'v1 Transport Plugin' do
         .must_equal(l)
     end
 
-    it 'provides a connect method' do
-      proc { plugin.new.connect }.must_raise Train::ClientError
+    it 'provides a connection method' do
+      proc { plugin.new.connection }.must_raise Train::ClientError
     end
   end
 

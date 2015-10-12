@@ -59,7 +59,7 @@ module Train::Transports
     end
 
     # (see Base#connection)
-    def connect(state = {}, &block)
+    def connection(state = {}, &block)
       opts = merge_options(options, state || {})
       validate_options(opts)
       conn_opts = connection_options(opts)

@@ -30,7 +30,7 @@ class Train::Plugins
     #
     # @param [Hash] _options = nil provide optional configuration params
     # @return [Connection] the connection for this configuration
-    def connect(_options = nil)
+    def connection(_options = nil)
       fail Train::ClientError, "#{self.class} does not implement #connect()"
     end
 

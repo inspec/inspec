@@ -33,23 +33,23 @@ describe 'mock transport' do
     }}
 
     it 'works with a minimum valid config' do
-      cls.new(conf).connect
+      cls.new(conf).connection
     end
 
     it 'doesnt like host == nil' do
       conf.delete(:host)
-      proc { cls.new(conf).connect }.must_raise Train::ClientError
+      proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
 
     it 'doesnt like user == nil' do
       conf[:user] = nil
-      proc { cls.new(conf).connect }.must_raise Train::ClientError
+      proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
 
     it 'doesnt like key and password == nil' do
       conf.delete(:password)
       conf.delete(:keys)
-      proc { cls.new(conf).connect }.must_raise Train::ClientError
+      proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
   end
 end
