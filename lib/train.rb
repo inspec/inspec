@@ -15,19 +15,17 @@ module Train
   # @param [Array] *args list of arguments for the plugin
   # @return [Transport] instance of the new transport or nil
   def self.create(name, *args)
-    transport_class = Train::Plugins.registry[name]
-
-    if transport_class.nil?
-      load_transport(name)
-      transport_class = Train::Plugins.registry[name]
-    end
-
-    return nil if transport_class.nil?
-    transport_class.new(*args)
+    cls = load_transport(name)
+    cls.new(*args) unless cls.nil?
   end
 
   def self.load_transport(name)
+    res = Train::Plugins.registry[name]
+    return res unless res.nil?
+
+    # if the plugin wasnt loaded yet:
     require 'train/transports/' + name.to_s
+    Train::Plugins.registry[name]
   rescue LoadError => _
     raise Train::UserError,
           "Can't find train plugin #{name.inspect}. Please install it first."
