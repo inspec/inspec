@@ -7,7 +7,7 @@ require 'train'
 backends = {}
 backend_conf = {
   'target' => 'ssh://vagrant@localhost',
-  'key_file' => '/root/.ssh/id_rsa',
+  'key_files' => '/root/.ssh/id_rsa',
 }
 
 backends[:ssh] = proc {
