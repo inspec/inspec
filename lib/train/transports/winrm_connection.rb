@@ -49,6 +49,10 @@ class Train::Transports::WinRM
       @session = nil
     end
 
+    def os
+      @os ||= OS.new(self)
+    end
+
     def run_command(command)
       return if command.nil?
       logger.debug("[WinRM] #{self} (#{command})")
@@ -238,6 +242,12 @@ class Train::Transports::WinRM
     # @api private
     def to_s
       "#{@winrm_transport}::#{@endpoint}<#{options.inspect}>"
+    end
+
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend, { family: 'windows' })
+      end
     end
   end
 end
