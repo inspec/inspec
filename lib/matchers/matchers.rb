@@ -190,10 +190,25 @@ RSpec::Matchers.define :be_resolvable do
   end
 
   chain :by do |_type|
-    fail '[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`'
+    fail "[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`. Please use the following syntax `host('example.com', port: 53, proto: 'udp')`."
   end
 
   failure_message do |host|
     "expected that host #{host} is resolvable"
+  end
+end
+
+# matcher for iptables
+RSpec::Matchers.define :have_rule do |rule|
+  match do |tables|
+    tables.has_rule?(rule)
+  end
+
+  chain :with_table do |_table|
+    fail "[UNSUPPORTED] `with_table` is not supported in combination with `have_rule`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
+  end
+
+  chain :with_chain do |_chain|
+    fail "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 end
