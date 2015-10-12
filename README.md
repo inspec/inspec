@@ -50,6 +50,25 @@ require 'train'
 train = Train.create('docker', host: 'container_id...')
 ```
 
+## Configuration
+
+To get a list of available options for a plugin:
+
+```ruby
+puts Train.options('ssh')
+```
+This will provide all configuration options:
+
+```ruby
+{
+  :host     => { :required => true},
+  :port     => { :default  => 22, :required => true},
+  :user     => { :default  => "root", :required => true},
+  :keys     => { :default  => nil},
+  :password => { :default  => nil},
+  ...
+```
+
 ## Usage
 
 ```ruby
