@@ -5,7 +5,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Group' do
+describe 'Vulcano::Resources::Interface' do
 
   # ubuntu 14.04
   it 'verify interface on ubuntu' do

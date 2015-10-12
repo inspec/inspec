@@ -5,7 +5,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Passwd' do
+describe 'Vulcano::Resources::Pip' do
   let(:resource) { load_resource('pip', 'jinja2') }
 
   it 'verify pip package detail parsing' do

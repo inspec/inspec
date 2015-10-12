@@ -5,7 +5,8 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Passwd' do
+describe 'Vulcano::Resources::Package' do
+
   describe 'package' do
     # arch linux
     it 'verify arch linux package parsing' do
