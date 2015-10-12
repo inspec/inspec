@@ -201,8 +201,6 @@ end
 # matcher for iptables
 RSpec::Matchers.define :have_rule do |rule|
   match do |tables|
-    p "have_rule matche #{rule}"
-    p tables
     tables.has_rule?(rule)
   end
 
