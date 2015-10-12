@@ -6,23 +6,18 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Bond' do
-  let(:resource) { load_resource('bond', 'bond0') }
 
-  it 'bond must be available' do
+  it 'check linux bond on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('bond', 'bond0')
+    # bond must be available
     resource.exist?.must_equal true
-  end
-
-  it 'eth0 is part of bond' do
+    # eth0 is part of bond
     _(resource.has_interface?('eth0')).must_equal true
     _(resource.has_interface?('eth1')).must_equal false
     _(resource.has_interface?('eth2')).must_equal true
-  end
-
-  it 'get all interfaces' do
+    # get all interfaces
     _(resource.interfaces).must_equal %w{eth0 eth2}
-  end
-
-  it 'get proc content' do
+    # get proc content
     _(resource.content).wont_equal nil
     _(resource.content).wont_equal ''
   end

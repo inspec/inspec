@@ -6,9 +6,8 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Processes' do
-  let(:resource) { load_resource('processes', '/bin/bash') }
-
   it 'verify processes resource' do
+    resource = load_resource('processes', '/bin/bash')
     _(resource.list).must_equal [{
       user: 'root',
       pid: '1',
@@ -20,7 +19,7 @@ describe 'Vulcano::Resources::Processes' do
       stat: 'Ss',
       start: '14:15',
       time: '0:00',
-      command: '/bin/bash'
+      command: '/bin/bash',
     }]
 
     _(resource.list.length).must_equal 1
