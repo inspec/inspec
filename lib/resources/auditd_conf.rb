@@ -20,12 +20,12 @@ class AuditDaemonConf < Vulcano.resource(1)
     @conf_path = path || '/etc/audit/auditd.conf'
   end
 
-  def to_s
-    'audit daemon configuration file'
-  end
-
   def method_missing(name)
     read_params[name.to_s]
+  end
+
+  def to_s
+    'Audit Daemon Config'
   end
 
   private

@@ -30,4 +30,8 @@ class Cmd < Vulcano.resource(1)
     res = vulcano.backend.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
+
+  def to_s
+    "Command #{@command}"
+  end
 end

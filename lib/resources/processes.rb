@@ -21,6 +21,10 @@ class Processes < Vulcano.resource(1)
     end
   end
 
+  def to_s
+    'Processes'
+  end
+
   private
 
   def ps_aux

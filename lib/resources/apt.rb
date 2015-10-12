@@ -52,7 +52,7 @@ class AptRepository < Vulcano.resource(1)
   end
 
   def to_s
-    "apt #{@deb_url}"
+    "Apt Repository #{@deb_url}"
   end
 
   private

@@ -69,6 +69,10 @@ class Group < Vulcano.resource(1)
     end
   end
 
+  def to_s
+    "Group #{@group}"
+  end
+
   private
 
   def group_info

@@ -63,7 +63,7 @@ module Vulcano::Resources
     end
 
     def to_s
-      "Path '#{@path}'"
+      "File #{@path}"
     end
   end
 end

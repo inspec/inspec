@@ -74,4 +74,8 @@ class Mysql < Vulcano.resource(1)
     @log_group = 'mysql'
     @log_dir_group = 'root'
   end
+
+  def to_s
+    'MySQL'
+  end
 end

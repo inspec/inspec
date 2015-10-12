@@ -27,4 +27,8 @@ class Script < Cmd
   def exist?
     nil
   end
+
+  def to_s
+    'Script'
+  end
 end

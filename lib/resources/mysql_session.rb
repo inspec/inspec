@@ -32,6 +32,10 @@ class MysqlSession < Vulcano.resource(1)
     cmd
   end
 
+  def to_s
+    'MySQL Session'
+  end
+
   private
 
   def init_fallback

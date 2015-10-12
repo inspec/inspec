@@ -26,10 +26,6 @@ class PConfig < Vulcano.resource(1)
     read_content if @content.nil?
   end
 
-  def to_s
-    "parse_config #{@conf_path}"
-  end
-
   def method_missing(name)
     @params || read_content
     @params[name.to_s]
@@ -59,6 +55,10 @@ class PConfig < Vulcano.resource(1)
     @params = SimpleConfig.new(@content, @opts).params
     @content
   end
+
+  def to_s
+    "Parse Config #{@conf_path}"
+  end
 end
 
 class PConfigFile < PConfig
@@ -67,5 +67,9 @@ class PConfigFile < PConfig
   def initialize(path, opts)
     super(nil, opts)
     parse_file(path)
+  end
+
+  def to_s
+    "Parse Config File #{@conf_path}"
   end
 end

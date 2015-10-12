@@ -36,6 +36,6 @@ class OsEnv < Vulcano.resource(1)
   end
 
   def to_s
-    "Environment variable #{@osenv}"
+    "Environment Variable #{@osenv}"
   end
 end

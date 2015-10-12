@@ -72,6 +72,6 @@ class WindowsFeature < Vulcano.resource(1)
   end
 
   def to_s
-    "Windows feature '#{@feature}'"
+    "Windows Feature '#{@feature}'"
   end
 end

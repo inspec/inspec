@@ -19,10 +19,6 @@ class LimitsConf < Vulcano.resource(1)
     @conf_path = path || '/etc/security/limits.conf'
   end
 
-  def to_s
-    'limits_conf'
-  end
-
   def method_missing(name)
     read_params[name.to_s]
   end
@@ -51,5 +47,9 @@ class LimitsConf < Vulcano.resource(1)
       multiple_values: true,
     )
     @params = conf.params
+  end
+
+  def to_s
+    'limits.conf'
   end
 end

@@ -40,10 +40,6 @@ class EtcGroup < Vulcano.resource(1)
     unless %w{ubuntu debian redhat fedora arch darwin freebsd}.include?(vulcano.os[:family])
   end
 
-  def to_s
-    @path
-  end
-
   def groups(filter = nil)
     entries = filter || @entries
     entries.map { |x| x['name'] } if !entries.nil?
@@ -85,6 +81,10 @@ class EtcGroup < Vulcano.resource(1)
     end
 
     EtcGroupView.new(self, res)
+  end
+
+  def to_s
+    '/etc/group'
   end
 
   private

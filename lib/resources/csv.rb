@@ -25,4 +25,8 @@ class CsvConfig < JsonConfig
     # convert to hash
     csv.to_a.map(&:to_hash)
   end
+
+  def to_s
+    "Csv #{@path}"
+  end
 end

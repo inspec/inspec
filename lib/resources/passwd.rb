@@ -41,10 +41,6 @@ class Passwd < Vulcano.resource(1)
     @parsed = parse_passwd(@content)
   end
 
-  def to_s
-    @path
-  end
-
   # call passwd().uid(0)
   # returns a seperate object with reference to this object
   def uid(uid)
@@ -71,6 +67,10 @@ class Passwd < Vulcano.resource(1)
     @parsed.map {|x|
       x['name']
     }
+  end
+
+  def to_s
+    '/etc/passwd'
   end
 
   private

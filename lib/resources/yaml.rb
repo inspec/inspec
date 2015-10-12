@@ -16,4 +16,8 @@ class YamlConfig < JsonConfig
   def parse(content)
     YAML.load(content)
   end
+
+  def to_s
+    "YAML #{@path}"
+  end
 end

@@ -8,4 +8,8 @@ module Vulcano::Resources
   class Directory < File
     name 'directory'
   end
+
+  def to_s
+    "Directory #{@path}"
+  end
 end

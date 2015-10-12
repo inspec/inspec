@@ -21,10 +21,6 @@ class InetdConf < Vulcano.resource(1)
     @conf_path = path || '/etc/inetd.conf'
   end
 
-  def to_s
-    'inetd_conf'
-  end
-
   def method_missing(name)
     read_params[name.to_s]
   end
@@ -52,5 +48,9 @@ class InetdConf < Vulcano.resource(1)
       multiple_values: false,
     )
     @params = conf.params
+  end
+
+  def to_s
+    'inetd.conf'
   end
 end

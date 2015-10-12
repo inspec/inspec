@@ -15,10 +15,6 @@ class SshConf < Vulcano.resource(1)
     @type = type || "SSH #{typename} configuration #{conf_path}"
   end
 
-  def to_s
-    @type
-  end
-
   def content
     read_content
   end
@@ -35,6 +31,10 @@ class SshConf < Vulcano.resource(1)
     # extract first value if we have only one value in array
     return param[0] if param.length == 1
     param
+  end
+
+  def to_s
+    'SSH Configuration'
   end
 
   private

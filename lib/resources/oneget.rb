@@ -58,6 +58,6 @@ class OneGetPackage < Vulcano.resource(1)
   end
 
   def to_s
-    "oneget package #{@package_name}"
+    "OneGet Package #{@package_name}"
   end
 end

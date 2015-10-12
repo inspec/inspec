@@ -80,6 +80,10 @@ module Vulcano::Resources
       repo(name.to_s) if !name.nil?
     end
 
+    def to_s
+      'Yum Repository'
+    end
+
     private
 
     # Removes lefthand and righthand whitespace

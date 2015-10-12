@@ -56,6 +56,10 @@ class Port < Vulcano.resource(1)
     res.size > 0 ? res : nil
   end
 
+  def to_s
+    "Port  #{@port}"
+  end
+
   private
 
   def info
