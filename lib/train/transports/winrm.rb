@@ -45,6 +45,8 @@ module Train::Transports
     option :user, default: 'administrator', required: true
     option :password, nil
     option :path, default: '/wsman'
+    option :ssl, default: false
+    option :self_signed, default: false
 
     # additional winrm options
     option :rdp_port, default: 3389
@@ -95,18 +97,19 @@ module Train::Transports
     # @api private
     def connection_options(opts)
       {
-        instance_name:          instance.name,
-        logger:                 logger,
-        winrm_transport:        :plaintext,
-        disable_sspi:           true,
-        basic_auth_only:        true,
-        endpoint:               opts[:endpoint],
-        user:                   opts[:user],
-        pass:                   opts[:password],
-        rdp_port:               opts[:rdp_port],
-        connection_retries:     opts[:connection_retries],
-        connection_retry_sleep: opts[:connection_retry_sleep],
-        max_wait_until_ready:   opts[:max_wait_until_ready],
+        instance_name:            instance.name,
+        logger:                   logger,
+        winrm_transport:          :plaintext,
+        disable_sspi:             true,
+        basic_auth_only:          true,
+        endpoint:                 opts[:endpoint],
+        user:                     opts[:user],
+        pass:                     opts[:password],
+        rdp_port:                 opts[:rdp_port],
+        connection_retries:       opts[:connection_retries],
+        connection_retry_sleep:   opts[:connection_retry_sleep],
+        max_wait_until_ready:     opts[:max_wait_until_ready],
+        no_ssl_peer_verification: opts[:self_signed],
       }
     end
 
