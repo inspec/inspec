@@ -38,6 +38,7 @@ class Train::Transports::SSH
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
       @files                  = {}
+      @session                = nil
     end
 
     # (see Base::Connection#close)
@@ -109,8 +110,8 @@ class Train::Transports::SSH
       Array(options[:keys]).each do |ssh_key|
         args += %W( -i #{ssh_key} )
       end
-      args += %W( -p #{port} )
-      args += %W( #{username}@#{hostname} )
+      args += %W( -p #{@port} )
+      args += %W( #{@username}@#{@hostname} )
 
       LoginCommand.new('ssh', args)
     end

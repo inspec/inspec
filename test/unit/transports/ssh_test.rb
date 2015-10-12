@@ -2,8 +2,13 @@
 require 'helper'
 require 'train/transports/ssh'
 
-describe 'mock transport' do
+describe 'ssh transport' do
   let(:cls) { Train::Transports::SSH }
+  let(:conf) {{
+    host: rand.to_s,
+    password: rand.to_s,
+    keys: rand.to_s,
+  }}
 
   describe 'default options' do
     let(:ssh) { cls.new({ host: 'dummy' }) }
@@ -25,13 +30,41 @@ describe 'mock transport' do
     end
   end
 
-  describe 'failed configuration' do
-    let(:conf) {{
-      host: rand.to_s,
-      password: rand.to_s,
-      keys: rand.to_s,
-    }}
+  describe 'opening a connection' do
+    let(:ssh) { cls.new(conf) }
+    let(:connection) { ssh.connection }
 
+    it 'gets the connection' do
+      connection.must_be_kind_of Train::Transports::SSH::Connection
+    end
+
+    it 'must respond to wait_until_ready' do
+      connection.must_respond_to :wait_until_ready
+    end
+
+    it 'can be closed' do
+      connection.close.must_be_nil
+    end
+
+    it 'has a login command == ssh' do
+      connection.login_command.command.must_equal 'ssh'
+    end
+
+    it 'has login command arguments' do
+      connection.login_command.arguments.must_equal([
+        "-o", "UserKnownHostsFile=/dev/null",
+        "-o", "StrictHostKeyChecking=no",
+        "-o", "IdentitiesOnly=yes",
+        "-o", "LogLevel=VERBOSE",
+        "-o", "ForwardAgent=no",
+        "-i", conf[:keys],
+        "-p", "22",
+        "root@#{conf[:host]}",
+      ])
+    end
+  end
+
+  describe 'failed configuration' do
     it 'works with a minimum valid config' do
       cls.new(conf).connection
     end

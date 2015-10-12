@@ -2,7 +2,7 @@
 # author: Dominik Richter
 
 require_relative 'helper'
-require 'vulcano/backend'
+require 'train'
 
 backends = {}
 

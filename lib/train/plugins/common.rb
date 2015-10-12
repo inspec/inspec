@@ -8,5 +8,6 @@ class Train::Plugins
     autoload :LinuxFile,  'train/plugins/linux_file'
     autoload :OSCommon,   'train/plugins/os_common'
     CommandResult = Struct.new(:stdout, :stderr, :exit_status)
+    LoginCommand = Struct.new(:command, :arguments)
   end
 end
