@@ -16,7 +16,7 @@
 #   it { should have_rule('-P INPUT ACCEPT') }
 # end
 #
-# Docker containers normally do not have iptables installed
+# Note: Docker containers normally do not have iptables installed
 #
 # @see http://ipset.netfilter.org/iptables.man.html
 # @see http://ipset.netfilter.org/iptables.man.html
@@ -25,8 +25,15 @@ class IpTables < Vulcano.resource(1)
   name 'iptables'
 
   def initialize(params = {})
-    @table = params[:table] if params[:table]
-    @chain = params[:chain] if params[:chain]
+    @table = params[:table] || nil
+    @chain = params[:chain] || nil
+
+    # we're done if we are on linux
+    return if vulcano.os.linux?
+
+    # ensures, all calls are aborted for non-supported os
+    @iptables_cache = []
+    skip_resource 'The `iptables` resource is not supported on your OS yet.'
   end
 
   def has_rule?(rule = nil, _table = nil, _chain = nil)
@@ -40,12 +47,13 @@ class IpTables < Vulcano.resource(1)
   end
 
   def retrieve_rules
-    @iptables_cache if defined?(@iptables_cache)
+    return @iptables_cache if defined?(@iptables_cache)
 
     # construct iptables command to read all rules
-    @table.nil? ? table_cmd = '' : table_cmd = " -t #{@table}"
+    @table.nil? ? table_cmd = '' : table_cmd = " -t #{@table} "
     @chain.nil? ? chain_cmd = '' : chain_cmd = " #{@chain}"
-    cmd = vulcano.command(format('iptables %s -S %s', table_cmd, chain_cmd))
+    cmd = vulcano.command(format('iptables %s -S %s', table_cmd, chain_cmd).strip)
+    return [] if cmd.exit_status.to_i != 0
 
     # split rules, returns array or rules
     @iptables_cache = cmd.stdout.chomp.split("\n")
