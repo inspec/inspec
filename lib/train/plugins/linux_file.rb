@@ -30,7 +30,7 @@ module Train::Plugins::Common
     end
 
     def link_target
-      return @link_target unless @link_target.nil?
+      return @link_target if defined? @link_target
       return @link_target = nil if link_path.nil?
       @link_target = @backend.file(link_path)
     end

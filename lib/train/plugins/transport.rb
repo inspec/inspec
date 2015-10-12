@@ -58,12 +58,12 @@ class Train::Plugins
 
       d[:default] = block if block_given?
 
-      @default_options ||= {}
-      @default_options[name] = d
+      default_options[name] = d
     end
 
     def self.default_options
-      @default_options || {}
+      @default_options = {} unless defined? @default_options
+      @default_options
     end
 
     def default_options

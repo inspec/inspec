@@ -47,7 +47,7 @@ class Train::Transports::Local
     end
 
     def stat
-      return @stat unless @stat.nil?
+      return @stat if defined? @stat
 
       begin
         file_stat = ::File.lstat(@path)

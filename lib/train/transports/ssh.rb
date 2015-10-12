@@ -64,7 +64,7 @@ module Train::Transports
       validate_options(opts)
       conn_opts = connection_options(opts)
 
-      if @connection && @connection_options == conn_opts
+      if defined?(@connection) && @connection_options == conn_opts
         reuse_connection(&block)
       else
         create_new_connection(conn_opts, &block)
@@ -136,13 +136,14 @@ module Train::Transports
     # @return [Ssh::Connection] an SSH Connection instance
     # @api private
     def create_new_connection(options, &block)
-      if @connection
+      if defined?(@connection)
         logger.debug("[SSH] shutting previous connection #{@connection}")
         @connection.close
       end
 
       @connection_options = options
-      @connection = Connection.new(options, &block)
+      conn = Connection.new(options, &block)
+      @connection = conn unless conn.nil?
     end
 
     # Return the last saved SSH connection instance.

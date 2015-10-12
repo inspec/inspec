@@ -28,12 +28,12 @@ describe Train do
     end
 
     it 'provides empty options of a transport plugin' do
-      ex = Class.new(Train.plugin 1) { name 'none' }
+      Class.new(Train.plugin 1) { name 'none' }
       Train.options('none').must_equal({})
     end
 
     it 'provides all options of a transport plugin' do
-      ex = Class.new(Train.plugin 1) {
+      Class.new(Train.plugin 1) {
         name 'one'
         option :one, required: true, default: 123
       }
