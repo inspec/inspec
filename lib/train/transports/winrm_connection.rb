@@ -30,7 +30,6 @@ class Train::Transports::WinRM
   class Connection < BaseConnection
     def initialize(options)
       super
-      @instance_name          = @options.delete(:instance_name)
       @endpoint               = @options.delete(:endpoint)
       @rdp_port               = @options.delete(:rdp_port)
       @winrm_transport        = @options.delete(:winrm_transport)

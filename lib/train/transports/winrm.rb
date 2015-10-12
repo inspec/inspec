@@ -61,7 +61,7 @@ module Train::Transports
     end
 
     # (see Base#connection)
-    def connection(state, &block)
+    def connection(state = nil, &block)
       opts = merge_options(options, state || {})
       validate_options(opts)
       conn_opts = connection_options(opts)
@@ -99,7 +99,6 @@ module Train::Transports
     # @api private
     def connection_options(opts)
       {
-        instance_name:            instance.name,
         logger:                   logger,
         winrm_transport:          :plaintext,
         disable_sspi:             true,
