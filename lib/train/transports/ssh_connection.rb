@@ -62,6 +62,7 @@ class Train::Transports::SSH
       stdout = stderr = ''
       exit_status = nil
       cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
+      logger.debug("[SSH] #{self} (#{cmd})")
 
       session.open_channel do |channel|
         channel.exec(cmd) do |_, success|
@@ -171,12 +172,12 @@ class Train::Transports::SSH
 
       if opts[:message]
         logger.debug("[SSH] connection failed (#{e.inspect})")
-        logger.info(opts[:message])
+        message = opts[:message]
       else
         message = "[SSH] connection failed, retrying in #{opts[:delay]}"\
                   " seconds (#{e.inspect})"
-        logger.info(message)
       end
+      logger.info(message)
 
       sleep(opts[:delay])
       retry

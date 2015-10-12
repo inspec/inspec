@@ -22,14 +22,14 @@ describe 'v1 Transport Plugin' do
     it 'provides a default logger' do
       conf = { a: rand }
       plugin.new(conf)
-        .method(:log).call
+        .method(:logger).call
         .must_be_instance_of(Logger)
     end
 
     it 'can configure custom loggers' do
       l = rand
       plugin.new({ logger: l })
-        .method(:log).call
+        .method(:logger).call
         .must_equal(l)
     end
 

@@ -31,14 +31,14 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides a default logger' do
-      connection.method(:log).call
+      connection.method(:logger).call
                 .must_be_instance_of(Logger)
     end
 
     it 'must use the user-provided logger' do
       l = rand
       cls.new({logger: l})
-         .method(:log).call.must_equal(l)
+         .method(:logger).call.must_equal(l)
     end
   end
 end

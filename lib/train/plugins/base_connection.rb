@@ -24,7 +24,7 @@ class Train::Plugins::Transport
     # @yield [self] yields itself for block-style invocation
     def initialize(options)
       @options = options
-      @log = @options.delete(:logger) || Logger.new(STDOUT)
+      @logger = @options.delete(:logger) || Logger.new(STDOUT)
     end
 
     # Closes the session connection, if it is still active.
@@ -77,7 +77,7 @@ class Train::Plugins::Transport
 
     # @return [Logger] logger for reporting information
     # @api private
-    attr_reader :log
+    attr_reader :logger
 
     # @return [Hash] connection options
     # @api private

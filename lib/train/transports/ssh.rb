@@ -107,7 +107,7 @@ module Train::Transports
     # @api private
     def connection_options(opts)
       {
-        logger:                 log,
+        logger:                 logger,
         user_known_hosts_file:  '/dev/null',
         paranoid:               false,
         hostname:               opts[:host],

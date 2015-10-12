@@ -22,7 +22,7 @@ class Train::Plugins
     # @return [Transport] the transport object
     def initialize(options = {})
       @options = merge_options({}, options || {})
-      @log = @options[:logger] || Logger.new(STDOUT)
+      @logger = @options[:logger] || Logger.new(STDOUT)
     end
 
     # Create a connection to the target. Options may be provided
@@ -93,6 +93,6 @@ class Train::Plugins
     private
 
     # @return [Logger] logger for reporting information
-    attr_reader :log
+    attr_reader :logger
   end
 end
