@@ -19,6 +19,21 @@ module Train
     cls.new(*args) unless cls.nil?
   end
 
+  # Retrieve the configuration options of a transport plugin.
+  #
+  # @param [String] name of the plugin
+  # @return [Hash] map of default options
+  def self.options(name)
+    cls = load_transport(name)
+    cls.default_options unless cls.nil?
+  end
+
+  # Load the transport plugin indicated by name. If the plugin is not
+  # yet found in the plugin registry, it will be attempted to load from
+  # `train/transports/plugin_name`.
+  #
+  # @param [String] name of the plugin
+  # @return [Train::Transport] the transport plugin
   def self.load_transport(name)
     res = Train::Plugins.registry[name]
     return res unless res.nil?
