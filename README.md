@@ -18,9 +18,50 @@ Train supports:
 
 # Examples
 
-* Using [local execution](examples/loca.rb)
-* Using [SSH](examples/ssh.rb)
-* Using [WinRM](examples/winrm.rb)
+## Setup
+
+**Local**
+
+```ruby
+require 'train'
+train = Train.create('local')
+```
+
+**SSH**
+
+```ruby
+require 'train'
+train = Train.create('ssh',
+  host: '1.2.3.4', port: 22, user: 'root', keys: '/vagrant')
+```
+
+**WinRM**
+
+```ruby
+require 'train'
+train = Train.create('winrm',
+  host: '1.2.3.4', user: 'Administrator', ssl: true, self_signed: true)
+```
+
+## Usage
+
+```ruby
+# start or reuse a connection
+conn = train.connection
+
+# run a command on Linux/Unix/Mac
+puts conn.run_command('whoami').stdout
+
+# get OS info
+puts conn.os[:family]
+puts conn.os[:release]
+
+# access files
+puts conn.file('/proc/version').content
+
+# close the connection
+conn.close
+```
 
 # Kudos and Contribors
 
@@ -36,7 +77,7 @@ Train is heavily based on the work of:
   by Adam Jacob, Chef Software Inc.
 	and [all contributors](https://github.com/chef/ohai/graphs/contributors)
 
-  
+
 ## Contributing
 
 	1. Fork it
