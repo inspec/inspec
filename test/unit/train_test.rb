@@ -5,8 +5,20 @@ require 'helper'
 
 describe Train do
   describe '#create' do
-    it 'returns nil if the transport plugin isnt found' do
-      Train.create('missing').must_be_nil
+    before do
+      Train::Plugins.registry.clear
+    end
+
+    it 'raises an error if the plugin isnt found' do
+      proc { Train.create('missing') }.must_raise Train::UserError
+    end
+
+    it 'load a plugin if it isnt in the registry yet' do
+      Kernel.stub :require, true do
+        ex = Class.new(Train.plugin 1) { name 'existing' }
+        train = Train.create('existing')
+        train.class.must_equal ex
+      end
     end
   end
 end

@@ -4,6 +4,7 @@
 
 require 'train/version'
 require 'train/plugins'
+require 'train/errors'
 
 module Train
   # Create a new transport instance, with the plugin indicated by the
@@ -14,7 +15,20 @@ module Train
   # @return [Transport] instance of the new transport or nil
   def self.create(name, *args)
     transport_class = Train::Plugins.registry[name]
+
+    if transport_class.nil?
+      load_transport(name)
+      transport_class = Train::Plugins.registry[name]
+    end
+
     return nil if transport_class.nil?
     transport_class.new(*args)
+  end
+
+  def self.load_transport(name)
+    require 'train/transports/' + name.to_s
+  rescue LoadError => _
+    raise Train::UserError,
+          "Can't find train plugin #{name.inspect}. Please install it first."
   end
 end
