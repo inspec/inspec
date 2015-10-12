@@ -175,6 +175,8 @@ class MockLoader
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
       # apt
       "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
+      # iptables
+      'iptables  -S' => cmd.call('iptables-s'),
     }
 
     # set os emulation
