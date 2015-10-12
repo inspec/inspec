@@ -80,4 +80,8 @@ class PostgresConf < Vulcano.resource(1)
   def read_file(path)
     @files_contents[path] ||= vulcano.file(path).content
   end
+
+  def to_s
+    'PostgreSQL Configuration'
+  end
 end

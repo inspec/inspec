@@ -9,6 +9,7 @@ module Vulcano::Resources
     name 'bond'
 
     def initialize(bond)
+      @bond = bond
       @path = "/proc/net/bonding/#{bond}"
       @file = vulcano.file(@path)
       @content = nil
@@ -49,6 +50,10 @@ module Vulcano::Resources
 
     def interfaces
       params['Slave Interface']
+    end
+
+    def to_s
+      "Bond #{@bond}"
     end
   end
 end

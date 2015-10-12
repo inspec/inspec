@@ -54,7 +54,7 @@ class Package < Vulcano.resource(1)
   end
 
   def to_s
-    "System package #{@package_name}"
+    "System Package #{@package_name}"
   end
 end
 

@@ -60,6 +60,6 @@ class IpTables < Vulcano.resource(1)
   end
 
   def to_s
-    format('iptables %s %s', @table.nil? ? '' : "table: #{@table}", @chain.nil? ? '' : "chain: #{@chain}").strip
+    format('Iptables %s %s', @table.nil? ? '' : "table: #{@table}", @chain.nil? ? '' : "chain: #{@chain}").strip
   end
 end

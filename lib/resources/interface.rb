@@ -40,6 +40,10 @@ class NetworkInterface < Vulcano.resource(1)
     interface_info.nil? ? nil : interface_info[:speed]
   end
 
+  def to_s
+    "Interface #{@iface}"
+  end
+
   private
 
   def interface_info

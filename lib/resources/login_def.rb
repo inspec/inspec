@@ -25,10 +25,6 @@ class LoginDef < Vulcano.resource(1)
     @conf_path = path || '/etc/login.defs'
   end
 
-  def to_s
-    'login_def'
-  end
-
   def method_missing(name)
     read_params[name.to_s]
   end
@@ -56,5 +52,9 @@ class LoginDef < Vulcano.resource(1)
       multiple_values: false,
     )
     @params = conf.params
+  end
+
+  def to_s
+    'login.defs'
   end
 end

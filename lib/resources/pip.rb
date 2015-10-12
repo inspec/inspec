@@ -42,7 +42,7 @@ class PipPackage < Vulcano.resource(1)
   end
 
   def to_s
-    "pip package  #{@package_name}"
+    "Pip Package  #{@package_name}"
   end
 
   private

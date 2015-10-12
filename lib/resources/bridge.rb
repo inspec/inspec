@@ -37,6 +37,10 @@ class Bridge < Vulcano.resource(1)
     bridge_info.nil? ? nil : bridge_info[:interfaces]
   end
 
+  def to_s
+    "Bridge #{@bridge_name}"
+  end
+
   private
 
   def bridge_info

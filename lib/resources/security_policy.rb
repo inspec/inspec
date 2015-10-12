@@ -68,6 +68,6 @@ class SecurityPolicy < Vulcano.resource(1)
   end
 
   def to_s
-    %{Security Policy}
+    'Security Policy'
   end
 end

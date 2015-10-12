@@ -30,4 +30,8 @@ class Postgres < Vulcano.resource(1)
       @conf_path = File.join @conf_dir, 'postgresql.conf'
     end
   end
+
+  def to_s
+    'PostgreSQL'
+  end
 end

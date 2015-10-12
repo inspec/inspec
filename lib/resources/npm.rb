@@ -39,6 +39,6 @@ class NpmPackage < Vulcano.resource(1)
   end
 
   def to_s
-    "npm package #{@package_name}"
+    "Npm Package #{@package_name}"
   end
 end

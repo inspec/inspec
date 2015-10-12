@@ -59,7 +59,7 @@ class Host < Vulcano.resource(1)
   end
 
   def to_s
-    "host #{@hostname}"
+    "Host #{@hostname}"
   end
 
   private

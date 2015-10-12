@@ -54,4 +54,8 @@ class JsonConfig < Vulcano.resource(1)
     keys = name.to_s.split('.')
     extract_value(keys, @params.clone)
   end
+
+  def to_s
+    "Json #{@path}"
+  end
 end

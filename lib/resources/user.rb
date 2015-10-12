@@ -142,7 +142,7 @@ class User < Vulcano.resource(1)
   end
 
   def to_s
-    "user #{@user}"
+    "User #{@user}"
   end
 
   private
