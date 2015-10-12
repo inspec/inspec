@@ -43,6 +43,13 @@ train = Train.create('winrm',
   host: '1.2.3.4', user: 'Administrator', password: '...', ssl: true, self_signed: true)
 ```
 
+**Docker**
+
+```ruby
+require 'train'
+train = Train.create('docker', host: 'container_id...')
+```
+
 ## Usage
 
 ```ruby
