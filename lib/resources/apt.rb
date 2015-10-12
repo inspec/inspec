@@ -63,7 +63,7 @@ class AptRepository < Vulcano.resource(1)
 
   # read
   def read_debs
-    @repo_cache if defined?(@repo_cache)
+    return @repo_cache if defined?(@repo_cache)
 
     # load all lists
     cmd = vulcano.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
