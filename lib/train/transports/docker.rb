@@ -5,19 +5,76 @@
 
 require 'docker'
 
-module Vulcano::Backends
-  class Docker < Vulcano.backend(1)
+module Train::Transports
+  class Docker < Train.plugin(1)
     name 'docker'
+
+    option :host, required: true
 
     attr_reader :os
     def initialize(conf)
-      @conf = conf
+      super(conf)
       @files = {}
-      id = @conf['host'] ||
-           fail('You must specify a docker container ID.')
-      @container = ::Docker::Container.get(id) ||
-                   fail("Can't find Docker container #{id}")
-      @os = OS.new(self)
+    end
+
+    def connection(state = {}, &block)
+      opts = merge_options(options, state || {})
+      validate_options(opts)
+
+      if @connection && @connection_options == opts
+        reuse_connection(&block)
+      else
+        create_new_connection(opts, &block)
+      end
+    end
+
+    private
+
+    # Creates a new Docker connection instance and save it for potential future
+    # reuse.
+    #
+    # @param options [Hash] connection options
+    # @return [Docker::Connection] a Docker connection instance
+    # @api private
+    def create_new_connection(options, &block)
+      if @connection
+        logger.debug("[Docker] shutting previous connection #{@connection}")
+        @connection.close
+      end
+
+      @connection_options = options
+      @connection = Connection.new(options, &block)
+    end
+
+    # Return the last saved Docker connection instance.
+    #
+    # @return [Docker::Connection] a Docker connection instance
+    # @api private
+    def reuse_connection
+      logger.debug("[Docker] reusing existing connection #{@connection}")
+      yield @connection if block_given?
+      @connection
+    end
+  end
+end
+
+class Train::Transports::Docker
+  class Connection < BaseConnection
+    def initialize(conf)
+      super(conf)
+      @id = options[:host]
+      @container = ::Docker::Container.get(@id) ||
+                   fail("Can't find Docker container #{@id}")
+      @files = {}
+      self
+    end
+
+    def close
+      # nothing to do at the moment
+    end
+
+    def os
+      @os ||= OS.new(self)
     end
 
     def file(path)
