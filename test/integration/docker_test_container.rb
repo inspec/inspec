@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Dominik Richter
 
-require 'vulcano/backend'
+require 'train'
 require_relative 'helper'
 
 container_id = ENV['CONTAINER'] or
@@ -13,9 +13,8 @@ puts ''
 
 backends = {}
 backends[:docker] = proc {
-  c = { 'host' => container_id }
-  opt = Vulcano::Backend.target_config(c)
-  Vulcano::Backend.create('docker', opt).backend
+  opt = Train.target_config({ host: container_id })
+  Train.create('docker', opt).connection
 }
 
 backends.each do |type, get_backend|

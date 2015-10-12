@@ -10,14 +10,9 @@ backend_conf = {
   'key_file' => '/root/.ssh/id_rsa',
 }
 
-backends[:specinfra_ssh] = proc {
-  conf = Vulcano::Backend.target_config(backend_conf)
-  Vulcano::Backend.create('specinfra', conf).backend
-}
-
 backends[:ssh] = proc {
-  conf = Vulcano::Backend.target_config(backend_conf)
-  Vulcano::Backend.create('ssh', conf).backend
+  conf = Train.target_config(backend_conf)
+  Train.create('ssh', conf).connection
 }
 
 tests = ARGV
