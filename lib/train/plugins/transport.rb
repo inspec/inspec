@@ -62,8 +62,12 @@ class Train::Plugins
       @default_options[name] = d
     end
 
+    def self.default_options
+      @default_options || {}
+    end
+
     def default_options
-      self.class.instance_variable_get(:@default_options) || {}
+      self.class.default_options
     end
 
     def merge_options(base, opts)

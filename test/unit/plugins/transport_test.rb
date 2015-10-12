@@ -38,7 +38,7 @@ describe 'v1 Transport Plugin' do
     end
   end
 
-  describe 'configure a named plugin' do
+  describe 'registered with a name' do
     before do
       Train::Plugins.registry.clear
     end
@@ -47,7 +47,7 @@ describe 'v1 Transport Plugin' do
       Train::Plugins.registry.empty?.must_equal true
     end
 
-    it 'registers a plugin with a name' do
+    it 'is is added to the plugins registry' do
       plugin_name = rand
       Train::Plugins.registry.wont_include(plugin_name)
 
@@ -56,6 +56,37 @@ describe 'v1 Transport Plugin' do
       end
 
       Train::Plugins.registry[plugin_name].must_equal(plugin)
+    end
+  end
+
+  describe 'with options' do
+    def train_class(opts = {})
+      name = rand.to_s
+      plugin = Class.new(Train.plugin(1)) do
+        option name, opts
+      end
+      [name, plugin]
+    end
+
+    it 'exposes the parameters via api' do
+      name, plugin = train_class
+      plugin.default_options.keys.must_equal [name]
+    end
+
+    it 'exposes the parameters via api' do
+      default = rand.to_s
+      name, plugin = train_class({ default: default })
+      plugin.default_options[name][:default].must_equal default
+    end
+
+    it 'option must be required' do
+      name, plugin = train_class(required: true)
+      plugin.default_options[name][:required].must_equal true
+    end
+
+    it 'default option must not be required' do
+      name, plugin = train_class
+      plugin.default_options[name][:required].must_equal nil
     end
   end
 end
