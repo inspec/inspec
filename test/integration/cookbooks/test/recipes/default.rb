@@ -63,11 +63,11 @@ execute 'bundle install' do
 end
 
 execute 'run local tests' do
-  command '/opt/chef/embedded/bin/ruby -I lib test/runner/test_local.rb test/runner/tests/*_test.rb'
+  command '/opt/chef/embedded/bin/ruby -I lib test/integration/test_local.rb test/integration/tests/*_test.rb'
   cwd '/tmp/kitchen/data'
 end
 
 execute 'run ssh tests' do
-  command '/opt/chef/embedded/bin/ruby -I lib test/runner/test_ssh.rb test/runner/tests/*_test.rb'
+  command '/opt/chef/embedded/bin/ruby -I lib test/integration/test_ssh.rb test/integration/tests/*_test.rb'
   cwd '/tmp/kitchen/data'
 end
