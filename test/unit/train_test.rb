@@ -49,28 +49,28 @@ describe Train do
   describe '#target_config' do
     it 'configures resolves target' do
       org = {
-        'target' => 'ssh://user:pass@host.com:123/path',
+        target: 'ssh://user:pass@host.com:123/path',
       }
       res = Train.target_config(org)
-      res['backend'].must_equal 'ssh'
-      res['host'].must_equal 'host.com'
-      res['user'].must_equal 'user'
-      res['password'].must_equal 'pass'
-      res['port'].must_equal 123
-      res['target'].must_equal org['target']
-      res['path'].must_equal '/path'
-      org.keys.must_equal ['target']
+      res[:backend].must_equal 'ssh'
+      res[:host].must_equal 'host.com'
+      res[:user].must_equal 'user'
+      res[:password].must_equal 'pass'
+      res[:port].must_equal 123
+      res[:target].must_equal org[:target]
+      res[:path].must_equal '/path'
+      org.keys.must_equal [:target]
     end
 
     it 'resolves a target while keeping existing fields' do
       org = {
-        'target' => 'ssh://user:pass@host.com:123/path',
-        'backend' => rand,
-        'host' => rand,
-        'user' => rand,
-        'password' => rand,
-        'port' => rand,
-        'path' => rand
+        target:   'ssh://user:pass@host.com:123/path',
+        backend:  rand,
+        host:     rand,
+        user:     rand,
+        password: rand,
+        port:     rand,
+        path:     rand
       }
       res = Train.target_config(org)
       res.must_equal org
@@ -78,13 +78,13 @@ describe Train do
 
     it 'resolves a winrm target' do
       org = {
-        'target' => 'winrm://Administrator@192.168.10.140',
-        'backend' => 'winrm',
-        'host' => '192.168.10.140',
-        'user' => 'Administrator',
-        'password' => nil,
-        'port' => nil,
-        'path' => nil
+        target:   'winrm://Administrator@192.168.10.140',
+        backend:  'winrm',
+        host:     '192.168.10.140',
+        user:     'Administrator',
+        password: nil,
+        port:     nil,
+        path:     nil
       }
       res = Train.target_config(org)
       res.must_equal org
@@ -92,16 +92,33 @@ describe Train do
 
     it 'keeps the configuration when incorrect target is supplied' do
       org = {
-        'target' => 'wrong',
+        target: 'wrong',
       }
       res = Train.target_config(org)
-      res['backend'].must_be_nil
-      res['host'].must_be_nil
-      res['user'].must_be_nil
-      res['password'].must_be_nil
-      res['port'].must_be_nil
-      res['path'].must_be_nil
-      res['target'].must_equal org['target']
+      res[:backend].must_be_nil
+      res[:host].must_be_nil
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_be_nil
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
+    it 'always takes ruby sumbols as configuration fields' do
+      org = {
+        'target'    => 'ssh://user:pass@host.com:123/path',
+        'backend'   => rand,
+        'host'      => rand,
+        'user'      => rand,
+        'password'  => rand,
+        'port'      => rand,
+        'path'      => rand
+      }
+      nu = org.each_with_object({}) { |(x, y), acc|
+        acc[x.to_sym] = y; acc
+      }
+      res = Train.target_config(org)
+      res.must_equal nu
     end
   end
 end

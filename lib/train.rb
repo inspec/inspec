@@ -52,26 +52,32 @@ module Train
   def self.target_config(config = nil) # rubocop:disable Metrics/AbcSize
     conf = config.nil? ? {} : config.dup
 
-    # in case the user specified a key-file, register it that way
-    key = conf['key']
-    if !key.nil? and File.file?(key)
-      conf['key_file'] = key
+    # symbolize keys
+    conf = conf.each_with_object({}) do |(k, v), acc|
+      acc[k.to_sym] = v
+      acc
     end
 
-    return conf if conf['target'].to_s.empty?
+    # in case the user specified a key-file, register it that way
+    key = conf[:key]
+    if !key.nil? and File.file?(key)
+      conf[:key_file] = key
+    end
 
-    uri = URI.parse(conf['target'].to_s)
+    return conf if conf[:target].to_s.empty?
+
+    uri = URI.parse(conf[:target].to_s)
     unless uri.host.nil? and uri.scheme.nil?
-      conf['backend']  ||= uri.scheme
-      conf['host']     ||= uri.host
-      conf['port']     ||= uri.port
-      conf['user']     ||= uri.user
-      conf['password'] ||= uri.password
-      conf['path']     ||= uri.path
+      conf[:backend]  ||= uri.scheme
+      conf[:host]     ||= uri.host
+      conf[:port]     ||= uri.port
+      conf[:user]     ||= uri.user
+      conf[:password] ||= uri.password
+      conf[:path]     ||= uri.path
     end
 
     # ensure path is nil, if its empty; e.g. required to reset defaults for winrm
-    conf['path'] = nil if !conf['path'].nil? && conf['path'].to_s.empty?
+    conf[:path] = nil if !conf[:path].nil? && conf[:path].to_s.empty?
 
     # return the updated config
     conf
