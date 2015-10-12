@@ -5,10 +5,9 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Passwd' do
-  let(:resource) { load_resource('gem', 'rubocop') }
-
+describe 'Vulcano::Resources::Gem' do
   it 'verify gem package detail parsing' do
+    resource = load_resource('gem', 'rubocop')
     pkg = {
       name: 'rubocop',
       version: '0.33.0',

@@ -6,9 +6,8 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::YumRepo' do
-  let(:resource) { MockLoader.new(:centos7).load_resource('yum') }
-
   it 'get repository details' do
+    resource = MockLoader.new(:centos7).load_resource('yum')
     _(resource.repositories).must_equal [{
       'id'=>'base/7/x86_64',
       'name'=>'CentOS-7 - Base',
@@ -42,40 +41,27 @@ describe 'Vulcano::Resources::YumRepo' do
       'filename'=>'/etc/yum.repos.d/CentOS-Base.repo',
     }]
     _(resource.repos.length).must_equal 3
-  end
-
-  it 'get repository details' do
+    # get repository details
     _(resource.repos).must_equal %w{base/7/x86_64 base-debuginfo/x86_64 extras/7/x86_64}
-  end
-
-  #  its('epel') { should exist }
-  #  its('epel') { should be_enabled }
-  it 'test its syntax repo' do
+    # test its syntax repo
     _(resource.extras.exist?).must_equal true
     _(resource.extras.enabled?).must_equal true
-  end
-
-  it 'test enabled extra repo' do
+    # test enabled extra repo
     extras = resource.repo('extras/7/x86_64')
     _(extras.exist?).must_equal true
     _(extras.enabled?).must_equal true
-  end
-
-  it 'test enabled extra repo with short name' do
+    # test enabled extra repo with short name
     extras = resource.repo('extras')
     _(extras.exist?).must_equal true
     _(extras.enabled?).must_equal true
-  end
-
-  it 'test disabled extra-source repo' do
+    # test disabled extra-source repo
     extras = resource.repo('base-debuginfo/x86_64')
     _(extras.exist?).must_equal true
     _(extras.enabled?).must_equal false
   end
 
-  # test serverspec syntax
-  let(:serverspec) { load_resource('yumrepo', 'extras') }
   it 'test enabled extra repo (serverspec backwards comptability)' do
+    serverspec = load_resource('yumrepo', 'extras')
     _(serverspec.exists?).must_equal true
     _(serverspec.enabled?).must_equal true
   end

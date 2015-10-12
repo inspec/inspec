@@ -6,7 +6,6 @@ require 'helper'
 require 'vulcano/resource'
 
 describe 'Vulcano::Resources::Port' do
-
   it 'verify port on Ubuntu 14.04' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', 22)
     _(resource.listening?).must_equal true

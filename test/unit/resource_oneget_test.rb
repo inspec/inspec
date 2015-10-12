@@ -5,7 +5,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Passwd' do
+describe 'Vulcano::Resources::OneGet' do
 
   it 'verify oneget package detail parsing' do
     resource = MockLoader.new(:windows).load_resource('oneget', 'Mozilla Firefox')

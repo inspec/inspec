@@ -5,7 +5,7 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Service' do
+describe 'Vulcano::Resources::User' do
 
   # ubuntu 14.04 with upstart
   it 'read user on ubuntu' do

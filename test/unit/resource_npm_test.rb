@@ -5,10 +5,9 @@
 require 'helper'
 require 'vulcano/resource'
 
-describe 'Vulcano::Resources::Passwd' do
-  let(:resource) { load_resource('npm', 'bower') }
-
+describe 'Vulcano::Resources::Npm' do
   it 'verify npm package detail parsing' do
+    resource = load_resource('npm', 'bower')
     pkg = {
       name: 'bower',
       version: '1.4.1',
