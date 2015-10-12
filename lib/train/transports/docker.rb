@@ -11,12 +11,6 @@ module Train::Transports
 
     option :host, required: true
 
-    attr_reader :os
-    def initialize(conf)
-      super(conf)
-      @files = {}
-    end
-
     def connection(state = {}, &block)
       opts = merge_options(options, state || {})
       validate_options(opts)
