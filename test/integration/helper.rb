@@ -38,7 +38,7 @@ module Test
       h['redhat'] = {}
       h['redhat'].default = 'unconfined_u:object_r:user_tmp_t:s0'
       h['redhat']['5.11'] = 'user_u:object_r:tmp_t'
-      h['fedora'] = h['redhat']
+      h['centos'] = h['fedora'] = h['redhat']
       labels.default = dup(h)
 
       h['redhat'].default = 'unconfined_u:object_r:tmp_t:s0'
@@ -48,8 +48,8 @@ module Test
       h.default = Hash.new(nil)
       h['redhat'] = {}
       h['redhat'].default = 'system_u:object_r:null_device_t:s0'
-      h['fedora'] = h['redhat']
       h['redhat']['5.11'] = 'system_u:object_r:null_device_t'
+      h['centos'] = h['fedora'] = h['redhat']
       labels['/dev/null'] = dup(h)
 
       labels[path][os[:family]][os[:release]]
