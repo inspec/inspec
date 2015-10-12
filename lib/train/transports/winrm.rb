@@ -127,7 +127,7 @@ module Train::Transports
       end
 
       @connection_options = options
-      @connection = Kitchen::Transport::Winrm::Connection.new(options, &block)
+      @connection = Connection.new(options, &block)
     end
 
     # (see Base#load_needed_dependencies!)

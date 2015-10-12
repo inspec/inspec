@@ -58,7 +58,7 @@ class Train::Transports::WinRM
         out << stdout if stdout
       end
 
-      CommandResult.new(stdout, response.stderr, response[:exitcode])
+      CommandResult.new(out, response.stderr, response[:exitcode])
     end
 
     # (see Base::Connection#login_command)
