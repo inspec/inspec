@@ -8,13 +8,31 @@ require 'train/transports/local'
 
 describe 'local transport' do
   let(:transport) { Train::Transports::Local.new }
+  let(:connection) { transport.connection }
 
   it 'can be instantiated' do
     transport.wont_be_nil
   end
 
+  it 'gets the connection' do
+    connection.must_be_kind_of Train::Transports::Local::Connection
+  end
+
+  it 'doesnt wait to be read' do
+    connection.wait_until_ready.must_be_nil
+  end
+
+  it 'can be closed' do
+    connection.close.must_be_nil
+  end
+
+  it 'has no login command' do
+    connection.login_command.must_be_nil
+  end
+
   describe 'when running a local command' do
-    let (:mock) { Minitest::Mock.new }
+    let(:mock) { Minitest::Mock.new }
+
     def mock_run_cmd(cmd, &block)
       mock.expect :run_command, nil
       Mixlib::ShellOut.stub :new, mock do |*args|
@@ -28,7 +46,7 @@ describe 'local transport' do
         mock.expect :stdout, x
         mock.expect :stderr, nil
         mock.expect :exitstatus, nil
-        transport.run_command(rand).stdout.must_equal x
+        connection.run_command(rand).stdout.must_equal x
       end
     end
 
@@ -38,7 +56,7 @@ describe 'local transport' do
         mock.expect :stdout, nil
         mock.expect :stderr, x
         mock.expect :exitstatus, nil
-        transport.run_command(rand).stderr.must_equal x
+        connection.run_command(rand).stderr.must_equal x
       end
     end
 
@@ -48,7 +66,7 @@ describe 'local transport' do
         mock.expect :stdout, nil
         mock.expect :stderr, nil
         mock.expect :exitstatus, x
-        transport.run_command(rand).exit_status.must_equal x
+        connection.run_command(rand).exit_status.must_equal x
       end
     end
   end

@@ -13,24 +13,35 @@ module Train::Transports
     autoload :File, 'train/transports/local_file'
     autoload :OS,   'train/transports/local_os'
 
-    def initialize
-      @files = {}
+    def connection(_ = nil)
+      @connection ||= Connection.new
     end
 
-    def run_command(cmd)
-      res = Mixlib::ShellOut.new(cmd)
-      res.run_command
-      CommandResult.new(res.stdout, res.stderr, res.exitstatus)
-    rescue Errno::ENOENT => _
-      CommandResult.new(nil, nil, 1)
-    end
+    class Connection < BaseConnection
+      def initialize
+        super
+        @files = {}
+      end
 
-    def os
-      @os ||= OS.new(self)
-    end
+      def run_command(cmd)
+        res = Mixlib::ShellOut.new(cmd)
+        res.run_command
+        CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+      rescue Errno::ENOENT => _
+        CommandResult.new(nil, nil, 1)
+      end
 
-    def file(path)
-      @files[path] ||= File.new(self, path)
+      def os
+        @os ||= OS.new(self)
+      end
+
+      def file(path)
+        @files[path] ||= File.new(self, path)
+      end
+
+      def login_command
+        nil # none, open your shell
+      end
     end
   end
 end

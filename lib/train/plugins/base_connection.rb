@@ -22,8 +22,8 @@ class Train::Plugins::Transport
     #
     # @param options [Hash] connection options
     # @yield [self] yields itself for block-style invocation
-    def initialize(options)
-      @options = options
+    def initialize(options = nil)
+      @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
     end
 

@@ -3,7 +3,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-class Train::Transports::Local
+class Train::Transports::Local::Connection
   class File < LinuxFile
     def content
       @content ||= ::File.read(@path, encoding: 'UTF-8')
