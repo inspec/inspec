@@ -35,7 +35,7 @@ module Train::Transports
   # @author Matt Wrock <matt@mattwrock.com>
   # @author Salim Afiune <salim@afiunemaya.com.mx>
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class WinRM < Train.plugin(1)
+  class WinRM < Train.plugin(1) # rubocop:disable Metrics/ClassLength
     name 'winrm'
 
     autoload :Connection, 'train/transports/winrm_connection'

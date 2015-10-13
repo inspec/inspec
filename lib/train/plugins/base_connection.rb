@@ -82,6 +82,5 @@ class Train::Plugins::Transport
     # @return [Hash] connection options
     # @api private
     attr_reader :options
-
   end
 end

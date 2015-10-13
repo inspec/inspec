@@ -28,7 +28,7 @@ class Train::Transports::SSH
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection
+  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     def initialize(options)
       super(options)
       @username               = @options.delete(:username)
