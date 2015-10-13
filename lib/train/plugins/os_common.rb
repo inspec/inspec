@@ -63,7 +63,7 @@ module Train::Plugins::Common
     # Helper methods to check the OS type
     # Provides methods in the form of: linux?, unix?, solaris? ...
     OS.keys.each do |os_family|
-      define_method((os_family+'?').to_sym) do
+      define_method((os_family + '?').to_sym) do
         OS[os_family].include?(@platform[:family])
       end
     end

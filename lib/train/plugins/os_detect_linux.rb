@@ -32,7 +32,7 @@ module Train::Plugins::Common
         else
           @platform[:family] = 'debian'
           @platform[:family] = 'raspbian' if unix_file?('/usr/bin/raspi-config')
-          if !(rel = get_config('/etc/debian_version')).nil?
+          unless (rel = get_config('/etc/debian_version')).nil?
             @platform[:release] = rel.chomp
           end
         end

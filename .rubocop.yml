@@ -1,0 +1,45 @@
+---
+AllCops:
+  Exclude:
+  - Gemfile
+  - Rakefile
+  - 'test/**/*'
+  - 'examples/**/*'
+  - 'vendor/**/*'
+Documentation:
+  Enabled: false
+AlignParameters:
+  Enabled: true
+Encoding:
+  Enabled: true
+HashSyntax:
+  Enabled: true
+LineLength:
+  Enabled: false
+MethodLength:
+  Max: 40
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Max: 10
+Metrics/AbcSize:
+  Max: 29
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  '{}'
+    '%i': ()
+    '%q': '{}'
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': '{}'
+    '%W': ()
+    '%x': ()
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/TrailingComma:
+  EnforcedStyleForMultiline: comma
+Style/SpaceAroundOperators:
+  MultiSpaceAllowedForOperators: ["=", "=>", "||="]
