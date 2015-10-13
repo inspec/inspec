@@ -1,7 +1,6 @@
 # encoding: utf-8
 require 'helper'
 require 'train/extras'
-require 'train/extras'
 
 describe 'stat' do
   let(:cls) { Train::Extras::Stat }
