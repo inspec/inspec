@@ -5,7 +5,7 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 require 'train/errors'
-require 'train/plugins/common'
+require 'train/extras'
 require 'logger'
 
 class Train::Plugins::Transport
@@ -16,7 +16,7 @@ class Train::Plugins::Transport
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class BaseConnection
-    include Train::Plugins::Common
+    include Train::Extras
 
     # Create a new Connection instance.
     #

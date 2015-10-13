@@ -3,8 +3,9 @@
 # author: Christoph Hartmann
 
 require 'shellwords'
+require 'train/extras/stat'
 
-module Train::Plugins::Common
+module Train::Extras
   class LinuxFile < FileCommon
     attr_reader :path
     def initialize(backend, path)
@@ -67,7 +68,7 @@ module Train::Plugins::Common
 
     def stat
       return @stat if defined?(@stat)
-      @stat = Stat.stat(@spath, @backend)
+      @stat = Train::Extras::Stat.stat(@spath, @backend)
     end
   end
 end

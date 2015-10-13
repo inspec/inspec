@@ -11,15 +11,15 @@ describe 'local file transport' do
   let(:connection) { transport.connection }
 
   it 'gets file contents' do
-    res = rand
+    res = rand.to_s
     File.stub :read, res do
-      connection.file(rand).content.must_equal(res)
+      connection.file(rand.to_s).content.must_equal(res)
     end
   end
 
   it 'checks for file existance' do
     File.stub :exist?, true do
-      connection.file(rand).exist?.must_equal(true)
+      connection.file(rand.to_s).exist?.must_equal(true)
     end
   end
 
@@ -35,7 +35,7 @@ describe 'local file transport' do
   }.each do |method, file_method|
     it "checks if file is a #{method}" do
       File.stub file_method.to_sym, true do
-        connection.file(rand).method(method.to_sym).call.must_equal(true)
+        connection.file(rand.to_s).method(method.to_sym).call.must_equal(true)
       end
     end
   end
@@ -44,7 +44,7 @@ describe 'local file transport' do
     out = rand.to_s
     File.stub :readlink, out do
       File.stub :symlink?, true do
-        connection.file(rand).link_path.must_equal out
+        connection.file(rand.to_s).link_path.must_equal out
       end
     end
   end
@@ -64,46 +64,46 @@ describe 'local file transport' do
 
     it 'recognizes type' do
       meta_stub :lstat, statres do
-        connection.file(rand).type.must_equal :socket
+        connection.file(rand.to_s).type.must_equal :socket
       end
     end
 
     it 'recognizes mode' do
       meta_stub :lstat, statres do
-        connection.file(rand).mode.must_equal 00755
+        connection.file(rand.to_s).mode.must_equal 00755
       end
     end
 
     it 'recognizes mtime' do
       meta_stub :lstat, statres do
-        connection.file(rand).mtime.must_equal statres.mtime
+        connection.file(rand.to_s).mtime.must_equal statres.mtime
       end
     end
 
     it 'recognizes size' do
       meta_stub :lstat, statres do
-        connection.file(rand).size.must_equal statres.size
+        connection.file(rand.to_s).size.must_equal statres.size
       end
     end
 
     it 'recognizes owner' do
       meta_stub :lstat, statres do
-        connection.file(rand).owner.must_equal 'owner'
+        connection.file(rand.to_s).owner.must_equal 'owner'
       end
     end
 
     it 'recognizes group' do
       meta_stub :lstat, statres do
-        connection.file(rand).group.must_equal 'group'
+        connection.file(rand.to_s).group.must_equal 'group'
       end
     end
 
     it 'recognizes selinux label' do
       meta_stub :lstat, statres do
         label = rand.to_s
-        res = Train::Plugins::Common::CommandResult.new(label, nil, 0)
+        res = Train::Extras::CommandResult.new(label, nil, 0)
         connection.stub :run_command, res do
-          connection.file(rand).selinux_label.must_equal label
+          connection.file(rand.to_s).selinux_label.must_equal label
         end
       end
     end

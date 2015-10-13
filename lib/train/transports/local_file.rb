@@ -3,6 +3,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'train/extras'
+
 class Train::Transports::Local::Connection
   class File < LinuxFile
     def content
@@ -56,7 +58,7 @@ class Train::Transports::Local::Connection
       end
 
       @stat = {
-        type: Stat.find_type(file_stat.mode),
+        type: Train::Extras::Stat.find_type(file_stat.mode),
         mode: file_stat.mode & 00777,
         mtime: file_stat.mtime.to_i,
         size: file_stat.size,

@@ -10,7 +10,7 @@
 
 require 'json'
 
-module Train::Plugins::Common
+module Train::Extras
   module DetectWindows
     # See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832%28v=vs.85%29.aspx
     # Product Type:

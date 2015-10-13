@@ -8,7 +8,7 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
-module Train::Plugins::Common
+module Train::Extras
   module DetectUnix
     def detect_via_uname # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
       case uname_s.downcase

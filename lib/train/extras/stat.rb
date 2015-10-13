@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-class Train::Plugins::Common::FileCommon
+module Train::Extras
   class Stat
     TYPES = {
       socket:           00140000,
