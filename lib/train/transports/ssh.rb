@@ -91,7 +91,7 @@ module Train::Transports
         options[:key_files] = key_files
       end
 
-      unless options[:password].nil?
+      unless options[:password].nil? # rubocop:disable Style/IfUnlessModifier
         options[:auth_methods].push('password')
       end
 

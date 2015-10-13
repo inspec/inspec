@@ -67,9 +67,7 @@ class Train::Transports::SSH
 
       session.open_channel do |channel|
         channel.exec(cmd) do |_, success|
-          unless success
-            abort 'Couldn\'t execute command on SSH.'
-          end
+          abort 'Couldn\'t execute command on SSH.' unless success
 
           channel.on_data do |_, data|
             stdout += data
@@ -104,9 +102,7 @@ class Train::Transports::SSH
       args += %w{ -o StrictHostKeyChecking=no }
       args += %w{ -o IdentitiesOnly=yes } if options[:keys]
       args += %W( -o LogLevel=#{level} )
-      if options.key?(:forward_agent)
-        args += %W( -o ForwardAgent=#{fwd_agent} )
-      end
+      args += %W( -o ForwardAgent=#{fwd_agent} ) if options.key?(:forward_agent)
       Array(options[:keys]).each do |ssh_key|
         args += %W( -i #{ssh_key} )
       end
