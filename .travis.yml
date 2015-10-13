@@ -10,4 +10,3 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.2
     gemfile: Gemfile
-    script: bundle exec rake lint test
