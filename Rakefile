@@ -15,7 +15,8 @@ desc 'Run robocop linter'
 task lint: [:rubocop]
 
 # run tests
-task default: :test
+task default: [:test, :lint]
+
 Rake::TestTask.new do |t|
   t.libs << 'test'
   t.pattern = 'test/unit/*_test.rb'
