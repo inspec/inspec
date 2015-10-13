@@ -3,11 +3,11 @@
 # author: Christoph Hartmann
 
 require 'helper'
-require 'train/plugins/os_common'
+require 'train/extras'
 
 describe 'os common plugin' do
   let(:cls) {
-    Class.new(Train::Plugins::Common::OSCommon) do
+    Class.new(Train::Extras::OSCommon) do
       def detect_family; end
     end
   }

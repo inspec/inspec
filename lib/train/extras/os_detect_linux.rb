@@ -8,11 +8,11 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
-require 'train/plugins/linux_lsb'
+require 'train/extras/linux_lsb'
 
-module Train::Plugins::Common
+module Train::Extras
   module DetectLinux
-    include LinuxLSB
+    include Train::Extras::LinuxLSB
 
     def detect_linux_via_config # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       if !(raw = get_config('oracle-release')).nil?

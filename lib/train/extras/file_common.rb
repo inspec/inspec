@@ -5,10 +5,8 @@
 require 'digest/sha2'
 require 'digest/md5'
 
-module Train::Plugins::Common
+module Train::Extras
   class FileCommon
-    autoload :Stat, 'train/plugins/stat'
-
     # interface methods: these fields should be implemented by every
     # backend File
     %w{

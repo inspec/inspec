@@ -101,7 +101,7 @@ describe 'local file transport' do
     it 'recognizes selinux label' do
       meta_stub :lstat, statres do
         label = rand.to_s
-        res = Train::Plugins::Common::CommandResult.new(label, nil, 0)
+        res = Train::Extras::CommandResult.new(label, nil, 0)
         connection.stub :run_command, res do
           connection.file(rand).selinux_label.must_equal label
         end

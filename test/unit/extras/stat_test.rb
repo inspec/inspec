@@ -1,10 +1,10 @@
 # encoding: utf-8
 require 'helper'
-require 'train/plugins/common'
-require 'train/plugins/stat'
+require 'train/extras'
+require 'train/extras'
 
 describe 'stat' do
-  let(:cls) { Train::Plugins::Common::FileCommon::Stat }
+  let(:cls) { Train::Extras::Stat }
 
   describe 'find_type' do
     let (:random_mode) { (rand * 1000).to_i }

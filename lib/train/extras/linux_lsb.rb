@@ -8,7 +8,7 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
-module Train::Plugins::Common
+module Train::Extras
   module LinuxLSB
     def lsb_config(content)
       {

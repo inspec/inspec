@@ -1,10 +1,10 @@
 # encoding: utf-8
 require 'helper'
 require 'securerandom'
-require 'train/plugins/file_common'
+require 'train/extras/file_common'
 
 describe 'file common' do
-  let(:cls) { Train::Plugins::Common::FileCommon }
+  let(:cls) { Train::Extras::FileCommon }
 
   def mockup(stubs)
     Class.new(cls) do

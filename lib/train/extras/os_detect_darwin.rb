@@ -8,7 +8,7 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
-module Train::Plugins::Common
+module Train::Extras
   module DetectDarwin
     def detect_darwin
       cmd = @backend.run_command('/usr/bin/sw_vers')

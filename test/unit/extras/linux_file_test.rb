@@ -1,11 +1,10 @@
 # encoding: utf-8
 require 'helper'
 require 'train/transports/mock'
-require 'train/plugins/common'
-require 'train/plugins/linux_file'
+require 'train/extras'
 
 describe 'file common' do
-  let(:cls) { Train::Plugins::Common::LinuxFile }
+  let(:cls) { Train::Extras::LinuxFile }
   let(:backend) {
     backend = Train::Transports::Mock.new
     backend.mock_os({ family: 'linux' })

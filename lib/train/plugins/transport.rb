@@ -5,11 +5,11 @@
 
 require 'logger'
 require 'train/errors'
-require 'train/plugins/common'
+require 'train/extras'
 
 class Train::Plugins
   class Transport
-    include Train::Plugins::Common
+    include Train::Extras
 
     autoload :BaseConnection, 'train/plugins/base_connection'
 

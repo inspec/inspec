@@ -8,17 +8,17 @@
 #   by Adam Jacob, Chef Software Inc
 #
 
-require 'train/plugins/os_detect_darwin'
-require 'train/plugins/os_detect_linux'
-require 'train/plugins/os_detect_unix'
-require 'train/plugins/os_detect_windows'
+require 'train/extras/os_detect_darwin'
+require 'train/extras/os_detect_linux'
+require 'train/extras/os_detect_unix'
+require 'train/extras/os_detect_windows'
 
-module Train::Plugins::Common
+module Train::Extras
   class OSCommon
-    include DetectDarwin
-    include DetectLinux
-    include DetectUnix
-    include DetectWindows
+    include Train::Extras::DetectDarwin
+    include Train::Extras::DetectLinux
+    include Train::Extras::DetectUnix
+    include Train::Extras::DetectWindows
 
     def initialize(backend, platform = nil)
       @backend = backend

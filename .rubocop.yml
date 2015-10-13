@@ -42,4 +42,4 @@ Style/AndOr:
 Style/TrailingComma:
   EnforcedStyleForMultiline: comma
 Style/SpaceAroundOperators:
-  MultiSpaceAllowedForOperators: ["=", "=>", "||="]
+  MultiSpaceAllowedForOperators: [ "=", "=>", "||=" ]
