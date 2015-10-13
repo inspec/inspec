@@ -1,5 +1,4 @@
 ---
-sudo: required
 language: ruby
 cache: bundler
 
@@ -12,5 +11,3 @@ matrix:
   - rvm: 2.2
     gemfile: Gemfile
     script: bundle exec rake lint test
-    before_script:
-      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
