@@ -5,7 +5,6 @@
 # author: Christoph Hartmann
 
 require 'uri'
-require 'train'
 require 'vulcano/targets'
 require 'vulcano/profile_context'
 # spec requirements
@@ -38,35 +37,8 @@ module Vulcano
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
-    def self.create_backend(config)
-      conf = Train.target_config(config)
-      name = conf[:backend] || :local
-      transport = Train.create(name, conf)
-      if transport.nil?
-        fail "Can't find transport backend '#{name}'."
-      end
-
-      connection = transport.connection
-      if connection.nil?
-        fail "Can't connect to transport backend '#{name}'."
-      end
-
-      cls = Class.new do
-        define_method :backend do
-          connection
-        end
-        Vulcano::Resource.registry.each do |id, r|
-          define_method id.to_sym do |*args|
-            r.new(self, id.to_s, *args)
-          end
-        end
-      end
-
-      cls.new
-    end
-
     def configure_transport
-      @backend = self.class.create_backend(@conf)
+      @backend = ProfileContext.create_backend(@conf)
     end
 
     def add_tests(tests)
