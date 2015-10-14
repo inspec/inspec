@@ -35,12 +35,12 @@ module Train
   # @param [String] name of the plugin
   # @return [Train::Transport] the transport plugin
   def self.load_transport(name)
-    res = Train::Plugins.registry[name]
+    res = Train::Plugins.registry[name.to_s]
     return res unless res.nil?
 
     # if the plugin wasnt loaded yet:
     require 'train/transports/' + name.to_s
-    Train::Plugins.registry[name]
+    Train::Plugins.registry[name.to_s]
   rescue LoadError => _
     raise Train::UserError,
           "Can't find train plugin #{name.inspect}. Please install it first."
