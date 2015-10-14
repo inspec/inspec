@@ -10,34 +10,17 @@ module Train::Transports
   class Mock < Train.plugin(1)
     name 'mock'
 
-    attr_accessor :files, :commands, :os
-
     def initialize(conf = nil)
       @conf = conf || {}
-      @files = {}
-      @os = {}
-      @commands = {}
       trace_calls if @conf[:verbose]
     end
 
-    def mock_os(value)
-      @os = OS.new(self, value)
-    end
-
-    def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
-      @commands[cmd] = Command.new(stdout, stderr, exit_status)
-    end
-
-    def run_command(cmd)
-      @commands[cmd] || mock_command(cmd)
-    end
-
-    def file(path)
-      @files[path] ||= File.new(self, path)
+    def connection
+      @connection ||= Connection.new
     end
 
     def to_s
-      'Mock Backend'
+      'Mock Transport'
     end
 
     private
@@ -71,10 +54,45 @@ module Train::Transports
 end
 
 class Train::Transports::Mock
+  class Connection < BaseConnection
+    attr_accessor :files, :commands
+    attr_reader :os
+
+    def initialize(conf = nil)
+      @conf = conf || {}
+      @files = {}
+      @os = OS.new(self, :unknown)
+      @commands = {}
+      trace_calls if @conf[:verbose]
+    end
+
+    def mock_os(value)
+      @os = OS.new(self, value)
+    end
+
+    def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
+      @commands[cmd] = Command.new(stdout, stderr, exit_status)
+    end
+
+    def run_command(cmd)
+      @commands[cmd] || mock_command(cmd)
+    end
+
+    def file(path)
+      @files[path] ||= File.new(self, path)
+    end
+
+    def to_s
+      'Mock Connection'
+    end
+  end
+end
+
+class Train::Transports::Mock::Connection
   Command = Struct.new(:stdout, :stderr, :exit_status)
 end
 
-class Train::Transports::Mock
+class Train::Transports::Mock::Connection
   class OS < OSCommon
     def initialize(backend, desc)
       super(backend, desc)
@@ -86,7 +104,7 @@ class Train::Transports::Mock
   end
 end
 
-class Train::Transports::Mock
+class Train::Transports::Mock::Connection
   class File < FileCommon
     %w{
       exist? mode owner group link_target link_path content mtime size

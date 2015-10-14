@@ -6,7 +6,7 @@ require 'train/extras'
 describe 'file common' do
   let(:cls) { Train::Extras::LinuxFile }
   let(:backend) {
-    backend = Train::Transports::Mock.new
+    backend = Train::Transports::Mock.new.connection
     backend.mock_os({ family: 'linux' })
     backend
   }
