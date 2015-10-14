@@ -71,7 +71,7 @@ class Train::Transports::Mock
     end
 
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
-      @commands[cmd] = Command.new(stdout, stderr, exit_status)
+      @commands[cmd] = Command.new(stdout || '', stderr || '', exit_status)
     end
 
     def run_command(cmd)
