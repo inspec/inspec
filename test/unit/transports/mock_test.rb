@@ -21,7 +21,7 @@ describe 'mock transport' do
     it 'has a simple mock command creator' do
       out = rand
       cls = Train::Transports::Mock::Connection::Command
-      res = cls.new(out, nil, 0)
+      res = cls.new(out, '', 0)
       connection.mock_command('test', out).must_equal res
     end
 
