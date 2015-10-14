@@ -13,8 +13,8 @@ SimpleCov.start do
   add_group 'Backends', 'lib/vulcano/backend'
 end
 
-require 'vulcano/backend'
 require 'vulcano/resource'
+require 'train'
 
 class MockLoader
   # pass the os identifier to emulate a specific operating system
@@ -47,11 +47,11 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Vulcano::Backend.create('mock', {})
-    mock = @backend.backend
+    @backend = Train.create('mock')
+    mock = @backend.connection
 
     # create all mock files
-    local = Vulcano::Backend.registry['local'].new({})
+    local = Train.create('local').connection
     mockfile = lambda { |x|
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)

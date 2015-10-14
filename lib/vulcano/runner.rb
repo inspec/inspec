@@ -5,7 +5,7 @@
 # author: Christoph Hartmann
 
 require 'uri'
-require 'vulcano/backend'
+require 'train'
 require 'vulcano/targets'
 require 'vulcano/profile_context'
 # spec requirements
@@ -19,11 +19,11 @@ module Vulcano
     def initialize(conf = {})
       @rules = []
       @profile_id = conf[:id]
-      @conf = Vulcano::Backend.target_config(normalize_map(conf))
+      @conf = conf.dup
       @tests = RSpec::Core::World.new
 
       configure_output
-      configure_backend
+      configure_transport
     end
 
     def normalize_map(hm)
@@ -38,19 +38,35 @@ module Vulcano
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
-    def configure_backend
-      backend_name = (@conf['backend'] ||= 'local')
-      bname, next_backend = backend_name.split('+')
-      @conf['backend'] = next_backend if bname == 'specinfra'
-
-      # @TODO all backends except for mock revert to specinfra for now
-      @backend = Vulcano::Backend.create(bname, @conf)
-
-      # Return on failure
-      if @backend.nil?
-        fail "Can't find command backend '#{backend_name}'."
+    def self.create_backend(config)
+      conf = Train.target_config(config)
+      name = conf[:backend] || :local
+      transport = Train.create(name, conf)
+      if transport.nil?
+        fail "Can't find transport backend '#{name}'."
       end
-      @backend
+
+      connection = transport.connection
+      if connection.nil?
+        fail "Can't connect to transport backend '#{name}'."
+      end
+
+      cls = Class.new do
+        define_method :backend do
+          connection
+        end
+        Vulcano::Resource.registry.each do |id, r|
+          define_method id.to_sym do |*args|
+            r.new(self, id.to_s, *args)
+          end
+        end
+      end
+
+      cls.new
+    end
+
+    def configure_transport
+      @backend = self.class.create_backend(@conf)
     end
 
     def add_tests(tests)

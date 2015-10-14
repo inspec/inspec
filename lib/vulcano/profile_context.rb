@@ -2,7 +2,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/backend'
 require 'vulcano/rule'
 require 'vulcano/dsl'
 
