@@ -75,7 +75,9 @@ class Train::Transports::Mock
     end
 
     def run_command(cmd)
-      @commands[cmd] || mock_command(cmd)
+      @commands[cmd] ||
+        @commands[Digest::SHA256.hexdigest cmd] ||
+        mock_command(cmd)
     end
 
     def file(path)
