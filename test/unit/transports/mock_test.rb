@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'helper'
 require 'train/transports/mock'
+require 'digest/sha2'
 
 describe 'mock transport' do
   let(:transport) { Train::Transports::Mock.new }
@@ -43,6 +44,14 @@ describe 'mock transport' do
       cmd = rand
       connection.mock_command(cmd, nil, nil, code)
       connection.run_command(cmd).exit_status.must_equal(code)
+    end
+
+    it 'can mock a command via its SHA2 sum' do
+      out = rand.to_s
+      cmd = rand.to_s
+      shacmd = Digest::SHA256.hexdigest cmd
+      connection.mock_command(shacmd, out)
+      connection.run_command(cmd).stdout.must_equal(out)
     end
   end
 
