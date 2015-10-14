@@ -13,7 +13,15 @@ describe Train do
       proc { Train.create('missing') }.must_raise Train::UserError
     end
 
-    it 'load a plugin if it isnt in the registry yet' do
+    it 'load a plugin if it isnt in the registry yet via symbol' do
+      Kernel.stub :require, true do
+        ex = Class.new(Train.plugin 1) { name 'existing' }
+        train = Train.create(:existing)
+        train.class.must_equal ex
+      end
+    end
+
+    it 'load a plugin if it isnt in the registry yet via string' do
       Kernel.stub :require, true do
         ex = Class.new(Train.plugin 1) { name 'existing' }
         train = Train.create('existing')
