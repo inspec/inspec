@@ -12,7 +12,7 @@ module Vulcano
     def initialize(profile_id, backend, profile_registry: {}, only_ifs: [])
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
-              'This is a backend error which must be fixed upstream.'
+             'This is a backend error which must be fixed upstream.'
       end
 
       @profile_id = profile_id
