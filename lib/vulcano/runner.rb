@@ -6,8 +6,8 @@
 
 require 'uri'
 require 'vulcano/backend'
-require 'vulcano/targets'
 require 'vulcano/profile_context'
+require 'vulcano/targets'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
@@ -19,11 +19,11 @@ module Vulcano
     def initialize(conf = {})
       @rules = []
       @profile_id = conf[:id]
-      @conf = Vulcano::Backend.target_config(normalize_map(conf))
+      @conf = conf.dup
       @tests = RSpec::Core::World.new
 
       configure_output
-      configure_backend
+      configure_transport
     end
 
     def normalize_map(hm)
@@ -38,19 +38,8 @@ module Vulcano
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
-    def configure_backend
-      backend_name = (@conf['backend'] ||= 'local')
-      bname, next_backend = backend_name.split('+')
-      @conf['backend'] = next_backend if bname == 'specinfra'
-
-      # @TODO all backends except for mock revert to specinfra for now
-      @backend = Vulcano::Backend.create(bname, @conf)
-
-      # Return on failure
-      if @backend.nil?
-        fail "Can't find command backend '#{backend_name}'."
-      end
-      @backend
+    def configure_transport
+      @backend = Vulcano::Backend.create(@conf)
     end
 
     def add_tests(tests)

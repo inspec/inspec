@@ -37,15 +37,4 @@ namespace :test do
     return if tests.empty?
     sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
-
-  task :docker_runner do
-    path = File.join(File.dirname(__FILE__), 'test', 'runner')
-    sh('sh', '-c', "cd #{path} && config=test-runner.yaml ruby -I ../../lib docker_test.rb tests/*")
-  end
-
-  task :local_runner do
-    concurrency = ENV['CONCURRENCY'] || 4
-    path = File.join(File.dirname(__FILE__), 'test', 'runner')
-    sh('sh', '-c', "cd #{path} && kitchen test -c #{concurrency}")
-  end
 end

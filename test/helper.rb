@@ -13,8 +13,8 @@ SimpleCov.start do
   add_group 'Backends', 'lib/vulcano/backend'
 end
 
-require 'vulcano/backend'
 require 'vulcano/resource'
+require 'vulcano/backend'
 
 class MockLoader
   # pass the os identifier to emulate a specific operating system
@@ -47,11 +47,14 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Vulcano::Backend.create('mock', {})
+    @backend = Vulcano::Backend.create({ backend: :mock })
     mock = @backend.backend
 
+    # set os emulation
+    mock.mock_os(@os)
+
     # create all mock files
-    local = Vulcano::Backend.registry['local'].new({})
+    local = Train.create('local').connection
     mockfile = lambda { |x|
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)
@@ -92,11 +95,11 @@ class MockLoader
     # create all mock commands
     cmd = lambda {|x|
       stdout = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
-      mock.mock_command(stdout, '', 0)
+      mock.mock_command('', stdout, '', 0)
     }
 
     empty = lambda {
-      mock.mock_command('', '', 0)
+      mock.mock_command('', '', '', 0)
     }
 
     mock.commands = {
@@ -178,9 +181,6 @@ class MockLoader
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
     }
-
-    # set os emulation
-    mock.os = @os
 
     @backend
   end

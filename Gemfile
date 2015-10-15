@@ -2,6 +2,8 @@
 source 'https://rubygems.org'
 gemspec
 
+gem 'train', git: 'git@github.com:chef/train.git'
+
 group :test do
   gem 'bundler', '~> 1.5'
   gem 'minitest', '~> 5.5'
