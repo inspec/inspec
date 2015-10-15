@@ -5,8 +5,9 @@
 # author: Christoph Hartmann
 
 require 'uri'
-require 'vulcano/targets'
+require 'vulcano/backend'
 require 'vulcano/profile_context'
+require 'vulcano/targets'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
@@ -38,7 +39,7 @@ module Vulcano
     end
 
     def configure_transport
-      @backend = ProfileContext.create_backend(@conf)
+      @backend = Vulcano::Backend.create(@conf)
     end
 
     def add_tests(tests)

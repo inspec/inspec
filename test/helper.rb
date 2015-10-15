@@ -14,7 +14,7 @@ SimpleCov.start do
 end
 
 require 'vulcano/resource'
-require 'vulcano/profile_context'
+require 'vulcano/backend'
 
 class MockLoader
   # pass the os identifier to emulate a specific operating system
@@ -47,7 +47,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Vulcano::ProfileContext.create_backend({ backend: :mock })
+    @backend = Vulcano::Backend.create({ backend: :mock })
     mock = @backend.backend
 
     # set os emulation
