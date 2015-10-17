@@ -61,6 +61,8 @@ class AptRepository < Vulcano.resource(1)
     read_debs.select { |repo| repo[:url] == @deb_url && repo[:type] == 'deb' }
   end
 
+  HTTP_URL_RE = /\A#{URI::DEFAULT_PARSER.make_regexp(%w{http https})}\z/
+
   # read
   def read_debs
     return @repo_cache if defined?(@repo_cache)
@@ -80,7 +82,7 @@ class AptRepository < Vulcano.resource(1)
       parse_repo = /^\s*(\S+)\s+(\S+)\s+(\S+)\s+(.*)$/.match(line)
 
       # check if we got any result and the second param is an url
-      next if parse_repo.nil? || !parse_repo[2] =~ /\A#{URI.regexp(%w{http https})}\z/
+      next if parse_repo.nil? || !parse_repo[2] =~ HTTP_URL_RE
 
       # map data
       repo = {
@@ -100,8 +102,7 @@ class AptRepository < Vulcano.resource(1)
   # @see http://bazaar.launchpad.net/~ubuntu-core-dev/software-properties/main/view/head:/softwareproperties/ppa.py
   def determine_ppa_url(ppa_url)
     # verify if we have the url already, then just return
-    is_url = ppa_url =~ /\A#{URI.regexp(%w{http https})}\z/
-    return ppa_url if is_url == 0
+    return ppa_url if ppa_url =~ HTTP_URL_RE
     # otherwise start generating the ppa url
 
     # special care if the name stats with :

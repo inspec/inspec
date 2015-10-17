@@ -29,8 +29,8 @@ class Host < Vulcano.resource(1)
 
   def initialize(hostname, params = {})
     @hostname = hostname
-    @port = params[:port] if params[:port]
-    @proto = params[:proto] if params[:proto]
+    @port = params[:port]   || nil
+    @proto = params[:proto] || nil
 
     @host_provider = nil
     if vulcano.os.linux?
