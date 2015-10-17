@@ -90,6 +90,7 @@ class VulcanoCLI < Thor
   target_options
   def detect
     runner = Vulcano::Runner.new(options)
+    rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
     runner.add_tests([detect_util])
     runner.run

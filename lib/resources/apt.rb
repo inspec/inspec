@@ -26,6 +26,8 @@
 # apt-get install software-properties-common
 # add-apt-repository ppa:ubuntu-wine/ppa
 
+require 'uri'
+
 class AptRepository < Vulcano.resource(1)
   name 'apt'
 
