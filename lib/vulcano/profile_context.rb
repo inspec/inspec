@@ -4,6 +4,7 @@
 
 require 'vulcano/rule'
 require 'vulcano/dsl'
+require 'rspec/core/dsl'
 
 module Vulcano
   class ProfileContext
