@@ -19,7 +19,7 @@ task default: [:test, :lint]
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
-  t.pattern = 'test/unit/*_test.rb'
+  t.pattern = 'test/unit/**/*_test.rb'
   t.warning = true
   t.verbose = true
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
