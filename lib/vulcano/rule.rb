@@ -4,8 +4,44 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'rspec/expectations'
+
 module Vulcano
+  class ExpectationTarget
+    attr_reader :calls, :value, :block
+    def initialize(value, &block)
+      @value = value
+      @block = block
+      @calls = []
+    end
+
+    def to(*args, &block)
+      @calls.push([:to, args, block, caller])
+    end
+
+    def not_to(*args, &block)
+      @calls.push([:not_to, args, block, caller])
+    end
+
+    def example_group
+      that = self
+      outer_clr = calls[0][3]
+      RSpec::Core::ExampleGroup.describe(that.value, caller: outer_clr) do
+        that.calls.each do |method, args, block, clr|
+          # require "pry"; binding.pry
+          it(nil, caller: clr) do
+            x = expect(that.value, &that.block).method(method)
+            # require "pry"; binding.pry
+            x.call(*args, &block)
+          end
+        end
+      end
+    end
+  end
+
   class Rule
+    include ::RSpec::Matchers
+
     def initialize(id, _opts, &block)
       @id = id
       @impact = nil
@@ -40,8 +76,14 @@ module Vulcano
       @desc
     end
 
-    def describe(sth, &block)
-      @checks.push(['describe', [sth], block])
+    def describe(value, &block)
+      @checks.push(['describe', [value], block])
+    end
+
+    def expect(value, &block)
+      target = ExpectationTarget.new(value, &block)
+      @checks.push(['expect', [value], target])
+      target
     end
 
     def self.merge(dst, src)

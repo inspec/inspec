@@ -65,9 +65,8 @@ module Vulcano
 
       # process the resulting rules
       ctx.rules.each do |rule_id, rule|
-        #::Vulcano::DSL.execute_rule(rule, profile_id)
         checks = rule.instance_variable_get(:@checks)
-        checks.each do |_, a, b|
+        checks.each do |m, a, b|
           # resource skipping
           if !a.empty? &&
              a[0].respond_to?(:resource_skipped) &&
@@ -77,7 +76,15 @@ module Vulcano
             end
           else
             # add the resource
-            example = RSpec::Core::ExampleGroup.describe(*a, &b)
+            case m
+            when 'describe'
+              example = RSpec::Core::ExampleGroup.describe(*a, &b)
+            when 'expect'
+              example = b.example_group
+            else
+              fail "A rule was registered with the #{m.inspect} keyword. "\
+                   'which cannot be processed.'
+            end
           end
 
           set_rspec_ids(example, rule_id)
