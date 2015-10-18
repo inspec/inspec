@@ -87,6 +87,15 @@ module Vulcano
             end
           end
 
+          # TODO: Remove this!! It is very dangerous to do this here.
+          # The goal of this is to make the audit DSL available to all
+          # describe blocks. Right now, these blocks are executed outside
+          # the scope of this run, thus not gaining ony of the DSL pieces.
+          # To circumvent this, the full DSL is attached to the example's
+          # scope.
+          dsl = ctx.method(:create_inner_dsl).call(backend)
+          example.send(:include, dsl)
+
           set_rspec_ids(example, rule_id)
           @tests.register(example)
         end
