@@ -458,9 +458,6 @@ The following examples show how to use this InSpec resource in a recipe.
      its(:ipaddress) { should include '192.168.1.1' }
    end
 
-
-
-
 inetd_config -- DONE
 =====================================================
 Use the ``inetd_config`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
@@ -776,14 +773,78 @@ Use the ``mysql_session`` InSpec resource to xxxxx.
 IN_PROGRESS
 
 
-
 npm
 =====================================================
-Use the ``npm`` InSpec resource to xxxxx.
+Use the ``npm`` InSpec resource to test if a global npm package is installed.
 
-IN_PROGRESS
+Syntax
+-----------------------------------------------------
+A ``npm`` InSpec resource block declares a npm package name and then
+(depending on what is to be tested) various matchers. For example:
 
+.. code-block:: ruby
 
+  describe npm('bower') do
+    it { should be_installed }
+  end
+
+where
+
+* ``npm()`` must specify a global npm name
+* ``bower`` is the npm package name
+* ``be_installed`` is a valid matcher for this InSpec resource
+
+Matchers
+-----------------------------------------------------
+This InSpec resource has the following matchers:
+
+be_installed
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_installed`` matcher tests if the package is installed. For example:
+
+.. code-block:: ruby
+
+   it { should be_installed }
+
+version
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``version`` matcher tests if a package is installed with a specific version. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '1.4.1' }
+
+Examples
+-----------------------------------------------------
+
+The following example shows how to use this InSpec resource in a compliance profile.
+
+**Verify that a npm package is installed and has a specific version**
+
+.. code-block:: ruby
+
+  describe npm('bower') do
+    it { should be_installed }
+    its(:version) { should eq '1.4.1' }
+  end
+
+**Verify that a npm package is not installed**
+
+.. code-block:: ruby
+
+  describe npm('bower') do
+    it { should_not be_installed }
+  end
+
+Supported Operating Systems
+-----------------------------------------------------
+
+* CentOS 6, 7
+* Debian 6, 7, 8
+* MacOS 10.8, 10.9, 10.10
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 12.04, 14.04
+* Windows 2012 R2
 
 ntp_conf
 =====================================================
