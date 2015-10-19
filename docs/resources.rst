@@ -1,8 +1,8 @@
 =====================================================
-Audit Resources Reference
+InSpec Resources Reference
 =====================================================
 
-The following Audit resources are available:
+The following InSpec resources are available:
 
 * ``apt``
 * ``bond``
@@ -59,17 +59,17 @@ In addition to the open source resources, Chef Compliance ships with additional 
 * ``sshd_config``
 * ``yaml``
 
-See below for more information about each audit resource, its related matchers, and examples of how to use it in a recipe.
+See below for more information about each InSpec resource, its related matchers, and examples of how to use it in a recipe.
 
 apache_conf
 =====================================================
-Use the ``apache_conf`` audit resource to xxxxx.
+Use the ``apache_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
 apt
 =====================================================
-Use the ``apt`` audit resource to verify |apt| repositories on the |debian| and |ubuntu| platforms, and also |ppa| repositories on the |ubuntu| platform.
+Use the ``apt`` InSpec resource to verify |apt| repositories on the |debian| and |ubuntu| platforms, and also |ppa| repositories on the |ubuntu| platform.
 
 Syntax
 -----------------------------------------------------
@@ -152,7 +152,7 @@ Supported Operating Systems
 
 audit_policy
 =====================================================
-Use the ``audit_policy`` audit resource to xxxxx.
+Use the ``audit_policy`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -160,7 +160,7 @@ IN_PROGRESS
 
 audit_daemon_conf
 =====================================================
-Use the ``audit_daemon_conf`` audit resource to xxxxx.
+Use the ``audit_daemon_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -168,7 +168,7 @@ IN_PROGRESS
 
 audit_daemon_rules
 =====================================================
-Use the ``audit_daemon_rules`` audit resource to xxxxx.
+Use the ``audit_daemon_rules`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -176,7 +176,7 @@ IN_PROGRESS
 
 bond
 =====================================================
-Use the ``bond`` audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
+Use the ``bond`` InSpec resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
 
 IN_PROGRESS
 
@@ -184,7 +184,7 @@ IN_PROGRESS
 
 bridge -- DONE
 =====================================================
-Use the ``bridge`` audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
+Use the ``bridge`` InSpec resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 
 * On |unix| and |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
 * On the |windows| platform, the ``Get-NetAdapter`` cmdlet is associated with the ``Get-NetAdapterBinding`` cmdlet and returns the ``ComponentID ms_bridge`` value as a |json| object
@@ -193,7 +193,7 @@ Use the ``bridge`` audit resource to test basic network bridge properties, such 
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``bridge`` audit resource block declares xxxxx. For example:
+A ``bridge`` InSpec resource block declares xxxxx. For example:
 
 .. code-block:: ruby
 
@@ -207,12 +207,12 @@ A ``bridge`` audit resource block declares xxxxx. For example:
 ..
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this audit resource
+.. * ``xxxxx`` is a valid matcher for this InSpec resource
 ..
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 exist -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -245,7 +245,7 @@ The ``interfaces`` matcher tests if the named interface is present. For example:
 ..
 .. Examples
 .. -----------------------------------------------------
-.. The following examples show how to use this audit resource in a recipe.
+.. The following examples show how to use this InSpec resource in a recipe.
 ..
 .. **xxxxx**
 ..
@@ -260,7 +260,7 @@ The ``interfaces`` matcher tests if the named interface is present. For example:
 
 command
 =====================================================
-Use the ``command`` audit resource to test an arbitrary command.
+Use the ``command`` InSpec resource to test an arbitrary command.
 
 IN_PROGRESS
 
@@ -268,14 +268,14 @@ IN_PROGRESS
 
 csv
 =====================================================
-Use the ``csv`` audit resource to xxxxx.
+Use the ``csv`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
 
 directory
 =====================================================
-Use the ``directory`` audit resource to xxxxx.
+Use the ``directory`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -283,7 +283,7 @@ IN_PROGRESS
 
 etc_group
 -----------------------------------------------------
-Use the ``etc_group`` audit resource to test the contents of the ``/etc/group`` file on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, and a comma-separate list of users that belong to the group.
+Use the ``etc_group`` InSpec resource to test the contents of the ``/etc/group`` file on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, and a comma-separate list of users that belong to the group.
 
 IN_PROGRESS
 
@@ -291,14 +291,14 @@ IN_PROGRESS
 
 file
 =====================================================
-Use the ``file`` audit resource to xxxxx.
+Use the ``file`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
 
 gem
 =====================================================
-Use the ``gem`` audit resource to xxxxx.
+Use the ``gem`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -306,7 +306,7 @@ IN_PROGRESS
 
 group
 =====================================================
-Use the ``group`` audit resource to xxxxx.
+Use the ``group`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -314,7 +314,7 @@ IN_PROGRESS
 
 group_policy
 =====================================================
-Use the ``group_policy`` audit resource to xxxxx.
+Use the ``group_policy`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -322,11 +322,11 @@ IN_PROGRESS
 
 host -- DONE
 =====================================================
-Use the ``host`` audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
+Use the ``host`` InSpec resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``host`` audit resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol. For example:
+A ``host`` InSpec resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol. For example:
 
 .. code-block:: ruby
 
@@ -340,11 +340,11 @@ where
 * ``'example.com'`` is the host name
 * ``port:`` is the port number
 * ``proto: 'name'`` is the Internet protocol: |icmp| (``proto: 'icmp'``), |tcp| (``proto: 'tcp'``), or |udp| (``proto: 'udp'``)
-* ``be_reachable`` is a valid matcher for this audit resource
+* ``be_reachable`` is a valid matcher for this InSpec resource
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_reachable -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -375,7 +375,7 @@ The ``ipaddress`` matcher tests if a host name is resolvable to a specific IP ad
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Verify host name s reachable over a specific protocol and port number**
 
@@ -399,11 +399,11 @@ The following examples show how to use this audit resource in a recipe.
 
 inetd_config -- DONE
 =====================================================
-Use the ``inetd_config`` audit resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
+Use the ``inetd_config`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``inetd_config`` audit resource block declares the list of services that should be disabled in the ``inetd.conf`` file. For example:
+A ``inetd_config`` InSpec resource block declares the list of services that should be disabled in the ``inetd.conf`` file. For example:
 
 .. code-block:: ruby
 
@@ -421,7 +421,7 @@ inetd_conf('/path/to/inetd.conf')
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource matches any service that is listed in the ``inetd.conf`` file. For example:
+This InSpec resource matches any service that is listed in the ``inetd.conf`` file. For example:
 
 .. code-block:: ruby
 
@@ -451,7 +451,7 @@ For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Verify that FTP is disabled**
 
@@ -483,7 +483,7 @@ then the same test will return ``false`` for ``ftp`` and the entire test will fa
 
 interface -- DONE
 =====================================================
-Use the ``interface`` audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
+Use the ``interface`` InSpec resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
 
 * On |unix| and |linux| platforms, any value in the ``/sys/class/net/#{iface}`` directory may be tested.
 * On the |windows| platform, the ``Get-NetAdapter`` cmdlet returns the following values: ``Property Name``, ``InterfaceDescription``, ``Status``, ``State``, ``MacAddress``, ``LinkSpeed``, ``ReceiveLinkSpeed``, ``TransmitLinkSpeed``, and ``Virtual``, returned as a |json| object.
@@ -492,7 +492,7 @@ Use the ``interface`` audit resource to test basic network adapter properties, s
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``interface`` audit resource block declares network interface properties to be tested. For example:
+A ``interface`` InSpec resource block declares network interface properties to be tested. For example:
 
 .. code-block:: ruby
 
@@ -507,12 +507,12 @@ A ``interface`` audit resource block declares network interface properties to be
 ..
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this audit resource
+.. * ``xxxxx`` is a valid matcher for this InSpec resource
 ..
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_up -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -541,7 +541,7 @@ The ``speed`` matcher tests the speed of the network interface, in MB/sec. For e
 ..
 .. Examples
 .. -----------------------------------------------------
-.. The following examples show how to use this audit resource in a recipe.
+.. The following examples show how to use this InSpec resource in a recipe.
 ..
 .. **xxxxx**
 ..
@@ -556,11 +556,11 @@ The ``speed`` matcher tests the speed of the network interface, in MB/sec. For e
 
 json -- DONE
 =====================================================
-Use the ``json`` audit resource to test data in a |json| file.
+Use the ``json`` InSpec resource to test data in a |json| file.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``json`` audit resource block declares the data to be tested. For example:
+A ``json`` InSpec resource block declares the data to be tested. For example:
 
 .. code-block:: ruby
 
@@ -575,7 +575,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -587,7 +587,7 @@ The ``name`` matcher tests the value of ``name`` as read from a |json| file vers
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test a cookbook version in a policyfile.lock.json file**
 
@@ -601,7 +601,7 @@ The following examples show how to use this audit resource in a recipe.
 
 kernel_module
 =====================================================
-Use the ``kernel_module`` audit resource to xxxxx.
+Use the ``kernel_module`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -609,7 +609,7 @@ IN_PROGRESS
 
 kernel_parameter
 =====================================================
-Use the ``kernel_parameter`` audit resource to xxxxx.
+Use the ``kernel_parameter`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -617,7 +617,7 @@ IN_PROGRESS
 
 limits_conf
 =====================================================
-Use the ``limits_conf`` audit resource to xxxxx.
+Use the ``limits_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -625,11 +625,11 @@ IN_PROGRESS
 
 login_defs -- DONE
 =====================================================
-Use the ``login_defs`` audit resource to test configuration settings in the ``/etc/login.defs`` file. The ``logins.defs`` file defines site-specific configuration for the shadow password suite on |linux| and |unix| platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
+Use the ``login_defs`` InSpec resource to test configuration settings in the ``/etc/login.defs`` file. The ``logins.defs`` file defines site-specific configuration for the shadow password suite on |linux| and |unix| platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``login_defs`` audit resource block declares the ``login.defs`` configuration data to be tested. For example:
+A ``login_defs`` InSpec resource block declares the ``login.defs`` configuration data to be tested. For example:
 
 .. code-block:: ruby
 
@@ -644,7 +644,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -656,7 +656,7 @@ The ``name`` matcher tests the value of ``name`` as read from ``login.defs`` ver
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test password expiration settings**
 
@@ -690,7 +690,7 @@ The following examples show how to use this audit resource in a recipe.
 
 mysql
 =====================================================
-Use the ``mysql`` audit resource to xxxxx.
+Use the ``mysql`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -698,7 +698,7 @@ IN_PROGRESS
 
 mysql_conf
 =====================================================
-Use the ``mysql_conf`` audit resource to xxxxx.
+Use the ``mysql_conf`` InSpec resource to xxxxx.
 
 
 IN_PROGRESS
@@ -707,7 +707,7 @@ IN_PROGRESS
 
 mysql_session
 =====================================================
-Use the ``mysql_session`` audit resource to xxxxx.
+Use the ``mysql_session`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -715,7 +715,7 @@ IN_PROGRESS
 
 npm
 =====================================================
-Use the ``npm`` audit resource to xxxxx.
+Use the ``npm`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -723,7 +723,7 @@ IN_PROGRESS
 
 ntp_conf
 =====================================================
-Use the ``ntp_conf`` audit resource to xxxxx.
+Use the ``ntp_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -731,7 +731,7 @@ IN_PROGRESS
 
 oneget
 =====================================================
-Use the ``oneget`` audit resource to xxxxx.
+Use the ``oneget`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -739,7 +739,7 @@ IN_PROGRESS
 
 os
 =====================================================
-Use the ``os`` audit resource to xxxxx.
+Use the ``os`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -747,7 +747,7 @@ IN_PROGRESS
 
 os_env
 =====================================================
-Use the ``os_env`` audit resource to test environment variables.
+Use the ``os_env`` InSpec resource to test environment variables.
 
 IN_PROGRESS
 
@@ -755,7 +755,7 @@ IN_PROGRESS
 
 package
 =====================================================
-Use the ``package`` audit resource to xxxxx.
+Use the ``package`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
@@ -763,7 +763,7 @@ IN_PROGRESS
 
 parse_config
 =====================================================
-Use the ``parse_config`` audit resource to test arbitrary configuration files.
+Use the ``parse_config`` InSpec resource to test arbitrary configuration files.
 
 IN_PROGRESS
 
@@ -771,7 +771,7 @@ IN_PROGRESS
 
 parse_config_file
 =====================================================
-Use the ``parse_config_file`` audit resource to test arbitrary configuration files.
+Use the ``parse_config_file`` InSpec resource to test arbitrary configuration files.
 
 IN_PROGRESS
 
@@ -779,7 +779,7 @@ IN_PROGRESS
 
 passwd -- DONE
 =====================================================
-Use the ``passwd`` audit resource to test the contents of ``/etc/passwd``, which contains the following information for users that may log into the system and/or as users that own running processes. The format for ``/etc/passwd`` includes:
+Use the ``passwd`` InSpec resource to test the contents of ``/etc/passwd``, which contains the following information for users that may log into the system and/or as users that own running processes. The format for ``/etc/passwd`` includes:
 
 * A username
 * The password for that user
@@ -797,7 +797,7 @@ defined as a colon-delimited row in the file, one row per user. For example:
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``passwd`` audit resource block declares one (or more) users and associated user information to be tested. For example:
+A ``passwd`` InSpec resource block declares one (or more) users and associated user information to be tested. For example:
 
 .. code-block:: ruby
 
@@ -807,11 +807,11 @@ A ``passwd`` audit resource block declares one (or more) users and associated us
 
 where
 
-* ``count``, ``gids``, ``passwords``, ``uid``, ``uids``, ``username``, ``usernames``, and ``users`` are valid matchers for this audit resource
+* ``count``, ``gids``, ``passwords``, ``uid``, ``uids``, ``username``, ``usernames``, and ``users`` are valid matchers for this InSpec resource
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 count -- ?????
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -879,7 +879,7 @@ The ``users`` matcher tests if xxxxx. For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **xxxxx**
 
@@ -903,11 +903,11 @@ The following examples show how to use this audit resource in a recipe.
 
 pip -- DONE
 =====================================================
-Use the ``pip`` audit resource to test packages that are installed using the |pip| installer.
+Use the ``pip`` InSpec resource to test packages that are installed using the |pip| installer.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``pip`` audit resource block declares a package and (optionally) a package version. For example:
+A ``pip`` InSpec resource block declares a package and (optionally) a package version. For example:
 
 .. code-block:: ruby
 
@@ -922,7 +922,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_installed -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -942,7 +942,7 @@ The ``version`` matcher tests if the named package version is on the system. For
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test if Jinja2 is installed on the system**
 
@@ -964,11 +964,11 @@ The following examples show how to use this audit resource in a recipe.
 
 port -- DONE
 =====================================================
-Use the ``port`` audit resource to test basic port properties, such as port, process, if it's listening.
+Use the ``port`` InSpec resource to test basic port properties, such as port, process, if it's listening.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``port`` audit resource block declares a port, and then depending on what needs to be tested, a process, protocol, process identifier, and its state (is it listening?). For example:
+A ``port`` InSpec resource block declares a port, and then depending on what needs to be tested, a process, protocol, process identifier, and its state (is it listening?). For example:
 
 .. code-block:: ruby
 
@@ -981,7 +981,7 @@ where the ``syslog`` process is tested to see if it's listening on port 514.
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_listening -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1039,7 +1039,7 @@ or for the |ipv6| protocol:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test port 80, listening with the TCP protocol**
 
@@ -1065,16 +1065,16 @@ postgres -- NOT AN AUDIT RESOURCE?
 =====================================================
 TBD
 
-.. This one seems like it's just loading some postgresql information on behalf of the postgres_conf and postgres_session audit resources. Right?
+.. This one seems like it's just loading some postgresql information on behalf of the postgres_conf and postgres_session InSpec resources. Right?
 
 
 postgres_conf -- DONE
 =====================================================
-Use the ``postgres_conf`` audit resource to test the contents of the configuration file for |postgresql|, typically located at ``/etc/postgresql/<version>/main/postgresql.conf`` or ``/var/lib/postgres/data/postgresql.conf``, depending on the platform.
+Use the ``postgres_conf`` InSpec resource to test the contents of the configuration file for |postgresql|, typically located at ``/etc/postgresql/<version>/main/postgresql.conf`` or ``/var/lib/postgres/data/postgresql.conf``, depending on the platform.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``postgres_conf`` audit resource block declares one (or more) settings in the ``postgresql.conf`` file, and then compares the setting in the configuration file to the value stated in the test. For example:
+A ``postgres_conf`` InSpec resource block declares one (or more) settings in the ``postgresql.conf`` file, and then compares the setting in the configuration file to the value stated in the test. For example:
 
 .. code-block:: ruby
 
@@ -1090,7 +1090,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 setting -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1104,7 +1104,7 @@ Use a ``setting`` matcher for each setting to be tested.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test the maximum number of allowed client connections**
 
@@ -1151,11 +1151,11 @@ where ``unix_socket_group`` is set to the |postgresql| default setting (the grou
 
 postgres_session -- DONE
 =====================================================
-Use the ``postgres_session`` audit resource to test SQL commands run against a |postgresql| database.
+Use the ``postgres_session`` InSpec resource to test SQL commands run against a |postgresql| database.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``postgres_session`` audit resource block declares the username and password to use for the session, and then the command to be run. For example:
+A ``postgres_session`` InSpec resource block declares the username and password to use for the session, and then the command to be run. For example:
 
 .. code-block:: ruby
 
@@ -1174,7 +1174,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 output -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1186,7 +1186,7 @@ The ``output`` matcher tests the results of the query. For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test the PostgreSQL shadow password**
 
@@ -1216,11 +1216,11 @@ The following examples show how to use this audit resource in a recipe.
 
 processes -- DONE
 =====================================================
-Use the ``processes`` audit resource to test properties for running programs a system.
+Use the ``processes`` InSpec resource to test properties for running programs a system.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``processes`` audit resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs. For example:
+A ``processes`` InSpec resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs. For example:
 
 .. code-block:: ruby
 
@@ -1235,7 +1235,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 property_name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1247,7 +1247,7 @@ The ``property_name`` matcher tests the named property for the specified value. 
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test if the list length for the mysqld process is 1**
 
@@ -1276,11 +1276,11 @@ The following examples show how to use this audit resource in a recipe.
 
 registry_key -- DONE
 =====================================================
-Use the ``registry_key`` audit resource to test key values in the |windows| registry.
+Use the ``registry_key`` InSpec resource to test key values in the |windows| registry.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``registry_key`` audit resource block declares the item in the |windows| registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested. For example:
+A ``registry_key`` InSpec resource block declares the item in the |windows| registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested. For example:
 
 .. code-block:: ruby
 
@@ -1296,7 +1296,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1308,7 +1308,7 @@ The ``name`` matcher tests the value for the specified registry setting. For exa
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test the start time for the Schedule service**
 
@@ -1323,13 +1323,13 @@ where ``'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'`` is the
 
 script -- DONE
 =====================================================
-Use the ``script`` audit resource to test a |powershell| script on the |windows| platform.
+Use the ``script`` InSpec resource to test a |powershell| script on the |windows| platform.
 
 .. this one is a bit of a wild guess.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``script`` audit resource block declares xxxxx. For example:
+A ``script`` InSpec resource block declares xxxxx. For example:
 
 .. code-block:: ruby
 
@@ -1342,12 +1342,12 @@ A ``script`` audit resource block declares xxxxx. For example:
 ..
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this audit resource
+.. * ``xxxxx`` is a valid matcher for this InSpec resource
 ..
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 script_name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1359,7 +1359,7 @@ The ``script_name`` matcher tests the named script against the value specified b
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 .. stoopid test below; probably need a better one
 
@@ -1380,11 +1380,11 @@ The following examples show how to use this audit resource in a recipe.
 
 security_policy -- DONE
 =====================================================
-Use the ``security_policy`` audit resource to test security policies on the |windows| platform.
+Use the ``security_policy`` InSpec resource to test security policies on the |windows| platform.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``security_policy`` audit resource block declares the name of a security policy and the value to be tested. For example:
+A ``security_policy`` InSpec resource block declares the name of a security policy and the value to be tested. For example:
 
 .. code-block:: ruby
 
@@ -1399,7 +1399,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 policy_name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1411,7 +1411,7 @@ The ``policy_name`` matcher must be the name of a security policy. For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Verify that only the Administrators group has remote access**
 
@@ -1424,11 +1424,11 @@ The following examples show how to use this audit resource in a recipe.
 
 service -- DONE
 =====================================================
-Use the ``service`` audit resource to test if the named service is installed, running and/or enabled.
+Use the ``service`` InSpec resource to test if the named service is installed, running and/or enabled.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``service`` audit resource block declares the name of a service and then one (or more) matchers to test the state of the service. For example:
+A ``service`` InSpec resource block declares the name of a service and then one (or more) matchers to test the state of the service. For example:
 
 .. code-block:: ruby
 
@@ -1443,12 +1443,12 @@ A ``service`` audit resource block declares the name of a service and then one (
 ..
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this audit resource
+.. * ``xxxxx`` is a valid matcher for this InSpec resource
 ..
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_enabled -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1476,7 +1476,7 @@ The ``be_running`` matcher tests if the named service is running. For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test if the postgresql service is both running and enabled**
 
@@ -1499,11 +1499,11 @@ The following examples show how to use this audit resource in a recipe.
 
 ssh_config -- DONE
 =====================================================
-Use the ``ssh_config`` audit resource to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
+Use the ``ssh_config`` InSpec resource to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``ssh_config`` audit resource block declares the client |openssh| configuration data to be tested. For example:
+A ``ssh_config`` InSpec resource block declares the client |openssh| configuration data to be tested. For example:
 
 .. code-block:: ruby
 
@@ -1519,7 +1519,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1537,7 +1537,7 @@ or:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test SSH configuration settings**
 
@@ -1571,11 +1571,11 @@ The following examples show how to use this audit resource in a recipe.
 
 sshd_config -- DONE
 =====================================================
-Use the ``sshd_config`` audit resource to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
+Use the ``sshd_config`` InSpec resource to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``sshd_config`` audit resource block declares the client |openssh| configuration data to be tested. For example:
+A ``sshd_config`` InSpec resource block declares the client |openssh| configuration data to be tested. For example:
 
 .. code-block:: ruby
 
@@ -1591,7 +1591,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1609,7 +1609,7 @@ or:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test which variables may be sent to the server**
 
@@ -1642,11 +1642,11 @@ The following examples show how to use this audit resource in a recipe.
 
 user -- DONE
 =====================================================
-Use the ``user`` audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.
+Use the ``user`` InSpec resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``user`` audit resource block declares a user name, and then one (or more) matchers. For example:
+A ``user`` InSpec resource block declares a user name, and then one (or more) matchers. For example:
 
 .. code-block:: ruby
 
@@ -1667,11 +1667,11 @@ where
 
 * ``('root')`` is the user to be tested
 * ``it { should exist }`` tests if the user exists
-* ``gid``, ``group``, ``groups``, ``home``, ``maxdays``, ``mindays``, ``shell``, ``uid``, and ``warndays`` are valid matchers for this audit resource
+* ``gid``, ``group``, ``groups``, ``home``, ``maxdays``, ``mindays``, ``shell``, ``uid``, and ``warndays`` are valid matchers for this InSpec resource
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 exist -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1767,7 +1767,7 @@ where ``5`` represents the number of days a user is warned.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 ..
 .. **xxxxx**
@@ -1782,7 +1782,7 @@ The following examples show how to use this audit resource in a recipe.
 
 windows_feature -- DONE
 =====================================================
-Use the ``windows_feature`` audit resource to test features on |windows|. The ``Get-WindowsFeature`` cmdlet returns the following values: ``Property Name``, ``DisplayName``, ``Description``, ``Installed``, and ``InstallState``, returned as a |json| object similar to:
+Use the ``windows_feature`` InSpec resource to test features on |windows|. The ``Get-WindowsFeature`` cmdlet returns the following values: ``Property Name``, ``DisplayName``, ``Description``, ``Installed``, and ``InstallState``, returned as a |json| object similar to:
 
 .. code-block:: javascript
 
@@ -1796,7 +1796,7 @@ Use the ``windows_feature`` audit resource to test features on |windows|. The ``
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``windows_feature`` audit resource block declares the name of the |windows| feature, tests if that feature is installed, and then returns information about that feature. For example:
+A ``windows_feature`` InSpec resource block declares the name of the |windows| feature, tests if that feature is installed, and then returns information about that feature. For example:
 
 .. code-block:: ruby
 
@@ -1807,11 +1807,11 @@ A ``windows_feature`` audit resource block declares the name of the |windows| fe
 where
 
 * ``('feature_name')`` must specify a |windows| feature name, such as ``DHCP Server`` or ``IIS-Webserver``
-* ``be_installed`` is a valid matcher for this audit resource
+* ``be_installed`` is a valid matcher for this InSpec resource
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_installed -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1825,7 +1825,7 @@ If the feature is installed, the ``Get-WindowsFeature`` cmdlet is run and the na
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test the DHCP Server feature **
 
@@ -1838,11 +1838,11 @@ The following examples show how to use this audit resource in a recipe.
 
 yaml -- DONE
 =====================================================
-Use the ``yaml`` audit resource to test configuration data in a |yaml| file.
+Use the ``yaml`` InSpec resource to test configuration data in a |yaml| file.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``yaml`` audit resource block declares the configuration data to be tested. For example:
+A ``yaml`` InSpec resource block declares the configuration data to be tested. For example:
 
 .. code-block:: ruby
 
@@ -1857,7 +1857,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 name -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1869,7 +1869,7 @@ The ``name`` matcher tests the value of ``name`` as read from a |yaml| file vers
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test a kitchen.yml file driver**
 
@@ -1881,11 +1881,11 @@ The following examples show how to use this audit resource in a recipe.
 
 yum -- DONE
 =====================================================
-Use the ``yum`` audit resource to test packages in the |yum| repository.
+Use the ``yum`` InSpec resource to test packages in the |yum| repository.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``yum`` audit resource block declares a package repo, tests if the package repository is present, and if it that package repository is a valid package source (i.e. "is enabled"). For example:
+A ``yum`` InSpec resource block declares a package repo, tests if the package repository is present, and if it that package repository is a valid package source (i.e. "is enabled"). For example:
 
 .. code-block:: ruby
 
@@ -1900,7 +1900,7 @@ where
 
 Matchers -- DONE
 -----------------------------------------------------
-This audit resource has the following matchers.
+This InSpec resource has the following matchers.
 
 be_enabled -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1938,7 +1938,7 @@ The ``repos`` matcher tests if a named repo, using either a full identifier (``'
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+The following examples show how to use this InSpec resource in a recipe.
 
 **Test if the yum repo exists**
 
