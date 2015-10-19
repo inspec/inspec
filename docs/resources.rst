@@ -298,11 +298,75 @@ IN_PROGRESS
 
 gem
 =====================================================
-Use the ``gem`` InSpec resource to xxxxx.
+Use the ``gem`` InSpec resource to test if a global gem package is installed.
 
-IN_PROGRESS
+Syntax
+-----------------------------------------------------
+A ``gem`` InSpec resource block declares a gem package name and then
+(depending on what is to be tested) various matchers. For example:
 
+.. code-block:: ruby
 
+  describe gem('rubocop') do
+    it { should be_installed }
+  end
+
+where
+
+*  `gem()` must specify a gem package name
+*  `rubocop` is the gem package name
+*  `be_installed` is a valid matcher for this InSpec resource
+
+Matchers
+-----------------------------------------------------
+This InSpec resource has the following matchers:
+
+be_installed
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_installed`` matcher tests if the package is installed. For example:
+
+.. code-block:: ruby
+
+   it { should be_installed }
+
+version
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``version`` matcher tests if a package is installed with a specific version. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '0.33.0' }
+
+Examples
+-----------------------------------------------------
+The following example shows how to use this InSpec resource in a compliance profile.
+
+**Verify that a gem package is installed and has a specific version**
+
+.. code-block:: ruby
+
+  describe gem('rubocop') do
+    it { should be_installed }
+    its(:version) { should eq '0.33.0' }
+  end
+
+**Verify that a gem package is not installed**
+
+.. code-block:: ruby
+
+  describe gem('rubocop') do
+    it { should_not be_installed }
+  end
+
+Supported Operating Systems
+-----------------------------------------------------
+
+* CentOS 6, 7
+* Debian 6, 7, 8
+* MacOS 10.8, 10.9, 10.10
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 12.04, 14.04
+* Windows 2012 R2
 
 group
 =====================================================
