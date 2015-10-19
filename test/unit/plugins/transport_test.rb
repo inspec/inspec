@@ -88,5 +88,24 @@ describe 'v1 Transport Plugin' do
       name, plugin = train_class
       plugin.default_options[name][:required].must_equal nil
     end
+
+    it 'can include options from another module' do
+      nameA, pluginA = train_class
+      b = Class.new(Train.plugin(1)) do
+        include_options(pluginA)
+      end
+      b.default_options[nameA].wont_be_nil
+    end
+
+    it 'overwrites existing options when including' do
+      old = rand.to_s
+      nu = rand.to_s
+      nameA, pluginA = train_class({ default: nu })
+      b = Class.new(Train.plugin(1)) do
+        option nameA, default: old
+        include_options(pluginA)
+      end
+      b.default_options[nameA][:default].must_equal nu
+    end
   end
 end

@@ -34,6 +34,14 @@ module Train
         @default_options = {} unless defined? @default_options
         @default_options
       end
+
+      def include_options(other)
+        unless other.respond_to?(:default_options)
+          fail "Trying to include options from module #{other.inspect}, "\
+               "which doesn't seem to support options."
+        end
+        default_options.merge!(other.default_options)
+      end
     end
 
     module InstanceOptions
