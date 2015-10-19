@@ -755,11 +755,80 @@ IN_PROGRESS
 
 package
 =====================================================
-Use the ``package`` InSpec resource to xxxxx.
+Use the ``package`` InSpec resource to test if a system package is installed.
 
-IN_PROGRESS
+Syntax
+-----------------------------------------------------
+A ``package`` InSpec resource block declares a package name and then
+(depending on what is to be tested) various matchers. For example:
+
+.. code-block:: ruby
+
+  describe package('nginx') do
+    it { should be_installed }
+  end
+
+where
+
+*  ``package()`` must specify a package name
+*  ``nginx`` is the package name
+*  ``be_installed`` is a valid matcher for this InSpec resource
 
 
+Matchers
+-----------------------------------------------------
+This InSpec resource has the following matchers:
+
+be_installed
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_installed`` matcher tests if the package is installed. For example:
+
+.. code-block:: ruby
+
+   it { should be_installed }
+
+version
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``version`` matcher tests if xxxxx. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '1.9.5' }
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this audit resource in a recipe.
+
+The following example shows how to use this InSpec resource in a compliance profile.
+
+**Verify that a package is installed and has a specific version**
+
+.. code-block:: ruby
+
+  describe package('nginx') do
+    it { should be_installed }
+    its(:version) { should eq '1.9.5' }
+  end
+
+
+**Verify that a package is not installed**
+
+.. code-block:: ruby
+
+  describe package('telnet') do
+    it { should_not be_installed }
+  end
+
+
+Supported Operating Systems
+-----------------------------------------------------
+
+* CentOS 6, 7
+* Debian 6, 7, 8
+* MacOS 10.8, 10.9, 10.10
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 12.04, 14.04
+* Windows 2012 R2
 
 parse_config
 =====================================================
