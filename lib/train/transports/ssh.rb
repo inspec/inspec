@@ -58,6 +58,9 @@ module Train::Transports
       opts[:compression] ? 6 : 0
     end
 
+    # add options for submodules
+    include_options Train::Extras::CommandWrapper
+
     # (see Base#connection)
     def connection(state = {}, &block)
       opts = merge_options(options, state || {})
@@ -126,6 +129,7 @@ module Train::Transports
         keys:                   opts[:key_files],
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
+        transport_options:      opts,
       }
     end
 

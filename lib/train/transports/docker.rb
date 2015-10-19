@@ -11,6 +11,9 @@ module Train::Transports
 
     option :host, required: true
 
+    # add options for submodules
+    include_options Train::Extras::CommandWrapper
+
     def connection(state = {}, &block)
       opts = merge_options(options, state || {})
       validate_options(opts)
@@ -60,6 +63,8 @@ class Train::Transports::Docker
       @container = ::Docker::Container.get(@id) ||
                    fail("Can't find Docker container #{@id}")
       @files = {}
+      @cmd_wrapper = nil
+      @cmd_wrapper = CommandWrapper.load(self, @options)
       self
     end
 
@@ -76,6 +81,7 @@ class Train::Transports::Docker
     end
 
     def run_command(cmd)
+      cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
       stdout, stderr, exit_status = @container.exec([
         '/bin/sh', '-c', cmd
       ])

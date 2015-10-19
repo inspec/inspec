@@ -10,20 +10,26 @@ module Train::Transports
   class Local < Train.plugin(1)
     name 'local'
 
+    # add options for submodules
+    include_options Train::Extras::CommandWrapper
+
     autoload :File, 'train/transports/local_file'
     autoload :OS,   'train/transports/local_os'
 
     def connection(_ = nil)
-      @connection ||= Connection.new
+      @connection ||= Connection.new(@options)
     end
 
     class Connection < BaseConnection
-      def initialize
-        super
+      def initialize(options)
+        super(options)
         @files = {}
+        @cmd_wrapper = nil
+        @cmd_wrapper = CommandWrapper.load(self, options)
       end
 
       def run_command(cmd)
+        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
         res = Mixlib::ShellOut.new(cmd)
         res.run_command
         CommandResult.new(res.stdout, res.stderr, res.exitstatus)
