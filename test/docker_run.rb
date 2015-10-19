@@ -9,6 +9,11 @@ class DockerRunner
   def initialize(conf_path = nil)
     @conf_path = conf_path ||
                  ENV['config']
+
+    if @conf_path.nil?
+      fail "You must provide a configuration file with docker boxes"
+    end
+
     unless File.file?(@conf_path)
       fail "Can't find configuration in #{@conf_path}"
     end

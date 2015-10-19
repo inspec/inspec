@@ -4,6 +4,7 @@
 
 require 'vulcano/rule'
 require 'vulcano/dsl'
+require 'rspec/core/dsl'
 
 module Vulcano
   class ProfileContext
@@ -25,8 +26,8 @@ module Vulcano
       @profile_context = ctx.new
     end
 
-    def load(content, source, line)
-      @profile_context.instance_eval(content, source, line)
+    def load(content, source = nil, line = nil)
+      @profile_context.instance_eval(content, source || 'unknown', line || 1)
     end
 
     def unregister_rule(id)

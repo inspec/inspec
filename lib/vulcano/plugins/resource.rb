@@ -5,7 +5,8 @@
 module Vulcano
   module Plugins
     class Resource
-      def self.name(name)
+      def self.name(name = nil)
+        return if name.nil?
         Vulcano::Plugins::Resource.__register(name, self)
       end
 
@@ -38,6 +39,13 @@ module Vulcano
       # Print the name of the resource
       def to_s
         @__resource_name__
+      end
+
+      # Overwrite inspect to provide better output to RSpec results.
+      #
+      # @return [String] full name of the resource
+      def inspect
+        to_s
       end
     end
 
