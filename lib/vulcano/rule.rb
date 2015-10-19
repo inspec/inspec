@@ -28,10 +28,8 @@ module Vulcano
       outer_clr = calls[0][3]
       RSpec::Core::ExampleGroup.describe(that.value, caller: outer_clr) do
         that.calls.each do |method, args, block, clr|
-          # require "pry"; binding.pry
           it(nil, caller: clr) do
             x = expect(that.value, &that.block).method(method)
-            # require "pry"; binding.pry
             x.call(*args, &block)
           end
         end
