@@ -108,5 +108,33 @@ describe Vulcano::ProfileContext do
         check[2].must_be_kind_of Vulcano::ExpectationTarget
       end
     end
+
+    describe 'adds a check via describe + expect' do
+      let(:cmd) {<<-EOF
+        rule #{rule_id.inspect} do
+          describe 'the actual test' do
+            expect(os[:family]).to eq('ubuntu')
+          end
+        end
+      EOF
+      }
+      let(:check) {
+        profile.load(cmd)
+        rule = profile.rules[rule_id]
+        rule.instance_variable_get(:@checks)[0]
+      }
+
+      it 'registers the check with describe' do
+        check[0].must_equal 'describe'
+      end
+
+      it 'registers the check with the describe argument' do
+        check[1].must_equal ['the actual test']
+      end
+
+      it 'registers the check with the provided proc' do
+        check[2].must_be_kind_of Proc
+      end
+    end
   end
 end

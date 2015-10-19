@@ -65,40 +65,7 @@ module Vulcano
 
       # process the resulting rules
       ctx.rules.each do |rule_id, rule|
-        checks = rule.instance_variable_get(:@checks)
-        checks.each do |m, a, b|
-          # resource skipping
-          if !a.empty? &&
-             a[0].respond_to?(:resource_skipped) &&
-             !a[0].resource_skipped.nil?
-            example = RSpec::Core::ExampleGroup.describe(*a) do
-              it a[0].resource_skipped
-            end
-          else
-            # add the resource
-            case m
-            when 'describe'
-              example = RSpec::Core::ExampleGroup.describe(*a, &b)
-            when 'expect'
-              example = b.example_group
-            else
-              fail "A rule was registered with the #{m.inspect} keyword. "\
-                   'which cannot be processed.'
-            end
-          end
-
-          # TODO: Remove this!! It is very dangerous to do this here.
-          # The goal of this is to make the audit DSL available to all
-          # describe blocks. Right now, these blocks are executed outside
-          # the scope of this run, thus not gaining ony of the DSL pieces.
-          # To circumvent this, the full DSL is attached to the example's
-          # scope.
-          dsl = ctx.method(:create_inner_dsl).call(backend)
-          example.send(:include, dsl)
-
-          set_rspec_ids(example, rule_id)
-          @tests.register(example)
-        end
+        register_rule(ctx, rule_id, rule)
       end
     end
 
@@ -108,6 +75,50 @@ module Vulcano
 
     def run_with(rspec_runner)
       rspec_runner.run_specs(@tests.ordered_example_groups)
+    end
+
+    private
+
+    def get_check_example(method_name, arg, block)
+      if !arg.empty? &&
+         arg[0].respond_to?(:resource_skipped) &&
+         !arg[0].resource_skipped.nil?
+        return RSpec::Core::ExampleGroup.describe(*arg) do
+          it arg[0].resource_skipped
+        end
+      else
+        # add the resource
+        case method_name
+        when 'describe'
+          return RSpec::Core::ExampleGroup.describe(*arg, &block)
+        when 'expect'
+          return block.example_group
+        else
+          fail "A rule was registered with #{method_name.inspect}, "\
+               "which isn't understood and cannot be processed."
+        end
+      end
+      nil
+    end
+
+    def register_rule(ctx, rule_id, rule)
+      checks = rule.instance_variable_get(:@checks)
+      checks.each do |m, a, b|
+        # resource skipping
+        example = get_check_example(m, a, b)
+
+        # TODO: Remove this!! It is very dangerous to do this here.
+        # The goal of this is to make the audit DSL available to all
+        # describe blocks. Right now, these blocks are executed outside
+        # the scope of this run, thus not gaining ony of the DSL pieces.
+        # To circumvent this, the full DSL is attached to the example's
+        # scope.
+        dsl = ctx.method(:create_inner_dsl).call(backend)
+        example.send(:include, dsl)
+
+        set_rspec_ids(example, rule_id)
+        @tests.register(example)
+      end
     end
 
     def set_rspec_ids(example, id)
