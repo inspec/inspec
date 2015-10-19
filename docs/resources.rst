@@ -2,120 +2,62 @@
 Audit Resources Reference
 =====================================================
 
-xxxxx
+The following Audit resources are available:
 
-
-
-TEMPLATE
-
-
-resource_name
-=====================================================
-Use the ``resource_name`` audit resource to xxxxx.
-
-Syntax
------------------------------------------------------
-A ``resource_name`` audit resource block declares xxxxx. For example:
-
-.. code-block:: ruby
-
-   describe xxxxx(xxxxx) do
-     it { should xxxxx }
-   end
-
-where
-
-* ``xxxxx`` must specify xxxxx
-* xxxxx
-* ``xxxxx`` is a valid matcher for this audit resource
-
-Matchers
------------------------------------------------------
-This audit resource has the following matchers.
-
-xxxxx
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``xxxxx`` matcher tests if xxxxx. For example:
-
-.. code-block:: ruby
-
-   it { should xxxxx }
-
-xxxxx
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``xxxxx`` matcher tests if xxxxx. For example:
-
-.. code-block:: ruby
-
-   it { should xxxxx }
-
-Examples
------------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
-
-**xxxxx**
-
-xxxxx
-
-**xxxxx**
-
-xxxxx
-
-
-
-The following audit resources are xxxxx:
-
-* ``apache_conf``
 * ``apt``
-* ``audit_policy``
-* ``audit_daemon_conf``
-* ``audit_daemon_rules``
 * ``bond``
 * ``bridge``
 * ``command``
-* ``csv`` (depends on ``json``)
 * ``directory``
-* ``etc_group``
 * ``file``
 * ``gem``
 * ``group``
-* ``group_policy``
 * ``host``
-* ``inetd_config``
 * ``interface``
-* ``json``
 * ``kernel_module``
 * ``kernel_parameter``
+* ``npm``
+* ``oneget``
+* ``os``
+* ``os_env``
+* ``package``
+* ``pip``
+* ``port``
+* ``processes``
+* ``registry_key``
+* ``script``
+* ``service``
+* ``user``
+* ``windows_feature``
+* ``yum``
+
+In addition to the open source resources, Chef Compliance ships with additional resources:
+
+* ``apache_conf``
+* ``audit_policy``
+* ``audit_daemon_conf``
+* ``audit_daemon_rules``
+* ``csv``
+* ``etc_group``
+* ``group_policy``
+* ``inetd_config``
+* ``json``
 * ``limits_conf``
 * ``login_defs``
 * ``mysql``
 * ``mysql_conf``
 * ``mysql_session``
-* ``npm``
 * ``ntp_conf``
-* ``oneget``
-* ``os``
-* ``os_env``
-* ``package``
 * ``parse_config``
 * ``parse_config_file``
 * ``passwd``
-* ``pip``
-* ``port``
 * ``postgres``
 * ``postgres_conf``
 * ``postgres_session``
-* ``processes``
-* ``registry_key``
-* ``script``
 * ``security_policy``
-* ``service``
 * ``ssh_config``
 * ``sshd_config``
-* ``user``
-* ``windows_feature``
-* ``yaml`` (depends on ``json``)
-* ``yum``
+* ``yaml``
 
 See below for more information about each audit resource, its related matchers, and examples of how to use it in a recipe.
 
