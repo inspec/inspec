@@ -1632,13 +1632,12 @@ A ``service`` InSpec resource block declares the name of a service and then one 
      it { should be_running }
    end
 
-..
-.. where
-..
-.. * ``xxxxx`` must specify xxxxx
-.. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this InSpec resource
-..
+where
+
+* ``service()`` must specify a service name
+* ``service_name`` is the service name
+* ``be_enabled`` and ``be_running`` are a valid matcher for this InSpec resource
+
 
 Matchers -- DONE
 -----------------------------------------------------
@@ -1689,6 +1688,17 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_enabled }
      it { should be_running }
    end
+
+Supported Operating Systems
+-----------------------------------------------------
+
+* CentOS 6, 7
+* Debian 6, 7, 8
+* FreeBSD 9, 10
+* MacOS 10.8, 10.9, 10.10
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 12.04, 14.04
+* Windows 2012 R2
 
 
 ssh_config -- DONE
