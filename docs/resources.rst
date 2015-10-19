@@ -61,22 +61,93 @@ In addition to the open source resources, Chef Compliance ships with additional 
 
 See below for more information about each audit resource, its related matchers, and examples of how to use it in a recipe.
 
-
-
 apache_conf
 =====================================================
 Use the ``apache_conf`` audit resource to xxxxx.
 
 IN_PROGRESS
 
-
-
 apt
 =====================================================
 Use the ``apt`` audit resource to verify |apt| repositories on the |debian| and |ubuntu| platforms, and also |ppa| repositories on the |ubuntu| platform.
 
-IN_PROGRESS
+Syntax
+-----------------------------------------------------
+A ``apt`` InSpec resource block verifies apt and ppa repositories. For example:
 
+.. code-block:: ruby
+
+    describe apt('http://ppa.launchpad.net/juju/stable/ubuntu') do
+      it { should exist }
+      it { should be_enabled }
+    end
+
+    describe apt('ppa:nginx/stable') do
+      it { should exist }
+      it { should be_enabled }
+    end
+
+where
+
+* ``apt()`` must specify a repository
+* ``http://ppa.launchpad.net/juju/stable/ubuntu`` is the repository, it understands **urls**
+   (``http://ppa.launchpad.net/juju/stable/ubuntu``), **ppa** (``ppa:ubuntu-wine/ppa``), or **short ppa**
+   (``ubuntu-wine/ppa``)
+* ``exist`` and ``be_enabled`` are a valid matcher for this InSpec resource
+
+Matchers
+-----------------------------------------------------
+This InSpec resource has the following matchers:
+
+exist
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The `exist` matcher tests if the repository is installed configured, but may be commented out. For example:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+be_enabled
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The `be_enabled` matcher tests if the repository is enabled in your `/etc/apt/*.list files`. For example:
+
+.. code-block:: ruby
+
+   it { should be_enabled }
+
+Examples
+-----------------------------------------------------
+The following example shows how to use this InSpec resource in a compliance profile.
+
+**Verify that a repository exists and is enabled**
+
+.. code-block:: ruby
+
+  describe apt('ppa:nginx/stable') do
+    it { should exist }
+    it { should be_enabled }
+  end
+
+**Verify that a repository is not present**
+
+.. code-block:: ruby
+
+  describe apt('ubuntu-wine/ppa') do
+    it { should_not exist }
+    it { should_not be_enabled }
+  end
+
+Compatability with ServerSpec
+-----------------------------------------------------
+
+This resource provides an ``ppa`` alias to be compatible with ServerSpec. This will be removed in future releases.
+
+
+Supported Operating Systems
+-----------------------------------------------------
+
+* Debian 6, 7, 8
+* Ubuntu 12.04, 14.04
 
 
 audit_policy
@@ -1807,7 +1878,6 @@ The following examples show how to use this audit resource in a recipe.
    describe yaml('.kitchen.yaml') do
      its('driver.name') { should eq('vagrant') }
    end
-
 
 yum -- DONE
 =====================================================
