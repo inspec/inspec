@@ -212,8 +212,16 @@ audit_policy
 =====================================================
 Use the ``audit_policy`` InSpec resource to xxxxx.
 
-IN_PROGRESS
+Examples
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+**Verify Microsoft Windows Audit Policy**
+
+.. code-block:: ruby
+
+  describe audit_policy do
+    its('Other Account Logon Events') { should_not eq 'No Auditing' }
+  end
 
 
 audit_daemon_conf
@@ -238,6 +246,8 @@ The following examples show how to use this InSpec resource in a test.
 
 **Test xxxxx**
 
+.. code-block:: ruby
+
    describe audit_daemon_conf do
      its('space_left_action') { should eq 'SYSLOG' }
      its('action_mail_acct') { should eq 'root' }
@@ -251,6 +261,17 @@ Use the ``audit_daemon_rules`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Test audit daemon rules contains the matching element, which is identified by a regular expression.**
+
+.. code-block:: ruby
+
+  describe audit_daemon_rules do
+    its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
+  end
 
 
 bond
@@ -366,7 +387,81 @@ Use the ``etc_group`` InSpec resource to test the contents of the ``/etc/group``
 
 IN_PROGRESS
 
+Parse the `/etc/group` file:
 
+.. code-block:: ruby
+
+  etc_group     # uses /etc/group
+
+
+You can also specify the file's location:
+
+.. code-block:: ruby
+
+  etc_group('/etc/group')
+
+
+Matchers
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+gids
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Access all group IDs:
+
+.. code-block:: ruby
+
+  describe etc_group do
+    its('gids') { should_not contain_duplicates }
+  end
+
+
+groups
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Access all group names:
+
+.. code-block:: ruby
+
+  describe etc_group do
+    its('groups') { should include 'my_user' }
+  end
+
+users
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Access all group names:
+
+.. code-block:: ruby
+
+  describe etc_group.where(name: 'my_user') do
+    its('users') { should include 'my_user' }
+  end
+
+
+where
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Filter the list of groups. Filter choices are `name` for the group name, `gid` for a group ID (a number), `password`, and `users`.
+
+.. code-block:: ruby
+
+  describe etc_group.where(name: 'my_user') do
+    its('users') { should include 'my_user' }
+  end
+
+
+
+Examples
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Verify that no gid is used twice**
+
+.. code-block:: ruby
+
+  describe etc_group do
+    its(:gids) { should_not contain_duplicates }
+  end
 
 file
 =====================================================
@@ -450,6 +545,15 @@ group_policy
 Use the ``group_policy`` InSpec resource to xxxxx.
 
 IN_PROGRESS
+
+Test Microsoft Windows Group Policies:
+
+.. code-block:: ruby
+
+  describe group_policy('Local Policies\Security Options') do
+    its('Network access: Restrict anonymous access to Named Pipes and Shares') { should eq 1 }
+  end
+
 
 
 
@@ -762,6 +866,20 @@ Use the ``limits_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
+Test Linux-based ``/etc/security/limits.conf``:
+
+.. code-block:: ruby
+
+  describe limits_conf do
+    its('*') { should include ['hard','core','0'] }
+  end
+
+You can also specify a custom path:
+
+.. code-block:: ruby
+
+  limits_conf('/path/to/limits.conf')
+
 
 
 login_defs -- DONE
@@ -818,7 +936,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('ENCRYPT_METHOD') { should eq 'SHA512' }
    end
 
-**Test xxxxx** <<< what does this test?
+**Ensures a user have to change the password within 90 days**
 
 .. code-block:: ruby
 
@@ -844,6 +962,35 @@ Use the ``mysql_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
+!!! Warning "Difference to ServerSpec"
+
+Test default MySQL and MariaDB configuration files:
+
+.. code-block:: ruby
+
+  mysql_conf
+
+
+You can also specify the configuration path:
+
+.. code-block:: ruby
+
+  mysql_conf('/etc/mysql/my.cnf')
+
+
+**:params**
+
+Retrieve parameters in a group and test them. In this example,
+we take a look at the `safe-user-create` parameter, which is in the
+`mysqld` group.
+
+.. code-block:: ruby
+
+  describe mysql_conf.params('mysqld') do
+    its('safe-user-create') { should eq('1') }
+  end
+
+
 
 
 mysql_session
@@ -851,6 +998,26 @@ mysql_session
 Use the ``mysql_session`` InSpec resource to xxxxx.
 
 IN_PROGRESS
+
+**mysql_session**
+
+Run commands on a MySQL server and test their output:
+
+.. code-block:: ruby
+
+  sql = mysql_session('my_user','password')
+
+
+**:describe**
+
+All tests are structured with the describe command:
+
+.. code-block:: ruby
+
+  sql.describe('show databases like \'test\';') do
+    its(:stdout) { should_not match(/test/) }
+  end
+
 
 
 npm -- DONE
