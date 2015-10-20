@@ -1556,9 +1556,9 @@ Matchers -- DONE
 -----------------------------------------------------
 This InSpec resource has the following matchers.
 
-count -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``count`` matcher tests if xxxxx. For example:
+count -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``. For example:
 
 .. code-block:: ruby
 
@@ -1604,13 +1604,13 @@ The ``username`` matcher tests if xxxxx. For example:
 
    its(:username) { should eq 'root' }
 
-usernames -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``usernames`` matcher tests if xxxxx. For example:
+usernames -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``usernames`` matcher tests if the usernames in the test match the usernames in ``/etc/passwd``. For example:
 
 .. code-block:: ruby
 
-   its(:usernames) { should eq 'root' }
+   its(:usernames) { should eq ['root', 'www-data'] }
 
 users -- ?????
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
