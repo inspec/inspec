@@ -10,9 +10,9 @@ backend_conf = {
   'key_files' => '/root/.ssh/id_rsa',
 }
 
-backends[:ssh] = proc {
+backends[:ssh] = proc { |*args|
   conf = Train.target_config(backend_conf)
-  Train.create('ssh', conf).connection
+  Train.create('ssh', conf).connection(args[0])
 }
 
 tests = ARGV

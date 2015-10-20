@@ -6,8 +6,8 @@ require 'train'
 
 backends = {}
 
-backends[:local] = proc {
-  Train.create('local', {}).connection
+backends[:local] = proc { |*opts|
+  Train.create('local', {}).connection(opts[0])
 }
 
 tests = ARGV
