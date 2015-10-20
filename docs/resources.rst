@@ -422,87 +422,122 @@ IN_PROGRESS
 
 
 
-etc_group
+etc_group -- DONE
 =====================================================
-Use the ``etc_group`` InSpec resource to test the contents of the ``/etc/group`` file on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, and a comma-separate list of users that belong to the group.
+Use the ``etc_group`` InSpec resource to test groups that are defined on on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
 
-IN_PROGRESS
-
-Parse the `/etc/group` file:
-
-.. code-block:: ruby
-
-  etc_group     # uses /etc/group
-
-
-You can also specify the file's location:
-
-.. code-block:: ruby
-
-  etc_group('/etc/group')
-
-
-Matchers
+Syntax -- DONE
 -----------------------------------------------------
-
-gids
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Access all group IDs:
+A ``etc_group`` InSpec resource block declares a collection of . For example:
 
 .. code-block:: ruby
 
-  describe etc_group do
-    its('gids') { should_not contain_duplicates }
-  end
+   describe etc_group('path') do
+     its('matcher') { should eq 'some_value' }
+   end
 
-
-groups
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Access all group names:
+or:
 
 .. code-block:: ruby
 
-  describe etc_group do
-    its('groups') { should include 'my_user' }
-  end
-
-users
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Access all group names:
-
-.. code-block:: ruby
-
-  describe etc_group.where(name: 'my_user') do
-    its('users') { should include 'my_user' }
-  end
-
+   describe etc_group.where(item: 'value', item: 'value') do
+     its('gids') { should_not contain_duplicates }
+     its('groups') { should include 'user_name' }
+     its('users') { should include 'user_name' }
+   end
 
 where
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Filter the list of groups. Filter choices are `name` for the group name, `gid` for a group ID (a number), `password`, and `users`.
+* ``('path')`` is the non-default path to the ``inetd.conf`` file
+* ``.where()`` may specify a specific item and value, to which the matchers are compared
+* ``'gids'``, ``'groups'``, and ``'users'`` are valid matchers for this InSpec resource
 
-.. code-block:: ruby
-
-  describe etc_group.where(name: 'my_user') do
-    its('users') { should include 'my_user' }
-  end
-
-
-
-Examples
+Matchers -- DONE
 -----------------------------------------------------
+This InSpec resource has the following matchers.
 
-**Verify that no gid is used twice**
+gids -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``gids`` matcher tests if the named group identifier is present or if it contains duplicates. For example:
 
 .. code-block:: ruby
 
-  describe etc_group do
-    its(:gids) { should_not contain_duplicates }
-  end
+     its('gids') { should_not contain_duplicates }
+
+groups -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``groups`` matcher tests all groups for the named user. For example:
+
+.. code-block:: ruby
+
+     its('groups') { should include 'my_user' }
+
+users -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``users`` matcher tests all groups for the named user. For example:
+
+.. code-block:: ruby
+
+     its('users') { should include 'my_user' }
+
+where -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``where`` matcher allows the test to be focused to one (or more) specific items. For example:
+
+.. code-block:: ruby
+
+     etc_group.where(item: 'value', item: 'value')
+
+where ``item`` may be one (or more) of:
+
+* ``name: 'name'``
+* ``group_name: 'group_name'``
+* ``password: 'password'``
+* ``gid: 'gid'``
+* ``group_id: 'gid'``
+* ``users: 'user_name'``
+* ``members: 'member_name'``
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test group identifiers (GIDs) for duplicates** 
+
+.. code-block:: ruby
+
+   describe etc_group do
+     its('gids') { should_not contain_duplicates }
+   end
+
+**Test all groups to see if a specific user belongs to one (or more) groups** 
+
+.. code-block:: ruby
+
+   describe etc_group do
+     its('groups') { should include 'my_user' }
+   end
+
+
+**Test all groups for a specific user name** 
+
+.. code-block:: ruby
+
+   describe etc_group.where(name: 'my_user') do
+     its('users') { should include 'my_user' }
+   end
+
+**Filter a list of groups for a specific user** 
+
+.. code-block:: ruby
+
+   describe etc_group.where(name: 'my_user') do
+     its('users') { should include 'my_user' }
+   end
+
+
+
+
 
 file
 =====================================================
