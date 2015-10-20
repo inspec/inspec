@@ -37,6 +37,9 @@ module Train::Transports
 
     autoload :Connection, 'train/transports/ssh_connection'
 
+    # add options for submodules
+    include_options Train::Extras::CommandWrapper
+
     # common target configuration
     option :host,      required: true
     option :port,      default: 22, required: true
@@ -57,9 +60,6 @@ module Train::Transports
       # on nil or false: set compression level to 0
       opts[:compression] ? 6 : 0
     end
-
-    # add options for submodules
-    include_options Train::Extras::CommandWrapper
 
     # (see Base#connection)
     def connection(state = {}, &block)

@@ -10,7 +10,6 @@ module Train::Transports
   class Local < Train.plugin(1)
     name 'local'
 
-    # add options for submodules
     include_options Train::Extras::CommandWrapper
 
     autoload :File, 'train/transports/local_file'

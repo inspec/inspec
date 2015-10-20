@@ -9,10 +9,8 @@ module Train::Transports
   class Docker < Train.plugin(1)
     name 'docker'
 
-    option :host, required: true
-
-    # add options for submodules
     include_options Train::Extras::CommandWrapper
+    option :host, required: true
 
     def connection(state = {}, &block)
       opts = merge_options(options, state || {})

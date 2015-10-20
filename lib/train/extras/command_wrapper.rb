@@ -11,6 +11,7 @@ module Train::Extras
     option :sudo, default: false
     option :sudo_options, default: nil
     option :sudo_password, default: nil
+    option :user
 
     def initialize(backend, options)
       @backend = backend
@@ -19,6 +20,7 @@ module Train::Extras
       @sudo = options[:sudo]
       @sudo_options = options[:sudo_options]
       @sudo_password = options[:sudo_password]
+      @user = options[:user]
       @prefix = build_prefix
     end
 
@@ -34,6 +36,7 @@ module Train::Extras
 
     def build_prefix
       return '' unless @sudo
+      return '' if @user == 'root'
       res = 'sudo '
 
       res << @sudo_options.to_s + ' ' unless @sudo_options.nil?

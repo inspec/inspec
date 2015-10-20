@@ -18,6 +18,11 @@ describe 'linux command' do
     lc.run(cmd).must_equal "sudo #{cmd}"
   end
 
+  it 'doesnt wrap commands in sudo if user == root' do
+    lc = cls.new(backend, { sudo: true, user: 'root' })
+    lc.run(cmd).must_equal cmd
+  end
+
   it 'wraps commands in sudo with all options' do
     opts = rand.to_s
     lc = cls.new(backend, { sudo: true, sudo_options: opts })
