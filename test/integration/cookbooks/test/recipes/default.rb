@@ -56,6 +56,23 @@ execute 'test ssh connection' do
   command 'ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa vagrant@localhost "echo 1"'
 end
 
+# prepare a few users
+%w{ nopasswd passwd nosudo }.each do |name|
+  user name do
+    password '$1$7MCNTXPI$r./jqCEoVlLlByYKSL3sZ.'
+  end
+end
+
+sudo 'nopasswd' do
+  user 'nopasswd'
+	nopasswd true
+end
+
+sudo 'passwd' do
+  user 'passwd'
+	nopasswd false
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
