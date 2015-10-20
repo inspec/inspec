@@ -13,6 +13,7 @@ The following InSpec resources are available:
 * ``gem``
 * ``group``
 * ``host``
+* ``iptables``
 * ``interface``
 * ``kernel_module``
 * ``kernel_parameter``
@@ -61,11 +62,69 @@ In addition to the open source resources, Chef Compliance ships with additional 
 
 See below for more information about each InSpec resource, its related matchers, and examples of how to use it in a recipe.
 
-apache_conf
-=====================================================
-Use the ``apache_conf`` InSpec resource to xxxxx.
+apache_conf -- DONE
+-----------------------------------------------------
+Use the ``apache_conf`` InSpec resource to test the configuration settings for |apache|. This file is typically located under ``/etc/apache2`` on the |debian| and |ubuntu| platforms and under ``/etc/httpd`` on the |fedora|, |centos|, |redhat enterprise linux|, and |archlinux| platforms. The configuration settings may vary significantly from platform to platform.
 
-IN_PROGRESS
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``apache_conf`` InSpec resource block declares configuration settings that should be tested. For example:
+
+.. code-block:: ruby
+
+   describe apache_conf('path') do
+     its('setting_name') { should eq 'value' }
+   end
+
+where
+
+* ``'setting_name'`` is a configuration setting defined in the |apache| configuration file
+* ``('path')`` is the non-default path to the |apache| configuration file
+* ``{ should eq 'value' }`` is the value that is expected
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource matches any service that is listed in the |apache| configuration file. For example:
+
+.. code-block:: ruby
+
+     its('PidFile') { should_not eq '/var/run/httpd.pid' }
+
+or:
+
+.. code-block:: ruby
+
+     its('Timeout') { should eq 300 }
+
+For example:
+
+.. code-block:: ruby
+
+   describe apache_conf do
+     its('MaxClients') { should eq 100 }
+     its('Listen') { should eq '443'}
+   end
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test for blocking .htaccess files on CentOS**
+
+.. code-block:: ruby
+
+   describe apache_conf do
+     its('AllowOverride') { should eq 'None' }
+   end
+
+**Test ports for SSL**
+
+.. code-block:: ruby
+
+   describe apache_conf do
+     its('Listen') { should eq '443'}
+   end
+
 
 apt -- DONE
 -----------------------------------------------------
