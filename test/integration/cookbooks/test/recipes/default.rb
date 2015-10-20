@@ -91,3 +91,11 @@ execute 'run ssh tests' do
   command '/opt/chef/embedded/bin/ruby -I lib test/integration/test_ssh.rb test/integration/tests/*_test.rb'
   cwd '/tmp/kitchen/data'
 end
+
+%w{passwd nopasswd}.each do |name|
+  execute "run local sudo tests as #{name}" do
+    command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/#{name}.rb"
+    cwd '/tmp/kitchen/data'
+    user name
+  end
+end
