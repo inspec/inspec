@@ -60,12 +60,15 @@ end
 %w{ nopasswd passwd nosudo }.each do |name|
   user name do
     password '$1$7MCNTXPI$r./jqCEoVlLlByYKSL3sZ.'
+    manage_home true
   end
 end
 
-sudo 'nopasswd' do
-  user 'nopasswd'
-	nopasswd true
+%w{nopasswd vagrant}.each do |name|
+  sudo name do
+    user '%'+name
+    nopasswd true
+  end
 end
 
 sudo 'passwd' do
