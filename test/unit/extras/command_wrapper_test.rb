@@ -32,7 +32,7 @@ describe 'linux command' do
   it 'runs commands in sudo with password' do
     pw = rand.to_s
     lc = cls.new(backend, { sudo: true, sudo_password: pw })
-    bpw = Base64.strict_encode64(pw)
-    lc.run(cmd).must_equal "echo #{bpw} | base64 -d | sudo #{cmd}"
+    bpw = Base64.strict_encode64(pw + "\n")
+    lc.run(cmd).must_equal "echo #{bpw} | base64 -d | sudo -S #{cmd}"
   end
 end
