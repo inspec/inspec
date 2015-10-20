@@ -368,11 +368,50 @@ IN_PROGRESS
 
 
 
-csv
+csv -- DONE
 =====================================================
-Use the ``csv`` InSpec resource to xxxxx.
+Use the ``csv`` InSpec resource to test configuration data in a |csv| file.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``csv`` InSpec resource block declares the configuration data to be tested. For example:
+
+.. code-block:: ruby
+
+   describe csv('file') do
+     its('name') { should eq 'foo' }
+   end
+
+where
+
+* ``'file'`` is the path to a |csv| file
+* ``name`` is a configuration setting in a |csv| file
+* ``should eq 'foo'`` tests a value of ``name`` as read from a |csv| file versus the value declared in the test
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+name -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``name`` matcher tests the value of ``name`` as read from a |csv| file versus the value declared in the test. For example:
+
+.. code-block:: ruby
+
+   its('name') { should eq 'foo' }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test a CSV file**
+
+.. code-block:: ruby
+
+   describe csv('some_file.csv') do
+     its('setting') { should eq 1 }
+   end
+
 
 
 directory
