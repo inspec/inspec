@@ -222,6 +222,27 @@ Use the ``audit_daemon_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test xxxxx**
+
+.. code-block:: ruby
+
+   describe audit_daemon_conf do
+     its('space_left_action') { should eq 'email' }
+     its('action_mail_acct') { should eq 'root' }
+     its('admin_space_left_action') { should eq 'halt' }
+   end
+
+**Test xxxxx**
+
+   describe audit_daemon_conf do
+     its('space_left_action') { should eq 'SYSLOG' }
+     its('action_mail_acct') { should eq 'root' }
+     its('tcp_listen_queue') { should eq '5' }
+   end
 
 
 audit_daemon_rules
