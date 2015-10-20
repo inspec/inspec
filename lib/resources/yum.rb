@@ -30,72 +30,70 @@ require 'resources/file'
 #   it { should be_enabled }
 # end
 
-module Vulcano::Resources
-  class Yum < Vulcano.resource(1)
-    name 'yum'
+class Yum < Vulcano.resource(1)
+  name 'yum'
 
-    # returns all repositories
-    # works as following:
-    # search for Repo-id
-    #   parse data in hashmap
-    #   store data in object
-    # until \n
-    def repositories
-      return @cache if defined?(@cache)
-      # parse the repository data from yum
-      # we cannot use -C, because this is not reliable and may lead to errors
-      @command_result = vulcano.command('yum -v repolist all')
-      @content = @command_result.stdout
-      @cache = []
-      repo = {}
-      in_repo = false
-      @content.each_line do |line|
-        # detect repo start
-        in_repo = true if line.match(/^\s*Repo-id\s*:\s*(.*)\b/)
-        # detect repo end
-        if line == "\n" && in_repo
-          in_repo = false
-          @cache.push(repo)
-          repo = {}
-        end
-        # parse repo content
-        if in_repo == true
-          val = /^\s*([^:]*?)\s*:\s*(.*?)\s*$/.match(line)
-          repo[repo_key(strip(val[1]))] = strip(val[2])
-        end
+  # returns all repositories
+  # works as following:
+  # search for Repo-id
+  #   parse data in hashmap
+  #   store data in object
+  # until \n
+  def repositories
+    return @cache if defined?(@cache)
+    # parse the repository data from yum
+    # we cannot use -C, because this is not reliable and may lead to errors
+    @command_result = vulcano.command('yum -v repolist all')
+    @content = @command_result.stdout
+    @cache = []
+    repo = {}
+    in_repo = false
+    @content.each_line do |line|
+      # detect repo start
+      in_repo = true if line.match(/^\s*Repo-id\s*:\s*(.*)\b/)
+      # detect repo end
+      if line == "\n" && in_repo
+        in_repo = false
+        @cache.push(repo)
+        repo = {}
       end
-      @cache
+      # parse repo content
+      if in_repo == true
+        val = /^\s*([^:]*?)\s*:\s*(.*?)\s*$/.match(line)
+        repo[repo_key(strip(val[1]))] = strip(val[2])
+      end
     end
+    @cache
+  end
 
-    def repos
-      repositories.map { |repo| repo['id'] }
-    end
+  def repos
+    repositories.map { |repo| repo['id'] }
+  end
 
-    def repo(repo)
-      YumRepo.new(self, repo)
-    end
+  def repo(repo)
+    YumRepo.new(self, repo)
+  end
 
-    # alias for yum.repo('reponame')
-    def method_missing(name)
-      repo(name.to_s) if !name.nil?
-    end
+  # alias for yum.repo('reponame')
+  def method_missing(name)
+    repo(name.to_s) if !name.nil?
+  end
 
-    def to_s
-      'Yum Repository'
-    end
+  def to_s
+    'Yum Repository'
+  end
 
-    private
+  private
 
-    # Removes lefthand and righthand whitespace
-    def strip(value)
-      value.lstrip.rstrip if !value.nil?
-    end
+  # Removes lefthand and righthand whitespace
+  def strip(value)
+    value.lstrip.rstrip if !value.nil?
+  end
 
-    # Optimize the key value
-    def repo_key(key)
-      return key if key.nil?
-      key.gsub('Repo-', '').downcase
-    end
+  # Optimize the key value
+  def repo_key(key)
+    return key if key.nil?
+    key.gsub('Repo-', '').downcase
   end
 end
 
@@ -132,27 +130,25 @@ end
 
 # for compatability with serverspec
 # this is deprecated syntax and will be removed in future versions
-module Vulcano::Resources
-  class YumRepoLegacy < Yum
-    name 'yumrepo'
+class YumRepoLegacy < Yum
+  name 'yumrepo'
 
-    def initialize(name)
-      super()
-      @repository = repo(name)
-    end
+  def initialize(name)
+    super()
+    @repository = repo(name)
+  end
 
-    def exists?
-      deprecated
-      @repository.exist?
-    end
+  def exists?
+    deprecated
+    @repository.exist?
+  end
 
-    def enabled?
-      deprecated
-      @repository.enabled?
-    end
+  def enabled?
+    deprecated
+    @repository.enabled?
+  end
 
-    def deprecated
-      warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
-    end
+  def deprecated
+    warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
   end
 end
