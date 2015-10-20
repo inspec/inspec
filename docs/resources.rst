@@ -2276,7 +2276,7 @@ where
 
 * ``name`` is a configuration setting in ``sshd_config``
 * ``('path')`` is the non-default ``/path/to/sshd_config``
-* ``{ should include('foo') }`` tests the value of ``name`` as read from ``ssh_config`` versus the value declared in the test
+* ``{ should include('foo') }`` tests the value of ``name`` as read from ``sshd_config`` versus the value declared in the test
 
 Matchers -- DONE
 -----------------------------------------------------
