@@ -17,6 +17,6 @@
     "deploy"
 	],
   "build_nodes": {
-    "default": ["name:builder-7.delivery.chef.co"]
+    "default": ["name:builder-*-7.delivery.chef.co"]
   }
 }
