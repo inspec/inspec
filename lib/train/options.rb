@@ -6,8 +6,8 @@
 module Train
   module Options
     def self.attach(target)
-      target.class.include ClassOptions
-      target.include InstanceOptions
+      target.class.method(:include).call(ClassOptions)
+      target.method(:include).call(InstanceOptions)
     end
 
     module ClassOptions
