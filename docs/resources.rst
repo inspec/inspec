@@ -67,87 +67,86 @@ Use the ``apache_conf`` InSpec resource to xxxxx.
 
 IN_PROGRESS
 
-apt
-=====================================================
+apt -- DONE
+-----------------------------------------------------
 Use the ``apt`` InSpec resource to verify |apt| repositories on the |debian| and |ubuntu| platforms, and also |ppa| repositories on the |ubuntu| platform.
 
-Syntax
------------------------------------------------------
-A ``apt`` InSpec resource block verifies apt and ppa repositories. For example:
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+An ``apt`` InSpec resource block tests the contents of |apt| and |ppa| repositories. For example:
 
 .. code-block:: ruby
 
-    describe apt('http://ppa.launchpad.net/juju/stable/ubuntu') do
-      it { should exist }
-      it { should be_enabled }
-    end
-
-    describe apt('ppa:nginx/stable') do
-      it { should exist }
-      it { should be_enabled }
-    end
+   describe apt('path') do
+     it { should exist }
+     it { should be_enabled }
+   end
 
 where
 
-* ``apt()`` must specify a repository
-* ``http://ppa.launchpad.net/juju/stable/ubuntu`` is the repository, it understands **urls**
-   (``http://ppa.launchpad.net/juju/stable/ubuntu``), **ppa** (``ppa:ubuntu-wine/ppa``), or **short ppa**
-   (``ubuntu-wine/ppa``)
-* ``exist`` and ``be_enabled`` are a valid matcher for this InSpec resource
+* ``apt('path')`` must specify an |apt| or |ppa| repository
+* ``('path')`` may be an ``http://`` address, a ``ppa:`` address, or a short ``repo-name/ppa`` address
+* ``exist`` and ``be_enabled`` are a valid matchers for this InSpec resource
 
-Matchers
------------------------------------------------------
-This InSpec resource has the following matchers:
-
-exist
+Matchers -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The `exist` matcher tests if the repository is installed configured, but may be commented out. For example:
+This InSpec resource has the following matchers.
 
-.. code-block:: ruby
-
-   it { should exist }
-
-be_enabled
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The `be_enabled` matcher tests if the repository is enabled in your `/etc/apt/*.list files`. For example:
+be_enabled -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_enabled`` matcher tests if a package exists in the repository. For example:
 
 .. code-block:: ruby
 
    it { should be_enabled }
 
-Examples
------------------------------------------------------
-The following example shows how to use this InSpec resource in a compliance profile.
+exist -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``exist`` matcher tests if a package exists on the system. For example:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test if Ubuntu is updated to the latest stable Juju package**
+
+.. code-block:: ruby
+
+   describe apt('http://ppa.launchpad.net/juju/stable/ubuntu') do
+     it { should exist }
+     it { should be_enabled }
+   end
+
+**Test if Nginx is updated to the latest stable package**
+
+.. code-block:: ruby
+
+   describe apt('ppa:nginx/stable') do
+     it { should exist }
+     it { should be_enabled }
+   end
 
 **Verify that a repository exists and is enabled**
 
 .. code-block:: ruby
 
-  describe apt('ppa:nginx/stable') do
-    it { should exist }
-    it { should be_enabled }
-  end
+   describe apt('ppa:nginx/stable') do
+     it { should exist }
+     it { should be_enabled }
+   end
 
 **Verify that a repository is not present**
 
 .. code-block:: ruby
 
-  describe apt('ubuntu-wine/ppa') do
-    it { should_not exist }
-    it { should_not be_enabled }
-  end
-
-Compatability with ServerSpec
------------------------------------------------------
-
-This resource provides an ``ppa`` alias to be compatible with ServerSpec. This will be removed in future releases.
-
-
-Supported Operating Systems
------------------------------------------------------
-
-* Debian 6, 7, 8
-* Ubuntu 12.04, 14.04
+   describe apt('ubuntu-wine/ppa') do
+     it { should_not exist }
+     it { should_not be_enabled }
+   end
 
 
 audit_policy
@@ -296,77 +295,67 @@ Use the ``file`` InSpec resource to xxxxx.
 IN_PROGRESS
 
 
-gem
-=====================================================
-Use the ``gem`` InSpec resource to test if a global gem package is installed.
-
-Syntax
+gem -- DONE
 -----------------------------------------------------
-A ``gem`` InSpec resource block declares a gem package name and then
-(depending on what is to be tested) various matchers. For example:
+Use the ``gem`` InSpec resource to test if a global |gem| package is installed.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``gem`` InSpec resource block declares a package and (optionally) a package version. For example:
 
 .. code-block:: ruby
 
-  describe gem('rubocop') do
-    it { should be_installed }
-  end
+   describe gem('gem_package_name') do
+     it { should be_installed }
+   end
 
 where
 
-*  `gem()` must specify a gem package name
-*  `rubocop` is the gem package name
-*  `be_installed` is a valid matcher for this InSpec resource
+* ``('gem_package_name')`` must specify a |gem| package, such as ``'rubocop'``
+* ``be_installed`` is a valid matcher for this InSpec resource
 
-Matchers
------------------------------------------------------
-This InSpec resource has the following matchers:
-
-be_installed
+Matchers -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``be_installed`` matcher tests if the package is installed. For example:
+This InSpec resource has the following matchers.
+
+be_installed -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_installed`` matcher tests if the named |gem| package is installed. For example:
 
 .. code-block:: ruby
 
    it { should be_installed }
 
-version
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``version`` matcher tests if a package is installed with a specific version. For example:
+version -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``version`` matcher tests if the named package version is on the system. For example:
 
 .. code-block:: ruby
 
    its(:version) { should eq '0.33.0' }
 
-Examples
------------------------------------------------------
-The following example shows how to use this InSpec resource in a compliance profile.
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Verify that a gem package is installed and has a specific version**
+**Verify that a gem package is installed, with a specific version**
 
 .. code-block:: ruby
 
-  describe gem('rubocop') do
-    it { should be_installed }
-    its(:version) { should eq '0.33.0' }
-  end
+   describe gem('rubocop') do
+     it { should be_installed }
+     its(:version) { should eq '0.33.0' }
+   end
 
 **Verify that a gem package is not installed**
 
 .. code-block:: ruby
 
-  describe gem('rubocop') do
-    it { should_not be_installed }
-  end
+   describe gem('rubocop') do
+     it { should_not be_installed }
+   end
 
-Supported Operating Systems
------------------------------------------------------
 
-* CentOS 6, 7
-* Debian 6, 7, 8
-* MacOS 10.8, 10.9, 10.10
-* Red Hat Enterprise Linux 6, 7
-* Ubuntu 12.04, 14.04
-* Windows 2012 R2
 
 group
 =====================================================
@@ -458,6 +447,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its(:ipaddress) { should include '192.168.1.1' }
    end
 
+
 inetd_config -- DONE
 =====================================================
 Use the ``inetd_config`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
@@ -469,7 +459,7 @@ A ``inetd_config`` InSpec resource block declares the list of services that shou
 .. code-block:: ruby
 
    describe inetd_config('path') do
-     its(:service_name) { should eq nil }
+     its(:service_name) { should eq 'value' }
    end
 
 where
@@ -477,8 +467,6 @@ where
 * ``'service_name'`` is a service listed in the ``inetd.conf`` file
 * ``('path')`` is the non-default path to the ``inetd.conf`` file
 * ``should eq 'value'`` is the value that is expected
-inetd_conf('/path/to/inetd.conf')
-* ``{ should eq nil }`` tests if the service is disabled (will return ``true`` if the service is disabled); use an ``its`` block for each service to be tested
 
 Matchers -- DONE
 -----------------------------------------------------
@@ -540,6 +528,18 @@ Because both the ``ftp`` and ``telnet`` Internet services are commented out (``#
    #telnet   stream   tcp   nowait   root   /usr/sbin/tcpd   in.telnetd
 
 then the same test will return ``false`` for ``ftp`` and the entire test will fail.
+
+**Test if telnet is installed**
+
+.. code-block:: ruby
+
+   describe package('telnetd') do
+     it { should_not be_installed }
+   end
+
+   describe inetd_conf do
+     its('telnet') { should eq nil }
+   end
 
 
 interface -- DONE
@@ -773,201 +773,667 @@ Use the ``mysql_session`` InSpec resource to xxxxx.
 IN_PROGRESS
 
 
-npm
-=====================================================
-Use the ``npm`` InSpec resource to test if a global npm package is installed.
-
-Syntax
+npm -- DONE
 -----------------------------------------------------
-A ``npm`` InSpec resource block declares a npm package name and then
-(depending on what is to be tested) various matchers. For example:
+Use the ``npm`` InSpec resource to test if a global |npm| package is installed. |npm| is the `the package manager for Javascript packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``npm`` InSpec resource block declares a package and (optionally) a package version. For example:
 
 .. code-block:: ruby
 
-  describe npm('bower') do
-    it { should be_installed }
-  end
+   describe gem('npm_package_name') do
+     it { should be_installed }
+   end
 
 where
 
-* ``npm()`` must specify a global npm name
-* ``bower`` is the npm package name
+* ``('npm_package_name')`` must specify a |npm| package, such as ``'bower'`` or ``'statsd'``
 * ``be_installed`` is a valid matcher for this InSpec resource
 
-Matchers
------------------------------------------------------
-This InSpec resource has the following matchers:
-
-be_installed
+Matchers -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``be_installed`` matcher tests if the package is installed. For example:
+This InSpec resource has the following matchers.
+
+be_installed -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_installed`` matcher tests if the named |gem| package and package version (if specified) is installed. For example:
 
 .. code-block:: ruby
 
    it { should be_installed }
 
-version
+version -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``version`` matcher tests if the named package version is on the system. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '1.2.3' }
+
+Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``version`` matcher tests if a package is installed with a specific version. For example:
+The following examples show how to use this InSpec resource in a test.
+
+**Verify that bower is installed, with a specific version**
 
 .. code-block:: ruby
 
-   its(:version) { should eq '1.4.1' }
+   describe npm('bower') do
+     it { should be_installed }
+     its(:version) { should eq '1.4.1' }
+   end
 
-Examples
+**Verify that statsd is not installed**
+
+.. code-block:: ruby
+
+   describe npm('statsd') do
+     it { should_not be_installed }
+   end
+
+
+ntp_conf -- DONE
 -----------------------------------------------------
+Use the ``ntp_conf`` InSpec resource to test the synchronization settings defined in the ``ntp.conf`` file. This file is typically located at ``/etc/ntp.conf``.
 
-The following example shows how to use this InSpec resource in a compliance profile.
-
-**Verify that a npm package is installed and has a specific version**
-
-.. code-block:: ruby
-
-  describe npm('bower') do
-    it { should be_installed }
-    its(:version) { should eq '1.4.1' }
-  end
-
-**Verify that a npm package is not installed**
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``ntp_conf`` InSpec resource block declares the synchronization settings that should be tested. For example:
 
 .. code-block:: ruby
 
-  describe npm('bower') do
-    it { should_not be_installed }
-  end
-
-Supported Operating Systems
------------------------------------------------------
-
-* CentOS 6, 7
-* Debian 6, 7, 8
-* MacOS 10.8, 10.9, 10.10
-* Red Hat Enterprise Linux 6, 7
-* Ubuntu 12.04, 14.04
-* Windows 2012 R2
-
-ntp_conf
-=====================================================
-Use the ``ntp_conf`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-
-
-oneget
-=====================================================
-Use the ``oneget`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-
-
-os
-=====================================================
-Use the ``os`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-
-
-os_env
-=====================================================
-Use the ``os_env`` InSpec resource to test environment variables.
-
-IN_PROGRESS
-
-
-
-package
-=====================================================
-Use the ``package`` InSpec resource to test if a system package is installed.
-
-Syntax
------------------------------------------------------
-A ``package`` InSpec resource block declares a package name and then
-(depending on what is to be tested) various matchers. For example:
-
-.. code-block:: ruby
-
-  describe package('nginx') do
-    it { should be_installed }
-  end
+   describe ntp_conf('path') do
+     its(:setting_name) { should eq 'value' }
+   end
 
 where
 
-*  ``package()`` must specify a package name
-*  ``nginx`` is the package name
-*  ``be_installed`` is a valid matcher for this InSpec resource
+* ``'setting_name'`` is a synchronization setting defined in the ``ntp.conf`` file
+* ``('path')`` is the non-default path to the ``ntp.conf`` file
+* ``{ should eq 'value' }`` is the value that is expected
 
-
-Matchers
------------------------------------------------------
-This InSpec resource has the following matchers:
-
-be_installed
+Matchers -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``be_installed`` matcher tests if the package is installed. For example:
+This InSpec resource matches any service that is listed in the ``ntp.conf`` file. For example:
+
+.. code-block:: ruby
+
+     its('server') { should_not eq nil }
+
+or:
+
+.. code-block:: ruby
+
+     its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+
+For example:
+
+.. code-block:: ruby
+
+   describe ntp_conf do
+     its('server') { should_not eq nil }
+     its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+   end
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+..
+.. **xxxxx**
+..
+.. xxxxx
+..
+.. **xxxxx**
+..
+.. xxxxx
+..
+
+
+
+oneget -- DONE
+-----------------------------------------------------
+Use the ``oneget`` InSpec resource to test if the named package and/or package version is installed on the system. This resource uses |oneget|, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`__. This resource uses the ``Get-Package`` cmdlet to return all of the package names in the |oneget| repository.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``oneget`` InSpec resource block declares a package and (optionally) a package version. For example:
+
+.. code-block:: ruby
+
+   describe oneget('name') do
+     it { should be_installed }
+   end
+
+where
+
+* ``('name')`` must specify the name of a package, such as ``'VLC'``
+* ``be_installed`` is a valid matcher for this InSpec resource
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+be_installed -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_installed`` matcher tests if the named package is installed on the system. For example:
 
 .. code-block:: ruby
 
    it { should be_installed }
 
-version
+version -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``version`` matcher tests if the named package version is on the system. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '1.2.3' }
+
+Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``version`` matcher tests if xxxxx. For example:
+The following examples show how to use this InSpec resource in a test.
+
+**Test if VLC is installed**
 
 .. code-block:: ruby
 
-   its(:version) { should eq '1.9.5' }
+   describe package('VLC') do
+     it { should be_installed }
+   end
 
-Examples
+
+
+
+os -- DONE
 -----------------------------------------------------
-The following examples show how to use this audit resource in a recipe.
+Use the ``os`` InSpec resource to test the platform on which the system is running.
 
-The following example shows how to use this InSpec resource in a compliance profile.
-
-**Verify that a package is installed and has a specific version**
-
-.. code-block:: ruby
-
-  describe package('nginx') do
-    it { should be_installed }
-    its(:version) { should eq '1.9.5' }
-  end
-
-
-**Verify that a package is not installed**
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``os`` InSpec resource block declares the platform to be tested. For example:
 
 .. code-block:: ruby
 
-  describe package('telnet') do
-    it { should_not be_installed }
-  end
+   describe os do
+     it { should eq 'platform' }
+   end
+
+where
+
+* ``'platform'`` is one of ``bsd``, ``debian``, ``linux``, ``redhat``, ``solaris``, ``suse``,  ``unix``, or ``windows``
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource does not have any matchers.
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test for RedHat**
+
+.. code-block:: ruby
+
+   describe os do
+     it { should eq 'redhat' }
+   end
+
+**Test for Ubuntu**
+
+.. code-block:: ruby
+
+   describe os do
+     it { should eq 'debian' }
+   end
+
+**Test for Microsoft Windows**
+
+.. code-block:: ruby
+
+   describe os do
+     it { should eq 'windows' }
+   end
 
 
-Supported Operating Systems
+
+
+os_env -- DONE
 -----------------------------------------------------
+Use the ``os_env`` InSpec resource to test the environment variables for the platform on which the system is running.
 
-* CentOS 6, 7
-* Debian 6, 7, 8
-* MacOS 10.8, 10.9, 10.10
-* Red Hat Enterprise Linux 6, 7
-* Ubuntu 12.04, 14.04
-* Windows 2012 R2
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``os_env`` InSpec resource block declares xxxxx. For example:
 
-parse_config
-=====================================================
-Use the ``parse_config`` InSpec resource to test arbitrary configuration files.
+.. code-block:: ruby
 
-IN_PROGRESS
+   describe os_env('VARIABLE') do
+     its('matcher') { should eq 1 }
+   end
+
+where
+
+* ``('VARIABLE')`` must specify an environment variable, such as ``PATH``
+* ``matcher`` is a valid matcher for this InSpec resource
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+exit_status -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``exit_status`` matcher tests the exit status of the platform environment. For example:
+
+.. code-block:: ruby
+
+   its(:exit_status) { should eq 0 }
+
+split -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``split`` matcher tests the delimiter between environment variables. For example:
+
+.. code-block:: ruby
+
+   its(:split) { should include ('') }
+
+or:
+
+.. code-block:: ruby
+
+   its(:split) { should_not include ('.') }
+
+Use ``-1`` to test for cases where there is a trailing colon (``:``), such as ``dir1::dir2:``:
+
+.. code-block:: ruby
+
+   its(:split) { should include ('-1') }
+
+stderr -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``stderr`` matcher tests environment variables after they are output to stderr. For example:
+
+.. code-block:: ruby
+
+   its(:stderr) { should include('PWD=/root') }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test the PATH environment variable**
+
+.. code-block:: ruby
+
+   describe os_env('PATH') do |dirs|
+     its(:split) { should_not include('') }
+     its(:split) { should_not include('.') }
+   end
 
 
 
-parse_config_file
-=====================================================
+
+package -- DONE
+-----------------------------------------------------
+Use the ``package`` InSpec resource to test if the named package and/or package version is installed on the system.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``package`` InSpec resource block declares a package and (optionally) a package version. For example:
+
+.. code-block:: ruby
+
+   describe package('name') do
+     it { should be_installed }
+   end
+
+where
+
+* ``('name')`` must specify the name of a package, such as ``'nginx'``
+* ``be_installed`` is a valid matcher for this InSpec resource
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+be_installed -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_installed`` matcher tests if the named package is installed on the system. For example:
+
+.. code-block:: ruby
+
+   it { should be_installed }
+
+version -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``version`` matcher tests if the named package version is on the system. For example:
+
+.. code-block:: ruby
+
+   its(:version) { should eq '1.2.3' }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test if nginx version 1.9.5 is installed**
+
+.. code-block:: ruby
+
+   describe package('nginx') do
+     it { should be_installed }
+     its(:version) { should eq 1.9.5 }
+   end
+
+**Test that a package is not installed**
+
+.. code-block:: ruby
+
+   describe package('some_package') do
+     it { should_not be_installed }
+   end
+
+**Test if telnet is installed**
+
+.. code-block:: ruby
+
+   describe package('telnetd') do
+     it { should_not be_installed }
+   end
+
+   describe inetd_conf do
+     its('telnet') { should eq nil }
+   end
+
+**Test if ClamAV (an antivirus engine) is installed and running**
+
+.. code-block:: ruby
+
+   describe package('clamav') do
+     it { should be_installed }
+     its('version') { should eq '0.98.7' }
+   end
+
+   describe service('clamd') do
+     it { should_not be_enabled }
+     it { should_not be_installed }
+     it { should_not be_running }
+   end
+
+
+
+parse_config -- DONE
+-----------------------------------------------------
+Use the ``parse_config`` InSpec resource to test arbitrary configuration files, such as testing the results of a regular expression, ensuring that settings are commented out, testing for multiple values, and so on.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``parse_config`` InSpec resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested. Because this InSpec resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom |ruby| code. For example:
+
+.. code-block:: ruby
+
+   output = command('some-command').stdout
+
+   describe parse_config(output, { data_config_option: value } ) do
+     its('setting') { should eq 1 }
+   end
+
+or:
+
+.. code-block:: ruby
+
+   audit = command('/sbin/auditctl -l').stdout
+     options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+
+   describe parse_config(audit, options) do
+     its('setting') { should eq 1 }
+   end
+
+where each test
+
+* Must declare the location of the configuration file to be tested
+* Must declare one (or more) settings to be tested
+* May run a command to ``stdout``, and then run the test against that output
+* May use options to define how configuration data is to be parsed
+
+Options -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource supports the following options for parsing configuration data. Use them in an ``options`` block stated outside of (and immediately before) the actual test. For example:
+
+.. code-block:: ruby
+
+   options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+   describe parse_config(options) do
+     its('setting') { should eq 1 }
+   end
+
+assignment_re -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use ``assignment_re`` to test a key value using a regular expression. For example:
+
+.. code-block:: ruby
+
+   'key = value'
+
+may be tested using the following regular expression, which determines assignment from key to value:
+
+.. code-block:: ruby
+
+   assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
+
+comment_char -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use ``comment_char`` to test for comments in a configuration file. For example:
+
+.. code-block:: ruby
+
+   comment_char: '#'
+
+key_vals -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use ``key_vals`` to test how many values a key contains. For example:
+
+.. code-block:: ruby
+
+   key = a b c
+
+contains three values. To test that value to ensure it only contains one, use:
+
+.. code-block:: ruby
+
+   key_vals: 1
+
+multiple_values -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use ``multiple_values`` to test for the presence of multiple key values. For example:
+
+.. code-block:: ruby
+
+   'key = a' and 'key = b'
+   params['key'] = ['a', 'b']
+
+or:
+
+.. code-block:: ruby
+
+   'key = a' and 'key = b'
+   params['key'] = 'b'
+
+To test if multiple values are present, use:
+
+.. code-block:: ruby
+
+   multiple_values: false
+
+The preceding test will fail with the first example and will pass with the second.
+
+standalone_comments -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use ``standalone_comments`` to test for comments in a configuration file and to ensure they are not integrated into the same lines as code. For example:
+
+.. code-block:: ruby
+
+   'key = value # comment'
+   params['key'] = 'value'
+
+or:
+
+.. code-block:: ruby
+
+   'key = value # comment'
+   params['key'] = 'value # comment'
+
+To test if comments are standalone, use:
+
+.. code-block:: ruby
+
+   standalone_comments: true
+
+The preceding test will fail with the second example and will pass with the first.
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test the expiration time for new account passwords**
+
+.. code-block:: ruby
+
+   output = command('useradd -D').stdout
+
+   describe parse_config(output) do
+     its('INACTIVE.to_i') { should be >= 35 }
+   end
+
+**Test that bob is a user**
+
+.. code-block:: ruby
+
+   describe parse_config(data, { multiple_values: true }) do
+     its('users') { should include 'bob'}
+   end
+
+
+
+parse_config_file -- DONE
+-----------------------------------------------------
 Use the ``parse_config_file`` InSpec resource to test arbitrary configuration files.
 
-IN_PROGRESS
+Syntax -- DONE (is this really "identical" to the parse_config syntax?)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``parse_config_file`` InSpec resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested. Because this InSpec resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom |ruby| code. For example:
+
+.. code-block:: ruby
+
+   output = command('some-command').stdout
+
+   describe parse_config_file(output, { data_config_option: value } ) do
+     its('setting') { should eq 1 }
+   end
+
+or:
+
+.. code-block:: ruby
+
+   audit = command('/sbin/auditctl -l').stdout
+     options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+
+   describe parse_config_file(audit, options) do
+     its('setting') { should eq 1 }
+   end
+
+where each test
+
+* Must declare the location of the configuration file to be tested
+* Must declare one (or more) settings to be tested
+* May run a command to ``stdout``, and then run the test against that output
+* May use options to define how configuration data is to be parsed
+
+.. or is this one more like this?
+
+.. code-block:: ruby
+
+   audit = command('/sbin/auditctl -l').stdout
+     options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+
+   describe parse_config_file(audit, options) do
+     its('setting') { should eq 1 }
+   end
+
+where each test
+
+* Must declare the location of the configuration file to be tested
+* Must declare one (or more) settings to be tested
+* May run a command to ``stdout``, and then run the test against that output
+* May use options to define how configuration data is to be parsed
+
+Options -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource supports the following options for parsing configuration data. Use them in an ``options`` block stated outside of (and immediately before) the actual test. For example:
+
+.. code-block:: ruby
+
+   describe parse_config_file(/path/to/config/file) do
+     its('setting') { should eq 1 }
+   end
+
+InSpec == inspec (command-line)
+
+assignment_re -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+comment_char -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+key_vals -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+multiple_values -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+standalone_comments -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test a configuration setting**
+
+.. code-block:: ruby
+
+   describe parse_config_file('/path/to/file.conf') do
+    its('PARAM_X') { should eq 'Y' }
+   end
+
+**Use options, and then test a configuration setting**
+
+.. code-block:: ruby
+
+   describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
+    its('PARAM_X') { should include 'Y' }
+   end
+
+
 
 
 
@@ -1253,6 +1719,23 @@ The following examples show how to use this InSpec resource in a recipe.
      its('protocol') {should eq 'tcp6'}
    end
 
+**Test ports for SSL, then verify ciphers**
+
+.. code-block:: ruby
+
+   describe port(80) do
+     it { should_not be_listening }
+   end
+
+   describe port(443) do
+     it { should be_listening }
+     its('protocol') {should eq 'tcp'}
+   end
+
+   describe sshd_conf do
+     its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
+   end
+
 
 
 postgres -- NOT AN AUDIT RESOURCE?
@@ -1358,7 +1841,6 @@ A ``postgres_session`` InSpec resource block declares the username and password 
    sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
      its('output') { should eq('') }
    end
-
 
 where
 
@@ -1634,9 +2116,8 @@ A ``service`` InSpec resource block declares the name of a service and then one 
 
 where
 
-* ``service()`` must specify a service name
-* ``service_name`` is the service name
-* ``be_enabled`` and ``be_running`` are a valid matcher for this InSpec resource
+* ``('service_name')`` must specify a service name
+* ``be_installed``, ``be_enabled``, and ``be_running`` are valid matchers for this InSpec resource
 
 
 Matchers -- DONE
@@ -1689,16 +2170,20 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_running }
    end
 
-Supported Operating Systems
------------------------------------------------------
+**Test if ClamAV (an antivirus engine) is installed and running**
 
-* CentOS 6, 7
-* Debian 6, 7, 8
-* FreeBSD 9, 10
-* MacOS 10.8, 10.9, 10.10
-* Red Hat Enterprise Linux 6, 7
-* Ubuntu 12.04, 14.04
-* Windows 2012 R2
+.. code-block:: ruby
+
+   describe package('clamav') do
+     it { should be_installed }
+     its('version') { should eq '0.98.7' }
+   end
+
+   describe service('clamd') do
+     it { should_not be_enabled }
+     it { should_not be_installed }
+     it { should_not be_running }
+   end
 
 
 ssh_config -- DONE
@@ -1737,7 +2222,7 @@ or:
 
 .. code-block:: ruby
 
-   it's('name') {should include('bar') }
+   it's('name') { should include('bar') }
 
 Examples -- DONE
 -----------------------------------------------------
@@ -1841,6 +2326,23 @@ The following examples show how to use this InSpec resource in a recipe.
 
    describe sshd_config do
      its('Protocol') { should eq '2' }
+   end
+
+**Test ports for SSL, then verify ciphers**
+
+.. code-block:: ruby
+
+   describe port(80) do
+     it { should_not be_listening }
+   end
+
+   describe port(443) do
+     it { should be_listening }
+     its('protocol') {should eq 'tcp'}
+   end
+
+   describe sshd_conf do
+     its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
 
@@ -1973,15 +2475,20 @@ Examples -- DONE
 -----------------------------------------------------
 The following examples show how to use this InSpec resource in a recipe.
 
-..
-.. **xxxxx**
-..
-.. xxxxx
-..
-.. **xxxxx**
-..
-.. xxxxx
-..
+**Verify available users for the MySQL server**
+
+.. code-block:: ruby
+
+   describe user('root') do
+     it { should exist }
+     it { should belong_to_group 'root' }
+     its('uid') { should eq 0 }
+     its('groups') { should eq ['root'] }
+   end
+
+   describe user('mysql') do
+    it { should_not exist }
+   end
 
 
 windows_feature -- DONE
@@ -2082,6 +2589,8 @@ The following examples show how to use this InSpec resource in a recipe.
    describe yaml('.kitchen.yaml') do
      its('driver.name') { should eq('vagrant') }
    end
+
+
 
 yum -- DONE
 =====================================================
