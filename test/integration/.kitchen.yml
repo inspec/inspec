@@ -35,5 +35,6 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[sudo]
       - recipe[test]
     attributes:
