@@ -109,7 +109,7 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test for blocking .htaccess files on CentOS**
+**Test for blocking .htaccess files on CentOS** 
 
 .. code-block:: ruby
 
@@ -117,13 +117,14 @@ The following examples show how to use this InSpec resource in a test.
      its('AllowOverride') { should eq 'None' }
    end
 
-**Test ports for SSL**
+**Test ports for SSL** 
 
 .. code-block:: ruby
-
+   
    describe apache_conf do
      its('Listen') { should eq '443'}
    end
+
 
 
 apt -- DONE
@@ -171,7 +172,7 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test if Ubuntu is updated to the latest stable Juju package**
+**Test if Ubuntu is updated to the latest stable Juju package** 
 
 .. code-block:: ruby
 
@@ -180,7 +181,7 @@ The following examples show how to use this InSpec resource in a test.
      it { should be_enabled }
    end
 
-**Test if Nginx is updated to the latest stable package**
+**Test if Nginx is updated to the latest stable package** 
 
 .. code-block:: ruby
 
@@ -206,6 +207,7 @@ The following examples show how to use this InSpec resource in a test.
      it { should_not exist }
      it { should_not be_enabled }
    end
+
 
 
 audit_policy
@@ -283,7 +285,7 @@ IN_PROGRESS
 
 
 bridge -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``bridge`` InSpec resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 
 * On |unix| and |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
@@ -292,7 +294,7 @@ Use the ``bridge`` InSpec resource to test basic network bridge properties, such
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``bridge`` InSpec resource block declares xxxxx. For example:
 
 .. code-block:: ruby
@@ -302,20 +304,20 @@ A ``bridge`` InSpec resource block declares xxxxx. For example:
      it { should have_interface 'eth0' }
    end
 
-..
+.. 
 .. where
-..
+.. 
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
 .. * ``xxxxx`` is a valid matcher for this InSpec resource
-..
+.. 
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 exist -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``exist`` matcher tests if the network bridge is available. For example:
 
 .. code-block:: ruby
@@ -323,7 +325,7 @@ The ``exist`` matcher tests if the network bridge is available. For example:
    it { should exist }
 
 have_interface -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``have_interface`` matcher tests if the named interface is defined for the network bridge. For example:
 
 .. code-block:: ruby
@@ -331,30 +333,30 @@ The ``have_interface`` matcher tests if the named interface is defined for the n
    it { should have_interface 'eth0' }
 
 interfaces -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``interfaces`` matcher tests if the named interface is present. For example:
 
 .. code-block:: ruby
 
-   its(:interfaces) { should eq foo }
-   its(:interfaces) { should eq bar }
-   its(:interfaces) { should include foo, bar }
+   its('interfaces') { should eq foo }
+   its('interfaces') { should eq bar }
+   its('interfaces') { should include foo, bar }
 
 .. wild guessing ^^^
 
-..
+.. 
 .. Examples
-.. -----------------------------------------------------
-.. The following examples show how to use this InSpec resource in a recipe.
-..
-.. **xxxxx**
-..
+.. +++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. The following examples show how to use this InSpec resource in a test.
+.. 
+.. **xxxxx** 
+.. 
 .. xxxxx
-..
-.. **xxxxx**
-..
+.. 
+.. **xxxxx** 
+.. 
 .. xxxxx
-..
+.. 
 
 
 
@@ -507,7 +509,7 @@ The ``version`` matcher tests if the named package version is on the system. For
 
 .. code-block:: ruby
 
-   its(:version) { should eq '0.33.0' }
+   its('version') { should eq '0.33.0' }
 
 Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -519,7 +521,7 @@ The following examples show how to use this InSpec resource in a test.
 
    describe gem('rubocop') do
      it { should be_installed }
-     its(:version) { should eq '0.33.0' }
+     its('version') { should eq '0.33.0' }
    end
 
 **Verify that a gem package is not installed**
@@ -558,11 +560,11 @@ Test Microsoft Windows Group Policies:
 
 
 host -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``host`` InSpec resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``host`` InSpec resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol. For example:
 
 .. code-block:: ruby
@@ -580,11 +582,11 @@ where
 * ``be_reachable`` is a valid matcher for this InSpec resource
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_reachable -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_reachable`` matcher tests if the host name is available. For example:
 
 .. code-block:: ruby
@@ -593,7 +595,7 @@ The ``be_reachable`` matcher tests if the host name is available. For example:
 
 
 be_resolvable -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_resolvable`` matcher tests for host name resolution, i.e. "resolvable to an IP address". For example:
 
 .. code-block:: ruby
@@ -602,19 +604,19 @@ The ``be_resolvable`` matcher tests for host name resolution, i.e. "resolvable t
 
 
 ipaddress -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``ipaddress`` matcher tests if a host name is resolvable to a specific IP address. For example:
 
 .. code-block:: ruby
 
-     its(:ipaddress) { should include '93.184.216.34' }
+     its('ipaddress') { should include '93.184.216.34' }
 
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Verify host name s reachable over a specific protocol and port number**
+**Verify host name s reachable over a specific protocol and port number** 
 
 .. code-block:: ruby
 
@@ -622,28 +624,29 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_reachable }
    end
 
-**Verify that a specific IP address can be resolved**
+**Verify that a specific IP address can be resolved** 
 
 .. code-block:: ruby
 
    describe host('example.com', port: 80, proto: 'tcp') do
      it { should be_resolvable }
-     its(:ipaddress) { should include '192.168.1.1' }
+     its('ipaddress') { should include '192.168.1.1' }
    end
 
 
+
 inetd_config -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``inetd_config`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``inetd_config`` InSpec resource block declares the list of services that should be disabled in the ``inetd.conf`` file. For example:
 
 .. code-block:: ruby
 
    describe inetd_config('path') do
-     its(:service_name) { should eq 'value' }
+     its('service_name') { should eq 'value' }
    end
 
 where
@@ -653,40 +656,40 @@ where
 * ``should eq 'value'`` is the value that is expected
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource matches any service that is listed in the ``inetd.conf`` file. For example:
 
 .. code-block:: ruby
 
-     its(:shell) { should eq nil }
+     its('shell') { should eq nil }
 
 or:
 
 .. code-block:: ruby
 
-     its(:netstat) { should eq nil }
+     its('netstat') { should eq nil }
 
 or:
 
 .. code-block:: ruby
 
-     its(:systat) { should eq nil }
+     its('systat') { should eq nil }
 
 For example:
 
 .. code-block:: ruby
 
    describe inetd_conf do
-     its(:shell) { should eq nil }
-     its(:login) { should eq nil }
-     its(:exec) { should eq nil }
+     its('shell') { should eq nil }
+     its('login') { should eq nil }
+     its('exec') { should eq nil }
    end
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Verify that FTP is disabled**
+**Verify that FTP is disabled** 
 
 The contents if the ``inetd.conf`` file contain the following:
 
@@ -700,8 +703,8 @@ and the following test is defined:
 .. code-block:: ruby
 
    describe inetd_config do
-     its(:ftp) { should eq nil }
-     its(:telnet) { should eq nil }
+     its('ftp') { should eq nil }
+     its('telnet') { should eq nil }
    end
 
 Because both the ``ftp`` and ``telnet`` Internet services are commented out (``#``), both services are disabled. Consequently, both tests will return ``true``. However, if the ``inetd.conf`` file is set as follows:
@@ -713,21 +716,21 @@ Because both the ``ftp`` and ``telnet`` Internet services are commented out (``#
 
 then the same test will return ``false`` for ``ftp`` and the entire test will fail.
 
-**Test if telnet is installed**
+**Test if telnet is installed** 
 
 .. code-block:: ruby
 
    describe package('telnetd') do
      it { should_not be_installed }
    end
-
+   
    describe inetd_conf do
      its('telnet') { should eq nil }
    end
 
 
 interface -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``interface`` InSpec resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
 
 * On |unix| and |linux| platforms, any value in the ``/sys/class/net/#{iface}`` directory may be tested.
@@ -736,31 +739,31 @@ Use the ``interface`` InSpec resource to test basic network adapter properties, 
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``interface`` InSpec resource block declares network interface properties to be tested. For example:
 
 .. code-block:: ruby
 
    describe interface do
      it { should be_up }
-     its(:speed) { should eq 1000 }
+     its('speed') { should eq 1000 }
      its('name') { should eq eth0 }
    end
 
-..
+.. 
 .. where
-..
+.. 
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
 .. * ``xxxxx`` is a valid matcher for this InSpec resource
-..
+.. 
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_up -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_up`` matcher tests if the network interface is available. For example:
 
 .. code-block:: ruby
@@ -768,7 +771,7 @@ The ``be_up`` matcher tests if the network interface is available. For example:
    it { should be_up }
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests if the named network interface exists. For example:
 
 .. code-block:: ruby
@@ -776,35 +779,43 @@ The ``name`` matcher tests if the named network interface exists. For example:
    its('name') { should eq eth0 }
 
 speed -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``speed`` matcher tests the speed of the network interface, in MB/sec. For example:
 
 .. code-block:: ruby
 
-   its(:speed) { should eq 1000 }
+   its('speed') { should eq 1000 }
 
-..
+.. 
 .. Examples
-.. -----------------------------------------------------
-.. The following examples show how to use this InSpec resource in a recipe.
-..
-.. **xxxxx**
-..
+.. +++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. The following examples show how to use this InSpec resource in a test.
+.. 
+.. **xxxxx** 
+.. 
 .. xxxxx
-..
-.. **xxxxx**
-..
+.. 
+.. **xxxxx** 
+.. 
 .. xxxxx
-..
+.. 
+
+
+iptables
+-----------------------------------------------------
+Use the ``iptables`` InSpec resource to test xxxxx.
+
+IN_PROGRESS
+
 
 
 
 json -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``json`` InSpec resource to test data in a |json| file.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``json`` InSpec resource block declares the data to be tested. For example:
 
 .. code-block:: ruby
@@ -819,11 +830,11 @@ where
 * ``should eq 'foo'`` tests a value of ``name`` as read from a |json| file versus the value declared in the test
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value of ``name`` as read from a |json| file versus the value declared in the test. For example:
 
 .. code-block:: ruby
@@ -831,8 +842,8 @@ The ``name`` matcher tests the value of ``name`` as read from a |json| file vers
    its('name') { should eq 'foo' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test a cookbook version in a policyfile.lock.json file**
 
@@ -843,51 +854,189 @@ The following examples show how to use this InSpec resource in a recipe.
    end
 
 
+kernel_module -- DONE
+-----------------------------------------------------
+Use the ``kernel_module`` InSpec resource to test kernel modules on |linux| platforms. These parameters are located under ``/lib/modules``. Any submodule may be tested using this resource.
 
-kernel_module
-=====================================================
-Use the ``kernel_module`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-
-
-kernel_parameter
-=====================================================
-Use the ``kernel_parameter`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-
-
-limits_conf
-=====================================================
-Use the ``limits_conf`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-Test Linux-based ``/etc/security/limits.conf``:
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``kernel_module`` InSpec resource block declares a module name, and then tests if that module is a loadable kernel module. For example:
 
 .. code-block:: ruby
 
-  describe limits_conf do
-    its('*') { should include ['hard','core','0'] }
-  end
+   describe kernel_module('module_name') do
+     it { should be_loaded }
+   end
 
-You can also specify a custom path:
+where
+
+* ``'module_name'`` must specify a kernel module, such as ``'bridge'``
+* ``{ should be_loaded }`` tests if the module is a loadable kernel module
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+be_loaded -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``be_loaded`` matcher tests if the module is a loadable kernel module. For example:
 
 .. code-block:: ruby
 
-  limits_conf('/path/to/limits.conf')
+   it { should be_loaded }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test if a module is loaded** 
+
+.. code-block:: ruby
+
+   describe kernel_module('bridge') do
+     it { should be_loaded }
+   end
+
+
+
+
+kernel_parameter -- DONE
+-----------------------------------------------------
+Use the ``kernel_parameter`` InSpec resource to test kernel parameters on |linux| platforms. These parameters are located under ``/proc/sys/net``. Any subdirectory may be tested using this resource.
+
+.. https://www.kernel.org/doc/Documentation/kernel-parameters.txt
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``kernel_parameter`` InSpec resource block declares a parameter and then a value to be tested. For example:
+
+.. code-block:: ruby
+
+   describe kernel_parameter('path.to.parameter') do
+     its('value') { should eq 0 }
+   end
+
+where
+
+* ``'path.to.parameter'`` must specify a kernel parameter, such as ``'net.ipv4.conf.all.forwarding'``
+* ``{ should eq 0 }`` states the value to be tested
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+value -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``value`` matcher tests the value assigned to the named IP address versus the value declared in the test. For example:
+
+.. code-block:: ruby
+
+   its('value') { should eq 0 }
+   
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test if global forwarding is enabled for an IPv4 address** 
+
+.. code-block:: ruby
+
+   describe kernel_parameter('net.ipv4.conf.all.forwarding') do
+     its(:value) { should eq 1 }
+   end
+
+**Test if global forwarding is disabled for an IPv6 address** 
+
+.. code-block:: ruby
+
+   describe kernel_parameter('net.ipv6.conf.all.forwarding') do
+     its(:value) { should eq 0 }
+   end
+
+**Test if an IPv6 address accepts redirects** 
+
+.. code-block:: ruby
+
+   describe kernel_parameter('net.ipv6.conf.interface.accept_redirects') do
+     its(:value) { should eq 'true' }
+   end
+
+
+
+
+limits_conf -- DONE
+-----------------------------------------------------
+Use the ``limits_conf`` InSpec resource to test configuration settings in the ``/etc/security/limits.conf`` file. The ``limits.conf`` defines limits for processes (by user and/or group names) and helps ensure that the system on which those processes are running remains stable. Each process may be assigned a hard or soft limit.
+
+* Soft limits are maintained by the shell and defines the number of file handles (or open files) available to the user or group after login
+* Hard limits are maintained by the kernel and defines the maximum number of allowed file handles
+
+Entries in the ``limits.conf`` file are similar to:
+
+.. code-block:: bash
+
+   grantmc     soft   nofile   4096
+   grantmc     hard   nofile   63536
+   
+   ^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
+   domain      type    item    value
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``limits_conf`` InSpec resource block declares a domain to be tested, along with associated type, item, and value. For example:
+
+.. code-block:: ruby
+
+   describe limits_conf('path') do
+     its('domain') { should include ['type', 'item', 'value'] }
+     its('domain') { should eq ['type', 'item', 'value'] }
+   end
+
+where
+
+* ``('path')`` is the non-default path to the ``inetd.conf`` file
+* ``'domain'`` is a user or group name, such as ``grantmc``
+* ``'type'`` is either ``hard`` or ``soft``
+* ``'item'`` is the item for which limits are defined, such as ``core``, ``nofile``, ``stack``, ``nproc``, ``priority``, or ``maxlogins``
+* ``'value'`` is the value associated with the ``item``
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+domain -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``domain`` matcher tests the domain in the ``limits.conf`` file, along with associated type, item, and value. For example:
+
+.. code-block:: ruby
+
+   its('domain') { should include ['type', 'item', 'value'] }
+
+For example:
+
+.. code-block:: ruby
+
+   its('grantmc') { should include ['hard', 'nofile', '63536'] }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test * and ftp limits** 
+
+   describe limits_conf('path') do
+     its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
+     its('ftp') { should eq ['hard', 'nproc', '0'] }
+   end
 
 
 
 login_defs -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``login_defs`` InSpec resource to test configuration settings in the ``/etc/login.defs`` file. The ``logins.defs`` file defines site-specific configuration for the shadow password suite on |linux| and |unix| platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``login_defs`` InSpec resource block declares the ``login.defs`` configuration data to be tested. For example:
 
 .. code-block:: ruby
@@ -902,11 +1051,11 @@ where
 * ``{ should include('foo') }`` tests the value of ``name`` as read from ``login.defs`` versus the value declared in the test
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value of ``name`` as read from ``login.defs`` versus the value declared in the test. For example:
 
 .. code-block:: ruby
@@ -914,10 +1063,10 @@ The ``name`` matcher tests the value of ``name`` as read from ``login.defs`` ver
    its('name') { should eq 'foo' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test password expiration settings**
+**Test password expiration settings** 
 
 .. code-block:: ruby
 
@@ -928,7 +1077,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('PASS_WARN_AGE') { should eq '30' }
    end
 
-**Test the encryption method**
+**Test the encryption method** 
 
 .. code-block:: ruby
 
@@ -936,7 +1085,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('ENCRYPT_METHOD') { should eq 'SHA512' }
    end
 
-**Ensures a user have to change the password within 90 days**
+**Test xxxxx** <<< what does this test?
 
 .. code-block:: ruby
 
@@ -947,76 +1096,158 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 
-mysql
-=====================================================
-Use the ``mysql`` InSpec resource to xxxxx.
+mysql -- NOT AN InSpec resource?
+-----------------------------------------------------
+TBD
 
-IN_PROGRESS
-
-
-
-mysql_conf
-=====================================================
-Use the ``mysql_conf`` InSpec resource to xxxxx.
+.. This one seems like it's just loading some mysql information on behalf of the mysql_conf and mysql_session InSpec resources. Right?
 
 
-IN_PROGRESS
 
-!!! Warning "Difference to ServerSpec"
+mysql_conf -- DONE
+-----------------------------------------------------
+Use the ``mysql_conf`` InSpec resource to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/<version>/my.cnf``.
 
-Test default MySQL and MariaDB configuration files:
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``mysql_conf`` InSpec resource block declares one (or more) settings in the ``my.cnf`` file, and then compares the setting in the configuration file to the value stated in the test. For example:
 
 .. code-block:: ruby
 
-  mysql_conf
+   describe mysql_conf('path') do
+     its('setting') { should eq 'value' }
+   end
 
+where
 
-You can also specify the configuration path:
+* ``'setting'`` specifies a setting in the ``my.cnf`` file
+* ``('path')`` is the non-default path to the ``my.cnf`` file
+* ``should eq 'value'`` is the value that is expected
 
-.. code-block:: ruby
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
 
-  mysql_conf('/etc/mysql/my.cnf')
-
-
-**:params**
-
-Retrieve parameters in a group and test them. In this example,
-we take a look at the `safe-user-create` parameter, which is in the
-`mysqld` group.
-
-.. code-block:: ruby
-
-  describe mysql_conf.params('mysqld') do
-    its('safe-user-create') { should eq('1') }
-  end
-
-
-
-
-mysql_session
-=====================================================
-Use the ``mysql_session`` InSpec resource to xxxxx.
-
-IN_PROGRESS
-
-**mysql_session**
-
-Run commands on a MySQL server and test their output:
+setting -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``setting`` matcher tests specific, named settings in the ``my.cnf`` file. For example:
 
 .. code-block:: ruby
 
-  sql = mysql_session('my_user','password')
+   its('setting') { should eq 'value' }
 
+Use a ``setting`` matcher for each setting to be tested.
 
-**:describe**
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-All tests are structured with the describe command:
+**Test the maximum number of allowed connections** 
 
 .. code-block:: ruby
 
-  sql.describe('show databases like \'test\';') do
-    its(:stdout) { should_not match(/test/) }
-  end
+   describe mysql_conf do
+     its('max_connections') { should eq '505' }
+     its('max_user_connections') { should eq '500' }
+   end
+
+**Test slow query logging** 
+
+.. code-block:: ruby
+
+   describe mysql_conf do
+     its('slow_query_log_file') { should eq 'hostname_slow.log' }
+     its('slow_query_log') { should eq '0' }
+     its('log_queries_not_using_indexes') { should eq '1' }
+     its('long_query_time') { should eq '0.5' }
+     its('min_examined_row_limit') { should eq '100' }
+   end
+
+**Test the port and socket on which MySQL listens** 
+
+.. code-block:: ruby
+
+   describe mysql_conf do
+     its('port') { should eq '3306' }
+     its('socket') { should eq '/var/run/mysqld/mysql.sock' }
+   end
+
+**Test connection and thread variables** 
+
+.. code-block:: ruby
+
+   describe mysql_conf do
+     its('port') { should eq '3306' }
+     its('socket') { should eq '/var/run/mysqld/mysql.sock' }
+     its('max_allowed_packet') { should eq '12M' }
+     its('default_storage_engine') { should eq 'InnoDB' }
+     its('character_set_server') { should eq 'utf8' }
+     its('collation_server') { should eq 'utf8_general_ci' }
+     its('max_connections') { should eq '505' }
+     its('max_user_connections') { should eq '500' }
+     its('thread_cache_size') { should eq '505' }
+   end
+
+**Test the safe-user-create parameter** 
+
+.. code-block:: ruby
+
+   describe mysql_conf.params('mysqld') do
+     its('safe-user-create') { should eq('1') }
+   end
+  
+
+
+mysql_session -- DONE
+-----------------------------------------------------
+Use the ``mysql_session`` InSpec resource to test SQL commands run against a |mysql| database.
+
+Syntax -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+A ``mysql_session`` InSpec resource block declares the username and password to use for the session, and then the command to be run. For example:
+
+.. code-block:: ruby
+
+   sql = mysql_session('username', 'password')
+
+   sql.describe('QUERY') do
+     its('output') { should eq('') }
+   end
+
+where
+
+* ``sql = mysql_session`` declares a username and password with permission to run the query
+* ``describe('QUERY')`` contains the query to be run
+* ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
+
+Matchers -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This InSpec resource has the following matchers.
+
+output -- DONE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``output`` matcher tests the results of the query. For example:
+
+.. code-block:: ruby
+
+   its('output') { should eq(/^0/) }
+
+Examples -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
+
+**Test for matching databases**
+
+.. code-block:: ruby
+
+   sql = mysql_session('my_user','password')
+
+   sql.describe('show databases like \'test\';') do
+     its(:stdout) { should_not match(/test/) }
+   end
+
+
+
 
 
 
@@ -1057,7 +1288,7 @@ The ``version`` matcher tests if the named package version is on the system. For
 
 .. code-block:: ruby
 
-   its(:version) { should eq '1.2.3' }
+   its('version') { should eq '1.2.3' }
 
 Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1069,7 +1300,7 @@ The following examples show how to use this InSpec resource in a test.
 
    describe npm('bower') do
      it { should be_installed }
-     its(:version) { should eq '1.4.1' }
+     its('version') { should eq '1.4.1' }
    end
 
 **Verify that statsd is not installed**
@@ -1092,7 +1323,7 @@ A ``ntp_conf`` InSpec resource block declares the synchronization settings that 
 .. code-block:: ruby
 
    describe ntp_conf('path') do
-     its(:setting_name) { should eq 'value' }
+     its('setting_name') { should eq 'value' }
    end
 
 where
@@ -1128,7 +1359,7 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test for clock drift against named servers**
+**Test for clock drift against named servers** 
 
 .. code-block:: ruby
 
@@ -1180,20 +1411,19 @@ The ``version`` matcher tests if the named package version is on the system. For
 
 .. code-block:: ruby
 
-   its(:version) { should eq '1.2.3' }
+   its('version') { should eq '1.2.3' }
 
 Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test if VLC is installed**
+**Test if VLC is installed** 
 
 .. code-block:: ruby
 
    describe package('VLC') do
      it { should be_installed }
    end
-
 
 
 
@@ -1223,7 +1453,7 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test for RedHat**
+**Test for RedHat** 
 
 .. code-block:: ruby
 
@@ -1231,7 +1461,7 @@ The following examples show how to use this InSpec resource in a test.
      it { should eq 'redhat' }
    end
 
-**Test for Ubuntu**
+**Test for Ubuntu** 
 
 .. code-block:: ruby
 
@@ -1239,14 +1469,13 @@ The following examples show how to use this InSpec resource in a test.
      it { should eq 'debian' }
    end
 
-**Test for Microsoft Windows**
+**Test for Microsoft Windows** 
 
 .. code-block:: ruby
 
    describe os do
      it { should eq 'windows' }
    end
-
 
 
 
@@ -1279,7 +1508,7 @@ The ``exit_status`` matcher tests the exit status of the platform environment. F
 
 .. code-block:: ruby
 
-   its(:exit_status) { should eq 0 }
+   its('exit_status') { should eq 0 }
 
 split -- DONE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1287,19 +1516,19 @@ The ``split`` matcher tests the delimiter between environment variables. For exa
 
 .. code-block:: ruby
 
-   its(:split) { should include ('') }
+   its('split') { should include ('') }
 
 or:
 
 .. code-block:: ruby
 
-   its(:split) { should_not include ('.') }
+   its('split') { should_not include ('.') }
 
 Use ``-1`` to test for cases where there is a trailing colon (``:``), such as ``dir1::dir2:``:
 
 .. code-block:: ruby
 
-   its(:split) { should include ('-1') }
+   its('split') { should include ('-1') }
 
 stderr -- DONE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1307,21 +1536,20 @@ The ``stderr`` matcher tests environment variables after they are output to stde
 
 .. code-block:: ruby
 
-   its(:stderr) { should include('PWD=/root') }
+   its('stderr') { should include('PWD=/root') }
 
 Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test the PATH environment variable**
+**Test the PATH environment variable** 
 
 .. code-block:: ruby
 
    describe os_env('PATH') do |dirs|
-     its(:split) { should_not include('') }
-     its(:split) { should_not include('.') }
+     its('split') { should_not include('') }
+     its('split') { should_not include('.') }
    end
-
 
 
 
@@ -1362,22 +1590,22 @@ The ``version`` matcher tests if the named package version is on the system. For
 
 .. code-block:: ruby
 
-   its(:version) { should eq '1.2.3' }
+   its('version) { should eq '1.2.3' }
 
 Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test if nginx version 1.9.5 is installed**
+**Test if nginx version 1.9.5 is installed** 
 
 .. code-block:: ruby
 
    describe package('nginx') do
      it { should be_installed }
-     its(:version) { should eq 1.9.5 }
+     its('version') { should eq 1.9.5 }
    end
 
-**Test that a package is not installed**
+**Test that a package is not installed** 
 
 .. code-block:: ruby
 
@@ -1385,14 +1613,14 @@ The following examples show how to use this InSpec resource in a test.
      it { should_not be_installed }
    end
 
-**Test if telnet is installed**
+**Test if telnet is installed** 
 
 .. code-block:: ruby
 
    describe package('telnetd') do
      it { should_not be_installed }
    end
-
+   
    describe inetd_conf do
      its('telnet') { should eq nil }
    end
@@ -1405,7 +1633,7 @@ The following examples show how to use this InSpec resource in a test.
      it { should be_installed }
      its('version') { should eq '0.98.7' }
    end
-
+   
    describe service('clamd') do
      it { should_not be_enabled }
      it { should_not be_installed }
@@ -1425,7 +1653,7 @@ A ``parse_config`` InSpec resource block declares the location of the configurat
 .. code-block:: ruby
 
    output = command('some-command').stdout
-
+   
    describe parse_config(output, { data_config_option: value } ) do
      its('setting') { should eq 1 }
    end
@@ -1439,7 +1667,7 @@ or:
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
-
+   
    describe parse_config(audit, options) do
      its('setting') { should eq 1 }
    end
@@ -1553,17 +1781,17 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test the expiration time for new account passwords**
+**Test the expiration time for new account passwords** 
 
 .. code-block:: ruby
 
    output = command('useradd -D').stdout
-
+   
    describe parse_config(output) do
      its('INACTIVE.to_i') { should be >= 35 }
    end
 
-**Test that bob is a user**
+**Test that bob is a user** 
 
 .. code-block:: ruby
 
@@ -1584,7 +1812,7 @@ A ``parse_config_file`` InSpec resource block declares the location of the confi
 .. code-block:: ruby
 
    output = command('some-command').stdout
-
+   
    describe parse_config_file(output, { data_config_option: value } ) do
      its('setting') { should eq 1 }
    end
@@ -1598,7 +1826,7 @@ or:
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
-
+   
    describe parse_config_file(audit, options) do
      its('setting') { should eq 1 }
    end
@@ -1619,7 +1847,7 @@ where each test
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
-
+   
    describe parse_config_file(audit, options) do
      its('setting') { should eq 1 }
    end
@@ -1667,7 +1895,7 @@ Examples -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The following examples show how to use this InSpec resource in a test.
 
-**Test a configuration setting**
+**Test a configuration setting** 
 
 .. code-block:: ruby
 
@@ -1675,7 +1903,7 @@ The following examples show how to use this InSpec resource in a test.
     its('PARAM_X') { should eq 'Y' }
    end
 
-**Use options, and then test a configuration setting**
+**Use options, and then test a configuration setting** 
 
 .. code-block:: ruby
 
@@ -1686,9 +1914,8 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-
 passwd -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``passwd`` InSpec resource to test the contents of ``/etc/passwd``, which contains the following information for users that may log into the system and/or as users that own running processes. The format for ``/etc/passwd`` includes:
 
 * A username
@@ -1706,13 +1933,13 @@ defined as a colon-delimited row in the file, one row per user. For example:
    root:x:1234:5678:additional_info:/home/dir/:/bin/bash
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``passwd`` InSpec resource block declares one (or more) users and associated user information to be tested. For example:
 
 .. code-block:: ruby
 
    describe passwd do
-     its(:matcher) { should eq 0 }
+     its('matcher') { should eq 0 }
    end
 
 where
@@ -1720,7 +1947,7 @@ where
 * ``count``, ``gids``, ``passwords``, ``uid``, ``uids``, ``username``, ``usernames``, and ``users`` are valid matchers for this InSpec resource
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 count -- DONE
@@ -1729,47 +1956,47 @@ The ``count`` matcher tests the number of times the named user appears in ``/etc
 
 .. code-block:: ruby
 
-   its(:count) { should eq 1 }
+   its('count') { should eq 1 }
 
 gids -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``gids`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:gids) { should eq 1234 }
+   its('gids') { should eq 1234 }
 
 passwords -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``passwords`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:passwords) { should eq xxxxx }
+   its('passwords') { should eq xxxxx }
 
 uid -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``uid`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:uid) { should eq xxxxx }
+   its('uid') { should eq xxxxx }
 
 uids -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``uids`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:uids) { should eq 1 }
+   its('uids') { should eq 1 }
 
 username -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``username`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:username) { should eq 'root' }
+   its('username') { should eq 'root' }
 
 usernames -- DONE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1777,46 +2004,46 @@ The ``usernames`` matcher tests if the usernames in the test match the usernames
 
 .. code-block:: ruby
 
-   its(:usernames) { should eq ['root', 'www-data'] }
+   its('usernames') { should eq ['root', 'www-data'] }
 
 users -- ?????
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``users`` matcher tests if xxxxx. For example:
 
 .. code-block:: ruby
 
-   its(:users) { should eq 'root' }
+   its('users') { should eq 'root' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**xxxxx**
+**xxxxx** 
 
 .. code-block:: ruby
 
    describe passwd do
-     its(:usernames) { should eq 'root' }
-     its(:uids) { should eq 1 }
+     its('usernames') { should eq 'root' }
+     its('uids') { should eq 1 }
    end
 
-**xxxxx**
+**xxxxx** 
 
 .. code-block:: ruby
 
    describe passwd.uid(0) do
-     its(:username) { should eq 'root' }
-     its(:count) { should eq 1 }
+     its('username') { should eq 'root' }
+     its('count') { should eq 1 }
    end
 
 
 
 pip -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``pip`` InSpec resource to test packages that are installed using the |pip| installer.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``pip`` InSpec resource block declares a package and (optionally) a package version. For example:
 
 .. code-block:: ruby
@@ -1831,11 +2058,11 @@ where
 * ``be_installed`` tests to see if the ``Jinja2`` package is installed
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_installed -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_installed`` matcher tests if the named package is installed on the system. For example:
 
 .. code-block:: ruby
@@ -1843,18 +2070,18 @@ The ``be_installed`` matcher tests if the named package is installed on the syst
    it { should be_installed }
 
 version -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``version`` matcher tests if the named package version is on the system. For example:
 
 .. code-block:: ruby
 
-   its(:version) { should eq 1.2.3 }
+   its('version') { should eq '1.2.3' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test if Jinja2 is installed on the system**
+**Test if Jinja2 is installed on the system** 
 
 .. code-block:: ruby
 
@@ -1862,39 +2089,40 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_installed }
    end
 
-**Test if Jinja2 2.8 is installed on the system**
+**Test if Jinja2 2.8 is installed on the system** 
 
 .. code-block:: ruby
 
    describe pip('Jinja2') do
      it { should be_installed }
-     its(:version) { should eq '2.8' }
+     its('version') { should eq '2.8' }
    end
+
 
 
 port -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``port`` InSpec resource to test basic port properties, such as port, process, if it's listening.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``port`` InSpec resource block declares a port, and then depending on what needs to be tested, a process, protocol, process identifier, and its state (is it listening?). For example:
 
 .. code-block:: ruby
 
    describe port(514) do
      it { should be_listening }
-     its(:process) {should eq 'syslog'}
+     its('process') {should eq 'syslog'}
    end
 
 where the ``syslog`` process is tested to see if it's listening on port 514.
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_listening -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_listening`` matcher tests if the port is listening for traffic. For example:
 
 .. code-block:: ruby
@@ -1902,7 +2130,7 @@ The ``be_listening`` matcher tests if the port is listening for traffic. For exa
    it { should be_listening }
 
 be_listening.with() -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_listening`` matcher can also test if the port is listening for traffic over a specific protocol or on local binding address. Use ``.with()`` to specify a protocol or local binding address. For example, a protocol:
 
 .. code-block:: ruby
@@ -1918,40 +2146,40 @@ A protocol and a local binding address:
    it { should be_listening.with('tcp', '127.0.0.1:631') }
 
 pid -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``pid`` matcher tests the process identifier (PID). For example:
 
 .. code-block:: ruby
 
-   its(:pid) { should eq '27808' }
+   its('pid') { should eq '27808' }
 
 process -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``process`` matcher tests if the named process is running on the system. For example:
 
 .. code-block:: ruby
 
-   its(:process) { should eq 'syslog' }
+   its('process') { should eq 'syslog' }
 
 protocol -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``protocol`` matcher tests the Internet protocol: |icmp| (``'icmp'``), |tcp| (``'tcp'`` or ``'tcp6'``), or |udp| (``'udp'`` or ``'udp6'``). For example:
 
 .. code-block:: ruby
 
-   its(:protocol) { should eq 'tcp' }
+   its('protocol') { should eq 'tcp' }
 
 or for the |ipv6| protocol:
 
 .. code-block:: ruby
 
-   its(:protocol) { should eq 'tcp6' }
+   its('protocol') { should eq 'tcp6' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test port 80, listening with the TCP protocol**
+**Test port 80, listening with the TCP protocol** 
 
 .. code-block:: ruby
 
@@ -1960,7 +2188,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('protocol') {should eq 'tcp'}
    end
 
-**Test port 80, listening with TCP version IPv6 protocol**
+**Test port 80, listening with TCP version IPv6 protocol** 
 
 .. code-block:: ruby
 
@@ -1969,38 +2197,39 @@ The following examples show how to use this InSpec resource in a recipe.
      its('protocol') {should eq 'tcp6'}
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ports for SSL, then verify ciphers** 
 
 .. code-block:: ruby
 
    describe port(80) do
      it { should_not be_listening }
    end
-
+   
    describe port(443) do
      it { should be_listening }
      its('protocol') {should eq 'tcp'}
    end
-
+   
    describe sshd_conf do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
 
 
-postgres -- NOT AN AUDIT RESOURCE?
-=====================================================
+postgres -- NOT AN InSpec resource?
+-----------------------------------------------------
 TBD
 
 .. This one seems like it's just loading some postgresql information on behalf of the postgres_conf and postgres_session InSpec resources. Right?
 
 
+
 postgres_conf -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``postgres_conf`` InSpec resource to test the contents of the configuration file for |postgresql|, typically located at ``/etc/postgresql/<version>/main/postgresql.conf`` or ``/var/lib/postgres/data/postgresql.conf``, depending on the platform.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``postgres_conf`` InSpec resource block declares one (or more) settings in the ``postgresql.conf`` file, and then compares the setting in the configuration file to the value stated in the test. For example:
 
 .. code-block:: ruby
@@ -2016,11 +2245,11 @@ where
 * ``should eq 'value'`` is the value that is expected
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 setting -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``setting`` matcher tests specific, named settings in the ``postgresql.conf`` file. For example:
 
 .. code-block:: ruby
@@ -2030,10 +2259,10 @@ The ``setting`` matcher tests specific, named settings in the ``postgresql.conf`
 Use a ``setting`` matcher for each setting to be tested.
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test the maximum number of allowed client connections**
+**Test the maximum number of allowed client connections** 
 
 .. code-block:: ruby
 
@@ -2041,7 +2270,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('max_connections') { should eq '5' }
    end
 
-**Test system logging**
+**Test system logging** 
 
 .. code-block:: ruby
 
@@ -2054,7 +2283,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('log_line_prefix') { should eq '%t %u %d %h' }
    end
 
-**Test the port on which PostgreSQL listens**
+**Test the port on which PostgreSQL listens** 
 
 .. code-block:: ruby
 
@@ -2062,7 +2291,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('port') { should eq '5432' }
    end
 
-**Test the Unix socket settings**
+**Test the Unix socket settings** 
 
 .. code-block:: ruby
 
@@ -2077,11 +2306,11 @@ where ``unix_socket_group`` is set to the |postgresql| default setting (the grou
 
 
 postgres_session -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``postgres_session`` InSpec resource to test SQL commands run against a |postgresql| database.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``postgres_session`` InSpec resource block declares the username and password to use for the session, and then the command to be run. For example:
 
 .. code-block:: ruby
@@ -2099,20 +2328,20 @@ where
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 output -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``output`` matcher tests the results of the query. For example:
 
 .. code-block:: ruby
 
-   its(:output) { should eq(/^0/) }
+   its('output') { should eq(/^0/) }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test the PostgreSQL shadow password**
 
@@ -2121,10 +2350,10 @@ The following examples show how to use this InSpec resource in a recipe.
    sql = postgres_session('my_user', 'password')
 
    sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
-     its(:output) { should eq('') }
+     its('output') { should eq('') }
    end
 
-**Test for risky database entries**
+**Test for risky database entries** 
 
 .. code-block:: ruby
 
@@ -2135,17 +2364,18 @@ The following examples show how to use this InSpec resource in a recipe.
                  WHERE lanpltrusted = 'f'
                  AND lanname!='internal'
                  AND lanname!='c';') do
-     its(:output) { should eq(/^0/) }
+     its('output') { should eq(/^0/) }
    end
 
 
 
+
 processes -- DONE
-=====================================================
-Use the ``processes`` InSpec resource to test properties for running programs a system.
+-----------------------------------------------------
+Use the ``processes`` InSpec resource to test properties for programs that are running on the system.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``processes`` InSpec resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs. For example:
 
 .. code-block:: ruby
@@ -2160,11 +2390,11 @@ where
 * Multiple properties may be tested; for each property to be tested, use an ``its('property_name')`` statement
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 property_name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``property_name`` matcher tests the named property for the specified value. For example:
 
 .. code-block:: ruby
@@ -2172,10 +2402,10 @@ The ``property_name`` matcher tests the named property for the specified value. 
    its('property_name') { should eq 'property_value' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test if the list length for the mysqld process is 1**
+**Test if the list length for the mysqld process is 1** 
 
 .. code-block:: ruby
 
@@ -2183,7 +2413,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('list.length') { should eq '1' }
    end
 
-**Test if the init process is owned by the root user**
+**Test if the init process is owned by the root user** 
 
 .. code-block:: ruby
 
@@ -2191,7 +2421,7 @@ The following examples show how to use this InSpec resource in a recipe.
      its('user') { should eq 'root' }
    end
 
-**Test if a high-priority process is running**
+**Test if a high-priority process is running** 
 
 .. code-block:: ruby
 
@@ -2201,11 +2431,11 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 registry_key -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``registry_key`` InSpec resource to test key values in the |windows| registry.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``registry_key`` InSpec resource block declares the item in the |windows| registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested. For example:
 
 .. code-block:: ruby
@@ -2221,11 +2451,11 @@ where
 * ``('name')`` and ``'value'`` represent the name of the key and the value assigned to that key
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value for the specified registry setting. For example:
 
 .. code-block:: ruby
@@ -2233,10 +2463,10 @@ The ``name`` matcher tests the value for the specified registry setting. For exa
    its('name') { should eq 'value' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test the start time for the Schedule service**
+**Test the start time for the Schedule service** 
 
 .. code-block:: ruby
 
@@ -2248,13 +2478,13 @@ where ``'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'`` is the
 
 
 script -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``script`` InSpec resource to test a |powershell| script on the |windows| platform.
 
 .. this one is a bit of a wild guess.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``script`` InSpec resource block declares xxxxx. For example:
 
 .. code-block:: ruby
@@ -2263,20 +2493,20 @@ A ``script`` InSpec resource block declares xxxxx. For example:
      its('script_name') { should include 'total_wild_guess' }
    end
 
-..
+.. 
 .. where
-..
+.. 
 .. * ``xxxxx`` must specify xxxxx
 .. * xxxxx
 .. * ``xxxxx`` is a valid matcher for this InSpec resource
-..
+.. 
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 script_name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``script_name`` matcher tests the named script against the value specified by the test. For example:
 
 .. code-block:: ruby
@@ -2284,12 +2514,12 @@ The ``script_name`` matcher tests the named script against the value specified b
    its('script_name') { should include 'total_wild_guess' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 .. stoopid test below; probably need a better one
 
-**Test that user Grantmc belongs to the Active Directory object**
+**Test that user Grantmc belongs to the Active Directory object** 
 
 .. code-block:: ruby
 
@@ -2297,19 +2527,15 @@ The following examples show how to use this InSpec resource in a recipe.
      its('ADObject') { should include 'Get-ADPermission -Identity Grantmc' }
    end
 
-..
-.. **xxxxx**
-..
-.. xxxxx
-..
+
 
 
 security_policy -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``security_policy`` InSpec resource to test security policies on the |windows| platform.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``security_policy`` InSpec resource block declares the name of a security policy and the value to be tested. For example:
 
 .. code-block:: ruby
@@ -2324,11 +2550,11 @@ where
 * ``{ should eq 'value' }`` tests the value of ``policy_name`` against the value declared in the test
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 policy_name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``policy_name`` matcher must be the name of a security policy. For example:
 
 .. code-block:: ruby
@@ -2336,8 +2562,8 @@ The ``policy_name`` matcher must be the name of a security policy. For example:
    its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Verify that only the Administrators group has remote access**
 
@@ -2349,11 +2575,11 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 service -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``service`` InSpec resource to test if the named service is installed, running and/or enabled.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``service`` InSpec resource block declares the name of a service and then one (or more) matchers to test the state of the service. For example:
 
 .. code-block:: ruby
@@ -2369,13 +2595,12 @@ where
 * ``('service_name')`` must specify a service name
 * ``be_installed``, ``be_enabled``, and ``be_running`` are valid matchers for this InSpec resource
 
-
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_enabled -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_enabled`` matcher tests if the named service is enabled. For example:
 
 .. code-block:: ruby
@@ -2383,7 +2608,7 @@ The ``be_enabled`` matcher tests if the named service is enabled. For example:
    it { should be_enabled }
 
 be_installed -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_installed`` matcher tests if the named service is installed. For example:
 
 .. code-block:: ruby
@@ -2391,7 +2616,7 @@ The ``be_installed`` matcher tests if the named service is installed. For exampl
    it { should be_installed }
 
 be_running -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_running`` matcher tests if the named service is running. For example:
 
 .. code-block:: ruby
@@ -2399,10 +2624,10 @@ The ``be_running`` matcher tests if the named service is running. For example:
    it { should be_running }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test if the postgresql service is both running and enabled**
+**Test if the postgresql service is both running and enabled** 
 
 .. code-block:: ruby
 
@@ -2411,7 +2636,7 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_running }
    end
 
-**Test if the mysql service is both running and enabled**
+**Test if the mysql service is both running and enabled** 
 
 .. code-block:: ruby
 
@@ -2428,7 +2653,7 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should be_installed }
      its('version') { should eq '0.98.7' }
    end
-
+   
    describe service('clamd') do
      it { should_not be_enabled }
      it { should_not be_installed }
@@ -2437,11 +2662,11 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 ssh_config -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``ssh_config`` InSpec resource to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``ssh_config`` InSpec resource block declares the client |openssh| configuration data to be tested. For example:
 
 .. code-block:: ruby
@@ -2454,14 +2679,14 @@ where
 
 * ``name`` is a configuration setting in ``ssh_config``
 * ``('path')`` is the non-default ``/path/to/ssh_config``
-* ``{ should include('foo') }`` tests the value of ``name`` as read from ``ssh_config`` versus the value declared in the test
+* ``{ should include('foo') }`` tests the value of ``name`` as read from ``ssh_config`` versus the value declared in the test 
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value of ``name`` as read from ``ssh_config`` versus the value declared in the test. For example:
 
 .. code-block:: ruby
@@ -2475,8 +2700,8 @@ or:
    it's('name') { should include('bar') }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test SSH configuration settings**
 
@@ -2493,7 +2718,7 @@ The following examples show how to use this InSpec resource in a recipe.
 .. code-block:: ruby
 
    return unless command('ssh').exist?
-
+   
    describe ssh_config do
      its('SendEnv') { should include('GORDON_CLIENT') }
    end
@@ -2507,13 +2732,24 @@ The following examples show how to use this InSpec resource in a recipe.
     its('mode') { should eq 644 }
   end
 
+**Test SSH configuration**
+
+.. code-block:: ruby
+
+  describe ssh_config do
+    its('Host') { should eq '*' }
+    its('Tunnel') { should eq nil }
+    its('SendEnv') { should eq 'LANG LC_*' }
+    its('HashKnownHosts') { should eq 'yes' }
+  end
+
 
 sshd_config -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``sshd_config`` InSpec resource to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``sshd_config`` InSpec resource block declares the client |openssh| configuration data to be tested. For example:
 
 .. code-block:: ruby
@@ -2526,14 +2762,14 @@ where
 
 * ``name`` is a configuration setting in ``sshd_config``
 * ``('path')`` is the non-default ``/path/to/sshd_config``
-* ``{ should include('foo') }`` tests the value of ``name`` as read from ``sshd_config`` versus the value declared in the test
+* ``{ should include('foo') }`` tests the value of ``name`` as read from ``sshd_config`` versus the value declared in the test 
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value of ``name`` as read from ``sshd_config`` versus the value declared in the test. For example:
 
 .. code-block:: ruby
@@ -2547,15 +2783,15 @@ or:
    it's('name') {should include('bar') }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test which variables may be sent to the server**
 
 .. code-block:: ruby
 
    return unless command('sshd').exist?
-
+   
    describe sshd_config do
      its('AcceptEnv') { should include('GORDON_SERVER') }
    end
@@ -2565,7 +2801,7 @@ The following examples show how to use this InSpec resource in a recipe.
 .. code-block:: ruby
 
    return unless command('sshd').exist?
-
+   
    describe sshd_config do
      its('AddressFamily') { should eq 'inet6' }
    end
@@ -2578,30 +2814,45 @@ The following examples show how to use this InSpec resource in a recipe.
      its('Protocol') { should eq '2' }
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ports for SSL, then verify ciphers** 
 
 .. code-block:: ruby
 
    describe port(80) do
      it { should_not be_listening }
    end
-
+   
    describe port(443) do
      it { should be_listening }
      its('protocol') {should eq 'tcp'}
    end
-
+   
    describe sshd_conf do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
+**Test SSH protocols**
+
+.. code-block:: ruby
+
+  describe sshd_config do
+    its('Port') { should eq '22' }
+    its('UsePAM') { should eq 'yes' }
+    its('ListenAddress') { should eq nil }
+    its('HostKey') { should eq [
+        '/etc/ssh/ssh_host_rsa_key',
+        '/etc/ssh/ssh_host_dsa_key',
+        '/etc/ssh/ssh_host_ecdsa_key',
+      ] }
+  end
+
 
 user -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``user`` InSpec resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``user`` InSpec resource block declares a user name, and then one (or more) matchers. For example:
 
 .. code-block:: ruby
@@ -2626,11 +2877,11 @@ where
 * ``gid``, ``group``, ``groups``, ``home``, ``maxdays``, ``mindays``, ``shell``, ``uid``, and ``warndays`` are valid matchers for this InSpec resource
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 exist -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``exist`` matcher tests if the named user exists. For example:
 
 .. code-block:: ruby
@@ -2638,7 +2889,7 @@ The ``exist`` matcher tests if the named user exists. For example:
    it { should exist }
 
 gid -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``gid`` matcher tests the group identifier. For example:
 
 .. code-block:: ruby
@@ -2648,7 +2899,7 @@ The ``gid`` matcher tests the group identifier. For example:
 where ``1234`` represents the user identifier.
 
 group -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``group`` matcher tests the group to which the user belongs. For example:
 
 .. code-block:: ruby
@@ -2658,7 +2909,7 @@ The ``group`` matcher tests the group to which the user belongs. For example:
 where ``root`` represents the group.
 
 groups -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``groups`` matcher tests two (or more) groups to which the user belongs. For example:
 
 .. code-block:: ruby
@@ -2666,7 +2917,7 @@ The ``groups`` matcher tests two (or more) groups to which the user belongs. For
    its('groups') { should eq ['root', 'other']}
 
 home -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``home`` matcher tests the home directory path for the user. For example:
 
 .. code-block:: ruby
@@ -2674,7 +2925,7 @@ The ``home`` matcher tests the home directory path for the user. For example:
    its('home') { should eq '/root' }
 
 maxdays -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``maxdays`` matcher tests the maximum number of days between password changes. For example:
 
 .. code-block:: ruby
@@ -2684,7 +2935,7 @@ The ``maxdays`` matcher tests the maximum number of days between password change
 where ``99`` represents the maximum number of days.
 
 mindays -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``mindays`` matcher tests the minimum number of days between password changes. For example:
 
 .. code-block:: ruby
@@ -2694,7 +2945,7 @@ The ``mindays`` matcher tests the minimum number of days between password change
 where ``0`` represents the maximum number of days.
 
 shell -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``shell`` matcher tests the path to the default shell for the user. For example:
 
 .. code-block:: ruby
@@ -2702,7 +2953,7 @@ The ``shell`` matcher tests the path to the default shell for the user. For exam
    its('shell') { should eq '/bin/bash' }
 
 uid -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``uid`` matcher tests the user identifier. For example:
 
 .. code-block:: ruby
@@ -2712,7 +2963,7 @@ The ``uid`` matcher tests the user identifier. For example:
 where ``1234`` represents the user identifier.
 
 warndays -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``warndays`` matcher tests the number of days a user is warned before a password must be changed. For example:
 
 .. code-block:: ruby
@@ -2722,8 +2973,8 @@ The ``warndays`` matcher tests the number of days a user is warned before a pass
 where ``5`` represents the number of days a user is warned.
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Verify available users for the MySQL server**
 
@@ -2735,14 +2986,14 @@ The following examples show how to use this InSpec resource in a recipe.
      its('uid') { should eq 0 }
      its('groups') { should eq ['root'] }
    end
-
+   
    describe user('mysql') do
     it { should_not exist }
    end
 
 
 windows_feature -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``windows_feature`` InSpec resource to test features on |windows|. The ``Get-WindowsFeature`` cmdlet returns the following values: ``Property Name``, ``DisplayName``, ``Description``, ``Installed``, and ``InstallState``, returned as a |json| object similar to:
 
 .. code-block:: javascript
@@ -2756,7 +3007,7 @@ Use the ``windows_feature`` InSpec resource to test features on |windows|. The `
    }
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``windows_feature`` InSpec resource block declares the name of the |windows| feature, tests if that feature is installed, and then returns information about that feature. For example:
 
 .. code-block:: ruby
@@ -2771,11 +3022,11 @@ where
 * ``be_installed`` is a valid matcher for this InSpec resource
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_installed -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_installed`` matcher tests if the named |windows| feature is installed. For example:
 
 .. code-block:: ruby
@@ -2785,10 +3036,10 @@ The ``be_installed`` matcher tests if the named |windows| feature is installed. 
 If the feature is installed, the ``Get-WindowsFeature`` cmdlet is run and the name, display name, description, and install state is returned as a |json| object.
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
-**Test the DHCP Server feature **
+**Test the DHCP Server feature**
 
 .. code-block:: ruby
 
@@ -2798,11 +3049,11 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 yaml -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``yaml`` InSpec resource to test configuration data in a |yaml| file.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``yaml`` InSpec resource block declares the configuration data to be tested. For example:
 
 .. code-block:: ruby
@@ -2817,11 +3068,11 @@ where
 * ``should eq 'foo'`` tests a value of ``name`` as read from a |yaml| file versus the value declared in the test
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 name -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``name`` matcher tests the value of ``name`` as read from a |yaml| file versus the value declared in the test. For example:
 
 .. code-block:: ruby
@@ -2829,8 +3080,8 @@ The ``name`` matcher tests the value of ``name`` as read from a |yaml| file vers
    its('name') { should eq 'foo' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test a kitchen.yml file driver**
 
@@ -2843,11 +3094,11 @@ The following examples show how to use this InSpec resource in a recipe.
 
 
 yum -- DONE
-=====================================================
+-----------------------------------------------------
 Use the ``yum`` InSpec resource to test packages in the |yum| repository.
 
 Syntax -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 A ``yum`` InSpec resource block declares a package repo, tests if the package repository is present, and if it that package repository is a valid package source (i.e. "is enabled"). For example:
 
 .. code-block:: ruby
@@ -2862,11 +3113,11 @@ where
 * ``repo('name')`` is the (optional) name of a package repo, using either a full identifier (``'updates/7/x86_64'``) or a short identifier (``'updates'``)
 
 Matchers -- DONE
------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 This InSpec resource has the following matchers.
 
 be_enabled -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``be_enabled`` matcher tests if the package repository is a valid package source. For example:
 
 .. code-block:: ruby
@@ -2874,7 +3125,7 @@ The ``be_enabled`` matcher tests if the package repository is a valid package so
    it { should be_enabled }
 
 exist -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``exist`` matcher tests if the package repository exists. For example:
 
 .. code-block:: ruby
@@ -2882,7 +3133,7 @@ The ``exist`` matcher tests if the package repository exists. For example:
    it { should exist }
 
 repo('name') -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``repo('name')`` matcher names a specific package repository. For example:
 
 .. code-block:: ruby
@@ -2892,7 +3143,7 @@ The ``repo('name')`` matcher names a specific package repository. For example:
    end
 
 repos -- DONE
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``repos`` matcher tests if a named repo, using either a full identifier (``'updates/7/x86_64'``) or a short identifier (``'updates'``), is included in the |yum| repo:
 
 .. code-block:: ruby
@@ -2900,8 +3151,8 @@ The ``repos`` matcher tests if a named repo, using either a full identifier (``'
    its('repos') { should include 'some_repo' }
 
 Examples -- DONE
------------------------------------------------------
-The following examples show how to use this InSpec resource in a recipe.
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The following examples show how to use this InSpec resource in a test.
 
 **Test if the yum repo exists**
 
@@ -2929,3 +3180,4 @@ The following examples show how to use this InSpec resource in a recipe.
      it { should exist }
      it { should be_enabled }
    end
+
