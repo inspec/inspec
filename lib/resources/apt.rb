@@ -5,13 +5,13 @@
 # Verifies apt and ppa repositories
 #
 # Usage:
-# describe ppa('ubuntu-wine/ppa') do
+# describe apt('ubuntu-wine/ppa') do
 #   it { should exist }
 #   it { should be_enabled }
 # end
 #
 # it also understands a ppa url
-# describe ppa('ppa:ubuntu-wine/ppa') do
+# describe apt('ppa:ubuntu-wine/ppa') do
 #   it { should exist }
 #   it { should be_enabled }
 # end
