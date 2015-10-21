@@ -1,0 +1,22 @@
+{
+  "version": "2",
+  "build_cookbook": {
+    "name": "build-cookbook",
+    "path": ".delivery/build-cookbook"
+  },
+  "delivery-truck": {
+    "publish": {
+      "github": "chef/train"
+    }
+  },
+  "skip_phases": [
+    "syntax",
+    "security",
+    "quality",
+    "smoke",
+    "deploy"
+	],
+  "build_nodes": {
+    "unit": ["name:builder*-7.delivery.chef.co"]
+  }
+}
