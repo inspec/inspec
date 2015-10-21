@@ -56,7 +56,7 @@ class User < Vulcano.resource(1)
     when 'freebsd'
       @user_provider = FreeBSDUser.new(vulcano)
     else
-      return skip_resource 'The `package` resource is not supported on your OS yet.'
+      return skip_resource 'The `user` resource is not supported on your OS yet.'
     end
   end
 
