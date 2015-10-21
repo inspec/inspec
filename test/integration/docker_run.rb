@@ -109,9 +109,9 @@ class DockerRunner
 
     fail "Can't find nor pull docker image #{name}" if image.nil?
 
-    image, scripts = bootstrap_image(name, image)
-
     @docker_run_tickets.acquire(1)
+
+    image, scripts = bootstrap_image(name, image)
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
