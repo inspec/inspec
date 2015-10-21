@@ -4,6 +4,12 @@
 
 require 'resources/file'
 
+# Usage:
+# describe bond('bond0') do
+#   it { should exist }
+#   it { should have_interface 'eth0' }
+# end
+
 module Vulcano::Resources
   class Bond < File
     name 'bond'
