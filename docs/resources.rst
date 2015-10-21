@@ -608,11 +608,67 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-group
+group -- DONE
 =====================================================
-Use the ``group`` InSpec resource to xxxxx.
+Use the ``group`` InSpec resource to test groups on the system.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``group`` InSpec resource block declares a group, and then the details to be tested, such as if the group is a local group, the group identifier, or if the group exists. For example:
+
+.. code-block:: ruby
+
+   describe group('group_name') do
+     it { should exist }
+     its('gid') { should eq 0 }
+   end
+
+where
+
+* ``'group_name'`` must specify the name of a group on the system
+* ``exist`` and ``'gid'`` are valid matchers for this InSpec resource
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+be_local -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_local`` matcher tests if the group is a local group. For example:
+
+.. code-block:: ruby
+
+   it { should be_local }
+
+exist -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if the named user exists. For example:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+gid -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``gid`` matcher tests the named group identifier. For example:
+
+.. code-block:: ruby
+
+   its('gid') { should eq 1234 }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test the group identifier for the root group** 
+
+.. code-block:: ruby
+
+   describe group('root') do
+     it { should exist }
+     its('gid') { should eq 0 }
+   end
+
 
 
 
