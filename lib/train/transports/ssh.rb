@@ -37,6 +37,9 @@ module Train::Transports
 
     autoload :Connection, 'train/transports/ssh_connection'
 
+    # add options for submodules
+    include_options Train::Extras::CommandWrapper
+
     # common target configuration
     option :host,      required: true
     option :port,      default: 22, required: true
@@ -126,6 +129,7 @@ module Train::Transports
         keys:                   opts[:key_files],
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
+        transport_options:      opts,
       }
     end
 

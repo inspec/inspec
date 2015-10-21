@@ -12,9 +12,9 @@ puts ['Running tests:', tests].flatten.join("\n- ")
 puts ''
 
 backends = {}
-backends[:docker] = proc {
+backends[:docker] = proc { |*args|
   opt = Train.target_config({ host: container_id })
-  Train.create('docker', opt).connection
+  Train.create('docker', opt).connection(args[0])
 }
 
 backends.each do |type, get_backend|

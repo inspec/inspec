@@ -56,6 +56,26 @@ execute 'test ssh connection' do
   command 'ssh -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa vagrant@localhost "echo 1"'
 end
 
+# prepare a few users
+%w{ nopasswd passwd nosudo }.each do |name|
+  user name do
+    password '$1$7MCNTXPI$r./jqCEoVlLlByYKSL3sZ.'
+    manage_home true
+  end
+end
+
+%w{nopasswd vagrant}.each do |name|
+  sudo name do
+    user '%'+name
+    nopasswd true
+  end
+end
+
+sudo 'passwd' do
+  user 'passwd'
+  nopasswd false
+end
+
 # execute tests
 execute 'bundle install' do
   command '/opt/chef/embedded/bin/bundle install'
@@ -70,4 +90,12 @@ end
 execute 'run ssh tests' do
   command '/opt/chef/embedded/bin/ruby -I lib test/integration/test_ssh.rb test/integration/tests/*_test.rb'
   cwd '/tmp/kitchen/data'
+end
+
+%w{passwd nopasswd}.each do |name|
+  execute "run local sudo tests as #{name}" do
+    command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/#{name}.rb"
+    cwd '/tmp/kitchen/data'
+    user name
+  end
 end

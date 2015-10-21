@@ -35,5 +35,9 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[sudo]
       - recipe[test]
     attributes:
+      authorization:
+        sudo:
+          include_sudoers_d: true

@@ -39,6 +39,9 @@ class Train::Transports::SSH
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
       @files                  = {}
       @session                = nil
+      @transport_options      = @options.delete(:transport_options)
+      @cmd_wrapper            = nil
+      @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
     # (see Base::Connection#close)
@@ -66,6 +69,9 @@ class Train::Transports::SSH
       logger.debug("[SSH] #{self} (#{cmd})")
 
       session.open_channel do |channel|
+        # wrap commands if that is configured
+        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+
         channel.exec(cmd) do |_, success|
           abort 'Couldn\'t execute command on SSH.' unless success
 
