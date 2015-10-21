@@ -55,9 +55,9 @@ class Service < Vulcano.resource(1)
       else
         @service_mgmt = SysV.new(vulcano)
       end
-    when 'redhat', 'fedora'
+    when 'redhat', 'fedora', 'centos'
       version = vulcano.os[:release].to_i
-      if (family == 'redhat' && version >= 7) || (family == 'fedora' && version >= 15)
+      if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
