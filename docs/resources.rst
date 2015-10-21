@@ -688,7 +688,7 @@ A ``group_policy`` InSpec resource block declares the path to the policy. For ex
 
 where
 
-* ``'Path\to\Policy'`` must specify a group policy, i.e. ``'Local Policies\Audit Policy'`` or ``'Local Policies\Security Options'``
+* ``'Path\to\Policy'`` must specify a group policy, such as ``'Local Policies\Audit Policy'`` or ``'Local Policies\Security Options'``
 * ``'setting'`` is the group policy setting to be tested
 * ``'value'`` is compared to the value on the group policy
 
