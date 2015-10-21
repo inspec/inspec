@@ -4,3 +4,4 @@ coverage
 .gallery
 .kitchen
 .delivery/cli.toml
+Berksfile.lock
