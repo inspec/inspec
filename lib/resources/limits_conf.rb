@@ -17,6 +17,7 @@ class LimitsConf < Inspec.resource(1)
 
   def initialize(path = nil)
     @conf_path = path || '/etc/security/limits.conf'
+    return skip_resource 'The `limits_conf` resource is not supported on your OS yet.' if !inspec.os.linux?
   end
 
   def method_missing(name)

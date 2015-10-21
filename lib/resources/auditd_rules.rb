@@ -16,6 +16,7 @@ class AuditDaemonRules < Inspec.resource(1)
   name 'auditd_rules'
 
   def initialize
+    return skip_resource 'The `audit_daemon_rules` resource is not supported on your OS yet.' if !inspec.os.linux?
     @content = inspec.command('/sbin/auditctl -l').stdout.chomp
 
     @opts = {
@@ -29,7 +30,7 @@ class AuditDaemonRules < Inspec.resource(1)
   end
 
   def method_missing(name)
-    params[name.to_s]
+    params.nil? ? nil : params[name.to_s]
   end
 
   def status(name)

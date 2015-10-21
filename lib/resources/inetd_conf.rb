@@ -19,6 +19,7 @@ class InetdConf < Inspec.resource(1)
 
   def initialize(path = nil)
     @conf_path = path || '/etc/inetd.conf'
+    return skip_resource 'The `audit_daemon_conf` resource is not supported on your OS yet.' if !inspec.os.linux?
   end
 
   def method_missing(name)

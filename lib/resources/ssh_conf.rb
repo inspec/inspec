@@ -13,6 +13,9 @@ class SshConf < Inspec.resource(1)
     @conf_path = conf_path || '/etc/ssh/ssh_config'
     typename = (@conf_path.include?('sshd') ? 'Server' : 'Client')
     @type = type || "SSH #{typename} configuration #{conf_path}"
+
+    # verify that this resource is only supported on unix
+    return skip_resource 'The `registry_key` resource is not supported on your OS.' if !inspec.os.unix?
   end
 
   def content

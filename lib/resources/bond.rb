@@ -17,22 +17,11 @@ module Inspec::Resources
     def initialize(bond)
       @bond = bond
       @path = "/proc/net/bonding/#{bond}"
-      @file = inspec.file(@path)
       @content = nil
       @params = {}
       @loaded = false
-    end
-
-    def read_content
-      # parse the file
-      @content = @file.content
-      @params = SimpleConfig.new(
-        @file.content,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: true,
-      ).params if @file.exist?
-      @loaded = true
-      @content
+      return skip_resource 'The `bond` resource is not supported on your OS yet.' if !inspec.os.linux?
+      @file = inspec.file(@path)
     end
 
     # ensures the content is loaded before we return the params
@@ -60,6 +49,20 @@ module Inspec::Resources
 
     def to_s
       "Bond #{@bond}"
+    end
+
+    private
+
+    def read_content
+      # parse the file
+      @content = @file.content
+      @params = SimpleConfig.new(
+        @file.content,
+        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        multiple_values: true,
+      ).params if @file.exist?
+      @loaded = true
+      @content
     end
   end
 end

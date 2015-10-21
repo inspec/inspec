@@ -9,6 +9,7 @@ class Processes < Inspec.resource(1)
 
   attr_reader :list
   def initialize(grep)
+    return skip_resource 'The `processes` resource is not supported on your OS yet.' if !inspec.os.linux?
     # turn into a regexp if it isn't one yet
     if grep.class == String
       grep = '(/[^/]*)*'+grep if grep[0] != '/'
