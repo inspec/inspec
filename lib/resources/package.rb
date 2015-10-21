@@ -21,7 +21,7 @@ class Package < Vulcano.resource(1)
     case vulcano.os[:family]
     when 'ubuntu', 'debian'
       @pkgman = Deb.new(vulcano)
-    when 'redhat', 'fedora'
+    when 'redhat', 'fedora', 'centos'
       @pkgman = Rpm.new(vulcano)
     when 'arch'
       @pkgman = Pacman.new(vulcano)
