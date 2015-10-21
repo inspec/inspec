@@ -23,6 +23,7 @@ class LoginDef < Vulcano.resource(1)
 
   def initialize(path = nil)
     @conf_path = path || '/etc/login.defs'
+    return skip_resource 'The `login_defs` resource is not supported on your OS yet.' if !vulcano.os.linux?
   end
 
   def method_missing(name)

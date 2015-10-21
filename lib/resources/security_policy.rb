@@ -20,6 +20,9 @@ class SecurityPolicy < Vulcano.resource(1)
     @loaded = false
     @policy = nil
     @exit_status = nil
+
+    # verify that this resource is only supported on Windows
+    return skip_resource 'The `registry_key` resource is not supported on your OS.' if !vulcano.os.windows?
   end
 
   # load security content

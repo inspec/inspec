@@ -18,6 +18,11 @@ end
 class GroupPolicy < Vulcano.resource(1)
   name 'group_policy'
 
+  def initialize
+    # verify that this resource is only supported on Windows
+    return skip_resource 'The `group_policy` resource is not supported on your OS.' if !vulcano.os.windows?
+  end
+
   def get_registry_value(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"

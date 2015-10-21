@@ -20,6 +20,9 @@ class RegistryKey < Vulcano.resource(1)
     reg_key ||= name
     @name = name
     @reg_key = reg_key
+
+    # verify that this resource is only supported on Windows
+    return skip_resource 'The `registry_key` resource is not supported on your OS.' if !vulcano.os.windows?
   end
 
   def registry_value(path, key)

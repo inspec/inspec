@@ -37,6 +37,7 @@ class Passwd < Vulcano.resource(1)
 
   def initialize(path = nil)
     @path = path || '/etc/passwd'
+    return skip_resource 'The `passwd` resource is not supported on your OS yet.' if !vulcano.os.unix?
     @content = vulcano.file(@path).content
     @parsed = parse_passwd(@content)
   end

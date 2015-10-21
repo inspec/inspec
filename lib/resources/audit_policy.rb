@@ -33,6 +33,11 @@
 class AuditPolicy < Vulcano.resource(1)
   name 'audit_policy'
 
+  def initialize
+    # verify that this resource is only supported on Windows
+    return skip_resource 'The `audit_policy` resource is not supported on your OS.' if !vulcano.os.windows?
+  end
+
   def method_missing(method)
     key = method.to_s
 
