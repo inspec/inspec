@@ -672,19 +672,51 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-group_policy
+group_policy -- DONE
 =====================================================
-Use the ``group_policy`` InSpec resource to xxxxx.
+Use the ``group_policy`` InSpec resource to test group policy on the |windows| platform. This resource uses the ``Get-Item`` cmdlet to return all of the policy keys and related values.
 
-IN_PROGRESS
-
-Test Microsoft Windows Group Policies:
+Syntax -- DONE
+-----------------------------------------------------
+A ``group_policy`` InSpec resource block declares the path to the policy. For example:
 
 .. code-block:: ruby
 
-  describe group_policy('Local Policies\Security Options') do
-    its('Network access: Restrict anonymous access to Named Pipes and Shares') { should eq 1 }
-  end
+   describe group_policy('Path\to\Policy') do
+     its('setting') { should eq 'value' }
+   end
+
+where
+
+* ``'Path\to\Policy'`` must specify a group policy, i.e. ``'Local Policies\Audit Policy'`` or ``'Local Policies\Security Options'``
+* ``'setting'`` is the group policy setting to be tested
+* ``'value'`` is compared to the value on the group policy
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+setting -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``setting`` matcher tests specific, named settings in the group policy. For example:
+
+.. code-block:: ruby
+
+   its('setting') { should eq 'value' }
+
+Use a ``setting`` matcher for each setting to be tested.
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test if users are logged off after the logon time expires** 
+
+.. code-block:: ruby
+
+   describe group_policy('Local Policies\Security Options') do
+     its('Automatically log off users when the logon time expires') { should eq 'Enabled' }
+   end
 
 
 
