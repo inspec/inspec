@@ -55,9 +55,9 @@ class Service < Vulcano.resource(1)
       else
         @service_mgmt = SysV.new(vulcano)
       end
-    when 'redhat', 'fedora'
+    when 'redhat', 'fedora', 'centos'
       version = vulcano.os[:release].to_i
-      if (family == 'redhat' && version >= 7) || (family == 'fedora' && version >= 15)
+      if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
         @service_mgmt = Systemd.new(vulcano)
       else
         @service_mgmt = SysV.new(vulcano)
@@ -83,18 +83,19 @@ class Service < Vulcano.resource(1)
 
   # verifies the service is enabled
   def enabled?(_level = nil)
-    return nil if info.nil?
+    return false if info.nil?
     info[:enabled]
   end
 
   # verifies the service is registered
   def installed?(_name = nil, _version = nil)
-    !info.nil?
+    return false if info.nil?
+    info[:installed]
   end
 
   # verifies the service is currently running
   def running?(_under = nil)
-    return nil if info.nil?
+    return false if info.nil?
     info[:running]
   end
 

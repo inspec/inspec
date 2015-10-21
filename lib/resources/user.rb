@@ -47,7 +47,7 @@ class User < Vulcano.resource(1)
     # select package manager
     @user_provider = nil
     case vulcano.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
+    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch'
       @user_provider = LinuxUser.new(vulcano)
     when 'windows'
       @user_provider = WindowsUser.new(vulcano)
@@ -56,7 +56,7 @@ class User < Vulcano.resource(1)
     when 'freebsd'
       @user_provider = FreeBSDUser.new(vulcano)
     else
-      return skip_resource 'The `package` resource is not supported on your OS yet.'
+      return skip_resource 'The `user` resource is not supported on your OS yet.'
     end
   end
 
