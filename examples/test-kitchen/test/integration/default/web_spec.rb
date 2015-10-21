@@ -20,11 +20,8 @@ rule '01' do
 end
 
 # implement os dependent tests
-if ['ubuntu'].include?(os[:family])
-  web_user = 'www-data'
-elsif ['centos'].include?(os[:family])
-  web_user = 'nginx'
-end
+web_user = 'www-data'
+web_user = 'nginx' if os[:family] == 'centos'
 
 describe user(web_user) do
   it { should exist }
