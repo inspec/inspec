@@ -1,3 +1,25 @@
+# Changelog
+
+## 0.8.0
+
+* #105 add to_s methods to resources, fixes #98
+* #106 Improve unit tests
+* #110 make default rake tasks test+lint
+* #111 Train
+* #112 take care of ruby warnings
+* #115 Fixes
+* #116 test: group resource tests
+* #117 Add support for `expect`
+* #119 delivery: select build node on new fqdn
+* #118 add first round of audit resource docs
+* #122 move markdown docs to rst
+* #114 simplify yum implementation
+* #123 add resources, sync matcher patterns
+* #124 fix the header structure
+* #126 add test-kitchen example
+* #127 add more usage headers
+* #128 more CentOS support
+
 ## 0.7.0
 
 * complete rewrite of execution backend for ssh and docker
