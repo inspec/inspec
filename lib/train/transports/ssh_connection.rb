@@ -41,7 +41,7 @@ class Train::Transports::SSH
       @session                = nil
       @transport_options      = @options.delete(:transport_options)
       @cmd_wrapper            = nil
-      @cmd_wrapper            = CommandWrapper.load(self, @options)
+      @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
     # (see Base::Connection#close)
