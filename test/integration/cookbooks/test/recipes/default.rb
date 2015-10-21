@@ -73,7 +73,7 @@ end
 
 sudo 'passwd' do
   user 'passwd'
-	nopasswd false
+  nopasswd false
 end
 
 # execute tests
