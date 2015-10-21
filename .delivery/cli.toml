@@ -1,0 +1,7 @@
+api_protocol = "https"
+enterprise = "chef"
+git_port = "8989"
+organization = "audit"
+pipeline = "master"
+server = "delivery.chef.co"
+user = "drichter"

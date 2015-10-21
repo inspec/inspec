@@ -7,8 +7,7 @@ require 'concurrent'
 
 class DockerRunner
   def initialize(conf_path = nil)
-    @conf_path = conf_path ||
-                 ENV['config']
+    @conf_path = conf_path || ENV['config']
     unless File.file?(@conf_path)
       fail "Can't find configuration in #{@conf_path}"
     end
@@ -63,6 +62,7 @@ class DockerRunner
   end
 
   def provision_image(image, prov, files)
+    tries ||= 3
     return image if prov['script'].nil?
     path = File.join(File.dirname(@conf_path), prov['script'])
     unless File.file?(path)
@@ -73,6 +73,8 @@ class DockerRunner
     dst = "/bootstrap#{files.length}.sh"
     files.push(dst)
     image.insert_local('localPath' => path, 'outputPath' => dst)
+  rescue StandardError => _
+    retry unless (tries -= 1).zero?
   end
 
   def bootstrap_image(name, image)
@@ -109,9 +111,9 @@ class DockerRunner
 
     fail "Can't find nor pull docker image #{name}" if image.nil?
 
-    image, scripts = bootstrap_image(name, image)
-
     @docker_run_tickets.acquire(1)
+
+    image, scripts = bootstrap_image(name, image)
 
     puts "--> start docker #{name}"
     container = Docker::Container.create(
