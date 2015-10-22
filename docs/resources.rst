@@ -539,11 +539,561 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-file
+file -- DONE
 =====================================================
-Use the ``file`` InSpec resource to xxxxx.
+Use the ``file`` InSpec resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``file`` InSpec resource block declares the location of the file type to be tested, what type that file should be (if required), and then one (or more) matchers. For example:
+
+.. code-block:: ruby
+
+   describe file('path') do
+     it { should MATCHER 'value' }
+   end
+
+where
+
+* ``('path')`` is the name of the file and/or the path to the file
+* ``MATCHER`` is a valid matcher for this InSpec resource
+* ``'value'`` is the value to be tested
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+be_block_device -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_block_device`` matcher tests if the file exists as a block device, such as ``/dev/disk0`` or ``/dev/disk0s9``. For example:
+
+.. code-block:: ruby
+
+   it { should be_block_device }
+
+be_character_device -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_character_device`` matcher tests if the file exists as a character device (that corresponds to a block device), such as ``/dev/rdisk0`` or ``/dev/rdisk0s9``. For example:
+
+.. code-block:: ruby
+
+   it { should be_character_device }
+
+be_directory -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_directory`` matcher tests if the file exists as a directory, such as ``/etc/passwd``, ``/etc/shadow``, or ``/var/log/httpd``. For example:
+
+.. code-block:: ruby
+
+   it { should be_directory }
+
+be_file -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_file`` matcher tests if the file exists as a file. This can be useful with configuration files like ``/etc/passwd`` where there typically is not an associated file extension---``passwd.txt``. For example:
+
+.. code-block:: ruby
+
+   it { should be_file }
+
+be_executable -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_executable`` matcher tests if the file exists as a xxxxx. For example:
+
+.. code-block:: ruby
+
+   it { should be_executable }
+
+.. assuming this carries forward, below -- re: the by owner, group, user examples
+
+The ``be_executable`` matcher may also test if the file is executable by a specific owner, group, or user. For example, a group:
+
+.. code-block:: ruby
+
+   it { should be_executable.by('group') }
+
+an owner:
+
+.. code-block:: ruby
+
+   it { should be_executable.by('owner') }
+
+a user:
+
+.. code-block:: ruby
+
+   it { should be_executable.by_user('user') }
+
+be_grouped_into -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_grouped_into`` matcher tests if the file exists as part of the named group. For example:
+
+.. code-block:: ruby
+
+   it { should be_grouped_into 'group' }
+
+be_immutable -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_immutable`` matcher tests if the file is immutable, i.e. "cannot be changed". For example:
+
+.. code-block:: ruby
+
+   it { should be_immutable }
+
+be_linked_to -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_linked_to`` matcher tests if the file is linked to the named target. For example:
+
+.. code-block:: ruby
+
+   it { should be_linked_to '/etc/target-file' }
+
+be_mounted -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_mounted`` matcher tests if the file is accessible from the file system. For example:
+
+.. code-block:: ruby
+
+   it { should be_mounted }
+
+be_owned_by -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_owned_by`` matcher tests if the file is owned by the named user, such as ``root``. For example:
+
+.. code-block:: ruby
+
+   it { should be_owned_by 'root' }
+
+be_pipe -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_pipe`` matcher tests if the file exists as first-in, first-out special file (``.fifo``) that is typically used to define a named pipe, such as ``/var/log/nginx/access.log.fifo``. For example:
+
+.. code-block:: ruby
+
+   it { should be_pipe }
+
+be_readable -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_readable`` matcher tests if the file is readable. For example:
+
+.. code-block:: ruby
+
+   it { should be_readable }
+
+.. assuming this carries forward, below -- re: the by owner, group, user examples
+
+The ``be_readable`` matcher may also test if the file is readable by a specific owner, group, or user. For example, a group:
+
+.. code-block:: ruby
+
+   it { should be_readable.by('group') }
+
+an owner:
+
+.. code-block:: ruby
+
+   it { should be_readable.by('owner') }
+
+a user:
+
+.. code-block:: ruby
+
+   it { should be_readable.by_user('user') }
+
+be_socket -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_socket`` matcher tests if the file exists as socket (``.sock``), such as ``/var/run/php-fpm.sock``. For example:
+
+.. code-block:: ruby
+
+   it { should be_socket }
+
+be_symlink -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_symlink`` matcher tests if the file exists as a symbolic, or soft link that contains an absolute or relative path reference to another file. For example:
+
+.. code-block:: ruby
+
+   it { should be_symlink }
+
+be_version -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_version`` matcher tests the version of the file. For example:
+
+.. code-block:: ruby
+
+   it { should be_version '1.2.3' }
+
+be_writable -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_writable`` matcher tests if the file is writable. For example:
+
+.. code-block:: ruby
+
+   it { should be_writable }
+
+.. assuming this carries forward, below -- re: the by owner, group, user examples
+
+The ``be_writable`` matcher may also test if the file is writable by a specific owner, group, or user. For example, a group:
+
+.. code-block:: ruby
+
+   it { should be_writable.by('group') }
+
+an owner:
+
+.. code-block:: ruby
+
+   it { should be_writable.by('owner') }
+
+a user:
+
+.. code-block:: ruby
+
+   it { should be_writable.by_user('user') }
+
+content -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``content`` matcher tests if contents in the file match the value specified in the test. The values of the ``content`` matcher are arbitrary and depend on the file type being tested and also the type of information that is expected to be in that file. For example:
+
+.. code-block:: ruby
+
+   its('content') { should contain 'value' }
+
+The following complete example tests the ``pg_hba.conf`` file in |postgresql| for |md5| requirements.  The tests look at all ``host`` and ``local`` settings in that file, and then compare the |md5| checksums against the values in the test:
+
+.. code-block:: bash
+
+   describe file(hba_config_file) do
+     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+   end
+
+exist -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if the named file exists. For example:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+file_version -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``file_version`` matcher tests if the file's version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates. For example:
+
+.. code-block:: ruby
+
+   its('file_version') { should eq '1.2.3' }
+
+group -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``group`` matcher tests if the group to which a file belongs matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('group') { should eq 'admins' }
+
+have_mode -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_mode`` matcher tests if a file has a mode assigned to it. For example:
+
+.. code-block:: ruby
+
+   it { should have_mode }
+
+link_path -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``link_path`` matcher tests if the file exists at the specified path. For example:
+
+.. code-block:: ruby
+
+   its('link_path') { should eq '/some/path/to/file' }
+
+link_target -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``link_target`` matcher tests if a file that is linked to this file exists at the specified path. For example:
+
+.. code-block:: ruby
+
+   its('link_target') { should eq '/some/path/to/file' }
+
+md5sum -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``md5sum`` matcher tests if the |md5| checksum for a file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('md5sum') { should eq '3329x3hf9130gjs9jlasf2305mx91s4j' }
+
+mode -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``mode`` matcher tests if the mode assigned to the file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('mode') { should eq 0644 }
+
+mtime -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``mtime`` matcher tests if the file modification time for the file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('mtime') { should eq 'October 31 2015 12:10:45' }
+
+or:
+
+.. code-block:: bash
+
+   describe file('/').mtime.to_i do
+     it { should <= Time.now.to_i }
+     it { should >= Time.now.to_i - 1000}
+   end
+
+owner -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``owner`` matcher tests if the owner of the file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('owner') { should eq 'root' }
+
+product_version -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``product_version`` matcher tests if the file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates. For example:
+
+.. code-block:: ruby
+
+   its('product_version') { should eq 2.3.4 }
+
+selinux_label -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``selinux_label`` matcher tests if the |selinux| label for a file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('product_version') { should eq 'system_u:system_r:httpd_t:s0' }
+
+
+sha256sum -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``sha256sum`` matcher tests if the |sha256| checksum for a file matches the specified value. For example:
+
+.. code-block:: ruby
+
+   its('sha256sum') { should eq 'b837ch38lh19bb8eaopl8jvxwd2e4g58jn9lkho1w3ed9jbkeicalplaad9k0pjn' }
+   
+size -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``size`` matcher tests if a file's size matches, is greater than, or is less than the specified value. For example, equal:
+
+.. code-block:: ruby
+
+   its('size') { should eq 32375 }
+
+Greater than:
+
+.. code-block:: ruby
+
+   its('size') { should > 64 }
+
+Less than:
+
+.. code-block:: ruby
+
+   its('size') { should < 10240 }
+
+type -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``type`` matcher tests if the first letter of the file's mode string contains one of the following characters:
+
+* ``-`` or ``f`` (the file is a file); use ``'file`` to test for this file type
+* ``d`` (the file is a directory); use ``'directory`` to test for this file type
+* ``l`` (the file is a symbolic link); use ``'link`` to test for this file type
+* ``p`` (the file is a named pipe); use ``'pipe`` to test for this file type
+* ``s`` (the file is a socket); use ``'socket`` to test for this file type
+* ``c`` (the file is a character device); use ``'character`` to test for this file type
+* ``b`` (the file is a block device); use ``'block`` to test for this file type
+* ``D`` (the file is a door); use ``'door`` to test for this file type
+
+For example:
+
+.. code-block:: ruby
+
+   its('type') { should eq 'file' }
+
+or:
+
+.. code-block:: ruby
+
+   its('type') { should eq 'socket' }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test the contents of a file for MD5 requirements** 
+
+.. code-block:: bash
+
+   describe file(hba_config_file) do
+     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+   end
+
+**Test if a file exists** 
+
+.. code-block:: bash
+
+   describe file('/tmp') do
+    it { should exist }
+   end
+
+**Test that a file does not exist** 
+
+.. code-block:: bash
+
+   describe file('/tmpest') do
+    it { should_not exist }
+   end
+
+**Test if a file is a directory** 
+
+.. code-block:: bash
+
+   describe file('/tmp') do
+    its('type') { should eq :directory }
+    it { should be_directory }
+   end
+
+**Test if a file is a file and not a directory** 
+
+.. code-block:: bash
+
+   describe file('/proc/version') do
+     its('type') { should eq 'file' }
+     it { should be_file }
+     it { should_not be_directory }
+   end
+
+**Test if a file is a symbolic link** 
+
+.. code-block:: bash
+
+   describe file('/dev/stdout') do
+     its('type') { should eq 'symlink' }
+     it { should be_symlink }
+     it { should_not be_file }
+     it { should_not be_directory }
+   end
+
+**Test if a file is a character device** 
+
+.. code-block:: bash
+
+   describe file('/dev/zero') do
+     its('type') { should eq 'character' }
+     it { should be_character_device }
+     it { should_not be_file }
+     it { should_not be_directory }
+   end
+
+**Test if a file is a block device** 
+
+.. code-block:: bash
+
+   describe file('/dev/zero') do
+     its('type') { should eq 'block' }
+     it { should be_character_device }
+     it { should_not be_file }
+     it { should_not be_directory }
+   end
+
+**Test the mode for a file** 
+
+.. code-block:: bash
+
+   describe file('/dev') do
+    its('mode') { should eq 00755 }
+   end
+
+**Test the owner of a file** 
+
+.. code-block:: bash
+
+   describe file('/root') do
+     its('owner') { should eq 'root' }
+   end
+
+**Test if a file is owned by the root user** 
+
+.. code-block:: bash
+
+   describe file('/dev') do
+     it { should be_owned_by 'root' }
+   end
+
+**Test the mtime for a file** 
+
+.. code-block:: bash
+
+   describe file('/').mtime.to_i do
+     it { should <= Time.now.to_i }
+     it { should >= Time.now.to_i - 1000}
+   end
+
+**Test that a file's size is between 64 and 10240** 
+
+.. code-block:: bash
+
+   describe file('/') do
+     its('size') { should be > 64 }
+     its('size') { should be < 10240 }
+   end
+
+**Test that a file's size is zero** 
+
+.. code-block:: bash
+
+   describe file('/proc/cpuinfo') do
+     its('size') { should be 0 }
+   end
+
+**Test that a file is not mounted** 
+
+.. code-block:: bash
+
+   describe file('/proc/cpuinfo') do
+     it { should_not be_mounted }
+   end
+
+**Test an MD5 checksum** 
+
+.. code-block:: bash
+
+   require 'digest'
+   cpuinfo = file('/proc/cpuinfo').content
+   
+   md5sum = Digest::MD5.hexdigest(cpuinfo)
+   
+   describe file('/proc/cpuinfo') do
+     its('md5sum') { should eq md5sum }
+   end
+
+**Test an SHA-256 checksum** 
+
+.. code-block:: bash
+
+   require 'digest'
+   cpuinfo = file('/proc/cpuinfo').content
+   
+   sha256sum = Digest::SHA256.hexdigest(cpuinfo)
+   
+   describe file('/proc/cpuinfo') do
+     its('sha256sum') { should eq sha256sum }
+   end
+
 
 
 gem -- DONE
