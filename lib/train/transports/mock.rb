@@ -61,7 +61,7 @@ class Train::Transports::Mock
     def initialize(conf = nil)
       @conf = conf || {}
       @files = {}
-      @os = OS.new(self, :unknown)
+      @os = OS.new(self, family: 'unknown')
       @commands = {}
       trace_calls if @conf[:verbose]
     end
