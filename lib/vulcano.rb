@@ -11,6 +11,7 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'vulcano/version'
+require 'vulcano/profile'
 require 'vulcano/resource'
 require 'vulcano/rspec_json_formatter'
 require 'vulcano/rule'

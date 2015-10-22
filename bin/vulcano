@@ -9,41 +9,6 @@ require 'json'
 require_relative '../lib/vulcano'
 
 class VulcanoCLI < Thor
-  desc 'json PATH', 'read all tests in PATH and generate a JSON-profile'
-  option :output, aliases: :o, type: :string
-  option :print, aliases: :p, type: :boolean
-  option :id, type: :string
-  def json(*paths)
-    require_relative '../lib/verify'
-    paths.each do |path|
-      Vulcano::Profiles.new.valid_folder? path unless options[:print]
-      vc = Vulcano::Profiles.new({ quiet: options[:print], id: options[:id] })
-      vc.add_folder(path)
-      if options[:print]
-        puts JSON.pretty_generate(vc.profiles)
-      else
-        dst = options[:output] || File.join(path, '.vulcano.json')
-        if File.exist? dst
-          puts "----> updating #{dst}"
-        else
-          puts "----> creating #{dst}"
-        end
-        fdst = File.expand_path(dst)
-        File.write(fdst, JSON.dump(vc.profiles))
-      end
-    end
-  end
-
-  desc 'check PATH', 'check all tests in PATH'
-  def check(*paths)
-    require_relative '../lib/verify'
-    paths.each do |path|
-      puts "#{path}"
-      Vulcano::Profiles.new.valid_folder? path
-      puts
-    end
-  end
-
   def self.target_options
     option :target, aliases: :t, type: :string, default: nil,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -71,6 +36,28 @@ class VulcanoCLI < Thor
       desc: 'Use SSL for transport layer encryption (WinRM).'
     option :self_signed, type: :boolean, default: false,
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
+  end
+
+  desc 'json PATH', 'read all tests in PATH and generate a JSON-profile'
+  target_options
+  option :id, type: :string,
+    desc: 'Attach a profile ID to all test results'
+  option :output, aliases: :o, type: :string,
+    desc: 'Save the created profile to a path'
+  def json(path)
+    profile = Vulcano::Profile.from_path(path, options)
+    dst = options[:output].to_s
+    if dst.empty?
+      puts JSON.pretty_generate(profile.params)
+    else
+      if File.exist? dst
+        puts "----> updating #{dst}"
+      else
+        puts "----> creating #{dst}"
+      end
+      fdst = File.expand_path(dst)
+      File.write(fdst, JSON.dump(profile.params))
+    end
   end
 
   desc 'exec PATHS', 'run all test files'
