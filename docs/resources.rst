@@ -280,23 +280,86 @@ The following examples show how to use this InSpec resource in a test.
    end
 
 
-audit_daemon_rules
+
+auditd_rules -- DONE
 =====================================================
-Use the ``audit_daemon_rules`` InSpec resource to xxxxx.
+Use the ``auditd_rules`` InSpec resource to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files.
 
-IN_PROGRESS
-
-
-Examples -- DONE
+Syntax -- DONE
 -----------------------------------------------------
+A ``auditd_rules`` InSpec resource block declares one (or more) rules to be tested, and then what that rule should do:
 
-**Test audit daemon rules contains the matching element, which is identified by a regular expression.**
+.. code-block:: ruby
+   
+   describe auditd_rules do
+     its('LIST_RULES') { should eq [
+      'exit,always syscall=rmdir,unlink',
+      'exit,always auid=1001 (0x3e9) syscall=open',
+      'exit,always watch=/etc/group perm=wa',
+      'exit,always watch=/etc/passwd perm=wa',
+      'exit,always watch=/etc/shadow perm=wa',
+      'exit,always watch=/etc/sudoers perm=wa',
+      'exit,always watch=/etc/secret_directory perm=r',
+    ] }
+   end
+
+or:
 
 .. code-block:: ruby
 
-  describe audit_daemon_rules do
-    its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
-  end
+   audit = command('/sbin/auditctl -l').stdout
+     options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+   
+   describe auditd_rules(audit, options) do
+     its('rule') { should eq 1 }
+   end
+
+where each test
+
+* Must declare one (or more) rules to be tested
+* May run a command to ``stdout``, and then run the test against that output
+* May use options to define how configuration data is to be parsed
+
+Options -- DONE
+-----------------------------------------------------
+This InSpec resource supports the following options for parsing configuration data. Use them in an ``options`` block stated outside of (and immediately before) the actual test:
+
+.. code-block:: ruby
+
+   options = {
+       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+       multiple_values: true
+     }
+   describe auditd_rules(options) do
+     its('rule') { should eq 1 }
+   end
+
+assignment_re -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+multiple_values -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test if a rule contains a matching element that is identified by a regular expression.**
+
+.. code-block:: ruby
+
+   describe audit_daemon_rules do
+     its("LIST_RULES") {
+       should contain_match(/^exit,always arch=.*
+       key=time-change
+       syscall=adjtimex,settimeofday/)
+     }
+   end
 
 
 
