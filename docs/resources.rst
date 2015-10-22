@@ -210,20 +210,49 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-audit_policy
+audit_policy -- DONE
 =====================================================
-Use the ``audit_policy`` InSpec resource to xxxxx.
+Use the ``audit_policy`` InSpec resource to test auditing policies on the |windows| platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each auditing category property that is enabled, the auditing level may be set to ``No Auditing``, ``Not Specified``, ``Success``, ``Success and Failure``, or ``Failure``.
 
-Examples
+Syntax -- DONE
 -----------------------------------------------------
-
-**Verify Microsoft Windows Audit Policy**
+A ``audit_policy`` InSpec resource block declares a parameter that belongs to an audit policy category or subcategory:
 
 .. code-block:: ruby
 
-  describe audit_policy do
-    its('Other Account Logon Events') { should_not eq 'No Auditing' }
-  end
+   describe audit_policy do
+     its('parameter') { should eq 'value' }
+   end
+
+where
+
+* ``'parameter'`` must specify a parameter 
+* ``'value'`` must be one of ``No Auditing``, ``Not Specified``, ``Success``, ``Success and Failure``, or ``Failure``
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource does not have any matchers.
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test that a parameter is set to "No Auditing"**
+
+.. code-block:: ruby
+
+   describe audit_policy do
+     its('Other Account Logon Events') { should_not eq 'No Auditing' }
+   end
+
+**Test that a parameter is set to "Success"**
+
+.. code-block:: ruby
+
+   describe audit_policy do
+     its('User Account Management') { should_not eq 'No Auditing' }
+   end
+
 
 
 auditd_conf -- DONE
@@ -532,11 +561,153 @@ The ``interfaces`` matcher tests if the named interface is present:
 
 
 
-command
-=====================================================
-Use the ``command`` InSpec resource to test an arbitrary command.
 
-IN_PROGRESS
+command -- DONE
+=====================================================
+Use the ``command`` InSpec resource to test an arbitrary command that is run on the system.
+
+Syntax -- DONE
+-----------------------------------------------------
+A ``command`` InSpec resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+
+.. code-block:: ruby
+
+   describe command('command') do
+     it { should exist }
+     its('matcher') { should eq 'output' }
+   end
+
+or:
+
+.. code-block:: ruby
+
+   describe command('command').exist? do
+     its('matcher') { should eq 'output' }
+   end
+
+where
+
+* ``'command'`` must specify a command to be run
+* ``.exist?`` is the ``exist`` matcher
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+exist -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if a command may be run on the system:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+exit_status -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exit_status`` matcher tests the exit status for the command:
+
+.. code-block:: ruby
+
+   its('exit_status') { should eq 123 }
+
+stderr -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+   its('stderr') { should eq 'error\n' }
+
+stdout -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+   its('stdout') { should eq '/^1$/' }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test for PostgreSQL database running a RC, development, or beta release** 
+
+.. code-block:: ruby
+
+   describe command('sudo -i psql -V') do
+     its('stdout') { should_not eq '/RC/' }
+     its('stdout') { should_not eq '/DEVEL/' }
+     its('stdout') { should_not eq '/BETA/' }
+   end
+
+**Test for multiple instances of Nginx** 
+
+.. code-block:: ruby
+
+   describe command('ps aux | egrep "nginx: master" | egrep -v "grep" | wc -l') do
+     its('stdout') (should eq '/^1$/' )
+   end
+
+**Test standard output (stdout)** 
+
+.. code-block:: ruby
+
+   describe command('echo hello') do
+     its('stdout') { should eq 'hello\n' }
+     its('stderr') { should eq '' }
+     its('exit_status') { should eq 0 }
+   end
+
+**Test standard error (stderr)** 
+
+.. code-block:: ruby
+
+   describe command('>&2 echo error') do
+     its('stdout') { should eq '' }
+     its('stderr') { should eq 'error\n' }
+     its('exit_status') { should eq 0 }
+   end
+
+**Test an exit status code** 
+
+.. code-block:: ruby
+
+   describe command('exit 123') do
+     its('stdout') { should eq '' }
+     its('stderr') { should eq '' }
+     its('exit_status') { should eq 123 }
+   end
+
+**Test if the command shell exists** 
+
+.. code-block:: ruby
+
+   describe command('/bin/sh').exist? do
+     it { should eq true }
+   end
+
+**Test for a command that should not exist** 
+
+.. code-block:: ruby
+
+   describe command('this is not existing').exist? do
+     it { should eq false }
+   end
+
+**Test for one peer and one indent** 
+
+.. code-block:: ruby
+
+   describe command('sudo -i cat #{hba_config_file} | egrep 'peer|ident' | wc -l') do
+     its('stdout') { should eq '(/^[2|1]/)' }
+   end
+
+   describe command('sudo -i cat #{hba_config_file} | egrep 'trust|password|crypt' | wc -l') do
+     its('stdout') { should eq '(/^0/)' }
+   end
+
 
 
 
@@ -1632,6 +1803,8 @@ then the same test will return ``false`` for ``ftp`` and the entire test will fa
      its('telnet') { should eq nil }
    end
 
+
+
 interface -- DONE
 =====================================================
 Use the ``interface`` InSpec resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
@@ -1704,12 +1877,60 @@ The ``speed`` matcher tests the speed of the network interface, in MB/sec:
 .. 
 
 
-iptables
+
+iptables -- DONE
 =====================================================
-Use the ``iptables`` InSpec resource to test xxxxx.
+Use the ``iptables`` InSpec resource to test rules that are defined in ``iptables``, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``iptables`` InSpec resource block declares tests for rules in IP tables:
 
+.. code-block:: ruby
+
+   describe iptables(rule:'name', table:'name', chain: 'name') do
+     it { should have_rule('RULE') }
+   end
+
+where
+
+* ``iptables()`` may specify any combination of ``rule``, ``table``, or ``chain``
+* ``rule:'name'`` is the name of a rule that matches a set of packets
+* ``table:'name'`` is the packet matching table against which the test is run
+* ``chain: 'name'`` is the name of a user-defined chain or one of ``ACCEPT``, ``DROP``, ``QUEUE``, or ``RETURN``
+* ``have_rule('RULE')`` tests that rule in the iptables file
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+have_rule -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_rule`` matcher tests the named rule against the information in the ``iptables`` file:
+
+.. code-block:: ruby
+
+   it { should have_rule('RULE') }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test if the IP table allows a packet through** 
+
+.. code-block:: ruby
+
+   describe iptables do
+     it { should have_rule('-P INPUT ACCEPT') }
+   end
+
+**Test if the IP table allows a packet through, for a specific table and chain** 
+
+.. code-block:: ruby
+
+   describe iptables(table:'mangle', chain: 'input') do
+     it { should have_rule('-P INPUT ACCEPT') }
+   end
 
 
 
