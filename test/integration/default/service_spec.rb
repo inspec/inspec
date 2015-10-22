@@ -10,7 +10,7 @@ elsif ['debian'].include?(os[:family])
   unavailable_service = 'clamav'
   available_service = 'ssh'
 else
-  # Ubuntu, Freebsd, Debian
+  # Ubuntu
   unavailable_service = 'sshd'
   available_service = 'ssh'
 end
