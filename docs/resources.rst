@@ -226,34 +226,57 @@ Examples
   end
 
 
-audit_daemon_conf
+auditd_conf -- DONE
 =====================================================
-Use the ``audit_daemon_conf`` InSpec resource to xxxxx.
+Use the ``auditd_conf`` InSpec resource to test the configuration settings for the audit daemon. This file is typically located under ``/etc/audit/auditd.conf'`` on |unix| and |linux| platforms.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``auditd_conf`` InSpec resource block declares configuration settings that should be tested:
+
+.. code-block:: ruby
+
+   describe auditd_conf('path') do
+     its('keyword') { should eq 'value' }
+   end
+
+where
+
+* ``'keyword'`` is a configuration setting defined in the ``auditd.conf`` configuration file
+* ``('path')`` is the non-default path to the ``auditd.conf`` configuration file
+* ``{ should eq 'value' }`` is the value that is expected
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource matches any keyword that is listed in the ``auditd.conf`` configuration file:
+
+.. code-block:: ruby
+
+     its('log_format') { should eq 'raw' }
 
 Examples -- DONE
 -----------------------------------------------------
 The following examples show how to use this InSpec resource in a test.
 
-**Test xxxxx**
+**Test the auditd.conf file** 
 
 .. code-block:: ruby
 
-   describe audit_daemon_conf do
+   describe auditd_conf do
+     its('log_file') { should eq '/full/path/to/file' }
+     its('log_format') { should eq 'raw' }
+     its('flush') { should eq 'none' }
+     its('freq') { should eq '1' }
+     its('num_logs') { should eq '0' }
+     its('max_log_file') { should eq '6' }
+     its('max_log_file_action') { should eq 'email' }
+     its('space_left') { should eq '2' }
+     its('action_mail_acct') { should eq 'root' }
      its('space_left_action') { should eq 'email' }
-     its('action_mail_acct') { should eq 'root' }
+     its('admin_space_left') { should eq '1' }
      its('admin_space_left_action') { should eq 'halt' }
-   end
-
-**Test xxxxx**
-
-.. code-block:: ruby
-
-   describe audit_daemon_conf do
-     its('space_left_action') { should eq 'SYSLOG' }
-     its('action_mail_acct') { should eq 'root' }
-     its('tcp_listen_queue') { should eq '5' }
+     its('disk_full_action') { should eq 'halt' }
+     its('disk_error_action') { should eq 'halt' }
    end
 
 
