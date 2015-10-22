@@ -1803,6 +1803,8 @@ then the same test will return ``false`` for ``ftp`` and the entire test will fa
      its('telnet') { should eq nil }
    end
 
+
+
 interface -- DONE
 =====================================================
 Use the ``interface`` InSpec resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
@@ -1875,12 +1877,60 @@ The ``speed`` matcher tests the speed of the network interface, in MB/sec:
 .. 
 
 
-iptables
+
+iptables -- DONE
 =====================================================
-Use the ``iptables`` InSpec resource to test xxxxx.
+Use the ``iptables`` InSpec resource to test rules that are defined in ``iptables``, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``iptables`` InSpec resource block declares tests for rules in IP tables:
 
+.. code-block:: ruby
+
+   describe iptables(rule:'name', table:'name', chain: 'name') do
+     it { should have_rule('RULE') }
+   end
+
+where
+
+* ``iptables()`` may specify any combination of ``rule``, ``table``, or ``chain``
+* ``rule:'name'`` is the name of a rule that matches a set of packets
+* ``table:'name'`` is the packet matching table against which the test is run
+* ``chain: 'name'`` is the name of a user-defined chain or one of ``ACCEPT``, ``DROP``, ``QUEUE``, or ``RETURN``
+* ``have_rule('RULE')`` tests that rule in the iptables file
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+have_rule -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_rule`` matcher tests the named rule against the information in the ``iptables`` file:
+
+.. code-block:: ruby
+
+   it { should have_rule('RULE') }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test if the IP table allows a packet through** 
+
+.. code-block:: ruby
+
+   describe iptables do
+     it { should have_rule('-P INPUT ACCEPT') }
+   end
+
+**Test if the IP table allows a packet through, for a specific table and chain** 
+
+.. code-block:: ruby
+
+   describe iptables(table:'mangle', chain: 'input') do
+     it { should have_rule('-P INPUT ACCEPT') }
+   end
 
 
 
