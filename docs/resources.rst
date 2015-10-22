@@ -428,7 +428,7 @@ Use the ``etc_group`` InSpec resource to test groups that are defined on on |lin
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``etc_group`` InSpec resource block declares a collection of . For example:
+A ``etc_group`` InSpec resource block declares a collection of properties to be tested. For example:
 
 .. code-block:: ruby
 
