@@ -204,7 +204,13 @@ class SysV < ServiceManager
     # check if service is really running
     # service throws an exit code if the service is not installed or
     # not enabled
-    cmd = @vulcano.command("/sbin/service #{service_name} status")
+
+    # on debian service is located /usr/sbin/service, on centos it is located here /sbin/service
+    service_cmd = 'service'
+    service_cmd = '/usr/sbin/service' if @vulcano.os[:family] == 'debian'
+    service_cmd = '/sbin/service' if @vulcano.os[:family] == 'centos'
+
+    cmd = @vulcano.command("#{service_cmd} #{service_name} status")
     cmd.exit_status == 0 ? (running = true) : (running = false)
     {
       name: service_name,
