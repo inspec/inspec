@@ -231,7 +231,7 @@ class BSDInit < ServiceManager
     return nil if cmd.exit_status != 0
 
     # search for the service
-    srv = /(^.*#{service_name}.*)/.match(cmd.stdout)
+    srv = /(^.*#{service_name}$)/.match(cmd.stdout)
     return nil if srv.nil? || srv[0].nil?
     enabled = true
 
