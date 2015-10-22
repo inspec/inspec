@@ -414,11 +414,39 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-directory
-=====================================================
-Use the ``directory`` InSpec resource to xxxxx.
 
-IN_PROGRESS
+directory -- DONE
+=====================================================
+Use the ``directory`` InSpec resource to test if the file type is a directory. This is equivalent to using the ``file`` InSpec resource and the ``be_directory`` matcher, but provides a simpler and more direct way to test directories. All of the matchers available to the ``file`` resource that may be used with testing directories may be used with this resource.
+
+Syntax -- DONE
+-----------------------------------------------------
+A ``directory`` InSpec resource block declares the location of the directory to be tested, and then one (or more) matchers. For example:
+
+.. code-block:: ruby
+
+   describe directory('path') do
+     it { should MATCHER 'value' }
+   end
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource may use any of the matchers available to the ``file`` resource that are useful for testing a directory.
+
+.. 
+.. Examples
+.. -----------------------------------------------------
+.. The following examples show how to use this InSpec resource in a test.
+.. 
+.. **xxxxx** 
+.. 
+.. xxxxx
+.. 
+.. **xxxxx** 
+.. 
+.. xxxxx
+.. 
+
 
 
 
