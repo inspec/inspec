@@ -210,20 +210,49 @@ The following examples show how to use this InSpec resource in a test.
 
 
 
-audit_policy
+audit_policy -- DONE
 =====================================================
-Use the ``audit_policy`` InSpec resource to xxxxx.
+Use the ``audit_policy`` InSpec resource to test auditing policies on the |windows| platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each auditing category property that is enabled, the auditing level may be set to ``No Auditing``, ``Not Specified``, ``Success``, ``Success and Failure``, or ``Failure``.
 
-Examples
+Syntax -- DONE
 -----------------------------------------------------
-
-**Verify Microsoft Windows Audit Policy**
+A ``audit_policy`` InSpec resource block declares a parameter that belongs to an audit policy category or subcategory:
 
 .. code-block:: ruby
 
-  describe audit_policy do
-    its('Other Account Logon Events') { should_not eq 'No Auditing' }
-  end
+   describe audit_policy do
+     its('parameter') { should eq 'value' }
+   end
+
+where
+
+* ``'parameter'`` must specify a parameter 
+* ``'value'`` must be one of ``No Auditing``, ``Not Specified``, ``Success``, ``Success and Failure``, or ``Failure``
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource does not have any matchers.
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test that a parameter is set to "No Auditing"**
+
+.. code-block:: ruby
+
+   describe audit_policy do
+     its('Other Account Logon Events') { should_not eq 'No Auditing' }
+   end
+
+**Test that a parameter is set to "Success"**
+
+.. code-block:: ruby
+
+   describe audit_policy do
+     its('User Account Management') { should_not eq 'No Auditing' }
+   end
+
 
 
 auditd_conf -- DONE
