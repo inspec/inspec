@@ -89,7 +89,9 @@ end
 class Rpm < PkgManagement
   def info(package_name)
     cmd = @vulcano.command("rpm -qia #{package_name}")
-    return nil if cmd.exit_status.to_i != 0
+    # CentOS does not return an error code if the package is not installed,
+    # therefore we need to check for emptyness
+    return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
     params = SimpleConfig.new(
       cmd.stdout.chomp,
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
