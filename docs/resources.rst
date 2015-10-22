@@ -276,11 +276,96 @@ Examples -- DONE
   end
 
 
-bond
+
+bond -- DONE
 =====================================================
 Use the ``bond`` InSpec resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
 
-IN_PROGRESS
+Syntax -- DONE
+-----------------------------------------------------
+A ``bond`` InSpec resource block declares a bonded network interface, and then specifies the properties of that bonded network interface to be tested:
+
+.. code-block:: ruby
+
+   describe bond('name') do
+     it { should exist }
+   end
+
+where
+
+* ``'name'`` is the name of the bonded network interface
+* ``{ should exist }`` is a valid matcher for this InSpec resource
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+content -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``content`` matcher tests if contents in the file that defines the bonded network interface match the value specified in the test. The values of the ``content`` matcher are arbitrary:
+
+.. code-block:: ruby
+
+   its('content') { should contain 'value' }
+
+exist -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if the bonded network interface is available:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+have_interface -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_interface`` matcher tests if the bonded network interface has one (or more) secondary interfaces:
+
+.. code-block:: ruby
+
+   it { should have_interface }
+
+interfaces -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``interfaces`` matcher tests if the named secondary interfaces are available:
+
+.. code-block:: ruby
+
+   its('interfaces') { should eq ['eth0', 'eth1', ...] }
+
+params -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``params`` matcher tests arbitrary parameters for the bonded network interface:
+
+.. code-block:: ruby
+
+   its('params') { should eq 'value' }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test if eth0 is a secondary interface for bond0** 
+
+.. code-block:: ruby
+
+   describe bond('bond0') do
+     it { should exist }
+     it { should have_interface 'eth0' }
+   end
+
+**Test parameters for bond0** 
+
+.. code-block:: ruby
+
+   describe bond('bond0') do
+     its('Bonding Mode') { should eq 'IEEE 802.3ad Dynamic link aggregation' }
+     its('Transmit Hash Policy') { should eq 'layer3+4 (1)' }
+     its('MII Status') { should eq 'up' }
+     its('MII Polling Interval (ms)') { should eq '100' }
+     its('Up Delay (ms)') { should eq '0' }
+     its('Down Delay (ms)') { should eq '0' }
+   end
+
 
 
 
