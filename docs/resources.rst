@@ -13,8 +13,8 @@ The following InSpec resources are available:
 * ``gem``
 * ``group``
 * ``host``
-* ``iptables``
 * ``interface``
+* ``iptables``
 * ``kernel_module``
 * ``kernel_parameter``
 * ``npm``
@@ -24,7 +24,7 @@ The following InSpec resources are available:
 * ``package``
 * ``pip``
 * ``port``
-* ``processes``
+* ``processes`` << process?
 * ``registry_key``
 * ``script``
 * ``service``
@@ -36,8 +36,8 @@ In addition to the open source resources, Chef Compliance ships with additional 
 
 * ``apache_conf``
 * ``audit_policy``
-* ``audit_daemon_conf``
-* ``audit_daemon_rules``
+* ``audit_daemon_conf`` << auditd_conf?
+* ``audit_daemon_rules`` << auditd_rules?
 * ``csv``
 * ``etc_group``
 * ``group_policy``
@@ -45,14 +45,14 @@ In addition to the open source resources, Chef Compliance ships with additional 
 * ``json``
 * ``limits_conf``
 * ``login_defs``
-* ``mysql``
+* ``mysql`` << really a resource?
 * ``mysql_conf``
 * ``mysql_session``
 * ``ntp_conf``
 * ``parse_config``
 * ``parse_config_file``
-* ``passwd``
-* ``postgres``
+* ``passwd`` << etc_passwd?
+* ``postgres`` << really a resource?
 * ``postgres_conf``
 * ``postgres_session``
 * ``security_policy``
