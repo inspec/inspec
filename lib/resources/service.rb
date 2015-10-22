@@ -159,9 +159,14 @@ class Upstart < ServiceManager
     # check if a service is enabled
     # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
+    # Ubuntu 10.04 show-config is not supported
+    # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
     config = @vulcano.command("initctl show-config #{service_name}")
     match_enabled = /^\s*start on/.match(config.stdout)
     !match_enabled.nil? ? (enabled = true) : (enabled = false)
+
+    # implement fallback for Ubuntu 10.04
+    enabled = true if @vulcano.os[:family] == 'ubuntu' && @vulcano.os[:release].to_f >= 10.04 && @vulcano.os[:release].to_f < 12.04 && cmd.exit_status == 0
 
     {
       name: service_name,
