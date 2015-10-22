@@ -204,9 +204,8 @@ class SysV < ServiceManager
     # check if service is really running
     # service throws an exit code if the service is not installed or
     # not enabled
-    cmd = @vulcano.command("service #{service_name} status")
+    cmd = @vulcano.command("/sbin/service #{service_name} status")
     cmd.exit_status == 0 ? (running = true) : (running = false)
-
     {
       name: service_name,
       description: nil,
