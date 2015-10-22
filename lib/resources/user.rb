@@ -47,7 +47,7 @@ class User < Vulcano.resource(1)
     # select package manager
     @user_provider = nil
     case vulcano.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch'
+    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'opensuse'
       @user_provider = LinuxUser.new(vulcano)
     when 'windows'
       @user_provider = WindowsUser.new(vulcano)
