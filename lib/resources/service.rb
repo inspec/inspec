@@ -68,7 +68,7 @@ class Service < Vulcano.resource(1)
       @service_mgmt = WindowsSrv.new(vulcano)
     when 'freebsd'
       @service_mgmt = BSDInit.new(vulcano)
-    when 'arch'
+    when 'arch', 'opensuse'
       @service_mgmt = Systemd.new(vulcano)
     end
 
