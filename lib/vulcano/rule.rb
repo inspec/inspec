@@ -70,7 +70,7 @@ module Vulcano
     end
 
     def desc(v = nil)
-      @desc = v unless v.nil?
+      @desc = unindent(v) unless v.nil?
       @desc
     end
 
@@ -135,6 +135,20 @@ module Vulcano
       else
         return "#{pid}/#{rid}"
       end
+    end
+
+    private
+
+    # Idio(ma)tic unindent
+    # TODO replace this
+    #
+    # @param [String] text string which needs to be unindented
+    # @return [String] input with indentation removed
+    def unindent(text)
+      return '' if text.nil?
+      text.strip.split("\n").map(&:strip)
+        .map { |x| x.empty? ? "\n" : x }
+        .join(' ')
     end
   end
 end

@@ -28,6 +28,21 @@ module Vulcano
 
       @metadata = read_metadata
       @params = @metadata.params unless @metadata.nil?
+
+      @params['rules'] = rules = {}
+      @runner = Runner.new(
+        id: @profile_id,
+        backend: :mock,
+      )
+      @runner.add_tests([@path])
+      @runner.rules.each do |id, rule|
+        rules[id] = {
+          title: rule.title,
+          desc: rule.desc,
+          impact: rule.impact,
+          code: rule.instance_variable_get(:@__code),
+        }
+      end
     end
 
     private
