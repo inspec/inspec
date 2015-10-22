@@ -561,11 +561,153 @@ The ``interfaces`` matcher tests if the named interface is present:
 
 
 
-command
-=====================================================
-Use the ``command`` InSpec resource to test an arbitrary command.
 
-IN_PROGRESS
+command -- DONE
+=====================================================
+Use the ``command`` InSpec resource to test an arbitrary command that is run on the system.
+
+Syntax -- DONE
+-----------------------------------------------------
+A ``command`` InSpec resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+
+.. code-block:: ruby
+
+   describe command('command') do
+     it { should exist }
+     its('matcher') { should eq 'output' }
+   end
+
+or:
+
+.. code-block:: ruby
+
+   describe command('command').exist? do
+     its('matcher') { should eq 'output' }
+   end
+
+where
+
+* ``'command'`` must specify a command to be run
+* ``.exist?`` is the ``exist`` matcher
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
+Matchers -- DONE
+-----------------------------------------------------
+This InSpec resource has the following matchers.
+
+exist -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if a command may be run on the system:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+exit_status -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exit_status`` matcher tests the exit status for the command:
+
+.. code-block:: ruby
+
+   its('exit_status') { should eq 123 }
+
+stderr -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+   its('stderr') { should eq 'error\n' }
+
+stdout -- DONE
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+   its('stdout') { should eq '/^1$/' }
+
+Examples -- DONE
+-----------------------------------------------------
+The following examples show how to use this InSpec resource in a test.
+
+**Test for PostgreSQL database running a RC, development, or beta release** 
+
+.. code-block:: ruby
+
+   describe command('sudo -i psql -V') do
+     its('stdout') { should_not eq '/RC/' }
+     its('stdout') { should_not eq '/DEVEL/' }
+     its('stdout') { should_not eq '/BETA/' }
+   end
+
+**Test for multiple instances of Nginx** 
+
+.. code-block:: ruby
+
+   describe command('ps aux | egrep "nginx: master" | egrep -v "grep" | wc -l') do
+     its('stdout') (should eq '/^1$/' )
+   end
+
+**Test standard output (stdout)** 
+
+.. code-block:: ruby
+
+   describe command('echo hello') do
+     its('stdout') { should eq 'hello\n' }
+     its('stderr') { should eq '' }
+     its('exit_status') { should eq 0 }
+   end
+
+**Test standard error (stderr)** 
+
+.. code-block:: ruby
+
+   describe command('>&2 echo error') do
+     its('stdout') { should eq '' }
+     its('stderr') { should eq 'error\n' }
+     its('exit_status') { should eq 0 }
+   end
+
+**Test an exit status code** 
+
+.. code-block:: ruby
+
+   describe command('exit 123') do
+     its('stdout') { should eq '' }
+     its('stderr') { should eq '' }
+     its('exit_status') { should eq 123 }
+   end
+
+**Test if the command shell exists** 
+
+.. code-block:: ruby
+
+   describe command('/bin/sh').exist? do
+     it { should eq true }
+   end
+
+**Test for a command that should not exist** 
+
+.. code-block:: ruby
+
+   describe command('this is not existing').exist? do
+     it { should eq false }
+   end
+
+**Test for one peer and one indent** 
+
+.. code-block:: ruby
+
+   describe command('sudo -i cat #{hba_config_file} | egrep 'peer|ident' | wc -l') do
+     its('stdout') { should eq '(/^[2|1]/)' }
+   end
+
+   describe command('sudo -i cat #{hba_config_file} | egrep 'trust|password|crypt' | wc -l') do
+     its('stdout') { should eq '(/^0/)' }
+   end
+
 
 
 
