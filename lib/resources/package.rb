@@ -36,7 +36,8 @@ class Package < Vulcano.resource(1)
 
   # returns true if the package is installed
   def installed?(_provider = nil, _version = nil)
-    !info.nil?
+    return false if info.nil?
+    info[:installed] == true
   end
 
   # returns the package description
