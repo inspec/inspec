@@ -68,7 +68,7 @@ class VulcanoCLI < Thor
     option :sudo_options, type: :string, default: '',
       desc: 'Additional sudo options for a remote scan.'
     option :ssl, type: :boolean, default: false,
-      desc: 'Use SSL for transport layer encryptiong (WinRM).'
+      desc: 'Use SSL for transport layer encryption (WinRM).'
     option :self_signed, type: :boolean, default: false,
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
   end
