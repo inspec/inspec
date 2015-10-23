@@ -19,8 +19,13 @@ class KernelModule < Vulcano.resource(1)
   end
 
   def loaded?
+    # default lsmod command
+    lsmod_cmd = 'lsmod'
+    # special care for CentOS 5 and sudo
+    lsmod_cmd = '/sbin/lsmod' if vulcano.os[:family] == 'centos' && vulcano.os[:release].to_i == 5
+
     # get list of all modules
-    cmd = vulcano.command('lsmod')
+    cmd = vulcano.command(lsmod_cmd)
     return false if cmd.exit_status != 0
 
     # check if module is loaded
