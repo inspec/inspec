@@ -212,3 +212,10 @@ RSpec::Matchers.define :have_rule do |rule|
     fail "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 end
+
+# unsupported
+RSpec::Matchers.define :contain do |_rule|
+  match do |_resource|
+    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should match('value') }`."
+  end
+end
