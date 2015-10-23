@@ -1,4 +1,0 @@
-site_name: VulcanoSec Specs
-theme: flatly
-extra_css: ['css/extra.css']
-markdown_extensions: [abbr,attr_list,def_list,footnotes,tables,admonition,nl2br,toc]
