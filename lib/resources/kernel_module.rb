@@ -15,7 +15,7 @@ class KernelModule < Vulcano.resource(1)
     @module = modulename
 
     # this resource is only supported on Linux
-    return skip_resource 'The `kernel_module` resource is not supported on your OS.' if !%w{ubuntu debian redhat fedora arch}.include? vulcano.os[:family]
+    return skip_resource 'The `kernel_parameter` resource is not supported on your OS.' if !vulcano.os.linux?
   end
 
   def loaded?
