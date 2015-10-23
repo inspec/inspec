@@ -5,3 +5,4 @@
 # prepare all operating systems with the required configuration
 
 include_recipe('os_prepare::package')
+include_recipe('os_prepare::apt')
