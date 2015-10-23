@@ -235,7 +235,7 @@ This InSpec resource does not have any matchers.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test that a parameter is set to "No Auditing"**
 
@@ -285,7 +285,7 @@ This InSpec resource matches any keyword that is listed in the ``auditd.conf`` c
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the auditd.conf file** 
 
@@ -376,7 +376,7 @@ IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if a rule contains a matching element that is identified by a regular expression.**
 
@@ -457,7 +457,7 @@ The ``params`` matcher tests arbitrary parameters for the bonded network interfa
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if eth0 is a secondary interface for bond0** 
 
@@ -548,7 +548,7 @@ The ``interfaces`` matcher tests if the named interface is present:
 .. 
 .. Examples
 .. -----------------------------------------------------
-.. The following examples show how to use this InSpec resource in a test.
+.. The following examples show how to use this InSpec resource.
 .. 
 .. **xxxxx** 
 .. 
@@ -630,7 +630,7 @@ The ``stdout`` matcher tests results of the command as returned in standard outp
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test for PostgreSQL database running a RC, development, or beta release** 
 
@@ -746,7 +746,7 @@ The ``name`` matcher tests the value of ``name`` as read from a |csv| file versu
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test a CSV file**
 
@@ -779,7 +779,7 @@ This InSpec resource may use any of the matchers available to the ``file`` resou
 .. 
 .. Examples
 .. -----------------------------------------------------
-.. The following examples show how to use this InSpec resource in a test.
+.. The following examples show how to use this InSpec resource.
 .. 
 .. **xxxxx** 
 .. 
@@ -869,7 +869,7 @@ where ``item`` may be one (or more) of:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test group identifiers (GIDs) for duplicates** 
 
@@ -1297,7 +1297,7 @@ or:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the contents of a file for MD5 requirements** 
 
@@ -1503,7 +1503,7 @@ The ``version`` matcher tests if the named package version is on the system:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify that a gem package is installed, with a specific version**
 
@@ -1573,7 +1573,7 @@ The ``gid`` matcher tests the named group identifier:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the group identifier for the root group** 
 
@@ -1622,7 +1622,7 @@ Use a ``setting`` matcher for each setting to be tested.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if users are logged off after the logon time expires** 
 
@@ -1688,7 +1688,7 @@ The ``ipaddress`` matcher tests if a host name is resolvable to a specific IP ad
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify host name s reachable over a specific protocol and port number** 
 
@@ -1762,7 +1762,7 @@ For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify that FTP is disabled** 
 
@@ -1865,7 +1865,7 @@ The ``speed`` matcher tests the speed of the network interface, in MB/sec:
 .. 
 .. Examples
 .. -----------------------------------------------------
-.. The following examples show how to use this InSpec resource in a test.
+.. The following examples show how to use this InSpec resource.
 .. 
 .. **xxxxx** 
 .. 
@@ -1914,7 +1914,7 @@ The ``have_rule`` matcher tests the named rule against the information in the ``
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if the IP table allows a packet through** 
 
@@ -1967,7 +1967,7 @@ The ``name`` matcher tests the value of ``name`` as read from a |json| file vers
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test a cookbook version in a policyfile.lock.json file**
 
@@ -2012,7 +2012,7 @@ The ``be_loaded`` matcher tests if the module is a loadable kernel module:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if a module is loaded** 
 
@@ -2058,7 +2058,7 @@ The ``value`` matcher tests the value assigned to the named IP address versus th
    
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if global forwarding is enabled for an IPv4 address** 
 
@@ -2141,7 +2141,7 @@ For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test * and ftp limits** 
 
@@ -2185,7 +2185,7 @@ The ``name`` matcher tests the value of ``name`` as read from ``login.defs`` ver
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test password expiration settings** 
 
@@ -2260,7 +2260,7 @@ Use a ``setting`` matcher for each setting to be tested.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the maximum number of allowed connections** 
 
@@ -2353,7 +2353,7 @@ The ``output`` matcher tests the results of the query:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test for matching databases**
 
@@ -2409,7 +2409,7 @@ The ``version`` matcher tests if the named package version is on the system:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify that bower is installed, with a specific version**
 
@@ -2474,7 +2474,7 @@ For example:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test for clock drift against named servers** 
 
@@ -2532,7 +2532,7 @@ The ``version`` matcher tests if the named package version is on the system:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if VLC is installed** 
 
@@ -2567,7 +2567,7 @@ This InSpec resource does not have any matchers.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test for RedHat** 
 
@@ -2655,7 +2655,7 @@ The ``stderr`` matcher tests environment variables after they are output to stde
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the PATH environment variable** 
 
@@ -2708,7 +2708,7 @@ The ``version`` matcher tests if the named package version is on the system:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if nginx version 1.9.5 is installed** 
 
@@ -2892,7 +2892,7 @@ The preceding test will fail with the second example and will pass with the firs
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the expiration time for new account passwords** 
 
@@ -3005,7 +3005,7 @@ IDENTICAL TO parse_config << INCLUDE THEM IN BOTH SPOTS WHEN PUBLISHED
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test a configuration setting** 
 
@@ -3127,7 +3127,7 @@ The ``users`` matcher tests if xxxxx:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **xxxxx** 
 
@@ -3190,7 +3190,7 @@ The ``version`` matcher tests if the named package version is on the system:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if Jinja2 is installed on the system** 
 
@@ -3287,7 +3287,7 @@ or for the |ipv6| protocol:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test port 80, listening with the TCP protocol** 
 
@@ -3368,7 +3368,7 @@ Use a ``setting`` matcher for each setting to be tested.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the maximum number of allowed client connections** 
 
@@ -3449,7 +3449,7 @@ The ``output`` matcher tests the results of the query:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the PostgreSQL shadow password**
 
@@ -3510,7 +3510,7 @@ The ``property_name`` matcher tests the named property for the specified value:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if the list length for the mysqld process is 1** 
 
@@ -3571,7 +3571,7 @@ The ``name`` matcher tests the value for the specified registry setting:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the start time for the Schedule service** 
 
@@ -3622,7 +3622,7 @@ The ``script_name`` matcher tests the named script against the value specified b
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 .. stoopid test below; probably need a better one
 
@@ -3669,7 +3669,7 @@ The ``policy_name`` matcher must be the name of a security policy:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify that only the Administrators group has remote access**
 
@@ -3731,7 +3731,7 @@ The ``be_running`` matcher tests if the named service is running:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if the postgresql service is both running and enabled** 
 
@@ -3807,7 +3807,7 @@ or:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test SSH configuration settings**
 
@@ -3890,7 +3890,7 @@ or:
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test which variables may be sent to the server**
 
@@ -4080,7 +4080,7 @@ where ``5`` represents the number of days a user is warned.
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Verify available users for the MySQL server**
 
@@ -4156,7 +4156,7 @@ If the feature is installed, the ``Get-WindowsFeature`` cmdlet is run and the na
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test the DHCP Server feature**
 
@@ -4200,7 +4200,7 @@ The ``name`` matcher tests the value of ``name`` as read from a |yaml| file vers
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test a kitchen.yml file driver**
 
@@ -4270,7 +4270,7 @@ The ``repos`` matcher tests if a named repo, using either a full identifier (``'
 
 Examples -- DONE
 -----------------------------------------------------
-The following examples show how to use this InSpec resource in a test.
+The following examples show how to use this InSpec resource.
 
 **Test if the yum repo exists**
 
