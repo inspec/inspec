@@ -37,4 +37,10 @@ namespace :test do
     return if tests.empty?
     sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
+
+  task :vm do
+    concurrency = ENV['CONCURRENCY'] || 4
+    path = File.join(File.dirname(__FILE__), 'test', 'integration')
+    sh('sh', '-c', "cd #{path} && bundle exec kitchen test -c #{concurrency} -t .")
+  end
 end

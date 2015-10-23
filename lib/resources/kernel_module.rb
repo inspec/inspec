@@ -15,12 +15,17 @@ class KernelModule < Vulcano.resource(1)
     @module = modulename
 
     # this resource is only supported on Linux
-    return skip_resource 'The `kernel_module` resource is not supported on your OS.' if !%w{ubuntu debian redhat fedora arch}.include? vulcano.os[:family]
+    return skip_resource 'The `kernel_parameter` resource is not supported on your OS.' if !vulcano.os.linux?
   end
 
   def loaded?
+    # default lsmod command
+    lsmod_cmd = 'lsmod'
+    # special care for CentOS 5 and sudo
+    lsmod_cmd = '/sbin/lsmod' if vulcano.os[:family] == 'centos' && vulcano.os[:release].to_i == 5
+
     # get list of all modules
-    cmd = vulcano.command('lsmod')
+    cmd = vulcano.command(lsmod_cmd)
     return false if cmd.exit_status != 0
 
     # check if module is loaded

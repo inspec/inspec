@@ -13,8 +13,10 @@ group :test do
 end
 
 group :integration do
-  gem 'test-kitchen', '~> 1.4'
+  gem 'berkshelf', '~> 4.0'
+  gem 'test-kitchen', git: 'https://github.com/chris-rock/test-kitchen', branch: 'test-path'
   gem 'kitchen-vagrant'
+  gem 'kitchen-inspec', git: 'git@github.com:chef/kitchen-inspec.git'
   gem 'concurrent-ruby', '~> 0.9'
 end
 

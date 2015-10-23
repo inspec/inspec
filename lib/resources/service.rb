@@ -68,7 +68,7 @@ class Service < Vulcano.resource(1)
       @service_mgmt = WindowsSrv.new(vulcano)
     when 'freebsd'
       @service_mgmt = BSDInit.new(vulcano)
-    when 'arch'
+    when 'arch', 'opensuse'
       @service_mgmt = Systemd.new(vulcano)
     end
 
@@ -159,9 +159,14 @@ class Upstart < ServiceManager
     # check if a service is enabled
     # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
+    # Ubuntu 10.04 show-config is not supported
+    # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
     config = @vulcano.command("initctl show-config #{service_name}")
     match_enabled = /^\s*start on/.match(config.stdout)
     !match_enabled.nil? ? (enabled = true) : (enabled = false)
+
+    # implement fallback for Ubuntu 10.04
+    enabled = true if @vulcano.os[:family] == 'ubuntu' && @vulcano.os[:release].to_f >= 10.04 && @vulcano.os[:release].to_f < 12.04 && cmd.exit_status == 0
 
     {
       name: service_name,
@@ -199,9 +204,14 @@ class SysV < ServiceManager
     # check if service is really running
     # service throws an exit code if the service is not installed or
     # not enabled
-    cmd = @vulcano.command("service #{service_name} status")
-    cmd.exit_status == 0 ? (running = true) : (running = false)
 
+    # on debian service is located /usr/sbin/service, on centos it is located here /sbin/service
+    service_cmd = 'service'
+    service_cmd = '/usr/sbin/service' if @vulcano.os[:family] == 'debian'
+    service_cmd = '/sbin/service' if @vulcano.os[:family] == 'centos'
+
+    cmd = @vulcano.command("#{service_cmd} #{service_name} status")
+    cmd.exit_status == 0 ? (running = true) : (running = false)
     {
       name: service_name,
       description: nil,
@@ -227,7 +237,7 @@ class BSDInit < ServiceManager
     return nil if cmd.exit_status != 0
 
     # search for the service
-    srv = /(^.*#{service_name}.*)/.match(cmd.stdout)
+    srv = /(^.*#{service_name}$)/.match(cmd.stdout)
     return nil if srv.nil? || srv[0].nil?
     enabled = true
 
