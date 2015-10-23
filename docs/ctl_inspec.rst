@@ -92,7 +92,7 @@ will return:
 
 exec
 =====================================================
-Use ``inspec json`` to read all tests at the specified path, and then generate a |json| profile to standard output (stdout) or printed to the command shell.
+Use ``inspec exec`` to run all tests at the specified path.
 
 Syntax
 -----------------------------------------------------
