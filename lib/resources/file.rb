@@ -26,40 +26,25 @@ module Vulcano::Resources
     end
 
     def contain(*_)
-      fail ' not yet implemented '
+      fail '`contain` will not be implemented. Use standard RSpec matcher.'
     end
 
     def readable?(by_owner, by_user)
-      if by_user.nil?
-        m = unix_mode_mask(by_owner, 'r') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
-      else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
-      end
+      m = unix_mode_mask(by_owner, 'r') ||
+          fail("#{by_owner} is not a valid unix owner.")
+      (@file.mask & m) != 0
     end
 
     def writable?(by_owner, by_user)
-      if by_user.nil?
-        m = unix_mode_mask(by_owner, 'w') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
-      else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
-      end
+      m = unix_mode_mask(by_owner, 'w') ||
+          fail("#{by_owner} is not a valid unix owner.")
+      (@file.mask & m) != 0
     end
 
     def executable?(by_owner, by_user)
-      if by_user.nil?
-        m = unix_mode_mask(by_owner, 'x') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
-      else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
-      end
+      m = unix_mode_mask(by_owner, 'x') ||
+          fail("#{by_owner} is not a valid unix owner.")
+      (@file.mask & m) != 0
     end
 
     def to_s
