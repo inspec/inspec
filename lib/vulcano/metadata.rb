@@ -6,7 +6,7 @@
 require 'logger'
 
 module Vulcano
-  # Extract vmetadata.rb information
+  # Extract metadata.rb information
   class Metadata
     attr_reader :params
     def initialize(logger = nil)
@@ -46,19 +46,19 @@ module Vulcano
       is_valid = true
       %w{ name title version summary }.each do |field|
         next unless params[field].nil?
-        @log.error("Missing profile #{field} in vmetadata.rb")
+        @log.error("Missing profile #{field} in metadata.rb")
         is_valid = false
       end
       %w{ maintainer copyright }.each do |field|
         next unless params[field].nil?
-        @log.warn("Missing profile #{field} in vmetadata.rb")
+        @log.warn("Missing profile #{field} in metadata.rb")
         is_valid = false
       end
       is_valid && @missing_methods.empty?
     end
 
     def method_missing(sth, *args)
-      @log.warn "vmetadata.rb doesn't support: #{sth} #{args}"
+      @log.warn "metadata.rb doesn't support: #{sth} #{args}"
       @missing_methods.push(sth)
     end
 
