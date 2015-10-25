@@ -3,6 +3,8 @@ sudo: required
 language: ruby
 cache: bundler
 
+bundler_args: --without integration tools
+
 matrix:
   include:
   - rvm: 1.9.3
