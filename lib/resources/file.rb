@@ -26,7 +26,7 @@ module Vulcano::Resources
     end
 
     def contain(*_)
-      fail '`contain` will not be implemented. Use standard RSpec matcher.'
+      fail 'Contain is not supported. Please use standard RSpec matchers.'
     end
 
     def readable?(by_owner, by_user)
