@@ -13,3 +13,9 @@ file '/tmp/file' do
   group gid
   content 'hello world'
 end
+
+directory '/tmp/folder' do
+  mode '0567'
+  owner 'root'
+  group gid
+end
