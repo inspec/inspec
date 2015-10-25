@@ -92,6 +92,16 @@ module Train::Extras
         file_version == version
     end
 
+    def unix_mode_mask(owner, type)
+      o = UNIX_MODE_OWNERS[owner.to_sym]
+      return nil if o.nil?
+
+      t = UNIX_MODE_TYPES[type.to_sym]
+      return nil if t.nil?
+
+      t & o
+    end
+
     # helper methods provided to any implementing class
 
     private
@@ -116,15 +126,5 @@ module Train::Extras
       w: 00222,
       x: 00111,
     }
-
-    def unix_mode_mask(owner, type)
-      o = UNIX_MODE_OWNERS[owner.to_sym]
-      return nil if o.nil?
-
-      t = UNIX_MODE_TYPES[type.to_sym]
-      return nil if t.nil?
-
-      t & o
-    end
   end
 end
