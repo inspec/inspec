@@ -5,3 +5,4 @@ coverage
 .kitchen
 .delivery/cli.toml
 Berksfile.lock
+.bundle
