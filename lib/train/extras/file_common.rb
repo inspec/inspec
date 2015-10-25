@@ -116,6 +116,7 @@ module Train::Extras
     end
 
     UNIX_MODE_OWNERS = {
+      all:   00777,
       owner: 00700,
       group: 00070,
       other: 00007,
