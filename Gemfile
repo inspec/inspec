@@ -10,6 +10,7 @@ group :test do
   gem 'rake', '~> 10'
   gem 'rubocop', '~> 0.33.0'
   gem 'simplecov', '~> 0.10'
+  gem 'concurrent-ruby', '~> 0.9'
 end
 
 group :integration do
@@ -17,7 +18,6 @@ group :integration do
   gem 'test-kitchen', git: 'https://github.com/chris-rock/test-kitchen', branch: 'test-path'
   gem 'kitchen-vagrant'
   gem 'kitchen-inspec', git: 'git@github.com:chef/kitchen-inspec.git'
-  gem 'concurrent-ruby', '~> 0.9'
 end
 
 group :tools do
