@@ -6,11 +6,11 @@
 
 RSpec::Matchers.define :be_readable do
   match do |file|
-    file.readable?(@by_type, @by_user)
+    file.readable?(@by, @by_user)
   end
 
-  chain :by do |by_type|
-    @by_type = by_type
+  chain :by do |by|
+    @by = by
   end
 
   chain :by_user do |by_user|
@@ -19,7 +19,7 @@ RSpec::Matchers.define :be_readable do
 
   description do
     res = 'be readable'
-    res += " by #{@by_type}" unless @by_type.nil?
+    res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
   end
@@ -27,11 +27,11 @@ end
 
 RSpec::Matchers.define :be_writable do
   match do |file|
-    file.writable?(@by_type, @by_user)
+    file.writable?(@by, @by_user)
   end
 
-  chain :by do |by_type|
-    @by_type = by_type
+  chain :by do |by|
+    @by = by
   end
 
   chain :by_user do |by_user|
@@ -40,7 +40,7 @@ RSpec::Matchers.define :be_writable do
 
   description do
     res = 'be writable'
-    res += " by #{@by_type}" unless @by_type.nil?
+    res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
   end
@@ -48,11 +48,11 @@ end
 
 RSpec::Matchers.define :be_executable do
   match do |file|
-    file.executable?(@by_type, @by_user)
+    file.executable?(@by, @by_user)
   end
 
-  chain :by do |by_type|
-    @by_type = by_type
+  chain :by do |by|
+    @by = by
   end
 
   chain :by_user do |by_user|
@@ -61,7 +61,7 @@ RSpec::Matchers.define :be_executable do
 
   description do
     res = 'be executable'
-    res += " by #{@by_type}" unless @by_type.nil?
+    res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
   end
