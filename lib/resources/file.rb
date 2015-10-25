@@ -26,44 +26,73 @@ module Vulcano::Resources
     end
 
     def contain(*_)
-      fail ' not yet implemented '
+      fail 'Contain is not supported. Please use standard RSpec matchers.'
     end
 
     def readable?(by_owner, by_user)
+      by_owner, by_user = check_preconditions(by_owner, by_user)
+
       if by_user.nil?
-        m = unix_mode_mask(by_owner, 'r') ||
+        m = @file.unix_mode_mask(by_owner, 'r') ||
             fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
+        (@file.mode & m) != 0
       else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'r')
+        check_user_access(by_user, @path, 'r')
       end
     end
 
     def writable?(by_owner, by_user)
+      by_owner, by_user = check_preconditions(by_owner, by_user)
+
       if by_user.nil?
-        m = unix_mode_mask(by_owner, 'w') ||
+        m = @file.unix_mode_mask(by_owner, 'w') ||
             fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
+        (@file.mode & m) != 0
       else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'w')
+        check_user_access(by_user, @path, 'w')
       end
     end
 
     def executable?(by_owner, by_user)
+      by_owner, by_user = check_preconditions(by_owner, by_user)
+
       if by_user.nil?
-        m = unix_mode_mask(by_owner, 'x') ||
+        m = @file.unix_mode_mask(by_owner, 'x') ||
             fail("#{by_owner} is not a valid unix owner.")
-        (@file.mask & m) != 0
+        (@file.mode & m) != 0
       else
-        # TODO: REMOVE THIS FALLBACK
-        Specinfra::Runner.check_file_is_accessible_by_user(@path, by_user, 'x')
+        check_user_access(by_user, @path, 'x')
       end
     end
 
     def to_s
       "File #{@path}"
+    end
+
+    private
+
+    def check_preconditions(by_owner, by_user)
+      by_owner = 'other' if by_owner == 'others'
+      by_owner = 'all' if (by_owner.nil? || by_owner.empty?) && (by_user.nil?)
+      [by_owner, by_user]
+    end
+
+    # check permissions on linux
+    def check_user_access(user, file, flag)
+      if vulcano.os.linux? == true
+        # use sh on linux
+        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{file}\" #{user}"
+      elsif vulcano.os[:family] == 'freebsd'
+        # use sudo on freebsd
+        perm_cmd = "sudo -u #{user} test -#{flag} #{file}"
+      end
+
+      if !perm_cmd.nil?
+        cmd = vulcano.command(perm_cmd)
+        cmd.exit_status == 0 ? true : false
+      else
+        return skip_resource 'The `file` resource does not support `by_user` on your OS.'
+      end
     end
   end
 end

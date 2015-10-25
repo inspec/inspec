@@ -421,7 +421,7 @@ The ``content`` matcher tests if contents in the file that defines the bonded ne
 
 .. code-block:: ruby
 
-   its('content') { should contain 'value' }
+   its('content') { should match('value') }
 
 exist -- DONE
 +++++++++++++++++++++++++++++++++++++++++++++++++++++

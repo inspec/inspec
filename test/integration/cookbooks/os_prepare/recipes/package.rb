@@ -15,7 +15,7 @@ when 'rhel', 'centos', 'fedora'
   # TODO: support DNF natively
   # Special care for fedora 22, since dnf is not officially supported yet
   # https://github.com/chef/chef/issues/3201
-  if node['platform_version'] == 22
+  if node['platform_version'] == '22'
     execute 'dnf install -y yum'
   end
 
