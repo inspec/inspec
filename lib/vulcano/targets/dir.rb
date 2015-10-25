@@ -4,7 +4,7 @@
 
 module Vulcano::Targets
   module DirsHelper
-    class ChefAuditDir
+    class ProfileDir
       def handles?(paths)
         paths.include?('recipes') and paths.include?('metadata.rb')
       end
@@ -39,7 +39,7 @@ module Vulcano::Targets
     end
 
     HANDLERS = [
-      ChefAuditDir, ServerspecDir, FlatDir
+      ProfileDir, ServerspecDir, FlatDir
     ].map(&:new)
 
     def self.get_handler(paths)

@@ -15,7 +15,7 @@ module Vulcano::Targets
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
-      files = files.map { |x| x[target.length + 1..-1] }
+      files = files.map { |x| x.sub(target, '') }
       # get the dirs helper
       helper = DirsHelper.get_handler(files)
       if helper.nil?
