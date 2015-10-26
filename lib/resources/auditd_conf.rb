@@ -14,7 +14,7 @@ require 'utils/simpleconfig'
 # end
 
 class AuditDaemonConf < Vulcano.resource(1)
-  name 'audit_daemon_conf'
+  name 'auditd_conf'
 
   def initialize(path = nil)
     @conf_path = path || '/etc/audit/auditd.conf'
