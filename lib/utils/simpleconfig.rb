@@ -21,11 +21,12 @@ class SimpleConfig
   # comment_char: char which identifies comments
   # standalone_comments: comments must appear alone in a line; if set to true,
   # no comments can be added to the end of an assignment/statement line
-  def parse(raw_data, opts = {})
+  def parse(raw_data, opts = nil)
     @params = {}
     @groups = []
     @vals = @params
     options = default_options.merge(opts || {})
+    return if raw_data.nil?
 
     # prepare raw data if required
     if !options[:line_separator].nil?
