@@ -138,12 +138,10 @@ end
 
 module Inspec::DSLHelper
   def self.bind_dsl(scope)
-    # rubocop:disable Lint/NestedMethodDefinition
     (class << scope; self; end).class_exec do
       include Inspec::DSL
       include Inspec::GlobalDSL
     end
-    # rubocop:enable all
   end
 end
 

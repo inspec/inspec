@@ -70,7 +70,7 @@ module Inspec
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       no_errors = true
       no_warnings = true
-      warn = lamba { |msg|
+      warn = lambda { |msg|
         @logger.warn(msg)
         no_warnings = false
       }
