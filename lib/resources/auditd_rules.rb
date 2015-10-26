@@ -13,7 +13,7 @@
 # end
 
 class AuditDaemonRules < Vulcano.resource(1)
-  name 'audit_daemon_rules'
+  name 'auditd_rules'
 
   def initialize
     @content = vulcano.command('/sbin/auditctl -l').stdout.chomp
