@@ -20,6 +20,7 @@ module Inspec
       @rules = {}
       @profile_id = conf[:id]
       @conf = conf.dup
+      @conf[:logger] ||= Logger.new(nil)
       @tests = RSpec::Core::World.new
 
       configure_output
