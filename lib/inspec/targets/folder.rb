@@ -15,7 +15,8 @@ module Inspec::Targets
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
-      files = files.map { |x| x.sub(target, '') }
+      prefix = File.join(target, '')
+      files = files.map { |x| x.sub(prefix, '') }
       # get the dirs helper
       helper = DirsHelper.get_handler(files)
       if helper.nil?
