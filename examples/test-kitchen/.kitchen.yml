@@ -6,7 +6,7 @@ provisioner:
   name: chef_solo
 
 verifier:
-  name: InSpec
+  name: inspec
 
 platforms:
   - name: centos-7.1
