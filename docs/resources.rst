@@ -3425,14 +3425,14 @@ A ``postgres_session`` InSpec resource block declares the username and password 
 
    sql = postgres_session('username', 'password')
 
-   sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+   describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
      its('output') { should eq('') }
    end
 
 where
 
 * ``sql = postgres_session`` declares a username and password with permission to run the query
-* ``describe('')`` contains the query to be run
+* ``sql.query('')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers -- DONE
@@ -3457,7 +3457,7 @@ The following examples show how to use this InSpec resource.
 
    sql = postgres_session('my_user', 'password')
 
-   sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+   describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
      its('output') { should eq('') }
    end
 
@@ -3467,7 +3467,7 @@ The following examples show how to use this InSpec resource.
 
    sql = postgres_session('my_user', 'password')
 
-   sql.describe('SELECT count (*)
+   describe sql.query('SELECT count (*)
                  FROM pg_language
                  WHERE lanpltrusted = 'f'
                  AND lanname!='internal'
