@@ -12,8 +12,8 @@ class ApacheConf < Inspec.resource(1)
 
   include FindFiles
 
-  def initialize(conf_path)
-    @conf_path = conf_path
+  def initialize(conf_path = nil)
+    @conf_path = conf_path || inspec.apache.conf_path
     @conf_dir = File.dirname(@conf_path)
     @files_contents = {}
     @content = nil

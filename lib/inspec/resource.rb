@@ -21,6 +21,7 @@ module Inspec
   end
 end
 
+require 'resources/apache'
 require 'resources/apache_conf'
 require 'resources/apt'
 require 'resources/audit_policy'
