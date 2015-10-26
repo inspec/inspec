@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::CSV' do
+describe 'Inspec::Resources::CSV' do
   it 'verify csv parsing' do
     resource = load_resource('csv', 'example.csv')
     _(resource.params).wont_equal nil

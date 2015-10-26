@@ -2,6 +2,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano
+module Inspec
   VERSION = '0.8.0'
 end

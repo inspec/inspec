@@ -5,9 +5,9 @@
 require 'uri'
 require 'tempfile'
 require 'open-uri'
-require 'vulcano/targets/zip'
+require 'inspec/targets/zip'
 
-module Vulcano::Targets
+module Inspec::Targets
   class UrlHelper
     def handles?(target)
       uri = URI.parse(target)
@@ -24,7 +24,7 @@ module Vulcano::Targets
     end
 
     def resolve_zip(url)
-      zipfile = Tempfile.new('vulcano-dl-')
+      zipfile = Tempfile.new('inspec-dl-')
       zipfile.binmode
       zipfile.write(open(url).read)
       zipfile.rewind
@@ -35,5 +35,5 @@ module Vulcano::Targets
     end
   end
 
-  Vulcano::Targets.add_module('url', UrlHelper.new)
+  Inspec::Targets.add_module('url', UrlHelper.new)
 end

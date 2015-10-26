@@ -6,7 +6,7 @@
 # describe npm('bower') do
 #   it { should be_installed }
 # end
-class NpmPackage < Vulcano.resource(1)
+class NpmPackage < Inspec.resource(1)
   name 'npm'
 
   def initialize(package_name)
@@ -17,7 +17,7 @@ class NpmPackage < Vulcano.resource(1)
   def info
     return @info if defined?(@info)
 
-    cmd = vulcano.command("npm ls -g --json #{@package_name}")
+    cmd = inspec.command("npm ls -g --json #{@package_name}")
     @info = {
       name: @package_name,
       type: 'npm',

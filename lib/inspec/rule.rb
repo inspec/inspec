@@ -7,7 +7,7 @@
 require 'rspec/expectations'
 require 'method_source'
 
-module Vulcano
+module Inspec
   class ExpectationTarget
     attr_reader :calls, :value, :block
     def initialize(value, &block)

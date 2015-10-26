@@ -6,7 +6,7 @@
 # describe gem('rubocop') do
 #   it { should be_installed }
 # end
-class GemPackage < Vulcano.resource(1)
+class GemPackage < Inspec.resource(1)
   name 'gem'
 
   def initialize(package_name)
@@ -16,7 +16,7 @@ class GemPackage < Vulcano.resource(1)
   def info
     return @info if defined?(@info)
 
-    cmd = vulcano.command("gem list --local -a -q \^#{@package_name}\$")
+    cmd = inspec.command("gem list --local -a -q \^#{@package_name}\$")
     @info = {
       installed: cmd.exit_status == 0,
       type: 'gem',

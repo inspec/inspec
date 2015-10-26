@@ -9,7 +9,7 @@ class Script < Cmd
   attr_accessor :command
 
   def initialize(script)
-    case vulcano.os[:family]
+    case inspec.os[:family]
     when 'windows'
       # encodes a script as base64 to run as powershell encodedCommand
       # this comes with performance issues: @see https://gist.github.com/fnichol/7b20596b950e65fb96f9

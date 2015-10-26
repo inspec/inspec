@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Iptables' do
+describe 'Inspec::Resources::Iptables' do
 
   # ubuntu 14.04
   it 'verify iptables on ubuntu' do

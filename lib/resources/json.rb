@@ -7,7 +7,7 @@
 # describe json('policyfile.lock.json') do
 #   its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
 # end
-class JsonConfig < Vulcano.resource(1)
+class JsonConfig < Inspec.resource(1)
   name 'json'
 
   # make params readable
@@ -15,7 +15,7 @@ class JsonConfig < Vulcano.resource(1)
 
   def initialize(path)
     @path = path
-    @file_content = vulcano.file(@path).content
+    @file_content = inspec.file(@path).content
     @params = parse(@file_content)
   end
 

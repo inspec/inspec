@@ -3,9 +3,9 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/metadata'
+require 'inspec/metadata'
 
-module Vulcano
+module Inspec
   class Profile
     def self.from_path(path, options = nil)
       opt = options.dup || {}

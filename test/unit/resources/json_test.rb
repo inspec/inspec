@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::JSON' do
+describe 'Inspec::Resources::JSON' do
   it 'verify json parsing' do
     resource = load_resource('json', 'policyfile.lock.json')
     _(resource.params).wont_equal nil

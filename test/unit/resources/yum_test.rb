@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::YumRepo' do
+describe 'Inspec::Resources::YumRepo' do
   it 'get repository details' do
     resource = MockLoader.new(:centos7).load_resource('yum')
     _(resource.repositories).must_equal [{

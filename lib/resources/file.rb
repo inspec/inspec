@@ -4,14 +4,14 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-module Vulcano::Resources
-  class File < Vulcano.resource(1)
+module Inspec::Resources
+  class File < Inspec.resource(1)
     name 'file'
 
     attr_reader :path
     def initialize(path)
       @path = path
-      @file = vulcano.backend.file(@path)
+      @file = inspec.backend.file(@path)
     end
 
     %w{
@@ -79,16 +79,16 @@ module Vulcano::Resources
 
     # check permissions on linux
     def check_user_access(user, file, flag)
-      if vulcano.os.linux? == true
+      if inspec.os.linux? == true
         # use sh on linux
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{file}\" #{user}"
-      elsif vulcano.os[:family] == 'freebsd'
+      elsif inspec.os[:family] == 'freebsd'
         # use sudo on freebsd
         perm_cmd = "sudo -u #{user} test -#{flag} #{file}"
       end
 
       if !perm_cmd.nil?
-        cmd = vulcano.command(perm_cmd)
+        cmd = inspec.command(perm_cmd)
         cmd.exit_status == 0 ? true : false
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'

@@ -27,7 +27,7 @@
 
 require 'utils/parser'
 
-class Passwd < Vulcano.resource(1)
+class Passwd < Inspec.resource(1)
   name 'passwd'
 
   include ContentParser
@@ -37,7 +37,7 @@ class Passwd < Vulcano.resource(1)
 
   def initialize(path = nil)
     @path = path || '/etc/passwd'
-    @content = vulcano.file(@path).content
+    @content = inspec.file(@path).content
     @parsed = parse_passwd(@content)
   end
 

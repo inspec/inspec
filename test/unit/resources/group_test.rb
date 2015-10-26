@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Group' do
+describe 'Inspec::Resources::Group' do
 
   # ubuntu 14.04
   it 'verify group on ubuntu' do

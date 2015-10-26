@@ -24,7 +24,7 @@
 require 'utils/convert'
 require 'utils/parser'
 
-class EtcGroup < Vulcano.resource(1)
+class EtcGroup < Inspec.resource(1)
   include Converter
   include ContentParser
 
@@ -37,7 +37,7 @@ class EtcGroup < Vulcano.resource(1)
 
     # skip resource if it is not supported on current OS
     return skip_resource 'The `etc_group` resource is not supported on your OS.' \
-    unless %w{ubuntu debian redhat fedora arch darwin freebsd}.include?(vulcano.os[:family])
+    unless %w{ubuntu debian redhat fedora arch darwin freebsd}.include?(inspec.os[:family])
   end
 
   def groups(filter = nil)
@@ -90,7 +90,7 @@ class EtcGroup < Vulcano.resource(1)
   private
 
   def parse_group(path)
-    @content = vulcano.file(path).content
+    @content = inspec.file(path).content
     # iterate over each line and filter comments
     @content.split("\n").each_with_object([]) do |line, lines|
       grp_info = parse_group_line(line)

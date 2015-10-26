@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Pip' do
+describe 'Inspec::Resources::Pip' do
   it 'verify pip package detail parsing' do
     resource = load_resource('pip', 'jinja2')
     pkg = {:name=>'Jinja2', :installed=>true, :version=>'2.8', :type=>'pip'}

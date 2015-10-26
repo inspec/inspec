@@ -30,7 +30,7 @@ require 'resources/file'
 #   it { should be_enabled }
 # end
 
-class Yum < Vulcano.resource(1)
+class Yum < Inspec.resource(1)
   name 'yum'
 
   # returns all repositories
@@ -43,7 +43,7 @@ class Yum < Vulcano.resource(1)
     return @cache if defined?(@cache)
     # parse the repository data from yum
     # we cannot use -C, because this is not reliable and may lead to errors
-    @command_result = vulcano.command('yum -v repolist all')
+    @command_result = inspec.command('yum -v repolist all')
     @content = @command_result.stdout
     @cache = []
     repo = {}

@@ -28,13 +28,13 @@
 
 require 'uri'
 
-class AptRepository < Vulcano.resource(1)
+class AptRepository < Inspec.resource(1)
   name 'apt'
 
   def initialize(ppa_name)
     @deb_url = nil
     # check if the os is ubuntu or debian
-    if vulcano.os.debian?
+    if inspec.os.debian?
       @deb_url = determine_ppa_url(ppa_name)
     else
       # this resource is only supported on ubuntu and debian
@@ -70,7 +70,7 @@ class AptRepository < Vulcano.resource(1)
     return @repo_cache if defined?(@repo_cache)
 
     # load all lists
-    cmd = vulcano.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
+    cmd = inspec.command("find /etc/apt/ -name \*.list -exec sh -c 'cat {} || echo -n' \\;")
 
     # @see https://help.ubuntu.com/community/Repositories/CommandLine#Explanation_of_the_Repository_Format
     @repo_cache = cmd.stdout.chomp.split("\n").each_with_object([]) do |raw_line, lines|

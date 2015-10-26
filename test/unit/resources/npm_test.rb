@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Npm' do
+describe 'Inspec::Resources::Npm' do
   it 'verify npm package detail parsing' do
     resource = load_resource('npm', 'bower')
     pkg = {

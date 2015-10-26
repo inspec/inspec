@@ -5,7 +5,7 @@
 require 'rubygems/package'
 require 'zlib'
 
-module Vulcano::Targets
+module Inspec::Targets
   class TarHelper
     def structure(input)
       files = []

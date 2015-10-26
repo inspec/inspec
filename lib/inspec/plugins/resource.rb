@@ -2,19 +2,19 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano
+module Inspec
   module Plugins
     class Resource
       def self.name(name = nil)
         return if name.nil?
-        Vulcano::Plugins::Resource.__register(name, self)
+        Inspec::Plugins::Resource.__register(name, self)
       end
 
       def self.__register(name, obj)
         # rubocop:disable Lint/NestedMethodDefinition
         cl = Class.new(obj) do
           # add some common methods
-          include Vulcano::Plugins::ResourceCommon
+          include Inspec::Plugins::ResourceCommon
           def initialize(backend, name, *args)
             # attach the backend to this instance
             @__backend_runner__ = backend
@@ -23,14 +23,14 @@ module Vulcano
             super(*args)
           end
 
-          def vulcano
+          def inspec
             @__backend_runner__
           end
         end
         # rubocop:enable Lint/NestedMethodDefinition
 
         # add the resource to the registry by name
-        Vulcano::Resource.registry[name] = cl
+        Inspec::Resource.registry[name] = cl
       end
 
       # Define methods which are available to all resources

@@ -19,7 +19,7 @@
 # Ubuntu < 15.04 : upstart
 #
 # TODO: extend the logic to detect the running init system, independently of OS
-class Service < Vulcano.resource(1)
+class Service < Inspec.resource(1)
   name 'service'
 
   def initialize(service_name)
@@ -30,7 +30,7 @@ class Service < Vulcano.resource(1)
   end
 
   def select_package_manager # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    family = vulcano.os[:family]
+    family = inspec.os[:family]
 
     case family
     # Ubuntu
@@ -42,34 +42,34 @@ class Service < Vulcano.resource(1)
     # Upstart runs with PID 1 as /sbin/init.
     # Systemd runs with PID 1 as /lib/systemd/systemd.
     when 'ubuntu'
-      version = vulcano.os[:release].to_f
+      version = inspec.os[:release].to_f
       if version < 15.04
-        @service_mgmt = Upstart.new(vulcano)
+        @service_mgmt = Upstart.new(inspec)
       else
-        @service_mgmt = Systemd.new(vulcano)
+        @service_mgmt = Systemd.new(inspec)
       end
     when 'debian'
-      version = vulcano.os[:release].to_i
+      version = inspec.os[:release].to_i
       if version > 7
-        @service_mgmt = Systemd.new(vulcano)
+        @service_mgmt = Systemd.new(inspec)
       else
-        @service_mgmt = SysV.new(vulcano)
+        @service_mgmt = SysV.new(inspec)
       end
     when 'redhat', 'fedora', 'centos'
-      version = vulcano.os[:release].to_i
+      version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
-        @service_mgmt = Systemd.new(vulcano)
+        @service_mgmt = Systemd.new(inspec)
       else
-        @service_mgmt = SysV.new(vulcano)
+        @service_mgmt = SysV.new(inspec)
       end
     when 'darwin'
-      @service_mgmt = LaunchCtl.new(vulcano)
+      @service_mgmt = LaunchCtl.new(inspec)
     when 'windows'
-      @service_mgmt = WindowsSrv.new(vulcano)
+      @service_mgmt = WindowsSrv.new(inspec)
     when 'freebsd'
-      @service_mgmt = BSDInit.new(vulcano)
+      @service_mgmt = BSDInit.new(inspec)
     when 'arch', 'opensuse'
-      @service_mgmt = Systemd.new(vulcano)
+      @service_mgmt = Systemd.new(inspec)
     end
 
     return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
@@ -105,8 +105,9 @@ class Service < Vulcano.resource(1)
 end
 
 class ServiceManager
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
@@ -114,7 +115,7 @@ end
 # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
 class Systemd < ServiceManager
   def info(service_name)
-    cmd = @vulcano.command("systemctl show --all #{service_name}")
+    cmd = inspec.command("systemctl show --all #{service_name}")
     return nil if cmd.exit_status.to_i != 0
 
     # parse data
@@ -148,7 +149,7 @@ end
 class Upstart < ServiceManager
   def info(service_name)
     # get the status of upstart service
-    cmd = @vulcano.command("initctl status #{service_name}")
+    cmd = inspec.command("initctl status #{service_name}")
     return nil if cmd.exit_status != 0
 
     # @see: http://upstart.ubuntu.com/cookbook/#job-states
@@ -161,12 +162,17 @@ class Upstart < ServiceManager
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
     # Ubuntu 10.04 show-config is not supported
     # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
-    config = @vulcano.command("initctl show-config #{service_name}")
+    config = inspec.command("initctl show-config #{service_name}")
     match_enabled = /^\s*start on/.match(config.stdout)
     !match_enabled.nil? ? (enabled = true) : (enabled = false)
 
     # implement fallback for Ubuntu 10.04
-    enabled = true if @vulcano.os[:family] == 'ubuntu' && @vulcano.os[:release].to_f >= 10.04 && @vulcano.os[:release].to_f < 12.04 && cmd.exit_status == 0
+    if inspec.os[:family] == 'ubuntu' &&
+       inspec.os[:release].to_f >= 10.04 &&
+       inspec.os[:release].to_f < 12.04 &&
+       cmd.exit_status == 0
+      enabled = true
+    end
 
     {
       name: service_name,
@@ -183,7 +189,7 @@ class SysV < ServiceManager
   def info(service_name)
     # check if service is installed
     # read all available services via ls /etc/init.d/
-    srvlist = @vulcano.command('ls -1 /etc/init.d/')
+    srvlist = inspec.command('ls -1 /etc/init.d/')
     return nil if srvlist.exit_status != 0
 
     # check if the service is in list
@@ -195,7 +201,7 @@ class SysV < ServiceManager
     # read all enabled services from runlevel
     # on rhel via: 'chkconfig --list', is not installed by default
     # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
-    enabled_services_cmd = @vulcano.command('find /etc/rc*.d -name S*')
+    enabled_services_cmd = inspec.command('find /etc/rc*.d -name S*')
     enabled_services = enabled_services_cmd.stdout.split("\n").select { |line|
       /(^.*#{service_name}.*)/.match(line)
     }
@@ -207,10 +213,10 @@ class SysV < ServiceManager
 
     # on debian service is located /usr/sbin/service, on centos it is located here /sbin/service
     service_cmd = 'service'
-    service_cmd = '/usr/sbin/service' if @vulcano.os[:family] == 'debian'
-    service_cmd = '/sbin/service' if @vulcano.os[:family] == 'centos'
+    service_cmd = '/usr/sbin/service' if inspec.os[:family] == 'debian'
+    service_cmd = '/sbin/service' if inspec.os[:family] == 'centos'
 
-    cmd = @vulcano.command("#{service_cmd} #{service_name} status")
+    cmd = inspec.command("#{service_cmd} #{service_name} status")
     cmd.exit_status == 0 ? (running = true) : (running = false)
     {
       name: service_name,
@@ -233,7 +239,7 @@ class BSDInit < ServiceManager
     # service SERVICE status returns the following result if not activated:
     #   Cannot 'status' sshd. Set sshd_enable to YES in /etc/rc.conf or use 'onestatus' instead of 'status'.
     # gather all enabled services
-    cmd = @vulcano.command('service -e')
+    cmd = inspec.command('service -e')
     return nil if cmd.exit_status != 0
 
     # search for the service
@@ -243,7 +249,7 @@ class BSDInit < ServiceManager
 
     # check if the service is running
     # if the service is not available or not running, we always get an error code
-    cmd = @vulcano.command("service #{service_name} onestatus")
+    cmd = inspec.command("service #{service_name} onestatus")
     cmd.exit_status == 0 ? (running = true) : (running = false)
 
     {
@@ -262,7 +268,7 @@ end
 class LaunchCtl < ServiceManager
   def info(service_name)
     # get the status of upstart service
-    cmd = @vulcano.command('launchctl list')
+    cmd = inspec.command('launchctl list')
     return nil if cmd.exit_status != 0
 
     # search for the service
@@ -324,7 +330,7 @@ class WindowsSrv < ServiceManager
   # - 6: Pause Pending
   # - 7: Paused
   def info(service_name)
-    cmd = @vulcano.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
+    cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
 
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0

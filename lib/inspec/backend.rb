@@ -6,7 +6,7 @@
 
 require 'train'
 
-module Vulcano
+module Inspec
   module Backend
     # Create the transport backend with aggregated resources.
     #
@@ -29,7 +29,7 @@ module Vulcano
         define_method :backend do
           connection
         end
-        Vulcano::Resource.registry.each do |id, r|
+        Inspec::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(self, id.to_s, *args)
           end

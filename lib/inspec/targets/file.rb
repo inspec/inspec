@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano::Targets
+module Inspec::Targets
   class FileHelper
     def handles?(target)
       File.file?(target) and target.end_with?('.rb')
@@ -16,5 +16,5 @@ module Vulcano::Targets
     end
   end
 
-  Vulcano::Targets.add_module('file', FileHelper.new)
+  Inspec::Targets.add_module('file', FileHelper.new)
 end

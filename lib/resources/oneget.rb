@@ -9,14 +9,14 @@
 # describe oneget('zoomit') do
 #   it { should be_installed }
 # end
-class OneGetPackage < Vulcano.resource(1)
+class OneGetPackage < Inspec.resource(1)
   name 'oneget'
 
   def initialize(package_name)
     @package_name = package_name
 
     # verify that this resource is only supported on Windows
-    return skip_resource 'The `oneget` resource is not supported on your OS.' if vulcano.os[:family] != 'windows'
+    return skip_resource 'The `oneget` resource is not supported on your OS.' if inspec.os[:family] != 'windows'
   end
 
   def info
@@ -26,7 +26,7 @@ class OneGetPackage < Vulcano.resource(1)
     @info[:type] = 'oneget'
     @info[:installed] = false
 
-    cmd = vulcano.command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
+    cmd = inspec.command("Get-Package -Name '#{@package_name}' | ConvertTo-Json")
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0
     # try to parse json

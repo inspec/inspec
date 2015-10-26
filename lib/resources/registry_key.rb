@@ -10,7 +10,7 @@ require 'json'
 #   its('Start') { should eq 2 }
 # end
 
-class RegistryKey < Vulcano.resource(1)
+class RegistryKey < Inspec.resource(1)
   name 'registry_key'
 
   attr_accessor :reg_key
@@ -24,7 +24,7 @@ class RegistryKey < Vulcano.resource(1)
 
   def registry_value(path, key)
     cmd = "(Get-Item 'Registry::#{path}').GetValue('#{key}')"
-    command_result ||= vulcano.command(cmd)
+    command_result ||= inspec.command(cmd)
     val = { exit_code: command_result.exit_status.to_i, data: command_result.stdout }
     val
   end

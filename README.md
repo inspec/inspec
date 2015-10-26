@@ -1,4 +1,4 @@
-# Vulcano CLI
+# Inspec CLI
 
 Test your Server, VM, or workstation.
 
@@ -17,7 +17,7 @@ end
 Run this file locally:
 
 ```bash
-vulcano exec test.rb
+inspec exec test.rb
 ```
 
 ## Installation
@@ -28,20 +28,20 @@ To simply run it without installation, you must install [bundler](http://bundler
 
 ```bash
 bundle install
-bundle exec bin/vulcano help
+bundle exec bin/inspec help
 ```
 
 To install it as a gem locally, run:
 
 ```bash
-gem build vulcano.gemspec
-gem install vulcano-*.gem
+gem build inspec.gemspec
+gem install inspec-*.gem
 ```
 
 You should now be able to run:
 
 ```bash
-vulcano --help
+inspec --help
 ```
 
 ## Usage
@@ -52,16 +52,16 @@ Run tests against different targets:
 
 ```bash
 # run test locally
-vulcano exec test.rb
+inspec exec test.rb
 
 # run test on remote host on SSH
-vulcano exec test.rb -t ssh://user@hostname
+inspec exec test.rb -t ssh://user@hostname
 
 # run test on remote windows host on WinRM
-vulcano exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
+inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
 
 # run test on docker container
-vulcano exec test.rb -t docker://container_id
+inspec exec test.rb -t docker://container_id
 ```
 
 ### detect
@@ -70,7 +70,7 @@ Verify your configuration and detect
 
 ```bash
 id=$( docker run -dti ubuntu:14.04 /bin/bash )
-vulcano detect -t docker://$id
+inspec detect -t docker://$id
 ```
 
 Which will provide you with:
@@ -87,12 +87,12 @@ application called Gordon and save it in `gordon_config.rb`:
 ```ruby
 require 'yaml'
 
-class GordonConfig < Vulcano.resource
+class GordonConfig < Inspec.resource
   name 'gordon_config'
 
   def initialize
     @path = '/etc/gordon/config.yaml'
-    @config = vulcano.file(@path).content
+    @config = inspec.file(@path).content
     @params = YAML.load(@config)
   end
 

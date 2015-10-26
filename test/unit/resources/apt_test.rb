@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::AptRepo' do
+describe 'Inspec::Resources::AptRepo' do
 
   it 'check apt on ubuntu' do
     resource = MockLoader.new(:ubuntu1504).load_resource('apt', 'http://archive.ubuntu.com/ubuntu/')

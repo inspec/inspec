@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Script' do
+describe 'Inspec::Resources::Script' do
 
   ps1_script = <<-EOH
     # call help for get command

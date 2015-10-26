@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Gem' do
+describe 'Inspec::Resources::Gem' do
   it 'verify gem package detail parsing' do
     resource = load_resource('gem', 'rubocop')
     pkg = {

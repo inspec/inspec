@@ -7,7 +7,7 @@
 #   it { should be_installed }
 # end
 #
-class PipPackage < Vulcano.resource(1)
+class PipPackage < Inspec.resource(1)
   name 'pip'
 
   def initialize(package_name)
@@ -19,7 +19,7 @@ class PipPackage < Vulcano.resource(1)
 
     @info = {}
     @info[:type] = 'pip'
-    cmd = vulcano.command("#{pip_cmd} show #{@package_name}")
+    cmd = inspec.command("#{pip_cmd} show #{@package_name}")
     return @info if cmd.exit_status != 0
 
     params = SimpleConfig.new(
@@ -50,11 +50,11 @@ class PipPackage < Vulcano.resource(1)
   def pip_cmd
     # Pip is not on the default path for Windows, therefore we do some logic
     # to find the binary on Windows
-    family = vulcano.os[:family]
+    family = inspec.os[:family]
     case family
     when 'windows'
       # we need to detect the pip command on Windows
-      cmd = vulcano.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
       begin
         paths = JSON.parse(cmd.stdout)
         # use pip if it on system path

@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::OneGet' do
+describe 'Inspec::Resources::OneGet' do
 
   it 'verify oneget package detail parsing' do
     resource = MockLoader.new(:windows).load_resource('oneget', 'Mozilla Firefox')

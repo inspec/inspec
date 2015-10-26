@@ -4,13 +4,13 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-class Mysql < Vulcano.resource(1)
+class Mysql < Inspec.resource(1)
   name 'mysql'
 
   attr_reader :package, :service, :conf_dir, :conf_path, :data_dir, :log_dir, :log_path, :log_group, :log_dir_group
   def initialize
     # set OS-dependent filenames and paths
-    case vulcano.os[:family]
+    case inspec.os[:family]
     when 'ubuntu', 'debian'
       init_ubuntu
     when 'redhat', 'fedora'

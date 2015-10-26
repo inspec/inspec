@@ -10,11 +10,11 @@ SimpleCov.start do
   add_filter '/test/'
   add_group 'Resources', 'lib/resources'
   add_group 'Matchers', 'lib/matchers'
-  add_group 'Backends', 'lib/vulcano/backend'
+  add_group 'Backends', 'lib/inspec/backend'
 end
 
-require 'vulcano/resource'
-require 'vulcano/backend'
+require 'inspec/resource'
+require 'inspec/backend'
 
 class MockLoader
   # pass the os identifier to emulate a specific operating system
@@ -47,7 +47,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Vulcano::Backend.create({ backend: :mock })
+    @backend = Inspec::Backend.create({ backend: :mock })
     mock = @backend.backend
 
     # set os emulation
@@ -188,7 +188,7 @@ class MockLoader
   # loads a resource class and instantiates the class with the given arguments
   def load_resource(resource, *args)
     # initialize resource with backend and parameters
-    @resource_class = Vulcano::Resource.registry[resource]
+    @resource_class = Inspec::Resource.registry[resource]
     @resource = @resource_class.new(backend, resource, *args)
   end
 end

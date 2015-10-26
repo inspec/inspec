@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Package' do
+describe 'Inspec::Resources::Package' do
   # arch linux
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('package', 'curl')

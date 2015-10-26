@@ -5,7 +5,7 @@
 
 require 'logger'
 
-module Vulcano
+module Inspec
   # Extract metadata.rb information
   class Metadata
     attr_reader :params

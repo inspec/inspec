@@ -13,7 +13,7 @@ require 'utils/simpleconfig'
 #   its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
 # end
 
-class NtpConf < Vulcano.resource(1)
+class NtpConf < Inspec.resource(1)
   name 'ntp_conf'
 
   def initialize(path = nil)
@@ -36,13 +36,13 @@ class NtpConf < Vulcano.resource(1)
   def read_params
     return @params if defined?(@params)
 
-    if !vulcano.file(@conf_path).file?
+    if !inspec.file(@conf_path).file?
       skip_resource "Can't find file \"#{@conf_path}\""
       return @params = {}
     end
 
-    content = vulcano.file(@conf_path).content
-    if content.empty? && vulcano.file(@conf_path).size > 0
+    content = inspec.file(@conf_path).content
+    if content.empty? && inspec.file(@conf_path).size > 0
       skip_resource "Can't read file \"#{@conf_path}\""
       return @params = {}
     end

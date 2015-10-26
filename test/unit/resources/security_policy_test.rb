@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::SecurityPolicy' do
+describe 'Inspec::Resources::SecurityPolicy' do
   it 'verify processes resource' do
     resource = load_resource('security_policy')
     _(resource.MaximumPasswordAge).must_equal 42

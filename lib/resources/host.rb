@@ -24,7 +24,7 @@
 #   it { should be_resolvable.by('dns') }
 # end
 
-class Host < Vulcano.resource(1)
+class Host < Inspec.resource(1)
   name 'host'
 
   def initialize(hostname, params = {})
@@ -33,10 +33,10 @@ class Host < Vulcano.resource(1)
     @proto = params[:proto] || nil
 
     @host_provider = nil
-    if vulcano.os.linux?
-      @host_provider = LinuxHostProvider.new(vulcano)
-    elsif vulcano.os.windows?
-      @host_provider = WindowsHostProvider.new(vulcano)
+    if inspec.os.linux?
+      @host_provider = LinuxHostProvider.new(inspec)
+    elsif inspec.os.windows?
+      @host_provider = WindowsHostProvider.new(inspec)
     else
       return skip_resource 'The `host` resource is not supported on your OS yet.'
     end
@@ -76,8 +76,9 @@ class Host < Vulcano.resource(1)
 end
 
 class HostProvider
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
@@ -86,13 +87,13 @@ class LinuxHostProvider < HostProvider
   def ping(hostname, _port = nil, _proto = nil)
     # fall back to ping, but we can only test ICMP packages with ping
     # therefore we have to skip the test, if we do not have everything on the node to run the test
-    ping = @vulcano.command("ping -w 1 -c 1 #{hostname}")
+    ping = inspec.command("ping -w 1 -c 1 #{hostname}")
     ping.exit_status.to_i != 0 ? false : true
   end
 
   def resolve(hostname)
     # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
-    cmd = @vulcano.command("getent hosts #{hostname}")
+    cmd = inspec.command("getent hosts #{hostname}")
     return nil if cmd.exit_status.to_i != 0
 
     # extract ip adress
@@ -117,7 +118,7 @@ class WindowsHostProvider < HostProvider
     request += '| Select-Object -Property ComputerName, RemoteAddress, RemotePort, SourceAddress, PingSucceeded | ConvertTo-Json'
     p request
     request += '| Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json'
-    cmd = @vulcano.command(request)
+    cmd = inspec.command(request)
 
     begin
       ping = JSON.parse(cmd.stdout)
@@ -129,7 +130,7 @@ class WindowsHostProvider < HostProvider
   end
 
   def resolve(hostname)
-    cmd = @vulcano.command("Resolve-DnsName –Type A #{hostname} | ConvertTo-Json")
+    cmd = inspec.command("Resolve-DnsName –Type A #{hostname} | ConvertTo-Json")
     begin
       resolv = JSON.parse(cmd.stdout)
     rescue JSON::ParserError => _e

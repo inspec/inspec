@@ -10,14 +10,14 @@ require 'resources/file'
 #   it { should have_interface 'eth0' }
 # end
 
-module Vulcano::Resources
+module Inspec::Resources
   class Bond < File
     name 'bond'
 
     def initialize(bond)
       @bond = bond
       @path = "/proc/net/bonding/#{bond}"
-      @file = vulcano.file(@path)
+      @file = inspec.file(@path)
       @content = nil
       @params = {}
       @loaded = false

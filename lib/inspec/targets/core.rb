@@ -4,7 +4,7 @@
 
 require 'utils/modulator'
 
-module Vulcano
+module Inspec
   module Targets
     extend Modulator
 

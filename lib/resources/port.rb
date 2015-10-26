@@ -15,7 +15,7 @@
 #
 # TODO: currently we return local ip only
 # TODO: improve handling of same port on multiple interfaces
-class Port < Vulcano.resource(1)
+class Port < Inspec.resource(1)
   name 'port'
 
   def initialize(port)
@@ -23,15 +23,15 @@ class Port < Vulcano.resource(1)
     @port_manager = nil
     @cache = nil
 
-    case vulcano.os[:family]
+    case inspec.os[:family]
     when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
-      @port_manager = LinuxPorts.new(vulcano)
+      @port_manager = LinuxPorts.new(inspec)
     when 'darwin'
-      @port_manager = DarwinPorts.new(vulcano)
+      @port_manager = DarwinPorts.new(inspec)
     when 'windows'
-      @port_manager = WindowsPorts.new(vulcano)
+      @port_manager = WindowsPorts.new(inspec)
     when 'freebsd'
-      @port_manager = FreeBsdPorts.new(vulcano)
+      @port_manager = FreeBsdPorts.new(inspec)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -82,8 +82,9 @@ end
 #   }],
 # }]
 class PortsInfo
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
@@ -95,7 +96,7 @@ end
 class WindowsPorts < PortsInfo
   def info
     # get all port information
-    cmd = @vulcano.command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
+    cmd = inspec.command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
 
     begin
       ports = JSON.parse(cmd.stdout)
@@ -121,7 +122,7 @@ end
 class DarwinPorts < PortsInfo
   def info
     # collects UDP and TCP information
-    cmd = @vulcano.command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
+    cmd = inspec.command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []
@@ -160,7 +161,7 @@ end
 # extract port information from netstat
 class LinuxPorts < PortsInfo
   def info
-    cmd = @vulcano.command('netstat -tulpen')
+    cmd = inspec.command('netstat -tulpen')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []
@@ -224,7 +225,7 @@ end
 # extracts information from sockstat
 class FreeBsdPorts < PortsInfo
   def info
-    cmd = @vulcano.command('sockstat -46l')
+    cmd = inspec.command('sockstat -46l')
     return nil if cmd.exit_status.to_i != 0
 
     ports = []

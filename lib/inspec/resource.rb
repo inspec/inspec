@@ -4,9 +4,9 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/plugins'
+require 'inspec/plugins'
 
-module Vulcano
+module Inspec
   class Resource
     def self.registry
       @registry ||= {}
@@ -17,7 +17,7 @@ module Vulcano
     if version != 1
       fail 'Only resource version 1 is supported!'
     end
-    Vulcano::Plugins::Resource
+    Inspec::Plugins::Resource
   end
 end
 

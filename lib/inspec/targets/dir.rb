@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano::Targets
+module Inspec::Targets
   module DirsHelper
     class ProfileDir
       def handles?(paths)

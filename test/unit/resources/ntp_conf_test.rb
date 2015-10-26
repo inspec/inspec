@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::NtpConf' do
+describe 'Inspec::Resources::NtpConf' do
   it 'verify ntp config parsing' do
     resource = load_resource('ntp_conf')
     _(resource.driftfile).must_equal '/var/lib/ntp/ntp.drift'

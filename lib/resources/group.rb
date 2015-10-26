@@ -13,7 +13,7 @@
 #  it { should have_gid 0 }
 # end
 
-class Group < Vulcano.resource(1)
+class Group < Inspec.resource(1)
   name 'group'
 
   def initialize(groupname, domain = nil)
@@ -25,10 +25,10 @@ class Group < Vulcano.resource(1)
 
     # select group manager
     @group_provider = nil
-    if vulcano.os.unix?
-      @group_provider = UnixGroup.new(vulcano)
-    elsif vulcano.os.windows?
-      @group_provider = WindowsGroup.new(vulcano)
+    if inspec.os.unix?
+      @group_provider = UnixGroup.new(inspec)
+    elsif inspec.os.windows?
+      @group_provider = WindowsGroup.new(inspec)
     else
       return skip_resource 'The `group` resource is not supported on your OS yet.'
     end
@@ -82,15 +82,16 @@ class Group < Vulcano.resource(1)
 end
 
 class GroupInfo
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
 # implements generic unix groups via /etc/group
 class UnixGroup < GroupInfo
   def group_info(group, _domain = nil)
-    @vulcano.etc_group.where(name: group).entries.map { |grp|
+    inspec.etc_group.where(name: group).entries.map { |grp|
       {
         name: grp['name'],
         gid: grp['gid'],
@@ -101,7 +102,7 @@ end
 
 class WindowsGroup < GroupInfo
   def group_info(compare_group, compare_domain = nil)
-    cmd = @vulcano.command('Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json')
+    cmd = inspec.command('Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json')
 
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0, try to parse json

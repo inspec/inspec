@@ -11,13 +11,13 @@
 #   its(:split) { should_not include('.') }
 # end
 
-class OsEnv < Vulcano.resource(1)
+class OsEnv < Inspec.resource(1)
   name 'os_env'
 
   attr_reader :content
   def initialize(env)
     @osenv = env
-    @command_result = vulcano.command("su - root -c 'echo $#{env}'")
+    @command_result = inspec.command("su - root -c 'echo $#{env}'")
     @content = @command_result.stdout.chomp
   end
 

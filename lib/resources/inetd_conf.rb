@@ -14,7 +14,7 @@ require 'utils/simpleconfig'
 #   its('exec') { should eq nil }
 # end
 
-class InetdConf < Vulcano.resource(1)
+class InetdConf < Inspec.resource(1)
   name 'inetd_config'
 
   def initialize(path = nil)
@@ -29,7 +29,7 @@ class InetdConf < Vulcano.resource(1)
     return @params if defined?(@params)
 
     # read the file
-    file = vulcano.file(@conf_path)
+    file = inspec.file(@conf_path)
     if !file.file?
       skip_resource "Can't find file \"#{@conf_path}\""
       return @params = {}

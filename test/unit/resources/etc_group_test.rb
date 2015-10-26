@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::EtcGroup' do
+describe 'Inspec::Resources::EtcGroup' do
   let(:resource) { load_resource('etc_group') }
 
   it 'verify /etc/group config parsing' do

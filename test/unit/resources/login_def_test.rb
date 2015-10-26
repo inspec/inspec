@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::LoginDef' do
+describe 'Inspec::Resources::LoginDef' do
   it 'verify login.def config parsing' do
     resource = load_resource('login_defs')
     _(resource.UMASK).must_equal '022'
