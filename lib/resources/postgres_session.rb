@@ -31,7 +31,7 @@ class PostgresSession < Inspec.resource(1)
     @pass = pass
   end
 
-  def describe(query, db = [], &block)
+  def query(query, db = [], &block)
     dbs = db.map { |x| "-d #{x}" }.join(' ')
     # TODO: simple escape, must be handled by a library
     # that does this securely
