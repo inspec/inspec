@@ -6,6 +6,19 @@ module Vulcano::Targets
   module DirsHelper
     class ProfileDir
       def handles?(paths)
+        paths.include?('test') && paths.include?('metadata.rb')
+      end
+
+      def get_filenames(paths)
+        paths.find_all do |path|
+          (path.start_with?('test') || path.start_with?('lib')) &&
+            path.end_with?('.rb')
+        end
+      end
+    end
+
+    class ChefAuditDir
+      def handles?(paths)
         paths.include?('recipes') and paths.include?('metadata.rb')
       end
 

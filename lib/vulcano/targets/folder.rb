@@ -21,10 +21,11 @@ module Vulcano::Targets
       if helper.nil?
         fail "Don't know how to handle folder #{target}"
       end
-      # get all file contents
+
+      # get all test file contents
       file_handler = Vulcano::Targets.modules['file']
-      test_files = helper.get_filenames(files)
-      test_files.map do |f|
+      raw_files = helper.get_filenames(files)
+      raw_files.map do |f|
         file_handler.resolve(File.join(target, f))
       end
     end
