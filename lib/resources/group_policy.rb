@@ -18,6 +18,10 @@ end
 class GroupPolicy < Inspec.resource(1)
   name 'group_policy'
 
+  def initialize(name)
+    @name = name
+  end
+
   def get_registry_value(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"

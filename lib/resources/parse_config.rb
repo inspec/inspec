@@ -16,9 +16,9 @@
 class PConfig < Inspec.resource(1)
   name 'parse_config'
 
-  def initialize(content = nil, useropts = {})
-    default_options = {}
-    @opts = default_options.merge(useropts)
+  def initialize(content = nil, useropts = nil)
+    @opts = {}
+    @opts = useropts.dup unless useropts.nil?
     @files_contents = {}
     @params = nil
 
@@ -64,7 +64,7 @@ end
 class PConfigFile < PConfig
   name 'parse_config_file'
 
-  def initialize(path, opts)
+  def initialize(path, opts = nil)
     super(nil, opts)
     parse_file(path)
   end

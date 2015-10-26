@@ -41,7 +41,7 @@ In addition to the open source resources, Chef Compliance ships with additional 
 * ``csv``
 * ``etc_group``
 * ``group_policy``
-* ``inetd_config``
+* ``inetd_conf``
 * ``json``
 * ``limits_conf``
 * ``login_defs``
@@ -1710,17 +1710,17 @@ The following examples show how to use this InSpec resource.
 
 
 
-inetd_config -- DONE
+inetd_conf -- DONE
 =====================================================
-Use the ``inetd_config`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
+Use the ``inetd_conf`` InSpec resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
 
 Syntax -- DONE
 -----------------------------------------------------
-A ``inetd_config`` InSpec resource block declares the list of services that should be disabled in the ``inetd.conf`` file:
+A ``inetd_conf`` InSpec resource block declares the list of services that should be disabled in the ``inetd.conf`` file:
 
 .. code-block:: ruby
 
-   describe inetd_config('path') do
+   describe inetd_conf('path') do
      its('service_name') { should eq 'value' }
    end
 
@@ -1777,7 +1777,7 @@ and the following test is defined:
 
 .. code-block:: ruby
 
-   describe inetd_config do
+   describe inetd_conf do
      its('ftp') { should eq nil }
      its('telnet') { should eq nil }
    end

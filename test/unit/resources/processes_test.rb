@@ -6,6 +6,11 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Processes' do
+  it 'handles empty process results' do
+    resource = load_resource('processes', 'nothing')
+    _(resource.list).must_equal []
+  end
+
   it 'verify processes resource' do
     resource = load_resource('processes', '/bin/bash')
     _(resource.list).must_equal [{

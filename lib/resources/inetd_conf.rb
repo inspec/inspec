@@ -15,7 +15,7 @@ require 'utils/simpleconfig'
 # end
 
 class InetdConf < Inspec.resource(1)
-  name 'inetd_config'
+  name 'inetd_conf'
 
   def initialize(path = nil)
     @conf_path = path || '/etc/inetd.conf'

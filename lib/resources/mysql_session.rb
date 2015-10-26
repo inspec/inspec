@@ -7,7 +7,7 @@
 class MysqlSession < Inspec.resource(1)
   name 'mysql_session'
 
-  def initialize(user, pass)
+  def initialize(user = nil, pass = nil)
     @user = user
     @pass = pass
     init_fallback if user.nil? or pass.nil?

@@ -91,6 +91,10 @@ class EtcGroup < Inspec.resource(1)
 
   def parse_group(path)
     @content = inspec.file(path).content
+    if @content.nil?
+      skip_resource "Can't access group file in #{path}"
+      return []
+    end
     # iterate over each line and filter comments
     @content.split("\n").each_with_object([]) do |line, lines|
       grp_info = parse_group_line(line)
