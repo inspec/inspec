@@ -102,6 +102,11 @@ module Inspec
           __register_rule rule, &block
         end
 
+        # TODO: mock method for attributes; import attribute handling
+        define_method :attributes do |_name, _options|
+          nil
+        end
+
         def skip_rule(id)
           __unregister_rule id
         end
