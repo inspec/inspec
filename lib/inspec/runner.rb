@@ -83,17 +83,24 @@ module Inspec
     private
 
     def get_check_example(method_name, arg, block)
+      opts = {}
+      if !block.nil? && block.respond_to?(:source_location)
+        file_path, line = block.source_location
+        opts['file_path'] = file_path
+        opts['line_number'] = line
+      end
+
       if !arg.empty? &&
          arg[0].respond_to?(:resource_skipped) &&
          !arg[0].resource_skipped.nil?
-        return RSpec::Core::ExampleGroup.describe(*arg) do
+        return RSpec::Core::ExampleGroup.describe(*arg, opts) do
           it arg[0].resource_skipped
         end
       else
         # add the resource
         case method_name
         when 'describe'
-          return RSpec::Core::ExampleGroup.describe(*arg, &block)
+          return RSpec::Core::ExampleGroup.describe(*arg, opts, &block)
         when 'expect'
           return block.example_group
         else
