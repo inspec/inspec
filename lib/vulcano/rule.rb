@@ -5,6 +5,7 @@
 # author: Christoph Hartmann
 
 require 'rspec/expectations'
+require 'method_source'
 
 module Vulcano
   class ExpectationTarget
@@ -43,8 +44,8 @@ module Vulcano
     def initialize(id, _opts, &block)
       @id = id
       @impact = nil
-      @__code = ''
       @__block = block
+      @__code = __get_block_source(&block)
       @title = nil
       @desc = nil
       # not changeable by the user:
@@ -149,6 +150,14 @@ module Vulcano
       text.strip.split("\n").map(&:strip)
         .map { |x| x.empty? ? "\n" : x }
         .join(' ')
+    end
+
+    # get the rule's source code
+    def __get_block_source(&block)
+      return '' unless block_given?
+      block.source.to_s
+    rescue MethodSource::SourceNotFoundError
+      ''
     end
   end
 end

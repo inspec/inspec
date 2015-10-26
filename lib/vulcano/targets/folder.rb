@@ -15,16 +15,17 @@ module Vulcano::Targets
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
-      files = files.map { |x| x[target.length + 1..-1] }
+      files = files.map { |x| x.sub(target, '') }
       # get the dirs helper
       helper = DirsHelper.get_handler(files)
       if helper.nil?
         fail "Don't know how to handle folder #{target}"
       end
-      # get all file contents
+
+      # get all test file contents
       file_handler = Vulcano::Targets.modules['file']
-      test_files = helper.get_filenames(files)
-      test_files.map do |f|
+      raw_files = helper.get_filenames(files)
+      raw_files.map do |f|
         file_handler.resolve(File.join(target, f))
       end
     end

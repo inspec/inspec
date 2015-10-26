@@ -59,6 +59,8 @@ module Vulcano
     end
 
     def add_content(content, source, line = nil)
+      return if content.nil? || content.empty?
+
       # evaluate all tests
       ctx = create_context
       ctx.load(content, source, line || 1)
