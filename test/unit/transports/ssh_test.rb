@@ -84,5 +84,12 @@ describe 'ssh transport' do
       conf.delete(:key_files)
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
+
+    it 'wont connect if its not possible' do
+      conf[:host] = 'localhost'
+      conf[:port] = 1
+      conn = cls.new(conf).connection
+      proc { conn.run_command('uname') }.must_raise Train::Transports::SSHFailed
+    end
   end
 end
