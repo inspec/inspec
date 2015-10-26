@@ -63,6 +63,10 @@ module Vulcano
       res
     end
 
+    # Check if the profile is internall well-structured. The logger will be
+    # used to print information on errors and warnings which are found.
+    #
+    # @return [Boolean] true if no errors were found, false otherwise
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       no_errors = true
       no_warnings = true
