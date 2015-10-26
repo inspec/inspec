@@ -2329,14 +2329,14 @@ A ``mysql_session`` InSpec resource block declares the username and password to 
 
    sql = mysql_session('username', 'password')
 
-   describe sql.query('QUERY') do
+   sql.describe('QUERY') do
      its('output') { should eq('') }
    end
 
 where
 
 * ``sql = mysql_session`` declares a username and password with permission to run the query
-* ``sql.query('QUERY')`` contains the query to be run
+* ``describe('QUERY')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers -- DONE
@@ -2361,7 +2361,7 @@ The following examples show how to use this InSpec resource.
 
    sql = mysql_session('my_user','password')
 
-   describe sql.query(('show databases like \'test\';') do
+   sql.describe('show databases like \'test\';') do
      its(:stdout) { should_not match(/test/) }
    end
 
@@ -3432,7 +3432,7 @@ A ``postgres_session`` InSpec resource block declares the username and password 
 where
 
 * ``sql = postgres_session`` declares a username and password with permission to run the query
-* ``describe('')`` contains the query to be run
+* ``sql.query('')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers -- DONE
