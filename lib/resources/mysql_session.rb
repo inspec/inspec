@@ -4,7 +4,7 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-class MysqlSession < Vulcano.resource(1)
+class MysqlSession < Inspec.resource(1)
   name 'mysql_session'
 
   def initialize(user, pass)
@@ -20,7 +20,7 @@ class MysqlSession < Vulcano.resource(1)
     escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
     # run the query
-    cmd = vulcano.command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
+    cmd = inspec.command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
     out = cmd.stdout + "\n" + cmd.stderr
     if out =~ /Can't connect to .* MySQL server/ or
        out.downcase =~ /^error/
@@ -40,7 +40,7 @@ class MysqlSession < Vulcano.resource(1)
 
   def init_fallback
     # support debian mysql administration login
-    debian = vulcano.command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
+    debian = inspec.command('test -f /etc/mysql/debian.cnf && cat /etc/mysql/debian.cnf').stdout
     return if debian.empty?
 
     user = debian.match(/^\s*user\s*=\s*([^ ]*)\s*$/)

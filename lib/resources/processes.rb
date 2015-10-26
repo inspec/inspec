@@ -4,7 +4,7 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-class Processes < Vulcano.resource(1)
+class Processes < Inspec.resource(1)
   name 'processes'
 
   attr_reader :list
@@ -29,7 +29,7 @@ class Processes < Vulcano.resource(1)
 
   def ps_aux
     # get all running processes
-    cmd = vulcano.command('ps aux')
+    cmd = inspec.command('ps aux')
     all = cmd.stdout.split("\n")[1..-1]
 
     lines = all.map do |line|

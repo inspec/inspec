@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Service' do
+describe 'Inspec::Resources::Service' do
 
   # windows
   it 'verify service parsing' do

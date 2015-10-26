@@ -12,11 +12,11 @@
 #   its("LIST_RULES") {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
 # end
 
-class AuditDaemonRules < Vulcano.resource(1)
+class AuditDaemonRules < Inspec.resource(1)
   name 'auditd_rules'
 
   def initialize
-    @content = vulcano.command('/sbin/auditctl -l').stdout.chomp
+    @content = inspec.command('/sbin/auditctl -l').stdout.chomp
 
     @opts = {
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -37,7 +37,7 @@ class AuditDaemonRules < Vulcano.resource(1)
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: false,
     }
-    @status_content ||= vulcano.command('/sbin/auditctl -s').stdout.chomp
+    @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
     @status_params = SimpleConfig.new(@status_content, @status_opts).params
 
     status = @status_params['AUDIT_STATUS']

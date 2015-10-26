@@ -3,9 +3,9 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/metadata'
+require 'inspec/metadata'
 
-module Vulcano
+module Inspec
   class Profile
     def self.from_path(path, options = nil)
       opt = options.dup || {}
@@ -70,7 +70,7 @@ module Vulcano
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       no_errors = true
       no_warnings = true
-      warn = lamba { |msg|
+      warn = lambda { |msg|
         @logger.warn(msg)
         no_warnings = false
       }

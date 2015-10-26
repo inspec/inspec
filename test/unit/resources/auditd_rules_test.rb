@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::AuditDaemonRules' do
+describe 'Inspec::Resources::AuditDaemonRules' do
   it 'check audit policy parsing' do
     resource = MockLoader.new(:windows).load_resource('auditd_rules')
     _(resource.send('LIST_RULES')).must_equal [

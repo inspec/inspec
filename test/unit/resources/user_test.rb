@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::User' do
+describe 'Inspec::Resources::User' do
 
   # ubuntu 14.04 with upstart
   it 'read user on ubuntu' do

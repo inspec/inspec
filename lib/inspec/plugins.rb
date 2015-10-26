@@ -2,8 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano
+module Inspec
   module Plugins
-    autoload :Resource, 'vulcano/plugins/resource'
+    autoload :Resource, 'inspec/plugins/resource'
   end
 end

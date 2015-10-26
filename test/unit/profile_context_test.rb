@@ -3,11 +3,11 @@
 # author: Christoph Hartmann
 
 require 'helper'
-require 'vulcano/profile_context'
+require 'inspec/profile_context'
 
-describe Vulcano::ProfileContext do
+describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
-  let(:profile) { Vulcano::ProfileContext.new(nil, backend) }
+  let(:profile) { Inspec::ProfileContext.new(nil, backend) }
 
   it 'must be able to load empty content' do
     profile.load('', 'dummy', 1).must_be_nil
@@ -34,7 +34,7 @@ describe Vulcano::ProfileContext do
       load('describe true do; it { should_eq true }; end')
         .must_output ''
       profile.rules.keys.must_equal ['unknown:1']
-      profile.rules.values[0].must_be_kind_of Vulcano::Rule
+      profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
 
     it 'does not provide the expect keyword in the global DLS' do
@@ -44,7 +44,7 @@ describe Vulcano::ProfileContext do
     it 'provides the rule keyword in the global DSL' do
       profile.load('rule 1')
       profile.rules.keys.must_equal [1]
-      profile.rules.values[0].must_be_kind_of Vulcano::Rule
+      profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
   end
 
@@ -105,7 +105,7 @@ describe Vulcano::ProfileContext do
       end
 
       it 'registers the check with the provided proc' do
-        check[2].must_be_kind_of Vulcano::ExpectationTarget
+        check[2].must_be_kind_of Inspec::ExpectationTarget
       end
     end
 

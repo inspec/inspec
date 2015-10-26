@@ -12,14 +12,14 @@
 #   its(:exit_status) { should eq 0 }
 # end
 
-class Cmd < Vulcano.resource(1)
+class Cmd < Inspec.resource(1)
   name 'command'
   def initialize(cmd)
     @command = cmd
   end
 
   def result
-    @result ||= vulcano.backend.run_command(@command)
+    @result ||= inspec.backend.run_command(@command)
   end
 
   def stdout
@@ -35,7 +35,7 @@ class Cmd < Vulcano.resource(1)
   end
 
   def exist?
-    res = vulcano.backend.run_command("type \"#{@command}\" > /dev/null")
+    res = inspec.backend.run_command("type \"#{@command}\" > /dev/null")
     res.exit_status.to_i == 0
   end
 

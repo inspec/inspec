@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Processes' do
+describe 'Inspec::Resources::Processes' do
   it 'verify processes resource' do
     resource = load_resource('processes', '/bin/bash')
     _(resource.list).must_equal [{

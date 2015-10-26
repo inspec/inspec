@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Passwd' do
+describe 'Inspec::Resources::Passwd' do
   it 'verify passwd parsing' do
     resource = load_resource('passwd')
     _(resource.usernames).must_equal %w{root www-data}

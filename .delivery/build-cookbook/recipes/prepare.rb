@@ -10,7 +10,7 @@ cache_dir = File.join(repo_dir, '.cache')
 
 directory cache_dir do
   owner node['delivery_builder']['build_user']
-	mode '0755'
+  mode '0755'
 end
 
 execute 'bundle install' do
@@ -18,4 +18,3 @@ execute 'bundle install' do
   cwd repo_dir
   user node['delivery_builder']['build_user']
 end
-

@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::InetdConf' do
+describe 'Inspec::Resources::InetdConf' do
   it 'verify limits.conf config parsing' do
     resource = load_resource('inetd_config')
     _(resource.send('shell')).must_equal nil

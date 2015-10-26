@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::LimitsConf' do
+describe 'Inspec::Resources::LimitsConf' do
   it 'verify limits.conf config parsing' do
     resource = load_resource('limits_conf')
     _(resource.send('*')).must_equal [['soft', 'core', '0'], ['hard', 'rss', '10000']]

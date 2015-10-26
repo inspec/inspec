@@ -2,7 +2,7 @@
 # author: Dominik Richter
 
 require_relative 'docker_run'
-require_relative '../lib/vulcano'
+require_relative '../lib/inspec'
 
 tests = ARGV
 if tests.empty?
@@ -41,7 +41,7 @@ class DockerTester
   def test_container(container, report)
     puts "--> run test on docker #{container.id}"
     opts = { 'target' => "docker://#{container.id}" }
-    runner = Vulcano::Runner.new(opts)
+    runner = Inspec::Runner.new(opts)
     runner.add_tests(@tests)
     tests = runner.tests.ordered_example_groups
     tests.map { |g| g.run(report) }

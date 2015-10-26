@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::SshConf' do
+describe 'Inspec::Resources::SshConf' do
 
   describe 'ssh_config' do
     it 'check ssh config parsing' do

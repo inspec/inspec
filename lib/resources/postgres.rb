@@ -4,16 +4,16 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-class Postgres < Vulcano.resource(1)
+class Postgres < Inspec.resource(1)
   name 'postgres'
 
   attr_reader :service, :data_dir, :conf_dir, :conf_path
   def initialize
-    case vulcano.os[:family]
+    case inspec.os[:family]
     when 'ubuntu', 'debian'
       @service = 'postgresql'
       @data_dir = '/var/lib/postgresql'
-      @version = vulcano.command('ls /etc/postgresql/').stdout.chomp
+      @version = inspec.command('ls /etc/postgresql/').stdout.chomp
       @conf_dir = "/etc/postgresql/#{@version}/main"
       @conf_path = File.join @conf_dir, 'postgresql.conf'
 

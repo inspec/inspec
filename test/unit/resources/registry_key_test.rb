@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::RegistryKey' do
+describe 'Inspec::Resources::RegistryKey' do
   let(:resource) { load_resource('registry_key', 'Task Scheduler', 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') }
   let(:resource_without_name) { load_resource('registry_key', 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') }
 

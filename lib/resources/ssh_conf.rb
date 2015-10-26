@@ -6,7 +6,7 @@
 
 require 'utils/simpleconfig'
 
-class SshConf < Vulcano.resource(1)
+class SshConf < Inspec.resource(1)
   name 'ssh_config'
 
   def initialize(conf_path = nil, type = nil)
@@ -41,7 +41,7 @@ class SshConf < Vulcano.resource(1)
 
   def read_content
     return @content if defined?(@content)
-    file = vulcano.file(@conf_path)
+    file = inspec.file(@conf_path)
     if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end

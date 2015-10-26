@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Bond' do
+describe 'Inspec::Resources::Bond' do
 
   it 'check linux bond on ubuntu' do
     resource = MockLoader.new(:ubuntu1404).load_resource('bond', 'bond0')

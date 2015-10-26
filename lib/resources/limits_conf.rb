@@ -12,7 +12,7 @@ require 'utils/simpleconfig'
 #   its('*') { should include ['hard','core','0'] }
 # end
 
-class LimitsConf < Vulcano.resource(1)
+class LimitsConf < Inspec.resource(1)
   name 'limits_conf'
 
   def initialize(path = nil)
@@ -27,7 +27,7 @@ class LimitsConf < Vulcano.resource(1)
     return @params if defined?(@params)
 
     # read the file
-    file = vulcano.file(@conf_path)
+    file = inspec.file(@conf_path)
     if !file.file?
       skip_resource "Can't find file \"#{@conf_path}\""
       return @params = {}

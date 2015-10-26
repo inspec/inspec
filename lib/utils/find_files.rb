@@ -24,7 +24,7 @@ module FindFiles
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
     cmd += " -type #{type}" unless type.nil?
 
-    result = vulcano.run_command(cmd)
+    result = inspec.run_command(cmd)
     exit_status = result.exit_status
 
     return [nil, exit_status] unless exit_status == 0

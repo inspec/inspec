@@ -8,17 +8,17 @@
 #   it { should have_interface 'eth0' }
 # end
 
-class Bridge < Vulcano.resource(1)
+class Bridge < Inspec.resource(1)
   name 'bridge'
 
   def initialize(bridge_name)
     @bridge_name = bridge_name
 
     @bridge_provider = nil
-    if vulcano.os.linux?
-      @bridge_provider = LinuxBridge.new(vulcano)
-    elsif vulcano.os.windows?
-      @bridge_provider = WindowsBridge.new(vulcano)
+    if inspec.os.linux?
+      @bridge_provider = LinuxBridge.new(inspec)
+    elsif inspec.os.windows?
+      @bridge_provider = WindowsBridge.new(inspec)
     else
       return skip_resource 'The `bridge` resource is not supported on your OS yet.'
     end
@@ -29,7 +29,7 @@ class Bridge < Vulcano.resource(1)
   end
 
   def has_interface?(interface)
-    return skip_resource 'The `bridge` resource does not provide interface detection for Windows yet' if vulcano.os.windows?
+    return skip_resource 'The `bridge` resource does not provide interface detection for Windows yet' if inspec.os.windows?
     bridge_info.nil? ? false : bridge_info[:interfaces].include?(interface)
   end
 
@@ -50,8 +50,9 @@ class Bridge < Vulcano.resource(1)
 end
 
 class BridgeDetection
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
@@ -63,11 +64,11 @@ end
 class LinuxBridge < BridgeDetection
   def bridge_info(bridge_name)
     # read bridge information
-    bridge = @vulcano.file("/sys/class/net/#{bridge_name}/bridge").directory?
+    bridge = inspec.file("/sys/class/net/#{bridge_name}/bridge").directory?
     return nil unless bridge
 
     # load interface names
-    interfaces = @vulcano.command("ls -1 /sys/class/net/#{bridge_name}/brif/")
+    interfaces = inspec.command("ls -1 /sys/class/net/#{bridge_name}/brif/")
     interfaces = interfaces.stdout.chomp.split("\n")
     {
       name: bridge_name,
@@ -84,7 +85,7 @@ end
 class WindowsBridge < BridgeDetection
   def bridge_info(bridge_name)
     # find all bridge adapters
-    cmd = @vulcano.command('Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json')
+    cmd = inspec.command('Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json')
 
     # filter network interface
     begin

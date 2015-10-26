@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-gem 'vulcano', path: '../../.'
+gem 'inspec', path: '../../.'
 gem 'train', git: 'git@github.com:chef/train.git'
 
 group :test do

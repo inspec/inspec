@@ -5,15 +5,15 @@
 # author: Christoph Hartmann
 
 require 'uri'
-require 'vulcano/backend'
-require 'vulcano/profile_context'
-require 'vulcano/targets'
+require 'inspec/backend'
+require 'inspec/profile_context'
+require 'inspec/targets'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
-require 'vulcano/rspec_json_formatter'
+require 'inspec/rspec_json_formatter'
 
-module Vulcano
+module Inspec
   class Runner
     attr_reader :tests, :backend, :rules
     def initialize(conf = {})
@@ -39,13 +39,13 @@ module Vulcano
     end
 
     def configure_transport
-      @backend = Vulcano::Backend.create(@conf)
+      @backend = Inspec::Backend.create(@conf)
     end
 
     def add_tests(tests)
       # retrieve the raw ruby code of all tests
       items = tests.map do |test|
-        Vulcano::Targets.resolve(test)
+        Inspec::Targets.resolve(test)
       end
 
       # add all tests (raw) to the runtime
@@ -55,7 +55,7 @@ module Vulcano
     end
 
     def create_context
-      Vulcano::ProfileContext.new(@profile_id, @backend)
+      Inspec::ProfileContext.new(@profile_id, @backend)
     end
 
     def add_content(content, source, line = nil)

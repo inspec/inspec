@@ -30,7 +30,7 @@
 #   its('Other Account Logon Events') { should_not eq 'No Auditing' }
 # end
 
-class AuditPolicy < Vulcano.resource(1)
+class AuditPolicy < Inspec.resource(1)
   name 'audit_policy'
 
   def method_missing(method)
@@ -39,7 +39,7 @@ class AuditPolicy < Vulcano.resource(1)
     # expected result:
     # Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting
     # WIN-MB8NINQ388J,System,Kerberos Authentication Service,{0CCE9242-69AE-11D9-BED3-505054503030},No Auditing,
-    result ||= vulcano.command("Auditpol /get /subcategory:'#{key}' /r").stdout
+    result ||= inspec.command("Auditpol /get /subcategory:'#{key}' /r").stdout
 
     # find line
     target = nil

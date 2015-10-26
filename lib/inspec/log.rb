@@ -5,7 +5,7 @@
 
 require 'rainbow/ext/string'
 
-module Vulcano
+module Inspec
   class Log
     def initialize(opts = {})
       @quiet = opts[:quiet] || false

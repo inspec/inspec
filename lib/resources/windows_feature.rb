@@ -27,7 +27,7 @@
 #     "Installed":  false,
 #     "InstallState":  0
 # }
-class WindowsFeature < Vulcano.resource(1)
+class WindowsFeature < Inspec.resource(1)
   name 'windows_feature'
 
   def initialize(feature)
@@ -35,7 +35,7 @@ class WindowsFeature < Vulcano.resource(1)
     @cache = nil
 
     # verify that this resource is only supported on Windows
-    return skip_resource 'The `windows_feature` resource is not supported on your OS.' if vulcano.os[:family] != 'windows'
+    return skip_resource 'The `windows_feature` resource is not supported on your OS.' if inspec.os[:family] != 'windows'
   end
 
   # returns true if the package is installed
@@ -47,7 +47,7 @@ class WindowsFeature < Vulcano.resource(1)
   def info
     return @cache if !@cache.nil?
     features_cmd = "Get-WindowsFeature | Where-Object {$_.Name -eq '#{@feature}' -or $_.DisplayName -eq '#{@feature}'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json"
-    cmd = vulcano.command(features_cmd)
+    cmd = inspec.command(features_cmd)
 
     @cache = {
       name: @feature,

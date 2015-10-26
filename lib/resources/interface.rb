@@ -11,17 +11,17 @@
 
 require 'utils/convert'
 
-class NetworkInterface < Vulcano.resource(1)
+class NetworkInterface < Inspec.resource(1)
   name 'interface'
 
   def initialize(iface)
     @iface = iface
 
     @interface_provider = nil
-    if vulcano.os.linux?
-      @interface_provider = LinuxInterface.new(vulcano)
-    elsif vulcano.os.windows?
-      @interface_provider = WindowsInterface.new(vulcano)
+    if inspec.os.linux?
+      @interface_provider = LinuxInterface.new(inspec)
+    elsif inspec.os.windows?
+      @interface_provider = WindowsInterface.new(inspec)
     else
       return skip_resource 'The `interface` resource is not supported on your OS yet.'
     end
@@ -54,15 +54,16 @@ end
 
 class InterfaceInfo
   include Converter
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
 class LinuxInterface < InterfaceInfo
   def interface_info(iface)
     # will return "[mtu]\n1500\n[type]\n1"
-    cmd = @vulcano.command("find /sys/class/net/#{iface}/ -type f -maxdepth 1 -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
+    cmd = inspec.command("find /sys/class/net/#{iface}/ -type f -maxdepth 1 -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
     return nil if cmd.exit_status.to_i != 0
 
     # parse values, we only recieve values, therefore we threat them as keys
@@ -96,7 +97,7 @@ end
 class WindowsInterface < InterfaceInfo
   def interface_info(iface)
     # gather all network interfaces
-    cmd = @vulcano.command('Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json')
+    cmd = inspec.command('Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json')
 
     # filter network interface
     begin

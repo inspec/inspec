@@ -8,7 +8,7 @@ require 'utils/simpleconfig'
 require 'utils/find_files'
 require 'resources/postgres'
 
-class PostgresConf < Vulcano.resource(1)
+class PostgresConf < Inspec.resource(1)
   name 'postgres_conf'
 
   include FindFiles
@@ -40,11 +40,11 @@ class PostgresConf < Vulcano.resource(1)
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    if !vulcano.file(@conf_path).file?
+    if !inspec.file(@conf_path).file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
     raw_conf = read_file(@conf_path)
-    if raw_conf.empty? && vulcano.file(@conf_path).size > 0
+    if raw_conf.empty? && inspec.file(@conf_path).size > 0
       return skip_resource("Can't read file \"#{@conf_path}\"")
     end
 
@@ -78,7 +78,7 @@ class PostgresConf < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= vulcano.file(path).content
+    @files_contents[path] ||= inspec.file(path).content
   end
 
   def to_s

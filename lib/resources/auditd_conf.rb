@@ -13,7 +13,7 @@ require 'utils/simpleconfig'
 #   its("admin_space_left_action") { should eq "halt" }
 # end
 
-class AuditDaemonConf < Vulcano.resource(1)
+class AuditDaemonConf < Inspec.resource(1)
   name 'auditd_conf'
 
   def initialize(path = nil)
@@ -34,7 +34,7 @@ class AuditDaemonConf < Vulcano.resource(1)
     return @params if defined?(@params)
 
     # read the file
-    file = vulcano.file(@conf_path)
+    file = inspec.file(@conf_path)
     if !file.file?
       skip_resource "Can't find file '#{@conf_path}'"
       return @params = {}

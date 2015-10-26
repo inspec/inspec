@@ -4,13 +4,13 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano::DSL
+module Inspec::DSL
   def require_rules(id, &block)
-    ::Vulcano::DSL.load_spec_files_for_profile self, id, false, &block
+    ::Inspec::DSL.load_spec_files_for_profile self, id, false, &block
   end
 
   def include_rules(id, &block)
-    ::Vulcano::DSL.load_spec_files_for_profile self, id, true, &block
+    ::Inspec::DSL.load_spec_files_for_profile self, id, true, &block
   end
 
   # Register a given rule with RSpec and
@@ -18,18 +18,18 @@ module Vulcano::DSL
   # else is merged in.
   def self.execute_rule(r, profile_id)
     checks = r.instance_variable_get(:@checks)
-    fid = VulcanoBaseRule.full_id(r, profile_id)
+    fid = InspecBaseRule.full_id(r, profile_id)
     checks.each do |m, a, b|
       # check if the resource is skippable and skipped
       if a.is_a?(Array) && !a.empty? &&
          a[0].respond_to?(:resource_skipped) &&
          !a[0].resource_skipped.nil?
-        cres = ::Vulcano::Rule.__send__(m, *a) do
+        cres = ::Inspec::Rule.__send__(m, *a) do
           it a[0].resource_skipped
         end
       else
         # execute the method
-        cres = ::Vulcano::Rule.__send__(m, *a, &b)
+        cres = ::Inspec::Rule.__send__(m, *a, &b)
       end
       if m == 'describe'
         set_rspec_ids(cres, fid)
@@ -42,7 +42,7 @@ module Vulcano::DSL
   # merge two rules completely; all defined
   # fields from src will be overwritten in dst
   def self.merge_rules(dst, src)
-    VulcanoBaseRule.merge dst, src
+    InspecBaseRule.merge dst, src
   end
 
   # Attach an ID attribute to the
@@ -61,7 +61,7 @@ module Vulcano::DSL
     raw = File.read(file)
     # TODO: error-handling
 
-    ctx = Vulcano::ProfileContext.new(profile_id, rule_registry, only_ifs)
+    ctx = Inspec::ProfileContext.new(profile_id, rule_registry, only_ifs)
     ctx.instance_eval(raw, file, 1)
   end
 
@@ -79,7 +79,7 @@ module Vulcano::DSL
     # interpret the block and create a set of rules from it
     block_registry = {}
     if block_given?
-      ctx = Vulcano::ProfileContext.new(profile_id, block_registry, only_ifs)
+      ctx = Inspec::ProfileContext.new(profile_id, block_registry, only_ifs)
       ctx.instance_eval(&block)
     end
 
@@ -110,7 +110,7 @@ module Vulcano::DSL
   end
 
   def self.get_spec_files_for_profile(id)
-    base_path = '/etc/vulcanosec/tests'
+    base_path = '/etc/inspec/tests'
     path = File.join(base_path, id)
     # find all files to be included
     files = []
@@ -126,28 +126,23 @@ module Vulcano::DSL
   end
 end
 
-module Vulcano::GlobalDSL
+module Inspec::GlobalDSL
   def __register_rule(r)
     # make sure the profile id is attached to the rule
-    ::Vulcano::DSL.execute_rule(r, __profile_id)
+    ::Inspec::DSL.execute_rule(r, __profile_id)
   end
 
   def __unregister_rule(_id)
   end
 end
 
-module Vulcano::DSLHelper
+module Inspec::DSLHelper
   def self.bind_dsl(scope)
-    # rubocop:disable Lint/NestedMethodDefinition
     (class << scope; self; end).class_exec do
-      include Vulcano::DSL
-      include Vulcano::GlobalDSL
-      def __profile_id
-        ENV['VULCANOSEC_PROFILE_ID']
-      end
+      include Inspec::DSL
+      include Inspec::GlobalDSL
     end
-    # rubocop:enable all
   end
 end
 
-::Vulcano::DSLHelper.bind_dsl(self)
+::Inspec::DSLHelper.bind_dsl(self)

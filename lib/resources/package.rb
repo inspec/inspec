@@ -8,7 +8,7 @@
 # describe package('nginx') do
 #   it { should be_installed }
 # end
-class Package < Vulcano.resource(1)
+class Package < Inspec.resource(1)
   name 'package'
 
   def initialize(package_name = nil)
@@ -18,17 +18,17 @@ class Package < Vulcano.resource(1)
 
     # select package manager
     @pkgman = nil
-    case vulcano.os[:family]
+    case inspec.os[:family]
     when 'ubuntu', 'debian'
-      @pkgman = Deb.new(vulcano)
+      @pkgman = Deb.new(inspec)
     when 'redhat', 'fedora', 'centos', 'opensuse'
-      @pkgman = Rpm.new(vulcano)
+      @pkgman = Rpm.new(inspec)
     when 'arch'
-      @pkgman = Pacman.new(vulcano)
+      @pkgman = Pacman.new(inspec)
     when 'darwin'
-      @pkgman = Brew.new(vulcano)
+      @pkgman = Brew.new(inspec)
     when 'windows'
-      @pkgman = WindowsPkg.new(vulcano)
+      @pkgman = WindowsPkg.new(inspec)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
@@ -60,15 +60,16 @@ class Package < Vulcano.resource(1)
 end
 
 class PkgManagement
-  def initialize(vulcano)
-    @vulcano = vulcano
+  attr_reader :inspec
+  def initialize(inspec)
+    @inspec = inspec
   end
 end
 
 # Debian / Ubuntu
 class Deb < PkgManagement
   def info(package_name)
-    cmd = @vulcano.command("dpkg -s #{package_name}")
+    cmd = inspec.command("dpkg -s #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
@@ -88,7 +89,7 @@ end
 # RHEL family
 class Rpm < PkgManagement
   def info(package_name)
-    cmd = @vulcano.command("rpm -qia #{package_name}")
+    cmd = inspec.command("rpm -qia #{package_name}")
     # CentOS does not return an error code if the package is not installed,
     # therefore we need to check for emptyness
     return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
@@ -109,7 +110,7 @@ end
 # MacOS / Darwin implementation
 class Brew < PkgManagement
   def info(package_name)
-    cmd = @vulcano.command("brew info --json=v1 #{package_name}")
+    cmd = inspec.command("brew info --json=v1 #{package_name}")
     return nil if cmd.exit_status.to_i != 0
     # parse data
     pkg = JSON.parse(cmd.stdout)[0]
@@ -125,7 +126,7 @@ end
 # Arch Linux
 class Pacman < PkgManagement
   def info(package_name)
-    cmd = @vulcano.command("pacman -Qi #{package_name}")
+    cmd = inspec.command("pacman -Qi #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
     params = SimpleConfig.new(
@@ -150,7 +151,7 @@ end
 class WindowsPkg < PkgManagement
   def info(package_name)
     # Find the package
-    cmd = @vulcano.command("Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq '#{package_name}'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json")
+    cmd = inspec.command("Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq '#{package_name}'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json")
 
     begin
       package = JSON.parse(cmd.stdout)

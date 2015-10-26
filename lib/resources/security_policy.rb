@@ -13,7 +13,7 @@
 # All local GPO parameters can be examined via Registry, but not all security
 # parameters. Therefore we need a combination of Registry and secedit output
 
-class SecurityPolicy < Vulcano.resource(1)
+class SecurityPolicy < Inspec.resource(1)
   name 'security_policy'
 
   def initialize
@@ -25,11 +25,11 @@ class SecurityPolicy < Vulcano.resource(1)
   # load security content
   def load
     # export the security policy
-    vulcano.command('secedit /export /cfg win_secpol.cfg')
+    inspec.command('secedit /export /cfg win_secpol.cfg')
     # store file content
-    command_result ||= vulcano.command('type win_secpol.cfg')
+    command_result ||= inspec.command('type win_secpol.cfg')
     # delete temp file
-    vulcano.command('del win_secpol.cfg')
+    inspec.command('del win_secpol.cfg')
 
     @exit_status = command_result.exit_status.to_i
     @policy = command_result.stdout

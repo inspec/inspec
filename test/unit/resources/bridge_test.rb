@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Bridge' do
+describe 'Inspec::Resources::Bridge' do
 
   it 'check linux bridge on ubuntu' do
     resource = MockLoader.new(:ubuntu1404).load_resource('bridge', 'br0')

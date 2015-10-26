@@ -4,7 +4,7 @@
 
 require 'resources/file'
 
-module Vulcano::Resources
+module Inspec::Resources
   class Directory < File
     name 'directory'
   end

@@ -7,7 +7,7 @@
 require 'utils/simpleconfig'
 require 'utils/find_files'
 
-class ApacheConf < Vulcano.resource(1)
+class ApacheConf < Inspec.resource(1)
   name 'apache_conf'
 
   include FindFiles
@@ -49,7 +49,7 @@ class ApacheConf < Vulcano.resource(1)
     @params = {}
 
     # skip if the main configuration file doesn't exist
-    file = vulcano.file(@conf_path)
+    file = inspec.file(@conf_path)
     if !file.file?
       return skip_resource "Can't find file \"#{@conf_path}\""
     end
@@ -104,7 +104,7 @@ class ApacheConf < Vulcano.resource(1)
   end
 
   def read_file(path)
-    @files_contents[path] ||= vulcano.file(path).content
+    @files_contents[path] ||= inspec.file(path).content
   end
 
   def to_s

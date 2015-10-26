@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano:Resources::Feature' do
+describe 'Inspec::Resources::Feature' do
   describe 'feature' do
     it 'verify windows feature parsing' do
       resource = MockLoader.new(:windows).load_resource('windows_feature', 'dhcp')

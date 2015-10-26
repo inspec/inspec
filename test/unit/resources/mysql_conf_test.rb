@@ -4,7 +4,7 @@
 
 require 'helper'
 
-describe 'Vulcano::Resources::MysqlConf' do
+describe 'Inspec::Resources::MysqlConf' do
   it 'verify mysql.conf config parsing' do
     resource = load_resource('mysql_conf', '/etc/mysql/my.cnf')
     _(resource.client['port']).must_equal '3306'

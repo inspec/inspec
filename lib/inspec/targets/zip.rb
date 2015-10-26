@@ -3,9 +3,9 @@
 # author: Christoph Hartmann
 
 require 'zip'
-require 'vulcano/targets/dir'
+require 'inspec/targets/dir'
 
-module Vulcano::Targets
+module Inspec::Targets
   class ZipHelper
     def content(input, _filter)
       content = []
@@ -39,7 +39,7 @@ module Vulcano::Targets
       end
       # get all file contents
       # @TODO
-      _file_handler = Vulcano::Targets.modules['file']
+      _file_handler = Inspec::Targets.modules['file']
       test_files = helper.get_filenames(files)
       content(path, test_files)
     end

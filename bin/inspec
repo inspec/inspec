@@ -6,9 +6,9 @@
 
 require 'thor'
 require 'json'
-require_relative '../lib/vulcano'
+require_relative '../lib/inspec'
 
-class VulcanoCLI < Thor
+class InspecCLI < Thor
   def self.target_options
     option :target, aliases: :t, type: :string, default: nil,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -44,7 +44,7 @@ class VulcanoCLI < Thor
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
   def json(path)
-    profile = Vulcano::Profile.from_path(path, options)
+    profile = Inspec::Profile.from_path(path, options)
     dst = options[:output].to_s
     if dst.empty?
       puts JSON.pretty_generate(profile.info)
@@ -63,7 +63,7 @@ class VulcanoCLI < Thor
   def check(path)
     o = options.dup
     o[:logger] = Logger.new(STDOUT)
-    profile = Vulcano::Profile.from_path(path, o)
+    profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
   end
 
@@ -73,7 +73,7 @@ class VulcanoCLI < Thor
   target_options
   option :format, type: :string, default: 'progress'
   def exec(*tests)
-    runner = Vulcano::Runner.new(options)
+    runner = Inspec::Runner.new(options)
     runner.add_tests(tests)
     runner.run
   rescue RuntimeError => e
@@ -83,7 +83,7 @@ class VulcanoCLI < Thor
   desc 'detect', 'detect the target OS'
   target_options
   def detect
-    runner = Vulcano::Runner.new(options)
+    runner = Inspec::Runner.new(options)
     rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
     runner.add_tests([detect_util])
@@ -95,15 +95,15 @@ class VulcanoCLI < Thor
   desc 'shell', 'open an interactive debugging shell'
   target_options
   def shell_func
-    runner = Vulcano::Runner.new(options)
-    Vulcano::Shell.new(runner).start
+    runner = Inspec::Runner.new(options)
+    Inspec::Shell.new(runner).start
   rescue RuntimeError => e
     puts e.message
   end
 
   desc 'version', 'prints the version of this tool'
   def version
-    puts Vulcano::VERSION
+    puts Inspec::VERSION
   end
 end
-VulcanoCLI.start(ARGV)
+InspecCLI.start(ARGV)

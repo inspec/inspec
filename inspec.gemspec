@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'vulcano/version'
+require 'inspec/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'vulcano'
-  spec.version       = Vulcano::VERSION
+  spec.name          = 'inspec'
+  spec.version       = Inspec::VERSION
   spec.authors       = ['Dominik Richter']
-  spec.email         = ['dominik@vulcanosec.com']
-  spec.summary       = 'Validate Vulcano compliance checks.'
-  spec.description   = 'Validate Vulcano compliance checks.'
+  spec.email         = ['dominik.richter@gmail.com']
+  spec.summary       = 'Validate Inspec compliance checks.'
+  spec.description   = 'Validate Inspec compliance checks.'
   spec.homepage      = 'https://github.com/...'
   spec.license       = 'Proprietary'
 

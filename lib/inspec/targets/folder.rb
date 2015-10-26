@@ -2,10 +2,10 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/targets/dir'
-require 'vulcano/targets/file'
+require 'inspec/targets/dir'
+require 'inspec/targets/file'
 
-module Vulcano::Targets
+module Inspec::Targets
   class FolderHelper
     def handles?(target)
       File.directory?(target)
@@ -23,7 +23,7 @@ module Vulcano::Targets
       end
 
       # get all test file contents
-      file_handler = Vulcano::Targets.modules['file']
+      file_handler = Inspec::Targets.modules['file']
       raw_files = helper.get_filenames(files)
       raw_files.map do |f|
         file_handler.resolve(File.join(target, f))
@@ -31,5 +31,5 @@ module Vulcano::Targets
     end
   end
 
-  Vulcano::Targets.add_module('folder', FolderHelper.new)
+  Inspec::Targets.add_module('folder', FolderHelper.new)
 end

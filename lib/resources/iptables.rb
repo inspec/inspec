@@ -21,7 +21,7 @@
 # @see http://ipset.netfilter.org/iptables.man.html
 # @see http://ipset.netfilter.org/iptables.man.html
 # @see https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
-class IpTables < Vulcano.resource(1)
+class IpTables < Inspec.resource(1)
   name 'iptables'
 
   def initialize(params = {})
@@ -29,7 +29,7 @@ class IpTables < Vulcano.resource(1)
     @chain = params[:chain] || nil
 
     # we're done if we are on linux
-    return if vulcano.os.linux?
+    return if inspec.os.linux?
 
     # ensures, all calls are aborted for non-supported os
     @iptables_cache = []
@@ -52,7 +52,7 @@ class IpTables < Vulcano.resource(1)
     # construct iptables command to read all rules
     @table.nil? ? table_cmd = '' : table_cmd = " -t #{@table} "
     @chain.nil? ? chain_cmd = '' : chain_cmd = " #{@chain}"
-    cmd = vulcano.command(format('iptables %s -S %s', table_cmd, chain_cmd).strip)
+    cmd = inspec.command(format('iptables %s -S %s', table_cmd, chain_cmd).strip)
     return [] if cmd.exit_status.to_i != 0
 
     # split rules, returns array or rules

@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Interface' do
+describe 'Inspec::Resources::Interface' do
 
   # ubuntu 14.04
   it 'verify interface on ubuntu' do

@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::KernelModule' do
+describe 'Inspec::Resources::KernelModule' do
   it 'verify kernel_module parsing' do
     resource = load_resource('kernel_module', 'bridge')
     _(resource.loaded?).must_equal true

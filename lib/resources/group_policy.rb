@@ -15,13 +15,13 @@ def gpo(policy_path, policy_name)
 end
 
 # Group Policy
-class GroupPolicy < Vulcano.resource(1)
+class GroupPolicy < Inspec.resource(1)
   name 'group_policy'
 
   def get_registry_value(entry)
     keys = entry['registry_information'][0]
     cmd = "(Get-Item 'Registry::#{keys['path']}').GetValue('#{keys['key']}')"
-    command_result ||= vulcano.command(cmd)
+    command_result ||= inspec.command(cmd)
     val = { exit_code: command_result.exit_status.to_i, data: command_result.stdout }
     val
   end

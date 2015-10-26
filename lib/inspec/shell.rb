@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-module Vulcano
+module Inspec
   class Shell
     def initialize(runner)
       @runner = runner
@@ -38,7 +38,7 @@ module Vulcano
     end
 
     def intro
-      puts 'Welcome to the interactive Vulcano Shell'
+      puts 'Welcome to the interactive Inspec Shell'
       puts "To find out how to use it, type: #{mark 'usage'}"
       puts
     end
@@ -47,7 +47,7 @@ module Vulcano
       ctx = @runner.backend
       puts <<EOF
 
-Welcome to the interactive Vulcano Shell.
+Welcome to the interactive Inspec Shell.
 
 You can use resources in this environment to test the target machine.
 For example:

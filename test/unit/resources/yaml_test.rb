@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::YAML' do
+describe 'Inspec::Resources::YAML' do
   it 'verify yaml parsing' do
     resource = load_resource('yaml', 'kitchen.yml')
     _(resource.params).wont_be_nil

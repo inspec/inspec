@@ -3,9 +3,9 @@
 # author: Dominik Richter
 
 require 'helper'
-require 'vulcano/resource'
+require 'inspec/resource'
 
-describe 'Vulcano::Resources::Host' do
+describe 'Inspec::Resources::Host' do
 
   it 'check host on ubuntu' do
     resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com')

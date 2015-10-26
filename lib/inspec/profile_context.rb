@@ -2,11 +2,11 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'vulcano/rule'
-require 'vulcano/dsl'
+require 'inspec/rule'
+require 'inspec/dsl'
 require 'rspec/core/dsl'
 
-module Vulcano
+module Inspec
   class ProfileContext
     attr_reader :rules, :only_ifs
     def initialize(profile_id, backend, profile_registry = {}, only_ifs = [])
@@ -31,13 +31,13 @@ module Vulcano
     end
 
     def unregister_rule(id)
-      full_id = Vulcano::Rule.full_id(@profile_id, id)
+      full_id = Inspec::Rule.full_id(@profile_id, id)
       @rules[full_id] = nil
     end
 
     def register_rule(r)
       # get the full ID
-      full_id = Vulcano::Rule.full_id(@profile_id, r)
+      full_id = Inspec::Rule.full_id(@profile_id, r)
       if full_id.nil?
         # TODO: error
         return
@@ -48,7 +48,7 @@ module Vulcano
       if existing.nil?
         @rules[full_id] = r
       else
-        Vulcano::Rule.merge(existing, r)
+        Inspec::Rule.merge(existing, r)
       end
     end
 
@@ -62,7 +62,7 @@ module Vulcano
     # @return [InnerDSLModule]
     def create_inner_dsl(backend)
       Module.new do
-        Vulcano::Resource.registry.each do |id, r|
+        Inspec::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(backend, id.to_s, *args)
           end
@@ -76,7 +76,7 @@ module Vulcano
     # @param dsl [InnerDSLModule] which contains all resources
     # @return [OuterDSLClass]
     def create_outer_dsl(dsl)
-      rule_class = Class.new(Vulcano::Rule) do
+      rule_class = Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         include dsl
       end
@@ -127,7 +127,7 @@ module Vulcano
 
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new(outer_dsl) do
-        include Vulcano::DSL
+        include Inspec::DSL
 
         define_method :__register_rule do |*args|
           profile_context_owner.register_rule(*args)
