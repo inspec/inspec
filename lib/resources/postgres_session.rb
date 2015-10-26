@@ -23,7 +23,9 @@ class Lines
   end
 end
 
-class PostgresSession
+class PostgresSession < Inspec.resource(1)
+  name 'postgres_session'
+
   def initialize(user, pass)
     @user = user || 'postgres'
     @pass = pass
