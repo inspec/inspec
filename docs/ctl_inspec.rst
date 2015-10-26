@@ -2,7 +2,7 @@
 InSpec CLI
 =====================================================
 
-Use the InSpec CLI to run audit tests against targets using SSH, |winrm|_, locally, or on |docker| containers.
+Use the InSpec CLI to run audit tests against targets using locally, SSH, |winrm|, or on |docker| containers.
 
 Common Options
 =====================================================
@@ -194,3 +194,4 @@ Use ``inspec version`` to print the version of the InSpec CLI.
 .. |winrm| replace:: Windows Remote Management
 .. _winrm: https://msdn.microsoft.com/en-us/library/aa384426(v=vs.85).aspx
 .. |docker| replace:: Docker
+.. _docker: https://www.docker.com/
