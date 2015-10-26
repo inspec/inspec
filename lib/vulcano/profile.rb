@@ -70,8 +70,14 @@ module Vulcano
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       no_errors = true
       no_warnings = true
-      warn = ->(msg) { @logger.warn(msg); no_warnings = false }
-      error = ->(msg) { @logger.error(msg); no_warnings = false; no_errors = false }
+      warn = lamba { |msg|
+        @logger.warn(msg)
+        no_warnings = false
+      }
+      error = lambda { |msg|
+        @logger.error(msg)
+        no_warnings = no_errors = false
+      }
 
       @logger.info "Checking profile in #{@path}"
 
