@@ -96,7 +96,7 @@ class Train::Transports::SSH
 
       CommandResult.new(stdout, stderr, exit_status)
     rescue Net::SSH::Exception => ex
-      raise SSHFailed, "SSH command failed (#{ex.message})"
+      raise Train::Transports::SSHFailed, "SSH command failed (#{ex.message})"
     end
 
     # (see Base::Connection#login_command)
@@ -128,7 +128,7 @@ class Train::Transports::SSH
         end
       end
     rescue Net::SSH::Exception => ex
-      raise SshFailed, "SCP upload failed (#{ex.message})"
+      raise Train::Transports::SSHFailed, "SCP upload failed (#{ex.message})"
     end
 
     # (see Base::Connection#wait_until_ready)
@@ -170,7 +170,7 @@ class Train::Transports::SSH
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
         logger.warn("[SSH] connection failed, terminating (#{e.inspect})")
-        raise SSHFailed, 'SSH session could not be established'
+        raise Train::Transports::SSHFailed, 'SSH session could not be established'
       end
 
       if opts[:message]
