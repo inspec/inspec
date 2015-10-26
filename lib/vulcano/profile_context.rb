@@ -42,6 +42,7 @@ module Vulcano
         # TODO: error
         return
       end
+
       # add the rule to the registry
       existing = @rules[full_id]
       if existing.nil?
