@@ -13,8 +13,8 @@ class PostgresConf < Inspec.resource(1)
 
   include FindFiles
 
-  def initialize(conf_path)
-    @conf_path = conf_path
+  def initialize(conf_path = nil)
+    @conf_path = conf_path || inspec.postgres.conf_path
     @conf_dir = File.expand_path(File.dirname @conf_path)
     @files_contents = {}
     @content = nil
