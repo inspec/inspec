@@ -17,6 +17,7 @@ group :integration do
   gem 'berkshelf', '~> 4.0'
   gem 'test-kitchen', git: 'https://github.com/chris-rock/test-kitchen', branch: 'test-path'
   gem 'kitchen-vagrant'
+  gem 'kitchen-inspec', git: 'git@github.com:chef/kitchen-inspec.git'
 end
 
 group :tools do
