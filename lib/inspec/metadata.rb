@@ -27,17 +27,17 @@ module Inspec
       description
       version
     }.each do |name|
-      define_method name do |arg|
-        params[name] = arg
+      define_method name.to_sym do |arg|
+        params[name.to_sym] = arg
       end
     end
 
     def supports(sth, version = nil)
-      params['supports'] ||= []
-      params['supports'].push(
+      params[:supports] ||= []
+      params[:supports].push(
         {
-          'os' => sth,
-          'version' => version,
+          os:      sth,
+          version: version,
         },
       )
     end
@@ -45,20 +45,20 @@ module Inspec
     def valid?
       is_valid = true
       %w{ name title version summary }.each do |field|
-        next unless params[field].nil?
-        @log.error("Missing profile #{field} in metadata.rb")
+        next unless params[field.to_sym].nil?
+        @logger.error("Missing profile #{field} in metadata.rb")
         is_valid = false
       end
       %w{ maintainer copyright }.each do |field|
-        next unless params[field].nil?
-        @log.warn("Missing profile #{field} in metadata.rb")
+        next unless params[field.to_sym].nil?
+        @logger.warn("Missing profile #{field} in metadata.rb")
         is_valid = false
       end
       is_valid && @missing_methods.empty?
     end
 
     def method_missing(sth, *args)
-      @log.warn "metadata.rb doesn't support: #{sth} #{args}"
+      @logger.warn "metadata.rb doesn't support: #{sth} #{args}"
       @missing_methods.push(sth)
     end
 
@@ -72,7 +72,7 @@ module Inspec
 
       res = Metadata.new(logger)
       res.instance_eval(File.read(path), path, 1)
-      res.dict['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      res.params[:name] = profile_id.to_s unless profile_id.to_s.empty?
       res
     end
   end

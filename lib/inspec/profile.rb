@@ -8,7 +8,8 @@ require 'inspec/metadata'
 module Inspec
   class Profile
     def self.from_path(path, options = nil)
-      opt = options.dup || {}
+      opt = {}
+      options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
       opt[:path] = path
       Profile.new(opt)
     end
@@ -18,9 +19,9 @@ module Inspec
 
     def initialize(options = nil)
       @options = options || {}
+      @profile_id = options[:id] || nil
       @params = {}
-      @logger = options.delete(:logger) || Logger.new(nil)
-      @profile_id = options.delete(:profile_id)
+      @logger = options[:logger] || Logger.new(nil)
 
       @path = @options[:path]
       fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
@@ -29,7 +30,7 @@ module Inspec
       @metadata = read_metadata
       @params = @metadata.params unless @metadata.nil?
 
-      @params['rules'] = rules = {}
+      @params[:rules] = rules = {}
       @runner = Runner.new(
         id: @profile_id,
         backend: :mock,
@@ -49,7 +50,7 @@ module Inspec
     def info
       res = @params.dup
       rules = {}
-      res['rules'].each do |id, rule|
+      res[:rules].each do |id, rule|
         next if id.to_s.empty?
 
         data = rule.dup
@@ -59,7 +60,7 @@ module Inspec
         data[:impact] = 0.0 if data[:impact] < 0.0
         rules[id] = data
       end
-      res['rules'] = rules
+      res[:rules] = rules
       res
     end
 
@@ -81,26 +82,26 @@ module Inspec
 
       @logger.info "Checking profile in #{@path}"
 
-      if @params['name'].to_s.empty?
+      if @params[:name].to_s.empty?
         error.call('No profile name defined')
-      elsif !(@params['name'].to_s =~ %r{^\S+\/\S+$})
+      elsif !(@params[:name].to_s =~ %r{^\S+\/\S+$})
         error.call('Profile name must be defined as: OWNER/ID')
       end
 
-      warn.call('No version defined') if @params['version'].to_s.empty?
-      warn.call('No title defined') if @params['title'].to_s.empty?
-      warn.call('No maintainer defined') if @params['maintainer'].to_s.empty?
-      warn.call('No supports defined') if @params['supports'].empty?
+      warn.call('No version defined') if @params[:name].to_s.empty?
+      warn.call('No title defined') if @params[:name].to_s.empty?
+      warn.call('No maintainer defined') if @params[:name].to_s.empty?
+      warn.call('No supports defined') if @params[:name].empty?
       @logger.info 'Metadata OK.' if no_warnings
 
       no_warnings = true
-      if @params['rules'].empty?
+      if @params[:name].empty?
         warn.call('No rules were found.')
       else
-        @logger.debug "Found #{@params['rules'].length} rules."
+        @logger.debug "Found #{@params[:name].length} rules."
       end
 
-      @params['rules'].each do |id, rule|
+      @params[:name].each do |id, rule|
         error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
         warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
         warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
