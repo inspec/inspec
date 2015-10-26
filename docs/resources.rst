@@ -2329,14 +2329,14 @@ A ``mysql_session`` InSpec resource block declares the username and password to 
 
    sql = mysql_session('username', 'password')
 
-   sql.describe('QUERY') do
+   describe sql.query('QUERY') do
      its('output') { should eq('') }
    end
 
 where
 
 * ``sql = mysql_session`` declares a username and password with permission to run the query
-* ``describe('QUERY')`` contains the query to be run
+* ``sql.query('QUERY')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers -- DONE
@@ -2361,7 +2361,7 @@ The following examples show how to use this InSpec resource.
 
    sql = mysql_session('my_user','password')
 
-   sql.describe('show databases like \'test\';') do
+   describe sql.query(('show databases like \'test\';') do
      its(:stdout) { should_not match(/test/) }
    end
 
@@ -3425,7 +3425,7 @@ A ``postgres_session`` InSpec resource block declares the username and password 
 
    sql = postgres_session('username', 'password')
 
-   sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+   describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
      its('output') { should eq('') }
    end
 
@@ -3457,7 +3457,7 @@ The following examples show how to use this InSpec resource.
 
    sql = postgres_session('my_user', 'password')
 
-   sql.describe('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+   describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
      its('output') { should eq('') }
    end
 
@@ -3467,7 +3467,7 @@ The following examples show how to use this InSpec resource.
 
    sql = postgres_session('my_user', 'password')
 
-   sql.describe('SELECT count (*)
+   describe sql.query('SELECT count (*)
                  FROM pg_language
                  WHERE lanpltrusted = 'f'
                  AND lanname!='internal'
