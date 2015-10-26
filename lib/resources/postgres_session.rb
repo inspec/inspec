@@ -45,11 +45,11 @@ class PostgresSession
         end
       end
     else
-      lines = cmd.stdout.
-              # remove the whole header (i.e. up to the first ^-----+------+------$)
-              sub(/(.*\n)+([-]+[+])*[-]+\n/, '').
-              # remove the tail
-              sub(/\n[^\n]*\n\n$/, '')
+      # remove the whole header (i.e. up to the first ^-----+------+------$)
+      # remove the tail
+      lines = cmd.stdout
+              .sub(/(.*\n)+([-]+[+])*[-]+\n/, '')
+              .sub(/\n[^\n]*\n\n$/, '')
       l = Lines.new(lines.strip, "PostgreSQL query: #{query}")
       RSpec.__send__('describe', l, &block)
     end

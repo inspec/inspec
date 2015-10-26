@@ -27,10 +27,7 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 10
 Metrics/AbcSize:
-  Max: 29
-Style/DotPosition:
-  EnforcedStyle: trailing
-  Enabled: true
+  Max: 33
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%':  '{}'

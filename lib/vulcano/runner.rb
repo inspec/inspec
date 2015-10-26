@@ -15,9 +15,9 @@ require 'vulcano/rspec_json_formatter'
 
 module Vulcano
   class Runner
-    attr_reader :tests, :backend
+    attr_reader :tests, :backend, :rules
     def initialize(conf = {})
-      @rules = []
+      @rules = {}
       @profile_id = conf[:id]
       @conf = conf.dup
       @tests = RSpec::Core::World.new
@@ -102,6 +102,7 @@ module Vulcano
     end
 
     def register_rule(ctx, rule_id, rule)
+      @rules[rule_id] = rule
       checks = rule.instance_variable_get(:@checks)
       checks.each do |m, a, b|
         # resource skipping

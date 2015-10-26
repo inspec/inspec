@@ -1,0 +1,79 @@
+# encoding: utf-8
+# Copyright 2015 Dominik Richter. All rights reserved.
+# author: Dominik Richter
+# author: Christoph Hartmann
+
+require 'logger'
+
+module Vulcano
+  # Extract vmetadata.rb information
+  class Metadata
+    attr_reader :params
+    def initialize(logger = nil)
+      @logger = logger || Logger.new(nil)
+      @params = {}
+      @missing_methods = []
+    end
+
+    %w{
+      name
+      title
+      maintainer
+      maintainer_email
+      copyright
+      copyright_email
+      license
+      summary
+      description
+      version
+    }.each do |name|
+      define_method name do |arg|
+        params[name] = arg
+      end
+    end
+
+    def supports(sth, version = nil)
+      params['supports'] ||= []
+      params['supports'].push(
+        {
+          'os' => sth,
+          'version' => version,
+        },
+      )
+    end
+
+    def valid?
+      is_valid = true
+      %w{ name title version summary }.each do |field|
+        next unless params[field].nil?
+        @log.error("Missing profile #{field} in vmetadata.rb")
+        is_valid = false
+      end
+      %w{ maintainer copyright }.each do |field|
+        next unless params[field].nil?
+        @log.warn("Missing profile #{field} in vmetadata.rb")
+        is_valid = false
+      end
+      is_valid && @missing_methods.empty?
+    end
+
+    def method_missing(sth, *args)
+      @log.warn "vmetadata.rb doesn't support: #{sth} #{args}"
+      @missing_methods.push(sth)
+    end
+
+    def self.from_file(path, profile_id, logger = nil)
+      logger ||= Logger.new(nil)
+
+      unless File.file?(path)
+        logger.error "Can't find metadata file #{path}"
+        return nil
+      end
+
+      res = Metadata.new(logger)
+      res.instance_eval(File.read(path), path, 1)
+      res.dict['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      res
+    end
+  end
+end
