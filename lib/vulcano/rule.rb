@@ -140,7 +140,7 @@ module Vulcano
     private
 
     # Idio(ma)tic unindent
-    # TODO replace this
+    # TODO: replace this
     #
     # @param [String] text string which needs to be unindented
     # @return [String] input with indentation removed

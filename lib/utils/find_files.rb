@@ -28,9 +28,9 @@ module FindFiles
     exit_status = result.exit_status
 
     return [nil, exit_status] unless exit_status == 0
-    files = result.stdout.split("\n").
-            map(&:strip).
-            find_all { |x| !x.empty? }
+    files = result.stdout.split("\n")
+            .map(&:strip)
+            .find_all { |x| !x.empty? }
     [files, exit_status]
   end
 end
