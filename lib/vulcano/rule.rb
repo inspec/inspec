@@ -156,6 +156,8 @@ module Vulcano
     def __get_block_source(&block)
       return '' unless block_given?
       block.source.to_s
+    rescue MethodSource::SourceNotFoundError
+      ''
     end
   end
 end
