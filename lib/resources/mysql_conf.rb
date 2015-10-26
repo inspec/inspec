@@ -31,8 +31,8 @@ class MysqlConf < Inspec.resource(1)
 
   include FindFiles
 
-  def initialize(conf_path)
-    @conf_path = conf_path
+  def initialize(conf_path = nil)
+    @conf_path = conf_path || inspec.mysql.conf_path
     @files_contents = {}
     @content = nil
     @params = nil
