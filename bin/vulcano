@@ -38,8 +38,7 @@ class VulcanoCLI < Thor
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
   end
 
-  desc 'json PATH', 'read all tests in PATH and generate a JSON-profile'
-  target_options
+  desc 'json PATH', 'read all tests in PATH and generate a JSON profile'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
   option :output, aliases: :o, type: :string,
@@ -48,7 +47,7 @@ class VulcanoCLI < Thor
     profile = Vulcano::Profile.from_path(path, options)
     dst = options[:output].to_s
     if dst.empty?
-      puts JSON.pretty_generate(profile.params)
+      puts JSON.pretty_generate(profile.info)
     else
       if File.exist? dst
         puts "----> updating #{dst}"
@@ -56,8 +55,16 @@ class VulcanoCLI < Thor
         puts "----> creating #{dst}"
       end
       fdst = File.expand_path(dst)
-      File.write(fdst, JSON.dump(profile.params))
+      File.write(fdst, JSON.dump(profile.info))
     end
+  end
+
+  desc 'check PATH', 'verify test structure in PATH'
+  def check(path)
+    o = options.dup
+    o[:logger] = Logger.new(STDOUT)
+    profile = Vulcano::Profile.from_path(path, o)
+    exit 1 unless profile.check
   end
 
   desc 'exec PATHS', 'run all test files'
