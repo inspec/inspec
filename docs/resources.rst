@@ -4,61 +4,57 @@ InSpec Resources Reference
 
 The following InSpec audit resources are available:
 
+* ``apache_conf``
 * ``apt``
+* ``audit_policy``
+* ``auditd_conf``
+* ``auditd_rules``
 * ``bond``
 * ``bridge``
+* ``csv``
 * ``command``
 * ``directory``
+* ``etc_group``
 * ``file``
 * ``gem``
 * ``group``
+* ``group_policy``
 * ``host``
+* ``inetd_conf``
 * ``interface``
 * ``iptables``
 * ``kernel_module``
 * ``kernel_parameter``
+* ``limits_conf``
+* ``login_defs``
+* ``mysql``
+* ``mysql_conf``
+* ``mysql_session``
 * ``npm``
+* ``ntp_conf``
 * ``oneget``
 * ``os``
 * ``os_env``
 * ``package``
+* ``parse_config``
+* ``parse_config_file``
+* ``passwd``
 * ``pip``
 * ``port``
+* ``postgres``
+* ``postgres_conf``
+* ``postgres_session``
 * ``processes`` << process?
 * ``registry_key``
 * ``script``
-* ``service``
-* ``user``
-* ``windows_feature``
-* ``yum``
-
-In addition to the open source resources, Chef Compliance ships with additional resources:
-
-* ``apache_conf``
-* ``audit_policy``
-* ``audit_daemon_conf`` << auditd_conf?
-* ``audit_daemon_rules`` << auditd_rules?
-* ``csv``
-* ``etc_group``
-* ``group_policy``
-* ``inetd_conf``
-* ``json``
-* ``limits_conf``
-* ``login_defs``
-* ``mysql`` << really a resource?
-* ``mysql_conf``
-* ``mysql_session``
-* ``ntp_conf``
-* ``parse_config``
-* ``parse_config_file``
-* ``passwd`` << etc_passwd?
-* ``postgres`` << really a resource?
-* ``postgres_conf``
-* ``postgres_session``
 * ``security_policy``
+* ``service``
 * ``ssh_config``
 * ``sshd_config``
+* ``user``
+* ``windows_feature``
 * ``yaml``
+* ``yum``
 
 See below for more information about each InSpec audit resource, its related matchers, and examples of how to use it in a recipe.
 
