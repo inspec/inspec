@@ -52,7 +52,7 @@ module Vulcano::Targets
     end
 
     HANDLERS = [
-      ProfileDir, ServerspecDir, FlatDir
+      ProfileDir, ChefAuditDir, ServerspecDir, FlatDir
     ].map(&:new)
 
     def self.get_handler(paths)
