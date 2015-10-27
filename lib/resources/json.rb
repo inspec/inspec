@@ -49,10 +49,13 @@ class JsonConfig < Inspec.resource(1)
     end
   end
 
+  # Shorthand to retrieve a parameter name via `#its`.
+  # Example: describe json('file') { its('paramX') { should eq 'Y' } }
+  #
+  # @param [String] name name of the field to retrieve
+  # @return [Object] the value stored at this position
   def method_missing(name)
-    # split dotted path
-    keys = name.to_s.split('.')
-    extract_value(keys, @params.clone)
+    @params[name.to_s]
   end
 
   def to_s
