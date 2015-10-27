@@ -2975,9 +2975,7 @@ A ``parse_config_file`` InSpec audit resource block declares the location of the
 
 .. code-block:: ruby
 
-   output = command('some-command').stdout
-
-   describe parse_config_file(output, { data_config_option: value } ) do
+   describe parse_config_file('/path/to/file', { data_config_option: value } ) do
      its('setting') { should eq 1 }
    end
 
@@ -2985,13 +2983,12 @@ or:
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
+   options = {
+     assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+     multiple_values: true
+   }
 
-   describe parse_config_file(audit, options) do
+   describe parse_config_file('path/to/file', options) do
      its('setting') { should eq 1 }
    end
 
@@ -3006,13 +3003,7 @@ where each test
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-
-   describe parse_config_file(audit, options) do
+   describe parse_config_file('/myfile', { assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/, multiple_values: true }) do
      its('setting') { should eq 1 }
    end
 
