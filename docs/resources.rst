@@ -27,7 +27,6 @@ The following InSpec audit resources are available:
 * ``kernel_parameter``
 * ``limits_conf``
 * ``login_defs``
-* ``mysql``
 * ``mysql_conf``
 * ``mysql_session``
 * ``npm``
@@ -41,7 +40,6 @@ The following InSpec audit resources are available:
 * ``passwd``
 * ``pip``
 * ``port``
-* ``postgres``
 * ``postgres_conf``
 * ``postgres_session``
 * ``processes`` << process?
@@ -2257,15 +2255,6 @@ The following examples show how to use this InSpec audit resource.
      its('PASS_MAX_DAYS') { should eq '90' }
    end
 
-
-mysql -- NOT AN InSpec audit resource?
-=====================================================
-TBD
-
-.. This one seems like it's just loading some mysql information on behalf of the mysql_conf and mysql_session InSpec audit resources. Right?
-
-
-
 mysql_conf
 =====================================================
 Use the ``mysql_conf`` InSpec audit resource to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/<version>/my.cnf``.
@@ -3392,14 +3381,6 @@ The following examples show how to use this InSpec audit resource.
    describe sshd_conf do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
-
-
-postgres -- NOT AN InSpec audit resource?
-=====================================================
-TBD
-
-.. This one seems like it's just loading some postgresql information on behalf of the postgres_conf and postgres_session InSpec audit resources. Right?
-
 
 postgres_conf
 =====================================================
