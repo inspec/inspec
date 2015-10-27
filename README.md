@@ -1,9 +1,10 @@
 # Inspec
 
 ## What is InSpec?
-The InSpec project is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements. The project name stands for “infrastructure specification,” and it also can be thought of as an abbreviation of “inspect.”
 
-You can use InSpec to examine any node in your infrastructure. The InSpec framework runs locally or remotely on the node being inspected. As input, it uses audit rules you write with the InSpec language. If it detects security, compliance or policy issues, they are flagged in a log.
+InSpec is an open-source testing framework for infrastructure with an easy language for specifying compliance, security, and policy requirements. The project name stands for "infrastructure specification" and can be thought of as an abbreviation of "inspect".
+
+You can use InSpec to examine any node in your infrastructure. The InSpec framework runs locally or remotely on the node being inspected. As input, it uses test rules written in the InSpec language. If it detects security, compliance, or policy issues, they are flagged in a log.
 
 The InSpec project includes many resources that help you write audit rules quickly and easily. Here are some examples.
 
@@ -11,28 +12,28 @@ The InSpec project includes many resources that help you write audit rules quick
 
 ```ruby
 describe package('telnetd') do
- it { should_not be_installed }
+  it { should_not be_installed }
 end
 
 describe inetd_conf do
- its("telnet") { should eq nil }
+  its("telnet") { should eq nil }
 end
 ```
 
- * Only accept requests on secure ports - This code ensures that the web server is only listening on well-secured ports.
+ * Only accept requests on secure ports - This test ensures, that a web server is only listening on well-secured ports.
 
 ```ruby
 describe port(80) do
- it { should_not be_listening }
+  it { should_not be_listening }
 end
 
 describe port(443) do
- it { should be_listening }
- its('protocol') {should eq 'tcp'}
+  it { should be_listening }
+  its('protocol') {should eq 'tcp'}
 end
 ```
 
- * Use approved strong ciphers - This code ensures that only enterprise-compliant ciphers are used for SSH servers.
+ * Use approved strong ciphers - This test ensures, that only enterprise-compliant ciphers are used for SSH servers.
 
 ```ruby
 describe sshd_config do
@@ -40,7 +41,7 @@ describe sshd_config do
 end
 ```
 
- * Test a kitchen.yml file driver - This code ensures that the Test Kitchen driver is Vagrant.
+ * Test your `kitchen.yml` file, to verify that only Vagrant is configured as the driver.
 
 ```ruby
 describe yaml('.kitchen.yml') do
