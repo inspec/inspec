@@ -85,3 +85,16 @@ bundle exec bin/inspec exec demo/test/example_spec.rb
 
   # if you want to run all test located within the directory
   $ inspec exec ./test
+
+
+Stability Index
+-----------------------------------------------------
+
+Every available InSpec resource will indiate its stability. As InSpec matures, certain parts are more reliable than others. Brand new features are likely to be redesigned and marked as such.
+
+The stability indices are as follows:
+
+* ``Stability: Deprecated`` - This features will be removed in future versions, because its known for being problematic. Do not rely on it.
+* ``Stability: Experimental`` - New features may change or are removed in future versions
+* ``Stability: Stable`` - API is well established and proofed. Maintaining compatibility is a high priority
+* ``Stability: Locked`` - Only security and performance fixes are allowed
