@@ -1,12 +1,12 @@
 {
   "name": "demo",
   "run_list": [
-    "apache2",
-    "omnibus"
+    "a",
+    "b"
   ],
-  "cookbook_locks": {
-    "omnibus": {
-      "version": "2.2.0"
+  "x": {
+    "y": {
+      "z": 123
     }
   }
 }
