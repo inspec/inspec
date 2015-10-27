@@ -37,7 +37,9 @@ module Inspec
       )
       @runner.add_tests([@path])
       @runner.rules.each do |id, rule|
-        rules[id] = {
+        file = rule.instance_variable_get(:@__file)
+        rules[file] ||= {}
+        rules[file][id] = {
           title: rule.title,
           desc: rule.desc,
           impact: rule.impact,
@@ -50,15 +52,19 @@ module Inspec
     def info
       res = @params.dup
       rules = {}
-      res[:rules].each do |id, rule|
-        next if id.to_s.empty?
-
-        data = rule.dup
-        data.delete(:checks)
-        data[:impact] ||= 0.5
-        data[:impact] = 1.0 if data[:impact] > 1.0
-        data[:impact] = 0.0 if data[:impact] < 0.0
-        rules[id] = data
+      res[:rules].each do |gid, group|
+        next if gid.to_s.empty?
+        path = gid.sub(File.join(@path, ''), '')
+        rules[path] = { title: '', rules: {} }
+        group.each do |id, rule|
+          next if id.to_s.empty?
+          data = rule.dup
+          data.delete(:checks)
+          data[:impact] ||= 0.5
+          data[:impact] = 1.0 if data[:impact] > 1.0
+          data[:impact] = 0.0 if data[:impact] < 0.0
+          rules[path][:rules][id] = data
+        end
       end
       res[:rules] = rules
       res

@@ -27,6 +27,7 @@ module Inspec
     end
 
     def load(content, source = nil, line = nil)
+      @current_file = source
       @profile_context.instance_eval(content, source || 'unknown', line || 1)
     end
 
@@ -37,6 +38,7 @@ module Inspec
 
     def register_rule(r)
       # get the full ID
+      r.instance_variable_set(:@__file, @current_file)
       full_id = Inspec::Rule.full_id(@profile_id, r)
       if full_id.nil?
         # TODO: error
