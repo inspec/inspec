@@ -2,14 +2,14 @@
 InSpec CLI
 =====================================================
 
-Use the InSpec CLI to run audit tests against targets using SSH, |windows remote management|, locally, or on |docker| containers.
+Use the InSpec CLI to run audit tests against targets using locally, SSH, |winrm|, or on |docker| containers.
 
 Common Options
 =====================================================
 The following options may be used with any of the InSpec CLI subcommands:
 
 ``-b``, ``--backend``
-   Specify the backend. Possible values: ``docker``, ``local``, ``ssh``, or ``winrm``.
+   Specify the backend. Possible values: ``local`` (default), ``ssh``, ``winrm``, or ``docker``.
 
 ``--disable_sudo``
    Use to prevent remote scanning via sudo. Default value: ``false``.
@@ -30,10 +30,10 @@ The following options may be used with any of the InSpec CLI subcommands:
    The port over which remote scanning will occur.
 
 ``--self_signed``
-   Use to allow remote scanning with self-signed certificates for |windows remote management| targets.  Default value: ``false``.
+   Use to allow remote scanning with self-signed certificates for |winrm| targets.  Default value: ``false``.
 
 ``--ssl``
-   Use to require transport-layer encryption via SSL for |windows remote management| targets. Default value: ``false``.
+   Use to require transport-layer encryption via SSL for |winrm| targets. Default value: ``false``.
 
 ``--sudo_options``
    Additional options that may be required by the sudo password for remote scanning. Default value: ``''``.
@@ -189,3 +189,9 @@ Use ``inspec shell`` to open an interactive debugging shell.
 version
 =====================================================
 Use ``inspec version`` to print the version of the InSpec CLI.
+
+
+.. |winrm| replace:: Windows Remote Management
+.. _winrm: https://msdn.microsoft.com/en-us/library/aa384426(v=vs.85).aspx
+.. |docker| replace:: Docker
+.. _docker: https://www.docker.com/
