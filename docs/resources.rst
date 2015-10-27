@@ -27,7 +27,6 @@ The following InSpec audit resources are available:
 * ``kernel_parameter``
 * ``limits_conf``
 * ``login_defs``
-* ``mysql``
 * ``mysql_conf``
 * ``mysql_session``
 * ``npm``
@@ -41,7 +40,6 @@ The following InSpec audit resources are available:
 * ``passwd``
 * ``pip``
 * ``port``
-* ``postgres``
 * ``postgres_conf``
 * ``postgres_session``
 * ``processes`` << process?
@@ -62,6 +60,8 @@ See below for more information about each InSpec audit resource, its related mat
 apache_conf
 =====================================================
 Use the ``apache_conf`` InSpec audit resource to test the configuration settings for |apache|. This file is typically located under ``/etc/apache2`` on the |debian| and |ubuntu| platforms and under ``/etc/httpd`` on the |fedora|, |centos|, |redhat enterprise linux|, and |archlinux| platforms. The configuration settings may vary significantly from platform to platform.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -126,6 +126,8 @@ The following examples show how to use this InSpec audit resource in a test.
 apt
 =====================================================
 Use the ``apt`` InSpec audit resource to verify |apt| repositories on the |debian| and |ubuntu| platforms, and also |ppa| repositories on the |ubuntu| platform.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -210,6 +212,8 @@ audit_policy
 =====================================================
 Use the ``audit_policy`` InSpec audit resource to test auditing policies on the |windows| platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each auditing category property that is enabled, the auditing level may be set to ``No Auditing``, ``Not Specified``, ``Success``, ``Success and Failure``, or ``Failure``.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``audit_policy`` InSpec audit resource block declares a parameter that belongs to an audit policy category or subcategory:
@@ -254,6 +258,8 @@ The following examples show how to use this InSpec audit resource.
 auditd_conf
 =====================================================
 Use the ``auditd_conf`` InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under ``/etc/audit/auditd.conf'`` on |unix| and |linux| platforms.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -392,6 +398,8 @@ bond
 =====================================================
 Use the ``bond`` InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
 
+**Stability: Stable**
+
 Syntax
 -----------------------------------------------------
 A ``bond`` InSpec audit resource block declares a bonded network interface, and then specifies the properties of that bonded network interface to be tested:
@@ -490,6 +498,8 @@ Use the ``bridge`` InSpec audit resource to test basic network bridge properties
 
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
 
+**Stability: Stable**
+
 Syntax
 -----------------------------------------------------
 A ``bridge`` InSpec audit resource block declares xxxxx:
@@ -562,6 +572,8 @@ The ``interfaces`` matcher tests if the named interface is present:
 command
 =====================================================
 Use the ``command`` InSpec audit resource to test an arbitrary command that is run on the system.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -713,6 +725,8 @@ csv
 =====================================================
 Use the ``csv`` InSpec audit resource to test configuration data in a |csv| file.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``csv`` InSpec audit resource block declares the configuration data to be tested:
@@ -759,6 +773,8 @@ directory
 =====================================================
 Use the ``directory`` InSpec audit resource to test if the file type is a directory. This is equivalent to using the ``file`` InSpec audit resource and the ``be_directory`` matcher, but provides a simpler and more direct way to test directories. All of the matchers available to the ``file`` resource that may be used with testing directories may be used with this resource.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``directory`` InSpec audit resource block declares the location of the directory to be tested, and then one (or more) matchers:
@@ -791,6 +807,8 @@ This InSpec audit resource may use any of the matchers available to the ``file``
 etc_group
 =====================================================
 Use the ``etc_group`` InSpec audit resource to test groups that are defined on on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -906,6 +924,8 @@ The following examples show how to use this InSpec audit resource.
 file
 =====================================================
 Use the ``file`` InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -1463,6 +1483,8 @@ gem
 =====================================================
 Use the ``gem`` InSpec audit resource to test if a global |gem| package is installed.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``gem`` InSpec audit resource block declares a package and (optionally) a package version:
@@ -1587,6 +1609,8 @@ group_policy
 =====================================================
 Use the ``group_policy`` InSpec audit resource to test group policy on the |windows| platform. This resource uses the ``Get-Item`` cmdlet to return all of the policy keys and related values.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``group_policy`` InSpec audit resource block declares the path to the policy:
@@ -1633,6 +1657,8 @@ The following examples show how to use this InSpec audit resource.
 host
 =====================================================
 Use the ``host`` InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -1710,6 +1736,8 @@ The following examples show how to use this InSpec audit resource.
 inetd_conf
 =====================================================
 Use the ``inetd_conf`` InSpec audit resource to test if a service is enabled in the ``inetd.conf`` file on |linux| and |unix| platforms. |inetd|---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The ``inetd.conf`` file is typically located at ``/etc/inetd.conf`` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -1811,6 +1839,8 @@ Use the ``interface`` InSpec audit resource to test basic network adapter proper
 
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
 
+**Stability: Stable**
+
 Syntax
 -----------------------------------------------------
 A ``interface`` InSpec audit resource block declares network interface properties to be tested:
@@ -1880,6 +1910,8 @@ iptables
 =====================================================
 Use the ``iptables`` InSpec audit resource to test rules that are defined in ``iptables``, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``iptables`` InSpec audit resource block declares tests for rules in IP tables:
@@ -1936,6 +1968,8 @@ json
 =====================================================
 Use the ``json`` InSpec audit resource to test data in a |json| file.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``json`` InSpec audit resource block declares the data to be tested:
@@ -1980,6 +2014,8 @@ The following examples show how to use this InSpec audit resource.
 kernel_module
 =====================================================
 Use the ``kernel_module`` InSpec audit resource to test kernel modules on |linux| platforms. These parameters are located under ``/lib/modules``. Any submodule may be tested using this resource.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -2026,6 +2062,8 @@ kernel_parameter
 Use the ``kernel_parameter`` InSpec audit resource to test kernel parameters on |linux| platforms. These parameters are located under ``/proc/sys/net``. Any subdirectory may be tested using this resource.
 
 .. https://www.kernel.org/doc/Documentation/kernel-parameters.txt
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -2100,6 +2138,8 @@ Entries in the ``limits.conf`` file are similar to:
    ^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
    domain      type    item    value
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``limits_conf`` InSpec audit resource block declares a domain to be tested, along with associated type, item, and value:
@@ -2153,6 +2193,8 @@ The following examples show how to use this InSpec audit resource.
 login_defs
 =====================================================
 Use the ``login_defs`` InSpec audit resource to test configuration settings in the ``/etc/login.defs`` file. The ``logins.defs`` file defines site-specific configuration for the shadow password suite on |linux| and |unix| platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -2210,17 +2252,8 @@ The following examples show how to use this InSpec audit resource.
 
    describe login_def do
      its('UMASK') { should eq '077' }
-     its('PASS_MAX_DAYS.to_i') { should be <= 90 }
+     its('PASS_MAX_DAYS') { should eq '90' }
    end
-
-
-mysql -- NOT AN InSpec audit resource?
-=====================================================
-TBD
-
-.. This one seems like it's just loading some mysql information on behalf of the mysql_conf and mysql_session InSpec audit resources. Right?
-
-
 
 mysql_conf
 =====================================================
@@ -2241,6 +2274,8 @@ where
 * ``'setting'`` specifies a setting in the ``my.cnf`` file
 * ``('path')`` is the non-default path to the ``my.cnf`` file
 * ``should eq 'value'`` is the value that is expected
+
+**Stability: Experimental**
 
 Matchers
 -----------------------------------------------------
@@ -2319,6 +2354,8 @@ mysql_session
 =====================================================
 Use the ``mysql_session`` InSpec audit resource to test SQL commands run against a |mysql| database.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``mysql_session`` InSpec audit resource block declares the username and password to use for the session, and then the command to be run:
@@ -2369,6 +2406,8 @@ The following examples show how to use this InSpec audit resource.
 npm
 =====================================================
 Use the ``npm`` InSpec audit resource to test if a global |npm| package is installed. |npm| is the `the package manager for Javascript packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -2430,6 +2469,8 @@ The following examples show how to use this InSpec audit resource.
 ntp_conf
 =====================================================
 Use the ``ntp_conf`` InSpec audit resource to test the synchronization settings defined in the ``ntp.conf`` file. This file is typically located at ``/etc/ntp.conf``.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -2493,6 +2534,8 @@ oneget
 =====================================================
 Use the ``oneget`` InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses |oneget|, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`__. This resource uses the ``Get-Package`` cmdlet to return all of the package names in the |oneget| repository.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``oneget`` InSpec audit resource block declares a package and (optionally) a package version:
@@ -2545,6 +2588,8 @@ os
 =====================================================
 Use the ``os`` InSpec audit resource to test the platform on which the system is running.
 
+**Stability: Stable**
+
 Syntax
 -----------------------------------------------------
 A ``os`` InSpec audit resource block declares the platform to be tested:
@@ -2558,6 +2603,7 @@ A ``os`` InSpec audit resource block declares the platform to be tested:
 where
 
 * ``'platform'`` is one of ``bsd``, ``debian``, ``linux``, ``redhat``, ``solaris``, ``suse``,  ``unix``, or ``windows``
+
 
 Matchers
 -----------------------------------------------------
@@ -2595,6 +2641,8 @@ The following examples show how to use this InSpec audit resource.
 os_env
 =====================================================
 Use the ``os_env`` InSpec audit resource to test the environment variables for the platform on which the system is running.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -2668,6 +2716,8 @@ The following examples show how to use this InSpec audit resource.
 package
 =====================================================
 Use the ``package`` InSpec audit resource to test if the named package and/or package version is installed on the system.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -2756,6 +2806,8 @@ The following examples show how to use this InSpec audit resource.
 parse_config
 =====================================================
 Use the ``parse_config`` InSpec audit resource to test arbitrary configuration files, such as testing the results of a regular expression, ensuring that settings are commented out, testing for multiple values, and so on.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -2899,7 +2951,7 @@ The following examples show how to use this InSpec audit resource.
    output = command('useradd -D').stdout
 
    describe parse_config(output) do
-     its('INACTIVE.to_i') { should be >= 35 }
+     its('INACTIVE') { should eq '35' }
    end
 
 **Test that bob is a user**
@@ -2915,15 +2967,15 @@ parse_config_file
 =====================================================
 Use the ``parse_config_file`` InSpec audit resource to test arbitrary configuration files.
 
-Syntax (is this really "identical" to the parse_config syntax?)
+**Stability: Experimental**
+
+Syntax
 -----------------------------------------------------
 A ``parse_config_file`` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested. Because this InSpec audit resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom |ruby| code:
 
 .. code-block:: ruby
 
-   output = command('some-command').stdout
-
-   describe parse_config_file(output, { data_config_option: value } ) do
+   describe parse_config_file('/path/to/file', { data_config_option: value } ) do
      its('setting') { should eq 1 }
    end
 
@@ -2931,13 +2983,12 @@ or:
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
+   options = {
+     assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+     multiple_values: true
+   }
 
-   describe parse_config_file(audit, options) do
+   describe parse_config_file('path/to/file', options) do
      its('setting') { should eq 1 }
    end
 
@@ -2952,13 +3003,7 @@ where each test
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-
-   describe parse_config_file(audit, options) do
+   describe parse_config_file('/myfile', { assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/, multiple_values: true }) do
      its('setting') { should eq 1 }
    end
 
@@ -3040,6 +3085,8 @@ defined as a colon-delimited row in the file, one row per user:
 .. code-block:: bash
 
    root:x:1234:5678:additional_info:/home/dir/:/bin/bash
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -3151,6 +3198,8 @@ pip
 =====================================================
 Use the ``pip`` InSpec audit resource to test packages that are installed using the |pip| installer.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``pip`` InSpec audit resource block declares a package and (optionally) a package version:
@@ -3211,6 +3260,8 @@ The following examples show how to use this InSpec audit resource.
 port
 =====================================================
 Use the ``port`` InSpec audit resource to test basic port properties, such as port, process, if it's listening.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -3322,17 +3373,11 @@ The following examples show how to use this InSpec audit resource.
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
-
-postgres -- NOT AN InSpec audit resource?
-=====================================================
-TBD
-
-.. This one seems like it's just loading some postgresql information on behalf of the postgres_conf and postgres_session InSpec audit resources. Right?
-
-
 postgres_conf
 =====================================================
 Use the ``postgres_conf`` InSpec audit resource to test the contents of the configuration file for |postgresql|, typically located at ``/etc/postgresql/<version>/main/postgresql.conf`` or ``/var/lib/postgres/data/postgresql.conf``, depending on the platform.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -3415,6 +3460,8 @@ postgres_session
 =====================================================
 Use the ``postgres_session`` InSpec audit resource to test SQL commands run against a |postgresql| database.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``postgres_session`` InSpec audit resource block declares the username and password to use for the session, and then the command to be run:
@@ -3479,6 +3526,8 @@ processes
 =====================================================
 Use the ``processes`` InSpec audit resource to test properties for programs that are running on the system.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``processes`` InSpec audit resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs:
@@ -3539,6 +3588,8 @@ registry_key
 =====================================================
 Use the ``registry_key`` InSpec audit resource to test key values in the |windows| registry.
 
+**Stability: Stable**
+
 Syntax
 -----------------------------------------------------
 A ``registry_key`` InSpec audit resource block declares the item in the |windows| registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested:
@@ -3587,6 +3638,8 @@ script
 Use the ``script`` InSpec audit resource to test a |powershell| script on the |windows| platform.
 
 .. this one is a bit of a wild guess.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -3638,6 +3691,8 @@ security_policy
 =====================================================
 Use the ``security_policy`` InSpec audit resource to test security policies on the |windows| platform.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``security_policy`` InSpec audit resource block declares the name of a security policy and the value to be tested:
@@ -3681,6 +3736,8 @@ The following examples show how to use this InSpec audit resource.
 service
 =====================================================
 Use the ``service`` InSpec audit resource to test if the named service is installed, running and/or enabled.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -3769,6 +3826,8 @@ ssh_config
 =====================================================
 Use the ``ssh_config`` InSpec audit resource to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``ssh_config`` InSpec audit resource block declares the client |openssh| configuration data to be tested:
@@ -3851,6 +3910,8 @@ The following examples show how to use this InSpec audit resource.
 sshd_config
 =====================================================
 Use the ``sshd_config`` InSpec audit resource to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
@@ -3954,6 +4015,8 @@ The following examples show how to use this InSpec audit resource.
 user
 =====================================================
 Use the ``user`` InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.
+
+**Stability: Stable**
 
 Syntax
 -----------------------------------------------------
@@ -4113,6 +4176,8 @@ windows_feature
 =====================================================
 Use the ``windows_feature`` InSpec audit resource to test features on |windows|. The ``Get-WindowsFeature`` cmdlet returns the following values: ``Property Name``, ``DisplayName``, ``Description``, ``Installed``, and ``InstallState``, returned as a |json| object similar to:
 
+**Stability: Experimental**
+
 .. code-block:: javascript
 
    {
@@ -4169,6 +4234,8 @@ yaml
 =====================================================
 Use the ``yaml`` InSpec audit resource to test configuration data in a |yaml| file.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``yaml`` InSpec audit resource block declares the configuration data to be tested:
@@ -4212,6 +4279,8 @@ The following examples show how to use this InSpec audit resource.
 yum
 =====================================================
 Use the ``yum`` InSpec audit resource to test packages in the |yum| repository.
+
+**Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
