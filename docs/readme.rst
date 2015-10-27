@@ -44,7 +44,7 @@ It will contain:
 
   # Skip all rules, if SSH doesn't exist on the system
   only_if do
-    command('sshd').exists?
+    command('sshd').exist?
   end
 
   rule "sshd-11" do
@@ -71,3 +71,17 @@ It will contain:
       its('PermitRootLogin') { should match(/no|without-password/) }
     end
   end
+
+
+Now, we are ready to run the tests locally:
+
+bundle exec bin/inspec exec demo/test/example_spec.rb
+
+.. code-block:: bash
+
+  # run tests individually
+  $ inspec exec test/example_spec.rb
+  $ inspec exec test/sshd_spec.rb
+
+  # if you want to run all test located within the directory
+  $ inspec exec ./test
