@@ -26,8 +26,15 @@ module Inspec
 
     def example_group
       that = self
-      outer_clr = calls[0][3]
-      RSpec::Core::ExampleGroup.describe(that.value, caller: outer_clr) do
+
+      opts = { 'caller' => calls[0][3] }
+      if !calls[0][3].nil? && !calls[0][3].empty? &&
+         (m = calls[0][3][0].match(/^([^:]*):(\d+):/))
+        opts['file_path'] = m[0]
+        opts['line_number'] = m[1]
+      end
+
+      RSpec::Core::ExampleGroup.describe(that.value, opts) do
         that.calls.each do |method, args, block, clr|
           it(nil, caller: clr) do
             x = expect(that.value, &that.block).method(method)
