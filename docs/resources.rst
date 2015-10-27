@@ -2254,7 +2254,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe login_def do
      its('UMASK') { should eq '077' }
-     its('PASS_MAX_DAYS.to_i') { should be <= 90 }
+     its('PASS_MAX_DAYS') { should eq '90' }
    end
 
 
@@ -2962,7 +2962,7 @@ The following examples show how to use this InSpec audit resource.
    output = command('useradd -D').stdout
 
    describe parse_config(output) do
-     its('INACTIVE.to_i') { should be >= 35 }
+     its('INACTIVE') { should eq '35' }
    end
 
 **Test that bob is a user**
