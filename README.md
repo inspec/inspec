@@ -1,4 +1,4 @@
-# Inspec
+# InSpec
 
 ## What is InSpec?
 
