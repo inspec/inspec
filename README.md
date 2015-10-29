@@ -4,7 +4,7 @@
 
 InSpec is an open-source testing framework for infrastructure with an easy language for specifying compliance, security, and policy requirements. The project name stands for "infrastructure specification" and can be thought of as an abbreviation of "inspect".
 
-You can use InSpec to examine any node in your infrastructure. The InSpec framework runs locally or remotely on the node being inspected. As input, it uses test rules written in the InSpec language. If it detects security, compliance, or policy issues, they are flagged in a log.
+You can use InSpec to examine any node in your infrastructure. The InSpec framework runs locally or remotely on the node being inspected. It uses test rules written in the InSpec language as input. Detected security, compliance, or policy issues are flagged in a log.
 
 The InSpec project includes many resources that help you write audit rules quickly and easily. Here are some examples.
 
