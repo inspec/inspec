@@ -26,7 +26,7 @@ group :tools do
 end
 
 # gems for Maintainers.md generation
-group(:maintenance) do
+group :maintenance do
   gem 'tomlrb'
 
   # To sync maintainers with github

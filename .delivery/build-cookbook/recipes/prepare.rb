@@ -14,7 +14,7 @@ directory cache_dir do
 end
 
 execute 'bundle install' do
-  command "bundle install --path #{cache_dir} --without integration tools"
+  command "bundle install --path #{cache_dir} --without integration tools maintenance"
   cwd repo_dir
   user node['delivery_builder']['build_user']
 end

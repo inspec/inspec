@@ -3,7 +3,7 @@ sudo: required
 language: ruby
 cache: bundler
 
-bundler_args: --without integration tools
+bundler_args: --without integration tools maintenance
 
 matrix:
   include:
