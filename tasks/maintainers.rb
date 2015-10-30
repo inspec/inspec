@@ -1,4 +1,4 @@
-#
+# encoding: utf-8
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
@@ -23,12 +23,11 @@ TARGET = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.md')
 # The list of repositories that teams should own
 REPOSITORIES = ['chef/inspec']
 
-
 begin
   require 'tomlrb'
   require 'octokit'
   require 'pp'
-  task :default => :generate
+  task default: :generate
 
   namespace :maintainers do
     desc 'Generate MarkDown version of MAINTAINERS file'
@@ -47,14 +46,14 @@ begin
     desc 'Synchronize GitHub teams'
     task :synchronize do
       Octokit.auto_paginate = true
-      get_github_teams
+      github_teams
       prepare_teams(source['Org']['Components'].dup)
       sync_teams!
     end
   end
 
   def github
-    @github ||= Octokit::Client.new(:netrc => true)
+    @github ||= Octokit::Client.new(netrc: true)
   end
 
   def source
@@ -62,7 +61,7 @@ begin
   end
 
   def teams
-    @teams ||= {'inspec-maintainers' => {'title' => 'Maintainers of the InSpec toolset'}}
+    @teams ||= { 'inspec-maintainers' => { 'title' => 'Maintainers of the InSpec toolset' } }
   end
 
   def add_members(team, name)
@@ -84,9 +83,9 @@ begin
 
   # we have to resolve team names to ids. While we're at it, we can get the privacy
   # setting, so we know whether we need to update it
-  def get_github_teams
+  def github_teams
     github.org_teams('chef').each do |team|
-      gh_teams[team[:slug]] = {'id' => team[:id], 'privacy' => team[:privacy]}
+      gh_teams[team[:slug]] = { 'id' => team[:id], 'privacy' => team[:privacy] }
     end
   end
 
@@ -113,14 +112,14 @@ begin
   end
 
   def prepare_teams(cmp)
-    %w(text paths).each { |k| cmp.delete(k) }
+    %w{text paths}.each { |k| cmp.delete(k) }
     if cmp.key?('team')
       team = cmp.delete('team')
       add_members(team, cmp.delete('lieutenant')) if cmp.key?('lieutenant')
       add_members(team, cmp.delete('maintainers')) if cmp.key?('maintainers')
       set_team_title(team, cmp.delete('title'))
     else
-      %w(maintainers lieutenant title).each { |k| cmp.delete(k) }
+      %w{maintainers lieutenant title}.each { |k| cmp.delete(k) }
     end
     cmp.each { |_k, v| prepare_teams(v) }
   end
@@ -173,15 +172,15 @@ begin
 
   def components(list, cmp)
     out = '## ' + cmp.delete('title') + "\n\n"
-    out << cmp.delete('text') + "\n" if cmp.has_key?('text')
-    out << "To mention the team, use @chef/#{cmp.delete('team')}\n\n" if cmp.has_key?('team')
-     if cmp.has_key?('lieutenant')
-       out << "### Lieutenant\n\n"
-       out << person(list, cmp.delete('lieutenant')) + "\n\n"
-     end
-    out << maintainers(list, cmp.delete('maintainers')) + "\n" if cmp.has_key?('maintainers')
+    out << cmp.delete('text') + "\n" if cmp.key?('text')
+    out << "To mention the team, use @chef/#{cmp.delete('team')}\n\n" if cmp.key?('team')
+    if cmp.key?('lieutenant')
+      out << "### Lieutenant\n\n"
+      out << person(list, cmp.delete('lieutenant')) + "\n\n"
+    end
+    out << maintainers(list, cmp.delete('maintainers')) + "\n" if cmp.key?('maintainers')
     cmp.delete('paths')
-    cmp.each {|k,v| out << components(list, v) }
+    cmp.each { |_k, v| out << components(list, v) }
     out
   end
 
@@ -193,19 +192,21 @@ begin
     o
   end
 
+  # rubocop:disable Metrics/AbcSize
   def person(list, person)
-    if list[person].has_key?('GitHub')
+    if list[person].key?('GitHub')
       out = "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
     else
       out =  "* #{list[person]['Name']}"
     end
-    out << "\n  * IRC - #{list[person]['IRC']}" if list[person].has_key?('IRC')
-    out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].has_key?('Twitter')
-    out << "\n  * [#{list[person]['email']}](mailto:#{list[person]['email']})" if list[person].has_key?('email')
-    out << "\n  * #{list[person]['phone']}" if list[person].has_key?('phone')
-    out << "\n  * [ServerFault](#{list[person]['ServerFault']})" if list[person].has_key?('ServerFault')
+    out << "\n  * IRC - #{list[person]['IRC']}" if list[person].key?('IRC')
+    out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].key?('Twitter')
+    out << "\n  * [#{list[person]['email']}](mailto:#{list[person]['email']})" if list[person].key?('email')
+    out << "\n  * #{list[person]['phone']}" if list[person].key?('phone')
+    out << "\n  * [ServerFault](#{list[person]['ServerFault']})" if list[person].key?('ServerFault')
     out
   end
+  # rubocop:enable all
 
 rescue LoadError
   STDERR.puts "\n*** TomlRb not available.\n\n"
