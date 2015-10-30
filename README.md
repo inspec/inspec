@@ -167,9 +167,20 @@ end
 
 ## Tests
 
-### Runner
+It may be informative to look at what tests delivery is running for CI in case this documentation becomes out of date:
+https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb
 
-Runner tests will make sure the backend execution layer behaves as expected.
+### Unit tests
+
+Just
+```bash
+rake test
+```
+as usual.
+
+### Resource tests
+
+Make sure the backend execution layer behaves as expected.
 These tests will take a while, as a lot of different operating systems and configurations
 are being tested.
 
@@ -179,18 +190,12 @@ You will require:
 * test-kitchen
 * docker
 
-Run all tests via
+Run resource tests with
 
 ```bash
-rake test:runner
-
-# configure concurrency:
-CONCURRENCY=3 rake test:runner
+bundle exec rake test:resources config=test/test.yaml
+bundle exec rake test:resources config=test/test-extra.yaml
 ```
-
-This will go to `test/runner` and run `kitchen test`. You can test specific
-operating systems and configurations via test-kitchen.
-
 
 ## Learn More
 
