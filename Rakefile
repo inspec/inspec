@@ -3,6 +3,7 @@
 
 require 'rake/testtask'
 require 'rubocop/rake_task'
+require_relative 'tasks/maintainers'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
