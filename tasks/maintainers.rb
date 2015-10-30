@@ -17,11 +17,11 @@
 
 require 'rake'
 
-SOURCE = File.join(File.dirname(__FILE__), "..", "MAINTAINERS.toml")
-TARGET = File.join(File.dirname(__FILE__), "..", "MAINTAINERS.md")
+SOURCE = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.toml')
+TARGET = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.md')
 
 # The list of repositories that teams should own
-REPOSITORIES = ["chef/inspec"]
+REPOSITORIES = ['chef/inspec']
 
 
 begin
@@ -31,24 +31,24 @@ begin
   task :default => :generate
 
   namespace :maintainers do
-    desc "Generate MarkDown version of MAINTAINERS file"
+    desc 'Generate MarkDown version of MAINTAINERS file'
     task :generate do
       maintainers = Tomlrb.load_file SOURCE
       out = "<!-- This is a generated file. Please do not edit directly -->\n\n"
       out << "<!-- Modify MAINTAINERS.toml and run `rake maintainers:generate` to regenerate. -->\n\n"
-      out << "# " + maintainers["Preamble"]["title"] + "\n\n"
-      out <<  maintainers["Preamble"]["text"] + "\n"
-      out << components(maintainers["people"], maintainers["Org"]["Components"])
-      File.open(TARGET, "w") { |fn|
+      out << '# ' + maintainers['Preamble']['title'] + "\n\n"
+      out <<  maintainers['Preamble']['text'] + "\n"
+      out << components(maintainers['people'], maintainers['Org']['Components'])
+      File.open(TARGET, 'w') { |fn|
         fn.write out
       }
     end
 
-    desc "Synchronize GitHub teams"
+    desc 'Synchronize GitHub teams'
     task :synchronize do
       Octokit.auto_paginate = true
       get_github_teams
-      prepare_teams(source["Org"]["Components"].dup)
+      prepare_teams(source['Org']['Components'].dup)
       sync_teams!
     end
   end
@@ -62,20 +62,20 @@ begin
   end
 
   def teams
-    @teams ||= {"inspec-maintainers" => {"title" => "Maintainers of the InSpec toolset"}}
+    @teams ||= {'inspec-maintainers' => {'title' => 'Maintainers of the InSpec toolset'}}
   end
 
   def add_members(team, name)
-    teams["inspec-maintainers"]["members"] ||= []
-    teams["inspec-maintainers"]["members"] << name
+    teams['inspec-maintainers']['members'] ||= []
+    teams['inspec-maintainers']['members'] << name
     teams[team] ||= {}
-    teams[team]["members"] ||= []
-    teams[team]["members"] << name
+    teams[team]['members'] ||= []
+    teams[team]['members'] << name
   end
 
   def set_team_title(team, title)
     teams[team] ||= {}
-    teams[team]["title"] = title
+    teams[team]['title'] = title
   end
 
   def gh_teams
@@ -85,13 +85,13 @@ begin
   # we have to resolve team names to ids. While we're at it, we can get the privacy
   # setting, so we know whether we need to update it
   def get_github_teams
-    github.org_teams("chef").each do |team|
-      gh_teams[team[:slug]] = {"id" => team[:id], "privacy" => team[:privacy]}
+    github.org_teams('chef').each do |team|
+      gh_teams[team[:slug]] = {'id' => team[:id], 'privacy' => team[:privacy]}
     end
   end
 
   def get_github_team(team)
-    github.team_members(gh_teams[team]["id"]).map do |member|
+    github.team_members(gh_teams[team]['id']).map do |member|
       member[:login]
     end.sort.uniq.map(&:downcase)
   rescue
@@ -99,11 +99,11 @@ begin
   end
 
   def create_team(team)
-    puts "creating new github team: #{team} with title: #{teams[team]["title"]} "
-    t = github.create_team("chef", name: team, description: teams[team]["title"],
-                       privacy: "closed", repo_names: REPOSITORIES,
-                       accept: "application/vnd.github.ironman-preview+json")
-    gh_teams[team] = { "id" => t[:id], "privacy" => t[:privacy] }
+    puts "creating new github team: #{team} with title: #{teams[team]['title']} "
+    t = github.create_team('chef', name: team, description: teams[team]['title'],
+                       privacy: 'closed', repo_names: REPOSITORIES,
+                       accept: 'application/vnd.github.ironman-preview+json')
+    gh_teams[team] = { 'id' => t[:id], 'privacy' => t[:privacy] }
   end
 
   def compare_teams(current, desired)
@@ -114,11 +114,11 @@ begin
 
   def prepare_teams(cmp)
     %w(text paths).each { |k| cmp.delete(k) }
-    if cmp.key?("team")
-      team = cmp.delete("team")
-      add_members(team, cmp.delete("lieutenant")) if cmp.key?("lieutenant")
-      add_members(team, cmp.delete("maintainers")) if cmp.key?("maintainers")
-      set_team_title(team, cmp.delete("title"))
+    if cmp.key?('team')
+      team = cmp.delete('team')
+      add_members(team, cmp.delete('lieutenant')) if cmp.key?('lieutenant')
+      add_members(team, cmp.delete('maintainers')) if cmp.key?('maintainers')
+      set_team_title(team, cmp.delete('title'))
     else
       %w(maintainers lieutenant title).each { |k| cmp.delete(k) }
     end
@@ -136,51 +136,51 @@ begin
 
   def update_team_privacy(team)
     return
-    return if gh_teams[team]["privacy"] == "closed"
-    puts "Setting #{team} privacy to closed from #{gh_teams[team]["privacy"]}"
-    github.update_team(gh_teams[team]["id"], privacy: "closed",
-                       accept: "application/vnd.github.ironman-preview+json")
+    return if gh_teams[team]['privacy'] == 'closed'
+    puts "Setting #{team} privacy to closed from #{gh_teams[team]['privacy']}"
+    github.update_team(gh_teams[team]['id'], privacy: 'closed',
+                       accept: 'application/vnd.github.ironman-preview+json')
   end
 
   def add_team_members(team, additions)
     additions.each do |member|
       puts "Adding #{member} to #{team}"
-      github.add_team_membership(gh_teams[team]["id"], member, role: "member",
-                                 accept: "application/vnd.github.ironman-preview+json")
+      github.add_team_membership(gh_teams[team]['id'], member, role: 'member',
+                                 accept: 'application/vnd.github.ironman-preview+json')
     end
   end
 
   def remove_team_members(team, deletions)
     deletions.each do |member|
       puts "Removing #{member} from #{team}"
-      github.remove_team_membership(gh_teams[team]["id"], member,
-                                    accept: "application/vnd.github.ironman-preview+json")
+      github.remove_team_membership(gh_teams[team]['id'], member,
+                                    accept: 'application/vnd.github.ironman-preview+json')
     end
   end
 
   def sync_teams!
     teams.each do |name, details|
       current = get_github_team(name)
-      desired = details["members"].flatten.sort.uniq.map(&:downcase)
+      desired = details['members'].flatten.sort.uniq.map(&:downcase)
       additions, deletions = compare_teams(current, desired)
       update_team(name, additions, deletions)
     end
   end
 
   def get_person(person)
-    source["people"][person]
+    source['people'][person]
   end
 
   def components(list, cmp)
-    out = "## " + cmp.delete("title") + "\n\n"
-    out << cmp.delete("text") + "\n" if cmp.has_key?("text")
-    out << "To mention the team, use @chef/#{cmp.delete("team")}\n\n" if cmp.has_key?("team")
-     if cmp.has_key?("lieutenant")
+    out = '## ' + cmp.delete('title') + "\n\n"
+    out << cmp.delete('text') + "\n" if cmp.has_key?('text')
+    out << "To mention the team, use @chef/#{cmp.delete('team')}\n\n" if cmp.has_key?('team')
+     if cmp.has_key?('lieutenant')
        out << "### Lieutenant\n\n"
-       out << person(list, cmp.delete("lieutenant")) + "\n\n"
+       out << person(list, cmp.delete('lieutenant')) + "\n\n"
      end
-    out << maintainers(list, cmp.delete("maintainers")) + "\n" if cmp.has_key?("maintainers")
-    cmp.delete("paths")
+    out << maintainers(list, cmp.delete('maintainers')) + "\n" if cmp.has_key?('maintainers')
+    cmp.delete('paths')
     cmp.each {|k,v| out << components(list, v) }
     out
   end
@@ -194,16 +194,16 @@ begin
   end
 
   def person(list, person)
-    if list[person].has_key?("GitHub")
-      out = "* [#{list[person]["Name"]}](https://github.com/#{list[person]["GitHub"]})"
+    if list[person].has_key?('GitHub')
+      out = "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
     else
-      out =  "* #{list[person]["Name"]}"
+      out =  "* #{list[person]['Name']}"
     end
-    out << "\n  * IRC - #{list[person]["IRC"]}" if list[person].has_key?("IRC")
-    out << "\n  * [@#{list[person]["Twitter"]}](https://twitter.com/#{list[person]["Twitter"]})" if list[person].has_key?("Twitter")
-    out << "\n  * [#{list[person]["email"]}](mailto:#{list[person]["email"]})" if list[person].has_key?("email")
-    out << "\n  * #{list[person]["phone"]}" if list[person].has_key?("phone")
-    out << "\n  * [ServerFault](#{list[person]["ServerFault"]})" if list[person].has_key?("ServerFault")
+    out << "\n  * IRC - #{list[person]['IRC']}" if list[person].has_key?('IRC')
+    out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].has_key?('Twitter')
+    out << "\n  * [#{list[person]['email']}](mailto:#{list[person]['email']})" if list[person].has_key?('email')
+    out << "\n  * #{list[person]['phone']}" if list[person].has_key?('phone')
+    out << "\n  * [ServerFault](#{list[person]['ServerFault']})" if list[person].has_key?('ServerFault')
     out
   end
 
