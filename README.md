@@ -167,8 +167,11 @@ end
 
 ## Tests
 
-It may be informative to look at what tests delivery is running for CI in case this documentation becomes out of date:
-https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb
+We perform `unit`, `resource` and `integration` tests.
+
+* `unit` tests ensure the intended behaviour of the implementation
+* `resource` tests run against docker containers
+* `integration` tests run against VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
 
 ### Unit tests
 
@@ -180,22 +183,38 @@ as usual.
 
 ### Resource tests
 
-Make sure the backend execution layer behaves as expected.
-These tests will take a while, as a lot of different operating systems and configurations
-are being tested.
+Make sure the backend execution layer behaves as expected. These tests will take a while, as a lot of different operating systems and configurations are being tested.
 
 You will require:
 
-* vagrant with virtualbox
-* test-kitchen
 * docker
 
-Run resource tests with
+Run `resource` tests with
 
 ```bash
 bundle exec rake test:resources config=test/test.yaml
 bundle exec rake test:resources config=test/test-extra.yaml
 ```
+
+### Integration tests
+
+These tests download various virtual machines, to ensure InSpec is working as expected across different operating systems.
+
+You will require:
+
+* vagrant with virtualbox
+* test-kitchen
+
+Run `integration` tests with
+
+```bash
+cd test/integration
+bundle exec kitchen test -t .
+```
+
+### Chef Delivery Tests
+
+It may be informative to look at what [tests Chef Delivery](https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb) is running for CI.
 
 ## Learn More
 
