@@ -24,3 +24,12 @@ group :tools do
   gem 'pry', '~> 0.10'
   gem 'license_finder'
 end
+
+# gems for Maintainers.md generation
+group(:maintenance) do
+  gem 'tomlrb'
+
+  # To sync maintainers with github
+  gem 'octokit'
+  gem 'netrc'
+end
