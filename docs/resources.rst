@@ -4440,3 +4440,47 @@ The following examples show how to use this InSpec audit resource.
      it { should exist }
      it { should be_enabled }
    end
+
+
+
+
+.. |inspec resource| replace:: InSpec audit resource
+.. |apt| replace:: Apt
+.. |apache| replace:: Apache
+.. |archlinux| replace:: Arch Linux
+.. |debian| replace:: Debian
+.. |fedora| replace:: Fedora
+.. |redhat enterprise linux| replace:: Red Hat Enterprise Linux
+.. |centos| replace:: CentOS
+.. |redhat| replace:: Red Hat
+.. |ubuntu| replace:: Ubuntu
+.. |windows| replace:: Microsoft Windows
+.. |unix| replace:: UNIX
+.. |linux| replace:: Linux
+.. |ppa| replace:: PPA
+.. |json| replace:: JSON
+.. |csv| replace:: CSV
+.. |postgresql| replace:: PostgreSQL
+.. |md5| replace:: MD5
+.. |sha256| replace:: SHA-256
+.. |selinux| replace:: SELinux
+.. |gem| replace:: gem
+.. |icmp| replace:: ICMP
+.. |tcp| replace:: TCP
+.. |udp| replace:: UDP
+.. |inetd| replace:: inetd
+.. |mysql| replace:: MySQL
+.. |npm| replace:: npm
+.. |bower| replace:: bower
+.. |statsd| replace:: StatsD
+.. |oneget| replace:: OneGet
+.. |ruby| replace:: Ruby
+.. |pip| replace:: pip
+.. |ipv4| replace:: Internet Protocol version 4 (IPv4)
+.. |ipv6| replace:: Internet Protocol version 6 (IPv6)
+.. |powershell| replace:: Windows PowerShell
+.. |openssh| replace:: Open SSH
+.. |ssh| replace:: SSH
+.. |nginx| replace:: Nginx
+.. |yaml| replace:: YAML
+.. |yum| replace:: Yum
