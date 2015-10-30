@@ -2726,7 +2726,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os_env('PATH') do |dirs|
+   describe os_env('PATH') do
      its('split') { should_not include('') }
      its('split') { should_not include('.') }
    end
