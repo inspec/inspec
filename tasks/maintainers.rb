@@ -36,7 +36,7 @@ begin
       out = "<!-- This is a generated file. Please do not edit directly -->\n\n"
       out << "<!-- Modify MAINTAINERS.toml and run `rake maintainers:generate` to regenerate. -->\n\n"
       out << '# ' + maintainers['Preamble']['title'] + "\n\n"
-      out <<  maintainers['Preamble']['text'] + "\n"
+      out << maintainers['Preamble']['text'] + "\n"
       out << components(maintainers['people'], maintainers['Org']['Components'])
       File.open(TARGET, 'w') { |fn|
         fn.write out
@@ -133,12 +133,12 @@ begin
     puts "failed for #{team}"
   end
 
-  def update_team_privacy(team)
-    return
-    return if gh_teams[team]['privacy'] == 'closed'
-    puts "Setting #{team} privacy to closed from #{gh_teams[team]['privacy']}"
-    github.update_team(gh_teams[team]['id'], privacy: 'closed',
-                       accept: 'application/vnd.github.ironman-preview+json')
+  def update_team_privacy(_team)
+    # return
+    # return if gh_teams[team]['privacy'] == 'closed'
+    # puts "Setting #{team} privacy to closed from #{gh_teams[team]['privacy']}"
+    # github.update_team(gh_teams[team]['id'], privacy: 'closed',
+    #                    accept: 'application/vnd.github.ironman-preview+json')
   end
 
   def add_team_members(team, additions)
@@ -197,7 +197,7 @@ begin
     if list[person].key?('GitHub')
       out = "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
     else
-      out =  "* #{list[person]['Name']}"
+      out = "* #{list[person]['Name']}"
     end
     out << "\n  * IRC - #{list[person]['IRC']}" if list[person].key?('IRC')
     out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].key?('Twitter')
