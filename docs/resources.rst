@@ -2202,12 +2202,12 @@ The following examples show how to use this InSpec audit resource.
 
 **Test * and ftp limits**
 
+.. code-block:: ruby
+
    describe limits_conf('path') do
      its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
      its('ftp') { should eq ['hard', 'nproc', '0'] }
    end
-
-
 
 login_defs
 =====================================================
@@ -3024,15 +3024,11 @@ This |inspec resource| supports the following options for parsing configuration 
 
 .. code-block:: ruby
 
-<<<<<<< HEAD
-   describe parse_config_file('/myfile', { assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/, multiple_values: true }) do
-=======
    options = {
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
    describe parse_config_file(options) do
->>>>>>> sync words
      its('setting') { should eq 1 }
    end
 
