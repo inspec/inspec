@@ -174,7 +174,7 @@ https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit
 
 Just
 ```bash
-rake test
+bundle exec rake test
 ```
 as usual.
 
