@@ -151,7 +151,7 @@ Use ``inspec help`` to print help for the |ctl inspec| from the command shell.
 
 json
 =====================================================
-Use ``inspec json`` to read all tests at the specified path, and then generate a |json| profile to standard output (stdout) or printed to the command shell.
+Use ``inspec json`` to read all tests at the specified path, and then generate a |json| profile to standard output (stdout).
 
 Syntax
 -----------------------------------------------------
@@ -173,10 +173,7 @@ This subcommand has additional options:
    Use to attach a profile identifier to all test results.
 
 ``-o``, ``--output``
-   Use to generate the |json| profile to standard output (stdout).
-
-``-p``, ``--print``
-   Use to print the |json| profile to the command shell.
+   Use to save the |json| profile to a file instead of printing to stdout.
 
 
 
