@@ -510,9 +510,9 @@ The ``interfaces`` matcher tests if the named interface is present:
 
 .. code-block:: ruby
 
-   its('interfaces') { should eq foo }
-   its('interfaces') { should eq bar }
-   its('interfaces') { should include foo, bar }
+   its('interfaces') { should eq 'foo' }
+   its('interfaces') { should eq 'bar' }
+   its('interfaces') { should include('foo') }
 
 ..
 .. Examples
@@ -548,18 +548,9 @@ A ``command`` |inspec resource| block declares a command to be run, one (or more
      its('matcher') { should eq 'output' }
    end
 
-or:
-
-.. code-block:: ruby
-
-   describe command('command').exist? do
-     its('matcher') { should eq 'output' }
-   end
-
 where
 
 * ``'command'`` must specify a command to be run
-* ``.exist?`` is the ``exist`` matcher
 * ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
 * ``'output'`` tests the output of the command run on the system versus the output value stated in the test
 
@@ -589,7 +580,7 @@ The ``stderr`` matcher tests results of the command as returned in standard erro
 
 .. code-block:: ruby
 
-   its('stderr') { should eq 'error\n' }
+   its('stderr') { should eq 'error' }
 
 stdout
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -603,22 +594,14 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test for PostgreSQL database running a RC, development, or beta release**
+**Test for PostgreSQL database running a RC, but no development, or beta release**
 
 .. code-block:: ruby
 
-   describe command('sudo -i psql -V') do
-     its('stdout') { should_not eq '/RC/' }
+   describe command('psql -V') do
+     its('stdout') { should eq '/RC/' }
      its('stdout') { should_not eq '/DEVEL/' }
      its('stdout') { should_not eq '/BETA/' }
-   end
-
-**Test for multiple instances of Nginx**
-
-.. code-block:: ruby
-
-   describe command('ps aux | egrep "nginx: master" | egrep -v "grep" | wc -l') do
-     its('stdout') (should eq '/^1$/' )
    end
 
 **Test standard output (stdout)**
@@ -666,19 +649,6 @@ The following examples show how to use this InSpec audit resource.
    describe command('this is not existing').exist? do
      it { should eq false }
    end
-
-**Test for one peer and one indent**
-
-.. code-block:: ruby
-
-   describe command('sudo -i cat #{hba_config_file} | egrep 'peer|ident' | wc -l') do
-     its('stdout') { should eq '(/^[2|1]/)' }
-   end
-
-   describe command('sudo -i cat #{hba_config_file} | egrep 'trust|password|crypt' | wc -l') do
-     its('stdout') { should eq '(/^0/)' }
-   end
-
 
 
 
@@ -768,7 +738,7 @@ This |inspec resource| may use any of the matchers available to the ``file`` res
 
 etc_group
 =====================================================
-Use the ``etc_group`` |inspec resource| to test groups that are defined on on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
+Use the ``etc_group`` |inspec resource| to test groups that are defined on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
 
 **Stability: Experimental**
 
@@ -816,7 +786,7 @@ The ``groups`` matcher tests all groups for the named user:
 
 .. code-block:: ruby
 
-     its('groups') { should include 'my_user' }
+     its('groups') { should include 'my_group' }
 
 users
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -861,7 +831,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe etc_group do
-     its('groups') { should include 'my_user' }
+     its('groups') { should include 'my_group' }
    end
 
 
@@ -869,7 +839,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe etc_group.where(name: 'my_user') do
+   describe etc_group do
      its('users') { should include 'my_user' }
    end
 
@@ -877,7 +847,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe etc_group.where(name: 'my_user') do
+   describe etc_group.where(name: 'my_group') do
      its('users') { should include 'my_user' }
    end
 
@@ -1104,9 +1074,9 @@ The following complete example tests the ``pg_hba.conf`` file in |postgresql| fo
 .. code-block:: bash
 
    describe file(hba_config_file) do
-     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+     its('content') { should match '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
    end
 
 exist
@@ -1212,7 +1182,7 @@ The ``selinux_label`` matcher tests if the |selinux| label for a file matches th
 
 .. code-block:: ruby
 
-   its('product_version') { should eq 'system_u:system_r:httpd_t:s0' }
+   its('selinux_label') { should eq 'system_u:system_r:httpd_t:s0' }
 
 sha256sum
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1276,9 +1246,9 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: bash
 
    describe file(hba_config_file) do
-     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+     its('content') { should match '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
    end
 
 **Test if a file exists**
@@ -1297,7 +1267,7 @@ The following examples show how to use this InSpec audit resource.
     it { should_not exist }
    end
 
-**Test if a file is a directory**
+**Test if a path is a directory**
 
 .. code-block:: bash
 
@@ -1306,7 +1276,7 @@ The following examples show how to use this InSpec audit resource.
     it { should be_directory }
    end
 
-**Test if a file is a file and not a directory**
+**Test if a path is a file and not a directory**
 
 .. code-block:: bash
 
@@ -1413,7 +1383,6 @@ The following examples show how to use this InSpec audit resource.
 
    require 'digest'
    cpuinfo = file('/proc/cpuinfo').content
-
    md5sum = Digest::MD5.hexdigest(cpuinfo)
 
    describe file('/proc/cpuinfo') do
@@ -1426,7 +1395,6 @@ The following examples show how to use this InSpec audit resource.
 
    require 'digest'
    cpuinfo = file('/proc/cpuinfo').content
-
    sha256sum = Digest::SHA256.hexdigest(cpuinfo)
 
    describe file('/proc/cpuinfo') do
@@ -1572,7 +1540,7 @@ A ``host`` |inspec resource| block declares a host name, and then (depending on 
 
 .. code-block:: ruby
 
-   describe host('example.com', port: 80, proto: 'udp') do
+   describe host('example.com', port: 80, proto: 'tcp') do
      it { should be_reachable }
    end
 
@@ -1581,7 +1549,7 @@ where
 * ``host()`` must specify a host name and may specify a port number and/or a protocol
 * ``'example.com'`` is the host name
 * ``port:`` is the port number
-* ``proto: 'name'`` is the Internet protocol: |icmp| (``proto: 'icmp'``), |tcp| (``proto: 'tcp'``), or |udp| (``proto: 'udp'``)
+* ``proto: 'name'`` is the Internet protocol: |tcp| (``proto: 'tcp'``), |udp| (``proto: 'udp'`` or  |icmp| (``proto: 'icmp'``))
 * ``be_reachable`` is a valid matcher for this |inspec resource|
 
 Matchers
@@ -1644,7 +1612,7 @@ Use the ``inetd_conf`` |inspec resource| to test if a service is enabled in the 
 
 Syntax
 -----------------------------------------------------
-An ``inetd_conf`` |inspec resource| block declares the list of services that should be disabled in the ``inetd.conf`` file:
+An ``inetd_conf`` |inspec resource| block declares the list of services that are enabled in the ``inetd.conf`` file:
 
 .. code-block:: ruby
 
@@ -1660,7 +1628,7 @@ where
 
 Matchers
 -----------------------------------------------------
-This |inspec resource| matches any service that is listed in the ``inetd.conf`` file:
+This |inspec resource| matches any service that is listed in the ``inetd.conf`` file. You may want to ensure that specific services do not listen via ``inetd.conf``:
 
 .. code-block:: ruby
 
@@ -3518,12 +3486,20 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test if the list length for the mysqld process is 1**
+**Test for multiple instances of Nginx**
+
+.. code-block:: ruby
+
+  describe processes('postgres') do
+    its('list.length') { should be(1) }
+  end
+
+**Test for multiple instances of mysqld**
 
 .. code-block:: ruby
 
    describe processes('mysqld') do
-     its('list.length') { should eq '1' }
+     its('list.length') { should eq 1 }
    end
 
 **Test if the init process is owned by the root user**
