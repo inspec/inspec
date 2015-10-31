@@ -25,7 +25,7 @@ class InspecCLI < Thor
     option :key_files, type: :array, default: nil,
       desc: 'Login key or certificate file for a remote scan.'
     option :path, type: :string, default: nil,
-      desc: 'Login path to use when connecting to the target.'
+      desc: 'Login path to use when connecting to the target (WinRM).'
     option :sudo, type: :boolean, default: false,
       desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
     option :sudo_password, type: :string, default: nil,
