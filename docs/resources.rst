@@ -3277,7 +3277,7 @@ A ``postgres_conf`` |inspec resource| block declares one (or more) settings in t
 where
 
 * ``'setting'`` specifies a setting in the ``postgresql.conf`` file
-* ``('path')`` is the non-default path to the ``postgresql.conf`` file
+* ``('path')`` is the non-default path to the ``postgresql.conf`` file (optional)
 * ``should eq 'value'`` is the value that is expected
 
 Matchers
@@ -3395,9 +3395,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   sql = postgres_session('my_user', 'password')
-
-   describe sql.query('SELECT count (*)
+   describe postgres_session('my_user', 'password').query('SELECT count (*)
                  FROM pg_language
                  WHERE lanpltrusted = 'f'
                  AND lanname!='internal'
@@ -3493,9 +3491,13 @@ A ``registry_key`` |inspec resource| block declares the item in the |windows| re
      its('name') { should eq 'value' }
    end
 
+   describe registry_key('path\to\key') do
+     its('name') { should eq 'value' }
+   end
+
 where
 
-* ``'registry_item'`` is a key in the |windows| registry
+* ``'registry_item'`` is a key in the |windows| registry (optional)
 * ``'path\to\key'`` is the path in the |windows| registry
 * ``('name')`` and ``'value'`` represent the name of the key and the value assigned to that key
 
@@ -3538,44 +3540,70 @@ A ``script`` |inspec resource| block declares a script to be tested, and then a 
 
 .. code-block:: ruby
 
-   describe script do
-     its('script_name') { should include 'command' }
+   script = <<-EOH
+     # you powershell script
+   EOH
+
+   describe script(script) do
+     its('matcher') { should eq 'output' }
    end
 
-..
-.. where
-..
-.. * ``xxxxx`` must specify xxxxx
-.. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this InSpec audit resource
-..
+
+where
+
+* ``'script'`` must specify a Powershell script to be run
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
 
 Matchers
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
 
-script_name
+exit_status
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``script_name`` matcher tests the named script against the value specified by the test:
+The ``exit_status`` matcher tests the exit status for the command:
 
 .. code-block:: ruby
 
-   its('script_name') { should include 'Part-Of -Script' }
+  its('exit_status') { should eq 123 }
+
+stderr
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+  its('stderr') { should eq 'error' }
+
+stdout
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+  its('stdout') { should eq '/^1$/' }
 
 Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-.. stoopid test below; probably need a better one
-
-**Test that user Grantmc belongs to the Active Directory object**
+**Test for PostgreSQL database running a RC, but no development, or beta release**
 
 .. code-block:: ruby
 
-   describe script do
-     its('ADObject') { should include 'Get-ADPermission -Identity Grantmc' }
-   end
 
+  script = <<-EOH
+    # find user
+    $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
+    # get related groups
+    $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
+    $groups | ConvertTo-Json
+  EOH
+
+  describe script('psql -V') do
+    its('stdout') { should_not eq '' }
+  end
 
 
 security_policy
