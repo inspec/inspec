@@ -3829,7 +3829,7 @@ The following examples show how to use this InSpec audit resource.
 
 sshd_config
 =====================================================
-Use the ``sshd_config`` |inspec resource| to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
+Use the ``sshd_config`` |inspec resource| to test configuration data for the |openssh| daemon located at ``/etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
 
 **Stability: Experimental**
 
@@ -3875,8 +3875,6 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   return unless command('sshd').exist?
-
    describe sshd_config do
      its('AcceptEnv') { should include('GORDON_SERVER') }
    end
@@ -3884,8 +3882,6 @@ The following examples show how to use this InSpec audit resource.
 **Test for IPv6-only addresses**
 
 .. code-block:: ruby
-
-   return unless command('sshd').exist?
 
    describe sshd_config do
      its('AddressFamily') { should eq 'inet6' }
@@ -3899,18 +3895,9 @@ The following examples show how to use this InSpec audit resource.
      its('Protocol') { should eq '2' }
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ciphers**
 
 .. code-block:: ruby
-
-   describe port(80) do
-     it { should_not be_listening }
-   end
-
-   describe port(443) do
-     it { should be_listening }
-     its('protocol') {should eq 'tcp'}
-   end
 
    describe sshd_config do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
@@ -4134,8 +4121,6 @@ The ``be_installed`` matcher tests if the named |windows| feature is installed:
 .. code-block:: ruby
 
    it { should be_installed }
-
-If the feature is installed, the ``Get-WindowsFeature`` cmdlet is run and the name, display name, description, and install state is returned as a |json| object.
 
 Examples
 -----------------------------------------------------
