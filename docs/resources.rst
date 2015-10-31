@@ -3179,7 +3179,7 @@ A ``port`` |inspec resource| block declares a port, and then depending on what n
      its('process') {should eq 'syslog'}
    end
 
-where the ``syslog`` process is tested to see if it's listening on port 514.
+where the ``process`` returns the process listening on port 514.
 
 Matchers
 -----------------------------------------------------
@@ -3192,22 +3192,6 @@ The ``be_listening`` matcher tests if the port is listening for traffic:
 .. code-block:: ruby
 
    it { should be_listening }
-
-be_listening.with()
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``be_listening`` matcher can also test if the port is listening for traffic over a specific protocol or on local binding address. Use ``.with()`` to specify a protocol or local binding address. For example, a protocol:
-
-.. code-block:: ruby
-
-   it { should be_listening.with('tcp') }
-
-A local binding address:
-
-   it { should be_listening.with('127.0.0.1:631') }
-
-A protocol and a local binding address:
-
-   it { should be_listening.with('tcp', '127.0.0.1:631') }
 
 pid
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3261,7 +3245,7 @@ The following examples show how to use this InSpec audit resource.
      its('protocol') {should eq 'tcp6'}
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ports for HTTPs**
 
 .. code-block:: ruby
 
@@ -3272,10 +3256,6 @@ The following examples show how to use this InSpec audit resource.
    describe port(443) do
      it { should be_listening }
      its('protocol') {should eq 'tcp'}
-   end
-
-   describe sshd_conf do
-     its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
 postgres_conf
