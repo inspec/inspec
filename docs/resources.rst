@@ -41,7 +41,7 @@ The following InSpec audit resources are available:
 * ``port``
 * ``postgres_conf``
 * ``postgres_session``
-* ``processes`` << process?
+* ``processes``
 * ``registry_key``
 * ``script``
 * ``security_policy``
@@ -169,7 +169,7 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource in a test.
 
-**Test if Ubuntu is updated to the latest stable Juju package**
+**Test if apt repository exists and is enabled**
 
 .. code-block:: ruby
 
@@ -178,16 +178,7 @@ The following examples show how to use this InSpec audit resource in a test.
      it { should be_enabled }
    end
 
-**Test if Nginx is updated to the latest stable package**
-
-.. code-block:: ruby
-
-   describe apt('ppa:nginx/stable') do
-     it { should exist }
-     it { should be_enabled }
-   end
-
-**Verify that a repository exists and is enabled**
+**Verify that a PPA repository exists and is enabled**
 
 .. code-block:: ruby
 
@@ -236,7 +227,7 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test that a parameter is set to "No Auditing"**
+**Test that a parameter is not set to "No Auditing"**
 
 .. code-block:: ruby
 
@@ -249,7 +240,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe audit_policy do
-     its('User Account Management') { should_not eq 'No Auditing' }
+     its('User Account Management') { should eq 'Success' }
    end
 
 
@@ -315,6 +306,8 @@ auditd_rules
 =====================================================
 Use the ``auditd_rules`` |inspec resource| to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be tested, and then what that rule should do:
@@ -333,78 +326,21 @@ A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be te
     ] }
    end
 
-or:
+or test that individual rules are defined:
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-
-   describe auditd_rules(audit, options) do
-     its('rule') { should eq 1 }
-   end
+  describe auditd_rules do
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/group perm=wa key=identity/) }
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/passwd perm=wa key=identity/) }
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/gshadow perm=wa key=identity/)}
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/shadow perm=wa key=identity/)}
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/security\/opasswd perm=wa key=identity/)}
+  end
 
 where each test
 
 * Must declare one (or more) rules to be tested
-* May run a command to ``stdout``, and then run the test against that output
-* May use options to define how configuration data is to be parsed
-
-Options
------------------------------------------------------
-This |inspec resource| supports the following options for parsing configuration data. Use them in an ``options`` block stated outside of (and immediately before) the actual test:
-
-.. code-block:: ruby
-
-   options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-   describe auditd_rules(options) do
-     its('rule') { should eq 1 }
-   end
-
-
-assignment_re
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``assignment_re`` to test a key value using a regular expression:
-
-.. code-block:: ruby
-
-   'key = value'
-
-may be tested using the following regular expression, which determines assignment from key to value:
-
-.. code-block:: ruby
-
-   assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
-
-multiple_values
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = ['a', 'b']
-
-or:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = 'b'
-
-To test if multiple values are present, use:
-
-.. code-block:: ruby
-
-   multiple_values: false
-
-The preceding test will fail with the first example and will pass with the second.
 
 Examples
 -----------------------------------------------------
@@ -416,9 +352,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe audit_daemon_rules do
      its("LIST_RULES") {
-       should contain_match(/^exit,always arch=.*
-       key=time-change
-       syscall=adjtimex,settimeofday/)
+       should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/)
      }
    end
 
@@ -426,7 +360,7 @@ The following examples show how to use this InSpec audit resource.
 
 bond
 =====================================================
-Use the ``bond`` |inspec resource| to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
+Use the ``bond`` |inspec resource| to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
 
 **Stability: Stable**
 
@@ -523,7 +457,7 @@ bridge
 =====================================================
 Use the ``bridge`` |inspec resource| to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 
-* On |unix| and |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
+* On |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
 * On the |windows| platform, the ``Get-NetAdapter`` cmdlet is associated with the ``Get-NetAdapterBinding`` cmdlet and returns the ``ComponentID ms_bridge`` value as a |json| object
 
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
