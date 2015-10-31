@@ -27,10 +27,6 @@ class OsEnv < Inspec.resource(1)
     @content.split(':', -1)
   end
 
-  def stderr
-    @command_result.stderr
-  end
-
   def exit_status
     @command_result.exit_status.to_i
   end
