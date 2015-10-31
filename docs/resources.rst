@@ -1705,10 +1705,8 @@ interface
 =====================================================
 Use the ``interface`` |inspec resource| to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
 
-* On |unix| and |linux| platforms, any value in the ``/sys/class/net/#{iface}`` directory may be tested
-* On the |windows| platform, the ``Get-NetAdapter`` cmdlet returns the following values: ``Property Name``, ``InterfaceDescription``, ``Status``, ``State``, ``MacAddress``, ``LinkSpeed``, ``ReceiveLinkSpeed``, ``TransmitLinkSpeed``, and ``Virtual``, returned as a |json| object
-
-.. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
+* On |linux| platforms, ``/sys/class/net/#{iface}`` is used as source
+* On the |windows| platform, the ``Get-NetAdapter`` cmdlet is used as source
 
 **Stability: Stable**
 
@@ -1723,14 +1721,6 @@ An ``interface`` |inspec resource| block declares network interface properties t
      its('speed') { should eq 1000 }
      its('name') { should eq eth0 }
    end
-
-..
-.. where
-..
-.. * ``xxxxx`` must specify xxxxx
-.. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this InSpec audit resource
-..
 
 
 Matchers
@@ -1930,7 +1920,7 @@ The following examples show how to use this InSpec audit resource.
 
 kernel_parameter
 =====================================================
-Use the ``kernel_parameter`` |inspec resource| to test kernel parameters on |linux| platforms. These parameters are located under ``/proc/sys/net``. Any subdirectory may be tested using this resource.
+Use the ``kernel_parameter`` |inspec resource| to test kernel parameters on |linux| platforms.
 
 **Stability: Stable**
 
@@ -1946,7 +1936,7 @@ A ``kernel_parameter`` |inspec resource| block declares a parameter and then a v
 
 where
 
-* ``'path.to.parameter'`` must specify a kernel parameter, such as ``'net.ipv4.conf.all.forwarding'``
+* ``'kernel.parameter'`` must specify a kernel parameter, such as ``'net.ipv4.conf.all.forwarding'``
 * ``{ should eq 0 }`` states the value to be tested
 
 Matchers
@@ -2055,7 +2045,8 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe limits_conf('path') do
-     its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
+     its('*') { should include ['soft', 'core', '0'] }
+     its('*') { should include ['hard', 'rss', '10000'] }
      its('ftp') { should eq ['hard', 'nproc', '0'] }
    end
 
@@ -2126,7 +2117,7 @@ The following examples show how to use this InSpec audit resource.
 
 mysql_conf
 =====================================================
-Use the ``mysql_conf`` |inspec resource| to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/<version>/my.cnf``.
+Use the ``mysql_conf`` |inspec resource| to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/my.cnf`` or ``/etc/my.cnf``.
 
 Syntax
 -----------------------------------------------------
@@ -2231,16 +2222,14 @@ A ``mysql_session`` |inspec resource| block declares the username and password t
 
 .. code-block:: ruby
 
-   sql = mysql_session('username', 'password')
-
-   sql.describe('QUERY') do
+   describe mysql_session('username', 'password').query('QUERY') do
      its('output') { should eq('') }
    end
 
 where
 
-* ``sql = mysql_session`` declares a username and password with permission to run the query
-* ``describe('QUERY')`` contains the query to be run
+* ``mysql_session`` declares a username and password with permission to run the query
+* ``query('QUERY')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers
@@ -2264,8 +2253,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    sql = mysql_session('my_user','password')
-
-   sql.describe('show databases like \'test\';') do
+   describe sql.query('show databases like \'test\';') do
      its(:stdout) { should_not match(/test/) }
    end
 
@@ -2274,7 +2262,7 @@ The following examples show how to use this InSpec audit resource.
 
 npm
 =====================================================
-Use the ``npm`` |inspec resource| to test if a global |npm| package is installed. |npm| is the `the package manager for Javascript packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
+Use the ``npm`` |inspec resource| to test if a global |npm| package is installed. |npm| is the `the package manager for Nodejs packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
 
 **Stability: Experimental**
 
@@ -2465,7 +2453,7 @@ A ``os`` |inspec resource| block declares the platform to be tested:
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'platform' }
    end
 
@@ -2486,7 +2474,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'redhat' }
    end
 
@@ -2494,7 +2482,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'debian' }
    end
 
@@ -2502,7 +2490,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'windows' }
    end
 
@@ -2532,17 +2520,17 @@ Matchers
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
 
-exit_status
+content
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``exit_status`` matcher tests the exit status of the platform environment:
+The ``content`` matcher return the value of the environment variable:
 
 .. code-block:: ruby
 
-   its('exit_status') { should eq 0 }
+   its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
 
 split
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``split`` matcher tests the delimiter between environment variables:
+The ``split`` splits the content with the ``:``` deliminator:
 
 .. code-block:: ruby
 
@@ -2560,13 +2548,6 @@ Use ``-1`` to test for cases where there is a trailing colon (``:``), such as ``
 
    its('split') { should include ('-1') }
 
-stderr
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``stderr`` matcher tests environment variables after they are output to stderr:
-
-.. code-block:: ruby
-
-   its('stderr') { should include('PWD=/root') }
 
 Examples
 -----------------------------------------------------
