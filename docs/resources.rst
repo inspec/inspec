@@ -2988,7 +2988,7 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
      its('matcher') { should eq 0 }
    end
 
-   describe passwd.uid(userid) do
+   describe passwd.uid(filter) do
      its(:username) { should eq 'root' }
      its(:count) { should eq 1 }
    end
@@ -2996,7 +2996,7 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
 where
 
 * ``gids``, ``passwords``, ``uids``, and ``usernames`` are valid matchers for ``passwd``
-* ``userid`` is a filter for a specific uid
+* ``filter`` is a filter for a specific uid
 * ``count``, ``uid``, ``username`` are valid matchers for ``passwd.uid(userid)``
 
 
