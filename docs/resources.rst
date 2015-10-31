@@ -4015,7 +4015,7 @@ The following examples show how to use this InSpec audit resource.
      its('protocol') {should eq 'tcp'}
    end
 
-   describe sshd_conf do
+   describe sshd_config do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
