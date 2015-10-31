@@ -3588,12 +3588,11 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test for PostgreSQL database running a RC, but no development, or beta release**
+**Get all groups of Administrator user**
 
 .. code-block:: ruby
 
-
-  script = <<-EOH
+  myscript = <<-EOH
     # find user
     $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
     # get related groups
@@ -3601,7 +3600,7 @@ The following examples show how to use this InSpec audit resource.
     $groups | ConvertTo-Json
   EOH
 
-  describe script('psql -V') do
+  describe script(myscript) do
     its('stdout') { should_not eq '' }
   end
 
@@ -3743,7 +3742,7 @@ The following examples show how to use this InSpec audit resource.
 
 ssh_config
 =====================================================
-Use the ``ssh_config`` |inspec resource| to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
+Use the ``ssh_config`` |inspec resource| to test |openssh| |ssh| client configuration data located at ``/etc/ssh/ssh_config`` on |linux| and |unix| platforms.
 
 **Stability: Experimental**
 
@@ -3779,7 +3778,7 @@ or:
 
 .. code-block:: ruby
 
-   it's('name') { should include('bar') }
+   its('name') { should include('bar') }
 
 Examples
 -----------------------------------------------------
@@ -3790,7 +3789,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe ssh_config do
-     its('cipher') { should eq '3des' }
+     its('cipher') { should contain '3des' }
      its('port') { should '22' }
      its('hostname') { should include('example.com') }
    end
@@ -3799,7 +3798,9 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   return unless command('ssh').exist?
+   only_if do
+     command('sshd').exist? or command('ssh').exists?
+   end
 
    describe ssh_config do
      its('SendEnv') { should include('GORDON_CLIENT') }
