@@ -2744,51 +2744,45 @@ contains three values. To test that value to ensure it only contains one, use:
 
 multiple_values
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
+Use ``multiple_values`` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
    params['key'] = ['a', 'b']
+   params['key2'] = ['c']
 
-or:
+To use plain key value mapping, use ``multiple_values: false``:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
    params['key'] = 'b'
+   params['key2'] = 'c'
 
-To test if multiple values are present, use:
-
-.. code-block:: ruby
-
-   multiple_values: false
-
-The preceding test will fail with the first example and will pass with the second.
 
 standalone_comments
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``standalone_comments`` to test for comments in a configuration file and to ensure they are not integrated into the same lines as code:
-
-.. code-block:: ruby
-
-   'key = value # comment'
-   params['key'] = 'value'
-
-or:
+Use ``standalone_comments`` to parse comments as a line , otherwise inline comments are allowed:
 
 .. code-block:: ruby
 
    'key = value # comment'
    params['key'] = 'value # comment'
 
-To test if comments are standalone, use:
+
+Use ``standalone_comments: false``, to parse the following:
 
 .. code-block:: ruby
 
-   standalone_comments: true
-
-The preceding test will fail with the second example and will pass with the first.
+  'key = value # comment'
+  params['key'] = 'value'
 
 Examples
 -----------------------------------------------------
@@ -2815,13 +2809,13 @@ The following examples show how to use this InSpec audit resource.
 
 parse_config_file
 =====================================================
-Use the ``parse_config_file`` InSpec audit resource to test arbitrary configuration files.
+Use the ``parse_config_file`` InSpec audit resource to test arbitrary configuration files. It works identiacal to ``parse_config``. Instead of using a command output, this resource works with files.
 
 **Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
-A ``parse_config_file`` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested. Because this InSpec audit resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom |ruby| code:
+A ``parse_config_file`` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
 
 .. code-block:: ruby
 
@@ -2859,19 +2853,19 @@ This |inspec resource| supports the following options for parsing configuration 
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
-   describe parse_config_file(options) do
+   describe parse_config_file('path/to/file',  options) do
      its('setting') { should eq 1 }
    end
 
 assignment_re
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``assignment_re`` to test a key value using a regular expression:
+Use ``assignment_re`` to parse a key value using a regular expression:
 
 .. code-block:: ruby
 
    'key = value'
 
-may be tested using the following regular expression, which determines assignment from key to value:
+may be parsed using the following regular expression, which determines assignment from key to value:
 
 .. code-block:: ruby
 
@@ -2879,7 +2873,7 @@ may be tested using the following regular expression, which determines assignmen
 
 comment_char
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``comment_char`` to test for comments in a configuration file:
+Use ``comment_char`` to parse for comments in a configuration file:
 
 .. code-block:: ruby
 
@@ -2887,7 +2881,7 @@ Use ``comment_char`` to test for comments in a configuration file:
 
 key_vals
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``key_vals`` to test how many values a key contains:
+Use ``key_vals`` to parse how many values a key contains:
 
 .. code-block:: ruby
 
@@ -2902,51 +2896,45 @@ contains three values. To test that value to ensure it only contains one, use:
 
 multiple_values
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
+Use ``multiple_values`` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
-   params['key'] = ['a', 'b']
+  # # file structure:
+  # key = a
+  # key = b
+  # key2 = c
+  params['key'] = ['a', 'b']
+  params['key2'] = ['c']
 
-or:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = 'b'
-
-To test if multiple values are present, use:
+To use plain key value mapping, use ``multiple_values: false``:
 
 .. code-block:: ruby
 
-   multiple_values: false
+  # # file structure:
+  # key = a
+  # key = b
+  # key2 = c
+  params['key'] = 'b'
+  params['key2'] = 'c'
 
-The preceding test will fail with the first example and will pass with the second.
 
 standalone_comments
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``standalone_comments`` to test for comments in a configuration file and to ensure they are not integrated into the same lines as code:
-
-.. code-block:: ruby
-
-   'key = value # comment'
-   params['key'] = 'value'
-
-or:
+Use ``standalone_comments`` to parse comments as a line , otherwise inline comments are allowed:
 
 .. code-block:: ruby
 
    'key = value # comment'
    params['key'] = 'value # comment'
 
-To test if comments are standalone, use:
+
+Use ``standalone_comments: false``, to parse the following:
 
 .. code-block:: ruby
 
-   standalone_comments: true
-
-The preceding test will fail with the second example and will pass with the first.
+  'key = value # comment'
+  params['key'] = 'value'
 
 Examples
 -----------------------------------------------------
@@ -2975,7 +2963,7 @@ passwd
 Use the ``passwd`` |inspec resource| to test the contents of ``/etc/passwd``, which contains the following information for users that may log into the system and/or as users that own running processes. The format for ``/etc/passwd`` includes:
 
 * A username
-* The password for that user
+* The password for that user (on newer systems passwords should be stored in ``/etc/shadow`` )
 * The user identifier (UID) assigned to that user
 * The group identifier (GID) assigned to that user
 * Additional information about that user
@@ -3000,21 +2988,21 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
      its('matcher') { should eq 0 }
    end
 
+   describe passwd.uid(userid) do
+     its(:username) { should eq 'root' }
+     its(:count) { should eq 1 }
+   end
+
 where
 
-* ``count``, ``gids``, ``passwords``, ``uid``, ``uids``, ``username``, ``usernames``, and ``users`` are valid matchers for this InSpec resource
+* ``gids``, ``passwords``, ``uids``, and ``usernames`` are valid matchers for ``passwd``
+* ``userid`` is a filter for a specific uid
+* ``count``, ``uid``, ``username`` are valid matchers for ``passwd.uid(userid)``
 
-Matchers
+
+Matchers for ``passwd``
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
-
-count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('count') { should eq 1 }
 
 gids
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3038,14 +3026,6 @@ For example:
 
    its('passwords') { should eq 'x' }
 
-uid
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``uid`` matcher tests if the user identifier in the test matches a user identifier in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('uid') { should eq 1234 }
-
 uids
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``uids`` matcher tests if the user indentifiers in the test match user identifiers in ``/etc/passwd``:
@@ -3053,14 +3033,6 @@ The ``uids`` matcher tests if the user indentifiers in the test match user ident
 .. code-block:: ruby
 
    its('uids') { should eq ['1234', '1235'] }
-
-username
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``username`` matcher tests if the user name in the test matches a user name in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('username') { should eq 'root' }
 
 usernames
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3070,13 +3042,34 @@ The ``usernames`` matcher tests if the usernames in the test match usernames in 
 
    its('usernames') { should eq ['root', 'www-data'] }
 
-users
+
+Matchers for ``passwd.uid(userid)``
+-----------------------------------------------------
+This InSpec audit resource has the following matchers.
+
+count
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``users`` matcher tests if the user in the test matches a user in ``/etc/passwd``
+The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``:
 
 .. code-block:: ruby
 
-   its('users') { should eq 'root' }
+  its('count') { should eq 1 }
+
+uid
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``uid`` matcher tests if the user identifier in the test matches a user identifier in ``/etc/passwd``:
+
+.. code-block:: ruby
+
+  its('uid') { should eq 1234 }
+
+username
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``username`` matcher tests if the user name in the test matches a user name in ``/etc/passwd``:
+
+.. code-block:: ruby
+
+  its('username') { should eq 'root' }
 
 Examples
 -----------------------------------------------------
@@ -3087,11 +3080,11 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe passwd do
-     its('usernames') { should eq 'root' }
-     its('uids') { should eq 1 }
+     its('usernames') { should eq ['root', 'www-data'] }
+     its('uids') { should eq [0, 33] }
    end
 
-**Test for multiple root users**
+**Select one user and test for multiple occurances in passwd**
 
 .. code-block:: ruby
 
@@ -3100,6 +3093,10 @@ The following examples show how to use this InSpec audit resource.
      its('count') { should eq 1 }
    end
 
+   describe passwd.uid(33) do
+     its('username') { should eq 'www-data' }
+     its('count') { should eq 1 }
+   end
 
 
 pip
