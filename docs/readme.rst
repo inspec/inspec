@@ -90,7 +90,7 @@ bundle exec bin/inspec exec demo/test/example_spec.rb
 Stability Index
 -----------------------------------------------------
 
-Every available InSpec resource will indiate its stability. As InSpec matures, certain parts are more reliable than others. Brand new features are likely to be redesigned and marked as such.
+Every available InSpec resource will indicate its stability. As InSpec matures, certain parts are more reliable than others. Brand new features are likely to be redesigned and marked as such.
 
 The stability indices are as follows:
 
