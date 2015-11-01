@@ -16,8 +16,8 @@
 # usage:
 #
 # describe passwd do
-#   its(:usernames) { should eq 'root' }
-#   its(:uids) { should eq 1 }
+#   its(:usernames) { should eq ['root'] }
+#   its(:uids) { should eq [0] }
 # end
 #
 # describe passwd.uid(0) do
@@ -61,12 +61,6 @@ class Passwd < Inspec.resource(1)
 
   def gids
     map_data('gid')
-  end
-
-  def users
-    @parsed.map {|x|
-      x['name']
-    }
   end
 
   def to_s
