@@ -24,11 +24,7 @@ class OsEnv < Inspec.resource(1)
   def split
     # -1 is required to catch cases like dir1::dir2:
     # where we have a trailing :
-    @content.split(':', -1)
-  end
-
-  def exit_status
-    @command_result.exit_status.to_i
+    @content.nil? ? [] : @content.split(':', -1)
   end
 
   def to_s
