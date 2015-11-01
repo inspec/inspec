@@ -43,6 +43,14 @@ module Train::Extras
       @prefix = build_prefix
     end
 
+    # (see CommandWrapperBase::verify)
+    def verify
+      res = @backend.run_command(run('echo'))
+      return nil if res.exit_status == 0
+      res.stdout + ' ' + res.stderr
+    end
+
+    # (see CommandWrapperBase::run)
     def run(command)
       @prefix + command
     end
