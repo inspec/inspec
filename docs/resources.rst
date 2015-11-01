@@ -18,7 +18,6 @@ The following InSpec audit resources are available:
 * ``file``
 * ``gem``
 * ``group``
-* ``group_policy``
 * ``host``
 * ``inetd_conf``
 * ``interface``
@@ -1625,57 +1624,6 @@ The following examples show how to use this InSpec audit resource.
      its('gid') { should eq 0 }
    end
 
-
-
-group_policy
-=====================================================
-Use the ``group_policy`` |inspec resource| to test group policy on the |windows| platform. This resource uses the ``Get-Item`` cmdlet to return all of the policy keys and related values.
-
-**Stability: Experimental**
-
-Syntax
------------------------------------------------------
-A ``group_policy`` |inspec resource| block declares the path to the policy:
-
-.. code-block:: ruby
-
-   describe group_policy('Path\to\Policy') do
-     its('setting') { should eq 'value' }
-   end
-
-where
-
-* ``'Path\to\Policy'`` must specify a group policy, such as ``'Local Policies\Audit Policy'`` or ``'Local Policies\Security Options'``
-* ``'setting'`` is the group policy setting to be tested. For example: ``Automatically log off users when the logon time expires``
-* ``'value'`` is compared to the value on the group policy
-
-Matchers
------------------------------------------------------
-This InSpec audit resource has the following matchers.
-
-setting
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``setting`` matcher tests specific, named settings in the group policy:
-
-.. code-block:: ruby
-
-   its('setting') { should eq 'value' }
-
-where ``'setting'`` is replaced with the full string for the setting. For example: ``Automatically log off users when the logon time expires``.
-
-Use a ``setting`` matcher for each setting to be tested.
-
-Examples
------------------------------------------------------
-The following examples show how to use this InSpec audit resource.
-
-**Test if users are logged off after the logon time expires**
-
-.. code-block:: ruby
-
-   describe group_policy('Local Policies\Security Options') do
-     its('Automatically log off users when the logon time expires') { should eq 'Enabled' }
-   end
 
 
 host
