@@ -17,22 +17,15 @@ class OsEnv < Inspec.resource(1)
   attr_reader :content
   def initialize(env)
     @osenv = env
-    @command_result = inspec.command("su - root -c 'echo $#{env}'")
-    @content = @command_result.stdout.chomp
+    cmd = inspec.command("su - root -c 'echo $#{env}'")
+    @content = cmd.stdout.chomp
+    @content = nil if cmd.exit_status != 0
   end
 
   def split
     # -1 is required to catch cases like dir1::dir2:
     # where we have a trailing :
-    @content.split(':', -1)
-  end
-
-  def stderr
-    @command_result.stderr
-  end
-
-  def exit_status
-    @command_result.exit_status.to_i
+    @content.nil? ? [] : @content.split(':', -1)
   end
 
   def to_s
