@@ -18,9 +18,8 @@ class OsEnv < Inspec.resource(1)
   def initialize(env)
     @osenv = env
     cmd = inspec.command("su - root -c 'echo $#{env}'")
-    return if cmd.exit_status != 0
-    @content = cmd.stdout
-    @content = @content.chomp if !@content.nil?
+    @content = cmd.stdout.chomp
+    @content = nil if cmd.exit_status != 0
   end
 
   def split
