@@ -11,8 +11,8 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``-b``, ``--backend``
    Specify the backend. Possible values: ``local`` (default), ``ssh``, ``winrm``, or ``docker``.
 
-``--disable_sudo``
-   Use to prevent remote scanning via sudo. Default value: ``false``.
+``--sudo``
+   Run scans with sudo. Only activates on Unix and non-root user. Default value: ``false``.
 
 ``--host``
    The remote host to be tested.
