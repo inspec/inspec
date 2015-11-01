@@ -5,7 +5,26 @@
 require 'base64'
 
 module Train::Extras
-  class LinuxCommand
+  # Define the interface of all command wrappers.
+  class CommandWrapperBase
+    # Verify that the command wrapper is initialized properly and working.
+    #
+    # @return [Any] verification result, nil if all went well, otherwise a message
+    def verify
+      fail Train::ClientError, "#{self.class} does not implement #verify()"
+    end
+
+    # Wrap a command and return the augmented command which can be executed.
+    #
+    # @param [Strin] command that will be wrapper
+    # @return [String] result of wrapping the command
+    def run(_command)
+      fail Train::ClientError, "#{self.class} does not implement #run(command)"
+    end
+  end
+
+  # Wrap linux commands and add functionality like sudo.
+  class LinuxCommand < CommandWrapperBase
     Train::Options.attach(self)
 
     option :sudo, default: false
