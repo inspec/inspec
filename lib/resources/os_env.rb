@@ -17,8 +17,10 @@ class OsEnv < Inspec.resource(1)
   attr_reader :content
   def initialize(env)
     @osenv = env
-    @command_result = inspec.command("su - root -c 'echo $#{env}'")
-    @content = @command_result.stdout.chomp
+    cmd = inspec.command("su - root -c 'echo $#{env}'")
+    return if cmd.exit_status != 0
+    @content = cmd.stdout
+    @content = @content.chomp if !@content.nil?
   end
 
   def split
