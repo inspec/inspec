@@ -7,7 +7,7 @@ require 'inspec/dsl'
 require 'rspec/core/dsl'
 
 module Inspec
-  class ProfileContext
+  class ProfileContext # rubocop:disable Metrics/ClassLength
     attr_reader :rules, :only_ifs
     def initialize(profile_id, backend, profile_registry = {}, only_ifs = [])
       if backend.nil?
