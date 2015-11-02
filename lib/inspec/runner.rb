@@ -14,7 +14,7 @@ require 'rspec/its'
 require 'inspec/rspec_json_formatter'
 
 module Inspec
-  class Runner
+  class Runner # rubocop:disable Metrics/ClassLength
     attr_reader :tests, :backend, :rules
     def initialize(conf = {})
       @rules = {}
