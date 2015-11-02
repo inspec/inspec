@@ -26,9 +26,19 @@ module Inspec::Targets
       # get all test file contents
       file_handler = Inspec::Targets.modules['file']
       raw_files = helper.get_filenames(files)
-      raw_files.map do |f|
+      files = raw_files.map do |f|
         file_handler.resolve(File.join(target, f))
       end
+
+      libs = []
+      if helper.respond_to? :get_libraries
+        raw_libs = helper.get_libraries(files)
+        libs = raw_libs.map do |f|
+          file_handler.resolve(File.join(target, f), as: :library)
+        end
+      end
+
+      libs + files
     end
   end
 

@@ -8,9 +8,10 @@ module Inspec::Targets
       File.file?(target) and target.end_with?('.rb')
     end
 
-    def resolve(target)
+    def resolve(target, opts = {})
+      key = opts[:as] || :content
       {
-        content: File.read(target),
+        key => File.read(target),
         ref: target,
       }
     end
