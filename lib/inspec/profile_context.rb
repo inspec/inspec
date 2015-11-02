@@ -99,10 +99,7 @@ module Inspec
           __register_rule rule_class.new(id, opts, &block)
         end
 
-        define_method :rule do |*args, &block|
-          # TODO: add deprecation notice
-          control(*args, &block)
-        end
+        alias_method :rule, :control
 
         define_method :describe do |*args, &block|
           path = block.source_location[0]
