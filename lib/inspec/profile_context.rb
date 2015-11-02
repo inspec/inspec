@@ -27,7 +27,7 @@ module Inspec
     end
 
     def load(content, source = nil, line = nil)
-      @current_file = source
+      @current_load = { file: source }
       @profile_context.instance_eval(content, source || 'unknown', line || 1)
     end
 
@@ -38,7 +38,8 @@ module Inspec
 
     def register_rule(r)
       # get the full ID
-      r.instance_variable_set(:@__file, @current_file)
+      r.instance_variable_set(:@__file, @current_load[:file])
+      r.instance_variable_set(:@__group_title, @current_load[:title])
       full_id = Inspec::Rule.full_id(@profile_id, r)
       if full_id.nil?
         # TODO: error
@@ -52,6 +53,10 @@ module Inspec
       else
         Inspec::Rule.merge(existing, r)
       end
+    end
+
+    def set_header(field, val)
+      @current_load[field] = val
     end
 
     private
@@ -135,6 +140,10 @@ module Inspec
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new(outer_dsl) do
         include Inspec::DSL
+
+        define_method :title do |arg|
+          profile_context_owner.set_header(:title, arg)
+        end
 
         define_method :__register_rule do |*args|
           profile_context_owner.register_rule(*args)
