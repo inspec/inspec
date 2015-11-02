@@ -42,7 +42,8 @@ class Cmd < Inspec.resource(1)
     elsif inspec.os.unix?
       res = inspec.backend.run_command("type \"#{@command}\"")
     else
-      fail "`command(#{@command}).exits?` is not suported on you OS."
+      warn "`command(#{@command}).exit?` is not suported on you OS: #{inspec.os['family']}"
+      return false
     end
     res.exit_status.to_i == 0
   end
