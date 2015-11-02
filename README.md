@@ -220,6 +220,10 @@ It may be informative to look at what [tests Chef Delivery](https://github.com/c
 
 For more information see the InSpec documentation: https://github.com/chef/inspec/tree/master/docs
 
+## Kudos
+
+InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
+
 ## Contributing
 
 1. Fork it
