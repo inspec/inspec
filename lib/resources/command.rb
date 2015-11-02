@@ -41,8 +41,11 @@ class Cmd < Inspec.resource(1)
       res = inspec.backend.run_command("where.exe \"#{@command}\"")
     elsif inspec.os.unix?
       res = inspec.backend.run_command("type \"#{@command}\"")
+    elsif inspec.os[:family].to_s == 'unknown'
+      # silent for mock resources
+      return false
     else
-      warn "`command(#{@command}).exit?` is not suported on you OS: #{inspec.os['family']}"
+      warn "`command(#{@command}).exist?` is not suported on you OS: #{inspec.os[:family]}"
       return false
     end
     res.exit_status.to_i == 0
