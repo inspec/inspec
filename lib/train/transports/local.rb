@@ -33,7 +33,7 @@ module Train::Transports
         res.run_command
         CommandResult.new(res.stdout, res.stderr, res.exitstatus)
       rescue Errno::ENOENT => _
-        CommandResult.new(nil, nil, 1)
+        CommandResult.new('', '', 1)
       end
 
       def os
