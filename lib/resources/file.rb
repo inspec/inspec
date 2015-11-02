@@ -30,38 +30,50 @@ module Inspec::Resources
     end
 
     def readable?(by_owner, by_user)
-      by_owner, by_user = check_preconditions(by_owner, by_user)
+      if inspec.os.unix?
+        by_owner, by_user = check_preconditions(by_owner, by_user)
 
-      if by_user.nil?
-        m = @file.unix_mode_mask(by_owner, 'r') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mode & m) != 0
+        if by_user.nil?
+          m = @file.unix_mode_mask(by_owner, 'r') ||
+              fail("#{by_owner} is not a valid unix owner.")
+          (@file.mode & m) != 0
+        else
+          check_user_access(by_user, @path, 'r')
+        end
       else
-        check_user_access(by_user, @path, 'r')
+        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
       end
     end
 
     def writable?(by_owner, by_user)
-      by_owner, by_user = check_preconditions(by_owner, by_user)
+      if inspec.os.unix?
+        by_owner, by_user = check_preconditions(by_owner, by_user)
 
-      if by_user.nil?
-        m = @file.unix_mode_mask(by_owner, 'w') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mode & m) != 0
+        if by_user.nil?
+          m = @file.unix_mode_mask(by_owner, 'w') ||
+              fail("#{by_owner} is not a valid unix owner.")
+          (@file.mode & m) != 0
+        else
+          check_user_access(by_user, @path, 'w')
+        end
       else
-        check_user_access(by_user, @path, 'w')
+        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
       end
     end
 
     def executable?(by_owner, by_user)
-      by_owner, by_user = check_preconditions(by_owner, by_user)
+      if inspec.os.unix?
+        by_owner, by_user = check_preconditions(by_owner, by_user)
 
-      if by_user.nil?
-        m = @file.unix_mode_mask(by_owner, 'x') ||
-            fail("#{by_owner} is not a valid unix owner.")
-        (@file.mode & m) != 0
+        if by_user.nil?
+          m = @file.unix_mode_mask(by_owner, 'x') ||
+              fail("#{by_owner} is not a valid unix owner.")
+          return (@file.mode & m) != 0
+        else
+          return check_user_access(by_user, @path, 'x')
+        end
       else
-        check_user_access(by_user, @path, 'x')
+        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
       end
     end
 
