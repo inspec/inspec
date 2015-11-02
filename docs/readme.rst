@@ -14,14 +14,14 @@ At first, we add our tests to the ``test`` folder. Each test file must end with 
     mkdir test
     touch test/example_spec.rb
 
-We add a rule to this file, to check the ``/tmp`` path in our system:
+We add a control to this file, to check the ``/tmp`` path in our system:
 
 .. code-block:: ruby
 
   # encoding: utf-8
 
-  rule "cis-fs-2.1" do                        # A unique ID for this rule
-    impact 0.7                                # The criticality, if this rule fails.
+  control "cis-fs-2.1" do                     # A unique ID for this control
+    impact 0.7                                # The criticality, if this control fails.
     title "Create separate /tmp partition"    # A human-readable title
     desc "An optional description..."
     describe file('/tmp') do                  # The actual test
@@ -42,12 +42,12 @@ It will contain:
 
   # encoding: utf-8
 
-  # Skip all rules, if SSH doesn't exist on the system
+  # Skip all controls, if SSH doesn't exist on the system
   only_if do
     command('sshd').exist?
   end
 
-  rule "sshd-11" do
+  control "sshd-11" do
     impact 1.0
     title "Server: Set protocol version to SSHv2"
     desc "
@@ -59,7 +59,7 @@ It will contain:
     end
   end
 
-  rule "sshd-7" do
+  control "sshd-7" do
     impact 1.0
     title "Server: Do not permit root-based login with password."
     desc "
