@@ -41,7 +41,7 @@ The following InSpec audit resources are available:
 * ``port``
 * ``postgres_conf``
 * ``postgres_session``
-* ``processes`` << process?
+* ``processes``
 * ``registry_key``
 * ``script``
 * ``security_policy``
@@ -169,7 +169,7 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource in a test.
 
-**Test if Ubuntu is updated to the latest stable Juju package**
+**Test if apt repository exists and is enabled**
 
 .. code-block:: ruby
 
@@ -178,16 +178,7 @@ The following examples show how to use this InSpec audit resource in a test.
      it { should be_enabled }
    end
 
-**Test if Nginx is updated to the latest stable package**
-
-.. code-block:: ruby
-
-   describe apt('ppa:nginx/stable') do
-     it { should exist }
-     it { should be_enabled }
-   end
-
-**Verify that a repository exists and is enabled**
+**Verify that a PPA repository exists and is enabled**
 
 .. code-block:: ruby
 
@@ -236,7 +227,7 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test that a parameter is set to "No Auditing"**
+**Test that a parameter is not set to "No Auditing"**
 
 .. code-block:: ruby
 
@@ -249,7 +240,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe audit_policy do
-     its('User Account Management') { should_not eq 'No Auditing' }
+     its('User Account Management') { should eq 'Success' }
    end
 
 
@@ -315,6 +306,8 @@ auditd_rules
 =====================================================
 Use the ``auditd_rules`` |inspec resource| to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files.
 
+**Stability: Experimental**
+
 Syntax
 -----------------------------------------------------
 A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be tested, and then what that rule should do:
@@ -333,78 +326,21 @@ A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be te
     ] }
    end
 
-or:
+or test that individual rules are defined:
 
 .. code-block:: ruby
 
-   audit = command('/sbin/auditctl -l').stdout
-     options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-
-   describe auditd_rules(audit, options) do
-     its('rule') { should eq 1 }
-   end
+  describe auditd_rules do
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/group perm=wa key=identity/) }
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/passwd perm=wa key=identity/) }
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/gshadow perm=wa key=identity/)}
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/shadow perm=wa key=identity/)}
+    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/security\/opasswd perm=wa key=identity/)}
+  end
 
 where each test
 
 * Must declare one (or more) rules to be tested
-* May run a command to ``stdout``, and then run the test against that output
-* May use options to define how configuration data is to be parsed
-
-Options
------------------------------------------------------
-This |inspec resource| supports the following options for parsing configuration data. Use them in an ``options`` block stated outside of (and immediately before) the actual test:
-
-.. code-block:: ruby
-
-   options = {
-       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-       multiple_values: true
-     }
-   describe auditd_rules(options) do
-     its('rule') { should eq 1 }
-   end
-
-
-assignment_re
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``assignment_re`` to test a key value using a regular expression:
-
-.. code-block:: ruby
-
-   'key = value'
-
-may be tested using the following regular expression, which determines assignment from key to value:
-
-.. code-block:: ruby
-
-   assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
-
-multiple_values
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = ['a', 'b']
-
-or:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = 'b'
-
-To test if multiple values are present, use:
-
-.. code-block:: ruby
-
-   multiple_values: false
-
-The preceding test will fail with the first example and will pass with the second.
 
 Examples
 -----------------------------------------------------
@@ -416,9 +352,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe audit_daemon_rules do
      its("LIST_RULES") {
-       should contain_match(/^exit,always arch=.*
-       key=time-change
-       syscall=adjtimex,settimeofday/)
+       should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/)
      }
    end
 
@@ -426,7 +360,7 @@ The following examples show how to use this InSpec audit resource.
 
 bond
 =====================================================
-Use the ``bond`` |inspec resource| to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |unix| and |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
+Use the ``bond`` |inspec resource| to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On |linux| platforms, any value in the ``/proc/net/bonding`` directory may be tested.
 
 **Stability: Stable**
 
@@ -523,7 +457,7 @@ bridge
 =====================================================
 Use the ``bridge`` |inspec resource| to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
 
-* On |unix| and |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
+* On |linux| platforms, any value in the ``/sys/class/net/{interface}/bridge`` directory may be tested
 * On the |windows| platform, the ``Get-NetAdapter`` cmdlet is associated with the ``Get-NetAdapterBinding`` cmdlet and returns the ``ComponentID ms_bridge`` value as a |json| object
 
 .. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
@@ -576,9 +510,9 @@ The ``interfaces`` matcher tests if the named interface is present:
 
 .. code-block:: ruby
 
-   its('interfaces') { should eq foo }
-   its('interfaces') { should eq bar }
-   its('interfaces') { should include foo, bar }
+   its('interfaces') { should eq 'foo' }
+   its('interfaces') { should eq 'bar' }
+   its('interfaces') { should include('foo') }
 
 ..
 .. Examples
@@ -614,18 +548,9 @@ A ``command`` |inspec resource| block declares a command to be run, one (or more
      its('matcher') { should eq 'output' }
    end
 
-or:
-
-.. code-block:: ruby
-
-   describe command('command').exist? do
-     its('matcher') { should eq 'output' }
-   end
-
 where
 
 * ``'command'`` must specify a command to be run
-* ``.exist?`` is the ``exist`` matcher
 * ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
 * ``'output'`` tests the output of the command run on the system versus the output value stated in the test
 
@@ -655,7 +580,7 @@ The ``stderr`` matcher tests results of the command as returned in standard erro
 
 .. code-block:: ruby
 
-   its('stderr') { should eq 'error\n' }
+   its('stderr') { should eq 'error' }
 
 stdout
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -669,22 +594,14 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test for PostgreSQL database running a RC, development, or beta release**
+**Test for PostgreSQL database running a RC, but no development, or beta release**
 
 .. code-block:: ruby
 
-   describe command('sudo -i psql -V') do
-     its('stdout') { should_not eq '/RC/' }
+   describe command('psql -V') do
+     its('stdout') { should eq '/RC/' }
      its('stdout') { should_not eq '/DEVEL/' }
      its('stdout') { should_not eq '/BETA/' }
-   end
-
-**Test for multiple instances of Nginx**
-
-.. code-block:: ruby
-
-   describe command('ps aux | egrep "nginx: master" | egrep -v "grep" | wc -l') do
-     its('stdout') (should eq '/^1$/' )
    end
 
 **Test standard output (stdout)**
@@ -732,19 +649,6 @@ The following examples show how to use this InSpec audit resource.
    describe command('this is not existing').exist? do
      it { should eq false }
    end
-
-**Test for one peer and one indent**
-
-.. code-block:: ruby
-
-   describe command('sudo -i cat #{hba_config_file} | egrep 'peer|ident' | wc -l') do
-     its('stdout') { should eq '(/^[2|1]/)' }
-   end
-
-   describe command('sudo -i cat #{hba_config_file} | egrep 'trust|password|crypt' | wc -l') do
-     its('stdout') { should eq '(/^0/)' }
-   end
-
 
 
 
@@ -834,7 +738,7 @@ This |inspec resource| may use any of the matchers available to the ``file`` res
 
 etc_group
 =====================================================
-Use the ``etc_group`` |inspec resource| to test groups that are defined on on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
+Use the ``etc_group`` |inspec resource| to test groups that are defined on |linux| and |unix| platforms. The ``/etc/group`` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
 
 **Stability: Experimental**
 
@@ -882,7 +786,7 @@ The ``groups`` matcher tests all groups for the named user:
 
 .. code-block:: ruby
 
-     its('groups') { should include 'my_user' }
+     its('groups') { should include 'my_group' }
 
 users
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -927,7 +831,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe etc_group do
-     its('groups') { should include 'my_user' }
+     its('groups') { should include 'my_group' }
    end
 
 
@@ -935,7 +839,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe etc_group.where(name: 'my_user') do
+   describe etc_group do
      its('users') { should include 'my_user' }
    end
 
@@ -943,7 +847,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe etc_group.where(name: 'my_user') do
+   describe etc_group.where(name: 'my_group') do
      its('users') { should include 'my_user' }
    end
 
@@ -1170,9 +1074,9 @@ The following complete example tests the ``pg_hba.conf`` file in |postgresql| fo
 .. code-block:: bash
 
    describe file(hba_config_file) do
-     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+     its('content') { should match '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
    end
 
 exist
@@ -1278,7 +1182,7 @@ The ``selinux_label`` matcher tests if the |selinux| label for a file matches th
 
 .. code-block:: ruby
 
-   its('product_version') { should eq 'system_u:system_r:httpd_t:s0' }
+   its('selinux_label') { should eq 'system_u:system_r:httpd_t:s0' }
 
 sha256sum
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1342,9 +1246,9 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: bash
 
    describe file(hba_config_file) do
-     its('content') { should eq '/local\s.*?all\s.*?all\s.*?md5/' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
-     its('content') { should eq '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+     its('content') { should match '/local\s.*?all\s.*?all\s.*?md5/' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
+     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
    end
 
 **Test if a file exists**
@@ -1363,7 +1267,7 @@ The following examples show how to use this InSpec audit resource.
     it { should_not exist }
    end
 
-**Test if a file is a directory**
+**Test if a path is a directory**
 
 .. code-block:: bash
 
@@ -1372,7 +1276,7 @@ The following examples show how to use this InSpec audit resource.
     it { should be_directory }
    end
 
-**Test if a file is a file and not a directory**
+**Test if a path is a file and not a directory**
 
 .. code-block:: bash
 
@@ -1479,7 +1383,6 @@ The following examples show how to use this InSpec audit resource.
 
    require 'digest'
    cpuinfo = file('/proc/cpuinfo').content
-
    md5sum = Digest::MD5.hexdigest(cpuinfo)
 
    describe file('/proc/cpuinfo') do
@@ -1492,7 +1395,6 @@ The following examples show how to use this InSpec audit resource.
 
    require 'digest'
    cpuinfo = file('/proc/cpuinfo').content
-
    sha256sum = Digest::SHA256.hexdigest(cpuinfo)
 
    describe file('/proc/cpuinfo') do
@@ -1638,7 +1540,7 @@ A ``host`` |inspec resource| block declares a host name, and then (depending on 
 
 .. code-block:: ruby
 
-   describe host('example.com', port: 80, proto: 'udp') do
+   describe host('example.com', port: 80, proto: 'tcp') do
      it { should be_reachable }
    end
 
@@ -1647,7 +1549,7 @@ where
 * ``host()`` must specify a host name and may specify a port number and/or a protocol
 * ``'example.com'`` is the host name
 * ``port:`` is the port number
-* ``proto: 'name'`` is the Internet protocol: |icmp| (``proto: 'icmp'``), |tcp| (``proto: 'tcp'``), or |udp| (``proto: 'udp'``)
+* ``proto: 'name'`` is the Internet protocol: |tcp| (``proto: 'tcp'``), |udp| (``proto: 'udp'`` or  |icmp| (``proto: 'icmp'``))
 * ``be_reachable`` is a valid matcher for this |inspec resource|
 
 Matchers
@@ -1710,7 +1612,7 @@ Use the ``inetd_conf`` |inspec resource| to test if a service is enabled in the 
 
 Syntax
 -----------------------------------------------------
-An ``inetd_conf`` |inspec resource| block declares the list of services that should be disabled in the ``inetd.conf`` file:
+An ``inetd_conf`` |inspec resource| block declares the list of services that are enabled in the ``inetd.conf`` file:
 
 .. code-block:: ruby
 
@@ -1726,7 +1628,7 @@ where
 
 Matchers
 -----------------------------------------------------
-This |inspec resource| matches any service that is listed in the ``inetd.conf`` file:
+This |inspec resource| matches any service that is listed in the ``inetd.conf`` file. You may want to ensure that specific services do not listen via ``inetd.conf``:
 
 .. code-block:: ruby
 
@@ -1803,10 +1705,8 @@ interface
 =====================================================
 Use the ``interface`` |inspec resource| to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
 
-* On |unix| and |linux| platforms, any value in the ``/sys/class/net/#{iface}`` directory may be tested
-* On the |windows| platform, the ``Get-NetAdapter`` cmdlet returns the following values: ``Property Name``, ``InterfaceDescription``, ``Status``, ``State``, ``MacAddress``, ``LinkSpeed``, ``ReceiveLinkSpeed``, ``TransmitLinkSpeed``, and ``Virtual``, returned as a |json| object
-
-.. not sure the previous two bullet items are actually true, but keeping there for reference for now, just in case
+* On |linux| platforms, ``/sys/class/net/#{iface}`` is used as source
+* On the |windows| platform, the ``Get-NetAdapter`` cmdlet is used as source
 
 **Stability: Stable**
 
@@ -1821,14 +1721,6 @@ An ``interface`` |inspec resource| block declares network interface properties t
      its('speed') { should eq 1000 }
      its('name') { should eq eth0 }
    end
-
-..
-.. where
-..
-.. * ``xxxxx`` must specify xxxxx
-.. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this InSpec audit resource
-..
 
 
 Matchers
@@ -2028,7 +1920,7 @@ The following examples show how to use this InSpec audit resource.
 
 kernel_parameter
 =====================================================
-Use the ``kernel_parameter`` |inspec resource| to test kernel parameters on |linux| platforms. These parameters are located under ``/proc/sys/net``. Any subdirectory may be tested using this resource.
+Use the ``kernel_parameter`` |inspec resource| to test kernel parameters on |linux| platforms.
 
 **Stability: Stable**
 
@@ -2044,7 +1936,7 @@ A ``kernel_parameter`` |inspec resource| block declares a parameter and then a v
 
 where
 
-* ``'path.to.parameter'`` must specify a kernel parameter, such as ``'net.ipv4.conf.all.forwarding'``
+* ``'kernel.parameter'`` must specify a kernel parameter, such as ``'net.ipv4.conf.all.forwarding'``
 * ``{ should eq 0 }`` states the value to be tested
 
 Matchers
@@ -2153,7 +2045,8 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe limits_conf('path') do
-     its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
+     its('*') { should include ['soft', 'core', '0'] }
+     its('*') { should include ['hard', 'rss', '10000'] }
      its('ftp') { should eq ['hard', 'nproc', '0'] }
    end
 
@@ -2224,7 +2117,7 @@ The following examples show how to use this InSpec audit resource.
 
 mysql_conf
 =====================================================
-Use the ``mysql_conf`` |inspec resource| to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/<version>/my.cnf``.
+Use the ``mysql_conf`` |inspec resource| to test the contents of the configuration file for |mysql|, typically located at ``/etc/mysql/my.cnf`` or ``/etc/my.cnf``.
 
 Syntax
 -----------------------------------------------------
@@ -2329,16 +2222,14 @@ A ``mysql_session`` |inspec resource| block declares the username and password t
 
 .. code-block:: ruby
 
-   sql = mysql_session('username', 'password')
-
-   sql.describe('QUERY') do
+   describe mysql_session('username', 'password').query('QUERY') do
      its('output') { should eq('') }
    end
 
 where
 
-* ``sql = mysql_session`` declares a username and password with permission to run the query
-* ``describe('QUERY')`` contains the query to be run
+* ``mysql_session`` declares a username and password with permission to run the query
+* ``query('QUERY')`` contains the query to be run
 * ``its('output') { should eq('') }`` compares the results of the query against the expected result in the test
 
 Matchers
@@ -2362,8 +2253,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    sql = mysql_session('my_user','password')
-
-   sql.describe('show databases like \'test\';') do
+   describe sql.query('show databases like \'test\';') do
      its(:stdout) { should_not match(/test/) }
    end
 
@@ -2372,7 +2262,7 @@ The following examples show how to use this InSpec audit resource.
 
 npm
 =====================================================
-Use the ``npm`` |inspec resource| to test if a global |npm| package is installed. |npm| is the `the package manager for Javascript packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
+Use the ``npm`` |inspec resource| to test if a global |npm| package is installed. |npm| is the `the package manager for Nodejs packages <https://docs.npmjs.com>`__, such as |bower| and |statsd|.
 
 **Stability: Experimental**
 
@@ -2563,7 +2453,7 @@ A ``os`` |inspec resource| block declares the platform to be tested:
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'platform' }
    end
 
@@ -2584,7 +2474,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'redhat' }
    end
 
@@ -2592,7 +2482,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'debian' }
    end
 
@@ -2600,7 +2490,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os do
+   describe os['family'] do
      it { should eq 'windows' }
    end
 
@@ -2630,17 +2520,17 @@ Matchers
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
 
-exit_status
+content
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``exit_status`` matcher tests the exit status of the platform environment:
+The ``content`` matcher return the value of the environment variable:
 
 .. code-block:: ruby
 
-   its('exit_status') { should eq 0 }
+   its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
 
 split
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``split`` matcher tests the delimiter between environment variables:
+The ``split`` splits the content with the ``:``` deliminator:
 
 .. code-block:: ruby
 
@@ -2658,13 +2548,6 @@ Use ``-1`` to test for cases where there is a trailing colon (``:``), such as ``
 
    its('split') { should include ('-1') }
 
-stderr
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``stderr`` matcher tests environment variables after they are output to stderr:
-
-.. code-block:: ruby
-
-   its('stderr') { should include('PWD=/root') }
 
 Examples
 -----------------------------------------------------
@@ -2861,51 +2744,45 @@ contains three values. To test that value to ensure it only contains one, use:
 
 multiple_values
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
+Use ``multiple_values`` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
    params['key'] = ['a', 'b']
+   params['key2'] = ['c']
 
-or:
+To use plain key value mapping, use ``multiple_values: false``:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
    params['key'] = 'b'
+   params['key2'] = 'c'
 
-To test if multiple values are present, use:
-
-.. code-block:: ruby
-
-   multiple_values: false
-
-The preceding test will fail with the first example and will pass with the second.
 
 standalone_comments
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``standalone_comments`` to test for comments in a configuration file and to ensure they are not integrated into the same lines as code:
-
-.. code-block:: ruby
-
-   'key = value # comment'
-   params['key'] = 'value'
-
-or:
+Use ``standalone_comments`` to parse comments as a line , otherwise inline comments are allowed:
 
 .. code-block:: ruby
 
    'key = value # comment'
    params['key'] = 'value # comment'
 
-To test if comments are standalone, use:
+
+Use ``standalone_comments: false``, to parse the following:
 
 .. code-block:: ruby
 
-   standalone_comments: true
-
-The preceding test will fail with the second example and will pass with the first.
+  'key = value # comment'
+  params['key'] = 'value'
 
 Examples
 -----------------------------------------------------
@@ -2932,13 +2809,13 @@ The following examples show how to use this InSpec audit resource.
 
 parse_config_file
 =====================================================
-Use the ``parse_config_file`` InSpec audit resource to test arbitrary configuration files.
+Use the ``parse_config_file`` InSpec audit resource to test arbitrary configuration files. It works identiacal to ``parse_config``. Instead of using a command output, this resource works with files.
 
 **Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
-A ``parse_config_file`` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested. Because this InSpec audit resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom |ruby| code:
+A ``parse_config_file`` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
 
 .. code-block:: ruby
 
@@ -2976,19 +2853,19 @@ This |inspec resource| supports the following options for parsing configuration 
        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
        multiple_values: true
      }
-   describe parse_config_file(options) do
+   describe parse_config_file('path/to/file',  options) do
      its('setting') { should eq 1 }
    end
 
 assignment_re
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``assignment_re`` to test a key value using a regular expression:
+Use ``assignment_re`` to parse a key value using a regular expression:
 
 .. code-block:: ruby
 
    'key = value'
 
-may be tested using the following regular expression, which determines assignment from key to value:
+may be parsed using the following regular expression, which determines assignment from key to value:
 
 .. code-block:: ruby
 
@@ -2996,7 +2873,7 @@ may be tested using the following regular expression, which determines assignmen
 
 comment_char
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``comment_char`` to test for comments in a configuration file:
+Use ``comment_char`` to parse for comments in a configuration file:
 
 .. code-block:: ruby
 
@@ -3004,7 +2881,7 @@ Use ``comment_char`` to test for comments in a configuration file:
 
 key_vals
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``key_vals`` to test how many values a key contains:
+Use ``key_vals`` to parse how many values a key contains:
 
 .. code-block:: ruby
 
@@ -3019,51 +2896,45 @@ contains three values. To test that value to ensure it only contains one, use:
 
 multiple_values
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``multiple_values`` to test for the presence of multiple key values:
+Use ``multiple_values`` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
 .. code-block:: ruby
 
-   'key = a' and 'key = b'
-   params['key'] = ['a', 'b']
+  # # file structure:
+  # key = a
+  # key = b
+  # key2 = c
+  params['key'] = ['a', 'b']
+  params['key2'] = ['c']
 
-or:
-
-.. code-block:: ruby
-
-   'key = a' and 'key = b'
-   params['key'] = 'b'
-
-To test if multiple values are present, use:
+To use plain key value mapping, use ``multiple_values: false``:
 
 .. code-block:: ruby
 
-   multiple_values: false
+  # # file structure:
+  # key = a
+  # key = b
+  # key2 = c
+  params['key'] = 'b'
+  params['key2'] = 'c'
 
-The preceding test will fail with the first example and will pass with the second.
 
 standalone_comments
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-Use ``standalone_comments`` to test for comments in a configuration file and to ensure they are not integrated into the same lines as code:
-
-.. code-block:: ruby
-
-   'key = value # comment'
-   params['key'] = 'value'
-
-or:
+Use ``standalone_comments`` to parse comments as a line , otherwise inline comments are allowed:
 
 .. code-block:: ruby
 
    'key = value # comment'
    params['key'] = 'value # comment'
 
-To test if comments are standalone, use:
+
+Use ``standalone_comments: false``, to parse the following:
 
 .. code-block:: ruby
 
-   standalone_comments: true
-
-The preceding test will fail with the second example and will pass with the first.
+  'key = value # comment'
+  params['key'] = 'value'
 
 Examples
 -----------------------------------------------------
@@ -3092,7 +2963,7 @@ passwd
 Use the ``passwd`` |inspec resource| to test the contents of ``/etc/passwd``, which contains the following information for users that may log into the system and/or as users that own running processes. The format for ``/etc/passwd`` includes:
 
 * A username
-* The password for that user
+* The password for that user (on newer systems passwords should be stored in ``/etc/shadow`` )
 * The user identifier (UID) assigned to that user
 * The group identifier (GID) assigned to that user
 * Additional information about that user
@@ -3117,21 +2988,21 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
      its('matcher') { should eq 0 }
    end
 
+   describe passwd.uid(filter) do
+     its(:username) { should eq 'root' }
+     its(:count) { should eq 1 }
+   end
+
 where
 
-* ``count``, ``gids``, ``passwords``, ``uid``, ``uids``, ``username``, ``usernames``, and ``users`` are valid matchers for this InSpec resource
+* ``gids``, ``passwords``, ``uids``, and ``usernames`` are valid matchers for ``passwd``
+* ``filter`` is a filter for a specific uid
+* ``count``, ``uid``, ``username`` are valid matchers for ``passwd.uid(userid)``
 
-Matchers
+
+Matchers for ``passwd``
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
-
-count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('count') { should eq 1 }
 
 gids
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3155,14 +3026,6 @@ For example:
 
    its('passwords') { should eq 'x' }
 
-uid
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``uid`` matcher tests if the user identifier in the test matches a user identifier in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('uid') { should eq 1234 }
-
 uids
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``uids`` matcher tests if the user indentifiers in the test match user identifiers in ``/etc/passwd``:
@@ -3170,14 +3033,6 @@ The ``uids`` matcher tests if the user indentifiers in the test match user ident
 .. code-block:: ruby
 
    its('uids') { should eq ['1234', '1235'] }
-
-username
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``username`` matcher tests if the user name in the test matches a user name in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('username') { should eq 'root' }
 
 usernames
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3187,13 +3042,34 @@ The ``usernames`` matcher tests if the usernames in the test match usernames in 
 
    its('usernames') { should eq ['root', 'www-data'] }
 
-users
+
+Matchers for ``passwd.uid(userid)``
+-----------------------------------------------------
+This InSpec audit resource has the following matchers.
+
+count
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``users`` matcher tests if the user in the test matches a user in ``/etc/passwd``
+The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``:
 
 .. code-block:: ruby
 
-   its('users') { should eq 'root' }
+  its('count') { should eq 1 }
+
+uid
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``uid`` matcher tests if the user identifier in the test matches a user identifier in ``/etc/passwd``:
+
+.. code-block:: ruby
+
+  its('uid') { should eq 1234 }
+
+username
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``username`` matcher tests if the user name in the test matches a user name in ``/etc/passwd``:
+
+.. code-block:: ruby
+
+  its('username') { should eq 'root' }
 
 Examples
 -----------------------------------------------------
@@ -3204,11 +3080,11 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe passwd do
-     its('usernames') { should eq 'root' }
-     its('uids') { should eq 1 }
+     its('usernames') { should eq ['root', 'www-data'] }
+     its('uids') { should eq [0, 33] }
    end
 
-**Test for multiple root users**
+**Select one user and test for multiple occurances in passwd**
 
 .. code-block:: ruby
 
@@ -3217,6 +3093,10 @@ The following examples show how to use this InSpec audit resource.
      its('count') { should eq 1 }
    end
 
+   describe passwd.uid(33) do
+     its('username') { should eq 'www-data' }
+     its('count') { should eq 1 }
+   end
 
 
 pip
@@ -3299,7 +3179,7 @@ A ``port`` |inspec resource| block declares a port, and then depending on what n
      its('process') {should eq 'syslog'}
    end
 
-where the ``syslog`` process is tested to see if it's listening on port 514.
+where the ``process`` returns the process listening on port 514.
 
 Matchers
 -----------------------------------------------------
@@ -3312,22 +3192,6 @@ The ``be_listening`` matcher tests if the port is listening for traffic:
 .. code-block:: ruby
 
    it { should be_listening }
-
-be_listening.with()
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``be_listening`` matcher can also test if the port is listening for traffic over a specific protocol or on local binding address. Use ``.with()`` to specify a protocol or local binding address. For example, a protocol:
-
-.. code-block:: ruby
-
-   it { should be_listening.with('tcp') }
-
-A local binding address:
-
-   it { should be_listening.with('127.0.0.1:631') }
-
-A protocol and a local binding address:
-
-   it { should be_listening.with('tcp', '127.0.0.1:631') }
 
 pid
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3381,7 +3245,7 @@ The following examples show how to use this InSpec audit resource.
      its('protocol') {should eq 'tcp6'}
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ports for HTTPs**
 
 .. code-block:: ruby
 
@@ -3392,10 +3256,6 @@ The following examples show how to use this InSpec audit resource.
    describe port(443) do
      it { should be_listening }
      its('protocol') {should eq 'tcp'}
-   end
-
-   describe sshd_conf do
-     its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
 postgres_conf
@@ -3417,7 +3277,7 @@ A ``postgres_conf`` |inspec resource| block declares one (or more) settings in t
 where
 
 * ``'setting'`` specifies a setting in the ``postgresql.conf`` file
-* ``('path')`` is the non-default path to the ``postgresql.conf`` file
+* ``('path')`` is the non-default path to the ``postgresql.conf`` file (optional)
 * ``should eq 'value'`` is the value that is expected
 
 Matchers
@@ -3535,9 +3395,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   sql = postgres_session('my_user', 'password')
-
-   describe sql.query('SELECT count (*)
+   describe postgres_session('my_user', 'password').query('SELECT count (*)
                  FROM pg_language
                  WHERE lanpltrusted = 'f'
                  AND lanname!='internal'
@@ -3584,12 +3442,20 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test if the list length for the mysqld process is 1**
+**Test for multiple instances of Nginx**
+
+.. code-block:: ruby
+
+  describe processes('postgres') do
+    its('list.length') { should be(1) }
+  end
+
+**Test for multiple instances of mysqld**
 
 .. code-block:: ruby
 
    describe processes('mysqld') do
-     its('list.length') { should eq '1' }
+     its('list.length') { should eq 1 }
    end
 
 **Test if the init process is owned by the root user**
@@ -3625,9 +3491,13 @@ A ``registry_key`` |inspec resource| block declares the item in the |windows| re
      its('name') { should eq 'value' }
    end
 
+   describe registry_key('path\to\key') do
+     its('name') { should eq 'value' }
+   end
+
 where
 
-* ``'registry_item'`` is a key in the |windows| registry
+* ``'registry_item'`` is a key in the |windows| registry (optional)
 * ``'path\to\key'`` is the path in the |windows| registry
 * ``('name')`` and ``'value'`` represent the name of the key and the value assigned to that key
 
@@ -3670,44 +3540,69 @@ A ``script`` |inspec resource| block declares a script to be tested, and then a 
 
 .. code-block:: ruby
 
-   describe script do
-     its('script_name') { should include 'command' }
+   script = <<-EOH
+     # you powershell script
+   EOH
+
+   describe script(script) do
+     its('matcher') { should eq 'output' }
    end
 
-..
-.. where
-..
-.. * ``xxxxx`` must specify xxxxx
-.. * xxxxx
-.. * ``xxxxx`` is a valid matcher for this InSpec audit resource
-..
+
+where
+
+* ``'script'`` must specify a Powershell script to be run
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
 
 Matchers
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
 
-script_name
+exit_status
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``script_name`` matcher tests the named script against the value specified by the test:
+The ``exit_status`` matcher tests the exit status for the command:
 
 .. code-block:: ruby
 
-   its('script_name') { should include 'Part-Of -Script' }
+  its('exit_status') { should eq 123 }
+
+stderr
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+  its('stderr') { should eq 'error' }
+
+stdout
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+  its('stdout') { should eq '/^1$/' }
 
 Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-.. stoopid test below; probably need a better one
-
-**Test that user Grantmc belongs to the Active Directory object**
+**Get all groups of Administrator user**
 
 .. code-block:: ruby
 
-   describe script do
-     its('ADObject') { should include 'Get-ADPermission -Identity Grantmc' }
-   end
+  myscript = <<-EOH
+    # find user
+    $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
+    # get related groups
+    $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
+    $groups | ConvertTo-Json
+  EOH
 
+  describe script(myscript) do
+    its('stdout') { should_not eq '' }
+  end
 
 
 security_policy
@@ -3847,7 +3742,7 @@ The following examples show how to use this InSpec audit resource.
 
 ssh_config
 =====================================================
-Use the ``ssh_config`` |inspec resource| to test |openssh| |ssh| client configuration data located at ``etc/ssh/ssh_config`` on |linux| and |unix| platforms.
+Use the ``ssh_config`` |inspec resource| to test |openssh| |ssh| client configuration data located at ``/etc/ssh/ssh_config`` on |linux| and |unix| platforms.
 
 **Stability: Experimental**
 
@@ -3883,7 +3778,7 @@ or:
 
 .. code-block:: ruby
 
-   it's('name') { should include('bar') }
+   its('name') { should include('bar') }
 
 Examples
 -----------------------------------------------------
@@ -3894,7 +3789,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe ssh_config do
-     its('cipher') { should eq '3des' }
+     its('cipher') { should contain '3des' }
      its('port') { should '22' }
      its('hostname') { should include('example.com') }
    end
@@ -3903,7 +3798,9 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   return unless command('ssh').exist?
+   only_if do
+     command('sshd').exist? or command('ssh').exists?
+   end
 
    describe ssh_config do
      its('SendEnv') { should include('GORDON_CLIENT') }
@@ -3932,7 +3829,7 @@ The following examples show how to use this InSpec audit resource.
 
 sshd_config
 =====================================================
-Use the ``sshd_config`` |inspec resource| to test configuration data for the |openssh| daemon located at ``etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
+Use the ``sshd_config`` |inspec resource| to test configuration data for the |openssh| daemon located at ``/etc/ssh/sshd_config`` on |linux| and |unix| platforms. sshd---the |openssh| daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
 
 **Stability: Experimental**
 
@@ -3978,8 +3875,6 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   return unless command('sshd').exist?
-
    describe sshd_config do
      its('AcceptEnv') { should include('GORDON_SERVER') }
    end
@@ -3987,8 +3882,6 @@ The following examples show how to use this InSpec audit resource.
 **Test for IPv6-only addresses**
 
 .. code-block:: ruby
-
-   return unless command('sshd').exist?
 
    describe sshd_config do
      its('AddressFamily') { should eq 'inet6' }
@@ -4002,20 +3895,11 @@ The following examples show how to use this InSpec audit resource.
      its('Protocol') { should eq '2' }
    end
 
-**Test ports for SSL, then verify ciphers**
+**Test ciphers**
 
 .. code-block:: ruby
 
-   describe port(80) do
-     it { should_not be_listening }
-   end
-
-   describe port(443) do
-     it { should be_listening }
-     its('protocol') {should eq 'tcp'}
-   end
-
-   describe sshd_conf do
+   describe sshd_config do
      its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
    end
 
@@ -4237,8 +4121,6 @@ The ``be_installed`` matcher tests if the named |windows| feature is installed:
 .. code-block:: ruby
 
    it { should be_installed }
-
-If the feature is installed, the ``Get-WindowsFeature`` cmdlet is run and the name, display name, description, and install state is returned as a |json| object.
 
 Examples
 -----------------------------------------------------

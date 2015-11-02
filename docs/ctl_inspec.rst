@@ -17,14 +17,14 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``--host``
    The remote host to be tested.
 
-``--key``
+``--key-files``
    The login key or certificate file required for remote scanning.
 
 ``--password``
    The login password for remote scanning.
 
 ``--path``
-   The login path used to connect to the target.
+   The login path used to connect to the target for |winrm|.
 
 ``--port``
    The port over which remote scanning will occur.
@@ -192,3 +192,4 @@ Use ``inspec version`` to print the version of the InSpec CLI.
 .. _winrm: https://msdn.microsoft.com/en-us/library/aa384426(v=vs.85).aspx
 .. |docker| replace:: Docker
 .. _docker: https://www.docker.com/
+.. |json| replace:: JSON
