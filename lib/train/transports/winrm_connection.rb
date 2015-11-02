@@ -29,13 +29,14 @@ class Train::Transports::WinRM
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     def initialize(options)
-      super
+      super(options)
       @endpoint               = @options.delete(:endpoint)
       @rdp_port               = @options.delete(:rdp_port)
       @winrm_transport        = @options.delete(:winrm_transport)
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+      @files                  = {}
     end
 
     # (see Base::Connection#close)
@@ -51,6 +52,10 @@ class Train::Transports::WinRM
 
     def os
       @os ||= OS.new(self)
+    end
+
+    def file(path)
+      @files[path] ||= WindowsFile.new(self, path)
     end
 
     def run_command(command)
