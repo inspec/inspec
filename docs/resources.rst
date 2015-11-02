@@ -84,13 +84,13 @@ This |inspec resource| matches any service that is listed in the |apache| config
 
 .. code-block:: ruby
 
-     its('PidFile') { should_not eq '/var/run/httpd.pid' }
+   its('PidFile') { should_not eq '/var/run/httpd.pid' }
 
 or:
 
 .. code-block:: ruby
 
-     its('Timeout') { should eq 300 }
+   its('Timeout') { should eq 300 }
 
 For example:
 
@@ -273,7 +273,7 @@ This |inspec resource| matches any keyword that is listed in the ``auditd.conf``
 
 .. code-block:: ruby
 
-     its('log_format') { should eq 'raw' }
+   its('log_format') { should eq 'raw' }
 
 Examples
 -----------------------------------------------------
@@ -778,7 +778,7 @@ The ``gids`` matcher tests if the named group identifier is present or if it con
 
 .. code-block:: ruby
 
-     its('gids') { should_not contain_duplicates }
+   its('gids') { should_not contain_duplicates }
 
 groups
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -786,7 +786,7 @@ The ``groups`` matcher tests all groups for the named user:
 
 .. code-block:: ruby
 
-     its('groups') { should include 'my_group' }
+   its('groups') { should include 'my_group' }
 
 users
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -794,7 +794,7 @@ The ``users`` matcher tests all groups for the named user:
 
 .. code-block:: ruby
 
-     its('users') { should include 'my_user' }
+   its('users') { should include 'my_user' }
 
 where
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -802,7 +802,7 @@ The ``where`` matcher allows the test to be focused to one (or more) specific it
 
 .. code-block:: ruby
 
-     etc_group.where(item: 'value', item: 'value')
+   etc_group.where(item: 'value', item: 'value')
 
 where ``item`` may be one (or more) of:
 
@@ -1562,7 +1562,7 @@ The ``be_reachable`` matcher tests if the host name is available:
 
 .. code-block:: ruby
 
-     it { should be_reachable }
+   it { should be_reachable }
 
 be_resolvable
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1570,7 +1570,7 @@ The ``be_resolvable`` matcher tests for host name resolution, i.e. "resolvable t
 
 .. code-block:: ruby
 
-     it { should be_resolvable }
+   it { should be_resolvable }
 
 ipaddress
 -----------------------------------------------------
@@ -1578,7 +1578,7 @@ The ``ipaddress`` matcher tests if a host name is resolvable to a specific IP ad
 
 .. code-block:: ruby
 
-     its('ipaddress') { should include '93.184.216.34' }
+   its('ipaddress') { should include '93.184.216.34' }
 
 Examples
 -----------------------------------------------------
@@ -1632,19 +1632,19 @@ This |inspec resource| matches any service that is listed in the ``inetd.conf`` 
 
 .. code-block:: ruby
 
-     its('shell') { should eq nil }
+   its('shell') { should eq nil }
 
 or:
 
 .. code-block:: ruby
 
-     its('netstat') { should eq nil }
+   its('netstat') { should eq nil }
 
 or:
 
 .. code-block:: ruby
 
-     its('systat') { should eq nil }
+   its('systat') { should eq nil }
 
 For example:
 
@@ -2351,13 +2351,13 @@ This |inspec resource| matches any service that is listed in the ``ntp.conf`` fi
 
 .. code-block:: ruby
 
-     its('server') { should_not eq nil }
+   its('server') { should_not eq nil }
 
 or:
 
 .. code-block:: ruby
 
-     its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+   its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
 
 For example:
 
@@ -2436,7 +2436,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe package('VLC') do
+   describe oneget('VLC') do
      it { should be_installed }
    end
 
@@ -2781,8 +2781,8 @@ Use ``standalone_comments: false``, to parse the following:
 
 .. code-block:: ruby
 
-  'key = value # comment'
-  params['key'] = 'value'
+   'key = value # comment'
+   params['key'] = 'value'
 
 Examples
 -----------------------------------------------------
@@ -2900,23 +2900,23 @@ Use ``multiple_values`` if the source file uses the same key multiple times. All
 
 .. code-block:: ruby
 
-  # # file structure:
-  # key = a
-  # key = b
-  # key2 = c
-  params['key'] = ['a', 'b']
-  params['key2'] = ['c']
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
+   params['key'] = ['a', 'b']
+   params['key2'] = ['c']
 
 To use plain key value mapping, use ``multiple_values: false``:
 
 .. code-block:: ruby
 
-  # # file structure:
-  # key = a
-  # key = b
-  # key2 = c
-  params['key'] = 'b'
-  params['key2'] = 'c'
+   # # file structure:
+   # key = a
+   # key = b
+   # key2 = c
+   params['key'] = 'b'
+   params['key2'] = 'c'
 
 
 standalone_comments
@@ -2945,7 +2945,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe parse_config_file('/path/to/file.conf') do
-    its('PARAM_X') { should eq 'Y' }
+     its('PARAM_X') { should eq 'Y' }
    end
 
 **Use options, and then test a configuration setting**
@@ -2953,7 +2953,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
-    its('PARAM_X') { should include 'Y' }
+     its('PARAM_X') { should include 'Y' }
    end
 
 
@@ -3053,7 +3053,7 @@ The ``count`` matcher tests the number of times the named user appears in ``/etc
 
 .. code-block:: ruby
 
-  its('count') { should eq 1 }
+   its('count') { should eq 1 }
 
 uid
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3061,7 +3061,7 @@ The ``uid`` matcher tests if the user identifier in the test matches a user iden
 
 .. code-block:: ruby
 
-  its('uid') { should eq 1234 }
+   its('uid') { should eq 1234 }
 
 username
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3069,7 +3069,7 @@ The ``username`` matcher tests if the user name in the test matches a user name 
 
 .. code-block:: ruby
 
-  its('username') { should eq 'root' }
+   its('username') { should eq 'root' }
 
 Examples
 -----------------------------------------------------
@@ -3442,13 +3442,16 @@ Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
 
-**Test for multiple instances of Nginx**
-
-.. code-block:: ruby
-
-  describe processes('postgres') do
-    its('list.length') { should be(1) }
-  end
+.. The title for the example below needs to be clarified, then it can be uncommented
+.. 
+.. **Test for multiple instances of Nginx**
+.. 
+.. .. code-block:: ruby
+.. 
+..   describe processes('postgres') do
+..     its('list.length') { should be(1) }
+..   end
+.. 
 
 **Test for multiple instances of mysqld**
 
@@ -3566,7 +3569,7 @@ The ``exit_status`` matcher tests the exit status for the command:
 
 .. code-block:: ruby
 
-  its('exit_status') { should eq 123 }
+   its('exit_status') { should eq 123 }
 
 stderr
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3574,7 +3577,7 @@ The ``stderr`` matcher tests results of the command as returned in standard erro
 
 .. code-block:: ruby
 
-  its('stderr') { should eq 'error' }
+   its('stderr') { should eq 'error' }
 
 stdout
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3582,7 +3585,7 @@ The ``stdout`` matcher tests results of the command as returned in standard outp
 
 .. code-block:: ruby
 
-  its('stdout') { should eq '/^1$/' }
+   its('stdout') { should eq '/^1$/' }
 
 Examples
 -----------------------------------------------------
@@ -3592,17 +3595,17 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-  myscript = <<-EOH
-    # find user
-    $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
-    # get related groups
-    $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
-    $groups | ConvertTo-Json
-  EOH
+   myscript = <<-EOH
+     # find user
+     $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
+     # get related groups
+     $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
+     $groups | ConvertTo-Json
+   EOH
 
-  describe script(myscript) do
-    its('stdout') { should_not eq '' }
-  end
+   describe script(myscript) do
+     its('stdout') { should_not eq '' }
+   end
 
 
 security_policy
@@ -3810,21 +3813,21 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-  describe ssh_config do
-    its('owner') { should eq 'root' }
-    its('mode') { should eq 644 }
-  end
+   describe ssh_config do
+     its('owner') { should eq 'root' }
+     its('mode') { should eq 644 }
+   end
 
 **Test SSH configuration**
 
 .. code-block:: ruby
 
-  describe ssh_config do
-    its('Host') { should eq '*' }
-    its('Tunnel') { should eq nil }
-    its('SendEnv') { should eq 'LANG LC_*' }
-    its('HashKnownHosts') { should eq 'yes' }
-  end
+   describe ssh_config do
+     its('Host') { should eq '*' }
+     its('Tunnel') { should eq nil }
+     its('SendEnv') { should eq 'LANG LC_*' }
+     its('HashKnownHosts') { should eq 'yes' }
+   end
 
 
 sshd_config
@@ -3865,7 +3868,7 @@ or:
 
 .. code-block:: ruby
 
-   it's('name') {should include('bar') }
+   its('name') {should include('bar') }
 
 Examples
 -----------------------------------------------------
@@ -3907,16 +3910,16 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-  describe sshd_config do
-    its('Port') { should eq '22' }
-    its('UsePAM') { should eq 'yes' }
-    its('ListenAddress') { should eq nil }
-    its('HostKey') { should eq [
+   describe sshd_config do
+     its('Port') { should eq '22' }
+     its('UsePAM') { should eq 'yes' }
+     its('ListenAddress') { should eq nil }
+     its('HostKey') { should eq [
         '/etc/ssh/ssh_host_rsa_key',
         '/etc/ssh/ssh_host_dsa_key',
         '/etc/ssh/ssh_host_ecdsa_key',
-      ] }
-  end
+       ] }
+   end
 
 
 user
