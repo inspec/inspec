@@ -43,8 +43,9 @@ module Inspec
           title: rule.title,
           desc: rule.desc,
           impact: rule.impact,
-          code: rule.instance_variable_get(:@__code),
           checks: rule.instance_variable_get(:@checks),
+          code: rule.instance_variable_get(:@__code),
+          group_title: rule.instance_variable_get(:@__group_title),
         }
       end
     end
@@ -55,7 +56,7 @@ module Inspec
       res[:rules].each do |gid, group|
         next if gid.to_s.empty?
         path = gid.sub(File.join(@path, ''), '')
-        rules[path] = { title: '', rules: {} }
+        rules[path] = { title: path, rules: {} }
         group.each do |id, rule|
           next if id.to_s.empty?
           data = rule.dup
@@ -64,6 +65,9 @@ module Inspec
           data[:impact] = 1.0 if data[:impact] > 1.0
           data[:impact] = 0.0 if data[:impact] < 0.0
           rules[path][:rules][id] = data
+          # TODO: temporarily flatten the group down; replace this with
+          # proper hierarchy later on
+          rules[path][:title] = data[:group_title]
         end
       end
       res[:rules] = rules
