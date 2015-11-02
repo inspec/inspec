@@ -48,7 +48,18 @@ module Train::Extras
     def verify
       res = @backend.run_command(run('echo'))
       return nil if res.exit_status == 0
-      res.stdout + ' ' + res.stderr
+      rawerr = res.stdout + ' ' + res.stderr
+
+      rawerr = 'Wrong sudo password.' if rawerr.include? 'Sorry, try again'
+      if rawerr.include? 'sudo: no tty present and no askpass program specified'
+        rawerr = 'Sudo requires a password, please configure it.'
+      end
+      if rawerr.include? 'sudo: command not found'
+        rawerr = "Can't find sudo command. Please either install and "\
+                 'configure it on the target or deactivate sudo.'
+      end
+
+      rawerr
     end
 
     # (see CommandWrapperBase::run)
