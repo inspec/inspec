@@ -14,7 +14,7 @@ require 'rspec/its'
 require 'inspec/rspec_json_formatter'
 
 module Inspec
-  class Runner
+  class Runner # rubocop:disable Metrics/ClassLength
     attr_reader :tests, :backend, :rules
     def initialize(conf = {})
       @rules = {}
@@ -47,11 +47,14 @@ module Inspec
       # retrieve the raw ruby code of all tests
       items = tests.map do |test|
         Inspec::Targets.resolve(test)
-      end
+      end.flatten
+
+      tests = items.find_all { |i| i[:type] == :test }
+      libs = items.find_all { |i| i[:type] == :library }
 
       # add all tests (raw) to the runtime
-      items.flatten.each do |item|
-        add_content(item[:content], item[:ref], item[:line])
+      tests.flatten.each do |test|
+        add_content(test, libs)
       end
     end
 
@@ -59,12 +62,18 @@ module Inspec
       Inspec::ProfileContext.new(@profile_id, @backend)
     end
 
-    def add_content(content, source, line = nil)
+    def add_content(test, libs)
+      content = test[:content]
       return if content.nil? || content.empty?
 
-      # evaluate all tests
+      # load all libraries
       ctx = create_context
-      ctx.load(content, source, line || 1)
+      libs.each do |lib|
+        ctx.load(lib[:content].to_s, lib[:ref], lib[:line] || 1)
+      end
+
+      # evaluate the test content
+      ctx.load(content, test[:ref], test[:line] || 1)
 
       # process the resulting rules
       ctx.rules.each do |rule_id, rule|

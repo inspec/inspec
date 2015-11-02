@@ -8,11 +8,20 @@ module Inspec::Targets
       File.file?(target) and target.end_with?('.rb')
     end
 
-    def resolve(target)
+    def resolve(target, opts = {})
+      base = opts[:base_folder]
+      path = base.nil? ? target : File.join(base, target)
       {
-        content: File.read(target),
-        ref: target,
+        content: File.read(path),
+        type: opts[:as] || :test,
+        ref: path,
       }
+    end
+
+    def resolve_all(targets, opts = {})
+      Array(targets).map do |target|
+        resolve(target, opts)
+      end
     end
   end
 

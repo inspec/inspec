@@ -9,10 +9,15 @@ module Inspec::Targets
         paths.include?('test') && paths.include?('metadata.rb')
       end
 
+      def get_libraries(paths)
+        paths.find_all do |path|
+          path.start_with?('libraries') && path.end_with?('.rb')
+        end
+      end
+
       def get_filenames(paths)
         paths.find_all do |path|
-          (path.start_with?('test') || path.start_with?('lib')) &&
-            path.end_with?('.rb')
+          path.start_with?('test') && path.end_with?('.rb')
         end
       end
     end
