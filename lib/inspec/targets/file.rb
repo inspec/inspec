@@ -9,11 +9,19 @@ module Inspec::Targets
     end
 
     def resolve(target, opts = {})
-      key = opts[:as] || :content
+      base = opts[:base_folder]
+      path = base.nil? ? target : File.join(base, target)
       {
-        key => File.read(target),
+        content: File.read(path),
+        type: opts[:as] || :test,
         ref: target,
       }
+    end
+
+    def resolve_all(targets, opts = {})
+      Array(targets).map do |target|
+        resolve(target, opts)
+      end
     end
   end
 
