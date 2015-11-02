@@ -4,7 +4,6 @@
 
 require 'train/extras/stat'
 
-
 # PS C:\Users\Administrator> Get-Item -Path C:\test.txt | Select-Object -Property BaseName, FullName, IsReadOnly, Exists,
 # LinkType, Mode, VersionInfo, Owner, Archive, Hidden, ReadOnly, System |  ConvertTo-Json
 
@@ -82,6 +81,5 @@ module Train::Extras
       end
       :unknown
     end
-
   end
 end
