@@ -5,13 +5,16 @@
 # author: Christoph Hartmann
 
 module Inspec::DSL
-  def require_rules(id, &block)
+  def require_controls(id, &block)
     ::Inspec::DSL.load_spec_files_for_profile self, id, false, &block
   end
 
-  def include_rules(id, &block)
+  def include_controls(id, &block)
     ::Inspec::DSL.load_spec_files_for_profile self, id, true, &block
   end
+
+  alias_method :require_rules, :require_controls
+  alias_method :include_rules, :include_controls
 
   # Register a given rule with RSpec and
   # let it run. This happens after everything
