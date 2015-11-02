@@ -6,7 +6,7 @@
 require 'inspec/metadata'
 
 module Inspec
-  class Profile
+  class Profile # rubocop:disable Metrics/ClassLength
     def self.from_path(path, options = nil)
       opt = {}
       options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
@@ -107,13 +107,17 @@ module Inspec
         @logger.debug "Found #{@params[:name].length} rules."
       end
 
-      @params[:name].each do |id, rule|
-        error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
-        warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
-        warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
-        warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
-        warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
-        warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
+      # iterate over hash of groups
+      @params[:rules].each do |group, rules_array|
+        @logger.debug "Verify all rules in  #{group}"
+        rules_array.each do |id, rule|
+          error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
+          warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
+          warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
+          warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
+          warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
+          warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
+        end
       end
 
       @logger.info 'Rule definitions OK.' if no_warnings
