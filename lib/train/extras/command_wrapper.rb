@@ -3,9 +3,29 @@
 # author: Christoph Hartmann
 
 require 'base64'
+require 'train/errors'
 
 module Train::Extras
-  class LinuxCommand
+  # Define the interface of all command wrappers.
+  class CommandWrapperBase
+    # Verify that the command wrapper is initialized properly and working.
+    #
+    # @return [Any] verification result, nil if all went well, otherwise a message
+    def verify
+      fail Train::ClientError, "#{self.class} does not implement #verify()"
+    end
+
+    # Wrap a command and return the augmented command which can be executed.
+    #
+    # @param [Strin] command that will be wrapper
+    # @return [String] result of wrapping the command
+    def run(_command)
+      fail Train::ClientError, "#{self.class} does not implement #run(command)"
+    end
+  end
+
+  # Wrap linux commands and add functionality like sudo.
+  class LinuxCommand < CommandWrapperBase
     Train::Options.attach(self)
 
     option :sudo, default: false
@@ -24,6 +44,25 @@ module Train::Extras
       @prefix = build_prefix
     end
 
+    # (see CommandWrapperBase::verify)
+    def verify
+      res = @backend.run_command(run('echo'))
+      return nil if res.exit_status == 0
+      rawerr = res.stdout + ' ' + res.stderr
+
+      rawerr = 'Wrong sudo password.' if rawerr.include? 'Sorry, try again'
+      if rawerr.include? 'sudo: no tty present and no askpass program specified'
+        rawerr = 'Sudo requires a password, please configure it.'
+      end
+      if rawerr.include? 'sudo: command not found'
+        rawerr = "Can't find sudo command. Please either install and "\
+                 'configure it on the target or deactivate sudo.'
+      end
+
+      rawerr
+    end
+
+    # (see CommandWrapperBase::run)
     def run(command)
       @prefix + command
     end
@@ -57,7 +96,10 @@ module Train::Extras
     def self.load(transport, options)
       return nil unless LinuxCommand.active?(options)
       return nil unless transport.os.unix?
-      LinuxCommand.new(transport, options)
+      res = LinuxCommand.new(transport, options)
+      msg = res.verify
+      fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
+      res
     end
   end
 end
