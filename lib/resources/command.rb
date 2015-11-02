@@ -35,7 +35,15 @@ class Cmd < Inspec.resource(1)
   end
 
   def exist?
-    res = inspec.backend.run_command("type \"#{@command}\" > /dev/null")
+    if inspec.os.linux?
+      res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+    elsif inspec.os.windows?
+      res = inspec.backend.run_command("where.exe \"#{@command}\"")
+    elsif inspec.os.unix?
+      res = inspec.backend.run_command("type \"#{@command}\"")
+    else
+      fail "`command(#{@command}).exits?` is not suported on you OS."
+    end
     res.exit_status.to_i == 0
   end
 
