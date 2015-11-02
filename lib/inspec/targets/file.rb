@@ -14,7 +14,7 @@ module Inspec::Targets
       {
         content: File.read(path),
         type: opts[:as] || :test,
-        ref: target,
+        ref: path,
       }
     end
 
