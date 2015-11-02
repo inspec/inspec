@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'base64'
+require 'train/errors'
 
 module Train::Extras
   # Define the interface of all command wrappers.
@@ -84,7 +85,10 @@ module Train::Extras
     def self.load(transport, options)
       return nil unless LinuxCommand.active?(options)
       return nil unless transport.os.unix?
-      LinuxCommand.new(transport, options)
+      res = LinuxCommand.new(transport, options)
+      msg = res.verify
+      fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
+      res
     end
   end
 end
