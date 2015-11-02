@@ -92,11 +92,16 @@ module Inspec
       Class.new do
         include dsl
 
-        define_method :rule do |*args, &block|
+        define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
           return if @skip_profile
           __register_rule rule_class.new(id, opts, &block)
+        end
+
+        define_method :rule do |*args, &block|
+          # TODO: add deprecation notice
+          control(*args, &block)
         end
 
         define_method :describe do |*args, &block|
