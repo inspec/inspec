@@ -75,9 +75,9 @@ module Train::Extras
     end
 
     def target_type
-      if attributes.include?("Archive")
+      if attributes.include?('Archive')
         return :file
-      elsif attributes.include?("Directory")
+      elsif attributes.include?('Directory')
         return :directory
       end
       :unknown
