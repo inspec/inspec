@@ -6,7 +6,7 @@
 require 'inspec/metadata'
 
 module Inspec
-  class Profile
+  class Profile # rubocop:disable Metrics/ClassLength
     def self.from_path(path, options = nil)
       opt = {}
       options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
