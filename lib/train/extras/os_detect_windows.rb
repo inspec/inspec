@@ -66,8 +66,7 @@ module Train::Extras
       version = windows_version(json)
 
       @platform[:family] = 'windows'
-      @platform[:name] = WINDOWS_VERSIONS[version]
-      @platform[:release] = version
+      @platform[:release] = WINDOWS_VERSIONS[version]
       true
     end
   end
