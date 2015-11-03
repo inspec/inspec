@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'inspec', path: '../../.'
-gem 'train', git: 'git@github.com:chef/train.git'
+gem 'r-train', git: 'git@github.com:chef/train.git'
 
 group :test do
   gem 'bundler', '~> 1.5'
