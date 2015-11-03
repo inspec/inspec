@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'train/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'train'
+  spec.name          = 'r-train'
   spec.version       = Train::VERSION
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
   spec.summary       = 'Transport interface to talk to different backends.'
-  spec.description   = File.read('README.md')
+  spec.description   = 'Transport interface to talk to different backends.'
   spec.homepage      = 'https://github.com/chef/train/'
   spec.license       = 'Apache 2.0'
 
