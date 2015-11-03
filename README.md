@@ -1,8 +1,6 @@
 # InSpec: Inspect Your Infrastructure
 
-InSpec is an open source testing framework for examining infrastructure.
-
-InSpec includes a large number of resources that make it simple to audit, examine, and secure your infrastructure with code.
+InSpec is open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
 
 ```ruby
 # Disallow insecure protocols by testing
@@ -34,10 +32,10 @@ inspec exec test.rb -t docker://container_id
 
 # Features
 
-- Use built in RSpec resources for simple infrastructure testing.
-- Run locally or remotely on the node being inspected.
-- Automatically log detected security, compliance, or policy issues.
-- Build your own custom InSpec resources.
+- Built-in Compliance: Compliance no longer occurs at the end of the release cycle
+- Targeted Tests: InSpec writes tests that specifically target compliance issues
+- Metadata: Includes the metadata required by security and compliance pros
+- Easy Testing: Includes a command-line interface to run tests quickly
 
 ## Installation
 
