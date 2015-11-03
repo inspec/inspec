@@ -32,14 +32,20 @@ Serverspec
 
 Serverspec can be credited as the first extension of RSpec that enabled users to run RSpec tests on servers to verify deployed artifacts. It was created in March 2013 by Gosuke Miyashita and has been widely adopted. It is also one of the core test frameworks within test-kitchen and has been widely used within the Chef ecosystem.  InSepc takes lessons learned implementing and using Serverspec and builds on them to make auditing and compliance easier.
 
-Lessons learned from Serverspec include::
+Lessons learned from Serverspec include:
 
 * IT, compliance, and security professional require metadata beyond what Serverspec offers, such as criticality, to fully describe controls.
+
 * Setting up and running the same tests across multiple machines must be easy.
+
 * It must be easy to locate, debug, and extend operating system-dependent code.
+
 * It must be easy to extend the language and create custom resources.
+
 * It must run multiple tests simultaneously.
+
 * Support for Windows is a first-class requirement.
+
 * A command line interface (CLI) is required for faster iteration of test code.
 
 
