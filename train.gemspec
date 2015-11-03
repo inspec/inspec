@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
   spec.summary       = 'Transport interface to talk to different backends.'
-  spec.description   = File.read('README.md')
+  spec.description   = 'Transport interface to talk to different backends.'
   spec.homepage      = 'https://github.com/chef/train/'
   spec.license       = 'Apache 2.0'
 
