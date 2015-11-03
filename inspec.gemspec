@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
   spec.summary       = 'Validate Inspec compliance checks.'
-  spec.description   = 'Validate Inspec compliance checks.'
-  spec.homepage      = 'https://github.com/...'
-  spec.license       = 'Proprietary'
+  spec.description   = File.read('README.md')
+  spec.homepage      = 'https://github.com/chef/inspec'
+  spec.license       = 'Apache 2.0'
 
   spec.files         = `hash git 2>/dev/null && git ls-files -z`.split("\x0").find_all { |x| x !~ /^\.delivery/ }
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
