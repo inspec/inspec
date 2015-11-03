@@ -235,9 +235,13 @@ InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project.
 ## License
 
 | **Author:**          | Dominik Richter (<drichter@chef.io>)
+
 | **Author:**          | Christoph Hartmann (<chartmann@chef.io>)
+
 | **Copyright:**       | Copyright (c) 2015 Chef Software Inc.
+
 | **Copyright:**       | Copyright (c) 2015 Vulcano Security GmbH.
+
 | **License:**         | Apache License, Version 2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
