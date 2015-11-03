@@ -1,16 +1,12 @@
-# InSpec
+# InSpec: Inspect Your Infrastructure
 
-## What is InSpec?
+InSpec is an open source testing framework for examining infrastructure.
 
-InSpec is an open-source testing framework for infrastructure with an easy language for specifying compliance, security, and policy requirements. The project name stands for "infrastructure specification" and can be thought of as an abbreviation of "inspect".
-
-You can use InSpec to examine any node in your infrastructure. The InSpec framework runs locally or remotely on the node being inspected. It uses test rules written in the InSpec language as input. Detected security, compliance, or policy issues are flagged in a log.
-
-The InSpec project includes many resources that help you write audit rules quickly and easily. Here are some examples.
-
- * Disallow insecure protocols - In this example, the package and inetd_conf resources ensure that insecure services and protocols, such as telnet, are not used.
+InSpec includes a large number of resources that make it simple to audit, examine, and secure your infrastructure with code.
 
 ```ruby
+# Disallow insecure protocols by testing
+
 describe package('telnetd') do
   it { should_not be_installed }
 end
@@ -20,54 +16,28 @@ describe inetd_conf do
 end
 ```
 
- * Only accept requests on secure ports - This test ensures, that a web server is only listening on well-secured ports.
-
-```ruby
-describe port(80) do
-  it { should_not be_listening }
-end
-
-describe port(443) do
-  it { should be_listening }
-  its('protocol') {should eq 'tcp'}
-end
-```
-
- * Use approved strong ciphers - This test ensures, that only enterprise-compliant ciphers are used for SSH servers.
-
-```ruby
-describe sshd_config do
-   its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
-end
-```
-
- * Test your `kitchen.yml` file, to verify that only Vagrant is configured as the driver.
-
-```ruby
-describe yaml('.kitchen.yml') do
-  its('driver.name') { should eq('vagrant') }
-end
-```
-
-## Test your Server, VM, or workstation.
-
-Small example: Write a your checks in `test.rb`:
-
-```ruby
-describe file('/proc/cpuinfo') do
-  it { should be_file }
-end
-
-describe ssh_config do
-  its('Protocol') { should eq('2') }
-end
-```
-
-Run this file locally:
+InSpec makes it easy to run your tests wherever you need.
 
 ```bash
+# run test locally
 inspec exec test.rb
+
+# run test on remote host on SSH
+inspec exec test.rb -t ssh://user@hostname
+
+# run test on remote windows host on WinRM
+inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
+
+# run test on docker container
+inspec exec test.rb -t docker://container_id
 ```
+
+# Features
+
+- Use built in RSpec resources for simple infrastructure testing.
+- Run locally or remotely on the node being inspected.
+- Automatically log detected security, compliance, or policy issues.
+- Build your own custom InSpec resources.
 
 ## Installation
 
@@ -93,7 +63,38 @@ You should now be able to run:
 inspec --help
 ```
 
-## Usage
+# Examples
+
+* Only accept requests on secure ports - This test ensures that a web server is only listening on well-secured ports.
+
+```ruby
+describe port(80) do
+  it { should_not be_listening }
+end
+
+describe port(443) do
+  it { should be_listening }
+  its('protocol') {should eq 'tcp'}
+end
+```
+
+* Use approved strong ciphers - This test ensures that only enterprise-compliant ciphers are used for SSH servers.
+
+```ruby
+describe sshd_config do
+   its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
+end
+```
+
+* Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.
+
+```ruby
+describe yaml('.kitchen.yml') do
+  its('driver.name') { should eq('vagrant') }
+end
+```
+
+## Command Line Usage
 
 ### exec
 
@@ -128,10 +129,10 @@ Which will provide you with:
 {"family":"ubuntu","release":"14.04","arch":null}
 ```
 
-## Custom resources
+## Custom InSpec resources
 
 You can easily create your own resources. Here is a custom resource for an
-application called Gordon and save it in `gordon_config.rb`:
+application called Gordon. It is saved as `gordon_config.rb`.
 
 ```ruby
 require 'yaml'
@@ -165,7 +166,25 @@ describe gordon_config do
 end
 ```
 
-## Tests
+## Documentation
+
+Documentation is available: https://github.com/chef/inspec/tree/master/docs
+
+## Kudos
+
+InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
+
+
+## Contribute
+
+1. Fork it
+1. Create your feature branch (git checkout -b my-new-feature)
+1. Commit your changes (git commit -am 'Add some feature')
+1. Push to the branch (git push origin my-new-feature)
+1. Create new Pull Request
+
+
+## Testing InSpec
 
 We perform `unit`, `resource` and `integration` tests.
 
@@ -175,15 +194,13 @@ We perform `unit`, `resource` and `integration` tests.
 
 ### Unit tests
 
-Just
 ```bash
 bundle exec rake test
 ```
-as usual.
 
 ### Resource tests
 
-Make sure the backend execution layer behaves as expected. These tests will take a while, as a lot of different operating systems and configurations are being tested.
+Resource tests make sure the backend execution layer behaves as expected. These tests will take a while, as a lot of different operating systems and configurations are being tested.
 
 You will require:
 
@@ -215,22 +232,6 @@ bundle exec kitchen test -t .
 ### Chef Delivery Tests
 
 It may be informative to look at what [tests Chef Delivery](https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb) is running for CI.
-
-## Learn More
-
-For more information see the InSpec documentation: https://github.com/chef/inspec/tree/master/docs
-
-## Kudos
-
-InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
-
-## Contributing
-
-1. Fork it
-1. Create your feature branch (git checkout -b my-new-feature)
-1. Commit your changes (git commit -am 'Add some feature')
-1. Push to the branch (git push origin my-new-feature)
-1. Create new Pull Request
 
 ## License
 
