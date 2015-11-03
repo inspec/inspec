@@ -150,7 +150,7 @@ class Train::Transports::WinRM
     def establish_shell(opts)
       service_args = [@endpoint, @winrm_transport, options]
       @service = ::WinRM::WinRMWebService.new(*service_args)
-      closer = WinRM::Transport::ShellCloser.new("#{self}", logger.debug?, service_args)
+      closer = WinRM::Transport::ShellCloser.new("#{self}", false, service_args)
 
       executor = WinRM::Transport::CommandExecutor.new(@service, logger, closer)
       retryable(opts) do
