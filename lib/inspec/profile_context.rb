@@ -95,7 +95,13 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
-          return if @skip_profile
+
+          # Skip the control if the resource triggered a skip;
+          # However: when this is run on a mock backend, do not skip it.
+          # This is e.g. relevant for JSON generation, where we need all
+          # controls.
+          return if @skip_profile && os[:family] != 'unknown'
+
           __register_rule rule_class.new(id, opts, &block)
         end
 
