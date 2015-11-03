@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Inspec::VERSION
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
-  spec.summary       = 'Validate Inspec compliance checks.'
-  spec.description   = File.read('README.md')
+  spec.summary       = 'Validate Inspec compliance checks'
+  spec.description   = 'Validate Inspec compliance checks.'
   spec.homepage      = 'https://github.com/chef/inspec'
   spec.license       = 'Apache 2.0'
 
@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'r-train', '~> 0.9'
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '~> 1.8'
   spec.add_dependency 'rainbow', '~> 2'
