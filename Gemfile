@@ -6,16 +6,16 @@ group :test do
   gem 'bundler', '~> 1.5'
   gem 'minitest', '~> 5.5'
   gem 'rake', '~> 10'
-  gem 'rubocop', '~> 0.33.0'
+  gem 'rubocop', '~> 0.32'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
 end
 
 group :integration do
   gem 'berkshelf', '~> 4.0'
-  gem 'test-kitchen', git: 'https://github.com/chris-rock/test-kitchen', branch: 'test-path'
+  gem 'test-kitchen'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec', git: 'git@github.com:chef/kitchen-inspec.git'
+  gem 'kitchen-inspec'
 end
 
 group :tools do
