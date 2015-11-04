@@ -13,8 +13,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/inspec'
   spec.license       = 'Apache 2.0'
 
-  spec.files         = `hash git 2>/dev/null && git ls-files -z`.split("\x0").find_all { |x| x !~ /^\.delivery/ }
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.files = %w(README.md Rakefile MAINTAINERS.toml MAINTAINERS.md LICENSE inspec.gemspec Gemfile CHANGELOG.md .rubocop.yml) +
+    Dir.glob("{bin,docs,examples,lib,tasks,test}/**/*", File::FNM_DOTMATCH).reject { |f|  File.directory?(f) }
+  spec.executables   = %w( inspec )
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
