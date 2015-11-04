@@ -5,7 +5,7 @@ InSpec and friends
 RSpec
 =====================================================
 
-RSpec is an awesome framework that is widely used to test ruby code. It enables test-driven development (TDD) and helps developers to write better code every day.
+RSpec is an awesome framework that is widely used to test Ruby code. It enables test-driven development (TDD) and helps developers to write better code every day.
 
 InSpec is built on top of RSpec and uses it as the underlying foundation to execute tests. It uses the key strengths of RSpec, easily execute tests and a DSL to write tests, but extends the functionality for use as compliance audits. InSpec ships with custom audit resources that make it easy to write audit checks and with the ability to run those checks on remote servers. These audit resources provided know the differences between operating systems and help you abstract from the local operating system, similar to other resources you might use in your Chef recipes.
 
@@ -52,7 +52,7 @@ Lessons learned from Serverspec include:
 How is InSpec different than Serverspec
 -----------------------------------------------------
 
-One of the key difference is that InSpec targets more user groups. It is optimized for DevOps, Security, and Compliance professionals. Additional metadata, such as impact, title, and description, make it easier to fully describe the controls which makes it easier to share the controls with other departments. This enables Security departments to prioritize rules. DevOps teams use this information to focus on the most critical issues to remediate..
+One of the key differences is that InSpec targets more user groups. It is optimized for DevOps, Security, and Compliance professionals. Additional metadata, such as impact, title, and description, make it easier to fully describe the controls which makes it easier to share the controls with other departments. This enables Security departments to prioritize rules. DevOps teams use this information to focus on the most critical issues to remediate.
 
 .. code-block:: ruby
 
@@ -78,4 +78,4 @@ No, InSpec can be used on any machine.  It doesn’t matter if that machine was 
 
 **Is InSpec a replacement of Serverspec?**
 
-InSpec is intended to be a drop-in replacement of Serverspec, popular Serverspec resources have been ported to InSpec. It changed some behaviour as documented in our migration guide.
+InSpec is intended to be a drop-in replacement of Serverspec. Popular Serverspec resources have been ported to InSpec. It changed some behaviour as documented in our migration guide.
