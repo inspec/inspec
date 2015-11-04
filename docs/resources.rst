@@ -1067,7 +1067,7 @@ The ``content`` matcher tests if contents in the file match the value specified 
 
 .. code-block:: ruby
 
-   its('content') { should contain 'value' }
+   its('content') { should match 'value' }
 
 The following complete example tests the ``pg_hba.conf`` file in |postgresql| for |md5| requirements.  The tests look at all ``host`` and ``local`` settings in that file, and then compare the |md5| checksums against the values in the test:
 
