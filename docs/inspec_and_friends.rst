@@ -30,7 +30,7 @@ A complete InSpec rule looks like:
 Serverspec
 =====================================================
 
-Serverspec can be credited as the first extension of RSpec that enabled users to run RSpec tests on servers to verify deployed artifacts. It was created in March 2013 by Gosuke Miyashita and has been widely adopted. It is also one of the core test frameworks within test-kitchen and has been widely used within the Chef ecosystem.  InSepc takes lessons learned implementing and using Serverspec and builds on them to make auditing and compliance easier.
+Serverspec can be credited as the first extension of RSpec that enabled users to run RSpec tests on servers to verify deployed artifacts. It was created in March 2013 by Gosuke Miyashita and has been widely adopted. It is also one of the core test frameworks within test-kitchen and has been widely used within the Chef ecosystem.  InSpec takes lessons learned implementing and using Serverspec and builds on them to make auditing and compliance easier.
 
 Lessons learned from Serverspec include:
 
