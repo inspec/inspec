@@ -135,7 +135,7 @@ application called Gordon. It is saved as `gordon_config.rb`.
 ```ruby
 require 'yaml'
 
-class GordonConfig < Inspec.resource
+class GordonConfig < Inspec.resource(1)
   name 'gordon_config'
 
   def initialize
