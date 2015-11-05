@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.2
+
+* #219 bugfix: fix add_content to make `inspec shell` work again
+* #218 add version to resource declaration
+* #217 specify gemspec files directly (without git)
+* #216 update gemfile grouped dependencies
+* #214 fix legacy `should contain` in docs
+* #213 fix typos in readme
+* #212 add test-kitchen example to readme
+* #208 improved readme
+
 ## 0.8.0
 
 * #105 add to_s methods to resources, fixes #98
