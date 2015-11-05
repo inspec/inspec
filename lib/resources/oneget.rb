@@ -16,7 +16,7 @@ class OneGetPackage < Inspec.resource(1)
     @package_name = package_name
 
     # verify that this resource is only supported on Windows
-    return skip_resource 'The `oneget` resource is not supported on your OS.' if inspec.os[:family] != 'windows'
+    return skip_resource 'The `oneget` resource is not supported on your OS.' if !inspec.os.windows?
   end
 
   def info

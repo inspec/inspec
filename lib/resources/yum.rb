@@ -33,6 +33,10 @@ require 'resources/file'
 class Yum < Inspec.resource(1)
   name 'yum'
 
+  def initialize
+    return skip_resource 'The `yum` resource is not supported on your OS yet.' if !inspec.os.redhat?
+  end
+
   # returns all repositories
   # works as following:
   # search for Repo-id
