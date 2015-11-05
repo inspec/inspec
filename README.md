@@ -92,6 +92,8 @@ describe yaml('.kitchen.yml') do
 end
 ```
 
+Also have a look at our [example](https://github.com/chef/inspec/tree/master/examples/test-kitchen) that uses `inspec` in combination with `test-kitchen`
+
 ## Command Line Usage
 
 ### exec
