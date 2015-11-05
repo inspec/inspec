@@ -1,6 +1,8 @@
 #!/usr/bin/env rake
 # encoding: utf-8
 
+require 'bundler'
+require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require_relative 'tasks/maintainers'
