@@ -55,6 +55,12 @@ gem build inspec.gemspec
 gem install inspec-*.gem
 ```
 
+Or you can install it via rubygems.org
+
+```bash
+gem install inspec
+```
+
 You should now be able to run:
 
 ```bash
