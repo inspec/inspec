@@ -2453,7 +2453,7 @@ A ``os`` |inspec resource| block declares the platform to be tested:
 
 .. code-block:: ruby
 
-   describe os['family'] do
+   describe os[:family] do
      it { should eq 'platform' }
    end
 
@@ -2474,7 +2474,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os['family'] do
+   describe os[:family] do
      it { should eq 'redhat' }
    end
 
@@ -2482,7 +2482,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os['family'] do
+   describe os[:family] do
      it { should eq 'debian' }
    end
 
@@ -2490,7 +2490,7 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe os['family'] do
+   describe os[:family] do
      it { should eq 'windows' }
    end
 
