@@ -42,7 +42,7 @@ class SimpleConfig
     start_idx = 2
     i = 0
     count = values - 1
-    return match[start_idx] if (values == 1)
+    return match[start_idx] if values == 1
 
     # iterate over expected parameters
     values = []
