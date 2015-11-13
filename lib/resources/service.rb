@@ -149,43 +149,45 @@ end
 class Upstart < ServiceManager
   def info(service_name)
     # get the status of upstart service
-    cmd = inspec.command("initctl status #{service_name}")
+    status = inspec.command("initctl status #{service_name}")
 
-    if cmd.exit_status.to_i == 0
-      # @see: http://upstart.ubuntu.com/cookbook/#job-states
-      # grep for running to indicate the service is there
-      match_running = /running/.match(cmd.stdout)
-      !match_running.nil? ? (running = true) : (running = false)
-
-      # check if a service is enabled
-      # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
-      # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
-      # Ubuntu 10.04 show-config is not supported
-      # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
-      config = inspec.command("initctl show-config #{service_name}")
-      match_enabled = /^\s*start on/.match(config.stdout)
-      !match_enabled.nil? ? (enabled = true) : (enabled = false)
-
-      # implement fallback for Ubuntu 10.04
-      if inspec.os[:family] == 'ubuntu' &&
-         inspec.os[:release].to_f >= 10.04 &&
-         inspec.os[:release].to_f < 12.04 &&
-         cmd.exit_status == 0
-        enabled = true
-      end
-
-      return {
-        name: service_name,
-        description: nil,
-        installed: true,
-        running: running,
-        enabled: enabled,
-        type: 'upstart',
-      }
     # fallback for systemv services, those are not handled via `initctl`
-    else
-      return SysV.new(inspec).info(service_name)
+    return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0
+
+    # @see: http://upstart.ubuntu.com/cookbook/#job-states
+    # grep for running to indicate the service is there
+    running = !status.stdout[/running/].nil?
+
+    {
+      name: service_name,
+      description: nil,
+      installed: true,
+      running: running,
+      enabled: info_enabled(status, service_name),
+      type: 'upstart',
+    }
+  end
+
+  private
+
+  def info_enabled(status, service_name)
+    # check if a service is enabled
+    # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
+    # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
+    # Ubuntu 10.04 show-config is not supported
+    # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
+    config = inspec.command("initctl show-config #{service_name}")
+    enabled = !config.stdout[/^\s*start on/].nil?
+
+    # implement fallback for Ubuntu 10.04
+    if inspec.os[:family] == 'ubuntu' &&
+       inspec.os[:release].to_f >= 10.04 &&
+       inspec.os[:release].to_f < 12.04 &&
+       status.exit_status == 0
+      enabled = true
     end
+
+    enabled
   end
 end
 
