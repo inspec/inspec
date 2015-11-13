@@ -41,7 +41,7 @@ class SecurityPolicy < Inspec.resource(1)
 
   def method_missing(method)
     # load data if needed
-    if (@loaded == false)
+    if @loaded == false
       load
     end
 

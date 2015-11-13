@@ -41,7 +41,7 @@ class RegistryKey < Inspec.resource(1)
     val = registry_value(@reg_key, meth)
 
     # verify data
-    if (val[:exit_code] == 0)
+    if val[:exit_code] == 0
       return convert_value(val[:data])
     else
       return nil
