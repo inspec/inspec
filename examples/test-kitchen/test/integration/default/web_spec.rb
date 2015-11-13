@@ -8,7 +8,7 @@ describe package('nginx') do
 end
 
 # extend tests with metadata
-rule '01' do
+control '01' do
   impact 0.7
   title 'Verify nginx service'
   desc 'Ensures nginx service is up and running'
