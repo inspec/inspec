@@ -11,15 +11,16 @@
 #   its(:split) { should_not include('.') }
 # end
 
+require 'utils/simpleconfig'
+
 class OsEnv < Inspec.resource(1)
   name 'os_env'
 
   attr_reader :content
-  def initialize(env)
+  def initialize(env = nil)
     @osenv = env
-    cmd = inspec.command("su - root -c 'echo $#{env}'")
-    @content = cmd.stdout.chomp
-    @content = nil if cmd.exit_status != 0
+    @content = nil
+    @content = params[env] unless env.nil?
   end
 
   def split
@@ -29,6 +30,24 @@ class OsEnv < Inspec.resource(1)
   end
 
   def to_s
-    "Environment Variable #{@osenv}"
+    if @osenv.nil?
+      'Environment variables'
+    else
+      "Environment variable #{@osenv}"
+    end
+  end
+
+  private
+
+  def params
+    return @params if defined? @params
+    out = inspec.command('env')
+    out = inspec.command('printenv') unless out.exit_status == 0
+    unless out.exit_status == 0
+      skip_resource "Can't read environment variables on #{os[:family]}. "\
+        "Tried `env` and `printenv` which returned #{out.exit_status}"
+    end
+
+    @params = SimpleConfig.new(out.stdout).params
   end
 end

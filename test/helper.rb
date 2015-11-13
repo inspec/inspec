@@ -108,7 +108,7 @@ class MockLoader
       'type win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'del win_secpol.cfg' => cmd.call('success'),
-      'su - root -c \'echo $PATH\'' => cmd.call('PATH'),
+      'env' => cmd.call('env'),
       '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
