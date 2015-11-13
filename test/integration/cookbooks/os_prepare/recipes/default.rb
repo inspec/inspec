@@ -7,3 +7,4 @@
 include_recipe('os_prepare::apt')
 include_recipe('os_prepare::file')
 include_recipe('os_prepare::package')
+include_recipe('os_prepare::service')
