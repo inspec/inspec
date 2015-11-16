@@ -24,7 +24,7 @@ class Port < Inspec.resource(1)
     @cache = nil
 
     case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
+    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch'
       @port_manager = LinuxPorts.new(inspec)
     when 'darwin'
       @port_manager = DarwinPorts.new(inspec)
