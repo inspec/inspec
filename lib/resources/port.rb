@@ -198,27 +198,31 @@ class LinuxPorts < PortsInfo
   def parse_netstat_line(line)
     # parse each line
     # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
-    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
-    return {} if parsed.nil?
+    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
+    return {} if parsed.nil? || line.match(/^proto/i) 
 
-    # parse ip4 and ip6 addresses
-    protocol = parsed[1].downcase
-    host, port = parse_net_address(parsed[4], protocol)
+    begin
+      # parse ip4 and ip6 addresses
+      protocol = parsed[1].downcase
+      host, port = parse_net_address(parsed[4], protocol)
 
-    # extract PID
-    process = parsed[9].split('/')
-    pid = process[0]
-    pid = pid.to_i if /^\d+$/.match(pid)
-    process = process[1]
+      # extract PID
+      process = parsed[9].split('/')
+      pid = process[0]
+      pid = pid.to_i if /^\d+$/.match(pid)
+      process = process[1]
 
-    # map data
-    {
-      port: port,
-      address: host,
-      protocol: protocol,
-      process: process,
-      pid: pid,
-    }
+      # map data
+      {
+        port: port,
+        address: host,
+        protocol: protocol,
+        process: process,
+        pid: pid,
+      }
+    rescue
+      {}
+    end
   end
 end
 
