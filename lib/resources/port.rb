@@ -199,7 +199,7 @@ class LinuxPorts < PortsInfo
     # parse each line
     # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
     parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
-    return {} if parsed.nil? || line.match(/^proto/i) 
+    return {} if parsed.nil? || line.match(/^proto/i)
 
     begin
       # parse ip4 and ip6 addresses
