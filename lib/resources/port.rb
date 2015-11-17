@@ -193,36 +193,38 @@ class LinuxPorts < PortsInfo
       port = ip_addr.port
     end
     [host, port]
+  rescue URI::InvalidURIError => e
+    warn "Could not parse #{net_addr}, #{e}"
+    nil
   end
 
   def parse_netstat_line(line)
     # parse each line
     # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
     parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
+
     return {} if parsed.nil? || line.match(/^proto/i)
 
-    begin
-      # parse ip4 and ip6 addresses
-      protocol = parsed[1].downcase
-      host, port = parse_net_address(parsed[4], protocol)
+    # parse ip4 and ip6 addresses
+    protocol = parsed[1].downcase
 
-      # extract PID
-      process = parsed[9].split('/')
-      pid = process[0]
-      pid = pid.to_i if /^\d+$/.match(pid)
-      process = process[1]
+    # extract host and port information
+    host, port = parse_net_address(parsed[4], protocol)
 
-      # map data
-      {
-        port: port,
-        address: host,
-        protocol: protocol,
-        process: process,
-        pid: pid,
-      }
-    rescue
-      {}
-    end
+    # extract PID
+    process = parsed[9].split('/')
+    pid = process[0]
+    pid = pid.to_i if /^\d+$/.match(pid)
+    process = process[1]
+
+    # map data
+    {
+      port: port,
+      address: host,
+      protocol: protocol,
+      process: process,
+      pid: pid,
+    }
   end
 end
 
@@ -265,6 +267,9 @@ class FreeBsdPorts < PortsInfo
       port = ip_addr.port
     end
     [host, port]
+  rescue URI::InvalidURIError => e
+    warn "Could not parse #{net_addr}, #{e}"
+    nil
   end
 
   def parse_sockstat_line(line)
