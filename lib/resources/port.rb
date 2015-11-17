@@ -208,6 +208,9 @@ class LinuxPorts < PortsInfo
     # parse ip4 and ip6 addresses
     protocol = parsed[1].downcase
 
+    # detect protocol if not provided
+    protocol += '6' if parsed[4].count(':') > 1 && ['tcp', 'udp'].include?(protocol)
+
     # extract host and port information
     host, port = parse_net_address(parsed[4], protocol)
 
