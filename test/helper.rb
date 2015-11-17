@@ -109,7 +109,8 @@ class MockLoader
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'del win_secpol.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
-      '(Get-Item \'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule\').GetValue(\'Start\')' => cmd.call('reg_schedule'),
+      # registry key test
+      '2790db1e88204a073ed7fd3493f5445e5ce531afd0d2724a0e36c17110c535e6' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
