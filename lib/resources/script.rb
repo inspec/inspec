@@ -6,7 +6,6 @@
 
 class Script < Cmd
   name 'script'
-  attr_accessor :command
 
   def initialize(script)
     case inspec.os[:family]
@@ -19,8 +18,7 @@ class Script < Cmd
     else
       return skip_resource 'The `script` resource is not supported on your OS yet.'
     end
-
-    @command = cmd
+    super(cmd)
   end
 
   # we cannot determine if a command exists, because that does not work for scripts
