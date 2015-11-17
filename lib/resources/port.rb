@@ -179,7 +179,7 @@ class LinuxPorts < PortsInfo
   def parse_net_address(net_addr, protocol)
     if protocol.eql?('tcp6') || protocol.eql?('udp6')
       # prep for URI parsing, parse ip6 port
-      ip6 = /^(\S+:)(\d+)$/.match(net_addr)
+      ip6 = /^(\S+):(\d+)$/.match(net_addr)
       ip6addr = ip6[1]
       ip6addr = '::' if /^:::$/.match(ip6addr)
       # build uri
