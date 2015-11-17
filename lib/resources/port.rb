@@ -24,7 +24,7 @@ class Port < Inspec.resource(1)
     @cache = nil
 
     case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'arch'
+    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch'
       @port_manager = LinuxPorts.new(inspec)
     when 'darwin'
       @port_manager = DarwinPorts.new(inspec)
@@ -179,7 +179,7 @@ class LinuxPorts < PortsInfo
   def parse_net_address(net_addr, protocol)
     if protocol.eql?('tcp6') || protocol.eql?('udp6')
       # prep for URI parsing, parse ip6 port
-      ip6 = /^(\S+:)(\d+)$/.match(net_addr)
+      ip6 = /^(\S+):(\d+)$/.match(net_addr)
       ip6addr = ip6[1]
       ip6addr = '::' if /^:::$/.match(ip6addr)
       # build uri
@@ -193,16 +193,25 @@ class LinuxPorts < PortsInfo
       port = ip_addr.port
     end
     [host, port]
+  rescue URI::InvalidURIError => e
+    warn "Could not parse #{net_addr}, #{e}"
+    nil
   end
 
   def parse_netstat_line(line)
     # parse each line
     # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
-    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/.match(line)
-    return {} if parsed.nil?
+    parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
+
+    return {} if parsed.nil? || line.match(/^proto/i)
 
     # parse ip4 and ip6 addresses
     protocol = parsed[1].downcase
+
+    # detect protocol if not provided
+    protocol += '6' if parsed[4].count(':') > 1 && %w{tcp udp}.include?(protocol)
+
+    # extract host and port information
     host, port = parse_net_address(parsed[4], protocol)
 
     # extract PID
@@ -261,6 +270,9 @@ class FreeBsdPorts < PortsInfo
       port = ip_addr.port
     end
     [host, port]
+  rescue URI::InvalidURIError => e
+    warn "Could not parse #{net_addr}, #{e}"
+    nil
   end
 
   def parse_sockstat_line(line)
