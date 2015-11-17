@@ -9,10 +9,14 @@ elsif ['debian'].include?(os[:family])
   # Debian
   unavailable_service = 'clamav'
   available_service = 'ssh'
-else
+elsif ['ubuntu'].include?(os[:family])
   # Ubuntu
   unavailable_service = 'sshd'
   available_service = 'ssh'
+elsif ['windows'].include?(os[:family])
+  # Ubuntu
+  unavailable_service = 'sshd'
+  available_service = 'dhcp'
 end
 
 describe service(unavailable_service) do
