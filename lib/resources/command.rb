@@ -14,6 +14,8 @@
 
 class Cmd < Inspec.resource(1)
   name 'command'
+  attr_reader :command
+
   def initialize(cmd)
     @command = cmd
   end
