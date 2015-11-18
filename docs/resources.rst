@@ -4,54 +4,54 @@ InSpec Resources Reference
 
 The following InSpec audit resources are available:
 
-* ``apache_conf``
-* ``apt``
-* ``audit_policy``
-* ``auditd_conf``
-* ``auditd_rules``
-* ``bond``
-* ``bridge``
-* ``csv``
-* ``command``
-* ``directory``
-* ``etc_group``
-* ``file``
-* ``gem``
-* ``group``
-* ``host``
-* ``inetd_conf``
-* ``interface``
-* ``iptables``
-* ``kernel_module``
-* ``kernel_parameter``
-* ``limits_conf``
-* ``login_defs``
-* ``mysql_conf``
-* ``mysql_session``
-* ``npm``
-* ``ntp_conf``
-* ``oneget``
-* ``os``
-* ``os_env``
-* ``package``
-* ``parse_config``
-* ``parse_config_file``
-* ``passwd``
-* ``pip``
-* ``port``
-* ``postgres_conf``
-* ``postgres_session``
-* ``processes``
-* ``registry_key``
-* ``script``
-* ``security_policy``
-* ``service``
-* ``ssh_config``
-* ``sshd_config``
-* ``user``
-* ``windows_feature``
-* ``yaml``
-* ``yum``
+* `apache_conf`_
+* `apt`_
+* `audit_policy`_
+* `auditd_conf`_
+* `auditd_rules`_
+* `bond`_
+* `bridge`_
+* `csv`_
+* `command`_
+* `directory`_
+* `etc_group`_
+* `file`_
+* `gem`_
+* `group <https://github.com/chef/inspec/blob/master/docs/resources.rst#group-1/>`_
+* `host`_
+* `inetd_conf`_
+* `interface`_
+* `iptables`_
+* `kernel_module`_
+* `kernel_parameter`_
+* `limits_conf`_
+* `login_defs`_
+* `mysql_conf`_
+* `mysql_session`_
+* `npm`_
+* `ntp_conf`_
+* `oneget`_
+* `os`_
+* `os_env`_
+* `package`_
+* `parse_config`_
+* `parse_config_file`_
+* `passwd`_
+* `pip`_
+* `port`_
+* `postgres_conf`_
+* `postgres_session`_
+* `processes`_
+* `registry_key`_
+* `script`_
+* `security_policy`_
+* `service`_
+* `ssh_config`_
+* `sshd_config`_
+* `user`_
+* `windows_feature`_
+* `yaml`_
+* `yum`_
 
 See below for more information about each InSpec audit resource, its related matchers, and examples of how to use it in a recipe.
 
@@ -3443,15 +3443,15 @@ Examples
 The following examples show how to use this InSpec audit resource.
 
 .. The title for the example below needs to be clarified, then it can be uncommented
-.. 
+..
 .. **Test for multiple instances of Nginx**
-.. 
+..
 .. .. code-block:: ruby
-.. 
+..
 ..   describe processes('postgres') do
 ..     its('list.length') { should be(1) }
 ..   end
-.. 
+..
 
 **Test for multiple instances of mysqld**
 
