@@ -33,8 +33,19 @@ describe Inspec::ProfileContext do
     it 'provides the describe keyword in the global DSL' do
       load('describe true do; it { should_eq true }; end')
         .must_output ''
-      profile.rules.keys.must_equal ['unknown:1']
+      profile.rules.keys.length.must_equal 1
+      profile.rules.keys[0].must_match /^unknown:1 [0-9a-f]+$/
       profile.rules.values[0].must_be_kind_of Inspec::Rule
+    end
+
+    it 'loads multiple computed calls to describe correctly' do
+      load("%w{1 2 3}.each do\ndescribe true do; it { should_eq true }; end\nend")
+        .must_output ''
+      profile.rules.keys.length.must_equal 3
+      [0, 1, 2].each do |i|
+        profile.rules.keys[i].must_match /^unknown:2 [0-9a-f]+$/
+        profile.rules.values[i].must_be_kind_of Inspec::Rule
+      end
     end
 
     it 'does not provide the expect keyword in the global DLS' do
