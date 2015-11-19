@@ -22,11 +22,11 @@ describe Inspec::ProfileContext do
       load('print os[:family]').must_output 'ubuntu'
     end
 
-    it 'must profide file resource' do
+    it 'must provide file resource' do
       load('print file("").type').must_output 'unknown'
     end
 
-    it 'must profide command resource' do
+    it 'must provide command resource' do
       load('print command("").stdout').must_output ''
     end
 
