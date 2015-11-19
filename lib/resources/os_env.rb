@@ -20,13 +20,16 @@ class OsEnv < Inspec.resource(1)
   def initialize(env = nil)
     @osenv = env
     @content = nil
-    @content = params[env] unless env.nil?
+    @content = value_for(env) unless env.nil?
   end
 
   def split
+    # we can't take advantage of `File::PATH_SEPARATOR` as code is
+    # evaluated on the host machine
+    path_separator = inspec.os.windows? ? ';' : ':'
     # -1 is required to catch cases like dir1::dir2:
     # where we have a trailing :
-    @content.nil? ? [] : @content.split(':', -1)
+    @content.nil? ? [] : @content.split(path_separator, -1)
   end
 
   def to_s
@@ -39,15 +42,25 @@ class OsEnv < Inspec.resource(1)
 
   private
 
-  def params
-    return @params if defined? @params
-    out = inspec.command('env')
-    out = inspec.command('printenv') unless out.exit_status == 0
+  def value_for(env)
+    command = if inspec.os.windows?
+                "$Env:#{env}"
+              else
+                'env'
+              end
+
+    out = inspec.command(command)
+
     unless out.exit_status == 0
       skip_resource "Can't read environment variables on #{os[:family]}. "\
-        "Tried `env` and `printenv` which returned #{out.exit_status}"
+        "Tried `#{command}` which returned #{out.exit_status}"
     end
 
-    @params = SimpleConfig.new(out.stdout).params
+    if inspec.os.windows?
+      out.stdout.strip
+    else
+      params = SimpleConfig.new(out.stdout).params
+      params[env]
+    end
   end
 end
