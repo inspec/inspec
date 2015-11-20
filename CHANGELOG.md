@@ -1,5 +1,40 @@
 # Change Log
 
+## [0.9.3](https://github.com/chef/inspec/tree/0.9.3) (2015-11-20)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.2...0.9.3)
+
+**Implemented enhancements:**
+
+- Support the control keyword, synonymous to rule [\#188](https://github.com/chef/inspec/issues/188)
+
+**Closed issues:**
+
+- Multiple computed calls to describe aren't registered [\#246](https://github.com/chef/inspec/issues/246)
+- port resource does not work on CentOS [\#239](https://github.com/chef/inspec/issues/239)
+- os\_env not working [\#236](https://github.com/chef/inspec/issues/236)
+- service resource misbehaves on upstart hosts [\#226](https://github.com/chef/inspec/issues/226)
+- OS resource requires requires a Symbol not a String \(wrong in docs\) [\#224](https://github.com/chef/inspec/issues/224)
+- Cannot run against remote WinRM SSL systems [\#221](https://github.com/chef/inspec/issues/221)
+- Proper Changelog [\#211](https://github.com/chef/inspec/issues/211)
+
+**Merged pull requests:**
+
+- Introduce automated changelog generation [\#250](https://github.com/chef/inspec/pull/250) ([arlimus](https://github.com/arlimus))
+- ensure all test directories are on the runner $LOAD\_PATH [\#249](https://github.com/chef/inspec/pull/249) ([schisamo](https://github.com/schisamo))
+- bugfix: support multiple computed calls to describe [\#247](https://github.com/chef/inspec/pull/247) ([arlimus](https://github.com/arlimus))
+- Add Windows support to the `os\_env` resource [\#245](https://github.com/chef/inspec/pull/245) ([schisamo](https://github.com/schisamo))
+- Added links to the different sections. [\#244](https://github.com/chef/inspec/pull/244) ([jjasghar](https://github.com/jjasghar))
+- bugfix: run integration tests on windows [\#243](https://github.com/chef/inspec/pull/243) ([chris-rock](https://github.com/chris-rock))
+- add port support for centos [\#241](https://github.com/chef/inspec/pull/241) ([chris-rock](https://github.com/chris-rock))
+- api: don't force root on os\_env [\#237](https://github.com/chef/inspec/pull/237) ([arlimus](https://github.com/arlimus))
+- change test-kitchen example from rule to control [\#235](https://github.com/chef/inspec/pull/235) ([chris-rock](https://github.com/chris-rock))
+- lint [\#234](https://github.com/chef/inspec/pull/234) ([arlimus](https://github.com/arlimus))
+- improvement: rewrite registry\_key resource, serverspec compatibility and add integration tests [\#233](https://github.com/chef/inspec/pull/233) ([alexpop](https://github.com/alexpop))
+- Upstart with System V fallback [\#228](https://github.com/chef/inspec/pull/228) ([chris-rock](https://github.com/chris-rock))
+- OS resource requires a Symbol not a String [\#225](https://github.com/chef/inspec/pull/225) ([stuartpreston](https://github.com/stuartpreston))
+- Update README.md [\#223](https://github.com/chef/inspec/pull/223) ([jjasghar](https://github.com/jjasghar))
+- add a tiny sudo example to the readme [\#222](https://github.com/chef/inspec/pull/222) ([arlimus](https://github.com/arlimus))
+
 ## [v0.9.2](https://github.com/chef/inspec/tree/v0.9.2) (2015-11-06)
 [Full Changelog](https://github.com/chef/inspec/compare/0.9.1...v0.9.2)
 
@@ -232,55 +267,6 @@
 - Package [\#2](https://github.com/chef/inspec/pull/2) ([chris-rock](https://github.com/chris-rock))
 - shared linux file handling + specinfra config + cleanup [\#1](https://github.com/chef/inspec/pull/1) ([arlimus](https://github.com/arlimus))
 
-# Changelog
-
-## 0.9.2
-
-* #219 bugfix: fix add_content to make `inspec shell` work again
-* #218 add version to resource declaration
-* #217 specify gemspec files directly (without git)
-* #216 update gemfile grouped dependencies
-* #214 fix legacy `should contain` in docs
-* #213 fix typos in readme
-* #212 add test-kitchen example to readme
-* #208 improved readme
-
-## 0.8.0
-
-* #105 add to_s methods to resources, fixes #98
-* #106 Improve unit tests
-* #110 make default rake tasks test+lint
-* #111 Train
-* #112 take care of ruby warnings
-* #115 Fixes
-* #116 test: group resource tests
-* #117 Add support for `expect`
-* #119 delivery: select build node on new fqdn
-* #118 add first round of audit resource docs
-* #122 move markdown docs to rst
-* #114 simplify yum implementation
-* #123 add resources, sync matcher patterns
-* #124 fix the header structure
-* #126 add test-kitchen example
-* #127 add more usage headers
-* #128 more CentOS support
-
-## 0.7.0
-
-* complete rewrite of execution backend for ssh and docker
-* replace previous command execution layer
-* replace previous file transfer mechanism
-* rewrite os detection mechanism
-* add more resources: apt, bond, bridge, group, host, interface, iptables, kernel_module, kernel_parameter, oneget, package, pip, port, user, script, service, windows_feature
-* add unit tests for resources
-* add backend tests with docker test infrastructure
-* add tests with Chef Delivery
-* full rubocop linting
-* add vulcano shell feature
-* rewrite mysql_conf to use simpleconfig
-* improve debug output
-* use mixlib-shellout instead of open4
-* add basic docs
 
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
