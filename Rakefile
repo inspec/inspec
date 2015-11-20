@@ -52,8 +52,10 @@ end
 # the necessary gem is installed.
 begin
   require 'github_changelog_generator/task'
+  require_relative 'lib/inspec/version'
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
     config.since_tag = '0.7.0'
+    config.future_release = Inspec::VERSION
   end
 rescue LoadError
 end
