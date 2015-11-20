@@ -47,3 +47,13 @@ namespace :test do
     sh('sh', '-c', "cd #{path} && bundle exec kitchen test -c #{concurrency} -t .")
   end
 end
+
+# Automatically generate a changelog for this project. Only loaded if
+# the necessary gem is installed.
+begin
+  require 'github_changelog_generator/task'
+  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+    # configure changelog generation
+  end
+rescue LoadError
+end
