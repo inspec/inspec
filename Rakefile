@@ -53,7 +53,7 @@ end
 begin
   require 'github_changelog_generator/task'
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-    # configure changelog generation
+    config.since_tag = '0.7.0'
   end
 rescue LoadError
 end
