@@ -52,6 +52,14 @@ module Inspec
       tests = items.find_all { |i| i[:type] == :test }
       libs = items.find_all { |i| i[:type] == :library }
 
+      # Ensure each test directory exists on the $LOAD_PATH. This
+      # will ensure traditional RSpec-isms like `require 'spec_helper'`
+      # continue to work.
+      tests.flatten.each do |test|
+        test_directory = File.dirname(test[:ref])
+        $LOAD_PATH.unshift test_directory unless $LOAD_PATH.include?(test_directory)
+      end
+
       # add all tests (raw) to the runtime
       tests.flatten.each do |test|
         add_content(test, libs)
