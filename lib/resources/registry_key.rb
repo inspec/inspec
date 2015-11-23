@@ -23,37 +23,36 @@ class RegistryKey < Inspec.resource(1)
   end
 
   def exists?
-    !registry_value(@reg_key).nil?
+    !registry_key(@reg_key).nil?
   end
 
   def has_value?(value)
-    val = registry_value(@reg_key)
-    !val.nil? && val['(default)'.to_s]['value'] == value ? true : false
+    val = registry_key(@reg_key)
+    !val.nil? && registry_property_value(val, '(default)') == value ? true : false
   end
 
   def has_property?(property_name, property_type = nil)
-    val = registry_value(@reg_key)
-    !val.nil? && !val[property_name.to_s].nil? && (property_type.nil? || val[property_name.to_s]['type'] == map2type(property_type)) ? true : false
+    val = registry_key(@reg_key)
+    !val.nil? && registry_property_exists(val, property_name) && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
   end
 
   # deactivate rubocop, because we need to stay compatible with Serverspe
   # rubocop:disable Style/OptionalArguments
   def has_property_value?(property_name, property_type = nil, value)
     # rubocop:enable Style/OptionalArguments
-    val = registry_value(@reg_key)
+    val = registry_key(@reg_key)
 
     # convert value to binary if required
     value = value.bytes if !property_type.nil? && map2type(property_type) == 3 && !value.is_a?(Array)
 
-    !val.nil? && val[property_name.to_s]['value'] == value && (property_type.nil? || val[property_name.to_s]['type'] == map2type(property_type)) ? true : false
+    !val.nil? && registry_property_value(val, property_name) == value && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
   end
 
   # returns nil, if not existant or value
   def method_missing(meth)
     # get data
-    val = registry_value(@reg_key)
-    return nil if val.nil?
-    val[meth.to_s]['value']
+    val = registry_key(@reg_key)
+    registry_property_value(val, meth)
   end
 
   def to_s
@@ -62,7 +61,25 @@ class RegistryKey < Inspec.resource(1)
 
   private
 
-  def registry_value(path)
+  def registry_property_exists(regkey, property)
+    return false if regkey.nil? || property.nil?
+    # always ensure the key is lower case
+    !regkey[property.to_s.downcase].nil?
+  end
+
+  def registry_property_value(regkey, property)
+    return nil if regkey.nil? || property.nil?
+    # always ensure the key is lower case
+    regkey[property.to_s.downcase]['value']
+  end
+
+  def registry_property_type(regkey, property)
+    return nil if regkey.nil? || property.nil?
+    # always ensure the key is lower case
+    regkey[property.to_s.downcase]['type']
+  end
+
+  def registry_key(path)
     return @registy_cache if defined?(@registy_cache)
 
     # load registry key and all properties
@@ -87,11 +104,13 @@ class RegistryKey < Inspec.resource(1)
     # return nil if cmd.exit_status != 0, try to parse json
     begin
       @registy_cache = JSON.parse(cmd.stdout)
+      # convert keys to lower case
+      return @registy_cache = Hash[@registy_cache.map do |key, value|
+        [key.downcase, value]
+      end]
     rescue JSON::ParserError => _e
-      @registy_cache = nil
+      return @registy_cache = nil
     end
-
-    @registy_cache
   end
 
   # Registry key value types
