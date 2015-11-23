@@ -39,9 +39,17 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Requires Ruby ( >1.9 ).
+InSpec requires Ruby ( >1.9 ).
 
-To simply run it without installation, you must install [bundler](http://bundler.io/):
+### Install it via rubygems.org
+
+```bash
+gem install inspec
+```
+
+### Install it from source
+
+That requires [bundler](http://bundler.io/):
 
 ```bash
 bundle install
@@ -55,16 +63,22 @@ gem build inspec.gemspec
 gem install inspec-*.gem
 ```
 
-Or you can install it via rubygems.org
+On Windows, you need to install [Ruby](http://rubyinstaller.org/downloads/) with [Ruby Development Kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) to build dependencies with its native extensions.
 
-```bash
-gem install inspec
-```
+### Run InSpec
 
 You should now be able to run:
 
 ```bash
-inspec --help
+$ inspec --help
+Commands:
+  inspec check PATH      # verify test structure in PATH
+  inspec detect          # detect the target OS
+  inspec exec PATHS      # run all test files
+  inspec help [COMMAND]  # Describe available commands or one specific command
+  inspec json PATH       # read all tests in PATH and generate a JSON profile
+  inspec shell           # open an interactive debugging shell
+  inspec version         # prints the version of this tool
 ```
 
 # Examples
