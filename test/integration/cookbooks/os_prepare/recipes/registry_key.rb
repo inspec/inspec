@@ -66,4 +66,9 @@ if node['platform_family'] == 'windows'
     action :create
   end
 
+  registry_key 'HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0' do
+    values [{ name: 'NTLMMinServerSec', type: :dword, data: 537_395_200 }]
+    recursive true
+    action :create
+  end
 end

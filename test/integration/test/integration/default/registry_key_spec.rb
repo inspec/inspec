@@ -50,4 +50,8 @@ if os.windows?
     its('MinEncryptionLevel') { should eq 3 }
   end
 
+  describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0') do
+    it { should exist }
+    its('NtlmMinClientSec') { should eq 537_395_200 }
+  end
 end
