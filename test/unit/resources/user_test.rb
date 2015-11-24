@@ -20,6 +20,19 @@ describe 'Inspec::Resources::User' do
     _(resource.warndays).must_equal 7
   end
 
+  # ubuntu 14.04 test with ldap user
+  it 'read user on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('user', 'jfolmer')
+    _(resource.exists?).must_equal true
+    _(resource.group).must_equal 'domain users'
+    _(resource.groups).must_equal ['domain users', 'domain admins', 'denied rodc password replication group']
+    _(resource.home).must_equal '/jfolmer'
+    _(resource.shell).must_equal '/bin/bash'
+    _(resource.mindays).must_equal 0
+    _(resource.maxdays).must_equal 99999
+    _(resource.warndays).must_equal 7
+  end
+
   # serverspec compatibility tests (do not test matcher)
   it 'verify serverspec compatibility' do
     resource = MockLoader.new(:ubuntu1404).load_resource('user', 'root')
