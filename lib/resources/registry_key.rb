@@ -105,12 +105,14 @@ class RegistryKey < Inspec.resource(1)
     begin
       @registy_cache = JSON.parse(cmd.stdout)
       # convert keys to lower case
-      return @registy_cache = Hash[@registy_cache.map do |key, value|
+      @registy_cache = Hash[@registy_cache.map do |key, value|
         [key.downcase, value]
       end]
     rescue JSON::ParserError => _e
-      return @registy_cache = nil
+      @registy_cache = nil
     end
+
+    @registy_cache
   end
 
   # Registry key value types
