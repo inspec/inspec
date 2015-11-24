@@ -1,7 +1,26 @@
 # Change Log
 
-## [0.9.3](https://github.com/chef/inspec/tree/0.9.3) (2015-11-20)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.2...0.9.3)
+## [0.9.4](https://github.com/chef/inspec/tree/0.9.4) (2015-11-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.3...0.9.4)
+
+**Fixed bugs:**
+
+- registry\_key needs to be case insensitive [\#254](https://github.com/chef/inspec/issues/254)
+- User resource doesn't handle group names with spaces [\#238](https://github.com/chef/inspec/issues/238)
+
+**Closed issues:**
+
+- inspec does not extract section name from test file header [\#182](https://github.com/chef/inspec/issues/182)
+
+**Merged pull requests:**
+
+- bugfix: user resources support for group with whitespace [\#258](https://github.com/chef/inspec/pull/258) ([chris-rock](https://github.com/chris-rock))
+- Improve conf file resources \(csv, json, yaml, ini\) [\#257](https://github.com/chef/inspec/pull/257) ([chris-rock](https://github.com/chris-rock))
+- Bugfix: make registry\_key resource case-insensitive [\#255](https://github.com/chef/inspec/pull/255) ([alexpop](https://github.com/alexpop))
+- improvement: update install instructions and add notes for windows builds [\#253](https://github.com/chef/inspec/pull/253) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.9.3](https://github.com/chef/inspec/tree/v0.9.3) (2015-11-20)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.2...v0.9.3)
 
 **Implemented enhancements:**
 
@@ -19,6 +38,7 @@
 
 **Merged pull requests:**
 
+- 0.9.3 [\#251](https://github.com/chef/inspec/pull/251) ([arlimus](https://github.com/arlimus))
 - Introduce automated changelog generation [\#250](https://github.com/chef/inspec/pull/250) ([arlimus](https://github.com/arlimus))
 - ensure all test directories are on the runner $LOAD\_PATH [\#249](https://github.com/chef/inspec/pull/249) ([schisamo](https://github.com/schisamo))
 - bugfix: support multiple computed calls to describe [\#247](https://github.com/chef/inspec/pull/247) ([arlimus](https://github.com/arlimus))
