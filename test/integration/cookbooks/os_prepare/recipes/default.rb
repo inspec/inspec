@@ -6,6 +6,7 @@
 
 include_recipe('os_prepare::apt')
 include_recipe('os_prepare::file')
+include_recipe('os_prepare::json_yaml_csv_ini')
 include_recipe('os_prepare::package')
 include_recipe('os_prepare::registry_key')
 include_recipe('os_prepare::service')

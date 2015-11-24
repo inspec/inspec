@@ -1,0 +1,7 @@
+driver:
+  name: vagrant
+  customize:
+    memory: 1024
+platforms:
+  - name: centos-5.11
+  - name: centos-6.7
