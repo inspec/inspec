@@ -15,7 +15,21 @@ class JsonConfig < Inspec.resource(1)
 
   def initialize(path)
     @path = path
-    @file_content = inspec.file(@path).content
+    @file = inspec.file(@path)
+    @file_content = @file.content
+
+    # check if file is available
+    if !@file.file?
+      skip_resource "Can't find file \"#{@conf_path}\""
+      return @params = {}
+    end
+
+    # check if file is readable
+    if @file_content.empty? && @file.size > 0
+      skip_resource "Can't read file \"#{@conf_path}\""
+      return @params = {}
+    end
+
     @params = parse(@file_content)
   end
 
