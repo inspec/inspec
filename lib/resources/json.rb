@@ -24,21 +24,39 @@ class JsonConfig < Inspec.resource(1)
     JSON.parse(content)
   end
 
+  def value(key)
+    extract_value(key, @params)
+  end
+
+  # Shorthand to retrieve a parameter name via `#its`.
+  # Example: describe json('file') { its('paramX') { should eq 'Y' } }
+  #
+  # @param [String] name name of the field to retrieve
+  # @return [Object] the value stored at this position
+  def method_missing(*keys)
+    # catch bahavior of rspec its implementation
+    # @see https://github.com/rspec/rspec-its/blob/master/lib/rspec/its.rb#L110
+    keys.shift if keys.is_a?(Array) && keys[0] == :[]
+    value(keys)
+  end
+
+  def to_s
+    "Json #{@path}"
+  end
+
+  private
+
   def extract_value(keys, value)
     key = keys.shift
     return nil if key.nil?
 
-    # check if key is a num, try to extract from array
-    if key.to_i.to_s == key
-      value = value[key.to_i]
     # if value is an array, iterate over each child
-    elsif value.is_a?(Array)
+    if value.is_a?(Array)
       value = value.map { |i|
         extract_value([key], i)
       }
-    # normal value extraction
     else
-      value = value[key].nil? ? nil : value[key]
+      value = value[key.to_s].nil? ? nil : value[key.to_s]
     end
 
     # check if further keys exist
@@ -49,16 +67,4 @@ class JsonConfig < Inspec.resource(1)
     end
   end
 
-  # Shorthand to retrieve a parameter name via `#its`.
-  # Example: describe json('file') { its('paramX') { should eq 'Y' } }
-  #
-  # @param [String] name name of the field to retrieve
-  # @return [Object] the value stored at this position
-  def method_missing(name)
-    @params[name.to_s]
-  end
-
-  def to_s
-    "Json #{@path}"
-  end
 end
