@@ -91,6 +91,7 @@ class MockLoader
       'example.csv' => mockfile.call('example.csv'),
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
       '/sys/class/net/br0/bridge' => mockdir.call(true),
+      'rootwrap.conf' => mockfile.call('rootwrap.conf'),
     }
 
     # create all mock commands
