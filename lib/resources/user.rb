@@ -193,10 +193,17 @@ class UnixUser < UserInfo
     cmd = inspec.command("id #{username}")
     return nil if cmd.exit_status != 0
 
+    raw = cmd.stdout.chomp
+    data = []
+    until (index = raw.index(/\)\s{1}/)) == nil do
+      data.push(raw[0,index+1]) # inclue closing )
+      raw = raw[index+2,raw.length-index-2]
+    end
+    data.push(raw) if !raw.nil?
+
     # parse words
     params = SimpleConfig.new(
-      cmd.stdout.chomp,
-      line_separator: ' ',
+      data.join("\n"),
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: nil,
       multiple_values: false,
