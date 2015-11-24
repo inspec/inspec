@@ -193,17 +193,9 @@ class UnixUser < UserInfo
     cmd = inspec.command("id #{username}")
     return nil if cmd.exit_status != 0
 
-    raw = cmd.stdout.chomp
-    data = []
-    until (index = raw.index(/\)\s{1}/)) == nil do
-      data.push(raw[0,index+1]) # inclue closing )
-      raw = raw[index+2,raw.length-index-2]
-    end
-    data.push(raw) if !raw.nil?
-
     # parse words
     params = SimpleConfig.new(
-      data.join("\n"),
+      parse_id_entries(cmd.stdout.chomp),
       assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: nil,
       multiple_values: false,
@@ -216,6 +208,17 @@ class UnixUser < UserInfo
       group: parse_value(params['gid']).values[0],
       groups: parse_value(params['groups']).values,
     }
+  end
+
+  # splits the results of id into seperate lines
+  def parse_id_entries(raw)
+    data = []
+    until (index = raw.index(/\)\s{1}/)).nil?
+      data.push(raw[0, index+1]) # inclue closing )
+      raw = raw[index+2, raw.length-index-2]
+    end
+    data.push(raw) if !raw.nil?
+    data.join("\n")
   end
 end
 
