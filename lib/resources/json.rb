@@ -66,5 +66,4 @@ class JsonConfig < Inspec.resource(1)
       return value
     end
   end
-
 end
