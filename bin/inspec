@@ -22,7 +22,7 @@ class InspecCLI < Thor
       desc: 'The login user for a remote scan.'
     option :password, type: :string, default: nil,
       desc: 'Login password for a remote scan, if required.'
-    option :key_files, type: :array, default: nil,
+    option :key_files, aliases: :i, type: :array, default: nil,
       desc: 'Login key or certificate file for a remote scan.'
     option :path, type: :string, default: nil,
       desc: 'Login path to use when connecting to the target (WinRM).'
