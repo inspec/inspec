@@ -16,7 +16,7 @@ class InspecCLI < Thor
       desc: 'Choose a backend: local, ssh, winrm, docker.'
     option :host, type: :string,
       desc: 'Specify a remote host which is tested.'
-    option :port, type: :numeric,
+    option :port, aliases: :p, type: :numeric,
       desc: 'Specify the login port for a remote scan.'
     option :user, type: :string, default: nil,
       desc: 'The login user for a remote scan.'
