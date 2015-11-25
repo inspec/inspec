@@ -1,12 +1,26 @@
 # Change Log
 
-## [0.9.4](https://github.com/chef/inspec/tree/0.9.4) (2015-11-24)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.3...0.9.4)
+## [0.9.5](https://github.com/chef/inspec/tree/0.9.5) (2015-11-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.4...0.9.5)
+
+**Implemented enhancements:**
+
+- Support the -i switch for key files as per ssh? [\#261](https://github.com/chef/inspec/issues/261)
+- Add -p alias for --port like ssh [\#263](https://github.com/chef/inspec/pull/263) ([alexmanly](https://github.com/alexmanly))
+
+**Merged pull requests:**
+
+- Add -i alias for --key\_files like ssh [\#262](https://github.com/chef/inspec/pull/262) ([jcreedcmu](https://github.com/jcreedcmu))
+
+## [v0.9.4](https://github.com/chef/inspec/tree/v0.9.4) (2015-11-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.3...v0.9.4)
 
 **Fixed bugs:**
 
 - registry\_key needs to be case insensitive [\#254](https://github.com/chef/inspec/issues/254)
 - User resource doesn't handle group names with spaces [\#238](https://github.com/chef/inspec/issues/238)
+- bugfix: user resources support for group with whitespace [\#258](https://github.com/chef/inspec/pull/258) ([chris-rock](https://github.com/chris-rock))
+- Bugfix: make registry\_key resource case-insensitive [\#255](https://github.com/chef/inspec/pull/255) ([alexpop](https://github.com/alexpop))
 
 **Closed issues:**
 
@@ -14,9 +28,8 @@
 
 **Merged pull requests:**
 
-- bugfix: user resources support for group with whitespace [\#258](https://github.com/chef/inspec/pull/258) ([chris-rock](https://github.com/chris-rock))
+- 0.9.4 [\#259](https://github.com/chef/inspec/pull/259) ([arlimus](https://github.com/arlimus))
 - Improve conf file resources \(csv, json, yaml, ini\) [\#257](https://github.com/chef/inspec/pull/257) ([chris-rock](https://github.com/chris-rock))
-- Bugfix: make registry\_key resource case-insensitive [\#255](https://github.com/chef/inspec/pull/255) ([alexpop](https://github.com/alexpop))
 - improvement: update install instructions and add notes for windows builds [\#253](https://github.com/chef/inspec/pull/253) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.3](https://github.com/chef/inspec/tree/v0.9.3) (2015-11-20)
