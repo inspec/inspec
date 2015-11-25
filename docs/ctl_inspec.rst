@@ -26,7 +26,7 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``--path``
    The login path used to connect to the target for |winrm|.
 
-``--port``
+``-p``, ``--port``
    The port over which remote scanning will occur.
 
 ``--self_signed``
