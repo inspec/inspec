@@ -2,7 +2,7 @@
 InSpec DSL
 =====================================================
 
-|inspec| is a run-time framework and rule language used to specify compliance, securuty, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |inspec resource| framework is compatible with |chef compliance|.
+|inspec| is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |inspec resource| framework is compatible with |chef compliance|.
 
 The InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
