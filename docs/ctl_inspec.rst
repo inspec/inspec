@@ -17,7 +17,7 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``--host``
    The remote host to be tested.
 
-``--key-files``
+``-i``, ``--key_files``
    The login key or certificate file required for remote scanning.
 
 ``--password``
