@@ -27,18 +27,18 @@ describe 'Inspec::Resources::Package' do
   # centos
   it 'verify centos package parsing' do
     resource = MockLoader.new(:centos7).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.29.0', type: 'rpm' }
+    pkg = { name: 'curl', installed: true, version: '7.29.0-19.el7', type: 'rpm' }
     _(resource.installed?).must_equal true
-    _(resource.version).must_equal '7.29.0'
+    _(resource.version).must_equal '7.29.0-19.el7'
     _(resource.info).must_equal pkg
   end
 
   # wrlinux
   it 'verify wrlinux package parsing' do
     resource = MockLoader.new(:wrlinux).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.29.0', type: 'rpm' }
+    pkg = { name: 'curl', installed: true, version: '7.29.0-19.el7', type: 'rpm' }
     _(resource.installed?).must_equal true
-    _(resource.version).must_equal '7.29.0'
+    _(resource.version).must_equal '7.29.0-19.el7'
     _(resource.info).must_equal pkg
   end
 
