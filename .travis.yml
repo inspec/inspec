@@ -13,6 +13,9 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.2
     gemfile: Gemfile
+    script: bundle exec rake test:examples
+  - rvm: 2.2
+    gemfile: Gemfile
     script: bundle exec rake lint test test:resources config=test/test.yaml
     before_script:
       - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
