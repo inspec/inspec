@@ -11,6 +11,7 @@ home = node['delivery_builder']['repo']
 
 {
   'mock test resources' => 'rake test',
+  'test examples' => 'rake test:examples',
   'test resources, main docker images' => 'rake test:resources config=test/test.yaml',
   'test resources, extra docker images' => 'rake test:resources config=test/test-extra.yaml',
 }.each do |title, test|
