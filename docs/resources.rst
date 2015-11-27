@@ -4084,19 +4084,9 @@ The |nginx| user is typically ``www-data``, but on |centos| it's ``nginx``. The 
 
 windows_feature
 =====================================================
-Use the ``windows_feature`` |inspec resource| to test features on |windows|. The ``Get-WindowsFeature`` cmdlet returns the following values: ``Property Name``, ``DisplayName``, ``Description``, ``Installed``, and ``InstallState``, returned as a |json| object similar to:
+Use the ``windows_feature`` |inspec resource| to test features on |windows|. It uses the  ``Get-WindowsFeature`` cmdlet under the hood.
 
 **Stability: Experimental**
-
-.. code-block:: javascript
-
-   {
-     "Name": "XPS-Viewer",
-     "DisplayName": "XPS Viewer",
-     "Description": "The XPS Viewer reads, sets permissions, and digitally signs XPS documents.",
-     "Installed": false,
-     "InstallState": 0
-   }
 
 Syntax
 -----------------------------------------------------
