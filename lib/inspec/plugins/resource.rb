@@ -7,7 +7,18 @@ module Inspec
     class Resource
       def self.name(name = nil)
         return if name.nil?
+        @name = name
         Inspec::Plugins::Resource.__register(name, self)
+      end
+
+      def self.desc(description = nil)
+        return if description.nil?
+        Inspec::Resource.registry[@name].desc(description)
+      end
+
+      def self.example(example = nil)
+        return if example.nil?
+        Inspec::Resource.registry[@name].example(example)
       end
 
       def self.__register(name, obj)
@@ -21,6 +32,16 @@ module Inspec
             @__resource_name__ = name
             # call the resource initializer
             super(*args)
+          end
+
+          def self.desc(description = nil)
+            return @description if description.nil?
+            @description = description
+          end
+
+          def self.example(example = nil)
+            return @example if example.nil?
+            @example = example
           end
 
           def inspec
