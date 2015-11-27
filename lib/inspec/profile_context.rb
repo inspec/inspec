@@ -83,14 +83,15 @@ module Inspec
     #
     # @param dsl [InnerDSLModule] which contains all resources
     # @return [OuterDSLClass]
+    # rubocop:disable Lint/NestedMethodDefinition
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable MethodLength
     def create_outer_dsl(dsl, backend)
-
       rule_class = Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         include dsl
       end
 
-      # rubocop:disable Lint/NestedMethodDefinition
       Class.new do
         include dsl
 
@@ -103,7 +104,6 @@ module Inspec
           # This is e.g. relevant for JSON generation, where we need all
           # controls.
           return if @skip_profile && os[:family] != 'unknown'
-
           __register_rule rule_class.new(id, opts, &block)
         end
 
@@ -136,7 +136,7 @@ module Inspec
         # overwrite method missing to load dynamically loaded resources
         # with `require_relative 'gordon_config'`
         # TODO: fix gloabl loading of resources that are loaded as part of one test
-        define_method :method_missing do | method_sym, *arguments, &block |
+        define_method :method_missing do |method_sym, *arguments|
           r = Inspec::Resource.registry[method_sym.to_s]
           # define method if required, happens if resource is loaded from a running
           # profile context with `require_relative`
@@ -148,15 +148,15 @@ module Inspec
               end
             end
             # call method
-            self.send(method_sym.to_s, *arguments)
+            send(method_sym.to_s, *arguments)
           else
             # we could find a resource, throw NoMethodError
             super(method_sym, *arguments)
           end
         end
       end
-      # rubocop:enable all
     end
+    # rubocop:enable all
 
     # Creates the heart of the profile context:
     # An instantiated object which has all resources registered to it
