@@ -46,6 +46,10 @@ namespace :test do
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
     sh('sh', '-c', "cd #{path} && bundle exec kitchen test -c #{concurrency} -t .")
   end
+
+  task :examples do
+    sh('sh', '-c', "bundle exec bin/inspec exec examples/custom_resource/test.rb")
+  end
 end
 
 # Automatically generate a changelog for this project. Only loaded if
