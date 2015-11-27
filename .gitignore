@@ -6,3 +6,5 @@ coverage
 .delivery/cli.toml
 Berksfile.lock
 .bundle
+.librarian
+Puppetfile.lock
