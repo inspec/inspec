@@ -21,7 +21,7 @@ module Inspec
       @only_ifs = only_ifs
 
       dsl = create_inner_dsl(backend)
-      outer_dsl = create_outer_dsl(dsl)
+      outer_dsl = create_outer_dsl(dsl, backend)
       ctx = create_context(outer_dsl)
 
       @profile_context = ctx.new
@@ -83,7 +83,8 @@ module Inspec
     #
     # @param dsl [InnerDSLModule] which contains all resources
     # @return [OuterDSLClass]
-    def create_outer_dsl(dsl)
+    def create_outer_dsl(dsl, backend)
+
       rule_class = Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         include dsl
@@ -131,6 +132,28 @@ module Inspec
           return unless block_given?
           @skip_profile = !block.call
         end
+
+        # overwrite method missing to load dynamically loaded resources
+        # with `require_relative 'gordon_config'`
+        # TODO: fix gloabl loading of resources that are loaded as part of one test
+        define_method :method_missing do | method_sym, *arguments, &block |
+          r = Inspec::Resource.registry[method_sym.to_s]
+          # define method if required, happens if resource is loaded from a running
+          # profile context with `require_relative`
+          if !r.nil?
+            # create method
+            (class << self; self; end).class_eval do
+              define_method method_sym.to_sym do |*args|
+                r.new(backend, method_sym.to_s, *args)
+              end
+            end
+            # call method
+            self.send(method_sym.to_s, *arguments)
+          else
+            # we could find a resource, throw NoMethodError
+            super(method_sym, *arguments)
+          end
+        end
       end
       # rubocop:enable all
     end
@@ -166,6 +189,10 @@ module Inspec
         end
       end
       # rubocop:enable all
+    end
+
+    def to_s
+      'Profile Context'
     end
   end
 end
