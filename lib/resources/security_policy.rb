@@ -15,7 +15,12 @@
 
 class SecurityPolicy < Inspec.resource(1)
   name 'security_policy'
-
+  desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
+  example "
+    describe security_policy do
+      its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
+    end
+  "
   def initialize
     @loaded = false
     @policy = nil

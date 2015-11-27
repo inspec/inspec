@@ -21,6 +21,14 @@
 # TODO: extend the logic to detect the running init system, independently of OS
 class Service < Inspec.resource(1)
   name 'service'
+  desc 'Use the service InSpec audit resource to test if the named service is installed, running and/or enabled.'
+  example "
+    describe service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+  "
 
   def initialize(service_name)
     @service_name = service_name

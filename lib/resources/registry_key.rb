@@ -12,6 +12,12 @@ require 'json'
 
 class RegistryKey < Inspec.resource(1)
   name 'registry_key'
+  desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
+  example "
+    describe registry_key('path\to\key') do
+      its('name') { should eq 'value' }
+    end
+  "
 
   attr_accessor :reg_key
 

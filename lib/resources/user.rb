@@ -40,7 +40,14 @@ require 'utils/convert'
 
 class User < Inspec.resource(1)
   name 'user'
-
+  desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+  example "
+    describe user('root') do
+      it { should exist }
+      its('uid') { should eq 1234 }
+      its('gid') { should eq 1234 }
+    end
+  "
   def initialize(user)
     @user = user
 

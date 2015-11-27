@@ -2,12 +2,14 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Usage:
-# describe npm('bower') do
-#   it { should be_installed }
-# end
 class NpmPackage < Inspec.resource(1)
   name 'npm'
+  desc 'Use the npm InSpec audit resource to test if a global npm package is installed. npm is the the package manager for Nodejs packages, such as bower and StatsD.'
+  example "
+    describe npm('bower') do
+      it { should be_installed }
+    end
+  "
 
   def initialize(package_name)
     @package_name = package_name

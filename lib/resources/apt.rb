@@ -30,6 +30,13 @@ require 'uri'
 
 class AptRepository < Inspec.resource(1)
   name 'apt'
+  desc 'Use the apt InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.'
+  example "
+    describe apt('nginx/stable') do
+      it { should exist }
+      it { should be_enabled }
+    end
+  "
 
   def initialize(ppa_name)
     @deb_url = nil

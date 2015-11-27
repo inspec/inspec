@@ -32,6 +32,13 @@ require 'resources/file'
 
 class Yum < Inspec.resource(1)
   name 'yum'
+  desc 'Use the yum InSpec audit resource to test packages in the Yum repository.'
+  example "
+    describe yum.repo('name') do
+      it { should exist }
+      it { should be_enabled }
+    end
+  "
 
   # returns all repositories
   # works as following:

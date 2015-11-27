@@ -3,15 +3,16 @@
 # author: Dominik Richter
 
 # Parses a csv document
-# Usage:
-# describe csv('example.csv') do
-#   its('name') { should eq(['John', 'Alice']) }
-# end
-#
 # This implementation was inspired by a blog post
 # @see http://technicalpickles.com/posts/parsing-csv-with-ruby
 class CsvConfig < JsonConfig
   name 'csv'
+  desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
+  example "
+    describe csv('example.csv') do
+      its('name') { should eq(['John', 'Alice']) }
+    end
+  "
 
   # override file load and parse hash from csv
   def parse(content)

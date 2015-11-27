@@ -4,16 +4,17 @@
 # author: Dominik Richter
 # license: All rights reserved
 
-# Usage:
-# describe audit_daemon_rules do
-#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
-#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex/) }
-#   its("LIST_RULES") {should contain_match(/^exit,always arch=.* key=time-change syscall=clock_settime/)}
-#   its("LIST_RULES") {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
-# end
-
 class AuditDaemonRules < Inspec.resource(1)
   name 'auditd_rules'
+  desc 'Use the auditd_rules InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files.'
+  example "
+    describe auditd_rules do
+      its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
+      its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex/) }
+      its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=clock_settime/)}
+      its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
+    end
+  "
 
   def initialize
     @content = inspec.command('/sbin/auditctl -l').stdout.chomp

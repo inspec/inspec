@@ -4,15 +4,15 @@
 
 require 'resources/file'
 
-# Usage:
-# describe bond('bond0') do
-#   it { should exist }
-#   it { should have_interface 'eth0' }
-# end
-
 module Inspec::Resources
   class Bond < File
     name 'bond'
+    desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
+    example "
+      describe bond('bond0') do
+        it { should exist }
+      end
+    "
 
     def initialize(bond)
       @bond = bond

@@ -10,6 +10,13 @@
 # end
 class Package < Inspec.resource(1)
   name 'package'
+  desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
+  example "
+    describe package('nginx') do
+      it { should be_installed }
+      its('version') { should eq 1.9.5 }
+    end
+  "
 
   def initialize(package_name = nil)
     @package_name = package_name

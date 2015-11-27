@@ -10,6 +10,13 @@
 
 class Bridge < Inspec.resource(1)
   name 'bridge'
+  desc 'Use the bridge InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.'
+  example "
+    describe bridge 'br0' do
+      it { should exist }
+      it { should have_interface 'eth0' }
+    end
+  "
 
   def initialize(bridge_name)
     @bridge_name = bridge_name

@@ -2,12 +2,14 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Usage:
-# describe gem('rubocop') do
-#   it { should be_installed }
-# end
 class GemPackage < Inspec.resource(1)
   name 'gem'
+  desc 'Use the gem InSpec audit resource to test if a global gem package is installed.'
+  example "
+    describe gem('rubocop') do
+      it { should be_installed }
+    end
+  "
 
   def initialize(package_name)
     @package_name = package_name

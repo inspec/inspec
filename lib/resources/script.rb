@@ -6,6 +6,16 @@
 
 class Script < Cmd
   name 'script'
+  desc 'Use the script InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
+  example "
+    script = <<-EOH
+      # you powershell script
+    EOH
+
+    describe script(script) do
+      its('matcher') { should eq 'output' }
+    end
+  "
 
   def initialize(script)
     case inspec.os[:family]

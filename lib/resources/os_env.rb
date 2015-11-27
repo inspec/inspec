@@ -15,6 +15,12 @@ require 'utils/simpleconfig'
 
 class OsEnv < Inspec.resource(1)
   name 'os_env'
+  desc 'Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running.'
+  example "
+    describe os_env('VARIABLE') do
+      its('matcher') { should eq 1 }
+    end
+  "
 
   attr_reader :content
   def initialize(env = nil)
