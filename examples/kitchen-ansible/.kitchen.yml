@@ -1,0 +1,25 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  hosts: webservers
+  name: ansible_playbook
+  # Use el7 epel repo instead of the default el6
+  ansible_yum_repo: "https://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm"
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_verbosity: 2
+  ansible_verbose: true
+  # starting playbook is at: test/integration/default/default.yml
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7.1
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
