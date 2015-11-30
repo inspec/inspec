@@ -2,7 +2,6 @@
 source 'https://rubygems.org'
 
 gem 'inspec', path: '../../.'
-gem 'r-train', git: 'git@github.com:chef/train.git'
 
 group :test do
   gem 'bundler', '~> 1.5'
@@ -16,6 +15,6 @@ group :integration do
   gem 'test-kitchen', '~> 1.4'
   gem 'kitchen-ansible'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec', git: 'git@github.com:chef/kitchen-inspec.git'
+  gem 'kitchen-inspec'
   gem 'concurrent-ruby', '~> 0.9'
 end
