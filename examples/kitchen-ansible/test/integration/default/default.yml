@@ -1,0 +1,5 @@
+---
+- name: wrapper playbook for kitchen testing
+  hosts: webservers
+  roles:
+    - kitchen-ansible

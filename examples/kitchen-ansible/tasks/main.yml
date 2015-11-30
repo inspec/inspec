@@ -1,0 +1,16 @@
+---
+- name: create nginx yum repo if OS family is RedHat
+  copy: src=nginx.repo dest=/etc/yum.repos.d/
+        owner=root group=root mode=0644
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: ensure nginx is at the latest version if OS family is RedHat
+  yum: name=nginx state=latest
+  when: ansible_os_family == "RedHat"
+
+- name: ensure nginx is at the latest version if OS family is Debian
+  apt: name=nginx state=latest
+  when: ansible_os_family == "Debian"
+
+- name: ensure nginx is running (and enable it at boot)
+  service: name=nginx state=started enabled=yes

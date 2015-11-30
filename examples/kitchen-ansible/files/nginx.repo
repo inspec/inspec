@@ -1,0 +1,6 @@
+[nginx]
+name=Nginx Repo
+baseurl=http://nginx.org/packages/centos/7/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=http://nginx.org/keys/nginx_signing.key
