@@ -1,0 +1,11 @@
+{
+  "name": "prepare",
+  "version": "0.1.0",
+  "author": "support@chef.io",
+  "summary": "This module prepares the test operating systems",
+  "license": "Apache-2.0",
+  "source": "https://github.com/chef/inspec/examples/kitchen-puppet",
+  "project_page": "https://github.com/chef/inspec/examples/kitchen-puppet",
+  "issues_url": "https://github.com/chef/inspec/issues",
+  "dependencies": []
+}
