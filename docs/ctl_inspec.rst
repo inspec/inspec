@@ -51,7 +51,7 @@ The following options may be used with any of the InSpec CLI subcommands:
 
 check
 =====================================================
-Use ``inspec check`` to run all tests at the specified path.
+Use ``inspec check`` to verify all tests the specified path.
 
 Syntax
 -----------------------------------------------------
