@@ -11,6 +11,12 @@
 # end
 class OneGetPackage < Inspec.resource(1)
   name 'oneget'
+  desc 'Use the oneget InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses OneGet, which is part of the Windows Management Framework 5.0 and Windows 10. This resource uses the Get-Package cmdlet to return all of the package names in the OneGet repository.'
+  example "
+    describe oneget('zoomit') do
+      it { should be_installed }
+    end
+  "
 
   def initialize(package_name)
     @package_name = package_name

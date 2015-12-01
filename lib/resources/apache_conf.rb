@@ -9,6 +9,12 @@ require 'utils/find_files'
 
 class ApacheConf < Inspec.resource(1)
   name 'apache_conf'
+  desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
+  example "
+    describe apache_conf do
+      its('setting_name') { should eq 'value' }
+    end
+  "
 
   include FindFiles
 

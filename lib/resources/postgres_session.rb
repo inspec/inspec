@@ -25,6 +25,14 @@ end
 
 class PostgresSession < Inspec.resource(1)
   name 'postgres_session'
+  desc 'Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database.'
+  example "
+    sql = postgres_session('username', 'password')
+
+    describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+      its('output') { should eq('') }
+    end
+  "
 
   def initialize(user, pass)
     @user = user || 'postgres'

@@ -2,13 +2,14 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Parses a json document
-# Usage:
-# describe json('policyfile.lock.json') do
-#   its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
-# end
 class JsonConfig < Inspec.resource(1)
   name 'json'
+  desc 'Use the json InSpec audit resource to test data in a JSON file.'
+  example "
+    describe json('policyfile.lock.json') do
+      its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
+    end
+  "
 
   # make params readable
   attr_reader :params

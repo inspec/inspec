@@ -6,15 +6,15 @@
 
 require 'utils/simpleconfig'
 
-# Usage:
-#
-# describe ntp_conf do
-#   its('server') { should_not eq nil }
-#   its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-# end
-
 class NtpConf < Inspec.resource(1)
   name 'ntp_conf'
+  desc 'Use the ntp_conf InSpec audit resource to test the synchronization settings defined in the ntp.conf file. This file is typically located at /etc/ntp.conf.'
+  example "
+    describe ntp_conf do
+      its('server') { should_not eq nil }
+      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+    end
+  "
 
   def initialize(path = nil)
     @conf_path = path || '/etc/ntp.conf'

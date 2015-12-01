@@ -29,6 +29,13 @@ require 'utils/parser'
 
 class Passwd < Inspec.resource(1)
   name 'passwd'
+  desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
+  example "
+    describe passwd.uid(0) do
+      its('username') { should eq 'root' }
+      its('count') { should eq 1 }
+    end
+  "
 
   include ContentParser
 

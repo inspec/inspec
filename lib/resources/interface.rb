@@ -2,18 +2,18 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Usage:
-# describe interface('eth0') do
-#   it { should exist }
-#   it { should be_up }
-#   its(:speed) { should eq 1000 }
-# end
-
 require 'utils/convert'
 
 class NetworkInterface < Inspec.resource(1)
   name 'interface'
-
+  desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).'
+  example "
+    describe interface('eth0') do
+      it { should exist }
+      it { should be_up }
+      its(:speed) { should eq 1000 }
+    end
+  "
   def initialize(iface)
     @iface = iface
 

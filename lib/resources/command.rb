@@ -4,16 +4,18 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-# Usage:
-# describe command('ls -al /') do
-#   it { should exist }
-#   its(:stdout) { should match /bin/ }
-#   its(:stderr) { should match /No such file or directory/ }
-#   its(:exit_status) { should eq 0 }
-# end
-
 class Cmd < Inspec.resource(1)
   name 'command'
+  desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
+  example "
+    describe command('ls -al /') do
+      it { should exist }
+      its(:stdout) { should match /bin/ }
+      its('stderr') { should eq '' }
+      its(:exit_status) { should eq 0 }
+    end
+  "
+
   attr_reader :command
 
   def initialize(cmd)

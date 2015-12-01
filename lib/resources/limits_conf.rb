@@ -6,14 +6,14 @@
 
 require 'utils/simpleconfig'
 
-# Usage:
-#
-# describe limits_conf do
-#   its('*') { should include ['hard','core','0'] }
-# end
-
 class LimitsConf < Inspec.resource(1)
   name 'limits_conf'
+  desc 'Use the limits_conf InSpec audit resource to test configuration settings in the /etc/security/limits.conf file. The limits.conf defines limits for processes (by user and/or group names) and helps ensure that the system on which those processes are running remains stable. Each process may be assigned a hard or soft limit.'
+  example "
+    describe limits_conf do
+      its('*') { should include ['hard','core','0'] }
+    end
+  "
 
   def initialize(path = nil)
     @conf_path = path || '/etc/security/limits.conf'

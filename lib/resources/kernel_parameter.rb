@@ -2,12 +2,14 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-# Verifies if a kernel parameter is set
-# describe kernel_parameter('net.ipv4.conf.all.forwarding') do
-#   its(:value) { should eq 0 }
-# end
 class KernelParameter < Inspec.resource(1)
   name 'kernel_parameter'
+  desc 'Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms.'
+  example "
+    describe kernel_parameter('net.ipv4.conf.all.forwarding') do
+      its(:value) { should eq 0 }
+    end
+  "
 
   def initialize(parameter = nil)
     @parameter = parameter

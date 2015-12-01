@@ -17,6 +17,13 @@
 # TODO: improve handling of same port on multiple interfaces
 class Port < Inspec.resource(1)
   name 'port'
+  desc "Use the port InSpec audit resource to test basic port properties, such as port, process, if it's listening."
+  example "
+    describe port(80) do
+      it { should be_listening }
+      its('protocol') {should eq 'tcp'}
+    end
+  "
 
   def initialize(port)
     @port = port

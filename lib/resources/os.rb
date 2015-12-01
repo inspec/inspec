@@ -4,6 +4,12 @@
 
 class OS < Inspec.resource(1)
   name 'os'
+  desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
+  example "
+    describe os[:family] do
+      it { should eq 'redhat' }
+    end
+  "
 
   # reuse helper methods from backend
   %w{redhat? debian? suse? bsd? solaris? linux? unix? windows?}.each do |os_family|

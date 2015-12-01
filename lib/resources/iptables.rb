@@ -23,6 +23,12 @@
 # @see https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html
 class IpTables < Inspec.resource(1)
   name 'iptables'
+  desc 'Use the iptables InSpec audit resource to test rules that are defined in iptables, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.'
+  example "
+    describe iptables do
+      it { should have_rule('-P INPUT ACCEPT') }
+    end
+  "
 
   def initialize(params = {})
     @table = params[:table] || nil

@@ -29,6 +29,12 @@
 # }
 class WindowsFeature < Inspec.resource(1)
   name 'windows_feature'
+  desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
+  example "
+    describe windows_feature('dhcp') do
+      it { should be_installed }
+    end
+  "
 
   def initialize(feature)
     @feature = feature

@@ -29,6 +29,14 @@ class EtcGroup < Inspec.resource(1)
   include ContentParser
 
   name 'etc_group'
+  desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'
+  example "
+    describe etc_group do
+      its('gids') { should_not contain_duplicates }
+      its('groups') { should include 'my_user' }
+      its('users') { should include 'my_user' }
+    end
+  "
 
   attr_accessor :gid, :entries
   def initialize(path = nil)

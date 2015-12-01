@@ -26,6 +26,12 @@
 
 class Host < Inspec.resource(1)
   name 'host'
+  desc 'Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.'
+  example "
+    describe host('example.com') do
+      it { should be_reachable }
+    end
+  "
 
   def initialize(hostname, params = {})
     @hostname = hostname

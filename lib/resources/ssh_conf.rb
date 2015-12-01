@@ -8,6 +8,12 @@ require 'utils/simpleconfig'
 
 class SshConf < Inspec.resource(1)
   name 'ssh_config'
+  desc 'Use the sshd_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.'
+  example "
+    describe sshd_config do
+      its('Protocol') { should eq '2' }
+    end
+  "
 
   def initialize(conf_path = nil, type = nil)
     @conf_path = conf_path || '/etc/ssh/ssh_config'

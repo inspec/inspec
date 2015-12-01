@@ -6,15 +6,14 @@
 
 require 'utils/simpleconfig'
 
-# Usage:
-# describe audit_daemon_conf do
-#   its("space_left_action") { should eq "email" }
-#   its("action_mail_acct") { should eq "root" }
-#   its("admin_space_left_action") { should eq "halt" }
-# end
-
 class AuditDaemonConf < Inspec.resource(1)
   name 'auditd_conf'
+  desc "Use the auditd_conf InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under /etc/audit/auditd.conf' on UNIX and Linux platforms."
+  example "
+    describe auditd_conf do
+      its('space_left_action') { should eq 'email' }
+    end
+  "
 
   def initialize(path = nil)
     @conf_path = path || '/etc/audit/auditd.conf'

@@ -6,6 +6,13 @@
 
 class MysqlSession < Inspec.resource(1)
   name 'mysql_session'
+  desc 'Use the mysql_session InSpec audit resource to test SQL commands run against a MySQL database.'
+  example "
+    sql = mysql_session('my_user','password')
+    describe sql.query('show databases like \'test\';') do
+      its(:stdout) { should_not match(/test/) }
+    end
+  "
 
   def initialize(user = nil, pass = nil)
     @user = user

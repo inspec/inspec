@@ -28,6 +28,12 @@ end
 
 class MysqlConf < Inspec.resource(1)
   name 'mysql_conf'
+  desc 'Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf.'
+  example "
+    describe mysql_conf('path') do
+      its('setting') { should eq 'value' }
+    end
+  "
 
   include FindFiles
 

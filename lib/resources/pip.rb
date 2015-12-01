@@ -9,6 +9,12 @@
 #
 class PipPackage < Inspec.resource(1)
   name 'pip'
+  desc 'Use the pip InSpec audit resource to test packages that are installed using the pip installer.'
+  example "
+    describe pip('Jinja2') do
+      it { should be_installed }
+    end
+  "
 
   def initialize(package_name)
     @package_name = package_name

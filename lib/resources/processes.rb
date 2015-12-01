@@ -6,6 +6,12 @@
 
 class Processes < Inspec.resource(1)
   name 'processes'
+  desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
+  example "
+    describe processes('mysqld') do
+      its('list.length') { should eq 1 }
+    end
+  "
 
   attr_reader :list
   def initialize(grep)

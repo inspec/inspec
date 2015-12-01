@@ -15,6 +15,13 @@
 
 class Group < Inspec.resource(1)
   name 'group'
+  desc 'Use the group InSpec audit resource to test groups on the system.'
+  example "
+    describe group('root') do
+      it { should exist }
+      its('gid') { should eq 0 }
+    end
+  "
 
   def initialize(groupname, domain = nil)
     @group = groupname.downcase

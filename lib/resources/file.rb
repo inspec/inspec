@@ -7,6 +7,17 @@
 module Inspec::Resources
   class File < Inspec.resource(1)
     name 'file'
+    desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
+    example "
+      describe file('path') do
+        it { should exist }
+        it { should be_file }
+        it { should be_readable }
+        it { should be_writable }
+        it { should be_owned_by 'root' }
+        its('mode') { should eq 0644 }
+      end
+    "
 
     attr_reader :path
     def initialize(path)

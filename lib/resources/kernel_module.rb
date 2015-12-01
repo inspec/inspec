@@ -3,13 +3,14 @@
 # author: Dominik Richter
 # license: All rights reserved
 
-# Verifies if a kernel module is loaded
-# Usage:
-# describe kernel_module('bridge') do
-#   it { should be_loaded }
-# end
 class KernelModule < Inspec.resource(1)
   name 'kernel_module'
+  desc 'Use the kernel_module InSpec audit resource to test kernel modules on Linux platforms. These parameters are located under /lib/modules. Any submodule may be tested using this resource.'
+  example "
+    describe kernel_module('bridge') do
+      it { should be_loaded }
+    end
+  "
 
   def initialize(modulename = nil)
     @module = modulename
