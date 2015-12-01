@@ -38,7 +38,7 @@ class InspecCLI < Thor
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
   end
 
-  desc 'json PATH', 'read all tests in PATH and generate a JSON profile'
+  desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
   option :output, aliases: :o, type: :string,
@@ -59,7 +59,7 @@ class InspecCLI < Thor
     end
   end
 
-  desc 'check PATH', 'verify test structure in PATH'
+  desc 'check PATH', 'verify all tests at the specified PATH'
   def check(path)
     o = options.dup
     o[:logger] = Logger.new(STDOUT)
@@ -67,7 +67,7 @@ class InspecCLI < Thor
     exit 1 unless profile.check
   end
 
-  desc 'exec PATHS', 'run all test files'
+  desc 'exec PATHS', 'run all test files at the specified PATH.'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
   target_options
