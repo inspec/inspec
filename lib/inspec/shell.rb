@@ -2,6 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'rspec/core/formatters/base_text_formatter'
+
 module Inspec
   class Shell
     def initialize(runner)
@@ -112,6 +114,14 @@ EOF
 
     def resources
       puts Inspec::Resource.registry.keys.join(' ')
+    end
+  end
+
+  class NoSummaryFormatter < RSpec::Core::Formatters::BaseTextFormatter
+    RSpec::Core::Formatters.register self, :dump_summary
+
+    def dump_summary(*_args)
+      # output nothing
     end
   end
 end

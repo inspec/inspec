@@ -94,6 +94,7 @@ class InspecCLI < Thor
 
   desc 'shell', 'open an interactive debugging shell'
   target_options
+  option :format, type: :string, default: Inspec::NoSummaryFormatter, hide: true
   def shell_func
     runner = Inspec::Runner.new(options)
     Inspec::Shell.new(runner).start
