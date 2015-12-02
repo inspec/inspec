@@ -63,8 +63,6 @@ module Inspec
         ctx = @runner.backend
         puts <<EOF
 
-Welcome to the interactive Inspec Shell.
-
 You can use resources in this environment to test the target machine.
 For example:
 
