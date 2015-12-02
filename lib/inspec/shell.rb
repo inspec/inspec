@@ -75,6 +75,10 @@ To show all available resources:
 
     help resources
 
+For information on a specific resource, use `help [resource]`, e.g.:
+
+    help command
+
 You are currently running on:
 
     OS family:  #{mark ctx.os[:family] || 'unknown'}
