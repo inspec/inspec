@@ -34,6 +34,9 @@ platforms:
   - name: ubuntu-12.04-i386
   - name: ubuntu-10.04
   - name: ubuntu-10.04-i386
+  - name: mint-17.2-cinnamon
+    driver_config:
+      box: artem-sidorenko/mint-17.2-cinnamon
 
 suites:
   - name: default
