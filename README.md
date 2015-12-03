@@ -184,6 +184,12 @@ We perform `unit`, `resource` and `integration` tests.
 bundle exec rake test
 ```
 
+If you like to run only one test, use
+
+```bash
+bundle exec ruby -W -Ilib:test test/unit/resources/user_test.rb
+```
+
 ### Resource tests
 
 Resource tests make sure the backend execution layer behaves as expected. These tests will take a while, as a lot of different operating systems and configurations are being tested.
