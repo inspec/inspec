@@ -5,6 +5,10 @@ cache: bundler
 
 bundler_args: --without integration tools maintenance
 
+before_install:
+  - gem update --system 2.4.5
+  - gem --version
+
 matrix:
   include:
   - rvm: 1.9.3
