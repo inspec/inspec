@@ -56,6 +56,18 @@ describe 'Inspec::Resources::User' do
     _(resource.warndays).must_equal 7
   end
 
+  it 'read user on centos7' do
+    resource = MockLoader.new(:wrlinux).load_resource('user', 'root')
+    _(resource.exists?).must_equal true
+    _(resource.group).must_equal 'root'
+    _(resource.groups).must_equal ['root']
+    _(resource.home).must_equal '/root'
+    _(resource.shell).must_equal '/bin/bash'
+    _(resource.mindays).must_equal 0
+    _(resource.maxdays).must_equal 99999
+    _(resource.warndays).must_equal 7
+  end
+
   it 'read user on freebsd' do
     resource = MockLoader.new(:freebsd10).load_resource('user', 'root')
     _(resource.exists?).must_equal true

@@ -107,6 +107,16 @@ describe 'Inspec::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  # wrlinux
+  it 'verify wrlinux package parsing' do
+    resource = MockLoader.new(:wrlinux).load_resource('service', 'sshd')
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
   # unknown OS
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('service', 'dhcp')

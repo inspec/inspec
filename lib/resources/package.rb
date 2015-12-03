@@ -28,7 +28,7 @@ class Package < Inspec.resource(1)
     case inspec.os[:family]
     when 'ubuntu', 'debian'
       @pkgman = Deb.new(inspec)
-    when 'redhat', 'fedora', 'centos', 'opensuse'
+    when 'redhat', 'fedora', 'centos', 'opensuse', 'wrlinux'
       @pkgman = Rpm.new(inspec)
     when 'arch'
       @pkgman = Pacman.new(inspec)
