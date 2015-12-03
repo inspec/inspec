@@ -3,7 +3,16 @@ sudo: required
 language: ruby
 cache: bundler
 
+# necessary for docker to work
+dist: trusty
+services:
+  - docker
+
 bundler_args: --without integration tools maintenance
+
+before_install:
+  - gem update --system 2.4.5
+  - gem --version
 
 matrix:
   include:
@@ -14,10 +23,6 @@ matrix:
   - rvm: 2.2
     gemfile: Gemfile
     script: bundle exec rake lint test test:resources config=test/test.yaml
-    before_script:
-      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
   - rvm: 2.2
     gemfile: Gemfile
     script: bundle exec rake test:resources config=test/test-extra.yaml
-    before_script:
-      - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.3.0/scripts/start_docker.sh)
