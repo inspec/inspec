@@ -21,7 +21,7 @@ class InspecCLI < Thor
     option :user, type: :string, default: nil,
       desc: 'The login user for a remote scan.'
     option :password, type: :string, default: nil,
-      desc: 'Login password for a remote scan, if required.'
+      desc: 'Login password for a remote scan (optional, environment variable INSPEC_SSH_PASSWORD).'
     option :key_files, aliases: :i, type: :array, default: nil,
       desc: 'Login key or certificate file for a remote scan.'
     option :path, type: :string, default: nil,
@@ -29,7 +29,7 @@ class InspecCLI < Thor
     option :sudo, type: :boolean, default: false,
       desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
     option :sudo_password, type: :string, default: nil,
-      desc: 'Specify a sudo password, if it is required.'
+      desc: 'Specify a sudo password (optional, environment variable INSPEC_SUDO_PASSWORD).'
     option :sudo_options, type: :string, default: '',
       desc: 'Additional sudo options for a remote scan.'
     option :ssl, type: :boolean, default: false,
@@ -104,6 +104,18 @@ class InspecCLI < Thor
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
+  end
+
+  private
+
+  def options
+    options_argv = super
+    options_env = {}
+    options_env['password'] = ENV['INSPEC_SSH_PASSWORD'] if ENV['INSPEC_SSH_PASSWORD']
+    options_env['sudo_password'] = ENV['INSPEC_SUDO_PASSWORD'] if ENV['INSPEC_SUDO_PASSWORD']
+
+    # argv overrides env
+    Thor::CoreExt::HashWithIndifferentAccess.new(options_env.merge(options_argv))
   end
 end
 InspecCLI.start(ARGV)
