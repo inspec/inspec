@@ -36,6 +36,13 @@ describe 'Inspec::Resources::Port' do
     _(resource.process).must_equal ['sshd']
   end
 
+  it 'verify port on wrlinux' do
+    resource = MockLoader.new(:wrlinux).load_resource('port', 22)
+    _(resource.listening?).must_equal true
+    _(resource.protocol).must_equal %w{ tcp tcp6 }
+    _(resource.process).must_equal ['sshd']
+  end
+
   it 'verify running on undefined' do
     resource = MockLoader.new(:undefined).load_resource('port', 22)
     _(resource.listening?).must_equal false

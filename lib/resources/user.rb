@@ -54,7 +54,7 @@ class User < Inspec.resource(1)
     # select package manager
     @user_provider = nil
     case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'opensuse'
+    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'opensuse', 'wrlinux'
       @user_provider = LinuxUser.new(inspec)
     when 'windows'
       @user_provider = WindowsUser.new(inspec)

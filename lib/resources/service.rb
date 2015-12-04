@@ -70,6 +70,8 @@ class Service < Inspec.resource(1)
       else
         @service_mgmt = SysV.new(inspec)
       end
+    when 'wrlinux'
+      @service_mgmt = SysV.new(inspec)
     when 'darwin'
       @service_mgmt = LaunchCtl.new(inspec)
     when 'windows'

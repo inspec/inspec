@@ -36,6 +36,7 @@ class MockLoader
       ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
       ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
       windows:    { family: 'windows', release: nil, arch: nil },
+      wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
       undefined:  { family: nil, release: nil, arch: nil },
     }
 
