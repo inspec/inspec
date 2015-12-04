@@ -94,19 +94,16 @@ class ApacheConf < Inspec.resource(1)
     include_files = params['Include'] || []
     include_files_optional = params['IncludeOptional'] || []
 
-    required = []
-    include_files.each do |f|
+    includes = []
+    (include_files + include_files_optional).each do |f|
       id = File.join(@conf_dir, f)
-      required.push(find_files(id, depth: 1, type: 'file'))
+      files = find_files(id, depth: 1, type: 'file')
+
+      includes.push(files) if files
     end
 
-    optional = []
-    include_files_optional.each do |f|
-      id = File.join(@conf_dir, f)
-      optional.push(find_files(id, depth: 1, type: 'file'))
-    end
-
-    required.flatten! + optional.flatten!
+    # [].flatten! == nil
+    includes.flatten! || []
   end
 
   def read_file(path)
