@@ -16,7 +16,12 @@ module FindFiles
     door: 'D',
   }
 
+  # ignores errors
   def find_files(path, opts = {})
+    find_files_or_error(path, opts) || []
+  end
+
+  def find_files_or_error(path, opts = {})
     depth = opts[:depth]
     type = TYPES[opts[:type].to_sym]
 
@@ -24,13 +29,16 @@ module FindFiles
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
     cmd += " -type #{type}" unless type.nil?
 
-    result = inspec.run_command(cmd)
+    result = inspec.command(cmd)
     exit_status = result.exit_status
 
-    return [nil, exit_status] unless exit_status == 0
-    files = result.stdout.split("\n")
-            .map(&:strip)
-            .find_all { |x| !x.empty? }
-    [files, exit_status]
+    unless exit_status == 0
+      warn "find_files(): exit #{exit_status} from `#{find}`"
+      return nil
+    end
+
+    result.stdout.split("\n")
+      .map(&:strip)
+      .find_all { |x| !x.empty? }
   end
 end
