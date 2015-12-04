@@ -16,7 +16,7 @@ describe FindFiles do
 
   describe '#find_files' do
     it 'returns an array (of findings)' do
-      files = findfiles.find_files('/no/such/mock', type: 'f', depth: 1)
+      files = findfiles.find_files('/no/such/mock', type: 'file', depth: 1)
       files.must_equal([])
     end
   end

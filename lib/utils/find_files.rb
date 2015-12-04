@@ -23,7 +23,7 @@ module FindFiles
 
   def find_files_or_error(path, opts = {})
     depth = opts[:depth]
-    type = TYPES[opts[:type].to_sym]
+    type = TYPES[opts[:type].to_sym] if opts[:type]
 
     cmd = "find #{path}"
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
