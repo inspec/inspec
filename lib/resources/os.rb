@@ -19,6 +19,8 @@ class OS < Inspec.resource(1)
   end
 
   def [](name)
+    # convert string to symbol
+    name = name.to_sym if name.is_a? String
     inspec.backend.os[name]
   end
 
