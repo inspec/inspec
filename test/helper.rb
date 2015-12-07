@@ -93,6 +93,9 @@ class MockLoader
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
       '/sys/class/net/br0/bridge' => mockdir.call(true),
       'rootwrap.conf' => mockfile.call('rootwrap.conf'),
+      '/etc/apache2/apache2.conf' => mockfile.call('apache2.conf'),
+      '/etc/apache2/ports.conf' => mockfile.call('ports.conf'),
+      '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
     }
 
     # create all mock commands
@@ -189,6 +192,10 @@ class MockLoader
       "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
+      # apache_conf
+      'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
+
     }
 
     @backend
