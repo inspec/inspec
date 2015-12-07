@@ -157,6 +157,9 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     end
 
     JSON.load(config)
+  rescue JSON::ParserError => e
+    puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
+    exit 1
   end
 end
 InspecCLI.start(ARGV)
