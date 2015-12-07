@@ -2,6 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'rspec/core/formatters/base_text_formatter'
+
 module Inspec
   class Shell
     def initialize(runner)
@@ -63,8 +65,6 @@ module Inspec
         ctx = @runner.backend
         puts <<EOF
 
-Welcome to the interactive Inspec Shell.
-
 You can use resources in this environment to test the target machine.
 For example:
 
@@ -74,6 +74,10 @@ For example:
 To show all available resources:
 
     help resources
+
+For information on a specific resource, use `help [resource]`, e.g.:
+
+    help command
 
 You are currently running on:
 
@@ -110,6 +114,14 @@ EOF
 
     def resources
       puts Inspec::Resource.registry.keys.join(' ')
+    end
+  end
+
+  class NoSummaryFormatter < RSpec::Core::Formatters::BaseTextFormatter
+    RSpec::Core::Formatters.register self, :dump_summary
+
+    def dump_summary(*_args)
+      # output nothing
     end
   end
 end
