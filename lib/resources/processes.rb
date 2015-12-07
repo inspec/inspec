@@ -10,10 +10,15 @@ class Processes < Inspec.resource(1)
   example "
     describe processes('mysqld') do
       its('list.length') { should eq 1 }
+      its('users') { should eq ['mysql'] }
+      its('states') { should include 'S' }
     end
   "
 
-  attr_reader :list
+  attr_reader :list,
+              :users,
+              :states
+
   def initialize(grep)
     # turn into a regexp if it isn't one yet
     if grep.class == String
@@ -24,6 +29,11 @@ class Processes < Inspec.resource(1)
     all_cmds = ps_aux
     @list = all_cmds.find_all do |hm|
       hm[:command] =~ grep
+    end
+
+    { users: :user,
+      states: :stat }.each do |var, key|
+      instance_variable_set("@#{var}", @list.map { |l| l[key] }.uniq)
     end
   end
 
