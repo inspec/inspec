@@ -19,7 +19,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :path
+    attr_reader :file, :path
     def initialize(path)
       @path = path
       @file = inspec.backend.file(@path)
@@ -32,7 +32,7 @@ module Inspec::Resources
       product_version file_version version? md5sum sha256sum
     }.each do |m|
       define_method m.to_sym do |*args|
-        @file.method(m.to_sym).call(*args)
+        file.method(m.to_sym).call(*args)
       end
     end
 
@@ -40,82 +40,82 @@ module Inspec::Resources
       fail 'Contain is not supported. Please use standard RSpec matchers.'
     end
 
-    def readable?(by_owner, by_user)
-      if inspec.os.unix?
-        by_owner, by_user = check_preconditions(by_owner, by_user)
+    def readable?(by_usergroup, by_specific_user)
+      return false unless exist?
 
-        if by_user.nil?
-          m = @file.unix_mode_mask(by_owner, 'r') ||
-              fail("#{by_owner} is not a valid unix owner.")
-          (@file.mode & m) != 0
-        else
-          check_user_access(by_user, @path, 'r')
-        end
-      else
-        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
-      end
+      file_permission_granted?('r', by_usergroup, by_specific_user)
     end
 
-    def writable?(by_owner, by_user)
-      if inspec.os.unix?
-        by_owner, by_user = check_preconditions(by_owner, by_user)
+    def writable?(by_usergroup, by_specific_user)
+      return false unless exist?
 
-        if by_user.nil?
-          m = @file.unix_mode_mask(by_owner, 'w') ||
-              fail("#{by_owner} is not a valid unix owner.")
-          (@file.mode & m) != 0
-        else
-          check_user_access(by_user, @path, 'w')
-        end
-      else
-        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
-      end
+      file_permission_granted?('w', by_usergroup, by_specific_user)
     end
 
-    def executable?(by_owner, by_user)
-      if inspec.os.unix?
-        by_owner, by_user = check_preconditions(by_owner, by_user)
+    def executable?(by_usergroup, by_specific_user)
+      return false unless exist?
 
-        if by_user.nil?
-          m = @file.unix_mode_mask(by_owner, 'x') ||
-              fail("#{by_owner} is not a valid unix owner.")
-          return (@file.mode & m) != 0
-        else
-          return check_user_access(by_user, @path, 'x')
-        end
-      else
-        fail "`file(#{@path}).executable?` is not suported on you OS: #{inspec.os['family']}"
-      end
+      file_permission_granted?('x', by_usergroup, by_specific_user)
     end
 
     def to_s
-      "File #{@path}"
+      "File #{path}"
     end
 
     private
 
-    def check_preconditions(by_owner, by_user)
-      by_owner = 'other' if by_owner == 'others'
-      by_owner = 'all' if (by_owner.nil? || by_owner.empty?) && (by_user.nil?)
-      [by_owner, by_user]
+    def file_permission_granted?(flag, by_usergroup, by_specific_user)
+      fail 'Checking file permissions is not supported on your os' unless unix?
+
+      usergroup = usergroup_for(by_usergroup, by_specific_user)
+
+      if by_specific_user.nil?
+        check_file_permission_by_mask(usergroup, flag)
+      else
+        check_file_permission_by_user(by_specific_user, flag)
+      end
     end
 
-    # check permissions on linux
-    def check_user_access(user, file, flag)
-      if inspec.os.linux? == true
-        # use sh on linux
-        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{file}\" #{user}"
-      elsif inspec.os[:family] == 'freebsd'
-        # use sudo on freebsd
-        perm_cmd = "sudo -u #{user} test -#{flag} #{file}"
-      end
+    def check_file_permission_by_mask(usergroup, flag)
+      mask = file.unix_mode_mask(usergroup, flag)
+      fail 'Invalid usergroup/owner provided' if mask.nil?
 
-      if !perm_cmd.nil?
-        cmd = inspec.command(perm_cmd)
-        cmd.exit_status == 0 ? true : false
+      (file.mode & mask) != 0
+    end
+
+    def check_file_permission_by_user(user, flag)
+      if linux?
+        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
+      elsif family == 'freebsd'
+        perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'
       end
+
+      cmd = inspec.command(perm_cmd)
+      cmd.exit_status == 0 ? true : false
+    end
+
+    def usergroup_for(usergroup, specific_user)
+      if usergroup == 'others'
+        'other'
+      elsif (usergroup.nil? || usergroup.empty?) && specific_user.nil?
+        'all'
+      else
+        usergroup
+      end
+    end
+
+    def unix?
+      inspec.os.unix?
+    end
+
+    def linux?
+      inspec.os.linux?
+    end
+
+    def family
+      inspec.os[:family]
     end
   end
 end

@@ -4,6 +4,7 @@
 
 require 'minitest/autorun'
 require 'minitest/spec'
+require 'mocha/setup'
 
 require 'simplecov'
 SimpleCov.start do
