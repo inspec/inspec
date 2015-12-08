@@ -3176,10 +3176,10 @@ A ``port`` |inspec resource| block declares a port, and then depending on what n
 
    describe port(514) do
      it { should be_listening }
-     its('process') {should eq 'syslog'}
+     its('processes') {should include 'syslog'}
    end
 
-where the ``process`` returns the process listening on port 514.
+where the ``processes`` returns the processes listening on port 514.
 
 Matchers
 -----------------------------------------------------
@@ -3195,33 +3195,33 @@ The ``be_listening`` matcher tests if the port is listening for traffic:
 
 pid
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``pid`` matcher tests the process identifier (PID):
+The ``pids`` matcher tests the process identifier (PID):
 
 .. code-block:: ruby
 
-   its('pid') { should eq '27808' }
+   its('pids') { should eq ['27808'] }
 
 process
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``process`` matcher tests if the named process is running on the system:
+The ``processes`` matcher tests if the named process is running on the system:
 
 .. code-block:: ruby
 
-   its('process') { should eq 'syslog' }
+   its('processes') { should eq ['syslog'] }
 
 protocol
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``protocol`` matcher tests the Internet protocol: |icmp| (``'icmp'``), |tcp| (``'tcp'`` or ``'tcp6'``), or |udp| (``'udp'`` or ``'udp6'``):
+The ``protocols`` matcher tests the Internet protocol: |icmp| (``'icmp'``), |tcp| (``'tcp'`` or ``'tcp6'``), or |udp| (``'udp'`` or ``'udp6'``):
 
 .. code-block:: ruby
 
-   its('protocol') { should eq 'tcp' }
+   its('protocols') { should eq ['tcp'] }
 
 or for the |ipv6| protocol:
 
 .. code-block:: ruby
 
-   its('protocol') { should eq 'tcp6' }
+   its('protocols') { should eq ['tcp6'] }
 
 Examples
 -----------------------------------------------------
@@ -3233,7 +3233,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe port(80) do
      it { should be_listening }
-     its('protocol') {should eq 'tcp'}
+     its('protocols') {should eq ['tcp']}
    end
 
 **Test port 80, listening with TCP version IPv6 protocol**
@@ -3242,7 +3242,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe port(80) do
      it { should be_listening }
-     its('protocol') {should eq 'tcp6'}
+     its('protocols') {should eq ['tcp6']}
    end
 
 **Test ports for HTTPs**
@@ -3255,7 +3255,22 @@ The following examples show how to use this InSpec audit resource.
 
    describe port(443) do
      it { should be_listening }
-     its('protocol') {should eq 'tcp'}
+     its('protocols') {should eq ['tcp']}
+   end
+
+**Test port 80 on a specific address**
+
+This check can be implemented in two equivalent ways:
+
+.. code-block:: ruby
+
+   describe port(80) do
+     it { should be_listening }
+     its('addresses') {should include '0.0.0.0'}
+   end
+
+   describe port('0.0.0.0', 80) do
+     it { should be_listening }
    end
 
 postgres_conf

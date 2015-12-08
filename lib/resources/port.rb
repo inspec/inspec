@@ -21,11 +21,12 @@ class Port < Inspec.resource(1)
   example "
     describe port(80) do
       it { should be_listening }
-      its('protocol') {should eq 'tcp'}
+      its('protocols') {should eq ['tcp']}
     end
   "
 
-  def initialize(port)
+  def initialize(ip = nil, port) # rubocop:disable OptionalArguments
+    @ip = ip
     @port = port
     @port_manager = nil
     @cache = nil
@@ -48,17 +49,17 @@ class Port < Inspec.resource(1)
     info.size > 0
   end
 
-  def protocol
+  def protocols
     res = info.map { |x| x[:protocol] }.uniq.compact
     res.size > 0 ? res : nil
   end
 
-  def process
+  def processes
     res = info.map { |x| x[:process] }.uniq.compact
     res.size > 0 ? res : nil
   end
 
-  def pid
+  def pids
     res = info.map { |x| x[:pid] }.uniq.compact
     res.size > 0 ? res : nil
   end
@@ -75,18 +76,21 @@ class Port < Inspec.resource(1)
     return @cache = [] if @port_manager.nil?
     # query ports
     ports = @port_manager.info || []
-    @cache = ports.select { |p| p[:port] == @port }
+    @cache = ports.select { |p| p[:port] == @port && (!@ip || p[:address] == @ip) }
   end
 end
 
 # implements an info method and returns all ip adresses and protocols for
 # each port
 # [{
-#   port: 80,
-#   address: [{
-#     ip: '0.0.0.0'
-#     protocol: 'tcp'
-#   }],
+#   port: 22,
+#   address: '0.0.0.0'
+#   protocol: 'tcp'
+# },
+# {
+#   port: 22,
+#   address: '::'
+#   protocol: 'tcp6'
 # }]
 class PortsInfo
   attr_reader :inspec
