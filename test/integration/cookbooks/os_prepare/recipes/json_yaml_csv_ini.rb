@@ -9,11 +9,18 @@ gid = 'wheel' if node['platform_family'] == 'freebsd'
 
 ['yml', 'json', 'csv', 'ini'].each { |filetype|
 
-  cookbook_file "/tmp/example.#{filetype}" do
-    source "example.#{filetype}"
-    owner 'root'
-    group gid
-    mode '0755'
-    action :create
+  if node['platform_family'] != 'windows'
+    cookbook_file "/tmp/example.#{filetype}" do
+      source "example.#{filetype}"
+      owner 'root'
+      group gid
+      mode '0755'
+      action :create
+    end
+  else
+    cookbook_file "C:/windows/temp/example.#{filetype}" do
+      source "example.#{filetype}"
+      action :create
+    end
   end
 }
