@@ -47,6 +47,12 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``--user``
    The login user for remote scanning.
 
+``--json_config``
+   A JSON file containing configuration options. Use `--json_config=-` to read from standard input. The file's format corresponds to the command line argument options. For example, `{"host": "example.com", "sudo": true}` is equivalent to `--host=example.com --sudo`. Command line switches override the configuration file.
+
+``--diagnose``
+   Dump configuration values from a command line options, the configuration file, and the merged effective options.
+
 
 
 check

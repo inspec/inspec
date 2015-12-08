@@ -6,9 +6,13 @@
 
 require 'thor'
 require 'json'
+require 'pp'
 require_relative '../lib/inspec'
 
-class InspecCLI < Thor
+class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
+  class_option :diagnose, type: :boolean,
+    desc: 'Show diagnostics (versions, configurations)'
+
   def self.target_options
     option :target, aliases: :t, type: :string, default: nil,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -36,6 +40,8 @@ class InspecCLI < Thor
       desc: 'Use SSL for transport layer encryption (WinRM).'
     option :self_signed, type: :boolean, default: false,
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
+    option :json_config, type: :string,
+      desc: 'Read configuration from JSON file (`-` reads from stdin).'
   end
 
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
@@ -44,8 +50,10 @@ class InspecCLI < Thor
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
   def json(path)
-    profile = Inspec::Profile.from_path(path, options)
-    dst = options[:output].to_s
+    diagnose
+
+    profile = Inspec::Profile.from_path(path, opts)
+    dst = opts[:output].to_s
     if dst.empty?
       puts JSON.pretty_generate(profile.info)
     else
@@ -61,7 +69,9 @@ class InspecCLI < Thor
 
   desc 'check PATH', 'verify all tests at the specified PATH'
   def check(path)
-    o = options.dup
+    diagnose
+
+    o = opts.dup
     o[:logger] = Logger.new(STDOUT)
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
@@ -73,7 +83,9 @@ class InspecCLI < Thor
   target_options
   option :format, type: :string, default: 'progress'
   def exec(*tests)
-    runner = Inspec::Runner.new(options)
+    diagnose
+
+    runner = Inspec::Runner.new(opts)
     runner.add_tests(tests)
     runner.run
   rescue RuntimeError => e
@@ -83,7 +95,9 @@ class InspecCLI < Thor
   desc 'detect', 'detect the target OS'
   target_options
   def detect
-    runner = Inspec::Runner.new(options)
+    diagnose
+
+    runner = Inspec::Runner.new(opts)
     rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
     runner.add_tests([detect_util])
@@ -96,7 +110,9 @@ class InspecCLI < Thor
   target_options
   option :format, type: :string, default: Inspec::NoSummaryFormatter, hide: true
   def shell_func
-    runner = Inspec::Runner.new(options)
+    diagnose
+
+    runner = Inspec::Runner.new(opts)
     Inspec::Shell.new(runner).start
   rescue RuntimeError => e
     puts e.message
@@ -105,6 +121,45 @@ class InspecCLI < Thor
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
+  end
+
+  private
+
+  def diagnose
+    return unless opts['diagnose']
+    puts "InSpec version: #{Inspec::VERSION}"
+    puts "Train version: #{Train::VERSION}"
+    puts 'Command line configuration:'
+    pp options
+    puts 'JSON configuration file:'
+    pp options_json
+    puts 'Merged configuration:'
+    pp opts
+    puts
+  end
+
+  def opts
+    # argv overrides json
+    Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
+  end
+
+  def options_json
+    conffile = options['json_config']
+    @json ||= conffile ? read_config(conffile) : {}
+  end
+
+  def read_config(file)
+    if file == '-'
+      puts 'WARN: reading JSON config from standard input' if STDIN.tty?
+      config = STDIN.read
+    else
+      config = File.read(file)
+    end
+
+    JSON.load(config)
+  rescue JSON::ParserError => e
+    puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
+    exit 1
   end
 end
 InspecCLI.start(ARGV)
