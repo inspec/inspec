@@ -29,4 +29,10 @@ describe 'Inspec::Resources::Processes' do
 
     _(resource.list.length).must_equal 1
   end
+
+  it 'retrieves the users and states as arrays' do
+    resource = load_resource('processes', 'svc')
+    _(resource.users.sort).must_equal ['noot']
+    _(resource.states.sort).must_equal ['S', 'Ss']
+  end
 end

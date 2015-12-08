@@ -3424,7 +3424,7 @@ A ``processes`` |inspec resource| block declares the name of the process to be t
 where
 
 * ``processes('process_name')`` must specify the name of a process that is running on the system
-* Multiple properties may be tested; for each property to be tested, use an ``its('property_name')`` statement
+* The ``user`` and ``state`` properties may be tested; they are exposed via ``users`` and ``states``, respectively.
 
 Matchers
 -----------------------------------------------------
@@ -3466,7 +3466,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe processes('init') do
-     its('user') { should eq 'root' }
+     its('users') { should eq ['root'] }
    end
 
 **Test if a high-priority process is running**
@@ -3474,7 +3474,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe processes('some_process') do
-     its('state') { should eq 'R<' }
+     its('states') { should eq ['R<'] }
    end
 
 
