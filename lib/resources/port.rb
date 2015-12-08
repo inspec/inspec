@@ -25,7 +25,8 @@ class Port < Inspec.resource(1)
     end
   "
 
-  def initialize(port)
+  def initialize(ip = nil, port) # rubocop:disable OptionalArguments
+    @ip = ip
     @port = port
     @port_manager = nil
     @cache = nil
@@ -75,18 +76,21 @@ class Port < Inspec.resource(1)
     return @cache = [] if @port_manager.nil?
     # query ports
     ports = @port_manager.info || []
-    @cache = ports.select { |p| p[:port] == @port }
+    @cache = ports.select { |p| p[:port] == @port && (!@ip || p[:address] == @ip) }
   end
 end
 
 # implements an info method and returns all ip adresses and protocols for
 # each port
 # [{
-#   port: 80,
-#   address: [{
-#     ip: '0.0.0.0'
-#     protocol: 'tcp'
-#   }],
+#   port: 22,
+#   address: '0.0.0.0'
+#   protocol: 'tcp'
+# },
+# {
+#   port: 22,
+#   address: '::'
+#   protocol: 'tcp6'
 # }]
 class PortsInfo
   attr_reader :inspec

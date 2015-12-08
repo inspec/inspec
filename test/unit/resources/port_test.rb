@@ -50,4 +50,17 @@ describe 'Inspec::Resources::Port' do
     _(resource.pids).must_equal nil
     _(resource.processes).must_equal nil
   end
+
+  it 'verify port and interface on Ubuntu 14.04' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', '0.0.0.0', 22)
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal %w{ tcp }
+    _(resource.pids).must_equal [1]
+    _(resource.processes).must_equal ['sshd']
+  end
+
+  it 'verify not listening port on interface on Ubuntu 14.04' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', '127.0.0.1', 22)
+    _(resource.listening?).must_equal false
+  end
 end
