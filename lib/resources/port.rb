@@ -21,7 +21,7 @@ class Port < Inspec.resource(1)
   example "
     describe port(80) do
       it { should be_listening }
-      its('protocol') {should eq 'tcp'}
+      its('protocols') {should eq ['tcp']}
     end
   "
 
@@ -48,17 +48,17 @@ class Port < Inspec.resource(1)
     info.size > 0
   end
 
-  def protocol
+  def protocols
     res = info.map { |x| x[:protocol] }.uniq.compact
     res.size > 0 ? res : nil
   end
 
-  def process
+  def processes
     res = info.map { |x| x[:process] }.uniq.compact
     res.size > 0 ? res : nil
   end
 
-  def pid
+  def pids
     res = info.map { |x| x[:pid] }.uniq.compact
     res.size > 0 ? res : nil
   end
