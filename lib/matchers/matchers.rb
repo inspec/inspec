@@ -219,3 +219,43 @@ RSpec::Matchers.define :contain do |_rule|
     fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should match('value') }`."
   end
 end
+
+# This matcher implements a compare feature that cannot be covered by the default
+# `eq` matcher
+# You can use it in the following cases:
+# - compare strings case-insensitive
+# - you expect a number (strings will be converted if possible)
+#
+RSpec::Matchers.define :cmp do |expected|
+
+  def integer?(value)
+    return true if value =~ /\A\d+\Z/
+    false
+  end
+
+  def float?(value)
+    true if Float(value) rescue false
+  end
+
+  match do |actual|
+    # if actual and expected are strings
+    if actual.is_a?(String) && expected.is_a?(String)
+      actual.casecmp(expected) == 0
+    elsif expected.is_a?(Integer) && integer?(actual)
+      expected == actual.to_i
+    elsif expected.is_a?(Float) && float?(actual)
+      expected == actual.to_f
+    # fallback to equal
+    else
+      actual == expected
+    end
+  end
+
+  failure_message do |actual|
+    "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
+  end
+
+  failure_message_when_negated  do |actual|
+    "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
+  end
+end
