@@ -105,10 +105,22 @@ class Rpm < PkgManagement
       assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
       multiple_values: false,
     ).params
+    # On some (all?) systems, the linebreak before the vendor line is missing
+    if params['Version'] =~ /\s*Vendor:/
+      v = params['Version'].split(' ')[0]
+    else
+      v = params['Version']
+    end
+    # On some (all?) systems, the linebreak before the build line is missing
+    if params['Release'] =~ /\s*Build Date:/
+      r = params['Release'].split(' ')[0]
+    else
+      r = params['Release']
+    end
     {
       name: params['Name'],
       installed: true,
-      version: params['Version'],
+      version: "#{v}-#{r}",
       type: 'rpm',
     }
   end
