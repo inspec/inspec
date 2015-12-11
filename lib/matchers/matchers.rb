@@ -236,7 +236,7 @@ RSpec::Matchers.define :cmp do |expected|
   def float?(value)
     return true if Float(value)
     false
-  rescue ArgumentError => ex
+  rescue ArgumentError => _ex
     false
   end
 
