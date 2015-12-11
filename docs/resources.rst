@@ -258,7 +258,7 @@ A ``auditd_conf`` |inspec resource| block declares configuration settings that s
 .. code-block:: ruby
 
    describe auditd_conf('path') do
-     its('keyword') { should eq 'value' }
+     its('keyword') { should cmp 'value' }
    end
 
 where
@@ -269,13 +269,7 @@ where
 
 Matchers
 -----------------------------------------------------
-This |inspec resource| matches any keyword that is listed in the ``auditd.conf`` configuration file:
-
-.. code-block:: ruby
-
-   its('log_format') { should eq 'raw' }
-
-Since all option names and values are case insensitive for ``auditd_conf``, we recommend to compare values with `cmp` instead of the `eq`.
+This |inspec resource| matches any keyword that is listed in the ``auditd.conf`` configuration file. Since all option names and values are case insensitive for ``auditd_conf``, we recommend to compare values with `cmp` instead of the `eq`:
 
 .. code-block:: ruby
 
