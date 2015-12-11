@@ -30,6 +30,10 @@ module Inspec
         that.help(resource)
       end
 
+      # configure pry shell prompt
+      Pry.config.prompt_name = 'inspec'
+      Pry.prompt = [proc{ |obj, nest_level, pry| "\e[0;32m#{Pry.config.prompt_name}\e > " }]
+
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, :intro) do
         intro
@@ -65,19 +69,17 @@ module Inspec
         ctx = @runner.backend
         puts <<EOF
 
-You can use resources in this environment to test the target machine.
-For example:
+Available commands:
+
+    `[resource]` - run resource on target machine
+    `help resources` - show all available resources that can be used as commands
+    `help [resource]` - information about a specific resource
+    `exit` - exit the InSpec shell
+
+You can use resources in this environment to test the target machine. For example:
 
     command('uname -a').stdout
-    file('/proc/cpuinfo').content
-
-To show all available resources:
-
-    help resources
-
-For information on a specific resource, use `help [resource]`, e.g.:
-
-    help command
+    file('/proc/cpuinfo').content => "value",
 
 You are currently running on:
 
