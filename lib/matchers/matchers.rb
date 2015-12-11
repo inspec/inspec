@@ -252,10 +252,10 @@ RSpec::Matchers.define :cmp do |expected|
   end
 
   failure_message do |actual|
-    "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
+    "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
-    "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
+    "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 end
