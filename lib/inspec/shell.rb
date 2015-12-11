@@ -32,7 +32,7 @@ module Inspec
 
       # configure pry shell prompt
       Pry.config.prompt_name = 'inspec'
-      Pry.prompt = [proc {"\e[0;32m#{Pry.config.prompt_name}>\e[0m "}]
+      Pry.prompt = [proc { "\e[0;32m#{Pry.config.prompt_name}>\e[0m " }]
 
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, :intro) do
