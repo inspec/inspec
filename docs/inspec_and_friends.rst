@@ -64,7 +64,7 @@ One of the key differences is that InSpec targets more user groups. It is optimi
       insecure SSHv1 connections anymore.
     "
     describe sshd_config do
-      its('Protocol') { should eq('2') }
+      its('Protocol') { should cmp 2 }
     end
   end
 

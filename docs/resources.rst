@@ -275,6 +275,13 @@ This |inspec resource| matches any keyword that is listed in the ``auditd.conf``
 
    its('log_format') { should eq 'raw' }
 
+Since all option names and values are case insensitive for ``auditd_conf``, we recommend to compare values with `cmp` instead of the `eq`.
+
+.. code-block:: ruby
+
+   its('log_format') { should cmp 'raw' }
+   its('max_log_file') { should cmp 6 }
+
 Examples
 -----------------------------------------------------
 The following examples show how to use this InSpec audit resource.
@@ -284,20 +291,20 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe auditd_conf do
-     its('log_file') { should eq '/full/path/to/file' }
-     its('log_format') { should eq 'raw' }
-     its('flush') { should eq 'none' }
-     its('freq') { should eq '1' }
-     its('num_logs') { should eq '0' }
-     its('max_log_file') { should eq '6' }
-     its('max_log_file_action') { should eq 'email' }
-     its('space_left') { should eq '2' }
-     its('action_mail_acct') { should eq 'root' }
-     its('space_left_action') { should eq 'email' }
-     its('admin_space_left') { should eq '1' }
-     its('admin_space_left_action') { should eq 'halt' }
-     its('disk_full_action') { should eq 'halt' }
-     its('disk_error_action') { should eq 'halt' }
+     its('log_file') { should cmp '/full/path/to/file' }
+     its('log_format') { should cmp 'raw' }
+     its('flush') { should cmp 'none' }
+     its('freq') { should cmp 1 }
+     its('num_logs') { should cmp 0 }
+     its('max_log_file') { should cmp 6 }
+     its('max_log_file_action') { should cmp 'email' }
+     its('space_left') { should cmp 2 }
+     its('action_mail_acct') { should cmp 'root' }
+     its('space_left_action') { should cmp 'email' }
+     its('admin_space_left') { should cmp 1 }
+     its('admin_space_left_action') { should cmp 'halt' }
+     its('disk_full_action') { should cmp 'halt' }
+     its('disk_error_action') { should cmp 'halt' }
    end
 
 
@@ -3910,7 +3917,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe sshd_config do
-     its('Protocol') { should eq '2' }
+     its('Protocol') { should cmp 2 }
    end
 
 **Test ciphers**
@@ -3926,7 +3933,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe sshd_config do
-     its('Port') { should eq '22' }
+     its('Port') { should cmp 22 }
      its('UsePAM') { should eq 'yes' }
      its('ListenAddress') { should eq nil }
      its('HostKey') { should eq [
