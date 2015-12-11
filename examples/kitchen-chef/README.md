@@ -1,4 +1,4 @@
-# InSpec Test-Kitchen Example
+# Test-Kitchen - InSpec with Chef Example
 
 This example demonstrates a complete roundtrip via [Test-Kitchen](http://kitchen.ci/).
 
