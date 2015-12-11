@@ -1,15 +1,65 @@
 # Change Log
 
-## [0.9.5](https://github.com/chef/inspec/tree/0.9.5) (2015-11-25)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.4...0.9.5)
+## [0.9.6](https://github.com/chef/inspec/tree/0.9.6) (2015-12-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.5...0.9.6)
 
 **Implemented enhancements:**
 
-- Support the -i switch for key files as per ssh? [\#261](https://github.com/chef/inspec/issues/261)
+- JSON configuration [\#292](https://github.com/chef/inspec/issues/292)
+- Replace the `pry... ` bits in inspec shell [\#267](https://github.com/chef/inspec/issues/267)
+- Better wording for check [\#260](https://github.com/chef/inspec/issues/260)
+- OS resource with string and symbol support [\#227](https://github.com/chef/inspec/issues/227)
+- matcher for less-restrictive comparison [\#318](https://github.com/chef/inspec/pull/318) ([chris-rock](https://github.com/chris-rock))
+- add readme to examples [\#313](https://github.com/chef/inspec/pull/313) ([chris-rock](https://github.com/chris-rock))
+- Minor `inspec shell` improvements [\#283](https://github.com/chef/inspec/pull/283) ([srenatus](https://github.com/srenatus))
+- add kitchen-ansible inspec example [\#275](https://github.com/chef/inspec/pull/275) ([alexpop](https://github.com/alexpop))
+- add kitchen-puppet example with inspec testing [\#273](https://github.com/chef/inspec/pull/273) ([alexpop](https://github.com/alexpop))
+- Feature: Add shell `help resource` command [\#269](https://github.com/chef/inspec/pull/269) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- auditd\_conf parameters should be case insensitive [\#307](https://github.com/chef/inspec/issues/307)
+- Processes resource doesn't handle user or state [\#295](https://github.com/chef/inspec/issues/295)
+- JSON configuration [\#292](https://github.com/chef/inspec/issues/292)
+- Windows file matcher does not match existing files [\#288](https://github.com/chef/inspec/issues/288)
+- Inspec hangs when executing some windows profiles against linux machine [\#279](https://github.com/chef/inspec/issues/279)
+- Utils::FindFiles doesn't work [\#276](https://github.com/chef/inspec/issues/276)
+- etc\_group not implemented for centos [\#266](https://github.com/chef/inspec/issues/266)
+- Port resource returns arrays [\#256](https://github.com/chef/inspec/issues/256)
+- Custom resource not available, undefined local variable or method `gordon\_config` [\#232](https://github.com/chef/inspec/issues/232)
+- File permission checks should return false unless file exists [\#301](https://github.com/chef/inspec/pull/301) ([adamleff](https://github.com/adamleff))
+- remove json doc for windows\_feature [\#272](https://github.com/chef/inspec/pull/272) ([chris-rock](https://github.com/chris-rock))
+- improvement: add etc\_group support for centos and add integration test [\#270](https://github.com/chef/inspec/pull/270) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- Bugfix: Properly initialize script resource [\#316](https://github.com/chef/inspec/pull/316) ([chris-rock](https://github.com/chris-rock))
+- improve shell prompt and help [\#315](https://github.com/chef/inspec/pull/315) ([chris-rock](https://github.com/chris-rock))
+- port resource: array attributes, resource alternative [\#303](https://github.com/chef/inspec/pull/303) ([srenatus](https://github.com/srenatus))
+- support string and symbol for os resource [\#299](https://github.com/chef/inspec/pull/299) ([chris-rock](https://github.com/chris-rock))
+- \[resources/apache\_conf\]: add tests, fix bug [\#298](https://github.com/chef/inspec/pull/298) ([srenatus](https://github.com/srenatus))
+- \[resources/processes\] add user\(s\), state\(s\) attribute [\#297](https://github.com/chef/inspec/pull/297) ([srenatus](https://github.com/srenatus))
+- fix small grammar error [\#294](https://github.com/chef/inspec/pull/294) ([juliandunn](https://github.com/juliandunn))
+- read config from file/stdin [\#293](https://github.com/chef/inspec/pull/293) ([srenatus](https://github.com/srenatus))
+- revert to old find\_files interface [\#291](https://github.com/chef/inspec/pull/291) ([srenatus](https://github.com/srenatus))
+- Adding support for Wind River Linux [\#289](https://github.com/chef/inspec/pull/289) ([adamleff](https://github.com/adamleff))
+- travis workarounds [\#286](https://github.com/chef/inspec/pull/286) ([srenatus](https://github.com/srenatus))
+- Support mint in the integration tests [\#281](https://github.com/chef/inspec/pull/281) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- align cli documentation with cli [\#278](https://github.com/chef/inspec/pull/278) ([chris-rock](https://github.com/chris-rock))
+- Remove description of custom resource [\#277](https://github.com/chef/inspec/pull/277) ([chris-rock](https://github.com/chris-rock))
+- add rake tasks for showing and bumping the version of inspec [\#265](https://github.com/chef/inspec/pull/265) ([arlimus](https://github.com/arlimus))
+
+## [v0.9.5](https://github.com/chef/inspec/tree/v0.9.5) (2015-11-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.4...v0.9.5)
+
+**Implemented enhancements:**
+
+- Support the -i switch for key files as per ssh [\#261](https://github.com/chef/inspec/issues/261)
 - Add -p alias for --port like ssh [\#263](https://github.com/chef/inspec/pull/263) ([alexmanly](https://github.com/alexmanly))
 
 **Merged pull requests:**
 
+- 0.9.5 [\#264](https://github.com/chef/inspec/pull/264) ([arlimus](https://github.com/arlimus))
 - Add -i alias for --key\_files like ssh [\#262](https://github.com/chef/inspec/pull/262) ([jcreedcmu](https://github.com/jcreedcmu))
 
 ## [v0.9.4](https://github.com/chef/inspec/tree/v0.9.4) (2015-11-24)
@@ -19,12 +69,9 @@
 
 - registry\_key needs to be case insensitive [\#254](https://github.com/chef/inspec/issues/254)
 - User resource doesn't handle group names with spaces [\#238](https://github.com/chef/inspec/issues/238)
+- inspec does not extract section name from test file header [\#182](https://github.com/chef/inspec/issues/182)
 - bugfix: user resources support for group with whitespace [\#258](https://github.com/chef/inspec/pull/258) ([chris-rock](https://github.com/chris-rock))
 - Bugfix: make registry\_key resource case-insensitive [\#255](https://github.com/chef/inspec/pull/255) ([alexpop](https://github.com/alexpop))
-
-**Closed issues:**
-
-- inspec does not extract section name from test file header [\#182](https://github.com/chef/inspec/issues/182)
 
 **Merged pull requests:**
 
@@ -39,9 +86,12 @@
 
 - Support the control keyword, synonymous to rule [\#188](https://github.com/chef/inspec/issues/188)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Multiple computed calls to describe aren't registered [\#246](https://github.com/chef/inspec/issues/246)
+
+**Closed issues:**
+
 - port resource does not work on CentOS [\#239](https://github.com/chef/inspec/issues/239)
 - os\_env not working [\#236](https://github.com/chef/inspec/issues/236)
 - service resource misbehaves on upstart hosts [\#226](https://github.com/chef/inspec/issues/226)

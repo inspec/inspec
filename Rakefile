@@ -48,18 +48,6 @@ namespace :test do
   end
 end
 
-# Automatically generate a changelog for this project. Only loaded if
-# the necessary gem is installed.
-begin
-  require 'github_changelog_generator/task'
-  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-    require_relative 'lib/inspec/version'
-    config.since_tag = '0.7.0'
-    config.future_release = Inspec::VERSION
-  end
-rescue LoadError
-end
-
 # Print the current version of this gem or update it.
 #
 # @param [Type] target the new version you want to set, or nil if you only want to show
@@ -117,6 +105,12 @@ end
 desc 'Show the version of this gem'
 task :version do
   inspec_version
+end
+
+desc 'Generate the changelog'
+task :changelog do
+  require_relative 'lib/inspec/version'
+  system "github_changelog_generator -u chef -p inspec --future-release #{Inspec::VERSION} --since-tag 0.7.0"
 end
 
 # Update the version of this gem and create an updated
