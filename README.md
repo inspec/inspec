@@ -214,12 +214,31 @@ You will require:
 * vagrant with virtualbox
 * test-kitchen
 
-Run `integration` tests with
+**Run `integration` tests with vagrant:**
 
 ```bash
 cd test/integration
-bundle exec kitchen test -t .
+bundle exec kitchen test
 ```
+
+**Run `integration` tests with AWS EC2:**
+
+```bash
+export AWS_ACCESS_KEY_ID=enteryouryourkey
+export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
+export AWS_SSH_KEY_ID=enteryoursshkeyid
+cd test/integration
+KITCHEN_LOCAL_YAML=.kitchen.ec2.yml bundle exec kitchen test
+```
+
+In addition you may need to add your ssh key to `.kitchen.ec2.yml`
+
+```
+transport:
+  ssh_key: /Users/chartmann/aws/aws_chartmann.pem
+  username: ec2-user
+```
+
 
 ### Chef Delivery Tests
 
