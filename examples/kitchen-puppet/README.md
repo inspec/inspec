@@ -1,4 +1,4 @@
-# InSpec Test-Kitchen Example with Puppet and InSpec
+# Test-Kitchen - InSpec with Puppet Example
 
 This example demonstrates a complete roundtrip via [Test-Kitchen](http://kitchen.ci/).
 

@@ -1,4 +1,4 @@
-# InSpec Test-Kitchen Example with Ansible and InSpec
+# Test-Kitchen - InSpec with Ansible Example
 
 This example demonstrates a complete roundtrip via [Test-Kitchen](http://kitchen.ci/).
 
