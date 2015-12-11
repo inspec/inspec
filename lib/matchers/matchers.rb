@@ -255,7 +255,7 @@ RSpec::Matchers.define :cmp do |expected|
     "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
   end
 
-  failure_message_when_negated  do |actual|
+  failure_message_when_negated do |actual|
     "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using .casecmp?)\n"
   end
 end
