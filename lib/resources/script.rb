@@ -26,6 +26,7 @@ class Script < Cmd
       script = WinRM::PowershellScript.new(script)
       cmd = "powershell -encodedCommand #{script.encoded}"
     else
+      cmd = ''
       return skip_resource 'The `script` resource is not supported on your OS yet.'
     end
     super(cmd)
