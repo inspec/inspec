@@ -32,11 +32,15 @@ module Inspec
       @metadata = read_metadata
       @params = @metadata.params unless @metadata.nil?
 
+      # use the id from parameter, name or fallback to nil
+      @profile_id = options[:id] || @metadata.params[:name] || nil
+
       @params[:rules] = rules = {}
       @runner = Runner.new(
         id: @profile_id,
         backend: :mock,
       )
+
       @runner.add_tests([@path])
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
@@ -119,6 +123,63 @@ module Inspec
 
       @logger.info 'Rule definitions OK.' if no_warnings
       no_errors
+    end
+
+    # generates a archive of a folder profile
+    def archive(opts)
+      check_result = check
+
+      if check_result && !opts.ignore_errors == false then
+        @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
+        return false
+      end
+
+      profile_name = @params[:name]
+
+      opts[:zip] ? ext='zip' : ext='tar.gz'
+      slug = profile_name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '_')
+      archive = Pathname.new(File.dirname(__FILE__)).join("../..","#{slug}.#{ext}")
+
+      # check if file exists otherwise overwrite the archive
+      if archive.exist? && !opts[:overwrite]
+        @logger.info "Archive #{archive} exists already. Use --overwrite."
+        return false
+      end
+
+      # remove existing archive
+      File.delete(archive) if archive.exist?
+
+      @logger.info "Profile check finished. Generate archive #{archive}."
+
+      # find all files
+      files = Dir.glob("#{path}/**/*")
+
+      # filter files that should not be part of the profile
+      # TODO ignore all .files, but add the files to debug output
+
+      # map absolute paths to relative paths
+      files = files.collect { |f| Pathname.new(f).relative_path_from(Pathname.new(path)).to_s }
+
+      # display all files that will be part of the archive
+      @logger.debug "Add the following files to archive:"
+      files.each { |f|
+        @logger.debug "    " + f
+      }
+
+      # generate zip archive
+      if opts[:zip]
+        require 'inspec/archive/zip'
+        zag = Inspec::Archive::ZipArchiveGenerator.new
+        zag.archive(path, files, archive)
+      else
+      # generate tar archive
+        require 'inspec/archive/tar'
+        tag = Inspec::Archive::TarArchiveGenerator.new
+        tag.archive(path, files, archive)
+      end
+
+      @logger.info "Finished archive generation."
+      true
     end
 
     private
