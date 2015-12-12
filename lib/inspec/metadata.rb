@@ -62,18 +62,32 @@ module Inspec
       @missing_methods.push(sth)
     end
 
+    def self.symbolize_keys(hash)
+      hash.each_with_object({}){|(k,v), h|
+        v = symbolize_keys(v) if v.is_a?(Hash)
+        h[k.to_sym] = v
+      }
+    end
+
     def self.from_file(path, profile_id, logger = nil)
       logger ||= Logger.new(nil)
-
       unless File.file?(path)
         logger.error "Can't find metadata file #{path}"
         return nil
       end
 
-      res = Metadata.new(logger)
-      res.instance_eval(File.read(path), path, 1)
-      res.params[:name] = profile_id.to_s unless profile_id.to_s.empty?
-      res
+      # found metadata.yml
+      if Pathname.new(path).basename.to_s == "metadata.yml"
+        metadata = YAML.load_file(path)
+        # convert string to symbols
+        metadata = symbolize_keys(metadata)
+      # if we found a deprecated metadata.rb
+      elsif Pathname.new(path).basename.to_s == "metadata.rb"
+        res = Metadata.new(logger)
+        res.instance_eval(File.read(path), path, 1)
+        res.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
+        res.params
+      end
     end
   end
 end

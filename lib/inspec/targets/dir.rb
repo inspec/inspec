@@ -10,6 +10,7 @@ module Inspec::Targets
           !paths.grep(/^controls/).empty? ||
           !paths.grep(/^test/).empty?
         ) && (
+          paths.include?('metadata.yml') ||
           paths.include?('metadata.rb')
         )
       end
