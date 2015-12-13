@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 
 require 'inspec/metadata'
+require 'pathname'
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
@@ -16,10 +17,11 @@ module Inspec
 
     attr_reader :params
     attr_reader :metadata
+    attr_reader :path
 
     def initialize(options = nil)
       @options = options || {}
-      @profile_id = options[:id] || nil
+
       @params = {}
       @logger = options[:logger] || Logger.new(nil)
 
@@ -95,10 +97,11 @@ module Inspec
 
       no_warnings = true
       if @params[:rules].empty?
-        warn.call('No controls or tests were defined.')
+        warn.call('No rules were found.')
       end
 
       # iterate over hash of groups
+      rules_counter = 0
       @params[:rules].each do |group, rules_array|
         @logger.debug "Verify all rules in  #{group}"
         rules_array.each do |id, rule|
@@ -109,8 +112,10 @@ module Inspec
           warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
           warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
           warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
+          rules_counter += 1
         end
       end
+      @logger.debug "Found #{rules_counter} rules."
 
       @logger.info 'Rule definitions OK.' if no_warnings
       no_errors

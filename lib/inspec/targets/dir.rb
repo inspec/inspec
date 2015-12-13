@@ -6,7 +6,12 @@ module Inspec::Targets
   module DirsHelper
     class ProfileDir
       def handles?(paths)
-        paths.include?('controls') && paths.include?('metadata.rb')
+        (
+          !paths.grep(/^controls/).empty? ||
+          !paths.grep(/^test/).empty?
+        ) && (
+          paths.include?('metadata.rb')
+        )
       end
 
       def get_libraries(paths)
@@ -17,7 +22,7 @@ module Inspec::Targets
 
       def get_filenames(paths)
         paths.find_all do |path|
-          path.start_with?('controls') && path.end_with?('.rb')
+          (path.start_with?('controls') || path.start_with?('test')) && path.end_with?('.rb')
         end
       end
     end
