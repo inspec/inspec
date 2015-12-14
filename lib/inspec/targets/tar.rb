@@ -9,7 +9,10 @@ require 'inspec/targets/archive'
 module Inspec::Targets
   class TarHelper < ArchiveHelper
     def handles?(target)
-      File.file?(target) and target.end_with?('.tar.gz')
+      File.file?(target) and (
+        target.end_with?('.tar.gz') ||
+        target.end_with?('.tgz')
+      )
     end
 
     def structure(input)
