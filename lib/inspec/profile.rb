@@ -6,7 +6,7 @@
 require 'inspec/metadata'
 
 module Inspec
-  class Profile
+  class Profile # rubocop:disable Metrics/ClassLength
     def self.from_path(path, options = nil)
       opt = {}
       options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
@@ -35,7 +35,6 @@ module Inspec
         id: @profile_id,
         backend: :mock,
       )
-
       @runner.add_tests([@path])
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
@@ -97,16 +96,14 @@ module Inspec
       no_warnings = true
       if @params[:rules].empty?
         warn.call('No controls or tests were defined.')
-      else
-        @logger.debug "Found #{@params[:rules].length} rules."
       end
 
       # iterate over hash of groups
       @params[:rules].each do |group, rules_array|
         @logger.debug "Verify all rules in  #{group}"
         rules_array.each do |id, rule|
-          next if id.start_with? '(generated '
           error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
+          next if id.start_with? '(generated '
           warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
           warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
           warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
