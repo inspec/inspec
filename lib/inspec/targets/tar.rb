@@ -26,7 +26,7 @@ module Inspec::Targets
       }
 
       # stores the rootdir of metadata.rb or metadata.yml
-      rootdir = rootdir + '/' if !rootdir.empty?
+      rootdir += '/' if !rootdir.empty?
       [files, rootdir]
     end
 
@@ -41,7 +41,7 @@ module Inspec::Targets
               h = {
                 content: entry.read,
                 type: opts[:as] || :test,
-                #ref: File.join(input, entry.name),
+                # ref: File.join(input, entry.name),
               }
               content.push(h)
             end
@@ -54,7 +54,7 @@ module Inspec::Targets
     end
 
     def to_s
-      "tar.gz Loader"
+      'tar.gz Loader'
     end
   end
 

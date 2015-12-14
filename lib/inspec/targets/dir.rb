@@ -4,7 +4,6 @@
 
 module Inspec::Targets
   module DirsHelper
-
     # InSpec profile Loader
     # Previous versions used the `test` directory instead of the new `controls`
     # directory. Usage of the test directory is deprecated and not recommended

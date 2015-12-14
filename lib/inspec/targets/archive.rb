@@ -7,8 +7,7 @@ require 'zlib'
 
 module Inspec::Targets
   class ArchiveHelper
-
-    def resolve(target, opts = {})
+    def resolve(target, _opts = {})
       files, rootdir = structure(target)
 
       # remove trailing slashes

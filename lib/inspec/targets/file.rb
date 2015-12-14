@@ -25,7 +25,7 @@ module Inspec::Targets
     end
 
     def to_s
-      "File Loader"
+      'File Loader'
     end
   end
 

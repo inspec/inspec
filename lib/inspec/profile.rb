@@ -16,7 +16,6 @@ module Inspec
     end
 
     attr_reader :params
-    attr_reader :metadata
     attr_reader :path
 
     def initialize(options = nil)
@@ -29,8 +28,9 @@ module Inspec
       fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
       fail "Cannot find directory #{@path}" unless File.directory?(@path)
 
-      @metadata = read_metadata
-      @params = @metadata.params unless @metadata.nil?
+      @params = read_metadata
+      # use the id from parameter, name or fallback to nil
+      @profile_id = options[:id] || params[:name] || nil
 
       # use the id from parameter, name or fallback to nil
       @profile_id = options[:id] || @metadata.params[:name] || nil
@@ -185,8 +185,12 @@ module Inspec
     private
 
     def read_metadata
-      mpath = File.join(@path, 'metadata.rb')
-      @metadata = Metadata.from_file(mpath, @profile_id, @logger)
+      mpath = Pathname.new(path).join('metadata.yml')
+
+      # fallback to metadata.rb if metadata.yml does not exist
+      # TODO deprecated, will be removed in InSpec 1.0
+      mpath = File.join(@path, 'metadata.rb') if !mpath.exist?
+      Metadata.from_file(mpath, @profile_id, @logger)
     end
   end
 end

@@ -35,7 +35,7 @@ module Inspec::Targets
 
       remote = open(
         url,
-        http_basic_authentication: [opts['user'] || '', opts['password'] || '']
+        http_basic_authentication: [opts['user'] || '', opts['password'] || ''],
       )
 
       # download content
@@ -45,7 +45,7 @@ module Inspec::Targets
 
       content_type = remote.meta['content-type']
       # replace extension with zip if we detected a zip content type
-      if ["application/x-zip-compressed", "application/zip"].include?(content_type)
+      if ['application/x-zip-compressed', 'application/zip'].include?(content_type)
         # rename file for proper detection in DirHelper
         pn = Pathname.new(archive.path)
         new_path = pn.dirname.join(pn.basename.to_s.gsub('tar.gz', 'zip'))
@@ -54,7 +54,7 @@ module Inspec::Targets
         content = ZipHelper.new.resolve(new_path)
         File.unlink(new_path)
       # use tar helper as default
-      elsif ["application/x-gzip", "application/gzip"].include?(content_type)
+      elsif ['application/x-gzip', 'application/gzip'].include?(content_type)
         content = TarHelper.new.resolve(archive.path)
         archive.unlink
       end
@@ -63,7 +63,7 @@ module Inspec::Targets
     end
 
     def to_s
-      "URL Loader"
+      'URL Loader'
     end
   end
 

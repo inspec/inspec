@@ -5,6 +5,7 @@
 require 'zip'
 require 'inspec/targets/dir'
 require 'inspec/targets/archive'
+
 module Inspec::Targets
   class ZipHelper < ArchiveHelper
     def handles?(target)
@@ -15,14 +16,13 @@ module Inspec::Targets
       content = []
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
-          if files.include?(entry.name.gsub(rootdir, ''))
-            h = {
-              content: io.read,
-              type: opts[:as] || :test,
-              #ref: File.join(input, entry.name),
-            }
-            content.push(h)
-          end
+          next if !files.include?(entry.name.gsub(rootdir, ''))
+          h = {
+            content: io.read,
+            type: opts[:as] || :test,
+            # ref: File.join(input, entry.name),
+          }
+          content.push(h)
         end
       end
       content
@@ -41,12 +41,12 @@ module Inspec::Targets
       end
 
       # stores the rootdir of metadata.rb or metadata.yml
-      rootdir = rootdir + '/' if !rootdir.empty?
+      rootdir += '/' if !rootdir.empty?
       [files, rootdir]
     end
 
     def to_s
-      "zip Loader"
+      'zip Loader'
     end
   end
 

@@ -11,7 +11,7 @@ module Inspec::Targets
       File.directory?(target)
     end
 
-    def resolve(target, opts = {})
+    def resolve(target, _opts = {})
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
@@ -39,7 +39,7 @@ module Inspec::Targets
     end
 
     def to_s
-      "Folder Loader"
+      'Folder Loader'
     end
   end
 
