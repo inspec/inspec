@@ -70,13 +70,45 @@ To use a profile and their mechanisms, just place the files according to the fol
   │   └── gordon_spec.rb
   ├── libraries
   │   └── gordon_config.rb
-  └── metadata.rb
+  └── metadata.yml
 
 
- * `metadata.rb` - includes the profile description (required)
+ * `metadata.yml` - includes the profile description (required)
  * `controls` - the directory includes all tests (required)
  * `libraries` - is an optional feature to load custom InSpec resource extensions (optional)
  * `README.md` - its best-practice to add a readme to each profile to explain its scope
+
+
+InSpec Profile Manifest
+-----------------------------------------------------
+
+Each profile has a manifest file `metadata.yml`. It looks as follows
+
+.. code-block:: yaml
+
+  name: base/ssh
+  title: Basic SSH
+  maintainer: Chef Software, Inc.
+  copyright: Chef Software, Inc.
+  copyright_email: support@chef.io
+  license: Proprietary, All rights reserved
+  summary: Verify that SSH Server and SSH Client are configured securely
+  version: 1.0.0
+  supports:
+    - linux
+
+
+A manifest description may contain the following values:
+
+ * `name` - Identifier of the profile (required)
+ * `title` - Human-readable name of the profile (optional)
+ * `maintainer` - Name of the profile maintainer (optional)
+ * `copyright` - Copyright holder (optional)
+ * `copyright_email` - Support contact for profile (optional)
+ * `license` - License of the profile (optional)
+ * `summary` - One-line summary of the profile (optional)
+ * `description` - Description of the profile (optional)
+ * `version` - Version of the profile (optional)
 
 
 InSpec Profile Verification
