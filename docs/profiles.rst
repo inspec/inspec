@@ -101,7 +101,7 @@ The InSpec profile archive format aims for flexibility and reuse of standard and
 This should enable third-parties to easily build InSpec profile archives:
 
  * InSpec archives MUST be named with the stanard suffix
- * InSpec archives MUST be a tar or zip formatted file
+ * InSpec archives MUST be a tar.gz or zip formatted file
  * InSpec archives MUST have no duplicate entries
  * All files in the archive MUST maintain all of their original properties (like timestamps, Unix modes, and extended attributes (xattrs))
  * InSpec archives MAY be compressed with gzip, bzip2, or xz.
@@ -110,7 +110,7 @@ InSpec allows you to generating a profile archive for you. By default it generat
 
 .. code-block:: bash
 
-  # will generate a example-profile.tar
+  # will generate a example-profile.tar.gz
   $ inspec archive examples/profile
 
   # will generate a example-profile.zip
