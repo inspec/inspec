@@ -4,18 +4,25 @@
 
 require 'zip'
 require 'inspec/targets/dir'
-
+require 'inspec/targets/archive'
 module Inspec::Targets
-  class ZipHelper
-    def content(input, _filter)
+  class ZipHelper < ArchiveHelper
+    def handles?(target)
+      File.file?(target) and target.end_with?('.zip')
+    end
+
+    def content(input, files, rootdir = nil, opts = {})
       content = []
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
-          h = {
-            content: io.read,
-            ref: File.join(input, entry.name),
-          }
-          content.push(h)
+          if files.include?(entry.name.gsub(rootdir, ''))
+            h = {
+              content: io.read,
+              type: opts[:as] || :test,
+              #ref: File.join(input, entry.name),
+            }
+            content.push(h)
+          end
         end
       end
       content
@@ -23,25 +30,25 @@ module Inspec::Targets
 
     def structure(input)
       files = []
+      rootdir = ''
+
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
+          pn = Pathname(entry.name)
+          rootdir = pn.dirname.to_s if pn.basename.to_s == 'metadata.yml' || pn.basename.to_s == 'metadata.rb'
           files.push(entry.name)
         end
       end
-      files
+
+      # stores the rootdir of metadata.rb or metadata.yml
+      rootdir = rootdir + '/' if !rootdir.empty?
+      [files, rootdir]
     end
 
-    def resolve(path)
-      files = structure(path)
-      helper = DirsHelper.get_handler(files)
-      if helper.nil?
-        fail "Don't know how to handle folder #{path}"
-      end
-      # get all file contents
-      # @TODO
-      _file_handler = Inspec::Targets.modules['file']
-      test_files = helper.get_filenames(files)
-      content(path, test_files)
+    def to_s
+      "zip Loader"
     end
   end
+
+  Inspec::Targets.add_module('zip', ZipHelper.new)
 end

@@ -23,6 +23,10 @@ module Inspec::Targets
         resolve(target, opts)
       end
     end
+
+    def to_s
+      "File Loader"
+    end
   end
 
   Inspec::Targets.add_module('file', FileHelper.new)

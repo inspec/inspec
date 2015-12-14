@@ -4,6 +4,12 @@
 
 module Inspec::Targets
   module DirsHelper
+
+    # InSpec profile Loader
+    # Previous versions used the `test` directory instead of the new `controls`
+    # directory. Usage of the test directory is deprecated and not recommended
+    # anymore. Support for `test` will be removed in InSpec 1.0
+    # TODO: remove `test` support for InSpec 1.0
     class ProfileDir
       def handles?(paths)
         (

@@ -49,7 +49,7 @@ module Inspec
     def add_tests(tests)
       # retrieve the raw ruby code of all tests
       items = tests.map do |test|
-        Inspec::Targets.resolve(test)
+        Inspec::Targets.resolve(test, @conf)
       end.flatten
 
       tests = items.find_all { |i| i[:type] == :test }
