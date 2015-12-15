@@ -40,12 +40,12 @@ class SecurityPolicy < Inspec.resource(1)
     @policy = cmd.stdout
     @loaded = true
     
-    # delete temp file
-    cmd = inspec.command('Remove-Item win_secpol.cfg')
-    return nil if cmd.exit_status.to_i != 0
-
     # returns self
     self
+
+  ensure
+    # delete temp file
+    inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
   end
 
   def method_missing(method)
