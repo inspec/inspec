@@ -30,15 +30,19 @@ class SecurityPolicy < Inspec.resource(1)
   # load security content
   def load
     # export the security policy
-    inspec.command('secedit /export /cfg win_secpol.cfg')
-    # store file content
-    command_result ||= inspec.command('type win_secpol.cfg')
-    # delete temp file
-    inspec.command('del win_secpol.cfg')
+    cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
+    return nil if cmd.exit_status.to_i != 0
 
-    @exit_status = command_result.exit_status.to_i
-    @policy = command_result.stdout
+    # store file content
+    cmd = inspec.command('Get-Content win_secpol.cfg')
+    @exit_status = cmd.exit_status.to_i
+    return nil if @exit_status != 0
+    @policy = cmd.stdout
     @loaded = true
+    
+    # delete temp file
+    cmd = inspec.command('Remove-Item win_secpol.cfg')
+    return nil if cmd.exit_status.to_i != 0
 
     # returns self
     self
