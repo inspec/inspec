@@ -23,6 +23,9 @@ module Inspec
       @conf[:logger] ||= Logger.new(nil)
       @tests = RSpec::Core::World.new
 
+      # resets "pending examples" in reporter
+      RSpec.configuration.reset
+
       configure_output
       configure_transport
     end
