@@ -1,5 +1,5 @@
-name:       inspec/profile
-title:      Example InSpec Profile
+name:       profile
+title:      InSpec Example Profile
 maintainer: Chef Software, Inc.
 copyright:  Chef Software, Inc.
 copyright_email: support@chef.io

@@ -32,9 +32,6 @@ module Inspec
       # use the id from parameter, name or fallback to nil
       @profile_id = options[:id] || params[:name] || nil
 
-      # use the id from parameter, name or fallback to nil
-      @profile_id = options[:id] || @metadata.params[:name] || nil
-
       @params[:rules] = rules = {}
       @runner = Runner.new(
         id: @profile_id,
@@ -84,7 +81,7 @@ module Inspec
     # used to print information on errors and warnings which are found.
     #
     # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       no_errors = true
       no_warnings = true
       warn = lambda { |msg|
@@ -98,6 +95,13 @@ module Inspec
 
       @logger.info "Checking profile in #{@path}"
       @logger.info 'Metadata OK.' if @metadata.valid?
+
+      # check if deprecated metadata.rb exists
+      warn.call('The use of `metadata.rb` is deprecated. Use `metadata.yml`.') if Pathname.new(path).join('metadata.rb').exist?
+
+      # check if the profile is using the old test directory instead of the
+      # new controls directory
+      warn.call('Profile uses deprecated `test` directory, rename it to `controls`') if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
 
       no_warnings = true
       if @params[:rules].empty?
@@ -126,10 +130,10 @@ module Inspec
     end
 
     # generates a archive of a folder profile
-    def archive(opts)
+    def archive(opts) # rubocop:disable Metrics/AbcSize
       check_result = check
 
-      if check_result && !opts.ignore_errors == false then
+      if check_result && !opts.ignore_errors == false
         @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
         return false
       end
@@ -137,8 +141,8 @@ module Inspec
       profile_name = @params[:name]
 
       opts[:zip] ? ext='zip' : ext='tar.gz'
-      slug = profile_name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '_')
-      archive = Pathname.new(File.dirname(__FILE__)).join("../..","#{slug}.#{ext}")
+      slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
+      archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
 
       # check if file exists otherwise overwrite the archive
       if archive.exist? && !opts[:overwrite]
@@ -161,24 +165,24 @@ module Inspec
       files = files.collect { |f| Pathname.new(f).relative_path_from(Pathname.new(path)).to_s }
 
       # display all files that will be part of the archive
-      @logger.debug "Add the following files to archive:"
+      @logger.debug 'Add the following files to archive:'
       files.each { |f|
-        @logger.debug "    " + f
+        @logger.debug '    ' + f
       }
 
-      # generate zip archive
       if opts[:zip]
+        # generate zip archive
         require 'inspec/archive/zip'
         zag = Inspec::Archive::ZipArchiveGenerator.new
         zag.archive(path, files, archive)
       else
-      # generate tar archive
+        # generate tar archive
         require 'inspec/archive/tar'
         tag = Inspec::Archive::TarArchiveGenerator.new
         tag.archive(path, files, archive)
       end
 
-      @logger.info "Finished archive generation."
+      @logger.info 'Finished archive generation.'
       true
     end
 
