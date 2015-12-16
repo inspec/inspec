@@ -240,14 +240,21 @@ RSpec::Matchers.define :cmp do |expected|
     false
   end
 
+  def octal?(value)
+    return true if value =~ /\A0+\d+\Z/
+    false
+  end
+
   match do |actual|
     # if actual and expected are strings
-    if actual.is_a?(String) && expected.is_a?(String)
+    if expected.is_a?(String) && actual.is_a?(String)
       actual.casecmp(expected) == 0
     elsif expected.is_a?(Integer) && integer?(actual)
       expected == actual.to_i
     elsif expected.is_a?(Float) && float?(actual)
       expected == actual.to_f
+    elsif octal?(expected) && actual.is_a?(Integer)
+      expected.to_i(8) == actual
     # fallback to equal
     else
       actual == expected
@@ -255,10 +262,12 @@ RSpec::Matchers.define :cmp do |expected|
   end
 
   failure_message do |actual|
+    actual = '0' + actual.to_s(8) if octal?(expected)
     "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
+    actual = '0' + actual.to_s(8) if octal?(expected)
     "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 end
