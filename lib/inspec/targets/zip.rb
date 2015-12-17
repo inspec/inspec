@@ -35,12 +35,12 @@ module Inspec::Targets
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
           pn = Pathname(entry.name)
-          rootdir = pn.dirname.to_s if pn.basename.to_s == 'metadata.yml' || pn.basename.to_s == 'metadata.rb'
+          rootdir = pn.dirname.to_s if pn.basename.to_s == 'inspec.yml' || pn.basename.to_s == 'metadata.rb'
           files.push(entry.name)
         end
       end
 
-      # stores the rootdir of metadata.rb or metadata.yml
+      # stores the rootdir of metadata.rb or inspec.yml
       rootdir += '/' if !rootdir.empty?
       [files, rootdir]
     end

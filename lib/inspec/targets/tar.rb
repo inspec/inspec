@@ -25,10 +25,10 @@ module Inspec::Targets
       # find root dir of profile
       files.each { |f|
         pn = Pathname(f)
-        rootdir = pn.dirname.to_s if pn.basename.to_s == 'metadata.yml' || pn.basename.to_s == 'metadata.rb'
+        rootdir = pn.dirname.to_s if pn.basename.to_s == 'inspec.yml' || pn.basename.to_s == 'metadata.rb'
       }
 
-      # stores the rootdir of metadata.rb or metadata.yml
+      # stores the rootdir of metadata.rb or inspec.yml
       rootdir += '/' if !rootdir.empty?
       [files, rootdir]
     end

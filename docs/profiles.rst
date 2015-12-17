@@ -70,10 +70,10 @@ To use a profile and their mechanisms, just place the files according to the fol
   │   └── gordon_spec.rb
   ├── libraries
   │   └── gordon_config.rb
-  └── metadata.yml
+  └── inspec.yml
 
 
- * `metadata.yml` - includes the profile description (required)
+ * `inspec.yml` - includes the profile description (required)
  * `controls` - the directory includes all tests (required)
  * `libraries` - is an optional feature to load custom InSpec resource extensions (optional)
  * `README.md` - its best-practice to add a readme to each profile to explain its scope
@@ -82,7 +82,7 @@ To use a profile and their mechanisms, just place the files according to the fol
 InSpec Profile Manifest
 -----------------------------------------------------
 
-Each profile has a manifest file `metadata.yml`. It looks as follows
+Each profile has a manifest file `inspec.yml`. It looks as follows
 
 .. code-block:: yaml
 

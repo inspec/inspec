@@ -76,8 +76,8 @@ module Inspec
         return nil
       end
 
-      # found metadata.yml
-      if Pathname.new(path).basename.to_s == 'metadata.yml'
+      # found inspec.yml
+      if Pathname.new(path).basename.to_s == 'inspec.yml'
         metadata = YAML.load_file(path)
         # convert string to symbols
         symbolize_keys(metadata)

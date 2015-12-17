@@ -97,7 +97,7 @@ module Inspec
       @logger.info 'Metadata OK.' if @metadata.valid?
 
       # check if deprecated metadata.rb exists
-      warn.call('The use of `metadata.rb` is deprecated. Use `metadata.yml`.') if Pathname.new(path).join('metadata.rb').exist?
+      warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.') if Pathname.new(path).join('metadata.rb').exist?
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
@@ -189,9 +189,9 @@ module Inspec
     private
 
     def read_metadata
-      mpath = Pathname.new(path).join('metadata.yml')
+      mpath = Pathname.new(path).join('inspec.yml')
 
-      # fallback to metadata.rb if metadata.yml does not exist
+      # fallback to metadata.rb if inspec.yml does not exist
       # TODO deprecated, will be removed in InSpec 1.0
       mpath = File.join(@path, 'metadata.rb') if !mpath.exist?
       Metadata.from_file(mpath, @profile_id, @logger)
