@@ -39,7 +39,7 @@ class SecurityPolicy < Inspec.resource(1)
     return nil if @exit_status != 0
     @policy = cmd.stdout
     @loaded = true
-    
+
     # returns self
     self
 
