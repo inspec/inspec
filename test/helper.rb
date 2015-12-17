@@ -111,9 +111,9 @@ class MockLoader
 
     mock.commands = {
       'ps aux' => cmd.call('ps-aux'),
-      'type win_secpol.cfg' => cmd.call('secedit-export'),
+      'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
-      'del win_secpol.cfg' => cmd.call('success'),
+      'Remove-Item win_secpol.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '$Env:PATH'  => cmd.call('$env-PATH'),
       # registry key test
