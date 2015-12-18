@@ -49,7 +49,6 @@ class GrubConfig < Inspec.resource(1)
     kernel_opts = {}
     lines.each_with_index do |file_line,index|
       if ( file_line =~ /^title.*/ )
-        puts file_line
         lines.drop(index+1).each do |kernel_line|
           if ( kernel_line =~ /^\s.*/ )
             option_type = kernel_line.split(' ')[0]
