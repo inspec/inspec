@@ -70,6 +70,13 @@ class GrubConfig < Inspec.resource(1)
       content,
       multiple_values: true,
     ).params
+
+    conf.each do |key, value|
+      if (value.size == 1)
+        conf[key] = conf[key][0].to_s
+      end
+    end
+
     @params = conf.merge(kernel_opts)
   end
 end
