@@ -14,31 +14,31 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     desc: 'Show diagnostics (versions, configurations)'
 
   def self.target_options
-    option :target, aliases: :t, type: :string, default: nil,
+    option :target, aliases: :t, type: :string,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
-    option :backend, aliases: :b, type: :string, default: nil,
+    option :backend, aliases: :b, type: :string,
       desc: 'Choose a backend: local, ssh, winrm, docker.'
     option :host, type: :string,
       desc: 'Specify a remote host which is tested.'
     option :port, aliases: :p, type: :numeric,
       desc: 'Specify the login port for a remote scan.'
-    option :user, type: :string, default: nil,
+    option :user, type: :string,
       desc: 'The login user for a remote scan.'
-    option :password, type: :string, default: nil,
+    option :password, type: :string,
       desc: 'Login password for a remote scan, if required.'
-    option :key_files, aliases: :i, type: :array, default: nil,
+    option :key_files, aliases: :i, type: :array,
       desc: 'Login key or certificate file for a remote scan.'
-    option :path, type: :string, default: nil,
+    option :path, type: :string,
       desc: 'Login path to use when connecting to the target (WinRM).'
-    option :sudo, type: :boolean, default: false,
+    option :sudo, type: :boolean,
       desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
-    option :sudo_password, type: :string, default: nil,
+    option :sudo_password, type: :string,
       desc: 'Specify a sudo password, if it is required.'
-    option :sudo_options, type: :string, default: '',
+    option :sudo_options, type: :string,
       desc: 'Additional sudo options for a remote scan.'
-    option :ssl, type: :boolean, default: false,
+    option :ssl, type: :boolean,
       desc: 'Use SSL for transport layer encryption (WinRM).'
-    option :self_signed, type: :boolean, default: false,
+    option :self_signed, type: :boolean,
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
     option :json_config, type: :string,
       desc: 'Read configuration from JSON file (`-` reads from stdin).'
