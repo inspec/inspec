@@ -6,8 +6,15 @@
 
 if node['platform_family'] != 'windows'
 
-  gid = 'root'
-  gid = 'wheel' if node['platform_family'] == 'freebsd'
+  gid = case node['platform_family']
+        when 'aix'
+          'system'
+        when 'freebsd'
+          'wheel'
+        else
+          'root'
+        end
+
 
   file '/tmp/file' do
     mode '0765'

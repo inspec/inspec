@@ -4,8 +4,14 @@
 #
 # adds a yaml file
 
-gid = 'root'
-gid = 'wheel' if node['platform_family'] == 'freebsd'
+gid = case node['platform_family']
+      when 'aix'
+        'system'
+      when 'freebsd'
+        'wheel'
+      else
+        'root'
+      end
 
 ['yml', 'json', 'csv', 'ini'].each { |filetype|
 
