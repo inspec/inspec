@@ -45,6 +45,7 @@ class GrubConfig < Inspec.resource(1)
       return @params = {}
     end
 
+    # Find all "title" lines and then parse them into arrays
     lines = content.split("\n")
     kernel_opts = {}
     lines.each_with_index do |file_line,index|
@@ -70,6 +71,14 @@ class GrubConfig < Inspec.resource(1)
       content,
       multiple_values: true,
     ).params
+
+    # convert single entry arrays into strings
+    conf.each do |key, value|
+      if (value.size == 1)
+        conf[key] = conf[key][0].to_s
+      end
+    end
+
     @params = conf.merge(kernel_opts)
   end
 end
