@@ -17,7 +17,13 @@ class GrubConfig < Inspec.resource(1)
   "
 
   def initialize(path = nil)
-    @conf_path = path || '/etc/grub.conf'
+    family = inspec.os[:family]
+    case family
+    when 'redhat', 'fedora', 'centos'
+      @conf_path = path || '/etc/grub.conf'
+      supported = true
+    end
+    return skip_resource 'The `grub_config` resource is not supported on your OS yet.' if supported.nil?
   end
 
   def method_missing(name)
