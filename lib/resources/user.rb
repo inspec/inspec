@@ -287,7 +287,11 @@ class AixUser < UnixUser
 
     user = lsuser.stdout.chomp.split("\n").last.split(':')
     {
+<<<<<<< HEAD
       home:  user[1],
+=======
+      home: user[1],
+>>>>>>> 581a6d9... add aix user support
       shell: user[2],
     }
   end
