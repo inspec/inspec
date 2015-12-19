@@ -287,7 +287,7 @@ class AixUser < UnixUser
 
     user = lsuser.stdout.chomp.split("\n").last.split(':')
     {
-      home:  user[1],
+      home: user[1],
       shell: user[2],
     }
   end
