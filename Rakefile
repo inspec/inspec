@@ -54,6 +54,7 @@ namespace :test do
     #sh_cmd =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
     sh_cmd =  "bin/inspec exec #{tests_path}/"
     sh_cmd += ENV['test'] ? "#{ENV['test']}_spec.rb" : '*'
+    sh_cmd += " --sudo" unless args[:target].split('@')[0] == 'root'
     sh_cmd += " -t ssh://#{args[:target]}"
     sh_cmd += " --key_files=#{key_files}"
     sh_cmd += " --format=#{ENV['format']}" if ENV['format']
