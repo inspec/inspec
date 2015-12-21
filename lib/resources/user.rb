@@ -287,18 +287,14 @@ class AixUser < UnixUser
 
     user = lsuser.stdout.chomp.split("\n").last.split(':')
     {
-<<<<<<< HEAD
       home:  user[1],
-=======
-      home: user[1],
->>>>>>> 581a6d9... add aix user support
       shell: user[2],
     }
   end
 
   def credentials(username)
     cmd = inspec.command(
-      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime"
+      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime",
     )
     return nil if cmd.exit_status != 0
 
