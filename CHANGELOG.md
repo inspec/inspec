@@ -1,7 +1,32 @@
 # Change Log
 
-## [0.9.6](https://github.com/chef/inspec/tree/0.9.6) (2015-12-11)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.5...0.9.6)
+## [0.9.7](https://github.com/chef/inspec/tree/0.9.7) (2015-12-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.6...0.9.7)
+
+**Implemented enhancements:**
+
+- Configuration number comparisons [\#308](https://github.com/chef/inspec/issues/308)
+- Allow for reading options from a file [\#284](https://github.com/chef/inspec/issues/284)
+- file resource mode matcher does not display file permissions correctly on failure [\#230](https://github.com/chef/inspec/issues/230)
+
+**Fixed bugs:**
+
+- remove commandline defaults, they break json config [\#327](https://github.com/chef/inspec/pull/327) ([srenatus](https://github.com/srenatus))
+- Fixing issue with security policy always returning nil [\#321](https://github.com/chef/inspec/pull/321) ([jeremymv2](https://github.com/jeremymv2))
+- reset rspec configuration when initializing Inspec::Runner [\#320](https://github.com/chef/inspec/pull/320) ([srenatus](https://github.com/srenatus))
+- EL package resource improvements: catch missing newlines & add release info [\#248](https://github.com/chef/inspec/pull/248) ([troyready](https://github.com/troyready))
+
+**Closed issues:**
+
+- convert logindef values to integer if possible [\#121](https://github.com/chef/inspec/issues/121)
+
+**Merged pull requests:**
+
+- remove format default for `inspec exec` [\#326](https://github.com/chef/inspec/pull/326) ([srenatus](https://github.com/srenatus))
+- teach `cmp` matcher octal tricks [\#324](https://github.com/chef/inspec/pull/324) ([srenatus](https://github.com/srenatus))
+
+## [v0.9.6](https://github.com/chef/inspec/tree/v0.9.6) (2015-12-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.5...v0.9.6)
 
 **Implemented enhancements:**
 
@@ -33,6 +58,7 @@
 
 **Merged pull requests:**
 
+- 0.9.6 [\#319](https://github.com/chef/inspec/pull/319) ([arlimus](https://github.com/arlimus))
 - Bugfix: Properly initialize script resource [\#316](https://github.com/chef/inspec/pull/316) ([chris-rock](https://github.com/chris-rock))
 - improve shell prompt and help [\#315](https://github.com/chef/inspec/pull/315) ([chris-rock](https://github.com/chris-rock))
 - port resource: array attributes, resource alternative [\#303](https://github.com/chef/inspec/pull/303) ([srenatus](https://github.com/srenatus))
