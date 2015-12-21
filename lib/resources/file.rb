@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
+
 module Inspec::Resources
   class File < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'file'
@@ -92,9 +93,8 @@ module Inspec::Resources
     def file_permission_granted?(flag, by_usergroup, by_specific_user)
       fail 'Checking file permissions is not supported on your os' unless unix?
 
-      usergroup = usergroup_for(by_usergroup, by_specific_user)
-
-      if by_specific_user.nil?
+      if by_specific_user.nil? || by_specific_user.empty?
+        usergroup = usergroup_for(by_usergroup, by_specific_user)
         check_file_permission_by_mask(usergroup, flag)
       else
         check_file_permission_by_user(by_specific_user, flag)
@@ -113,6 +113,8 @@ module Inspec::Resources
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
       elsif family == 'freebsd'
         perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
+      elsif family == 'aix'
+        perm_cmd = "su #{user} -c test -#{flag} #{path}"
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'
       end
