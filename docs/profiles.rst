@@ -86,7 +86,7 @@ Each profile has a manifest file `inspec.yml`. It looks as follows
 
 .. code-block:: yaml
 
-  name: base/ssh
+  name: ssh
   title: Basic SSH
   maintainer: Chef Software, Inc.
   copyright: Chef Software, Inc.
