@@ -266,8 +266,6 @@ class LinuxUser < UnixUser
 end
 
 class AixUser < UnixUser
-  include ContentParser
-
   def identity(username)
     id = super(username)
     return nil if id.nil?
@@ -289,14 +287,14 @@ class AixUser < UnixUser
 
     user = lsuser.stdout.chomp.split("\n").last.split(':')
     {
-      home: user[1],
+      home:  user[1],
       shell: user[2],
     }
   end
 
   def credentials(username)
     cmd = inspec.command(
-      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime"
+      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime",
     )
     return nil if cmd.exit_status != 0
 
