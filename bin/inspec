@@ -87,7 +87,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     runner = Inspec::Runner.new(opts)
     runner.add_tests(tests)
-    runner.run
+    exit runner.run
   rescue RuntimeError => e
     puts e.message
   end
