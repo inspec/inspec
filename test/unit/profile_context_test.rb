@@ -34,7 +34,7 @@ describe Inspec::ProfileContext do
       load('describe true do; it { should_eq true }; end')
         .must_output ''
       profile.rules.keys.length.must_equal 1
-      profile.rules.keys[0].must_match /^unknown:1 [0-9a-f]+$/
+      profile.rules.keys[0].must_match /^\(generated from unknown:1 [0-9a-f]+\)$/
       profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
 
@@ -43,7 +43,7 @@ describe Inspec::ProfileContext do
         .must_output ''
       profile.rules.keys.length.must_equal 3
       [0, 1, 2].each do |i|
-        profile.rules.keys[i].must_match /^unknown:2 [0-9a-f]+$/
+        profile.rules.keys[i].must_match /^\(generated from unknown:2 [0-9a-f]+\)$/
         profile.rules.values[i].must_be_kind_of Inspec::Rule
       end
     end

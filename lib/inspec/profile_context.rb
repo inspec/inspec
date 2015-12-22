@@ -111,7 +111,7 @@ module Inspec
         define_method :describe do |*args, &block|
           path = block.source_location[0]
           line = block.source_location[1]
-          id = "#{File.basename(path)}:#{line} #{SecureRandom.hex}"
+          id = "(generated from #{File.basename(path)}:#{line} #{SecureRandom.hex})"
           rule = rule_class.new(id, {}) do
             describe(*args, &block)
           end
