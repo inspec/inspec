@@ -36,6 +36,29 @@ class GrubConfig < Inspec.resource(1)
 
   private
 
+  def parse_kernel_lines(content)
+    # Find all "title" lines and then parse them into arrays
+    lines = content.split("\n")
+    kernel_opts = {}
+    lines.each_with_index do |file_line, index|
+      next unless file_line =~ /^title.*/
+      lines.drop(index+1).each do |kernel_line|
+        if kernel_line =~ /^\s.*/
+          option_type = kernel_line.split(' ')[0]
+          line_options = kernel_line.split(' ').drop(1)
+          if kernel_opts[option_type].is_a?(Array)
+            kernel_opts[option_type].push(*line_options)
+          else
+            kernel_opts[option_type] = line_options
+          end
+        else
+          break
+        end
+      end
+    end
+    kernel_opts
+  end
+
   def read_params
     return @params if defined?(@params)
 
@@ -52,27 +75,6 @@ class GrubConfig < Inspec.resource(1)
       return @params = {}
     end
 
-    # Find all "title" lines and then parse them into arrays
-    lines = content.split("\n")
-    kernel_opts = {}
-    lines.each_with_index do |file_line, index|
-      if file_line =~ /^title.*/
-        lines.drop(index+1).each do |kernel_line|
-          if kernel_line =~ /^\s.*/
-            option_type = kernel_line.split(' ')[0]
-            line_options = kernel_line.split(' ').drop(1)
-            if kernel_opts[option_type].is_a?(Array)
-              kernel_opts[option_type].push(*line_options)
-            else
-              kernel_opts[option_type] = line_options
-            end
-          else
-            break
-          end
-        end
-      end
-    end
-
     # parse the file
     conf = SimpleConfig.new(
       content,
@@ -85,6 +87,8 @@ class GrubConfig < Inspec.resource(1)
         conf[key] = conf[key][0].to_s
       end
     end
+
+    kernel_opts = parse_kernel_lines(content)
 
     @params = conf.merge(kernel_opts)
   end
