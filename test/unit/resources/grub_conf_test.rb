@@ -6,22 +6,26 @@ require 'inspec/resource'
 
 describe 'Inspec::Resources::GrubConfig' do
 
-  let(:resource) { load_resource('grub_conf') }
-
   it 'verify kernel include' do
-    _(resource.send('kernel')).must_be_kind_of Array
+    resource = MockLoader.new(:centos7).load_resource('grub_conf')
+    _(resource.kernel).must_be_kind_of Array
   end
 
   it 'verify initrd include' do
-    _(resource.send('kernel')).must_be_kind_of Array
+    resource = MockLoader.new(:centos7).load_resource('grub_conf')
+    _(resource.initrd).must_be_kind_of Array
   end
 
   it 'verify default' do
-    _(resource.send('kernel')).must_equal '1'
+    resource = MockLoader.new(:centos7).load_resource('grub_conf')
+    _(resource.default).must_equal '0'
   end
 
-  it 'verify default' do
-    _(resource.send('timeout')).must_equal '5'
+  it 'verify timeout' do
+    resource = MockLoader.new(:centos7).load_resource('grub_conf')
+    _(resource.timeout).must_equal '5'
   end
 
 end
+
+
