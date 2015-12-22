@@ -99,16 +99,18 @@ module Inspec
       end
 
       warn.call('No version defined') if @params[:name].to_s.empty?
-      warn.call('No title defined') if @params[:name].to_s.empty?
-      warn.call('No maintainer defined') if @params[:name].to_s.empty?
-      warn.call('No supports defined') if @params[:name].empty?
+      warn.call('No title defined') if @params[:title].to_s.empty?
+      warn.call('No maintainer defined') if @params[:maintainer].to_s.empty?
+      if Array(@params[:supports]).empty?
+        warn.call('No supports defined (supported operating systems)')
+      end
       @logger.info 'Metadata OK.' if no_warnings
 
       no_warnings = true
-      if @params[:name].empty?
+      if @params[:rules].empty?
         warn.call('No rules were found.')
       else
-        @logger.debug "Found #{@params[:name].length} rules."
+        @logger.debug "Found #{@params[:rules].length} rules."
       end
 
       # iterate over hash of groups
