@@ -6,7 +6,7 @@
 require 'inspec/metadata'
 
 module Inspec
-  class Profile # rubocop:disable Metrics/ClassLength
+  class Profile
     def self.from_path(path, options = nil)
       opt = {}
       options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
@@ -35,6 +35,7 @@ module Inspec
         id: @profile_id,
         backend: :mock,
       )
+
       @runner.add_tests([@path])
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
@@ -91,24 +92,11 @@ module Inspec
       }
 
       @logger.info "Checking profile in #{@path}"
-
-      if @params[:name].to_s.empty?
-        error.call('No profile name defined')
-      elsif !(@params[:name].to_s =~ %r{^\S+\/\S+$})
-        error.call('Profile name must be defined as: OWNER/ID')
-      end
-
-      warn.call('No version defined') if @params[:name].to_s.empty?
-      warn.call('No title defined') if @params[:title].to_s.empty?
-      warn.call('No maintainer defined') if @params[:maintainer].to_s.empty?
-      if Array(@params[:supports]).empty?
-        warn.call('No supports defined (supported operating systems)')
-      end
-      @logger.info 'Metadata OK.' if no_warnings
+      @logger.info 'Metadata OK.' if @metadata.valid?
 
       no_warnings = true
       if @params[:rules].empty?
-        warn.call('No rules were found.')
+        warn.call('No controls or tests were defined.')
       else
         @logger.debug "Found #{@params[:rules].length} rules."
       end

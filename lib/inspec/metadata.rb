@@ -44,12 +44,12 @@ module Inspec
 
     def valid?
       is_valid = true
-      %w{ name title version summary }.each do |field|
+      %w{ name version }.each do |field|
         next unless params[field.to_sym].nil?
         @logger.error("Missing profile #{field} in metadata.rb")
         is_valid = false
       end
-      %w{ maintainer copyright }.each do |field|
+      %w{ title summary maintainer copyright }.each do |field|
         next unless params[field.to_sym].nil?
         @logger.warn("Missing profile #{field} in metadata.rb")
         is_valid = false
