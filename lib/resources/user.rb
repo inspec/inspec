@@ -292,9 +292,10 @@ class AixUser < UnixUser
     }
   end
 
+  # rubocop:disable Style/TrailingComma
   def credentials(username)
     cmd = inspec.command(
-      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime",
+      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime"
     )
     return nil if cmd.exit_status != 0
 
