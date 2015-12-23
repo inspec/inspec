@@ -105,6 +105,7 @@ module Inspec
       @params[:rules].each do |group, rules_array|
         @logger.debug "Verify all rules in  #{group}"
         rules_array.each do |id, rule|
+          next if id.start_with? '(generated '
           error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
           warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
           warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
