@@ -80,6 +80,8 @@ class Service < Inspec.resource(1)
       @service_mgmt = BSDInit.new(inspec)
     when 'arch', 'opensuse'
       @service_mgmt = Systemd.new(inspec)
+    when 'aix'
+      @service_mgmt = SrcMstr.new(inspec)
     end
 
     return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
@@ -152,6 +154,47 @@ class Systemd < ServiceManager
       enabled: enabled,
       type: 'systemd',
     }
+  end
+end
+
+# AIX services
+class SrcMstr < ServiceManager
+  attr_reader :name
+
+  def info(service_name)
+    @name = service_name
+    running = status?
+    return nil if running.nil?
+
+    {
+      name: service_name,
+      description: nil,
+      installed: true,
+      running: running,
+      enabled: enabled?,
+      type: 'srcmstr',
+    }
+  end
+
+  def status?
+    status_cmd = inspec.command("lssrc -s #{@name}")
+    return nil if status_cmd.exit_status.to_i != 0
+    status_cmd.stdout.split(/\n/).last.chomp.match(/active$/) ? true : false
+  end
+
+  def enabled?
+    enabled_rc_tcpip? || enabled_inittab?
+  end
+
+  private
+  def enabled_rc_tcpip?
+    inspec.command("grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '") \
+      ? true \
+      : false
+  end
+
+  def enabled_inittab?
+    inspec.command("lsitab #{@name}").exit_status.to_i == 0 ? true : false
   end
 end
 
