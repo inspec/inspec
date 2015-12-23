@@ -195,7 +195,7 @@ class BffPkg < PkgManagement
     cmd = inspec.command("lslpp -cL #{package_name}")
     return nil if cmd.exit_status.to_i != 0
 
-    bff_pkg = cmd.stdout.chomp.split("\n").last.split(':')
+    bff_pkg = cmd.stdout.split("\n").last.split(':')
     {
       name:      bff_pkg[1],
       installed: true,
