@@ -188,9 +188,10 @@ class SrcMstr < ServiceManager
 
   private
 
+  # rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
     if inspec.command(
-      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '",
+      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '"
     ).exit_status == 0
       true
     else
