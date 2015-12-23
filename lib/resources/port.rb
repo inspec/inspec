@@ -153,7 +153,7 @@ class LsofPorts < PortsInfo
 
     # -F p=pid, c=command, P=protocol name, t=type, n=internet addresses
     # see 'OUTPUT FOR OTHER PROGRAMS' in LSOF(8)
-    lsof_cmd = inspec.command("#{@lsof} -nP -iTCP -iUDP -FpctPn")
+    lsof_cmd = inspec.command("#{@lsof} -nP -i -FpctPn")
     return nil if lsof_cmd.exit_status.to_i != 0
 
     # build this with formatted output (-F) from lsof
