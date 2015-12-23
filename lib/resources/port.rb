@@ -40,8 +40,8 @@ class Port < Inspec.resource(1)
       # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
       # I think all lsof's are the same...
       @port_manager = LsofPorts.new(inspec)
-    #when 'redhat' - I think most lsof's are the same and pretty standard on many linuxes
-    #  @port_manager = LsofPorts.new(inspec, '/usr/sbin/lsof')
+    # when 'redhat' - I think most lsof's are the same and pretty standard on many linuxes
+    #   @port_manager = LsofPorts.new(inspec, '/usr/sbin/lsof')
     when 'windows'
       @port_manager = WindowsPorts.new(inspec)
     when 'freebsd'
@@ -144,6 +144,10 @@ class LsofPorts < PortsInfo
     super(inspec)
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable MethodLength
   def info
     ports = []
 
@@ -167,7 +171,6 @@ class LsofPorts < PortsInfo
     #   ]
     # }
     proc_id = port_id = nil
-    pid = cmd = ipv = proto = port = host = nil
     lsof_cmd.stdout.each_line do |line|
       line.chomp!
       key = line.slice!(0)
@@ -187,7 +190,7 @@ class LsofPorts < PortsInfo
         # skip active comm streams
         next if dst
 
-        host, port = /^(\S+):(\d+|\*)$/.match(src)[1,2]
+        host, port = /^(\S+):(\d+|\*)$/.match(src)[1, 2]
 
         # skip channels from port 0 - what does this mean?
         next if port == '*'
@@ -201,12 +204,12 @@ class LsofPorts < PortsInfo
         begin
           uri = URI("addr://#{host}:#{port}")
           uri.host && uri.port
-        rescue Exception => e
-          warn "could not parse uri addr://#{host}:#{port} - #{e}"
+        rescue => e
+          warn "could not parse URI 'addr://#{host}:#{port}' - #{e}"
           next
         end
 
-        # e.g. 'ipv4:tcp:22:127.0.0.1' or
+        # e.g. 'ipv4:tcp:22:127.0.0.1'
         #                             strip ipv6 squares for inspec
         port_id += ':' + port + ':' + host.gsub(/^\[|\]$/, '')
 
@@ -216,18 +219,16 @@ class LsofPorts < PortsInfo
     end
 
     # map to desired return struct
-    procs.each do |proc_id, port_ids|
-      pid, cmd = proc_id.split(':')
-      port_ids.each do |port_id|
+    procs.each do |process, port_ids|
+      pid, cmd = process.split(':')
+      port_ids.each do |port_str|
         # should not break on ipv6 addresses
-        ipv, proto, port, host = port_id.split(':', 4)
-        ports.push({
-          port:     port.to_i,
-          address:  host,
-          protocol: ipv == 'ipv6' ? proto + '6' : proto,
-          process:  cmd,
-          pid:      pid.to_i,
-        })
+        ipv, proto, port, host = port_str.split(':', 4)
+        ports.push({ port:  port.to_i,
+                     address:  host,
+                     protocol: ipv == 'ipv6' ? proto + '6' : proto,
+                     process:  cmd,
+                     pid:      pid.to_i })
       end
     end
 
