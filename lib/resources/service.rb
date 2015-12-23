@@ -187,10 +187,15 @@ class SrcMstr < ServiceManager
   end
 
   private
+
   def enabled_rc_tcpip?
-    inspec.command("grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '") \
-      ? true \
-      : false
+    if inspec.command(
+      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '",
+    ).exit_status == 0
+      true
+    else
+      false
+    end
   end
 
   def enabled_inittab?
