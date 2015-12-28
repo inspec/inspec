@@ -4,9 +4,20 @@
 
 module Inspec::Targets
   module DirsHelper
+    # InSpec profile Loader
+    # Previous versions used the `test` directory instead of the new `controls`
+    # directory. Usage of the test directory is deprecated and not recommended
+    # anymore. Support for `test` will be removed in InSpec 1.0
+    # TODO: remove `test` support for InSpec 1.0
     class ProfileDir
       def handles?(paths)
-        paths.include?('test') && paths.include?('metadata.rb')
+        (
+          !paths.grep(/^controls/).empty? ||
+          !paths.grep(/^test/).empty?
+        ) && (
+          paths.include?('inspec.yml') ||
+          paths.include?('metadata.rb')
+        )
       end
 
       def get_libraries(paths)
@@ -17,7 +28,7 @@ module Inspec::Targets
 
       def get_filenames(paths)
         paths.find_all do |path|
-          path.start_with?('test') && path.end_with?('.rb')
+          (path.start_with?('controls') || path.start_with?('test')) && path.end_with?('.rb')
         end
       end
     end

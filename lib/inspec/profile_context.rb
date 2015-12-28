@@ -123,9 +123,11 @@ module Inspec
           nil
         end
 
-        def skip_rule(id)
+        def skip_control(id)
           __unregister_rule id
         end
+
+        alias_method :skip_rule, :skip_control
 
         def only_if(&block)
           return unless block_given?

@@ -77,6 +77,25 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     exit 1 unless profile.check
   end
 
+  desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
+  option :zip, type: :boolean, default: false,
+    desc: 'Generates a zip archive.'
+  option :tar, type: :boolean, default: false,
+    desc: 'Generates a tar.gz archive.'
+  option :overwrite, type: :boolean, default: false,
+    desc: 'Overwrite existing archive.'
+  option :ignore_errors, type: :boolean, default: false,
+    desc: 'Ignore profile warnings.'
+  def archive(path)
+    diagnose
+
+    o = options.dup
+    o[:logger] = Logger.new(STDOUT)
+    profile = Inspec::Profile.from_path(path, o)
+    # generate archive
+    exit 1 unless profile.archive(opts)
+  end
+
   desc 'exec PATHS', 'run all test files at the specified PATH.'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
