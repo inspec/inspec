@@ -81,7 +81,7 @@ module Inspec
     # used to print information on errors and warnings which are found.
     #
     # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       no_errors = true
       no_warnings = true
       warn = lambda { |msg|
@@ -97,11 +97,15 @@ module Inspec
       @logger.info 'Metadata OK.' if @metadata.valid?
 
       # check if deprecated metadata.rb exists
-      warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.') if Pathname.new(path).join('metadata.rb').exist?
+      if Pathname.new(path).join('metadata.rb').exist?
+        warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+      end
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
-      warn.call('Profile uses deprecated `test` directory, rename it to `controls`') if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
+      if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
+        warn.call('Profile uses deprecated `test` directory, rename it to `controls`')
+      end
 
       no_warnings = true
       if @params[:rules].empty?
