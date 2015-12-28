@@ -28,7 +28,8 @@ module Inspec
       fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
       fail "Cannot find directory #{@path}" unless File.directory?(@path)
 
-      @params = read_metadata
+      @metadata = read_metadata
+      @params = @metadata.params
       # use the id from parameter, name or fallback to nil
       @profile_id = options[:id] || params[:name] || nil
 

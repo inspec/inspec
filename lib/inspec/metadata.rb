@@ -76,18 +76,20 @@ module Inspec
         return nil
       end
 
+      res = Metadata.new(logger)
+
       # found inspec.yml
       if Pathname.new(path).basename.to_s == 'inspec.yml'
-        metadata = YAML.load_file(path)
+        res.params = YAML.load_file(path)
         # convert string to symbols
-        symbolize_keys(metadata)
+        symbolize_keys(res.params)
       # if we found a deprecated metadata.rb
       elsif Pathname.new(path).basename.to_s == 'metadata.rb'
-        res = Metadata.new(logger)
         res.instance_eval(File.read(path), path, 1)
-        res.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
-        res.params
       end
+
+      res.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      res
     end
   end
 end
