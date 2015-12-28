@@ -2,7 +2,7 @@
 InSpec Profiles
 =====================================================
 
-InSpec supports the creation of complex test and compliance profiles, which organize controls to support dependency management and code re-use.
+InSpec supports the creation of complex test and compliance profiles, which organize controls to support dependency management and code re-use. These profiles are standalone structures with their own distribution and execution flow.
 
 InSpec profile structure
 -----------------------------------------------------
@@ -15,8 +15,8 @@ To create a new profile just place the files according to the following structur
   examples/profile
   ├── README.md
   ├── controls
-  │   ├── example_spec.rb
-  │   └── gordon_spec.rb
+  │   ├── example.rb
+  │   └── gordon.rb
   ├── libraries
   │   └── gordon_config.rb
   └── inspec.yml
