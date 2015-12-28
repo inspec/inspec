@@ -8,8 +8,10 @@ require 'logger'
 module Inspec
   # Extract metadata.rb information
   class Metadata
-    attr_reader :params
-    def initialize(logger = nil)
+    attr_reader :path
+    attr_accessor :params
+    def initialize(path, logger = nil)
+      @path = path
       @logger = logger || Logger.new(nil)
       @params = {}
       @missing_methods = []
@@ -46,19 +48,19 @@ module Inspec
       is_valid = true
       %w{ name version }.each do |field|
         next unless params[field.to_sym].nil?
-        @logger.error("Missing profile #{field} in metadata.rb")
+        @logger.error("Missing profile #{field} in #{path}")
         is_valid = false
       end
       %w{ title summary maintainer copyright }.each do |field|
         next unless params[field.to_sym].nil?
-        @logger.warn("Missing profile #{field} in metadata.rb")
+        @logger.warn("Missing profile #{field} in #{path}")
         is_valid = false
       end
       is_valid && @missing_methods.empty?
     end
 
     def method_missing(sth, *args)
-      @logger.warn "metadata.rb doesn't support: #{sth} #{args}"
+      @logger.warn "#{path} doesn't support: #{sth} #{args}"
       @missing_methods.push(sth)
     end
 
@@ -76,19 +78,20 @@ module Inspec
         return nil
       end
 
-      res = Metadata.new(logger)
+      pathname = Pathname.new(path).basename.to_s
+      res = Metadata.new(pathname, logger)
 
       # found inspec.yml
-      if Pathname.new(path).basename.to_s == 'inspec.yml'
+      if pathname == 'inspec.yml'
         res.params = YAML.load_file(path)
-        # convert string to symbols
-        symbolize_keys(res.params)
       # if we found a deprecated metadata.rb
-      elsif Pathname.new(path).basename.to_s == 'metadata.rb'
+      elsif pathname == 'metadata.rb'
         res.instance_eval(File.read(path), path, 1)
       end
 
       res.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      res.params = symbolize_keys(res.params)
+
       res
     end
   end
