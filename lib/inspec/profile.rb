@@ -95,12 +95,12 @@ module Inspec
       }
 
       @logger.info "Checking profile in #{@path}"
-      @logger.info 'Metadata OK.' if @metadata.valid?
 
-      # check if deprecated metadata.rb exists
       if Pathname.new(path).join('metadata.rb').exist?
         warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
+
+      @logger.info 'Metadata OK.' if @metadata.valid?
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
@@ -108,13 +108,14 @@ module Inspec
         warn.call('Profile uses deprecated `test` directory, rename it to `controls`')
       end
 
-      no_warnings = true
-      if @params[:rules].empty?
-        warn.call('No rules were found.')
+      rules_counter = @params[:rules].values.map { |hm| hm.values.length }.inject(:+)
+      if rules_counter.nil? || rules_counter == 0
+        warn.call('No controls or tests were defined.')
+      else
+        @logger.debug("Found #{rules_counter} rules.")
       end
 
       # iterate over hash of groups
-      rules_counter = 0
       @params[:rules].each do |group, rules_array|
         @logger.debug "Verify all rules in  #{group}"
         rules_array.each do |id, rule|
@@ -125,10 +126,8 @@ module Inspec
           warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
           warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
           warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
-          rules_counter += 1
         end
       end
-      @logger.debug "Found #{rules_counter} rules."
 
       @logger.info 'Rule definitions OK.' if no_warnings
       no_errors

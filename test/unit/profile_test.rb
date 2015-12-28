@@ -55,6 +55,7 @@ describe Inspec::Profile do
 
       it 'prints loads of warnings' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/empty"]
+        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ['Missing profile name in metadata.rb']
         logger.expect :error, nil, ['Missing profile version in metadata.rb']
         logger.expect :warn, nil, ['Missing profile title in metadata.rb']
@@ -73,7 +74,9 @@ describe Inspec::Profile do
 
       it 'prints ok messages' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-meta"]
+        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :info, nil, ['Metadata OK.']
+        logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         profile.check
