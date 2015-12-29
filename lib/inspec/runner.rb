@@ -84,6 +84,7 @@ module Inspec
       ctx = create_context
       libs.each do |lib|
         ctx.load(lib[:content].to_s, lib[:ref], lib[:line] || 1)
+        ctx.reload_dsl
       end
 
       # evaluate the test content
