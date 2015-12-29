@@ -19,11 +19,15 @@ module Inspec
       @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs
+      @backend = backend
 
-      dsl = create_inner_dsl(backend)
+      reload_dsl
+    end
+
+    def reload_dsl
+      dsl = create_inner_dsl(@backend)
       outer_dsl = create_outer_dsl(dsl)
       ctx = create_context(outer_dsl)
-
       @profile_context = ctx.new
     end
 
