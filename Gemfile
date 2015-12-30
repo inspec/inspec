@@ -16,6 +16,7 @@ group :integration do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'kitchen-inspec'
+  gem 'kitchen-ec2'
 end
 
 group :tools do
