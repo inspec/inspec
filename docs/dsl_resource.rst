@@ -84,3 +84,7 @@ The following example shows a full resource using attributes and methods to prov
       end
     end
   end
+
+For a full example, see our `example resource`_.
+
+.. _example resource: ../examples/profile

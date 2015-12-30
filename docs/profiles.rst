@@ -27,6 +27,9 @@ To create a new profile just place the files according to the following structur
  * `libraries` - a folder which contains InSpec resource extensions (optional)
  * `README.md` - a best-practice readme to each explain the profile and its scope
 
+For a full example, see our `example profile`_.
+
+.. _example profile: ../examples/profile
 
 InSpec profile manifest
 -----------------------------------------------------
