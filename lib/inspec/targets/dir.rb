@@ -31,6 +31,11 @@ module Inspec::Targets
           (path.start_with?('controls') || path.start_with?('test')) && path.end_with?('.rb')
         end
       end
+
+      def get_metadata(paths)
+        return 'inspec.yml' if paths.include?('inspec.yml')
+        return 'metadata.rb' if paths.include?('metadata.rb')
+      end
     end
 
     class ChefAuditDir
