@@ -26,8 +26,9 @@ module Inspec::Targets
       # get all test file contents
       file_handler = Inspec::Targets.modules['file']
       res = {
-        test:    collect(helper, files, :get_filenames),
-        library: collect(helper, files, :get_libraries),
+        test:     collect(helper, files, :get_filenames),
+        library:  collect(helper, files, :get_libraries),
+        metadata: collect(helper, files, :get_metadata),
       }.map { |as, list|
         file_handler.resolve_all(list, base_folder: target, as: as)
       }
@@ -42,7 +43,7 @@ module Inspec::Targets
 
     private
 
-    def collect_files(helper, files, getter)
+    def collect(helper, files, getter)
       return [] unless helper.respond_to? getter
       helper.method(getter).call(files)
     end
