@@ -25,21 +25,26 @@ module Inspec::Targets
 
       # get all test file contents
       file_handler = Inspec::Targets.modules['file']
-      raw_files = helper.get_filenames(files)
-      tests = file_handler.resolve_all(raw_files, base_folder: target)
+      res = {
+        test:    collect(helper, files, :get_filenames),
+        library: collect(helper, files, :get_libraries),
+      }.map { |as, list|
+        file_handler.resolve_all(list, base_folder: target, as: as)
+      }
 
-      libs = []
-      if helper.respond_to? :get_libraries
-        raw_libs = helper.get_libraries(files)
-        libs = file_handler.resolve_all(raw_libs,
-                                        base_folder: target, as: :library)
-      end
-
-      libs + tests
+      # flatten the outer list layer
+      res.inject(&:+)
     end
 
     def to_s
       'Folder Loader'
+    end
+
+    private
+
+    def collect_files(helper, files, getter)
+      return [] unless helper.respond_to? getter
+      helper.method(getter).call(files)
     end
   end
 
