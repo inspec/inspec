@@ -196,7 +196,8 @@ class MockLoader
       # apache_conf
       'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
       'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
-
+      # mount
+      "mount | grep -- ' on /'" => cmd.call("mount"),
     }
 
     @backend
