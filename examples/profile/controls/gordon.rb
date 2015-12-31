@@ -12,7 +12,7 @@ title 'Gordon Config Checks'
 # ```
 control 'gordon-1.0' do
   impact 0.7
-  title 'Create separate /tmp partition'
+  title 'Verify the version number of Gordon'
   desc 'An optional description...'
   describe gordon_config do
     its('version') { should eq('1.0') }
