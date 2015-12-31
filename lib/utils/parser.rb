@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-module ContentParser
+module PasswdParser
   # Parse /etc/passwd files.
   #
   # @param [String] content the raw content of /etc/passwd
@@ -29,7 +29,9 @@ module ContentParser
       'shell' => x.at(6),
     }
   end
+end
 
+module CommentParser
   # Parse a line with a command. For example: `a = b   # comment`.
   # Retrieves the actual content.
   #
