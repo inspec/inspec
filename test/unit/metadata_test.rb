@@ -20,7 +20,12 @@ describe 'metadata with supported operating systems' do
       Inspec::Metadata.finalize(res, 'mock')
       res
     end
-    
+
+    it 'load a profile with empty supports clause' do
+      m = create_meta(nil)
+      m.supports_transport?(backend).must_equal true
+    end
+
     it 'loads a profile which supports os ubuntu' do
       m = create_meta({ 'os' => 'ubuntu' })
       m.supports_transport?(backend).must_equal true

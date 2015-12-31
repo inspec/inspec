@@ -47,7 +47,12 @@ module Inspec
     def supports_transport?(backend)
       # make sure the supports field is always an array
       supp = params[:supports]
-      supp = [supp] unless supp.is_a?(Array)
+      supp = supp.is_a?(Hash) ? [supp] : Array(supp)
+
+      # with no supports specified, always return true, as there are no
+      # constraints on the supported backend; it is equivalent to putting
+      # all fields into accept-all mode
+      return true if supp.empty?
 
       found = supp.find do |entry|
         try_support = self.class.symbolize_keys(entry)
