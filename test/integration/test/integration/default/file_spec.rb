@@ -108,4 +108,40 @@ if os.unix?
     its('type') { should eq :directory }
   end
 
+  # for server spec compatibility
+  # Do not use `.with` or `.only_with`, this syntax is deprecated and will be removed
+  # in InSpec version 1
+  describe file('/mnt/iso-disk') do
+    it { should be_mounted }
+    it { should be_mounted.with( :type => 'iso9660' ) }
+    it { should be_mounted.with( :type => 'iso9660', :options => { :ro => true } ) }
+    it { should be_mounted.with( :type => 'iso9660', :device => '/root/alpine-3.3.0-x86_64.iso' ) }
+    it { should_not be_mounted.with( :type => 'ext4' ) }
+    it { should_not be_mounted.with( :type => 'xfs' ) }
+  end
+
+  # compare with exact match
+  describe file('/mnt/iso-disk') do
+    it { should be_mounted.only_with( {
+      :device=>"/root/alpine-3.3.0-x86_64.iso",
+      :type=>"iso9660",
+      :options=>{
+        :ro=>true}
+      })
+    }
+  end
+
+  # instead of `.with` or `.only_with` we recommend to use the `mount` resource
+  describe mount '/mnt/iso-disk' do
+    it { should be_mounted }
+    its('device') { should eq '/root/alpine-3.3.0-x86_64.iso' }
+    its('type') { should eq  'iso9660' }
+    its('options') { should eq  ['ro'] }
+  end
+
+elsif os.windows?
+  describe file('C:\\Windows') do
+    it { should exist }
+    it { should be_directory }
+  end
 end
