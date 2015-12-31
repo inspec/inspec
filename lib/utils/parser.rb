@@ -61,3 +61,34 @@ module CommentParser
     [line, idx_nl]
   end
 end
+
+module MountParser
+  # this parses the output of mount command (only tested on linux)
+  # this method expects only one line of the mount output
+  def parse_mount_options(mount_line, compatibility = false)
+    mount = mount_line.scan(/\S+/)
+
+    # parse device and type
+    mount_options    = { device: mount[0], type: mount[4] }
+
+    if compatibility == false
+      # parse options as array
+      mount_options[:options] = mount[5].gsub(/\(|\)/, '').split(',')
+    else
+      # parse options as serverspec uses it, tbis is deprecated
+      mount_options[:options] = {}
+      mount[5].gsub(/\(|\)/, '').split(',').each do |option|
+        name, val = option.split('=')
+        if val.nil?
+          val = true
+        else
+          # parse numbers
+          val = val.to_i if val.match(/^\d+$/)
+        end
+        mount_options[:options][name.to_sym] = val
+      end
+    end
+
+    mount_options
+  end
+end

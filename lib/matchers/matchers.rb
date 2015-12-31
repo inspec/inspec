@@ -271,3 +271,33 @@ RSpec::Matchers.define :cmp do |expected|
     "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 end
+
+# user resource matcher for serverspec compatibility
+# This matcher will be deprecated in future
+RSpec::Matchers.define :be_mounted do
+  match do |path|
+    if !@options.nil?
+      path.mounted?(@options, @identical)
+    else
+      path.mounted?
+    end
+  end
+
+  chain :with do |attr|
+    @options = attr
+    @identical = false
+  end
+
+  chain :only_with do |attr|
+    @options = attr
+    @identical = true
+  end
+
+  failure_message do |path|
+    if !@options.nil?
+      "\n#{path} is not mounted with the options\n     expected: #{@options}\n     got: #{path.mount_options}\n"
+    else
+      "\n#{path} is not mounted\n"
+    end
+  end
+end
