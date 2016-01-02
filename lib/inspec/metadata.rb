@@ -37,8 +37,9 @@ module Inspec
     def supports(sth, version = nil)
       params[:supports] ||= []
       params[:supports].push(
+        # do not use hash syntax for `-` to work properly with ruby 1.9.3 parser
         {
-          'os-name': sth,
+          :'os-name' => sth, # rubocop:disable Style/HashSyntax, Lint/UnneededDisable
           version: version,
         },
       )
