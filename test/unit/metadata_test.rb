@@ -60,5 +60,10 @@ describe 'metadata with supported operating systems' do
       m = create_meta({ 'os-name' => 'ubuntu', 'release' => '12.04' })
       m.supports_transport?(backend).must_equal false
     end
+
+    it 'reject unsupported os' do
+      m = create_meta({ 'os-name' => 'windows' })
+      m.supports_transport?(backend).must_equal false
+    end
   end
 end
