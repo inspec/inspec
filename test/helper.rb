@@ -198,6 +198,7 @@ class MockLoader
       'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
+      "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
     }
 
     @backend

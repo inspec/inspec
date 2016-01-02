@@ -10,6 +10,7 @@ class Mount < Inspec.resource(1)
   example "
     describe mount('/') do
       it { should be_mounted }
+      its(:count) { should eq 1 }
       its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
       its('type') { should eq  'ext4' }
       its('options') { should eq ['rw', 'mode=620'] }
@@ -29,14 +30,28 @@ class Mount < Inspec.resource(1)
     file.mounted?
   end
 
+  def count
+    mounted = file.mounted
+
+    if !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.lines.nil?
+      mounted.stdout.lines.count
+    else
+      nil
+    end
+  end
+
   def method_missing(name)
     return nil if !file.mounted?
 
     mounted = file.mounted
+    return nil if mounted.nil? || mounted.stdout.nil?
+
+    line = mounted.stdout
+    # if we got multiple lines, only use the last entry
+    line = mounted.stdout.lines.last if mounted.stdout.lines.count > 1
 
     # parse content if we are on linux
-    @mount_options ||= parse_mount_options(mounted.stdout)
-
+    @mount_options ||= parse_mount_options(line)
     @mount_options[name]
   end
 
