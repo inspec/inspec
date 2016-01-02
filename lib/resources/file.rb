@@ -65,6 +65,9 @@ module Inspec::Resources
       # return if no additional parameters have been provided
       return file.mounted? if expected_options.nil?
 
+      # we cannot read mount data on non-Linux systems
+      return nil if !inspec.os.linux?
+
       # parse content if we are on linux
       @mount_options ||= parse_mount_options(mounted.stdout, true)
 

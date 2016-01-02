@@ -21,6 +21,7 @@ class Mount < Inspec.resource(1)
 
   def initialize(path)
     @path = path
+    return skip_resource 'The `mount` resource is not supported on your OS yet.' if !inspec.os.linux?
     @file = inspec.backend.file(@path)
   end
 
