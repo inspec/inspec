@@ -46,6 +46,8 @@ Each profile has a manifest file `inspec.yml`. It looks as follows
   license: Proprietary, All rights reserved
   summary: Verify that SSH Server and SSH Client are configured securely
   version: 1.0.0
+  supports:
+    - os-family: linux
 
 
 A manifest description may contain the following values:
@@ -59,6 +61,31 @@ A manifest description may contain the following values:
  * `summary` - One-line summary of the profile (optional)
  * `description` - Description of the profile (optional)
  * `version` - Version of the profile (optional)
+ * `supports` - A list of supported targets (optional)
+
+Supported targets
+-----------------------------------------------------
+
+The manifest contains the `supports` flag, which specifies operating systems or even cloud systems that the profile is targeting.
+
+This list can contain simple names, names and versions, or detailed flags for the targeted system. These can freely be combined:
+
+.. code-block:: yaml
+
+  name: ssh
+  supports:
+    // Runs on any version of Debian Linux
+    - os-name: debian
+
+    // Only runs on Ubuntu 14.04
+    - os-name: ubuntu
+      release: 14.04
+
+    // Targets RedHat, CentOS, Oracle Linux ...
+    - os-family: redhat
+
+    // Or even broader
+    - platform: aws
 
 
 InSpec profile verification

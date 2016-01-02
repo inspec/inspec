@@ -7,7 +7,7 @@ require 'logger'
 
 module Inspec
   # Extract metadata.rb information
-  class Metadata
+  class Metadata # rubocop:disable Metrics/ClassLength
     attr_reader :ref
     attr_accessor :params
     def initialize(ref, logger = nil)
@@ -37,11 +37,59 @@ module Inspec
     def supports(sth, version = nil)
       params[:supports] ||= []
       params[:supports].push(
+        # do not use hash syntax for `-` to work properly with ruby 1.9.3 parser
         {
-          os:      sth,
+          :'os-name' => sth, # rubocop:disable Style/HashSyntax, Lint/UnneededDisable
           version: version,
         },
       )
+    end
+
+    def is_supported(os, entry)
+      try_support = self.class.symbolize_keys(entry)
+      name = try_support[:'os-name'] || try_support[:os]
+      family = try_support[:'os-family']
+      release = try_support[:release]
+
+      # return true if the backend matches the supported OS's
+      # fields act as masks, i.e. any value configured for os-name, os-family,
+      # or release must be met by the backend; any field that is nil acts as
+      # a glob expression i.e. is true
+
+      # os name is both saved in :family and :name, so check both
+      name_ok = name.nil? ||
+                os[:name] == name || os[:family] == name
+
+      family_check = family.to_s + '?'
+      family_ok = family.nil? || os[:family] == family ||
+                  (
+                    os.respond_to?(family_check) &&
+                    # this call will return true if the family matches
+                    os.method(family_check).call
+                  )
+
+      release_ok = release.nil? || os[:release] == release
+
+      # we want to make sure that all matchers are true
+      name_ok && family_ok && release_ok
+    end
+
+    def supports_transport?(backend)
+      # make sure the supports field is always an array
+      supp = params[:supports]
+      supp = supp.is_a?(Hash) ? [supp] : Array(supp)
+
+      # with no supports specified, always return true, as there are no
+      # constraints on the supported backend; it is equivalent to putting
+      # all fields into accept-all mode
+      return true if supp.empty?
+
+      found = supp.find do |entry|
+        is_supported(backend.os, entry)
+      end
+
+      # finally, if we found a supported entry, we are good to go
+      !found.nil?
     end
 
     def valid?
@@ -73,7 +121,7 @@ module Inspec
 
     def self.finalize(metadata, profile_id)
       metadata.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
-      metadata.params = symbolize_keys(metadata.params)
+      metadata.params = symbolize_keys(metadata.params || {})
       metadata
     end
 
