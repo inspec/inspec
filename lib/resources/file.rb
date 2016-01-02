@@ -65,6 +65,9 @@ module Inspec::Resources
       # return if no additional parameters have been provided
       return file.mounted? if expected_options.nil?
 
+      # deprecation warning, this functionality will be removed in future version
+      warn "[DEPRECATION] `be_mounted.with and be_mounted.only_with` are deprecated.  Please use `mount('#{path}')` instead."
+
       # we cannot read mount data on non-Linux systems
       return nil if !inspec.os.linux?
 
