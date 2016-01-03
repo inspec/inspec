@@ -32,12 +32,8 @@ class Mount < Inspec.resource(1)
 
   def count
     mounted = file.mounted
-
-    if !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.lines.nil?
-      mounted.stdout.lines.count
-    else
-      nil
-    end
+    return nil if mounted.nil? || mounted.stdout.nil?
+    mounted.stdout.lines.count
   end
 
   def method_missing(name)
