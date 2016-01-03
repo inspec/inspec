@@ -48,7 +48,7 @@ class Mount < Inspec.resource(1)
 
     line = mounted.stdout
     # if we got multiple lines, only use the last entry
-    line = mounted.stdout.lines.last if mounted.stdout.lines.count > 1
+    line = mounted.stdout.lines.to_a.last if mounted.stdout.lines.count > 1
 
     # parse content if we are on linux
     @mount_options ||= parse_mount_options(line)
