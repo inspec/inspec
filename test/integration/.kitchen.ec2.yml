@@ -6,7 +6,7 @@ driver:
   interface: dns
 
 transport:
-  ssh_key: /Users/chartmann/Development/key/aws_chartmann.pem
+  ssh_key: /path/to/aws.pem
   username: ec2-user
 
 platforms:
