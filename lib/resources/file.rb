@@ -5,7 +5,7 @@
 # license: All rights reserved
 
 module Inspec::Resources
-  class File < Inspec.resource(1)
+  class File < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'file'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
     example "
@@ -18,8 +18,9 @@ module Inspec::Resources
         its('mode') { should eq 0644 }
       end
     "
+    include MountParser
 
-    attr_reader :file, :path
+    attr_reader :file, :path, :mount_options
     def initialize(path)
       @path = path
       @file = inspec.backend.file(@path)
@@ -28,7 +29,7 @@ module Inspec::Resources
     %w{
       type exist? file? block_device? character_device? socket? directory?
       symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
-      link_path linked_to? content mtime size selinux_label mounted? immutable?
+      link_path linked_to? content mtime size selinux_label immutable?
       product_version file_version version? md5sum sha256sum
     }.each do |m|
       define_method m.to_sym do |*args|
@@ -56,6 +57,30 @@ module Inspec::Resources
       return false unless exist?
 
       file_permission_granted?('x', by_usergroup, by_specific_user)
+    end
+
+    def mounted?(expected_options = nil, identical = false)
+      mounted = file.mounted
+
+      # return if no additional parameters have been provided
+      return file.mounted? if expected_options.nil?
+
+      # deprecation warning, this functionality will be removed in future version
+      warn "[DEPRECATION] `be_mounted.with and be_mounted.only_with` are deprecated.  Please use `mount('#{path}')` instead."
+
+      # we cannot read mount data on non-Linux systems
+      return nil if !inspec.os.linux?
+
+      # parse content if we are on linux
+      @mount_options ||= parse_mount_options(mounted.stdout, true)
+
+      if identical
+        # check if the options should be identical
+        @mount_options == expected_options
+      else
+        # otherwise compare the selected values
+        @mount_options.contains(expected_options)
+      end
     end
 
     def to_s

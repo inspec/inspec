@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-module ContentParser
+module PasswdParser
   # Parse /etc/passwd files.
   #
   # @param [String] content the raw content of /etc/passwd
@@ -29,7 +29,9 @@ module ContentParser
       'shell' => x.at(6),
     }
   end
+end
 
+module CommentParser
   # Parse a line with a command. For example: `a = b   # comment`.
   # Retrieves the actual content.
   #
@@ -57,5 +59,36 @@ module ContentParser
       line = raw[0..(idx_nl - 1)]
     end
     [line, idx_nl]
+  end
+end
+
+module MountParser
+  # this parses the output of mount command (only tested on linux)
+  # this method expects only one line of the mount output
+  def parse_mount_options(mount_line, compatibility = false)
+    mount = mount_line.scan(/\S+/)
+
+    # parse device and type
+    mount_options    = { device: mount[0], type: mount[4] }
+
+    if compatibility == false
+      # parse options as array
+      mount_options[:options] = mount[5].gsub(/\(|\)/, '').split(',')
+    else
+      # parse options as serverspec uses it, tbis is deprecated
+      mount_options[:options] = {}
+      mount[5].gsub(/\(|\)/, '').split(',').each do |option|
+        name, val = option.split('=')
+        if val.nil?
+          val = true
+        else
+          # parse numbers
+          val = val.to_i if val.match(/^\d+$/)
+        end
+        mount_options[:options][name.to_sym] = val
+      end
+    end
+
+    mount_options
   end
 end

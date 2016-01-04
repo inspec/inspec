@@ -230,7 +230,8 @@ class UnixUser < UserInfo
 end
 
 class LinuxUser < UnixUser
-  include ContentParser
+  include PasswdParser
+  include CommentParser
 
   def meta_info(username)
     cmd = inspec.command("getent passwd #{username}")
@@ -295,7 +296,7 @@ end
 # - chpass(1)	A flexible tool for changing user database information.
 # - passwd(1)	The command-line tool to change user passwords.
 class FreeBSDUser < UnixUser
-  include ContentParser
+  include PasswdParser
 
   def meta_info(username)
     cmd = inspec.command("pw usershow #{username} -7")

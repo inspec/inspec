@@ -1,3 +1,7 @@
+# encoding: utf-8
+# author: Christoph Hartmann
+# author: Dominik Richter
+
 require 'helper'
 require 'inspec/resource'
 

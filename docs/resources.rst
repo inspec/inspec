@@ -26,6 +26,7 @@ The following InSpec audit resources are available:
 * `kernel_parameter`_
 * `limits_conf`_
 * `login_defs`_
+* `mount`_
 * `mysql_conf`_
 * `mysql_session`_
 * `npm`_
@@ -2115,6 +2116,84 @@ The following examples show how to use this InSpec audit resource.
      its('UMASK') { should eq '077' }
      its('PASS_MAX_DAYS') { should eq '90' }
    end
+
+
+mount
+=====================================================
+Use the ``mount`` |inspec resource| to test the mountpoints on |linux| systems.
+
+**Stability: Experimental**
+
+Syntax
+-----------------------------------------------------
+An ``mount`` |inspec resource| block declares the synchronization settings that should be tested:
+
+.. code-block:: ruby
+
+   describe mount('path') do
+     it { should MATCHER 'value' }
+   end
+
+where
+
+* ``('path')`` is the path to the mounted directory
+* ``MATCHER`` is a valid matcher for this |inspec resource|
+* ``'value'`` is the value to be tested
+
+Matchers
+-----------------------------------------------------
+This |inspec resource| has the following matchers:
+
+be_mounted
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_mounted`` matcher tests if the file is accessible from the file system:
+
+.. code-block:: ruby
+
+   it { should be_mounted }
+
+device
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``device`` matcher tests the device from the fstab table:
+
+.. code-block:: ruby
+
+   its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
+
+type
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``type`` matcher tests the filesystem type:
+
+.. code-block:: ruby
+
+   its('type') { should eq  'ext4' }
+
+
+options
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``options`` matcher tests the mount options for the filesystem from the fstab table:
+
+.. code-block:: ruby
+
+  its('options') { should eq ['rw', 'mode=620'] }
+
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this InSpec audit resource.
+
+**Test a the mount point on '/'**
+
+.. code-block:: ruby
+
+  describe mount('/') do
+    it { should be_mounted }
+    its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
+    its('type') { should eq  'ext4' }
+    its('options') { should eq ['rw', 'mode=620'] }
+  end
+
+
 
 mysql_conf
 =====================================================
