@@ -51,7 +51,7 @@ module Inspec
       assets = Inspec::Targets.resolve(test, @conf)
       meta_assets = assets.find_all { |a| a[:type] == :metadata }
       metas = meta_assets.map do |x|
-        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id)
+        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
       end
       metas.each do |meta|
         return [] unless meta.supports_transport?(@backend)

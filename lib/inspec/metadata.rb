@@ -46,10 +46,7 @@ module Inspec
     end
 
     def is_supported(os, entry)
-      try_support = self.class.symbolize_keys(entry)
-      name = try_support[:'os-name'] || try_support[:os]
-      family = try_support[:'os-family']
-      release = try_support[:release]
+      name, family, release = support_fields(entry)
 
       # return true if the backend matches the supported OS's
       # fields act as masks, i.e. any value configured for os-name, os-family,
@@ -72,6 +69,20 @@ module Inspec
 
       # we want to make sure that all matchers are true
       name_ok && family_ok && release_ok
+    end
+
+    def support_fields(entry)
+      if entry.is_a?(Hash)
+        try_support = self.class.symbolize_keys(entry)
+        name = try_support[:'os-name'] || try_support[:os]
+        family = try_support[:'os-family']
+        release = try_support[:release]
+      elsif entry.is_a?(String)
+        @logger.warn("Using deprecated `supports` syntax: using `#{entry}` as OS family")
+        family = entry
+      end
+
+      [name, family, release]
     end
 
     def supports_transport?(backend)
