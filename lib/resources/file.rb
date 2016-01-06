@@ -4,7 +4,6 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-
 module Inspec::Resources
   class File < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'file'
