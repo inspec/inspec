@@ -144,10 +144,6 @@ class LsofPorts < PortsInfo
     super(inspec)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable MethodLength
   def info
     ports = []
 
@@ -156,8 +152,26 @@ class LsofPorts < PortsInfo
     lsof_cmd = inspec.command("#{@lsof} -nP -i -FpctPn")
     return nil if lsof_cmd.exit_status.to_i != 0
 
-    # build this with formatted output (-F) from lsof
+    # map to desired return struct
+    lsof_parser(lsof_cmd).each do |process, port_ids|
+      pid, cmd = process.split(':')
+      port_ids.each do |port_str|
+        # should not break on ipv6 addresses
+        ipv, proto, port, host = port_str.split(':', 4)
+        ports.push({ port:  port.to_i,
+                     address:  host,
+                     protocol: ipv == 'ipv6' ? proto + '6' : proto,
+                     process:  cmd,
+                     pid:      pid.to_i })
+      end
+    end
+
+    ports
+  end
+
+  def lsof_parser(lsof_cmd)
     procs = {}
+    # build this with formatted output (-F) from lsof
     # procs = {
     #   '123:sshd' => [
     #      'ipv4:tcp:22:127.0.0.1',
@@ -213,26 +227,12 @@ class LsofPorts < PortsInfo
         #                             strip ipv6 squares for inspec
         port_id += ':' + port + ':' + host.gsub(/^\[|\]$/, '')
 
-        # lsof will give us another port or it's done
+        # lsof will give us another port unless it's done
         procs[proc_id] << port_id
       end
     end
 
-    # map to desired return struct
-    procs.each do |process, port_ids|
-      pid, cmd = process.split(':')
-      port_ids.each do |port_str|
-        # should not break on ipv6 addresses
-        ipv, proto, port, host = port_str.split(':', 4)
-        ports.push({ port:  port.to_i,
-                     address:  host,
-                     protocol: ipv == 'ipv6' ? proto + '6' : proto,
-                     process:  cmd,
-                     pid:      pid.to_i })
-      end
-    end
-
-    ports
+    procs
   end
 end
 
