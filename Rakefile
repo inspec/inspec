@@ -51,7 +51,6 @@ namespace :test do
     tests_path = File.join(File.dirname(__FILE__), 'test', 'integration', 'test', 'integration', 'default')
     key_files = ENV['key_files'] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
 
-    #sh_cmd =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
     sh_cmd =  "bin/inspec exec #{tests_path}/"
     sh_cmd += ENV['test'] ? "#{ENV['test']}_spec.rb" : '*'
     sh_cmd += " --sudo" unless args[:target].split('@')[0] == 'root'
