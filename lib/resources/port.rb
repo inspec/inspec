@@ -169,6 +169,8 @@ class LsofPorts < PortsInfo
     ports
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/AbcSize
   def lsof_parser(lsof_cmd)
     procs = {}
     # build this with formatted output (-F) from lsof
