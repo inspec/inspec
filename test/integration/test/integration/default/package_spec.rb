@@ -8,7 +8,7 @@ when 'centos', 'fedora', 'opensuse', 'debian', 'ubuntu'
 when 'aix'
   describe package('bos.rte') do
     it { should be_installed }
-    its('version') { should match /^(6|7)\.1[.|\d]+\d/ }
+    its('version') { should match /^(6|7)[.|\d]+\d$/ }
   end
 end
 
