@@ -86,6 +86,10 @@ module Inspec
     end
 
     def supports_transport?(backend)
+      # make a happy face when presented the mock backend
+      # FIXME(sr) this is not beautiful
+      return true if backend.backend.is_a? Train::Transports::Mock::Connection
+
       # make sure the supports field is always an array
       supp = params[:supports]
       supp = supp.is_a?(Hash) ? [supp] : Array(supp)

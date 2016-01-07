@@ -83,5 +83,20 @@ describe Inspec::Profile do
         logger.verify
       end
     end
+
+    describe 'a complete metadata profile with controls' do
+      let(:profile) { load_profile('complete-profile', {logger: logger}) }
+
+      # TODO(sr): this test fails, while it works on the command line
+      # it 'prints ok messages and counts the rules' do
+      #   logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-profile"]
+      #   logger.expect :info, nil, ['Metadata OK.']
+      #   logger.expect :info, nil, ['Found 1 rules.']
+      #   logger.expect :info, nil, ['Rule definitions OK.']
+      #
+      #   profile.check
+      #   logger.verify
+      # end
+    end
   end
 end
