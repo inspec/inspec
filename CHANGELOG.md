@@ -1,7 +1,44 @@
 # Change Log
 
-## [0.9.7](https://github.com/chef/inspec/tree/0.9.7) (2015-12-21)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.6...0.9.7)
+## [0.9.8](https://github.com/chef/inspec/tree/0.9.8) (2016-01-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.7...0.9.8)
+
+**Implemented enhancements:**
+
+- Control Numbers and Display in Compliance GUI [\#306](https://github.com/chef/inspec/issues/306)
+- Support supports for resources [\#282](https://github.com/chef/inspec/issues/282)
+- Unify metadata and collect it from target resolver [\#342](https://github.com/chef/inspec/pull/342) ([arlimus](https://github.com/arlimus))
+- implement `mount` resource [\#341](https://github.com/chef/inspec/pull/341) ([chris-rock](https://github.com/chris-rock))
+- Update Integration Tests [\#314](https://github.com/chef/inspec/pull/314) ([chris-rock](https://github.com/chris-rock))
+- RFC: Compliance Profile Structure [\#252](https://github.com/chef/inspec/pull/252) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Inspec doesn't read controls [\#351](https://github.com/chef/inspec/issues/351)
+- not working under windows, installed from gem [\#323](https://github.com/chef/inspec/issues/323)
+- Resource 'file' missing 'be\_mounted.with' [\#310](https://github.com/chef/inspec/issues/310)
+- `inspec check` on examples generates errors [\#215](https://github.com/chef/inspec/issues/215)
+- bugfix: ignore supports when generating a profile's json representation [\#355](https://github.com/chef/inspec/pull/355) ([srenatus](https://github.com/srenatus))
+- Support old "supports" field in metadata [\#347](https://github.com/chef/inspec/pull/347) ([srenatus](https://github.com/srenatus))
+- Fix custom resource loading from `libraries` [\#337](https://github.com/chef/inspec/pull/337) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Create RFC on profile structure [\#296](https://github.com/chef/inspec/issues/296)
+
+**Merged pull requests:**
+
+- fix reading profiles bug [\#352](https://github.com/chef/inspec/pull/352) ([srenatus](https://github.com/srenatus))
+- clarify how to bump version in rake [\#348](https://github.com/chef/inspec/pull/348) ([arlimus](https://github.com/arlimus))
+- Add `supports` to metadata to specify supported systems [\#344](https://github.com/chef/inspec/pull/344) ([arlimus](https://github.com/arlimus))
+- Update list of examples [\#340](https://github.com/chef/inspec/pull/340) ([chris-rock](https://github.com/chris-rock))
+- add a description for custom resources [\#339](https://github.com/chef/inspec/pull/339) ([arlimus](https://github.com/arlimus))
+- ignore auto-generated controls during verify check [\#332](https://github.com/chef/inspec/pull/332) ([arlimus](https://github.com/arlimus))
+- Set exit status to return value of Inspec Runner [\#331](https://github.com/chef/inspec/pull/331) ([rbhitchcock](https://github.com/rbhitchcock))
+- Verify profile metadata contents correctly [\#330](https://github.com/chef/inspec/pull/330) ([arlimus](https://github.com/arlimus))
+
+## [v0.9.7](https://github.com/chef/inspec/tree/v0.9.7) (2015-12-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.6...v0.9.7)
 
 **Implemented enhancements:**
 
@@ -22,6 +59,7 @@
 
 **Merged pull requests:**
 
+- 0.9.7 [\#328](https://github.com/chef/inspec/pull/328) ([arlimus](https://github.com/arlimus))
 - remove format default for `inspec exec` [\#326](https://github.com/chef/inspec/pull/326) ([srenatus](https://github.com/srenatus))
 - teach `cmp` matcher octal tricks [\#324](https://github.com/chef/inspec/pull/324) ([srenatus](https://github.com/srenatus))
 
