@@ -11,7 +11,7 @@ describe Inspec::Profile do
     # currently it's stopped at test runner conflicts
     class Inspec::Profile::Runner
       def initialize(opts) end
-      def add_tests(tests) end
+      def add_tests(tests, options=nil) end
       def rules
         {}
       end
@@ -78,6 +78,25 @@ describe Inspec::Profile do
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
+
+        profile.check
+        logger.verify
+      end
+    end
+
+    describe 'a complete metadata profile with controls' do
+      let(:profile) { load_profile('complete-profile', {logger: logger, ignore_supports: true}) }
+
+      it 'prints ok messages and counts the rules' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-profile"]
+        logger.expect :info, nil, ['Metadata OK.']
+
+        # TODO: cannot load rspec in unit tests, therefore we get a loading warn
+        # RSpec does not work with minitest tests
+        logger.expect :warn, nil, ['No controls or tests were defined.']
+        # we expect that this should work:
+        # logger.expect :info, nil, ['Found 1 rules.']
+        # logger.expect :info, nil, ['Rule definitions OK.']
 
         profile.check
         logger.verify

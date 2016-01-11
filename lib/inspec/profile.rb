@@ -38,8 +38,7 @@ module Inspec
         id: @profile_id,
         backend: :mock,
       )
-
-      @runner.add_tests([@path])
+      @runner.add_tests([@path], @options)
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
         rules[file] ||= {}
@@ -108,11 +107,11 @@ module Inspec
         warn.call('Profile uses deprecated `test` directory, rename it to `controls`')
       end
 
-      rules_counter = @params[:rules].values.map { |hm| hm.values.length }.inject(:+)
-      if rules_counter.nil? || rules_counter == 0
+      count = rules_count
+      if count == 0
         warn.call('No controls or tests were defined.')
       else
-        @logger.debug("Found #{rules_counter} rules.")
+        @logger.info("Found #{count} rules.")
       end
 
       # iterate over hash of groups
@@ -131,6 +130,10 @@ module Inspec
 
       @logger.info 'Rule definitions OK.' if no_warnings
       no_errors
+    end
+
+    def rules_count
+      @params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
     end
 
     # generates a archive of a folder profile

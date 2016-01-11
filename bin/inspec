@@ -73,6 +73,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = opts.dup
     o[:logger] = Logger.new(STDOUT)
+    o[:ignore_supports] = true # we check for integrety only
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
   end
