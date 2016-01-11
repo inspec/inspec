@@ -54,7 +54,7 @@ module Inspec
         Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
       end
       metas.each do |meta|
-        return [] if !ignore_supports && !meta.supports_transport?(@backend)
+        return [] unless ignore_supports || meta.supports_transport?(@backend)
       end
       assets
     end

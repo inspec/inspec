@@ -52,8 +52,10 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   def json(path)
     diagnose
 
-    profile = Inspec::Profile.from_path(path, opts)
-    dst = opts[:output].to_s
+    o = opts.dup
+    o[:ignore_supports] = true
+    profile = Inspec::Profile.from_path(path, o)
+    dst = o[:output].to_s
     if dst.empty?
       puts JSON.pretty_generate(profile.info)
     else
@@ -73,7 +75,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = opts.dup
     o[:logger] = Logger.new(STDOUT)
-    o[:ignore_supports] = true # we check for integrety only
+    o[:ignore_supports] = true # we check for integrity only
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
   end
