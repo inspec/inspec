@@ -38,8 +38,7 @@ module Inspec
         id: @profile_id,
         backend: :mock,
       )
-
-      @runner.add_tests([@path])
+      @runner.add_tests([@path], @options)
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
         rules[file] ||= {}
