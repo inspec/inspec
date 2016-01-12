@@ -8,21 +8,31 @@ class GrubConfig < Inspec.resource(1)
   name 'grub_conf'
   desc 'Use the grub_conf InSpec audit resource to test the boot config of Linux systems that use Grub.'
   example "
-    describe grub_conf('/etc/grub.conf') do
+    describe grub_conf('/etc/grub.conf',  'default') do
       its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
       its('initrd') { should include '/initramfs-2.6.32-573.el6.x86_64.img=1' }
       its('default') { should_not eq '1' }
       its('timeout') { should eq '5' }
     end
+
+    also check specific kernels
+    describe grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
+      its('kernel') { should include 'audit=1' }
+    end
   "
 
-  def initialize(path = nil)
+  def initialize(path = nil, kernel = nil)
     family = inspec.os[:family]
     case family
     when 'redhat', 'fedora', 'centos'
-      @conf_path = path || '/etc/grub.conf'
-      supported = true
+      release = inspec.os[:release].to_f
+      if release < 7
+        @conf_path = path || '/etc/grub.conf'
+        @version = 'legacy'
+        supported = true
+      end
     end
+    @kernel = kernel || 'default'
     return skip_resource 'The `grub_config` resource is not supported on your OS yet.' if supported.nil?
   end
 
@@ -36,22 +46,27 @@ class GrubConfig < Inspec.resource(1)
 
   private
 
-  def parse_kernel_lines(content)
+  def parse_kernel_lines(content, conf)
     # Find all "title" lines and then parse them into arrays
+    menu_entry = 0
     lines = content.split("\n")
     kernel_opts = {}
     lines.each_with_index do |file_line, index|
       next unless file_line =~ /^title.*/
+      current_kernel = file_line.split(' ', 2)[1]
       lines.drop(index+1).each do |kernel_line|
         if kernel_line =~ /^\s.*/
           option_type = kernel_line.split(' ')[0]
           line_options = kernel_line.split(' ').drop(1)
-          if kernel_opts[option_type].is_a?(Array)
-            kernel_opts[option_type].push(*line_options)
-          else
-            kernel_opts[option_type] = line_options
+          if (menu_entry == conf['default'].to_i && @kernel == 'default') || current_kernel == @kernel
+            if option_type == 'kernel'
+              kernel_opts['kernel'] = line_options
+            else
+              kernel_opts[option_type] = line_options[0]
+            end
           end
         else
+          menu_entry += 1
           break
         end
       end
@@ -88,7 +103,7 @@ class GrubConfig < Inspec.resource(1)
       end
     end
 
-    kernel_opts = parse_kernel_lines(content)
+    kernel_opts = parse_kernel_lines(content, conf)
 
     @params = conf.merge(kernel_opts)
   end
