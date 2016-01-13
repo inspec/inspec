@@ -2,5 +2,5 @@ Id=sshd.service
 Names=sshd.service
 Description=OpenSSH server daemon
 LoadState=loaded
-ActiveState=active
+UnitFileState=enabled
 SubState=running

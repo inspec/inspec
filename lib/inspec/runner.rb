@@ -8,6 +8,7 @@ require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
 require 'inspec/targets'
+require 'inspec/metadata'
 # spec requirements
 require 'rspec'
 require 'rspec/its'
@@ -46,10 +47,22 @@ module Inspec
       @backend = Inspec::Backend.create(@conf)
     end
 
-    def add_tests(tests)
+    def add_test_profile(test, ignore_supports = false)
+      assets = Inspec::Targets.resolve(test, @conf)
+      meta_assets = assets.find_all { |a| a[:type] == :metadata }
+      metas = meta_assets.map do |x|
+        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
+      end
+      metas.each do |meta|
+        return [] unless ignore_supports || meta.supports_transport?(@backend)
+      end
+      assets
+    end
+
+    def add_tests(tests, options = {})
       # retrieve the raw ruby code of all tests
       items = tests.map do |test|
-        Inspec::Targets.resolve(test, @conf)
+        add_test_profile(test, options[:ignore_supports])
       end.flatten
 
       tests = items.find_all { |i| i[:type] == :test }

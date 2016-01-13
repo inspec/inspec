@@ -119,7 +119,7 @@ end
 desc 'Bump the version of this gem'
 task :bump_version, [:version] do |_, args|
   v = args[:version] || ENV['to']
-  fail "You must specify a target version!  rake release[1.2.3]" if v.empty?
+  fail "You must specify a target version!  rake bump_version to=1.2.3" if v.empty?
   check_update_requirements
   inspec_version(v)
   Rake::Task['changelog'].invoke

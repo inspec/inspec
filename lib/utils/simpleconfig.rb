@@ -7,7 +7,7 @@
 require 'utils/parser'
 
 class SimpleConfig
-  include ContentParser
+  include CommentParser
 
   attr_reader :params, :groups
   def initialize(raw_data, opts = {})

@@ -142,7 +142,7 @@ class Systemd < ServiceManager
     params['SubState'] == 'running' ? (running = true) : (running = false)
     # test via systemctl --quiet is-enabled
     # ActiveState values eg.g inactive, active
-    params['ActiveState'] == 'active' ? (enabled = true) : (enabled = false)
+    params['UnitFileState'] == 'enabled' ? (enabled = true) : (enabled = false)
 
     {
       name: params['Id'],

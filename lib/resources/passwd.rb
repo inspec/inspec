@@ -37,7 +37,7 @@ class Passwd < Inspec.resource(1)
     end
   "
 
-  include ContentParser
+  include PasswdParser
 
   attr_reader :uid
   attr_reader :parsed

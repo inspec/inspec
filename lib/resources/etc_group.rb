@@ -26,7 +26,7 @@ require 'utils/parser'
 
 class EtcGroup < Inspec.resource(1)
   include Converter
-  include ContentParser
+  include CommentParser
 
   name 'etc_group'
   desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'

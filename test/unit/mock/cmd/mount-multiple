@@ -1,0 +1,2 @@
+/root/alpine-3.3.0-x86_64.iso on /mnt/iso-disk type iso9660 (ro)
+/root/alpine-3.3.0-x86_64_2.iso on /mnt/iso-disk type iso9660 (ro)
