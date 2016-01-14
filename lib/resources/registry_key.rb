@@ -26,7 +26,8 @@ class RegistryKey < Inspec.resource(1)
     reg_key ||= name
     @name = name
     @reg_key = reg_key
-    skip_resource 'The `registry_key` resource is not supported on your OS yet.'
+
+    return skip_resource 'The `registry_key` resource is not supported on your OS yet.' if !inspec.os.windows?
   end
 
   def exists?
