@@ -138,11 +138,11 @@ module Inspec
         rule.instance_variable_set(:@profile_id, profile_id)
         pid = profile_id
       end
-      if pid.nil? or pid.empty?
-        return rid
-      else
-        return "#{pid}/#{rid}"
-      end
+
+      # if we don't have a profile id, just return the rule's ID
+      return rid if pid.nil? or pid.empty?
+      # otherwise combine them
+      "#{pid}/#{rid}"
     end
 
     private
@@ -155,8 +155,8 @@ module Inspec
     def unindent(text)
       return '' if text.nil?
       text.strip.split("\n").map(&:strip)
-        .map { |x| x.empty? ? "\n" : x }
-        .join(' ')
+          .map { |x| x.empty? ? "\n" : x }
+          .join(' ')
     end
 
     # get the rule's source code

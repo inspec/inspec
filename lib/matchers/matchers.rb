@@ -70,7 +70,7 @@ end
 # matcher to check /etc/passwd, /etc/shadow and /etc/group
 RSpec::Matchers.define :contain_legacy_plus do
   match do |file|
-    file.content.match(/^\+:/)
+    file.content =~ /^\+:/
   end
 end
 

@@ -87,7 +87,7 @@ end
 class PasswdUid
   def initialize(passwd, uid)
     @passwd = passwd
-    @users = @passwd.parsed.select { |x| x['uid'] == "#{uid}" }
+    @users = @passwd.parsed.select { |x| x['uid'] == uid.to_s }
   end
 
   def username

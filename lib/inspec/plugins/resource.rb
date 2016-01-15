@@ -22,7 +22,7 @@ module Inspec
       end
 
       def self.__register(name, obj)
-        # rubocop:disable Lint/NestedMethodDefinition
+        # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
         cl = Class.new(obj) do
           # add some common methods
           include Inspec::Plugins::ResourceCommon

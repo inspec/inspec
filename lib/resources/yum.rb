@@ -57,7 +57,7 @@ class Yum < Inspec.resource(1)
     in_repo = false
     @content.each_line do |line|
       # detect repo start
-      in_repo = true if line.match(/^\s*Repo-id\s*:\s*(.*)\b/)
+      in_repo = true if line =~ /^\s*Repo-id\s*:\s*(.*)\b/
       # detect repo end
       if line == "\n" && in_repo
         in_repo = false
@@ -94,7 +94,7 @@ class Yum < Inspec.resource(1)
 
   # Removes lefthand and righthand whitespace
   def strip(value)
-    value.lstrip.rstrip if !value.nil?
+    value.strip if !value.nil?
   end
 
   # Optimize the key value

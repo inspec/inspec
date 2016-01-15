@@ -147,7 +147,7 @@ module Inspec
 
       profile_name = @params[:name]
 
-      opts[:zip] ? ext='zip' : ext='tar.gz'
+      ext = opts[:zip] ? 'zip' : 'tar.gz'
       slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
       archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
 

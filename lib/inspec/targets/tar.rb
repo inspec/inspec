@@ -9,16 +9,13 @@ require 'inspec/targets/archive'
 module Inspec::Targets
   class TarHelper < ArchiveHelper
     def handles?(target)
-      File.file?(target) and (
-        target.end_with?('.tar.gz') ||
-        target.end_with?('.tgz')
-      )
+      File.file?(target) && target.end_with?('.tar.gz', '.tgz')
     end
 
     def structure(input)
       files = []
       rootdir = ''
-      Gem::Package::TarReader.new(Zlib::GzipReader.open input) do |tar|
+      Gem::Package::TarReader.new(Zlib::GzipReader.open(input)) do |tar|
         files = tar.map(&:full_name)
       end
 
@@ -35,7 +32,7 @@ module Inspec::Targets
 
     def content(input, files, rootdir = nil, opts = {})
       content = []
-      Gem::Package::TarReader.new(Zlib::GzipReader.open input) do |tar|
+      Gem::Package::TarReader.new(Zlib::GzipReader.open(input)) do |tar|
         tar.each do |entry|
           if entry.directory?
             # nothing to do

@@ -21,7 +21,7 @@ SOURCE = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.toml')
 TARGET = File.join(File.dirname(__FILE__), '..', 'MAINTAINERS.md')
 
 # The list of repositories that teams should own
-REPOSITORIES = ['chef/inspec']
+REPOSITORIES = ['chef/inspec'].freeze
 
 begin
   require 'tomlrb'
@@ -194,11 +194,11 @@ begin
 
   # rubocop:disable Metrics/AbcSize
   def person(list, person)
-    if list[person].key?('GitHub')
-      out = "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
-    else
-      out = "* #{list[person]['Name']}"
-    end
+    out = if list[person].key?('GitHub')
+            "* [#{list[person]['Name']}](https://github.com/#{list[person]['GitHub']})"
+          else
+            "* #{list[person]['Name']}"
+          end
     out << "\n  * IRC - #{list[person]['IRC']}" if list[person].key?('IRC')
     out << "\n  * [@#{list[person]['Twitter']}](https://twitter.com/#{list[person]['Twitter']})" if list[person].key?('Twitter')
     out << "\n  * [#{list[person]['email']}](mailto:#{list[person]['email']})" if list[person].key?('email')

@@ -13,7 +13,7 @@ class OS < Inspec.resource(1)
 
   # reuse helper methods from backend
   %w{redhat? debian? suse? bsd? solaris? linux? unix? windows?}.each do |os_family|
-    define_method((os_family).to_sym) do
+    define_method(os_family.to_sym) do
       inspec.backend.os.send(os_family)
     end
   end

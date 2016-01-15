@@ -58,8 +58,8 @@ class PostgresSession < Inspec.resource(1)
       # remove the whole header (i.e. up to the first ^-----+------+------$)
       # remove the tail
       lines = cmd.stdout
-              .sub(/(.*\n)+([-]+[+])*[-]+\n/, '')
-              .sub(/\n[^\n]*\n\n$/, '')
+                 .sub(/(.*\n)+([-]+[+])*[-]+\n/, '')
+                 .sub(/\n[^\n]*\n\n$/, '')
       l = Lines.new(lines.strip, "PostgreSQL query: #{query}")
       RSpec.__send__('describe', l, &block)
     end

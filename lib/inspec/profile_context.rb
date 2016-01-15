@@ -133,9 +133,9 @@ module Inspec
 
         alias_method :skip_rule, :skip_control
 
-        def only_if(&block)
+        def only_if
           return unless block_given?
-          @skip_profile = !block.call
+          @skip_profile = !yield
         end
       end
       # rubocop:enable all

@@ -44,7 +44,7 @@ class AuditPolicy < Inspec.resource(1)
     # find line
     target = nil
     result.each_line {|s|
-      target = s.strip if s.match(/\b.*#{key}.*\b/)
+      target = s.strip if s =~ /\b.*#{key}.*\b/
     }
 
     # extract value

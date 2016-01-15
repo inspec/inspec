@@ -48,15 +48,13 @@ class Group < Inspec.resource(1)
   end
 
   def gid
-    if group_info.nil? || group_info.size == 0
-      return nil
-    elsif group_info.size == 1
-      # the default case should be one group
-      return group_info[0][:gid]
-    else
-      # return array if we got multiple gids
-      return group_info.map { |grp| grp[:gid] }
-    end
+    return nil if group_info.nil? || group_info.size == 0
+
+    # the default case should be one group
+    return group_info[0][:gid] if group_info.size == 1
+
+    # return array if we got multiple gids
+    group_info.map { |grp| grp[:gid] }
   end
 
   # implements rspec has matcher, to be compatible with serverspec
@@ -65,15 +63,13 @@ class Group < Inspec.resource(1)
   end
 
   def local
-    if group_info.nil? || group_info.size == 0
-      return nil
-    elsif group_info.size == 1
-      # the default case should be one group
-      return group_info[0][:local]
-    else
-      # return array if we got multiple gids
-      return group_info.map { |grp| grp[:local] }
-    end
+    return nil if group_info.nil? || group_info.size == 0
+
+    # the default case should be one group
+    return group_info[0][:local] if group_info.size == 1
+
+    # return array if we got multiple gids
+    group_info.map { |grp| grp[:local] }
   end
 
   def to_s

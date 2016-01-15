@@ -81,9 +81,9 @@ module MountParser
         name, val = option.split('=')
         if val.nil?
           val = true
-        else
+        elsif val =~ /^\d+$/
           # parse numbers
-          val = val.to_i if val.match(/^\d+$/)
+          val = val.to_i
         end
         mount_options[:options][name.to_sym] = val
       end

@@ -14,7 +14,7 @@ module FindFiles
     link: 'l',
     socket: 's',
     door: 'D',
-  }
+  }.freeze
 
   # ignores errors
   def find_files(path, opts = {})
@@ -38,7 +38,7 @@ module FindFiles
     end
 
     result.stdout.split("\n")
-      .map(&:strip)
-      .find_all { |x| !x.empty? }
+          .map(&:strip)
+          .find_all { |x| !x.empty? }
   end
 end

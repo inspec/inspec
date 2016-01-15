@@ -17,7 +17,7 @@ module Inspec::Targets
 
     def resolve(target, opts = {})
       # abort if the target does not start with http or https
-      return nil unless target.start_with? 'https://' or target.start_with? 'http://'
+      return nil unless target.start_with?('https://', 'http://')
 
       # support for github url
       m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?$}.match(target)
