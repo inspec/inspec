@@ -34,8 +34,11 @@ class Port < Inspec.resource(1)
     case inspec.os[:family]
     when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'wrlinux'
       @port_manager = LinuxPorts.new(inspec)
-    when 'darwin'
-      @port_manager = DarwinPorts.new(inspec)
+    when 'darwin', 'aix'
+      # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
+      #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
+      # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
+      @port_manager = LsofPorts.new(inspec)
     when 'windows'
       @port_manager = WindowsPorts.new(inspec)
     when 'freebsd'
@@ -129,43 +132,109 @@ class WindowsPorts < PortsInfo
   end
 end
 
-# extracts udp and tcp ports from macos
-class DarwinPorts < PortsInfo
+# extracts udp and tcp ports from the lsof command
+class LsofPorts < PortsInfo
+  attr_reader :lsof
+
+  def initialize(inspec, lsofpath = nil)
+    @lsof = lsofpath || 'lsof'
+    super(inspec)
+  end
+
   def info
-    # collects UDP and TCP information
-    cmd = inspec.command('lsof -nP -iTCP -iUDP -sTCP:LISTEN')
-    return nil if cmd.exit_status.to_i != 0
-
     ports = []
-    # split on each newline
-    cmd.stdout.each_line do |line|
-      # parse each line
-      # 1 - COMMAND, 2 - PID, 3 - USER, 4 - FD, 5 - TYPE, 6 - DEVICE, 7 - SIZE/OFF, 8 - NODE, 9 - NAME
-      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+).*$/.match(line)
-      # extract network info
-      net_addr = parsed[9].split(':')
-      # convert to number if possible
-      net_port = net_addr[1]
-      net_port = net_port.to_i if net_port =~ /^\d+$/
-      protocol = parsed[8].downcase
 
-      # add version to protocol
-      type = parsed[5].downcase
-      protocol += '6' if type == 'IPv6'
+    # check that lsof is available, otherwise fail
+    fail 'Please ensure `lsof` is available on the machine.' if !inspec.command(@lsof.to_s).exist?
 
-      # map data
-      port_info = {
-        port: net_port,
-        address: net_addr[0],
-        protocol: protocol,
-        process: parsed[1],
-        pid: parsed[2].to_i,
-      }
+    # -F p=pid, c=command, P=protocol name, t=type, n=internet addresses
+    # see 'OUTPUT FOR OTHER PROGRAMS' in LSOF(8)
+    lsof_cmd = inspec.command("#{@lsof} -nP -i -FpctPn")
+    return nil if lsof_cmd.exit_status.to_i != 0
 
-      # push data, if not headerfile
-      ports.push(port_info) if %w{tcp tcp6 udp udp6}.include?(protocol)
+    # map to desired return struct
+    lsof_parser(lsof_cmd).each do |process, port_ids|
+      pid, cmd = process.split(':')
+      port_ids.each do |port_str|
+        # should not break on ipv6 addresses
+        ipv, proto, port, host = port_str.split(':', 4)
+        ports.push({ port:  port.to_i,
+                     address:  host,
+                     protocol: ipv == 'ipv6' ? proto + '6' : proto,
+                     process:  cmd,
+                     pid:      pid.to_i })
+      end
     end
+
     ports
+  end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/AbcSize
+  def lsof_parser(lsof_cmd)
+    procs = {}
+    # build this with formatted output (-F) from lsof
+    # procs = {
+    #   '123:sshd' => [
+    #      'ipv4:tcp:22:127.0.0.1',
+    #      'ipv6:tcp:22:::1',
+    #      'ipv4:tcp:*',
+    #      'ipv6:tcp:*',
+    #   ],
+    #   '456:ntpd' => [
+    #      'ipv4:udp:123:*',
+    #      'ipv6:udp:123:*',
+    #   ]
+    # }
+    proc_id = port_id = nil
+    lsof_cmd.stdout.each_line do |line|
+      line.chomp!
+      key = line.slice!(0)
+      case key
+      when 'p'
+        proc_id = line
+        port_id = nil
+      when 'c'
+        proc_id += ':' + line
+      when 't'
+        port_id = line.downcase
+      when 'P'
+        port_id += ':' + line.downcase
+      when 'n'
+        src, dst = line.split('->')
+
+        # skip active comm streams
+        next if dst
+
+        host, port = /^(\S+):(\d+|\*)$/.match(src)[1, 2]
+
+        # skip channels from port 0 - what does this mean?
+        next if port == '*'
+
+        # create new array stub if !exist?
+        procs[proc_id] = [] unless procs.key?(proc_id)
+
+        # change address '*' to zero
+        host = (port_id =~ /^ipv6:/) ? '[::]' : '0.0.0.0' if host == '*'
+        # entrust URI to scrub the host and port
+        begin
+          uri = URI("addr://#{host}:#{port}")
+          uri.host && uri.port
+        rescue => e
+          warn "could not parse URI 'addr://#{host}:#{port}' - #{e}"
+          next
+        end
+
+        # e.g. 'ipv4:tcp:22:127.0.0.1'
+        #                             strip ipv6 squares for inspec
+        port_id += ':' + port + ':' + host.gsub(/^\[|\]$/, '')
+
+        # lsof will give us another port unless it's done
+        procs[proc_id] << port_id
+      end
+    end
+
+    procs
   end
 end
 

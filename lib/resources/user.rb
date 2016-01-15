@@ -62,6 +62,8 @@ class User < Inspec.resource(1)
       @user_provider = DarwinUser.new(inspec)
     when 'freebsd'
       @user_provider = FreeBSDUser.new(inspec)
+    when 'aix'
+      @user_provider = AixUser.new(inspec)
     else
       return skip_resource 'The `user` resource is not supported on your OS yet.'
     end
@@ -259,6 +261,49 @@ class LinuxUser < UnixUser
       mindays: convert_to_i(params['Minimum number of days between password change']),
       maxdays: convert_to_i(params['Maximum number of days between password change']),
       warndays: convert_to_i(params['Number of days of warning before password expires']),
+    }
+  end
+end
+
+class AixUser < UnixUser
+  def identity(username)
+    id = super(username)
+    return nil if id.nil?
+    # AIX 'id' command doesn't include the primary group in the supplementary
+    # yet it can be somewhere in the supplementary list if someone added root
+    # to a groups list in /etc/group
+    # we rearrange to expected list if that is the case
+    if id[:groups].first != id[:group]
+      id[:groups].reject! { |i| i == id[:group] } if id[:groups].include?(id[:group])
+      id[:groups].unshift(id[:group])
+    end
+
+    id
+  end
+
+  def meta_info(username)
+    lsuser = inspec.command("lsuser -C -a home shell #{username}")
+    return nil if lsuser.exit_status != 0
+
+    user = lsuser.stdout.chomp.split("\n").last.split(':')
+    {
+      home:  user[1],
+      shell: user[2],
+    }
+  end
+
+  def credentials(username)
+    cmd = inspec.command(
+      "lssec -c -f /etc/security/user -s #{username} -a minage -a maxage -a pwdwarntime",
+    )
+    return nil if cmd.exit_status != 0
+
+    user_sec = cmd.stdout.chomp.split("\n").last.split(':')
+
+    {
+      mindays:  user_sec[1].to_i * 7,
+      maxdays:  user_sec[2].to_i * 7,
+      warndays: user_sec[3].to_i,
     }
   end
 end

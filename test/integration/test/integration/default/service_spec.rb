@@ -17,6 +17,9 @@ elsif ['windows'].include?(os[:family])
   # Ubuntu
   unavailable_service = 'sshd'
   available_service = 'dhcp'
+elsif ['aix'].include?(os[:family])
+  unavailable_service = 'clamav'
+  available_service = 'xntpd'
 end
 
 describe service(unavailable_service) do

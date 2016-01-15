@@ -1,4 +1,0 @@
-COMMAND     PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-UserEvent  697 chartmann    4u  IPv4 0xf0f511b94b566c77      0t0  UDP *:*
-VBoxHeadl 6835 chartmann   21u  IPv4 0xf0f511b96bd8db37      0t0  TCP 127.0.0.1:2022 (LISTEN)
-VBoxHeadl 6835 chartmann   23u  IPv4 0xf0f511b94cc8c5d7      0t0  UDP *:61197

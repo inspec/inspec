@@ -36,6 +36,8 @@ class Package < Inspec.resource(1)
       @pkgman = Brew.new(inspec)
     when 'windows'
       @pkgman = WindowsPkg.new(inspec)
+    when 'aix'
+      @pkgman = BffPkg.new(inspec)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
@@ -183,6 +185,22 @@ class WindowsPkg < PkgManagement
       installed: true,
       version: package['Version'],
       type: 'windows',
+    }
+  end
+end
+
+# AIX
+class BffPkg < PkgManagement
+  def info(package_name)
+    cmd = inspec.command("lslpp -cL #{package_name}")
+    return nil if cmd.exit_status.to_i != 0
+
+    bff_pkg = cmd.stdout.split("\n").last.split(':')
+    {
+      name:      bff_pkg[1],
+      installed: true,
+      version:   bff_pkg[2],
+      type:      'bff',
     }
   end
 end

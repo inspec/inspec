@@ -1,8 +1,7 @@
 # encoding: utf-8
 
-# root test
-if ['centos', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
-
+case os[:family]
+when 'centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'
   userinfo = {
     name: 'root',
     group: 'root',
@@ -14,10 +13,10 @@ if ['centos', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
   }
 
   # different groupset for centos 5
-  userinfo[:groups] = ["root", "bin", "daemon", "sys", "adm", "disk", "wheel"] if os[:release].to_i == 5
+  userinfo[:groups] = ["root", "bin", "daemon", "sys", "adm", "disk", "wheel"] \
+    if os[:release].to_i == 5
 
-elsif ['freebsd'].include?(os[:family])
-
+when 'freebsd'
   userinfo = {
     name: 'root',
     group: 'wheel',
@@ -28,8 +27,7 @@ elsif ['freebsd'].include?(os[:family])
     shell: '/bin/csh',
   }
 
-elsif ['windows'].include?(os[:family])
-
+when 'windows'
   userinfo = {
     name: 'Administrator',
     group: nil,
@@ -40,23 +38,35 @@ elsif ['windows'].include?(os[:family])
     shell: nil,
   }
 
+when 'aix'
+  userinfo = {
+    name:     'bin',
+    group:    'bin',
+    uid:      2,
+    gid:      2,
+    groups:   %w{bin sys adm},
+    home:     '/bin',
+    shell:    nil,
+    #mindays:  0,
+    #maxdays:  0,
+    warndays: 0,
+  }
+
 else
   userinfo = {}
 end
 
-if !os.windows?
+case os[:family]
+when 'windows'
   describe user(userinfo[:name]) do
     it { should exist }
-    it { should belong_to_group userinfo[:group] }
-    its('uid') { should eq userinfo[:uid] }
-    its('gid') { should eq userinfo[:gid] }
-    its('group') { should eq userinfo[:group] }
-    its('groups') { should eq userinfo[:groups] }
-    its('home') { should eq userinfo[:home] }
-    its('shell') { should eq userinfo[:shell] }
   end
 else
   describe user(userinfo[:name]) do
     it { should exist }
+    userinfo.each do |k, v|
+      next if k.to_sym == :name
+      its(k) { should eq v }
+    end
   end
 end

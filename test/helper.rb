@@ -137,8 +137,8 @@ class MockLoader
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
       # ports on windows
       'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
-      # ports on mac
-      'lsof -nP -iTCP -iUDP -sTCP:LISTEN' => cmd.call('lsof-np-itcp'),
+      # lsof formatted list of ports (should be quite cross platform)
+      'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
       # ports on freebsd

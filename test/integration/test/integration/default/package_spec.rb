@@ -1,11 +1,17 @@
 # encoding: utf-8
 
-if ['centos', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
+case os[:family]
+when 'centos', 'fedora', 'opensuse', 'debian', 'ubuntu'
   describe package('curl') do
     it { should be_installed }
   end
-
-  describe package('nginx') do
-    it { should_not be_installed }
+when 'aix'
+  describe package('bos.rte') do
+    it { should be_installed }
+    its('version') { should match /^(6|7)[.|\d]+\d$/ }
   end
+end
+
+describe package('nginx') do
+  it { should_not be_installed }
 end

@@ -46,6 +46,20 @@ namespace :test do
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
     sh('sh', '-c', "cd #{path} && bundle exec kitchen test -c #{concurrency} -t .")
   end
+
+  task :ssh, [:target] do |_t, args|
+    tests_path = File.join(File.dirname(__FILE__), 'test', 'integration', 'test', 'integration', 'default')
+    key_files = ENV['key_files'] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
+
+    sh_cmd =  "bin/inspec exec #{tests_path}/"
+    sh_cmd += ENV['test'] ? "#{ENV['test']}_spec.rb" : '*'
+    sh_cmd += " --sudo" unless args[:target].split('@')[0] == 'root'
+    sh_cmd += " -t ssh://#{args[:target]}"
+    sh_cmd += " --key_files=#{key_files}"
+    sh_cmd += " --format=#{ENV['format']}" if ENV['format']
+
+    sh('sh', '-c', sh_cmd)
+  end
 end
 
 # Print the current version of this gem or update it.

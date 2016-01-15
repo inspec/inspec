@@ -8,3 +8,4 @@ Berksfile.lock
 .bundle
 .librarian
 Puppetfile.lock
+.kitchen.local.yml

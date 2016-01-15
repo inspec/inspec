@@ -1,12 +1,21 @@
 # encoding: utf-8
 
-if os[:family] == 'freebsd'
+case os[:family]
+when 'freebsd'
   filedata = {
     user: 'root',
     group: 'wheel',
     dir_content: "\u0003\u0000",
     dir_md5sum: '598f4fe64aefab8f00bcbea4c9239abf',
     dir_sha256sum: '9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9',
+  }
+when 'aix'
+  filedata = {
+    user: 'root',
+    group: 'system',
+    dir_content: nil,
+    dir_md5sum: nil,
+    dir_sha256sum: nil,
   }
 else
   filedata = {
