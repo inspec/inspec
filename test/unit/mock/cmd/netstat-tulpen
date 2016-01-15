@@ -3,3 +3,4 @@ Proto Recv-Q Send-Q Local Address           Foreign Address         State       
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      0          21699       1/sshd
 tcp6       0      48 2601:1:ad80:1445::54776 2620:0:861:52:208::6667 LISTEN     0          21702       2043/pidgin
 tcp6       0      0 :::22                   :::*                    LISTEN      0          21701       1/sshd
+udp        0      0 0.0.0.0:111             0.0.0.0:*                   0          8689        545/rpcbind
