@@ -38,10 +38,7 @@ class Port < Inspec.resource(1)
       # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
       #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
       # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
-      # I think all lsof's are the same...
       @port_manager = LsofPorts.new(inspec)
-    # when 'redhat' - I think most lsof's are the same and pretty standard on many linuxes
-    #   @port_manager = LsofPorts.new(inspec, '/usr/sbin/lsof')
     when 'windows'
       @port_manager = WindowsPorts.new(inspec)
     when 'freebsd'
@@ -146,6 +143,9 @@ class LsofPorts < PortsInfo
 
   def info
     ports = []
+
+    # check that lsof is available, otherwise fail
+    fail 'Please ensure `lsof` is available on the machine.' if !inspec.command("#{@lsof}").exist?
 
     # -F p=pid, c=command, P=protocol name, t=type, n=internet addresses
     # see 'OUTPUT FOR OTHER PROGRAMS' in LSOF(8)
