@@ -179,7 +179,7 @@ class SrcMstr < ServiceManager
   def status?
     status_cmd = inspec.command("lssrc -s #{@name}")
     return nil if status_cmd.exit_status.to_i != 0
-    status_cmd.stdout.split(/\n/).last.chomp.match(/active$/) ? true : false
+    status_cmd.stdout.split(/\n/).last.chomp =~ /active$/ ? true : false
   end
 
   def enabled?
@@ -191,7 +191,7 @@ class SrcMstr < ServiceManager
   # #rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
     if inspec.command(
-      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '"
+      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '",
     ).exit_status == 0
       true
     else
