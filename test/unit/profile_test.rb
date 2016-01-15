@@ -69,18 +69,22 @@ describe Inspec::Profile do
       end
     end
 
-    describe 'a complete metadata profile' do
+    describe 'a complete metadata profile (legacy mode)' do
       let(:profile) { load_profile('complete-meta', {logger: logger}) }
 
       it 'prints ok messages' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-meta"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :info, nil, ['Metadata OK.']
-        logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`"]
+        logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`."]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         profile.check
         logger.verify
+      end
+
+      it 'doesnt have constraints on supported systems' do
+        profile.metadata.params.wont_include(:supports)
       end
     end
 
