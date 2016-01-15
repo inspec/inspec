@@ -74,11 +74,9 @@ class JsonConfig < Inspec.resource(1)
       value = value[key.to_s].nil? ? nil : value[key.to_s]
     end
 
-    # check if further keys exist
-    if !keys.first.nil?
-      return extract_value(keys.clone, value)
-    else
-      return value
-    end
+    # if there are no more keys, just return the value
+    return value if keys.first.nil?
+    # if there are more keys, extract more
+    extract_value(keys.clone, value)
   end
 end

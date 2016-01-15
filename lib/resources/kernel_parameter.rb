@@ -24,7 +24,7 @@ class KernelParameter < Inspec.resource(1)
     # remove whitespace
     cmd = cmd.stdout.chomp.strip
     # convert to number if possible
-    cmd = cmd.to_i if cmd.match(/^\d+$/)
+    cmd = cmd.to_i if cmd =~ /^\d+$/
     cmd
   end
 

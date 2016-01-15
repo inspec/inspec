@@ -13,8 +13,21 @@ module Inspec::DSL
     ::Inspec::DSL.load_spec_files_for_profile self, id, true, &block
   end
 
-  alias_method :require_rules, :require_controls
-  alias_method :include_rules, :include_controls
+  alias require_rules require_controls
+  alias include_rules include_controls
+
+  def self.rule_from_check(m, a, b)
+    if a.is_a?(Array) && !a.empty? &&
+       a[0].respond_to?(:resource_skipped) &&
+       !a[0].resource_skipped.nil?
+      ::Inspec::Rule.__send__(m, *a) do
+        it a[0].resource_skipped
+      end
+    else
+      # execute the method
+      ::Inspec::Rule.__send__(m, *a, &b)
+    end
+  end
 
   # Register a given rule with RSpec and
   # let it run. This happens after everything
@@ -24,23 +37,10 @@ module Inspec::DSL
     fid = InspecBaseRule.full_id(r, profile_id)
     checks.each do |m, a, b|
       # check if the resource is skippable and skipped
-      if a.is_a?(Array) && !a.empty? &&
-         a[0].respond_to?(:resource_skipped) &&
-         !a[0].resource_skipped.nil?
-        cres = ::Inspec::Rule.__send__(m, *a) do
-          it a[0].resource_skipped
-        end
-      else
-        # execute the method
-        cres = ::Inspec::Rule.__send__(m, *a, &b)
-      end
-      if m == 'describe'
-        set_rspec_ids(cres, fid)
-      end
+      cres = rule_from_check(m, a, b)
+      set_rspec_ids(cres, fid) if m == 'describe'
     end
   end
-
-  private
 
   # merge two rules completely; all defined
   # fields from src will be overwritten in dst

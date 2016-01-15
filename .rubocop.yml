@@ -45,13 +45,17 @@ Style/PredicateName:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
 Style/BracesAroundHashParameters:
   Enabled: false
 Style/AndOr:
   Enabled: false
 Style/Not:
   Enabled: false
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 Style/NegatedIf:
   Enabled: false

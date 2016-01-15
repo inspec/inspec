@@ -28,7 +28,7 @@ module Inspec::Targets
 
       def get_filenames(paths)
         paths.find_all do |path|
-          (path.start_with?('controls') || path.start_with?('test')) && path.end_with?('.rb')
+          path.start_with?('controls', 'test') && path.end_with?('.rb')
         end
       end
 

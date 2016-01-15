@@ -134,9 +134,9 @@ class Brew < PkgManagement
     # parse data
     pkg = JSON.parse(cmd.stdout)[0]
     {
-      name: "#{pkg.name}",
+      name: pkg.name.to_s,
       installed: true,
-      version: "#{pkg.installed.version}",
+      version: pkg.installed.version.to_s,
       type: 'brew',
     }
   end

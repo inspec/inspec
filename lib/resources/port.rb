@@ -146,7 +146,7 @@ class DarwinPorts < PortsInfo
       net_addr = parsed[9].split(':')
       # convert to number if possible
       net_port = net_addr[1]
-      net_port = net_port.to_i if /^\d+$/.match(net_port)
+      net_port = net_port.to_i if net_port =~ /^\d+$/
       protocol = parsed[8].downcase
 
       # add version to protocol
@@ -192,17 +192,18 @@ class LinuxPorts < PortsInfo
       # prep for URI parsing, parse ip6 port
       ip6 = /^(\S+):(\d+)$/.match(net_addr)
       ip6addr = ip6[1]
-      ip6addr = '::' if /^:::$/.match(ip6addr)
+      ip6addr = '::' if ip6addr =~ /^:::$/
       # build uri
       ip_addr = URI("addr://[#{ip6addr}]:#{ip6[2]}")
       # replace []
       host = ip_addr.host[1..ip_addr.host.size-2]
-      port = ip_addr.port
     else
       ip_addr = URI('addr://'+net_addr)
       host = ip_addr.host
-      port = ip_addr.port
     end
+
+    port = ip_addr.port
+
     [host, port]
   rescue URI::InvalidURIError => e
     warn "Could not parse #{net_addr}, #{e}"
@@ -228,7 +229,7 @@ class LinuxPorts < PortsInfo
     # extract PID
     process = parsed[9].split('/')
     pid = process[0]
-    pid = pid.to_i if /^\d+$/.match(pid)
+    pid = pid.to_i if pid =~ /^\d+$/
     process = process[1]
 
     # map data
@@ -264,14 +265,14 @@ class FreeBsdPorts < PortsInfo
     case protocol
     when 'tcp4', 'udp4'
       # replace * with 0.0.0.0
-      net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if /^*:(\d+)$/.match(net_addr)
+      net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if net_addr =~ /^*:(\d+)$/
       ip_addr = URI('addr://'+net_addr)
       host = ip_addr.host
       port = ip_addr.port
     when 'tcp6', 'udp6'
       return [] if net_addr == '*:*' # abort for now
       # replace * with 0:0:0:0:0:0:0:0
-      net_addr = net_addr.gsub(/^\*:/, '0:0:0:0:0:0:0:0:') if /^*:(\d+)$/.match(net_addr)
+      net_addr = net_addr.gsub(/^\*:/, '0:0:0:0:0:0:0:0:') if net_addr =~ /^*:(\d+)$/
       # extract port
       ip6 = /^(\S+):(\d+)$/.match(net_addr)
       ip6addr = ip6[1]
@@ -301,7 +302,7 @@ class FreeBsdPorts < PortsInfo
 
     # extract PID
     pid = parsed[3]
-    pid = pid.to_i if /^\d+$/.match(pid)
+    pid = pid.to_i if pid =~ /^\d+$/
 
     # map tcp4 and udp4
     protocol = 'tcp' if protocol.eql?('tcp4')

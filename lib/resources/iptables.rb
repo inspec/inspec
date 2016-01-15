@@ -47,7 +47,7 @@ class IpTables < Inspec.resource(1)
     retrieve_rules.each { |line|
       # checks if the rule is part of the ruleset
       # for now, we expect an excact match
-      found = true if line.downcase == rule.downcase
+      found = true if line.casecmp(rule) == 0
     }
     found
   end

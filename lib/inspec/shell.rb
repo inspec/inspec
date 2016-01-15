@@ -89,10 +89,8 @@ You are currently running on:
 EOF
       elsif resource == 'resources'
         resources
-      else
-
-        if !Inspec::Resource.registry[resource].nil?
-          puts <<EOF
+      elsif !Inspec::Resource.registry[resource].nil?
+        puts <<EOF
 #{mark 'Name:'} #{resource}
 
 #{mark 'Description:'}
@@ -107,10 +105,9 @@ EOF
 https://github.com/chef/inspec/blob/master/docs/resources.rst##{resource}
 
 EOF
-        else
-          puts 'Only the following resources are available:'
-          resources
-        end
+      else
+        puts 'Only the following resources are available:'
+        resources
       end
     end
 
