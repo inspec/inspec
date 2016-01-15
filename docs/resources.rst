@@ -3888,7 +3888,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe ssh_config do
      its('cipher') { should contain '3des' }
-     its('port') { should '22' }
+     its('port') { should eq '22' }
      its('hostname') { should include('example.com') }
    end
 
