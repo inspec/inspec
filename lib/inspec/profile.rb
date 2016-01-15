@@ -17,6 +17,7 @@ module Inspec
 
     attr_reader :params
     attr_reader :path
+    attr_reader :metadata
 
     def initialize(options = nil)
       @options = options || {}
@@ -104,7 +105,7 @@ module Inspec
       # check if the profile is using the old test directory instead of the
       # new controls directory
       if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
-        warn.call('Profile uses deprecated `test` directory, rename it to `controls`')
+        warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
       count = rules_count

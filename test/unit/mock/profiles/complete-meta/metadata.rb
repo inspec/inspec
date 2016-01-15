@@ -4,4 +4,4 @@ maintainer 'bob'
 title 'title'
 copyright 'left'
 summary 'nothing'
-supports nil
+supports 'linux'

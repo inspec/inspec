@@ -35,14 +35,9 @@ module Inspec
     end
 
     def supports(sth, version = nil)
-      params[:supports] ||= []
-      params[:supports].push(
-        # do not use hash syntax for `-` to work properly with ruby 1.9.3 parser
-        {
-          :'os-name' => sth, # rubocop:disable Style/HashSyntax, Lint/UnneededDisable
-          version: version,
-        },
-      )
+      # Ignore supports with metadata.rb. This file is legacy and the way it
+      # it handles `supports` deprecated. A deprecation warning will be printed
+      # already.
     end
 
     def is_supported(os, entry)
