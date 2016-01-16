@@ -16,7 +16,19 @@ describe Inspec::Profile do
     Inspec::Profile.from_path("#{home}/mock/profiles/#{name}", opts)
   end
 
-  describe 'with empty profile (legacy mode)' do
+  describe 'with an empty profile' do
+    let(:profile) { load_profile('empty-metadata') }
+
+    it 'has no metadata' do
+      profile.params[:name].must_be_nil
+    end
+
+    it 'has no rules' do
+      profile.params[:rules].must_equal({})
+    end
+  end
+
+  describe 'with an empty profile (legacy mode)' do
     let(:profile) { load_profile('legacy-empty-metadata') }
 
     it 'has no metadata' do
@@ -28,8 +40,20 @@ describe Inspec::Profile do
     end
   end
 
-  describe 'with normal metadata in profile (legacy mode)' do
-    let(:profile) { load_profile('legacy-metadata') }
+  describe 'with simple metadata in profile' do
+    let(:profile) { load_profile('simple-metadata') }
+
+    it 'has metadata' do
+      profile.params[:name].must_equal 'yumyum profile'
+    end
+
+    it 'has no rules' do
+      profile.params[:rules].must_equal({})
+    end
+  end
+
+  describe 'with simple metadata in profile (legacy mode)' do
+    let(:profile) { load_profile('legacy-simple-metadata') }
 
     it 'has metadata' do
       profile.params[:name].must_equal 'metadata profile'
@@ -41,6 +65,24 @@ describe Inspec::Profile do
   end
 
   describe 'when checking' do
+    describe 'an empty profile' do
+      let(:profile_id) { 'empty-metadata' }
+
+      it 'prints loads of warnings' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :error, nil, ['Missing profile name in inspec.yml']
+        logger.expect :error, nil, ['Missing profile version in inspec.yml']
+        logger.expect :warn, nil, ['Missing profile title in inspec.yml']
+        logger.expect :warn, nil, ['Missing profile summary in inspec.yml']
+        logger.expect :warn, nil, ['Missing profile maintainer in inspec.yml']
+        logger.expect :warn, nil, ['Missing profile copyright in inspec.yml']
+        logger.expect :warn, nil, ['No controls or tests were defined.']
+
+        load_profile(profile_id, {logger: logger}).check
+        logger.verify
+      end
+    end
+
     describe 'an empty profile (legacy mode)' do
       let(:profile_id) { 'legacy-empty-metadata' }
 
@@ -56,6 +98,20 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         load_profile(profile_id, {logger: logger}).check
+        logger.verify
+      end
+    end
+
+    describe 'a complete metadata profile' do
+      let(:profile_id) { 'complete-metadata' }
+      let(:profile) { load_profile(profile_id, {logger: logger}) }
+
+      it 'prints ok messages' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ['Metadata OK.']
+        logger.expect :warn, nil, ['No controls or tests were defined.']
+
+        profile.check
         logger.verify
       end
     end
