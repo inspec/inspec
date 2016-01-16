@@ -98,7 +98,7 @@ module Inspec
 
       # process the resulting rules
       ctx.rules.each do |rule_id, rule|
-        register_rule(ctx, rule_id, rule)
+        register_rule(rule_id, rule)
       end
     end
 
@@ -137,7 +137,7 @@ module Inspec
       nil
     end
 
-    def register_rule(ctx, rule_id, rule)
+    def register_rule(rule_id, rule)
       @rules[rule_id] = rule
       checks = rule.instance_variable_get(:@checks)
       checks.each do |m, a, b|
@@ -156,6 +156,5 @@ module Inspec
         @test_collector.add_test(example, rule_id)
       end
     end
-
   end
 end

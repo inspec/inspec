@@ -7,7 +7,7 @@ require 'inspec/dsl'
 require 'securerandom'
 
 module Inspec
-  class ProfileContext # rubocop:disable Metrics/ClassLength
+  class ProfileContext
     attr_reader :rules, :only_ifs
     def initialize(profile_id, backend, profile_registry = {}, only_ifs = [])
       if backend.nil?

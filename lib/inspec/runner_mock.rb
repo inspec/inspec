@@ -15,10 +15,10 @@ module Inspec
 
     def example_group(*in_args, &in_block)
       Class.new do
-        def args
+        define_method :args do
           in_args
         end
-        def block
+        define_method :block do
           in_block
         end
       end
