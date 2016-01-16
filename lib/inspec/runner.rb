@@ -13,7 +13,7 @@ require 'inspec/metadata'
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
-    attr_reader :tests, :backend, :rules
+    attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
       @profile_id = conf[:id]
@@ -26,6 +26,10 @@ module Inspec
       end
 
       configure_transport
+    end
+
+    def tests
+      @test_collector.tests
     end
 
     def normalize_map(hm)
