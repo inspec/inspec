@@ -25,8 +25,7 @@ module Inspec
     end
 
     def reload_dsl
-      dsl = create_dsl
-      ctx = create_context(dsl)
+      ctx = create_context
       @profile_context = ctx.new
     end
 
@@ -65,14 +64,19 @@ module Inspec
 
     private
 
-    # Creates the outer DSL which includes all methods for creating
-    # tests and control structures.
+    # Creates the heart of the profile context:
+    # An instantiated object which has all resources registered to it
+    # and exposes them to the a test file. The profile context serves as a
+    # container for all profiles which are registered. Within the context
+    # profiles get access to all DSL calls for creating tests and controls.
     #
-    # @param backend [BackendRunner] exposing the target to resources
-    # @return [OuterDSLClass]
-    def create_dsl
+    # @param outer_dsl [OuterDSLClass]
+    # @return [ProfileContextClass]
+    def create_context
+      profile_context_owner = self
       resources_dsl = Inspec::Resource.create_dsl(@backend)
 
+      # the inner working of a rule
       rule_class = Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         include resources_dsl
@@ -80,7 +84,16 @@ module Inspec
 
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new do
+        include Inspec::DSL
         include resources_dsl
+
+        define_method :title do |arg|
+          profile_context_owner.set_header(:title, arg)
+        end
+
+        def to_s
+          'Profile Context Run'
+        end
 
         define_method :control do |*args, &block|
           id = args[0]
@@ -92,7 +105,7 @@ module Inspec
           # controls.
           return if @skip_profile && os[:family] != 'unknown'
 
-          __register_rule rule_class.new(id, opts, &block)
+          profile_context_owner.register_rule(rule_class.new(id, opts, &block))
         end
 
         alias_method :rule, :control
@@ -104,7 +117,7 @@ module Inspec
           rule = rule_class.new(id, {}) do
             describe(*args, &block)
           end
-          __register_rule rule, &block
+          profile_context_owner.register_rule(rule, &block)
         end
 
         # TODO: mock method for attributes; import attribute handling
@@ -113,7 +126,7 @@ module Inspec
         end
 
         def skip_control(id)
-          __unregister_rule id
+          profile_context_owner.unregister_rule(id)
         end
 
         alias_method :skip_rule, :skip_control
@@ -121,39 +134,6 @@ module Inspec
         def only_if
           return unless block_given?
           @skip_profile = !yield
-        end
-      end
-      # rubocop:enable all
-    end
-
-    # Creates the heart of the profile context:
-    # An instantiated object which has all resources registered to it
-    # and exposes them to the a test file. The profile context serves as a
-    # container for all profiles which are registered. Within the context
-    # profiles get access to all DSL calls for creating tests and controls.
-    #
-    # @param outer_dsl [OuterDSLClass]
-    # @return [ProfileContextClass]
-    def create_context(outer_dsl)
-      profile_context_owner = self
-
-      # rubocop:disable Lint/NestedMethodDefinition
-      Class.new(outer_dsl) do
-        include Inspec::DSL
-
-        define_method :title do |arg|
-          profile_context_owner.set_header(:title, arg)
-        end
-
-        define_method :__register_rule do |*args|
-          profile_context_owner.register_rule(*args)
-        end
-        define_method :__unregister_rule do |*args|
-          profile_context_owner.unregister_rule(*args)
-        end
-
-        def to_s
-          'Profile Context Run'
         end
       end
       # rubocop:enable all
