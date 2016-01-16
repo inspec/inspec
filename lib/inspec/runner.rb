@@ -10,9 +10,6 @@ require 'inspec/profile_context'
 require 'inspec/targets'
 require 'inspec/metadata'
 # spec requirements
-require 'rspec'
-require 'rspec/its'
-require 'inspec/rspec_json_formatter'
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
@@ -22,12 +19,12 @@ module Inspec
       @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
-      @tests = RSpec::Core::World.new
 
-      # resets "pending examples" in reporter
-      RSpec.configuration.reset
+      @test_collector = @conf.delete(:test_collector) || begin
+        require 'inspec/runner_rspec'
+        RunnerRspec.new(@conf)
+      end
 
-      configure_output
       configure_transport
     end
 
@@ -37,10 +34,6 @@ module Inspec
         res[k.to_s] = v
       }
       res
-    end
-
-    def configure_output
-      RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
     def configure_transport
@@ -109,12 +102,8 @@ module Inspec
       end
     end
 
-    def run
-      run_with(RSpec::Core::Runner.new(nil))
-    end
-
-    def run_with(rspec_runner)
-      rspec_runner.run_specs(@tests.ordered_example_groups)
+    def run(with = nil)
+      @test_collector.run(with)
     end
 
     private
@@ -164,19 +153,9 @@ module Inspec
         dsl = ctx.method(:create_inner_dsl).call(backend)
         example.send(:include, dsl)
 
-        set_rspec_ids(example, rule_id)
-        @tests.register(example)
+        @test_collector.add_test(example, rule_id)
       end
     end
 
-    def set_rspec_ids(example, id)
-      example.metadata[:id] = id
-      example.filtered_examples.each do |e|
-        e.metadata[:id] = id
-      end
-      example.children.each do |child|
-        set_rspec_ids(child, id)
-      end
-    end
   end
 end

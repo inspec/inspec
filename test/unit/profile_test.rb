@@ -3,6 +3,8 @@
 # author: Dominik Richter
 
 require 'helper'
+require 'inspec/profile_context'
+require 'inspec/runner'
 
 describe Inspec::Profile do
   before {
