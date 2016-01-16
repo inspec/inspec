@@ -73,7 +73,9 @@ module Inspec
         family = try_support[:'os-family']
         release = try_support[:release]
       elsif entry.is_a?(String)
-        @logger.warn("Using deprecated `supports` syntax: using `#{entry}` as OS family")
+        @logger.warn(
+          "Do not use deprecated `supports: #{entry}` syntax. Instead use "\
+          "`supports: {os-family: #{entry}}`.")
         family = entry
       end
 

@@ -6,6 +6,8 @@ require 'helper'
 require 'inspec/metadata'
 
 describe 'metadata with supported operating systems' do
+  let(:logger) { Minitest::Mock.new }
+
   describe 'running on ubuntu 14.04' do
     let (:backend) { MockLoader.new(:ubuntu1404).backend }
 
@@ -38,7 +40,7 @@ describe 'metadata with supported operating systems' do
     # @param [Type] params describe params
     # @return [Type] description of returned object
     def create_meta(params)
-      res = Inspec::Metadata.from_yaml('mock', "---", nil)
+      res = Inspec::Metadata.from_yaml('mock', "---", nil, logger)
       # manually inject supported parameters
       res.params[:supports] = params
       Inspec::Metadata.finalize(res, 'mock')
@@ -48,6 +50,16 @@ describe 'metadata with supported operating systems' do
     it 'load a profile with empty supports clause' do
       m = create_meta(nil)
       m.supports_transport?(backend).must_equal true
+    end
+
+    it 'supports legacy simple support style, but warns' do
+      # i.e. setting this to something that would fail:
+      m = create_meta('linux')
+      logger.expect :warn, nil, [
+        'Do not use deprecated `supports: linux` '\
+        'syntax. Instead use `supports: {os-family: linux}`.']
+      m.supports_transport?(backend).must_equal true
+      logger.verify
     end
 
     it 'loads a profile which supports os ubuntu' do
