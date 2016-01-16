@@ -17,7 +17,7 @@ module Inspec
     # which is specified via the backend argument.
     #
     # @param backend [BackendRunner] exposing the target to resources
-    # @return [ResourceDSLModule]
+    # @return [ResourcesDSL]
     def self.create_dsl(backend)
       # need the local name, to use it in the module creation further down
       my_registry = registry

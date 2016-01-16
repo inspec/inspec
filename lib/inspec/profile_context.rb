@@ -4,7 +4,6 @@
 
 require 'inspec/rule'
 require 'inspec/dsl'
-require 'rspec/core/dsl'
 require 'securerandom'
 
 module Inspec
@@ -25,7 +24,8 @@ module Inspec
     end
 
     def reload_dsl
-      ctx = create_context
+      resources_dsl = Inspec::Resource.create_dsl(@backend)
+      ctx = create_context(resources_dsl, rule_context(resources_dsl))
       @profile_context = ctx.new
     end
 
@@ -64,6 +64,19 @@ module Inspec
 
     private
 
+    # Create the context for controls. This includes all components of the DSL,
+    # including matchers and resources.
+    #
+    # @param [ResourcesDSL] resources_dsl which has all resources to attach
+    # @return [RuleContext] the inner context of rules
+    def rule_context(resources_dsl)
+      require 'rspec/core/dsl'
+      Class.new(Inspec::Rule) do
+        include RSpec::Core::DSL
+        include resources_dsl
+      end
+    end
+
     # Creates the heart of the profile context:
     # An instantiated object which has all resources registered to it
     # and exposes them to the a test file. The profile context serves as a
@@ -72,15 +85,8 @@ module Inspec
     #
     # @param outer_dsl [OuterDSLClass]
     # @return [ProfileContextClass]
-    def create_context
+    def create_context(resources_dsl, rule_class)
       profile_context_owner = self
-      resources_dsl = Inspec::Resource.create_dsl(@backend)
-
-      # the inner working of a rule
-      rule_class = Class.new(Inspec::Rule) do
-        include RSpec::Core::DSL
-        include resources_dsl
-      end
 
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new do
