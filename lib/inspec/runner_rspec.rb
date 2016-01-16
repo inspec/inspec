@@ -6,9 +6,16 @@ require 'rspec/core'
 require 'rspec/its'
 require 'inspec/rspec_json_formatter'
 
+# There be dragons!! Or borgs, or something...
+# This file and all its contents cannot yet be tested. Once it is included
+# in our unit test suite, it deactivates all other checks completely.
+# To circumvent this, we need functional tests which tackle the RSpec runner
+# or a separate suite of unit tests to which get along with this.
+
 module Inspec
   class RunnerRspec
-    def initialize
+    def initialize(conf)
+      @conf = conf
       reset_tests
       configure_output
     end

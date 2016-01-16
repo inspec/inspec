@@ -16,8 +16,8 @@ describe Inspec::Profile do
     Inspec::Profile.from_path("#{home}/mock/profiles/#{name}", opts)
   end
 
-  describe 'with empty profile' do
-    let(:profile) { load_profile('empty') }
+  describe 'with empty profile (legacy mode)' do
+    let(:profile) { load_profile('legacy-empty-metadata') }
 
     it 'has no metadata' do
       profile.params[:name].must_be_nil
@@ -28,8 +28,8 @@ describe Inspec::Profile do
     end
   end
 
-  describe 'with normal metadata in profile' do
-    let(:profile) { load_profile('metadata') }
+  describe 'with normal metadata in profile (legacy mode)' do
+    let(:profile) { load_profile('legacy-metadata') }
 
     it 'has metadata' do
       profile.params[:name].must_equal 'metadata profile'
@@ -41,11 +41,11 @@ describe Inspec::Profile do
   end
 
   describe 'when checking' do
-    describe 'an empty profile' do
-      let(:profile) { load_profile('empty', {logger: logger}) }
+    describe 'an empty profile (legacy mode)' do
+      let(:profile_id) { 'legacy-empty-metadata' }
 
       it 'prints loads of warnings' do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/empty"]
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ['Missing profile name in metadata.rb']
         logger.expect :error, nil, ['Missing profile version in metadata.rb']
@@ -55,16 +55,17 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ['Missing profile copyright in metadata.rb']
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        profile.check
+        load_profile(profile_id, {logger: logger}).check
         logger.verify
       end
     end
 
     describe 'a complete metadata profile (legacy mode)' do
-      let(:profile) { load_profile('complete-meta', {logger: logger}) }
+      let(:profile_id) { 'legacy-complete-metadata' }
+      let(:profile) { load_profile(profile_id, {logger: logger}) }
 
       it 'prints ok messages' do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-meta"]
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`."]
@@ -80,16 +81,16 @@ describe Inspec::Profile do
     end
 
     describe 'a complete metadata profile with controls' do
-      let(:profile) { load_profile('complete-profile', {logger: logger, ignore_supports: true}) }
+      let(:profile_id) { 'complete-profile' }
 
       it 'prints ok messages and counts the rules' do
-        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-profile"]
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 rules.']
-        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/complete-profile/controls/filesystem_spec.rb"]
+        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Rule definitions OK.']
 
-        profile.check
+        load_profile(profile_id, {logger: logger, ignore_supports: true}).check
         logger.verify
       end
     end
