@@ -52,7 +52,11 @@ class DockerRunner
         res = block.call(name, container)
       # special rescue block to handle not implemented error
       rescue NotImplementedError => err
-        raise err.message
+        stop_container(container)
+        raise err.message + "\n" + err.backtrace.join("\n")
+      rescue StandardError => err
+        stop_container(container)
+        raise err.message + "\n" + err.backtrace.join("\n")
       end
       # always stop the container
       stop_container(container)
