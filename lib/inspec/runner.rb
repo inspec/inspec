@@ -119,14 +119,14 @@ module Inspec
       if !arg.empty? &&
          arg[0].respond_to?(:resource_skipped) &&
          !arg[0].resource_skipped.nil?
-        return RSpec::Core::ExampleGroup.describe(*arg, opts) do
+        return @test_collector.example_group(*arg, opts) do
           it arg[0].resource_skipped
         end
       else
         # add the resource
         case method_name
         when 'describe'
-          return RSpec::Core::ExampleGroup.describe(*arg, opts, &block)
+          return @test_collector.example_group(*arg, opts, &block)
         when 'expect'
           return block.example_group
         else
@@ -150,7 +150,7 @@ module Inspec
         # the scope of this run, thus not gaining ony of the DSL pieces.
         # To circumvent this, the full DSL is attached to the example's
         # scope.
-        dsl = ctx.method(:create_inner_dsl).call(backend)
+        dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
 
         @test_collector.add_test(example, rule_id)

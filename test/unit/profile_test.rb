@@ -5,25 +5,14 @@
 require 'helper'
 require 'inspec/profile_context'
 require 'inspec/runner'
+require 'inspec/runner_mock'
 
 describe Inspec::Profile do
-  before {
-    # mock up the profile runner
-    # TODO: try to take the real profile runner here;
-    # currently it's stopped at test runner conflicts
-    class Inspec::Profile::Runner
-      def initialize(opts) end
-      def add_tests(tests, options=nil) end
-      def rules
-        {}
-      end
-    end
-  }
-
   let(:logger) { Minitest::Mock.new }
   let(:home) { File.dirname(__FILE__) }
 
   def load_profile(name, opts = {})
+    opts[:test_collector] = Inspec::RunnerMock.new
     Inspec::Profile.from_path("#{home}/mock/profiles/#{name}", opts)
   end
 
@@ -96,13 +85,9 @@ describe Inspec::Profile do
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/complete-profile"]
         logger.expect :info, nil, ['Metadata OK.']
-
-        # TODO: cannot load rspec in unit tests, therefore we get a loading warn
-        # RSpec does not work with minitest tests
-        logger.expect :warn, nil, ['No controls or tests were defined.']
-        # we expect that this should work:
-        # logger.expect :info, nil, ['Found 1 rules.']
-        # logger.expect :info, nil, ['Rule definitions OK.']
+        logger.expect :info, nil, ['Found 1 rules.']
+        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/complete-profile/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ['Rule definitions OK.']
 
         profile.check
         logger.verify

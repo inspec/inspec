@@ -23,6 +23,10 @@ module Inspec
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
+    def example_group(*args, &block)
+      RSpec::Core::ExampleGroup.describe(*args, &block)
+    end
+
     def add_test(example, rule_id)
       set_rspec_ids(example, rule_id)
       @tests.register(example)
