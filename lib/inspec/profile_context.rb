@@ -25,9 +25,8 @@ module Inspec
     end
 
     def reload_dsl
-      dsl = create_inner_dsl(@backend)
-      outer_dsl = create_outer_dsl(dsl)
-      ctx = create_context(outer_dsl)
+      dsl = create_dsl
+      ctx = create_context(dsl)
       @profile_context = ctx.new
     end
 
@@ -66,36 +65,22 @@ module Inspec
 
     private
 
-    # Creates the inner DSL which includes all resources for
-    # creating tests. It is always connected to one target,
-    # which is specified via the backend argument.
-    #
-    # @param backend [BackendRunner] exposing the target to resources
-    # @return [InnerDSLModule]
-    def create_inner_dsl(backend)
-      Module.new do
-        Inspec::Resource.registry.each do |id, r|
-          define_method id.to_sym do |*args|
-            r.new(backend, id.to_s, *args)
-          end
-        end
-      end
-    end
-
     # Creates the outer DSL which includes all methods for creating
     # tests and control structures.
     #
-    # @param dsl [InnerDSLModule] which contains all resources
+    # @param backend [BackendRunner] exposing the target to resources
     # @return [OuterDSLClass]
-    def create_outer_dsl(dsl)
+    def create_dsl
+      resources_dsl = Inspec::Resource.create_dsl(@backend)
+
       rule_class = Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
-        include dsl
+        include resources_dsl
       end
 
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new do
-        include dsl
+        include resources_dsl
 
         define_method :control do |*args, &block|
           id = args[0]

@@ -11,8 +11,31 @@ module Inspec
     def self.registry
       @registry ||= {}
     end
+
+    # Creates the inner DSL which includes all resources for
+    # creating tests. It is always connected to one target,
+    # which is specified via the backend argument.
+    #
+    # @param backend [BackendRunner] exposing the target to resources
+    # @return [ResourceDSLModule]
+    def self.create_dsl(backend)
+      # need the local name, to use it in the module creation further down
+      my_registry = registry
+      Module.new do
+        my_registry.each do |id, r|
+          define_method id.to_sym do |*args|
+            r.new(backend, id.to_s, *args)
+          end
+        end
+      end
+    end
   end
 
+  # Retrieve the base class for creating a new resource.
+  # Create classes that inherit from this class.
+  #
+  # @param [int] version the resource version to use
+  # @return [Resource] base class for creating a new resource
   def self.resource(version)
     if version != 1
       fail 'Only resource version 1 is supported!'
