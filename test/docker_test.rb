@@ -43,8 +43,7 @@ class DockerTester
     opts = { 'target' => "docker://#{container.id}" }
     runner = Inspec::Runner.new(opts)
     runner.add_tests(@tests)
-    tests = runner.tests.ordered_example_groups
-    tests.map { |g| g.run(report) }
+    runner.tests.map { |g| g.run(report) }
   end
 end
 

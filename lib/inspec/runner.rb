@@ -10,25 +10,26 @@ require 'inspec/profile_context'
 require 'inspec/targets'
 require 'inspec/metadata'
 # spec requirements
-require 'rspec'
-require 'rspec/its'
-require 'inspec/rspec_json_formatter'
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
-    attr_reader :tests, :backend, :rules
+    attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
       @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
-      @tests = RSpec::Core::World.new
 
-      # resets "pending examples" in reporter
-      RSpec.configuration.reset
+      @test_collector = @conf.delete(:test_collector) || begin
+        require 'inspec/runner_rspec'
+        RunnerRspec.new(@conf)
+      end
 
-      configure_output
       configure_transport
+    end
+
+    def tests
+      @test_collector.tests
     end
 
     def normalize_map(hm)
@@ -37,10 +38,6 @@ module Inspec
         res[k.to_s] = v
       }
       res
-    end
-
-    def configure_output
-      RSpec.configuration.add_formatter(@conf['format'] || 'progress')
     end
 
     def configure_transport
@@ -105,16 +102,12 @@ module Inspec
 
       # process the resulting rules
       ctx.rules.each do |rule_id, rule|
-        register_rule(ctx, rule_id, rule)
+        register_rule(rule_id, rule)
       end
     end
 
-    def run
-      run_with(RSpec::Core::Runner.new(nil))
-    end
-
-    def run_with(rspec_runner)
-      rspec_runner.run_specs(@tests.ordered_example_groups)
+    def run(with = nil)
+      @test_collector.run(with)
     end
 
     private
@@ -130,14 +123,14 @@ module Inspec
       if !arg.empty? &&
          arg[0].respond_to?(:resource_skipped) &&
          !arg[0].resource_skipped.nil?
-        return RSpec::Core::ExampleGroup.describe(*arg, opts) do
+        return @test_collector.example_group(*arg, opts) do
           it arg[0].resource_skipped
         end
       else
         # add the resource
         case method_name
         when 'describe'
-          return RSpec::Core::ExampleGroup.describe(*arg, opts, &block)
+          return @test_collector.example_group(*arg, opts, &block)
         when 'expect'
           return block.example_group
         else
@@ -148,7 +141,7 @@ module Inspec
       nil
     end
 
-    def register_rule(ctx, rule_id, rule)
+    def register_rule(rule_id, rule)
       @rules[rule_id] = rule
       checks = rule.instance_variable_get(:@checks)
       checks.each do |m, a, b|
@@ -161,21 +154,10 @@ module Inspec
         # the scope of this run, thus not gaining ony of the DSL pieces.
         # To circumvent this, the full DSL is attached to the example's
         # scope.
-        dsl = ctx.method(:create_inner_dsl).call(backend)
+        dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
 
-        set_rspec_ids(example, rule_id)
-        @tests.register(example)
-      end
-    end
-
-    def set_rspec_ids(example, id)
-      example.metadata[:id] = id
-      example.filtered_examples.each do |e|
-        e.metadata[:id] = id
-      end
-      example.children.each do |child|
-        set_rspec_ids(child, id)
+        @test_collector.add_test(example, rule_id)
       end
     end
   end
