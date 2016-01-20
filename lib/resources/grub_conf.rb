@@ -26,15 +26,14 @@ class GrubConfig < Inspec.resource(1)
     case family
     when 'redhat', 'fedora', 'centos'
       release = inspec.os[:release].to_f
+      supported = true
       if release < 7
         @conf_path = path || '/etc/grub.conf'
         @version = 'legacy'
-        supported = true
       else
         @conf_path = path || '/boot/grub/grub.cfg'
         @defaults_path = '/etc/default/grub'
         @version = 'grub2'
-        supported = true
       end
     when 'ubuntu'
       @conf_path = path || '/boot/grub/grub.cfg'
@@ -71,7 +70,7 @@ class GrubConfig < Inspec.resource(1)
       lines.drop(index+1).each do |kernel_line|
         unless kernel_line =~ /(^|\s)menu.*/
           next if kernel_line =~ /(^|\s)}.*/
-          if (menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default')
+          if menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default'
             if kernel_line =~ /(^|\s)initrd.*/
               kernel_opts['initrd'] = kernel_line.split(' ')[1]
             end
@@ -79,7 +78,7 @@ class GrubConfig < Inspec.resource(1)
               kernel_opts['kernel'] = kernel_line.split
             end
             if kernel_line =~ /(^|\s)set root=.*/
-              kernel_opts['root'] = kernel_line.split('=')[1].tr('\'','')
+              kernel_opts['root'] = kernel_line.split('=')[1].tr('\'', '')
             end
             if kernel_line =~ /(^|\s)insmod.*/
               kernel_opts['insmod'].push(kernel_line.split(' ')[1])
@@ -142,7 +141,7 @@ class GrubConfig < Inspec.resource(1)
       return @params = {}
     end
 
-    if @version == "legacy"
+    if @version == 'legacy'
       # parse the file
       conf = SimpleConfig.new(
         content,
@@ -158,7 +157,7 @@ class GrubConfig < Inspec.resource(1)
       @params = conf.merge(kernel_opts)
     end
 
-    if @version == "grub2"
+    if @version == 'grub2'
       # read defaults
       file = inspec.file(@defaults_path)
       if !file.file? && !file.symlink?
