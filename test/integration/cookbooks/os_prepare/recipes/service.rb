@@ -4,9 +4,13 @@
 #
 # prepares services
 
-# install ntp as a service on ubuntu
 case node['platform']
 when 'ubuntu'
-  include_recipe('apt')
+  # install ntp as a service
+  include_recipe 'apt::default'
   package 'ntp'
+
+when 'centos'
+  # install runit for alternative service mgmt
+  include_recipe 'os_prepare::_runit_service_centos'
 end
