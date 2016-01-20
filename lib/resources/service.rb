@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+# author: Stephan Renatus
 # license: All rights reserved
 
 # Usage:
@@ -30,14 +31,17 @@ class Service < Inspec.resource(1)
     end
   "
 
-  def initialize(service_name)
+  attr_reader :service_ctl
+
+  def initialize(service_name, ctl = nil)
     @service_name = service_name
     @service_mgmt = nil
+    @service_ctl = ctl
     @cache = nil
-    select_service_ctl
+    select_service_mgmt
   end
 
-  def select_service_ctl # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     family = inspec.os[:family]
 
     case family
@@ -52,34 +56,34 @@ class Service < Inspec.resource(1)
     when 'ubuntu'
       version = inspec.os[:release].to_f
       if version < 15.04
-        @service_mgmt = Upstart.new(inspec)
+        @service_mgmt = Upstart.new(inspec, service_ctl)
       else
-        @service_mgmt = Systemd.new(inspec)
+        @service_mgmt = Systemd.new(inspec, service_ctl)
       end
     when 'debian'
       version = inspec.os[:release].to_i
       if version > 7
-        @service_mgmt = Systemd.new(inspec)
+        @service_mgmt = Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec)
+        @service_mgmt = SysV.new(inspec, service_ctl)
       end
     when 'redhat', 'fedora', 'centos'
       version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
-        @service_mgmt = Systemd.new(inspec)
+        @service_mgmt = Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec)
+        @service_mgmt = SysV.new(inspec, service_ctl)
       end
     when 'wrlinux'
-      @service_mgmt = SysV.new(inspec)
+      @service_mgmt = SysV.new(inspec, service_ctl)
     when 'darwin'
-      @service_mgmt = LaunchCtl.new(inspec)
+      @service_mgmt = LaunchCtl.new(inspec, service_ctl)
     when 'windows'
       @service_mgmt = WindowsSrv.new(inspec)
     when 'freebsd'
-      @service_mgmt = BSDInit.new(inspec)
+      @service_mgmt = BSDInit.new(inspec, service_ctl)
     when 'arch', 'opensuse'
-      @service_mgmt = Systemd.new(inspec)
+      @service_mgmt = Systemd.new(inspec, service_ctl)
     when 'aix'
       @service_mgmt = SrcMstr.new(inspec)
     end
@@ -343,13 +347,36 @@ class BSDInit < ServiceManager
   end
 end
 
-# MacOS / Darwin
-# new launctl on macos 10.10
-class LaunchCtl < ServiceManager
-  def initialize(service_name, service_ctl = 'launchctl')
+class Runit < ServiceManager
+  def initialize(service_name, service_ctl = 'sv')
     super
   end
 
+  def info(service_name)
+    # get the status of runit service
+    cmd = inspec.command("#{service_ctl} status #{service_name}")
+    # return nil unless cmd.exit_status == 0 # NOTE(sr) why do we do this?
+
+    installed = cmd.exit_status == 0
+    puts cmd.stdout
+    running = installed && !!(cmd.stdout =~ /^run:/)
+    puts running.inspect
+    enabled = installed && (running || !!(cmd.stdout =~ /normally up/))
+
+    {
+      name: service_name,
+      description: nil,
+      installed: installed,
+      running: running,
+      enabled: enabled,
+      type: 'runit',
+    }
+  end
+end
+
+# MacOS / Darwin
+# new launctl on macos 10.10
+class LaunchCtl < ServiceManager
   def info(service_name)
     # get the status of upstart service
     cmd = inspec.command("#{service_ctl} list")
@@ -470,8 +497,8 @@ class SystemdService < Service
     end
   "
 
-  def select_service_ctl
-    @service_mgmt = Systemd.new(inspec)
+  def select_service_mgmt
+    @service_mgmt = Systemd.new(inspec, service_ctl || 'systemctl')
   end
 end
 
@@ -492,8 +519,8 @@ class UpstartService < Service
     end
   "
 
-  def select_service_ctl
-    @service_mgmt = Upstart.new(inspec)
+  def select_service_mgmt
+    @service_mgmt = Upstart.new(inspec, service_ctl || 'initctl')
   end
 end
 
@@ -514,8 +541,8 @@ class SysVService < Service
     end
   "
 
-  def select_service_ctl
-    @service_mgmt = SysV.new(inspec)
+  def select_service_mgmt
+    @service_mgmt = SysV.new(inspec, service_ctl || 'service')
   end
 end
 
@@ -536,8 +563,8 @@ class BSDService < Service
     end
   "
 
-  def select_service_ctl
-    @service_mgmt = BSDInit.new(inspec)
+  def select_service_mgmt
+    @service_mgmt = BSDInit.new(inspec, service_ctl || 'service')
   end
 end
 
@@ -558,7 +585,29 @@ class LaunchdService < Service
     end
   "
 
-  def select_service_ctl
-    @service_mgmt = LaunchCtl.new(inspec)
+  def select_service_mgmt
+    @service_mgmt = LaunchCtl.new(inspec, service_ctl || 'launchctl')
+  end
+end
+
+class RunitService < Service
+  name 'runit_service'
+  desc 'Use the runit_service InSpec audit resource to test if the named service (controlled by runit) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe runit_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard sv path
+    describe runit_service('service_name', '/path/to/sv') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    @service_mgmt = Runit.new(inspec, service_ctl || 'sv')
   end
 end
