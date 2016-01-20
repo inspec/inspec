@@ -30,7 +30,17 @@ class GrubConfig < Inspec.resource(1)
         @conf_path = path || '/etc/grub.conf'
         @version = 'legacy'
         supported = true
+      else
+        @conf_path = path || '/boot/grub/grub.cfg'
+        @defaults_path = '/etc/default/grub'
+        @version = 'grub2'
+        supported = true
       end
+    when 'ubuntu'
+      @conf_path = path || '/boot/grub/grub.cfg'
+      @defaults_path = '/etc/default/grub'
+      @version = 'grub2'
+      supported = true
     end
     @kernel = kernel || 'default'
     return skip_resource 'The `grub_config` resource is not supported on your OS yet.' if supported.nil?
@@ -45,6 +55,48 @@ class GrubConfig < Inspec.resource(1)
   end
 
   private
+
+  ######################################################################
+  # Grub2 This is used by all supported versions of Ubuntu and Rhel 7+ #
+  ######################################################################
+
+  def grub2_parse_kernel_lines(content, conf)
+    # Find all "menuentry" lines and then parse them into arrays
+    menu_entry = 0
+    lines = content.split("\n")
+    kernel_opts = {}
+    kernel_opts['insmod'] = []
+    lines.each_with_index do |file_line, index|
+      next unless file_line =~ /(^|\s)menuentry\s.*/
+      lines.drop(index+1).each do |kernel_line|
+        unless kernel_line =~ /(^|\s)menu.*/
+          next if kernel_line =~ /(^|\s)}.*/
+          if (menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default')
+            if kernel_line =~ /(^|\s)initrd.*/
+              kernel_opts['initrd'] = kernel_line.split(' ')[1]
+            end
+            if kernel_line =~ /(^|\s)linux.*/
+              kernel_opts['kernel'] = kernel_line.split
+            end
+            if kernel_line =~ /(^|\s)set root=.*/
+              kernel_opts['root'] = kernel_line.split('=')[1].tr('\'','')
+            end
+            if kernel_line =~ /(^|\s)insmod.*/
+              kernel_opts['insmod'].push(kernel_line.split(' ')[1])
+            end
+          end
+        else
+          menu_entry += 1
+          break
+        end
+      end
+    end
+    kernel_opts
+  end
+
+  ###################################################################
+  # Grub1 aka legacy-grub config. Primarily used by Centos/Rhel 6.x #
+  ###################################################################
 
   def parse_kernel_lines(content, conf)
     # Find all "title" lines and then parse them into arrays
@@ -90,21 +142,52 @@ class GrubConfig < Inspec.resource(1)
       return @params = {}
     end
 
-    # parse the file
-    conf = SimpleConfig.new(
-      content,
-      multiple_values: true,
-    ).params
-
-    # convert single entry arrays into strings
-    conf.each do |key, value|
-      if value.size == 1
-        conf[key] = conf[key][0].to_s
+    if @version == "legacy"
+      # parse the file
+      conf = SimpleConfig.new(
+        content,
+        multiple_values: true,
+      ).params
+      # convert single entry arrays into strings
+      conf.each do |key, value|
+        if value.size == 1
+          conf[key] = conf[key][0].to_s
+        end
       end
+      kernel_opts = parse_kernel_lines(content, conf)
+      @params = conf.merge(kernel_opts)
     end
 
-    kernel_opts = parse_kernel_lines(content, conf)
+    if @version == "grub2"
+      # read defaults
+      file = inspec.file(@defaults_path)
+      if !file.file? && !file.symlink?
+        skip_resource "Can't find file '#{@defaults_path}'"
+        return @params = {}
+      end
 
-    @params = conf.merge(kernel_opts)
+      defaults = file.content
+      if content.empty? && file.size > 0
+        skip_resource "Can't read file '#{@defaults_path}'"
+        return @params = {}
+      end
+
+      conf = SimpleConfig.new(
+        defaults,
+        multiple_values: true,
+      ).params
+
+      # convert single entry arrays into strings
+      conf.each do |key, value|
+        if value.size == 1
+          conf[key] = conf[key][0].to_s
+        end
+      end
+
+      kernel_opts = grub2_parse_kernel_lines(content, conf)
+      @params = conf.merge(kernel_opts)
+    end
+    @params
   end
+
 end
