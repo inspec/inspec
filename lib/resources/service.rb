@@ -143,13 +143,13 @@ class Systemd < ServiceManager
     ).params
 
     # LoadState values eg. loaded, not-found
-    params['LoadState'] == 'loaded' ? (installed = true) : (installed = false)
+    installed = params['LoadState'] == 'loaded'
     # test via 'systemctl is-active service'
     # SubState values running
-    params['SubState'] == 'running' ? (running = true) : (running = false)
+    running = params['SubState'] == 'running'
     # test via systemctl --quiet is-enabled
     # ActiveState values eg.g inactive, active
-    params['UnitFileState'] == 'enabled' ? (enabled = true) : (enabled = false)
+    enabled = params['UnitFileState'] == 'enabled'
 
     {
       name: params['Id'],
@@ -195,17 +195,13 @@ class SrcMstr < ServiceManager
 
   # #rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
-    if inspec.command(
-      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '",
+    inspec.command(
+      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{name} '",
     ).exit_status == 0
-      true
-    else
-      false
-    end
   end
 
   def enabled_inittab?
-    inspec.command("lsitab #{@name}").exit_status.to_i == 0 ? true : false
+    inspec.command("lsitab #{name}").exit_status == 0
   end
 end
 
@@ -334,7 +330,7 @@ class BSDInit < ServiceManager
     # check if the service is running
     # if the service is not available or not running, we always get an error code
     cmd = inspec.command("#{service_ctl} #{service_name} onestatus")
-    cmd.exit_status == 0 ? (running = true) : (running = false)
+    running = cmd.exit_status == 0
 
     {
       name: service_name,
@@ -365,11 +361,11 @@ class LaunchCtl < ServiceManager
 
     # extract values from service
     parsed_srv = /^([0-9]+)\s*(\w*)\s*(\S*)/.match(srv[0])
-    !parsed_srv.nil? ? (enabled = true) : (enabled = false)
+    enabled = !parsed_srv.nil?
 
     # check if the service is running
     pid = parsed_srv[0]
-    !pid.nil? ? (running = true) : (running = false)
+    running = !pid.nil?
 
     # extract service label
     srv = parsed_srv[3] || service_name
@@ -446,23 +442,14 @@ class WindowsSrv < ServiceManager
 
   # detect if service is enabled
   def service_enabled?(service)
-    if !service['WMI'].nil? &&
-       !service['WMI']['StartMode'].nil? &&
-       service['WMI']['StartMode'] == 'Auto'
-      true
-    else
-      false
-    end
+    !service['WMI'].nil? &&
+      !service['WMI']['StartMode'].nil? &&
+      service['WMI']['StartMode'] == 'Auto'
   end
 
   # detect if service is running
   def service_running?(service)
-    if !service['Service']['Status'].nil? &&
-       service['Service']['Status'] == 4
-      true
-    else
-      false
-    end
+    !service['Service']['Status'].nil? && service['Service']['Status'] == 4
   end
 end
 
