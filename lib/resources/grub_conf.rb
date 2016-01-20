@@ -4,7 +4,7 @@
 
 require 'utils/simpleconfig'
 
-class GrubConfig < Inspec.resource(1)
+class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   name 'grub_conf'
   desc 'Use the grub_conf InSpec audit resource to test the boot config of Linux systems that use Grub.'
   example "
@@ -26,11 +26,20 @@ class GrubConfig < Inspec.resource(1)
     case family
     when 'redhat', 'fedora', 'centos'
       release = inspec.os[:release].to_f
+      supported = true
       if release < 7
         @conf_path = path || '/etc/grub.conf'
         @version = 'legacy'
-        supported = true
+      else
+        @conf_path = path || '/boot/grub/grub.cfg'
+        @defaults_path = '/etc/default/grub'
+        @version = 'grub2'
       end
+    when 'ubuntu'
+      @conf_path = path || '/boot/grub/grub.cfg'
+      @defaults_path = '/etc/default/grub'
+      @version = 'grub2'
+      supported = true
     end
     @kernel = kernel || 'default'
     return skip_resource 'The `grub_config` resource is not supported on your OS yet.' if supported.nil?
@@ -45,6 +54,46 @@ class GrubConfig < Inspec.resource(1)
   end
 
   private
+
+  ######################################################################
+  # Grub2 This is used by all supported versions of Ubuntu and Rhel 7+ #
+  ######################################################################
+
+  def grub2_parse_kernel_lines(content, conf)
+    # Find all "menuentry" lines and then parse them into arrays
+    menu_entry = 0
+    lines = content.split("\n")
+    kernel_opts = {}
+    kernel_opts['insmod'] = []
+    lines.each_with_index do |file_line, index|
+      next unless file_line =~ /(^|\s)menuentry\s.*/
+      lines.drop(index+1).each do |kernel_line|
+        next if kernel_line =~ /(^|\s)(menu|}).*/
+        if menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default'
+          if kernel_line =~ /(^|\s)initrd.*/
+            kernel_opts['initrd'] = kernel_line.split(' ')[1]
+          end
+          if kernel_line =~ /(^|\s)linux.*/
+            kernel_opts['kernel'] = kernel_line.split
+          end
+          if kernel_line =~ /(^|\s)set root=.*/
+            kernel_opts['root'] = kernel_line.split('=')[1].tr('\'', '')
+          end
+          if kernel_line =~ /(^|\s)insmod.*/
+            kernel_opts['insmod'].push(kernel_line.split(' ')[1])
+          end
+        else
+          menu_entry += 1
+          break
+        end
+      end
+    end
+    kernel_opts
+  end
+
+  ###################################################################
+  # Grub1 aka legacy-grub config. Primarily used by Centos/Rhel 6.x #
+  ###################################################################
 
   def parse_kernel_lines(content, conf)
     # Find all "title" lines and then parse them into arrays
@@ -74,37 +123,64 @@ class GrubConfig < Inspec.resource(1)
     kernel_opts
   end
 
-  def read_params
-    return @params if defined?(@params)
+  def read_file(config_file)
+    file = inspec.file(config_file)
 
-    # read the file
-    file = inspec.file(@conf_path)
     if !file.file? && !file.symlink?
       skip_resource "Can't find file '#{@conf_path}'"
       return @params = {}
     end
 
     content = file.content
+
     if content.empty? && file.size > 0
       skip_resource "Can't read file '#{@conf_path}'"
       return @params = {}
     end
 
-    # parse the file
-    conf = SimpleConfig.new(
-      content,
-      multiple_values: true,
-    ).params
+    content
+  end
 
-    # convert single entry arrays into strings
-    conf.each do |key, value|
-      if value.size == 1
-        conf[key] = conf[key][0].to_s
+  def read_params
+    return @params if defined?(@params)
+
+    content = read_file(@conf_path)
+
+    if @version == 'legacy'
+      # parse the file
+      conf = SimpleConfig.new(
+        content,
+        multiple_values: true,
+      ).params
+      # convert single entry arrays into strings
+      conf.each do |key, value|
+        if value.size == 1
+          conf[key] = conf[key][0].to_s
+        end
       end
+      kernel_opts = parse_kernel_lines(content, conf)
+      @params = conf.merge(kernel_opts)
     end
 
-    kernel_opts = parse_kernel_lines(content, conf)
+    if @version == 'grub2'
+      # read defaults
+      defaults = read_file(@defaults_path)
 
-    @params = conf.merge(kernel_opts)
+      conf = SimpleConfig.new(
+        defaults,
+        multiple_values: true,
+      ).params
+
+      # convert single entry arrays into strings
+      conf.each do |key, value|
+        if value.size == 1
+          conf[key] = conf[key][0].to_s
+        end
+      end
+
+      kernel_opts = grub2_parse_kernel_lines(content, conf)
+      @params = conf.merge(kernel_opts)
+    end
+    @params
   end
 end
