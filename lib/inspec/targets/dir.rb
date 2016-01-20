@@ -11,13 +11,11 @@ module Inspec::Targets
     # TODO: remove `test` support for InSpec 1.0
     class ProfileDir
       def handles?(paths)
+        return true if paths.include?('inspec.yml')
         (
           !paths.grep(/^controls/).empty? ||
           !paths.grep(/^test/).empty?
-        ) && (
-          paths.include?('inspec.yml') ||
-          paths.include?('metadata.rb')
-        )
+        ) && paths.include?('metadata.rb')
       end
 
       def get_libraries(paths)
