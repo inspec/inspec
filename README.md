@@ -113,9 +113,9 @@ end
 ```
 
 Also have a look at our examples for:
-- [Usiing inspec with test-kitchen & chef](https://github.com/chef/inspec/tree/master/examples/kitchen-chef)
-- [Using inspec with test-kiitchen & puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
-- [Using inspec with test-kitchen & ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
+- [Using InSpec with Test Kitchen & Chef](https://github.com/chef/inspec/tree/master/examples/kitchen-chef)
+- [Using InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
+- [Using InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
 - [Implementing an InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
 
 ## Command Line Usage
