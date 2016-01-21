@@ -124,7 +124,7 @@ if os.unix?
     it { should be_mounted }
     it { should be_mounted.with( :type => 'iso9660' ) }
     it { should be_mounted.with( :type => 'iso9660', :options => { :ro => true } ) }
-    it { should be_mounted.with( :type => 'iso9660', :device => '/root/alpine-3.3.0-x86_64.iso' ) }
+    it { should be_mounted.with( :type => 'iso9660', :device => '/root/empty.iso' ) }
     it { should_not be_mounted.with( :type => 'ext4' ) }
     it { should_not be_mounted.with( :type => 'xfs' ) }
   end
@@ -133,7 +133,7 @@ if os.unix?
   # also see mount_spec.rb
   describe file('/mnt/iso-disk') do
     it { should be_mounted.only_with( {
-      :device=>"/root/alpine-3.3.0-x86_64.iso",
+      :device=>"/root/empty.iso",
       :type=>"iso9660",
       :options=>{
         :ro=>true}
