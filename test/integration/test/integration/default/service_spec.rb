@@ -51,8 +51,14 @@ if os[:family] == 'centos'
     it { should be_running }
   end
 
-  describe runit_service('non-running-runit-service') do
+  describe runit_service('not-running-runit-service') do
     it { should be_enabled }
+    it { should be_installed }
+    it { should_not be_running }
+  end
+
+  describe runit_service('not-enabled-runit-service') do
+    it { should_not be_enabled }
     it { should be_installed }
     it { should_not be_running }
   end
