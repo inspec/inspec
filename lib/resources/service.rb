@@ -38,7 +38,9 @@ class Service < Inspec.resource(1)
     @service_mgmt = nil
     @service_ctl = ctl
     @cache = nil
-    select_service_mgmt
+    @service_mgmt = select_service_mgmt
+
+    return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
   end
 
   def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -56,39 +58,37 @@ class Service < Inspec.resource(1)
     when 'ubuntu'
       version = inspec.os[:release].to_f
       if version < 15.04
-        @service_mgmt = Upstart.new(inspec, service_ctl)
+        Upstart.new(inspec, service_ctl)
       else
-        @service_mgmt = Systemd.new(inspec, service_ctl)
+        Systemd.new(inspec, service_ctl)
       end
     when 'debian'
       version = inspec.os[:release].to_i
       if version > 7
-        @service_mgmt = Systemd.new(inspec, service_ctl)
+        Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec, service_ctl)
+        SysV.new(inspec, service_ctl || '/usr/sbin/service')
       end
     when 'redhat', 'fedora', 'centos'
       version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
-        @service_mgmt = Systemd.new(inspec, service_ctl)
+        Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec, service_ctl)
+        SysV.new(inspec, service_ctl || '/sbin/service')
       end
     when 'wrlinux'
-      @service_mgmt = SysV.new(inspec, service_ctl)
+      SysV.new(inspec, service_ctl)
     when 'darwin'
-      @service_mgmt = LaunchCtl.new(inspec, service_ctl)
+      LaunchCtl.new(inspec, service_ctl)
     when 'windows'
-      @service_mgmt = WindowsSrv.new(inspec)
+      WindowsSrv.new(inspec)
     when 'freebsd'
-      @service_mgmt = BSDInit.new(inspec, service_ctl)
+      BSDInit.new(inspec, service_ctl)
     when 'arch', 'opensuse'
-      @service_mgmt = Systemd.new(inspec, service_ctl)
+      Systemd.new(inspec, service_ctl)
     when 'aix'
-      @service_mgmt = SrcMstr.new(inspec)
+      SrcMstr.new(inspec)
     end
-
-    return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
   end
 
   def info
@@ -288,13 +288,6 @@ class SysV < ServiceManager
     # check if service is really running
     # service throws an exit code if the service is not installed or
     # not enabled
-
-    # FIXME(sr)
-    # on debian service is located /usr/sbin/service, on centos it is located here /sbin/service
-    # service_cmd = 'service'
-    # service_cmd = '/usr/sbin/service' if inspec.os[:family] == 'debian'
-    # service_cmd = '/sbin/service' if inspec.os[:family] == 'centos'
-    # NOTE(sr) It's all in PATH, isn't it?
 
     cmd = inspec.command("#{service_ctl} #{service_name} status")
     running = cmd.exit_status == 0
@@ -498,7 +491,7 @@ class SystemdService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = Systemd.new(inspec, service_ctl || 'systemctl')
+    Systemd.new(inspec, service_ctl || 'systemctl')
   end
 end
 
@@ -520,7 +513,7 @@ class UpstartService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = Upstart.new(inspec, service_ctl || 'initctl')
+    Upstart.new(inspec, service_ctl || 'initctl')
   end
 end
 
@@ -542,7 +535,7 @@ class SysVService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = SysV.new(inspec, service_ctl || 'service')
+    SysV.new(inspec, service_ctl || 'service')
   end
 end
 
@@ -564,7 +557,7 @@ class BSDService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = BSDInit.new(inspec, service_ctl || 'service')
+    BSDInit.new(inspec, service_ctl || 'service')
   end
 end
 
@@ -586,7 +579,7 @@ class LaunchdService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = LaunchCtl.new(inspec, service_ctl || 'launchctl')
+    LaunchCtl.new(inspec, service_ctl || 'launchctl')
   end
 end
 
@@ -608,6 +601,6 @@ class RunitService < Service
   "
 
   def select_service_mgmt
-    @service_mgmt = Runit.new(inspec, service_ctl || 'sv')
+    Runit.new(inspec, service_ctl || 'sv')
   end
 end
