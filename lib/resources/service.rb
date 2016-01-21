@@ -33,10 +33,10 @@ class Service < Inspec.resource(1)
 
   attr_reader :service_ctl
 
-  def initialize(service_name, ctl = nil)
+  def initialize(service_name, service_ctl = nil)
     @service_name = service_name
     @service_mgmt = nil
-    @service_ctl = ctl
+    @service_ctl ||= service_ctl
     @cache = nil
     @service_mgmt = select_service_mgmt
 
@@ -92,9 +92,8 @@ class Service < Inspec.resource(1)
   end
 
   def info
-    return @cache if !@cache.nil?
     return nil if @service_mgmt.nil?
-    @cache = @service_mgmt.info(@service_name)
+    @cache ||= @service_mgmt.info(@service_name)
   end
 
   # verifies the service is enabled
@@ -124,15 +123,16 @@ class ServiceManager
   attr_reader :inspec, :service_ctl
   def initialize(inspec, service_ctl = nil)
     @inspec = inspec
-    @service_ctl = service_ctl
+    @service_ctl ||= service_ctl
   end
 end
 
 # @see: http://www.freedesktop.org/software/systemd/man/systemctl.html
 # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
 class Systemd < ServiceManager
-  def initialize(inspec, service_ctl = 'systemctl')
-     super
+  def initialize(inspec, service_ctl = nil)
+    @service_ctl ||= 'systemctl'
+    super
   end
 
   def info(service_name)
@@ -211,7 +211,8 @@ end
 
 # @see: http://upstart.ubuntu.com
 class Upstart < ServiceManager
-  def initialize(service_name, service_ctl = 'initctl')
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'initctl'
     super
   end
 
@@ -260,7 +261,8 @@ class Upstart < ServiceManager
 end
 
 class SysV < ServiceManager
-  def initialize(service_name, service_ctl = 'service')
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'service'
     super
   end
 
@@ -305,7 +307,8 @@ end
 # @see: https://www.freebsd.org/doc/en/articles/linux-users/startup.html
 # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
 class BSDInit < ServiceManager
-  def initialize(service_name, service_ctl = 'service')
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'service'
     super
   end
 
@@ -341,7 +344,8 @@ class BSDInit < ServiceManager
 end
 
 class Runit < ServiceManager
-  def initialize(service_name, service_ctl = 'sv')
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'sv'
     super
   end
 
@@ -351,8 +355,8 @@ class Runit < ServiceManager
     # return nil unless cmd.exit_status == 0 # NOTE(sr) why do we do this?
 
     installed = cmd.exit_status == 0
-    running = installed && !!(cmd.stdout =~ /^run:/)
-    enabled = installed && (running || !!(cmd.stdout =~ /normally up/) || !!(cmd.stdout =~ /want up/))
+    running = installed && (cmd.stdout =~ /^run:/)
+    enabled = installed && (running || (cmd.stdout =~ /normally up/) || (cmd.stdout =~ /want up/))
 
     {
       name: service_name,
@@ -368,6 +372,11 @@ end
 # MacOS / Darwin
 # new launctl on macos 10.10
 class LaunchCtl < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'launchctl'
+    super
+  end
+
   def info(service_name)
     # get the status of upstart service
     cmd = inspec.command("#{service_ctl} list")
@@ -489,7 +498,7 @@ class SystemdService < Service
   "
 
   def select_service_mgmt
-    Systemd.new(inspec, service_ctl || 'systemctl')
+    Systemd.new(inspec, service_ctl)
   end
 end
 
@@ -511,7 +520,7 @@ class UpstartService < Service
   "
 
   def select_service_mgmt
-    Upstart.new(inspec, service_ctl || 'initctl')
+    Upstart.new(inspec, service_ctl)
   end
 end
 
@@ -533,7 +542,7 @@ class SysVService < Service
   "
 
   def select_service_mgmt
-    SysV.new(inspec, service_ctl || 'service')
+    SysV.new(inspec, service_ctl)
   end
 end
 
@@ -555,7 +564,7 @@ class BSDService < Service
   "
 
   def select_service_mgmt
-    BSDInit.new(inspec, service_ctl || 'service')
+    BSDInit.new(inspec, service_ctl)
   end
 end
 
@@ -577,7 +586,7 @@ class LaunchdService < Service
   "
 
   def select_service_mgmt
-    LaunchCtl.new(inspec, service_ctl || 'launchctl')
+    LaunchCtl.new(inspec, service_ctl)
   end
 end
 
@@ -599,6 +608,6 @@ class RunitService < Service
   "
 
   def select_service_mgmt
-    Runit.new(inspec, service_ctl || 'sv')
+    Runit.new(inspec, service_ctl)
   end
 end
