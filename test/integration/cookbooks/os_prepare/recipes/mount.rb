@@ -4,9 +4,9 @@
 #
 # file mount tests
 
-# download alpine linux for file mount tests
-remote_file '/root/alpine-3.3.0-x86_64.iso' do
-  source 'http://wiki.alpinelinux.org/cgi-bin/dl.cgi/v3.3/releases/x86_64/alpine-3.3.0-x86_64.iso'
+# copy iso file for mount tests
+# NB created using `mkdir empty; mkisofs -o empty.iso empty/`
+cookbook_file '/root/empty.iso' do
   owner 'root'
   group 'root'
   mode '0755'
@@ -21,9 +21,9 @@ directory '/mnt/iso-disk' do
   action :create
 end
 
-# mount -o loop /root/alpine-3.3.0-x86_64.iso /mnt/iso-disk
+# mount -o loop /root/empty.iso /mnt/iso-disk
 mount '/mnt/iso-disk' do
-  device '/root/alpine-3.3.0-x86_64.iso'
+  device '/root/empty.iso'
   options 'loop'
   action [:mount, :enable]
 end
