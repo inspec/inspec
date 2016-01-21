@@ -22,5 +22,6 @@ end
 runit_service 'non-running-runit-service' do
   default_logger true
   run_template_name 'default-svlog'
-  action :stop
+  start_down true
+  action :create
 end

@@ -351,10 +351,8 @@ class Runit < ServiceManager
     # return nil unless cmd.exit_status == 0 # NOTE(sr) why do we do this?
 
     installed = cmd.exit_status == 0
-    puts cmd.stdout
     running = installed && !!(cmd.stdout =~ /^run:/)
-    puts running.inspect
-    enabled = installed && (running || !!(cmd.stdout =~ /normally up/))
+    enabled = installed && (running || !!(cmd.stdout =~ /normally up/) || !!(cmd.stdout =~ /want up/))
 
     {
       name: service_name,
