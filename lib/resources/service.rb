@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+# author: Stephan Renatus
 # license: All rights reserved
 
 # Usage:
@@ -30,14 +31,19 @@ class Service < Inspec.resource(1)
     end
   "
 
-  def initialize(service_name)
+  attr_reader :service_ctl
+
+  def initialize(service_name, service_ctl = nil)
     @service_name = service_name
     @service_mgmt = nil
+    @service_ctl ||= service_ctl
     @cache = nil
-    select_package_manager
+    @service_mgmt = select_service_mgmt
+
+    return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
   end
 
-  def select_package_manager # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     family = inspec.os[:family]
 
     case family
@@ -52,45 +58,42 @@ class Service < Inspec.resource(1)
     when 'ubuntu'
       version = inspec.os[:release].to_f
       if version < 15.04
-        @service_mgmt = Upstart.new(inspec)
+        Upstart.new(inspec, service_ctl)
       else
-        @service_mgmt = Systemd.new(inspec)
+        Systemd.new(inspec, service_ctl)
       end
     when 'debian'
       version = inspec.os[:release].to_i
       if version > 7
-        @service_mgmt = Systemd.new(inspec)
+        Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec)
+        SysV.new(inspec, service_ctl || '/usr/sbin/service')
       end
     when 'redhat', 'fedora', 'centos'
       version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
-        @service_mgmt = Systemd.new(inspec)
+        Systemd.new(inspec, service_ctl)
       else
-        @service_mgmt = SysV.new(inspec)
+        SysV.new(inspec, service_ctl || '/sbin/service')
       end
     when 'wrlinux'
-      @service_mgmt = SysV.new(inspec)
+      SysV.new(inspec, service_ctl)
     when 'darwin'
-      @service_mgmt = LaunchCtl.new(inspec)
+      LaunchCtl.new(inspec, service_ctl)
     when 'windows'
-      @service_mgmt = WindowsSrv.new(inspec)
+      WindowsSrv.new(inspec)
     when 'freebsd'
-      @service_mgmt = BSDInit.new(inspec)
+      BSDInit.new(inspec, service_ctl)
     when 'arch', 'opensuse'
-      @service_mgmt = Systemd.new(inspec)
+      Systemd.new(inspec, service_ctl)
     when 'aix'
-      @service_mgmt = SrcMstr.new(inspec)
+      SrcMstr.new(inspec)
     end
-
-    return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
   end
 
   def info
-    return @cache if !@cache.nil?
     return nil if @service_mgmt.nil?
-    @cache = @service_mgmt.info(@service_name)
+    @cache ||= @service_mgmt.info(@service_name)
   end
 
   # verifies the service is enabled
@@ -117,17 +120,23 @@ class Service < Inspec.resource(1)
 end
 
 class ServiceManager
-  attr_reader :inspec
-  def initialize(inspec)
+  attr_reader :inspec, :service_ctl
+  def initialize(inspec, service_ctl = nil)
     @inspec = inspec
+    @service_ctl ||= service_ctl
   end
 end
 
 # @see: http://www.freedesktop.org/software/systemd/man/systemctl.html
 # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
 class Systemd < ServiceManager
+  def initialize(inspec, service_ctl = nil)
+    @service_ctl ||= 'systemctl'
+    super
+  end
+
   def info(service_name)
-    cmd = inspec.command("systemctl show --all #{service_name}")
+    cmd = inspec.command("#{service_ctl} show --all #{service_name}")
     return nil if cmd.exit_status.to_i != 0
 
     # parse data
@@ -138,13 +147,13 @@ class Systemd < ServiceManager
     ).params
 
     # LoadState values eg. loaded, not-found
-    params['LoadState'] == 'loaded' ? (installed = true) : (installed = false)
+    installed = params['LoadState'] == 'loaded'
     # test via 'systemctl is-active service'
     # SubState values running
-    params['SubState'] == 'running' ? (running = true) : (running = false)
+    running = params['SubState'] == 'running'
     # test via systemctl --quiet is-enabled
     # ActiveState values eg.g inactive, active
-    params['UnitFileState'] == 'enabled' ? (enabled = true) : (enabled = false)
+    enabled = params['UnitFileState'] == 'enabled'
 
     {
       name: params['Id'],
@@ -190,25 +199,26 @@ class SrcMstr < ServiceManager
 
   # #rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
-    if inspec.command(
-      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{@name} '",
+    inspec.command(
+      "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{name} '",
     ).exit_status == 0
-      true
-    else
-      false
-    end
   end
 
   def enabled_inittab?
-    inspec.command("lsitab #{@name}").exit_status.to_i == 0 ? true : false
+    inspec.command("lsitab #{name}").exit_status == 0
   end
 end
 
 # @see: http://upstart.ubuntu.com
 class Upstart < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'initctl'
+    super
+  end
+
   def info(service_name)
     # get the status of upstart service
-    status = inspec.command("initctl status #{service_name}")
+    status = inspec.command("#{service_ctl} status #{service_name}")
 
     # fallback for systemv services, those are not handled via `initctl`
     return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0
@@ -235,7 +245,7 @@ class Upstart < ServiceManager
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
     # Ubuntu 10.04 show-config is not supported
     # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
-    config = inspec.command("initctl show-config #{service_name}")
+    config = inspec.command("#{service_ctl} show-config #{service_name}")
     enabled = !config.stdout[/^\s*start on/].nil?
 
     # implement fallback for Ubuntu 10.04
@@ -251,6 +261,11 @@ class Upstart < ServiceManager
 end
 
 class SysV < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'service'
+    super
+  end
+
   def info(service_name)
     # check if service is installed
     # read all available services via ls /etc/init.d/
@@ -270,19 +285,14 @@ class SysV < ServiceManager
     enabled_services = enabled_services_cmd.stdout.split("\n").select { |line|
       /(^.*#{service_name}.*)/.match(line)
     }
-    enabled_services.empty? ? enabled = false : enabled = true
+    enabled = !enabled_services.empty?
 
     # check if service is really running
     # service throws an exit code if the service is not installed or
     # not enabled
 
-    # on debian service is located /usr/sbin/service, on centos it is located here /sbin/service
-    service_cmd = 'service'
-    service_cmd = '/usr/sbin/service' if inspec.os[:family] == 'debian'
-    service_cmd = '/sbin/service' if inspec.os[:family] == 'centos'
-
-    cmd = inspec.command("#{service_cmd} #{service_name} status")
-    cmd.exit_status == 0 ? (running = true) : (running = false)
+    cmd = inspec.command("#{service_ctl} #{service_name} status")
+    running = cmd.exit_status == 0
     {
       name: service_name,
       description: nil,
@@ -297,6 +307,11 @@ end
 # @see: https://www.freebsd.org/doc/en/articles/linux-users/startup.html
 # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
 class BSDInit < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'service'
+    super
+  end
+
   def info(service_name)
     # check if service is enabled
     # services are enabled in /etc/rc.conf and /etc/defaults/rc.conf
@@ -304,7 +319,7 @@ class BSDInit < ServiceManager
     # service SERVICE status returns the following result if not activated:
     #   Cannot 'status' sshd. Set sshd_enable to YES in /etc/rc.conf or use 'onestatus' instead of 'status'.
     # gather all enabled services
-    cmd = inspec.command('service -e')
+    cmd = inspec.command("#{service_ctl} -e")
     return nil if cmd.exit_status != 0
 
     # search for the service
@@ -314,8 +329,8 @@ class BSDInit < ServiceManager
 
     # check if the service is running
     # if the service is not available or not running, we always get an error code
-    cmd = inspec.command("service #{service_name} onestatus")
-    cmd.exit_status == 0 ? (running = true) : (running = false)
+    cmd = inspec.command("#{service_ctl} #{service_name} onestatus")
+    running = cmd.exit_status == 0
 
     {
       name: service_name,
@@ -328,12 +343,43 @@ class BSDInit < ServiceManager
   end
 end
 
+class Runit < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'sv'
+    super
+  end
+
+  def info(service_name)
+    # get the status of runit service
+    cmd = inspec.command("#{service_ctl} status #{service_name}")
+    # return nil unless cmd.exit_status == 0 # NOTE(sr) why do we do this?
+
+    installed = cmd.exit_status == 0
+    running = installed && (cmd.stdout =~ /^run:/)
+    enabled = installed && (running || (cmd.stdout =~ /normally up/) || (cmd.stdout =~ /want up/))
+
+    {
+      name: service_name,
+      description: nil,
+      installed: installed,
+      running: running,
+      enabled: enabled,
+      type: 'runit',
+    }
+  end
+end
+
 # MacOS / Darwin
 # new launctl on macos 10.10
 class LaunchCtl < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'launchctl'
+    super
+  end
+
   def info(service_name)
     # get the status of upstart service
-    cmd = inspec.command('launchctl list')
+    cmd = inspec.command("#{service_ctl} list")
     return nil if cmd.exit_status != 0
 
     # search for the service
@@ -342,11 +388,11 @@ class LaunchCtl < ServiceManager
 
     # extract values from service
     parsed_srv = /^([0-9]+)\s*(\w*)\s*(\S*)/.match(srv[0])
-    !parsed_srv.nil? ? (enabled = true) : (enabled = false)
+    enabled = !parsed_srv.nil?
 
     # check if the service is running
     pid = parsed_srv[0]
-    !pid.nil? ? (running = true) : (running = false)
+    running = !pid.nil?
 
     # extract service label
     srv = parsed_srv[3] || service_name
@@ -423,22 +469,145 @@ class WindowsSrv < ServiceManager
 
   # detect if service is enabled
   def service_enabled?(service)
-    if !service['WMI'].nil? &&
-       !service['WMI']['StartMode'].nil? &&
-       service['WMI']['StartMode'] == 'Auto'
-      true
-    else
-      false
-    end
+    !service['WMI'].nil? &&
+      !service['WMI']['StartMode'].nil? &&
+      service['WMI']['StartMode'] == 'Auto'
   end
 
   # detect if service is running
   def service_running?(service)
-    if !service['Service']['Status'].nil? &&
-       service['Service']['Status'] == 4
-      true
-    else
-      false
+    !service['Service']['Status'].nil? && service['Service']['Status'] == 4
+  end
+end
+
+class SystemdService < Service
+  name 'systemd_service'
+  desc 'Use the systemd_service InSpec audit resource to test if the named service (controlled by systemd) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe systemd_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
     end
+
+    # to set a non-standard systemctl path
+    describe systemd_service('service_name', '/path/to/systemctl') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    Systemd.new(inspec, service_ctl)
+  end
+end
+
+class UpstartService < Service
+  name 'upstart_service'
+  desc 'Use the upstart_service InSpec audit resource to test if the named service (controlled by upstart) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe upstart_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard initctl path
+    describe upstart_service('service_name', '/path/to/initctl') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    Upstart.new(inspec, service_ctl)
+  end
+end
+
+class SysVService < Service
+  name 'sysv_service'
+  desc 'Use the sysv_service InSpec audit resource to test if the named service (controlled by SysV) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe sysv_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard service path
+    describe sysv_service('service_name', '/path/to/service') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    SysV.new(inspec, service_ctl)
+  end
+end
+
+class BSDService < Service
+  name 'bsd_service'
+  desc 'Use the bsd_service InSpec audit resource to test if the named service (controlled by BSD init) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe bsd_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard service path
+    describe bsd_service('service_name', '/path/to/service') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    BSDInit.new(inspec, service_ctl)
+  end
+end
+
+class LaunchdService < Service
+  name 'launchd_service'
+  desc 'Use the launchd_service InSpec audit resource to test if the named service (controlled by launchd) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe launchd_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard launchctl path
+    describe launchd_service('service_name', '/path/to/launchctl') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    LaunchCtl.new(inspec, service_ctl)
+  end
+end
+
+class RunitService < Service
+  name 'runit_service'
+  desc 'Use the runit_service InSpec audit resource to test if the named service (controlled by runit) is installed, running and/or enabled.'
+  example "
+    # to override service mgmt auto-detection
+    describe runit_service('service_name') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+    end
+
+    # to set a non-standard sv path
+    describe runit_service('service_name', '/path/to/sv') do
+      it { should be_running }
+    end
+  "
+
+  def select_service_mgmt
+    Runit.new(inspec, service_ctl)
   end
 end

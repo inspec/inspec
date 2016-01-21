@@ -42,3 +42,37 @@ if os[:family] == 'ubuntu'
     it { should be_running }
   end
 end
+
+# extra tests for alt. runit on centos with runit_service
+if os[:family] == 'centos'
+  describe runit_service('running-runit-service') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+  describe runit_service('not-running-runit-service') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should_not be_running }
+  end
+
+  describe runit_service('not-enabled-runit-service') do
+    it { should_not be_enabled }
+    it { should be_installed }
+    it { should_not be_running }
+  end
+
+  # alt. ctl location
+  describe runit_service('running-runit-service', '/opt/chef/embedded/sbin/sv') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+  describe runit_service('unknown') do
+    it { should_not be_enabled }
+    it { should_not be_installed }
+    it { should_not be_running }
+  end
+end
