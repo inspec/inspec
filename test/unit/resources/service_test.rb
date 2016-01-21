@@ -84,6 +84,15 @@ describe 'Inspec::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  it 'verify centos 7 package parsing with systemd_service and service_ctl override' do
+    resource = MockLoader.new(:centos7).load_resource('systemd_service', 'sshd', '/path/to/systemctl')
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
   # freebsd
   it 'verify freebsd10 package parsing' do
     resource = MockLoader.new(:freebsd10).load_resource('service', 'sendmail')

@@ -151,6 +151,7 @@ class MockLoader
       'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
       # show ssh service Centos 7
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
       # services on macos
       'launchctl list' => cmd.call('launchctl-list'),
       # services on freebsd 10
