@@ -17,7 +17,7 @@ before_install:
 matrix:
   include:
   - rvm: 1.9.3
-    gemfile: Gemfile
+    gemfile: Gemfile.193
   - rvm: 2.0
     gemfile: Gemfile
   - rvm: 2.2
