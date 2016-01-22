@@ -33,6 +33,7 @@ class AuditDaemonRules < Inspec.resource(1)
 
   attr_reader :rules
 
+  # rubocop:disable Style/MethodName
   def LIST_RULES
     warn '[DEPRECATION] `LIST_RULES` is deprecated.  Please use `rules` instead.'
     rules
@@ -51,7 +52,7 @@ class AuditDaemonRules < Inspec.resource(1)
     @status_content ||= inspec.command('/sbin/auditctl -s').stdout.lines.map(&:chomp)
     return nil if @status_content.nil?
 
-    @items ||= Hash[@status_content.flat_map {|l| l.scan(/^(\w+) (.*)$/)}]
+    @items ||= Hash[@status_content.flat_map { |l| l.scan(/^(\w+) (.*)$/) }]
   end
 
   def to_s
