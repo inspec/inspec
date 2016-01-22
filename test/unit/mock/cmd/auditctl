@@ -1,7 +1,2 @@
-LIST_RULES: exit,always syscall=rmdir,unlink
-LIST_RULES: exit,always auid=1001 (0x3e9) syscall=open
-LIST_RULES: exit,always watch=/etc/group perm=wa
-LIST_RULES: exit,always watch=/etc/passwd perm=wa
-LIST_RULES: exit,always watch=/etc/shadow perm=wa
-LIST_RULES: exit,always watch=/etc/sudoers perm=wa
-LIST_RULES: exit,always watch=/etc/secret_directory perm=r
+-a always,exit -F arch=b32 -S open -S openat -F exit=-EACCES -k access
+-w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config
