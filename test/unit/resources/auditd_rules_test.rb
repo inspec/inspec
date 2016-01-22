@@ -24,6 +24,6 @@ describe 'Inspec::Resources::AuditDaemonRules' do
 
   it 'check audit status querying a field' do
     resource = MockLoader.new(:windows).load_resource('auditd_rules')
-    _(resource.send('status', 'backlog')).must_equal "0"
+    _(resource.send('status').send('backlog')).must_equal "0"
   end
 end
