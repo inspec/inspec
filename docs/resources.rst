@@ -306,7 +306,7 @@ The following examples show how to use this InSpec audit resource.
 
 auditd_rules
 =====================================================
-Use the ``auditd_rules`` |inspec resource| to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files.
+Use the auditd_rules |inspec resource| to test the rules for logging that are effective on the system. The rules are queried using `auditctl`. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. To check the audit rules stored on the filesystem, use the file resource.
 
 **Stability: Experimental**
 
@@ -317,14 +317,9 @@ A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be te
 .. code-block:: ruby
 
    describe auditd_rules do
-     its('LIST_RULES') { should eq [
-      'exit,always syscall=rmdir,unlink',
-      'exit,always auid=1001 (0x3e9) syscall=open',
-      'exit,always watch=/etc/group perm=wa',
-      'exit,always watch=/etc/passwd perm=wa',
-      'exit,always watch=/etc/shadow perm=wa',
-      'exit,always watch=/etc/sudoers perm=wa',
-      'exit,always watch=/etc/secret_directory perm=r',
+     its('rules') { should eq [
+      '-a always,exit -F arch=b[\d]+ -S open -S openat -F exit=-EACCES -k access',
+      '-w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config'
     ] }
    end
 
@@ -333,11 +328,7 @@ or test that individual rules are defined:
 .. code-block:: ruby
 
   describe auditd_rules do
-    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/group perm=wa key=identity/) }
-    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/passwd perm=wa key=identity/) }
-    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/gshadow perm=wa key=identity/)}
-    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/shadow perm=wa key=identity/)}
-    its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/security\/opasswd perm=wa key=identity/)}
+    its('rules') { should contain_match(/^-a always,exit -F arch=b[\d]+ -S open -S openat -F exit=-EACCES -k access/) }
   end
 
 where each test
