@@ -387,15 +387,15 @@ class LaunchCtl < ServiceManager
     return nil if srv.nil? || srv[0].nil?
 
     # extract values from service
-    parsed_srv = /^([0-9]+)\s*(\w*)\s*(\S*)/.match(srv[0])
-    enabled = !parsed_srv.nil?
+    parsed_srv = /^(?<pid>[0-9-]+)\t(?<exit>[0-9]+)\t(?<name>\S*)$/.match(srv[0])
+    enabled = !parsed_srv['name'].nil? # it's in the list
 
     # check if the service is running
-    pid = parsed_srv[0]
-    running = !pid.nil?
+    pid = parsed_srv['pid']
+    running = pid != '-'
 
     # extract service label
-    srv = parsed_srv[3] || service_name
+    srv = parsed_srv['name'] || service_name
 
     {
       name: srv,
