@@ -1,6 +1,6 @@
 # Example InSpec Profile
 
-This example shows the implementation of a InSpec profile.
+This example shows the implementation of an InSpec [profile](../../docs/profiles.rst).
 
 ## Verify a profile
 

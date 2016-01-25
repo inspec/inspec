@@ -91,9 +91,11 @@ This list can contain simple names, names and versions, or detailed flags for th
 InSpec profile verification
 -----------------------------------------------------
 
-InSpec ships with a verification command that verifies the implementation of a profile
+InSpec ships with a verification command that verifies the implementation of a profile:
 
-$ inspec check examples/profile
+.. code-block:: bash
+
+  $ inspec check examples/profile
 
 
 InSpec profile archive
@@ -144,7 +146,7 @@ The `include_controls` keyword allows you to import all rules from an existing p
 
 **Inherit from a profile, but skip some rules**
 
-Sometimes, not all requirements can be fullfiled for a legacy application. To manage the derivation, you can skip certain controls with `skip_control`.
+Sometimes, not all requirements can be fulfilled for a legacy application. To manage the derivation, you can skip certain controls with `skip_control`.
 
 .. code-block:: bash
 
