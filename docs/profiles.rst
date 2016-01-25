@@ -144,7 +144,7 @@ The `include_controls` keyword allows you to import all rules from an existing p
 
 **Inherit from a profile, but skip some rules**
 
-Sometimes, not all requirements can be fullfiled for a legacy application. To manage the derivation, you can skip certain controls with `skip_control`.
+Sometimes, not all requirements can be fulfilled for a legacy application. To manage the derivation, you can skip certain controls with `skip_control`.
 
 .. code-block:: bash
 
