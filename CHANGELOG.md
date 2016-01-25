@@ -1,7 +1,38 @@
 # Change Log
 
-## [0.9.9](https://github.com/chef/inspec/tree/0.9.9) (2016-01-15)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.8...0.9.9)
+## [0.9.10](https://github.com/chef/inspec/tree/0.9.10) (2016-01-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.9...0.9.10)
+
+**Implemented enhancements:**
+
+- specify process supervision type in service resource [\#242](https://github.com/chef/inspec/issues/242)
+- optimize the error output for missing registry keys to `nil` [\#388](https://github.com/chef/inspec/pull/388) ([chris-rock](https://github.com/chris-rock))
+- update readme [\#382](https://github.com/chef/inspec/pull/382) ([chris-rock](https://github.com/chris-rock))
+- add service overrides for picking specific service managers, add runit\_service [\#380](https://github.com/chef/inspec/pull/380) ([srenatus](https://github.com/srenatus))
+- integration tests: stop using alpine iso [\#379](https://github.com/chef/inspec/pull/379) ([srenatus](https://github.com/srenatus))
+- warn about legacy supports fields in metadata [\#378](https://github.com/chef/inspec/pull/378) ([arlimus](https://github.com/arlimus))
+- Update README links to the examples directory [\#376](https://github.com/chef/inspec/pull/376) ([frightenedmonkey](https://github.com/frightenedmonkey))
+- add profile tests \(non-legacy\) [\#375](https://github.com/chef/inspec/pull/375) ([arlimus](https://github.com/arlimus))
+- Fix typo [\#372](https://github.com/chef/inspec/pull/372) ([jcreedcmu](https://github.com/jcreedcmu))
+- separate RSpec handling in runner [\#371](https://github.com/chef/inspec/pull/371) ([arlimus](https://github.com/arlimus))
+- Improve the description and summary of the InSpec gem. [\#370](https://github.com/chef/inspec/pull/370) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- Windows OS Detection [\#383](https://github.com/chef/inspec/issues/383)
+- security\_policy is not returning the right value [\#373](https://github.com/chef/inspec/issues/373)
+- PostgreSQL\_Session Resource  [\#302](https://github.com/chef/inspec/issues/302)
+- bugfix: write given ID to metadata json [\#389](https://github.com/chef/inspec/pull/389) ([arlimus](https://github.com/arlimus))
+- resources/launchd\_service: fix parsing of non-running services [\#387](https://github.com/chef/inspec/pull/387) ([srenatus](https://github.com/srenatus))
+- bugfix: pin net-ssh 2.9 in gem file [\#386](https://github.com/chef/inspec/pull/386) ([chris-rock](https://github.com/chris-rock))
+- resource/postgres\_session: add integration tests, change error handling [\#381](https://github.com/chef/inspec/pull/381) ([srenatus](https://github.com/srenatus))
+
+**Merged pull requests:**
+
+- Enable appveyor for unit tests on Windows [\#361](https://github.com/chef/inspec/pull/361) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.9.9](https://github.com/chef/inspec/tree/v0.9.9) (2016-01-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.8...v0.9.9)
 
 **Fixed bugs:**
 
@@ -10,6 +41,7 @@
 
 **Merged pull requests:**
 
+- 0.9.9 [\#369](https://github.com/chef/inspec/pull/369) ([chris-rock](https://github.com/chris-rock))
 - add tests for loading metadata yaml internals [\#368](https://github.com/chef/inspec/pull/368) ([arlimus](https://github.com/arlimus))
 - make metadata.rb legacy mode consistent for supports [\#367](https://github.com/chef/inspec/pull/367) ([arlimus](https://github.com/arlimus))
 - lint with rubocop 0.36 [\#366](https://github.com/chef/inspec/pull/366) ([arlimus](https://github.com/arlimus))
