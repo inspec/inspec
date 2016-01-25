@@ -41,7 +41,8 @@ describe Inspec::Profile do
   end
 
   describe 'with simple metadata in profile' do
-    let(:profile) { load_profile('simple-metadata') }
+    let(:profile_id) { 'simple-metadata' }
+    let(:profile) { load_profile(profile_id) }
 
     it 'has metadata' do
       profile.params[:name].must_equal 'yumyum profile'
@@ -49,6 +50,12 @@ describe Inspec::Profile do
 
     it 'has no rules' do
       profile.params[:rules].must_equal({})
+    end
+
+    it 'can overwrite the profile ID' do
+      testID = rand.to_s
+      res = load_profile(profile_id, id: testID)
+      res.params[:name].must_equal testID
     end
   end
 
