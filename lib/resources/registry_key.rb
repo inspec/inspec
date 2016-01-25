@@ -69,22 +69,26 @@ class RegistryKey < Inspec.resource(1)
 
   private
 
+  def prep_prop(property)
+    property.to_s.downcase
+  end
+
   def registry_property_exists(regkey, property)
     return false if regkey.nil? || property.nil?
     # always ensure the key is lower case
-    !regkey[property.to_s.downcase].nil?
+    !regkey[prep_prop(property)].nil?
   end
 
   def registry_property_value(regkey, property)
-    return nil if regkey.nil? || property.nil?
+    return nil if !registry_property_exists(regkey, property)
     # always ensure the key is lower case
-    regkey[property.to_s.downcase]['value']
+    regkey[prep_prop(property)]['value']
   end
 
   def registry_property_type(regkey, property)
-    return nil if regkey.nil? || property.nil?
+    return nil if !registry_property_exists(regkey, property)
     # always ensure the key is lower case
-    regkey[property.to_s.downcase]['type']
+    regkey[prep_prop(property)]['type']
   end
 
   def registry_key(path)
@@ -174,6 +178,6 @@ class WindowsRegistryKey < RegistryKey
   end
 
   def deprecated
-    warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
+    warn '[DEPRECATION] `windows_registry_key(reg_key)` is deprecated.  Please use `registry_key(\'path\to\key\')` instead.'
   end
 end
