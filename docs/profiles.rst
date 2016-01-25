@@ -91,9 +91,11 @@ This list can contain simple names, names and versions, or detailed flags for th
 InSpec profile verification
 -----------------------------------------------------
 
-InSpec ships with a verification command that verifies the implementation of a profile
+InSpec ships with a verification command that verifies the implementation of a profile:
 
-$ inspec check examples/profile
+.. code-block:: bash
+
+  $ inspec check examples/profile
 
 
 InSpec profile archive
