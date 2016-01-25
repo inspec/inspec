@@ -152,6 +152,15 @@ describe 'Inspec::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  it 'verify mac osx package parsing with not-running service' do
+    resource = MockLoader.new(:osx104).load_resource('service', 'FilesystemUI')
+    srv = { name: 'com.apple.FilesystemUI', description: nil, installed: true, running: false, enabled: true, type: 'darwin' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal false
+  end
+
   it 'verify mac osx package parsing with default launchd_service' do
     resource = MockLoader.new(:osx104).load_resource('launchd_service', 'ssh')
     srv = { name: 'org.openbsd.ssh-agent', description: nil, installed: true, running: true, enabled: true, type: 'darwin' }
