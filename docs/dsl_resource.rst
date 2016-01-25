@@ -87,4 +87,4 @@ The following example shows a full resource using attributes and methods to prov
 
 For a full example, see our `example resource`_.
 
-.. _example resource: ../examples/profile
+.. _example resource: ../examples/profile/libraries/gordon_config.rb
