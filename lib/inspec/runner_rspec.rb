@@ -55,6 +55,12 @@ module Inspec
       with.run_specs(tests)
     end
 
+    def report
+      # FIXME(sr): formatters.first?! really?
+      # there should be only ONE, but this should still be fixed
+      RSpec.configuration.formatters.first.output_hash
+    end
+
     private
 
     # Empty the list of registered tests.

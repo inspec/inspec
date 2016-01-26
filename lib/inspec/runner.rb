@@ -4,21 +4,27 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'forwardable'
 require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
 require 'inspec/targets'
 require 'inspec/metadata'
+require 'inspec/reporter'
 # spec requirements
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
+    extend Forwardable
     attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
       @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
+
+      # FIXME(sr) necessary hack until log formatting/reporting is decoupled
+      @conf['format'] = 'json' if @conf['report']
 
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
@@ -106,9 +112,8 @@ module Inspec
       end
     end
 
-    def run(with = nil)
-      @test_collector.run(with)
-    end
+    def_delegator :@test_collector, :run
+    def_delegator :@test_collector, :report
 
     private
 
