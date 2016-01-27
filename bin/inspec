@@ -107,7 +107,10 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   def exec(*tests)
     diagnose
 
-    runner = Inspec::Runner.new(opts)
+    o = opts.dup
+    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+
+    runner = Inspec::Runner.new(o)
     runner.add_tests(tests)
     exit runner.run
   rescue RuntimeError => e
