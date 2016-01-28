@@ -335,7 +335,7 @@ class FreeBsdPorts < PortsInfo
 
   def parse_net_address(net_addr, protocol)
     case protocol
-    when 'tcp4', 'udp4'
+    when 'tcp4', 'udp4', 'tcp', 'udp'
       # replace * with 0.0.0.0
       net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if net_addr =~ /^*:(\d+)$/
       ip_addr = URI('addr://'+net_addr)
@@ -391,7 +391,7 @@ class FreeBsdPorts < PortsInfo
   end
 end
 
-class SolarisPorts < LinuxPorts
+class SolarisPorts < FreeBsdPorts
   include SolarisNetstatParser
 
   def info
