@@ -76,42 +76,42 @@ class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   end
 
   def uid
-    identity.nil? ? nil : identity[:uid]
+     identity[:uid] unless identity.nil?
   end
 
   def gid
-    identity.nil? ? nil : identity[:gid]
+    identity[:gid] unless identity.nil?
   end
 
   def group
-    identity.nil? ? nil : identity[:group]
+    identity[:group] unless identity.nil?
   end
 
   def groups
-    identity.nil? ? nil : identity[:groups]
+    identity[:groups] unless identity.nil?
   end
 
   def home
-    meta_info.nil? ? nil : meta_info[:home]
+    meta_info[:home] unless meta_info.nil?
   end
 
   def shell
-    meta_info.nil? ? nil : meta_info[:shell]
+    meta_info[:shell] unless meta_info.nil?
   end
 
   # returns the minimum days between password changes
   def mindays
-    credentials.nil? ? nil : credentials[:mindays]
+    credentials[:mindays] unless credentials.nil?
   end
 
   # returns the maximum days between password changes
   def maxdays
-    credentials.nil? ? nil : credentials[:maxdays]
+    credentials[:maxdays] unless credentials.nil?
   end
 
   # returns the days for password change warning
   def warndays
-    credentials.nil? ? nil : credentials[:warndays]
+    credentials[:warndays] unless credentials.nil?
   end
 
   # implement 'mindays' method to be compatible with serverspec
