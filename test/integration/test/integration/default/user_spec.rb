@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-case os[:family]
-when 'centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'
+if ['centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
   userinfo = {
     name: 'root',
     group: 'root',
@@ -15,19 +14,17 @@ when 'centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'
   # different groupset for centos 5
   userinfo[:groups] = ["root", "bin", "daemon", "sys", "adm", "disk", "wheel"] \
     if os[:release].to_i == 5
-
-when 'freebsd'
+elsif ['freebsd'].include?(os[:family])
   userinfo = {
     name: 'root',
     group: 'wheel',
     uid: 0,
     gid: 0,
-    groups: ["wheel", "operator"],
+    groups: "wheel", # at least this group should be there
     home: '/root',
     shell: '/bin/csh',
   }
-
-when 'windows'
+elsif os.windows?
   userinfo = {
     name: 'Administrator',
     group: nil,
@@ -37,27 +34,46 @@ when 'windows'
     home: nil,
     shell: nil,
   }
-
-when 'aix'
+elsif os[:family] == 'aix'
   userinfo = {
     name:     'bin',
     group:    'bin',
     uid:      2,
     gid:      2,
-    groups:   %w{bin sys adm},
+    groups:   "adm", # at least this group should be there
     home:     '/bin',
     shell:    nil,
     #mindays:  0,
     #maxdays:  0,
     warndays: 0,
   }
-
+elsif os.solaris?
+  if os[:release].to_i > 10
+    userinfo = {
+      name: 'root',
+      group: 'root',
+      uid: 0,
+      gid: 0,
+      groups: "sys", # at least this group should be there
+      home: '/root',
+      shell: '/usr/bin/bash',
+    }
+  else
+    userinfo = {
+      name: 'root',
+      group: 'root',
+      uid: 0,
+      gid: 0,
+      groups: "sys", # at least this group should be there
+      home: '/',
+      shell: '/sbin/sh',
+    }
+  end
 else
   userinfo = {}
 end
 
-case os[:family]
-when 'windows'
+if os.windows?
   describe user(userinfo[:name]) do
     it { should exist }
   end
@@ -66,7 +82,14 @@ else
     it { should exist }
     userinfo.each do |k, v|
       next if k.to_sym == :name
-      its(k) { should eq v }
+
+      # check that the user is part of the groups
+      if k.to_s == 'groups'
+        its(k) { should include v }
+      # default eq comparison
+      else
+        its(k) { should eq v }
+      end
     end
   end
 end

@@ -1,13 +1,14 @@
 # encoding: utf-8
 
-root_group = case os[:family]
-             when 'aix'
-               'system'
-             when 'freebsd'
-               'wheel'
-             else
-               'root'
-             end
+root_group = 'root'
+
+if os[:family] == 'aix'
+  root_group = 'system'
+elsif os[:family] == 'freebsd'
+  root_group = 'wheel'
+elsif os.solaris?
+  root_group = 'sys'
+end
 
 if os.unix?
   describe etc_group do

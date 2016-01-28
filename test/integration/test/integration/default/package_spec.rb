@@ -10,6 +10,22 @@ when 'aix'
     it { should be_installed }
     its('version') { should match /^(6|7)[.|\d]+\d$/ }
   end
+when 'solaris'
+
+  if os[:release] == '11'
+    pkg = 'system/file-system/zfs'
+    ver = /^0\.5.+$/
+  else
+    pkg = 'SUNWzfsr'
+    ver = /^11\.10.+$/
+  end
+
+  describe package(pkg) do
+    it { should be_installed }
+    its('version') { should match ver }
+  end
+
+
 end
 
 describe package('nginx') do

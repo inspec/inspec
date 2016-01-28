@@ -11,6 +11,8 @@ if node['platform_family'] != 'windows'
           'system'
         when 'freebsd'
           'wheel'
+        when 'solaris', 'solaris2'
+          'sys'
         else
           'root'
         end

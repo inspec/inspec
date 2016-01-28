@@ -9,6 +9,8 @@ gid = case node['platform_family']
         'system'
       when 'freebsd'
         'wheel'
+      when 'solaris', 'solaris2'
+        'sys'
       else
         'root'
       end
