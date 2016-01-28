@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'utils/parser'
+
 # Usage:
 # describe port(80) do
 #   it { should be_listening }
@@ -42,6 +44,8 @@ class Port < Inspec.resource(1)
       @port_manager = WindowsPorts.new(inspec)
     elsif ['freebsd'].include?(os[:family])
       @port_manager = FreeBsdPorts.new(inspec)
+    elsif os.solaris?
+      @port_manager = SolarisPorts.new(inspec)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -384,5 +388,42 @@ class FreeBsdPorts < PortsInfo
       process: process,
       pid: pid,
     }
+  end
+end
+
+class SolarisPorts < LinuxPorts
+  include SolarisNetstatParser
+
+  def info
+    # extract all port info
+    cmd = inspec.command('netstat -an -f inet -f inet6')
+    return nil if cmd.exit_status.to_i != 0
+
+    # parse the content
+    netstat_ports = parse_netstat(cmd.stdout)
+
+    # filter all ports, where we listen
+    listen = netstat_ports.select { |val|
+      !val['state'].nil? && val['state'].casecamp('listen') == 0
+    }
+
+    # map the data
+    ports = listen.map { |val|
+      protocol = val['protocol']
+      local_addr = val['local-address']
+
+      # solaris uses 127.0.0.1.57455 instead 127.0.0.1:57455, lets convert the
+      # the last . to :
+      local_addr[local_addr.rindex('.')] = ':'
+      host, port = parse_net_address(local_addr, protocol)
+      {
+        port: port,
+        address: host,
+        protocol: protocol,
+        process: nil, # we do not have pid on solaris
+        pid: nil, # we do not have pid on solaris
+      }
+    }
+    ports
   end
 end
