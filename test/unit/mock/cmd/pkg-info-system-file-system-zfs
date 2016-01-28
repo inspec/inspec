@@ -1,0 +1,8 @@
+Name: system/file-system/zfs
+Summary: ZFS file system
+Category: System/File System
+State: Installed
+Version: 0.5.11
+Build Release: 5.11
+Branch: 0.175.3.1.0.5.0
+Packaging Date: October  6, 2015 02:23:22 PM

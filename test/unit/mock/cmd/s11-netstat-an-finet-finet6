@@ -1,0 +1,32 @@
+
+UDP: IPv4
+   Local Address        Remote Address      State
+-------------------- -------------------- ----------
+      *.*                                 Unbound
+10.0.2.15.68                              Idle
+192.168.59.103.68                         Idle
+
+UDP: IPv6
+   Local Address                     Remote Address                   State      If
+--------------------------------- --------------------------------- ---------- -----
+      *.*                                                           Unbound
+      *.546                                                         Idle
+
+TCP: IPv4
+   Local Address        Remote Address     Swind  Send-Q  Rwind  Recv-Q    State
+-------------------- -------------------- ------- ------ ------- ------ -----------
+127.0.0.1.5999             *.*                  0      0  128000      0 LISTEN
+      *.111                *.*                  0      0  128000      0 LISTEN
+      *.*                  *.*                  0      0  128000      0 IDLE
+      *.111                *.*                  0      0  128000      0 LISTEN
+      *.*                  *.*                  0      0  128000      0 IDLE
+192.168.59.103.22    192.168.59.3.55016    131008      0  128872      0 ESTABLISHED
+      *.22                 *.*                  0      0  128000      0 LISTEN
+      *.22                 *.*                  0      0  128000      0 LISTEN
+
+TCP: IPv6
+   Local Address                     Remote Address                  Swind  Send-Q  Rwind  Recv-Q   State      If
+--------------------------------- --------------------------------- ------- ------ ------- ------ ----------- -----
+::1.5999                                *.*                               0      0  128000      0 LISTEN
+      *.111                             *.*                               0      0  128000      0 LISTEN
+      *.*                               *.*                               0      0  128000      0 IDLE
