@@ -110,7 +110,7 @@ module Inspec::Resources
     def check_file_permission_by_user(user, flag)
       if linux?
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
-      elsif family == 'freebsd'
+      elsif family == 'freebsd' || solaris?
         perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
       elsif family == 'aix'
         perm_cmd = "su #{user} -c test -#{flag} #{path}"
@@ -138,6 +138,10 @@ module Inspec::Resources
 
     def linux?
       inspec.os.linux?
+    end
+
+    def solaris?
+      inspec.os.solaris?
     end
 
     def family

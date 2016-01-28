@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'utils/parser'
+
 # Usage:
 # describe port(80) do
 #   it { should be_listening }
@@ -30,19 +32,20 @@ class Port < Inspec.resource(1)
     @port = port
     @port_manager = nil
     @cache = nil
-
-    case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'wrlinux'
+    os = inspec.os
+    if os.linux?
       @port_manager = LinuxPorts.new(inspec)
-    when 'darwin', 'aix'
+    elsif %w{darwin aix}.include?(os[:family])
       # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
       #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
       # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
       @port_manager = LsofPorts.new(inspec)
-    when 'windows'
+    elsif os.windows?
       @port_manager = WindowsPorts.new(inspec)
-    when 'freebsd'
+    elsif ['freebsd'].include?(os[:family])
       @port_manager = FreeBsdPorts.new(inspec)
+    elsif os.solaris?
+      @port_manager = SolarisPorts.new(inspec)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
     end
@@ -332,7 +335,7 @@ class FreeBsdPorts < PortsInfo
 
   def parse_net_address(net_addr, protocol)
     case protocol
-    when 'tcp4', 'udp4'
+    when 'tcp4', 'udp4', 'tcp', 'udp'
       # replace * with 0.0.0.0
       net_addr = net_addr.gsub(/^\*:/, '0.0.0.0:') if net_addr =~ /^*:(\d+)$/
       ip_addr = URI('addr://'+net_addr)
@@ -385,5 +388,42 @@ class FreeBsdPorts < PortsInfo
       process: process,
       pid: pid,
     }
+  end
+end
+
+class SolarisPorts < FreeBsdPorts
+  include SolarisNetstatParser
+
+  def info
+    # extract all port info
+    cmd = inspec.command('netstat -an -f inet -f inet6')
+    return nil if cmd.exit_status.to_i != 0
+
+    # parse the content
+    netstat_ports = parse_netstat(cmd.stdout)
+
+    # filter all ports, where we listen
+    listen = netstat_ports.select { |val|
+      !val['state'].nil? && 'listen'.casecmp(val['state']) == 0
+    }
+
+    # map the data
+    ports = listen.map { |val|
+      protocol = val['protocol']
+      local_addr = val['local-address']
+
+      # solaris uses 127.0.0.1.57455 instead 127.0.0.1:57455, lets convert the
+      # the last . to :
+      local_addr[local_addr.rindex('.')] = ':'
+      host, port = parse_net_address(local_addr, protocol)
+      {
+        port: port,
+        address: host,
+        protocol: protocol,
+        process: nil, # we do not have pid on solaris
+        pid: nil, # we do not have pid on solaris
+      }
+    }
+    ports
   end
 end

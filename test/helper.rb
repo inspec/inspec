@@ -40,6 +40,8 @@ class MockLoader
       ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
       windows:    { family: 'windows', release: nil, arch: nil },
       wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
+      solaris11:  { family: "solaris", release: '11', arch: 'i386'},
+      solaris10:  { family: "solaris", release: '10', arch: 'i386'},
       undefined:  { family: nil, release: nil, arch: nil },
     }
 
@@ -202,6 +204,12 @@ class MockLoader
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
+      # solaris 10 package manager
+      'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
+      # solaris 11 package manager
+      'pkg info system/file-system/zfs' => cmd.call('pkg-info-system-file-system-zfs'),
+      # port netstat on solaris 10 & 11
+      'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
     }
 
     @backend

@@ -45,7 +45,7 @@ class EtcGroup < Inspec.resource(1)
 
     # skip resource if it is not supported on current OS
     return skip_resource 'The `etc_group` resource is not supported on your OS.' \
-    unless %w{ubuntu debian redhat fedora centos arch darwin freebsd wrlinux aix}.include?(inspec.os[:family])
+    unless inspec.os.unix?
   end
 
   def groups(filter = nil)

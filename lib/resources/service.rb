@@ -44,9 +44,9 @@ class Service < Inspec.resource(1)
   end
 
   def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    family = inspec.os[:family]
+    os = inspec.os
+    family = os[:family]
 
-    case family
     # Ubuntu
     # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
     # Ubuntu 15.04 : Systemd
@@ -55,39 +55,41 @@ class Service < Inspec.resource(1)
     # Ubuntu < 15.04 : Upstart
     # Upstart runs with PID 1 as /sbin/init.
     # Systemd runs with PID 1 as /lib/systemd/systemd.
-    when 'ubuntu'
+    if %w{ubuntu}.include?(family)
       version = inspec.os[:release].to_f
       if version < 15.04
         Upstart.new(inspec, service_ctl)
       else
         Systemd.new(inspec, service_ctl)
       end
-    when 'debian'
+    elsif %w{debian}.include?(family)
       version = inspec.os[:release].to_i
       if version > 7
         Systemd.new(inspec, service_ctl)
       else
         SysV.new(inspec, service_ctl || '/usr/sbin/service')
       end
-    when 'redhat', 'fedora', 'centos'
+    elsif %w{redhat fedora centos}.include?(family)
       version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
         Systemd.new(inspec, service_ctl)
       else
         SysV.new(inspec, service_ctl || '/sbin/service')
       end
-    when 'wrlinux'
+    elsif %w{wrlinux}.include?(family)
       SysV.new(inspec, service_ctl)
-    when 'darwin'
+    elsif %w{darwin}.include?(family)
       LaunchCtl.new(inspec, service_ctl)
-    when 'windows'
+    elsif os.windows?
       WindowsSrv.new(inspec)
-    when 'freebsd'
+    elsif %w{freebsd}.include?(family)
       BSDInit.new(inspec, service_ctl)
-    when 'arch', 'opensuse'
+    elsif %w{arch opensuse}.include?(family)
       Systemd.new(inspec, service_ctl)
-    when 'aix'
+    elsif %w{aix}.include?(family)
       SrcMstr.new(inspec)
+    elsif os.solaris?
+      Svcs.new(inspec)
     end
   end
 
@@ -185,6 +187,8 @@ class SrcMstr < ServiceManager
     }
   end
 
+  private
+
   def status?
     status_cmd = inspec.command("lssrc -s #{@name}")
     return nil if status_cmd.exit_status.to_i != 0
@@ -194,8 +198,6 @@ class SrcMstr < ServiceManager
   def enabled?
     enabled_rc_tcpip? || enabled_inittab?
   end
-
-  private
 
   # #rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
@@ -479,6 +481,41 @@ class WindowsSrv < ServiceManager
     !service['Service']['Status'].nil? && service['Service']['Status'] == 4
   end
 end
+
+# Solaris services
+class Svcs < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'svcs'
+    super
+  end
+
+  def info(service_name)
+    # get the status of runit service
+    cmd = inspec.command("#{service_ctl} -l #{service_name}")
+    return nil if cmd.exit_status != 0
+
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^(\w+)\s*(.*)$/,
+      multiple_values: false,
+    ).params
+
+    installed = cmd.exit_status == 0
+    running = installed && (params['state'] == 'online')
+    enabled = installed && (params['enabled'] == 'true')
+
+    {
+      name: service_name,
+      description: params['name'],
+      installed: installed,
+      running: running,
+      enabled: enabled,
+      type: 'svcs',
+    }
+  end
+end
+
+# specific resources for specific service managers
 
 class SystemdService < Service
   name 'systemd_service'

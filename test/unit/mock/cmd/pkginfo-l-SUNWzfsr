@@ -1,0 +1,7 @@
+PKGINST:  SUNWzfsr
+   NAME:  ZFS (Root)
+CATEGORY:  system
+   ARCH:  i386
+VERSION:  11.10.0,REV=2006.05.18.01.46
+   DESC:  ZFS root components
+ STATUS:  completely installed

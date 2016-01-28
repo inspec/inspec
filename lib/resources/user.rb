@@ -38,7 +38,7 @@
 require 'utils/parser'
 require 'utils/convert'
 
-class User < Inspec.resource(1)
+class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   name 'user'
   desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
   example "
@@ -53,63 +53,65 @@ class User < Inspec.resource(1)
 
     # select package manager
     @user_provider = nil
-    case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'opensuse', 'wrlinux'
+    os = inspec.os
+    if os.linux?
       @user_provider = LinuxUser.new(inspec)
-    when 'windows'
+    elsif os.windows?
       @user_provider = WindowsUser.new(inspec)
-    when 'darwin'
+    elsif ['darwin'].include?(os[:family])
       @user_provider = DarwinUser.new(inspec)
-    when 'freebsd'
+    elsif ['freebsd'].include?(os[:family])
       @user_provider = FreeBSDUser.new(inspec)
-    when 'aix'
+    elsif ['aix'].include?(os[:family])
       @user_provider = AixUser.new(inspec)
+    elsif os.solaris?
+      @user_provider = SolarisUser.new(inspec)
     else
       return skip_resource 'The `user` resource is not supported on your OS yet.'
     end
   end
 
   def exists?
-    !identiy.nil? && !identiy[:user].nil?
+    !identity.nil? && !identity[:user].nil?
   end
 
   def uid
-    identiy.nil? ? nil : identiy[:uid]
+    identity[:uid] unless identity.nil?
   end
 
   def gid
-    identiy.nil? ? nil : identiy[:gid]
+    identity[:gid] unless identity.nil?
   end
 
   def group
-    identiy.nil? ? nil : identiy[:group]
+    identity[:group] unless identity.nil?
   end
 
   def groups
-    identiy.nil? ? nil : identiy[:groups]
+    identity[:groups] unless identity.nil?
   end
 
   def home
-    meta_info.nil? ? nil : meta_info[:home]
+    meta_info[:home] unless meta_info.nil?
   end
 
   def shell
-    meta_info.nil? ? nil : meta_info[:shell]
+    meta_info[:shell] unless meta_info.nil?
   end
 
   # returns the minimum days between password changes
   def mindays
-    credentials.nil? ? nil : credentials[:mindays]
+    credentials[:mindays] unless credentials.nil?
   end
 
   # returns the maximum days between password changes
   def maxdays
-    credentials.nil? ? nil : credentials[:maxdays]
+    credentials[:maxdays] unless credentials.nil?
   end
 
   # returns the days for password change warning
   def warndays
-    credentials.nil? ? nil : credentials[:warndays]
+    credentials[:warndays] unless credentials.nil?
   end
 
   # implement 'mindays' method to be compatible with serverspec
@@ -154,12 +156,12 @@ class User < Inspec.resource(1)
     "User #{@user}"
   end
 
-  private
-
-  def identiy
+  def identity
     return @id_cache if defined?(@id_cache)
     @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
   end
+
+  private
 
   def meta_info
     return @meta_cache if defined?(@meta_cache)
@@ -186,6 +188,13 @@ end
 
 # implements generic unix id handling
 class UnixUser < UserInfo
+  attr_reader :inspec, :id_cmd
+  def initialize(inspec)
+    @inspec = inspec
+    @id_cmd ||= 'id'
+    super
+  end
+
   # parse one id entry like '0(wheel)''
   def parse_value(line)
     SimpleConfig.new(
@@ -199,7 +208,7 @@ class UnixUser < UserInfo
 
   # extracts the identity
   def identity(username)
-    cmd = inspec.command("id #{username}")
+    cmd = inspec.command("#{id_cmd} #{username}")
     return nil if cmd.exit_status != 0
 
     # parse words
@@ -262,6 +271,18 @@ class LinuxUser < UnixUser
       maxdays: convert_to_i(params['Maximum number of days between password change']),
       warndays: convert_to_i(params['Number of days of warning before password expires']),
     }
+  end
+end
+
+class SolarisUser < LinuxUser
+  def initialize(inspec)
+    @inspec = inspec
+    @id_cmd ||= 'id -a'
+    super
+  end
+
+  def credentials(_username)
+    nil
   end
 end
 

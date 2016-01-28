@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-case os[:family]
-when 'freebsd'
+if os[:family] == 'freebsd'
   filedata = {
     user: 'root',
     group: 'wheel',
@@ -9,10 +8,18 @@ when 'freebsd'
     dir_md5sum: '598f4fe64aefab8f00bcbea4c9239abf',
     dir_sha256sum: '9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9',
   }
-when 'aix'
+elsif os[:family] == 'aix'
   filedata = {
     user: 'root',
     group: 'system',
+    dir_content: nil,
+    dir_md5sum: nil,
+    dir_sha256sum: nil,
+  }
+elsif os.solaris?
+  filedata = {
+    user: 'root',
+    group: 'sys',
     dir_content: nil,
     dir_md5sum: nil,
     dir_sha256sum: nil,
@@ -116,7 +123,9 @@ if os.unix?
     its('group') { should eq filedata[:group] }
     its('type') { should eq :directory }
   end
+end
 
+if os.linux?
   # for server spec compatibility
   # Do not use `.with` or `.only_with`, this syntax is deprecated and will be removed
   # in InSpec version 1
@@ -140,8 +149,9 @@ if os.unix?
       })
     }
   end
+end
 
-elsif os.windows?
+if os.windows?
   describe file('C:\\Windows') do
     it { should exist }
     it { should be_directory }

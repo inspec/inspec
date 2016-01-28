@@ -71,4 +71,14 @@ describe 'Inspec::Resources::Port' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', '127.0.0.1', 22)
     _(resource.listening?).must_equal false
   end
+
+  it 'verify port on Solaris 10' do
+    resource = MockLoader.new(:solaris10).load_resource('port', 22)
+    _(resource.listening?).must_equal true
+  end
+
+  it 'verify port on Solaris 11' do
+    resource = MockLoader.new(:solaris11).load_resource('port', 22)
+    _(resource.listening?).must_equal true
+  end
 end

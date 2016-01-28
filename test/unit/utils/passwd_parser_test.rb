@@ -2,6 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'helper'
+
 describe PasswdParser do
   let (:parser) { Class.new() { include PasswdParser }.new }
 

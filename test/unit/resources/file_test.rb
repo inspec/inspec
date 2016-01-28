@@ -156,6 +156,7 @@ describe Inspec::Resources::File do
     describe 'when not on linux or freebsd' do
       before do
         resource.stubs(:linux?).returns(false)
+        resource.stubs(:solaris?).returns(false)
         resource.stubs(:family).returns('fakefamily')
       end
 

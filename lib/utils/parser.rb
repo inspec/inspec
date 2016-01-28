@@ -92,3 +92,88 @@ module MountParser
     mount_options
   end
 end
+
+module SolarisNetstatParser
+  # takes this as a input and parses the values
+  # UDP: IPv4
+  #    Local Address        Remote Address      State
+  # -------------------- -------------------- ----------
+  #       *.*                                 Unbound
+  def parse_netstat(content) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+    return [] if content.nil? || content.empty?
+
+    protocol = nil
+    column_widths = nil
+    ports = []
+    cache_name_line = nil
+
+    content.each_line { |line|
+      # find header, its delimiter
+      if line =~ /TCP:|UDP:|SCTP:/
+        # get protocol
+        protocol = line.split(':')[0].chomp.strip.downcase
+
+        # determine version tcp, tcp6, udp, udp6
+        proto_version = line.split(':')[1].chomp.strip
+        protocol += '6' if proto_version == 'IPv6'
+
+        # reset names cache
+        column_widths = nil
+        cache_name_line = nil
+        names = nil
+      # calulate width of a column based on the horizontal line
+      elsif line =~ /^[- ]+$/
+        column_widths = columns(line)
+      # parse header values from line
+      elsif column_widths.nil? && !line.nil?
+        # we do not know the width at this point of time, therefore we need to cache
+        cache_name_line = line
+      # content line
+      elsif !column_widths.nil? && !line.nil? && !line.chomp.empty?
+        # default row
+        port = split_columns(column_widths, line).to_a.map { |v| v.chomp.strip }
+
+        # parse the header names
+        # TODO: names should be optional
+        names = split_columns(column_widths, cache_name_line).to_a.map { |v| v.chomp.strip.downcase.tr(' ', '-').gsub(/[^\w-]/, '_') }
+        info = {
+          'protocol' => protocol.downcase,
+        }
+
+        # generate hash for each line and use the names as keys
+        names.each_index { |i|
+          info[names[i]] = port[i] if i != 0
+        }
+
+        ports.push(info)
+      end
+    }
+    ports
+  end
+
+  private
+
+  # takes a line like "-------------------- -------------------- ----------"
+  # as input and calculates the length of each column
+  def columns(line)
+    # find all columns
+    m = line.scan(/-+/)
+    # calculate the length each column
+    m.map { |x| x.length } # rubocop:disable Style/SymbolProc
+  end
+
+  # takes a line and the width of the columns to extract the values
+  def split_columns(columns, line)
+    # generate regex based on columns
+    sep = '\\s'
+    length = columns.length
+    arr = columns.map.with_index { |x, i|
+      reg = "(.{#{x}})#{sep}" # add seperator between columns
+      reg = "(.{,#{x}})#{sep}" if i == length - 2 # make the pre-last one optional
+      reg = "(.{,#{x}})" if i == length - 1 # use , to say max value
+      reg
+    }
+    # extracts the columns
+    line.match(Regexp.new(arr.join))
+  end
+end
