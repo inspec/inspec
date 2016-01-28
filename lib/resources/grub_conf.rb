@@ -68,21 +68,19 @@ class GrubConfig < Inspec.resource(1)
     lines.each_with_index do |file_line, index|
       next unless file_line =~ /(^|\s)menuentry\s.*/
       lines.drop(index+1).each do |kernel_line|
-        unless kernel_line =~ /(^|\s)menu.*/
-          next if kernel_line =~ /(^|\s)}.*/
-          if menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default'
-            if kernel_line =~ /(^|\s)initrd.*/
-              kernel_opts['initrd'] = kernel_line.split(' ')[1]
-            end
-            if kernel_line =~ /(^|\s)linux.*/
-              kernel_opts['kernel'] = kernel_line.split
-            end
-            if kernel_line =~ /(^|\s)set root=.*/
-              kernel_opts['root'] = kernel_line.split('=')[1].tr('\'', '')
-            end
-            if kernel_line =~ /(^|\s)insmod.*/
-              kernel_opts['insmod'].push(kernel_line.split(' ')[1])
-            end
+        next if kernel_line =~ /(^|\s)(menu|}).*/
+        if menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default'
+          if kernel_line =~ /(^|\s)initrd.*/
+            kernel_opts['initrd'] = kernel_line.split(' ')[1]
+          end
+          if kernel_line =~ /(^|\s)linux.*/
+            kernel_opts['kernel'] = kernel_line.split
+          end
+          if kernel_line =~ /(^|\s)set root=.*/
+            kernel_opts['root'] = kernel_line.split('=')[1].tr('\'', '')
+          end
+          if kernel_line =~ /(^|\s)insmod.*/
+            kernel_opts['insmod'].push(kernel_line.split(' ')[1])
           end
         else
           menu_entry += 1
