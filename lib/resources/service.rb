@@ -44,9 +44,9 @@ class Service < Inspec.resource(1)
   end
 
   def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    family = inspec.os[:family]
+    os = inspec.os
+    family = os[:family]
 
-    case family
     # Ubuntu
     # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
     # Ubuntu 15.04 : Systemd
@@ -55,38 +55,38 @@ class Service < Inspec.resource(1)
     # Ubuntu < 15.04 : Upstart
     # Upstart runs with PID 1 as /sbin/init.
     # Systemd runs with PID 1 as /lib/systemd/systemd.
-    when 'ubuntu'
+    if %w{ubuntu}.include?(family)
       version = inspec.os[:release].to_f
       if version < 15.04
         Upstart.new(inspec, service_ctl)
       else
         Systemd.new(inspec, service_ctl)
       end
-    when 'debian'
+    elsif %w{debian}.include?(family)
       version = inspec.os[:release].to_i
       if version > 7
         Systemd.new(inspec, service_ctl)
       else
         SysV.new(inspec, service_ctl || '/usr/sbin/service')
       end
-    when 'redhat', 'fedora', 'centos'
+    elsif %w{redhat fedora centos}.include?(family)
       version = inspec.os[:release].to_i
       if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
         Systemd.new(inspec, service_ctl)
       else
         SysV.new(inspec, service_ctl || '/sbin/service')
       end
-    when 'wrlinux'
+    elsif %w{wrlinux}.include?(family)
       SysV.new(inspec, service_ctl)
-    when 'darwin'
+    elsif %w{darwin}.include?(family)
       LaunchCtl.new(inspec, service_ctl)
-    when 'windows'
+    elsif os.windows?
       WindowsSrv.new(inspec)
-    when 'freebsd'
+    elsif %w{freebsd}.include?(family)
       BSDInit.new(inspec, service_ctl)
-    when 'arch', 'opensuse'
+    elsif %w{arch opensuse}.include?(family)
       Systemd.new(inspec, service_ctl)
-    when 'aix'
+    elsif %w{aix}.include?(family)
       SrcMstr.new(inspec)
     end
   end

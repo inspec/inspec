@@ -22,21 +22,21 @@ class Package < Inspec.resource(1)
     @package_name = package_name
     @name = @package_name
     @cache = nil
-
     # select package manager
     @pkgman = nil
-    case inspec.os[:family]
-    when 'ubuntu', 'debian'
+
+    os = inspec.os
+    if os.debian?
       @pkgman = Deb.new(inspec)
-    when 'redhat', 'fedora', 'centos', 'opensuse', 'wrlinux'
+    elsif os.redhat? || os.suse?
       @pkgman = Rpm.new(inspec)
-    when 'arch'
+    elsif ['arch'].include?(os[:family])
       @pkgman = Pacman.new(inspec)
-    when 'darwin'
+    elsif ['darwin'].include?(os[:family])
       @pkgman = Brew.new(inspec)
-    when 'windows'
+    elsif inspec.os.windows?
       @pkgman = WindowsPkg.new(inspec)
-    when 'aix'
+    elsif ['aix'].include?(os[:family])
       @pkgman = BffPkg.new(inspec)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'

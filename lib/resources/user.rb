@@ -53,16 +53,16 @@ class User < Inspec.resource(1)
 
     # select package manager
     @user_provider = nil
-    case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'opensuse', 'wrlinux'
+    os = inspec.os
+    if os.linux?
       @user_provider = LinuxUser.new(inspec)
-    when 'windows'
+    elsif os.windows?
       @user_provider = WindowsUser.new(inspec)
-    when 'darwin'
+    elsif ['darwin'].include?(os[:family])
       @user_provider = DarwinUser.new(inspec)
-    when 'freebsd'
+    elsif ['freebsd'].include?(os[:family])
       @user_provider = FreeBSDUser.new(inspec)
-    when 'aix'
+    elsif ['aix'].include?(os[:family])
       @user_provider = AixUser.new(inspec)
     else
       return skip_resource 'The `user` resource is not supported on your OS yet.'

@@ -30,18 +30,17 @@ class Port < Inspec.resource(1)
     @port = port
     @port_manager = nil
     @cache = nil
-
-    case inspec.os[:family]
-    when 'ubuntu', 'debian', 'redhat', 'fedora', 'centos', 'arch', 'wrlinux'
+    os = inspec.os
+    if os.linux?
       @port_manager = LinuxPorts.new(inspec)
-    when 'darwin', 'aix'
+    elsif %w{darwin aix}.include?(os[:family])
       # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
       #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
       # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
       @port_manager = LsofPorts.new(inspec)
-    when 'windows'
+    elsif os.windows?
       @port_manager = WindowsPorts.new(inspec)
-    when 'freebsd'
+    elsif ['freebsd'].include?(os[:family])
       @port_manager = FreeBsdPorts.new(inspec)
     else
       return skip_resource 'The `port` resource is not supported on your OS yet.'
