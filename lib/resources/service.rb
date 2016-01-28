@@ -88,6 +88,8 @@ class Service < Inspec.resource(1)
       Systemd.new(inspec, service_ctl)
     elsif %w{aix}.include?(family)
       SrcMstr.new(inspec)
+    elsif os.solaris?
+      Svcs.new(inspec)
     end
   end
 
@@ -185,6 +187,8 @@ class SrcMstr < ServiceManager
     }
   end
 
+  private
+
   def status?
     status_cmd = inspec.command("lssrc -s #{@name}")
     return nil if status_cmd.exit_status.to_i != 0
@@ -194,8 +198,6 @@ class SrcMstr < ServiceManager
   def enabled?
     enabled_rc_tcpip? || enabled_inittab?
   end
-
-  private
 
   # #rubocop:disable Style/TrailingComma
   def enabled_rc_tcpip?
@@ -479,6 +481,41 @@ class WindowsSrv < ServiceManager
     !service['Service']['Status'].nil? && service['Service']['Status'] == 4
   end
 end
+
+# Solaris services
+class Svcs < ServiceManager
+  def initialize(service_name, service_ctl = nil)
+    @service_ctl ||= 'svcs'
+    super
+  end
+
+  def info(service_name)
+    # get the status of runit service
+    cmd = inspec.command("#{service_ctl} -l #{service_name}")
+    return nil if cmd.exit_status != 0
+
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^(\w+)\s*(.*)$/,
+      multiple_values: false,
+    ).params
+
+    installed = cmd.exit_status == 0
+    running = installed && (params['state'] == 'online')
+    enabled = installed && (params['enabled'] == 'true')
+
+    {
+      name: service_name,
+      description: params['name'],
+      installed: installed,
+      running: running,
+      enabled: enabled,
+      type: 'svcs',
+    }
+  end
+end
+
+# specific resources for specific service managers
 
 class SystemdService < Service
   name 'systemd_service'
