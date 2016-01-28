@@ -18,7 +18,7 @@ class Package < Inspec.resource(1)
     end
   "
 
-  def initialize(package_name = nil)
+  def initialize(package_name = nil) # rubocop:disable Metrics/AbcSize
     @package_name = package_name
     @name = @package_name
     @cache = nil
@@ -38,6 +38,8 @@ class Package < Inspec.resource(1)
       @pkgman = WindowsPkg.new(inspec)
     elsif ['aix'].include?(os[:family])
       @pkgman = BffPkg.new(inspec)
+    elsif os.solaris?
+      @pkgman = SolarisPkg.new(inspec)
     else
       return skip_resource 'The `package` resource is not supported on your OS yet.'
     end
@@ -201,6 +203,58 @@ class BffPkg < PkgManagement
       installed: true,
       version:   bff_pkg[2],
       type:      'bff',
+    }
+  end
+end
+
+# Solaris
+class SolarisPkg < PkgManagement
+  def info(package_name)
+    if inspec.os[:release].to_i <= 10
+      solaris10_info(package_name)
+    else
+      solaris11_info(package_name)
+    end
+  end
+
+  # solaris 10
+  def solaris10_info(package_name)
+    cmd = inspec.command("pkginfo -l #{package_name}")
+    return nil if cmd.exit_status.to_i != 0
+
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
+    ).params
+
+    # parse 11.10.0,REV=2006.05.18.01.46
+    v = params['VERSION'].split(',')
+    {
+      name: params['PKGINST'],
+      installed: true,
+      version: v[0] + '-' + v[1].split('=')[1],
+      type: 'pkg',
+    }
+  end
+
+  # solaris 11
+  def solaris11_info(package_name)
+    cmd = inspec.command("pkg info #{package_name}")
+    return nil if cmd.exit_status.to_i != 0
+
+    params = SimpleConfig.new(
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
+    ).params
+
+    {
+      name: params['Name'],
+      installed: true,
+      # 0.5.11-0.175.3.1.0.5.0
+      version: "#{params['Version']}-#{params['Branch']}",
+      type: 'pkg',
     }
   end
 end
