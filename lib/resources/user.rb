@@ -178,7 +178,7 @@ class UserInfo
   include Converter
 
   attr_reader :inspec
-  def initialize(inspec, _id_cmd)
+  def initialize(inspec)
     @inspec = inspec
   end
 
@@ -189,7 +189,7 @@ end
 # implements generic unix id handling
 class UnixUser < UserInfo
   attr_reader :inspec, :id_cmd
-  def initialize(inspec, id_cmd = nil)
+  def initialize(inspec)
     @inspec = inspec
     @id_cmd ||= 'id'
     super
@@ -275,7 +275,7 @@ class LinuxUser < UnixUser
 end
 
 class SolarisUser < LinuxUser
-  def initialize(inspec, id_cmd = nil)
+  def initialize(inspec)
     @inspec = inspec
     @id_cmd ||= 'id -a'
     super
