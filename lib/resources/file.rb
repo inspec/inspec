@@ -90,7 +90,9 @@ module Inspec::Resources
     private
 
     def file_permission_granted?(flag, by_usergroup, by_specific_user)
-      fail 'Checking file permissions is not supported on your os' unless unix?
+      unless inspec.os.unix?
+        fail 'Checking file permissions is not supported on your os'
+      end
 
       if by_specific_user.nil? || by_specific_user.empty?
         usergroup = usergroup_for(by_usergroup, by_specific_user)
@@ -108,11 +110,11 @@ module Inspec::Resources
     end
 
     def check_file_permission_by_user(user, flag)
-      if linux?
+      if inspec.os.linux?
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
-      elsif family == 'freebsd' || solaris?
+      elsif inspec.os.bsd? || inspec.os.solaris?
         perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
-      elsif family == 'aix'
+      elsif inspec.os.aix?
         perm_cmd = "su #{user} -c test -#{flag} #{path}"
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'
@@ -130,22 +132,6 @@ module Inspec::Resources
       else
         usergroup
       end
-    end
-
-    def unix?
-      inspec.os.unix?
-    end
-
-    def linux?
-      inspec.os.linux?
-    end
-
-    def solaris?
-      inspec.os.solaris?
-    end
-
-    def family
-      inspec.os[:family]
     end
   end
 end
