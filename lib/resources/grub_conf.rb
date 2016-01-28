@@ -125,21 +125,28 @@ class GrubConfig < Inspec.resource(1)
     kernel_opts
   end
 
-  def read_params
-    return @params if defined?(@params)
+  def read_file(config_file)
+    file = inspec.file(config_file)
 
-    # read the file
-    file = inspec.file(@conf_path)
     if !file.file? && !file.symlink?
       skip_resource "Can't find file '#{@conf_path}'"
       return @params = {}
     end
 
     content = file.content
+
     if content.empty? && file.size > 0
       skip_resource "Can't read file '#{@conf_path}'"
       return @params = {}
     end
+
+    content
+  end
+
+  def read_params
+    return @params if defined?(@params)
+
+    content = read_file(@conf_path)
 
     if @version == 'legacy'
       # parse the file
@@ -159,17 +166,7 @@ class GrubConfig < Inspec.resource(1)
 
     if @version == 'grub2'
       # read defaults
-      file = inspec.file(@defaults_path)
-      if !file.file? && !file.symlink?
-        skip_resource "Can't find file '#{@defaults_path}'"
-        return @params = {}
-      end
-
-      defaults = file.content
-      if content.empty? && file.size > 0
-        skip_resource "Can't read file '#{@defaults_path}'"
-        return @params = {}
-      end
+      defaults = read_file(@defaults_path)
 
       conf = SimpleConfig.new(
         defaults,
@@ -188,5 +185,4 @@ class GrubConfig < Inspec.resource(1)
     end
     @params
   end
-
 end
