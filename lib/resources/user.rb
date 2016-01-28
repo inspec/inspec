@@ -76,7 +76,7 @@ class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   end
 
   def uid
-     identity[:uid] unless identity.nil?
+    identity[:uid] unless identity.nil?
   end
 
   def gid
