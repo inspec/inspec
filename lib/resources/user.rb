@@ -38,7 +38,7 @@
 require 'utils/parser'
 require 'utils/convert'
 
-class User < Inspec.resource(1)
+class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   name 'user'
   desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
   example "
@@ -64,29 +64,31 @@ class User < Inspec.resource(1)
       @user_provider = FreeBSDUser.new(inspec)
     elsif ['aix'].include?(os[:family])
       @user_provider = AixUser.new(inspec)
+    elsif os.solaris?
+      @user_provider = SolarisUser.new(inspec)
     else
       return skip_resource 'The `user` resource is not supported on your OS yet.'
     end
   end
 
   def exists?
-    !identiy.nil? && !identiy[:user].nil?
+    !identity.nil? && !identity[:user].nil?
   end
 
   def uid
-    identiy.nil? ? nil : identiy[:uid]
+    identity.nil? ? nil : identity[:uid]
   end
 
   def gid
-    identiy.nil? ? nil : identiy[:gid]
+    identity.nil? ? nil : identity[:gid]
   end
 
   def group
-    identiy.nil? ? nil : identiy[:group]
+    identity.nil? ? nil : identity[:group]
   end
 
   def groups
-    identiy.nil? ? nil : identiy[:groups]
+    identity.nil? ? nil : identity[:groups]
   end
 
   def home
@@ -154,12 +156,12 @@ class User < Inspec.resource(1)
     "User #{@user}"
   end
 
-  private
-
-  def identiy
+  def identity
     return @id_cache if defined?(@id_cache)
     @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
   end
+
+  private
 
   def meta_info
     return @meta_cache if defined?(@meta_cache)
@@ -176,7 +178,7 @@ class UserInfo
   include Converter
 
   attr_reader :inspec
-  def initialize(inspec)
+  def initialize(inspec, _id_cmd)
     @inspec = inspec
   end
 
@@ -186,6 +188,13 @@ end
 
 # implements generic unix id handling
 class UnixUser < UserInfo
+  attr_reader :inspec, :id_cmd
+  def initialize(inspec, id_cmd = nil)
+    @inspec = inspec
+    @id_cmd ||= 'id'
+    super
+  end
+
   # parse one id entry like '0(wheel)''
   def parse_value(line)
     SimpleConfig.new(
@@ -199,7 +208,7 @@ class UnixUser < UserInfo
 
   # extracts the identity
   def identity(username)
-    cmd = inspec.command("id #{username}")
+    cmd = inspec.command("#{id_cmd} #{username}")
     return nil if cmd.exit_status != 0
 
     # parse words
@@ -262,6 +271,18 @@ class LinuxUser < UnixUser
       maxdays: convert_to_i(params['Maximum number of days between password change']),
       warndays: convert_to_i(params['Number of days of warning before password expires']),
     }
+  end
+end
+
+class SolarisUser < LinuxUser
+  def initialize(inspec, id_cmd = nil)
+    @inspec = inspec
+    @id_cmd ||= 'id -a'
+    super
+  end
+
+  def credentials(_username)
+    nil
   end
 end
 
