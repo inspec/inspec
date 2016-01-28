@@ -404,7 +404,7 @@ class SolarisPorts < LinuxPorts
 
     # filter all ports, where we listen
     listen = netstat_ports.select { |val|
-      !val['state'].nil? && val['state'].casecamp('listen') == 0
+      !val['state'].nil? && 'listen'.casecmp(val['state']) == 0
     }
 
     # map the data
