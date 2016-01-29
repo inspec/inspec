@@ -351,14 +351,15 @@ class Runit < ServiceManager
     super
   end
 
+  # rubocop:disable Style/DoubleNegation
   def info(service_name)
     # get the status of runit service
     cmd = inspec.command("#{service_ctl} status #{service_name}")
     # return nil unless cmd.exit_status == 0 # NOTE(sr) why do we do this?
 
     installed = cmd.exit_status == 0
-    running = installed && (cmd.stdout =~ /^run:/)
-    enabled = installed && (running || (cmd.stdout =~ /normally up/) || (cmd.stdout =~ /want up/))
+    running = installed && !!(cmd.stdout =~ /^run:/)
+    enabled = installed && (running || !!(cmd.stdout =~ /normally up/) || !!(cmd.stdout =~ /want up/))
 
     {
       name: service_name,
