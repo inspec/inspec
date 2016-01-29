@@ -5,6 +5,7 @@
 # license: All rights reserved
 
 require 'forwardable'
+require 'utils/filter_array'
 
 class AuditdRulesLegacy
   def initialize(content)
@@ -41,35 +42,6 @@ class AuditdRulesLegacy
   def to_s
     'Audit Daemon Rules (legacy format)'
   end
-end
-
-class FilterArray
-  attr_accessor :rules
-
-  def initialize(rules)
-    @rules = rules
-  end
-
-  # allows for chaining
-  # syscall('open').field('arch', 'b32').field('key', 'access').rules
-  def field(key, value)
-    res = rules.find_all { |r| r[key.to_sym] == value }
-    FilterArray.new(res)
-  end
-
-  def method_missing(meth, *args)
-    field(meth, args[0])
-  end
-
-  # # use iptables' matcher have_rule('-w ...')
-  # def has_rule?(rule)
-  #   if is_file?(rule)
-  #     perms = get_permissions(rule)
-  #     key = get_key(rule)
-  #   elsif is_syscall?(rule)
-  #     # ...
-  #   end
-  # end
 end
 
 class AuditDaemonRules < Inspec.resource(1)
