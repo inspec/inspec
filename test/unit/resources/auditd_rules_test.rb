@@ -49,6 +49,13 @@ describe 'Inspec::Resources::AuditDaemonRules' do
     ]
   end
 
+  it 'check auditd_rules key interface' do
+    resource = MockLoader.new(:centos7).load_resource('auditd_rules')
+    _(resource.send('key', 'CFG_sshd_config').send('rules')).must_equal [
+      { file: '/etc/ssh/sshd_config', key: 'CFG_sshd_config', permissions: 'rwxa'},
+    ]
+  end
+
   it 'check auditd_rules status interface' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('status')).must_equal({

@@ -59,7 +59,18 @@ class AuditDaemonRules < Inspec.resource(1)
       its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
     end
 
-    # TODO(sr) new interface
+    # recent syntax for auditd > 2.2
+    describe auditd_rules.syscall('open').action do
+      it { should eq(['always']) }
+    end
+
+    describe auditd_rules.key('sshd_config') do
+      its(:permissions) { should contain_match(/x/) }
+    end
+
+    describe auditd_rules do
+      its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+    end
   "
 
   def initialize
@@ -122,6 +133,12 @@ class AuditDaemonRules < Inspec.resource(1)
 
   def file(name)
     select_name(:file, name)
+  end
+
+  # both files and syscalls have `key` identifiers
+  def key(name)
+    res = rules.values.flatten.find_all { |rule| rule[:key] == name }
+    FilterArray.new(res)
   end
 
   def to_s
