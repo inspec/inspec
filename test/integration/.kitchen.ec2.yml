@@ -1,23 +1,29 @@
 driver:
   name: ec2
   region: eu-central-1
-  instance_type: m3.large
+  instance_type: m3.medium
   associate_public_ip: true
+  security_group_ids: ["travis-ci"]
   interface: dns
 
 transport:
-  ssh_key: /path/to/aws.pem
   username: ec2-user
+  ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 platforms:
+  - name: windows-2008
+    driver:
+      image_id: ami-58918e34
+    transport:
+      username: administrator
   - name: windows-2012
     driver:
-      image_id: ami-58f7fb45
+      image_id: ami-44918e28
     transport:
       username: administrator
   - name: windows-2012r2
     driver:
-      image_id: ami-f2f5f9ef
+      image_id: ami-8a918ee6
     transport:
       username: administrator
   - name: suse-11sp3

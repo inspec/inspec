@@ -230,7 +230,8 @@ bundle exec kitchen test
 ```bash
 export AWS_ACCESS_KEY_ID=enteryouryourkey
 export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
-export AWS_SSH_KEY_ID=enteryoursshkeyid
+export AWS_KEYPAIR_NAME=enteryoursshkeyid
+export EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
 cd test/integration
 KITCHEN_LOCAL_YAML=.kitchen.ec2.yml bundle exec kitchen test
 ```
