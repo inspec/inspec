@@ -44,6 +44,7 @@ class AuditdRulesLegacy
   end
 end
 
+# rubocop:disable Metrics/ClassLength
 class AuditDaemonRules < Inspec.resource(1)
   extend Forwardable
   attr_accessor :rules, :lines
@@ -76,7 +77,7 @@ class AuditDaemonRules < Inspec.resource(1)
   def initialize
     @content = inspec.command('/sbin/auditctl -l').stdout.chomp
 
-    if @content.match /^LIST_RULES:/
+    if @content =~ /^LIST_RULES:/
       warn '[LEGACY] this version of auditd is outdated. Updating it allows for using more precise matchers.'
       @legacy = AuditdRulesLegacy.new(@content)
     else
@@ -85,6 +86,7 @@ class AuditDaemonRules < Inspec.resource(1)
   end
 
   # non-legacy instances are not asked for `its('LIST_RULES')`
+  # rubocop:disable Style/MethodName
   def LIST_RULES
     return @legacy.LIST_RULES if @legacy
     fail 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
@@ -94,7 +96,7 @@ class AuditDaemonRules < Inspec.resource(1)
     return @legacy.status(name) if @legacy
 
     @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
-    @status_params ||= Hash[@status_content.scan /^([^ ]+) (.*)$/]
+    @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
     return @status_params[name] if name
     @status_params
@@ -103,7 +105,7 @@ class AuditDaemonRules < Inspec.resource(1)
   def parse_content
     @rules = {
       syscalls: [],
-      files: []
+      files: [],
     }
     @lines = @content.lines.map(&:chomp)
 
@@ -154,11 +156,11 @@ class AuditDaemonRules < Inspec.resource(1)
   end
 
   def is_syscall?(line)
-    line.match /\ -S /
+    line.match(/\ -S /)
   end
 
   def is_file?(line)
-    line.match /-w /
+    line.match(/-w /)
   end
 
   def get_syscalls(line)
@@ -177,7 +179,7 @@ class AuditDaemonRules < Inspec.resource(1)
   # NOTE there are NO precautions wrt. filenames containing spaces in auditctl
   # `auditctl -w /foo\ bar` gives the following line: `-w /foo bar -p rwxa`
   def get_file(line)
-     line.match(/-w (.+) -p/)[1]
+    line.match(/-w (.+) -p/)[1]
   end
 
   def get_permissions(line)
@@ -185,14 +187,14 @@ class AuditDaemonRules < Inspec.resource(1)
   end
 
   def get_fields(line)
-    fields = line.gsub(/-[aS] [^ ]+ /, '').split("-F ").map {|l| l.split(' ')}.flatten
+    fields = line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
 
     opts = {}
-    fields.find_all { |x| x.match /[a-z]+=.*/}.each do |kv|
+    fields.find_all { |x| x.match(/[a-z]+=.*/) }.each do |kv|
       k, v = kv.split('=')
       opts[k.to_sym] = v
     end
 
-    return [fields, opts]
+    [fields, opts]
   end
 end

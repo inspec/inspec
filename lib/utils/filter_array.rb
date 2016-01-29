@@ -5,7 +5,7 @@
 
 class FilterArray
   attr_accessor :rules
-  alias_method :content, :rules
+  alias content rules
 
   def initialize(rules)
     @rules = rules
@@ -18,7 +18,7 @@ class FilterArray
       res = rules.find_all { |r| r[key.to_sym] == value }
       FilterArray.new(res)
     else
-      rules.map {|h| h[key.to_sym] }.uniq
+      rules.map { |h| h[key.to_sym] }.uniq
     end
   end
 
