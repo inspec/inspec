@@ -21,32 +21,32 @@ require 'inspec/targets'
 require 'inspec/targets/zip'
 
 class MockLoader
+  # collects emulation operating systems
+  OPERATING_SYSTEMS = {
+    arch:       { family: 'arch', release: nil, arch: nil },
+    centos5:    { family: 'redhat', release: '5.11', arch: 'x86_64' },
+    centos6:    { family: 'redhat', release: '6.6', arch: 'x86_64' },
+    centos7:    { family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
+    debian6:    { family: 'debian', release: '6', arch: 'x86_64' },
+    debian7:    { family: 'debian', release: '7', arch: 'x86_64' },
+    debian8:    { family: 'debian', release: '8', arch: 'x86_64' },
+    freebsd9:   { family: 'freebsd', release: '9', arch: 'amd64' },
+    freebsd10:  { family: 'freebsd', release: '10', arch: 'amd64' },
+    osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
+    ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
+    ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
+    ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
+    windows:    { family: 'windows', release: nil, arch: nil },
+    wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
+    solaris11:  { family: "solaris", release: '11', arch: 'i386'},
+    solaris10:  { family: "solaris", release: '10', arch: 'i386'},
+    undefined:  { family: nil, release: nil, arch: nil },
+  }
+
   # pass the os identifier to emulate a specific operating system
   def initialize(os = nil)
-    # collects emulation operating systems
-    @operating_systems = {
-      arch:       { family: 'arch', release: nil, arch: nil },
-      centos5:    { family: 'redhat', release: '5.11', arch: 'x86_64' },
-      centos6:    { family: 'redhat', release: '6.6', arch: 'x86_64' },
-      centos7:    { family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
-      debian6:    { family: 'debian', release: '6', arch: 'x86_64' },
-      debian7:    { family: 'debian', release: '7', arch: 'x86_64' },
-      debian8:    { family: 'debian', release: '8', arch: 'x86_64' },
-      freebsd9:   { family: 'freebsd', release: '9', arch: 'amd64' },
-      freebsd10:  { family: 'freebsd', release: '10', arch: 'amd64' },
-      osx104:     { family: 'darwin', release: '10.10.4', arch: nil, name: 'mac_os_x' },
-      ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
-      ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
-      ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
-      windows:    { family: 'windows', release: nil, arch: nil },
-      wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
-      solaris11:  { family: "solaris", release: '11', arch: 'i386'},
-      solaris10:  { family: "solaris", release: '10', arch: 'i386'},
-      undefined:  { family: nil, release: nil, arch: nil },
-    }
-
     # selects operating system
-    @os = @operating_systems[os || :ubuntu1404]
+    @os = OPERATING_SYSTEMS[os || :ubuntu1404]
   end
 
   def backend
@@ -220,6 +220,17 @@ class MockLoader
     # initialize resource with backend and parameters
     @resource_class = Inspec::Resource.registry[resource]
     @resource = @resource_class.new(backend, resource, *args)
+  end
+
+  def self.mock_os(resource, name)
+    osinfo = OPERATING_SYSTEMS[name] ||
+             fail("Can't find operating system to mock: #{name}")
+    resource.inspec.backend.mock_os(osinfo)
+  end
+
+  def self.mock_command(resource, cmd, res = {})
+    resource.inspec.backend
+            .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
   end
 end
 
