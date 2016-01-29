@@ -79,6 +79,16 @@ class AuditDaemonRules < Inspec.resource(1)
     fail 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
   end
 
+  def status(name = nil)
+    return @legacy.status(name) if @legacy
+
+    @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+    @status_params ||= Hash[@status_content.scan /^([^ ]+) (.*)$/]
+
+    return @status_params[name] if name
+    @status_params
+  end
+
   def parse_content
     @rules = {
       syscalls: [],
