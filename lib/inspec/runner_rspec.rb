@@ -56,9 +56,8 @@ module Inspec
     end
 
     def report
-      # FIXME(sr): formatters.first?! really?
-      # there should be only ONE, but this should still be fixed
-      RSpec.configuration.formatters.first.output_hash
+      reporter = RSpec.configuration.formatters.find {|f| f.is_a? Inspec::RSpecReporter }
+      reporter.output_hash
     end
 
     private
@@ -77,6 +76,12 @@ module Inspec
     # @return [nil]
     def configure_output
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
+
+      setup_reporting if @conf['report']
+    end
+
+    def setup_reporting
+      RSpec.configuration.add_formatter(Inspec::RSpecReporter)
     end
 
     # Make sure that all RSpec example groups use the provided ID.
@@ -95,6 +100,14 @@ module Inspec
       example.children.each do |child|
         set_rspec_ids(child, id)
       end
+    end
+  end
+
+  class RSpecReporter < RSpec::Core::Formatters::JsonFormatter
+    RSpec::Core::Formatters.register Inspec::RSpecReporter
+
+    def initialize(output)
+      super(StringIO.new)
     end
   end
 end

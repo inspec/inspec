@@ -23,9 +23,6 @@ module Inspec
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
 
-      # FIXME(sr) necessary hack until log formatting/reporting is decoupled
-      @conf['format'] = 'json' if @conf['report']
-
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
