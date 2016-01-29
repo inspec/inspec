@@ -1,7 +1,26 @@
 # Change Log
 
-## [0.9.10](https://github.com/chef/inspec/tree/0.9.10) (2016-01-25)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.9...0.9.10)
+## [0.9.11](https://github.com/chef/inspec/tree/0.9.11) (2016-01-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.10...0.9.11)
+
+**Implemented enhancements:**
+
+- ec2 integration test [\#399](https://github.com/chef/inspec/pull/399) ([chris-rock](https://github.com/chris-rock))
+- add  winrm transport to Gemfile for test-kitchen [\#396](https://github.com/chef/inspec/pull/396) ([chris-rock](https://github.com/chris-rock))
+- Solaris Support [\#395](https://github.com/chef/inspec/pull/395) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Logging in profile processing [\#349](https://github.com/chef/inspec/issues/349)
+- runit\_service: fix resource, improve integration tests [\#401](https://github.com/chef/inspec/pull/401) ([srenatus](https://github.com/srenatus))
+- basic logging setup for `inspec exec` [\#392](https://github.com/chef/inspec/pull/392) ([srenatus](https://github.com/srenatus))
+
+**Merged pull requests:**
+
+- Readme fixes [\#390](https://github.com/chef/inspec/pull/390) ([jzohrab](https://github.com/jzohrab))
+
+## [v0.9.10](https://github.com/chef/inspec/tree/v0.9.10) (2016-01-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.9...v0.9.10)
 
 **Implemented enhancements:**
 
@@ -29,6 +48,7 @@
 
 **Merged pull requests:**
 
+- 0.9.10 [\#391](https://github.com/chef/inspec/pull/391) ([chris-rock](https://github.com/chris-rock))
 - Enable appveyor for unit tests on Windows [\#361](https://github.com/chef/inspec/pull/361) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.9](https://github.com/chef/inspec/tree/v0.9.9) (2016-01-16)
