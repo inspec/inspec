@@ -16,6 +16,7 @@ group :integration do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'kitchen-inspec'
+  gem 'winrm-transport', '~> 1.0'
   gem 'kitchen-ec2'
 end
 
