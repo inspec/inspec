@@ -1,2 +1,3 @@
--a always,exit -F arch=b32 -S open -S openat -F exit=-EACCES -k access
+-a always,exit -F arch=b64 -S open,openat -F exit=-EACCES -F key=access
+-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=500 f24!=0 -F key=perm_mod
 -w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config

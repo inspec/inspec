@@ -9,7 +9,8 @@ describe 'Inspec::Resources::AuditDaemonRules' do
   it 'auditd_rules interface' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('lines')).must_equal [
-       '-a always,exit -F arch=b32 -S open -S openat -F exit=-EACCES -k access',
+       '-a always,exit -F arch=b64 -S open,openat -F exit=-EACCES -F key=access',
+       '-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=500 f24!=0 -F key=perm_mod',
        '-w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config',
     ]
   end
@@ -17,21 +18,21 @@ describe 'Inspec::Resources::AuditDaemonRules' do
   it 'auditd_rules syscall interface' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('syscall', 'open').send('rules')).must_equal [
-      { syscall: 'open', list: 'exit', action: 'always', key: 'access', opts: { 'arch' => 'b32', 'exit' => '-EACCES' } },
+      {:syscall=>"open", :list=>"exit", :action=>"always", :fields=>["arch=b64", "exit=-EACCES", "key=access"], :arch=>"b64", :exit=>"-EACCES", :key=>"access"}
     ]
   end
 
   it 'auditd_rules syscall query chaining' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('syscall', 'open').field('key', 'access').send('rules')).must_equal [
-      { syscall: 'open', list: 'exit', action: 'always', key: 'access', opts: { 'arch' => 'b32', 'exit' => '-EACCES' } },
+      {:syscall=>"open", :list=>"exit", :action=>"always", :fields=>["arch=b64", "exit=-EACCES", "key=access"], :arch=>"b64", :exit=>"-EACCES", :key=>"access"}
     ]
   end
 
   it 'auditd_rules syscall query chaining with short syntax' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('syscall', 'open').key('access').list('exit').send('rules')).must_equal [
-      { syscall: 'open', list: 'exit', action: 'always', key: 'access', opts: { 'arch' => 'b32', 'exit' => '-EACCES' } },
+      {:syscall=>"open", :list=>"exit", :action=>"always", :fields=>["arch=b64", "exit=-EACCES", "key=access"], :arch=>"b64", :exit=>"-EACCES", :key=>"access"}
     ]
   end
 

@@ -100,12 +100,11 @@ class AuditDaemonRules < Inspec.resource(1)
       if is_syscall?(line)
         syscalls = get_syscalls line
         action, list = get_action_list line
-        key = get_key line
-        opts = get_opts line
+        fields, opts = get_fields line
 
         # create a 'flatter' structure because sanity
         syscalls.each do |s|
-          @rules[:syscalls] << { syscall: s, list: list, action: action, key: key, opts: opts }
+          @rules[:syscalls] << { syscall: s, list: list, action: action, fields: fields }.merge(opts)
         end
       elsif is_file?(line)
         file = get_file line
@@ -146,13 +145,14 @@ class AuditDaemonRules < Inspec.resource(1)
   end
 
   def get_syscalls(line)
-    line.scan(/-S ([^ ]+)/).flatten
+    line.scan(/-S ([^ ]+) /).flatten.first.split(',')
   end
 
   def get_action_list(line)
     line.scan(/-a ([^,]+),([^ ]+)/).flatten
   end
 
+  # NB only in file lines
   def get_key(line)
     line.match(/-k ([^ ]+)/)[1]
   end
@@ -167,12 +167,15 @@ class AuditDaemonRules < Inspec.resource(1)
     line.match(/-p ([^ ]+)/)[1]
   end
 
-  def get_opts(line)
+  def get_fields(line)
+    fields = line.gsub(/-[aS] [^ ]+ /, '').split("-F ").map {|l| l.split(' ')}.flatten
+
     opts = {}
-    line.scan(/-F ([^= ]+)=([^ ]+)/).each do |key, val|
-      opts[key.to_s] = val
+    fields.find_all { |x| x.match /[a-z]+=.*/}.each do |kv|
+      k, v = kv.split('=')
+      opts[k.to_sym] = v
     end
 
-    opts
+    return [fields, opts]
   end
 end
