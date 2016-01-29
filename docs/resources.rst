@@ -306,12 +306,14 @@ The following examples show how to use this InSpec audit resource.
 
 auditd_rules
 =====================================================
-Use the ``auditd_rules`` |inspec resource| to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files.
+Use the ``auditd_rules`` |inspec resource| to test the rules for logging that exist on the system. The ``audit.rules`` file is typically located under ``/etc/audit/`` and contains the list of rules that define what is captured in log files. This resource uses `auditctl` to query the _run-time_ auditd rules setup (which may divert from `audit.rules`).
 
 **Stability: Experimental**
 
 Syntax
 -----------------------------------------------------
+A change in the output format (with an `audit` package newer than 2.2) is reflected in a two interfaces hidden beneath `auditd_rules`:
+
 A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be tested, and then what that rule should do:
 
 .. code-block:: ruby
@@ -342,7 +344,7 @@ or test that individual rules are defined:
 
 where each test
 
-* Must declare one (or more) rules to be tested
+* must declare one (or more) rules to be tested
 
 Examples
 -----------------------------------------------------
@@ -352,12 +354,47 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
+   # legacy syntax (audit <= 2.2)
    describe audit_daemon_rules do
      its("LIST_RULES") {
        should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/)
      }
    end
 
+   # recent syntax for auditd > 2.2
+   describe auditd_rules do
+     its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+   end
+
+**Query the audit daemon status.**
+
+.. code-block:: ruby
+
+   describe auditd_rules.status('backlog') do
+     it { should cmp 0 }
+   end
+
+**Query properties of rules targetting specific syscalls or files.**
+
+The syntax for recent auditd versions allows more precise tests, such as the following:
+
+.. code-block:: ruby
+
+   describe auditd_rules.syscall('open').action do
+     it { should eq(['always']) }
+   end
+
+   describe auditd_rules.key('sshd_config') do
+     its(:permissions) { should contain_match(/x/) }
+   end
+
+Note that filters can be chained, for example:
+
+.. code-block:: ruby
+
+   describe auditd_rules.syscall('open').action('always').list do
+     it { should eq(['exit']) }
+   end
 
 
 bond
