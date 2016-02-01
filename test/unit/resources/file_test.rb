@@ -20,10 +20,6 @@ end
 
 describe Inspec::Resources::File do
   let(:resource) { load_resource('file', '/fakepath/fakefile') }
-  let(:os)       { stub(:[] => { 'family' => 'fakefamily' }) }
-  let(:inspec)   { stub(os: os) }
-
-  before { resource.stubs(:inspec).returns(inspec) }
 
   describe '#readable?' do
     shared_file_permission_tests(:readable?)
@@ -46,15 +42,14 @@ describe Inspec::Resources::File do
   describe '#file_permission_granted?' do
     describe 'when not on a unix OS' do
       it 'raises an exception' do
-        resource.stubs(:unix?).returns(false)
-
+        MockLoader.mock_os(resource, :windows)
         proc { resource.send(:file_permission_granted?, 'flag', nil, nil) }.must_raise(RuntimeError)
       end
     end
 
     describe 'when on a unix OS' do
       before do
-        resource.stubs(:unix?).returns(true)
+        MockLoader.mock_os(resource, :centos7)
       end
 
       describe 'when no user is provided' do
@@ -106,58 +101,51 @@ describe Inspec::Resources::File do
   describe 'check_file_permission_by_user' do
     describe 'when on linux' do
       before do
-        resource.stubs(:linux?).returns(true)
+        MockLoader.mock_os(resource, :centos7)
       end
 
       it 'executes a properly formatted command' do
-        cmd = stub(exit_status: 0)
-        inspec.expects(:command).with('su -s /bin/sh -c "test -flag /fakepath/fakefile" user').returns(cmd)
+        MockLoader.mock_command(resource,
+          'su -s /bin/sh -c "test -flag /fakepath/fakefile" user',
+          exit_status: 0)
         resource.send(:check_file_permission_by_user, 'user', 'flag')
       end
 
       it 'returns true when the cmd exits 0' do
-        cmd = stub(exit_status: 0)
-        inspec.stubs(:command).returns(cmd)
+        MockLoader.mock_command(resource, 'su -s /bin/sh -c "test -flag /fakepath/fakefile" user', exit_status: 0)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(true)
       end
 
       it 'returns true when the cmd exits non-zero' do
-        cmd = stub(exit_status: 1)
-        inspec.stubs(:command).returns(cmd)
+        MockLoader.mock_command(resource, 'su -s /bin/sh -c "test -flag /fakepath/fakefile" user', exit_status: 1)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(false)
       end
     end
 
     describe 'when on freebsd' do
       before do
-        resource.stubs(:linux?).returns(false)
-        resource.stubs(:family).returns('freebsd')
+        MockLoader.mock_os(resource, :freebsd10)
       end
 
       it 'executes a properly formatted command' do
-        cmd = stub(exit_status: 0)
-        inspec.expects(:command).with('sudo -u user test -flag /fakepath/fakefile').returns(cmd)
+        MockLoader.mock_command(resource, 'sudo -u user test -flag /fakepath/fakefile', exit_status: 0)
         resource.send(:check_file_permission_by_user, 'user', 'flag')
       end
 
       it 'returns true when the cmd exits 0' do
-        cmd = stub(exit_status: 0)
-        inspec.stubs(:command).returns(cmd)
+        MockLoader.mock_command(resource, 'sudo -u user test -flag /fakepath/fakefile', exit_status: 0)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(true)
       end
 
       it 'returns true when the cmd exits non-zero' do
-        cmd = stub(exit_status: 1)
-        inspec.stubs(:command).returns(cmd)
+        MockLoader.mock_command(resource, 'sudo -u user test -flag /fakepath/fakefile', exit_status: 1)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(false)
       end
     end
 
     describe 'when not on linux or freebsd' do
       before do
-        resource.stubs(:linux?).returns(false)
-        resource.stubs(:solaris?).returns(false)
-        resource.stubs(:family).returns('fakefamily')
+        MockLoader.mock_os(resource, :undefined)
       end
 
       it 'returns an error string' do
