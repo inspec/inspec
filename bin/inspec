@@ -42,6 +42,8 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
       desc: 'Allow remote scans with self-signed certificates (WinRM).'
     option :json_config, type: :string,
       desc: 'Read configuration from JSON file (`-` reads from stdin).'
+    option :log_level, aliases: :l, type: :string,
+      desc: 'Set the log level: info (default), debug, warn, error'
   end
 
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
@@ -75,6 +77,8 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = opts.dup
     o[:logger] = Logger.new(STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
+
     o[:ignore_supports] = true # we check for integrity only
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
@@ -94,6 +98,8 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = options.dup
     o[:logger] = Logger.new(STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
+
     profile = Inspec::Profile.from_path(path, o)
     # generate archive
     exit 1 unless profile.archive(opts)
@@ -109,6 +115,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = opts.dup
     o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
 
     runner = Inspec::Runner.new(o)
     runner.add_tests(tests)
@@ -171,6 +178,20 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   def options_json
     conffile = options['json_config']
     @json ||= conffile ? read_config(conffile) : {}
+  end
+
+  # get the log level
+  # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
+  def get_log_level(level)
+    valid = %w{debug info warn error fatal}
+
+    if valid.include?(level)
+      l = level
+    else
+      l = 'info'
+    end
+
+    Logger.const_get(l.upcase)
   end
 
   def read_config(file)
