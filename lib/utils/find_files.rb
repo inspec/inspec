@@ -33,7 +33,7 @@ module FindFiles
     exit_status = result.exit_status
 
     unless exit_status == 0
-      warn "find_files(): exit #{exit_status} from `#{find}`"
+      warn "find_files(): exit #{exit_status} from `#{cmd}`"
       return nil
     end
 
