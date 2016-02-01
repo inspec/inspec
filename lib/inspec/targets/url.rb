@@ -20,14 +20,13 @@ module Inspec::Targets
       return nil unless target.start_with?('https://', 'http://')
 
       # support for github url
-      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?$}.match(target)
+      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.match(target)
       if m
         url = "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz"
       else
         url = target
       end
-
-      resolve_zip(url, opts)
+      resolve_archive(url, opts)
     end
 
     # download url into archive using opts,
@@ -47,7 +46,7 @@ module Inspec::Targets
       [archive, remote.meta['content-type']]
     end
 
-    def resolve_zip(url, opts)
+    def resolve_archive(url, opts)
       archive, content_type = download_archive(url, Tempfile.new(['inspec-dl-', '.tar.gz']), opts)
 
       # replace extension with zip if we detected a zip content type
