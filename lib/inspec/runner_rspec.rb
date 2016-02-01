@@ -56,7 +56,7 @@ module Inspec
     end
 
     def report
-      reporter = RSpec.configuration.formatters.find {|f| f.is_a? Inspec::RSpecReporter }
+      reporter = RSpec.configuration.formatters.find { |f| f.is_a? Inspec::RSpecReporter }
       reporter.output_hash
     end
 
@@ -106,7 +106,7 @@ module Inspec
   class RSpecReporter < RSpec::Core::Formatters::JsonFormatter
     RSpec::Core::Formatters.register Inspec::RSpecReporter
 
-    def initialize(output)
+    def initialize(*)
       super(StringIO.new)
     end
   end
