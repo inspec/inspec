@@ -125,6 +125,7 @@ if os.unix?
   end
 end
 
+# check file mount on linux
 if os.linux?
   # for server spec compatibility
   # Do not use `.with` or `.only_with`, this syntax is deprecated and will be removed
@@ -133,7 +134,7 @@ if os.linux?
     it { should be_mounted }
     it { should be_mounted.with( :type => 'iso9660' ) }
     it { should be_mounted.with( :type => 'iso9660', :options => { :ro => true } ) }
-    it { should be_mounted.with( :type => 'iso9660', :device => '/root/empty.iso' ) }
+    it { should be_mounted.with( :type => 'iso9660', :device => '/tmp/empty.iso' ) }
     it { should_not be_mounted.with( :type => 'ext4' ) }
     it { should_not be_mounted.with( :type => 'xfs' ) }
   end
@@ -142,7 +143,7 @@ if os.linux?
   # also see mount_spec.rb
   describe file('/mnt/iso-disk') do
     it { should be_mounted.only_with( {
-      :device=>"/root/empty.iso",
+      :device=>"/tmp/empty.iso",
       :type=>"iso9660",
       :options=>{
         :ro=>true}
