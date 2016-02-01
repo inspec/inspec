@@ -2,14 +2,14 @@
 
 This extensions offers the following features:
 
- - list profiles available in Chef Compliance
- - execute profiles from Chef Compliance
+ - list available profiles in Chef Compliance
+ - execute profiles directly from Chef Compliance locally
  - upload a local profile to Chef Compliance
 
-To use the CLI, this extra package adds the following commands:
+To use the CLI, this InSpec add-on adds the following commands:
 
- * `$ inspec compliance login user password` - retieves a authentication token from Chef Compliance
- * `$ inspec compliance list` - list all available profiles in Chef Compliance
- * `$ inspec exec profile` - runs a profile that is stored on Chef Compliance
- * `$ inspec compliance upload path/to/local/profile` - uploads a local command to Chef Compliance
- * `$ inspec compliance logout` - removes the authentication token from the local cache and logs out of the Chef Compliance server
+ * `$ inspec compliance login user password` - authentication against Chef Compliance
+ * `$ inspec compliance profiles` - list all available Chef Compliance profiles
+ * `$ inspec exec profile` - runs a Chef Compliance profile
+ * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Compliance
+ * `$ inspec compliance logout` - logout of Chef Compliance

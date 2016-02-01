@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
 # author: Christoph Hartmann
 
@@ -9,36 +8,25 @@ require 'uri'
 # TODO:
 # - invalidate token
 # - fix file upload and genereate tar if required
-# - hook into exec with a new target helper
-
+# - target should return false if no token is available
+# - target shourd return false if token is expired
 class ComplianceCLI < Thor
   namespace 'compliance'
 
   desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
   options :username => :required, :password => :required
   def login(server)
-    config = Compliance::Configuration.new
-    config['server'] = server
-    url = "#{server}/oauth/token"
-
-    data = post(url, options['username'], options['password'])
-    if !data.nil?
-      tokendata = JSON.parse(data)
-      if tokendata['access_token']
-        config['token'] = tokendata['access_token']
-        puts "Successfully authenticated"
-      else
-        puts 'Reponse does not include a token'
-      end
+    success, msg = Compliance::API.login(server, options['username'], options['password'])
+    if success
+      puts "Successfully authenticated"
     else
-      puts "Authentication failed for Server: #{url}"
+      puts msg
     end
-    config.store
   end
 
-  desc 'list', 'list all available profiles in Chef Compliance'
-  def list
-    profiles = get_profiles
+  desc 'profiles', 'list all available profiles in Chef Compliance'
+  def profiles
+    profiles = Compliance::API.get_profiles
     if !profiles.empty?
       # iterate over profiles
       puts "Available profiles: "
@@ -46,25 +34,7 @@ class ComplianceCLI < Thor
         puts " * #{profile[:org]}/#{profile[:name]}"
       }
     else
-      puts "Could not reach server #{url}"
-    end
-  end
-
-  desc 'exec PROFILE', 'executes a profile from Chef Compliance'
-  def exec(profile)
-    config = Compliance::Configuration.new
-    profiles = get_profiles
-    if !profiles.empty?
-      # 1. verify that the profile exists (list)
-      index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
-      if index >= 0
-        p = profiles[index]
-        # 2. execute the profile with the proper url, inject `inspec exec` with the suitable params`
-        url = "#{config['server']}/owners/#{p[:org]}/compliance/#{p[:name]}/tar"
-        puts "b bin/inspec exec #{url} --user #{config['token']}"
-      end
-    else
-      puts "The profile #{profile} is not available"
+      puts "Could not find any profiles"
     end
   end
 
@@ -72,12 +42,9 @@ class ComplianceCLI < Thor
   def upload(path)
 
     # 1. run check on the path
-
     # 2. if it is a directory, tar it to tmp directory
-
     # 3. check that the profile is not uploaded already,
     # confirm upload to the user (overwrite with --force)
-
     # 4. upload the tar to Chef Compliance
     config = Compliance::Configuration.new
     tar_path = File.join(Dir.pwd, 'profile.tar.gz')
@@ -87,7 +54,7 @@ class ComplianceCLI < Thor
     url = "#{config['server']}/owners/#{owner}/compliance/#{profile}/tar"
 
     puts "Uploading to #{url}"
-    if post_file(url, config['token'], '', tar_path)
+    if Compliance::API.post_file(url, config['token'], '', tar_path)
       puts "Successfully uploaded profile"
     else
       puts "Error during profile upload"
@@ -96,111 +63,153 @@ class ComplianceCLI < Thor
 
   desc 'version', 'displays the version of the Chef Compliance server'
   def version
-    config = Compliance::Configuration.new
-    url = "#{config['server']}/version"
-
-    data = get(url, nil, nil)
-    if !data.nil?
-      info = JSON.parse(data)
+    info = Compliance::API.version
+    if !info.nil? && info['version']
       puts "Chef Compliance version: #{info['version']}"
     else
-      puts "Could not reach server #{url}"
+      puts "Could not determine server version."
     end
   end
 
   desc 'logout', 'user logout from Chef Compliance'
   def logout
-    config = Compliance::Configuration.new
-    url = "#{config['server']}/logout"
-    data = post(url, config['token'], nil)
-    if !data.nil?
+    if Compliance::API.logout
       puts "Successfully logged out"
     else
       puts "Could not log out"
     end
-    config.destroy
-  end
-
-  private
-
-  def get_profiles
-    config = Compliance::Configuration.new
-
-    url = "#{config['server']}/user/compliance"
-    data = get(url, config['token'], '')
-
-    if !data.nil?
-      profiles = JSON.parse(data)
-      val = []
-      # iterate over profiles
-      profiles.each_key { |org|
-        profiles[org].each_key { |name|
-          val.push({ org: org, name: name})
-        }
-      }
-      val
-    else
-      []
-    end
-  end
-
-  def get(url, username, password)
-    uri = URI.parse(url)
-    req = Net::HTTP::Get.new(uri.path)
-    req.basic_auth username, password
-
-    send_request(uri, req)
-  end
-
-  def post(url, username, password)
-    # form request
-    uri = URI.parse(url)
-    req = Net::HTTP::Post.new(uri.path)
-    req.basic_auth username, password
-    req.form_data={}
-
-    send_request(uri, req)
-  end
-
-  # upload a file
-  def post_file(url, username, password, file_path)
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    req = Net::HTTP::Post.new(uri.path)
-    req.basic_auth username, password
-
-    req.body_stream=File.open(file_path)
-    req["Content-Type"] = "multipart/form-data"
-    req.add_field('Content-Length', File.size(file_path))
-    req.add_field('Content-Type', 'application/x-gtar')
-
-    boundary = "INSPEC-PROFILE-UPLOAD"
-    req.add_field('session', boundary)
-    res=http.request(req)
-
-    # puts "Response #{response.code} #{response.message}"
-    # puts "#{response.body}"
-    # puts "Headers: #{response.to_hash.inspect}"
-
-    res.is_a?(Net::HTTPSuccess)
-  end
-
-  def send_request(uri, req)
-    # send request
-    res = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') {|http|
-      http.request(req)
-    }
-    if res.is_a?(Net::HTTPSuccess)
-      res.body
-    else
-      nil
-    end
   end
 end
 
-module Compliance
-  class Configuration
+# register the subcommand to InspecCLI
+InspecCLI.register(ComplianceCLI, "compliance", "compliance SUBCOMMAND ...", "Chef Compliance commands", {})
 
+module Compliance
+  # API Implementation does not hold any state by itself,
+  # everything will be stored in local Configuration store
+  class API
+
+    # logs into the server, retrieves a token and stores it
+    # locally
+    def self.login(server, username, password)
+      config = Compliance::Configuration.new
+      config['server'] = server
+      url = "#{server}/oauth/token"
+
+      success = false
+      data = Compliance::API.post(url, username, password)
+      if !data.nil?
+        tokendata = JSON.parse(data)
+        if tokendata['access_token']
+          config['token'] = tokendata['access_token']
+          config.store
+          success = true
+          msg =  'Successfully authenticated'
+        else
+          msg = 'Reponse does not include a token'
+        end
+      else
+        msg = "Authentication failed for Server: #{url}"
+      end
+      [success, msg]
+    end
+
+    def self.logout
+      config = Compliance::Configuration.new
+      url = "#{config['server']}/logout"
+      data = Compliance::API.post(url, config['token'], nil)
+      config.destroy
+    end
+
+    # return the server api version
+    def self.version
+      config = Compliance::Configuration.new
+      url = "#{config['server']}/version"
+
+      data = Compliance::API.get(url, nil, nil)
+      if !data.nil?
+        info = JSON.parse(data)
+      else
+        {}
+      end
+    end
+
+    # return all compliance profiles available for the user
+    def self.get_profiles
+      config = Compliance::Configuration.new
+
+      url = "#{config['server']}/user/compliance"
+      data = get(url, config['token'], '')
+
+      if !data.nil?
+        profiles = JSON.parse(data)
+        val = []
+        # iterate over profiles
+        profiles.each_key { |org|
+          profiles[org].each_key { |name|
+            val.push({ org: org, name: name})
+          }
+        }
+        val
+      else
+        []
+      end
+    end
+
+    private
+
+    def self.get(url, username, password)
+      uri = URI.parse(url)
+      req = Net::HTTP::Get.new(uri.path)
+      req.basic_auth username, password
+
+      send_request(uri, req)
+    end
+
+    def self.post(url, username, password)
+      # form request
+      uri = URI.parse(url)
+      req = Net::HTTP::Post.new(uri.path)
+      req.basic_auth username, password
+      req.form_data={}
+
+      send_request(uri, req)
+    end
+
+    # upload a file
+    def self.post_file(url, username, password, file_path)
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      req = Net::HTTP::Post.new(uri.path)
+      req.basic_auth username, password
+
+      req.body_stream=File.open(file_path)
+      req["Content-Type"] = "multipart/form-data"
+      req.add_field('Content-Length', File.size(file_path))
+      req.add_field('Content-Type', 'application/x-gtar')
+
+      boundary = "INSPEC-PROFILE-UPLOAD"
+      req.add_field('session', boundary)
+      res=http.request(req)
+
+      res.is_a?(Net::HTTPSuccess)
+    end
+
+    def self.send_request(uri, req)
+      # send request
+      res = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+        http.request(req)
+      }
+      if res.is_a?(Net::HTTPSuccess)
+        res.body
+      else
+        nil
+      end
+    end
+  end
+
+  # stores configuration on local filesystem
+  class Configuration
     def initialize
       @config_path = File.join(ENV['HOME'], '/.inspec')
       # ensure the directory is available
@@ -240,8 +249,51 @@ module Compliance
       end
     end
 
+    # deletes data
     def destroy
       File.delete(@config_file)
     end
   end
+end
+
+# InSpec Target Helper for Chef Compliance
+# reuses UrlHelper, but it knows the target server and the access token already
+# similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
+module Inspec::Targets
+  class ChefComplianceHelper < UrlHelper
+    def handles?(profile)
+
+      # verifies that the target e.g base/ssh exists
+      profiles = Compliance::API.get_profiles
+      if !profiles.empty?
+        index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
+        index >= 0
+      else
+        false
+      end
+    end
+
+    # generates proper url
+    def resolve(profile, opts = {})
+      target = build_target_url(profile)
+      config = Compliance::Configuration.new
+      opts['user'] = config['token']
+      super(target, opts)
+    end
+
+    def build_target_url(target)
+      owner, profile = target.split('/')
+      config = Compliance::Configuration.new
+      url = "#{config['server']}/owners/%owner_name%/compliance/%profile_name%/tar"
+      .gsub('%owner_name%', owner)
+      .gsub('%profile_name%', profile)
+      url
+    end
+
+    def to_s
+      'Chef Compliance Profile Loader'
+    end
+  end
+
+  Inspec::Targets.add_module('chefcompliance', ChefComplianceHelper.new)
 end
