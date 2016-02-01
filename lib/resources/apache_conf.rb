@@ -40,6 +40,18 @@ class ApacheConf < Inspec.resource(1)
     res
   end
 
+  def method_missing(name)
+    # ensure params are loaded
+    @params || read_content
+
+    # extract values
+    param = @params[name.to_s]
+    return nil if param.nil?
+    # extract first value if we have only one value in array
+    return param[0] if param.length == 1
+    param
+  end
+
   def filter_comments(data)
     content = ''
     data.each_line do |line|
