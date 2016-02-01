@@ -10,7 +10,6 @@ require 'inspec/backend'
 require 'inspec/profile_context'
 require 'inspec/targets'
 require 'inspec/metadata'
-require 'inspec/reporter'
 # spec requirements
 
 module Inspec
