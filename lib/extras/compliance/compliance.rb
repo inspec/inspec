@@ -38,6 +38,20 @@ class ComplianceCLI < Thor
     end
   end
 
+  desc 'exec PROFILE', 'executes a Chef Compliance profile'
+  option :id, type: :string,
+    desc: 'Attach a profile ID to all test results'
+  InspecCLI.target_options
+  option :format, type: :string
+  def exec(*tests)
+    # iterate over tests and add compliance scheme
+    tests = tests.map { |t| 'compliance://' + t }
+
+    # execute profile from inspec exec implementation
+    opts = InspecCLI.get_opts(options)
+    InspecCLI.run_tests(opts, tests)
+  end
+
   desc 'upload PATH', 'uploads a local profile to Chef Compliance'
   def upload(path)
 
@@ -49,6 +63,7 @@ class ComplianceCLI < Thor
     config = Compliance::Configuration.new
     tar_path = File.join(Dir.pwd, 'profile.tar.gz')
 
+    # read from login
     owner = 'admin'
     profile = 'profile'
     url = "#{config['server']}/owners/#{owner}/compliance/#{profile}/tar"
@@ -216,7 +231,7 @@ module Compliance
       unless File.directory?(@config_path)
         FileUtils.mkdir_p(@config_path)
       end
-      # set config file pasth
+      # set config file path
       @config_file = File.join(@config_path, '/config.json')
       @config = {}
 
@@ -261,24 +276,40 @@ end
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Inspec::Targets
   class ChefComplianceHelper < UrlHelper
-    def handles?(profile)
+    def handles?(target)
+      # check for local scheme compliance://
+      uri = URI(target)
+      return unless URI(uri).scheme == 'compliance'
+
+      # get profile name
+      profile = get_profile_name(uri)
 
       # verifies that the target e.g base/ssh exists
       profiles = Compliance::API.get_profiles
       if !profiles.empty?
         index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
-        index >= 0
+        !index.nil? && index >= 0
       else
         false
       end
+    rescue URI::Error => e
+      false
     end
 
     # generates proper url
-    def resolve(profile, opts = {})
+    def resolve(target, opts = {})
+      profile = get_profile_name(URI(target))
+      # generates server url
       target = build_target_url(profile)
       config = Compliance::Configuration.new
       opts['user'] = config['token']
+      puts target
       super(target, opts)
+    end
+
+    # extracts profile name from url
+    def get_profile_name(uri)
+      profile = uri.host + uri.path
     end
 
     def build_target_url(target)

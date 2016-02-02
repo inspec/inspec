@@ -77,7 +77,10 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   def check(path) # rubocop:disable Metrics/AbcSize
     diagnose
     o = opts.dup
-    # configure_logger(o) # we do not need a logger for check yet
+
+    o[:logger] = Logger.new(STDOUT)
+    o[:logger].level = InspecCLI.get_log_level(o.log_level)
+
     o[:ignore_supports] = true # we check for integrity only
 
     # run check
@@ -118,7 +121,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = options.dup
     o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
+    o[:logger].level = InspecCLI.get_log_level(o.log_level)
 
     profile = Inspec::Profile.from_path(path, o)
     # generate archive
@@ -132,16 +135,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   option :format, type: :string
   def exec(*tests)
     diagnose
-
-    o = opts.dup
-    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-
-    runner = Inspec::Runner.new(o)
-    runner.add_tests(tests)
-    exit runner.run
-  rescue RuntimeError => e
-    puts e.message
+    InspecCLI.run_tests(opts, tests)
   end
 
   desc 'detect', 'detect the target OS'
@@ -175,6 +169,19 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     puts Inspec::VERSION
   end
 
+  # helper method to run tests
+  def self.run_tests(opts, tests)
+    o = opts.dup
+    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+    o[:logger].level = InspecCLI.get_log_level(o.log_level)
+
+    runner = Inspec::Runner.new(o)
+    runner.add_tests(tests)
+    exit runner.run
+  rescue RuntimeError => e
+    puts e.message
+  end
+
   private
 
   def diagnose
@@ -191,12 +198,17 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   end
 
   def opts
-    # argv overrides json
-    Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
+    # require "pry"; binding.pry
+    InspecCLI.get_opts(options)
   end
 
-  def options_json
-    conffile = options['json_config']
+  def self.get_opts(o)
+    # argv overrides json
+    Thor::CoreExt::HashWithIndifferentAccess.new(InspecCLI.options_json(o).merge(o))
+  end
+
+  def self.options_json(o)
+    conffile = o['json_config']
     @json ||= conffile ? read_config(conffile) : {}
   end
 
@@ -211,7 +223,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
   # get the log level
   # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
-  def get_log_level(level)
+  def self.get_log_level(level)
     valid = %w{debug info warn error fatal}
 
     if valid.include?(level)
