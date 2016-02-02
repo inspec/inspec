@@ -10,10 +10,7 @@ require 'pp'
 require_relative '../lib/inspec'
 require_relative '../lib/utils/json_log'
 
-class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
-  class_option :diagnose, type: :boolean,
-    desc: 'Show diagnostics (versions, configurations)'
-
+class Inspec::BaseCLI < Thor
   def self.target_options
     option :target, aliases: :t, type: :string,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
@@ -47,6 +44,91 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
       desc: 'Set the log level: info (default), debug, warn, error'
   end
 
+  private
+
+  # helper method to run tests
+  def run_tests(opts, tests)
+    o = opts.dup
+    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
+
+    runner = Inspec::Runner.new(o)
+    runner.add_tests(tests)
+    exit runner.run
+  rescue RuntimeError => e
+    puts e.message
+  end
+
+  def diagnose
+    return unless opts['diagnose']
+    puts "InSpec version: #{Inspec::VERSION}"
+    puts "Train version: #{Train::VERSION}"
+    puts 'Command line configuration:'
+    pp options
+    puts 'JSON configuration file:'
+    pp options_json
+    puts 'Merged configuration:'
+    pp opts
+    puts
+  end
+
+  def opts
+    # argv overrides json
+    Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
+  end
+
+  def options_json
+    conffile = options['json_config']
+    @json ||= conffile ? read_config(conffile) : {}
+  end
+
+  def read_config(file)
+    if file == '-'
+      puts 'WARN: reading JSON config from standard input' if STDIN.tty?
+      config = STDIN.read
+    else
+      config = File.read(file)
+    end
+
+    JSON.load(config)
+  rescue JSON::ParserError => e
+    puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
+    exit 1
+  end
+
+  # get the log level
+  # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
+  def get_log_level(level)
+    valid = %w{debug info warn error fatal}
+
+    if valid.include?(level)
+      l = level
+    else
+      l = 'info'
+    end
+
+    Logger.const_get(l.upcase)
+  end
+
+  def mark_text(text)
+    "\e[0;32m#{text}\e[0m"
+  end
+
+  def headline(title)
+    puts title
+    title.each_char { print '-' }
+    newline
+  end
+
+  def newline
+    print "\n"
+  end
+end
+
+class Inspec::InspecCLI < BaseCLI # rubocop:disable Metrics/ClassLength
+  class_option :diagnose, type: :boolean,
+    desc: 'Show diagnostics (versions, configurations)'
+
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
@@ -79,7 +161,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     o = opts.dup
 
     o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = InspecCLI.get_log_level(o.log_level)
+    o[:logger].level = get_log_level(o.log_level)
 
     o[:ignore_supports] = true # we check for integrity only
 
@@ -121,7 +203,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
     o = options.dup
     o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = InspecCLI.get_log_level(o.log_level)
+    o[:logger].level = get_log_level(o.log_level)
 
     profile = Inspec::Profile.from_path(path, o)
     # generate archive
@@ -135,7 +217,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   option :format, type: :string
   def exec(*tests)
     diagnose
-    InspecCLI.run_tests(opts, tests)
+    run_tests(opts, tests)
   end
 
   desc 'detect', 'detect the target OS'
@@ -167,100 +249,6 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
-  end
-
-  # helper method to run tests
-  def self.run_tests(opts, tests)
-    o = opts.dup
-    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
-    o[:logger].level = InspecCLI.get_log_level(o.log_level)
-
-    runner = Inspec::Runner.new(o)
-    runner.add_tests(tests)
-    exit runner.run
-  rescue RuntimeError => e
-    puts e.message
-  end
-
-  private
-
-  def diagnose
-    return unless opts['diagnose']
-    puts "InSpec version: #{Inspec::VERSION}"
-    puts "Train version: #{Train::VERSION}"
-    puts 'Command line configuration:'
-    pp options
-    puts 'JSON configuration file:'
-    pp options_json
-    puts 'Merged configuration:'
-    pp opts
-    puts
-  end
-
-  def opts
-    # require "pry"; binding.pry
-    InspecCLI.get_opts(options)
-  end
-
-  def self.get_opts(o)
-    # argv overrides json
-    Thor::CoreExt::HashWithIndifferentAccess.new(InspecCLI.options_json(o).merge(o))
-  end
-
-  def self.options_json(o)
-    conffile = o['json_config']
-    @json ||= conffile ? read_config(conffile) : {}
-  end
-
-  def configure_logger(o)
-    o[:logger] = Logger.new(STDOUT)
-    # output json if we have activated the json formatter
-    if opts['log-format'] == 'json'
-      o[:logger].formatter = Logger::JSONFormatter.new
-    end
-    o[:logger].level = get_log_level(o.log_level)
-  end
-
-  # get the log level
-  # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
-  def self.get_log_level(level)
-    valid = %w{debug info warn error fatal}
-
-    if valid.include?(level)
-      l = level
-    else
-      l = 'info'
-    end
-
-    Logger.const_get(l.upcase)
-  end
-
-  def read_config(file)
-    if file == '-'
-      puts 'WARN: reading JSON config from standard input' if STDIN.tty?
-      config = STDIN.read
-    else
-      config = File.read(file)
-    end
-
-    JSON.load(config)
-  rescue JSON::ParserError => e
-    puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
-    exit 1
-  end
-
-  def mark_text(text)
-    "\e[0;32m#{text}\e[0m"
-  end
-
-  def headline(title)
-    puts title
-    title.each_char { print '-' }
-    newline
-  end
-
-  def newline
-    print "\n"
   end
 end
 

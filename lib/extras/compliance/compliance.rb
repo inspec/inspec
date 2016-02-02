@@ -10,13 +10,16 @@ require 'uri'
 # - fix file upload and genereate tar if required
 # - target should return false if no token is available
 # - target shourd return false if token is expired
-class ComplianceCLI < Thor
+class ComplianceCLI < BaseCLI
   namespace 'compliance'
 
   desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
-  options :username => :required, :password => :required
+  option :user, type: :string, required: true,
+    desc: 'Chef Compliance Username'
+  option :password, type: :string, required: true,
+    desc: 'Chef Compliance Password'
   def login(server)
-    success, msg = Compliance::API.login(server, options['username'], options['password'])
+    success, msg = Compliance::API.login(server, options['user'], options['password'])
     if success
       puts "Successfully authenticated"
     else
@@ -41,15 +44,15 @@ class ComplianceCLI < Thor
   desc 'exec PROFILE', 'executes a Chef Compliance profile'
   option :id, type: :string,
     desc: 'Attach a profile ID to all test results'
-  InspecCLI.target_options
+  target_options
   option :format, type: :string
   def exec(*tests)
     # iterate over tests and add compliance scheme
     tests = tests.map { |t| 'compliance://' + t }
 
     # execute profile from inspec exec implementation
-    opts = InspecCLI.get_opts(options)
-    InspecCLI.run_tests(opts, tests)
+    diagnose
+    run_tests(opts, tests)
   end
 
   desc 'upload PATH', 'uploads a local profile to Chef Compliance'
