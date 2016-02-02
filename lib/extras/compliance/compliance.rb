@@ -6,9 +6,8 @@ require 'net/http'
 require 'uri'
 
 # TODO:
-# - invalidate token
 # - fix file upload and genereate tar if required
-# - target should return false if no token is available
+# - detect expired token
 # - target shourd return false if token is expired
 class ComplianceCLI < BaseCLI
   namespace 'compliance'
@@ -283,6 +282,10 @@ module Inspec::Targets
       # check for local scheme compliance://
       uri = URI(target)
       return unless URI(uri).scheme == 'compliance'
+
+      # check if we have a compliance token
+      config = Compliance::Configuration.new
+      return if config['token'].nil?
 
       # get profile name
       profile = get_profile_name(uri)
