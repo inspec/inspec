@@ -13,6 +13,8 @@ module Inspec::Targets
       uri = URI.parse(target)
       return false if uri.nil? or uri.scheme.nil?
       %{ http https }.include? uri.scheme
+    rescue URI::Error => e
+      false
     end
 
     def resolve(target, opts = {})
