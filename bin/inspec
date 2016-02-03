@@ -54,9 +54,9 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     desc: 'Save the created profile to a path'
   def json(path)
     diagnose
-
     o = opts.dup
     o[:ignore_supports] = true
+
     profile = Inspec::Profile.from_path(path, o)
     dst = o[:output].to_s
     if dst.empty?
@@ -75,21 +75,33 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   desc 'check PATH', 'verify all tests at the specified PATH'
   option :format, type: :string
   def check(path)
+    diagnose
     o = opts.dup
+    # configure_logger(o) # we do not need a logger for check yet
     o[:ignore_supports] = true # we check for integrity only
-    o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-
-    # output json if we have activated the json formatter
-    if opts['format'] == 'json'
-      o[:logger].formatter = Logger::JSONFormatter.new
-    else
-      diagnose
-    end
 
     # run check
     profile = Inspec::Profile.from_path(path, o)
-    exit 1 unless profile.check
+    success, result = profile.check
+
+    if opts['format'] == 'json'
+      puts JSON.generate(result)
+    else
+      headline('Summary')
+      %w{location profile controls timestamp valid}.each { |item|
+        puts "#{mark_text(item.to_s.capitalize + ':')} #{result[:summary][item.to_sym]}"
+      }
+      newline
+
+      %w{errors warnings}.each { |list|
+        headline(list.to_s.capitalize)
+        result[list.to_sym].each { |item|
+          puts "#{item[:file]}:#{item[:line]}:#{item[:column]}: #{item[:msg]} "
+        }
+        newline
+      }
+    end
+    exit 1 unless success
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
@@ -188,6 +200,15 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     @json ||= conffile ? read_config(conffile) : {}
   end
 
+  def configure_logger(o)
+    o[:logger] = Logger.new(STDOUT)
+    # output json if we have activated the json formatter
+    if opts['log-format'] == 'json'
+      o[:logger].formatter = Logger::JSONFormatter.new
+    end
+    o[:logger].level = get_log_level(o.log_level)
+  end
+
   # get the log level
   # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
   def get_log_level(level)
@@ -214,6 +235,20 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   rescue JSON::ParserError => e
     puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
     exit 1
+  end
+
+  def mark_text(text)
+    "\e[0;32m#{text}\e[0m"
+  end
+
+  def headline(title)
+    puts title
+    title.each_char {|c| print '-' }
+    newline
+  end
+
+  def newline
+    print "\n"
   end
 end
 InspecCLI.start(ARGV)

@@ -55,6 +55,7 @@ module Inspec
           impact: rule.impact,
           checks: rule.instance_variable_get(:@checks),
           code: rule.instance_variable_get(:@__code),
+          source_location: rule.instance_variable_get(:@__source_location),
           group_title: rule.instance_variable_get(:@__group_title),
         }
       end
@@ -89,32 +90,59 @@ module Inspec
     #
     # @return [Boolean] true if no errors were found, false otherwise
     def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      no_errors = true
-      no_warnings = true
-      warn = lambda { |msg|
-        @logger.warn(msg)
-        no_warnings = false
+
+      # initial values for response object
+      result = {
+        :summary => {
+          :valid => false,
+          :timestamp => Time.now.iso8601,
+          :location => @path,
+          :profile => nil,
+          :controls => 0,
+        },
+        :errors => [],
+        :warnings => [],
       }
-      error = lambda { |msg|
+
+      entry = lambda { |file, line, column, control, msg|
+        {
+          :file => file,
+          :line => line,
+          :column => column,
+          :control_id => control,
+          :msg => msg,
+        }
+      }
+
+      warn = lambda { |file, line, column, control, msg|
+        @logger.warn(msg)
+        result[:warnings].push(entry.call(file, line, column, control, msg))
+      }
+
+      error = lambda { |file, line, column, control, msg|
         @logger.error(msg)
-        no_warnings = no_errors = false
+        result[:errors].push(entry.call(file, line, column, control, msg))
       }
 
       @logger.info "Checking profile in #{@path}"
 
-      @logger.info 'Metadata OK.' if @metadata.valid?
-
       if @content.any? { |h| h[:type] == :metadata && h[:ref] =~ /metadata\.rb$/ }
-        warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+        warn.call(Pathname.new(path).join('metadata.rb'), 0,0,nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
 
+      @logger.info 'Metadata OK.' if @metadata.valid?
+      result[:summary][:profile] = @metadata.params[:name]
+
+      # check if the profile is using the old test directory instead of the
+      # new controls directory
       if @content.any? { |h| h[:type] == :test && h[:ref] =~ %r{test/[^/]+$} }
-        warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
+        warn.call(Pathname.new(path).join('test'), 0,0,nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
       count = rules_count
+      result[:summary][:controls] = count
       if count == 0
-        warn.call('No controls or tests were defined.')
+        warn.call(nil, nil, nil, nil, 'No controls or tests were defined.')
       else
         @logger.info("Found #{count} controls.")
       end
@@ -123,18 +151,19 @@ module Inspec
       @params[:rules].each { |group, controls|
         @logger.info "Verify all controls in  #{group}"
         controls.each { |id, control|
-          error.call('Avoid controls with empty IDs') if id.nil? or id.empty?
+          sfile, sline = control[:source_location]
+          error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
           next if id.start_with? '(generated '
-          warn.call("Control #{id} has no title") if control[:title].to_s.empty?
-          warn.call("Control #{id} has no description") if control[:desc].to_s.empty?
-          warn.call("Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
-          warn.call("Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
-          warn.call("Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
+          warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+          warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
+          warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+          warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+          warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
         }
       }
 
-      @logger.info 'Control definitions OK.' if no_warnings
-      no_errors
+      @logger.info 'Control definitions OK.' if result[:warnings].empty?
+      [result[:errors].empty?, result]
     end
 
     def rules_count
