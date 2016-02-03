@@ -116,24 +116,24 @@ module Inspec
       if count == 0
         warn.call('No controls or tests were defined.')
       else
-        @logger.info("Found #{count} rules.")
+        @logger.info("Found #{count} controls.")
       end
 
       # iterate over hash of groups
-      @params[:rules].each do |group, rules_array|
-        @logger.debug "Verify all rules in  #{group}"
-        rules_array.each do |id, rule|
-          error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
+      @params[:rules].each { |group, controls|
+        @logger.info "Verify all controls in  #{group}"
+        controls.each { |id, control|
+          error.call('Avoid controls with empty IDs') if id.nil? or id.empty?
           next if id.start_with? '(generated '
-          warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
-          warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
-          warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
-          warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
-          warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
-        end
-      end
+          warn.call("Control #{id} has no title") if control[:title].to_s.empty?
+          warn.call("Control #{id} has no description") if control[:desc].to_s.empty?
+          warn.call("Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+          warn.call("Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+          warn.call("Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
+        }
+      }
 
-      @logger.info 'Rule definitions OK.' if no_warnings
+      @logger.info 'Control definitions OK.' if no_warnings
       no_errors
     end
 
