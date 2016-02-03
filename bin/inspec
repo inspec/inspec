@@ -90,8 +90,6 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     # run check
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
-  ensure
-    o[:logger].formatter.stop if opts['format'] == 'json'
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
