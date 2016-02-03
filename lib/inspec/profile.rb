@@ -26,11 +26,12 @@ module Inspec
       @logger = options[:logger] || Logger.new(nil)
 
       @path = @options[:path]
-      fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
-      fail "Cannot find directory #{@path}" unless File.directory?(@path)
+      # fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
+      # fail "Cannot find directory #{@path}" unless File.directory?(@path)
 
-      @metadata = read_metadata
-      @params = @metadata.params
+      # @metadata = read_metadata
+      # @params = @metadata.params
+      @params = {}
       # use the id from parameter, name or fallback to nil
       @profile_id = options[:id] || params[:name] || nil
       @params[:name] = @profile_id
@@ -98,17 +99,17 @@ module Inspec
 
       @logger.info "Checking profile in #{@path}"
 
-      if Pathname.new(path).join('metadata.rb').exist?
-        warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
-      end
+      # if Pathname.new(path).join('metadata.rb').exist?
+      #   warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+      # end
 
-      @logger.info 'Metadata OK.' if @metadata.valid?
+      # @logger.info 'Metadata OK.' if @metadata.valid?
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
-      if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
-        warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
-      end
+      # if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
+      #   warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
+      # end
 
       count = rules_count
       if count == 0
