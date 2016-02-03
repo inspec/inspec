@@ -53,6 +53,7 @@ module Inspec
       @impact = nil
       @__block = block
       @__code = __get_block_source(&block)
+      @__source_location = __get_block_source_location(&block)
       @title = nil
       @desc = nil
       # not changeable by the user:
@@ -165,6 +166,13 @@ module Inspec
       block.source.to_s
     rescue MethodSource::SourceNotFoundError
       ''
+    end
+
+    def __get_block_source_location(&block)
+      return [nil,nil] unless block_given?
+      block.source_location
+    rescue MethodSource::SourceNotFoundError
+      [nil,nil]
     end
   end
 end
