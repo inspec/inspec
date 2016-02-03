@@ -4,6 +4,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'forwardable'
 require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
@@ -13,6 +14,7 @@ require 'inspec/metadata'
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
+    extend Forwardable
     attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
@@ -106,9 +108,8 @@ module Inspec
       end
     end
 
-    def run(with = nil)
-      @test_collector.run(with)
-    end
+    def_delegator :@test_collector, :run
+    def_delegator :@test_collector, :report
 
     private
 

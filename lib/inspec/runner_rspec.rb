@@ -55,6 +55,11 @@ module Inspec
       with.run_specs(tests)
     end
 
+    def report
+      reporter = RSpec.configuration.formatters.find { |f| f.is_a? Inspec::RSpecReporter }
+      reporter.output_hash
+    end
+
     private
 
     # Empty the list of registered tests.
@@ -71,6 +76,12 @@ module Inspec
     # @return [nil]
     def configure_output
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
+
+      setup_reporting if @conf['report']
+    end
+
+    def setup_reporting
+      RSpec.configuration.add_formatter(Inspec::RSpecReporter)
     end
 
     # Make sure that all RSpec example groups use the provided ID.
@@ -89,6 +100,14 @@ module Inspec
       example.children.each do |child|
         set_rspec_ids(child, id)
       end
+    end
+  end
+
+  class RSpecReporter < RSpec::Core::Formatters::JsonFormatter
+    RSpec::Core::Formatters.register Inspec::RSpecReporter
+
+    def initialize(*)
+      super(StringIO.new)
     end
   end
 end
