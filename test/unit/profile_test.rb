@@ -112,13 +112,13 @@ describe Inspec::Profile do
       it 'prints loads of warnings' do
         metadata_rb = "#{home}/mock/profiles/#{profile_id}/metadata.rb"
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ["Missing profile name in #{metadata_rb}"]
         logger.expect :error, nil, ["Missing profile version in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile title in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile summary in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile maintainer in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile copyright in #{metadata_rb}"]
+        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         load_profile(profile_id, {logger: logger}).check
