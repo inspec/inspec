@@ -19,23 +19,12 @@ module Inspec
     attr_reader :path
     attr_reader :metadata
 
+    # rubocop:disable Metrics/AbcSize
     def initialize(options = nil)
       @options = options || {}
-
-      @params = {}
       @logger = options[:logger] || Logger.new(nil)
-
       @path = @options[:path]
-      # fail 'Cannot read an empty path.' if @path.nil? || @path.empty?
-      # fail "Cannot find directory #{@path}" unless File.directory?(@path)
-
-      # @metadata = read_metadata
-      # @params = @metadata.params
-      @params = {}
-      # use the id from parameter, name or fallback to nil
-      @profile_id = options[:id] || params[:name] || nil
-      @params[:name] = @profile_id
-      @params[:rules] = rules = {}
+      @profile_id = options[:id]
 
       @runner = Runner.new(
         id: @profile_id,
@@ -45,6 +34,16 @@ module Inspec
 
       @options[:ignore_supports] = true
       tests, libs, metadata = @runner.add_tests([@path], @options)
+      @content = tests + libs + metadata
+
+      # NB if you want to check more than one profile, use one
+      # Inspec::Profile#from_file per profile
+      m = metadata.first
+      @metadata = Metadata.from_ref(m[:ref], m[:content], @profile_id, @logger)
+      @params = @metadata.params
+      @profile_id ||= params[:name]
+      @params[:name] = @profile_id
+      @params[:rules] = rules = {}
 
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
@@ -102,17 +101,15 @@ module Inspec
 
       @logger.info "Checking profile in #{@path}"
 
-      # if Pathname.new(path).join('metadata.rb').exist?
-      #   warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
-      # end
+      @logger.info 'Metadata OK.' if @metadata.valid?
 
-      # @logger.info 'Metadata OK.' if @metadata.valid?
+      if @content.any? { |h| h[:type] == :metadata && h[:ref] =~ /metadata\.rb$/ }
+        warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+      end
 
-      # check if the profile is using the old test directory instead of the
-      # new controls directory
-      # if Pathname.new(path).join('test').exist? && !Pathname.new(path).join('controls').exist?
-      #   warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
-      # end
+      if @content.any? { |h| h[:type] == :test && h[:ref] =~ %r{test/[^/]+$} }
+        warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
+      end
 
       count = rules_count
       if count == 0
@@ -198,17 +195,6 @@ module Inspec
 
       @logger.info 'Finished archive generation.'
       true
-    end
-
-    private
-
-    def read_metadata
-      mpath = Pathname.new(path).join('inspec.yml')
-
-      # fallback to metadata.rb if inspec.yml does not exist
-      # TODO deprecated, will be removed in InSpec 1.0
-      mpath = File.join(@path, 'metadata.rb') if !mpath.exist?
-      Metadata.from_file(mpath, @profile_id, @logger)
     end
   end
 end

@@ -171,7 +171,7 @@ describe Inspec::Profile do
         logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Rule definitions OK.']
 
-        load_profile(profile_id, {logger: logger, ignore_supports: true}).check
+        load_profile(profile_id, {logger: logger}).check
         logger.verify
       end
     end
@@ -187,7 +187,7 @@ describe Inspec::Profile do
         logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Rule definitions OK.']
 
-        load_profile(profile_id, {logger: logger, ignore_supports: true}).check
+        load_profile(profile_id, {logger: logger}).check
         logger.verify
       end
     end
@@ -203,7 +203,7 @@ describe Inspec::Profile do
         logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Rule definitions OK.']
 
-        load_profile(profile_id, {logger: logger, ignore_supports: true}).check
+        load_profile(profile_id, {logger: logger}).check
         logger.verify
       end
     end
