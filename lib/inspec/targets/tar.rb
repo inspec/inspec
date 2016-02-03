@@ -41,7 +41,7 @@ module Inspec::Targets
               h = {
                 content: entry.read,
                 type: opts[:as] || :test,
-                # ref: File.join(input, entry.name),
+                ref: entry.full_name,
               }
               content.push(h)
             end

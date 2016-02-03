@@ -66,6 +66,7 @@ module Inspec
 
       tests = items.find_all { |i| i[:type] == :test }
       libs = items.find_all { |i| i[:type] == :library }
+      meta = items.find_all { |i| i[:type] == :metadata }
 
       # Ensure each test directory exists on the $LOAD_PATH. This
       # will ensure traditional RSpec-isms like `require 'spec_helper'`
@@ -82,6 +83,8 @@ module Inspec
       tests.flatten.each do |test|
         add_content(test, libs)
       end
+
+      [tests, libs, meta]
     end
 
     def create_context

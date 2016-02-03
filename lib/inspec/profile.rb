@@ -37,12 +37,16 @@ module Inspec
       @params[:name] = @profile_id
 
       @params[:rules] = rules = {}
+
       @runner = Runner.new(
         id: @profile_id,
         backend: :mock,
         test_collector: @options.delete(:test_collector),
       )
-      @runner.add_tests([@path], @options)
+
+      @options[:ignore_supports] = true
+      tests, libs, metadata = @runner.add_tests([@path], @options)
+
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
         rules[file] ||= {}
