@@ -32,6 +32,7 @@ module Inspec
         test_collector: @options.delete(:test_collector),
       )
 
+      # we're checking a profile, we don't care if it runs on the host machine
       @options[:ignore_supports] = true
       tests, libs, metadata = @runner.add_tests([@path], @options)
       @content = tests + libs + metadata
