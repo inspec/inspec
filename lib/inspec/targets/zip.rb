@@ -18,9 +18,10 @@ module Inspec::Targets
         while (entry = io.get_next_entry)
           next if !files.include?(entry.name.gsub(rootdir, ''))
           h = {
-            content: io.read,
+            # NB if some file is empty, return empty-string, not nil
+            content: io.read || '',
             type: opts[:as] || :test,
-            # ref: File.join(input, entry.name),
+            ref: entry.name,
           }
           content.push(h)
         end

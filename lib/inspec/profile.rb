@@ -35,7 +35,6 @@ module Inspec
       # use the id from parameter, name or fallback to nil
       @profile_id = options[:id] || params[:name] || nil
       @params[:name] = @profile_id
-
       @params[:rules] = rules = {}
 
       @runner = Runner.new(
