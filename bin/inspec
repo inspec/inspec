@@ -8,6 +8,7 @@ require 'thor'
 require 'json'
 require 'pp'
 require_relative '../lib/inspec'
+require_relative '../lib/utils/json_log'
 
 class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
@@ -72,16 +73,25 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   end
 
   desc 'check PATH', 'verify all tests at the specified PATH'
+  option :format, type: :string
   def check(path)
-    diagnose
-
     o = opts.dup
+    o[:ignore_supports] = true # we check for integrity only
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
 
-    o[:ignore_supports] = true # we check for integrity only
+    # output json if we have activated the json formatter
+    if opts['format'] == 'json'
+      o[:logger].formatter = Logger::JSONFormatter.new
+    else
+      diagnose
+    end
+
+    # run check
     profile = Inspec::Profile.from_path(path, o)
     exit 1 unless profile.check
+  ensure
+    o[:logger].formatter.stop if opts['format'] == 'json'
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
