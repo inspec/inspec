@@ -101,8 +101,17 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile copyright in #{inspec_yml}"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        load_profile(profile_id, {logger: logger}).check
+        result = load_profile(profile_id, {logger: logger}).check
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal false
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal nil
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 2
+        result[:warnings].length.must_equal 5
       end
     end
 
@@ -121,8 +130,17 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile copyright in #{metadata_rb}"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        load_profile(profile_id, {logger: logger}).check
+        result = load_profile(profile_id, {logger: logger}).check
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal false
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal nil
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 2
+        result[:warnings].length.must_equal 6
       end
     end
 
@@ -135,8 +153,18 @@ describe Inspec::Profile do
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        profile.check
+        result = profile.check
+
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'name'
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 1
       end
     end
 
@@ -152,8 +180,18 @@ describe Inspec::Profile do
         # logger.expect :warn, nil, ["Profile uses deprecated `test` directory, rename it to `controls`."]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        profile.check
+        result = profile.check
+
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'name'
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 2
       end
 
       it 'doesnt have constraints on supported systems' do
@@ -171,8 +209,17 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        load_profile(profile_id, {logger: logger}).check
+        result = load_profile(profile_id, {logger: logger}).check
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'complete'
+        result[:summary][:controls].must_equal 1
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 0
       end
     end
 
@@ -187,8 +234,17 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        load_profile(profile_id, {logger: logger}).check
-        # logger.verify
+        result = load_profile(profile_id, {logger: logger}).check
+        # verify logger output
+        logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'complete'
+        result[:summary][:controls].must_equal 1
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 0
       end
     end
 
@@ -203,8 +259,17 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        load_profile(profile_id, {logger: logger}).check
+        result = load_profile(profile_id, {logger: logger}).check
+        # verify logger output
         logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'complete'
+        result[:summary][:controls].must_equal 1
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 0
       end
     end
   end
