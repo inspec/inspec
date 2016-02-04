@@ -146,6 +146,8 @@ module Inspec
     end
 
     def self.from_ref(ref, contents, profile_id, logger = nil)
+      # NOTE there doesn't have to exist an actual file, it may come from an
+      # archive (i.e., contents)
       case File.basename(ref)
       when 'inspec.yml'
         from_yaml(ref, contents, profile_id, logger)

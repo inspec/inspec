@@ -39,9 +39,10 @@ module Inspec::Targets
           elsif entry.file?
             if files.include?(entry.full_name.gsub(rootdir, ''))
               h = {
-                content: entry.read,
+                # NB if some file is empty, return empty-string, not nil
+                content: entry.read || '',
                 type: opts[:as] || :test,
-                # ref: File.join(input, entry.name),
+                ref: entry.full_name,
               }
               content.push(h)
             end
