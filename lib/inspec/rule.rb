@@ -168,11 +168,12 @@ module Inspec
       ''
     end
 
+    # get the source location of the block
     def __get_block_source_location(&block)
-      return [nil,nil] unless block_given?
+      return [nil, nil] unless block_given?
       block.source_location
     rescue MethodSource::SourceNotFoundError
-      [nil,nil]
+      [nil, nil]
     end
   end
 end

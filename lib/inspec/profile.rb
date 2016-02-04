@@ -89,28 +89,27 @@ module Inspec
     # used to print information on errors and warnings which are found.
     #
     # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # initial values for response object
       result = {
-        :summary => {
-          :valid => false,
-          :timestamp => Time.now.iso8601,
-          :location => @path,
-          :profile => nil,
-          :controls => 0,
+        summary: {
+          valid: false,
+          timestamp: Time.now.iso8601,
+          location: @path,
+          profile: nil,
+          controls: 0,
         },
-        :errors => [],
-        :warnings => [],
+        errors: [],
+        warnings: [],
       }
 
       entry = lambda { |file, line, column, control, msg|
         {
-          :file => file,
-          :line => line,
-          :column => column,
-          :control_id => control,
-          :msg => msg,
+          file: file,
+          line: line,
+          column: column,
+          control_id: control,
+          msg: msg,
         }
       }
 
@@ -127,7 +126,7 @@ module Inspec
       @logger.info "Checking profile in #{@path}"
 
       if @content.any? { |h| h[:type] == :metadata && h[:ref] =~ /metadata\.rb$/ }
-        warn.call(Pathname.new(path).join('metadata.rb'), 0,0,nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+        warn.call(Pathname.new(path).join('metadata.rb'), 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
 
       @logger.info 'Metadata OK.' if @metadata.valid?
@@ -136,7 +135,7 @@ module Inspec
       # check if the profile is using the old test directory instead of the
       # new controls directory
       if @content.any? { |h| h[:type] == :test && h[:ref] =~ %r{test/[^/]+$} }
-        warn.call(Pathname.new(path).join('test'), 0,0,nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
+        warn.call(Pathname.new(path).join('test'), 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
       count = rules_count
