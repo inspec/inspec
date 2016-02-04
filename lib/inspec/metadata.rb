@@ -100,24 +100,36 @@ module Inspec
       !found.nil?
     end
 
-    def valid?
-      is_valid = true
+    # return all warn and errors
+    def valid
+      errors = []
+      warnings = []
+
       %w{ name version }.each do |field|
         next unless params[field.to_sym].nil?
-        @logger.error("Missing profile #{field} in #{ref}")
-        is_valid = false
+        errors.push("Missing profile #{field} in #{ref}")
       end
       %w{ title summary maintainer copyright }.each do |field|
         next unless params[field.to_sym].nil?
-        @logger.warn("Missing profile #{field} in #{ref}")
-        is_valid = false
+        warnings.push("Missing profile #{field} in #{ref}")
       end
-      is_valid && @missing_methods.empty?
+
+      [errors, warnings]
+    end
+
+    # returns true or false
+    def valid?
+      errors, _warnings = valid
+      errors.empty? && unsupported.empty?
     end
 
     def method_missing(sth, *args)
       @logger.warn "#{ref} doesn't support: #{sth} #{args}"
       @missing_methods.push(sth)
+    end
+
+    def unsupported
+      @missing_methods
     end
 
     def self.symbolize_keys(hash)

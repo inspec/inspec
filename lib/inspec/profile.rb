@@ -39,8 +39,8 @@ module Inspec
 
       # NB if you want to check more than one profile, use one
       # Inspec::Profile#from_file per profile
-      m = metadata.first
-      @metadata = Metadata.from_ref(m[:ref], m[:content], @profile_id, @logger)
+      @metadata_source = metadata.first
+      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @profile_id, @logger)
       @params = @metadata.params
       @profile_id ||= params[:name]
       @params[:name] = @profile_id
@@ -129,7 +129,15 @@ module Inspec
         warn.call(Pathname.new(path).join('metadata.rb'), 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
 
-      @logger.info 'Metadata OK.' if @metadata.valid?
+      # verify metadata
+      m_errors, m_warnings = @metadata.valid
+      m_errors.each { |msg| error.call(@metadata_source[:ref], 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(@metadata_source[:ref], 0, 0, nil, msg) }
+      m_unsupported = @metadata.unsupported
+      m_unsupported.each { |u| warn.call(@metadata_source[:ref], 0, 0, nil, "doesn't support: #{u}") }
+      @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
+
+      # extract profile name
       result[:summary][:profile] = @metadata.params[:name]
 
       # check if the profile is using the old test directory instead of the
