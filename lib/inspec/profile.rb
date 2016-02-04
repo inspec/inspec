@@ -162,8 +162,11 @@ module Inspec
         }
       }
 
+      # profile is valid if we could not find any error
+      result[:summary][:valid] = result[:errors].empty?
+
       @logger.info 'Control definitions OK.' if result[:warnings].empty?
-      [result[:errors].empty?, result]
+      result
     end
 
     def rules_count
