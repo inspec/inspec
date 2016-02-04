@@ -74,7 +74,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
   desc 'check PATH', 'verify all tests at the specified PATH'
   option :format, type: :string
-  def check(path)
+  def check(path) # rubocop:disable Metrics/AbcSize
     diagnose
     o = opts.dup
     # configure_logger(o) # we do not need a logger for check yet
@@ -243,7 +243,7 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 
   def headline(title)
     puts title
-    title.each_char {|c| print '-' }
+    title.each_char { print '-' }
     newline
   end
 
