@@ -174,7 +174,7 @@ module Inspec
     def archive(opts) # rubocop:disable Metrics/AbcSize
       check_result = check
 
-      if check_result && !opts.ignore_errors == false
+      if check_result && !opts[:ignore_errors] == false
         @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
         return false
       end
