@@ -39,8 +39,8 @@ module Inspec
 
       # NB if you want to check more than one profile, use one
       # Inspec::Profile#from_file per profile
-      m = metadata.first
-      @metadata = Metadata.from_ref(m[:ref], m[:content], @profile_id, @logger)
+      @metadata_source = metadata.first
+      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @profile_id, @logger)
       @params = @metadata.params
       @profile_id ||= params[:name]
       @params[:name] = @profile_id
@@ -55,6 +55,7 @@ module Inspec
           impact: rule.impact,
           checks: rule.instance_variable_get(:@checks),
           code: rule.instance_variable_get(:@__code),
+          source_location: rule.instance_variable_get(:@__source_location),
           group_title: rule.instance_variable_get(:@__group_title),
         }
       end
@@ -88,53 +89,91 @@ module Inspec
     # used to print information on errors and warnings which are found.
     #
     # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      no_errors = true
-      no_warnings = true
-      warn = lambda { |msg|
-        @logger.warn(msg)
-        no_warnings = false
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+      # initial values for response object
+      result = {
+        summary: {
+          valid: false,
+          timestamp: Time.now.iso8601,
+          location: @path,
+          profile: nil,
+          controls: 0,
+        },
+        errors: [],
+        warnings: [],
       }
-      error = lambda { |msg|
+
+      entry = lambda { |file, line, column, control, msg|
+        {
+          file: file,
+          line: line,
+          column: column,
+          control_id: control,
+          msg: msg,
+        }
+      }
+
+      warn = lambda { |file, line, column, control, msg|
+        @logger.warn(msg)
+        result[:warnings].push(entry.call(file, line, column, control, msg))
+      }
+
+      error = lambda { |file, line, column, control, msg|
         @logger.error(msg)
-        no_warnings = no_errors = false
+        result[:errors].push(entry.call(file, line, column, control, msg))
       }
 
       @logger.info "Checking profile in #{@path}"
 
-      @logger.info 'Metadata OK.' if @metadata.valid?
-
       if @content.any? { |h| h[:type] == :metadata && h[:ref] =~ /metadata\.rb$/ }
-        warn.call('The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+        warn.call(Pathname.new(path).join('metadata.rb'), 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
 
+      # verify metadata
+      m_errors, m_warnings = @metadata.valid
+      m_errors.each { |msg| error.call(@metadata_source[:ref], 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(@metadata_source[:ref], 0, 0, nil, msg) }
+      m_unsupported = @metadata.unsupported
+      m_unsupported.each { |u| warn.call(@metadata_source[:ref], 0, 0, nil, "doesn't support: #{u}") }
+      @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
+
+      # extract profile name
+      result[:summary][:profile] = @metadata.params[:name]
+
+      # check if the profile is using the old test directory instead of the
+      # new controls directory
       if @content.any? { |h| h[:type] == :test && h[:ref] =~ %r{test/[^/]+$} }
-        warn.call('Profile uses deprecated `test` directory, rename it to `controls`.')
+        warn.call(Pathname.new(path).join('test'), 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
       count = rules_count
+      result[:summary][:controls] = count
       if count == 0
-        warn.call('No controls or tests were defined.')
+        warn.call(nil, nil, nil, nil, 'No controls or tests were defined.')
       else
-        @logger.info("Found #{count} rules.")
+        @logger.info("Found #{count} controls.")
       end
 
       # iterate over hash of groups
-      @params[:rules].each do |group, rules_array|
-        @logger.debug "Verify all rules in  #{group}"
-        rules_array.each do |id, rule|
-          error.call('Avoid rules with empty IDs') if id.nil? or id.empty?
+      @params[:rules].each { |group, controls|
+        @logger.info "Verify all controls in #{group}"
+        controls.each { |id, control|
+          sfile, sline = control[:source_location]
+          error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
           next if id.start_with? '(generated '
-          warn.call("Rule #{id} has no title") if rule[:title].to_s.empty?
-          warn.call("Rule #{id} has no description") if rule[:desc].to_s.empty?
-          warn.call("Rule #{id} has impact > 1.0") if rule[:impact].to_f > 1.0
-          warn.call("Rule #{id} has impact < 0.0") if rule[:impact].to_f < 0.0
-          warn.call("Rule #{id} has no tests defined") if rule[:checks].nil? or rule[:checks].empty?
-        end
-      end
+          warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+          warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
+          warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+          warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+          warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
+        }
+      }
 
-      @logger.info 'Rule definitions OK.' if no_warnings
-      no_errors
+      # profile is valid if we could not find any error
+      result[:summary][:valid] = result[:errors].empty?
+
+      @logger.info 'Control definitions OK.' if result[:warnings].empty?
+      result
     end
 
     def rules_count
@@ -145,7 +184,7 @@ module Inspec
     def archive(opts) # rubocop:disable Metrics/AbcSize
       check_result = check
 
-      if check_result && !opts.ignore_errors == false
+      if check_result && !opts[:ignore_errors] == false
         @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
         return false
       end
