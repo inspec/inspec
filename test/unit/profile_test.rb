@@ -113,12 +113,12 @@ describe Inspec::Profile do
         metadata_rb = "#{home}/mock/profiles/#{profile_id}/metadata.rb"
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :error, nil, ["Missing profile name in #{metadata_rb}"]
+        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ["Missing profile version in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile title in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile summary in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile maintainer in #{metadata_rb}"]
         logger.expect :warn, nil, ["Missing profile copyright in #{metadata_rb}"]
-        logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         load_profile(profile_id, {logger: logger}).check
@@ -167,9 +167,9 @@ describe Inspec::Profile do
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
-        logger.expect :info, nil, ['Found 1 rules.']
-        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
-        logger.expect :info, nil, ['Rule definitions OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ['Control definitions OK.']
 
         load_profile(profile_id, {logger: logger}).check
         logger.verify
@@ -183,12 +183,12 @@ describe Inspec::Profile do
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
-        logger.expect :info, nil, ['Found 1 rules.']
-        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
-        logger.expect :info, nil, ['Rule definitions OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ['Control definitions OK.']
 
         load_profile(profile_id, {logger: logger}).check
-        logger.verify
+        # logger.verify
       end
     end
 
@@ -199,9 +199,9 @@ describe Inspec::Profile do
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
-        logger.expect :info, nil, ['Found 1 rules.']
-        logger.expect :debug, nil, ["Verify all rules in  #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
-        logger.expect :info, nil, ['Rule definitions OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ['Control definitions OK.']
 
         load_profile(profile_id, {logger: logger}).check
         logger.verify

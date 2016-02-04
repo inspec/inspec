@@ -148,7 +148,7 @@ module Inspec
 
       # iterate over hash of groups
       @params[:rules].each { |group, controls|
-        @logger.info "Verify all controls in  #{group}"
+        @logger.info "Verify all controls in #{group}"
         controls.each { |id, control|
           sfile, sline = control[:source_location]
           error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
