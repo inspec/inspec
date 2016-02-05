@@ -18,7 +18,6 @@ require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
 require 'inspec/targets'
-require 'inspec/targets/zip'
 
 class MockLoader
   # collects emulation operating systems
