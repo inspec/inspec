@@ -151,6 +151,8 @@ class MockLoader
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       # service config for upstart on ubuntu
       'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
+      # upstart version on ubuntu
+      'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
       '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
