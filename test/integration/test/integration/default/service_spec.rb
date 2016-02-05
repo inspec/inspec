@@ -78,4 +78,28 @@ if os[:family] == 'centos'
     it { should_not be_installed }
     it { should_not be_running }
   end
+
+  describe upstart_service('upstart-running') do
+    it { should_not be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+  describe upstart_service('upstart-enabled-and-running') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+  describe upstart_service('upstart-enabled-not-running') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should_not be_running }
+  end
+
+  describe upstart_service('unknown') do
+    it { should_not be_enabled }
+    it { should_not be_installed }
+    it { should_not be_running }
+  end
 end
