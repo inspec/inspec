@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
-puts 'plugins'
+
 module Inspec
   # Resource Plugins
   module Plugins

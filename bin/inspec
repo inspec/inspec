@@ -253,13 +253,13 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
 end
 
 # load CLI plugins before the Inspec CLI has been started
-Inspec::Plugins::CLI.registry.each{ |subcommand, params|
+Inspec::Plugins::CLI.registry.each { |_subcommand, params|
   Inspec::InspecCLI.register(
     params[:klass],
     params[:subcommand_name],
     params[:usage],
     params[:description],
-    params[:options]
+    params[:options],
   )
 }
 
