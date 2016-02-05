@@ -10,7 +10,7 @@ require 'pp'
 require_relative '../lib/inspec'
 require_relative '../lib/utils/json_log'
 
-class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
+class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
 
@@ -251,4 +251,17 @@ class InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     print "\n"
   end
 end
-InspecCLI.start(ARGV)
+
+# load CLI plugins before the Inspec CLI has been started
+Inspec::Plugins::CLI.registry.each { |_subcommand, params|
+  Inspec::InspecCLI.register(
+    params[:klass],
+    params[:subcommand_name],
+    params[:usage],
+    params[:description],
+    params[:options],
+  )
+}
+
+# start the CLI
+Inspec::InspecCLI.start(ARGV)

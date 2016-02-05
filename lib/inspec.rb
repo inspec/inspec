@@ -11,11 +11,13 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'inspec/version'
-require 'inspec/plugins'
 require 'inspec/profile'
-require 'inspec/resource'
 require 'inspec/rspec_json_formatter'
 require 'inspec/rule'
-require 'inspec/runner'
-require 'inspec/shell'
 require 'matchers/matchers'
+require 'inspec/runner'
+# ensure resource and plugins are loaded after runner, because the runner loads
+# targets
+require 'inspec/resource'
+require 'inspec/plugins'
+require 'inspec/shell'
