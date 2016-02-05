@@ -40,7 +40,7 @@ class AuditdRulesLegacy
   end
 
   def to_s
-    'Audit Daemon Rules (legacy format)'
+    'Audit Daemon Rules (for auditd version <= 2.2)'
   end
 end
 
@@ -52,7 +52,7 @@ class AuditDaemonRules < Inspec.resource(1)
   name 'auditd_rules'
   desc 'Use the auditd_rules InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files.'
   example "
-    # legacy syntax for auditd <= 2.2
+    # syntax for auditd <= 2.2
     describe auditd_rules do
       its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
       its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex/) }
@@ -60,7 +60,7 @@ class AuditDaemonRules < Inspec.resource(1)
       its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
     end
 
-    # recent syntax for auditd > 2.2
+    # syntax for auditd > 2.2
     describe auditd_rules.syscall('open').action do
       it { should eq(['always']) }
     end
@@ -78,7 +78,10 @@ class AuditDaemonRules < Inspec.resource(1)
     @content = inspec.command('/sbin/auditctl -l').stdout.chomp
 
     if @content =~ /^LIST_RULES:/
-      warn '[LEGACY] this version of auditd is outdated. Updating it allows for using more precise matchers.'
+      # do not warn on centos 5
+      unless inspec.os[:family] == 'centos' && inspec.os[:release].to_i == 5
+        warn '[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers.'
+      end
       @legacy = AuditdRulesLegacy.new(@content)
     else
       parse_content

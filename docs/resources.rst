@@ -354,17 +354,19 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   # legacy syntax (audit <= 2.2)
+   # syntax for audit <= 2.2
    describe audit_daemon_rules do
      its("LIST_RULES") {
        should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/)
      }
    end
 
-   # recent syntax for auditd > 2.2
+   # syntax for auditd > 2.2
    describe auditd_rules do
      its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
    end
+
+The syntax for recent auditd versions allows more precise tests, such as the following:
 
 **Query the audit daemon status.**
 
@@ -375,8 +377,6 @@ The following examples show how to use this InSpec audit resource.
    end
 
 **Query properties of rules targeting specific syscalls or files.**
-
-The syntax for recent auditd versions allows more precise tests, such as the following:
 
 .. code-block:: ruby
 
