@@ -5,6 +5,8 @@ driver:
   associate_public_ip: true
   security_group_ids: ["travis-ci"]
   interface: dns
+  tags:
+    Name: kitchen-test-inspec
 
 transport:
   username: ec2-user
