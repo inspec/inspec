@@ -110,6 +110,15 @@ class Inspec::BaseCLI < Thor
     Logger.const_get(l.upcase)
   end
 
+  def configure_logger(o)
+    o[:logger] = Logger.new(STDOUT)
+    # output json if we have activated the json formatter
+    if opts['log-format'] == 'json'
+      o[:logger].formatter = Logger::JSONFormatter.new
+    end
+    o[:logger].level = get_log_level(o.log_level)
+  end
+
   def mark_text(text)
     "\e[0;32m#{text}\e[0m"
   end
@@ -118,6 +127,10 @@ class Inspec::BaseCLI < Thor
     puts title
     title.each_char { print '-' }
     newline
+  end
+
+  def li(entry)
+    puts " #{mark_text('*')} #{entry}"
   end
 
   def newline
@@ -203,6 +216,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o[:logger].level = get_log_level(o.log_level)
 
     profile = Inspec::Profile.from_path(path, o)
+    result = profile.check
+
+    if result && !opts[:ignore_errors] == false
+      @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
+      return exit 1
+    end
+
     # generate archive
     exit 1 unless profile.archive(opts)
   end

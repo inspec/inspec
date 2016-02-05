@@ -22,13 +22,7 @@ module Compliance
       profile = get_profile_name(uri)
 
       # verifies that the target e.g base/ssh exists
-      profiles = Compliance::API.get_profiles
-      if !profiles.empty?
-        index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
-        !index.nil? && index >= 0
-      else
-        false
-      end
+      Compliance::API.exist?(profile)
     rescue URI::Error => _e
       false
     end

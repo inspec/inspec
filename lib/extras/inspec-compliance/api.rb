@@ -15,11 +15,11 @@ module Compliance
       config['server'] = server
       url = "#{server}/oauth/token"
 
-      success = false
-      data = Compliance::API.post(url, username, password)
+      success, data = Compliance::API.post(url, username, password)
       if !data.nil?
         tokendata = JSON.parse(data)
         if tokendata['access_token']
+          config['user'] = username
           config['token'] = tokendata['access_token']
           config.store
           success = true
@@ -45,7 +45,7 @@ module Compliance
       config = Compliance::Configuration.new
       url = "#{config['server']}/version"
 
-      data = Compliance::API.get(url, nil, nil)
+      _success, data = Compliance::API.get(url, nil, nil)
       if !data.nil?
         JSON.parse(data)
       else
@@ -58,7 +58,7 @@ module Compliance
       config = Compliance::Configuration.new
 
       url = "#{config['server']}/user/compliance"
-      data = get(url, config['token'], '')
+      get(url, config['token'], '')
 
       if !data.nil?
         profiles = JSON.parse(data)
@@ -72,6 +72,17 @@ module Compliance
         val
       else
         []
+      end
+    end
+
+    # verifies that a profile
+    def self.exist?(profile)
+      profiles = Compliance::API.profiles
+      if !profiles.empty?
+        index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
+        !index.nil? && index >= 0
+      else
+        false
       end
     end
 
@@ -109,7 +120,7 @@ module Compliance
       req.add_field('session', boundary)
       res=http.request(req)
 
-      res.is_a?(Net::HTTPSuccess)
+      [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
     def self.send_request(uri, req)
@@ -117,9 +128,7 @@ module Compliance
       res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') {|http|
         http.request(req)
       }
-      if res.is_a?(Net::HTTPSuccess)
-        res.body
-      end
+      [res.is_a?(Net::HTTPSuccess), res.body]
     end
   end
 end

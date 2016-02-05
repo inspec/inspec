@@ -181,19 +181,18 @@ module Inspec
     end
 
     # generates a archive of a folder profile
+    # assumes that the profile was checked before
     def archive(opts) # rubocop:disable Metrics/AbcSize
-      check_result = check
-
-      if check_result && !opts[:ignore_errors] == false
-        @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
-        return false
-      end
-
       profile_name = @params[:name]
 
       ext = opts[:zip] ? 'zip' : 'tar.gz'
-      slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
-      archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
+
+      if opts[:archive]
+        archive = Pathname.new(opts[:archive])
+      else
+        slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
+        archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
+      end
 
       # check if file exists otherwise overwrite the archive
       if archive.exist? && !opts[:overwrite]
@@ -204,7 +203,7 @@ module Inspec
       # remove existing archive
       File.delete(archive) if archive.exist?
 
-      @logger.info "Profile check finished. Generate archive #{archive}."
+      @logger.info "Generate archive #{archive}."
 
       # find all files
       files = Dir.glob("#{path}/**/*")

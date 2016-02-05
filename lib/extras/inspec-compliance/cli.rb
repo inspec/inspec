@@ -5,7 +5,7 @@
 require 'thor'
 
 module Compliance
-  class ComplianceCLI < Inspec::BaseCLI
+  class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     namespace 'compliance'
 
     desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
@@ -27,9 +27,9 @@ module Compliance
       profiles = Compliance::API.profiles
       if !profiles.empty?
         # iterate over profiles
-        puts 'Available profiles: '
+        headline('Available profiles:')
         profiles.each { |profile|
-          puts " * #{profile[:org]}/#{profile[:name]}"
+          li("#{profile[:org]}/#{profile[:name]}")
         }
       else
         puts 'Could not find any profiles'
@@ -51,20 +51,73 @@ module Compliance
     end
 
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
-    def upload(_path)
-      config = Compliance::Configuration.new
-      tar_path = File.join(Dir.pwd, 'profile.tar.gz')
+    option :overwrite, type: :boolean, default: false,
+      desc: 'Overwrite existing profile on Chef Compliance.'
+    def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      o = options.dup
+      configure_logger(o)
+      # check the profile, we only allow to upload valid profiles
+      profile = Inspec::Profile.from_path(path, o)
 
-      # read from login
-      owner = 'admin'
-      profile = 'profile'
-      url = "#{config['server']}/owners/#{owner}/compliance/#{profile}/tar"
+      # start verification process
+      error_count = 0
+      error = lambda { |msg|
+        error_count += 1
+        puts msg
+      }
+
+      result = profile.check
+      unless result[:summary][:valid]
+        error.call('Profile check failed. Please fix the profile before upload.')
+      else
+        puts('Profile is valid')
+      end
+
+      # determine user information
+      config = Compliance::Configuration.new
+      if config['token'].nil? || config['user'].nil?
+        error.call('Please login via `inspec compliance login`')
+      end
+
+      # owner
+      owner = config['user']
+      # read profile name from inspec.yml
+      profile_name = profile.params[:name]
+
+      # check that the profile is not uploaded already,
+      # confirm upload to the user (overwrite with --force)
+      if Compliance::API.exist?("#{owner}/#{profile_name}") && !options['overwrite']
+        error.call('Profile exists on the server, use --overwrite')
+      end
+
+      # abort if we found an error
+      if error_count > 0
+        puts "Found #{error_count} error(s)"
+        exit 1
+      end
+
+      # if it is a directory, tar it to tmp directory
+      if File.directory?(path)
+        file = Tempfile.new([profile_name, '.tar.gz'])
+        archive_path = file.path
+        puts "Generate temporary profile archive at #{archive_path}"
+        profile.archive({ archive: archive_path, ignore_errors: false, overwrite: true })
+      else
+        archive_path = path
+      end
+
+      puts "Start upload to #{owner}/#{profile_name}"
+
+      # upload the tar to Chef Compliance
+      url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
 
       puts "Uploading to #{url}"
-      if Compliance::API.post_file(url, config['token'], '', tar_path)
+      success, msg = Compliance::API.post_file(url, config['token'], '', archive_path)
+      if success
         puts 'Successfully uploaded profile'
       else
-        puts 'Error during profile upload'
+        puts 'Error during profile upload:'
+        puts msg
       end
     end
 
