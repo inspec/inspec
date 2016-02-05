@@ -11,6 +11,7 @@ services:
 bundler_args: --without integration tools maintenance
 
 before_install:
+  - gem install bundler
   - gem update --system 2.4.5
   - gem --version
 
