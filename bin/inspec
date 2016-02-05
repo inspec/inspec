@@ -159,10 +159,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def check(path) # rubocop:disable Metrics/AbcSize
     diagnose
     o = opts.dup
-
-    o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-
+    # configure_logger(o) # we do not need a logger for check yet
     o[:ignore_supports] = true # we check for integrity only
 
     # run check
