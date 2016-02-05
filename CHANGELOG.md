@@ -1,7 +1,41 @@
 # Change Log
 
-## [0.9.11](https://github.com/chef/inspec/tree/0.9.11) (2016-01-29)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.9.10...0.9.11)
+## [0.10.0](https://github.com/chef/inspec/tree/0.10.0) (2016-02-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.11...0.10.0)
+
+**Implemented enhancements:**
+
+- Extend Plugin-System for CLI Plugins [\#421](https://github.com/chef/inspec/pull/421) ([chris-rock](https://github.com/chris-rock))
+- establish plugin loading dock [\#415](https://github.com/chef/inspec/pull/415) ([arlimus](https://github.com/arlimus))
+- JSON output for inspec check [\#411](https://github.com/chef/inspec/pull/411) ([chris-rock](https://github.com/chris-rock))
+- Chef Compliance extension [\#409](https://github.com/chef/inspec/pull/409) ([chris-rock](https://github.com/chris-rock))
+- RspecRunner: re-export report hash [\#404](https://github.com/chef/inspec/pull/404) ([srenatus](https://github.com/srenatus))
+
+**Fixed bugs:**
+
+- InSpec check crashes on tarball [\#408](https://github.com/chef/inspec/issues/408)
+- Looks like supports is ignored from tar files [\#360](https://github.com/chef/inspec/issues/360)
+- Check on archives is broken [\#343](https://github.com/chef/inspec/issues/343)
+- upstart\_service: fallback to config files if `show-config` is not available [\#419](https://github.com/chef/inspec/pull/419) ([srenatus](https://github.com/srenatus))
+- Use target helpers in Inspec::Profile\#from\_file [\#413](https://github.com/chef/inspec/pull/413) ([srenatus](https://github.com/srenatus))
+- fix warning in \#find\_files\[\_or\_error\] [\#403](https://github.com/chef/inspec/pull/403) ([srenatus](https://github.com/srenatus))
+
+**Closed issues:**
+
+- be\_enabled for upstart service on RHEL 6 not working correctly [\#417](https://github.com/chef/inspec/issues/417)
+- Why is the yml file required? [\#414](https://github.com/chef/inspec/issues/414)
+- remove leftover OS check methods from the file resource [\#397](https://github.com/chef/inspec/issues/397)
+
+**Merged pull requests:**
+
+- ensure bundler is installed on travis [\#422](https://github.com/chef/inspec/pull/422) ([chris-rock](https://github.com/chris-rock))
+- ec2 name tag instances for easier cleanup [\#418](https://github.com/chef/inspec/pull/418) ([alexpop](https://github.com/alexpop))
+- add an simple describe for profile example [\#416](https://github.com/chef/inspec/pull/416) ([chris-rock](https://github.com/chris-rock))
+- enable to configure the logger via cli [\#405](https://github.com/chef/inspec/pull/405) ([chris-rock](https://github.com/chris-rock))
+- remove os check exposure in file resource [\#398](https://github.com/chef/inspec/pull/398) ([arlimus](https://github.com/arlimus))
+
+## [v0.9.11](https://github.com/chef/inspec/tree/v0.9.11) (2016-01-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.10...v0.9.11)
 
 **Implemented enhancements:**
 
@@ -17,6 +51,7 @@
 
 **Merged pull requests:**
 
+- 0.9.11 [\#402](https://github.com/chef/inspec/pull/402) ([chris-rock](https://github.com/chris-rock))
 - Readme fixes [\#390](https://github.com/chef/inspec/pull/390) ([jzohrab](https://github.com/jzohrab))
 
 ## [v0.9.10](https://github.com/chef/inspec/tree/v0.9.10) (2016-01-25)
