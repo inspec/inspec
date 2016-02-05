@@ -172,6 +172,11 @@ module Inspec
       end
     end
 
+    def self.from_contents(contents, logger = nil)
+      m = contents.find { |a| a[:type] == :metadata }
+      from_ref(m[:ref], m[:content], nil, logger)
+    end
+
     def self.from_file(path, profile_id, logger = nil)
       unless File.file?(path)
         logger ||= Logger.new(nil)

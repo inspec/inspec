@@ -64,7 +64,10 @@ module Inspec
         add_test_profile(test, options[:ignore_supports])
       end.flatten
 
-      add_test_contents(items, options[:id], options)
+      metadata = Metadata.from_contents(items, @conf[:logger])
+
+      # profile name IS the ID
+      add_test_contents(items, metadata.params[:name], options)
     end
 
     def add_test_contents(items, id, options = {})
