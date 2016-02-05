@@ -58,7 +58,7 @@ module Compliance
       config = Compliance::Configuration.new
 
       url = "#{config['server']}/user/compliance"
-      get(url, config['token'], '')
+      _success, data = get(url, config['token'], '')
 
       if !data.nil?
         profiles = JSON.parse(data)
