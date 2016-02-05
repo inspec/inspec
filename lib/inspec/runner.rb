@@ -64,10 +64,17 @@ module Inspec
         add_test_profile(test, options[:ignore_supports])
       end.flatten
 
-      metadata = Metadata.from_contents(items, @conf[:logger])
+      # if we're given a proper profile, its name is our profile id
+      # if we're just given naked test code, a profile id may be provided
+      # using CLI options
+      meta = items.find { |a| a[:type] == :metadata }
+      profile_id = if meta
+                     Metadata.from_ref(meta[:ref], meta[:content], nil, @conf[:logger])
+                   else
+                     options[:id]
+                   end
 
-      # profile name IS the ID
-      add_test_contents(items, metadata.params[:name], options)
+      add_test_contents(items, profile_id, options)
     end
 
     def add_test_contents(items, id, options = {})
