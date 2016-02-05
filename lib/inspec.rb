@@ -16,8 +16,12 @@ require 'inspec/rspec_json_formatter'
 require 'inspec/rule'
 require 'matchers/matchers'
 require 'inspec/runner'
+require 'inspec/shell'
+
+# all utils that may be required by plugins
+require 'utils/base_cli'
+
 # ensure resource and plugins are loaded after runner, because the runner loads
 # targets
 require 'inspec/resource'
 require 'inspec/plugins'
-require 'inspec/shell'

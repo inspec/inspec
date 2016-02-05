@@ -39,7 +39,7 @@ module Inspec
       if path.nil?
         fail "Couldn't find plugin #{name}. Searching in #{@home}"
       end
-      puts "Loading plugin #{name} from #{path}"
+      # puts "Loading plugin #{name} from #{path}"
       require path
     end
   end

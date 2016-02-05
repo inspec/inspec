@@ -53,6 +53,8 @@ Style/AndOr:
   Enabled: false
 Style/Not:
   Enabled: false
+Style/FileName:
+  Enabled: false
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
 Style/TrailingCommaInArguments:

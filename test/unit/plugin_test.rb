@@ -2,14 +2,24 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'helper'
-require 'inspec/plugins'
+# TODO: do not use helper, since all plugins are loaded statically
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'mocha/setup'
+
+require 'inspec/targets'
+require 'inspec/plugins/cli'
 require 'thor'
 
 describe 'plugin system' do
-
   describe 'with an empty profile' do
     let(:cli_reg) { Inspec::Plugins::CLI }
+
+    before do
+      # TODO: remove this, once the plugin loading is not based on ruby-load time
+      # initialization
+      cli_reg.registry.clear
+    end
 
     it 'is empty' do
       cli_reg.registry.must_equal({})

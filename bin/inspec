@@ -7,45 +7,13 @@
 require 'thor'
 require 'json'
 require 'pp'
+require_relative '../lib/utils/base_cli'
 require_relative '../lib/inspec'
 require_relative '../lib/utils/json_log'
 
-class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
+class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
-
-  def self.target_options
-    option :target, aliases: :t, type: :string,
-      desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
-    option :backend, aliases: :b, type: :string,
-      desc: 'Choose a backend: local, ssh, winrm, docker.'
-    option :host, type: :string,
-      desc: 'Specify a remote host which is tested.'
-    option :port, aliases: :p, type: :numeric,
-      desc: 'Specify the login port for a remote scan.'
-    option :user, type: :string,
-      desc: 'The login user for a remote scan.'
-    option :password, type: :string,
-      desc: 'Login password for a remote scan, if required.'
-    option :key_files, aliases: :i, type: :array,
-      desc: 'Login key or certificate file for a remote scan.'
-    option :path, type: :string,
-      desc: 'Login path to use when connecting to the target (WinRM).'
-    option :sudo, type: :boolean,
-      desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
-    option :sudo_password, type: :string,
-      desc: 'Specify a sudo password, if it is required.'
-    option :sudo_options, type: :string,
-      desc: 'Additional sudo options for a remote scan.'
-    option :ssl, type: :boolean,
-      desc: 'Use SSL for transport layer encryption (WinRM).'
-    option :self_signed, type: :boolean,
-      desc: 'Allow remote scans with self-signed certificates (WinRM).'
-    option :json_config, type: :string,
-      desc: 'Read configuration from JSON file (`-` reads from stdin).'
-    option :log_level, aliases: :l, type: :string,
-      desc: 'Set the log level: info (default), debug, warn, error'
-  end
 
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
   option :id, type: :string,
@@ -91,14 +59,14 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
       %w{location profile controls timestamp valid}.each { |item|
         puts "#{mark_text(item.to_s.capitalize + ':')} #{result[:summary][item.to_sym]}"
       }
-      newline
+      puts
 
       %w{errors warnings}.each { |list|
         headline(list.to_s.capitalize)
         result[list.to_sym].each { |item|
           puts "#{item[:file]}:#{item[:line]}:#{item[:column]}: #{item[:msg]} "
         }
-        newline
+        puts
       }
     end
     exit 1 unless result[:summary][:valid]
@@ -121,6 +89,13 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
     o[:logger].level = get_log_level(o.log_level)
 
     profile = Inspec::Profile.from_path(path, o)
+    result = profile.check
+
+    if result && !opts[:ignore_errors] == false
+      @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
+      return exit 1
+    end
+
     # generate archive
     exit 1 unless profile.archive(opts)
   end
@@ -132,16 +107,7 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   option :format, type: :string
   def exec(*tests)
     diagnose
-
-    o = opts.dup
-    o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-
-    runner = Inspec::Runner.new(o)
-    runner.add_tests(tests)
-    exit runner.run
-  rescue RuntimeError => e
-    puts e.message
+    run_tests(opts, tests)
   end
 
   desc 'detect', 'detect the target OS'
@@ -173,82 +139,6 @@ class Inspec::InspecCLI < Thor # rubocop:disable Metrics/ClassLength
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
-  end
-
-  private
-
-  def diagnose
-    return unless opts['diagnose']
-    puts "InSpec version: #{Inspec::VERSION}"
-    puts "Train version: #{Train::VERSION}"
-    puts 'Command line configuration:'
-    pp options
-    puts 'JSON configuration file:'
-    pp options_json
-    puts 'Merged configuration:'
-    pp opts
-    puts
-  end
-
-  def opts
-    # argv overrides json
-    Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
-  end
-
-  def options_json
-    conffile = options['json_config']
-    @json ||= conffile ? read_config(conffile) : {}
-  end
-
-  def configure_logger(o)
-    o[:logger] = Logger.new(STDOUT)
-    # output json if we have activated the json formatter
-    if opts['log-format'] == 'json'
-      o[:logger].formatter = Logger::JSONFormatter.new
-    end
-    o[:logger].level = get_log_level(o.log_level)
-  end
-
-  # get the log level
-  # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
-  def get_log_level(level)
-    valid = %w{debug info warn error fatal}
-
-    if valid.include?(level)
-      l = level
-    else
-      l = 'info'
-    end
-
-    Logger.const_get(l.upcase)
-  end
-
-  def read_config(file)
-    if file == '-'
-      puts 'WARN: reading JSON config from standard input' if STDIN.tty?
-      config = STDIN.read
-    else
-      config = File.read(file)
-    end
-
-    JSON.load(config)
-  rescue JSON::ParserError => e
-    puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
-    exit 1
-  end
-
-  def mark_text(text)
-    "\e[0;32m#{text}\e[0m"
-  end
-
-  def headline(title)
-    puts title
-    title.each_char { print '-' }
-    newline
-  end
-
-  def newline
-    print "\n"
   end
 end
 
