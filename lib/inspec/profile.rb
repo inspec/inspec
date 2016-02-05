@@ -18,32 +18,34 @@ module Inspec
     attr_reader :params
     attr_reader :path
     attr_reader :metadata
+    attr_reader :content
 
     # rubocop:disable Metrics/AbcSize
     def initialize(options = nil)
       @options = options || {}
       @logger = options[:logger] || Logger.new(nil)
       @path = @options[:path]
-      @profile_id = options[:id]
-
-      @runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: @options.delete(:test_collector),
-      )
 
       # we're checking a profile, we don't care if it runs on the host machine
-      @options[:ignore_supports] = true
-      tests, libs, metadata = @runner.add_tests([@path], @options)
-      @content = tests + libs + metadata
+      @content = Inspec::Targets.resolve(path, ignore_supports: true)
 
       # NB if you want to check more than one profile, use one
       # Inspec::Profile#from_file per profile
-      @metadata_source = metadata.first
-      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @profile_id, @logger)
-      @params = @metadata.params
-      @profile_id ||= params[:name]
-      @params[:name] = @profile_id
+      @metadata_source = content.find { |a| a[:type] == :metadata }
+
+      # read profile_id from metadata as the sole source of this information
+      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], nil, @logger)
+      profile_id = metadata.params[:name]
+
+      # add tests, using the profile_id as prefix for example IDs
+      @runner = Runner.new(
+        id: profile_id,
+        backend: :mock,
+        test_collector: @options.delete(:test_collector),
+      )
+      @runner.add_test_contents(content, profile_id, @options)
+
+      @params = metadata.params
       @params[:rules] = rules = {}
 
       @runner.rules.each do |id, rule|

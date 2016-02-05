@@ -64,6 +64,12 @@ module Inspec
         add_test_profile(test, options[:ignore_supports])
       end.flatten
 
+      add_test_contents(items, options[:id], options)
+    end
+
+    def add_test_contents(items, id, options = {})
+      @profile_id ||= id
+
       tests = items.find_all { |i| i[:type] == :test }
       libs = items.find_all { |i| i[:type] == :library }
       meta = items.find_all { |i| i[:type] == :metadata }
@@ -83,8 +89,6 @@ module Inspec
       tests.flatten.each do |test|
         add_content(test, libs)
       end
-
-      [tests, libs, meta]
     end
 
     def create_context

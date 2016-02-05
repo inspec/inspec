@@ -66,12 +66,6 @@ describe Inspec::Profile do
     it 'has no rules' do
       profile.params[:rules].must_equal({})
     end
-
-    it 'can overwrite the profile ID' do
-      testID = rand.to_s
-      res = load_profile(profile_id, id: testID)
-      res.params[:name].must_equal testID
-    end
   end
 
   describe 'with simple metadata in profile (legacy mode)' do
