@@ -2,4 +2,4 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'extras/compliance/compliance'
+require 'extras/inspec-compliance'

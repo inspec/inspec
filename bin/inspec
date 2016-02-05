@@ -125,7 +125,7 @@ class Inspec::BaseCLI < Thor
   end
 end
 
-class Inspec::InspecCLI < BaseCLI # rubocop:disable Metrics/ClassLength
+class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
 
