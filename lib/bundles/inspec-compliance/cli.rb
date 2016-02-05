@@ -53,7 +53,7 @@ module Compliance
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
     option :overwrite, type: :boolean, default: false,
       desc: 'Overwrite existing profile on Chef Compliance.'
-    def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity
       o = options.dup
       configure_logger(o)
       # check the profile, we only allow to upload valid profiles

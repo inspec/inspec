@@ -2,7 +2,9 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-class Inspec::BaseCLI < Thor
+require 'thor'
+
+class Inspec::BaseCLI < Thor # rubocop:disable Metrics/ClassLength
   def self.target_options
     option :target, aliases: :t, type: :string,
       desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'

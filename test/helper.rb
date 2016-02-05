@@ -14,10 +14,12 @@ SimpleCov.start do
   add_group 'Backends', 'lib/inspec/backend'
 end
 
+require 'utils/base_cli'
+require 'inspec/targets'
 require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
-require 'inspec/targets'
+
 
 class MockLoader
   # collects emulation operating systems
