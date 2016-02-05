@@ -15,7 +15,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
 
-  desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
+  desc 'json PATH', 'read profile in PATH and generate a JSON summary'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
   def json(path)
@@ -100,7 +100,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'exec PATHS', 'run all test files at the specified PATH.'
   option :id, type: :string,
-    desc: 'Attach a profile ID to all test results'
+    desc: 'Prefix all example IDs with profile ID'
   target_options
   option :format, type: :string
   def exec(*tests)
