@@ -126,15 +126,11 @@ class Inspec::BaseCLI < Thor
   def headline(title)
     puts title
     title.each_char { print '-' }
-    newline
+    puts
   end
 
   def li(entry)
     puts " #{mark_text('*')} #{entry}"
-  end
-
-  def newline
-    print "\n"
   end
 end
 
@@ -186,14 +182,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       %w{location profile controls timestamp valid}.each { |item|
         puts "#{mark_text(item.to_s.capitalize + ':')} #{result[:summary][item.to_sym]}"
       }
-      newline
+      puts
 
       %w{errors warnings}.each { |list|
         headline(list.to_s.capitalize)
         result[list.to_sym].each { |item|
           puts "#{item[:file]}:#{item[:line]}:#{item[:column]}: #{item[:msg]} "
         }
-        newline
+        puts
       }
     end
     exit 1 unless result[:summary][:valid]
