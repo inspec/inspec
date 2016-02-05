@@ -374,7 +374,7 @@ The following examples show how to use this InSpec audit resource.
      it { should cmp 0 }
    end
 
-**Query properties of rules targetting specific syscalls or files.**
+**Query properties of rules targeting specific syscalls or files.**
 
 The syntax for recent auditd versions allows more precise tests, such as the following:
 
