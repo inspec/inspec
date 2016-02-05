@@ -227,7 +227,7 @@ class Upstart < ServiceManager
 
     # @see: http://upstart.ubuntu.com/cookbook/#job-states
     # grep for running to indicate the service is there
-    running = !status.stdout[/running/].nil?
+    running = !status.stdout[%r{start/running}].nil?
 
     {
       name: service_name,
@@ -247,8 +247,15 @@ class Upstart < ServiceManager
     # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
     # Ubuntu 10.04 show-config is not supported
     # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
-    config = inspec.command("#{service_ctl} show-config #{service_name}")
-    enabled = !config.stdout[/^\s*start on/].nil?
+    support_for_show_config = Gem::Version.new('1.3')
+
+    if version >= support_for_show_config
+      config = inspec.command("#{service_ctl} show-config #{service_name}").stdout
+    else # use config file as fallback
+      config = inspec.file("/etc/init/#{service_name}.conf").content
+    end
+
+    enabled = !config[/^\s*start on/].nil?
 
     # implement fallback for Ubuntu 10.04
     if inspec.os[:family] == 'ubuntu' &&
@@ -259,6 +266,11 @@ class Upstart < ServiceManager
     end
 
     enabled
+  end
+
+  def version
+    @version ||= Gem::Version.new(inspec.command("#{service_ctl} --version")
+                                        .stdout.match(/\(upstart ([^\)]+)\)/)[1])
   end
 end
 
