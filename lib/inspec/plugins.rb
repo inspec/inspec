@@ -3,10 +3,12 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
-
+puts 'plugins'
 module Inspec
+  # Resource Plugins
   module Plugins
     autoload :Resource, 'inspec/plugins/resource'
+    autoload :CLI, 'inspec/plugins/cli'
   end
 
   class PluginCtl
@@ -21,6 +23,11 @@ module Inspec
                .map { |x| File.dirname(x) }
                .map { |x| Dir[File.join(x, 'lib', 'inspec-*.rb')] }
                .flatten
+
+      # load bundled plugins
+      bundled_dir = File.expand_path(File.dirname(__FILE__))
+      @paths += Dir[File.join(bundled_dir, '..', 'bundles', 'inspec-*.rb')].flatten
+
       # map paths to names
       @registry = Hash[@paths.map { |x|
         [File.basename(x, '.rb'), x]
