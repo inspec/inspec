@@ -11,7 +11,7 @@ The following sections describe the syntax and show some simple examples of usin
 Syntax
 =====================================================
 
-The following resource tests |ssh| server configuration. For example, a simple control may desrcibed as:
+The following resource tests |ssh| server configuration. For example, a simple control may described as:
 
 .. code-block:: ruby
 
