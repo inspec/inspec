@@ -11,6 +11,10 @@ module Inspec
     autoload :CLI, 'inspec/plugins/cli'
   end
 
+  # PLEASE NOTE: The Plugin system is an internal mechanism for connecting
+  # inspec components. Its API is currently considered in an alpha state
+  # and may change between minor version revisions. A stable plugin API will be
+  # released in the future.
   class PluginCtl
     extend Forwardable
 
