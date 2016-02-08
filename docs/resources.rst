@@ -312,7 +312,7 @@ Use the ``auditd_rules`` |inspec resource| to test the rules for logging that ex
 
 Syntax
 -----------------------------------------------------
-A change in the output format (with an `audit` package newer than 2.2) is reflected in a two interfaces hidden beneath `auditd_rules`:
+A change in the output format (with an `audit` package version 2.3 or newer) is reflected in two interfaces included in `auditd_rules`:
 
 A ``auditd_rules`` |inspec resource| block declares one (or more) rules to be tested, and then what that rule should do:
 
@@ -354,14 +354,14 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   # syntax for audit <= 2.2
+   # syntax for audit < 2.3
    describe audit_daemon_rules do
      its("LIST_RULES") {
        should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/)
      }
    end
 
-   # syntax for auditd > 2.2
+   # syntax for auditd >= 2.3
    describe auditd_rules do
      its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
    end

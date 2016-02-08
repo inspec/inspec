@@ -40,7 +40,7 @@ class AuditdRulesLegacy
   end
 
   def to_s
-    'Audit Daemon Rules (for auditd version <= 2.2)'
+    'Audit Daemon Rules (for auditd version < 2.3)'
   end
 end
 
@@ -52,7 +52,7 @@ class AuditDaemonRules < Inspec.resource(1)
   name 'auditd_rules'
   desc 'Use the auditd_rules InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files.'
   example "
-    # syntax for auditd <= 2.2
+    # syntax for auditd < 2.3
     describe auditd_rules do
       its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday/) }
       its('LIST_RULES') {should contain_match(/^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex/) }
@@ -60,7 +60,7 @@ class AuditDaemonRules < Inspec.resource(1)
       its('LIST_RULES') {should contain_match(/^exit,always watch=\/etc\/localtime perm=wa key=time-change/)}
     end
 
-    # syntax for auditd > 2.2
+    # syntax for auditd >= 2.3
     describe auditd_rules.syscall('open').action do
       it { should eq(['always']) }
     end
