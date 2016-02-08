@@ -32,9 +32,9 @@ module Inspec::DSL
   # Register a given rule with RSpec and
   # let it run. This happens after everything
   # else is merged in.
-  def self.execute_rule(r, profile_id)
+  def self.execute_rule(r)
     checks = r.instance_variable_get(:@checks)
-    fid = InspecBaseRule.full_id(r, profile_id)
+    fid = InspecBaseRule.full_id(r)
     checks.each do |m, a, b|
       # check if the resource is skippable and skipped
       cres = rule_from_check(m, a, b)

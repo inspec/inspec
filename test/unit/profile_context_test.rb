@@ -7,7 +7,7 @@ require 'inspec/profile_context'
 
 describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
-  let(:profile) { Inspec::ProfileContext.new(nil, backend) }
+  let(:profile) { Inspec::ProfileContext.new(backend) }
 
   it 'must be able to load empty content' do
     profile.load('', 'dummy', 1).must_be_nil

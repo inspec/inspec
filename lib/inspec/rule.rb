@@ -121,7 +121,7 @@ module Inspec
     # for the rule. If the rule's profile id is empty,
     # the given profile_id will be used instead and also
     # set for the rule.
-    def self.full_id(profile_id, rule)
+    def self.full_id(rule)
       if rule.is_a?(String) or rule.nil?
         rid = rule
       else
@@ -134,16 +134,8 @@ module Inspec
           return nil
         end
       end
-      pid = rule.instance_variable_get(:@profile_id)
-      if pid.nil?
-        rule.instance_variable_set(:@profile_id, profile_id)
-        pid = profile_id
-      end
 
-      # if we don't have a profile id, just return the rule's ID
-      return rid if pid.nil? or pid.empty?
-      # otherwise combine them
-      "#{pid}/#{rid}"
+      rid
     end
 
     private

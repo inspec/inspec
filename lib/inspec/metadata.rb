@@ -139,32 +139,31 @@ module Inspec
       }
     end
 
-    def self.finalize(metadata, profile_id)
-      metadata.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
+    def self.finalize(metadata)
       metadata.params = symbolize_keys(metadata.params || {})
       metadata
     end
 
-    def self.from_yaml(ref, contents, profile_id, logger = nil)
+    def self.from_yaml(ref, contents, logger = nil)
       res = Metadata.new(ref, logger)
       res.params = YAML.load(contents)
-      finalize(res, profile_id)
+      finalize(res)
     end
 
-    def self.from_ruby(ref, contents, profile_id, logger = nil)
+    def self.from_ruby(ref, contents, logger = nil)
       res = Metadata.new(ref, logger)
       res.instance_eval(contents, ref, 1)
-      finalize(res, profile_id)
+      finalize(res)
     end
 
-    def self.from_ref(ref, contents, profile_id, logger = nil)
+    def self.from_ref(ref, contents, logger = nil)
       # NOTE there doesn't have to exist an actual file, it may come from an
       # archive (i.e., contents)
       case File.basename(ref)
       when 'inspec.yml'
-        from_yaml(ref, contents, profile_id, logger)
+        from_yaml(ref, contents, logger)
       when 'metadata.rb'
-        from_ruby(ref, contents, profile_id, logger)
+        from_ruby(ref, contents, logger)
       else
         logger ||= Logger.new(nil)
         logger.error "Don't know how to handle metadata in #{ref}"
@@ -174,17 +173,17 @@ module Inspec
 
     def self.from_contents(contents, logger = nil)
       m = contents.find { |a| a[:type] == :metadata }
-      from_ref(m[:ref], m[:content], nil, logger)
+      from_ref(m[:ref], m[:content], logger)
     end
 
-    def self.from_file(path, profile_id, logger = nil)
+    def self.from_file(path, logger = nil)
       unless File.file?(path)
         logger ||= Logger.new(nil)
         logger.error "Can't find metadata file #{path}"
         return nil
       end
 
-      from_ref(File.basename(path), File.read(path), profile_id, logger)
+      from_ref(File.basename(path), File.read(path), logger)
     end
   end
 end

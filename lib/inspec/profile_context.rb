@@ -9,13 +9,12 @@ require 'securerandom'
 module Inspec
   class ProfileContext
     attr_reader :rules, :only_ifs
-    def initialize(profile_id, backend, profile_registry = {}, only_ifs = [])
+    def initialize(backend, profile_registry = {}, only_ifs = [])
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
              'This is a backend error which must be fixed upstream.'
       end
 
-      @profile_id = profile_id
       @rules = profile_registry
       @only_ifs = only_ifs
       @backend = backend
@@ -35,7 +34,7 @@ module Inspec
     end
 
     def unregister_rule(id)
-      full_id = Inspec::Rule.full_id(@profile_id, id)
+      full_id = Inspec::Rule.full_id(id)
       @rules[full_id] = nil
     end
 
@@ -43,7 +42,7 @@ module Inspec
       # get the full ID
       r.instance_variable_set(:@__file, @current_load[:file])
       r.instance_variable_set(:@__group_title, @current_load[:title])
-      full_id = Inspec::Rule.full_id(@profile_id, r)
+      full_id = Inspec::Rule.full_id(r)
       if full_id.nil?
         # TODO: error
         return
