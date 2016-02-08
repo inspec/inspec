@@ -142,6 +142,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   end
 end
 
+# Load all plugins on startup
+ctl = Inspec::PluginCtl.new
+ctl.list.each { |x| ctl.load(x) }
+
 # load CLI plugins before the Inspec CLI has been started
 Inspec::Plugins::CLI.registry.each { |_subcommand, params|
   Inspec::InspecCLI.register(
