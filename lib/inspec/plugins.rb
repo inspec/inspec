@@ -44,7 +44,3 @@ module Inspec
     end
   end
 end
-
-# Load all plugins on startup
-ctl = Inspec::PluginCtl.new
-ctl.list.each { |x| ctl.load(x) }
