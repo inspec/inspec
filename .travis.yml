@@ -18,12 +18,8 @@ before_install:
 matrix:
   include:
   - rvm: 1.9.3
-    gemfile: Gemfile.193
   - rvm: 2.0
-    gemfile: Gemfile
   - rvm: 2.2
-    gemfile: Gemfile
     script: bundle exec rake lint test test:resources config=test/test.yaml
   - rvm: 2.2
-    gemfile: Gemfile
     script: bundle exec rake test:resources config=test/test-extra.yaml
