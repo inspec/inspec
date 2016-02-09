@@ -142,5 +142,5 @@ module Compliance
   end
 
   # register the subcommand to Inspec CLI registry
-  Inspec::Plugins::CLI.register(ComplianceCLI, 'compliance', 'compliance SUBCOMMAND ...', 'Chef Compliance commands', {})
+  Inspec::Plugins::CLI.add_subcommand(ComplianceCLI, 'compliance', 'compliance SUBCOMMAND ...', 'Chef Compliance commands', {})
 end

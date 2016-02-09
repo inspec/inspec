@@ -16,13 +16,12 @@ describe 'plugin system' do
     let(:cli_reg) { Inspec::Plugins::CLI }
 
     before do
-      # TODO: remove this, once the plugin loading is not based on ruby-load time
-      # initialization
-      cli_reg.registry.clear
+      # since the registry is a global singleton, clean it before using
+      cli_reg.subcommands.clear
     end
 
     it 'is empty' do
-      cli_reg.registry.must_equal({})
+      cli_reg.subcommands.must_equal({})
     end
 
     it 'stores one cli plugin' do
@@ -33,14 +32,14 @@ describe 'plugin system' do
         description: 'desc of my_cmd',
         options: { test: 1 }
       }
-      cli_reg.register(
+      cli_reg.add_subcommand(
         plugin[:klass],
         plugin[:subcommand_name],
         plugin[:usage],
         plugin[:description],
         plugin[:options]
       )
-      cli_reg.registry['my_cmd'].must_equal(plugin)
+      cli_reg.subcommands['my_cmd'].must_equal(plugin)
     end
   end
 end
