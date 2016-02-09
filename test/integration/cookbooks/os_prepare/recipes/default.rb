@@ -11,6 +11,7 @@ include_recipe('os_prepare::mount')
 include_recipe('os_prepare::service')
 include_recipe('os_prepare::package')
 include_recipe('os_prepare::registry_key')
+include_recipe('os_prepare::iptables')
 
 # configure repos, eg. nginx
 include_recipe('os_prepare::apt')
