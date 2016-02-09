@@ -126,6 +126,7 @@ class MockLoader
       'b00eb49a98c96a808c469e4894b5123a913e354c9ffea5b785898fe30d288ee0' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
+      '/sbin/auditctl -s' => cmd.call('auditctl-s'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
