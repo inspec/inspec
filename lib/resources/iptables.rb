@@ -59,7 +59,7 @@ class IpTables < Inspec.resource(1)
     return [] if cmd.exit_status.to_i != 0
 
     # split rules, returns array or rules
-    @iptables_cache = cmd.stdout.chomp.split("\n")
+    @iptables_cache = cmd.stdout.split("\n").map(&:strip)
   end
 
   def to_s
