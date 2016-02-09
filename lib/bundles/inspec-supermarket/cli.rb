@@ -45,5 +45,5 @@ module Supermarket
   end
 
   # register the subcommand to Inspec CLI registry
-  Inspec::Plugins::CLI.register(Supermarket::SupermarketCLI, 'supermarket', 'supermarket SUBCOMMAND ...', 'Supermarket commands', {})
+  Inspec::Plugins::CLI.add_subcommand(Supermarket::SupermarketCLI, 'supermarket', 'supermarket SUBCOMMAND ...', 'Supermarket commands', {})
 end
