@@ -1,11 +1,42 @@
 # Change Log
 
-## [0.10.1](https://github.com/chef/inspec/tree/0.10.1) (2016-02-05)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.10.0...0.10.1)
+## [0.11.0](https://github.com/chef/inspec/tree/0.11.0) (2016-02-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.10.1...0.11.0)
+
+**Implemented enhancements:**
+
+- Improve apache resource [\#407](https://github.com/chef/inspec/pull/407) ([chris-rock](https://github.com/chris-rock))
+- auditd\_rules rework [\#400](https://github.com/chef/inspec/pull/400) ([srenatus](https://github.com/srenatus))
+
+**Fixed bugs:**
+
+- File stats are not always working properly [\#430](https://github.com/chef/inspec/issues/430)
+- Integration test for apache config [\#406](https://github.com/chef/inspec/issues/406)
+- rework auditd\_rules resource [\#312](https://github.com/chef/inspec/issues/312)
+- resource/auditd\_rules: update rule list format [\#309](https://github.com/chef/inspec/issues/309)
 
 **Merged pull requests:**
 
+- Fix supermarket cli registration [\#441](https://github.com/chef/inspec/pull/441) ([chris-rock](https://github.com/chris-rock))
+- update to winrm 1.6.1 command scheme [\#439](https://github.com/chef/inspec/pull/439) ([arlimus](https://github.com/arlimus))
+- semantics: rename CLI plugins registry -\> commands [\#435](https://github.com/chef/inspec/pull/435) ([arlimus](https://github.com/arlimus))
+- avoid automatic plugin loading via library [\#434](https://github.com/chef/inspec/pull/434) ([arlimus](https://github.com/arlimus))
+- clarify the role of the plugin API at the moment [\#433](https://github.com/chef/inspec/pull/433) ([arlimus](https://github.com/arlimus))
+- Implement Supermarket Extension [\#432](https://github.com/chef/inspec/pull/432) ([chris-rock](https://github.com/chris-rock))
+- dedup Gemfiles [\#429](https://github.com/chef/inspec/pull/429) ([srenatus](https://github.com/srenatus))
+- fix loading order of plugins [\#428](https://github.com/chef/inspec/pull/428) ([arlimus](https://github.com/arlimus))
+- Update dsl\_inspec.rst [\#427](https://github.com/chef/inspec/pull/427) ([GeoFruck](https://github.com/GeoFruck))
+
+## [v0.10.1](https://github.com/chef/inspec/tree/v0.10.1) (2016-02-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.10.0...v0.10.1)
+
+**Fixed bugs:**
+
 - wrap basecli in inspec module [\#425](https://github.com/chef/inspec/pull/425) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.10.1 [\#426](https://github.com/chef/inspec/pull/426) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.10.0](https://github.com/chef/inspec/tree/v0.10.0) (2016-02-05)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.9.11...v0.10.0)
