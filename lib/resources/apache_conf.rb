@@ -40,6 +40,14 @@ class ApacheConf < Inspec.resource(1)
     res
   end
 
+  def method_missing(name)
+    # ensure params are loaded
+    @params || read_content
+
+    # extract values
+    @params[name.to_s] unless @params.nil?
+  end
+
   def filter_comments(data)
     content = ''
     data.each_line do |line|
