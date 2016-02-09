@@ -92,7 +92,7 @@ class RegistryKey < Inspec.resource(1)
   end
 
   def registry_key(path)
-    return @registy_cache if defined?(@registy_cache)
+    return @registry_cache if defined?(@registry_cache)
 
     # load registry key and all properties
     script = <<-EOH
@@ -115,16 +115,16 @@ class RegistryKey < Inspec.resource(1)
     # cannot rely on exit code for now, successful command returns exit code 1
     # return nil if cmd.exit_status != 0, try to parse json
     begin
-      @registy_cache = JSON.parse(cmd.stdout)
+      @registry_cache = JSON.parse(cmd.stdout)
       # convert keys to lower case
-      @registy_cache = Hash[@registy_cache.map do |key, value|
+      @registry_cache = Hash[@registry_cache.map do |key, value|
         [key.downcase, value]
       end]
     rescue JSON::ParserError => _e
-      @registy_cache = nil
+      @registry_cache = nil
     end
 
-    @registy_cache
+    @registry_cache
   end
 
   # Registry key value types
