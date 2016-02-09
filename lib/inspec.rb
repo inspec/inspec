@@ -25,7 +25,3 @@ require 'utils/base_cli'
 # targets
 require 'inspec/resource'
 require 'inspec/plugins'
-
-# Load all plugins on startup
-ctl = Inspec::PluginCtl.new
-ctl.list.each { |x| ctl.load(x) }
