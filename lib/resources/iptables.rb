@@ -31,8 +31,8 @@ class IpTables < Inspec.resource(1)
   "
 
   def initialize(params = {})
-    @table = params[:table] || nil
-    @chain = params[:chain] || nil
+    @table = params[:table]
+    @chain = params[:chain]
 
     # we're done if we are on linux
     return if inspec.os.linux?
@@ -43,29 +43,26 @@ class IpTables < Inspec.resource(1)
   end
 
   def has_rule?(rule = nil, _table = nil, _chain = nil)
-    found = false
-    retrieve_rules.each { |line|
-      # checks if the rule is part of the ruleset
-      # for now, we expect an excact match
-      found = true if line.casecmp(rule) == 0
-    }
-    found
+    # checks if the rule is part of the ruleset
+    # for now, we expect an exact match
+    retrieve_rules.any? { |line| line.casecmp(rule) == 0 }
   end
 
   def retrieve_rules
     return @iptables_cache if defined?(@iptables_cache)
 
     # construct iptables command to read all rules
-    @table.nil? ? table_cmd = '' : table_cmd = " -t #{@table} "
-    @chain.nil? ? chain_cmd = '' : chain_cmd = " #{@chain}"
-    cmd = inspec.command(format('iptables %s -S %s', table_cmd, chain_cmd).strip)
+    table_cmd = "-t #{@table}" if @table
+    iptables_cmd = format('iptables %s -S %s', table_cmd, @chain).strip
+
+    cmd = inspec.command(iptables_cmd)
     return [] if cmd.exit_status.to_i != 0
 
     # split rules, returns array or rules
-    @iptables_cache = cmd.stdout.chomp.split("\n")
+    @iptables_cache = cmd.stdout.split("\n").map(&:strip)
   end
 
   def to_s
-    format('Iptables %s %s', @table.nil? ? '' : "table: #{@table}", @chain.nil? ? '' : "chain: #{@chain}").strip
+    format('Iptables %s %s', @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
   end
 end
