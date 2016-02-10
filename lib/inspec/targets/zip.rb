@@ -12,18 +12,18 @@ module Inspec::Targets
       File.file?(target) and target.end_with?('.zip')
     end
 
-    def content(input, files, rootdir = nil, opts = {})
-      content = []
+    def content(input, path, rootdir = nil, opts = {})
+      content = nil
       ::Zip::InputStream.open(input) do |io|
         while (entry = io.get_next_entry)
-          next if !files.include?(entry.name.gsub(rootdir, ''))
-          h = {
+          next unless path == entry.name.gsub(rootdir, '')
+          content = {
             # NB if some file is empty, return empty-string, not nil
             content: io.read || '',
             type: opts[:as] || :test,
             ref: entry.name,
           }
-          content.push(h)
+          abort
         end
       end
       content

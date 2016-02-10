@@ -13,7 +13,7 @@ module Inspec::Targets
 
     attr_reader :files
 
-    def initialize(target, _opts)
+    def initialize(target, _opts = {})
       @base_folder = target
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]

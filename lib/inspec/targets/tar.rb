@@ -30,22 +30,20 @@ module Inspec::Targets
       [files, rootdir]
     end
 
-    def content(input, files, rootdir = nil, opts = {})
-      content = []
+    def content(input, path, rootdir = nil, opts = {})
+      content = nil
       Gem::Package::TarReader.new(Zlib::GzipReader.open(input)) do |tar|
         tar.each do |entry|
           if entry.directory?
             # nothing to do
           elsif entry.file?
-            if files.include?(entry.full_name.gsub(rootdir, ''))
-              h = {
-                # NB if some file is empty, return empty-string, not nil
-                content: entry.read || '',
-                type: opts[:as] || :test,
-                ref: entry.full_name,
-              }
-              content.push(h)
-            end
+            next unless path == entry.full_name.gsub(rootdir, '')
+            content = {
+              # NB if some file is empty, return empty-string, not nil
+              content: entry.read || '',
+              type: opts[:as] || :test,
+              ref: entry.full_name,
+            }
           elsif entry.header.typeflag == '2'
             # ignore symlinks for now
           end

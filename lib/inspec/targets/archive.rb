@@ -10,7 +10,7 @@ module Inspec::Targets
   class ArchiveHelper < DirsResolver
     attr_reader :files
 
-    def initialize(target, _opts)
+    def initialize(target, _opts = {})
       @target = target
       files, @rootdir = structure(target)
 
@@ -27,7 +27,7 @@ module Inspec::Targets
     def resolve(path, opts = {})
       o = (opts || {})
       o[:base_folder] = @target
-      content(@target, [path], @rootdir, o)
+      content(@target, path, @rootdir, o)
     end
   end
 end
