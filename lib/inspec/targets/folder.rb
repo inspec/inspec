@@ -6,22 +6,24 @@ require 'inspec/targets/dir'
 require 'inspec/targets/file'
 
 module Inspec::Targets
-  class FolderHelper
+  class FolderHelper < DirsResolver
     def handles?(target)
       File.directory?(target)
     end
 
-    def resolve(target, _opts = {})
+    def get_files(target)
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
       prefix = File.join(target, '')
-      files = files.map { |x| x.sub(prefix, '') }
+      files.map { |x| x.sub(prefix, '') }
+    end
+
+    def resolve(target, _opts = {})
       # get the dirs helper
-      helper = DirsHelper.get_handler(files)
-      if helper.nil?
-        fail "Don't know how to handle folder #{target}"
-      end
+      files = get_files(target)
+      helper = DirsHelper.get_handler(files) ||
+               fail("Don't know how to handle folder #{target}")
 
       # get all test file contents
       file_handler = Inspec::Targets.modules['file']
