@@ -8,7 +8,7 @@ require 'inspec/targets/archive'
 
 module Inspec::Targets
   class TarHelper < ArchiveHelper
-    def handles?(target)
+    def self.handles?(target)
       File.file?(target) && target.end_with?('.tar.gz', '.tgz')
     end
 
@@ -59,5 +59,5 @@ module Inspec::Targets
     end
   end
 
-  Inspec::Targets.add_module('tar', TarHelper.new)
+  Inspec::Targets.add_module('tar', TarHelper)
 end

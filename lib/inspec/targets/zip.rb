@@ -8,7 +8,7 @@ require 'inspec/targets/archive'
 
 module Inspec::Targets
   class ZipHelper < ArchiveHelper
-    def handles?(target)
+    def self.handles?(target)
       File.file?(target) and target.end_with?('.zip')
     end
 
@@ -51,5 +51,5 @@ module Inspec::Targets
     end
   end
 
-  Inspec::Targets.add_module('zip', ZipHelper.new)
+  Inspec::Targets.add_module('zip', ZipHelper)
 end
