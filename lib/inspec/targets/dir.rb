@@ -22,6 +22,16 @@ module Inspec::Targets
     end
   end
 
+  # Base class for all directory resolvers. I.e. any target helper that
+  # takes a directory/archive/... and ultimately calls DirsHelper to resolve it.
+  #
+  # These resolvers must implement the required methods of this class.
+  class DirsResolver
+    def get_files(_target)
+      fail NotImplementedError, "Directory resolver #{self.class} must implement #get_files"
+    end
+  end
+
   # InSpec profile Loader
   # Previous versions used the `test` directory instead of the new `controls`
   # directory. Usage of the test directory is deprecated and not recommended

@@ -4,24 +4,28 @@
 
 require 'rubygems/package'
 require 'zlib'
+require 'inspec/targets/dir'
 
 module Inspec::Targets
-  class ArchiveHelper
-    def resolve(target, _opts = {})
+  class ArchiveHelper < DirsResolver
+    def get_files(target)
       files, rootdir = structure(target)
 
       # remove trailing slashes
       files = files.collect { |f| f.chomp('/') }
 
       # remove leading directory
-      files = files.collect { |f|
+      files.collect { |f|
         Pathname(f).relative_path_from(Pathname(rootdir)).to_s
       }
+    end
 
-      helper = DirsHelper.get_handler(files)
-      if helper.nil?
-        fail "Don't know how to handle folder #{target}"
-      end
+    def resolve(target, _opts = {})
+      files = get_files(target)
+      helper = DirsHelper.get_handler(files) ||
+               fail("Don't know how to handle folder #{target}")
+
+      _, rootdir = structure(target)
 
       res = {
         test:     collect(helper, files, :get_filenames),
