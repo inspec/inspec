@@ -60,6 +60,7 @@ module Inspec::Targets
         }
       end
 
+      return handler.resolve_contents(res) if handler.respond_to?(:resolve_contents)
       res
     end
 
