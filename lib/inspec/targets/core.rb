@@ -14,9 +14,8 @@ module Inspec
 
     def self.find_handler(target)
       resolver = find_resolver(target)
-      return resolver unless resolver.is_a?DirsResolver
-      files = resolver.get_files(target)
-      DirsHelper.get_handler(files)
+      return resolver unless resolver.ancestors.include? DirsResolver
+      resolver.from_target(target).handler
     end
 
     def self.resolve(targets, opts = {})
