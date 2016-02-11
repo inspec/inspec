@@ -173,6 +173,7 @@ module Inspec
 
     def self.from_contents(contents, logger = nil)
       m = contents.find { |a| a[:type] == :metadata }
+      return nil unless m
       from_ref(m[:ref], m[:content], logger)
     end
 

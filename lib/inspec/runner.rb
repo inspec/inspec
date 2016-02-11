@@ -64,7 +64,7 @@ module Inspec
       end.flatten
 
       meta = Metadata.from_contents(items, @conf[:logger])
-      @conf[:logger].warn 'invalid metadata' unless meta.valid?
+      @conf[:logger].warn 'invalid metadata' unless meta && meta.valid?
 
       add_test_contents(items)
     end
