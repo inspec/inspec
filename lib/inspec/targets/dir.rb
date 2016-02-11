@@ -18,7 +18,7 @@ module Inspec::Targets
     extend Modulator
 
     def self.get_handler(paths)
-      modules.values.find { |x| x.handles?(paths) }
+      modules.values.reverse.find { |x| x.handles?(paths) }
     end
   end
 
@@ -27,8 +27,46 @@ module Inspec::Targets
   #
   # These resolvers must implement the required methods of this class.
   class DirsResolver
-    def get_files(_target)
-      fail NotImplementedError, "Directory resolver #{self.class} must implement #get_files"
+    def files
+      fail NotImplementedError, "Directory resolver #{self.class} must implement #files"
+    end
+
+    def resolve(_path)
+      fail NotImplementedError, "Directory resolver #{self.class} must implement #content"
+    end
+
+    def handler
+      DirsHelper.get_handler(files) ||
+        fail("Don't know how to handle #{self}")
+    end
+
+    def self.from_target(target)
+      new(target)
+    end
+
+    def self.resolve(target, opts)
+      r = new(target, opts)
+      handler = r.handler
+      files = r.files
+
+      res = []
+      {
+        test:     __collect(handler, :get_filenames, files),
+        library:  __collect(handler, :get_libraries, files),
+        metadata: __collect(handler, :get_metadata, files),
+      }.each do |as, list|
+        Array(list).each { |path|
+          res.push(r.resolve(path, as: as))
+        }
+      end
+
+      return handler.resolve_contents(res) if handler.respond_to?(:resolve_contents)
+      res
+    end
+
+    def self.__collect(handler, getter, files)
+      return [] unless handler.respond_to? getter
+      handler.method(getter).call(files)
     end
   end
 
@@ -97,7 +135,9 @@ module Inspec::Targets
     end
 
     def get_filenames(paths)
-      paths.find_all { |x| x.end_with?('.rb') and !x.include?('/') }
+      # TODO: eventually remove the metadata.rb exception here
+      # when we have fully phased out metadata.rb in 1.0
+      paths.find_all { |x| x.end_with?('.rb') && !x.include?('/') && x != 'metadata.rb' }
     end
   end
   DirsHelper.add_module('flat-ruby-folder', FlatDir.new)

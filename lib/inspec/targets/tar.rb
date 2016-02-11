@@ -8,7 +8,7 @@ require 'inspec/targets/archive'
 
 module Inspec::Targets
   class TarHelper < ArchiveHelper
-    def handles?(target)
+    def self.handles?(target)
       File.file?(target) && target.end_with?('.tar.gz', '.tgz')
     end
 
@@ -30,22 +30,20 @@ module Inspec::Targets
       [files, rootdir]
     end
 
-    def content(input, files, rootdir = nil, opts = {})
-      content = []
+    def content(input, path, rootdir = nil, opts = {})
+      content = nil
       Gem::Package::TarReader.new(Zlib::GzipReader.open(input)) do |tar|
         tar.each do |entry|
           if entry.directory?
             # nothing to do
           elsif entry.file?
-            if files.include?(entry.full_name.gsub(rootdir, ''))
-              h = {
-                # NB if some file is empty, return empty-string, not nil
-                content: entry.read || '',
-                type: opts[:as] || :test,
-                ref: entry.full_name,
-              }
-              content.push(h)
-            end
+            next unless path == entry.full_name.gsub(rootdir, '')
+            content = {
+              # NB if some file is empty, return empty-string, not nil
+              content: entry.read || '',
+              type: opts[:as] || :test,
+              ref: entry.full_name,
+            }
           elsif entry.header.typeflag == '2'
             # ignore symlinks for now
           end
@@ -59,5 +57,5 @@ module Inspec::Targets
     end
   end
 
-  Inspec::Targets.add_module('tar', TarHelper.new)
+  Inspec::Targets.add_module('tar', TarHelper)
 end

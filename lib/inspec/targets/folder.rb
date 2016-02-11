@@ -7,49 +7,32 @@ require 'inspec/targets/file'
 
 module Inspec::Targets
   class FolderHelper < DirsResolver
-    def handles?(target)
+    def self.handles?(target)
       File.directory?(target)
     end
 
-    def get_files(target)
+    attr_reader :files
+
+    def initialize(target, _opts = {})
+      @base_folder = target
       # find all files in the folder
       files = Dir[File.join(target, '**', '*')]
       # remove the prefix
       prefix = File.join(target, '')
-      files.map { |x| x.sub(prefix, '') }
+      @files = files.map { |x| x.sub(prefix, '') }
+      @file_handler = Inspec::Targets.modules['file']
     end
 
-    def resolve(target, _opts = {})
-      # get the dirs helper
-      files = get_files(target)
-      helper = DirsHelper.get_handler(files) ||
-               fail("Don't know how to handle folder #{target}")
-
-      # get all test file contents
-      file_handler = Inspec::Targets.modules['file']
-      res = {
-        test:     collect(helper, files, :get_filenames),
-        library:  collect(helper, files, :get_libraries),
-        metadata: collect(helper, files, :get_metadata),
-      }.map { |as, list|
-        file_handler.resolve_all(list, base_folder: target, as: as)
-      }
-
-      # flatten the outer list layer
-      res.inject(&:+)
+    def resolve(path, opts = {})
+      o = (opts || {})
+      o[:base_folder] = @base_folder
+      @file_handler.resolve(path, o)
     end
 
     def to_s
       'Folder Loader'
     end
-
-    private
-
-    def collect(helper, files, getter)
-      return [] unless helper.respond_to? getter
-      helper.method(getter).call(files)
-    end
   end
 
-  Inspec::Targets.add_module('folder', FolderHelper.new)
+  Inspec::Targets.add_module('folder', FolderHelper)
 end
