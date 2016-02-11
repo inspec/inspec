@@ -35,7 +35,8 @@ module Inspec
     # @return [Inspec::Targets::*] the handler for this target
     def self.find_handler(target)
       resolver = find_resolver(target)
-      return resolver unless resolver.ancestors.include? DirsResolver
+      return resolver unless resolver.is_a?(Module) &&
+                             resolver.ancestors.include?(DirsResolver)
       resolver.from_target(target).handler
     end
 
