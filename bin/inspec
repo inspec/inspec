@@ -129,8 +129,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   option :format, type: :string, default: Inspec::NoSummaryFormatter, hide: true
   def shell_func
     diagnose
+    o = opts.dup
+    o[:logger] = Logger.new(STDOUT)
+    o[:logger].level = get_log_level(o.log_level)
 
-    runner = Inspec::Runner.new(opts)
+    runner = Inspec::Runner.new(o)
     Inspec::Shell.new(runner).start
   rescue RuntimeError => e
     puts e.message
