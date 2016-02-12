@@ -84,7 +84,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def archive(path)
     diagnose
 
-    o = options.dup
+    o = opts.dup
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
 
