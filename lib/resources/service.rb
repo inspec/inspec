@@ -296,10 +296,15 @@ class SysV < ServiceManager
     # on rhel via: 'chkconfig --list', is not installed by default
     # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
     enabled_services_cmd = inspec.command('find /etc/rc*.d -name S*')
-    enabled_services = enabled_services_cmd.stdout.split("\n").select { |line|
-      /(^.*#{service_name}.*)/.match(line)
-    }
-    enabled = !enabled_services.empty?
+    service_line = %r{rc(?<runlevel>[0-6])\.d/S[^/]*?#{Regexp.escape service_name}$}
+    all_services = enabled_services_cmd.stdout.split("\n").map { |line|
+      service_line.match(line)
+    }.compact
+    enabled = !all_services.empty?
+
+    # Determine a list of runlevels which this service is activated for
+    runlevels = Hash.new(false)
+    all_services.each { |x| runlevels[x[:runlevel].to_i] = true }
 
     # check if service is really running
     # service throws an exit code if the service is not installed or
@@ -313,6 +318,7 @@ class SysV < ServiceManager
       installed: true,
       running: running,
       enabled: enabled,
+      runlevels: runlevels,
       type: 'sysv',
     }
   end
