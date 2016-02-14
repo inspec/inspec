@@ -6,6 +6,7 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Service' do
+  let(:runlevels) { {0=>false, 1=>false, 2=>true, 3=>true, 4=>true, 5=>true, 6=>false} }
 
   # windows
   it 'verify service parsing' do
@@ -58,7 +59,7 @@ describe 'Inspec::Resources::Service' do
   # centos 6 with sysv
   it 'verify centos 6 package parsing' do
     resource = MockLoader.new(:centos6).load_resource('service', 'sshd')
-    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, runlevels: runlevels, type: 'sysv' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -67,7 +68,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify centos 6 package parsing with default sysv_service' do
     resource = MockLoader.new(:centos6).load_resource('sysv_service', 'sshd')
-    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, runlevels: runlevels, type: 'sysv' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -125,7 +126,7 @@ describe 'Inspec::Resources::Service' do
   # debian 7 with systemv
   it 'verify debian 7 package parsing' do
     resource = MockLoader.new(:debian7).load_resource('service', 'sshd')
-    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, runlevels: runlevels, type: 'sysv' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -173,7 +174,7 @@ describe 'Inspec::Resources::Service' do
   # wrlinux
   it 'verify wrlinux package parsing' do
     resource = MockLoader.new(:wrlinux).load_resource('service', 'sshd')
-    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, type: 'sysv' }
+    srv = { name: 'sshd', description: nil, installed: true, running: true, enabled: true, runlevels: runlevels, type: 'sysv' }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -186,5 +187,46 @@ describe 'Inspec::Resources::Service' do
     resource = MockLoader.new(:undefined).load_resource('service', 'dhcp')
     _(resource.installed?).must_equal false
     _(resource.info).must_equal nil
+  end
+
+  # runlevel detection
+  describe 'runlevels on centos 6 (system V)' do
+    let(:service) { MockLoader.new(:centos6).load_resource('service', 'sshd') }
+
+    it 'grabs all runlevels' do
+      service.runlevels.keys.must_equal [0, 1, 2, 3, 4, 5, 6]
+    end
+
+    it 'grabs runlevels via filter nil' do
+      service.runlevels(nil).keys.must_equal [0, 1, 2, 3, 4, 5, 6]
+    end
+
+    it 'grabs runlevels by number' do
+      service.runlevels(3).keys.must_equal [3]
+    end
+
+    it 'grabs runlevels by multiple numbers' do
+      service.runlevels(3, 4, 8).keys.must_equal [3, 4]
+    end
+
+    it 'grabs runlevels via regex' do
+      service.runlevels(/[5-9]/).keys.must_equal [5, 6]
+    end
+
+    it 'checks enabled true if all services are enabled' do
+      service.runlevels(2, 4).enabled?.must_equal true
+    end
+
+    it 'checks enabled false if some services are not enabled' do
+      service.runlevels(1, 4).enabled?.must_equal false
+    end
+
+    it 'checks disabled true if all services are disabled' do
+      service.runlevels(0, 1).disabled?.must_equal true
+    end
+
+    it 'checks disabled false if some services are not disabled' do
+      service.runlevels(0, 4).enabled?.must_equal false
+    end
   end
 end
