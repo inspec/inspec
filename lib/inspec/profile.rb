@@ -5,9 +5,12 @@
 
 require 'inspec/metadata'
 require 'pathname'
+require 'forwardable'
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
+    extend Forwardable
+
     def self.from_path(path, options = nil)
       opt = {}
       options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
@@ -15,37 +18,37 @@ module Inspec
       Profile.new(opt)
     end
 
-    attr_reader :params
     attr_reader :path
     attr_reader :metadata
+    attr_reader :content
+    attr_reader :name
+
+    def_delegator :@metadata, :params
 
     # rubocop:disable Metrics/AbcSize
     def initialize(options = nil)
       @options = options || {}
       @logger = options[:logger] || Logger.new(nil)
       @path = @options[:path]
-      @profile_id = options[:id]
-
-      @runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: @options.delete(:test_collector),
-      )
 
       # we're checking a profile, we don't care if it runs on the host machine
-      @options[:ignore_supports] = true
-      tests, libs, metadata = @runner.add_tests([@path], @options)
-      @content = tests + libs + metadata
+      @content = Inspec::Targets.resolve(path, ignore_supports: true)
 
       # NB if you want to check more than one profile, use one
       # Inspec::Profile#from_file per profile
-      @metadata_source = metadata.first
-      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @profile_id, @logger)
-      @params = @metadata.params
-      @profile_id ||= params[:name]
-      @params[:name] = @profile_id
-      @params[:rules] = rules = {}
+      @metadata_source = content.find { |a| a[:type] == :metadata }
 
+      # read profile_id from metadata as the sole source of this information
+      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @logger)
+      @name = params[:name]
+
+      @runner = Runner.new(
+        backend: :mock,
+        test_collector: @options.delete(:test_collector),
+      )
+      @runner.add_test_contents(content)
+
+      params[:rules] = rules = {}
       @runner.rules.each do |id, rule|
         file = rule.instance_variable_get(:@__file)
         rules[file] ||= {}
@@ -62,7 +65,7 @@ module Inspec
     end
 
     def info
-      res = @params.dup
+      res = params.dup
       rules = {}
       res[:rules].each do |gid, group|
         next if gid.to_s.empty?
@@ -138,7 +141,7 @@ module Inspec
       @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
 
       # extract profile name
-      result[:summary][:profile] = @metadata.params[:name]
+      result[:summary][:profile] = params[:name]
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
@@ -155,7 +158,7 @@ module Inspec
       end
 
       # iterate over hash of groups
-      @params[:rules].each { |group, controls|
+      params[:rules].each { |group, controls|
         @logger.info "Verify all controls in #{group}"
         controls.each { |id, control|
           sfile, sline = control[:source_location]
@@ -177,13 +180,13 @@ module Inspec
     end
 
     def rules_count
-      @params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
+      params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
     end
 
     # generates a archive of a folder profile
     # assumes that the profile was checked before
     def archive(opts) # rubocop:disable Metrics/AbcSize
-      profile_name = @params[:name]
+      profile_name = params[:name]
 
       ext = opts[:zip] ? 'zip' : 'tar.gz'
 

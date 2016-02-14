@@ -18,7 +18,6 @@ module Inspec
     attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
-      @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
 
@@ -50,7 +49,7 @@ module Inspec
       assets = Inspec::Targets.resolve(test, @conf)
       meta_assets = assets.find_all { |a| a[:type] == :metadata }
       metas = meta_assets.map do |x|
-        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
+        Inspec::Metadata.from_ref(x[:ref], x[:content], nil, @conf[:logger])
       end
       metas.each do |meta|
         return [] unless ignore_supports || meta.supports_transport?(@backend)
@@ -64,9 +63,15 @@ module Inspec
         add_test_profile(test, options[:ignore_supports])
       end.flatten
 
+      meta = Metadata.from_contents(items, @conf[:logger])
+      @conf[:logger].warn 'invalid metadata' unless meta && meta.valid?
+
+      add_test_contents(items)
+    end
+
+    def add_test_contents(items)
       tests = items.find_all { |i| i[:type] == :test }
       libs = items.find_all { |i| i[:type] == :library }
-      meta = items.find_all { |i| i[:type] == :metadata }
 
       # Ensure each test directory exists on the $LOAD_PATH. This
       # will ensure traditional RSpec-isms like `require 'spec_helper'`
@@ -83,12 +88,10 @@ module Inspec
       tests.flatten.each do |test|
         add_content(test, libs)
       end
-
-      [tests, libs, meta]
     end
 
     def create_context
-      Inspec::ProfileContext.new(@profile_id, @backend)
+      Inspec::ProfileContext.new(@backend)
     end
 
     def add_content(test, libs)

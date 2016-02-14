@@ -11,27 +11,15 @@ describe 'metadata with supported operating systems' do
   describe 'running on ubuntu 14.04' do
     let (:backend) { MockLoader.new(:ubuntu1404).backend }
 
-    it 'finalizes a loaded metadata via Profile ID' do
-      res = Inspec::Metadata.from_yaml('mock', '---', nil)
-      Inspec::Metadata.finalize(res, 'mock')
-      res.params[:name].must_equal('mock')
-    end
-
-    it 'finalizes a loaded metadata via Profile ID and overwrites the ID' do
-      res = Inspec::Metadata.from_yaml('mock', "---\nname: hello", nil)
-      Inspec::Metadata.finalize(res, 'mock')
-      res.params[:name].must_equal('mock')
-    end
-
     it 'finalizes a loaded metadata by turning strings into symbols' do
-      res = Inspec::Metadata.from_yaml('mock', "---\nauthor: world", nil)
-      Inspec::Metadata.finalize(res, 'mock')
+      res = Inspec::Metadata.from_yaml('mock', "---\nauthor: world")
+      Inspec::Metadata.finalize(res)
       res.params[:author].must_equal('world')
     end
 
     it 'loads the support field from metadata' do
       res = Inspec::Metadata.from_yaml('mock',
-        "---\nsupports:\n  - os: ubuntu", nil)
+        "---\nsupports:\n  - os: ubuntu")
       res.params[:supports].must_equal([{ 'os' => 'ubuntu' }])
     end
 
@@ -40,10 +28,10 @@ describe 'metadata with supported operating systems' do
     # @param [Type] params describe params
     # @return [Type] description of returned object
     def create_meta(params)
-      res = Inspec::Metadata.from_yaml('mock', "---", nil, logger)
+      res = Inspec::Metadata.from_yaml('mock', "---", logger)
       # manually inject supported parameters
       res.params[:supports] = params
-      Inspec::Metadata.finalize(res, 'mock')
+      Inspec::Metadata.finalize(res)
       res
     end
 
