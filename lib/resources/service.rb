@@ -4,13 +4,59 @@
 # author: Stephan Renatus
 # license: All rights reserved
 
-# Usage:
-# describe service('dhcp') do
-#   it { should be_enabled }
-#   it { should be_installed }
-#   it { should be_running }
-# end
-#
+class Runlevels < Hash
+  attr_accessor :owner
+
+  def self.from_hash(owner, hash = {}, filter = nil)
+    res = Runlevels.new(owner)
+    filter = filter.first if filter.is_a?(Array) && filter.length <= 1
+
+    ks = case filter
+         when nil
+           hash.keys
+         when Regexp
+           hash.keys.find_all { |x| x.to_s =~ filter }
+         when Array
+           f = filter.map(&:to_s)
+           hash.keys.find_all { |x| f.include?(x.to_s) }
+         when Numeric
+           hash.keys.include?(filter) ? [filter] : []
+         else
+           hash.keys.find_all { |x| x == filter }
+         end
+
+    ks.each { |k| res[k] = hash[k] }
+    res
+  end
+
+  def initialize(owner, default = false)
+    @owner = owner
+    super(default)
+  end
+
+  def filter(f)
+    Runlevels.from_hash(owner, self, f)
+  end
+
+  # Check if all runlevels are enabled
+  #
+  # @return [boolean] true if all runlevels are enabled
+  def enabled?
+    values.all?
+  end
+
+  # Check if all runlevels are disabled
+  #
+  # @return [boolean] true if all runlevels are disabled
+  def disabled?
+    !values.any?
+  end
+
+  def to_s
+    "#{owner} runlevels #{keys.join(', ')}"
+  end
+end
+
 # We detect the init system for each operating system, based on the operating
 # system.
 #
@@ -28,6 +74,10 @@ class Service < Inspec.resource(1)
       it { should be_installed }
       it { should be_enabled }
       it { should be_running }
+    end
+
+    describe service('service_name').runlevels(3, 5) do
+      it { should be_enabled }
     end
   "
 
@@ -98,7 +148,7 @@ class Service < Inspec.resource(1)
     @cache ||= @service_mgmt.info(@service_name)
   end
 
-  # verifies the service is enabled
+  # verifies if the service is enabled
   def enabled?(_level = nil)
     return false if info.nil?
     info[:enabled]
@@ -114,6 +164,12 @@ class Service < Inspec.resource(1)
   def running?(_under = nil)
     return false if info.nil?
     info[:running]
+  end
+
+  # get all runlevels that are available and their configuration
+  def runlevels(*args)
+    return Runlevels.new(self) if info.nil? or info[:runlevels].nil?
+    Runlevels.from_hash(self, info[:runlevels], args)
   end
 
   def to_s
@@ -275,6 +331,8 @@ class Upstart < ServiceManager
 end
 
 class SysV < ServiceManager
+  RUNLEVELS = { 0=>false, 1=>false, 2=>false, 3=>false, 4=>false, 5=>false, 6=>false }.freeze
+
   def initialize(service_name, service_ctl = nil)
     @service_ctl ||= 'service'
     super
@@ -303,7 +361,7 @@ class SysV < ServiceManager
     enabled = !all_services.empty?
 
     # Determine a list of runlevels which this service is activated for
-    runlevels = Hash.new(false)
+    runlevels = RUNLEVELS.dup
     all_services.each { |x| runlevels[x[:runlevel].to_i] = true }
 
     # check if service is really running
