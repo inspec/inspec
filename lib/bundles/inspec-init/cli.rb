@@ -1,9 +1,9 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 
-module Generate
+module Init
   class CLI < Inspec::BaseCLI
-    namespace 'generate'
+    namespace 'init'
 
     # read template directoy
     template_dir = File.join(File.dirname(__FILE__), 'templates')
@@ -11,7 +11,7 @@ module Generate
       relative = Pathname.new(template).relative_path_from(Pathname.new(template_dir))
 
       # register command for the template
-      desc "#{relative} NAME", "Scaffolds a new #{relative}"
+      desc "#{relative} NAME", "Create a new #{relative}"
       option :overwrite, type: :boolean, default: false,
          desc: 'Overwrites existing directory'
       define_method relative.to_s.to_sym do |name|
@@ -24,7 +24,7 @@ module Generate
     # 1. iterate over all files
     # 2. read content in erb
     # 3. write to target
-    def generator(type, attributes = {}, options = {})
+    def generator(type, attributes = {}, options = {}) # rubocop:disable Metrics/AbcSize
       # path of this script
       dir = File.dirname(__FILE__)
       # look for template directory
@@ -33,7 +33,7 @@ module Generate
       template = File.join(base_dir, '**', '{*,.*}')
       # generate target path
       target = Pathname.new(Dir.pwd).join(attributes[:name])
-      puts "Generate new #{type} at #{mark_text(target)}"
+      puts "Create new #{type} at #{mark_text(target)}"
 
       # check that the directory does not exist
       if File.exist?(target) && !options['overwrite']
@@ -41,22 +41,24 @@ module Generate
         exit 1
       end
 
+      # ensure that target directory is available
+      FileUtils.mkdir_p(target)
+
       # iterate over files and write to target path
       Dir.glob(template) do |file|
         relative = Pathname.new(file).relative_path_from(Pathname.new(base_dir))
         destination = Pathname.new(target).join(relative)
-
         if File.directory?(file)
           li "Create directory #{mark_text(relative)}"
           FileUtils.mkdir_p(destination)
         elsif File.file?(file)
-          li "Generate file #{mark_text(relative)}"
+          li "Create file #{mark_text(relative)}"
           # read & render content
           content = render(File.read(file), attributes)
           # write file content
           File.write(destination, content)
         else
-          puts "ignore #{file}, because its not an file or directoy"
+          puts "Ignore #{file}, because its not an file or directoy"
         end
       end
     end
@@ -80,5 +82,5 @@ module Generate
   end
 
   # register the subcommand to Inspec CLI registry
-  Inspec::Plugins::CLI.add_subcommand(Generate::CLI, 'generate', 'generate SUBCOMMAND ...', 'Template commands', {})
+  Inspec::Plugins::CLI.add_subcommand(Init::CLI, 'init', 'init TEMPLATE ...', 'Scaffolds a new project', {})
 end
