@@ -6,6 +6,7 @@ AllCops:
   - 'test/**/*'
   - 'examples/**/*'
   - 'vendor/**/*'
+  - 'lib/bundles/inspec-init/templates/**/*'
 Documentation:
   Enabled: false
 AlignParameters:
