@@ -1,7 +1,27 @@
 # Change Log
 
-## [0.11.0](https://github.com/chef/inspec/tree/0.11.0) (2016-02-09)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.10.1...0.11.0)
+## [0.12.0](https://github.com/chef/inspec/tree/0.12.0) (2016-02-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.11.0...0.12.0)
+
+**Implemented enhancements:**
+
+- add runlevel support for System V services [\#455](https://github.com/chef/inspec/pull/455) ([arlimus](https://github.com/arlimus))
+- Add a init subcommand [\#454](https://github.com/chef/inspec/pull/454) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Windows 2008 isn't being detected. [\#346](https://github.com/chef/inspec/issues/346)
+- Fix two minor logging and config bugs in CLI [\#452](https://github.com/chef/inspec/pull/452) ([srenatus](https://github.com/srenatus))
+- bugfix: verify the target resolver before using it [\#449](https://github.com/chef/inspec/pull/449) ([arlimus](https://github.com/arlimus))
+- Fix iptables on CentOS6 + more tests for iptables \(plus small code improvements\) [\#442](https://github.com/chef/inspec/pull/442) ([srenatus](https://github.com/srenatus))
+
+**Merged pull requests:**
+
+- rework target to resolver connection [\#447](https://github.com/chef/inspec/pull/447) ([arlimus](https://github.com/arlimus))
+- separate directory resolver from target resolver [\#446](https://github.com/chef/inspec/pull/446) ([arlimus](https://github.com/arlimus))
+
+## [v0.11.0](https://github.com/chef/inspec/tree/v0.11.0) (2016-02-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.10.1...v0.11.0)
 
 **Implemented enhancements:**
 
@@ -11,12 +31,14 @@
 **Fixed bugs:**
 
 - File stats are not always working properly [\#430](https://github.com/chef/inspec/issues/430)
+- Inspec iptables should have\_rule tests not working [\#420](https://github.com/chef/inspec/issues/420)
 - Integration test for apache config [\#406](https://github.com/chef/inspec/issues/406)
 - rework auditd\_rules resource [\#312](https://github.com/chef/inspec/issues/312)
 - resource/auditd\_rules: update rule list format [\#309](https://github.com/chef/inspec/issues/309)
 
 **Merged pull requests:**
 
+- 0.11.0 [\#443](https://github.com/chef/inspec/pull/443) ([arlimus](https://github.com/arlimus))
 - Fix supermarket cli registration [\#441](https://github.com/chef/inspec/pull/441) ([chris-rock](https://github.com/chris-rock))
 - update to winrm 1.6.1 command scheme [\#439](https://github.com/chef/inspec/pull/439) ([arlimus](https://github.com/arlimus))
 - semantics: rename CLI plugins registry -\> commands [\#435](https://github.com/chef/inspec/pull/435) ([arlimus](https://github.com/arlimus))
