@@ -62,8 +62,11 @@ module Inspec::Targets
         }
       end
 
-      # fetch additional content
-      return handler.resolve_contents(res) if handler.respond_to?(:resolve_contents)
+      post_resolve(r, res, target)
+    end
+
+    def self.post_resolve(resolver, res, _target)
+      return resolver.handler.resolve_contents(res) if resolver.handler.respond_to?(:resolve_contents)
       res
     end
 
