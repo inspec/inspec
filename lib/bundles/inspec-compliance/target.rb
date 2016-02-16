@@ -9,7 +9,7 @@ require 'uri'
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Compliance
   class ChefComplianceHelper < Inspec::Targets::UrlHelper
-    def handles?(target)
+    def self.handles?(target)
       # check for local scheme compliance://
       uri = URI(target)
       return unless URI(uri).scheme == 'compliance'
@@ -28,7 +28,7 @@ module Compliance
     end
 
     # generates proper url
-    def resolve(target, opts = {})
+    def self.resolve(target, opts = {})
       profile = get_profile_name(URI(target))
       # generates server url
       target = build_target_url(profile)
@@ -39,11 +39,11 @@ module Compliance
     end
 
     # extracts profile name from url
-    def get_profile_name(uri)
+    def self.get_profile_name(uri)
       uri.host + uri.path
     end
 
-    def build_target_url(target)
+    def self.build_target_url(target)
       owner, profile = target.split('/')
       config = Compliance::Configuration.new
       url = "#{config['server']}/owners/%owner_name%/compliance/%profile_name%/tar"
@@ -57,5 +57,5 @@ module Compliance
     end
   end
 
-  Inspec::Targets.add_module('chefcompliance', ChefComplianceHelper.new)
+  Inspec::Targets.add_module('chefcompliance', ChefComplianceHelper)
 end
