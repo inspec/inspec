@@ -2,7 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'inspec/targets/core'
+require 'inspec/plugins/target'
 require 'inspec/targets/file'
 require 'inspec/targets/folder'
 require 'inspec/targets/url'
