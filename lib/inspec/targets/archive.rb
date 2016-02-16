@@ -8,7 +8,7 @@ require 'inspec/targets/dir'
 
 module Inspec::Targets
   class ArchiveHelper < DirsResolver
-    attr_reader :files
+    attr_reader :files, :target
 
     def initialize(target, _opts = {})
       @target = target

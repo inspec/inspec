@@ -8,15 +8,13 @@ require 'open-uri'
 require 'inspec/targets/zip'
 
 module Inspec::Targets
-
   # This URL helper is able to download a tar.gz or zip from remote endpoint
   # and executes it locally.
   # It is implemented as a wrapper method around the TarHelper and ZipHelper
-  class UrlHelper
-
+  class UrlHelper < DirsResolver
     # by default, this url helper only handles http or https urls with
     # tar.gz or zip endings
-    def handles?(target)
+    def self.handles?(target)
       uri = URI.parse(target)
       return false if uri.nil? or uri.scheme.nil?
       # abort if the target does not start with http or https
@@ -28,43 +26,20 @@ module Inspec::Targets
       false
     end
 
-    def from_target(target, opts = {})
+    def self.from_target(target, opts = {})
       find_archive_helper(target, opts)
     end
 
-    # this resolves a target, eg. directory or tarball
-    def resolve(target, opts)
-      r = from_target(target, opts)
-      handler = r.handler
-      files = r.files
-
-      res = []
-      {
-        test:     __collect(handler, :get_filenames, files),
-        library:  __collect(handler, :get_libraries, files),
-        metadata: __collect(handler, :get_metadata, files),
-      }.each do |as, list|
-        Array(list).each { |path|
-          res.push(r.resolve(path, as: as))
-        }
-      end
-
-      # TODO, we need some pre- and post-hooks
-      delete_tmp_archive
-
+    # override default post resolve
+    def self.post_resolve(resolver, res, _target)
+      # removes an file as post hook
+      File.unlink(resolver.target) if File.exist?(resolver.target)
       res
     end
 
-    def __collect(handler, getter, files)
-      return [] unless handler.respond_to? getter
-      handler.method(getter).call(files)
-    end
-
-    private
-
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
-    def download_archive(url, archive, opts)
+    def self.download_archive(url, archive, opts)
       archive.binmode
       remote = open(
         url,
@@ -80,7 +55,7 @@ module Inspec::Targets
     end
 
     # selects the ZIP or TAR helper, based on the mime-type
-    def find_archive_helper(url, opts = {})
+    def self.find_archive_helper(url, opts = {})
       archive, content_type = download_archive(url, Tempfile.new(['inspec-dl-', '.tar.gz']), opts)
       # replace extension with zip if we detected a zip content type
       if ['application/x-zip-compressed', 'application/zip'].include?(content_type)
@@ -89,18 +64,11 @@ module Inspec::Targets
         new_path = pn.dirname.join(pn.basename.to_s.gsub('tar.gz', 'zip'))
         File.rename(pn.to_s, new_path.to_s)
         r = ZipHelper.new(new_path)
-        @unlink_path = new_path
       elsif ['application/x-gzip', 'application/gzip'].include?(content_type)
         # use tar helper as default (otherwise returns nil)
         r = TarHelper.new(archive.path)
-        @unlink_path = archive.path
       end
       r
-    end
-
-    # removes an file
-    def delete_tmp_archive
-      File.unlink(@unlink_path) if File.exist?(@unlink_path)
     end
 
     def to_s
@@ -108,5 +76,5 @@ module Inspec::Targets
     end
   end
 
-  Inspec::Targets.add_module('url', UrlHelper.new)
+  Inspec::Targets.add_module('url', UrlHelper)
 end
