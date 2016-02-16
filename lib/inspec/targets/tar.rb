@@ -12,6 +12,7 @@ module Inspec::Targets
       File.file?(target) && target.end_with?('.tar.gz', '.tgz')
     end
 
+    # gather all files that may be relevant
     def structure(input)
       files = []
       rootdir = ''
@@ -30,6 +31,7 @@ module Inspec::Targets
       [files, rootdir]
     end
 
+    # gather content for a specific file
     def content(input, path, rootdir = nil, opts = {})
       content = nil
       Gem::Package::TarReader.new(Zlib::GzipReader.open(input)) do |tar|

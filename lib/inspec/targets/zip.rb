@@ -12,6 +12,7 @@ module Inspec::Targets
       File.file?(target) and target.end_with?('.zip')
     end
 
+    # gather all files that may be relevant
     def structure(input)
       files = []
       rootdir = ''
@@ -29,6 +30,7 @@ module Inspec::Targets
       [files, rootdir]
     end
 
+    # gather content for a specific file
     def content(input, path, rootdir = nil, opts = {})
       content = nil
       ::Zip::InputStream.open(input) do |io|

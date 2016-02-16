@@ -6,6 +6,7 @@ require 'utils/modulator'
 
 module Inspec
   module Targets
+    # imports add_module function
     extend Modulator
 
     # Retrieve the resolver for a given target. Resolvers are any type of

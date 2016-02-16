@@ -24,6 +24,7 @@ module Inspec::Targets
       }
     end
 
+    # this fetches specific files from the archive
     def resolve(path, opts = {})
       o = (opts || {})
       o[:base_folder] = @target

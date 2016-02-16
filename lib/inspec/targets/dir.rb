@@ -31,6 +31,7 @@ module Inspec::Targets
       fail NotImplementedError, "Directory resolver #{self.class} must implement #files"
     end
 
+    # this resolves specific content from the directory or tarball
     def resolve(_path)
       fail NotImplementedError, "Directory resolver #{self.class} must implement #content"
     end
@@ -40,12 +41,13 @@ module Inspec::Targets
         fail("Don't know how to handle #{self}")
     end
 
-    def self.from_target(target)
-      new(target)
+    def self.from_target(target, opts = {})
+      new(target, opts)
     end
 
+    # this resolves a target, eg. directory or tarball
     def self.resolve(target, opts)
-      r = new(target, opts)
+      r = from_target(target, opts)
       handler = r.handler
       files = r.files
 
@@ -60,6 +62,7 @@ module Inspec::Targets
         }
       end
 
+      # fetch additional content
       return handler.resolve_contents(res) if handler.respond_to?(:resolve_contents)
       res
     end
