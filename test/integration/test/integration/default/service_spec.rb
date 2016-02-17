@@ -103,3 +103,18 @@ if os[:family] == 'centos'
     it { should_not be_running }
   end
 end
+
+# extra tests for sys-v runlevels
+if os[:family] == 'centos'
+  describe service('sshd').runlevels do
+    its('keys') { should include(2) }
+  end
+
+  describe service('sshd').runlevels(2, 4) do
+    it { should be_enabled }
+  end
+
+  describe service('sshd').runlevels(0, 1) do
+    it { should_not be_enabled }
+  end
+end
