@@ -1,5 +1,6 @@
 # encoding: utf-8
 # author: Stephan Renatus
+# author: Dominik Richter
 
 require 'helper'
 
