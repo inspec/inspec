@@ -3875,6 +3875,45 @@ The following examples show how to use this InSpec audit resource.
    end
 
 
+**Test the runlevels for Sys-V services**
+
+On targets using Sys-V services, the existing runlevels can also be checked:
+
+.. code-block:: ruby
+
+   describe service('sshd').runlevels do
+     its('keys') { should include(2) }
+   end
+
+   describe service('sshd').runlevels(2,4) do
+     it { should be_enabled }
+   end
+
+**Override the service manager**
+
+Under some circumstances, it may be required to override the logic in place to select the right service manager. For example, if you want to check a service managed by Upstart, you can explicitly do so:
+
+.. code-block:: ruby
+
+  describe upstart_service('service') do
+    it { should_not be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+This is also possible with `systemd_service`, `runit_service`, `sysv_service`, `bsd_service`, and `launchd_service`.
+You can also provide the control command, for when it is not to be found at the default location.
+For example, if your `sv` command for services managed by Runit is not in PATH:
+
+.. code-block:: ruby
+
+  describe runit_service('service', '/opt/chef/embedded/sbin/sv') do
+    it { should be_enabled }
+    it { should be_installed }
+    it { should be_running }
+  end
+
+
 ssh_config
 =====================================================
 Use the ``ssh_config`` |inspec resource| to test |openssh| |ssh| client configuration data located at ``/etc/ssh/ssh_config`` on |linux| and |unix| platforms.
