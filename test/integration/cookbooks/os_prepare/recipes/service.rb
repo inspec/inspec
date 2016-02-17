@@ -12,6 +12,8 @@ when 'ubuntu'
 
 when 'centos'
   # install runit for alternative service mgmt
-  include_recipe 'os_prepare::_runit_service_centos'
-  include_recipe 'os_prepare::_upstart_service_centos'
+  if node['platform_version'].to_i >= 6
+    include_recipe 'os_prepare::_runit_service_centos'
+    include_recipe 'os_prepare::_upstart_service_centos'
+  end
 end

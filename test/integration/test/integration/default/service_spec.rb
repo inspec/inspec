@@ -47,7 +47,7 @@ if os[:family] == 'ubuntu'
 end
 
 # extra tests for alt. runit on centos with runit_service
-if os[:family] == 'centos'
+if os[:family] == 'centos' && os[:release].to_i >= 6
   describe runit_service('running-runit-service') do
     it { should be_enabled }
     it { should be_installed }
@@ -105,7 +105,7 @@ if os[:family] == 'centos'
 end
 
 # extra tests for sys-v runlevels
-if os[:family] == 'centos'
+if os[:family] == 'centos' && os[:release].to_i <= 6
   describe service('sshd').runlevels do
     its('keys') { should include(2) }
   end
