@@ -7,7 +7,7 @@ require 'uri'
 # InSpec Target Helper for Supermarket
 module Supermarket
   class SupermarketHelper < Inspec::Targets::UrlHelper
-    def handles?(profile)
+    def self.handles?(profile)
       # check for local scheme supermarket://
       return unless URI(profile).scheme == 'supermarket'
 
@@ -18,15 +18,21 @@ module Supermarket
     end
 
     # generates proper url
-    def resolve(profile, opts = {})
+    def self.resolve(profile, opts = {})
       tool_info = Supermarket::API.find(profile)
-      super(tool_info['tool_source_url'], opts)
+
+      # support for default github url in supermarket
+      target = tool_info['tool_source_url']
+      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.match(target)
+      target = "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz" if m
+
+      super(target, opts)
     end
 
     def to_s
-      'Chef Compliance Profile Loader'
+      'Chef Supermarket Profile Loader'
     end
   end
 
-  Inspec::Targets.add_module('supermarket', Supermarket::SupermarketHelper.new)
+  Inspec::Targets.add_module('supermarket', Supermarket::SupermarketHelper)
 end

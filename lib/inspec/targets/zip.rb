@@ -12,23 +12,7 @@ module Inspec::Targets
       File.file?(target) and target.end_with?('.zip')
     end
 
-    def content(input, path, rootdir = nil, opts = {})
-      content = nil
-      ::Zip::InputStream.open(input) do |io|
-        while (entry = io.get_next_entry)
-          next unless path == entry.name.gsub(rootdir, '')
-          content = {
-            # NB if some file is empty, return empty-string, not nil
-            content: io.read || '',
-            type: opts[:as] || :test,
-            ref: entry.name,
-          }
-          abort
-        end
-      end
-      content
-    end
-
+    # gather all files that may be relevant
     def structure(input)
       files = []
       rootdir = ''
@@ -44,6 +28,24 @@ module Inspec::Targets
       # stores the rootdir of metadata.rb or inspec.yml
       rootdir += '/' if !rootdir.empty?
       [files, rootdir]
+    end
+
+    # gather content for a specific file
+    def content(input, path, rootdir = nil, opts = {})
+      content = nil
+      ::Zip::InputStream.open(input) do |io|
+        while (entry = io.get_next_entry)
+          next unless path == entry.name.gsub(rootdir, '')
+          content = {
+            # NB if some file is empty, return empty-string, not nil
+            content: io.read || '',
+            type: opts[:as] || :test,
+            ref: entry.name,
+          }
+          break
+        end
+      end
+      content
     end
 
     def to_s
