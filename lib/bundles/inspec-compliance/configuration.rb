@@ -40,6 +40,7 @@ module Compliance
     # stores a hash to json
     def store
       File.open(@config_file, 'w') do |f|
+        f.chmod(0600)
         f.write(@config.to_json)
       end
     end
