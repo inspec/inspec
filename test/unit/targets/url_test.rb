@@ -92,7 +92,7 @@ describe Inspec::Targets::UrlHelper do
   describe 'with a tar.gz archive' do
     let (:url) { 'https://github.com/chef/inspec/archive/master.tar.gz' }
     let (:profile_path) { MockLoader.profile_tgz('complete-profile') }
-    let (:archive_path) { profile_path.sub(/.tgz$/, '')[1..-1] }
+    let (:archive_path) { profile_path.sub(/.tgz$/, '')[1..-1] + '/' }
 
     it 'resolves the url' do
       url_helper.expects(:download_archive).returns([File.new(profile_path), 'application/x-gzip'])
@@ -105,18 +105,18 @@ describe Inspec::Targets::UrlHelper do
 
       res[0][:type].must_equal :test
       res[0][:content].wont_be_empty
-      res[0][:ref].must_equal "#{archive_path}/controls/filesystem_spec.rb"
+      res[0][:ref].must_equal "#{archive_path}controls/filesystem_spec.rb"
 
       res[1][:type].must_equal :metadata
       res[1][:content].wont_be_empty
-      res[1][:ref].must_equal "#{archive_path}/inspec.yml"
+      res[1][:ref].must_equal "#{archive_path}inspec.yml"
     end
   end
 
   describe 'with a zip archive' do
     let (:url) { 'https://github.com/chef/inspec/archive/master.zip' }
     let (:profile_path) { MockLoader.profile_zip('complete-profile') }
-    let (:archive_path) { profile_path.sub(/.zip$/, '')[1..-1] }
+    let (:archive_path) { '' }
 
     it 'resolves the url' do
       url_helper.expects(:download_archive).returns([File.new(profile_path), 'application/zip'])
@@ -129,11 +129,11 @@ describe Inspec::Targets::UrlHelper do
 
       res[0][:type].must_equal :test
       res[0][:content].wont_be_empty
-      res[0][:ref].must_equal "#{archive_path}/controls/filesystem_spec.rb"
+      res[0][:ref].must_equal "#{archive_path}controls/filesystem_spec.rb"
 
       res[1][:type].must_equal :metadata
       res[1][:content].wont_be_empty
-      res[1][:ref].must_equal "#{archive_path}/inspec.yml"
+      res[1][:ref].must_equal "#{archive_path}inspec.yml"
     end
   end
 end

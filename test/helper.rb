@@ -15,6 +15,7 @@ SimpleCov.start do
 end
 
 require 'fileutils'
+require 'zip'
 
 require 'utils/base_cli'
 require 'inspec/targets'
@@ -265,7 +266,11 @@ class MockLoader
     path = "#{home}/mock/profiles/#{name}"
     dst = "#{path}.zip"
     FileUtils.rm(dst) if File.file?(dst)
-    `zip #{dst} #{path}`
+    Zip::File.open(dst, 'w') do |zipfile|
+      Dir["#{path}/**/**"].reject { |f| f == dst }.each do |file|
+        zipfile.add(file.sub(path+'/', ''), file)
+      end
+    end
     dst
   end
 end
