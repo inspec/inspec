@@ -21,13 +21,45 @@ module Inspec
     def self.create_dsl(backend)
       # need the local name, to use it in the module creation further down
       my_registry = registry
-      Module.new do
-        my_registry.each do |id, r|
-          define_method id.to_sym do |*args|
-            r.new(backend, id.to_s, *args)
+      dsl_module = Module.new do
+        class_methods = Module.new do
+          # Use define_method here to keep the closure to my_registry open.
+          define_method(:reload_dsl) do
+            @dsl_methods ||= []
+            # Clear all existing DSL methods.
+            @dsl_methods.each {|id| remove_method(id) }
+            # Create new DSL methods.
+            my_registry.each do |id, r|
+              @dsl_methods << id
+              define_method id.to_sym do |*args|
+                r.new(backend, id.to_s, *args)
+              end
+            end
+          end
+
+          # Propagate this along the inclusion chain.
+          define_method(:included) do |klass|
+            super(klass)
+            klass.extend(class_methods)
           end
         end
+
+        # Simplified accessor for instance context.
+        def reload_dsl
+          self.class.reload_dsl
+        end
+
+        # Require a file and then reload the DSL in case there have been changes.
+        def require_plugin(path)
+          require(path)
+          reload_dsl
+        end
+
+        # Create the initial DSL.
+        extend class_methods
+        reload_dsl
       end
+      dsl_module
     end
   end
 
