@@ -189,7 +189,7 @@ end
 # @see: http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
 class Systemd < ServiceManager
   def initialize(inspec, service_ctl = nil)
-    @service_ctl ||= 'systemctl'
+    @service_ctl = service_ctl || 'systemctl'
     super
   end
 
@@ -270,7 +270,7 @@ end
 # @see: http://upstart.ubuntu.com
 class Upstart < ServiceManager
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'initctl'
+    @service_ctl = service_ctl || 'initctl'
     super
   end
 
@@ -334,7 +334,7 @@ class SysV < ServiceManager
   RUNLEVELS = { 0=>false, 1=>false, 2=>false, 3=>false, 4=>false, 5=>false, 6=>false }.freeze
 
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'service'
+    @service_ctl = service_ctl || 'service'
     super
   end
 
@@ -386,7 +386,7 @@ end
 # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
 class BSDInit < ServiceManager
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'service'
+    @service_ctl = service_ctl || 'service'
     super
   end
 
@@ -423,7 +423,7 @@ end
 
 class Runit < ServiceManager
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'sv'
+    @service_ctl = service_ctl || 'sv'
     super
   end
 
@@ -452,7 +452,7 @@ end
 # new launctl on macos 10.10
 class LaunchCtl < ServiceManager
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'launchctl'
+    @service_ctl = service_ctl || 'launchctl'
     super
   end
 
@@ -562,7 +562,7 @@ end
 # Solaris services
 class Svcs < ServiceManager
   def initialize(service_name, service_ctl = nil)
-    @service_ctl ||= 'svcs'
+    @service_ctl = service_ctl || 'svcs'
     super
   end
 
