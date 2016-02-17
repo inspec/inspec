@@ -14,12 +14,15 @@ SimpleCov.start do
   add_group 'Backends', 'lib/inspec/backend'
 end
 
+require 'fileutils'
+
 require 'utils/base_cli'
 require 'inspec/targets'
 require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
-
+require 'inspec/runner'
+require 'inspec/runner_mock'
 
 class MockLoader
   # collects emulation operating systems
@@ -237,6 +240,33 @@ class MockLoader
   def self.mock_command(resource, cmd, res = {})
     resource.inspec.backend
             .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
+  end
+
+  def self.home
+    File.join(File.dirname(__FILE__), 'unit')
+  end
+
+  def self.load_profile(name, opts = {})
+    opts[:test_collector] = Inspec::RunnerMock.new
+    dst = name
+    dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
+    Inspec::Profile.from_path(dst, opts)
+  end
+
+  def self.profile_tgz(name)
+    path = "#{home}/mock/profiles/#{name}"
+    dst = "#{path}.tgz"
+    FileUtils.rm(dst) if File.file?(dst)
+    `tar zcvf #{dst} #{path}`
+    dst
+  end
+
+  def self.profile_zip(name, opts = {})
+    path = "#{home}/mock/profiles/#{name}"
+    dst = "#{path}.zip"
+    FileUtils.rm(dst) if File.file?(dst)
+    `zip #{dst} #{path}`
+    dst
   end
 end
 
