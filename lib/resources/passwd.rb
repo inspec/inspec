@@ -20,16 +20,17 @@ class Passwd < Inspec.resource(1)
   desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
   example "
     describe passwd do
-      its('usernames') { should_not include 'forbidden_user' }
+      its('users') { should_not include 'forbidden_user' }
     end
 
-    describe passwd.uid(0) do
-      its('username') { should eq 'root' }
+    describe passwd.uids(0) do
+      its('users') { should eq 'root' }
       its('count') { should eq 1 }
     end
 
-    describe passwd.name(/oot/) do
-      ...
+    describe passwd.shells(/nologin/) do
+      # find all users with a nologin shell
+      its('users') { should_not include 'my_login_user' }
     end
   "
 
@@ -54,6 +55,7 @@ class Passwd < Inspec.resource(1)
     res = @params
     filters = ''
     hm.each do |attr, condition|
+      condition = condition.to_s if condition.is_a? Integer
       filters += " #{attr} = #{condition.inspect}"
       res = res.find_all do |line|
         case line[attr.to_s]
@@ -65,44 +67,46 @@ class Passwd < Inspec.resource(1)
       end
     end
     content = res.map { |x| x.values.join(':') }.join("\n")
-    Passwd.new(@path, content, @filters + filters)
+    Passwd.new(@path, content: content, filters: @filters + filters)
   end
 
   def usernames
-    warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead.'
+    warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
     users
   end
 
-  def users
-    map_data('user')
+  def user
+    warn '[DEPRECATION] `passwd.user` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
+    users
   end
 
-  def user(name)
-    filter(name: name)
+  def uid(x)
+    warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in version 1.0.0.'
+    uids(x)
   end
 
-  def passwords
-    map_data('password')
+  def users(name = nil)
+    name.nil? ? map_data('user') : filter(user: name)
   end
 
-  def password(pw)
-    filter(password: pw)
+  def passwords(password = nil)
+    password.nil? ? map_data('password') : filter(password: password)
   end
 
-  def uids
-    map_data('uid')
+  def uids(uid = nil)
+    uid.nil? ? map_data('uid') : filter(uid: uid)
   end
 
-  def uid(uid)
-    filter(uid: uid)
+  def gids(gid = nil)
+    gid.nil? ? map_data('gid') : filter(gid: gid)
   end
 
-  def gids
-    map_data('gid')
+  def homes(home = nil)
+    home.nil? ? map_data('home') : filter(home: home)
   end
 
-  def gid(gid)
-    filter(gid: gid)
+  def shells(shell = nil)
+    shell.nil? ? map_data('shell') : filter(shell: shell)
   end
 
   def to_s
@@ -117,8 +121,6 @@ class Passwd < Inspec.resource(1)
   private
 
   def map_data(id)
-    @params.map {|x|
-      x[id]
-    }
+    @params.map { |x| x[id] }
   end
 end

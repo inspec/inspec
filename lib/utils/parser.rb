@@ -20,7 +20,7 @@ module PasswdParser
   def parse_passwd_line(line)
     x = line.split(':')
     {
-      'name' => x.at(0),
+      'user' => x.at(0),
       'password' => x.at(1),
       'uid' => x.at(2),
       'gid' => x.at(3),
