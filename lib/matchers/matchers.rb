@@ -229,23 +229,22 @@ end
 RSpec::Matchers.define :cmp do |expected|
 
   def integer?(value)
-    return true if value =~ /\A\d+\Z/
-    false
+    !(value =~ /\A\d+\Z/).nil?
   end
 
   def float?(value)
-    return true if Float(value)
-    false
+    Float(value)
+    true
   rescue ArgumentError => _ex
     false
   end
 
   def octal?(value)
-    return true if value =~ /\A0+\d+\Z/
-    false
+    !(value =~ /\A0+\d+\Z/).nil?
   end
 
   match do |actual|
+    actual = actual[0] if actual.is_a?(Array) && !expected.is_a?(Array) && actual.length == 1
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       actual.casecmp(expected) == 0

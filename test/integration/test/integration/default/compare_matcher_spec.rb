@@ -18,4 +18,15 @@ if os.linux?
     its('LogLevel') { should cmp 'info' }
     its('LogLevel') { should cmp 'InfO' }
   end
+
+  describe passwd.passwords.uniq do
+    it { should eq ['x'] }
+    it { should cmp ['x'] }
+    it { should cmp 'x' }
+  end
+
+  describe passwd.usernames do
+    it { should include 'root' }
+    it { should_not cmp 'root' }
+  end
 end
