@@ -3102,19 +3102,22 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
 .. code-block:: ruby
 
    describe passwd do
-     its('matcher') { should eq 0 }
+     its(:users) { should_not include 'forbidden_user' }
    end
 
-   describe passwd.uid(filter) do
-     its(:username) { should eq 'root' }
+   describe passwd.uid(0) do
+     its(:users) { should cmp 'root' }
      its(:count) { should eq 1 }
    end
 
 where
 
-* ``gids``, ``passwords``, ``uids``, and ``usernames`` are valid matchers for ``passwd``
-* ``filter`` is a filter for a specific uid
-* ``count``, ``uid``, ``username`` are valid matchers for ``passwd.uid(userid)``
+* ``users``, ``uids``, ``gids``, ``passwords``, ``homes``, and ``shells`` are valid accessors for ``passwd``
+* All of these matchers can be given an argument to filter by, for example: ``passwd.users(/name/)``
+* There is an explicit method to filter by (``filter``) which can take multiple arguments at once
+* ``count`` retrieves the number of entries
+* ``lines`` provides raw passwd lines
+* ``params`` returns an array of maps for all entries
 
 
 Matchers for ``passwd``
@@ -3127,7 +3130,8 @@ The ``gids`` matcher tests if the group indentifiers in the test match group ide
 
 .. code-block:: ruby
 
-   its('gids') { should eq 1234 }
+   its('gids') { should include 1234 }
+   its('gids') { should cmp 0 }
 
 passwords
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3141,7 +3145,8 @@ For example:
 
 .. code-block:: ruby
 
-   its('passwords') { should eq 'x' }
+   its('passwords') { should eq ['x'] }
+   its('passwords') { should cmp '*' }
 
 uids
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3151,42 +3156,25 @@ The ``uids`` matcher tests if the user indentifiers in the test match user ident
 
    its('uids') { should eq ['1234', '1235'] }
 
-usernames
+users
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``usernames`` matcher tests if the usernames in the test match usernames in ``/etc/passwd``:
+The ``users`` matcher tests if the usernames in the test match usernames in ``/etc/passwd``:
 
 .. code-block:: ruby
 
-   its('usernames') { should eq ['root', 'www-data'] }
+   its('users') { should_not include 'www-data' }
 
-
-Matchers for ``passwd.uid(userid)``
------------------------------------------------------
-This InSpec audit resource has the following matchers.
 
 count
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``count`` matcher tests the number of times the named user appears in ``/etc/passwd``:
+The ``count`` matcher tests the number of entries in ``/etc/passwd``. It becomes especially useful in conjunction combination with filters:
 
 .. code-block:: ruby
 
-   its('count') { should eq 1 }
+   describe passwd.users('highlander') do
+     its('count') { should eq 1 }
+   end
 
-uid
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``uid`` matcher tests if the user identifier in the test matches a user identifier in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('uid') { should eq 1234 }
-
-username
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``username`` matcher tests if the user name in the test matches a user name in ``/etc/passwd``:
-
-.. code-block:: ruby
-
-   its('username') { should eq 'root' }
 
 Examples
 -----------------------------------------------------
@@ -3197,7 +3185,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe passwd do
-     its('usernames') { should eq ['root', 'www-data'] }
+     its('users') { should eq ['root', 'www-data'] }
      its('uids') { should eq [0, 33] }
    end
 
@@ -3205,13 +3193,13 @@ The following examples show how to use this InSpec audit resource.
 
 .. code-block:: ruby
 
-   describe passwd.uid(0) do
-     its('username') { should eq 'root' }
+   describe passwd.uids(0) do
+     its('users') { should cmp 'root' }
      its('count') { should eq 1 }
    end
 
-   describe passwd.uid(33) do
-     its('username') { should eq 'www-data' }
+   describe passwd.filter(user: 'www-data') do
+     its('uids') { should cmp 33 }
      its('count') { should eq 1 }
    end
 

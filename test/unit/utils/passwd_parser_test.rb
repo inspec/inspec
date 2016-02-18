@@ -18,7 +18,7 @@ describe PasswdParser do
 
     it 'parses a valid passwd line' do
       info = [{
-        "name"=>"root",
+        "user"=>"root",
         "password"=>"x",
         "uid"=>"0",
         "gid"=>"0",
