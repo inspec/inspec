@@ -62,4 +62,18 @@ describe 'Inspec::Resources::Passwd' do
       _(child.to_s).must_equal '/etc/passwd with user = /^www/'
     end
   end
+
+  describe 'deprecated calls' do
+    it 'retrieves a username via uid' do
+      _(passwd.uid(0).username).must_equal 'root'
+    end
+
+    it 'retrieves a usercount via uid' do
+      _(passwd.uid(0).count).must_equal 1
+    end
+
+    it 'retrieves usernames' do
+      _(passwd.usernames).must_equal ['root', 'www-data']
+    end
+  end
 end

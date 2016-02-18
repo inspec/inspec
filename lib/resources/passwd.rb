@@ -75,9 +75,9 @@ class Passwd < Inspec.resource(1)
     users
   end
 
-  def user
+  def username
     warn '[DEPRECATION] `passwd.user` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
-    users
+    users[0]
   end
 
   def uid(x)
