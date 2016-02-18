@@ -244,6 +244,7 @@ RSpec::Matchers.define :cmp do |expected|
   end
 
   match do |actual|
+    actual = actual[0] if actual.is_a?(Array) && !expected.is_a?(Array) && actual.length == 1
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       actual.casecmp(expected) == 0
