@@ -14,12 +14,18 @@ SimpleCov.start do
   add_group 'Backends', 'lib/inspec/backend'
 end
 
+require 'fileutils'
+require 'pathname'
+require 'tempfile'
+require 'zip'
+
 require 'utils/base_cli'
 require 'inspec/targets'
 require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
-
+require 'inspec/runner'
+require 'inspec/runner_mock'
 
 class MockLoader
   # collects emulation operating systems
@@ -237,6 +243,50 @@ class MockLoader
   def self.mock_command(resource, cmd, res = {})
     resource.inspec.backend
             .mock_command(cmd, res[:stdout], res[:stderr], res[:exit_status])
+  end
+
+  def self.home
+    File.join(File.dirname(__FILE__), 'unit')
+  end
+
+  def self.load_profile(name, opts = {})
+    opts[:test_collector] = Inspec::RunnerMock.new
+    dst = name
+    dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
+    Inspec::Profile.from_path(dst, opts)
+  end
+
+  def self.profile_tgz(name)
+    path = File.join(home, 'mock', 'profiles', name)
+    archive = Tempfile.new([name, '.tar.gz'])
+    dst = archive.path
+    archive.close
+
+    # generate relative paths
+    files = Dir.glob("#{path}/**/*")
+    relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
+    require 'inspec/archive/tar'
+    tag = Inspec::Archive::TarArchiveGenerator.new
+    tag.archive(path, relatives, dst)
+
+    dst
+  end
+
+  def self.profile_zip(name, opts = {})
+    path = File.join(home, 'mock', 'profiles', name)
+    archive = Tempfile.new([name, '.zip'])
+    dst = archive.path
+    archive.close
+
+    # rubyzip only works relative paths
+    files = Dir.glob("#{path}/**/*")
+    relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
+    require 'inspec/archive/zip'
+    zag = Inspec::Archive::ZipArchiveGenerator.new
+    zag.archive(path, relatives, dst)
+    dst
   end
 end
 

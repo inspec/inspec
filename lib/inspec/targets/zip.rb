@@ -23,7 +23,7 @@ module Inspec::Targets
             type: opts[:as] || :test,
             ref: entry.name,
           }
-          abort
+          break
         end
       end
       content

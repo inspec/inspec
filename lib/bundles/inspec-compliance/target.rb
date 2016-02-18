@@ -46,10 +46,7 @@ module Compliance
     def build_target_url(target)
       owner, profile = target.split('/')
       config = Compliance::Configuration.new
-      url = "#{config['server']}/owners/%owner_name%/compliance/%profile_name%/tar"
-            .gsub('%owner_name%', owner)
-            .gsub('%profile_name%', profile)
-      url
+      "#{config['server']}/owners/#{owner}/compliance/#{profile}/tar"
     end
 
     def to_s

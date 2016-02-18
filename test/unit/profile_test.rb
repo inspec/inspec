@@ -4,35 +4,13 @@
 
 require 'helper'
 require 'inspec/profile_context'
-require 'inspec/runner'
-require 'inspec/runner_mock'
-require 'fileutils'
 
 describe Inspec::Profile do
   let(:logger) { Minitest::Mock.new }
-  let(:home) { File.dirname(__FILE__) }
-
-  def load_profile(name, opts = {})
-    opts[:test_collector] = Inspec::RunnerMock.new
-    Inspec::Profile.from_path("#{home}/mock/profiles/#{name}", opts)
-  end
-
-  def load_profile_tgz(name, opts = {})
-    path = "#{home}/mock/profiles/#{name}"
-    `tar zcvf #{path}.tgz #{path}`
-    load_profile("#{name}.tgz", opts)
-    FileUtils.rm("#{path}.tgz")
-  end
-
-  def load_profile_zip(name, opts = {})
-    path = "#{home}/mock/profiles/#{name}"
-    `zip #{path}.zip #{path}`
-    load_profile("#{name}.zip", opts)
-    FileUtils.rm("#{path}.zip")
-  end
+  let(:home) { MockLoader.home }
 
   describe 'with an empty profile' do
-    let(:profile) { load_profile('empty-metadata') }
+    let(:profile) { MockLoader.load_profile('empty-metadata') }
 
     it 'has no metadata' do
       profile.params[:name].must_be_nil
@@ -44,7 +22,7 @@ describe Inspec::Profile do
   end
 
   describe 'with an empty profile (legacy mode)' do
-    let(:profile) { load_profile('legacy-empty-metadata') }
+    let(:profile) { MockLoader.load_profile('legacy-empty-metadata') }
 
     it 'has no metadata' do
       profile.params[:name].must_be_nil
@@ -57,7 +35,7 @@ describe Inspec::Profile do
 
   describe 'with simple metadata in profile' do
     let(:profile_id) { 'simple-metadata' }
-    let(:profile) { load_profile(profile_id) }
+    let(:profile) { MockLoader.load_profile(profile_id) }
 
     it 'has metadata' do
       profile.params[:name].must_equal 'yumyum profile'
@@ -69,13 +47,13 @@ describe Inspec::Profile do
 
     it 'can overwrite the profile ID' do
       testID = rand.to_s
-      res = load_profile(profile_id, id: testID)
+      res = MockLoader.load_profile(profile_id, id: testID)
       res.params[:name].must_equal testID
     end
   end
 
   describe 'with simple metadata in profile (legacy mode)' do
-    let(:profile) { load_profile('legacy-simple-metadata') }
+    let(:profile) { MockLoader.load_profile('legacy-simple-metadata') }
 
     it 'has metadata' do
       profile.params[:name].must_equal 'metadata profile'
@@ -101,7 +79,7 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile copyright in #{inspec_yml}"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        result = load_profile(profile_id, {logger: logger}).check
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
         # verify logger output
         logger.verify
 
@@ -130,7 +108,7 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile copyright in #{metadata_rb}"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
-        result = load_profile(profile_id, {logger: logger}).check
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
         # verify logger output
         logger.verify
 
@@ -146,7 +124,7 @@ describe Inspec::Profile do
 
     describe 'a complete metadata profile' do
       let(:profile_id) { 'complete-metadata' }
-      let(:profile) { load_profile(profile_id, {logger: logger}) }
+      let(:profile) { MockLoader.load_profile(profile_id, {logger: logger}) }
 
       it 'prints ok messages' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
@@ -170,7 +148,7 @@ describe Inspec::Profile do
 
     describe 'a complete metadata profile (legacy mode)' do
       let(:profile_id) { 'legacy-complete-metadata' }
-      let(:profile) { load_profile(profile_id, {logger: logger}) }
+      let(:profile) { MockLoader.load_profile(profile_id, {logger: logger}) }
 
       it 'prints ok messages' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
@@ -209,7 +187,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        result = load_profile(profile_id, {logger: logger}).check
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
         # verify logger output
         logger.verify
 
@@ -225,7 +203,8 @@ describe Inspec::Profile do
 
     describe 'a complete metadata profile with controls in a tarball' do
       let(:profile_id) { 'complete-profile' }
-      let(:profile) { load_profile_tgz(profile_id, {logger: logger}) }
+      let(:profile_path) { MockLoader.profile_tgz(profile_id) }
+      let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
 
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
@@ -234,7 +213,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        result = load_profile(profile_id, {logger: logger}).check
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
         # verify logger output
         logger.verify
 
@@ -250,7 +229,8 @@ describe Inspec::Profile do
 
     describe 'a complete metadata profile with controls in zipfile' do
       let(:profile_id) { 'complete-profile' }
-      let(:profile) { load_profile_zip(profile_id, {logger: logger}) }
+      let(:profile_path) { MockLoader.profile_zip(profile_id) }
+      let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
 
       it 'prints ok messages and counts the rules' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
@@ -259,7 +239,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
-        result = load_profile(profile_id, {logger: logger}).check
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
         # verify logger output
         logger.verify
 

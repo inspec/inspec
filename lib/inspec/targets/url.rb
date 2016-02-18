@@ -12,15 +12,13 @@ module Inspec::Targets
     def handles?(target)
       uri = URI.parse(target)
       return false if uri.nil? or uri.scheme.nil?
-      %{ http https }.include? uri.scheme
+      return false unless %{ http https }.include? uri.scheme
+      true
     rescue URI::Error => _e
       false
     end
 
     def resolve(target, opts = {})
-      # abort if the target does not start with http or https
-      return nil unless target.start_with?('https://', 'http://')
-
       # support for github url
       m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.match(target)
       if m
@@ -31,42 +29,69 @@ module Inspec::Targets
       resolve_archive(url, opts)
     end
 
+    private
+
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
-    def download_archive(url, archive, opts)
-      archive.binmode
+    def download_archive(url, opts)
       remote = open(
         url,
         http_basic_authentication: [opts['user'] || '', opts['password'] || ''],
       )
 
+      content_type = remote.meta['content-type']
+
+      # map for file types
+      filetypes = {
+        'application/x-zip-compressed' => 'tar.gz',
+        'application/zip' => 'tar.gz',
+        'application/x-gzip' => 'zip',
+        'application/gzip' => 'zip',
+      }
+
+      # ensure we have a file extension
+      file_type = filetypes[content_type] unless content_type.nil?
+
+      # fall back to tar
+      if file_type.nil?
+        warn "Could not determine file type for content type #{content_type}"
+        file_type = 'tar.gz'
+      end
+
       # download content
+      archive = Tempfile.new(['inspec-dl-', file_type])
+      archive.binmode
       archive.write(remote.read)
       archive.rewind
       archive.close
 
-      [archive, remote.meta['content-type']]
+      [archive, content_type]
+    end
+
+    def resolve_archive_path(archive_helper, path, opts)
+      # this should not happen, catch it in case we have an internal error:
+      unless archive_helper.handles?(path)
+        throw RuntimeError, "Failed to load downloaded archive in #{path} with "\
+              "#{archive_helper}. Internal error, please file a bugreport."
+      end
+
+      archive_helper.resolve(path, opts)
     end
 
     def resolve_archive(url, opts)
-      archive, content_type = download_archive(url, Tempfile.new(['inspec-dl-', '.tar.gz']), opts)
+      archive, content_type = download_archive(url, opts)
 
       # replace extension with zip if we detected a zip content type
-      if ['application/x-zip-compressed', 'application/zip'].include?(content_type)
-        # rename file for proper detection in DirHelper
-        pn = Pathname.new(archive.path)
-        new_path = pn.dirname.join(pn.basename.to_s.gsub('tar.gz', 'zip'))
-        File.rename(pn.to_s, new_path.to_s)
-
-        content = ZipHelper.new.resolve(new_path)
-        File.unlink(new_path)
-      elsif ['application/x-gzip', 'application/gzip'].include?(content_type)
-        # use tar helper as default (otherwise returns nil)
-        content = TarHelper.new.resolve(archive.path)
-        archive.unlink
+      case content_type
+      when 'application/x-zip-compressed', 'application/zip'
+        resolve_archive_path(ZipHelper, archive.path, opts)
+      when 'application/x-gzip', 'application/gzip'
+        resolve_archive_path(TarHelper, archive.path, opts)
+      when nil
+        {}
+      else
+        throw RuntimeError, "Failed to resolve URL target, its metadata did not match ZIP or TAR: #{content_type}"
       end
-
-      content
     end
 
     def to_s
