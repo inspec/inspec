@@ -24,7 +24,7 @@ class Passwd < Inspec.resource(1)
     end
 
     describe passwd.uids(0) do
-      its('users') { should eq 'root' }
+      its('users') { should cmp 'root' }
       its('count') { should eq 1 }
     end
 
