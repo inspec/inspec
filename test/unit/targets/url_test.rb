@@ -9,11 +9,11 @@ describe Inspec::Targets::UrlHelper do
   let(:url_helper) { Inspec::Targets::UrlHelper.new }
 
   it 'handles http' do
-    url_helper.handles?('http://chef.io').must_equal true
+    url_helper.handles?('http://chef.io.tar.gz').must_equal true
   end
 
   it 'handles https' do
-    url_helper.handles?('https://chef.io').must_equal true
+    url_helper.handles?('https://chef.io.zip').must_equal true
   end
 
   it 'returns false if given an invalid URL' do
@@ -105,11 +105,11 @@ describe Inspec::Targets::UrlHelper do
 
       res[0][:type].must_equal :test
       res[0][:content].wont_be_empty
-      res[0][:ref].must_equal "#{archive_path}controls/filesystem_spec.rb"
+      res[0][:ref].must_equal "controls/filesystem_spec.rb"
 
       res[1][:type].must_equal :metadata
       res[1][:content].wont_be_empty
-      res[1][:ref].must_equal "#{archive_path}inspec.yml"
+      res[1][:ref].must_equal "inspec.yml"
     end
   end
 
@@ -129,11 +129,11 @@ describe Inspec::Targets::UrlHelper do
 
       res[0][:type].must_equal :test
       res[0][:content].wont_be_empty
-      res[0][:ref].must_equal "#{archive_path}controls/filesystem_spec.rb"
+      res[0][:ref].must_equal "controls/filesystem_spec.rb"
 
       res[1][:type].must_equal :metadata
       res[1][:content].wont_be_empty
-      res[1][:ref].must_equal "#{archive_path}inspec.yml"
+      res[1][:ref].must_equal "inspec.yml"
     end
   end
 end

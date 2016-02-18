@@ -15,6 +15,8 @@ SimpleCov.start do
 end
 
 require 'fileutils'
+require 'pathname'
+require 'tempfile'
 require 'zip'
 
 require 'utils/base_cli'
@@ -255,22 +257,35 @@ class MockLoader
   end
 
   def self.profile_tgz(name)
-    path = "#{home}/mock/profiles/#{name}"
-    dst = "#{path}.tgz"
-    FileUtils.rm(dst) if File.file?(dst)
-    `tar zcvf #{dst} #{path}`
+    path = File.join(home, 'mock', 'profiles', name)
+    archive = Tempfile.new([name, '.tar.gz'])
+    dst = archive.path
+    archive.close
+
+    # generate relative paths
+    files = Dir.glob("#{path}/**/*")
+    relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
+    require 'inspec/archive/tar'
+    tag = Inspec::Archive::TarArchiveGenerator.new
+    tag.archive(path, relatives, dst)
+
     dst
   end
 
   def self.profile_zip(name, opts = {})
-    path = "#{home}/mock/profiles/#{name}"
-    dst = "#{path}.zip"
-    FileUtils.rm(dst) if File.file?(dst)
-    Zip::File.open(dst, 'w') do |zipfile|
-      Dir["#{path}/**/**"].reject { |f| f == dst }.each do |file|
-        zipfile.add(file.sub(path+'/', ''), file)
-      end
-    end
+    path = File.join(home, 'mock', 'profiles', name)
+    archive = Tempfile.new([name, '.zip'])
+    dst = archive.path
+    archive.close
+
+    # rubyzip only works relative paths
+    files = Dir.glob("#{path}/**/*")
+    relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
+    require 'inspec/archive/zip'
+    zag = Inspec::Archive::ZipArchiveGenerator.new
+    zag.archive(path, relatives, dst)
     dst
   end
 end

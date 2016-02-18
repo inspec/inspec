@@ -34,26 +34,38 @@ module Inspec::Targets
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
     def download_archive(url, opts)
-      archive = Tempfile.new('inspec-dl-')
-      archive.binmode
-
       remote = open(
         url,
         http_basic_authentication: [opts['user'] || '', opts['password'] || ''],
       )
 
+      content_type = remote.meta['content-type']
+
+      # map for file types
+      filetypes = {
+        'application/x-zip-compressed' => 'tar.gz',
+        'application/zip' => 'tar.gz',
+        'application/x-gzip' => 'zip',
+        'application/gzip' => 'zip',
+      }
+
+      # ensure we have a file extension
+      file_type = filetypes[content_type] unless content_type.nil?
+
+      # fall back to tar
+      if file_type.nil?
+        warn "Could not determine file type for content type #{content_type}"
+        file_type = 'tar.gz'
+      end
+
       # download content
+      archive = Tempfile.new(['inspec-dl-', file_type])
+      archive.binmode
       archive.write(remote.read)
       archive.rewind
       archive.close
 
-      [archive, remote.meta['content-type']]
-    end
-
-    def ensure_suffix(path, suffix)
-      return path if path.end_with?(suffix)
-      File.rename(path, path + suffix)
-      path + suffix
+      [archive, content_type]
     end
 
     def resolve_archive_path(archive_helper, path, opts)
@@ -63,9 +75,7 @@ module Inspec::Targets
               "#{archive_helper}. Internal error, please file a bugreport."
       end
 
-      res = archive_helper.resolve(path, opts)
-      File.unlink(path)
-      res
+      archive_helper.resolve(path, opts)
     end
 
     def resolve_archive(url, opts)
@@ -74,11 +84,9 @@ module Inspec::Targets
       # replace extension with zip if we detected a zip content type
       case content_type
       when 'application/x-zip-compressed', 'application/zip'
-        path = ensure_suffix(archive.path, '.zip')
-        resolve_archive_path(ZipHelper, path, opts)
+        resolve_archive_path(ZipHelper, archive.path, opts)
       when 'application/x-gzip', 'application/gzip'
-        path = ensure_suffix(archive.path, '.tar.gz')
-        resolve_archive_path(TarHelper, path, opts)
+        resolve_archive_path(TarHelper, archive.path, opts)
       when nil
         {}
       else
