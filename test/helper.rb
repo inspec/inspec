@@ -92,6 +92,7 @@ class MockLoader
       '/etc/ssh/ssh_config' => mockfile.call('ssh_config'),
       '/etc/ssh/sshd_config' => mockfile.call('sshd_config'),
       '/etc/passwd' => mockfile.call('passwd'),
+      '/etc/shadow' => mockfile.call('shadow'),
       '/etc/ntp.conf' => mockfile.call('ntp.conf'),
       '/etc/login.defs' => mockfile.call('login.defs'),
       '/etc/security/limits.conf' => mockfile.call('limits.conf'),
