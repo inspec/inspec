@@ -31,6 +31,19 @@ module Inspec::Targets
 
     private
 
+    def determine_filetype(content_type)
+      # map for file types
+      filetypes = {
+        'application/x-zip-compressed' => '.zip',
+        'application/zip' => '.zip',
+        'application/x-gzip' => '.tar.gz',
+        'application/gzip' => '.tar.gz',
+      }
+
+      # ensure we have a file extension
+      filetypes[content_type] unless content_type.nil?
+    end
+
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
     def download_archive(url, opts)
@@ -40,17 +53,7 @@ module Inspec::Targets
       )
 
       content_type = remote.meta['content-type']
-
-      # map for file types
-      filetypes = {
-        'application/x-zip-compressed' => 'tar.gz',
-        'application/zip' => 'tar.gz',
-        'application/x-gzip' => 'zip',
-        'application/gzip' => 'zip',
-      }
-
-      # ensure we have a file extension
-      file_type = filetypes[content_type] unless content_type.nil?
+      file_type = determine_filetype(content_type)
 
       # fall back to tar
       if file_type.nil?
