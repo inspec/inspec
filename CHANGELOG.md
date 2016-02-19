@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.12.0](https://github.com/chef/inspec/tree/0.12.0) (2016-02-15)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.11.0...0.12.0)
+## [0.13.0](https://github.com/chef/inspec/tree/0.13.0) (2016-02-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.12.0...0.13.0)
+
+**Implemented enhancements:**
+
+- add shadow resource for /etc/shadow [\#471](https://github.com/chef/inspec/pull/471) ([arlimus](https://github.com/arlimus))
+- improve url handling [\#470](https://github.com/chef/inspec/pull/470) ([chris-rock](https://github.com/chris-rock))
+- add filters to passwd resource + deprecate old accessors [\#467](https://github.com/chef/inspec/pull/467) ([arlimus](https://github.com/arlimus))
+- cmp for single-entry arrays; add cmp docs [\#466](https://github.com/chef/inspec/pull/466) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- Windows 2008 Still not detected correctly [\#453](https://github.com/chef/inspec/issues/453)
+- Service-related docs, bugs, integration tests [\#463](https://github.com/chef/inspec/pull/463) ([srenatus](https://github.com/srenatus))
+- fix url target resolution with zip and tar [\#462](https://github.com/chef/inspec/pull/462) ([arlimus](https://github.com/arlimus))
+- ensure permissions of inspec-compliance config.json on store [\#461](https://github.com/chef/inspec/pull/461) ([srenatus](https://github.com/srenatus))
+
+**Closed issues:**
+
+- No way to reload the add resources from test code [\#459](https://github.com/chef/inspec/issues/459)
+- add documentation for new server runlevel support [\#456](https://github.com/chef/inspec/issues/456)
+
+## [v0.12.0](https://github.com/chef/inspec/tree/v0.12.0) (2016-02-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.11.0...v0.12.0)
 
 **Implemented enhancements:**
 
@@ -17,6 +39,7 @@
 
 **Merged pull requests:**
 
+- 0.12.0 [\#457](https://github.com/chef/inspec/pull/457) ([arlimus](https://github.com/arlimus))
 - rework target to resolver connection [\#447](https://github.com/chef/inspec/pull/447) ([arlimus](https://github.com/arlimus))
 - separate directory resolver from target resolver [\#446](https://github.com/chef/inspec/pull/446) ([arlimus](https://github.com/arlimus))
 
