@@ -41,6 +41,24 @@ describe Inspec::Targets::UrlHelper do
     end
   end
 
+  it 'resolves various github branch urls' do
+    mock = Minitest::Mock.new
+    url_helper.stub :download_archive, mock do
+      mock.expect :call, nil, ['https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz', {}]
+      url_helper.resolve("https://github.com/hardening-io/tests-os-hardening/tree/2.0")
+      mock.verify
+    end
+  end
+
+  it 'resolves various github commit urls' do
+    mock = Minitest::Mock.new
+    url_helper.stub :download_archive, mock do
+      mock.expect :call, nil, ['https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz', {}]
+      url_helper.resolve("https://github.com/hardening-io/tests-os-hardening/tree/48bd4388ddffde68badd83aefa654e7af3231876")
+      mock.verify
+    end
+  end
+
   it 'leaves proper, non-github urls unchanged' do
     url = 'https://chef.io/something.tar.gz'
     mock = Minitest::Mock.new

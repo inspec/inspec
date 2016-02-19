@@ -17,9 +17,9 @@ module Supermarket
       false
     end
 
-    # generates proper url
-    def resolve(profile, opts = {})
-      tool_info = Supermarket::API.find(profile)
+    def resolve(target, opts = {})
+      # extract the tool url
+      tool_info = Supermarket::API.find(target)
       super(tool_info['tool_source_url'], opts)
     end
 

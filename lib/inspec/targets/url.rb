@@ -13,23 +13,66 @@ module Inspec::Targets
       uri = URI.parse(target)
       return false if uri.nil? or uri.scheme.nil?
       return false unless %{ http https }.include? uri.scheme
+
+      # transform the url
+      target = transform(target)
+
+      # this handler is only able to do handle .tar.gz or .zip directly
+      return false unless target.end_with?('tar.gz', 'zip')
       true
     rescue URI::Error => _e
       false
     end
 
     def resolve(target, opts = {})
-      # support for github url
+      resolve_archive(transform(target), opts)
+    end
+
+    # Transforms a browser github url to github tar url
+    # We distinguish between three different Github URL types:
+    #  - Master URL
+    #  - Branch URL
+    #  - Commit URL
+    #
+    # master url:
+    # https://github.com/nathenharvey/tmp_compliance_profile/ is transformed to
+    # https://github.com/nathenharvey/tmp_compliance_profile/archive/master.tar.gz
+    #
+    # github branch:
+    # https://github.com/hardening-io/tests-os-hardening/tree/2.0 is transformed to
+    # https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz
+    #
+    # github commit:
+    # https://github.com/hardening-io/tests-os-hardening/tree/48bd4388ddffde68badd83aefa654e7af3231876
+    # is transformed to
+    # https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz
+    def transform(target)
+      # support for default github url
       m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.match(target)
-      if m
-        url = "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz"
-      else
-        url = target
-      end
-      resolve_archive(url, opts)
+      return "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz" if m
+
+      # support for branch and commit urls
+      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)/tree/(?<commit>[\w\.]+)(/)?$}.match(target)
+      return "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz" if m
+
+      # if we could not find a match, return the original value
+      target
     end
 
     private
+
+    def determine_filetype(content_type)
+      # map for file types
+      filetypes = {
+        'application/x-zip-compressed' => '.zip',
+        'application/zip' => '.zip',
+        'application/x-gzip' => '.tar.gz',
+        'application/gzip' => '.tar.gz',
+      }
+
+      # ensure we have a file extension
+      filetypes[content_type] unless content_type.nil?
+    end
 
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
@@ -40,17 +83,7 @@ module Inspec::Targets
       )
 
       content_type = remote.meta['content-type']
-
-      # map for file types
-      filetypes = {
-        'application/x-zip-compressed' => 'tar.gz',
-        'application/zip' => 'tar.gz',
-        'application/x-gzip' => 'zip',
-        'application/gzip' => 'zip',
-      }
-
-      # ensure we have a file extension
-      file_type = filetypes[content_type] unless content_type.nil?
+      file_type = determine_filetype(content_type)
 
       # fall back to tar
       if file_type.nil?
