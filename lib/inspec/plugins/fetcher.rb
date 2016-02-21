@@ -34,6 +34,15 @@ module Inspec
         fail "Fetcher #{self} does not implement `self.resolve(target)`. This method is required"
       end
 
+      # When a fetcher's resolve doesn't lead to the final state yet, it can
+      # use this method to hand it back for another resolver to handle.
+      #
+      # @param [Any] the current target that needs resolving
+      # @return [Fetcher] a fetcher if it can be resolved, nil otherwise
+      def self.resolve_next(target)
+        Inspec::Fetcher.resolve(target)
+      end
+
       attr_reader :target
 
       # Provide a list of files that are available to this fetcher.

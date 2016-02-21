@@ -12,6 +12,7 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
+      target = target.path if target.respond_to?(:path)
       return nil unless File.file?(target) and target.end_with?('.zip')
       new(target)
     end

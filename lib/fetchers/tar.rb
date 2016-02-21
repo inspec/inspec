@@ -13,6 +13,7 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
+      target = target.path if target.respond_to?(:path)
       return nil unless File.file?(target)
       return nil unless target.end_with?('.tar.gz', '.tgz')
       new(target)

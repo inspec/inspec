@@ -24,6 +24,7 @@ module Inspec
       def modules
         @registry.values
                  .sort_by { |x| x.respond_to?(:priority) ? x.priority : 0 }
+                 .reverse
       end
     end
   end
@@ -39,3 +40,4 @@ end
 require 'fetchers/local'
 require 'fetchers/zip'
 require 'fetchers/tar'
+require 'fetchers/url'
