@@ -29,3 +29,4 @@ module Inspec
 end
 
 require 'source_readers/inspec'
+require 'source_readers/flat'

@@ -33,7 +33,7 @@ module Inspec
       end
     end
 
-    class RelFetcher
+    class RelFetcher < Fetcher
       attr_reader :files
 
       def initialize(fetcher)
