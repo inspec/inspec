@@ -199,7 +199,7 @@ module Inspec
         archive = Pathname.new(opts[:archive])
       else
         slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
-        archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
+        archive = Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
       end
 
       # check if file exists otherwise overwrite the archive
