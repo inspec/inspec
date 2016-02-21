@@ -37,3 +37,4 @@ module Inspec
 end
 
 require 'fetchers/local'
+require 'fetchers/zip'
