@@ -74,13 +74,13 @@ module Fetchers
       )
 
       content_type = remote.meta['content-type']
-      file_type = MIME_TYPES[content_type]
+      file_type = MIME_TYPES[content_type] ||
+                  throw(RuntimeError, 'Failed to resolve URL target, its '\
+                  "metadata did not match ZIP or TAR: #{content_type}")
 
       # fall back to tar
       if file_type.nil?
-        warn "Could not determine file type for content type #{content_type}."\
-             'Defaulting to .tar.gz'
-        file_type = 'tar.gz'
+        fail "Could not determine file type for content type #{content_type}."
       end
 
       # download content
