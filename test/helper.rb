@@ -21,6 +21,7 @@ require 'zip'
 
 require 'utils/base_cli'
 require 'inspec/targets'
+require 'inspec/fetcher'
 require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
@@ -250,11 +251,15 @@ class MockLoader
     File.join(File.dirname(__FILE__), 'unit')
   end
 
-  def self.load_profile(name, opts = {})
-    opts[:test_collector] = Inspec::RunnerMock.new
+  def self.profile_path(name)
     dst = name
     dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
-    Inspec::Profile.from_path(dst, opts)
+    dst
+  end
+
+  def self.load_profile(name, opts = {})
+    opts[:test_collector] = Inspec::RunnerMock.new
+    Inspec::Profile.from_path(profile_path(name), opts)
   end
 
   def self.profile_tgz(name)

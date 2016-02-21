@@ -20,8 +20,6 @@ require 'inspec/shell'
 
 # all utils that may be required by plugins
 require 'utils/base_cli'
-
-# ensure resource and plugins are loaded after runner, because the runner loads
-# targets
+require 'inspec/fetchers'
 require 'inspec/resource'
 require 'inspec/plugins'
