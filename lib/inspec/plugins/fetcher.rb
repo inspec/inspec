@@ -35,6 +35,7 @@ module Inspec
 
     class RelFetcher < Fetcher
       attr_reader :files
+      attr_reader :prefix
 
       def initialize(fetcher)
         @parent = fetcher
@@ -43,8 +44,12 @@ module Inspec
                         .map { |x| x[@prefix.length..-1] }
       end
 
+      def abs_path(file)
+        @prefix + file
+      end
+
       def read(file)
-        @parent.read(@prefix + file)
+        @parent.read(abs_path(file))
       end
 
       private

@@ -262,7 +262,7 @@ class MockLoader
 
   def self.load_profile(name, opts = {})
     opts[:test_collector] = Inspec::RunnerMock.new
-    Inspec::Profile.from_path(profile_path(name), opts)
+    Inspec::Profile.for_target(profile_path(name), opts)
   end
 
   def self.profile_tgz(name)

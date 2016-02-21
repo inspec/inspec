@@ -69,14 +69,13 @@ describe Inspec::Profile do
       let(:profile_id) { 'empty-metadata' }
 
       it 'prints loads of warnings' do
-        inspec_yml = "#{home}/mock/profiles/#{profile_id}/inspec.yml"
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :error, nil, ["Missing profile name in #{inspec_yml}"]
-        logger.expect :error, nil, ["Missing profile version in #{inspec_yml}"]
-        logger.expect :warn, nil, ["Missing profile title in #{inspec_yml}"]
-        logger.expect :warn, nil, ["Missing profile summary in #{inspec_yml}"]
-        logger.expect :warn, nil, ["Missing profile maintainer in #{inspec_yml}"]
-        logger.expect :warn, nil, ["Missing profile copyright in #{inspec_yml}"]
+        logger.expect :error, nil, ["Missing profile name in inspec.yml"]
+        logger.expect :error, nil, ["Missing profile version in inspec.yml"]
+        logger.expect :warn, nil, ["Missing profile title in inspec.yml"]
+        logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
+        logger.expect :warn, nil, ["Missing profile maintainer in inspec.yml"]
+        logger.expect :warn, nil, ["Missing profile copyright in inspec.yml"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
@@ -99,13 +98,13 @@ describe Inspec::Profile do
       it 'prints loads of warnings' do
         metadata_rb = "#{home}/mock/profiles/#{profile_id}/metadata.rb"
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :error, nil, ["Missing profile name in #{metadata_rb}"]
+        logger.expect :error, nil, ["Missing profile name in metadata.rb"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
-        logger.expect :error, nil, ["Missing profile version in #{metadata_rb}"]
-        logger.expect :warn, nil, ["Missing profile title in #{metadata_rb}"]
-        logger.expect :warn, nil, ["Missing profile summary in #{metadata_rb}"]
-        logger.expect :warn, nil, ["Missing profile maintainer in #{metadata_rb}"]
-        logger.expect :warn, nil, ["Missing profile copyright in #{metadata_rb}"]
+        logger.expect :error, nil, ["Missing profile version in metadata.rb"]
+        logger.expect :warn, nil, ["Missing profile title in metadata.rb"]
+        logger.expect :warn, nil, ["Missing profile summary in metadata.rb"]
+        logger.expect :warn, nil, ["Missing profile maintainer in metadata.rb"]
+        logger.expect :warn, nil, ["Missing profile copyright in metadata.rb"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check

@@ -58,6 +58,19 @@ module Inspec
       assets
     end
 
+    def add_profile(profile, options = {})
+      return unless options[:ignore_supports] || profile.metadata.supports_transport?(@backend)
+      libs = profile.libraries.map do |k, v|
+        { ref: k, content: v }
+      end
+
+      profile.tests.map do |ref, content|
+        r = profile.source_reader.target.abs_path(ref)
+        test = { ref: r, content: content }
+        add_content(test, libs)
+      end
+    end
+
     def add_tests(tests, options = {})
       # retrieve the raw ruby code of all tests
       items = tests.map do |test|

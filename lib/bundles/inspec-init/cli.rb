@@ -1,6 +1,8 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 
+require 'pathname'
+
 module Init
   class CLI < Inspec::BaseCLI
     namespace 'init'
