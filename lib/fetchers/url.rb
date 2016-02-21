@@ -20,7 +20,9 @@ module Fetchers
       target = transform(target)
       # TODO: for now, this can be much less strict now vv
       return nil unless target.end_with?('tar.gz', 'zip')
-      resolve_url(target, opts)
+      # fetch this url and hand it off
+      res = new(target, opts)
+      resolve_next(res.archive.path, res)
     rescue URI::Error => _e
       nil
     end
@@ -90,13 +92,11 @@ module Fetchers
       archive
     end
 
-    def self.resolve_url(url, opts)
-      archive = download_archive(url, opts)
-      # TODO: At the moment we hand over the Tempfile object. This is necessary,
-      # since otherwise Ruby will delete the file on disk(!!) as soon as
-      # this call is finished (due to garbage-collection of Tempfile).
-      # Resolve this by handling over the intermediate resolver to the next.
-      resolve_next(archive)
+    attr_reader :archive
+
+    def initialize(url, opts)
+      @target = url
+      @archive = self.class.download_archive(url, opts)
     end
   end
 end

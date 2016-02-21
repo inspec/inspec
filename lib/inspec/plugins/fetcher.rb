@@ -39,11 +39,14 @@ module Inspec
       #
       # @param [Any] the current target that needs resolving
       # @return [Fetcher] a fetcher if it can be resolved, nil otherwise
-      def self.resolve_next(target)
-        Inspec::Fetcher.resolve(target)
+      def self.resolve_next(target, parent)
+        res = Inspec::Fetcher.resolve(target)
+        res.parent = parent
+        res
       end
 
       attr_reader :target
+      attr_accessor :parent
 
       # Provide a list of files that are available to this fetcher.
       #

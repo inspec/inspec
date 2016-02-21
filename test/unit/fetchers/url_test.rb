@@ -27,6 +27,10 @@ describe Fetchers::Url do
       _(res).must_be_kind_of Fetchers::Tar
     end
 
+    it 'must be resolved to the final format' do
+      _(res.parent).must_be_kind_of fetcher
+    end
+
     it 'must contain all files' do
       _(res.files).must_equal ["inspec.yml", "controls", "controls/filesystem_spec.rb"]
     end
