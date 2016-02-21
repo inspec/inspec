@@ -38,3 +38,4 @@ end
 
 require 'fetchers/local'
 require 'fetchers/zip'
+require 'fetchers/tar'
