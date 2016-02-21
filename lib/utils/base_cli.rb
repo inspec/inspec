@@ -42,7 +42,7 @@ module Inspec
     private
 
     # helper method to run tests
-    def run_tests(opts, targets)
+    def run_tests(targets, opts)
       o = opts.dup
       o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
       o[:logger].level = get_log_level(o.log_level)
@@ -50,6 +50,7 @@ module Inspec
       runner = Inspec::Runner.new(o)
       targets.map { |t|
         profile = Inspec::Profile.for_target(t, opts)
+        fail "Could not resolve #{t} to valid input." if profile.nil?
         runner.add_profile(profile)
       }
       exit runner.run

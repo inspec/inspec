@@ -92,12 +92,15 @@ module Inspec
         end
       end
 
-      # add all tests (raw) to the runtime
-      tests.flatten.each do |test|
-        add_content(test, libs)
+      libs = profile.libraries.map do |k, v|
+        { ref: k, content: v }
       end
 
-      [tests, libs, meta]
+      profile.tests.each do |ref, content|
+        r = profile.source_reader.target.abs_path(ref)
+        test = { ref: r, content: content }
+        add_content(test, libs)
+      end
     end
 
     def create_context

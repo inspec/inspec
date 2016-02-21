@@ -29,7 +29,7 @@ module Supermarket
 
       # execute profile from inspec exec implementation
       diagnose
-      run_tests(opts, tests)
+      run_tests(tests, opts)
     end
 
     desc 'info profile', 'display profile details'

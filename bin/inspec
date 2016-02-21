@@ -107,7 +107,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   option :format, type: :string
   def exec(*targets)
     diagnose
-    run_tests(opts, targets)
+    run_tests(targets, opts)
   end
 
   desc 'detect', 'detect the target OS'
@@ -115,11 +115,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def detect
     diagnose
 
-    runner = Inspec::Runner.new(opts)
     rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
-    runner.add_tests([detect_util])
-    runner.run
+    # exits on execution:
+    runner = Inspec::Runner.new(opts)
+    profile = Inspec::Profile.for_target(detect_util, opts)
+    runner.add_profile(profile)
+    exit runner.run
   rescue RuntimeError => e
     puts e.message
   end

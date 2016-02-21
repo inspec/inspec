@@ -11,7 +11,6 @@ require 'inspec/metadata'
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
-    attr_reader :params
     attr_reader :path
 
     def self.for_target(target, opts)
@@ -38,41 +37,15 @@ module Inspec
       @logger = @options[:logger] || Logger.new(nil)
       @source_reader = source_reader
       @profile_id = @options[:id]
-
-      @runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: @options.delete(:test_collector),
-      )
-
       Metadata.finalize(@source_reader.metadata, @profile_id)
+    end
 
-      @params = @source_reader.metadata.params
-      @profile_id ||= params[:name]
-      @params[:name] = @profile_id
-      @params[:rules] = rules = {}
-
-      # we're checking a profile, we don't care if it runs on the host machine
-      @options[:ignore_supports] = true
-      @runner.add_profile(self, @options)
-
-      @runner.rules.each do |id, rule|
-        file = rule.instance_variable_get(:@__file)
-        rules[file] ||= {}
-        rules[file][id] = {
-          title: rule.title,
-          desc: rule.desc,
-          impact: rule.impact,
-          checks: rule.instance_variable_get(:@checks),
-          code: rule.instance_variable_get(:@__code),
-          source_location: rule.instance_variable_get(:@__source_location),
-          group_title: rule.instance_variable_get(:@__group_title),
-        }
-      end
+    def params
+      @params ||= load_params
     end
 
     def info
-      res = @params.dup
+      res = params.dup
       rules = {}
       res[:rules].each do |gid, group|
         next if gid.to_s.empty?
@@ -164,7 +137,7 @@ module Inspec
       end
 
       # iterate over hash of groups
-      @params[:rules].each { |group, controls|
+      params[:rules].each { |group, controls|
         @logger.info "Verify all controls in #{group}"
         controls.each { |id, control|
           sfile, sline = control[:source_location]
@@ -186,13 +159,13 @@ module Inspec
     end
 
     def rules_count
-      @params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
+      params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
     end
 
     # generates a archive of a folder profile
     # assumes that the profile was checked before
     def archive(opts) # rubocop:disable Metrics/AbcSize
-      profile_name = @params[:name]
+      profile_name = params[:name]
       ext = opts[:zip] ? 'zip' : 'tar.gz'
 
       if opts[:archive]
@@ -235,6 +208,43 @@ module Inspec
 
       @logger.info 'Finished archive generation.'
       true
+    end
+
+    private
+
+    def load_params
+      params = @source_reader.metadata.params
+      @profile_id ||= params[:name]
+      params[:name] = @profile_id
+      params[:rules] = rules = {}
+      prefix = @source_reader.target.prefix || ''
+
+      # we're checking a profile, we don't care if it runs on the host machine
+      opts = @options.dup
+      opts[:ignore_supports] = true
+      runner = Runner.new(
+        id: @profile_id,
+        backend: :mock,
+        test_collector: opts.delete(:test_collector),
+      )
+      runner.add_profile(self, opts)
+
+      runner.rules.each do |id, rule|
+        file = rule.instance_variable_get(:@__file)
+        file = file[prefix.length..-1] if file.start_with?(prefix)
+        rules[file] ||= {}
+        rules[file][id] = {
+          title: rule.title,
+          desc: rule.desc,
+          impact: rule.impact,
+          checks: rule.instance_variable_get(:@checks),
+          code: rule.instance_variable_get(:@__code),
+          source_location: rule.instance_variable_get(:@__source_location),
+          group_title: rule.instance_variable_get(:@__group_title),
+        }
+      end
+
+      params
     end
   end
 end
