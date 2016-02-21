@@ -27,3 +27,5 @@ module Inspec
     Inspec::Plugins::SourceReader
   end
 end
+
+require 'source_readers/inspec'
