@@ -35,3 +35,5 @@ module Inspec
     Inspec::Plugins::Fetcher
   end
 end
+
+require 'fetchers/local'
