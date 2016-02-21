@@ -20,6 +20,6 @@ require 'inspec/shell'
 
 # all utils that may be required by plugins
 require 'utils/base_cli'
-require 'inspec/fetchers'
+require 'inspec/fetcher'
 require 'inspec/resource'
 require 'inspec/plugins'
