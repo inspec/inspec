@@ -51,6 +51,8 @@ class MockLoader
     undefined:  { family: nil, release: nil, arch: nil },
   }
 
+  @archives = {}
+
   # pass the os identifier to emulate a specific operating system
   def initialize(os = nil)
     # selects operating system
@@ -275,6 +277,7 @@ class MockLoader
     require 'inspec/archive/tar'
     tag = Inspec::Archive::TarArchiveGenerator.new
     tag.archive(path, relatives, dst)
+    @archives[dst] = archive
 
     dst
   end
@@ -292,6 +295,7 @@ class MockLoader
     require 'inspec/archive/zip'
     zag = Inspec::Archive::ZipArchiveGenerator.new
     zag.archive(path, relatives, dst)
+    @archives[dst] = archive
     dst
   end
 end
