@@ -311,6 +311,8 @@ class Upstart < ServiceManager
       config = inspec.file("/etc/init/#{service_name}.conf").content
     end
 
+    # disregard if the config does not exist
+    return nil if config.nil?
     enabled = !config[/^\s*start on/].nil?
 
     # implement fallback for Ubuntu 10.04
@@ -325,8 +327,10 @@ class Upstart < ServiceManager
   end
 
   def version
-    @version ||= Gem::Version.new(inspec.command("#{service_ctl} --version")
-                                        .stdout.match(/\(upstart ([^\)]+)\)/)[1])
+    @version ||= (
+      out = inspec.command("#{service_ctl} --version").stdout
+      Gem::Version.new(out[/\(upstart ([^\)]+)\)/, 1])
+    )
   end
 end
 
