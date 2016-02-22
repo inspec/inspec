@@ -25,21 +25,23 @@ describe Fetchers::Url do
     }
 
     it 'handles a http url' do
-      url = 'http://chef.io.tar.gz'
+      url = 'http://chef.io/some.tar.gz'
       res = fetcher.resolve(url)
       _(res).must_be_kind_of Fetchers::Local
-      _(res.parent.target).must_equal 'http://chef.io.tar.gz'
+      _(res.parent).must_be_kind_of Fetchers::Url
+      _(res.parent.target).must_equal 'http://chef.io/some.tar.gz'
     end
 
     it 'handles a https url' do
-      url = 'https://chef.io.tar.gz'
+      url = 'https://chef.io/some.tar.gz'
       res = fetcher.resolve(url)
       _(res).must_be_kind_of Fetchers::Local
-      _(res.parent.target).must_equal 'https://chef.io.tar.gz'
+      _(res.parent).must_be_kind_of Fetchers::Url
+      _(res.parent.target).must_equal 'https://chef.io/some.tar.gz'
     end
 
     it 'doesnt handle other schemas' do
-      fetcher.resolve('gopher://chef.io.tar.gz').must_be_nil
+      fetcher.resolve('gopher://chef.io/some.tar.gz').must_be_nil
     end
 
     it 'only handles URLs' do
