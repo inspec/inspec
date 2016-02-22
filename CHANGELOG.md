@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.14.0](https://github.com/chef/inspec/tree/0.14.0) (2016-02-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.13.0...0.14.0)
+## [0.14.1](https://github.com/chef/inspec/tree/0.14.1) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.0...0.14.1)
+
+**Implemented enhancements:**
+
+- optimize appveyor [\#479](https://github.com/chef/inspec/pull/479) ([chris-rock](https://github.com/chris-rock))
+- fix windows tests [\#478](https://github.com/chef/inspec/pull/478) ([srenatus](https://github.com/srenatus))
+
+**Fixed bugs:**
+
+- ignore `pax\_global\_header` as valid file [\#480](https://github.com/chef/inspec/pull/480) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.14.0](https://github.com/chef/inspec/tree/v0.14.0) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.13.0...v0.14.0)
 
 **Fixed bugs:**
 
@@ -9,6 +21,10 @@
 - bugfix: make sure version is always a string [\#475](https://github.com/chef/inspec/pull/475) ([arlimus](https://github.com/arlimus))
 - bugfix: handle edge-cases in upstart service [\#474](https://github.com/chef/inspec/pull/474) ([arlimus](https://github.com/arlimus))
 - replace targets with fetcher+reader system [\#473](https://github.com/chef/inspec/pull/473) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.14.0 [\#477](https://github.com/chef/inspec/pull/477) ([arlimus](https://github.com/arlimus))
 
 ## [v0.13.0](https://github.com/chef/inspec/tree/v0.13.0) (2016-02-19)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.12.0...v0.13.0)
