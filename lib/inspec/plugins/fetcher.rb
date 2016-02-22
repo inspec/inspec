@@ -40,12 +40,12 @@ module Inspec
       def initialize(fetcher)
         @parent = fetcher
         @prefix = get_prefix(fetcher.files)
-        @files = fetcher.files.find_all { |x| x.start_with? @prefix }
-                        .map { |x| x[@prefix.length..-1] }
+        @files = fetcher.files.find_all { |x| x.start_with? prefix }
+                        .map { |x| x[prefix.length..-1] }
       end
 
       def abs_path(file)
-        @prefix + file
+        prefix + file
       end
 
       def read(file)
@@ -54,42 +54,42 @@ module Inspec
 
       private
 
-      def get_prefix(files)
-        return '' if files.empty?
-        sorted = files.sort_by(&:length)
+      def get_prefix(fs)
+        return '' if fs.empty?
+        sorted = fs.sort_by(&:length)
         get_folder_prefix(sorted)
       end
 
-      def get_folder_prefix(files, first_iteration = true)
-        return get_files_prefix(files) if files.length == 1
-        pre = files[0] + File::SEPARATOR
-        rest = files[1..-1]
+      def get_folder_prefix(fs, first_iteration = true)
+        return get_files_prefix(fs) if fs.length == 1
+        pre = fs[0] + File::SEPARATOR
+        rest = fs[1..-1]
         if rest.all? { |i| i.start_with? pre }
           return get_folder_prefix(rest, false)
         end
-        return get_files_prefix(files) if first_iteration
-        files
+        return get_files_prefix(fs) if first_iteration
+        fs
       end
 
-      def get_files_prefix(files)
-        return '' if files.empty?
+      def get_files_prefix(fs)
+        return '' if fs.empty?
 
-        file = files[0]
+        file = fs[0]
         bn = File.basename(file)
         # no more prefixes
         return '' if bn == file
 
         i = file.rindex(bn)
-        prefix = file[0..i-1]
+        pre = file[0..i-1]
 
-        rest = files.find_all { |f| !f.start_with?(prefix) }
-        return prefix if rest.empty?
+        rest = fs.find_all { |f| !f.start_with?(pre) }
+        return pre if rest.empty?
 
-        nu_prefix = get_prefix(rest)
-        return nu_prefix if prefix.start_with? nu_prefix
+        new_pre = get_prefix(rest)
+        return new_pre if pre.start_with? new_pre
         # edge case: completely different prefixes; retry prefix detection
-        a = File.dirname(prefix + 'a')
-        b = File.dirname(nu_prefix + 'b')
+        a = File.dirname(pre + 'a')
+        b = File.dirname(new_pre + 'b')
         get_prefix([a, b])
       end
     end
