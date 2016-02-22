@@ -12,7 +12,7 @@ require 'inspec/metadata'
 # spec requirements
 
 module Inspec
-  class Runner # rubocop:disable Metrics/ClassLength
+  class Runner
     extend Forwardable
     attr_reader :backend, :rules
     def initialize(conf = {})

@@ -214,7 +214,6 @@ module Inspec
 
     def load_params
       params = @source_reader.metadata.params
-      @profile_id ||= params[:name]
       params[:name] = @profile_id
       params[:rules] = rules = {}
       prefix = @source_reader.target.prefix || ''
@@ -244,6 +243,7 @@ module Inspec
         }
       end
 
+      @profile_id ||= params[:name]
       params
     end
   end
