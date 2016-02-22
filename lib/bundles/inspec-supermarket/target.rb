@@ -3,30 +3,26 @@
 # author: Dominik Richter
 
 require 'uri'
+require 'inspec/fetcher'
+require 'fetchers/url'
 
 # InSpec Target Helper for Supermarket
 module Supermarket
-  class SupermarketHelper < Inspec::Targets::UrlHelper
-    def handles?(profile)
-      # check for local scheme supermarket://
-      return unless URI(profile).scheme == 'supermarket'
+  class Fetcher < Fetchers::Url
+    name 'supermarket'
+    priority 500
 
-      # verifies that the target e.g base/ssh exists
-      Supermarket::API.exist?(profile)
-    rescue URI::Error => _e
-      false
-    end
-
-    def resolve(target, opts = {})
-      # extract the tool url
+    def self.resolve(target, opts = {})
+      return nil unless URI(target).scheme == 'supermarket'
+      return nil unless Supermarket::API.exist?(target)
       tool_info = Supermarket::API.find(target)
       super(tool_info['tool_source_url'], opts)
+    rescue URI::Error => _e
+      nil
     end
 
     def to_s
       'Chef Compliance Profile Loader'
     end
   end
-
-  Inspec::Targets.add_module('supermarket', Supermarket::SupermarketHelper.new)
 end

@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'net/http'
+
 module Supermarket
   class API
     SUPERMARKET_URL = 'https://supermarket.chef.io'.freeze
