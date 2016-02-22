@@ -21,9 +21,10 @@ install:
   - echo %PATH%
   - ruby --version
   - gem install bundler --quiet --no-ri --no-rdoc
-  - gem update --system 2.4.5
+  - ruby --version
   - gem --version
   - bundler --version
+  - ruby -r rubygems -e "p Gem.path"
 
 build_script:
   - bundle install --without integration tools maintenance
@@ -33,5 +34,6 @@ test_script:
   - bundle exec rake
 
 cache:
-  - C:/Ruby200-x64/bin/gem
-  - C:/Ruby21/bin/gem
+  - C:\Users\appveyor\.gem\ruby\2.1.0
+  - C:\Ruby21\lib\ruby\gems\2.1.0
+  - C:\Ruby200-x64\lib\ruby\gems\2.0.0
