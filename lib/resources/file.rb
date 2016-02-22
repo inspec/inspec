@@ -5,7 +5,7 @@
 # license: All rights reserved
 
 module Inspec::Resources
-  class File < Inspec.resource(1)
+  class File < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'file'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
     example "
@@ -29,12 +29,18 @@ module Inspec::Resources
     %w{
       type exist? file? block_device? character_device? socket? directory?
       symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
-      link_path linked_to? content mtime size selinux_label immutable?
+      link_path linked_to? mtime size selinux_label immutable?
       product_version file_version version? md5sum sha256sum
     }.each do |m|
       define_method m.to_sym do |*args|
         file.method(m.to_sym).call(*args)
       end
+    end
+
+    def content
+      res = file.content
+      return nil if res.nil?
+      res.force_encoding('utf-8')
     end
 
     def contain(*_)
