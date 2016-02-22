@@ -46,18 +46,8 @@ module Inspec
     end
 
     def add_profile(profile, options = {})
-      return unless options[:ignore_supports] || profile.metadata.supports_transport?(@backend)
-
-      # Ensure each test directory exists on the $LOAD_PATH. This
-      # will ensure traditional RSpec-isms like `require 'spec_helper'`
-      # continue to work.
-      tests.flatten.each do |test|
-        # do not load path for virtual files, eg. from zip
-        if !test[:ref].nil?
-          test_directory = File.dirname(test[:ref])
-          $LOAD_PATH.unshift test_directory unless $LOAD_PATH.include?(test_directory)
-        end
-      end
+      return unless options[:ignore_supports] ||
+                    profile.metadata.supports_transport?(@backend)
 
       libs = profile.libraries.map do |k, v|
         { ref: k, content: v }
