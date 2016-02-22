@@ -28,8 +28,9 @@ describe Fetchers::Local do
     end
 
     it 'must not read files not covered' do
-      _(File.file?('/proc/cpuinfo')).must_equal true
-      _(res.read('/proc/cpuinfo')).must_be_nil
+      not_covered = File.expand_path('../tar_test.rb', __FILE__)
+      _(File.file?(not_covered)).must_equal true
+      _(res.read(not_covered)).must_be_nil
     end
 
     it 'must read the contents of the file' do
@@ -54,8 +55,9 @@ describe Fetchers::Local do
     end
 
     it 'must not read files not covered' do
-      _(File.file?('/proc/cpuinfo')).must_equal true
-      _(res.read('/proc/cpuinfo')).must_be_nil
+      not_covered = File.expand_path('../../../helper.rb', __FILE__)
+      _(File.file?(not_covered)).must_equal true
+      _(res.read(not_covered)).must_be_nil
     end
 
     it 'must read the contents of the file' do
