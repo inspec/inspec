@@ -24,11 +24,18 @@ module Inspec
     def_delegator :registry, :keys, :list
 
     def initialize(home = nil)
+      @paths = []
+
+      # load plugins in the same gem installation
+      lib_home = File.expand_path(File.join(__FILE__, '..', '..', '..', '..'))
+      @paths += Dir[lib_home+'/inspec-*-*/lib/inspec-*rb']
+
+      # traverse out of inspec-vX.Y.Z/lib/inspec/plugins.rb
       @home = home || File.join(Dir.home, '.inspec', 'plugins')
-      @paths = Dir[File.join(@home, '**{,/*/**}', '*.gemspec')]
-               .map { |x| File.dirname(x) }
-               .map { |x| Dir[File.join(x, 'lib', 'inspec-*.rb')] }
-               .flatten
+      @paths += Dir[File.join(@home, '**{,/*/**}', '*.gemspec')]
+                .map { |x| File.dirname(x) }
+                .map { |x| Dir[File.join(x, 'lib', 'inspec-*.rb')] }
+                .flatten
 
       # load bundled plugins
       bundled_dir = File.expand_path(File.dirname(__FILE__))
