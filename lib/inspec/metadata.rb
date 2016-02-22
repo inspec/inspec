@@ -140,8 +140,10 @@ module Inspec
     end
 
     def self.finalize(metadata, profile_id)
-      metadata.params['name'] = profile_id.to_s unless profile_id.to_s.empty?
-      metadata.params = symbolize_keys(metadata.params || {})
+      param = metadata.params || {}
+      param['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      param['version'] = param['version'].to_s unless param['version'].nil?
+      metadata.params = symbolize_keys(param)
       metadata
     end
 
