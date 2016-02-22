@@ -8,7 +8,6 @@ require 'forwardable'
 require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
-require 'inspec/targets'
 require 'inspec/metadata'
 # spec requirements
 
@@ -46,40 +45,8 @@ module Inspec
       @backend = Inspec::Backend.create(@conf)
     end
 
-    def add_test_profile(test, ignore_supports = false)
-      assets = Inspec::Targets.resolve(test, @conf)
-      meta_assets = assets.find_all { |a| a[:type] == :metadata }
-      metas = meta_assets.map do |x|
-        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
-      end
-      metas.each do |meta|
-        return [] unless ignore_supports || meta.supports_transport?(@backend)
-      end
-      assets
-    end
-
     def add_profile(profile, options = {})
       return unless options[:ignore_supports] || profile.metadata.supports_transport?(@backend)
-      libs = profile.libraries.map do |k, v|
-        { ref: k, content: v }
-      end
-
-      profile.tests.map do |ref, content|
-        r = profile.source_reader.target.abs_path(ref)
-        test = { ref: r, content: content }
-        add_content(test, libs)
-      end
-    end
-
-    def add_tests(tests, options = {})
-      # retrieve the raw ruby code of all tests
-      items = tests.map do |test|
-        add_test_profile(test, options[:ignore_supports])
-      end.flatten
-
-      tests = items.find_all { |i| i[:type] == :test }
-      libs = items.find_all { |i| i[:type] == :library }
-      meta = items.find_all { |i| i[:type] == :metadata }
 
       # Ensure each test directory exists on the $LOAD_PATH. This
       # will ensure traditional RSpec-isms like `require 'spec_helper'`

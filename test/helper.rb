@@ -20,7 +20,6 @@ require 'tempfile'
 require 'zip'
 
 require 'utils/base_cli'
-require 'inspec/targets'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/resource'
