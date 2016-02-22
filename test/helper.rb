@@ -17,6 +17,7 @@ end
 require 'fileutils'
 require 'pathname'
 require 'tempfile'
+require 'tmpdir'
 require 'zip'
 
 require 'utils/base_cli'
@@ -50,8 +51,6 @@ class MockLoader
     solaris10:  { family: "solaris", release: '10', arch: 'i386'},
     undefined:  { family: nil, release: nil, arch: nil },
   }
-
-  @archives = {}
 
   # pass the os identifier to emulate a specific operating system
   def initialize(os = nil)
@@ -266,9 +265,7 @@ class MockLoader
 
   def self.profile_tgz(name)
     path = File.join(home, 'mock', 'profiles', name)
-    archive = Tempfile.new([name, '.tar.gz'])
-    dst = archive.path
-    archive.close
+    dst = File.join(Dir.tmpdir, Dir::Tmpname.make_tmpname(name, '.tar.gz'))
 
     # generate relative paths
     files = Dir.glob("#{path}/**/*")
@@ -277,16 +274,13 @@ class MockLoader
     require 'inspec/archive/tar'
     tag = Inspec::Archive::TarArchiveGenerator.new
     tag.archive(path, relatives, dst)
-    @archives[dst] = archive
 
     dst
   end
 
   def self.profile_zip(name, opts = {})
     path = File.join(home, 'mock', 'profiles', name)
-    archive = Tempfile.new([name, '.zip'])
-    dst = archive.path
-    archive.close
+    dst = File.join(Dir.tmpdir, Dir::Tmpname.make_tmpname(name, '.zip'))
 
     # rubyzip only works relative paths
     files = Dir.glob("#{path}/**/*")
@@ -295,7 +289,7 @@ class MockLoader
     require 'inspec/archive/zip'
     zag = Inspec::Archive::ZipArchiveGenerator.new
     zag.archive(path, relatives, dst)
-    @archives[dst] = archive
+
     dst
   end
 end
