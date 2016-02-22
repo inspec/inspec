@@ -3,56 +3,43 @@
 # author: Dominik Richter
 
 require 'uri'
+require 'inspec/fetcher'
+require 'fetchers/url'
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Compliance
-  class ChefComplianceHelper < Inspec::Targets::UrlHelper
-    def handles?(target)
+  class Fetcher < Fetchers::Url
+    name 'compliance'
+    priority 500
+
+    def self.resolve(target, opts = {})
       # check for local scheme compliance://
       uri = URI(target)
-      return unless URI(uri).scheme == 'compliance'
+      return nil unless URI(uri).scheme == 'compliance'
 
       # check if we have a compliance token
       config = Compliance::Configuration.new
-      return if config['token'].nil?
-
-      # get profile name
-      profile = get_profile_name(uri)
+      return nil if config['token'].nil?
 
       # verifies that the target e.g base/ssh exists
+      profile = uri.host + uri.path
       Compliance::API.exist?(profile)
-    rescue URI::Error => _e
-      false
-    end
 
-    # generates proper url
-    def resolve(target, opts = {})
-      profile = get_profile_name(URI(target))
-      # generates server url
-      target = build_target_url(profile)
-      config = Compliance::Configuration.new
       opts['user'] = config['token']
-      puts target
-      super(target, opts)
+      super(target_url(config, profile), opts)
+    rescue URI::Error => _e
+      nil
     end
 
-    # extracts profile name from url
-    def get_profile_name(uri)
-      uri.host + uri.path
-    end
-
-    def build_target_url(target)
-      owner, profile = target.split('/')
-      config = Compliance::Configuration.new
-      "#{config['server']}/owners/#{owner}/compliance/#{profile}/tar"
+    def self.target_url(config, profile)
+      owner, id = profile.split('/')
+      "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
     end
 
     def to_s
       'Chef Compliance Profile Loader'
     end
   end
-
-  Inspec::Targets.add_module('chefcompliance', ChefComplianceHelper.new)
 end
