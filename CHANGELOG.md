@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.14.1](https://github.com/chef/inspec/tree/0.14.1) (2016-02-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.0...0.14.1)
+## [0.14.2](https://github.com/chef/inspec/tree/0.14.2) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.1...0.14.2)
+
+**Fixed bugs:**
+
+- fix cc upload [\#483](https://github.com/chef/inspec/pull/483) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- load plugins in the same gem installation [\#482](https://github.com/chef/inspec/pull/482) ([arlimus](https://github.com/arlimus))
+
+## [v0.14.1](https://github.com/chef/inspec/tree/v0.14.1) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.0...v0.14.1)
 
 **Implemented enhancements:**
 
@@ -11,6 +22,10 @@
 **Fixed bugs:**
 
 - ignore `pax\_global\_header` as valid file [\#480](https://github.com/chef/inspec/pull/480) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- 0.14.1 [\#481](https://github.com/chef/inspec/pull/481) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.14.0](https://github.com/chef/inspec/tree/v0.14.0) (2016-02-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.13.0...v0.14.0)
