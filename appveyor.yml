@@ -5,7 +5,7 @@ platform:
 environment:
   matrix:
     - ruby_version: "200-x64"
-    - ruby_version: "21"
+    - ruby_version: "22"
 
 clone_folder: c:\projects\inspec
 clone_depth: 1
@@ -34,6 +34,8 @@ test_script:
   - bundle exec rake
 
 cache:
-  - C:\Users\appveyor\.gem\ruby\2.1.0
-  - C:\Ruby21\lib\ruby\gems\2.1.0
+  - C:\Users\appveyor\.gem\ruby\2.2.0
+  - C:\Ruby200-x64\bin\gem
   - C:\Ruby200-x64\lib\ruby\gems\2.0.0
+  - C:\Ruby22\bin\gem
+  - C:\Ruby22\lib\ruby\gems\2.2.0
