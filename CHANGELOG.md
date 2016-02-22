@@ -1,7 +1,17 @@
 # Change Log
 
-## [0.13.0](https://github.com/chef/inspec/tree/0.13.0) (2016-02-19)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.12.0...0.13.0)
+## [0.14.0](https://github.com/chef/inspec/tree/0.14.0) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.13.0...0.14.0)
+
+**Fixed bugs:**
+
+- force encoding to utf-8 [\#476](https://github.com/chef/inspec/pull/476) ([arlimus](https://github.com/arlimus))
+- bugfix: make sure version is always a string [\#475](https://github.com/chef/inspec/pull/475) ([arlimus](https://github.com/arlimus))
+- bugfix: handle edge-cases in upstart service [\#474](https://github.com/chef/inspec/pull/474) ([arlimus](https://github.com/arlimus))
+- replace targets with fetcher+reader system [\#473](https://github.com/chef/inspec/pull/473) ([arlimus](https://github.com/arlimus))
+
+## [v0.13.0](https://github.com/chef/inspec/tree/v0.13.0) (2016-02-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.12.0...v0.13.0)
 
 **Implemented enhancements:**
 
@@ -21,6 +31,10 @@
 
 - No way to reload the add resources from test code [\#459](https://github.com/chef/inspec/issues/459)
 - add documentation for new server runlevel support [\#456](https://github.com/chef/inspec/issues/456)
+
+**Merged pull requests:**
+
+- 0.13.0 [\#472](https://github.com/chef/inspec/pull/472) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.12.0](https://github.com/chef/inspec/tree/v0.12.0) (2016-02-15)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.11.0...v0.12.0)
