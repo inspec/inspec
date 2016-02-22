@@ -26,7 +26,7 @@ describe Fetchers::Zip do
     end
 
     it 'must not read if the file isnt included' do
-      _(res.read(rand.to_s)).must_be_nil
+      _(res.read('file-not-in-archive')).must_be_nil
     end
 
     it 'must read the contents of the file' do

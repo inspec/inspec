@@ -24,7 +24,7 @@ describe Fetchers::Local do
     end
 
     it 'must not read if the file doesnt exist' do
-      _(res.read(rand.to_s)).must_be_nil
+      _(res.read('file-does-not-exist')).must_be_nil
     end
 
     it 'must not read files not covered' do
@@ -50,7 +50,7 @@ describe Fetchers::Local do
     end
 
     it 'must not read if the file doesnt exist' do
-      _(res.read(rand.to_s)).must_be_nil
+      _(res.read('file-not-in-folder')).must_be_nil
     end
 
     it 'must not read files not covered' do
