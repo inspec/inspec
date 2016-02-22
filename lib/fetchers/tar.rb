@@ -34,14 +34,10 @@ module Fetchers
     def read_from_tar(file)
       return nil unless @files.include?(file)
       res = nil
+      # NB `TarReader` includes `Enumerable` beginning with Ruby 2.x
       Gem::Package::TarReader.new(Zlib::GzipReader.open(@target)) do |tar|
         tar.each do |entry|
-          next if entry.directory?
-          # ignore symlinks for now
-          next if entry.header.typeflag == '2'
-          # only handle files for now
-          next unless entry.file?
-          next unless file == entry.full_name
+          next unless entry.file? && file == entry.full_name
           res = entry.read
           break
         end
