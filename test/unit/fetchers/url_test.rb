@@ -82,7 +82,7 @@ describe Fetchers::Url do
     let(:res) {
       mock_open = Minitest::Mock.new
       mock_open.expect :meta, {'content-type' => 'application/gzip'}
-      mock_open.expect :read, File.read(mock_file)
+      mock_open.expect :read, File.open(mock_file, 'rb').read
       fetcher.expects(:open).returns(mock_open)
       fetcher.resolve(target)
     }
@@ -115,7 +115,7 @@ describe Fetchers::Url do
     let(:res) {
       mock_open = Minitest::Mock.new
       mock_open.expect :meta, {'content-type' => 'application/zip'}
-      mock_open.expect :read, File.read(mock_file)
+      mock_open.expect :read, File.open(mock_file, 'rb').read
       fetcher.expects(:open).returns(mock_open)
       fetcher.resolve(target)
     }
