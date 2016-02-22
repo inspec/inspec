@@ -33,6 +33,10 @@ module Inspec
       end
     end
 
+    BLACKLIST_FILES = [
+      'pax_global_header',
+    ].freeze
+
     class RelFetcher < Fetcher
       attr_reader :files
       attr_reader :prefix
@@ -56,6 +60,10 @@ module Inspec
 
       def get_prefix(fs)
         return '' if fs.empty?
+
+        # filter backlisted files
+        fs -= BLACKLIST_FILES
+
         sorted = fs.sort_by(&:length)
         get_folder_prefix(sorted)
       end
