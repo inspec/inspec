@@ -18,8 +18,6 @@ module Fetchers
       return nil if uri.nil? or uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme
       target = transform(target)
-      # TODO: for now, this can be much less strict now vv
-      return nil unless target.end_with?('tar.gz', 'zip')
       # fetch this url and hand it off
       res = new(target, opts)
       resolve_next(res.archive.path, res)
