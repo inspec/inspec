@@ -94,8 +94,8 @@ describe Fetchers::Url do
     end
 
     it 'must contain all files' do
-      _(res.files).must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb}
+      _(res.files.sort).must_equal %w{inspec.yml libraries libraries/testlib.rb
+        controls controls/filesystem_spec.rb}.sort
     end
 
     it 'must not read if the file isnt included' do
@@ -123,8 +123,8 @@ describe Fetchers::Url do
     end
 
     it 'must contain all files' do
-      _(res.files).must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb}
+      _(res.files.sort).must_equal %w{inspec.yml libraries libraries/testlib.rb
+        controls controls/filesystem_spec.rb}.sort
     end
 
     it 'must not read if the file isnt included' do

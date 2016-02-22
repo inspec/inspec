@@ -48,11 +48,7 @@ module Inspec
       o[:logger].level = get_log_level(o.log_level)
 
       runner = Inspec::Runner.new(o)
-      targets.map { |t|
-        profile = Inspec::Profile.for_target(t, opts)
-        fail "Could not resolve #{t} to valid input." if profile.nil?
-        runner.add_profile(profile)
-      }
+      targets.each { |target| runner.add_target(target, opts) }
       exit runner.run
     rescue RuntimeError => e
       puts e.message

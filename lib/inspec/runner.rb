@@ -8,6 +8,7 @@ require 'forwardable'
 require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
+require 'inspec/profile'
 require 'inspec/metadata'
 # spec requirements
 
@@ -58,6 +59,12 @@ module Inspec
         test = { ref: r, content: content }
         add_content(test, libs)
       end
+    end
+
+    def add_target(target, options = {})
+      profile = Inspec::Profile.for_target(target, options)
+      fail "Could not resolve #{target} to valid input." if profile.nil?
+      add_profile(profile)
     end
 
     def create_context

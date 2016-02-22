@@ -42,7 +42,7 @@ class DockerTester
     puts "--> run test on docker #{container.id}"
     opts = { 'target' => "docker://#{container.id}" }
     runner = Inspec::Runner.new(opts)
-    runner.add_tests(@tests)
+    @tests.each { |test| runner.add_target(test, opts) }
     runner.tests.map { |g| g.run(report) }
   end
 end

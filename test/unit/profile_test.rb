@@ -183,7 +183,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
-        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ["Verify all controls in controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
@@ -209,7 +209,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
-        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ["Verify all controls in controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
@@ -235,7 +235,7 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
-        logger.expect :info, nil, ["Verify all controls in #{home}/mock/profiles/#{profile_id}/controls/filesystem_spec.rb"]
+        logger.expect :info, nil, ["Verify all controls in controls/filesystem_spec.rb"]
         logger.expect :info, nil, ['Control definitions OK.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
