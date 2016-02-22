@@ -12,7 +12,7 @@ describe Fetchers::Tar do
     _(reg['tar']).must_equal fetcher
   end
 
-  describe 'applied to a zipped archive' do
+  describe 'applied to a tar archive' do
     let(:target) { MockLoader.profile_tgz('complete-profile') }
     let(:res) { fetcher.resolve(target) }
 
