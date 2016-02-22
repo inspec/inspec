@@ -29,7 +29,7 @@ module Supermarket
 
       # execute profile from inspec exec implementation
       diagnose
-      run_tests(opts, tests)
+      run_tests(tests, opts)
     end
 
     desc 'info profile', 'display profile details'
@@ -45,5 +45,5 @@ module Supermarket
   end
 
   # register the subcommand to Inspec CLI registry
-  Inspec::Plugins::CLI.add_subcommand(Supermarket::SupermarketCLI, 'supermarket', 'supermarket SUBCOMMAND ...', 'Supermarket commands', {})
+  Inspec::Plugins::CLI.add_subcommand(SupermarketCLI, 'supermarket', 'supermarket SUBCOMMAND ...', 'Supermarket commands', {})
 end

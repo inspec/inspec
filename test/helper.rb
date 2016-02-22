@@ -20,7 +20,8 @@ require 'tempfile'
 require 'zip'
 
 require 'utils/base_cli'
-require 'inspec/targets'
+require 'inspec/fetcher'
+require 'inspec/source_reader'
 require 'inspec/resource'
 require 'inspec/backend'
 require 'inspec/profile'
@@ -49,6 +50,8 @@ class MockLoader
     solaris10:  { family: "solaris", release: '10', arch: 'i386'},
     undefined:  { family: nil, release: nil, arch: nil },
   }
+
+  @archives = {}
 
   # pass the os identifier to emulate a specific operating system
   def initialize(os = nil)
@@ -250,11 +253,15 @@ class MockLoader
     File.join(File.dirname(__FILE__), 'unit')
   end
 
-  def self.load_profile(name, opts = {})
-    opts[:test_collector] = Inspec::RunnerMock.new
+  def self.profile_path(name)
     dst = name
     dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
-    Inspec::Profile.from_path(dst, opts)
+    dst
+  end
+
+  def self.load_profile(name, opts = {})
+    opts[:test_collector] = Inspec::RunnerMock.new
+    Inspec::Profile.for_target(profile_path(name), opts)
   end
 
   def self.profile_tgz(name)
@@ -270,6 +277,7 @@ class MockLoader
     require 'inspec/archive/tar'
     tag = Inspec::Archive::TarArchiveGenerator.new
     tag.archive(path, relatives, dst)
+    @archives[dst] = archive
 
     dst
   end
@@ -287,6 +295,7 @@ class MockLoader
     require 'inspec/archive/zip'
     zag = Inspec::Archive::ZipArchiveGenerator.new
     zag.archive(path, relatives, dst)
+    @archives[dst] = archive
     dst
   end
 end

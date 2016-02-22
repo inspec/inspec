@@ -42,13 +42,13 @@ module Inspec
     private
 
     # helper method to run tests
-    def run_tests(opts, tests)
+    def run_tests(targets, opts)
       o = opts.dup
       o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
       o[:logger].level = get_log_level(o.log_level)
 
       runner = Inspec::Runner.new(o)
-      runner.add_tests(tests)
+      targets.each { |target| runner.add_target(target, opts) }
       exit runner.run
     rescue RuntimeError => e
       puts e.message

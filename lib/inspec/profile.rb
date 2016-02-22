@@ -3,71 +3,53 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'forwardable'
+require 'inspec/fetcher'
+require 'inspec/source_reader'
 require 'inspec/metadata'
-require 'pathname'
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
-    def self.from_path(path, options = nil)
-      opt = {}
-      options.each { |k, v| opt[k.to_sym] = v } unless options.nil?
-      opt[:path] = path
-      Profile.new(opt)
+    extend Forwardable
+    attr_reader :path
+
+    def self.for_target(target, opts)
+      # Fetchers retrieve file contents
+      opts[:target] = target
+      fetcher = Inspec::Fetcher.resolve(target)
+      return nil if fetcher.nil?
+      # Source readers understand the target's structure and provide
+      # access to tests, libraries, and metadata
+      reader = Inspec::SourceReader.resolve(fetcher.relative_target)
+      return nil if reader.nil?
+      new(reader, opts)
     end
 
-    attr_reader :params
-    attr_reader :path
-    attr_reader :metadata
+    attr_reader :source_reader
+    def_delegator :@source_reader, :tests
+    def_delegator :@source_reader, :libraries
+    def_delegator :@source_reader, :metadata
 
     # rubocop:disable Metrics/AbcSize
-    def initialize(options = nil)
+    def initialize(source_reader, options = nil)
       @options = options || {}
-      @logger = options[:logger] || Logger.new(nil)
-      @path = @options[:path]
-      @profile_id = options[:id]
+      @target = @options.delete(:target)
+      @logger = @options[:logger] || Logger.new(nil)
+      @source_reader = source_reader
+      @profile_id = @options[:id]
+      Metadata.finalize(@source_reader.metadata, @profile_id)
+    end
 
-      @runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: @options.delete(:test_collector),
-      )
-
-      # we're checking a profile, we don't care if it runs on the host machine
-      @options[:ignore_supports] = true
-      tests, libs, metadata = @runner.add_tests([@path], @options)
-      @content = tests + libs + metadata
-
-      # NB if you want to check more than one profile, use one
-      # Inspec::Profile#from_file per profile
-      @metadata_source = metadata.first
-      @metadata = Metadata.from_ref(@metadata_source[:ref], @metadata_source[:content], @profile_id, @logger)
-      @params = @metadata.params
-      @profile_id ||= params[:name]
-      @params[:name] = @profile_id
-      @params[:rules] = rules = {}
-
-      @runner.rules.each do |id, rule|
-        file = rule.instance_variable_get(:@__file)
-        rules[file] ||= {}
-        rules[file][id] = {
-          title: rule.title,
-          desc: rule.desc,
-          impact: rule.impact,
-          checks: rule.instance_variable_get(:@checks),
-          code: rule.instance_variable_get(:@__code),
-          source_location: rule.instance_variable_get(:@__source_location),
-          group_title: rule.instance_variable_get(:@__group_title),
-        }
-      end
+    def params
+      @params ||= load_params
     end
 
     def info
-      res = @params.dup
+      res = params.dup
       rules = {}
       res[:rules].each do |gid, group|
         next if gid.to_s.empty?
-        path = gid.sub(File.join(@path, ''), '')
-        rules[path] = { title: path, rules: {} }
+        rules[gid] = { title: gid, rules: {} }
         group.each do |id, rule|
           next if id.to_s.empty?
           data = rule.dup
@@ -75,10 +57,10 @@ module Inspec
           data[:impact] ||= 0.5
           data[:impact] = 1.0 if data[:impact] > 1.0
           data[:impact] = 0.0 if data[:impact] < 0.0
-          rules[path][:rules][id] = data
+          rules[gid][:rules][id] = data
           # TODO: temporarily flatten the group down; replace this with
           # proper hierarchy later on
-          rules[path][:title] = data[:group_title]
+          rules[gid][:title] = data[:group_title]
         end
       end
       res[:rules] = rules
@@ -95,7 +77,7 @@ module Inspec
         summary: {
           valid: false,
           timestamp: Time.now.iso8601,
-          location: @path,
+          location: @target,
           profile: nil,
           controls: 0,
         },
@@ -123,27 +105,27 @@ module Inspec
         result[:errors].push(entry.call(file, line, column, control, msg))
       }
 
-      @logger.info "Checking profile in #{@path}"
-
-      if @content.any? { |h| h[:type] == :metadata && h[:ref] =~ /metadata\.rb$/ }
-        warn.call(Pathname.new(path).join('metadata.rb'), 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+      @logger.info "Checking profile in #{@target}"
+      meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
+      if meta_path =~ /metadata\.rb$/
+        warn.call(@target, 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
       end
 
       # verify metadata
-      m_errors, m_warnings = @metadata.valid
-      m_errors.each { |msg| error.call(@metadata_source[:ref], 0, 0, nil, msg) }
-      m_warnings.each { |msg| warn.call(@metadata_source[:ref], 0, 0, nil, msg) }
-      m_unsupported = @metadata.unsupported
-      m_unsupported.each { |u| warn.call(@metadata_source[:ref], 0, 0, nil, "doesn't support: #{u}") }
+      m_errors, m_warnings = metadata.valid
+      m_errors.each { |msg| error.call(meta_path, 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
+      m_unsupported = metadata.unsupported
+      m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
       @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
 
       # extract profile name
-      result[:summary][:profile] = @metadata.params[:name]
+      result[:summary][:profile] = metadata.params[:name]
 
       # check if the profile is using the old test directory instead of the
       # new controls directory
-      if @content.any? { |h| h[:type] == :test && h[:ref] =~ %r{test/[^/]+$} }
-        warn.call(Pathname.new(path).join('test'), 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
+      if @source_reader.tests.keys.any? { |x| x =~ %r{^test/$} }
+        warn.call(@target, 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
       count = rules_count
@@ -155,7 +137,7 @@ module Inspec
       end
 
       # iterate over hash of groups
-      @params[:rules].each { |group, controls|
+      params[:rules].each { |group, controls|
         @logger.info "Verify all controls in #{group}"
         controls.each { |id, control|
           sfile, sline = control[:source_location]
@@ -177,21 +159,20 @@ module Inspec
     end
 
     def rules_count
-      @params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
+      params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
     end
 
     # generates a archive of a folder profile
     # assumes that the profile was checked before
     def archive(opts) # rubocop:disable Metrics/AbcSize
-      profile_name = @params[:name]
-
+      profile_name = params[:name]
       ext = opts[:zip] ? 'zip' : 'tar.gz'
 
       if opts[:archive]
         archive = Pathname.new(opts[:archive])
       else
         slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
-        archive = Pathname.new(File.dirname(__FILE__)).join('../..', "#{slug}.#{ext}")
+        archive = Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
       end
 
       # check if file exists otherwise overwrite the archive
@@ -202,38 +183,68 @@ module Inspec
 
       # remove existing archive
       File.delete(archive) if archive.exist?
-
       @logger.info "Generate archive #{archive}."
-
-      # find all files
-      files = Dir.glob("#{path}/**/*")
 
       # filter files that should not be part of the profile
       # TODO ignore all .files, but add the files to debug output
 
-      # map absolute paths to relative paths
-      files = files.collect { |f| Pathname.new(f).relative_path_from(Pathname.new(path)).to_s }
-
       # display all files that will be part of the archive
       @logger.debug 'Add the following files to archive:'
-      files.each { |f|
-        @logger.debug '    ' + f
-      }
+      root_path = @source_reader.target.prefix
+      files = @source_reader.target.files
+      files.each { |f| @logger.debug '    ' + f }
 
       if opts[:zip]
         # generate zip archive
         require 'inspec/archive/zip'
         zag = Inspec::Archive::ZipArchiveGenerator.new
-        zag.archive(path, files, archive)
+        zag.archive(root_path, files, archive)
       else
         # generate tar archive
         require 'inspec/archive/tar'
         tag = Inspec::Archive::TarArchiveGenerator.new
-        tag.archive(path, files, archive)
+        tag.archive(root_path, files, archive)
       end
 
       @logger.info 'Finished archive generation.'
       true
+    end
+
+    private
+
+    def load_params
+      params = @source_reader.metadata.params
+      params[:name] = @profile_id unless @profile_id.nil?
+      params[:rules] = rules = {}
+      prefix = @source_reader.target.prefix || ''
+
+      # we're checking a profile, we don't care if it runs on the host machine
+      opts = @options.dup
+      opts[:ignore_supports] = true
+      runner = Runner.new(
+        id: @profile_id,
+        backend: :mock,
+        test_collector: opts.delete(:test_collector),
+      )
+      runner.add_profile(self, opts)
+
+      runner.rules.each do |id, rule|
+        file = rule.instance_variable_get(:@__file)
+        file = file[prefix.length..-1] if file.start_with?(prefix)
+        rules[file] ||= {}
+        rules[file][id] = {
+          title: rule.title,
+          desc: rule.desc,
+          impact: rule.impact,
+          checks: rule.instance_variable_get(:@checks),
+          code: rule.instance_variable_get(:@__code),
+          source_location: rule.instance_variable_get(:@__source_location),
+          group_title: rule.instance_variable_get(:@__group_title),
+        }
+      end
+
+      @profile_id ||= params[:name]
+      params
     end
   end
 end

@@ -8,12 +8,12 @@ require 'forwardable'
 require 'uri'
 require 'inspec/backend'
 require 'inspec/profile_context'
-require 'inspec/targets'
+require 'inspec/profile'
 require 'inspec/metadata'
 # spec requirements
 
 module Inspec
-  class Runner # rubocop:disable Metrics/ClassLength
+  class Runner
     extend Forwardable
     attr_reader :backend, :rules
     def initialize(conf = {})
@@ -46,45 +46,25 @@ module Inspec
       @backend = Inspec::Backend.create(@conf)
     end
 
-    def add_test_profile(test, ignore_supports = false)
-      assets = Inspec::Targets.resolve(test, @conf)
-      meta_assets = assets.find_all { |a| a[:type] == :metadata }
-      metas = meta_assets.map do |x|
-        Inspec::Metadata.from_ref(x[:ref], x[:content], @profile_id, @conf[:logger])
-      end
-      metas.each do |meta|
-        return [] unless ignore_supports || meta.supports_transport?(@backend)
-      end
-      assets
-    end
+    def add_profile(profile, options = {})
+      return unless options[:ignore_supports] ||
+                    profile.metadata.supports_transport?(@backend)
 
-    def add_tests(tests, options = {})
-      # retrieve the raw ruby code of all tests
-      items = tests.map do |test|
-        add_test_profile(test, options[:ignore_supports])
-      end.flatten
-
-      tests = items.find_all { |i| i[:type] == :test }
-      libs = items.find_all { |i| i[:type] == :library }
-      meta = items.find_all { |i| i[:type] == :metadata }
-
-      # Ensure each test directory exists on the $LOAD_PATH. This
-      # will ensure traditional RSpec-isms like `require 'spec_helper'`
-      # continue to work.
-      tests.flatten.each do |test|
-        # do not load path for virtual files, eg. from zip
-        if !test[:ref].nil?
-          test_directory = File.dirname(test[:ref])
-          $LOAD_PATH.unshift test_directory unless $LOAD_PATH.include?(test_directory)
-        end
+      libs = profile.libraries.map do |k, v|
+        { ref: k, content: v }
       end
 
-      # add all tests (raw) to the runtime
-      tests.flatten.each do |test|
+      profile.tests.each do |ref, content|
+        r = profile.source_reader.target.abs_path(ref)
+        test = { ref: r, content: content }
         add_content(test, libs)
       end
+    end
 
-      [tests, libs, meta]
+    def add_target(target, options = {})
+      profile = Inspec::Profile.for_target(target, options)
+      fail "Could not resolve #{target} to valid input." if profile.nil?
+      add_profile(profile)
     end
 
     def create_context

@@ -9,6 +9,8 @@ module Inspec
   module Plugins
     autoload :Resource, 'inspec/plugins/resource'
     autoload :CLI, 'inspec/plugins/cli'
+    autoload :Fetcher, 'inspec/plugins/fetcher'
+    autoload :SourceReader, 'inspec/plugins/source_reader'
   end
 
   # PLEASE NOTE: The Plugin system is an internal mechanism for connecting

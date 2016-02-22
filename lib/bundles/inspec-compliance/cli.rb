@@ -47,7 +47,7 @@ module Compliance
 
       # execute profile from inspec exec implementation
       diagnose
-      run_tests(opts, tests)
+      run_tests(tests, opts)
     end
 
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'

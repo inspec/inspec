@@ -20,12 +20,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     desc: 'Attach a profile ID to all test results'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
-  def json(path)
+  def json(target)
     diagnose
     o = opts.dup
     o[:ignore_supports] = true
 
-    profile = Inspec::Profile.from_path(path, o)
+    profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
     if dst.empty?
       puts JSON.pretty_generate(profile.info)
@@ -49,7 +49,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o[:ignore_supports] = true # we check for integrity only
 
     # run check
-    profile = Inspec::Profile.from_path(path, o)
+    profile = Inspec::Profile.for_target(path, o)
     result = profile.check
 
     if opts['format'] == 'json'
@@ -88,7 +88,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
 
-    profile = Inspec::Profile.from_path(path, o)
+    profile = Inspec::Profile.for_target(path, o)
     result = profile.check
 
     if result && !opts[:ignore_errors] == false
@@ -105,9 +105,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     desc: 'Attach a profile ID to all test results'
   target_options
   option :format, type: :string
-  def exec(*tests)
+  def exec(*targets)
     diagnose
-    run_tests(opts, tests)
+    run_tests(targets, opts)
   end
 
   desc 'detect', 'detect the target OS'
@@ -115,11 +115,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def detect
     diagnose
 
-    runner = Inspec::Runner.new(opts)
     rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
     detect_util = File.expand_path(rel)
-    runner.add_tests([detect_util])
-    runner.run
+    # exits on execution:
+    runner = Inspec::Runner.new(opts)
+    profile = Inspec::Profile.for_target(detect_util, opts)
+    runner.add_profile(profile)
+    exit runner.run
   rescue RuntimeError => e
     puts e.message
   end

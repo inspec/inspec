@@ -7,7 +7,6 @@ require 'minitest/autorun'
 require 'minitest/spec'
 require 'mocha/setup'
 
-require 'inspec/targets'
 require 'inspec/plugins/cli'
 require 'thor'
 
