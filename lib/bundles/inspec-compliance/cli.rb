@@ -57,7 +57,7 @@ module Compliance
       o = options.dup
       configure_logger(o)
       # check the profile, we only allow to upload valid profiles
-      profile = Inspec::Profile.from_path(path, o)
+      profile = Inspec::Profile.for_target(path, o)
 
       # start verification process
       error_count = 0
