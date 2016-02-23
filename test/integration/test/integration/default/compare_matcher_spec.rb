@@ -29,4 +29,9 @@ if os.linux?
     it { should include 'root' }
     it { should_not cmp 'root' }
   end
+
+  len = passwd.passwords.length
+  describe len do
+    it { should cmp len.to_s }
+  end
 end
