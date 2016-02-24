@@ -17,11 +17,16 @@ module Inspec
       # Fetchers retrieve file contents
       opts[:target] = target
       fetcher = Inspec::Fetcher.resolve(target)
-      return nil if fetcher.nil?
+      if fetcher.nil?
+        fail("Could not fetch inspec profile in #{target.inspect}.")
+      end
       # Source readers understand the target's structure and provide
       # access to tests, libraries, and metadata
       reader = Inspec::SourceReader.resolve(fetcher.relative_target)
-      return nil if reader.nil?
+      if reader.nil?
+        fail("Don't understand inspec profile in #{target.inspect}, it "\
+             "doesn't look like a supported profile structure.")
+      end
       new(reader, opts)
     end
 

@@ -49,6 +49,7 @@ module Inspec
       end
 
       def abs_path(file)
+        return nil if file.nil?
         prefix + file
       end
 
