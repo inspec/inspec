@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.14.2](https://github.com/chef/inspec/tree/0.14.2) (2016-02-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.1...0.14.2)
+## [0.14.3](https://github.com/chef/inspec/tree/0.14.3) (2016-02-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.2...0.14.3)
+
+**Implemented enhancements:**
+
+- cmp matcher should compare expected string == number [\#487](https://github.com/chef/inspec/pull/487) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- expose inspec errors during profile read [\#492](https://github.com/chef/inspec/pull/492) ([arlimus](https://github.com/arlimus))
+
+## [v0.14.2](https://github.com/chef/inspec/tree/v0.14.2) (2016-02-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.1...v0.14.2)
 
 **Fixed bugs:**
 
@@ -9,6 +20,7 @@
 
 **Merged pull requests:**
 
+- 0.14.2 [\#484](https://github.com/chef/inspec/pull/484) ([arlimus](https://github.com/arlimus))
 - load plugins in the same gem installation [\#482](https://github.com/chef/inspec/pull/482) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.1](https://github.com/chef/inspec/tree/v0.14.1) (2016-02-22)
