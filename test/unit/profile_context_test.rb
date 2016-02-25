@@ -88,6 +88,13 @@ describe Inspec::ProfileContext do
       load('print command("").stdout').must_output ''
     end
 
+    it 'supports empty describe calls' do
+      load('describe').must_output ''
+      profile.rules.keys.length.must_equal 1
+      profile.rules.keys[0].must_match /^\(generated from unknown:1 [0-9a-f]+\)$/
+      profile.rules.values[0].must_be_kind_of Inspec::Rule
+    end
+
     it 'provides the describe keyword in the global DSL' do
       load('describe true do; it { should_eq true }; end')
         .must_output ''
@@ -133,17 +140,20 @@ describe Inspec::ProfileContext do
       rule.instance_variable_get(:@checks).must_equal([])
     end
 
+    describe 'supports empty describe blocks' do
+      it 'doesnt crash, but doesnt add anything either' do
+        profile.load(format(context_format, 'describe'))
+        profile.rules.keys.must_include(rule_id)
+        get_checks.must_equal([])
+      end
+    end
+
     describe 'adds a check via describe' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          describe os[:family] { it { must_equal 'ubuntu' } }
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "describe os[:family] { it { must_equal 'ubuntu' } }"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do
@@ -160,16 +170,11 @@ describe Inspec::ProfileContext do
     end
 
     describe 'adds a check via expect' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          expect(os[:family]).to eq('ubuntu')
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "expect(os[:family]).to eq('ubuntu')"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do
@@ -186,18 +191,13 @@ describe Inspec::ProfileContext do
     end
 
     describe 'adds a check via describe + expect' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          describe 'the actual test' do
-            expect(os[:family]).to eq('ubuntu')
-          end
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "describe 'the actual test' do
+            expect(os[:family]).to eq('ubuntu')
+          end"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do
