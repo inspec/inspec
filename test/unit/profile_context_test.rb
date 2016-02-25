@@ -5,9 +5,63 @@
 require 'helper'
 require 'inspec/profile_context'
 
+class Module
+  include Minitest::Spec::DSL
+end
+
+module DescribeOneTest
+  it 'loads an empty describe.one' do
+    profile.load(format(context_format, 'describe.one'))
+    get_checks.must_equal([])
+  end
+
+  it 'loads an empty describe.one block' do
+    profile.load(format(context_format, 'describe.one do; end'))
+    get_checks.must_equal([['describe.one', [], nil]])
+  end
+
+  it 'loads a simple describe.one block' do
+    profile.load(format(context_format, '
+      describe.one do
+        describe true do; it { should eq true }; end
+      end'))
+    c = get_checks[0]
+    c[0].must_equal 'describe.one'
+    childs = c[1]
+    childs.length.must_equal 1
+    childs[0][0].must_equal 'describe'
+    childs[0][1].must_equal [true]
+  end
+
+  it 'loads a complex describe.one block' do
+    profile.load(format(context_format, '
+      describe.one do
+        describe 0 do; it { should eq true }; end
+        describe 1 do; it { should eq true }; end
+        describe 2 do; it { should eq true }; end
+      end'))
+    c = get_checks[0]
+    c[0].must_equal 'describe.one'
+    childs = c[1]
+    childs.length.must_equal 3
+    childs.each_with_index do |ci, idx|
+      ci[0].must_equal 'describe'
+      ci[1].must_equal [idx]
+    end
+  end
+end
+
 describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
   let(:profile) { Inspec::ProfileContext.new(nil, backend) }
+
+  def get_rule
+    profile.rules.values[0]
+  end
+
+  def get_checks
+    get_rule.instance_variable_get(:@checks)
+  end
 
   it 'must be able to load empty content' do
     profile.load('', 'dummy', 1).must_be_nil
@@ -17,6 +71,10 @@ describe Inspec::ProfileContext do
     def load(call)
       proc { profile.load(call) }
     end
+
+    let(:context_format) { '%s' }
+
+    include DescribeOneTest
 
     it 'must provide os resource' do
       load('print os[:family]').must_output 'ubuntu'
@@ -61,6 +119,13 @@ describe Inspec::ProfileContext do
 
   describe 'rule DSL' do
     let(:rule_id) { rand.to_s }
+    let(:context_format) { "rule #{rule_id.inspect} do\n%s\nend" }
+
+    def get_rule
+      profile.rules[rule_id]
+    end
+
+    include DescribeOneTest
 
     it 'doesnt add any checks if none are provided' do
       profile.load("rule #{rule_id.inspect}")
@@ -116,7 +181,7 @@ describe Inspec::ProfileContext do
       end
 
       it 'registers the check with the provided proc' do
-        check[2].must_be_kind_of Inspec::ExpectationTarget
+        check[2].must_be_kind_of Inspec::Expect
       end
     end
 

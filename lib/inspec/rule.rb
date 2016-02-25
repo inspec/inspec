@@ -4,47 +4,11 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'rspec/expectations'
 require 'method_source'
+require 'inspec/describe'
+require 'inspec/expect'
 
 module Inspec
-  class ExpectationTarget
-    attr_reader :calls, :value, :block
-    def initialize(value, &block)
-      @value = value
-      @block = block
-      @calls = []
-    end
-
-    def to(*args, &block)
-      @calls.push([:to, args, block, caller])
-    end
-
-    def not_to(*args, &block)
-      @calls.push([:not_to, args, block, caller])
-    end
-
-    def example_group
-      that = self
-
-      opts = { 'caller' => calls[0][3] }
-      if !calls[0][3].nil? && !calls[0][3].empty? &&
-         (m = calls[0][3][0].match(/^([^:]*):(\d+):/))
-        opts['file_path'] = m[0]
-        opts['line_number'] = m[1]
-      end
-
-      RSpec::Core::ExampleGroup.describe(that.value, opts) do
-        that.calls.each do |method, args, block, clr|
-          it(nil, caller: clr) do
-            x = expect(that.value, &that.block).method(method)
-            x.call(*args, &block)
-          end
-        end
-      end
-    end
-  end
-
   class Rule
     include ::RSpec::Matchers
 
@@ -83,13 +47,32 @@ module Inspec
       @desc
     end
 
-    def describe(value, &block)
-      @checks.push(['describe', [value], block])
+    # Describe will add one or more tests to this control. There is 2 ways
+    # of calling it:
+    #
+    #   describe resource do ... end
+    #
+    # or
+    #
+    #   describe.one do ... end
+    #
+    # @param [any] Resource to be describe, string, or nil
+    # @param [Proc] An optional block containing tests for the described resource
+    # @return [nil|DescribeBase] if called without arguments, returns DescribeBase
+    def describe(*values, &block)
+      if values.empty? && !block_given?
+        dsl = self.class.ancestors[1]
+        Class.new(DescribeBase) do
+          include dsl
+        end.new(method(:add_check))
+      else
+        add_check('describe', values, block)
+      end
     end
 
     def expect(value, &block)
-      target = ExpectationTarget.new(value, &block)
-      @checks.push(['expect', [value], target])
+      target = Inspec::Expect.new(value, &block)
+      add_check('expect', [value], target)
       target
     end
 
@@ -147,6 +130,10 @@ module Inspec
     end
 
     private
+
+    def add_check(describe_or_expect, values, block)
+      @checks.push([describe_or_expect, values, block])
+    end
 
     # Idio(ma)tic unindent
     # TODO: replace this
