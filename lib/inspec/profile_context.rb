@@ -85,7 +85,7 @@ module Inspec
     #
     # @param outer_dsl [OuterDSLClass]
     # @return [ProfileContextClass]
-    def create_context(resources_dsl, rule_class)
+    def create_context(resources_dsl, rule_class) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       profile_context_owner = self
 
       # rubocop:disable Lint/NestedMethodDefinition
@@ -117,13 +117,15 @@ module Inspec
         alias_method :rule, :control
 
         define_method :describe do |*args, &block|
-          path = block.source_location[0]
-          line = block.source_location[1]
-          id = "(generated from #{File.basename(path)}:#{line} #{SecureRandom.hex})"
+          loc = block_location(block, caller[0])
+          id = "(generated from #{loc} #{SecureRandom.hex})"
+
+          res = nil
           rule = rule_class.new(id, {}) do
-            describe(*args, &block)
+            res = describe(*args, &block)
           end
           profile_context_owner.register_rule(rule, &block)
+          res
         end
 
         # TODO: mock method for attributes; import attribute handling
@@ -140,6 +142,17 @@ module Inspec
         def only_if
           return unless block_given?
           @skip_profile = !yield
+        end
+
+        private
+
+        def block_location(block, alternate_caller)
+          if block.nil?
+            alternate_caller[/^(.+:\d+):in .+$/, 1] || 'unknown'
+          else
+            path, line = block.source_location
+            "#{File.basename(path)}:#{line}"
+          end
         end
       end
       # rubocop:enable all

@@ -13,7 +13,7 @@ require 'inspec/metadata'
 # spec requirements
 
 module Inspec
-  class Runner
+  class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
     attr_reader :backend, :rules
     def initialize(conf = {})
@@ -96,13 +96,17 @@ module Inspec
 
     private
 
-    def get_check_example(method_name, arg, block)
+    def block_source_info(block)
+      return {} if block.nil? || !block.respond_to?(:source_location)
       opts = {}
-      if !block.nil? && block.respond_to?(:source_location)
-        file_path, line = block.source_location
-        opts['file_path'] = file_path
-        opts['line_number'] = line
-      end
+      file_path, line = block.source_location
+      opts['file_path'] = file_path
+      opts['line_number'] = line
+      opts
+    end
+
+    def get_check_example(method_name, arg, block)
+      opts = block_source_info(block)
 
       if !arg.empty? &&
          arg[0].respond_to?(:resource_skipped) &&
@@ -117,6 +121,16 @@ module Inspec
           return @test_collector.example_group(*arg, opts, &block)
         when 'expect'
           return block.example_group
+        when 'describe.one'
+          tests = arg.map do |x|
+            @test_collector.example_group(x[1][0], block_source_info(x[2]), &x[2])
+          end
+          return nil if tests.empty?
+          ok_tests = tests.find_all(&:run)
+          # return all tests if none succeeds; we will just report full failure
+          return tests if ok_tests.empty?
+          # otherwise return all working tests
+          return ok_tests
         else
           fail "A rule was registered with #{method_name.inspect}, "\
                "which isn't understood and cannot be processed."
@@ -128,10 +142,11 @@ module Inspec
     def register_rule(rule_id, rule)
       @rules[rule_id] = rule
       checks = rule.instance_variable_get(:@checks)
-      checks.each do |m, a, b|
-        # resource skipping
-        example = get_check_example(m, a, b)
+      examples = checks.map do |m, a, b|
+        get_check_example(m, a, b)
+      end.flatten.compact
 
+      examples.each do |example|
         # TODO: Remove this!! It is very dangerous to do this here.
         # The goal of this is to make the audit DSL available to all
         # describe blocks. Right now, these blocks are executed outside
@@ -140,7 +155,6 @@ module Inspec
         # scope.
         dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
-
         @test_collector.add_test(example, rule_id)
       end
     end

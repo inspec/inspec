@@ -5,9 +5,63 @@
 require 'helper'
 require 'inspec/profile_context'
 
+class Module
+  include Minitest::Spec::DSL
+end
+
+module DescribeOneTest
+  it 'loads an empty describe.one' do
+    profile.load(format(context_format, 'describe.one'))
+    get_checks.must_equal([])
+  end
+
+  it 'loads an empty describe.one block' do
+    profile.load(format(context_format, 'describe.one do; end'))
+    get_checks.must_equal([['describe.one', [], nil]])
+  end
+
+  it 'loads a simple describe.one block' do
+    profile.load(format(context_format, '
+      describe.one do
+        describe true do; it { should eq true }; end
+      end'))
+    c = get_checks[0]
+    c[0].must_equal 'describe.one'
+    childs = c[1]
+    childs.length.must_equal 1
+    childs[0][0].must_equal 'describe'
+    childs[0][1].must_equal [true]
+  end
+
+  it 'loads a complex describe.one block' do
+    profile.load(format(context_format, '
+      describe.one do
+        describe 0 do; it { should eq true }; end
+        describe 1 do; it { should eq true }; end
+        describe 2 do; it { should eq true }; end
+      end'))
+    c = get_checks[0]
+    c[0].must_equal 'describe.one'
+    childs = c[1]
+    childs.length.must_equal 3
+    childs.each_with_index do |ci, idx|
+      ci[0].must_equal 'describe'
+      ci[1].must_equal [idx]
+    end
+  end
+end
+
 describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
   let(:profile) { Inspec::ProfileContext.new(nil, backend) }
+
+  def get_rule
+    profile.rules.values[0]
+  end
+
+  def get_checks
+    get_rule.instance_variable_get(:@checks)
+  end
 
   it 'must be able to load empty content' do
     profile.load('', 'dummy', 1).must_be_nil
@@ -17,6 +71,10 @@ describe Inspec::ProfileContext do
     def load(call)
       proc { profile.load(call) }
     end
+
+    let(:context_format) { '%s' }
+
+    include DescribeOneTest
 
     it 'must provide os resource' do
       load('print os[:family]').must_output 'ubuntu'
@@ -28,6 +86,13 @@ describe Inspec::ProfileContext do
 
     it 'must provide command resource' do
       load('print command("").stdout').must_output ''
+    end
+
+    it 'supports empty describe calls' do
+      load('describe').must_output ''
+      profile.rules.keys.length.must_equal 1
+      profile.rules.keys[0].must_match /^\(generated from unknown:1 [0-9a-f]+\)$/
+      profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
 
     it 'provides the describe keyword in the global DSL' do
@@ -61,6 +126,13 @@ describe Inspec::ProfileContext do
 
   describe 'rule DSL' do
     let(:rule_id) { rand.to_s }
+    let(:context_format) { "rule #{rule_id.inspect} do\n%s\nend" }
+
+    def get_rule
+      profile.rules[rule_id]
+    end
+
+    include DescribeOneTest
 
     it 'doesnt add any checks if none are provided' do
       profile.load("rule #{rule_id.inspect}")
@@ -68,17 +140,20 @@ describe Inspec::ProfileContext do
       rule.instance_variable_get(:@checks).must_equal([])
     end
 
+    describe 'supports empty describe blocks' do
+      it 'doesnt crash, but doesnt add anything either' do
+        profile.load(format(context_format, 'describe'))
+        profile.rules.keys.must_include(rule_id)
+        get_checks.must_equal([])
+      end
+    end
+
     describe 'adds a check via describe' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          describe os[:family] { it { must_equal 'ubuntu' } }
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "describe os[:family] { it { must_equal 'ubuntu' } }"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do
@@ -95,16 +170,11 @@ describe Inspec::ProfileContext do
     end
 
     describe 'adds a check via expect' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          expect(os[:family]).to eq('ubuntu')
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "expect(os[:family]).to eq('ubuntu')"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do
@@ -116,23 +186,18 @@ describe Inspec::ProfileContext do
       end
 
       it 'registers the check with the provided proc' do
-        check[2].must_be_kind_of Inspec::ExpectationTarget
+        check[2].must_be_kind_of Inspec::Expect
       end
     end
 
     describe 'adds a check via describe + expect' do
-      let(:cmd) {<<-EOF
-        rule #{rule_id.inspect} do
-          describe 'the actual test' do
-            expect(os[:family]).to eq('ubuntu')
-          end
-        end
-      EOF
-      }
       let(:check) {
-        profile.load(cmd)
-        rule = profile.rules[rule_id]
-        rule.instance_variable_get(:@checks)[0]
+        profile.load(format(context_format,
+          "describe 'the actual test' do
+            expect(os[:family]).to eq('ubuntu')
+          end"
+          ))
+        get_checks[0]
       }
 
       it 'registers the check with describe' do

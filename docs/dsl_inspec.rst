@@ -45,9 +45,22 @@ where
 * ``its('Port')`` is the matcher; ``{ should eq('22') }`` is the test. A ``describe`` block must contain at least one matcher, but may contain as many as required
 
 
-Author Tests
------------------------------------------------------
-It is recommended that test files are located in the ``/tests`` directory. When writing controls, the ``impact``, ``title``, ``desc`` metadata are _optional_, but are highly recommended.
+Advanced concepts
+=====================================================
+
+With inspec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via ``describe.one``. It defines a block of tests with at least one valid check.
+
+.. code-block:: ruby
+
+   describe.one do
+     describe ConfigurationA do
+       its('setting_1') { should eq true }
+     end
+
+     describe ConfigurationB do
+       its('setting_2') { should eq true }
+     end
+   end
 
 Examples
 =====================================================
