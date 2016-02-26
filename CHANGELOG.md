@@ -1,15 +1,31 @@
 # Change Log
 
-## [0.14.3](https://github.com/chef/inspec/tree/0.14.3) (2016-02-24)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.2...0.14.3)
+## [0.14.4](https://github.com/chef/inspec/tree/0.14.4) (2016-02-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.3...0.14.4)
+
+**Implemented enhancements:**
+
+- add `describe.one`: collection of tests with at least one passing [\#497](https://github.com/chef/inspec/pull/497) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- don't crash on empty metadata during finalize [\#500](https://github.com/chef/inspec/pull/500) ([arlimus](https://github.com/arlimus))
+- add xinetd\_conf resource [\#499](https://github.com/chef/inspec/pull/499) ([arlimus](https://github.com/arlimus))
+
+## [v0.14.3](https://github.com/chef/inspec/tree/v0.14.3) (2016-02-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.2...v0.14.3)
 
 **Implemented enhancements:**
 
 - cmp matcher should compare expected string == number [\#487](https://github.com/chef/inspec/pull/487) ([chris-rock](https://github.com/chris-rock))
 
-**Merged pull requests:**
+**Fixed bugs:**
 
 - expose inspec errors during profile read [\#492](https://github.com/chef/inspec/pull/492) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.14.3 [\#493](https://github.com/chef/inspec/pull/493) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.2](https://github.com/chef/inspec/tree/v0.14.2) (2016-02-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.1...v0.14.2)
