@@ -177,3 +177,56 @@ module SolarisNetstatParser
     line.match(Regexp.new(arr.join))
   end
 end
+
+module XinetdParser
+  def xinetd_include_dir(dir)
+    return [] if dir.nil?
+
+    unless inspec.file(dir).directory?
+      return skip_resource "Cannot read folder in #{dir}"
+    end
+
+    files = inspec.command("find #{dir} -type f").stdout.split("\n")
+    files.map { |file| parse_xinetd(read_content(file)) }
+  end
+
+  def parse_xinetd(raw) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    return {} if raw.nil?
+    res = {}
+    cur_group = nil
+    simple_conf = []
+    rest = raw
+    until rest.empty?
+      nl = rest.index("\n") || (rest.length-1)
+      comment = rest.index('#') || (rest.length-1)
+      dst_idx = (comment < nl) ? comment : nl
+      inner_line = (dst_idx == 0) ? '' : rest[0..dst_idx-1].strip
+      rest = rest[nl+1..-1]
+      next if inner_line.empty?
+
+      if inner_line == '}'
+        res[cur_group] = SimpleConfig.new(simple_conf.join("\n"))
+        cur_group = nil
+      elsif rest.lstrip[0] == '{'
+        cur_group = inner_line
+        simple_conf = []
+        rest = rest[rest.index("\n")+1..-1]
+      elsif cur_group.nil?
+        others = xinetd_include_dir(inner_line[/includedir (.+)/, 1])
+
+        # complex merging of included configurations, as multiple services
+        # may be defined with the same name but different configuration
+        others.each { |ores|
+          ores.each { |k, v|
+            res[k] ||= []
+            res[k].push(v)
+          }
+        }
+      else
+        simple_conf.push(inner_line)
+      end
+    end
+
+    res
+  end
+end
