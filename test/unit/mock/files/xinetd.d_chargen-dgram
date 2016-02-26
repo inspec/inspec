@@ -1,0 +1,9 @@
+service chargen
+{
+    disable		= no
+    # comment
+    id		= chargen-dgram
+    type		= INTERNAL
+  	wait		= yes
+  	socket_type	= dgram
+}

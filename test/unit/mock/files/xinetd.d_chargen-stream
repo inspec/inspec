@@ -1,0 +1,9 @@
+service chargen
+{
+    disable		= yes
+    # disable = no
+    id		= chargen-stream
+    type		= INTERNAL
+  	wait		= yes
+  	socket_type	= stream
+}

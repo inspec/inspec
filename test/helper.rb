@@ -111,6 +111,10 @@ class MockLoader
       '/etc/apache2/apache2.conf' => mockfile.call('apache2.conf'),
       '/etc/apache2/ports.conf' => mockfile.call('ports.conf'),
       '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
+      '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
+      '/etc/xinetd.d' => mockfile.call('xinetd.d'),
+      '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
+      '/etc/xinetd.d/chargen-dgram' => mockfile.call('xinetd.d_chargen-dgram'),
     }
 
     # create all mock commands
@@ -225,6 +229,8 @@ class MockLoader
       'pkg info system/file-system/zfs' => cmd.call('pkg-info-system-file-system-zfs'),
       # port netstat on solaris 10 & 11
       'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
+      # xinetd configuration
+      'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
     }
 
     @backend
