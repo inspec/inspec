@@ -4,12 +4,12 @@
 
 require 'utils/parser'
 
-class XinetdConf < Inspec.resource(1)
+class XinetdConf < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
   name 'xinetd_conf'
   desc 'Xinetd services configuration.'
   example "
     describe xinetd_conf.services('chargen') do
-      its('socket_types') { should eq ['dgram', 'stream'] }
+      its('socket_types') { should include 'dgram' }
     end
 
     describe xinetd_conf.services('chargen').socket_types('dgram') do
@@ -74,11 +74,6 @@ class XinetdConf < Inspec.resource(1)
     @params
   end
 
-  def services_field(field)
-    params['services'].values.compact.flatten
-                      .map { |x| x.params[field] }.flatten.compact
-  end
-
   def filter(conditions = {})
     res = params.dup
     filters = ''
@@ -92,12 +87,40 @@ class XinetdConf < Inspec.resource(1)
 
   private
 
+  # Retrieve the provided field from all configured services.
+  #
+  # @param [String] field name, e.g. `socket_type`
+  # @return [Array[String]] all values of this field across services
+  def services_field(field)
+    params['services'].values.compact.flatten
+                      .map { |x| x.params[field] }.flatten.compact
+  end
+
+  def match_condition(sth, condition)
+    case sth
+    # this does Regex-matching as well as string comparison
+    when condition
+      true
+    else
+      false
+    end
+  end
+
+  # Filter services by a criteria. This allows for search queries for
+  # certain values.
+  #
+  # @param [Hash] service collection
+  # @param [String] search key you want to query
+  # @param [Any] search value that the key should match
+  # @return [Hash] filtered service collection
   def filter_by(services, k, v)
     if k == 'service'
-      return Hash[services.find_all { |name, _| v == name }]
+      return Hash[services.find_all { |name, _| match_condition(v, name) }]
     end
     Hash[services.map { |name, service_arr|
-      found = service_arr.find_all { |service| service.params[k] == v }
+      found = service_arr.find_all { |service|
+        match_condition(service.params[k], v)
+      }
       found.empty? ? nil : [name, found]
     }.compact]
   end

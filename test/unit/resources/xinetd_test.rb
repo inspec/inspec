@@ -44,8 +44,13 @@ describe 'Inspec::Resources::XinetdConf' do
     end
 
     it 'checks if all are enabled on one enabled service' do
-      one = resource.ids('chargen-dgram')
+      one = resource.ids(/dgram$/)
       _(one.enabled?).must_equal true
+    end
+
+    it 'checks if all are enabled on one enabled service' do
+      one = resource.ids(/stream$/)
+      _(one.enabled?).must_equal false
     end
 
     it 'checks if all are enabled on multiple mixed' do
