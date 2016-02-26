@@ -140,6 +140,7 @@ module Inspec
     end
 
     def self.finalize(metadata, profile_id)
+      return nil if metadata.nil?
       param = metadata.params || {}
       param['name'] = profile_id.to_s unless profile_id.to_s.empty?
       param['version'] = param['version'].to_s unless param['version'].nil?
