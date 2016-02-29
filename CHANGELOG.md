@@ -1,16 +1,27 @@
 # Change Log
 
-## [0.14.4](https://github.com/chef/inspec/tree/0.14.4) (2016-02-26)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.3...0.14.4)
-
-**Implemented enhancements:**
-
-- add `describe.one`: collection of tests with at least one passing [\#497](https://github.com/chef/inspec/pull/497) ([arlimus](https://github.com/arlimus))
+## [0.14.5](https://github.com/chef/inspec/tree/0.14.5) (2016-02-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.4...0.14.5)
 
 **Merged pull requests:**
 
-- don't crash on empty metadata during finalize [\#500](https://github.com/chef/inspec/pull/500) ([arlimus](https://github.com/arlimus))
+- Fix license warning during gem build. [\#503](https://github.com/chef/inspec/pull/503) ([juliandunn](https://github.com/juliandunn))
+
+## [v0.14.4](https://github.com/chef/inspec/tree/v0.14.4) (2016-02-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.3...v0.14.4)
+
+**Implemented enhancements:**
+
 - add xinetd\_conf resource [\#499](https://github.com/chef/inspec/pull/499) ([arlimus](https://github.com/arlimus))
+- add `describe.one`: collection of tests with at least one passing [\#497](https://github.com/chef/inspec/pull/497) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- don't crash on empty metadata during finalize [\#500](https://github.com/chef/inspec/pull/500) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.14.4 [\#501](https://github.com/chef/inspec/pull/501) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.3](https://github.com/chef/inspec/tree/v0.14.3) (2016-02-24)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.2...v0.14.3)
@@ -30,6 +41,10 @@
 ## [v0.14.2](https://github.com/chef/inspec/tree/v0.14.2) (2016-02-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.1...v0.14.2)
 
+**Implemented enhancements:**
+
+- load plugins in the same gem installation [\#482](https://github.com/chef/inspec/pull/482) ([arlimus](https://github.com/arlimus))
+
 **Fixed bugs:**
 
 - fix cc upload [\#483](https://github.com/chef/inspec/pull/483) ([chris-rock](https://github.com/chris-rock))
@@ -37,7 +52,6 @@
 **Merged pull requests:**
 
 - 0.14.2 [\#484](https://github.com/chef/inspec/pull/484) ([arlimus](https://github.com/arlimus))
-- load plugins in the same gem installation [\#482](https://github.com/chef/inspec/pull/482) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.1](https://github.com/chef/inspec/tree/v0.14.1) (2016-02-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.0...v0.14.1)
