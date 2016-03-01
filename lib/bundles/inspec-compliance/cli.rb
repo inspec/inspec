@@ -13,8 +13,10 @@ module Compliance
       desc: 'Chef Compliance Username'
     option :password, type: :string, required: true,
       desc: 'Chef Compliance Password'
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     def login(server)
-      success, msg = Compliance::API.login(server, options['user'], options['password'])
+      success, msg = Compliance::API.login(server, options['user'], options['password'], options['insecure'])
       if success
         puts 'Successfully authenticated'
       else
@@ -112,7 +114,7 @@ module Compliance
       url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
 
       puts "Uploading to #{url}"
-      success, msg = Compliance::API.post_file(url, config['token'], '', archive_path)
+      success, msg = Compliance::API.post_file(url, config['token'], '', archive_path, config['insecure'])
       if success
         puts 'Successfully uploaded profile'
       else
