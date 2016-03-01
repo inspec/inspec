@@ -99,6 +99,7 @@ require 'resources/user'
 require 'resources/vbscript'
 require 'resources/windows_feature'
 require 'resources/xinetd'
+require 'resources/wmi'
 require 'resources/yum'
 
 # file formats, depend on json implementation
