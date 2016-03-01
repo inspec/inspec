@@ -18,7 +18,11 @@ module Supermarket
       _success, data = get(url, { q: 'compliance_profile' })
       if !data.nil?
         profiles = JSON.parse(data)
-        profiles['items']
+        profiles['items'].map { |x|
+          m = %r{^#{Supermarket::API.supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
+          x['slug'] = m[:slug]
+          x
+        }
       else
         []
       end
@@ -34,15 +38,12 @@ module Supermarket
     # displays profile infos
     def self.info(profile)
       _tool_owner, tool_name = profile_name("supermarket://#{profile}")
+      return if tool_name.nil? || tool_name.empty?
       url = "#{SUPERMARKET_URL}/api/v1/tools/#{tool_name}"
       _success, data = get(url, {})
-      if !data.nil?
-        JSON.parse(data)
-      else
-        {}
-      end
+      JSON.parse(data) if !data.nil?
     rescue JSON::ParserError
-      {}
+      nil
     end
 
     # compares a profile with the supermarket tool info
