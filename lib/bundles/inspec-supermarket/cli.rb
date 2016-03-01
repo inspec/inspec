@@ -18,12 +18,12 @@ module Supermarket
       }
     end
 
-    desc 'exec PROFILE', 'executes a Supermarket profile'
+    desc 'exec PROFILE', 'execute a Supermarket profile'
     option :id, type: :string,
       desc: 'Attach a profile ID to all test results'
     target_options
     option :format, type: :string
-    def exec(*tests)
+    def exec(tests)
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'supermarket://' + t }
 
@@ -32,7 +32,7 @@ module Supermarket
       run_tests(tests, opts)
     end
 
-    desc 'info profile', 'display profile details'
+    desc 'info PROFILE', 'display Supermarket profile details'
     def info(profile)
       info = Supermarket::API.info(profile)
 
