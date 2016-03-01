@@ -1,10 +1,22 @@
 # Change Log
 
-## [0.14.5](https://github.com/chef/inspec/tree/0.14.5) (2016-02-29)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.4...0.14.5)
+## [0.14.6](https://github.com/chef/inspec/tree/0.14.6) (2016-03-01)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.5...0.14.6)
+
+**Fixed bugs:**
+
+- add missing supermarket loader [\#506](https://github.com/chef/inspec/pull/506) ([chris-rock](https://github.com/chris-rock))
 
 **Merged pull requests:**
 
+- Improve Supermarket CLI [\#508](https://github.com/chef/inspec/pull/508) ([alexpop](https://github.com/alexpop))
+
+## [v0.14.5](https://github.com/chef/inspec/tree/v0.14.5) (2016-02-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.4...v0.14.5)
+
+**Merged pull requests:**
+
+- 0.14.5 [\#505](https://github.com/chef/inspec/pull/505) ([chris-rock](https://github.com/chris-rock))
 - Fix license warning during gem build. [\#503](https://github.com/chef/inspec/pull/503) ([juliandunn](https://github.com/juliandunn))
 
 ## [v0.14.4](https://github.com/chef/inspec/tree/v0.14.4) (2016-02-26)
