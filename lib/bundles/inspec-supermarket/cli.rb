@@ -13,12 +13,11 @@ module Supermarket
 
       headline('Available profiles:')
       supermarket_profiles.each { |p|
-        m = %r{^#{Supermarket::API.supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(p['tool'])
-        li("#{p['tool_owner']}/#{m[:slug]}")
+        li("#{p['tool_owner']}/#{p['slug']}")
       }
     end
 
-    desc 'exec PROFILE', 'executes a Supermarket profile'
+    desc 'exec PROFILE', 'execute a Supermarket profile'
     option :id, type: :string,
       desc: 'Attach a profile ID to all test results'
     target_options
@@ -32,10 +31,21 @@ module Supermarket
       run_tests(tests, opts)
     end
 
-    desc 'info profile', 'display profile details'
+    desc 'info PROFILE', 'display Supermarket profile details'
     def info(profile)
-      info = Supermarket::API.info(profile)
+      # check that the profile is available
+      supermarket_profiles = Supermarket::API.profiles
+      found = supermarket_profiles.select { |p|
+        "#{p['tool_owner']}/#{p['slug']}" == profile
+      }
 
+      if found.length == 0
+        puts "#{mark_text(profile)} is not available on Supermarket"
+        return
+      end
+
+      # load details for the specific profile
+      info = Supermarket::API.info(profile)
       puts "#{mark_text('name: ')}  #{info['slug']}"
       puts "#{mark_text('owner:')}  #{info['owner']}"
       puts "#{mark_text('url:  ')}  #{info['source_url']}"
