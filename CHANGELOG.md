@@ -1,7 +1,26 @@
 # Change Log
 
-## [0.14.6](https://github.com/chef/inspec/tree/0.14.6) (2016-03-01)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.5...0.14.6)
+## [0.14.7](https://github.com/chef/inspec/tree/0.14.7) (2016-03-01)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.6...0.14.7)
+
+**Fixed bugs:**
+
+- `compliance` command does not work with self-signed https [\#511](https://github.com/chef/inspec/issues/511)
+
+**Closed issues:**
+
+- check error - digest: no implicit conversion of nil into String \(TypeError\) [\#509](https://github.com/chef/inspec/issues/509)
+
+**Merged pull requests:**
+
+- adds a insecure option  [\#512](https://github.com/chef/inspec/pull/512) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.14.6](https://github.com/chef/inspec/tree/v0.14.6) (2016-03-01)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.5...v0.14.6)
+
+**Implemented enhancements:**
+
+- Improve Supermarket CLI [\#508](https://github.com/chef/inspec/pull/508) ([alexpop](https://github.com/alexpop))
 
 **Fixed bugs:**
 
@@ -9,7 +28,7 @@
 
 **Merged pull requests:**
 
-- Improve Supermarket CLI [\#508](https://github.com/chef/inspec/pull/508) ([alexpop](https://github.com/alexpop))
+- 0.14.6 [\#510](https://github.com/chef/inspec/pull/510) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.14.5](https://github.com/chef/inspec/tree/v0.14.5) (2016-02-29)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.4...v0.14.5)
