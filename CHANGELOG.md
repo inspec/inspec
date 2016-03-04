@@ -1,18 +1,27 @@
 # Change Log
 
-## [0.14.7](https://github.com/chef/inspec/tree/0.14.7) (2016-03-01)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.6...0.14.7)
+## [0.14.8](https://github.com/chef/inspec/tree/0.14.8) (2016-03-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.7...0.14.8)
+
+**Closed issues:**
+
+- Question: Cron? [\#490](https://github.com/chef/inspec/issues/490)
+
+**Merged pull requests:**
+
+- expose control impacts in json [\#519](https://github.com/chef/inspec/pull/519) ([arlimus](https://github.com/arlimus))
+
+## [v0.14.7](https://github.com/chef/inspec/tree/v0.14.7) (2016-03-01)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.6...v0.14.7)
 
 **Fixed bugs:**
 
 - `compliance` command does not work with self-signed https [\#511](https://github.com/chef/inspec/issues/511)
-
-**Closed issues:**
-
 - check error - digest: no implicit conversion of nil into String \(TypeError\) [\#509](https://github.com/chef/inspec/issues/509)
 
 **Merged pull requests:**
 
+- 0.14.7 [\#513](https://github.com/chef/inspec/pull/513) ([chris-rock](https://github.com/chris-rock))
 - adds a insecure option  [\#512](https://github.com/chef/inspec/pull/512) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.14.6](https://github.com/chef/inspec/tree/v0.14.6) (2016-03-01)
