@@ -155,7 +155,7 @@ module Inspec
         # scope.
         dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
-        @test_collector.add_test(example, rule_id)
+        @test_collector.add_test(example, rule_id, rule)
       end
     end
   end
