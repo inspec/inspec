@@ -9,7 +9,7 @@ module Inspec
       @tests = []
     end
 
-    def add_test(example, _rule_id)
+    def add_test(example, _rule_id, _rule)
       @tests.push(example)
     end
 

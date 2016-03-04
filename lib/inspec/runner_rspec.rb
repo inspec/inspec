@@ -34,8 +34,8 @@ module Inspec
     # @param [RSpecExampleGroup] example test
     # @param [String] rule_id the ID associated with this check
     # @return [nil]
-    def add_test(example, rule_id)
-      set_rspec_ids(example, rule_id)
+    def add_test(example, rule_id, rule)
+      set_rspec_ids(example, rule_id, rule)
       @tests.register(example)
     end
 
@@ -92,13 +92,15 @@ module Inspec
     # @param [RSpecExampleGroup] example object which contains a check
     # @param [Type] id describe id
     # @return [Type] description of returned object
-    def set_rspec_ids(example, id)
+    def set_rspec_ids(example, id, rule)
       example.metadata[:id] = id
+      example.metadata[:impact] = rule.impact
       example.filtered_examples.each do |e|
         e.metadata[:id] = id
+        e.metadata[:impact] = rule.impact
       end
       example.children.each do |child|
-        set_rspec_ids(child, id)
+        set_rspec_ids(child, id, rule)
       end
     end
   end
