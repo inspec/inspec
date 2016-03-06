@@ -101,10 +101,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   end
 
   desc 'exec PATHS', 'run all test files at the specified PATH.'
-  option :id, type: :string,
-    desc: 'Attach a profile ID to all test results'
-  target_options
-  option :format, type: :string
+  exec_options
   def exec(*targets)
     diagnose
     run_tests(targets, opts)

@@ -18,10 +18,7 @@ module Supermarket
     end
 
     desc 'exec PROFILE', 'execute a Supermarket profile'
-    option :id, type: :string,
-      desc: 'Attach a profile ID to all test results'
-    target_options
-    option :format, type: :string
+    exec_options
     def exec(*tests)
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'supermarket://' + t }
