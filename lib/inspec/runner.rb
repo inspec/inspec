@@ -46,6 +46,12 @@ module Inspec
       @backend = Inspec::Backend.create(@conf)
     end
 
+    def add_target(target, options = {})
+      profile = Inspec::Profile.for_target(target, options)
+      fail "Could not resolve #{target} to valid input." if profile.nil?
+      add_profile(profile, options)
+    end
+
     def add_profile(profile, options = {})
       return unless options[:ignore_supports] ||
                     profile.metadata.supports_transport?(@backend)
@@ -57,21 +63,15 @@ module Inspec
       profile.tests.each do |ref, content|
         r = profile.source_reader.target.abs_path(ref)
         test = { ref: r, content: content }
-        add_content(test, libs)
+        add_content(test, libs, options)
       end
-    end
-
-    def add_target(target, options = {})
-      profile = Inspec::Profile.for_target(target, options)
-      fail "Could not resolve #{target} to valid input." if profile.nil?
-      add_profile(profile)
     end
 
     def create_context
       Inspec::ProfileContext.new(@profile_id, @backend)
     end
 
-    def add_content(test, libs)
+    def add_content(test, libs, options = {})
       content = test[:content]
       return if content.nil? || content.empty?
 
@@ -86,7 +86,7 @@ module Inspec
       ctx.load(content, test[:ref], test[:line] || 1)
 
       # process the resulting rules
-      ctx.rules.each do |rule_id, rule|
+      filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
         register_rule(rule_id, rule)
       end
     end
@@ -95,6 +95,11 @@ module Inspec
     def_delegator :@test_collector, :report
 
     private
+
+    def filter_controls(controls_map, include_list)
+      return controls_map if include_list.nil? || include_list.empty?
+      controls_map.select { |k, _| include_list.include?(k) }
+    end
 
     def block_source_info(block)
       return {} if block.nil? || !block.respond_to?(:source_location)
