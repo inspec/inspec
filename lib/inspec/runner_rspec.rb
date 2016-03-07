@@ -76,6 +76,7 @@ module Inspec
     # @return [nil]
     def configure_output
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
+      RSpec.configuration.color = @conf['color']
 
       setup_reporting if @conf['report']
     end
