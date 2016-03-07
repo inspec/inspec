@@ -39,6 +39,15 @@ module Inspec
         desc: 'Set the log level: info (default), debug, warn, error'
     end
 
+    def self.exec_options
+      option :id, type: :string,
+        desc: 'Attach a profile ID to all test results'
+      target_options
+      option :controls, type: :array,
+        desc: 'A list of controls to run. Ignore all other tests.'
+      option :format, type: :string
+    end
+
     private
 
     # helper method to run tests
