@@ -6,11 +6,13 @@
 
 module Inspec::DSL
   def require_controls(id, &block)
-    ::Inspec::DSL.load_spec_files_for_profile self, id, false, &block
+    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf }
+    ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
   def include_controls(id, &block)
-    ::Inspec::DSL.load_spec_files_for_profile self, id, true, &block
+    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf }
+    ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
   alias require_rules require_controls
@@ -60,72 +62,63 @@ module Inspec::DSL
     }
   end
 
-  def self.load_spec_file_for_profile(profile_id, file, rule_registry, only_ifs)
-    raw = File.read(file)
-    # TODO: error-handling
-
-    ctx = Inspec::ProfileContext.new(profile_id, rule_registry, only_ifs)
-    ctx.instance_eval(raw, file, 1)
-  end
-
-  def self.load_spec_files_for_profile(bind_context, profile_id, include_all, &block)
+  def self.load_spec_files_for_profile(bind_context, opts, &block)
     # get all spec files
-    files = get_spec_files_for_profile profile_id
-    # load all rules from spec files
-    rule_registry = {}
-    # TODO: handling of only_ifs
-    only_ifs = []
-    files.each do |file|
-      load_spec_file_for_profile(profile_id, file, rule_registry, only_ifs)
-    end
+    target = get_reference_profile(opts[:profile_id], opts[:conf])
+    profile = Inspec::Profile.for_target(target, opts)
+    context = load_profile_context(opts[:profile_id], profile, opts)
 
-    # interpret the block and create a set of rules from it
-    block_registry = {}
-    if block_given?
-      ctx = Inspec::ProfileContext.new(profile_id, block_registry, only_ifs)
-      ctx.instance_eval(&block)
-    end
+    # if we don't want all the rules, then just make 1 pass to get all rule_IDs
+    # that we want to keep from the original
+    filter_included_controls(context, opts, &block) if !opts[:include_all]
 
-    # if all rules are not included, select only the ones
-    # that were defined in the block
-    unless include_all
-      remove = rule_registry.keys - block_registry.keys
-      remove.each { |key| rule_registry.delete(key) }
-    end
-
-    # merge the rules in the block_registry (adjustments) with
-    # the rules in the rule_registry (included)
-    block_registry.each do |id, r|
-      org = rule_registry[id]
-      if org.nil?
-        # TODO: print error because we write alter a rule that doesn't exist
-      elsif r.nil?
-        rule_registry.delete(id)
-      else
-        merge_rules(org, r)
-      end
-    end
+    # interpret the block and skip/modify as required
+    context.load(block) if block_given?
 
     # finally register all combined rules
-    rule_registry.each do |_id, rule|
-      bind_context.__register_rule rule
+    context.rules.values.each do |control|
+      bind_context.register_control(control)
     end
   end
 
-  def self.get_spec_files_for_profile(id)
-    base_path = '/etc/inspec/tests'
-    path = File.join(base_path, id)
-    # find all files to be included
-    files = []
-    if File.directory? path
-      # include all library paths, if they exist
-      libdir = File.join(path, 'lib')
-      if File.directory? libdir and !$LOAD_PATH.include?(libdir)
-        $LOAD_PATH.unshift(libdir)
+  def self.filter_included_controls(context, opts, &block)
+    mock = Inspec::Backend.create({ backend: 'mock' })
+    include_ctx = Inspec::ProfileContext.new(opts[:profile_id], mock, opts[:conf])
+    include_ctx.load(block) if block_given?
+    # remove all rules that were not registered
+    context.rules.keys.each do |id|
+      unless include_ctx.rules[id]
+        context.rules[id] = nil
       end
-      files = Dir[File.join(path, 'spec', '*_spec.rb')]
     end
-    files
+  end
+
+  def self.get_reference_profile(id, opts)
+    profiles_path = opts['profiles_path'] ||
+                    fail('You must supply a --profiles-path to inherit from other profiles.')
+    abs_path = File.expand_path(profiles_path.to_s)
+    unless File.directory? abs_path
+      fail("Cannot find profiles path #{abs_path}")
+    end
+
+    id_path = File.join(abs_path, id)
+    unless File.directory? id_path
+      fail("Cannot find referenced profile #{id} in #{id_path}")
+    end
+
+    id_path
+  end
+
+  def self.load_profile_context(id, profile, opts)
+    ctx = Inspec::ProfileContext.new(id, opts[:backend], opts[:conf])
+    profile.libraries.each do |path, content|
+      ctx.load(content.to_s, path, 1)
+      ctx.reload_dsl
+    end
+    profile.tests.each do |path, content|
+      ctx.load(content.to_s, path, 1)
+    end
+    ctx
   end
 end
 
