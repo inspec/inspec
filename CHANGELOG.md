@@ -1,7 +1,23 @@
 # Change Log
 
-## [0.14.8](https://github.com/chef/inspec/tree/0.14.8) (2016-03-04)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.7...0.14.8)
+## [0.14.9](https://github.com/chef/inspec/tree/0.14.9) (2016-03-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.8...0.14.9)
+
+**Implemented enhancements:**
+
+- add color output + make it the default [\#523](https://github.com/chef/inspec/pull/523) ([arlimus](https://github.com/arlimus))
+- select controls to execute [\#522](https://github.com/chef/inspec/pull/522) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: inheritance of local profiles [\#524](https://github.com/chef/inspec/pull/524) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Colo\[u\]r those dots and Fs! [\#518](https://github.com/chef/inspec/issues/518)
+
+## [v0.14.8](https://github.com/chef/inspec/tree/v0.14.8) (2016-03-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.7...v0.14.8)
 
 **Closed issues:**
 
@@ -9,6 +25,7 @@
 
 **Merged pull requests:**
 
+- 0.14.8 [\#520](https://github.com/chef/inspec/pull/520) ([arlimus](https://github.com/arlimus))
 - expose control impacts in json [\#519](https://github.com/chef/inspec/pull/519) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.7](https://github.com/chef/inspec/tree/v0.14.7) (2016-03-01)
