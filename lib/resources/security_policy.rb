@@ -13,70 +13,72 @@
 # All local GPO parameters can be examined via Registry, but not all security
 # parameters. Therefore we need a combination of Registry and secedit output
 
-class SecurityPolicy < Inspec.resource(1)
-  name 'security_policy'
-  desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
-  example "
-    describe security_policy do
-      its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
-    end
-  "
-  def initialize
-    @loaded = false
-    @policy = nil
-    @exit_status = nil
-  end
-
-  # load security content
-  def load
-    # export the security policy
-    cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
-    return nil if cmd.exit_status.to_i != 0
-
-    # store file content
-    cmd = inspec.command('Get-Content win_secpol.cfg')
-    @exit_status = cmd.exit_status.to_i
-    return nil if @exit_status != 0
-    @policy = cmd.stdout
-    @loaded = true
-
-    # returns self
-    self
-
-  ensure
-    # delete temp file
-    inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
-  end
-
-  def method_missing(method)
-    # load data if needed
-    if @loaded == false
-      load
+module Inspec::Resources
+  class SecurityPolicy < Inspec.resource(1)
+    name 'security_policy'
+    desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
+    example "
+      describe security_policy do
+        its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
+      end
+    "
+    def initialize
+      @loaded = false
+      @policy = nil
+      @exit_status = nil
     end
 
-    # find line with key
-    key = Regexp.escape(method.to_s)
-    target = ''
-    @policy.each_line {|s|
-      target = s.strip if s =~ /^\s*#{key}\s*=\s*(.*)\b/
-    }
+    # load security content
+    def load
+      # export the security policy
+      cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
+      return nil if cmd.exit_status.to_i != 0
 
-    # extract variable value
-    result = target.match(/[=]{1}\s*(?<value>.*)/)
+      # store file content
+      cmd = inspec.command('Get-Content win_secpol.cfg')
+      @exit_status = cmd.exit_status.to_i
+      return nil if @exit_status != 0
+      @policy = cmd.stdout
+      @loaded = true
 
-    if !result.nil?
-      val = result[:value]
-      val = val.to_i if val =~ /^\d+$/
-    else
-      # TODO: we may need to return skip or failure if the
-      # requested value is not available
-      val = nil
+      # returns self
+      self
+
+    ensure
+      # delete temp file
+      inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
     end
 
-    val
-  end
+    def method_missing(method)
+      # load data if needed
+      if @loaded == false
+        load
+      end
 
-  def to_s
-    'Security Policy'
+      # find line with key
+      key = Regexp.escape(method.to_s)
+      target = ''
+      @policy.each_line {|s|
+        target = s.strip if s =~ /^\s*#{key}\s*=\s*(.*)\b/
+      }
+
+      # extract variable value
+      result = target.match(/[=]{1}\s*(?<value>.*)/)
+
+      if !result.nil?
+        val = result[:value]
+        val = val.to_i if val =~ /^\d+$/
+      else
+        # TODO: we may need to return skip or failure if the
+        # requested value is not available
+        val = nil
+      end
+
+      val
+    end
+
+    def to_s
+      'Security Policy'
+    end
   end
 end
