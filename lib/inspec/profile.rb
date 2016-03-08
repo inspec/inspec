@@ -13,7 +13,7 @@ module Inspec
     extend Forwardable
     attr_reader :path
 
-    def self.for_target(target, opts)
+    def self.resolve_target(target, opts)
       # Fetchers retrieve file contents
       opts[:target] = target
       fetcher = Inspec::Fetcher.resolve(target)
@@ -27,7 +27,11 @@ module Inspec
         fail("Don't understand inspec profile in #{target.inspect}, it "\
              "doesn't look like a supported profile structure.")
       end
-      new(reader, opts)
+      reader
+    end
+
+    def self.for_target(target, opts)
+      new(resolve_target(target, opts), opts)
     end
 
     attr_reader :source_reader

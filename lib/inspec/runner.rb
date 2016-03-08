@@ -67,8 +67,8 @@ module Inspec
       end
     end
 
-    def create_context
-      Inspec::ProfileContext.new(@profile_id, @backend)
+    def create_context(options = {})
+      Inspec::ProfileContext.new(@profile_id, @backend, @conf.merge(options))
     end
 
     def add_content(test, libs, options = {})
@@ -76,7 +76,7 @@ module Inspec
       return if content.nil? || content.empty?
 
       # load all libraries
-      ctx = create_context
+      ctx = create_context(options)
       libs.each do |lib|
         ctx.load(lib[:content].to_s, lib[:ref], lib[:line] || 1)
         ctx.reload_dsl

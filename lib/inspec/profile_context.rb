@@ -7,18 +7,18 @@ require 'inspec/dsl'
 require 'securerandom'
 
 module Inspec
-  class ProfileContext
-    attr_reader :rules, :only_ifs
-    def initialize(profile_id, backend, profile_registry = {}, only_ifs = [])
+  class ProfileContext # rubocop:disable Metrics/ClassLength
+    attr_reader :rules
+    def initialize(profile_id, backend, conf)
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
              'This is a backend error which must be fixed upstream.'
       end
 
       @profile_id = profile_id
-      @rules = profile_registry
-      @only_ifs = only_ifs
       @backend = backend
+      @conf = conf.dup
+      @rules = {}
 
       reload_dsl
     end
@@ -26,12 +26,16 @@ module Inspec
     def reload_dsl
       resources_dsl = Inspec::Resource.create_dsl(@backend)
       ctx = create_context(resources_dsl, rule_context(resources_dsl))
-      @profile_context = ctx.new
+      @profile_context = ctx.new(@backend, @conf)
     end
 
     def load(content, source = nil, line = nil)
       @current_load = { file: source }
-      @profile_context.instance_eval(content, source || 'unknown', line || 1)
+      if content.is_a? Proc
+        @profile_context.instance_eval(&content)
+      else
+        @profile_context.instance_eval(content, source || 'unknown', line || 1)
+      end
     end
 
     def unregister_rule(id)
@@ -93,6 +97,11 @@ module Inspec
         include Inspec::DSL
         include resources_dsl
 
+        def initialize(backend, conf) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
+          @backend = backend
+          @conf = conf
+        end
+
         define_method :title do |arg|
           profile_context_owner.set_header(:title, arg)
         end
@@ -116,6 +125,10 @@ module Inspec
 
         alias_method :rule, :control
 
+        define_method :register_control do |control|
+          profile_context_owner.register_rule(control) unless control.nil?
+        end
+
         define_method :describe do |*args, &block|
           loc = block_location(block, caller[0])
           id = "(generated from #{loc} #{SecureRandom.hex})"
@@ -133,7 +146,7 @@ module Inspec
           nil
         end
 
-        def skip_control(id)
+        define_method :skip_control do |id|
           profile_context_owner.unregister_rule(id)
         end
 

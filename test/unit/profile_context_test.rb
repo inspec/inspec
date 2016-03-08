@@ -53,7 +53,7 @@ end
 
 describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
-  let(:profile) { Inspec::ProfileContext.new(nil, backend) }
+  let(:profile) { Inspec::ProfileContext.new(nil, backend, {}) }
 
   def get_rule
     profile.rules.values[0]
