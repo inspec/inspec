@@ -75,6 +75,12 @@ module Inspec
     #
     # @return [nil]
     def configure_output
+      if !@conf['output'] || @conf['output'] == '-'
+        RSpec.configuration.output_stream = $stdout
+      else
+        RSpec.configuration.output_stream = @conf['output']
+      end
+
       RSpec.configuration.add_formatter(@conf['format'] || 'progress')
       RSpec.configuration.color = @conf['color']
 
