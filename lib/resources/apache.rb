@@ -14,12 +14,12 @@ module Inspec::Resources
       when 'ubuntu', 'debian'
         @service = 'apache2'
         @conf_dir = '/etc/apache2/'
-        @conf_path = ::File.join @conf_dir, 'apache2.conf'
+        @conf_path = File.join @conf_dir, 'apache2.conf'
         @user = 'www-data'
       else
         @service = 'httpd'
         @conf_dir = '/etc/httpd/'
-        @conf_path = ::File.join @conf_dir, '/conf/httpd.conf'
+        @conf_path = File.join @conf_dir, '/conf/httpd.conf'
         @user = 'apache'
       end
     end
