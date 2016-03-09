@@ -136,7 +136,7 @@ class MockLoader
       '$Env:PATH'  => cmd.call('$env-PATH'),
       # registry key test (winrm 1.6.0, 1.6.1)
       '2790db1e88204a073ed7fd3493f5445e5ce531afd0d2724a0e36c17110c535e6' => cmd.call('reg_schedule'),
-      'b00eb49a98c96a808c469e4894b5123a913e354c9ffea5b785898fe30d288ee0' => cmd.call('reg_schedule'),
+      '25a1a38fafc289a646d30f7aa966ce0901c267798f47abf2f9440e27d31a5b7d' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
@@ -196,7 +196,7 @@ class MockLoader
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows (winrm 1.6.0, 1.6.1)
       '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
-      '272e1d767fe6e28c86cfba1a75c3d458acade1f4a36cfd5e711b97884879de24' => cmd.call('GetUserAccount'),
+      '174686f0441b8dd387b35cf1cbeed3f98441544351de5d8fb7b54f655e75583f' => cmd.call('GetUserAccount'),
       # group info for windows
       'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
       # network interface
