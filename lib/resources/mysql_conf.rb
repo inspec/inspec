@@ -89,7 +89,7 @@ module Inspec::Resources
         to_read = to_read.drop(1)
         # see if there is more stuff to include
 
-        dir = ::File.dirname(cur_file)
+        dir = File.dirname(cur_file)
         to_read += include_files(dir, raw_conf).find_all do |fp|
           not @files_contents.key? fp
         end
@@ -110,7 +110,7 @@ module Inspec::Resources
 
     def abs_path(dir, f)
       return f if f.start_with? '/'
-      ::File.join(dir, f)
+      File.join(dir, f)
     end
 
     def read_file(path)

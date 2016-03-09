@@ -16,19 +16,19 @@ module Inspec::Resources
         @data_dir = '/var/lib/postgresql'
         @version = inspec.command('ls /etc/postgresql/').stdout.chomp
         @conf_dir = "/etc/postgresql/#{@version}/main"
-        @conf_path = ::File.join @conf_dir, 'postgresql.conf'
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
 
       when 'arch'
         @service = 'postgresql'
         @data_dir = '/var/lib/postgres/data'
         @conf_dir = '/var/lib/postgres/data'
-        @conf_path = ::File.join @conf_dir, 'postgresql.conf'
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
 
       else
         @service = 'postgresql'
         @data_dir = '/var/lib/postgresql'
         @conf_dir = '/var/lib/pgsql/data'
-        @conf_path = ::File.join @conf_dir, 'postgresql.conf'
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
       end
     end
 

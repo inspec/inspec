@@ -5,7 +5,7 @@
 require 'resources/file'
 
 module Inspec::Resources
-  class Bond < File
+  class Bond < FileResource
     name 'bond'
     desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
     example "

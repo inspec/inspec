@@ -18,7 +18,7 @@ def shared_file_permission_tests(method_under_test)
   end
 end
 
-describe Inspec::Resources::File do
+describe Inspec::Resources::FileResource do
   let(:resource) { load_resource('file', '/fakepath/fakefile') }
 
   describe '#readable?' do

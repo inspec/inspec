@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 
 module Inspec::Resources
-  class OS < Inspec.resource(1)
+  class OSResource < Inspec.resource(1)
     name 'os'
     desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
     example "
