@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.14.9](https://github.com/chef/inspec/tree/0.14.9) (2016-03-08)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.8...0.14.9)
+## [0.15.0](https://github.com/chef/inspec/tree/0.15.0) (2016-03-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.8...0.15.0)
 
 **Implemented enhancements:**
 
@@ -10,11 +10,17 @@
 
 **Fixed bugs:**
 
+- Rename internal File and OS resource classes [\#527](https://github.com/chef/inspec/pull/527) ([arlimus](https://github.com/arlimus))
+- Placing all resources in the Inspec::Resources namespace [\#526](https://github.com/chef/inspec/pull/526) ([adamleff](https://github.com/adamleff))
 - bugfix: inheritance of local profiles [\#524](https://github.com/chef/inspec/pull/524) ([arlimus](https://github.com/arlimus))
 
 **Closed issues:**
 
 - Colo\[u\]r those dots and Fs! [\#518](https://github.com/chef/inspec/issues/518)
+
+**Merged pull requests:**
+
+- 0.14.9 [\#525](https://github.com/chef/inspec/pull/525) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.8](https://github.com/chef/inspec/tree/v0.14.8) (2016-03-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.14.7...v0.14.8)
