@@ -1,5 +1,7 @@
 # InSpec: Inspect Your Infrastructure
 
+[![Join the chat at https://gitter.im/chef/inspec](https://badges.gitter.im/chef/inspec.svg)](https://gitter.im/chef/inspec?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
 
 ```ruby
