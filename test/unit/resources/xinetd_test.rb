@@ -25,7 +25,7 @@ describe 'Inspec::Resources::XinetdConf' do
     end
 
     it 'can filter by name' do
-      _(resource.services('not here').params['services']).must_be_empty
+      _(resource.services('not here').services).must_be_empty
     end
 
     it 'can chain filters' do
