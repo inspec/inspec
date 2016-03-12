@@ -23,7 +23,6 @@ module Inspec::Resources
 
     def initialize(conf_path = '/etc/xinetd.conf')
       @conf_path = conf_path
-      @filters = ''
       @contents = {}
     end
 
@@ -35,28 +34,15 @@ module Inspec::Resources
       @params ||= read_params
     end
 
-    extend Inspec::Filter
-    add_filter 'service'
-    add_filter 'id'
-    add_filter 'socket_type'
-    add_filter 'type'
-    add_filter 'wait'
-
-    def disabled?
-      where({ 'disable' => 'no' }).services.empty?
-    end
-
-    def enabled?
-      where({ 'disable' => 'yes' }).services.empty?
-    end
-
-    def where(conditions = {})
-      fields, filters = Inspec::Filter.where(service_lines, conditions)
-      res = clone
-      res.instance_variable_set(:@filters, @filters + filters)
-      res.instance_variable_set(:@services, fields)
-      res
-    end
+    filter = FilterTable.create(self, :service_lines)
+    filter.add_delegator(:where)
+          .add(:services,     field: 'service')
+          .add(:ids,          field: 'id')
+          .add(:socket_types, field: 'socket_type')
+          .add(:types,        field: 'type')
+          .add(:wait,         field: 'wait')
+          .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
+          .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
 
     private
 
@@ -96,14 +82,6 @@ module Inspec::Resources
 
     def service_lines
       @services ||= params['services'].values.flatten.map(&:params)
-    end
-
-    def get_fields(*fields)
-      res = service_lines.map do |line|
-        fields.map { |f| line[f] }
-      end.flatten
-      return res unless fields == ['service']
-      res.uniq
     end
   end
 end

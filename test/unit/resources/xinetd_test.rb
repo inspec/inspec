@@ -17,7 +17,7 @@ describe 'Inspec::Resources::XinetdConf' do
 
   describe 'with services from child configs' do
     it 'has one service name' do
-      _(resource.services).must_equal %w{chargen}
+      _(resource.services.uniq).must_equal %w{chargen}
     end
 
     it 'has multiple service definitions' do
@@ -30,7 +30,7 @@ describe 'Inspec::Resources::XinetdConf' do
 
     it 'can chain filters' do
       one = resource.services('chargen').socket_types('dgram')
-      _(one.params['services'].length).must_equal 1
+      _(one.services.length).must_equal 1
       _(one.ids).must_equal %w{chargen-dgram}
     end
 
