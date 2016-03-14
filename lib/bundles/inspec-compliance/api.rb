@@ -10,10 +10,10 @@ module Compliance
   # everything will be stored in local Configuration store
   class API # rubocop:disable Metrics/ClassLength
     # logs into the server, retrieves a token and stores it locally
-    def self.login(server, username, password, insecure)
+    def self.login(server, username, password, insecure, apipath)
       config = Compliance::Configuration.new
-      config['server'] = server
-      url = "#{server}/oauth/token"
+      config['server'] = "#{server}#{apipath}"
+      url = "#{config['server']}/oauth/token"
 
       success, data = Compliance::API.post(url, username, password, insecure)
       if !data.nil?
