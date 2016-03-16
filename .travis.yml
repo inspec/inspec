@@ -22,4 +22,4 @@ matrix:
   - rvm: 2.2
     script: bundle exec rake lint test test:resources config=test/test.yaml
   - rvm: 2.2
-    script: bundle exec rake test:resources config=test/test-extra.yaml
+    script: bundle exec rake test:functional config=test/test-extra.yaml
