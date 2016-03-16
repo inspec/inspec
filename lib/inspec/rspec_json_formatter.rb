@@ -22,6 +22,8 @@ module RSpec::Core::Formatters
         pending_message: example.execution_result.pending_message,
         id: example.metadata[:id],
         impact: example.metadata[:impact],
+        title: example.metadata[:title],
+        desc: example.metadata[:desc],
       }
     end
   end
