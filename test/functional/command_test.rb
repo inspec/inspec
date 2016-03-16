@@ -31,6 +31,11 @@ describe 'Inspec::InspecCLI' do
       out.stdout.must_match /Valid.*true/
       out.exit_status.must_equal 0
     end
+
+    it 'archive is successful' do
+      out = inspec('archive ' + path + ' --overwrite')
+      out.exit_status.must_equal 0
+    end
   end
 
   describe 'example inheritance profile' do
@@ -45,6 +50,11 @@ describe 'Inspec::InspecCLI' do
     it 'check succeeds with --profiles-path' do
       out = inspec('check ' + path + ' --profiles-path ' + examples_path)
       out.stdout.must_match /Valid.*true/
+      out.exit_status.must_equal 0
+    end
+
+    it 'archive is successful even without --profiles-path' do
+      out = inspec('archive ' + path + ' --overwrite')
       out.exit_status.must_equal 0
     end
   end
