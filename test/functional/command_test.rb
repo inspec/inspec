@@ -5,15 +5,22 @@
 require 'helper'
 require 'train'
 
+# activate hell!
+require 'minitest/hell'
+class Minitest::Test
+  parallelize_me!
+end
+
+CMD = Train.create('local').connection
+
 describe 'Inspec::InspecCLI' do
-  let(:runner) { Train.create('local').connection }
   let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
   let(:exec_inspec) { File.join(repo_path, 'bin', 'inspec') }
   let(:profile_path) { File.join(repo_path, 'test', 'unit', 'mock', 'profiles') }
   let(:examples_path) { File.join(repo_path, 'examples') }
 
   def inspec(commandline)
-    runner.run_command("#{exec_inspec} #{commandline}")
+    CMD.run_command("#{exec_inspec} #{commandline}")
   end
 
   describe 'example profile' do
