@@ -12,6 +12,7 @@ class Minitest::Test
 end
 
 CMD = Train.create('local').connection
+TMP_CACHE = {}
 
 describe 'Inspec::InspecCLI' do
   let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
@@ -23,11 +24,33 @@ describe 'Inspec::InspecCLI' do
     # so remove the file and give back the path
     res = Tempfile.new('inspec-shred')
     FileUtils.rm(res.path)
-    res
+    TMP_CACHE[res.path] = res
   }
 
   def inspec(commandline)
     CMD.run_command("#{exec_inspec} #{commandline}")
+  end
+
+  describe 'detect' do
+    it 'runs well on all nodes' do
+      out = inspec('detect')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      j = JSON.load(out.stdout)
+      j.keys.must_include 'name'
+      j.keys.must_include 'family'
+      j.keys.must_include 'arch'
+      j.keys.must_include 'release'
+    end
+  end
+
+  describe 'version' do
+    it 'provides the version number on stdout' do
+      out = inspec('version')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.must_equal Inspec::VERSION+"\n"
+    end
   end
 
   describe 'example profile' do
@@ -127,6 +150,14 @@ describe 'Inspec::InspecCLI' do
       hm = JSON.load(File.read(dst.path))
       hm['name'].must_equal 'profile'
       hm['rules'].length.must_equal 2 # TODO: flatten out or search deeper!
+    end
+
+    it 'can execute the profile' do
+      out = inspec('exec ' + path)
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.must_match /^Pending: /
+      out.stdout.must_include '3 examples, 0 failures, 1 pending'
     end
   end
 
