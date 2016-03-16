@@ -74,6 +74,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
+  profile_options
   option :zip, type: :boolean, default: false,
     desc: 'Generates a zip archive.'
   option :tar, type: :boolean, default: false,

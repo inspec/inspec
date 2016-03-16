@@ -35,6 +35,8 @@ describe 'Inspec::InspecCLI' do
     it 'archive is successful' do
       out = inspec('archive ' + path + ' --overwrite')
       out.exit_status.must_equal 0
+      out.stdout.must_match /Generate archive [^ ]*profile.tar.gz/
+      out.stdout.must_include 'Finished archive generation.'
     end
   end
 
@@ -53,9 +55,17 @@ describe 'Inspec::InspecCLI' do
       out.exit_status.must_equal 0
     end
 
-    it 'archive is successful even without --profiles-path' do
+    it 'archive fails without --profiles-path' do
       out = inspec('archive ' + path + ' --overwrite')
+      out.stderr.must_include 'You must supply a --profiles-path to inherit'
+      out.exit_status.must_equal 1
+    end
+
+    it 'archive is successful with --profiles-path' do
+      out = inspec('archive ' + path + ' --overwrite --profiles-path ' + examples_path)
       out.exit_status.must_equal 0
+      out.stdout.must_match /Generate archive [^ ]*inheritance.tar.gz/
+      out.stdout.must_include 'Finished archive generation.'
     end
   end
 end
