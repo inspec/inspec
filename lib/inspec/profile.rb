@@ -173,26 +173,17 @@ module Inspec
 
     # generates a archive of a folder profile
     # assumes that the profile was checked before
-    def archive(opts) # rubocop:disable Metrics/AbcSize
-      profile_name = params[:name]
-      ext = opts[:zip] ? 'zip' : 'tar.gz'
-
-      if opts[:archive]
-        archive = Pathname.new(opts[:archive])
-      else
-        slug = profile_name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
-        archive = Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
-      end
-
+    def archive(opts)
       # check if file exists otherwise overwrite the archive
-      if archive.exist? && !opts[:overwrite]
-        @logger.info "Archive #{archive} exists already. Use --overwrite."
+      dst = archive_name(opts)
+      if dst.exist? && !opts[:overwrite]
+        @logger.info "Archive #{dst} exists already. Use --overwrite."
         return false
       end
 
       # remove existing archive
-      File.delete(archive) if archive.exist?
-      @logger.info "Generate archive #{archive}."
+      File.delete(dst) if dst.exist?
+      @logger.info "Generate archive #{dst}."
 
       # filter files that should not be part of the profile
       # TODO ignore all .files, but add the files to debug output
@@ -207,12 +198,12 @@ module Inspec
         # generate zip archive
         require 'inspec/archive/zip'
         zag = Inspec::Archive::ZipArchiveGenerator.new
-        zag.archive(root_path, files, archive)
+        zag.archive(root_path, files, dst)
       else
         # generate tar archive
         require 'inspec/archive/tar'
         tag = Inspec::Archive::TarArchiveGenerator.new
-        tag.archive(root_path, files, archive)
+        tag.archive(root_path, files, dst)
       end
 
       @logger.info 'Finished archive generation.'
@@ -220,6 +211,24 @@ module Inspec
     end
 
     private
+
+    # Create an archive name for this profile and an additional options
+    # configuration. Either use :output or generate the name from metadata.
+    #
+    # @param [Hash] configuration options
+    # @return [Pathname] path for the archive
+    def archive_name(opts)
+      if (name = opts[:output])
+        return Pathname.new(name)
+      end
+
+      name = params[:name] ||
+             fail('Cannot create an archive without a profile name! Please '\
+             'specify the name in metadata or use --output to create the archive.')
+      ext = opts[:zip] ? 'zip' : 'tar.gz'
+      slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
+      Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
+    end
 
     def load_params
       params = @source_reader.metadata.params
