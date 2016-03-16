@@ -87,12 +87,28 @@ describe 'Inspec::InspecCLI' do
       x = rand.to_s
       File.write(dst.path, x)
       out = inspec('archive ' + path + ' --output ' + dst.path + ' --overwrite')
-      out.stderr.must_equal '' # uh...
+      out.stderr.must_equal ''
       out.stdout.must_include 'Generate archive '+dst.path
       out.exit_status.must_equal 0
       File.read(dst.path).wont_equal x
     end
 
+    it 'creates valid tar.gz files' do
+      out = inspec('archive ' + path + ' --output ' + dst.path + ' --tar')
+      out.stderr.must_equal ''
+      out.stdout.must_include 'Generate archive '+dst.path
+      out.exit_status.must_equal 0
+      t = Zlib::GzipReader.open(dst.path)
+      Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name).must_include 'inspec.yml'
+    end
+
+    it 'creates valid zip files' do
+      out = inspec('archive ' + path + ' --output ' + dst.path + ' --zip')
+      out.stderr.must_equal ''
+      out.stdout.must_include 'Generate archive '+dst.path
+      out.exit_status.must_equal 0
+      Zip::File.new(dst.path).entries.map(&:name).must_include 'inspec.yml'
+    end
   end
 
   describe 'example inheritance profile' do
