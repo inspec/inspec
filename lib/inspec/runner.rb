@@ -60,20 +60,20 @@ module Inspec
         { ref: k, content: v }
       end
 
-      profile.tests.each do |ref, content|
+      tests = profile.tests.map do |ref, content|
         r = profile.source_reader.target.abs_path(ref)
-        test = { ref: r, content: content }
-        add_content(test, libs, options)
+        { ref: r, content: content }
       end
+
+      add_content(tests, libs, options)
     end
 
     def create_context(options = {})
       Inspec::ProfileContext.new(@profile_id, @backend, @conf.merge(options))
     end
 
-    def add_content(test, libs, options = {})
-      content = test[:content]
-      return if content.nil? || content.empty?
+    def add_content(tests, libs, options = {})
+      return if tests.nil? || tests.empty?
 
       # load all libraries
       ctx = create_context(options)
@@ -83,7 +83,8 @@ module Inspec
       end
 
       # evaluate the test content
-      ctx.load(content, test[:ref], test[:line] || 1)
+      tests = Array(tests) unless tests.is_a? Array
+      tests.each { |t| add_test_to_context(t, ctx) }
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
@@ -95,6 +96,12 @@ module Inspec
     def_delegator :@test_collector, :report
 
     private
+
+    def add_test_to_context(test, ctx)
+      content = test[:content]
+      return if content.nil? || content.empty?
+      ctx.load(content, test[:ref], test[:line] || 1)
+    end
 
     def filter_controls(controls_map, include_list)
       return controls_map if include_list.nil? || include_list.empty?
