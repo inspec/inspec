@@ -29,6 +29,11 @@ require 'inspec/backend'
 require 'inspec/profile'
 require 'inspec/runner'
 require 'inspec/runner_mock'
+require 'fetchers/mock'
+
+require 'train'
+CMD = Train.create('local').connection
+TMP_CACHE = {}
 
 class MockLoader
   # collects emulation operating systems
