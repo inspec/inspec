@@ -254,6 +254,8 @@ module Inspec
           title: rule.title,
           desc: rule.desc,
           impact: rule.impact,
+          refs: rule.ref,
+          tags: rule.tag,
           checks: rule.instance_variable_get(:@checks),
           code: rule.instance_variable_get(:@__code),
           source_location: rule.instance_variable_get(:@__source_location),

@@ -9,7 +9,7 @@ require 'inspec/describe'
 require 'inspec/expect'
 
 module Inspec
-  class Rule
+  class Rule # rubocop:disable Metrics/ClassLength
     include ::RSpec::Matchers
 
     def initialize(id, _opts, &block)
@@ -20,6 +20,8 @@ module Inspec
       @__source_location = __get_block_source_location(&block)
       @title = nil
       @desc = nil
+      @refs = []
+      @tags = {}
       # not changeable by the user:
       @profile_id = nil
       @checks = []
@@ -45,6 +47,27 @@ module Inspec
     def desc(v = nil)
       @desc = unindent(v) unless v.nil?
       @desc
+    end
+
+    def ref(ref = nil, opts = {})
+      return @refs if ref.nil? && opts.empty?
+      if opts.empty? && ref.is_a?(Hash)
+        opts = ref
+      else
+        opts[:ref] = ref
+      end
+      @refs.push(opts)
+    end
+
+    def tag(*args)
+      args.each do |arg|
+        if arg.is_a?(Hash)
+          @tags.merge!(arg)
+        else
+          @tags[arg] ||= nil
+        end
+      end
+      @tags
     end
 
     # Describe will add one or more tests to this control. There is 2 ways
