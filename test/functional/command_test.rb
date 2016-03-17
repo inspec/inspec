@@ -132,9 +132,64 @@ describe 'Inspec::InspecCLI' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       s = out.stdout
-      hm = JSON.load(s)
-      hm['name'].must_equal 'profile'
-      hm['rules'].length.must_equal 2 # TODO: flatten out or search deeper!
+      JSON.load(s).must_be_kind_of Hash
+    end
+
+    describe 'json profile data' do
+      let(:json) { JSON.load(inspec('json '+path).stdout) }
+
+      it 'has a name' do
+        json['name'].must_equal 'profile'
+      end
+
+      it 'has a title' do
+        json['title'].must_equal 'InSpec Example Profile'
+      end
+
+      it 'has a summary' do
+        json['summary'].must_equal 'Demonstrates the use of InSpec Compliance Profile'
+      end
+
+      it 'has a version' do
+        json['version'].must_equal '1.0.0'
+      end
+
+      it 'has a maintainer' do
+        json['maintainer'].must_equal 'Chef Software, Inc.'
+      end
+
+      it 'has a copyright' do
+        json['copyright'].must_equal 'Chef Software, Inc.'
+      end
+
+      it 'has rules' do
+        json['rules'].length.must_equal 2 # TODO: flatten out or search deeper!
+      end
+
+      describe 'a rule' do
+        let(:rule) { json['rules']['controls/example.rb']['rules']['tmp-1.0'] }
+
+        it 'has a title' do
+          rule['title'].must_equal 'Create /tmp directory'
+        end
+
+        it 'has a description' do
+          rule['desc'].must_equal 'An optional description...'
+        end
+
+        it 'has an impact' do
+          rule['impact'].must_equal 0.7
+        end
+
+        it 'has a source location' do
+          loc = File.join(path, '/controls/example.rb')
+          rule['source_location'].must_equal [loc, 8]
+        end
+
+        it 'has a the source code' do
+          rule['code'].must_match /\Acontrol \"tmp-1.0\" do.*end\n\Z/m
+        end
+      end
     end
 
     it 'writes json to file' do
@@ -152,6 +207,44 @@ describe 'Inspec::InspecCLI' do
       out.exit_status.must_equal 0
       out.stdout.must_match /^Pending: /
       out.stdout.must_include '3 examples, 0 failures, 1 pending'
+    end
+
+    it 'can execute the profile with the json formatter' do
+      out = inspec('exec ' + path + ' --format json')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      JSON.load(out.stdout).must_be_kind_of Hash
+    end
+
+    describe 'execute a profile with json formatting' do
+      let(:json) { JSON.load(inspec('exec ' + path + ' --format json').stdout) }
+      let(:examples) { json['examples'] }
+      let(:ex1) { examples.find{|x| x['id'] == 'tmp-1.0'} }
+      let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
+      let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
+
+      it 'must have 3 examples' do
+        json['examples'].length.must_equal 3
+      end
+
+      it 'id in json' do
+        examples.find { |ex| !ex.key? 'id' }.must_be :nil?
+      end
+
+      it 'impact in json' do
+        ex1['impact'].must_equal 0.7
+        ex2['impact'].must_be :nil?
+      end
+
+      it 'status in json' do
+        ex1['status'].must_equal 'passed'
+        ex3['status'].must_equal 'pending'
+      end
+
+      it 'pending message in json' do
+        ex1['pending_message'].must_be :nil?
+        ex3['pending_message'].must_equal 'Not yet implemented'
+      end
     end
   end
 
