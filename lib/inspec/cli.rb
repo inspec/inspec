@@ -28,7 +28,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
     if dst.empty?
-      puts JSON.pretty_generate(profile.info)
+      puts JSON.dump(profile.info)
     else
       if File.exist? dst
         puts "----> updating #{dst}"
