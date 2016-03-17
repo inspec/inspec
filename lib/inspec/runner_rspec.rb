@@ -102,9 +102,17 @@ module Inspec
     def set_rspec_ids(example, id, rule)
       example.metadata[:id] = id
       example.metadata[:impact] = rule.impact
+      example.metadata[:title] = rule.title
+      example.metadata[:desc] = rule.desc
+      example.metadata[:code] = rule.instance_variable_get(:@__code)
+      example.metadata[:source_location] = rule.instance_variable_get(:@__source_location)
       example.filtered_examples.each do |e|
         e.metadata[:id] = id
         e.metadata[:impact] = rule.impact
+        e.metadata[:title] = rule.title
+        e.metadata[:desc] = rule.desc
+        e.metadata[:code] = rule.instance_variable_get(:@__code)
+        e.metadata[:source_location] = rule.instance_variable_get(:@__source_location)
       end
       example.children.each do |child|
         set_rspec_ids(child, id, rule)
