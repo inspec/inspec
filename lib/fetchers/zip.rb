@@ -12,7 +12,9 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
-      return nil unless File.file?(target) and target.end_with?('.zip')
+      unless target.is_a?(String) && File.file?(target) && target.end_with?('.zip')
+        return nil
+      end
       new(target)
     end
 

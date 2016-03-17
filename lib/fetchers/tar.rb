@@ -13,8 +13,9 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
-      return nil unless File.file?(target)
-      return nil unless target.end_with?('.tar.gz', '.tgz')
+      unless target.is_a?(String) && File.file?(target) && target.end_with?('.tar.gz', '.tgz')
+        return nil
+      end
       new(target)
     end
 
