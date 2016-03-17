@@ -3,16 +3,10 @@
 # author: Christoph Hartmann
 
 require 'helper'
-require 'train'
-
-# activate hell!
 require 'minitest/hell'
 class Minitest::Test
   parallelize_me!
 end
-
-CMD = Train.create('local').connection
-TMP_CACHE = {}
 
 describe 'Inspec::InspecCLI' do
   let(:repo_path) { File.expand_path(File.join( __FILE__, '..', '..', '..')) }
