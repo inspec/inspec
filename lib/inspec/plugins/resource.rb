@@ -2,6 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'inspec/resource'
+
 module Inspec
   module Plugins
     class Resource
@@ -50,8 +52,10 @@ module Inspec
         end
         # rubocop:enable Lint/NestedMethodDefinition
 
-        # add the resource to the registry by name
-        Inspec::Resource.registry[name] = cl
+        # add the resource to the registry by name with a newly-named registry class
+        klass_name = name.split('_').map(&:capitalize).join
+        Inspec::Resource::Registry.const_set(klass_name, cl)
+        Inspec::Resource.registry[name] = Inspec::Resource::Registry.const_get(klass_name)
       end
 
       # Define methods which are available to all resources

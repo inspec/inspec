@@ -8,6 +8,10 @@ require 'inspec/plugins'
 
 module Inspec
   class Resource
+    class Registry
+      # empty class for namespacing resource classes in the registry
+    end
+
     def self.registry
       @registry ||= {}
     end
