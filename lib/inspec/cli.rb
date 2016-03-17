@@ -75,6 +75,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
   profile_options
+  option :output, aliases: :o, type: :string,
+    desc: 'Save the archive to a path'
   option :zip, type: :boolean, default: false,
     desc: 'Generates a zip archive.'
   option :tar, type: :boolean, default: false,
@@ -114,7 +116,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def detect
     diagnose
 
-    rel = File.join(File.dirname(__FILE__), *%w{.. lib utils detect.rb})
+    rel = File.join(File.dirname(__FILE__), *%w{.. utils detect.rb})
     detect_util = File.expand_path(rel)
     # exits on execution:
     runner = Inspec::Runner.new(opts)
