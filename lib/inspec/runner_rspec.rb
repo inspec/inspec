@@ -81,7 +81,9 @@ module Inspec
         RSpec.configuration.output_stream = @conf['output']
       end
 
-      RSpec.configuration.add_formatter(@conf['format'] || 'progress')
+      format = @conf['format'] || 'progress'
+      format = 'InspecRspecFormatter' if format == 'fulljson'
+      RSpec.configuration.add_formatter(format)
       RSpec.configuration.color = @conf['color']
 
       setup_reporting if @conf['report']
