@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'utils/object_traversal'
+
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
     name 'json'
@@ -11,6 +13,8 @@ module Inspec::Resources
         its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
       end
     "
+
+    include ObjectTraverser
 
     # make params readable
     attr_reader :params
@@ -58,27 +62,6 @@ module Inspec::Resources
 
     def to_s
       "Json #{@path}"
-    end
-
-    private
-
-    def extract_value(keys, value)
-      key = keys.shift
-      return nil if key.nil?
-
-      # if value is an array, iterate over each child
-      if value.is_a?(Array)
-        value = value.map { |i|
-          extract_value([key], i)
-        }
-      else
-        value = value[key.to_s].nil? ? nil : value[key.to_s]
-      end
-
-      # if there are no more keys, just return the value
-      return value if keys.first.nil?
-      # if there are more keys, extract more
-      extract_value(keys.clone, value)
     end
   end
 end
