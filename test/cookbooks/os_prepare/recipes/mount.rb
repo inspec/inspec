@@ -9,7 +9,7 @@ when 'ubuntu', 'rhel', 'centos', 'fedora'
 
   # copy iso file for mount tests
   # NB created using `mkdir empty; mkisofs -o empty.iso empty/`
-  cookbook_file '/root/empty.iso' do
+  cookbook_file '/tmp/empty.iso' do
     owner 'root'
     group 'root'
     mode '0755'
@@ -26,7 +26,7 @@ when 'ubuntu', 'rhel', 'centos', 'fedora'
 
   # mount -o loop /root/empty.iso /mnt/iso-disk
   mount '/mnt/iso-disk' do
-    device '/root/empty.iso'
+    device '/tmp/empty.iso'
     options 'loop'
     action [:mount, :enable]
   end
