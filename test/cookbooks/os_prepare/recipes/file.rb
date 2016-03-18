@@ -38,4 +38,9 @@ if node['platform_family'] != 'windows'
     group gid
   end
 
+else
+
+  directory 'C:\Test Directory'
+  file 'C:\Test Directory\test file.txt'
+
 end
