@@ -181,6 +181,10 @@ describe 'Inspec::InspecCLI' do
           rule['impact'].must_equal 0.7
         end
 
+        it 'has a ref' do
+          rule['refs'].must_equal([{'ref' => 'Document A-12', 'url' => 'http://...'}])
+        end
+
         it 'has a source location' do
           loc = File.join(path, '/controls/example.rb')
           rule['source_location'].must_equal [loc, 8]
