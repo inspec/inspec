@@ -250,6 +250,84 @@ describe 'Inspec::InspecCLI' do
         ex3['pending_message'].must_equal 'Not yet implemented'
       end
     end
+
+    describe 'execute a profile with fulljson formatting' do
+      let(:json) { JSON.load(inspec('exec ' + path + ' --format fulljson').stdout) }
+      let(:examples) { json['examples'] }
+      let(:metadata) { json['profiles'][0] }
+      let(:ex1) { examples.find{|x| x['id'] == 'tmp-1.0'} }
+      let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
+      let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
+
+      it 'has all the metadata' do
+        metadata.must_equal({
+          "name" => "profile",
+          "title" => "InSpec Example Profile",
+          "maintainer" => "Chef Software, Inc.",
+          "copyright" => "Chef Software, Inc.",
+          "copyright_email" => "support@chef.io",
+          "license" => "Apache 2 license",
+          "summary" => "Demonstrates the use of InSpec Compliance Profile",
+          "version" => "1.0.0",
+          "supports" => [{"os-family" => "linux"}]
+        })
+      end
+
+      it 'must have 3 examples' do
+        json['examples'].length.must_equal 3
+      end
+
+      it 'id in json' do
+        examples.find { |ex| !ex.key? 'id' }.must_be :nil?
+      end
+
+      it 'title in json' do
+        ex3['title'].must_equal 'Verify the version number of Gordon'
+      end
+
+      it 'desc in json' do
+        ex3['desc'].must_equal 'An optional description...'
+      end
+
+      it 'code in json' do
+        ex3['code'].wont_be :nil?
+      end
+
+      it 'code_desc in json' do
+        ex3['code_desc'].wont_be :nil?
+      end
+
+      it 'impact in json' do
+        ex1['impact'].must_equal 0.7
+        ex2['impact'].must_be :nil?
+      end
+
+      it 'status in json' do
+        ex1['status'].must_equal 'passed'
+        ex3['status'].must_equal 'pending'
+      end
+
+      it 'ref in json' do
+        ex1['ref'].must_match %r{examples/profile/controls/example.rb$}
+      end
+
+      it 'ref_line in json' do
+        ex1['ref_line'].must_equal 14
+      end
+
+      it 'run_time in json' do
+        ex1['run_time'].wont_be :nil?
+      end
+
+      it 'start_time in json' do
+        ex1['start_time'].wont_be :nil?
+      end
+
+      it 'pending message in json' do
+        ex1['pending'].must_be :nil?
+        ex3['pending'].must_equal "Can't find file \"/etc/gordon/config.yaml\""
+      end
+    end
   end
 
   describe 'example inheritance profile' do
