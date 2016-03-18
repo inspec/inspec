@@ -42,9 +42,9 @@ The following InSpec audit resources are available:
 * `port`_
 * `postgres_conf`_
 * `postgres_session`_
+* `powershell`_
 * `processes`_
 * `registry_key`_
-* `script`_
 * `security_policy`_
 * `service`_
 * `ssh_config`_
@@ -3525,6 +3525,84 @@ The following examples show how to use this InSpec audit resource.
 
 
 
+powershell
+=====================================================
+Use the ``powershell`` |inspec resource| to test a |powershell| script on the |windows| platform.
+
+**Stability: Experimental**
+
+Syntax
+-----------------------------------------------------
+A ``powershell`` |inspec resource| block declares a script to be tested, and then a command that should be part of that script:
+
+.. code-block:: ruby
+
+   script = <<-EOH
+     # you powershell script
+   EOH
+
+   describe powershell(script) do
+     its('matcher') { should eq 'output' }
+   end
+
+
+where
+
+* ``'script'`` must specify a Powershell script to be run
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
+
+Matchers
+-----------------------------------------------------
+This InSpec audit resource has the following matchers.
+
+exit_status
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exit_status`` matcher tests the exit status for the command:
+
+.. code-block:: ruby
+
+   its('exit_status') { should eq 123 }
+
+stderr
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+   its('stderr') { should eq 'error' }
+
+stdout
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+   its('stdout') { should eq '/^1$/' }
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this InSpec audit resource.
+
+**Get all groups of Administrator user**
+
+.. code-block:: ruby
+
+   myscript = <<-EOH
+     # find user
+     $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
+     # get related groups
+     $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
+     $groups | ConvertTo-Json
+   EOH
+
+   describe script(myscript) do
+     its('stdout') { should_not eq '' }
+   end
+
+
+
 processes
 =====================================================
 Use the ``processes`` |inspec resource| to test properties for programs that are running on the system.
@@ -3649,83 +3727,6 @@ The following examples show how to use this InSpec audit resource.
    end
 
 where ``'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'`` is the full path to the setting.
-
-
-script
-=====================================================
-Use the ``script`` |inspec resource| to test a |powershell| script on the |windows| platform.
-
-**Stability: Experimental**
-
-Syntax
------------------------------------------------------
-A ``script`` |inspec resource| block declares a script to be tested, and then a command that should be part of that script:
-
-.. code-block:: ruby
-
-   script = <<-EOH
-     # you powershell script
-   EOH
-
-   describe script(script) do
-     its('matcher') { should eq 'output' }
-   end
-
-
-where
-
-* ``'script'`` must specify a Powershell script to be run
-* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
-* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
-
-
-Matchers
------------------------------------------------------
-This InSpec audit resource has the following matchers.
-
-exit_status
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``exit_status`` matcher tests the exit status for the command:
-
-.. code-block:: ruby
-
-   its('exit_status') { should eq 123 }
-
-stderr
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
-
-.. code-block:: ruby
-
-   its('stderr') { should eq 'error' }
-
-stdout
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
-
-.. code-block:: ruby
-
-   its('stdout') { should eq '/^1$/' }
-
-Examples
------------------------------------------------------
-The following examples show how to use this InSpec audit resource.
-
-**Get all groups of Administrator user**
-
-.. code-block:: ruby
-
-   myscript = <<-EOH
-     # find user
-     $user = Get-WmiObject Win32_UserAccount -filter "Name = 'Administrator'"
-     # get related groups
-     $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
-     $groups | ConvertTo-Json
-   EOH
-
-   describe script(myscript) do
-     its('stdout') { should_not eq '' }
-   end
 
 
 security_policy

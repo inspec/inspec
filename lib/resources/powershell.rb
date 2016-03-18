@@ -5,15 +5,15 @@
 # license: All rights reserved
 
 module Inspec::Resources
-  class Script < Cmd
-    name 'script'
-    desc 'Use the script InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
+  class PowershellScript < Cmd
+    name 'powershell'
+    desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
     example "
       script = <<-EOH
         # you powershell script
       EOH
 
-      describe script(script) do
+      describe powershell(script) do
         its('matcher') { should eq 'output' }
       end
     "
@@ -37,7 +37,21 @@ module Inspec::Resources
     end
 
     def to_s
-      'Script'
+      'Powershell'
+    end
+  end
+
+  # this is deprecated syntax and will be removed in future versions
+  class LegacyPowershellScript < PowershellScript
+    name 'script'
+
+    def initialize(script)
+      deprecated
+      super(script)
+    end
+
+    def deprecated
+      warn '[DEPRECATION] `script(script)` is deprecated.  Please use `powershell(script)` instead.'
     end
   end
 end
