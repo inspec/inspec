@@ -5,7 +5,7 @@
 require 'helper'
 require 'inspec/resource'
 
-describe 'Inspec::Resources::Script' do
+describe 'Inspec::Resources::Powershell' do
 
   ps1_script = <<-EOH
     # call help for get command
