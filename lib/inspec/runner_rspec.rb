@@ -29,6 +29,18 @@ module Inspec
       RSpec::Core::ExampleGroup.describe(*args, &block)
     end
 
+    # Add a full profile to the runner. Only pulls in metadata
+    #
+    # @param [Inspec::Profile] profile
+    # @return [nil]
+    def add_profile(profile)
+      RSpec.configuration.formatters
+           .find_all { |c| c.is_a? InspecRspecFormatter }
+           .each do |fmt|
+        fmt.add_profile(profile)
+      end
+    end
+
     # Add an example group to the list of registered tests.
     #
     # @param [RSpecExampleGroup] example test

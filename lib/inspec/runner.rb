@@ -55,6 +55,7 @@ module Inspec
     def add_profile(profile, options = {})
       return unless options[:ignore_supports] ||
                     profile.metadata.supports_transport?(@backend)
+      @test_collector.add_profile(profile)
 
       libs = profile.libraries.map do |k, v|
         { ref: k, content: v }

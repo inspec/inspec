@@ -22,6 +22,7 @@ module RSpec::Core::Formatters
         run_time: example.execution_result.run_time,
         pending_message: example.execution_result.pending_message,
         id: example.metadata[:id],
+        impact: example.metadata[:impact],
       }
     end
   end
@@ -29,6 +30,20 @@ end
 
 class InspecRspecFormatter < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
+
+  def add_profile(profile)
+    @profiles ||= []
+    @profiles.push(profile)
+  end
+
+  def dump_summary(summary)
+    super(summary)
+    @output_hash[:profiles] = @profiles.map do |profile|
+      r = profile.params.dup
+      r.delete(:rules)
+      r
+    end
+  end
 
   private
 

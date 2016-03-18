@@ -4,9 +4,14 @@
 
 module Inspec
   class RunnerMock
-    attr_reader :tests
+    attr_reader :tests, :profiles
     def initialize
       @tests = []
+      @profiles = []
+    end
+
+    def add_profile(profile)
+      @profiles.push(profile)
     end
 
     def add_test(example, _rule_id, _rule)
