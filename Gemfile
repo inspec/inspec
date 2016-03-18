@@ -19,10 +19,9 @@ end
 
 group :integration do
   gem 'berkshelf', '~> 4.0'
-  gem 'test-kitchen'
+  gem 'test-kitchen', '~> 1.6'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec'
-  gem 'winrm-transport', '~> 1.0'
+  gem 'kitchen-inspec', '0.12.5'
   gem 'kitchen-ec2'
 end
 
