@@ -178,7 +178,7 @@ describe 'Inspec::InspecCLI' do
       end
 
       it 'has rules' do
-        json['rules'].length.must_equal 2 # TODO: flatten out or search deeper!
+        json['rules'].length.must_equal 3 # TODO: flatten out or search deeper!
       end
 
       describe 'a rule' do
@@ -217,7 +217,7 @@ describe 'Inspec::InspecCLI' do
       out.exit_status.must_equal 0
       hm = JSON.load(File.read(dst.path))
       hm['name'].must_equal 'profile'
-      hm['rules'].length.must_equal 2 # TODO: flatten out or search deeper!
+      hm['rules'].length.must_equal 3 # TODO: flatten out or search deeper!
     end
 
     it 'can execute the profile' do
@@ -225,7 +225,7 @@ describe 'Inspec::InspecCLI' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       out.stdout.must_match /^Pending: /
-      out.stdout.must_include '3 examples, 0 failures, 1 pending'
+      out.stdout.must_include '4 examples, 0 failures, 1 pending'
     end
 
     it 'can execute the profile with the json formatter' do
@@ -242,8 +242,8 @@ describe 'Inspec::InspecCLI' do
       let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
       let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
 
-      it 'must have 3 examples' do
-        json['examples'].length.must_equal 3
+      it 'must have 4 examples' do
+        json['examples'].length.must_equal 4
       end
 
       it 'id in json' do
@@ -288,8 +288,8 @@ describe 'Inspec::InspecCLI' do
         })
       end
 
-      it 'must have 3 examples' do
-        json['examples'].length.must_equal 3
+      it 'must have 4 examples' do
+        json['examples'].length.must_equal 4
       end
 
       it 'id in json' do
