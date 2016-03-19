@@ -84,7 +84,7 @@ module Inspec
       end
 
       # evaluate the test content
-      tests = Array(tests) unless tests.is_a? Array
+      tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
 
       # process the resulting rules
