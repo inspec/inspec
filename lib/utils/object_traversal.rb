@@ -4,7 +4,7 @@
 module ObjectTraverser
   def extract_value(keys, value)
     key = keys.shift
-    return nil if key.nil?
+    return nil if key.nil? || value.nil?
 
     # if value is an array, iterate over each child
     if value.is_a?(Array)
