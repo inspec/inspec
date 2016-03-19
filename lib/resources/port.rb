@@ -66,6 +66,11 @@ module Inspec::Resources
       res.size > 0 ? res : nil
     end
 
+    def addresses
+      res = info.map { |x| x[:address] }.uniq.compact
+      res.size > 0 ? res : nil
+    end
+
     def pids
       res = info.map { |x| x[:pid] }.uniq.compact
       res.size > 0 ? res : nil

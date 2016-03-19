@@ -12,6 +12,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal %w{ tcp tcp6 }
     _(resource.pids).must_equal [1]
     _(resource.processes).must_equal ['sshd']
+    _(resource.addresses).must_equal ["0.0.0.0", "::"]
   end
 
   it 'verify UDP port on Ubuntu 14.04' do
@@ -20,6 +21,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal %w{ udp }
     _(resource.pids).must_equal [545]
     _(resource.processes).must_equal ['rpcbind']
+    _(resource.addresses).must_equal ["0.0.0.0"]
   end
 
   it 'verify port on MacOs x' do
@@ -27,6 +29,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ['tcp']
     _(resource.processes).must_equal ['VBoxHeadl']
+    _(resource.addresses).must_equal ["127.0.0.1"]
   end
 
   it 'verify port on Windows' do
@@ -34,6 +37,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ['tcp']
     _(resource.processes).must_equal nil
+    _(resource.addresses).must_equal ["::", "192.168.10.157"]
   end
 
   it 'verify port on FreeBSD' do
@@ -42,6 +46,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal %w{ tcp6 tcp }
     _(resource.pids).must_equal [668]
     _(resource.processes).must_equal ['sshd']
+    _(resource.addresses).must_equal ["0:0:0:0:0:0:0:0", "0.0.0.0"]
   end
 
   it 'verify port on wrlinux' do
@@ -49,6 +54,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp tcp6 }
     _(resource.processes).must_equal ['sshd']
+    _(resource.addresses).must_equal ["0.0.0.0", "::"]
   end
 
   it 'verify running on undefined' do
@@ -57,6 +63,7 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal nil
     _(resource.pids).must_equal nil
     _(resource.processes).must_equal nil
+    _(resource.addresses).must_equal nil
   end
 
   it 'verify port and interface on Ubuntu 14.04' do
@@ -65,20 +72,24 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal %w{ tcp }
     _(resource.pids).must_equal [1]
     _(resource.processes).must_equal ['sshd']
+    _(resource.addresses).must_equal ["0.0.0.0"]
   end
 
   it 'verify not listening port on interface on Ubuntu 14.04' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', '127.0.0.1', 22)
     _(resource.listening?).must_equal false
+    _(resource.addresses).must_equal nil
   end
 
   it 'verify port on Solaris 10' do
     resource = MockLoader.new(:solaris10).load_resource('port', 22)
     _(resource.listening?).must_equal true
+    _(resource.addresses).must_equal ["0.0.0.0"]
   end
 
   it 'verify port on Solaris 11' do
     resource = MockLoader.new(:solaris11).load_resource('port', 22)
     _(resource.listening?).must_equal true
+    _(resource.addresses).must_equal ["0.0.0.0"]
   end
 end
