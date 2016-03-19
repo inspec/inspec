@@ -47,6 +47,21 @@ describe 'Inspec::InspecCLI' do
     end
   end
 
+  describe 'shell' do
+    it 'provides a help command' do
+      out = CMD.run_command("echo \"help\nexit\" | #{exec_inspec} shell")
+      out.exit_status.must_equal 0
+      out.stdout.must_include 'Available commands:'
+      out.stdout.must_include 'You are currently running on:'
+    end
+
+    it 'exposes all resources' do
+      out = CMD.run_command("echo \"os\nexit\" | #{exec_inspec} shell")
+      out.exit_status.must_equal 0
+      out.stdout.must_match /^=> .*Operating.* .*System.* .*Detection.*$/
+    end
+  end
+
   describe 'example profile' do
     let(:path) { File.join(examples_path, 'profile') }
 
