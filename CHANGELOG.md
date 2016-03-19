@@ -1,7 +1,44 @@
 # Change Log
 
-## [0.15.0](https://github.com/chef/inspec/tree/0.15.0) (2016-03-09)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.14.8...0.15.0)
+## [0.16.0](https://github.com/chef/inspec/tree/0.16.0) (2016-03-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.15.0...0.16.0)
+
+**Implemented enhancements:**
+
+- Read Chef attributes within the tests ? [\#541](https://github.com/chef/inspec/issues/541)
+- A resource to test http GET calls [\#538](https://github.com/chef/inspec/issues/538)
+- rename `script` resource to `powershell` resource [\#553](https://github.com/chef/inspec/pull/553) ([chris-rock](https://github.com/chris-rock))
+- add fulljson formatter [\#552](https://github.com/chef/inspec/pull/552) ([arlimus](https://github.com/arlimus))
+- feature: add tags and refs [\#551](https://github.com/chef/inspec/pull/551) ([arlimus](https://github.com/arlimus))
+- fix detect + add output option to archive command [\#546](https://github.com/chef/inspec/pull/546) ([arlimus](https://github.com/arlimus))
+- adding named resource registry classes [\#540](https://github.com/chef/inspec/pull/540) ([adamleff](https://github.com/adamleff))
+- add output stream to rspec configuration [\#529](https://github.com/chef/inspec/pull/529) ([vjeffrey](https://github.com/vjeffrey))
+- Move integration tests to test/integration [\#468](https://github.com/chef/inspec/pull/468) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- fix inspec shell and continuously test it [\#556](https://github.com/chef/inspec/pull/556) ([arlimus](https://github.com/arlimus))
+- bugfix: prevent duplicate loading of library files [\#547](https://github.com/chef/inspec/pull/547) ([arlimus](https://github.com/arlimus))
+- fix detect + add output option to archive command [\#546](https://github.com/chef/inspec/pull/546) ([arlimus](https://github.com/arlimus))
+- bugfix: archive command with inheritance-based profiles [\#545](https://github.com/chef/inspec/pull/545) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Add additional metadata to the control definition to allow for more complete mapping to security guidance documents [\#536](https://github.com/chef/inspec/issues/536)
+- CLI: Specifying --profiles-path on check succeeds but displays usage error on archive [\#535](https://github.com/chef/inspec/issues/535)
+- inspec failing to connect to Compliance \(SSL certificate error\) [\#531](https://github.com/chef/inspec/issues/531)
+
+**Merged pull requests:**
+
+- mock fetcher [\#550](https://github.com/chef/inspec/pull/550) ([arlimus](https://github.com/arlimus))
+- testing: add inspec exec tests with json formatter [\#549](https://github.com/chef/inspec/pull/549) ([arlimus](https://github.com/arlimus))
+- dont generate pretty json by default [\#548](https://github.com/chef/inspec/pull/548) ([arlimus](https://github.com/arlimus))
+- Add title, description, code, and source\_location to example metadata [\#543](https://github.com/chef/inspec/pull/543) ([vjeffrey](https://github.com/vjeffrey))
+- add functional tests for cli [\#542](https://github.com/chef/inspec/pull/542) ([arlimus](https://github.com/arlimus))
+- Add a Gitter chat badge to README.md [\#530](https://github.com/chef/inspec/pull/530) ([gitter-badger](https://github.com/gitter-badger))
+
+## [v0.15.0](https://github.com/chef/inspec/tree/v0.15.0) (2016-03-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.14.8...v0.15.0)
 
 **Implemented enhancements:**
 
@@ -20,6 +57,7 @@
 
 **Merged pull requests:**
 
+- 0.15.0 [\#528](https://github.com/chef/inspec/pull/528) ([arlimus](https://github.com/arlimus))
 - 0.14.9 [\#525](https://github.com/chef/inspec/pull/525) ([arlimus](https://github.com/arlimus))
 
 ## [v0.14.8](https://github.com/chef/inspec/tree/v0.14.8) (2016-03-04)
