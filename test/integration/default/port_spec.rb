@@ -17,5 +17,7 @@ end
 if os.linux?
   describe port(22) do
     its('processes') { should include 'sshd' }
+    its('protocols') { should include 'tcp' }
+    its('addresses') {should include '0.0.0.0'}
   end
 end
