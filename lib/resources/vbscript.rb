@@ -2,11 +2,23 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# we cannot use script control, because it works on 32 bit systems only
-# $script = new-object -comobject MSScriptControl.ScriptControl
-# $script.language = "vbscript"
-# $script.ExecuteStatement($Cmd)
 module Inspec::Resources
+  # This resource allows users to run vbscript on windows machines. We decided
+  # not to use scriptcontrol, due to the fact that it works on 32 bit systems only:
+  # $script = new-object -comobject MSScriptControl.ScriptControl
+  # $script.language = "vbscript"
+  # $script.ExecuteStatement($Cmd)
+  #
+  # For that reason, we call csript.exe directy with the script. Vbscript is
+  # embedded in Powershell to ease the file transfer and reuse powershell
+  # encodedCommand since train does not allow file upload yet.
+  #
+  # We run cscript with /nologo option to get the expected output only with the
+  # version information.
+  #
+  # Since Windows does not delete tmp files automatically, we remove the VBScript
+  # after we executed it
+  # @see https://msdn.microsoft.com/en-us/library/aa364991.aspx
   class VBScript < PowershellScript
     name 'vbscript'
     desc ''
@@ -24,19 +36,14 @@ module Inspec::Resources
       return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
 
       cmd = <<-EOH
-  $vbscript = @"
-  #{vbscript}
-  "@
-
-  # create temp file
-  $filename = [System.IO.Path]::GetTempFileName() + ".vbs"
-  New-Item $filename -type file -force -value $vbscript  | Out-Null
-
-  # run cscript with nologo option
-  cscript.exe /nologo $filename
-
-  EOH
-      puts cmd
+$vbscript = @"
+#{vbscript}
+"@
+$filename = [System.IO.Path]::GetTempFileName() + ".vbs"
+New-Item $filename -type file -force -value $vbscript | Out-Null
+cscript.exe /nologo $filename
+Remove-Item $filename | Out-Null
+EOH
       super(cmd)
     end
 
