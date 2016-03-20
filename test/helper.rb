@@ -237,6 +237,8 @@ class MockLoader
       'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
       # xinetd configuration
       'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
+      # wmi test
+      "Get-WmiObject -class win32_service  -filter \"name like '%winrm%'\" | ConvertTo-Json" => cmd.call('get-wmiobject'),
     }
 
     @backend
