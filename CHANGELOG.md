@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.16.0](https://github.com/chef/inspec/tree/0.16.0) (2016-03-19)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.15.0...0.16.0)
+## [0.16.1](https://github.com/chef/inspec/tree/0.16.1) (2016-03-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.0...0.16.1)
+
+**Implemented enhancements:**
+
+- undefined method `addresses' for Port [\#555](https://github.com/chef/inspec/issues/555)
+- add `wmi` resource [\#560](https://github.com/chef/inspec/pull/560) ([chris-rock](https://github.com/chris-rock))
+- Add `vbscript` resource [\#559](https://github.com/chef/inspec/pull/559) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- add support for addresses in port resource [\#558](https://github.com/chef/inspec/pull/558) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.16.0](https://github.com/chef/inspec/tree/v0.16.0) (2016-03-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.15.0...v0.16.0)
 
 **Implemented enhancements:**
 
@@ -17,6 +30,7 @@
 
 **Fixed bugs:**
 
+- Unable to Handle Spaced Windows File Paths [\#469](https://github.com/chef/inspec/issues/469)
 - fix inspec shell and continuously test it [\#556](https://github.com/chef/inspec/pull/556) ([arlimus](https://github.com/arlimus))
 - bugfix: prevent duplicate loading of library files [\#547](https://github.com/chef/inspec/pull/547) ([arlimus](https://github.com/arlimus))
 - fix detect + add output option to archive command [\#546](https://github.com/chef/inspec/pull/546) ([arlimus](https://github.com/arlimus))
@@ -30,6 +44,7 @@
 
 **Merged pull requests:**
 
+- 0.16.0 [\#557](https://github.com/chef/inspec/pull/557) ([arlimus](https://github.com/arlimus))
 - mock fetcher [\#550](https://github.com/chef/inspec/pull/550) ([arlimus](https://github.com/arlimus))
 - testing: add inspec exec tests with json formatter [\#549](https://github.com/chef/inspec/pull/549) ([arlimus](https://github.com/arlimus))
 - dont generate pretty json by default [\#548](https://github.com/chef/inspec/pull/548) ([arlimus](https://github.com/arlimus))
