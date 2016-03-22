@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.16.1](https://github.com/chef/inspec/tree/0.16.1) (2016-03-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.16.0...0.16.1)
+## [0.16.2](https://github.com/chef/inspec/tree/0.16.2) (2016-03-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.1...0.16.2)
+
+**Fixed bugs:**
+
+- bugfix: dont crash on read\_file contents in parse\_config [\#570](https://github.com/chef/inspec/pull/570) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- inspec exec error on new install [\#569](https://github.com/chef/inspec/issues/569)
+
+## [v0.16.1](https://github.com/chef/inspec/tree/v0.16.1) (2016-03-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.0...v0.16.1)
 
 **Implemented enhancements:**
 
@@ -11,6 +22,7 @@
 
 **Merged pull requests:**
 
+- 0.16.1 [\#567](https://github.com/chef/inspec/pull/567) ([arlimus](https://github.com/arlimus))
 - add support for addresses in port resource [\#558](https://github.com/chef/inspec/pull/558) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.16.0](https://github.com/chef/inspec/tree/v0.16.0) (2016-03-19)
