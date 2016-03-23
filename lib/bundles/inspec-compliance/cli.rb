@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'thor'
+require 'erb'
 
 module Compliance
   class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
@@ -106,9 +107,10 @@ module Compliance
       end
 
       puts "Start upload to #{owner}/#{profile_name}"
+      pname = ERB::Util.url_encode(profile_name)
 
       # upload the tar to Chef Compliance
-      url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      url = "#{config['server']}/owners/#{owner}/compliance/#{pname}/tar"
 
       puts "Uploading to #{url}"
       success, msg = Compliance::API.post_file(url, config['token'], '', archive_path, config['insecure'])
