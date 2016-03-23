@@ -97,10 +97,10 @@ module Compliance
 
       # if it is a directory, tar it to tmp directory
       if File.directory?(path)
-        file = Tempfile.new([profile_name, '.tar.gz'])
-        archive_path = file.path
+        archive_path = Dir::Tmpname.create([profile_name, '.tar.gz']) {}
+        # archive_path = file.path
         puts "Generate temporary profile archive at #{archive_path}"
-        profile.archive({ archive: archive_path, ignore_errors: false, overwrite: true })
+        profile.archive({ output: archive_path, ignore_errors: false, overwrite: true })
       else
         archive_path = path
       end

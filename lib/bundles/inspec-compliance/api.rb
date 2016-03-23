@@ -116,8 +116,7 @@ module Compliance
       req = Net::HTTP::Post.new(uri.path)
       req.basic_auth username, password
 
-      req.body_stream=File.open(file_path)
-      req['Content-Type'] = 'multipart/form-data'
+      req.body_stream=File.open(file_path, 'rb')
       req.add_field('Content-Length', File.size(file_path))
       req.add_field('Content-Type', 'application/x-gtar')
 
