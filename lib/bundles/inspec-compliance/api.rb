@@ -85,14 +85,12 @@ module Compliance
 
       if !data.nil?
         profiles = JSON.parse(data)
-        val = []
         # iterate over profiles
-        profiles.each_key do |org|
-          profiles[org].each_key do |name|
-            val.push({ org: org, name: name })
+        profiles.map do |owner, ps|
+          ps.keys.map do |name|
+            { org: owner, name: name }
           end
-        end
-        val
+        end.flatten
       else
         []
       end
