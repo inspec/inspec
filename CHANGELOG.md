@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.16.2](https://github.com/chef/inspec/tree/0.16.2) (2016-03-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.16.1...0.16.2)
+## [0.16.3](https://github.com/chef/inspec/tree/0.16.3) (2016-03-23)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.2...0.16.3)
+
+**Fixed bugs:**
+
+- inspec-compliance: fix upload of profiles [\#573](https://github.com/chef/inspec/pull/573) ([srenatus](https://github.com/srenatus))
+
+**Closed issues:**
+
+- Issues with 'inspec compliance upload' [\#572](https://github.com/chef/inspec/issues/572)
+
+## [v0.16.2](https://github.com/chef/inspec/tree/v0.16.2) (2016-03-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.1...v0.16.2)
 
 **Fixed bugs:**
 
@@ -10,6 +21,10 @@
 **Closed issues:**
 
 - inspec exec error on new install [\#569](https://github.com/chef/inspec/issues/569)
+
+**Merged pull requests:**
+
+- 0.16.2 [\#571](https://github.com/chef/inspec/pull/571) ([arlimus](https://github.com/arlimus))
 
 ## [v0.16.1](https://github.com/chef/inspec/tree/v0.16.1) (2016-03-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.16.0...v0.16.1)
