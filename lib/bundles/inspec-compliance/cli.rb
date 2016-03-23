@@ -9,17 +9,37 @@ module Compliance
   class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     namespace 'compliance'
 
-    desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
+    desc 'api_token SERVER', '(Optionally) verify and save the API token for Chef Compliance SERVER'
+    option :token, type: :string, required: true,
+      desc: 'Chef Compliance API token'
     option :user, type: :string, required: true,
-      desc: 'Chef Compliance Username'
-    option :password, type: :string, required: true,
-      desc: 'Chef Compliance Password'
+      desc: 'Chef Compliance user login'
+    option :verify, aliases: :v, type: :boolean,
+      desc: 'Verify token before storing it'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     option :apipath, type: :string, default: '/api',
       desc: 'Set the path to the API, defaults to /api'
-    def login(server)
-      success, msg = Compliance::API.login(server, options['user'], options['password'], options['insecure'], options['apipath'])
+    def api_token(server)
+      success, msg = Compliance::API.api_token(server, options['token'], options['verify'], options['user'], options['insecure'], options['apipath'])
+      puts msg
+    end
+
+    desc 'token SERVER', 'Save an access token for Chef Compliance SERVER'
+    option :token, type: :string, required: true,
+      desc: 'Chef Compliance access token'
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    def token(server)
+      success, msg = Compliance::API.access_token(server, options['token'], options['insecure'])
+      puts msg
+    end
+
+    desc 'login', 'Log in to a Chef Compliance SERVER'
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    def login
+      success, msg = Compliance::API.login(options['insecure'])
       if success
         puts 'Successfully authenticated'
       else
@@ -115,7 +135,7 @@ module Compliance
       url = "#{config['server']}/owners/#{owner}/compliance/#{pname}/tar"
 
       puts "Uploading to #{url}"
-      success, msg = Compliance::API.post_file(url, config['token'], '', archive_path, config['insecure'])
+      success, msg = Compliance::API.post_file(url, config['token'], archive_path, config['insecure'])
       if success
         puts 'Successfully uploaded profile'
       else
