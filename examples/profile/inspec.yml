@@ -7,4 +7,4 @@ license: Apache 2 license
 summary: Demonstrates the use of InSpec Compliance Profile
 version: 1.0.0
 supports:
-  - os-family: linux
+  - os-family: unix
