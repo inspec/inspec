@@ -21,7 +21,7 @@ module Compliance
     option :apipath, type: :string, default: '/api',
       desc: 'Set the path to the API, defaults to /api'
     def api_token(server)
-      success, msg = Compliance::API.api_token(server, options['token'], options['verify'], options['user'], options['insecure'], options['apipath'])
+      _, msg = Compliance::API.api_token(server, options['token'], options['verify'], options['user'], options['insecure'], options['apipath'])
       puts msg
     end
 
@@ -31,7 +31,7 @@ module Compliance
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     def token(server)
-      success, msg = Compliance::API.access_token(server, options['token'], options['insecure'])
+      _, msg = Compliance::API.access_token(server, options['token'], options['insecure'])
       puts msg
     end
 
