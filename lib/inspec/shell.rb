@@ -15,7 +15,7 @@ module Inspec
 
     def start
       # store context to run commands in this context
-      c = { content: 'binding.pry', ref: __FILE__, line: __LINE__ }
+      c = { content: 'binding.pry', ref: nil, line: nil }
       @runner.add_content(c, [])
       @runner.run
     end
