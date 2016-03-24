@@ -8,23 +8,41 @@ InSpec ships with built-in features to verify a profile structure.
 
 ```bash
 $ inspec check examples/profile
-I, [2015-11-21T12:44:50.851137 #20661]  INFO -- : Checking profile in examples/profile
-I, [2015-11-21T12:44:50.851216 #20661]  INFO -- : Metadata OK.
-D, [2015-11-21T12:44:50.851239 #20661] DEBUG -- : Found 2 rules.
-D, [2015-11-21T12:44:50.851251 #20661] DEBUG -- : Verify all rules in  examples/profile/controls/example_spec.rb
-D, [2015-11-21T12:44:50.851263 #20661] DEBUG -- : Verify all rules in  examples/profile/controls/gordon_spec.rb
-I, [2015-11-21T12:44:50.851317 #20661]  INFO -- : Rule definitions OK.
+Summary
+-------
+Location: examples/profile
+Profile: profile
+Controls: 3
+Timestamp: 2016-03-24T16:20:21+00:00
+Valid: true
+
+Errors
+------
+
+Warnings
+--------
 ```
 
 ## Execute a profile
 
-To run a profile on a local machine use `inspec exec /path/to/profile`.
+To run all **supported** controls on a local machine use `inspec exec /path/to/profile`.
 
 ```bash
 $ inspec exec examples/profile
 ..
 
 Finished in 0.0025 seconds (files took 0.12449 seconds to load)
-2 examples, 0 failures
+4 examples, 0 failures
+```
 
+## Execute a specific control from a profile
+
+To run one control from the profile use `inspec exec /path/to/profile --controls name`.
+
+```bash
+$ inspec exec examples/profile --controls tmp-1.0
+.
+
+Finished in 0.0025 seconds (files took 0.12449 seconds to load)
+1 examples, 0 failures
 ```

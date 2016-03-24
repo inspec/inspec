@@ -284,7 +284,7 @@ describe 'Inspec::InspecCLI' do
           "license" => "Apache 2 license",
           "summary" => "Demonstrates the use of InSpec Compliance Profile",
           "version" => "1.0.0",
-          "supports" => [{"os-family" => "linux"}]
+          "supports" => [{"os-family" => "unix"}]
         })
       end
 
@@ -340,7 +340,7 @@ describe 'Inspec::InspecCLI' do
 
       it 'pending message in json' do
         ex1['pending'].must_be :nil?
-        ex3['pending'].must_equal "Can't find file \"/etc/gordon/config.yaml\""
+        ex3['pending'].must_equal "Can't find file \"/tmp/gordon/config.yaml\""
       end
     end
   end
