@@ -32,8 +32,8 @@ class GordonConfig < Inspec.resource(1)
 
   # Extra Ruby helper method
   def add_some_extra_params
-    @params['size']=@file.size
-    @params['md5sum']=@file.md5sum
+    @params['size'] = @file.size
+    @params['md5sum'] = @file.md5sum
   end
 
   # Expose all parameters
