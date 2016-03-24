@@ -101,7 +101,7 @@ module Inspec
     def add_test_to_context(test, ctx)
       content = test[:content]
       return if content.nil? || content.empty?
-      ctx.load(content, test[:ref], test[:line] || 1)
+      ctx.load(content, test[:ref], test[:line])
     end
 
     def filter_controls(controls_map, include_list)

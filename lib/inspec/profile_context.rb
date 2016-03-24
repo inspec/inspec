@@ -33,6 +33,8 @@ module Inspec
       @current_load = { file: source }
       if content.is_a? Proc
         @profile_context.instance_eval(&content)
+      elsif source.nil? && line.nil?
+        @profile_context.instance_eval(content)
       else
         @profile_context.instance_eval(content, source || 'unknown', line || 1)
       end
