@@ -30,16 +30,23 @@ In various use cases like implementing IT compliance across different department
        Always specify which port the SSH server should listen to.
        Prevent unexpected settings.
      '
+     tag 'ssh','sshd','openssh-server'
+     tag cce: 'CCE-27072-8'
+     ref 'NSA-RH6-STIG - Section 3.5.2.1', url: 'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'
+
      describe sshd_config do
        its('Port') { should eq('22') }
      end
    end
+
 
 where
 
 * ``'sshd-8'`` is the name of the control
 * ``impact``, ``title``, and ``desc`` define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description
 * ``impact`` is an float that measures the importance of the compliance results and must be a value between ``0.0`` and ``1.0``.
+* ``tag`` is optional meta-information with with key or key-value pairs
+* ``ref`` is a reference to an external document
 * ``describe`` is a block that contains at least one test. A ``control`` block must contain at least one ``describe`` block, but may contain as many as required
 * ``sshd_config`` is an |inspec| resource. For the full list of InSpec resources, see |inspec| resource documentation
 * ``its('Port')`` is the matcher; ``{ should eq('22') }`` is the test. A ``describe`` block must contain at least one matcher, but may contain as many as required
@@ -184,6 +191,42 @@ The following test shows how to audit machines to ensure Safe DLL Seach Mode is 
       it { should_not have_property_value('SafeDllSearchMode', :type_dword, '0') }
     end
   end
+
+
+
+Additional metadata for controls
+-----------------------------------------------------
+
+The following example illustrates various ways to add tags and references to `control`
+
+.. code-block:: ruby
+
+  control 'ssh-1' do
+      impact 1.0
+
+      title 'Allow only SSH Protocol 2'
+      desc 'Only SSH protocol version 2 connections should be permitted.
+            The default setting in /etc/ssh/sshd_config is correct, and can be
+            verified by ensuring that the following line appears: Protocol 2'
+
+      tag 'production','development'
+      tag 'ssh','sshd','openssh-server'
+
+      tag cce: 'CCE-27072-8'
+      tag disa: 'RHEL-06-000227'
+
+      tag remediation: 'stig_rhel6/recipes/sshd-config.rb'
+      tag remediation: 'https://supermarket.chef.io/cookbooks/ssh-hardening'
+
+      ref 'NSA-RH6-STIG - Section 3.5.2.1', url: 'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'
+      ref 'http://people.redhat.com/swells/scap-security-guide/RHEL/6/output/ssg-centos6-guide-C2S.html'
+
+      describe ssh_config do
+          its ('Protocol') { should eq '2'}
+      end
+   end`
+
+
 
 .. |inspec| replace:: InSpec
 .. |inspec resource| replace:: InSpec Resource
