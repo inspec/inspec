@@ -1,10 +1,34 @@
 # Change Log
 
-## [0.16.3](https://github.com/chef/inspec/tree/0.16.3) (2016-03-23)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.16.2...0.16.3)
+## [0.16.4](https://github.com/chef/inspec/tree/0.16.4) (2016-03-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.3...0.16.4)
+
+**Implemented enhancements:**
+
+- support --controls for inspec json [\#589](https://github.com/chef/inspec/pull/589) ([arlimus](https://github.com/arlimus))
+- dont fail with stacktrace on connection errors [\#588](https://github.com/chef/inspec/pull/588) ([arlimus](https://github.com/arlimus))
 
 **Fixed bugs:**
 
+- Escape whitespace for compliance upload [\#486](https://github.com/chef/inspec/issues/486)
+- inspec-compliance: url\_encode profile names [\#574](https://github.com/chef/inspec/pull/574) ([srenatus](https://github.com/srenatus))
+
+**Closed issues:**
+
+- --controls flag should be supported in all inspec commands [\#568](https://github.com/chef/inspec/issues/568)
+
+**Merged pull requests:**
+
+- Improvements to gordon example and docs [\#583](https://github.com/chef/inspec/pull/583) ([alexpop](https://github.com/alexpop))
+- bugfix: fix rare inspec shell missing all resources [\#582](https://github.com/chef/inspec/pull/582) ([alexpop](https://github.com/alexpop))
+- document tags and refs [\#561](https://github.com/chef/inspec/pull/561) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.16.3](https://github.com/chef/inspec/tree/v0.16.3) (2016-03-23)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.2...v0.16.3)
+
+**Fixed bugs:**
+
+- 0.16.3 [\#575](https://github.com/chef/inspec/pull/575) ([srenatus](https://github.com/srenatus))
 - inspec-compliance: fix upload of profiles [\#573](https://github.com/chef/inspec/pull/573) ([srenatus](https://github.com/srenatus))
 
 **Closed issues:**
