@@ -76,6 +76,23 @@ describe 'inspec json' do
     end
   end
 
+  describe 'filter with --controls' do
+    let(:out) { inspec('json ' + example_profile + ' --controls tmp-1.0') }
+
+    it 'still succeeds' do
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+    end
+
+    it 'only has one control included' do
+      json = JSON.load(out.stdout)
+      grps = json['rules']
+      grps.keys.must_equal ['controls/example.rb']
+      rules = grps.values[0]['rules']
+      rules.keys.must_equal ['tmp-1.0']
+    end
+  end
+
   it 'writes json to file' do
     out = inspec('json ' + example_profile + ' --output ' + dst.path)
     out.stderr.must_equal ''

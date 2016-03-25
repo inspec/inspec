@@ -19,6 +19,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     desc: 'Attach a profile ID to all test results'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
+  option :controls, type: :array,
+    desc: 'A list of controls to include. Ignore all other tests.'
   profile_options
   def json(target)
     diagnose
