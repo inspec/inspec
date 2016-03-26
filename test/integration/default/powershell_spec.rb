@@ -9,6 +9,11 @@ describe powershell(script) do
   its('stderr') { should eq '' }
 end
 
+# remove whitespace \r\n from stdout
+describe powershell(script) do
+  its('strip') { should eq "hello" }
+end
+
 # legacy test with `script` resource
 describe script(script) do
   its('stdout') { should eq "hello\r\n" }
