@@ -36,6 +36,11 @@ module Inspec::Resources
       nil
     end
 
+    # Removes leading and trailing whitespace from stdout
+    def strip
+      result.stdout.strip unless result.stdout.nil?
+    end
+
     def to_s
       'Powershell'
     end
