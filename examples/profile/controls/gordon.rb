@@ -15,6 +15,9 @@ control 'gordon-1.0' do
   impact 0.7
   title 'Verify the version number of Gordon'
   desc 'An optional description...'
+  tag 'gordon'
+  ref 'Gordon Requirements 1.0' uri: 'http://...'
+
   describe gordon_config do
     its('version') { should eq('1.0') }
     its('size') { should <= 20 }

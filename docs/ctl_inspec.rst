@@ -106,18 +106,25 @@ This subcommand has the following syntax:
 
 .. code-block:: bash
 
-   $ inspec exec PATHS (options)
+   $ inspec exec PATH(S) (options)
 
 where:
 
-* ``PATHS`` is one (or more) locations against which tests are run
+* ``PATH(S)`` is one (or more) locations against which tests are run
 
 Options
 -----------------------------------------------------
 This subcommand has additional options:
 
-``--id``
+``--id=``
    Use to attach a profile identifier to all test results.
+
+``--controls="a b c"``
+   A list of controls to run. Ignore all other tests.
+
+``--format=FORMAT``
+   Which formatter to use: progress, documentation, json
+
 
 Examples
 -----------------------------------------------------
@@ -128,6 +135,12 @@ The following examples show how to use this subcommand.
 .. code-block:: bash
 
    $ inspec exec test.rb
+
+**Run test 'tmp-01' locally and ignore other tests**
+
+.. code-block:: bash
+
+  $ inspec exec test.rb --controls="tmp-01"
 
 **Run a test on a remote host using SSH**
 
@@ -174,6 +187,9 @@ where:
 Options
 -----------------------------------------------------
 This subcommand has additional options:
+
+``--controls="a b c"``
+   Use to read only specific subset of controls in the PATH profile.
 
 ``--id``
    Use to attach a profile identifier to all test results.
