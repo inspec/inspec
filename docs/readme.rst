@@ -26,7 +26,7 @@ We add a control to this file, to check the ``/tmp`` path in our system:
     desc "An optional description..."
     tag mygroup: "tag"                        # A tag can be a simple value or
     tag "tag"                                 # can have a more complex key/value pair.
-    ref "name" url: "http://..."              # A reference to a document, uri: is optional
+    ref "name", url: "http://..."              # A reference to a document, uri: is optional
     describe file('/tmp') do                  # The actual test
       it { should be_mounted }
     end
@@ -71,7 +71,7 @@ It will contain:
           or vulnerabilities), do not allow login as root with password"
     tag security: "openssh-server"
     ref "Document A-12"
-    
+
     describe sshd_config do
       its('PermitRootLogin') { should match(/no|without-password/) }
     end
