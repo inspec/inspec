@@ -24,6 +24,9 @@ We add a control to this file, to check the ``/tmp`` path in our system:
     impact 0.7                                # The criticality, if this control fails.
     title "Create separate /tmp partition"    # A human-readable title
     desc "An optional description..."
+    tag mygroup: "tag"                        # A tag can be a simple value or
+    tag "tag"                                 # can have a more complex key/value pair.
+    ref "name" url: "http://..."              # A reference to a document, uri: is optional
     describe file('/tmp') do                  # The actual test
       it { should be_mounted }
     end
@@ -50,10 +53,11 @@ It will contain:
   control "sshd-11" do
     impact 1.0
     title "Server: Set protocol version to SSHv2"
-    desc "
-      Set the SSH protocol version to 2. Don't use legacy
-      insecure SSHv1 connections anymore.
-    "
+    desc "Set the SSH protocol version to 2. Don't use legacy
+          insecure SSHv1 connections anymore."
+    tag security: "openssh-server"
+    ref "Document A-12"
+
     describe sshd_config do
       its('Protocol') { should eq('2') }
     end
@@ -62,11 +66,12 @@ It will contain:
   control "sshd-7" do
     impact 1.0
     title "Server: Do not permit root-based login with password."
-    desc "
-      To reduce the potential to gain full privileges
-      of a system in the course of an attack (by either misconfiguration
-      or vulnerabilities), do not allow login as root with password
-    "
+    desc "To reduce the potential to gain full privileges
+          of a system in the course of an attack (by either misconfiguration
+          or vulnerabilities), do not allow login as root with password"
+    tag security: "openssh-server"
+    ref "Document A-12"
+    
     describe sshd_config do
       its('PermitRootLogin') { should match(/no|without-password/) }
     end
