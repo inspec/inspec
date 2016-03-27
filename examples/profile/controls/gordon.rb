@@ -16,7 +16,7 @@ control 'gordon-1.0' do
   title 'Verify the version number of Gordon'
   desc 'An optional description...'
   tag 'gordon'
-  ref 'Gordon Requirements 1.0' uri: 'http://...'
+  ref 'Gordon Requirements 1.0', uri: 'http://...'
 
   describe gordon_config do
     its('version') { should eq('1.0') }

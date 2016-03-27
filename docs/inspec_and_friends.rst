@@ -20,7 +20,7 @@ A complete InSpec rule looks like:
           insecure SSHv1 connections anymore."
     tag security: "level-1"
     tag "openssh-server"
-    ref "Server Security Guide v.1.0" url: "http://..."
+    ref "Server Security Guide v.1.0", url: "http://..."
 
     describe sshd_config do
       its('Protocol') { should eq('2') }
@@ -66,7 +66,7 @@ One of the key differences is that InSpec targets more user groups. It is optimi
     tag security: "level-1"
     tag "openssh-server"
     ref "Server Security Guide v.1.0" url: "http://..."
-    
+
     describe sshd_config do
       its('Protocol') { should cmp 2 }
     end

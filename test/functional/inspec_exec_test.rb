@@ -121,7 +121,7 @@ describe 'inspec exec' do
     end
 
     it 'ref_line in json' do
-      ex1['ref_line'].must_equal 14
+      ex1['ref_line'].must_equal 16
     end
 
     it 'run_time in json' do
