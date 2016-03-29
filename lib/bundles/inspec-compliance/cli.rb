@@ -16,8 +16,10 @@ module Compliance
       desc: 'Chef Compliance Password'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    option :apipath, type: :string, default: '/api',
+      desc: 'Set the path to the API, defaults to /api'
     def login(server)
-      success, msg = Compliance::API.login(server, options['user'], options['password'], options['insecure'])
+      success, msg = Compliance::API.login(server, options['user'], options['password'], options['insecure'], options['apipath'])
       if success
         puts 'Successfully authenticated'
       else
