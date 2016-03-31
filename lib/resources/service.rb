@@ -139,6 +139,8 @@ module Inspec::Resources
         Systemd.new(inspec, service_ctl)
       elsif %w{aix}.include?(family)
         SrcMstr.new(inspec)
+      elsif %w{amazon}.include?(family)
+        Upstart.new(inspec, service_ctl)
       elsif os.solaris?
         Svcs.new(inspec)
       end
