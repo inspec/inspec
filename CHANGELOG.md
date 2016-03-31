@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.17.0](https://github.com/chef/inspec/tree/0.17.0) (2016-03-31)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.16.4...0.17.0)
+## [0.17.1](https://github.com/chef/inspec/tree/0.17.1) (2016-03-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.17.0...0.17.1)
+
+**Merged pull requests:**
+
+- add inspec objects \(not exposed by default\) [\#608](https://github.com/chef/inspec/pull/608) ([arlimus](https://github.com/arlimus))
+
+## [v0.17.0](https://github.com/chef/inspec/tree/v0.17.0) (2016-03-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.4...v0.17.0)
 
 **Implemented enhancements:**
 
@@ -15,6 +22,7 @@
 
 **Merged pull requests:**
 
+- 0.17.0 [\#604](https://github.com/chef/inspec/pull/604) ([arlimus](https://github.com/arlimus))
 - add file uid and gid accessors [\#603](https://github.com/chef/inspec/pull/603) ([arlimus](https://github.com/arlimus))
 - fix errors introduced in \#593 [\#594](https://github.com/chef/inspec/pull/594) ([chris-rock](https://github.com/chris-rock))
 - Updated documentation and examples to include tags and references [\#593](https://github.com/chef/inspec/pull/593) ([aaronlippold](https://github.com/aaronlippold))
