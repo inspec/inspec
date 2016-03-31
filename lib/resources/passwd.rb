@@ -16,7 +16,7 @@
 require 'utils/parser'
 
 module Inspec::Resources
-  class Passwd < Inspec.resource(1)
+  class Passwd < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'passwd'
     desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
     example "
@@ -56,16 +56,7 @@ module Inspec::Resources
       res = @params
       filters = ''
       hm.each do |attr, condition|
-        condition = condition.to_s if condition.is_a? Integer
-        filters += " #{attr} = #{condition.inspect}"
-        res = res.find_all do |line|
-          case line[attr.to_s]
-          when condition
-            true
-          else
-            false
-          end
-        end
+        res, filters = filter_attribute(attr, condition, res, filters)
       end
       content = res.map { |x| x.values.join(':') }.join("\n")
       Passwd.new(@path, content: content, filters: @filters + filters)
@@ -123,6 +114,44 @@ module Inspec::Resources
 
     def map_data(id)
       @params.map { |x| x[id] }
+    end
+
+    def filter_res_line(item, matcher, condition, positive)
+      # TODO: REWORK ALL OF THESE, please don't depend on them except for simple equality!
+      case matcher
+      when '<'
+        item.to_i < condition
+      when '<='
+        item.to_i <= condition
+      when '>'
+        item.to_i > condition
+      when '>='
+        item.to_i >= condition
+      else
+        condition = condition.to_s if condition.is_a? Integer
+        case item
+        when condition
+          positive
+        else
+          !positive
+        end
+      end
+    end
+
+    def filter_attribute(attr, condition, res, filters)
+      matcher = '=='
+      positive = true
+      if condition.is_a?(Hash) && condition.length == 1
+        matcher = condition.keys[0].to_s
+        condition = condition.values[0]
+      end
+      positive = false if matcher == '!='
+
+      a = res.find_all do |line|
+        filter_res_line(line[attr.to_s], matcher, condition, positive)
+      end
+      b = filters + " #{attr} #{matcher} #{condition.inspect}"
+      [a, b]
     end
   end
 end

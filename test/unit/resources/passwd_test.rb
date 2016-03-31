@@ -42,7 +42,7 @@ describe 'Inspec::Resources::Passwd' do
     end
 
     it 'prints a nice to_s string' do
-      _(child.to_s).must_equal '/etc/passwd with uid = "0"'
+      _(child.to_s).must_equal '/etc/passwd with uid == 0'
     end
 
     it 'retrieves singular elements instead of arrays when filter has only one entry' do
@@ -59,7 +59,7 @@ describe 'Inspec::Resources::Passwd' do
     end
 
     it 'prints a nice to_s string' do
-      _(child.to_s).must_equal '/etc/passwd with user = /^www/'
+      _(child.to_s).must_equal '/etc/passwd with user == /^www/'
     end
   end
 
@@ -74,6 +74,39 @@ describe 'Inspec::Resources::Passwd' do
 
     it 'retrieves usernames' do
       _(passwd.usernames).must_equal ['root', 'www-data']
+    end
+  end
+
+  # TODO REWORK ALL OF THESE, please don't depend on them yet!
+  describe 'experimental features' do
+    it 'retrieves username via uids < x' do
+      _(passwd.uids({ :< => 33 }).count).must_equal 1
+      _(passwd.uids({ :< => 34 }).count).must_equal 2
+    end
+
+    it 'retrieves username via uids <= x' do
+      _(passwd.uids({ :<= => 32 }).count).must_equal 1
+      _(passwd.uids({ :<= => 33 }).count).must_equal 2
+    end
+
+    it 'retrieves username via uids > x' do
+      _(passwd.uids({ :> => 0 }).count).must_equal 1
+      _(passwd.uids({ :> => -1 }).count).must_equal 2
+    end
+
+    it 'retrieves username via uids >= x' do
+      _(passwd.uids({ :>= => 1 }).count).must_equal 1
+      _(passwd.uids({ :>= => 0 }).count).must_equal 2
+    end
+
+    it 'retrieves username via uids == x' do
+      _(passwd.uids({ :== => 0 }).count).must_equal 1
+      _(passwd.uids({ :== => 1 }).count).must_equal 0
+    end
+
+    it 'retrieves username via uids != x' do
+      _(passwd.uids({ :!= => 0 }).count).must_equal 1
+      _(passwd.uids({ :!= => 1 }).count).must_equal 2
     end
   end
 end
