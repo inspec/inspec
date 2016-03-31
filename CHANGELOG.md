@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.16.4](https://github.com/chef/inspec/tree/0.16.4) (2016-03-25)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.16.3...0.16.4)
+## [0.17.0](https://github.com/chef/inspec/tree/0.17.0) (2016-03-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.4...0.17.0)
+
+**Implemented enhancements:**
+
+- add advanced passwd filters \(experimental\) [\#602](https://github.com/chef/inspec/pull/602) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- readable.by not working on RHEL7 [\#597](https://github.com/chef/inspec/issues/597)
+- sshd\_config resource no method error [\#595](https://github.com/chef/inspec/issues/595)
+- Update the readme.md file to include new cli output [\#590](https://github.com/chef/inspec/issues/590)
+
+**Merged pull requests:**
+
+- add file uid and gid accessors [\#603](https://github.com/chef/inspec/pull/603) ([arlimus](https://github.com/arlimus))
+- fix errors introduced in \#593 [\#594](https://github.com/chef/inspec/pull/594) ([chris-rock](https://github.com/chris-rock))
+- Updated documentation and examples to include tags and references [\#593](https://github.com/chef/inspec/pull/593) ([aaronlippold](https://github.com/aaronlippold))
+- Ease removal of whitespace for Powershell Write-Output and VBScript Echo [\#592](https://github.com/chef/inspec/pull/592) ([chris-rock](https://github.com/chris-rock))
+- Amazon linux support for service resource [\#580](https://github.com/chef/inspec/pull/580) ([jbussdieker](https://github.com/jbussdieker))
+- Fixed API calls for inspec compliance [\#537](https://github.com/chef/inspec/pull/537) ([JTabel](https://github.com/JTabel))
+
+## [v0.16.4](https://github.com/chef/inspec/tree/v0.16.4) (2016-03-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.16.3...v0.16.4)
 
 **Implemented enhancements:**
 
@@ -19,6 +41,7 @@
 
 **Merged pull requests:**
 
+- 0.16.4 [\#591](https://github.com/chef/inspec/pull/591) ([arlimus](https://github.com/arlimus))
 - Improvements to gordon example and docs [\#583](https://github.com/chef/inspec/pull/583) ([alexpop](https://github.com/alexpop))
 - bugfix: fix rare inspec shell missing all resources [\#582](https://github.com/chef/inspec/pull/582) ([alexpop](https://github.com/alexpop))
 - document tags and refs [\#561](https://github.com/chef/inspec/pull/561) ([chris-rock](https://github.com/chris-rock))
