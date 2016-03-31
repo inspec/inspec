@@ -4,6 +4,8 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
+require 'shellwords'
+
 module Inspec::Resources
   class FileResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'file'
@@ -87,6 +89,20 @@ module Inspec::Resources
         # otherwise compare the selected values
         @mount_options.contains(expected_options)
       end
+    end
+
+    # TODO: This is temporary and must be moved to train
+    def uid
+      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
+      return nil if res.exit_status != 0 || res.stdout.empty?
+      res.stdout.to_i
+    end
+
+    # TODO: This is temporary and must be moved to train
+    def gid
+      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
+      return nil if res.exit_status != 0 || res.stdout.empty?
+      res.stdout.to_i
     end
 
     def to_s
