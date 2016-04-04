@@ -12,7 +12,7 @@ Summary
 -------
 Location: examples/profile
 Profile: profile
-Controls: 3
+Controls: 4
 Timestamp: 2016-03-24T16:20:21+00:00
 Valid: true
 
@@ -32,7 +32,7 @@ $ inspec exec examples/profile
 ..
 
 Finished in 0.0025 seconds (files took 0.12449 seconds to load)
-4 examples, 0 failures
+8 examples, 0 failures
 ```
 
 ## Execute a specific control from a profile
