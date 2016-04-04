@@ -11,12 +11,13 @@ class GordonConfig < Inspec.resource(1)
   example "
     describe gordon_config do
       its('version') { should eq('1.0') }
-      its('size') { should > 1 }
+      its('file_size') { should > 1 }
     end
   "
 
   # Load the configuration file on initialization
   def initialize
+    @params = {}
     @path = '/tmp/gordon/config.yaml'
     @file = inspec.file(@path)
     return skip_resource "Can't find file \"#{@path}\"" if !@file.file?
@@ -24,20 +25,29 @@ class GordonConfig < Inspec.resource(1)
     # Protect from invalid YAML content
     begin
       @params = YAML.load(@file.content)
+      # Add two extra matchers
+      @params['file_size'] = @file.size
+      @params['file_path'] = @path
+      @params['ruby'] = 'RUBY IS HERE TO HELP ME!'
     rescue Exception
       return skip_resource "#{@file}: #{$!}"
     end
-    add_some_extra_params
   end
 
-  # Extra Ruby helper method
-  def add_some_extra_params
-    @params['size'] = @file.size
-    @params['md5sum'] = @file.md5sum
+  # Example method called by 'it { should exist }'
+  # Returns true or false from the 'File.exists?' method
+  def exists?
+    return File.exists?(@path)
+  end
+
+  # Example matcher for the number of commas in the file
+  def comma_count
+    text = @file.content
+    return text.count(',')
   end
 
   # Expose all parameters
   def method_missing(name)
-    @params[name.to_s]
+    return @params[name.to_s]
   end
 end

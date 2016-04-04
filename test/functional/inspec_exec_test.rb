@@ -12,7 +12,7 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_match /^Pending: /
-    out.stdout.must_include '4 examples, 0 failures, 1 pending'
+    out.stdout.must_include '5 examples, 0 failures, 1 pending'
   end
 
   it 'executes only specified controls' do
@@ -36,8 +36,8 @@ describe 'inspec exec' do
     let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
     let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
 
-    it 'must have 4 examples' do
-      json['examples'].length.must_equal 4
+    it 'must have 5 examples' do
+      json['examples'].length.must_equal 5
     end
 
     it 'id in json' do
@@ -82,8 +82,8 @@ describe 'inspec exec' do
       })
     end
 
-    it 'must have 4 examples' do
-      json['examples'].length.must_equal 4
+    it 'must have 5 examples' do
+      json['examples'].length.must_equal 5
     end
 
     it 'id in json' do
