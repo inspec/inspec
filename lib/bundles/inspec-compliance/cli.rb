@@ -21,25 +21,34 @@ module Compliance
     option :apipath, type: :string, default: '/api',
       desc: 'Set the path to the API, defaults to /api'
     def api_token(server)
-      _, msg = Compliance::API.api_token(server, options['token'], options['verify'], options['user'], options['insecure'], options['apipath'])
+      url = server + options['apipath']
+      _, msg = Compliance::API.api_token(url, options['token'], options['verify'], options['user'], options['insecure'])
       puts msg
     end
 
-    desc 'token SERVER', 'Save an access token for Chef Compliance SERVER'
+    desc 'access_token SERVER', 'Save an access token for Chef Compliance SERVER'
     option :token, type: :string, required: true,
       desc: 'Chef Compliance access token'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
-    def token(server)
-      _, msg = Compliance::API.access_token(server, options['token'], options['insecure'])
+    option :apipath, type: :string, default: '/api',
+      desc: 'Set the path to the API, defaults to /api'
+    def access_token(server)
+      _, msg = Compliance::API.access_token(server, options['token'], options['insecure'], options['apipath'])
       puts msg
     end
 
     desc 'login', 'Log in to a Chef Compliance SERVER'
+    option :server, type: :string, desc: 'Chef Compliance Server URL (for legacy auth)'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     def login
-      success, msg = Compliance::API.login(options['insecure'])
+      if Compliance::Configuration.new.supported?(:oidc)
+        success, msg = Compliance::API.login(options['insecure'])
+      else
+        success, msg = Compliance::API.legacy_login(config['server'], options['user'], options['password'], options['insecure'], options['apipath'])
+      end
+
       if success
         puts 'Successfully authenticated'
       else
@@ -146,7 +155,8 @@ module Compliance
 
     desc 'version', 'displays the version of the Chef Compliance server'
     def version
-      info = Compliance::API.version
+      config = Compliance::Configuration.new
+      info = Compliance::API.version(config['server'], config['insecure'])
       if !info.nil? && info['version']
         puts "Chef Compliance version: #{info['version']}"
       else
@@ -156,7 +166,13 @@ module Compliance
 
     desc 'logout', 'user logout from Chef Compliance'
     def logout
-      if Compliance::API.logout
+      if Compliance::Configuration.new.supported?(:oidc)
+        success = Compliance::API.logout
+      else
+        success = Compliance::API.legacy_logout
+      end
+
+      if success
         puts 'Successfully logged out'
       else
         puts 'Could not log out'
