@@ -154,7 +154,7 @@ module Inspec
 
     def register_rule(rule_id, rule)
       @rules[rule_id] = rule
-      checks = ::Inspec::Rule.checks(rule)
+      checks = ::Inspec::Rule.prepare_checks(rule)
       examples = checks.map do |m, a, b|
         get_check_example(m, a, b)
       end.flatten.compact

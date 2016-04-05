@@ -60,7 +60,7 @@ describe Inspec::ProfileContext do
   end
 
   def get_checks
-    Inspec::Rule.checks(get_rule)
+    Inspec::Rule.prepare_checks(get_rule)
   end
 
   it 'must be able to load empty content' do
@@ -189,7 +189,7 @@ describe Inspec::ProfileContext do
     it 'doesnt add any checks if none are provided' do
       profile.load("rule #{rule_id.inspect}")
       rule = profile.rules[rule_id]
-      Inspec::Rule.checks(rule).must_equal([])
+      Inspec::Rule.prepare_checks(rule).must_equal([])
     end
 
     describe 'supports empty describe blocks' do
@@ -262,6 +262,24 @@ describe Inspec::ProfileContext do
 
       it 'registers the check with the provided proc' do
         check[2].must_be_kind_of Proc
+      end
+    end
+
+    describe 'only_if' do
+      it 'recognized the keyword only_if' do
+        profile.load(format(context_format, 'only_if'))
+        get_checks.must_equal([])
+      end
+
+      it 'skips with only_if == false' do
+        profile.load(format(context_format, 'only_if { false }'))
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'does nothing with only_if == false' do
+        profile.load(format(context_format, 'only_if { true }'))
+        get_checks.length.must_equal 0
       end
     end
   end

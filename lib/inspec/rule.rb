@@ -26,6 +26,7 @@ module Inspec
       @__source_location = __get_block_source_location(&block)
       @__rule_id = nil
       @__checks = []
+      @__skip_rule = nil
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
@@ -72,6 +73,15 @@ module Inspec
       @tags
     end
 
+    # Skip all checks if only_if is false
+    #
+    # @param [Type] &block returns true if tests are added, false otherwise
+    # @return [nil]
+    def only_if
+      return unless block_given?
+      @__skip_rule = !yield
+    end
+
     # Describe will add one or more tests to this control. There is 2 ways
     # of calling it:
     #
@@ -113,6 +123,24 @@ module Inspec
       rule.instance_variable_get(:@__checks)
     end
 
+    def self.skip_status(rule)
+      rule.instance_variable_get(:@__skip_rule)
+    end
+
+    def self.set_skip_rule(rule, value)
+      rule.instance_variable_set(:@__skip_rule, value)
+    end
+
+    def self.prepare_checks(rule)
+      msg = skip_status(rule)
+      return checks(rule) unless msg
+      msg = 'Skipped control due to only_if condition.' if msg == true
+
+      # TODO: we use os as the carrier here, but should consider
+      # a separate resource to do skipping
+      resource = rule.os
+      resource.skip_resource(msg)
+      [['describe', [resource], nil]]
     end
 
     def self.merge(dst, src)
@@ -135,6 +163,8 @@ module Inspec
       # all checks that were defined in the destination
       sc = checks(src)
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
+      sr = skip_status(src)
+      set_skip_rule(dst, sr) unless sr.nil?
     end
 
     # Get the full id consisting of profile id + rule id
