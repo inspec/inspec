@@ -102,6 +102,7 @@ module Inspec
         def initialize(backend, conf) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
           @backend = backend
           @conf = conf
+          @skip_profile = false
         end
 
         define_method :title do |arg|
@@ -115,20 +116,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
-
-          # Skip the control if the resource triggered a skip;
-          # However: when this is run on a mock backend, do not skip it.
-          # This is e.g. relevant for JSON generation, where we need all
-          # controls.
-          return if @skip_profile && os[:family] != 'unknown'
-
-          profile_context_owner.register_rule(rule_class.new(id, opts, &block))
-        end
-
-        alias_method :rule, :control
-
-        define_method :register_control do |control|
-          profile_context_owner.register_rule(control) unless control.nil?
+          register_control(rule_class.new(id, opts, &block))
         end
 
         define_method :describe do |*args, &block|
@@ -139,8 +127,22 @@ module Inspec
           rule = rule_class.new(id, {}) do
             res = describe(*args, &block)
           end
-          profile_context_owner.register_rule(rule, &block)
+          register_control(rule, &block)
           res
+        end
+
+        define_method :register_control do |control, &block|
+          profile_context_owner.register_rule(control, &block) unless control.nil?
+
+          # Skip the control if the resource triggered a skip;
+          if @skip_profile
+            control.instance_variable_set(:@checks, [])
+            # TODO: we use os as the carrier here, but should consider
+            # a separate resource to do skipping
+            resource = os
+            resource.skip_resource('Skipped control due to only_if condition.')
+            control.describe(resource)
+          end
         end
 
         # TODO: mock method for attributes; import attribute handling
@@ -152,12 +154,13 @@ module Inspec
           profile_context_owner.unregister_rule(id)
         end
 
-        alias_method :skip_rule, :skip_control
-
         def only_if
           return unless block_given?
-          @skip_profile = !yield
+          @skip_profile ||= !yield
         end
+
+        alias_method :rule, :control
+        alias_method :skip_rule, :skip_control
 
         private
 

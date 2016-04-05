@@ -117,7 +117,59 @@ describe Inspec::ProfileContext do
       load('expect(true).to_eq true').must_raise NoMethodError
     end
 
-    it 'provides the rule keyword in the global DSL' do
+    describe 'global only_if' do
+      let(:if_true) { "only_if { true }\n" }
+      let(:if_false) { "only_if { false }\n" }
+      let(:describe) { "describe nil do its(:to_i) { should eq rand } end\n" }
+      let(:control) { "control 1 do\n#{describe}end" }
+
+      it 'provides the keyword' do
+        profile.load(if_true)
+        profile.rules.must_equal({})
+      end
+
+      it 'doesnt affect controls when positive' do
+        profile.load(if_true + 'control 1')
+        profile.rules.values[0].must_be_kind_of Inspec::Rule
+      end
+
+      it 'doesnt remove controls when negative' do
+        profile.load(if_false + 'control 1')
+        profile.rules.values[0].must_be_kind_of Inspec::Rule
+      end
+
+      it 'alters controls when positive' do
+        profile.load(if_false + control)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'alters non-controls when positive' do
+        profile.load(if_false + describe)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'doesnt alter controls when negative' do
+        profile.load(if_true + control)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].must_be_nil
+      end
+
+      it 'doesnt alter non-controls when negative' do
+        profile.load(if_true + describe)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].must_be_nil
+      end
+    end
+
+    it 'provides the control keyword in the global DSL' do
+      profile.load('control 1')
+      profile.rules.keys.must_equal [1]
+      profile.rules.values[0].must_be_kind_of Inspec::Rule
+    end
+
+    it 'provides the rule keyword in the global DSL (legacy mode)' do
       profile.load('rule 1')
       profile.rules.keys.must_equal [1]
       profile.rules.values[0].must_be_kind_of Inspec::Rule
