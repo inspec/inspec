@@ -60,7 +60,7 @@ describe Inspec::ProfileContext do
   end
 
   def get_checks
-    get_rule.instance_variable_get(:@checks)
+    Inspec::Rule.checks(get_rule)
   end
 
   it 'must be able to load empty content' do
@@ -189,7 +189,7 @@ describe Inspec::ProfileContext do
     it 'doesnt add any checks if none are provided' do
       profile.load("rule #{rule_id.inspect}")
       rule = profile.rules[rule_id]
-      rule.instance_variable_get(:@checks).must_equal([])
+      Inspec::Rule.checks(rule).must_equal([])
     end
 
     describe 'supports empty describe blocks' do

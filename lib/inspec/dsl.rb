@@ -35,7 +35,7 @@ module Inspec::DSL
   # let it run. This happens after everything
   # else is merged in.
   def self.execute_rule(r, profile_id)
-    checks = r.instance_variable_get(:@checks)
+    checks = ::Inspec::Rule.checks(r)
     fid = InspecBaseRule.full_id(r, profile_id)
     checks.each do |m, a, b|
       # check if the resource is skippable and skipped

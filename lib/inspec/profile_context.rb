@@ -136,7 +136,7 @@ module Inspec
 
           # Skip the control if the resource triggered a skip;
           if @skip_profile
-            control.instance_variable_set(:@checks, [])
+            ::Inspec::Rule.set_checks(control, [])
             # TODO: we use os as the carrier here, but should consider
             # a separate resource to do skipping
             resource = os

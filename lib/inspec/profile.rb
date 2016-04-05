@@ -256,7 +256,7 @@ module Inspec
           impact: rule.impact,
           refs: rule.ref,
           tags: rule.tag,
-          checks: rule.instance_variable_get(:@checks),
+          checks: Inspec::Rule.checks(rule),
           code: rule.instance_variable_get(:@__code),
           source_location: rule.instance_variable_get(:@__source_location),
           group_title: rule.instance_variable_get(:@__group_title),
