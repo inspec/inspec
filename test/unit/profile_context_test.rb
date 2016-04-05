@@ -161,6 +161,18 @@ describe Inspec::ProfileContext do
         get_checks.length.must_equal 1
         get_checks[0][1][0].must_be_nil
       end
+
+      it 'doesnt overwrite falsy only_ifs' do
+        profile.load(if_false + if_true + control)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'doesnt overwrite falsy only_ifs' do
+        profile.load(if_true + if_false + control)
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
     end
 
     it 'provides the control keyword in the global DSL' do
@@ -189,7 +201,7 @@ describe Inspec::ProfileContext do
     it 'doesnt add any checks if none are provided' do
       profile.load("rule #{rule_id.inspect}")
       rule = profile.rules[rule_id]
-      Inspec::Rule.prepare_checks(rule).must_equal([])
+      ::Inspec::Rule.prepare_checks(rule).must_equal([])
     end
 
     describe 'supports empty describe blocks' do
@@ -265,8 +277,8 @@ describe Inspec::ProfileContext do
       end
     end
 
-    describe 'only_if' do
-      it 'recognized the keyword only_if' do
+    describe 'with only_if' do
+      it 'provides the only_if keyword' do
         profile.load(format(context_format, 'only_if'))
         get_checks.must_equal([])
       end
@@ -280,6 +292,18 @@ describe Inspec::ProfileContext do
       it 'does nothing with only_if == false' do
         profile.load(format(context_format, 'only_if { true }'))
         get_checks.length.must_equal 0
+      end
+
+      it 'doesnt overwrite falsy only_ifs' do
+        profile.load(format(context_format, "only_if { false }\nonly_if { true }"))
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'doesnt overwrite falsy only_ifs' do
+        profile.load(format(context_format, "only_if { true }\nonly_if { false }"))
+        get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
       end
     end
   end

@@ -79,7 +79,7 @@ module Inspec
     # @return [nil]
     def only_if
       return unless block_given?
-      @__skip_rule = !yield
+      @__skip_rule ||= !yield
     end
 
     # Describe will add one or more tests to this control. There is 2 ways
