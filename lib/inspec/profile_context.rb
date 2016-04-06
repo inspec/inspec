@@ -132,17 +132,9 @@ module Inspec
         end
 
         define_method :register_control do |control, &block|
-          profile_context_owner.register_rule(control, &block) unless control.nil?
+          ::Inspec::Rule.set_skip_rule(control, true) if @skip_profile
 
-          # Skip the control if the resource triggered a skip;
-          if @skip_profile
-            control.instance_variable_set(:@checks, [])
-            # TODO: we use os as the carrier here, but should consider
-            # a separate resource to do skipping
-            resource = os
-            resource.skip_resource('Skipped control due to only_if condition.')
-            control.describe(resource)
-          end
+          profile_context_owner.register_rule(control, &block) unless control.nil?
         end
 
         # TODO: mock method for attributes; import attribute handling
