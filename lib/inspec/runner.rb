@@ -53,9 +53,8 @@ module Inspec
     end
 
     def add_profile(profile, options = {})
-      return unless options[:ignore_supports] ||
-                    profile.metadata.supports_transport?(@backend)
       @test_collector.add_profile(profile)
+      options[:metadata] = profile.metadata
 
       libs = profile.libraries.map do |k, v|
         { ref: k, content: v }
@@ -86,6 +85,19 @@ module Inspec
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
+
+      # skip based on support checks in metadata
+      meta = options[:metadata]
+      if !options[:ignore_supports] && !meta.nil? &&
+         !meta.supports_transport?(@backend)
+        os_info = @backend.os[:family].to_s
+        ctx.rules.values.each do |ctrl|
+          ::Inspec::Rule.set_skip_rule(
+            ctrl,
+            "This OS/platform (#{os_info}) is not supported by this profile.",
+          )
+        end
+      end
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
