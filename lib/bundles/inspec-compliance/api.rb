@@ -9,8 +9,9 @@ module Compliance
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
   class API # rubocop:disable Metrics/ClassLength
-    # saves the api token supplied by the user
-    def self.api_token(url, refresh_token, verify, user, insecure)
+
+    # saves the a user refresh token supplied by the user
+    def self.refresh_token(url, refresh_token, verify, user, insecure)
       config = Compliance::Configuration.new
       config['server'] = url
       config['refresh_token'] = refresh_token
@@ -21,7 +22,7 @@ module Compliance
       if !verify
         config.store
         success = true
-        msg = 'token stored'
+        msg = 'refresh token stored'
       else
         url = "#{server}/login"
         success, msg, access_token = Compliance::API.post_refresh_token(url, refresh_token, insecure)
@@ -35,11 +36,13 @@ module Compliance
       [success, msg]
     end
 
-    def self.access_token(server, token, insecure, api_path)
+    # saves a user access token (limited time)
+    def self.access_token(url, token, insecure)
       config = Compliance::Configuration.new
-      config['server'] = server + api_path
+      config['server'] = url
       config['insecure'] = insecure
       config['token'] = token
+      config['version'] = version(url, insecure)
       config.store
 
       [true, 'access token stored']
@@ -60,9 +63,8 @@ module Compliance
       [success, msg]
     end
 
-    def self.legacy_login(server, username, password, insecure, apipath)
+    def self.legacy_login(server, username, password, insecure)
       config = Compliance::Configuration.new
-      config['server'] = "#{server}#{apipath}"
       url = "#{config['server']}/oauth/token"
 
       success, data = Compliance::API.legacy_login_post(url, username, password, insecure)
@@ -72,6 +74,7 @@ module Compliance
           config['user'] = username
           config['token'] = tokendata['access_token']
           config['insecure'] = insecure
+          config['version'] = version(url, insecure)
           config.store
           success = true
           msg = 'Successfully authenticated'

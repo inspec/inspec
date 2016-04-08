@@ -9,44 +9,41 @@ module Compliance
   class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     namespace 'compliance'
 
-    desc 'api_token SERVER', '(Optionally) verify and save the API token for Chef Compliance SERVER'
-    option :token, type: :string, required: true,
-      desc: 'Chef Compliance API token'
-    option :user, type: :string, required: true,
-      desc: 'Chef Compliance user login'
-    option :verify, aliases: :v, type: :boolean,
-      desc: 'Verify token before storing it'
+    desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
+    option :server, type: :string, desc: 'Chef Compliance Server URL'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    option :user, type: :string, required: false,
+      desc: 'Chef Compliance Username (for legacy auth)'
+    option :password, type: :string, required: false,
+      desc: 'Chef Compliance Password (for legacy auth)'
     option :apipath, type: :string, default: '/api',
       desc: 'Set the path to the API, defaults to /api'
-    def api_token(server)
-      url = server + options['apipath']
-      _, msg = Compliance::API.api_token(url, options['token'], options['verify'], options['user'], options['insecure'])
-      puts msg
-    end
-
-    desc 'access_token SERVER', 'Save an access token for Chef Compliance SERVER'
-    option :token, type: :string, required: true,
+    option :token, type: :string, required: false,
       desc: 'Chef Compliance access token'
-    option :insecure, aliases: :k, type: :boolean,
-      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
-    option :apipath, type: :string, default: '/api',
-      desc: 'Set the path to the API, defaults to /api'
-    def access_token(server)
-      _, msg = Compliance::API.access_token(server, options['token'], options['insecure'], options['apipath'])
-      puts msg
-    end
+    option :refresh_token, type: :string, required: false,
+      desc: 'Chef Compliance refresh token'
+    def login(server)
+      # if Compliance::Configuration.new.supported?(:oidc)
+      #   puts "Your server is support --token and --refresh_token"
+      # else
+      #   puts "Your server is outdated and supports only combination of --user and --password"
+      # end
+      options['server'] = server
+      url = options['server'] + options['apipath']
 
-    desc 'login', 'Log in to a Chef Compliance SERVER'
-    option :server, type: :string, desc: 'Chef Compliance Server URL (for legacy auth)'
-    option :insecure, aliases: :k, type: :boolean,
-      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
-    def login
-      if Compliance::Configuration.new.supported?(:oidc)
-        success, msg = Compliance::API.login(options['insecure'])
+      if !options['user'].nil? && !options['password'].nil?
+        # username / password
+        success, msg = Compliance::API.legacy_login(url, options['user'], options['password'], options['insecure'])
+      elsif !options['token'].nil?
+        # access token
+        success, msg = Compliance::API.access_token(url, options['token'], options['insecure'])
+      elsif !options['refresh_token'].nil? && !options['user'].nil?
+        # refresh token
+        success, msg = Compliance::API.refresh_token(url, options['token'], true, options['user'], options['insecure'])
       else
-        success, msg = Compliance::API.legacy_login(config['server'], options['user'], options['password'], options['insecure'], options['apipath'])
+        # try stored refresh_token
+        success, msg = Compliance::API.login(options['insecure'])
       end
 
       if success
