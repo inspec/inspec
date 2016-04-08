@@ -171,6 +171,12 @@ Which will provide you with:
 
 Documentation is available: https://github.com/chef/inspec/tree/master/docs
 
+## Share your Profiles
+
+You may share your InSpec Profiles in the [Tools &amp; Plugins section](https://supermarket.chef.io/tools-directory) of the [Chef Supermarket](https://supermarket.chef.io/).  [Sign in](https://supermarket.chef.io/sign-in) and [add the details of your profile](https://supermarket.chef.io/tools/new).
+
+You may also [browse the Supermarket for shared Compliance Profiles](https://supermarket.chef.io/tools?type=compliance_profile).
+
 ## Kudos
 
 InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
