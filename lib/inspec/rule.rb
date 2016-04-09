@@ -119,6 +119,10 @@ module Inspec
       rule.instance_variable_set(:@__rule_id, value)
     end
 
+    def self.profile_id(rule)
+      rule.instance_variable_get(:@__profile_id)
+    end
+
     def self.checks(rule)
       rule.instance_variable_get(:@__checks)
     end
@@ -165,14 +169,6 @@ module Inspec
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
       sr = skip_status(src)
       set_skip_rule(dst, sr) unless sr.nil?
-    end
-
-    # Get the full id consisting of profile id + rule id
-    # for the rule.
-    def self.full_id(rule)
-      rid = rule.instance_variable_get(:@__rule_id)
-      pid = rule.instance_variable_get(:@__profile_id)
-      "#{pid}/#{rid}"
     end
 
     private

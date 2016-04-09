@@ -55,9 +55,9 @@ describe 'inspec exec' do
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
     let(:examples) { json['examples'] }
-    let(:ex1) { examples.find{|x| x['id'] == 'tmp-1.0'} }
+    let(:ex1) { examples.find{|x| x['id'] == 'profile/tmp-1.0'} }
     let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
-    let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
+    let(:ex3) { examples.find{|x| x['id'] == 'profile/gordon-1.0'} }
 
     it 'must have 5 examples' do
       json['examples'].length.must_equal 5
