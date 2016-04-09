@@ -45,8 +45,6 @@ module Inspec
     end
 
     def self.exec_options
-      option :id, type: :string,
-        desc: 'Attach a profile ID to all test results'
       target_options
       profile_options
       option :controls, type: :array,

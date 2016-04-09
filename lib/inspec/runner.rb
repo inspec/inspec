@@ -18,7 +18,6 @@ module Inspec
     attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
-      @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
 
@@ -88,7 +87,10 @@ module Inspec
     end
 
     def create_context(options = {})
-      Inspec::ProfileContext.new(@profile_id, @backend, @conf.merge(options))
+      meta = options['metadata']
+      profile_id = nil
+      profile_id = meta.params[:name] unless meta.nil?
+      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
     end
 
     def add_content(tests, libs, options = {})

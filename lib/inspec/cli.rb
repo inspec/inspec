@@ -15,8 +15,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     desc: 'Show diagnostics (versions, configurations)'
 
   desc 'json PATH', 'read all tests in PATH and generate a JSON summary'
-  option :id, type: :string,
-    desc: 'Attach a profile ID to all test results'
   option :output, aliases: :o, type: :string,
     desc: 'Save the created profile to a path'
   option :controls, type: :array,
