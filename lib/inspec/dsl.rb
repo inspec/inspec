@@ -31,37 +31,6 @@ module Inspec::DSL
     end
   end
 
-  # Register a given rule with RSpec and
-  # let it run. This happens after everything
-  # else is merged in.
-  def self.execute_rule(r, profile_id)
-    checks = ::Inspec::Rule.prepare_checks(r)
-    fid = InspecBaseRule.full_id(r, profile_id)
-    checks.each do |m, a, b|
-      # check if the resource is skippable and skipped
-      cres = rule_from_check(m, a, b)
-      set_rspec_ids(cres, fid) if m == 'describe'
-    end
-  end
-
-  # merge two rules completely; all defined
-  # fields from src will be overwritten in dst
-  def self.merge_rules(dst, src)
-    InspecBaseRule.merge dst, src
-  end
-
-  # Attach an ID attribute to the
-  # metadata of all examples
-  # TODO: remove this once IDs are in rspec-core
-  def self.set_rspec_ids(obj, id)
-    obj.examples.each {|ex|
-      ex.metadata[:id] = id
-    }
-    obj.children.each {|c|
-      set_rspec_ids(c, id)
-    }
-  end
-
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     # get all spec files
     target = get_reference_profile(opts[:profile_id], opts[:conf])
@@ -121,24 +90,3 @@ module Inspec::DSL
     ctx
   end
 end
-
-module Inspec::GlobalDSL
-  def __register_rule(r)
-    # make sure the profile id is attached to the rule
-    ::Inspec::DSL.execute_rule(r, __profile_id)
-  end
-
-  def __unregister_rule(_id)
-  end
-end
-
-module Inspec::DSLHelper
-  def self.bind_dsl(scope)
-    (class << scope; self; end).class_exec do
-      include Inspec::DSL
-      include Inspec::GlobalDSL
-    end
-  end
-end
-
-::Inspec::DSLHelper.bind_dsl(self)
