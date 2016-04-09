@@ -1,7 +1,24 @@
 # Change Log
 
-## [0.17.1](https://github.com/chef/inspec/tree/0.17.1) (2016-03-31)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.17.0...0.17.1)
+## [0.18.0](https://github.com/chef/inspec/tree/0.18.0) (2016-04-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.17.1...0.18.0)
+
+**Implemented enhancements:**
+
+- supports keyword marks tests as skipped instead of removing them [\#620](https://github.com/chef/inspec/pull/620) ([arlimus](https://github.com/arlimus))
+- Support only\_if in controls [\#619](https://github.com/chef/inspec/pull/619) ([arlimus](https://github.com/arlimus))
+- don't remove controls with only\_if [\#618](https://github.com/chef/inspec/pull/618) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- Encourage sharing of profiles [\#625](https://github.com/chef/inspec/pull/625) ([nathenharvey](https://github.com/nathenharvey))
+- add travis and appveyor badges [\#622](https://github.com/chef/inspec/pull/622) ([chris-rock](https://github.com/chris-rock))
+- remove unused profile.tar.gz [\#621](https://github.com/chef/inspec/pull/621) ([chris-rock](https://github.com/chris-rock))
+- Extended gordon\_config with more examples [\#610](https://github.com/chef/inspec/pull/610) ([alexpop](https://github.com/alexpop))
+- Create ISSUE\_TEMPLATE [\#581](https://github.com/chef/inspec/pull/581) ([srenatus](https://github.com/srenatus))
+
+## [v0.17.1](https://github.com/chef/inspec/tree/v0.17.1) (2016-03-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.17.0...v0.17.1)
 
 **Merged pull requests:**
 
