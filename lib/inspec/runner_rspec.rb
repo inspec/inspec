@@ -33,7 +33,7 @@ module Inspec
     # @return [nil]
     def add_profile(profile)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a? InspecRspecFormatter }
+           .find_all { |c| c.is_a? InspecRspecFullJson }
            .each do |fmt|
         fmt.add_profile(profile)
       end
@@ -44,8 +44,8 @@ module Inspec
     # @param [RSpecExampleGroup] example test
     # @param [String] rule_id the ID associated with this check
     # @return [nil]
-    def add_test(example, rule_id, rule)
-      set_rspec_ids(example, rule_id, rule)
+    def add_test(example, rule)
+      set_rspec_ids(example, rule)
       @tests.example_groups.push(example)
     end
 
@@ -81,6 +81,12 @@ module Inspec
       RSpec.configuration.reset
     end
 
+    FORMATTERS = {
+      'json' => 'InspecRspecJson',
+      'fulljson' => 'InspecRspecFullJson',
+      'rspecjson' => 'InspecRspecVanilla',
+    }.freeze
+
     # Configure the output formatter and stream to be used with RSpec.
     #
     # @return [nil]
@@ -91,8 +97,7 @@ module Inspec
         RSpec.configuration.output_stream = @conf['output']
       end
 
-      format = @conf['format'] || 'progress'
-      format = 'InspecRspecFormatter' if format == 'fulljson'
+      format = FORMATTERS[@conf['format']] || @conf['format'] || 'progress'
       RSpec.configuration.add_formatter(format)
       RSpec.configuration.color = @conf['color']
 
@@ -109,26 +114,25 @@ module Inspec
     # by the InSpec adjusted json formatter (rspec_json_formatter).
     #
     # @param [RSpecExampleGroup] example object which contains a check
-    # @param [Type] id describe id
     # @return [Type] description of returned object
-    def set_rspec_ids(example, id, rule)
-      example.metadata[:id] = id
-      example.metadata[:impact] = rule.impact
-      example.metadata[:title] = rule.title
-      example.metadata[:desc] = rule.desc
-      example.metadata[:code] = rule.instance_variable_get(:@__code)
-      example.metadata[:source_location] = rule.instance_variable_get(:@__source_location)
+    def set_rspec_ids(example, rule)
+      assign_rspec_ids(example.metadata, rule)
       example.filtered_examples.each do |e|
-        e.metadata[:id] = id
-        e.metadata[:impact] = rule.impact
-        e.metadata[:title] = rule.title
-        e.metadata[:desc] = rule.desc
-        e.metadata[:code] = rule.instance_variable_get(:@__code)
-        e.metadata[:source_location] = rule.instance_variable_get(:@__source_location)
+        assign_rspec_ids(e.metadata, rule)
       end
       example.children.each do |child|
-        set_rspec_ids(child, id, rule)
+        set_rspec_ids(child, rule)
       end
+    end
+
+    def assign_rspec_ids(metadata, rule)
+      metadata[:id] = ::Inspec::Rule.rule_id(rule)
+      metadata[:profile_id] = ::Inspec::Rule.profile_id(rule)
+      metadata[:impact] = rule.impact
+      metadata[:title] = rule.title
+      metadata[:desc] = rule.desc
+      metadata[:code] = rule.instance_variable_get(:@__code)
+      metadata[:source_location] = rule.instance_variable_get(:@__source_location)
     end
   end
 

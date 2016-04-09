@@ -14,7 +14,7 @@ module Inspec
       @profiles.push(profile)
     end
 
-    def add_test(example, _rule_id, _rule)
+    def add_test(example, _rule)
       @tests.push(example)
     end
 

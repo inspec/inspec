@@ -73,6 +73,7 @@ module Inspec
 
       @test_collector.add_profile(profile)
       options[:metadata] = profile.metadata
+      options[:profile] = profile
 
       libs = profile.libraries.map do |k, v|
         { ref: k, content: v }
@@ -126,7 +127,10 @@ module Inspec
 
     def filter_controls(controls_map, include_list)
       return controls_map if include_list.nil? || include_list.empty?
-      controls_map.select { |k, _| include_list.include?(k) }
+      controls_map.select do |_, c|
+        id = ::Inspec::Rule.rule_id(c)
+        include_list.include?(id)
+      end
     end
 
     def block_source_info(block)
@@ -188,7 +192,7 @@ module Inspec
         # scope.
         dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
-        @test_collector.add_test(example, rule_id, rule)
+        @test_collector.add_test(example, rule)
       end
     end
   end

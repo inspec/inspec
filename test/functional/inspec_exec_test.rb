@@ -54,45 +54,63 @@ describe 'inspec exec' do
 
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
-    let(:examples) { json['examples'] }
-    let(:ex1) { examples.find{|x| x['id'] == 'profile/tmp-1.0'} }
-    let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
-    let(:ex3) { examples.find{|x| x['id'] == 'profile/gordon-1.0'} }
+    let(:controls) { json['controls'] }
+    let(:ex1) { controls.find{|x| x['id'] == 'tmp-1.0'} }
+    let(:ex2) { controls.find{|x| x['id'] =~ /generated/} }
+    let(:ex3) { controls.find{|x| x['id'] == 'gordon-1.0'} }
 
     it 'must have 5 examples' do
-      json['examples'].length.must_equal 5
+      json['controls'].length.must_equal 5
     end
 
-    it 'id in json' do
-      examples.find { |ex| !ex.key? 'id' }.must_be :nil?
+    it 'has an id' do
+      controls.find { |ex| !ex.key? 'id' }.must_be :nil?
     end
 
-    it 'impact in json' do
-      ex1['impact'].must_equal 0.7
-      ex2['impact'].must_be :nil?
+    it 'has a profile_id' do
+      controls.find { |ex| !ex.key? 'profile_id' }.must_be :nil?
     end
 
-    it 'status in json' do
+    it 'has a code_desc' do
+      ex1['code_desc'].must_equal 'File /tmp should be directory'
+      controls.find { |ex| !ex.key? 'code_desc' }.must_be :nil?
+    end
+
+    it 'has a status' do
       ex1['status'].must_equal 'passed'
-      ex3['status'].must_equal 'pending'
+      ex3['status'].must_equal 'skipped'
     end
 
-    it 'pending message in json' do
-      ex1['pending_message'].must_be :nil?
-      ex3['pending_message'].must_equal 'Not yet implemented'
+    it 'has a skip_message' do
+      ex1['skip_message'].must_be :nil?
+      ex3['skip_message'].must_equal "Can't find file \"/tmp/gordon/config.yaml\""
     end
+  end
+
+  it 'can execute the profile with the fulljson formatter' do
+    out = inspec('exec ' + example_profile + ' --format fulljson')
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    JSON.load(out.stdout).must_be_kind_of Hash
   end
 
   describe 'execute a profile with fulljson formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format fulljson').stdout) }
-    let(:examples) { json['examples'] }
-    let(:metadata) { json['profiles'][0] }
-    let(:ex1) { examples.find{|x| x['id'] == 'tmp-1.0'} }
-    let(:ex2) { examples.find{|x| x['id'] =~ /generated/} }
-    let(:ex3) { examples.find{|x| x['id'] == 'gordon-1.0'} }
+    let(:profile) { json['profiles']['profile'] }
+    let(:controls) { profile['controls'] }
+    let(:ex1) { controls['tmp-1.0'] }
+    let(:ex2) {
+      k = controls.keys.find { |x| x =~ /generated/ }
+      controls[k]
+    }
+    let(:ex3) { controls['gordon-1.0'] }
+    let(:check_result) { ex1['results'][0] }
 
     it 'has all the metadata' do
-      metadata.must_equal({
+      controls = profile.delete('controls')
+      key = controls.keys.find { |x| x =~ /generated from example.rb/ }
+
+      profile.must_equal({
         "name" => "profile",
         "title" => "InSpec Example Profile",
         "maintainer" => "Chef Software, Inc.",
@@ -101,16 +119,21 @@ describe 'inspec exec' do
         "license" => "Apache 2 license",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "supports" => [{"os-family" => "unix"}]
+        "supports" => [{"os-family" => "unix"}],
+        "groups" => {
+          "controls/meta.rb" => {"title"=>"SSH Server Configuration", "controls"=>["ssh-1"]},
+          "controls/example.rb" => {"title"=>"/tmp profile", "controls"=>["tmp-1.0", key]},
+          "controls/gordon.rb" => {"title"=>"Gordon Config Checks", "controls"=>["gordon-1.0"]},
+        },
       })
     end
 
-    it 'must have 5 examples' do
-      json['examples'].length.must_equal 5
+    it 'must have 4 controls' do
+      controls.length.must_equal 4
     end
 
-    it 'id in json' do
-      examples.find { |ex| !ex.key? 'id' }.must_be :nil?
+    it 'has an id for every control' do
+      controls.keys.find(&:nil?).must_be :nil?
     end
 
     it 'title in json' do
@@ -134,30 +157,35 @@ describe 'inspec exec' do
       ex2['impact'].must_be :nil?
     end
 
-    it 'status in json' do
-      ex1['status'].must_equal 'passed'
-      ex3['status'].must_equal 'pending'
+    it 'source location in json' do
+      ex1['source_location'][0].must_match %r{examples/profile/controls/example.rb$}
     end
 
-    it 'ref in json' do
-      ex1['ref'].must_match %r{examples/profile/controls/example.rb$}
+    it 'source line in json' do
+      ex1['source_location'][1].must_equal 8
     end
 
-    it 'ref_line in json' do
-      ex1['ref_line'].must_equal 16
+    it 'has all needed results' do
+      ex1['results'].length.must_equal 1
+      ex2['results'].length.must_equal 1
+      ex3['results'].length.must_equal 2
     end
 
-    it 'run_time in json' do
-      ex1['run_time'].wont_be :nil?
+    it 'has a status in its check result' do
+      check_result['status'].must_equal 'passed'
     end
 
-    it 'start_time in json' do
-      ex1['start_time'].wont_be :nil?
+    it 'has a code description in its check result' do
+      check_result['code_desc'].must_equal 'File /tmp should be directory'
     end
 
-    it 'pending message in json' do
-      ex1['pending'].must_be :nil?
-      ex3['pending'].must_equal "Can't find file \"/tmp/gordon/config.yaml\""
+    it 'has a run_time in its check result' do
+      check_result['run_time'].must_be > 0
+      check_result['run_time'].must_be < 1
+    end
+
+    it 'has a start_time in its check result' do
+      check_result['start_time'].wont_be :nil?
     end
   end
 
