@@ -12,8 +12,7 @@ module Inspec
   class Rule # rubocop:disable Metrics/ClassLength
     include ::RSpec::Matchers
 
-    def initialize(id, _opts, &block)
-      @id = id
+    def initialize(id, profile_id, _opts, &block)
       @impact = nil
       @title = nil
       @desc = nil
@@ -24,7 +23,8 @@ module Inspec
       @__block = block
       @__code = __get_block_source(&block)
       @__source_location = __get_block_source_location(&block)
-      @__rule_id = nil
+      @__rule_id = id
+      @__profile_id = profile_id
       @__checks = []
       @__skip_rule = nil
 
@@ -168,28 +168,10 @@ module Inspec
     end
 
     # Get the full id consisting of profile id + rule id
-    # for the rule. If the rule's profile id is empty,
-    # the given profile_id will be used instead and also
-    # set for the rule.
-    def self.full_id(profile_id, rule)
-      if rule.is_a?(String) or rule.nil?
-        rid = rule
-      else
-        # As the profile context is exclusively pulled with a
-        # profile ID, attach it to the rule if necessary.
-        rid = rule.instance_variable_get(:@id)
-        if rid.nil?
-          # TODO: Message about skipping this rule
-          # due to missing ID
-          return nil
-        end
-      end
-      pid = rule_id(rule)
-      pid = set_rule_id(rule, profile_id) if pid.nil?
-
-      # if we don't have a profile id, just return the rule's ID
-      return rid if pid.nil? or pid.empty?
-      # otherwise combine them
+    # for the rule.
+    def self.full_id(rule)
+      rid = rule.instance_variable_get(:@__rule_id)
+      pid = rule.instance_variable_get(:@__profile_id)
       "#{pid}/#{rid}"
     end
 
