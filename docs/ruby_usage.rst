@@ -3,7 +3,7 @@ Using |ruby| in InSpec
 =====================================================
 
 The |inspec| DSL is a |ruby| DSL for writing audit controls, which includes audit resources that you can invoke.
-Core and custom resources are written as regular |ruby| classes which inherit from `Inspec.resource`.
+Core and custom resources are written as regular |ruby| classes which inherit from ``Inspec.resource``.
 
 Execution
 =====================================================
@@ -25,7 +25,7 @@ For example, parsing a |csv| file like this to check the content:
       end
     end
 
-requires file `/mnt/share/interns.csv` to exist on the system running |inspec|.
+requires file ``/mnt/share/interns.csv`` to exist on the system running |inspec|.
 
 The |ruby| code can be slightly changed in order to parse the |csv| content from the remote target. This is accomplished using the |inspec| file resource that retrieves the content of the file from the target.
 
@@ -43,8 +43,8 @@ The |ruby| code can be slightly changed in order to parse the |csv| content from
       end
     end
 
-Similarly, using ```ls``` or ``system('ls')`` will result in the `ls` command being run locally and not on the target system.
-In order to process the output of `ls` executed on the target system, use `inspec.command('ls')` or `inspec.powershell('ls')`
+Similarly, using ```ls``` or ``system('ls')`` will result in the ``ls`` command being run locally and not on the target system.
+In order to process the output of ``ls`` executed on the target system, use ``inspec.command('ls')`` or ``inspec.powershell('ls')``
 
 You can also use |ruby| variables and logic to instantiate an |inspec| resource once. For example, run a command and use the content in multiple tests:
 
@@ -78,7 +78,7 @@ You can also use |ruby| variables and logic to instantiate an |inspec| resource 
 Interactive Debugging with Pry
 -----------------------------------------------------
 
-An **advanced** but very useful |ruby| tip. In the previous example, I commented out the `require 'pry'; binding.pry;` line. If you remove the `#` and run the control, the execution will stop at that line and give you a `pry` shell. From this `pry` shell, you can print variables, see methods available, etc. For the above example:
+An **advanced** but very useful |ruby| tip. In the previous example, I commented out the ``require 'pry'; binding.pry;`` line. If you remove  the ``#`` prefix and run the control, the execution will stop at that line and give you a ``pry`` shell. From this ``pry`` shell, you can print variables, see methods available, etc. For the above example:
 
 .. code-block:: ruby
 
@@ -98,8 +98,8 @@ An **advanced** but very useful |ruby| tip. In the previous example, I commented
     ...REDACTED...
     [5] pry> exit    # or abort
 
-You can use `pry` inside both the controls DSL and resources.
-Similarly, for dev and test, you can use `inspec shell` which is based on `pry`, for example:
+You can use ``pry`` inside both the controls DSL and resources.
+Similarly, for dev and test, you can use ``inspec shell`` which is based on ``pry``, for example:
 
 .. code-block:: ruby
 
