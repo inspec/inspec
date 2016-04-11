@@ -18,14 +18,14 @@ describe inetd_conf do
 end
 ```
 
-InSpec makes it easy to run your tests wherever you need.
+InSpec makes it easy to run your tests wherever you need. More options listed here: https://github.com/chef/inspec/blob/master/docs/ctl_inspec.rst
 
 ```bash
 # run test locally
 inspec exec test.rb
 
 # run test on remote host on SSH
-inspec exec test.rb -t ssh://user@hostname
+inspec exec test.rb -t ssh://user@hostname -i /path/to/key
 
 # run test on remote windows host on WinRM
 inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
