@@ -29,6 +29,29 @@ describe 'inspec exec' do
     JSON.load(out.stdout).must_be_kind_of Hash
   end
 
+  let(:example_control) { File.join(example_profile, 'controls', 'example.rb') }
+
+  it 'can execute a simple file with the default formatter' do
+    out = inspec('exec ' + example_control)
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_include '2 examples, 0 failures'
+  end
+
+  it 'can execute a simple file with the json formatter' do
+    out = inspec('exec ' + example_control + ' --format json')
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    JSON.load(out.stdout).must_be_kind_of Hash
+  end
+
+  it 'can execute a simple file with the fulljson formatter' do
+    out = inspec('exec ' + example_control + ' --format fulljson')
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    JSON.load(out.stdout).must_be_kind_of Hash
+  end
+
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
     let(:examples) { json['examples'] }

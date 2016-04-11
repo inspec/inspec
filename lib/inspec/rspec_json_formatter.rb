@@ -38,7 +38,7 @@ class InspecRspecFormatter < RSpec::Core::Formatters::JsonFormatter
 
   def dump_summary(summary)
     super(summary)
-    @output_hash[:profiles] = @profiles.map do |profile|
+    @output_hash[:profiles] = Array(@profiles).map do |profile|
       r = profile.params.dup
       r.delete(:rules)
       r
