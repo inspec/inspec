@@ -43,7 +43,7 @@ The |ruby| code can be slightly changed in order to parse the |csv| content from
       end
     end
 
-Similarly, using ``ls`` or `system('ls')` will result in the `ls` command being run locally and not on the target system.
+Similarly, using ```ls``` or `system('ls')` will result in the `ls` command being run locally and not on the target system.
 In order to process the output of `ls` executed on the target system, use `inspec.command('ls')` or `inspec.powershell('ls')`
 
 You can also use |ruby| variables and logic to instantiate an |inspec| resource once. For example, run a command and use the content in multiple tests:
@@ -78,7 +78,7 @@ You can also use |ruby| variables and logic to instantiate an |inspec| resource 
 Interactive Debugging with Pry
 -----------------------------------------------------
 
-An *advanced* but very useful |ruby| tip. In the previous example, I commented out the `require 'pry'; binding.pry;` line. If you remove the `#` and run the control, the execution will stop at that line and give you a `pry` shell. From this `pry` shell, you can print variables, see methods available, etc. For the above example:
+An **advanced** but very useful |ruby| tip. In the previous example, I commented out the `require 'pry'; binding.pry;` line. If you remove the `#` and run the control, the execution will stop at that line and give you a `pry` shell. From this `pry` shell, you can print variables, see methods available, etc. For the above example:
 
 .. code-block:: ruby
 
