@@ -2,51 +2,68 @@
 Using |ruby| in InSpec
 =====================================================
 
-The |inspec| DSL is a |ruby| DSL for writing audit controls, which includes audit resources that you can invoke.
+The |inspec| DSL is a |ruby| based DSL for writing audit controls, which includes audit resources that you can invoke.
 Core and custom resources are written as regular |ruby| classes which inherit from ``Inspec.resource``.
+
+Assuming we have a |json| file like this on the node to be tested:
+
+.. code-block:: json
+
+    {
+      "keys":[
+        {"username":"john", "key":"/opt/keys/johnd.key"},
+        {"username":"jane", "key":"/opt/keys/janed.key"},
+        {"username":"sunny ", "key":"/opt/keys/sunnym.key"}
+      ]
+    }
+
+The following example shows how you can use pure |ruby| code(variables, loops, conditionals, regular expressions, etc) to run a few tests against the above |json| file:
+
+.. code-block:: ruby
+
+    control 'check-interns' do
+      # use the json inspec resource to get the file
+      json_obj = json('/opt/keys/interns.json')
+      describe json_obj do
+        its('keys') { should_not eq nil }
+      end
+      if json_obj['keys']
+        # loop over the keys array
+        json_obj['keys'].each do |intern|
+          username = intern['username'].strip
+          # check for white spaces chars in usernames
+          describe username do
+            it { should_not match(/\s/) }
+          end
+          # check key file owners and permissions
+          describe file(intern['key']) do
+            it { should be_owned_by username }
+            its('mode') { should eq 0600 }
+          end
+        end
+      end
+    end
 
 Execution
 =====================================================
 
-It's important to understand that |ruby| code used in custom resources and controls DSL is executed on the system that runs |inspec|. This allows |inspec| to work without |ruby| and rubygems being required on the target(node or container).
+It's important to understand that |ruby| code used in custom resources and controls DSL is executed on the system that runs |inspec|. This allows |inspec| to work without |ruby| and rubygems being required on remote targets(servers or containers).
 
-For example, parsing a |csv| file like this to check the content:
-
-.. code-block:: ruby
-
-    require 'CSV'
-    control 'check-interns-group' do
-      impact 0.8
-      title 'Ensure interns are assigned to the correct group'
-      CSV.foreach("/mnt/share/interns.csv") do |row|
-        describe user(raw[3]) do
-          its('group') { should eq 'interns' }
-        end
-      end
-    end
-
-requires file ``/mnt/share/interns.csv`` to exist on the system running |inspec|.
-
-The |ruby| code can be slightly changed in order to parse the |csv| content from the remote target. This is accomplished using the |inspec| file resource that retrieves the content of the file from the target.
-
-.. code-block:: ruby
-
-    require 'CSV'
-    control 'check-interns-group' do
-      impact 0.8
-      title 'Ensure interns are assigned to the correct group'
-      csv_content = file('/root/scan-reports/cis-cat.csv').content
-      CSV.parse(csv_content) do |row|
-        describe user(row[3]) do
-          its('group') { should eq 'interns' }
-        end
-      end
-    end
-
-Similarly, using ```ls``` or ``system('ls')`` will result in the ``ls`` command being run locally and not on the target system.
+For example, using ```ls``` or ``system('ls')`` will result in the ``ls`` command being run locally and not on the target(remote) system.
 In order to process the output of ``ls`` executed on the target system, use ``inspec.command('ls')`` or ``inspec.powershell('ls')``
 
-You can also use |ruby| variables and logic to instantiate an |inspec| resource once. For example, run a command and use the content in multiple tests:
+Similarly, use ``inspec.file(PATH)`` to access files or directories from remote systems in your tests or custom resources.
+
+Using rubygems
+=====================================================
+
+|ruby| gems are self-contained programs and libraries ...
+
+
+Interactive Debugging with Pry
+=====================================================
+
+Here's a sample |inspec| control that users |ruby| variables to instantiate an |inspec| resource once and use the content in multipe tests.
 
 .. code-block:: ruby
 
@@ -66,7 +83,6 @@ You can also use |ruby| variables and logic to instantiate an |inspec| resource 
       perl_inc = perl_out.stdout.partition('@INC:').last.strip.split("\n")
       # ensure include directories are only writable by 'owner'
       perl_inc.each do |path|
-        puts "*** testing '#{path.strip}'"
         describe directory(path.strip) do
           it { should_not be_writable.by('group') }
           it { should_not be_writable.by('other') }
@@ -74,11 +90,7 @@ You can also use |ruby| variables and logic to instantiate an |inspec| resource 
       end
     end
 
-
-Interactive Debugging with Pry
------------------------------------------------------
-
-An **advanced** but very useful |ruby| tip. In the previous example, I commented out the ``require 'pry'; binding.pry;`` line. If you remove  the ``#`` prefix and run the control, the execution will stop at that line and give you a ``pry`` shell. From this ``pry`` shell, you can print variables, see methods available, etc. For the above example:
+An **advanced** but very useful |ruby| tip. In the previous example, I commented out the ``require 'pry'; binding.pry;`` line. If you remove  the ``#`` prefix and run the control, the execution will stop at that line and give you a ``pry`` shell. Use that to troubleshoot, print variables, see methods available, etc. For the above example:
 
 .. code-block:: ruby
 
