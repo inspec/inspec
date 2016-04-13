@@ -54,6 +54,9 @@ module Compliance
     def supported?(feature)
       sup = version_with_support(feature)
 
+      # we do not know the version, therefore we do not know if its possible to use the feature
+      return if self['version'].nil? || self['version']['version'].nil?
+
       if sup.is_a?(Array)
         Gem::Version.new(self['version']['version']) >= sup[0] &&
           Gem::Version.new(self['version']['version']) < sup[1]
