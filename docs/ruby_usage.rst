@@ -63,7 +63,7 @@ Using rubygems
 Interactive Debugging with Pry
 =====================================================
 
-Here's a sample |inspec| control that users |ruby| variables to instantiate an |inspec| resource once and use the content in multipe tests.
+Here's a sample |inspec| control that users |ruby| variables to instantiate an |inspec| resource once and use the content in multipLe tests.
 
 .. code-block:: ruby
 
@@ -139,10 +139,7 @@ Similarly, for dev and test, you can use ``inspec shell`` which is based on ``pr
     end
 
 .. |inspec| replace:: InSpec
-.. |inspec resource| replace:: InSpec Resource
 .. |chef compliance| replace:: Chef Compliance
 .. |ruby| replace:: Ruby
 .. |csv| replace:: CSV
-.. |windows| replace:: Microsoft Windows
-.. |postgresql| replace:: PostgreSQL
-.. |apache| replace:: Apache
+.. |json| replace:: JSON
