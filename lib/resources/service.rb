@@ -214,7 +214,7 @@ module Inspec::Resources
       running = params['SubState'] == 'running'
       # test via systemctl --quiet is-enabled
       # ActiveState values eg.g inactive, active
-      enabled = params['UnitFileState'] == 'enabled'
+      enabled = %w{enabled static}.include? params['UnitFileState']
 
       {
         name: params['Id'],
