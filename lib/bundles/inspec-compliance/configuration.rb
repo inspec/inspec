@@ -47,7 +47,49 @@ module Compliance
 
     # deletes data
     def destroy
-      File.delete(@config_file)
+      if File.exist?(@config_file)
+        File.delete(@config_file)
+      else
+        true
+      end
+    end
+
+    # return if the (stored) api version does not support a certain feature
+    def supported?(feature)
+      sup = version_with_support(feature)
+
+      # we do not know the version, therefore we do not know if its possible to use the feature
+      return if self['version'].nil? || self['version']['version'].nil?
+
+      if sup.is_a?(Array)
+        Gem::Version.new(self['version']['version']) >= sup[0] &&
+          Gem::Version.new(self['version']['version']) < sup[1]
+      else
+        Gem::Version.new(self['version']['version']) >= sup
+      end
+    end
+
+    # exit 1 if the version of compliance that we're working with doesn't support odic
+    def legacy_check!(feature)
+      if !supported?(feature)
+        puts "This feature (#{feature}) is not available for legacy installations."
+        puts 'Please upgrade to a recent version of Chef Compliance.'
+        exit 1
+      end
+    end
+
+    private
+
+    # for a feature, returns either:
+    #  - a version v0:                      v supports v0       iff v0 <= v
+    #  - an array [v0, v1] of two versions: v supports [v0, v1] iff v0 <= v < v1
+    def version_with_support(feature)
+      case feature.to_sym
+      when :oidc
+        Gem::Version.new('0.16.19')
+      else
+        Gem::Version.new('0.0.0')
+      end
     end
   end
 end

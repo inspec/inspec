@@ -8,7 +8,8 @@ This extensions offers the following features:
 
 To use the CLI, this InSpec add-on adds the following commands:
 
- * `$ inspec compliance login user password` - authentication against Chef Compliance
+ * `$ inspec compliance api_token server --token TOKEN --user USER` - save the Chef Compliance API token for user
+ * `$ inspec compliance login` - authentication of the API token against Chef Compliance
  * `$ inspec compliance profiles` - list all available Chef Compliance profiles
  * `$ inspec compliance exec profile` - runs a Chef Compliance profile
  * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Compliance
