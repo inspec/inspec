@@ -85,6 +85,11 @@ module Compliance
     option :overwrite, type: :boolean, default: false,
       desc: 'Overwrite existing profile on Chef Compliance.'
     def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity
+      unless File.exist?(path)
+        puts "Directory #{path} does not exist."
+        exit 1
+      end
+
       o = options.dup
       configure_logger(o)
       # check the profile, we only allow to upload valid profiles
@@ -164,9 +169,8 @@ module Compliance
 
     desc 'logout', 'user logout from Chef Compliance'
     def logout
-      if Compliance::Configuration.new.supported?(:oidc)
-        config = Compliance::Configuration.new
-      else
+      config = Compliance::Configuration.new
+      unless config.supported?(:oidc) || config['token'].nil?
         config = Compliance::Configuration.new
         url = "#{config['server']}/logout"
         Compliance::API.post(url, config['token'], config['insecure'], !config.supported?(:oidc))

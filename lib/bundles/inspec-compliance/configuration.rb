@@ -47,7 +47,11 @@ module Compliance
 
     # deletes data
     def destroy
-      File.delete(@config_file)
+      if File.exist?(@config_file)
+        File.delete(@config_file)
+      else
+        true
+      end
     end
 
     # return if the (stored) api version does not support a certain feature
