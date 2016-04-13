@@ -94,6 +94,15 @@ describe 'Inspec::Resources::Service' do
     _(resource.running?).must_equal true
   end
 
+  it 'verify centos 7 package parsing with static loaded service' do
+    resource = MockLoader.new(:centos7).load_resource('service', 'dbus')
+    srv = { name: 'dbus.service', description: 'D-Bus System Message Bus', installed: true, running: true, enabled: true, type: 'systemd' }
+    _(resource.info).must_equal srv
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+  end
+
   # freebsd
   it 'verify freebsd10 package parsing' do
     resource = MockLoader.new(:freebsd10).load_resource('service', 'sendmail')

@@ -178,6 +178,8 @@ class MockLoader
       # show ssh service Centos 7
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
       '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      'systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
+      '/path/to/systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
       # services on macos
       'launchctl list' => cmd.call('launchctl-list'),
       # services on freebsd 10
