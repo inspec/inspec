@@ -138,8 +138,7 @@ module Inspec::Resources
       elsif %w{arch}.include?(family)
         Systemd.new(inspec, service_ctl)
       elsif %w{suse opensuse}.include?(family)
-        version = inspec.os[:release].to_i
-        if (%w{ suse opensuse }.include?(family) && version >= 12)
+        if (inspec.os[:release].to_i >= 12)
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
