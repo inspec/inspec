@@ -94,7 +94,7 @@ module Inspec::Resources
       return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
     end
 
-    def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       os = inspec.os
       family = os[:family]
 
@@ -138,7 +138,7 @@ module Inspec::Resources
       elsif %w{arch}.include?(family)
         Systemd.new(inspec, service_ctl)
       elsif %w{suse opensuse}.include?(family)
-        if (inspec.os[:release].to_i >= 12)
+        if inspec.os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
