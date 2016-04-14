@@ -48,7 +48,8 @@ module Inspec
 
       if @qualifier.length > 1
         last = @qualifier[-1]
-        if last.length == 1
+        # preventing its(:to_i) as the value returned is always 0
+        if last.length == 1 && last[0] != 'to_i'
           xres = last[0]
         else
           res += '.' + ruby_qualifier(last)
