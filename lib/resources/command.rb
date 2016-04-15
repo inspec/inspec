@@ -18,13 +18,24 @@ module Inspec::Resources
     "
 
     attr_reader :command
+    attr_reader :options
 
-    def initialize(cmd)
+    def initialize(cmd, opts={})
       @command = cmd
+      if opts.is_a?(String)
+        warn "WARN: Ignoring invalid command option '#{opts}', use the 'option: value' format. For example: 'command(\"ls\", bash: true)'"
+        opts = {}
+      end
+      @options = opts
     end
 
     def result
-      @result ||= inspec.backend.run_command(@command)
+      if @options[:bash].to_s == "true"
+        full_command = "bash -c #{Shellwords.escape(@command)}"
+      else
+        full_command = @command
+      end
+      @result ||= inspec.backend.run_command(full_command)
     end
 
     def stdout
