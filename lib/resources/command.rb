@@ -22,7 +22,7 @@ module Inspec::Resources
 
     def initialize(cmd, opts={})
       @command = cmd
-      if opts.is_a?(String)
+      unless opts.is_a?(Hash)
         warn "WARN: Ignoring invalid command option '#{opts}', use the 'option: value' format. For example: 'command(\"ls\", bash: true)'"
         opts = {}
       end
