@@ -94,7 +94,7 @@ module Inspec::Resources
       return skip_resource 'The `service` resource is not supported on your OS yet.' if @service_mgmt.nil?
     end
 
-    def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       os = inspec.os
       family = os[:family]
 
@@ -135,8 +135,14 @@ module Inspec::Resources
         WindowsSrv.new(inspec)
       elsif %w{freebsd}.include?(family)
         BSDInit.new(inspec, service_ctl)
-      elsif %w{arch opensuse}.include?(family)
+      elsif %w{arch}.include?(family)
         Systemd.new(inspec, service_ctl)
+      elsif %w{suse opensuse}.include?(family)
+        if inspec.os[:release].to_i >= 12
+          Systemd.new(inspec, service_ctl)
+        else
+          SysV.new(inspec, service_ctl || '/sbin/service')
+        end
       elsif %w{aix}.include?(family)
         SrcMstr.new(inspec)
       elsif %w{amazon}.include?(family)
