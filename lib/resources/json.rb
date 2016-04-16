@@ -10,7 +10,7 @@ module Inspec::Resources
     desc 'Use the json InSpec audit resource to test data in a JSON file.'
     example "
       describe json('policyfile.lock.json') do
-        its('cookbook_locks.omnibus.version') { should eq('2.2.0') }
+        its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
       end
     "
 
