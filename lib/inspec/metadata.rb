@@ -4,6 +4,8 @@
 # author: Christoph Hartmann
 
 require 'logger'
+require 'rubygems/version'
+require 'rubygems/requirement'
 
 module Inspec
   # Extract metadata.rb information
@@ -40,7 +42,7 @@ module Inspec
       # already.
     end
 
-    def is_supported(os, entry)
+    def is_supported?(os, entry)
       name, family, release = support_fields(entry)
 
       # return true if the backend matches the supported OS's
@@ -82,18 +84,32 @@ module Inspec
       [name, family, release]
     end
 
-    def supports_transport?(backend)
-      # make sure the supports field is always an array
+    def support_list
       supp = params[:supports]
-      supp = supp.is_a?(Hash) ? [supp] : Array(supp)
+      supp.is_a?(Hash) ? [supp] : Array(supp)
+    end
 
+    def inspec_requirement
+      supp = support_list
+      supp = supp.map { |x| self.class.symbolize_keys(x) }
+      inspec = supp.find { |x| !x[:inspec].nil? } || {}
+      Gem::Requirement.create(inspec[:inspec])
+    end
+
+    def supports_runtime?
+      running = Gem::Version.new(Inspec::VERSION)
+      inspec_requirement.satisfied_by?(running)
+    end
+
+    def supports_transport?(backend)
       # with no supports specified, always return true, as there are no
       # constraints on the supported backend; it is equivalent to putting
       # all fields into accept-all mode
+      supp = support_list
       return true if supp.empty?
 
       found = supp.find do |entry|
-        is_supported(backend.os, entry)
+        is_supported?(backend.os, entry)
       end
 
       # finally, if we found a supported entry, we are good to go
