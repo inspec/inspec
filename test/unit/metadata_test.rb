@@ -12,7 +12,7 @@ describe 'metadata with supported operating systems' do
     res = Inspec::Metadata.from_yaml('mock', "---", nil, logger)
     # manually inject supported parameters
     res.params[:supports] = params
-    Inspec::Metadata.finalize(res, 'mock')
+    Inspec::Metadata.finalize(res, 'mock', logger)
     res
   end
 
@@ -40,7 +40,7 @@ describe 'metadata with supported operating systems' do
     it 'loads the support field from metadata' do
       res = Inspec::Metadata.from_yaml('mock',
         "---\nsupports:\n  - os: ubuntu", nil)
-      res.params[:supports].must_equal([{ 'os' => 'ubuntu' }])
+      res.params[:supports].must_equal([{ os: 'ubuntu' }])
     end
 
     it 'load a profile with empty supports clause' do
@@ -50,10 +50,10 @@ describe 'metadata with supported operating systems' do
 
     it 'supports legacy simple support style, but warns' do
       # i.e. setting this to something that would fail:
-      m = supports_meta('linux')
       logger.expect :warn, nil, [
         'Do not use deprecated `supports: linux` '\
         'syntax. Instead use `supports: {os-family: linux}`.']
+      m = supports_meta('linux')
       m.supports_transport?(backend).must_equal true
       logger.verify
     end

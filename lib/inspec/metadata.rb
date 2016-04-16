@@ -43,7 +43,9 @@ module Inspec
     end
 
     def is_supported?(os, entry)
-      name, family, release = support_fields(entry)
+      name = entry[:'os-name'] || entry[:os]
+      family = entry[:'os-family']
+      release = entry[:release]
 
       # return true if the backend matches the supported OS's
       # fields act as masks, i.e. any value configured for os-name, os-family,
@@ -68,31 +70,8 @@ module Inspec
       name_ok && family_ok && release_ok
     end
 
-    def support_fields(entry)
-      if entry.is_a?(Hash)
-        try_support = self.class.symbolize_keys(entry)
-        name = try_support[:'os-name'] || try_support[:os]
-        family = try_support[:'os-family']
-        release = try_support[:release]
-      elsif entry.is_a?(String)
-        @logger.warn(
-          "Do not use deprecated `supports: #{entry}` syntax. Instead use "\
-          "`supports: {os-family: #{entry}}`.")
-        family = entry
-      end
-
-      [name, family, release]
-    end
-
-    def support_list
-      supp = params[:supports]
-      supp.is_a?(Hash) ? [supp] : Array(supp)
-    end
-
     def inspec_requirement
-      supp = support_list
-      supp = supp.map { |x| self.class.symbolize_keys(x) }
-      inspec = supp.find { |x| !x[:inspec].nil? } || {}
+      inspec = params[:supports].find { |x| !x[:inspec].nil? } || {}
       Gem::Requirement.create(inspec[:inspec])
     end
 
@@ -105,10 +84,9 @@ module Inspec
       # with no supports specified, always return true, as there are no
       # constraints on the supported backend; it is equivalent to putting
       # all fields into accept-all mode
-      supp = support_list
-      return true if supp.empty?
+      return true if params[:supports].empty?
 
-      found = supp.find do |entry|
+      found = params[:supports].find do |entry|
         is_supported?(backend.os, entry)
       end
 
@@ -148,32 +126,51 @@ module Inspec
       @missing_methods
     end
 
-    def self.symbolize_keys(hash)
-      hash.each_with_object({}) {|(k, v), h|
+    def self.symbolize_keys(obj)
+      return obj.map { |i| symbolize_keys(i) } if obj.is_a?(Array)
+      return obj unless obj.is_a?(Hash)
+
+      obj.each_with_object({}) {|(k, v), h|
         v = symbolize_keys(v) if v.is_a?(Hash)
+        v = symbolize_keys(v) if v.is_a?(Array)
         h[k.to_sym] = v
       }
     end
 
-    def self.finalize(metadata, profile_id)
+    def self.finalize(metadata, profile_id, logger = nil)
       return nil if metadata.nil?
       param = metadata.params || {}
       param['name'] = profile_id.to_s unless profile_id.to_s.empty?
       param['version'] = param['version'].to_s unless param['version'].nil?
       metadata.params = symbolize_keys(param)
+
+      # consolidate supports field with legacy mode
+      metadata.params[:supports] =
+        case x = metadata.params[:supports]
+        when Hash   then [x]
+        when Array  then x
+        when nil    then []
+        else
+          logger ||= Logger.new(nil)
+          logger.warn(
+            "Do not use deprecated `supports: #{x}` syntax. Instead use "\
+            "`supports: {os-family: #{x}}`.")
+          [{ :'os-family' => x }]
+        end
+
       metadata
     end
 
     def self.from_yaml(ref, contents, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
       res.params = YAML.load(contents)
-      finalize(res, profile_id)
+      finalize(res, profile_id, logger)
     end
 
     def self.from_ruby(ref, contents, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
       res.instance_eval(contents, ref, 1)
-      finalize(res, profile_id)
+      finalize(res, profile_id, logger)
     end
 
     def self.from_ref(ref, contents, profile_id, logger = nil)

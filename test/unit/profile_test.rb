@@ -172,7 +172,7 @@ describe Inspec::Profile do
       end
 
       it 'doesnt have constraints on supported systems' do
-        profile.metadata.params.wont_include(:supports)
+        profile.metadata.params[:supports].must_equal([])
       end
     end
 
