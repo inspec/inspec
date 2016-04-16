@@ -226,7 +226,7 @@ end
 # - compare strings case-insensitive
 # - you expect a number (strings will be converted if possible)
 #
-RSpec::Matchers.define :cmp do |expected|
+RSpec::Matchers.define :cmp do |first_expected|
 
   def integer?(value)
     !(value =~ /\A\d+\Z/).nil?
@@ -243,33 +243,52 @@ RSpec::Matchers.define :cmp do |expected|
     !(value =~ /\A0+\d+\Z/).nil?
   end
 
-  match do |actual|
-    actual = actual[0] if actual.is_a?(Array) && !expected.is_a?(Array) && actual.length == 1
+  def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
-      actual.casecmp(expected) == 0
+      return actual.casecmp(expected) == 0 if op == :==
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
-      expected.to_i == actual
+      return actual.method(op).call(expected.to_i)
     elsif expected.is_a?(Integer) && integer?(actual)
-      expected == actual.to_i
+      return actual.to_i.method(op).call(expected)
     elsif expected.is_a?(Float) && float?(actual)
-      expected == actual.to_f
+      return actual.to_f.method(op).call(expected)
     elsif octal?(expected) && actual.is_a?(Integer)
-      expected.to_i(8) == actual
-    # fallback to equal
-    else
-      actual == expected
+      return actual.method(op).call(expected.to_i(8))
+    end
+
+    # fallback to simple operation
+    actual.method(op).call(expected)
+
+  rescue NameError => _
+    false
+  rescue ArgumentError
+    false
+  end
+
+  match do |actual|
+    @operation ||= :==
+    @expected ||= first_expected
+    return actual === @expected if @operation == :=== # rubocop:disable Style/CaseEquality
+    actual = actual[0] if actual.is_a?(Array) && !@expected.is_a?(Array) && actual.length == 1
+    try_match(actual, @operation, @expected)
+  end
+
+  [:==, :<, :<=, :>=, :>, :===, :=~].each do |op|
+    chain(op) do |x|
+      @operation = op
+      @expected = x
     end
   end
 
   failure_message do |actual|
     actual = '0' + actual.to_s(8) if octal?(expected)
-    "\nexpected: #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    "\nexpected: value #{@operation} #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
     actual = '0' + actual.to_s(8) if octal?(expected)
-    "\nexpected: value != #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    "\nexpected: value ! #{@operation} #{expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 end
 

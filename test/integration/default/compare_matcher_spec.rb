@@ -34,4 +34,25 @@ if os.linux?
   describe len do
     it { should cmp len.to_s }
   end
+
+  describe '12' do
+    it { should cmp < 13 }
+    it { should cmp > 11 }
+    it { should_not cmp < 12 }
+    it { should_not cmp > 12 }
+    it { should cmp <= 12 }
+    it { should cmp >= 12 }
+    it { should_not cmp <= 11 }
+    it { should_not cmp >= 13 }
+  end
+
+  describe '' do
+    it { should_not cmp >= 3 }
+    it { should_not cmp < 3 }
+  end
+
+  describe nil do
+    it { should_not cmp >= 3 }
+    it { should_not cmp < 3 }
+  end
 end
