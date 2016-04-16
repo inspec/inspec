@@ -183,4 +183,22 @@ describe 'inspec exec' do
       File.exist?('/tmp/inspec_test_DONT_CREATE').must_equal false
     end
   end
+
+  describe 'with a profile that is supported on this version of inspec' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'supported_inspec')) }
+
+    it 'exits cleanly' do
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+    end
+  end
+
+  describe 'with a profile that is not supported on this version of inspec' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'unsupported_inspec')) }
+
+    it 'does not support this profile' do
+      out.exit_status.must_equal 1
+      out.stderr.must_equal "This profile requires InSpec version >= 99.0.0. You are running InSpec v#{Inspec::VERSION}.\n"
+    end
+  end
 end

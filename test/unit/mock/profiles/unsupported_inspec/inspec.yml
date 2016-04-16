@@ -1,0 +1,2 @@
+supports:
+- inspec: '>= 99.0.0'

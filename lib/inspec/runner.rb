@@ -53,6 +53,13 @@ module Inspec
     end
 
     def add_profile(profile, options = {})
+      # skip if not supported on this platform
+      if !profile.metadata.nil? && !profile.metadata.supports_runtime?
+        fail 'This profile requires InSpec version '\
+             "#{profile.metadata.inspec_requirement}. You are running "\
+             "InSpec v#{Inspec::VERSION}.\n"
+      end
+
       @test_collector.add_profile(profile)
       options[:metadata] = profile.metadata
 
