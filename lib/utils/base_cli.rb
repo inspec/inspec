@@ -69,7 +69,8 @@ module Inspec
       targets.each { |target| runner.add_target(target, opts) }
       exit runner.run
     rescue RuntimeError => e
-      puts e.message
+      $stderr.puts e.message
+      exit 1
     end
 
     def diagnose
