@@ -162,22 +162,20 @@ describe 'inspec exec' do
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os')) }
+    let(:json) { JSON.load(out.stdout) }
+
+    it 'exits with an error' do
+      out.stderr.must_match /^This OS\/platform \(.+\) is not supported by this profile.$/
+      out.exit_status.must_equal 1
+    end
+  end
+
+  describe 'with a profile that is not supported on this OS/platform' do
     let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --format fulljson') }
     let(:json) { JSON.load(out.stdout) }
 
-    it 'exits cleanly' do
-      out.stderr.must_equal ''
-      out.exit_status.must_equal 0
-    end
-
-    it 'has one pending' do
-      json['summary']['pending_count'].must_equal 1
-      json['summary']['example_count'].must_equal 1
-    end
-
-    it 'delivers the pending message' do
-      json['examples'][0]['pending'].must_match %r{^This OS/platform \([^)]+\) is not supported by this profile\.$}
-    end
+    # TODO: failure handling in json formatters...
 
     it 'never runs the actual resource' do
       File.exist?('/tmp/inspec_test_DONT_CREATE').must_equal false
