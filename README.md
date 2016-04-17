@@ -47,6 +47,22 @@ InSpec requires Ruby ( >1.9 ).
 
 ### Install it via rubygems.org
 
+When installing from source, gem dependencies may require ruby build tools to be installed.
+
+For CentOS/RedHat/Fedora:
+
+```bash
+yum -y install ruby ruby-devel make gcc
+```
+
+For Ubuntu:
+
+```bash
+apt-get -y install ruby ruby-dev gcc make
+```
+
+To install inspec from [rubygems](https://rubygems.org/):
+
 ```bash
 gem install inspec
 ```
