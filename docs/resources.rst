@@ -18,6 +18,7 @@ The following InSpec audit resources are available:
 * `file`_
 * `gem`_
 * `group <https://github.com/chef/inspec/blob/master/docs/resources.rst#group-1/>`_
+* `grub_conf`_
 * `host`_
 * `inetd_conf`_
 * `interface`_
@@ -1564,6 +1565,38 @@ The following examples show how to use this InSpec audit resource.
      it { should exist }
      its('gid') { should eq 0 }
    end
+
+
+
+
+grub_conf
+=====================================================
+
+Test both Grub 1 and Grub 2 configurations.
+
+**Stability: Experimental**
+
+Syntax
+-----------------------------------------------------
+A ``grub_conf`` resource is used to specify a configuration file and boot configuration.
+
+.. code-block:: ruby
+
+   describe grub_conf('/etc/grub.conf',  'default') do
+     its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
+     its('initrd') { should include '/initramfs-2.6.32-573.el6.x86_64.img=1' }
+     its('default') { should_not eq '1' }
+     its('timeout') { should eq '5' }
+   end
+
+You can also check specific kernels:
+
+.. code-block:: ruby
+
+   grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
+     its('kernel') { should include 'audit=1' }
+   end
+
 
 
 
