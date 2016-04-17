@@ -48,7 +48,7 @@ module Inspec
     # @return [nil]
     def add_test(example, rule_id, rule)
       set_rspec_ids(example, rule_id, rule)
-      @tests.register(example)
+      @tests.example_groups.push(example)
     end
 
     # Retrieve the list of tests that have been added.

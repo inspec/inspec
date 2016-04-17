@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rainbow', '~> 2'
   spec.add_dependency 'method_source', '~> 0.8'
   spec.add_dependency 'rubyzip', '~> 1.1'
-  spec.add_dependency 'rspec', '~> 3.3'
+  spec.add_dependency 'rspec', '~> 3'
   spec.add_dependency 'rspec-its', '~> 1.2'
   spec.add_dependency 'pry', '~> 0'
 
