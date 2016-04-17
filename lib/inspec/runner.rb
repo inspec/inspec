@@ -52,13 +52,25 @@ module Inspec
       add_profile(profile, options)
     end
 
-    def add_profile(profile, options = {})
-      # skip if not supported on this platform
-      if !profile.metadata.nil? && !profile.metadata.supports_runtime?
+    def supports_profile?(profile)
+      return true if profile.metadata.nil?
+
+      if !profile.metadata.supports_runtime?
         fail 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
       end
+
+      if !profile.metadata.supports_transport?(@backend)
+        os_info = @backend.os[:family].to_s
+        fail "This OS/platform (#{os_info}) is not supported by this profile."
+      end
+
+      true
+    end
+
+    def add_profile(profile, options = {})
+      return if !options[:ignore_supports] && !supports_profile?(profile)
 
       @test_collector.add_profile(profile)
       options[:metadata] = profile.metadata
@@ -92,19 +104,6 @@ module Inspec
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
-
-      # skip based on support checks in metadata
-      meta = options[:metadata]
-      if !options[:ignore_supports] && !meta.nil? &&
-         !meta.supports_transport?(@backend)
-        os_info = @backend.os[:family].to_s
-        ctx.rules.values.each do |ctrl|
-          ::Inspec::Rule.set_skip_rule(
-            ctrl,
-            "This OS/platform (#{os_info}) is not supported by this profile.",
-          )
-        end
-      end
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
