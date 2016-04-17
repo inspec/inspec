@@ -106,6 +106,7 @@ class MockLoader
       '/etc/security/limits.conf' => mockfile.call('limits.conf'),
       '/etc/inetd.conf' => mockfile.call('inetd.conf'),
       '/etc/group' => mockfile.call('etcgroup'),
+      '/etc/grub.conf' => mockfile.call('grub.conf'),
       '/etc/audit/auditd.conf' => mockfile.call('auditd.conf'),
       '/etc/mysql/my.cnf' => mockfile.call('mysql.conf'),
       '/etc/mysql/mysql2.conf' => mockfile.call('mysql2.conf'),
