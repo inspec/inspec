@@ -51,6 +51,31 @@ InSpec requires Ruby ( >1.9 ).
 gem install inspec
 ```
 
+### Usage via Docker
+
+Download the image and define an alias for convenience:
+
+```
+docker pull chef/inspec
+alias inspec='docker run -it --rm -v $(pwd):/share chef/inspec'
+```
+
+If you call inspec from cli, it automatically mounts the current directory into the work directory. Therefore you can easily use local tests and key files. Note: Only files in the current directory are available to the container.
+
+```
+$ ls -1
+vagrant
+test.rb
+
+
+$ inspec exec test.rb -t ssh://root@192.168.64.2:11022 -i vagrant
+..
+
+Finished in 0.04321 seconds (files took 0.54917 seconds to load)
+2 examples, 0 failures
+```
+
+
 ### Install it from source
 
 That requires [bundler](http://bundler.io/):
