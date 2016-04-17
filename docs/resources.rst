@@ -1872,12 +1872,25 @@ Use the ``json`` |inspec resource| to test data in a |json| file.
 
 Syntax
 -----------------------------------------------------
-A ``json`` |inspec resource| block declares the data to be tested:
+A ``json`` |inspec resource| block declares the data to be tested. Assume the following json file:
+
+.. code-block:: json
+
+   {
+     "name" : "hello",
+     "meta" : {
+       "creator" : "John Doe"
+     }
+   }
+
+
+This file can be queried via:
 
 .. code-block:: ruby
 
-   describe json do
-     its('name') { should eq 'foo' }
+   describe json('/paht/to/name.json') do
+      its('name') { should eq 'hello' }
+      its(['meta','creator']) { should eq 'John Doe' }
    end
 
 where
