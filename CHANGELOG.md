@@ -1,7 +1,39 @@
 # Change Log
 
-## [0.18.0](https://github.com/chef/inspec/tree/0.18.0) (2016-04-09)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.17.1...0.18.0)
+## [0.19.0](https://github.com/chef/inspec/tree/0.19.0) (2016-04-17)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.18.0...0.19.0)
+
+**Implemented enhancements:**
+
+- Add required inspec version to inspec.yml [\#644](https://github.com/chef/inspec/issues/644)
+- Resource grub conf [\#652](https://github.com/chef/inspec/pull/652) ([arlimus](https://github.com/arlimus))
+- fail on unsupported os/platform [\#651](https://github.com/chef/inspec/pull/651) ([arlimus](https://github.com/arlimus))
+- specify required inspec version in inspec.yml [\#648](https://github.com/chef/inspec/pull/648) ([arlimus](https://github.com/arlimus))
+- feature: `cmp \< / \> / \<= / \>= / == / != sth` matcher [\#643](https://github.com/chef/inspec/pull/643) ([arlimus](https://github.com/arlimus))
+- Add 'static' value as enabled to systemd service enabled check [\#637](https://github.com/chef/inspec/pull/637) ([jmccann](https://github.com/jmccann))
+- add dockerized inspec [\#635](https://github.com/chef/inspec/pull/635) ([arlimus](https://github.com/arlimus))
+- inspec-compliance + Compliance 1.0 [\#576](https://github.com/chef/inspec/pull/576) ([srenatus](https://github.com/srenatus))
+
+**Fixed bugs:**
+
+- `add\_test': undefined method error on Ubuntu 15.10 with Ruby 2.1 [\#642](https://github.com/chef/inspec/issues/642)
+- Install failed on Ubuntu with Ruby 2.1 [\#641](https://github.com/chef/inspec/issues/641)
+- Inspec json resource . example not working [\#631](https://github.com/chef/inspec/issues/631)
+- Checking on services on SLES 11 fails [\#627](https://github.com/chef/inspec/issues/627)
+- Inspec check fails on `examples/profile` [\#485](https://github.com/chef/inspec/issues/485)
+- bugfix: rspec world handling on rspec 3.5 [\#650](https://github.com/chef/inspec/pull/650) ([arlimus](https://github.com/arlimus))
+- Prevent its\(:to\_i\) from generated tests [\#639](https://github.com/chef/inspec/pull/639) ([alexpop](https://github.com/alexpop))
+- bugfix: non-profile execution with json formatter [\#632](https://github.com/chef/inspec/pull/632) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- add usage instructions for inspec container [\#649](https://github.com/chef/inspec/pull/649) ([chris-rock](https://github.com/chris-rock))
+- update documentation for json resource [\#647](https://github.com/chef/inspec/pull/647) ([chris-rock](https://github.com/chris-rock))
+- Add support for suse 11 to service resource [\#638](https://github.com/chef/inspec/pull/638) ([spuranam](https://github.com/spuranam))
+- Add -i to ssh example, link to cli options [\#636](https://github.com/chef/inspec/pull/636) ([vjeffrey](https://github.com/vjeffrey))
+
+## [v0.18.0](https://github.com/chef/inspec/tree/v0.18.0) (2016-04-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.17.1...v0.18.0)
 
 **Implemented enhancements:**
 
@@ -11,6 +43,7 @@
 
 **Merged pull requests:**
 
+- 0.18.0 [\#629](https://github.com/chef/inspec/pull/629) ([arlimus](https://github.com/arlimus))
 - Encourage sharing of profiles [\#625](https://github.com/chef/inspec/pull/625) ([nathenharvey](https://github.com/nathenharvey))
 - add travis and appveyor badges [\#622](https://github.com/chef/inspec/pull/622) ([chris-rock](https://github.com/chris-rock))
 - remove unused profile.tar.gz [\#621](https://github.com/chef/inspec/pull/621) ([chris-rock](https://github.com/chris-rock))
