@@ -2,10 +2,6 @@
 source 'https://rubygems.org'
 gemspec
 
-group :development do
-  gem 'r-train', github: 'chef/train'
-end
-
 # pin dependency for Ruby 1.9.3 since bundler is not
 # detecting that net-ssh 3 does not work with 1.9.3
 if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
