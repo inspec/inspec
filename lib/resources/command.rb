@@ -4,8 +4,6 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
-require 'shellwords'
-
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name 'command'
@@ -13,31 +11,20 @@ module Inspec::Resources
     example "
       describe command('ls -al /') do
         it { should exist }
-        its(:stdout) { should match /bin/ }
+        its('stdout') { should match /bin/ }
         its('stderr') { should eq '' }
-        its(:exit_status) { should eq 0 }
+        its('exit_status') { should eq 0 }
       end
     "
 
-    SHELLS = {
-      'sh'   => ->(x, path = 'sh')   { path + ' -c ' + Shellwords.escape(x) },
-      'bash' => ->(x, path = 'bash') { path + ' -c ' + Shellwords.escape(x) },
-      'zsh'  => ->(x, path = 'zsh')  { path + ' -c ' + Shellwords.escape(x) },
-    }.freeze
-
     attr_reader :command
 
-    def initialize(cmd, opts = {})
+    def initialize(cmd)
       @command = cmd
-      unless opts.is_a?(Hash)
-        skip_resource "Called #{self} with invalid command options. See the resource help for valid examples."
-        opts = {}
-      end
-      @opts = opts
     end
 
     def result
-      @result ||= inspec.backend.run_command(wrap_cmd)
+      @result ||= inspec.backend.run_command(@command)
     end
 
     def stdout
@@ -71,19 +58,6 @@ module Inspec::Resources
 
     def to_s
       "Command #{@command}"
-    end
-
-    private
-
-    def wrap_cmd
-      shell = @opts[:shell]
-      return @command if shell.nil?
-
-      wrapper = SHELLS[shell]
-      # TODO: fail with an error if the command isn't found
-      return @command if wrapper.nil?
-
-      wrapper.call(@command)
     end
   end
 end
