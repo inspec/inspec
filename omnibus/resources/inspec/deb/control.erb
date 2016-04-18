@@ -1,0 +1,25 @@
+Package: <%= name %>
+Version: <%= version %>-<%= iteration %>
+License: <%= license %>
+Vendor: <%= vendor %>
+Architecture: <%= architecture %>
+Maintainer: <%= maintainer  %>
+Installed-Size: <%= installed_size %>
+<% unless dependencies.empty? -%>
+Depends: <%= dependencies.join(', ') %>
+<% end -%>
+<% unless conflicts.empty? -%>
+Conflicts: <%= conflicts.join(', ') %>
+<% end -%>
+<% unless replaces.empty? -%>
+Replaces: <%= replaces.join(', ') %>
+<% end -%>
+Section: <%= section %>
+Priority: <%= priority %>
+Homepage: <%= homepage %>
+<% lines = description.split("\n") -%>
+<% firstline, *remainder = lines -%>
+Description: <%= firstline %>
+<% if remainder.any? -%>
+<%= remainder.collect { |l| l =~ /^ *$/ ? " ." : " #{l}" }.join("\n") %>
+<% end -%>

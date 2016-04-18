@@ -10,3 +10,5 @@ Berksfile.lock
 Puppetfile.lock
 .kitchen.local.yml
 profile.tar.gz
+omnibus/.cache
+omnibus/pkg

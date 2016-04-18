@@ -1,0 +1,69 @@
+# Disable any shell actions, replace them with simply 'true'
+%define __spec_prep_post true
+%define __spec_prep_pre true
+%define __spec_build_post true
+%define __spec_build_pre true
+%define __spec_install_post true
+%define __spec_install_pre true
+%define __spec_clean_post true
+%define __spec_clean_pre true
+
+# Use md5
+%define _binary_filedigest_algorithm 1
+
+# Use gzip payload compression
+%define _binary_payload w9.gzdio
+
+# Metadata
+Name: <%= name %>
+Version: <%= version %>
+Release: <%= iteration %><%= dist_tag ? dist_tag : '' %>
+Summary:  <%= description.split("\n").first.empty? ? "_" : description.split("\n").first %>
+AutoReqProv: no
+BuildRoot: %buildroot
+Prefix: /
+Group: <%= category %>
+License: <%= license %>
+Vendor: <%= vendor %>
+URL: <%= homepage %>
+Packager: <%= maintainer %>
+<% dependencies.each do |name| -%>
+Requires: <%= name %>
+<% end -%>
+<% conflicts.each do |name| -%>
+Conflicts: <%= name %>
+<% end -%>
+<% replaces.each do |name| -%>
+Obsoletes: <%= name %>
+<%- end -%>
+<% # RPM rejects descriptions with blank lines (even between content) -%>
+%description
+<%= description.gsub(/^\s*$/, " .") %>
+
+%prep
+# noop
+
+%build
+# noop
+
+%install
+# noop
+
+%clean
+# noop
+
+<% scripts.each do |name, contents| -%>
+%<%= name %>
+<%= contents %>
+<% end -%>
+
+%files
+%defattr(-,<%= user %>,<%= group %>,-)
+<% # Output config files and then regular files -%>
+<% config_files.each do |file| -%>
+%config(noreplace) <%= file %>
+<% end -%>
+<% # List all files -%>
+<% files.each do |file| -%>
+<%= file %>
+<% end -%>
