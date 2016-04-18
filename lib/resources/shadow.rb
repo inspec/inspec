@@ -67,7 +67,11 @@ module Inspec::Resources
     end
 
     def entries
-      @lines.map { |line| Shadow.new(@path, content: line, filters: @filters) }
+      @lines.map do |line|
+        params = parse_shadow_line(line)
+        Shadow.new(@path, content: line,
+                   filters: "#{@filters} on entry user=#{params['user']}")
+      end
     end
 
     def users(name = nil)
