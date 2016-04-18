@@ -8,7 +8,7 @@ dist: trusty
 services:
   - docker
 
-bundler_args: --without integration tools maintenance
+bundler_args: --without integration tools maintenance --with development
 
 before_install:
   - gem install bundler
