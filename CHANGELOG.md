@@ -1,7 +1,27 @@
 # Change Log
 
-## [0.19.0](https://github.com/chef/inspec/tree/0.19.0) (2016-04-17)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.18.0...0.19.0)
+## [0.19.1](https://github.com/chef/inspec/tree/0.19.1) (2016-04-18)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.0...0.19.1)
+
+**Implemented enhancements:**
+
+- configure command execution shells to sh/bash/zsh [\#659](https://github.com/chef/inspec/pull/659) ([arlimus](https://github.com/arlimus))
+- be descriptive on shadow.entries [\#657](https://github.com/chef/inspec/pull/657) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: print cmp expectations [\#656](https://github.com/chef/inspec/pull/656) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- gem install failure on RHEL 7.2 Ruby 2.0 [\#653](https://github.com/chef/inspec/issues/653)
+
+**Merged pull requests:**
+
+- add requirements for gem installation to readme [\#655](https://github.com/chef/inspec/pull/655) ([arlimus](https://github.com/arlimus))
+
+## [v0.19.0](https://github.com/chef/inspec/tree/v0.19.0) (2016-04-17)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.18.0...v0.19.0)
 
 **Implemented enhancements:**
 
