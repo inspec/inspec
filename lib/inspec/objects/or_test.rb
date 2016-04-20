@@ -11,8 +11,8 @@ module Inspec
     end
 
     def to_ruby
-      format("describe.one do\n  %s\nend",
-             @tests.map(&:to_ruby).join("\n"))
+      all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
+      format("describe.one do\n  %s\nend", all_tests)
     end
 
     def to_hash
