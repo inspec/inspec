@@ -27,7 +27,7 @@ module Inspec::Resources
       end
 
       describe shadow.users('bin') do
-        its('password') { should cmp 'x' }
+        its('passwords') { should cmp 'x' }
         its('count') { should eq 1 }
       end
     "
