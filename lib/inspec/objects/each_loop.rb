@@ -25,7 +25,7 @@ module Inspec
 
     def to_ruby
       obj = super
-      all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n","\n  ")
+      all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
       format("%s.each do |entry|\n  %s\nend", obj, all_tests)
     end
   end
