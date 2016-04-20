@@ -17,7 +17,7 @@ module Inspec::Resources
         it { should be_readable }
         it { should be_writable }
         it { should be_owned_by 'root' }
-        its('mode') { should eq 0644 }
+        its('mode') { should cmp '0644' }
       end
     "
     include MountParser
