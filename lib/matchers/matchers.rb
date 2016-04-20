@@ -248,8 +248,8 @@ RSpec::Matchers.define :cmp do |first_expected|
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       return actual.casecmp(expected) == 0 if op == :==
-    elsif expected.is_a?(Regexp) && actual.is_a?(String)
-      return !actual.match(expected).nil?
+    elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))
+      return !actual.to_s.match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
       return actual.method(op).call(expected.to_i)
     elsif expected.is_a?(Integer) && integer?(actual)
