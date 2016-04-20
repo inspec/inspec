@@ -274,21 +274,27 @@ RSpec::Matchers.define :cmp do |first_expected|
     try_match(actual, @operation, @expected)
   end
 
-  [:==, :<, :<=, :>=, :>, :===, :=~].each do |op|
+  [:==, :'!=', :<, :<=, :>=, :>, :===, :=~].each do |op|
     chain(op) do |x|
       @operation = op
       @expected = x
     end
   end
 
+  def format_expectation(negate)
+    return 'expected: '+@expected.inspect if @operation == :== && !negate
+    negate_str = negate ? 'not ' : ''
+    "expected it #{negate_str}to be #{@operation} #{@expected.inspect}"
+  end
+
   failure_message do |actual|
     actual = '0' + actual.to_s(8) if octal?(@expected)
-    "\nexpected: value #{@operation} #{@expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    "\n" + format_expectation(false) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
     actual = '0' + actual.to_s(8) if octal?(@expected)
-    "\nexpected: value ! #{@operation} #{@expected}\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+    "\n" + format_expectation(true) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 end
 
