@@ -51,6 +51,7 @@ describe Inspec::Plugins::RelFetcher do
     # ignore pax_global_header, which are commonly seen in github tars and are not
     # ignored by all tar streaming tools, its not extracted by GNU tar since 1.14
     %w{/pax_global_header /a/b}    => %w{b},
+    %w{pax_global_header a/b}    => %w{b},
   }.each do |ins, outs|
     describe 'empty profile' do
       let(:in_files) { ins }
