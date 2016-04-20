@@ -44,6 +44,6 @@ describe 'example inheritance profile' do
     s = out.stdout
     hm = JSON.load(s)
     hm['name'].must_equal 'inheritance'
-    hm['rules'].length.must_equal 1 # TODO: flatten out or search deeper!
+    hm['controls'].length.must_equal 3
   end
 end

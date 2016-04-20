@@ -104,6 +104,11 @@ module Inspec
         ctx.reload_dsl
       end
 
+      # hand the context to the profile for further evaluation
+      unless (profile = options['profile']).nil?
+        profile.runner_context = ctx
+      end
+
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }

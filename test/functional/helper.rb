@@ -20,6 +20,7 @@ module FunctionalHelper
   let(:examples_path) { File.join(repo_path, 'examples') }
 
   let(:example_profile) { File.join(examples_path, 'profile') }
+  let(:example_control) { File.join(example_profile, 'controls', 'example.rb') }
   let(:inheritance_profile) { File.join(examples_path, 'profile') }
 
   let(:dst) {

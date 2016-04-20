@@ -109,6 +109,7 @@ class InspecRspecFullJson < InspecRspecJson
     end
 
     @output_hash[:profiles] = profiles
+    @output_hash[:other_checks] = missing
   end
 
   private

@@ -11,7 +11,6 @@ require 'inspec/metadata'
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
-    attr_reader :path
 
     def self.resolve_target(target, opts)
       # Fetchers retrieve file contents
@@ -35,6 +34,7 @@ module Inspec
     end
 
     attr_reader :source_reader
+    attr_accessor :runner_context
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -46,6 +46,7 @@ module Inspec
       @logger = @options[:logger] || Logger.new(nil)
       @source_reader = source_reader
       @profile_id = @options[:id]
+      @runner_context = nil
       Metadata.finalize(@source_reader.metadata, @profile_id)
     end
 
@@ -222,27 +223,37 @@ module Inspec
     def load_params
       params = @source_reader.metadata.params
       params[:name] = @profile_id unless @profile_id.nil?
+      load_checks_params(params)
+      @profile_id ||= params[:name]
+      params
+    end
+
+    def load_checks_params(params)
       params[:controls] = controls = {}
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
 
-      # we're checking a profile, we don't care if it runs on the host machine
-      opts = @options.dup
-      opts[:ignore_supports] = true
-      runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: opts.delete(:test_collector),
-      )
-      runner.add_profile(self, opts)
-
-      runner.rules.values.each do |rule|
-        f = load_rule_filepath(prefix, rule)
-        load_rule(rule, f, controls, groups)
+      if @runner_context.nil?
+        # we're checking a profile, we don't care if it runs on the host machine
+        opts = @options.dup
+        opts[:ignore_supports] = true
+        runner = Runner.new(
+          id: @profile_id,
+          backend: :mock,
+          test_collector: opts.delete(:test_collector),
+        )
+        runner.add_profile(self, opts)
+        runner.rules.values.each do |rule|
+          f = load_rule_filepath(prefix, rule)
+          load_rule(rule, f, controls, groups)
+        end
+      else
+        # load from context
+        @runner_context.rules.values.each do |rule|
+          f = load_rule_filepath(prefix, rule)
+          load_rule(rule, f, controls, groups)
+        end
       end
-
-      @profile_id ||= params[:name]
-      params
     end
 
     def load_rule_filepath(prefix, rule)

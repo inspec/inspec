@@ -16,8 +16,8 @@ describe Inspec::Profile do
       profile.params[:name].must_be_nil
     end
 
-    it 'has no rules' do
-      profile.params[:rules].must_equal({})
+    it 'has no controls' do
+      profile.params[:controls].must_equal({})
     end
   end
 
@@ -28,8 +28,8 @@ describe Inspec::Profile do
       profile.params[:name].must_be_nil
     end
 
-    it 'has no rules' do
-      profile.params[:rules].must_equal({})
+    it 'has no controls' do
+      profile.params[:controls].must_equal({})
     end
   end
 
@@ -41,8 +41,8 @@ describe Inspec::Profile do
       profile.params[:name].must_equal 'yumyum profile'
     end
 
-    it 'has no rules' do
-      profile.params[:rules].must_equal({})
+    it 'has no controls' do
+      profile.params[:controls].must_equal({})
     end
 
     it 'can overwrite the profile ID' do
@@ -59,8 +59,8 @@ describe Inspec::Profile do
       profile.params[:name].must_equal 'metadata profile'
     end
 
-    it 'has no rules' do
-      profile.params[:rules].must_equal({})
+    it 'has no controls' do
+      profile.params[:controls].must_equal({})
     end
   end
 
@@ -179,7 +179,7 @@ describe Inspec::Profile do
     describe 'a complete metadata profile with controls' do
       let(:profile_id) { 'complete-profile' }
 
-      it 'prints ok messages and counts the rules' do
+      it 'prints ok messages and counts the controls' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
@@ -204,7 +204,7 @@ describe Inspec::Profile do
       let(:profile_path) { MockLoader.profile_tgz(profile_id) }
       let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
 
-      it 'prints ok messages and counts the rules' do
+      it 'prints ok messages and counts the controls' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
@@ -229,7 +229,7 @@ describe Inspec::Profile do
       let(:profile_path) { MockLoader.profile_zip(profile_id) }
       let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
 
-      it 'prints ok messages and counts the rules' do
+      it 'prints ok messages and counts the controls' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']

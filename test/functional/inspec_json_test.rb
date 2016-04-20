@@ -42,36 +42,36 @@ describe 'inspec json' do
       json['copyright'].must_equal 'Chef Software, Inc.'
     end
 
-    it 'has rules' do
-      json['rules'].length.must_equal 3 # TODO: flatten out or search deeper!
+    it 'has controls' do
+      json['controls'].length.must_equal 4
     end
 
-    describe 'a rule' do
-      let(:rule) { json['rules']['controls/example.rb']['rules']['tmp-1.0'] }
+    describe 'a control' do
+      let(:control) { json['controls']['tmp-1.0'] }
 
       it 'has a title' do
-        rule['title'].must_equal 'Create /tmp directory'
+        control['title'].must_equal 'Create /tmp directory'
       end
 
       it 'has a description' do
-        rule['desc'].must_equal 'An optional description...'
+        control['desc'].must_equal 'An optional description...'
       end
 
       it 'has an impact' do
-        rule['impact'].must_equal 0.7
+        control['impact'].must_equal 0.7
       end
 
       it 'has a ref' do
-        rule['refs'].must_equal([{'ref' => 'Document A-12', 'url' => 'http://...'}])
+        control['refs'].must_equal([{'ref' => 'Document A-12', 'url' => 'http://...'}])
       end
 
       it 'has a source location' do
         loc = File.join(example_profile, '/controls/example.rb')
-        rule['source_location'].must_equal [loc, 8]
+        control['source_location'].must_equal [loc, 8]
       end
 
       it 'has a the source code' do
-        rule['code'].must_match /\Acontrol \"tmp-1.0\" do.*end\n\Z/m
+        control['code'].must_match /\Acontrol \"tmp-1.0\" do.*end\n\Z/m
       end
     end
   end
@@ -86,10 +86,8 @@ describe 'inspec json' do
 
     it 'only has one control included' do
       json = JSON.load(out.stdout)
-      grps = json['rules']
-      grps.keys.must_equal ['controls/example.rb']
-      rules = grps.values[0]['rules']
-      rules.keys.must_equal ['tmp-1.0']
+      json['controls'].keys.must_equal %w{tmp-1.0}
+      json['groups'].keys.must_equal %w{controls/example.rb}
     end
   end
 
@@ -99,6 +97,6 @@ describe 'inspec json' do
     out.exit_status.must_equal 0
     hm = JSON.load(File.read(dst.path))
     hm['name'].must_equal 'profile'
-    hm['rules'].length.must_equal 3 # TODO: flatten out or search deeper!
+    hm['controls'].length.must_equal 4
   end
 end
