@@ -240,13 +240,16 @@ RSpec::Matchers.define :cmp do |first_expected|
   end
 
   def octal?(value)
+    return false unless value.is_a?(String)
     !(value =~ /\A0+\d+\Z/).nil?
   end
 
-  def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       return actual.casecmp(expected) == 0 if op == :==
+    elsif expected.is_a?(Regexp) && actual.is_a?(String)
+      return !actual.match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
       return actual.method(op).call(expected.to_i)
     elsif expected.is_a?(Integer) && integer?(actual)

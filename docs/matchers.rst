@@ -70,6 +70,14 @@ Unlike ``eq``, cmp is a matcher for less-restrictive comparisons. It will try to
       its('users') { should cmp ['root'] }
     end
 
+* Single-value arrays of strings may also be compared to a regex
+
+  .. code-block:: ruby
+
+    describe auditd_conf do
+      its('log_format') { should cmp /raw/i }
+    end
+
 * Improved printing of octal comparisons
 
   .. code-block:: ruby
