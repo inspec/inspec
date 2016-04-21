@@ -4,7 +4,7 @@
 
 require 'helper'
 require 'inspec/resource'
-
+require 'pry'
 describe 'Inspec::Resources::Package' do
   # arch linux
   it 'verify arch linux package parsing' do
