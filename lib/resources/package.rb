@@ -158,7 +158,7 @@ module Inspec::Resources
         name: pkg[0],
         installed: true,
         version: pkg[1],
-        type: 'pkg'
+        type: 'pkg',
       }
     end
   end

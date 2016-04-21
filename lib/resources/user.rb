@@ -383,11 +383,11 @@ module Inspec::Resources
     def meta_info(username)
       hpuxuser = inspec.command("logins -x -l #{username}")
       return nil if hpuxuser.exit_status != 0
-      user = hpuxuser.stdout.chomp.split(" ")
+      user = hpuxuser.stdout.chomp.split(' ')
 
       {
         home: user[4],
-        shell: user[5]
+        shell: user[5],
       }
     end
   end
