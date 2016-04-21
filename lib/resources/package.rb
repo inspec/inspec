@@ -13,10 +13,10 @@ module Inspec::Resources
     name 'package'
     desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
     example "
-      describe package('nginx') do
-        it { should be_installed }
-        its('version') { should eq 1.9.5 }
-      end
+    describe package('nginx') do
+      it { should be_installed }
+      its('version') { should eq 1.9.5 }
+    end
     "
 
     def initialize(package_name = nil) # rubocop:disable Metrics/AbcSize
@@ -41,6 +41,8 @@ module Inspec::Resources
         @pkgman = BffPkg.new(inspec)
       elsif os.solaris?
         @pkgman = SolarisPkg.new(inspec)
+      elsif ['hpux'].include?(os[:family])
+        @pkgman = HpuxPkg.new(inspec)
       else
         return skip_resource 'The `package` resource is not supported on your OS yet.'
       end
@@ -85,9 +87,9 @@ module Inspec::Resources
       return nil if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
       ).params
       {
         name: params['Package'],
@@ -106,9 +108,9 @@ module Inspec::Resources
       # therefore we need to check for emptyness
       return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
       ).params
       # On some (all?) systems, the linebreak before the vendor line is missing
       if params['Version'] =~ /\s*Vendor:/
@@ -154,9 +156,9 @@ module Inspec::Resources
       return nil if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
       ).params
 
       {
@@ -164,6 +166,20 @@ module Inspec::Resources
         installed: true,
         version: params['Version'],
         type: 'pacman',
+      }
+    end
+  end
+
+  class HpuxPkg < PkgManagement
+    def info(package_name)
+      cmd = inspec.command("swlist -l product | grep #{package_name}")
+      return nil if cmd.exit_status.to_i != 0
+      pkg = cmd.stdout.strip.split(' ')
+      {
+        name: pkg[0],
+        installed: true,
+        version: pkg[1],
+        type: 'pkg',
       }
     end
   end
@@ -224,9 +240,9 @@ module Inspec::Resources
       return nil if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
       ).params
 
       # parse 11.10.0,REV=2006.05.18.01.46
@@ -245,9 +261,9 @@ module Inspec::Resources
       return nil if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
+      cmd.stdout.chomp,
+      assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+      multiple_values: false,
       ).params
 
       {
