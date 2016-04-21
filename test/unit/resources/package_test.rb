@@ -32,6 +32,15 @@ describe 'Inspec::Resources::Package' do
     _(resource.version).must_equal '7.29.0-19.el7'
     _(resource.info).must_equal pkg
   end
+  
+  # hpux
+  it 'verify hpux package parsing' do
+    resource = MockLoader.new(:hpux).load_resource('package', 'vim')
+    pkg = { name: 'vim', installed: true, version: '7.4', type: 'pkg' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.4'
+    _(resource.info).must_equal pkg
+  end
 
   # wrlinux
   it 'verify wrlinux package parsing' do
