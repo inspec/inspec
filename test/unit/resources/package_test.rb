@@ -4,7 +4,7 @@
 
 require 'helper'
 require 'inspec/resource'
-
+require 'pry'
 describe 'Inspec::Resources::Package' do
   # arch linux
   it 'verify arch linux package parsing' do
@@ -39,6 +39,15 @@ describe 'Inspec::Resources::Package' do
     pkg = { name: 'curl', installed: true, version: '7.29.0-19.el7', type: 'rpm' }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.29.0-19.el7'
+    _(resource.info).must_equal pkg
+  end
+
+  # hpux
+  it 'verify hpux package parsing' do
+    resource = MockLoader.new(:hpux).load_resource('package', 'vim')
+    pkg = { name: 'vim', installed: true, version: '7.4', type: 'pkg' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.4'
     _(resource.info).must_equal pkg
   end
 
