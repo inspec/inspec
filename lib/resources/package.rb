@@ -41,6 +41,8 @@ module Inspec::Resources
         @pkgman = BffPkg.new(inspec)
       elsif os.solaris?
         @pkgman = SolarisPkg.new(inspec)
+      elsif ['hpux'].include?(os[:family])
+        @pkgman = HpuxPkg.new(inspec)
       else
         return skip_resource 'The `package` resource is not supported on your OS yet.'
       end
@@ -143,6 +145,20 @@ module Inspec::Resources
         installed: true,
         version: pkg.installed.version.to_s,
         type: 'brew',
+      }
+    end
+  end
+
+  class HpuxPkg < PkgManagement
+    def info(package_name)
+      cmd = inspec.command("swlist -l product | grep #{package_name}")
+      return nil if cmd.exit_status.to_i != 0
+      pkg = cmd.stdout.strip.split(' ')
+      {
+        name: pkg[0],
+        installed: true,
+        version: pkg[1],
+        type: 'pkg',
       }
     end
   end
