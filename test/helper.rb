@@ -55,6 +55,7 @@ class MockLoader
     wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
     solaris11:  { family: "solaris", release: '11', arch: 'i386'},
     solaris10:  { family: "solaris", release: '10', arch: 'i386'},
+    hpux:       {family: 'hpux', release: 'B.11.31', arch: 'ia64'},
     undefined:  { family: nil, release: nil, arch: nil },
   }
 
@@ -242,6 +243,10 @@ class MockLoader
       'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
       # wmi test
       "Get-WmiObject -class win32_service  -filter \"name like '%winrm%'\" | ConvertTo-Json" => cmd.call('get-wmiobject'),
+      #user info on hpux
+      "logins -x -l root" => cmd.call('logins-x'),
+      #packages on hpux
+      "swlist -l product | grep vim" => cmd.call('swlist-l-product')
     }
 
     @backend

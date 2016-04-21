@@ -80,6 +80,12 @@ describe 'Inspec::Resources::User' do
     _(resource.warndays).must_equal nil
   end
 
+  it 'read user on hpux' do
+    resource = MockLoader.new(:hpux).load_resource('user', 'root')
+    _(resource.home).must_equal '/'
+    _(resource.shell).must_equal '/sbin/sh'
+  end
+
   it 'read user on OSX' do
     resource = MockLoader.new(:osx104).load_resource('user', 'chartmann')
     _(resource.exists?).must_equal true

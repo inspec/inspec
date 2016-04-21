@@ -42,6 +42,15 @@ describe 'Inspec::Resources::Package' do
     _(resource.info).must_equal pkg
   end
 
+  # hpux
+  it 'verify hpux package parsing' do
+    resource = MockLoader.new(:hpux).load_resource('package', 'vim')
+    pkg = { name: 'vim', installed: true, version: '7.4', type: 'pkg' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.4'
+    _(resource.info).must_equal pkg
+  end
+
   # windows
   it 'verify windows package parsing' do
     resource = MockLoader.new(:windows).load_resource('package', 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161')
