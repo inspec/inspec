@@ -22,10 +22,18 @@ module Inspec::Resources
     "
     include MountParser
 
-    attr_reader :file, :path, :mount_options
+    attr_reader :file, :path, :mount_options, :link_source
     def initialize(path)
-      @path = path
-      @file = inspec.backend.file(@path)
+      f = inspec.backend.file(path)
+      if f.symlink?
+        @path = f.link_path
+        return skip_resource "#{path} link cannot be followed, possible loop." if @path == ''
+        @file = inspec.backend.file(@path)
+        @link_source = f
+      else
+        @path = path
+        @file = f
+      end
     end
 
     %w{
