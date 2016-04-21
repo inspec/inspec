@@ -67,6 +67,8 @@ module Inspec::Resources
         @user_provider = AixUser.new(inspec)
       elsif os.solaris?
         @user_provider = SolarisUser.new(inspec)
+      elsif ['hpux'].include?(os[:family])
+        @user_provider = HpuxUser.new(inspec)
       else
         return skip_resource 'The `user` resource is not supported on your OS yet.'
       end
@@ -373,6 +375,19 @@ module Inspec::Resources
       {
         home: passwd['home'],
         shell: passwd['shell'],
+      }
+    end
+  end
+
+  class HpuxUser < UnixUser
+    def meta_info(username)
+      hpuxuser = inspec.command("logins -x -l #{username}")
+      return nil if hpuxuser.exit_status != 0
+      user = hpuxuser.stdout.chomp.split(" ")
+
+      {
+        home: user[4],
+        shell: user[5]
       }
     end
   end
