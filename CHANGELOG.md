@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.19.1](https://github.com/chef/inspec/tree/0.19.1) (2016-04-18)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.19.0...0.19.1)
+## [0.19.2](https://github.com/chef/inspec/tree/0.19.2) (2016-04-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.1...0.19.2)
+
+**Implemented enhancements:**
+
+- Fix indenting for translated loops and ors [\#673](https://github.com/chef/inspec/pull/673) ([alexpop](https://github.com/alexpop))
+- add regexp to cmp matcher [\#667](https://github.com/chef/inspec/pull/667) ([arlimus](https://github.com/arlimus))
+- remodel bash and shell wrappers [\#662](https://github.com/chef/inspec/pull/662) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: fix formatting of cmp expectations [\#668](https://github.com/chef/inspec/pull/668) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Octal Permissions Match [\#666](https://github.com/chef/inspec/issues/666)
+- file permissions for symlinked files are not checked correctly [\#665](https://github.com/chef/inspec/issues/665)
+
+**Merged pull requests:**
+
+- release via travis + test via rubygems [\#663](https://github.com/chef/inspec/pull/663) ([arlimus](https://github.com/arlimus))
+
+## [v0.19.1](https://github.com/chef/inspec/tree/v0.19.1) (2016-04-18)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.0...v0.19.1)
 
 **Implemented enhancements:**
 
@@ -18,6 +40,7 @@
 
 **Merged pull requests:**
 
+- version bump: 0.19.1 [\#661](https://github.com/chef/inspec/pull/661) ([srenatus](https://github.com/srenatus))
 - add requirements for gem installation to readme [\#655](https://github.com/chef/inspec/pull/655) ([arlimus](https://github.com/arlimus))
 
 ## [v0.19.0](https://github.com/chef/inspec/tree/v0.19.0) (2016-04-17)
