@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.19.2](https://github.com/chef/inspec/tree/0.19.2) (2016-04-21)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.19.1...0.19.2)
+## [0.19.3](https://github.com/chef/inspec/tree/0.19.3) (2016-04-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.2...0.19.3)
+
+**Fixed bugs:**
+
+- fix legacy supports call [\#679](https://github.com/chef/inspec/pull/679) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- v0.19.2 [\#675](https://github.com/chef/inspec/pull/675) ([arlimus](https://github.com/arlimus))
+
+## [v0.19.2](https://github.com/chef/inspec/tree/v0.19.2) (2016-04-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.1...v0.19.2)
 
 **Implemented enhancements:**
 
