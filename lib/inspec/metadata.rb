@@ -137,26 +137,46 @@ module Inspec
       }
     end
 
+    def self.finalize_supports_elem(elem, logger)
+      case x = elem
+      when Hash then x
+      when Array
+        logger.warn(
+          'Failed to read supports entry that is an array. Please use '\
+          'the `supports: {os-family: xyz}` syntax.',
+        )
+        nil
+      when nil then nil
+      else
+        logger ||= Logger.new(nil)
+        logger.warn(
+          "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
+          "supports:\n  - os-family: #{x}\n\n")
+        { :'os-family' => x }
+      end
+    end
+
+    def self.finalize_supports(supports, logger)
+      case x = supports
+      when Hash   then [x]
+      when Array  then x.map { |e| finalize_supports_elem(e, logger) }.compact
+      when nil    then []
+      else
+        logger ||= Logger.new(nil)
+        logger.warn(
+          "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
+          "supports:\n  - os-family: #{x}\n\n")
+        [{ :'os-family' => x }]
+      end
+    end
+
     def self.finalize(metadata, profile_id, logger = nil)
       return nil if metadata.nil?
       param = metadata.params || {}
       param['name'] = profile_id.to_s unless profile_id.to_s.empty?
       param['version'] = param['version'].to_s unless param['version'].nil?
       metadata.params = symbolize_keys(param)
-
-      # consolidate supports field with legacy mode
-      metadata.params[:supports] =
-        case x = metadata.params[:supports]
-        when Hash   then [x]
-        when Array  then x
-        when nil    then []
-        else
-          logger ||= Logger.new(nil)
-          logger.warn(
-            "Do not use deprecated `supports: #{x}` syntax. Instead use "\
-            "`supports: {os-family: #{x}}`.")
-          [{ :'os-family' => x }]
-        end
+      metadata.params[:supports] = finalize_supports(metadata.params[:supports], logger)
 
       metadata
     end
