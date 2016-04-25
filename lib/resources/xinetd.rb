@@ -34,8 +34,9 @@ module Inspec::Resources
       @params ||= read_params
     end
 
-    filter = FilterTable.create(self, :service_lines)
-    filter.add_delegator(:where)
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
           .add(:services,     field: 'service')
           .add(:ids,          field: 'id')
           .add(:socket_types, field: 'socket_type')
@@ -43,6 +44,7 @@ module Inspec::Resources
           .add(:wait,         field: 'wait')
           .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
           .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
+          .connect(self, :service_lines)
 
     private
 
