@@ -26,7 +26,7 @@ NumericLiterals:
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 11
 Metrics/AbcSize:
   Max: 33
 Style/PercentLiteralDelimiters:

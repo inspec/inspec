@@ -1,0 +1,4 @@
+root            0       sys             3
+                        /
+                        /sbin/sh
+                        PS 000000 -1 -1 -1
