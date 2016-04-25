@@ -34,6 +34,7 @@ module Inspec
     end
 
     BLACKLIST_FILES = [
+      '/pax_global_header',
       'pax_global_header',
     ].freeze
 
