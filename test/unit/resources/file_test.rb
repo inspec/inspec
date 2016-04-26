@@ -4,7 +4,6 @@
 
 require 'helper'
 require 'inspec/resource'
-require 'pry'
 
 def shared_file_permission_tests(method_under_test)
   it 'returns false if the file does not exist' do
