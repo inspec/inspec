@@ -25,6 +25,15 @@ module Inspec::Resources
       inspec.backend.os[name]
     end
 
+    def params
+      {
+        name: inspec.backend.os[:name],
+        family: inspec.backend.os[:family],
+        release: inspec.backend.os[:release],
+        arch: inspec.backend.os[:arch],
+      }
+    end
+
     def to_s
       'Operating System Detection'
     end
