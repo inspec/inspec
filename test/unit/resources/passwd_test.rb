@@ -77,36 +77,35 @@ describe 'Inspec::Resources::Passwd' do
     end
   end
 
-  # TODO REWORK ALL OF THESE, please don't depend on them yet!
-  describe 'experimental features' do
+  describe 'where clause' do
     it 'retrieves username via uids < x' do
-      _(passwd.uids({ :< => 33 }).count).must_equal 1
-      _(passwd.uids({ :< => 34 }).count).must_equal 2
+      _(passwd.where { uid.to_i < 33 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i < 34 }.entries.length).must_equal 2
     end
 
     it 'retrieves username via uids <= x' do
-      _(passwd.uids({ :<= => 32 }).count).must_equal 1
-      _(passwd.uids({ :<= => 33 }).count).must_equal 2
+      _(passwd.where { uid.to_i <= 32 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i <= 33 }.entries.length).must_equal 2
     end
 
     it 'retrieves username via uids > x' do
-      _(passwd.uids({ :> => 0 }).count).must_equal 1
-      _(passwd.uids({ :> => -1 }).count).must_equal 2
+      _(passwd.where { uid.to_i > 0 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i > -1 }.entries.length).must_equal 2
     end
 
     it 'retrieves username via uids >= x' do
-      _(passwd.uids({ :>= => 1 }).count).must_equal 1
-      _(passwd.uids({ :>= => 0 }).count).must_equal 2
+      _(passwd.where { uid.to_i >= 1 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i >= 0 }.entries.length).must_equal 2
     end
 
     it 'retrieves username via uids == x' do
-      _(passwd.uids({ :== => 0 }).count).must_equal 1
-      _(passwd.uids({ :== => 1 }).count).must_equal 0
+      _(passwd.where { uid.to_i == 0 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i == 1 }.entries.length).must_equal 0
     end
 
     it 'retrieves username via uids != x' do
-      _(passwd.uids({ :!= => 0 }).count).must_equal 1
-      _(passwd.uids({ :!= => 1 }).count).must_equal 2
+      _(passwd.where { uid.to_i != 0 }.entries.length).must_equal 1
+      _(passwd.where { uid.to_i != 1 }.entries.length).must_equal 2
     end
   end
 end
