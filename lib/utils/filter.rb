@@ -6,6 +6,39 @@
 module FilterTable
   module Show; end
 
+  class Trace
+    def initialize
+      @chain = []
+    end
+
+    %w{== != >= > < <= =~ !~}.each do |m|
+      define_method m.to_sym do |*args|
+        res = Trace.new
+        @chain.push([[m.to_sym] + args, res])
+        res
+      end
+    end
+
+    def method_missing(*args)
+      res = Trace.new
+      @chain.push([args, res])
+      res
+    end
+
+    def self.to_ruby(trace)
+      chain = trace.instance_variable_get(:@chain)
+      return '' if chain.empty?
+      ' ' + chain.map do |el|
+        m = el[0][0]
+        args = el[0].drop(1)
+        nxt = to_ruby(el[1])
+        next m.to_s + nxt if args.empty?
+        next m.to_s + ' ' + args[0].inspect + nxt if args.length == 1
+        m.to_s + '(' + args.map(&:inspect).join(', ') + ')' + nxt
+      end.join(' ')
+    end
+  end
+
   class Table
     attr_reader :params
     def initialize(resource, params, filters)
@@ -14,14 +47,24 @@ module FilterTable
       @filters = filters
     end
 
-    def where(conditions)
-      return self if !conditions.is_a?(Hash) || conditions.empty?
+    def where(conditions = {}, &block)
+      return self if !conditions.is_a?(Hash)
+      return self if conditions.empty? && !block_given?
+
       filters = ''
       table = @params
       conditions.each do |field, condition|
         filters += " #{field} == #{condition.inspect}"
         table = filter_lines(table, field, condition)
       end
+
+      if block_given?
+        table = table.find_all { |e| new_entry(e, '').instance_eval(&block) }
+        src = Trace.new
+        src.instance_eval(&block)
+        filters += Trace.to_ruby(src)
+      end
+
       self.class.new(@resource, table, @filters + filters)
     end
 
@@ -90,10 +133,10 @@ module FilterTable
       table = Class.new(Table) {
         fields.each do |method, field_name|
           block = blocks[method]
-          define_method method.to_sym do |condition = Show|
+          define_method method.to_sym do |condition = Show, &cond_block|
             return block.call(self) unless block.nil?
-            return where(nil).get_fields(field_name) if condition == Show
-            where({ field_name => condition })
+            return where(nil).get_fields(field_name) if condition == Show && !block_given?
+            where({ field_name => condition }, &cond_block)
           end
         end
 
@@ -108,9 +151,9 @@ module FilterTable
       # define all access methods with the parent resource
       accessors = @accessors + @fields.keys
       accessors.each do |method_name|
-        resource.send(:define_method, method_name.to_sym) do |*args|
+        resource.send(:define_method, method_name.to_sym) do |*args, &block|
           filter = table.new(self, method(table_accessor).call, ' with')
-          filter.method(method_name.to_sym).call(*args)
+          filter.method(method_name.to_sym).call(*args, &block)
         end
       end
     end
