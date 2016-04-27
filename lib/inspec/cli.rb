@@ -116,21 +116,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'detect', 'detect the target OS'
   target_options
   def detect
-    diagnose
-
-    rel = File.join(File.dirname(__FILE__), *%w{.. utils detect.rb})
-    detect_util = File.expand_path(rel)
-    # exits on execution:
-    runner = Inspec::Runner.new(opts)
-    profile = Inspec::Profile.for_target(detect_util, opts)
-    runner.add_profile(profile)
-    exit runner.run
-  rescue RuntimeError => e
-    puts e.message
+    options_json[:command] = 'os.params'
+    shell_func
   end
 
   desc 'shell', 'open an interactive debugging shell'
   target_options
+  option :command, aliases: :c
   option :format, type: :string, default: Inspec::NoSummaryFormatter, hide: true
   def shell_func
     diagnose
@@ -138,8 +130,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
 
-    runner = Inspec::Runner.new(o)
-    Inspec::Shell.new(runner).start
+    if o[:command].nil?
+      runner = Inspec::Runner.new(o)
+      return Inspec::Shell.new(runner).start
+    else
+      opts[:test_collector] = 'mock'
+      runner = Inspec::Runner.new(opts)
+      res = runner.create_context.load(o[:command])
+      jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
+      puts jres
+    end
   rescue RuntimeError => e
     puts e.message
   end
