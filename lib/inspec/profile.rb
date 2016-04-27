@@ -8,6 +8,7 @@ require 'inspec/polyfill'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/metadata'
+require 'inspec/dependencies'
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
@@ -206,6 +207,10 @@ module Inspec
       true
     end
 
+    def locked_dependencies
+      @locked_dependencies ||= load_dependencies
+    end
+
     private
 
     # Create an archive name for this profile and an additional options
@@ -289,6 +294,13 @@ module Inspec
         controls: [],
       }
       groups[file][:controls].push(id)
+    end
+
+    def load_dependencies
+      cwd = File.directory?(@target) ? @target : nil
+      res = Inspec::Dependencies.new(cwd, nil)
+      res.vendor(metadata.dependencies)
+      res
     end
   end
 end

@@ -22,6 +22,8 @@ module Inspec
       @backend = backend
       @conf = conf.dup
       @rules = {}
+      @dependencies = {}
+      @dependencies = conf['profile'].locked_dependencies unless conf['profile'].nil?
       @require_loader = ::Inspec::RequireLoader.new
       @attributes = []
       reload_dsl
@@ -30,7 +32,7 @@ module Inspec
     def reload_dsl
       resources_dsl = Inspec::Resource.create_dsl(@backend)
       ctx = create_context(resources_dsl, rule_context(resources_dsl))
-      @profile_context = ctx.new(@backend, @conf, @require_loader)
+      @profile_context = ctx.new(@backend, @conf, @dependencies, @require_loader)
     end
 
     def load_libraries(libs)
@@ -136,9 +138,10 @@ module Inspec
         include Inspec::DSL
         include resources_dsl
 
-        def initialize(backend, conf, require_loader) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
+        def initialize(backend, conf, dependencies, require_loader) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
           @backend = backend
           @conf = conf
+          @dependencies = dependencies
           @require_loader = require_loader
           @skip_profile = false
         end

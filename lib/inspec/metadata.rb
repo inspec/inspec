@@ -36,6 +36,10 @@ module Inspec
       end
     end
 
+    def dependencies
+      params[:depends] || []
+    end
+
     def supports(sth, version = nil)
       # Ignore supports with metadata.rb. This file is legacy and the way it
       # it handles `supports` deprecated. A deprecation warning will be printed

@@ -8,3 +8,6 @@ summary: Demonstrates the use of InSpec profile inheritance
 version: 1.0.0
 supports:
   - os-family: unix
+depends:
+  - name: profile
+    path: ../profile

@@ -6,12 +6,12 @@
 
 module Inspec::DSL
   def require_controls(id, &block)
-    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf }
+    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
   def include_controls(id, &block)
-    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf }
+    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf, dependencies: @dependencies }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
@@ -33,8 +33,9 @@ module Inspec::DSL
 
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     # get all spec files
-    target = get_reference_profile(opts[:profile_id], opts[:conf])
-    profile = Inspec::Profile.for_target(target, opts)
+    target = opts[:dependencies].list[opts[:profile_id]] ||
+             fail("Can't find profile #{opts[:profile_id].inspect}, please add it as a dependency.")
+    profile = Inspec::Profile.for_target(target.path, opts)
     context = load_profile_context(opts[:profile_id], profile, opts)
 
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
@@ -60,22 +61,6 @@ module Inspec::DSL
         context.rules[id] = nil
       end
     end
-  end
-
-  def self.get_reference_profile(id, opts)
-    profiles_path = opts['profiles_path'] ||
-                    fail('You must supply a --profiles-path to inherit from other profiles.')
-    abs_path = File.expand_path(profiles_path.to_s)
-    unless File.directory? abs_path
-      fail("Cannot find profiles path #{abs_path}")
-    end
-
-    id_path = File.join(abs_path, id)
-    unless File.directory? id_path
-      fail("Cannot find referenced profile #{id} in #{id_path}")
-    end
-
-    id_path
   end
 
   def self.load_profile_context(id, profile, opts)
