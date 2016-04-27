@@ -143,6 +143,27 @@ describe Inspec::Resources::FileResource do
       end
     end
 
+    describe 'when on hpux' do
+      before do
+        MockLoader.mock_os(resource, :hpux)
+      end
+
+      it 'executes a properly formatted command' do
+        MockLoader.mock_command(resource, "su user -c \"test -flag /fakepath/fakefile\"", exit_status: 0)
+        resource.send(:check_file_permission_by_user, 'user', 'flag')
+      end
+
+      it 'returns true when the cmd exits 0' do
+        MockLoader.mock_command(resource, "su user -c \"test -flag /fakepath/fakefile\"", exit_status: 0)
+        resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(true)
+      end
+
+      it 'returns false when the cmd exits non-zero' do
+        MockLoader.mock_command(resource, "su user -c \"test -flag /fakepath/fakefile\"", exit_status: 1)
+        resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(false)
+      end
+    end
+
     describe 'when not on linux or freebsd' do
       before do
         MockLoader.mock_os(resource, :undefined)

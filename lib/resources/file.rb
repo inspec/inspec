@@ -138,6 +138,8 @@ module Inspec::Resources
         perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
       elsif inspec.os.aix?
         perm_cmd = "su #{user} -c test -#{flag} #{path}"
+      elsif inspec.os.hpux?
+        perm_cmd = "su #{user} -c \"test -#{flag} #{path}\""
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'
       end
