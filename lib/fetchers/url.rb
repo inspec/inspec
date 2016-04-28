@@ -65,10 +65,15 @@ module Fetchers
 
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
-    def self.download_archive(url, opts)
+    def self.download_archive(url, opts = {})
+      http_opts = {}
+      # http_opts['http_basic_authentication'] = [opts['user'] || '', opts['password'] || ''] if opts['user']
+      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if opts['insecure']
+      http_opts['Authorization'] = "Bearer #{opts['token']}" if opts['token']
+
       remote = open(
         url,
-        http_basic_authentication: [opts['user'] || '', opts['password'] || ''],
+        http_opts,
       )
 
       content_type = remote.meta['content-type']

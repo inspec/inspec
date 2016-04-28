@@ -14,7 +14,7 @@ module Compliance
     name 'compliance'
     priority 500
 
-    def self.resolve(target, opts = {})
+    def self.resolve(target, _opts = {})
       # check for local scheme compliance://
       uri = URI(target)
       return nil unless URI(uri).scheme == 'compliance'
@@ -25,10 +25,8 @@ module Compliance
 
       # verifies that the target e.g base/ssh exists
       profile = uri.host + uri.path
-      Compliance::API.exist?(profile)
-
-      opts['user'] = config['token']
-      super(target_url(config, profile), opts)
+      Compliance::API.exist?(config, profile)
+      super(target_url(config, profile), config)
     rescue URI::Error => _e
       nil
     end
