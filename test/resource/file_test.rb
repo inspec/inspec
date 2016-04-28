@@ -22,8 +22,10 @@ describe file('/proc/version') do
 end
 
 describe file('/dev/stdout') do
-  its(:type) { should eq :symlink }
+  its(:type) { should eq :pipe }
+  its('source.type') { should eq :symlink }
   it { should be_symlink }
+  it { should be_pipe }
   it { should_not be_file }
   it { should_not be_directory }
 end
