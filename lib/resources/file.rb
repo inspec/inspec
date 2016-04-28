@@ -22,25 +22,17 @@ module Inspec::Resources
     "
     include MountParser
 
-    attr_reader :file, :path, :mount_options, :link_source
+    attr_reader :file, :mount_options
     def initialize(path)
-      f = inspec.backend.file(path)
-      if f.symlink?
-        @path = f.link_path
-        return skip_resource "#{path} link cannot be followed, possible loop." if @path == ''
-        @file = inspec.backend.file(@path)
-        @link_source = f
-      else
-        @path = path
-        @file = f
-      end
+      @file = inspec.backend.file(path)
     end
 
     %w{
       type exist? file? block_device? character_device? socket? directory?
-      symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
+      symlink? pipe? mode mode? owner owned_by? group grouped_into?
       link_path linked_to? mtime size selinux_label immutable?
       product_version file_version version? md5sum sha256sum
+      path source uid gid
     }.each do |m|
       define_method m.to_sym do |*args|
         file.method(m.to_sym).call(*args)
@@ -97,20 +89,6 @@ module Inspec::Resources
         # otherwise compare the selected values
         @mount_options.contains(expected_options)
       end
-    end
-
-    # TODO: This is temporary and must be moved to train
-    def uid
-      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
-      return nil if res.exit_status != 0 || res.stdout.empty?
-      res.stdout.to_i
-    end
-
-    # TODO: This is temporary and must be moved to train
-    def gid
-      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
-      return nil if res.exit_status != 0 || res.stdout.empty?
-      res.stdout.to_i
     end
 
     def to_s
