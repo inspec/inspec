@@ -15,6 +15,7 @@ module Inspec::Resources
         its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
         its('type') { should eq  'ext4' }
         its('options') { should eq ['rw', 'mode=620'] }
+        its('options') { should include 'nodev' }
       end
     "
     include MountParser
