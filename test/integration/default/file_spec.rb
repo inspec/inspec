@@ -96,6 +96,8 @@ if os.unix?
     its('sha256sum') { should eq 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9' }
     its('product_version') { should eq nil }
     its('file_version') { should eq nil }
+    its('basename') { should cmp 'file' }
+    its('path') { should cmp '/tmp/file' }
 
     its('owner') { should eq filedata[:user] }
     its('group') { should eq filedata[:group] }
@@ -118,6 +120,8 @@ if os.unix?
     its('sha256sum') { should eq filedata[:dir_sha256sum] }
     its('product_version') { should eq nil }
     its('file_version') { should eq nil }
+    its('basename') { should cmp 'folder' }
+    its('path') { should cmp '/tmp/folder' }
 
     its('owner') { should eq filedata[:user] }
     its('group') { should eq filedata[:group] }
@@ -153,8 +157,10 @@ if os.linux?
 end
 
 if os.windows?
-  describe file('C:\\Windows') do
+  describe file('C:\Windows') do
     it { should exist }
     it { should be_directory }
+    its('basename') { should cmp 'Windows' }
+    its('path') { should cmp "C:\\Windows" }
   end
 end

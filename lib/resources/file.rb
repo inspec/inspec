@@ -32,7 +32,7 @@ module Inspec::Resources
       symlink? pipe? mode mode? owner owned_by? group grouped_into?
       link_path linked_to? mtime size selinux_label immutable?
       product_version file_version version? md5sum sha256sum
-      path source source_path uid gid
+      path basename source source_path uid gid
     }.each do |m|
       define_method m.to_sym do |*args|
         file.method(m.to_sym).call(*args)
