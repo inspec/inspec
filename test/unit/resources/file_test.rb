@@ -33,6 +33,13 @@ describe Inspec::Resources::FileResource do
     shared_file_permission_tests(:executable?)
   end
 
+  describe '#basename' do
+    it 'returns the basename' do
+      resource.stubs(:basename).returns('fakefile')
+      resource.basename.must_equal('fakefile')
+    end
+  end
+
   describe '#to_s' do
     it 'returns a properly formatted string' do
       resource.to_s.must_equal('File /fakepath/fakefile')
