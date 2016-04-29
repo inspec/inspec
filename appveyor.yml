@@ -3,8 +3,10 @@ platform:
   - x64
 
 environment:
+  bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
+
   matrix:
-    - ruby_version: "200-x64"
+    - ruby_version: "193"
     - ruby_version: "22"
 
 clone_folder: c:\projects\inspec
@@ -14,28 +16,24 @@ branches:
   only:
     - master
 
+cache:
+  - vendor/bundle -> appveyor.yml
+
 install:
   - systeminfo
   - winrm quickconfig -q
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
   - ruby --version
-  - gem install bundler --quiet --no-ri --no-rdoc
-  - ruby --version
   - gem --version
+  - appveyor DownloadFile -Url %bundler_url% -FileName bundler.gem
+  - gem install --local bundler --quiet --no-document
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
 build_script:
-  - bundle install --without integration tools maintenance
+  - bundle install --path=vendor/bundle --without integration tools maintenance
 
 test_script:
   - SET SPEC_OPTS=--format progress
   - bundle exec rake
-
-cache:
-  - C:\Users\appveyor\.gem\ruby\2.2.0
-  - C:\Ruby200-x64\bin\gem
-  - C:\Ruby200-x64\lib\ruby\gems\2.0.0
-  - C:\Ruby22\bin\gem
-  - C:\Ruby22\lib\ruby\gems\2.2.0
