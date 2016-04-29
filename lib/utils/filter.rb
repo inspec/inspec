@@ -95,15 +95,36 @@ module FilterTable
 
     private
 
+    def matches_float(x, y)
+      return false if x.nil?
+      return false if !x.is_a?(Float) && (x =~ /\A[-+]?(\d+\.?\d*|\.\d+)\z/).nil?
+      x.to_f == y
+    end
+
+    def matches_int(x, y)
+      return false if x.nil?
+      return false if !x.is_a?(Integer) && (x =~ /\A[-+]?\d+\z/).nil?
+      x.to_i == y
+    end
+
+    def matches_regex(x, y)
+      return x == y if x.is_a?(Regexp)
+      !x.to_s.match(y).nil?
+    end
+
+    def matches(x, y)
+      x === y # rubocop:disable Style/CaseEquality
+    end
+
     def filter_lines(table, field, condition)
+      m = method(:matches)
+      m = method(:matches_float) if condition.is_a?(Float)
+      m = method(:matches_int) if condition.is_a?(Integer)
+      m = method(:matches_regex) if condition.is_a?(Regexp)
+
       table.find_all do |line|
         next unless line.key?(field)
-        case line[field]
-        when condition
-          true
-        else
-          false
-        end
+        m.call(line[field], condition)
       end
     end
   end
@@ -134,7 +155,7 @@ module FilterTable
         fields.each do |method, field_name|
           block = blocks[method]
           define_method method.to_sym do |condition = Show, &cond_block|
-            return block.call(self) unless block.nil?
+            return block.call(self, condition) unless block.nil?
             return where(nil).get_fields(field_name) if condition == Show && !block_given?
             where({ field_name => condition }, &cond_block)
           end

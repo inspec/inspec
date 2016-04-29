@@ -7,9 +7,9 @@ require 'helper'
 
 describe FilterTable do
   let (:data) {[
-    { foo: 3, bar: true, baz: 'yay', num: nil },
-    { foo: 2, bar: false, baz: 'noo', num: 1 },
-    { foo: 2, bar: false, baz: 'whatever', num: 2 },
+    { foo: 3, bar: true, baz: 'yay', num: nil, snum: "0" },
+    { foo: 2, bar: false, baz: 'noo', num: 1, snum: nil },
+    { foo: 2, bar: false, baz: 'whatever', num: 2, snum: "1.00" },
   ]}
 
   let (:resource) {
@@ -100,6 +100,38 @@ describe FilterTable do
 
     it 'filter by missing number' do
       instance.num(-1).params.must_equal []
+    end
+  end
+
+  describe 'with the string-number field' do
+    before { factory.add(:snum).connect(resource, :data) }
+
+    it 'retrieves the number 0' do
+      instance.snum(0).params.must_equal [data[0]]
+    end
+
+    it 'retrieves the number 1' do
+      instance.snum(1).params.must_equal []
+    end
+  end
+
+  describe 'with the string-float field' do
+    before { factory.add(:snum).connect(resource, :data) }
+
+    it 'retrieves the float 0.0' do
+      instance.snum(0.0).params.must_equal [data[0]]
+    end
+
+    it 'retrieves the float 1.0' do
+      instance.snum(1.0).params.must_equal [data[2]]
+    end
+  end
+
+  describe 'with a regex check' do
+    before { factory.add(:baz).connect(resource, :data) }
+
+    it 'retrieves the number 0' do
+      instance.baz(/ever$/).params.must_equal [data[2]]
     end
   end
 
