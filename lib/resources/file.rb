@@ -22,17 +22,17 @@ module Inspec::Resources
     "
     include MountParser
 
-    attr_reader :file, :path, :mount_options
+    attr_reader :file, :mount_options
     def initialize(path)
-      @path = path
-      @file = inspec.backend.file(@path)
+      @file = inspec.backend.file(path)
     end
 
     %w{
       type exist? file? block_device? character_device? socket? directory?
-      symlink? pipe? mode mode? owner owned_by? group grouped_into? link_target
+      symlink? pipe? mode mode? owner owned_by? group grouped_into?
       link_path linked_to? mtime size selinux_label immutable?
       product_version file_version version? md5sum sha256sum
+      path source source_path uid gid
     }.each do |m|
       define_method m.to_sym do |*args|
         file.method(m.to_sym).call(*args)
@@ -74,7 +74,7 @@ module Inspec::Resources
       return file.mounted? if expected_options.nil?
 
       # deprecation warning, this functionality will be removed in future version
-      warn "[DEPRECATION] `be_mounted.with and be_mounted.only_with` are deprecated.  Please use `mount('#{path}')` instead."
+      warn "[DEPRECATION] `be_mounted.with and be_mounted.only_with` are deprecated.  Please use `mount('#{source_path}')` instead."
 
       # we cannot read mount data on non-Linux systems
       return nil if !inspec.os.linux?
@@ -91,22 +91,8 @@ module Inspec::Resources
       end
     end
 
-    # TODO: This is temporary and must be moved to train
-    def uid
-      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
-      return nil if res.exit_status != 0 || res.stdout.empty?
-      res.stdout.to_i
-    end
-
-    # TODO: This is temporary and must be moved to train
-    def gid
-      res = inspec.command('stat '+Shellwords.escape(@path)+' -c %u')
-      return nil if res.exit_status != 0 || res.stdout.empty?
-      res.stdout.to_i
-    end
-
     def to_s
-      "File #{path}"
+      "File #{source_path}"
     end
 
     private
@@ -133,13 +119,13 @@ module Inspec::Resources
 
     def check_file_permission_by_user(user, flag)
       if inspec.os.linux?
-        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
+        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{source_path}\" #{user}"
       elsif inspec.os.bsd? || inspec.os.solaris?
-        perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
+        perm_cmd = "sudo -u #{user} test -#{flag} #{source_path}"
       elsif inspec.os.aix?
-        perm_cmd = "su #{user} -c test -#{flag} #{path}"
+        perm_cmd = "su #{user} -c test -#{flag} #{source_path}"
       elsif inspec.os.hpux?
-        perm_cmd = "su #{user} -c \"test -#{flag} #{path}\""
+        perm_cmd = "su #{user} -c \"test -#{flag} #{source_path}\""
       else
         return skip_resource 'The `file` resource does not support `by_user` on your OS.'
       end
