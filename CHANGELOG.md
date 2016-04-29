@@ -1,7 +1,34 @@
 # Change Log
 
-## [0.19.3](https://github.com/chef/inspec/tree/0.19.3) (2016-04-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.19.2...0.19.3)
+## [0.20.0](https://github.com/chef/inspec/tree/0.20.0) (2016-04-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.3...0.20.0)
+
+**Implemented enhancements:**
+
+- `where { field op value }` for filter table [\#684](https://github.com/chef/inspec/pull/684) ([arlimus](https://github.com/arlimus))
+- add `shell -c` for executing calls against the inspec api [\#683](https://github.com/chef/inspec/pull/683) ([arlimus](https://github.com/arlimus))
+- Add table-style filter utility [\#681](https://github.com/chef/inspec/pull/681) ([arlimus](https://github.com/arlimus))
+- added hpux user and package resource support [\#678](https://github.com/chef/inspec/pull/678) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+
+**Fixed bugs:**
+
+- Specifying an invalid target protocol should give a failure message [\#686](https://github.com/chef/inspec/issues/686)
+- update compliance plugin [\#695](https://github.com/chef/inspec/pull/695) ([chris-rock](https://github.com/chris-rock))
+- bugfix: restore pax\_global\_header fetcher filter [\#669](https://github.com/chef/inspec/pull/669) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- How do I run an inspec profile in chef audit mode? [\#692](https://github.com/chef/inspec/issues/692)
+
+**Merged pull requests:**
+
+- update appveyor ruby to 2.2 + fix caching [\#697](https://github.com/chef/inspec/pull/697) ([arlimus](https://github.com/arlimus))
+- update to train's new file interface: symlink + uid + gid [\#694](https://github.com/chef/inspec/pull/694) ([arlimus](https://github.com/arlimus))
+- validate target backend [\#688](https://github.com/chef/inspec/pull/688) ([arlimus](https://github.com/arlimus))
+- Hpux [\#682](https://github.com/chef/inspec/pull/682) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+
+## [v0.19.3](https://github.com/chef/inspec/tree/v0.19.3) (2016-04-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.2...v0.19.3)
 
 **Fixed bugs:**
 
@@ -9,6 +36,7 @@
 
 **Merged pull requests:**
 
+- Releasing inspec 0.19.3 [\#680](https://github.com/chef/inspec/pull/680) ([alexpop](https://github.com/alexpop))
 - v0.19.2 [\#675](https://github.com/chef/inspec/pull/675) ([arlimus](https://github.com/arlimus))
 
 ## [v0.19.2](https://github.com/chef/inspec/tree/v0.19.2) (2016-04-21)
