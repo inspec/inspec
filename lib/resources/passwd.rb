@@ -38,7 +38,6 @@ module Inspec::Resources
 
     include PasswdParser
 
-    attr_reader :uid
     attr_reader :params
     attr_reader :content
     attr_reader :lines
@@ -58,29 +57,38 @@ module Inspec::Resources
           .add(:passwords, field: 'password')
           .add(:uids,      field: 'uid')
           .add(:gids,      field: 'gid')
+          .add(:descs,     field: 'desc')
           .add(:homes,     field: 'home')
           .add(:shells,    field: 'shell')
-          .connect(self, :params)
 
-    def usernames
+    filter.add(:count) { |t, _|
+      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in version 1.0.0.'
+      t.entries.length
+    }
+
+    filter.add(:usernames) { |t, x|
       warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
-      users
-    end
+      t.users(x)
+    }
 
-    def username
+    filter.add(:username) { |t, x|
       warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
-      users[0]
-    end
+      t.users(x)[0]
+    }
+
+    # rebuild the passwd line from raw content
+    filter.add(:content) { |t, _|
+      t.entries.map do |e|
+        [e.user, e.password, e.uid, e.gid, e.desc, e.home, e.shell].join(':')
+      end.join("\n")
+    }
 
     def uid(x)
       warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in version 1.0.0.'
       uids(x)
     end
 
-    def count
-      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in version 1.0.0.'
-      @params.length
-    end
+    filter.connect(self, :params)
 
     def to_s
       '/etc/passwd'

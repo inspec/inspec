@@ -117,10 +117,12 @@ module FilterTable
     end
 
     def filter_lines(table, field, condition)
-      m = method(:matches)
-      m = method(:matches_float) if condition.is_a?(Float)
-      m = method(:matches_int) if condition.is_a?(Integer)
-      m = method(:matches_regex) if condition.is_a?(Regexp)
+      m = case condition
+          when Float   then method(:matches_float)
+          when Integer then method(:matches_int)
+          when Regexp  then method(:matches_regex)
+          else              method(:matches)
+          end
 
       table.find_all do |line|
         next unless line.key?(field)
