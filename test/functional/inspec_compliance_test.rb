@@ -37,7 +37,8 @@ describe 'inspec compliance' do
 
   it 'inspec compliance profiles without authentication' do
     out = inspec('compliance profile')
-    out.exit_status.must_equal 1
+    out.stdout.must_include 'You need to login first with `inspec compliance login`'
+    out.exit_status.must_equal 0
   end
 
   it 'try to upload a profile without directory' do
@@ -48,8 +49,8 @@ describe 'inspec compliance' do
 
   it 'try to upload a profile a non-existing path' do
     out = inspec('compliance upload /path/to/dir')
-    out.stdout.must_include 'Directory /path/to/dir does not exist.'
-    out.exit_status.must_equal 1
+    out.stdout.must_include 'You need to login first with `inspec compliance login`'
+    out.exit_status.must_equal 0
   end
 
   it 'logout' do
