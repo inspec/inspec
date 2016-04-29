@@ -58,6 +58,8 @@ module Compliance
     desc 'profiles', 'list all available profiles in Chef Compliance'
     def profiles
       config = Compliance::Configuration.new
+      return if !loggedin(config)
+
       profiles = Compliance::API.profiles(config)
       if !profiles.empty?
         # iterate over profiles
@@ -73,6 +75,9 @@ module Compliance
     desc 'exec PROFILE', 'executes a Chef Compliance profile'
     exec_options
     def exec(*tests)
+      config = Compliance::Configuration.new
+      return if !loggedin(config)
+
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'compliance://' + t }
 
@@ -84,7 +89,10 @@ module Compliance
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
     option :overwrite, type: :boolean, default: false,
       desc: 'Overwrite existing profile on Chef Compliance.'
-    def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity
+    def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
+      config = Compliance::Configuration.new
+      return if !loggedin(config)
+
       unless File.exist?(path)
         puts "Directory #{path} does not exist."
         exit 1
@@ -110,7 +118,6 @@ module Compliance
       end
 
       # determine user information
-      config = Compliance::Configuration.new
       if config['token'].nil? || config['user'].nil?
         error.call('Please login via `inspec compliance login`')
       end
@@ -260,6 +267,12 @@ module Compliance
       end
 
       [success, msg]
+    end
+
+    def loggedin(config)
+      serverknown = !config['server'].nil?
+      puts 'You need to login first with `inspec compliance login`' if !serverknown
+      serverknown
     end
   end
 
