@@ -14,7 +14,7 @@ module Inspec
     # @return [TransportBackend] enriched transport instance
     def self.create(config)
       conf = Train.target_config(config)
-      name = conf[:backend] || :local
+      name = Train.validate_backend(conf)
       transport = Train.create(name, conf)
       if transport.nil?
         fail "Can't find transport backend '#{name}'."
