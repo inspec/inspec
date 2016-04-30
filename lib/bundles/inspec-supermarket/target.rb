@@ -15,6 +15,7 @@ module Supermarket
     def self.resolve(target, opts = {})
       return nil unless URI(target).scheme == 'supermarket'
       return nil unless Supermarket::API.exist?(target)
+      puts "Target: #{target}"
       tool_info = Supermarket::API.find(target)
       super(tool_info['tool_source_url'], opts)
     rescue URI::Error => _e
