@@ -27,6 +27,7 @@ end
 
 group :tools do
   gem 'pry', '~> 0.10'
+  gem 'rb-readline'
   gem 'license_finder'
   gem 'github_changelog_generator', '~> 1'
 end

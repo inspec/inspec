@@ -1,12 +1,26 @@
 # Change Log
 
-## [0.20.0](https://github.com/chef/inspec/tree/0.20.0) (2016-04-29)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.19.3...0.20.0)
+## [0.20.1](https://github.com/chef/inspec/tree/0.20.1) (2016-04-30)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.20.0...0.20.1)
 
 **Implemented enhancements:**
 
+- Add basename parameter and add tests [\#701](https://github.com/chef/inspec/pull/701) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- fix appveyor caching [\#700](https://github.com/chef/inspec/pull/700) ([arlimus](https://github.com/arlimus))
+
+## [v0.20.0](https://github.com/chef/inspec/tree/v0.20.0) (2016-04-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.19.3...v0.20.0)
+
+**Implemented enhancements:**
+
+- update to train's new file interface: symlink + uid + gid [\#694](https://github.com/chef/inspec/pull/694) ([arlimus](https://github.com/arlimus))
+- validate target backend [\#688](https://github.com/chef/inspec/pull/688) ([arlimus](https://github.com/arlimus))
 - `where { field op value }` for filter table [\#684](https://github.com/chef/inspec/pull/684) ([arlimus](https://github.com/arlimus))
 - add `shell -c` for executing calls against the inspec api [\#683](https://github.com/chef/inspec/pull/683) ([arlimus](https://github.com/arlimus))
+- Hpux [\#682](https://github.com/chef/inspec/pull/682) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
 - Add table-style filter utility [\#681](https://github.com/chef/inspec/pull/681) ([arlimus](https://github.com/arlimus))
 - added hpux user and package resource support [\#678](https://github.com/chef/inspec/pull/678) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
 
@@ -22,10 +36,8 @@
 
 **Merged pull requests:**
 
+- 0.20.0 [\#698](https://github.com/chef/inspec/pull/698) ([arlimus](https://github.com/arlimus))
 - update appveyor ruby to 2.2 + fix caching [\#697](https://github.com/chef/inspec/pull/697) ([arlimus](https://github.com/arlimus))
-- update to train's new file interface: symlink + uid + gid [\#694](https://github.com/chef/inspec/pull/694) ([arlimus](https://github.com/arlimus))
-- validate target backend [\#688](https://github.com/chef/inspec/pull/688) ([arlimus](https://github.com/arlimus))
-- Hpux [\#682](https://github.com/chef/inspec/pull/682) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
 
 ## [v0.19.3](https://github.com/chef/inspec/tree/v0.19.3) (2016-04-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.19.2...v0.19.3)
@@ -807,7 +819,7 @@
 - Massively improve README [\#208](https://github.com/chef/inspec/pull/208) ([echohack](https://github.com/echohack))
 
 ## [0.9.1](https://github.com/chef/inspec/tree/0.9.1) (2015-11-04)
-[Full Changelog](https://github.com/chef/inspec/compare/0.9.0...0.9.1)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.9.1...0.9.1)
 
 **Closed issues:**
 
@@ -824,6 +836,9 @@
 - push to rubygems [\#203](https://github.com/chef/inspec/pull/203) ([arlimus](https://github.com/arlimus))
 - update table style [\#202](https://github.com/chef/inspec/pull/202) ([chris-rock](https://github.com/chris-rock))
 - Apache 2.0 LICENSE [\#201](https://github.com/chef/inspec/pull/201) ([jamesc](https://github.com/jamesc))
+
+## [v0.9.1](https://github.com/chef/inspec/tree/v0.9.1) (2015-11-03)
+[Full Changelog](https://github.com/chef/inspec/compare/0.9.0...v0.9.1)
 
 ## [0.9.0](https://github.com/chef/inspec/tree/0.9.0) (2015-11-03)
 [Full Changelog](https://github.com/chef/inspec/compare/0.8.0...0.9.0)
