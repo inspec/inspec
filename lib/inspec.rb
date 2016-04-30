@@ -19,6 +19,7 @@ require 'inspec/runner'
 require 'inspec/shell'
 
 # all utils that may be required by plugins
+require 'inspec/cli'
 require 'utils/base_cli'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
