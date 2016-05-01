@@ -24,6 +24,15 @@ module Inspec
       end
 
       def self.__register(name, obj)
+        # In cases where we use json formatter with profiles, custom resources get loaded twice.
+        # this is caused by Inspec::Profile::load_params (it uses a MockRunner to parse all metadata)
+        # At this point of time we assume, that a resource with the same name is the same reource
+        # - we are not sure, that the same name is the same implementation
+        # - we should not load profiles multiple times
+        # - resources should be scoped to profiles where they are loaded
+        # TODO: all custom resources should be scoped into a profile instance
+        return Inspec::Resource.registry[name] unless Inspec::Resource.registry[name].nil?
+
         # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
         cl = Class.new(obj) do
           # add some common methods
