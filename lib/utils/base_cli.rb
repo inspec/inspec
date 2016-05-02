@@ -68,7 +68,7 @@ module Inspec
       runner = Inspec::Runner.new(o)
       targets.each { |target| runner.add_target(target, opts) }
       exit runner.run
-    rescue RuntimeError => e
+    rescue RuntimeError, Train::UserError => e
       $stderr.puts e.message
       exit 1
     end
