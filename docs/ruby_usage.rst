@@ -133,9 +133,9 @@ Similarly, for dev and test, you can use ``inspec shell`` which is based on ``pr
     Example:
     describe command('ls -al /') do
       it { should exist }
-      its(:stdout) { should match /bin/ }
+      its('stdout') { should match /bin/ }
       its('stderr') { should eq '' }
-      its(:exit_status) { should eq 0 }
+      its('exit_status') { should eq 0 }
     end
 
 .. |inspec| replace:: InSpec
