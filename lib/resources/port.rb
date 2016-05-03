@@ -3,7 +3,6 @@
 # author: Dominik Richter
 
 require 'utils/parser'
-require 'pry'
 # Usage:
 # describe port(80) do
 #   it { should be_listening }

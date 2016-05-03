@@ -248,9 +248,9 @@ class MockLoader
       #packages on hpux
       "swlist -l product | grep vim" => cmd.call('swlist-l-product'),
       # ipv4 ports on hpux
-      'netstat -an -f inet' => cmd.call('netstat-inet'),
+      'netstat -an -f inet' => cmd.call('hpux-netstat-inet'),
       #ipv6 ports on hpux
-      'netstat -an -f inet6' => cmd.call('netstat-inet6'),
+      'netstat -an -f inet6' => cmd.call('hpux-netstat-inet6'),
     }
 
     @backend
