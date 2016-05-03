@@ -106,7 +106,7 @@ RSpec::Matchers.define :be_installed do
   end
 
   chain :with_version do |version|
-    warn "[DEPRECATION] `with_version` is deprecated.  Please use `its(:version) { should eq '1.4.1' }` instead."
+    warn "[DEPRECATION] `with_version` is deprecated.  Please use `its('version') { should eq '1.4.1' }` instead."
     @version = version
   end
 end
@@ -146,7 +146,7 @@ end
 # Deprecated: You should not use this matcher anymore
 RSpec::Matchers.define :belong_to_group do |compare_group|
   match do |user|
-    warn "[DEPRECATION] `belong_to_group` is deprecated.  Please use `its(:groups) { should include('root') }` instead."
+    warn "[DEPRECATION] `belong_to_group` is deprecated.  Please use `its('groups') { should include('root') }` instead."
     user.groups.include?(compare_group)
   end
 
@@ -159,7 +159,7 @@ end
 # Deprecated: You should not use this matcher anymore
 RSpec::Matchers.define :belong_to_primary_group do |compare_group|
   match do |user|
-    warn "[DEPRECATION] `belong_to_primary_group` is deprecated.  Please use `its(:group) { should eq 'root' }` instead."
+    warn "[DEPRECATION] `belong_to_primary_group` is deprecated.  Please use `its('group') { should eq 'root' }` instead."
     user.group == compare_group
   end
 

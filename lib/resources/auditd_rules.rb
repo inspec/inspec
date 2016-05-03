@@ -67,11 +67,11 @@ module Inspec::Resources
       end
 
       describe auditd_rules.key('sshd_config') do
-        its(:permissions) { should contain_match(/x/) }
+        its('permissions') { should contain_match(/x/) }
       end
 
       describe auditd_rules do
-        its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+        its('lines') { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
       end
     "
 

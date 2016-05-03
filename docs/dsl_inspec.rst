@@ -117,7 +117,7 @@ The following test shows how to audit machines running |mysql| to ensure that pa
        them to an attacker. Prevent this at all costs.
      '
      describe command('env') do
-       its(:stdout) { should_not match(/^MYSQL_PWD=/) }
+       its('stdout') { should_not match(/^MYSQL_PWD=/) }
      end
    end
 

@@ -8,7 +8,7 @@ module Inspec::Resources
     desc 'Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms.'
     example "
       describe kernel_parameter('net.ipv4.conf.all.forwarding') do
-        its(:value) { should eq 0 }
+        its('value') { should eq 0 }
       end
     "
 
