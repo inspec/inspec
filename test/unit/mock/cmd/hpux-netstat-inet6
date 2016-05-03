@@ -1,0 +1,11 @@
+Active Internet connections (IPv6, including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp6       0      0  ::1.49309              *.*                     LISTEN
+tcp6       0      0  *.21                   *.*                     LISTEN
+tcp6       0      0  ::1.49671              ::1.49400               ESTABLISHED
+tcp6       0      0  *.383                  *.*                     LISTEN
+tcp6       0      0  *.22                   *.*                     LISTEN
+tcp6       0      0  ::1.49403              ::1.49400               ESTABLISHED
+tcp6       0      0  ::1.62538              ::1.62537               TIME_WAIT
+udp6       0      0  *.514                  *.*
+udp6       0      0  *.9                    *.*

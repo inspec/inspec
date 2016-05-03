@@ -3,7 +3,6 @@
 # author: Dominik Richter
 
 require 'utils/parser'
-
 # Usage:
 # describe port(80) do
 #   it { should be_listening }
@@ -47,6 +46,8 @@ module Inspec::Resources
         @port_manager = FreeBsdPorts.new(inspec)
       elsif os.solaris?
         @port_manager = SolarisPorts.new(inspec)
+      elsif os.hpux?
+        @port_manager = HpuxPorts.new(inspec)
       else
         return skip_resource 'The `port` resource is not supported on your OS yet.'
       end
@@ -292,7 +293,6 @@ module Inspec::Resources
       # parse each line
       # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - Inode, 8 - PID/Program name
       parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)?\s+(\S+)\s+(\S+)\s+(\S+)/.match(line)
-
       return {} if parsed.nil? || line.match(/^proto/i)
 
       # parse ip4 and ip6 addresses
@@ -408,7 +408,7 @@ module Inspec::Resources
       # parse the content
       netstat_ports = parse_netstat(cmd.stdout)
 
-      # filter all ports, where we listen
+      # filter all ports, where we `listen`
       listen = netstat_ports.select { |val|
         !val['state'].nil? && 'listen'.casecmp(val['state']) == 0
       }
@@ -431,6 +431,50 @@ module Inspec::Resources
         }
       }
       ports
+    end
+  end
+
+  # extracts information from netstat for hpux
+  class HpuxPorts < FreeBsdPorts
+    def info
+      ## Can't use 'netstat -an -f inet -f inet6' as the latter -f option overrides the former one and return only inet ports
+      cmd1 = inspec.command('netstat -an -f inet')
+      return nil if cmd1.exit_status.to_i != 0
+      cmd2 = inspec.command('netstat -an -f inet6')
+      return nil if cmd2.exit_status.to_i != 0
+      cmd = cmd1.stdout + cmd2.stdout
+      ports = []
+      # parse all lines
+      cmd.each_line do |line|
+        port_info = parse_netstat_line(line)
+        next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+        ports.push(port_info)
+      end
+      # select all ports, where we `listen`
+      ports.select { |val| val if 'listen'.casecmp(val[:state]) == 0 }
+    end
+
+    def parse_netstat_line(line)
+      # parse each line
+      # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - (state)
+      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)?/.match(line)
+
+      return {} if parsed.nil? || line.match(/^proto/i) || line.match(/^active/i)
+      protocol = parsed[1].downcase
+      state = parsed[6].nil?? ' ' : parsed[6].downcase
+      local_addr = parsed[4]
+      local_addr[local_addr.rindex('.')] = ':'
+      # extract host and port information
+      host, port = parse_net_address(local_addr, protocol)
+      # map data
+      {
+        port: port,
+        address: host,
+        protocol: protocol,
+        state: state,
+        process: nil,
+        pid: nil,
+      }
     end
   end
 end
