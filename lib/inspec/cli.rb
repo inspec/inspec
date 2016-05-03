@@ -140,8 +140,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
       puts jres
     end
-  rescue RuntimeError => e
-    puts e.message
+  rescue RuntimeError, Train::UserError => e
+    $stderr.puts e.message
   end
 
   desc 'version', 'prints the version of this tool'
