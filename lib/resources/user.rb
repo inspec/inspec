@@ -6,15 +6,15 @@
 #
 # describe user('root') do
 #   it { should exist }
-#   its(:uid) { should eq 0 }
-#   its(:gid) { should eq 0 }
-#   its(:group) { should eq 'root' }
-#   its(:groups) { should eq ['root', 'wheel']}
-#   its(:home) { should eq '/root' }
-#   its(:shell) { should eq '/bin/bash' }
-#   its(:mindays) { should eq 0 }
-#   its(:maxdays) { should eq 99 }
-#   its(:warndays) { should eq 5 }
+#   its('uid') { should eq 0 }
+#   its('gid') { should eq 0 }
+#   its('group') { should eq 'root' }
+#   its('groups') { should eq ['root', 'wheel']}
+#   its('home') { should eq '/root' }
+#   its('shell') { should eq '/bin/bash' }
+#   its('mindays') { should eq 0 }
+#   its('maxdays') { should eq 99 }
+#   its('warndays') { should eq 5 }
 # end
 #
 # The following  Serverspec  matchers are deprecated in favor for direct value access
@@ -24,8 +24,8 @@
 #   it { should have_uid 0 }
 #   it { should have_home_directory '/root' }
 #   it { should have_login_shell '/bin/bash' }
-#   its(:minimum_days_between_password_change) { should eq 0 }
-#   its(:maximum_days_between_password_change) { should eq 99 }
+#   its('minimum_days_between_password_change') { should eq 0 }
+#   its('maximum_days_between_password_change') { should eq 99 }
 # end
 
 # ServerSpec tests that are not supported:
@@ -119,13 +119,13 @@ module Inspec::Resources
 
     # implement 'mindays' method to be compatible with serverspec
     def minimum_days_between_password_change
-      deprecated('minimum_days_between_password_change', "Please use 'its(:mindays)'")
+      deprecated('minimum_days_between_password_change', "Please use: its('mindays')")
       mindays
     end
 
     # implement 'maxdays' method to be compatible with serverspec
     def maximum_days_between_password_change
-      deprecated('maximum_days_between_password_change', "Please use 'its(:maxdays)'")
+      deprecated('maximum_days_between_password_change', "Please use: its('maxdays')")
       maxdays
     end
 
@@ -137,12 +137,12 @@ module Inspec::Resources
     end
 
     def has_home_directory?(compare_home)
-      deprecated('has_home_directory?', "Please use 'its(:home)'")
+      deprecated('has_home_directory?', "Please use: its('home')")
       home == compare_home
     end
 
     def has_login_shell?(compare_shell)
-      deprecated('has_login_shell?', "Please use 'its(:shell)'")
+      deprecated('has_login_shell?', "Please use: its('shell')")
       shell == compare_shell
     end
 

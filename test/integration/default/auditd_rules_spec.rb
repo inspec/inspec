@@ -4,7 +4,7 @@
 return unless os[:family] == 'centos'
 
 describe auditd_rules.syscall('open') do
-  its(:action) { should eq(['always']) }
+  its('action') { should eq(['always']) }
 end
 
 describe auditd_rules.syscall('open').action do
@@ -12,7 +12,7 @@ describe auditd_rules.syscall('open').action do
 end
 
 describe auditd_rules.key('sshd_config') do
-  its(:permissions) { should contain_match(/x/) }
+  its('permissions') { should contain_match(/x/) }
 end
 
 describe auditd_rules.file('/etc/ssh/sshd_config').permissions do
@@ -20,7 +20,7 @@ describe auditd_rules.file('/etc/ssh/sshd_config').permissions do
 end
 
 describe auditd_rules do
-  its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+  its('lines') { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
 end
 
 describe auditd_rules.syscall('open').action('always').list do

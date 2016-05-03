@@ -364,7 +364,7 @@ The following examples show how to use this InSpec audit resource.
 
    # syntax for auditd >= 2.3
    describe auditd_rules do
-     its(:lines) { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+     its('lines') { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
    end
 
 The syntax for recent auditd versions allows more precise tests, such as the following:
@@ -386,7 +386,7 @@ The syntax for recent auditd versions allows more precise tests, such as the fol
    end
 
    describe auditd_rules.key('sshd_config') do
-     its(:permissions) { should contain_match(/x/) }
+     its('permissions') { should contain_match(/x/) }
    end
 
 Note that filters can be chained, for example:
@@ -2045,7 +2045,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe kernel_parameter('net.ipv4.conf.all.forwarding') do
-     its(:value) { should eq 1 }
+     its('value') { should eq 1 }
    end
 
 **Test if global forwarding is disabled for an IPv6 address**
@@ -2053,7 +2053,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe kernel_parameter('net.ipv6.conf.all.forwarding') do
-     its(:value) { should eq 0 }
+     its('value') { should eq 0 }
    end
 
 **Test if an IPv6 address accepts redirects**
@@ -2061,7 +2061,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe kernel_parameter('net.ipv6.conf.interface.accept_redirects') do
-     its(:value) { should eq 'true' }
+     its('value') { should eq 'true' }
    end
 
 
@@ -2417,7 +2417,7 @@ The following examples show how to use this InSpec audit resource.
 
    sql = mysql_session('my_user','password')
    describe sql.query('show databases like \'test\';') do
-     its(:stdout) { should_not match(/test/) }
+     its('stdout') { should_not match(/test/) }
    end
 
 
@@ -3148,12 +3148,12 @@ A ``passwd`` |inspec resource| block declares one (or more) users and associated
 .. code-block:: ruby
 
    describe passwd do
-     its(:users) { should_not include 'forbidden_user' }
+     its('users') { should_not include 'forbidden_user' }
    end
 
    describe passwd.uid(0) do
-     its(:users) { should cmp 'root' }
-     its(:count) { should eq 1 }
+     its('users') { should cmp 'root' }
+     its('count') { should eq 1 }
    end
 
 where

@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 
 describe command('echo hello') do
-  its(:stdout) { should eq "hello\n" }
+  its('stdout') { should eq "hello\n" }
 end
 
 describe 'describe + it + expect' do

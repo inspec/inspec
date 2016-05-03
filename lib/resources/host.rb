@@ -6,7 +6,7 @@
 # describe host('example.com') do
 #   it { should be_resolvable }
 #   it { should be_reachable }
-#   its(:ipaddress) { should include '93.184.216.34' }
+#   its('ipaddress') { should include '93.184.216.34' }
 # end
 #
 # To verify a hostname with protocol and port

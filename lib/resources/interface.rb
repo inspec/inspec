@@ -12,7 +12,7 @@ module Inspec::Resources
       describe interface('eth0') do
         it { should exist }
         it { should be_up }
-        its(:speed) { should eq 1000 }
+        its('speed') { should eq 1000 }
       end
     "
     def initialize(iface)

@@ -11,18 +11,18 @@ describe file('/tmpest') do
 end
 
 describe file('/tmp') do
-  its(:type) { should eq :directory }
+  its('type') { should eq :directory }
   it { should be_directory }
 end
 
 describe file('/proc/version') do
-  its(:type) { should eq :file }
+  its('type') { should eq :file }
   it { should be_file }
   it { should_not be_directory }
 end
 
 describe file('/dev/stdout') do
-  its(:type) { should eq :pipe }
+  its('type') { should eq :pipe }
   its('source.type') { should eq :symlink }
   it { should be_symlink }
   it { should be_pipe }
@@ -31,29 +31,29 @@ describe file('/dev/stdout') do
 end
 
 describe file('/dev/zero') do
-  its(:type) { should eq :character_device }
+  its('type') { should eq :character_device }
   it { should be_character_device }
   it { should_not be_file }
   it { should_not be_directory }
 end
 
 # describe file('...') do
-#   its(:type) { should eq :block_device }
+#   its('type') { should eq :block_device }
 #   it { should be_block_device }
 # end
 
 # describe file('...') do
-#   its(:type) { should eq :socket }
+#   its('type') { should eq :socket }
 #   it { should be_socket }
 # end
 
 # describe file('...') do
-#   its(:type) { should eq :pipe }
+#   its('type') { should eq :pipe }
 #   it { should be_pipe }
 # end
 
 describe file('/dev') do
-  its(:mode) { should eq 00755 }
+  its('mode') { should eq 00755 }
 end
 
 describe file('/dev') do
@@ -61,7 +61,7 @@ describe file('/dev') do
 end
 
 describe file('/root') do
-  its(:owner) { should eq 'root' }
+  its('owner') { should eq 'root' }
 end
 
 describe file('/dev') do
@@ -69,7 +69,7 @@ describe file('/dev') do
 end
 
 describe file('/root') do
-  its(:group) { should eq 'root' }
+  its('group') { should eq 'root' }
 end
 
 describe file('/dev') do
@@ -77,7 +77,7 @@ describe file('/dev') do
 end
 
 describe file('/dev/kcore') do
-  its(:link_path) { should eq '/proc/kcore' }
+  its('link_path') { should eq '/proc/kcore' }
 end
 
 describe file('/dev/kcore') do
@@ -85,7 +85,7 @@ describe file('/dev/kcore') do
 end
 
 describe file('/proc/cpuinfo') do
-  its(:content) { should match /^processor/ }
+  its('content') { should match /^processor/ }
 end
 
 describe file('/').mtime.to_i do
@@ -94,12 +94,12 @@ describe file('/').mtime.to_i do
 end
 
 describe file('/') do
-  its(:size) { should be > 64 }
-  its(:size) { should be < 10240 }
+  its('size') { should be > 64 }
+  its('size') { should be < 10240 }
 end
 
 describe file('/proc/cpuinfo') do
-  its(:size) { should be 0 }
+  its('size') { should be 0 }
 end
 
 # @TODO selinux_label
@@ -123,10 +123,10 @@ cpuinfo = file('/proc/cpuinfo').content
 
 md5sum = Digest::MD5.hexdigest(cpuinfo)
 describe file('/proc/cpuinfo') do
-  its(:md5sum) { should eq md5sum }
+  its('md5sum') { should eq md5sum }
 end
 
 sha256sum = Digest::SHA256.hexdigest(cpuinfo)
 describe file('/proc/cpuinfo') do
-  its(:sha256sum) { should eq sha256sum }
+  its('sha256sum') { should eq sha256sum }
 end

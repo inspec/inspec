@@ -11,7 +11,7 @@ module Inspec::Resources
     example "
       describe mount('/') do
         it { should be_mounted }
-        its(:count) { should eq 1 }
+        its('count') { should eq 1 }
         its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
         its('type') { should eq  'ext4' }
         its('options') { should eq ['rw', 'mode=620'] }

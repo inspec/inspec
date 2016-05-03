@@ -30,27 +30,27 @@ end
 # test on all linux systems
 if os.linux?
   describe kernel_parameter('kernel.panic') do
-    its(:value) { should eq test_values[:kernel_panic] }
+    its('value') { should eq test_values[:kernel_panic] }
   end
 
   describe kernel_parameter('net.netfilter.nf_log.0') do
-    its(:value) { should eq test_values[:nf_log] }
+    its('value') { should eq test_values[:nf_log] }
   end
 
   describe kernel_parameter('kernel.sched_autogroup_enabled') do
-    its(:value) { should eq test_values[:sched_autogroup_enabled] }
+    its('value') { should eq test_values[:sched_autogroup_enabled] }
   end
 
   describe kernel_parameter('net.ipv4.ip_local_port_range') do
-    its(:value) { should eq test_values[:ip_local_port_range] }
+    its('value') { should eq test_values[:ip_local_port_range] }
   end
 
   describe kernel_parameter('net.ipv4.conf.all.forwarding') do
-    its(:value) { should eq test_values[:forwarding] }
+    its('value') { should eq test_values[:forwarding] }
   end
 
   # serverspec compatability
   describe linux_kernel_parameter('net.ipv4.conf.all.forwarding') do
-    its(:value) { should eq test_values[:forwarding] }
+    its('value') { should eq test_values[:forwarding] }
   end
 end
