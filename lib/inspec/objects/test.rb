@@ -63,7 +63,7 @@ module Inspec
       vars = variables.map(&:to_ruby).join("\n")
       vars += "\n" unless vars.empty?
       res, xtra = describe_chain
-      itsy = xtra.nil? ? 'it' : 'its(' + xtra.to_sym.inspect + ')'
+      itsy = xtra.nil? ? 'it' : 'its(' + xtra.to_s.inspect + ')'
       naughty = @negated ? '_not' : ''
       xpect = defined?(@expectation) ? expectation.inspect : ''
       format("%sdescribe %s do\n  %s { should%s %s %s }\nend",
