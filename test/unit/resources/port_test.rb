@@ -92,4 +92,18 @@ describe 'Inspec::Resources::Port' do
     _(resource.listening?).must_equal true
     _(resource.addresses).must_equal ["0.0.0.0"]
   end
+
+  it 'verify port on hpux' do
+    resource = MockLoader.new(:hpux).load_resource('port', 22)
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal %w{ tcp tcp6 }
+    _(resource.addresses).must_equal ["0.0.0.0", "0:0:0:0:0:0:0:0" ]
+  end
+
+  it 'verify not listening port on hpux' do
+    resource = MockLoader.new(:hpux).load_resource('port', 23)
+    _(resource.listening?).must_equal false
+    _(resource.protocols).must_equal nil
+    _(resource.addresses).must_equal nil
+  end
 end

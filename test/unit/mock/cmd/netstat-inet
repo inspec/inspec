@@ -1,0 +1,10 @@
+Active Internet connections (including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp        0      0  *.515                  *.*                     LISTEN
+tcp        0     28  16.147.37.141.22       16.180.154.172.64145    ESTABLISHED
+tcp        0      0  *.22                   *.*                     LISTEN
+tcp        0      0  *.49196                *.*                     LISTEN
+tcp        0      0  16.147.37.141.49399    16.147.37.141.1712      ESTABLISHED
+tcp        0      0  127.0.0.1.49433        *.*                     LISTEN
+udp        0      0  127.0.0.1.49178        127.0.0.1.49178
+udp        0      0  *.49153                *.*
