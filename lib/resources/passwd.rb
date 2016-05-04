@@ -14,9 +14,10 @@
 # - command
 
 require 'utils/parser'
+require 'utils/filter'
 
 module Inspec::Resources
-  class Passwd < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Passwd < Inspec.resource(1)
     name 'passwd'
     desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
     example "
@@ -37,7 +38,6 @@ module Inspec::Resources
 
     include PasswdParser
 
-    attr_reader :uid
     attr_reader :params
     attr_reader :content
     attr_reader :lines
@@ -47,111 +47,51 @@ module Inspec::Resources
       @path = path || '/etc/passwd'
       @content = opts[:content] || inspec.file(@path).content
       @lines = @content.to_s.split("\n")
-      @filters = opts[:filters] || ''
       @params = parse_passwd(@content)
     end
 
-    def filter(hm = {})
-      return self if hm.nil? || hm.empty?
-      res = @params
-      filters = ''
-      hm.each do |attr, condition|
-        res, filters = filter_attribute(attr, condition, res, filters)
-      end
-      content = res.map { |x| x.values.join(':') }.join("\n")
-      Passwd.new(@path, content: content, filters: @filters + filters)
-    end
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:users,     field: 'user')
+          .add(:passwords, field: 'password')
+          .add(:uids,      field: 'uid')
+          .add(:gids,      field: 'gid')
+          .add(:descs,     field: 'desc')
+          .add(:homes,     field: 'home')
+          .add(:shells,    field: 'shell')
 
-    def usernames
+    filter.add(:count) { |t, _|
+      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in version 1.0.0.'
+      t.entries.length
+    }
+
+    filter.add(:usernames) { |t, x|
       warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
-      users
-    end
+      t.users(x)
+    }
 
-    def username
-      warn '[DEPRECATION] `passwd.user` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
-      users[0]
-    end
+    filter.add(:username) { |t, x|
+      warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
+      t.users(x)[0]
+    }
+
+    # rebuild the passwd line from raw content
+    filter.add(:content) { |t, _|
+      t.entries.map do |e|
+        [e.user, e.password, e.uid, e.gid, e.desc, e.home, e.shell].join(':')
+      end.join("\n")
+    }
 
     def uid(x)
       warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in version 1.0.0.'
       uids(x)
     end
 
-    def users(name = nil)
-      name.nil? ? map_data('user') : filter(user: name)
-    end
-
-    def passwords(password = nil)
-      password.nil? ? map_data('password') : filter(password: password)
-    end
-
-    def uids(uid = nil)
-      uid.nil? ? map_data('uid') : filter(uid: uid)
-    end
-
-    def gids(gid = nil)
-      gid.nil? ? map_data('gid') : filter(gid: gid)
-    end
-
-    def homes(home = nil)
-      home.nil? ? map_data('home') : filter(home: home)
-    end
-
-    def shells(shell = nil)
-      shell.nil? ? map_data('shell') : filter(shell: shell)
-    end
+    filter.connect(self, :params)
 
     def to_s
-      f = @filters.empty? ? '' : ' with'+@filters
-      "/etc/passwd#{f}"
-    end
-
-    def count
-      @params.length
-    end
-
-    private
-
-    def map_data(id)
-      @params.map { |x| x[id] }
-    end
-
-    def filter_res_line(item, matcher, condition, positive)
-      # TODO: REWORK ALL OF THESE, please don't depend on them except for simple equality!
-      case matcher
-      when '<'
-        item.to_i < condition
-      when '<='
-        item.to_i <= condition
-      when '>'
-        item.to_i > condition
-      when '>='
-        item.to_i >= condition
-      else
-        condition = condition.to_s if condition.is_a? Integer
-        case item
-        when condition
-          positive
-        else
-          !positive
-        end
-      end
-    end
-
-    def filter_attribute(attr, condition, res, filters)
-      matcher = '=='
-      positive = true
-      if condition.is_a?(Hash) && condition.length == 1
-        matcher = condition.keys[0].to_s
-        condition = condition.values[0]
-      end
-      positive = false if matcher == '!='
-
-      a = res.find_all do |line|
-        filter_res_line(line[attr.to_s], matcher, condition, positive)
-      end
-      b = filters + " #{attr} #{matcher} #{condition.inspect}"
-      [a, b]
+      '/etc/passwd'
     end
   end
 end
