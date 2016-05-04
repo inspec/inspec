@@ -22,8 +22,8 @@ describe 'inspec exec' do
     out.stdout.must_include '1 example, 0 failures'
   end
 
-  it 'can execute the profile with the json formatter' do
-    out = inspec('exec ' + example_profile + ' --format json')
+  it 'can execute the profile with the mini json formatter' do
+    out = inspec('exec ' + example_profile + ' --format json-min')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     JSON.load(out.stdout).must_be_kind_of Hash
@@ -36,15 +36,15 @@ describe 'inspec exec' do
     out.stdout.must_include '2 examples, 0 failures'
   end
 
-  it 'can execute a simple file with the json formatter' do
-    out = inspec('exec ' + example_control + ' --format json')
+  it 'can execute a simple file with the mini json formatter' do
+    out = inspec('exec ' + example_control + ' --format json-min')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     JSON.load(out.stdout).must_be_kind_of Hash
   end
 
-  describe 'execute a profile with json formatting' do
-    let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
+  describe 'execute a profile with mini json formatting' do
+    let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json-min').stdout) }
     let(:controls) { json['controls'] }
     let(:ex1) { controls.find{|x| x['id'] == 'tmp-1.0'} }
     let(:ex2) { controls.find{|x| x['id'] =~ /generated/} }

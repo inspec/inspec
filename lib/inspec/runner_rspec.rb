@@ -33,7 +33,7 @@ module Inspec
     # @return [nil]
     def add_profile(profile)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a? InspecRspecFullJson }
+           .find_all { |c| c.is_a? InspecRspecJson }
            .each do |fmt|
         fmt.add_profile(profile)
       end
@@ -82,9 +82,9 @@ module Inspec
     end
 
     FORMATTERS = {
+      'json-min' => 'InspecRspecMiniJson',
       'json' => 'InspecRspecJson',
-      'fulljson' => 'InspecRspecFullJson',
-      'rspecjson' => 'InspecRspecVanilla',
+      'json-rspec' => 'InspecRspecVanilla',
     }.freeze
 
     # Configure the output formatter and stream to be used with RSpec.

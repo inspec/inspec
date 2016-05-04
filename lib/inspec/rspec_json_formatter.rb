@@ -21,7 +21,7 @@ end
 
 # Minimal JSON formatter for inspec. Only contains limited information about
 # examples without any extras.
-class InspecRspecJson < RSpec::Core::Formatters::JsonFormatter
+class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
 
   def dump_summary(summary)
@@ -71,7 +71,7 @@ class InspecRspecJson < RSpec::Core::Formatters::JsonFormatter
   end
 end
 
-class InspecRspecFullJson < InspecRspecJson
+class InspecRspecJson < InspecRspecMiniJson
   RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
 
   def add_profile(profile)
