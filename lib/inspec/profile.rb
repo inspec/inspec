@@ -230,6 +230,10 @@ module Inspec
       Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
     end
 
+    # this initializes a new Runner with the mock backend
+    # Be aware:
+    # This reloads the complete profile, e.g if used in combination with the
+    # json formatter and custom resources, this loads resources twice.
     def load_params
       params = @source_reader.metadata.params
       params[:name] = @profile_id unless @profile_id.nil?
