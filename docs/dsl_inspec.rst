@@ -232,7 +232,7 @@ The following example illustrates various ways to add tags and references to `co
 .. |inspec resource| replace:: InSpec Resource
 .. |chef compliance| replace:: Chef Compliance
 .. |ruby| replace:: Ruby
-.. |ruby| replace:: SSH
+.. |ssh| replace:: SSH
 .. |windows| replace:: Microsoft Windows
 .. |postgresql| replace:: PostgreSQL
 .. |apache| replace:: Apache
