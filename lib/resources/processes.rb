@@ -58,11 +58,11 @@ module Inspec::Resources
       lines.map do |m|
         {
           user: m[1],
-          pid: m[2],
+          pid: m[2].to_i,
           cpu: m[3],
           mem: m[4],
-          vsz: m[5],
-          rss: m[6],
+          vsz: m[5].to_i,
+          rss: m[6].to_i,
           tty: m[7],
           stat: m[8],
           start: m[9],

@@ -15,11 +15,11 @@ describe 'Inspec::Resources::Processes' do
     resource = load_resource('processes', '/bin/bash')
     _(resource.list).must_equal [{
       user: 'root',
-      pid: '1',
+      pid: 1,
       cpu: '0.0',
       mem: '0.0',
-      vsz: '18084',
-      rss: '3228',
+      vsz: 18084,
+      rss: 3228,
       tty: '?',
       stat: 'Ss',
       start: '14:15',
