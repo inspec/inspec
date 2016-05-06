@@ -3,6 +3,7 @@
 # author: Dominik Richter
 # author: Stephan Renatus
 # license: All rights reserved
+require 'hashie'
 
 module Inspec::Resources
   class Runlevels < Hash
@@ -67,7 +68,7 @@ module Inspec::Resources
   # Ubuntu < 15.04 : upstart
   #
   # TODO: extend the logic to detect the running init system, independently of OS
-  class Service < Inspec.resource(1)
+  class Service < Inspec.resource(1) # rubocop:disable ClassLength
     name 'service'
     desc 'Use the service InSpec audit resource to test if the named service is installed, running and/or enabled.'
     example "
@@ -75,10 +76,15 @@ module Inspec::Resources
         it { should be_installed }
         it { should be_enabled }
         it { should be_running }
+        its('type') { should be 'systemd' }
       end
 
       describe service('service_name').runlevels(3, 5) do
         it { should be_enabled }
+      end
+
+      describe service('service_name').params do
+        its('UnitFileState') { should eq 'enabled' }
       end
     "
 
@@ -163,6 +169,11 @@ module Inspec::Resources
       info[:enabled]
     end
 
+    def params
+      return {} if info.nil?
+      Hashie::Mash.new(info[:params] || {})
+    end
+
     # verifies the service is registered
     def installed?(_name = nil, _version = nil)
       return false if info.nil?
@@ -181,9 +192,29 @@ module Inspec::Resources
       Runlevels.from_hash(self, info[:runlevels], args)
     end
 
+    # returns the service type from info
+    def type
+      return nil if info.nil?
+      info[:type]
+    end
+
+    # returns the service name from info
+    def name
+      return @service_name if info.nil?
+      info[:name]
+    end
+
+    # returns the service description from info
+    def description
+      return nil if info.nil?
+      info[:description]
+    end
+
     def to_s
       "Service #{@service_name}"
     end
+
+    private :info
   end
 
   class ServiceManager
@@ -229,7 +260,7 @@ module Inspec::Resources
         running: running,
         enabled: enabled,
         type: 'systemd',
-        properties: params,
+        params: params,
       }
     end
   end
