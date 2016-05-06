@@ -40,7 +40,7 @@ describe 'Inspec::Resources::Service' do
   # ubuntu 15.04 with systemd
   it 'verify ubuntu package parsing' do
     resource = MockLoader.new(:ubuntu1504).load_resource('service', 'sshd')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -49,7 +49,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify ubuntu package parsing with default systemd_service' do
     resource = MockLoader.new(:ubuntu1504).load_resource('systemd_service', 'sshd')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -78,7 +78,7 @@ describe 'Inspec::Resources::Service' do
   # centos 7 with systemd
   it 'verify centos 7 package parsing' do
     resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -87,7 +87,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify centos 7 package parsing with systemd_service and service_ctl override' do
     resource = MockLoader.new(:centos7).load_resource('systemd_service', 'sshd', '/path/to/systemctl')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -96,7 +96,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify centos 7 package parsing with static loaded service' do
     resource = MockLoader.new(:centos7).load_resource('service', 'dbus')
-    srv = { name: 'dbus.service', description: 'D-Bus System Message Bus', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'dbus.service', description: 'D-Bus System Message Bus', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"dbus.service", "Names"=>"messagebus.service dbus.service", "Description"=>"D-Bus System Message Bus", "LoadState"=>"loaded", "UnitFileState"=>"static", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -125,7 +125,7 @@ describe 'Inspec::Resources::Service' do
   # arch linux with systemd
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('service', 'sshd')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
@@ -145,7 +145,7 @@ describe 'Inspec::Resources::Service' do
   # debian 8 with systemd
   it 'verify debian 8 package parsing' do
     resource = MockLoader.new(:debian8).load_resource('service', 'sshd')
-    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd' }
+    srv = { name: 'sshd.service', description: 'OpenSSH server daemon', installed: true, running: true, enabled: true, type: 'systemd', :properties=>{"Id"=>"sshd.service", "Names"=>"sshd.service", "Description"=>"OpenSSH server daemon", "LoadState"=>"loaded", "UnitFileState"=>"enabled", "SubState"=>"running"} }
     _(resource.info).must_equal srv
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
