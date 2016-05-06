@@ -229,6 +229,7 @@ module Inspec::Resources
         running: running,
         enabled: enabled,
         type: 'systemd',
+        properties: params,
       }
     end
   end
