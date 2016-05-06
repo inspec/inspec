@@ -5,43 +5,46 @@
 require 'rspec/core'
 require 'rspec/core/formatters/json_formatter'
 
-# Extend the basic RSpec JSON Formatter
-# to give us an ID in its output
-# TODO: remove once RSpec has IDs in stable (probably v3.3/v4.0)
-module RSpec::Core::Formatters
-  class JsonFormatter
-    private
+# Vanilla RSpec JSON formatter with a slight extension to show example IDs.
+# TODO: Remove these lines when RSpec includes the ID natively
+class InspecRspecVanilla < RSpec::Core::Formatters::JsonFormatter
+  RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
 
-    def format_example(example)
-      {
-        description: example.description,
-        full_description: example.full_description,
-        status: example.execution_result.status.to_s,
-        file_path: example.metadata['file_path'],
-        line_number: example.metadata['line_number'],
-        run_time: example.execution_result.run_time,
-        pending_message: example.execution_result.pending_message,
-        id: example.metadata[:id],
-        impact: example.metadata[:impact],
-      }
-    end
+  private
+
+  def format_example(example)
+    res = super(example)
+    res[:id] = example.metadata[:id]
+    res
   end
 end
 
-class InspecRspecFormatter < RSpec::Core::Formatters::JsonFormatter
+# Minimal JSON formatter for inspec. Only contains limited information about
+# examples without any extras.
+class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
 
-  def add_profile(profile)
-    @profiles ||= []
-    @profiles.push(profile)
+  def dump_summary(summary)
+    @output_hash[:version] = Inspec::VERSION
+    @output_hash[:summary] = {
+      duration: summary.duration,
+      example_count: summary.example_count,
+      failure_count: summary.failure_count,
+      skip_count: summary.pending_count,
+    }
   end
 
-  def dump_summary(summary)
-    super(summary)
-    @output_hash[:profiles] = Array(@profiles).map do |profile|
-      r = profile.params.dup
-      r.delete(:rules)
-      r
+  def stop(notification)
+    @output_hash[:controls] = notification.examples.map do |example|
+      format_example(example).tap do |hash|
+        e = example.exception
+        next unless e
+        hash[:message] = e.message
+
+        next if e.is_a? RSpec::Expectations::ExpectationNotMetError
+        hash[:exception] = e.class.name
+        hash[:backtrace] = e.backtrace
+      end
     end
   end
 
@@ -50,21 +53,71 @@ class InspecRspecFormatter < RSpec::Core::Formatters::JsonFormatter
   def format_example(example)
     res = {
       id: example.metadata[:id],
-      title: example.metadata[:title],
-      desc: example.metadata[:desc],
-      code: example.metadata[:code],
-      impact: example.metadata[:impact],
       status: example.execution_result.status.to_s,
       code_desc: example.full_description,
-      ref: example.metadata['file_path'],
-      ref_line: example.metadata['line_number'],
-      run_time: example.execution_result.run_time,
-      start_time: example.execution_result.started_at.to_s,
     }
 
-    # pending messages are embedded in the resources description
-    res[:pending] = example.metadata[:description] if res[:status] == 'pending'
+    unless (pid = example.metadata[:profile_id]).nil?
+      res[:profile_id] = pid
+    end
+
+    if res[:status] == 'pending'
+      res[:status] = 'skipped'
+      res[:skip_message] = example.metadata[:description]
+      res[:resource] = example.metadata[:described_class].to_s
+    end
 
     res
+  end
+end
+
+class InspecRspecJson < InspecRspecMiniJson
+  RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
+
+  def add_profile(profile)
+    @profiles ||= []
+    @profiles.push(profile)
+  end
+
+  def dump_one_example(example, profiles, missing)
+    profile = profiles[example[:profile_id]]
+    return missing.push(example) if profile.nil? || profile[:controls].nil?
+
+    control = profile[:controls][example[:id]]
+    return missing.push(example) if control.nil?
+
+    control[:results] ||= []
+    example.delete(:id)
+    example.delete(:profile_id)
+    control[:results].push(example)
+  end
+
+  def profile_info(profile)
+    info = profile.info.dup
+    [info[:name], info]
+  end
+
+  def dump_summary(summary)
+    super(summary)
+    @profiles ||= []
+    examples = @output_hash.delete(:controls)
+    profiles = Hash[@profiles.map { |x| profile_info(x) }]
+    missing = []
+
+    examples.each do |example|
+      dump_one_example(example, profiles, missing)
+    end
+
+    @output_hash[:profiles] = profiles
+    @output_hash[:other_checks] = missing
+  end
+
+  private
+
+  def format_example(example)
+    super(example).tap do |res|
+      res[:run_time]   = example.execution_result.run_time
+      res[:start_time] = example.execution_result.started_at.to_s
+    end
   end
 end

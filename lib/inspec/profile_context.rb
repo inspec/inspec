@@ -41,24 +41,19 @@ module Inspec
     end
 
     def unregister_rule(id)
-      full_id = Inspec::Rule.full_id(@profile_id, id)
-      @rules[full_id] = nil
+      @rules.delete(full_id(@profile_id, id))
     end
 
     def register_rule(r)
       # get the full ID
       r.instance_variable_set(:@__file, @current_load[:file])
       r.instance_variable_set(:@__group_title, @current_load[:title])
-      full_id = Inspec::Rule.full_id(@profile_id, r)
-      if full_id.nil?
-        # TODO: error
-        return
-      end
 
       # add the rule to the registry
-      existing = @rules[full_id]
+      fid = full_id(Inspec::Rule.profile_id(r), Inspec::Rule.rule_id(r))
+      existing = @rules[fid]
       if existing.nil?
-        @rules[full_id] = r
+        @rules[fid] = r
       else
         Inspec::Rule.merge(existing, r)
       end
@@ -69,6 +64,11 @@ module Inspec
     end
 
     private
+
+    def full_id(pid, rid)
+      return rid.to_s if pid.to_s.empty?
+      pid.to_s + '/' + rid.to_s
+    end
 
     # Create the context for controls. This includes all components of the DSL,
     # including matchers and resources.
@@ -93,6 +93,7 @@ module Inspec
     # @return [ProfileContextClass]
     def create_context(resources_dsl, rule_class) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       profile_context_owner = self
+      profile_id = @profile_id
 
       # rubocop:disable Lint/NestedMethodDefinition
       Class.new do
@@ -116,7 +117,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
-          register_control(rule_class.new(id, opts, &block))
+          register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
         define_method :describe do |*args, &block|
@@ -124,7 +125,7 @@ module Inspec
           id = "(generated from #{loc} #{SecureRandom.hex})"
 
           res = nil
-          rule = rule_class.new(id, {}) do
+          rule = rule_class.new(id, profile_id, {}) do
             res = describe(*args, &block)
           end
           register_control(rule, &block)

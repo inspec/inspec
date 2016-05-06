@@ -177,13 +177,13 @@ describe Inspec::ProfileContext do
 
     it 'provides the control keyword in the global DSL' do
       profile.load('control 1')
-      profile.rules.keys.must_equal [1]
+      profile.rules.keys.must_equal ['1']
       profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
 
     it 'provides the rule keyword in the global DSL (legacy mode)' do
       profile.load('rule 1')
-      profile.rules.keys.must_equal [1]
+      profile.rules.keys.must_equal ['1']
       profile.rules.values[0].must_be_kind_of Inspec::Rule
     end
   end

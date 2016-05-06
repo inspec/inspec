@@ -11,7 +11,6 @@ require 'inspec/metadata'
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
-    attr_reader :path
 
     def self.resolve_target(target, opts)
       # Fetchers retrieve file contents
@@ -35,6 +34,7 @@ module Inspec
     end
 
     attr_reader :source_reader
+    attr_accessor :runner_context
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -46,6 +46,7 @@ module Inspec
       @logger = @options[:logger] || Logger.new(nil)
       @source_reader = source_reader
       @profile_id = @options[:id]
+      @runner_context = nil
       Metadata.finalize(@source_reader.metadata, @profile_id)
     end
 
@@ -55,24 +56,16 @@ module Inspec
 
     def info
       res = params.dup
-      rules = {}
-      res[:rules].each do |gid, group|
-        next if gid.to_s.empty?
-        rules[gid] = { title: gid, rules: {} }
-        group.each do |id, rule|
-          next if id.to_s.empty?
-          data = rule.dup
-          data.delete(:checks)
-          data[:impact] ||= 0.5
-          data[:impact] = 1.0 if data[:impact] > 1.0
-          data[:impact] = 0.0 if data[:impact] < 0.0
-          rules[gid][:rules][id] = data
-          # TODO: temporarily flatten the group down; replace this with
-          # proper hierarchy later on
-          rules[gid][:title] = data[:group_title]
-        end
+      controls = res[:controls].map do |id, rule|
+        next if id.to_s.empty?
+        data = rule.dup
+        data.delete(:checks)
+        data[:impact] ||= 0.5
+        data[:impact] = 1.0 if data[:impact] > 1.0
+        data[:impact] = 0.0 if data[:impact] < 0.0
+        [id, data]
       end
-      res[:rules] = rules
+      res[:controls] = Hash[controls.compact]
       res
     end
 
@@ -137,7 +130,7 @@ module Inspec
         warn.call(@target, 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
       end
 
-      count = rules_count
+      count = controls_count
       result[:summary][:controls] = count
       if count == 0
         warn.call(nil, nil, nil, nil, 'No controls or tests were defined.')
@@ -146,18 +139,15 @@ module Inspec
       end
 
       # iterate over hash of groups
-      params[:rules].each { |group, controls|
-        @logger.info "Verify all controls in #{group}"
-        controls.each { |id, control|
-          sfile, sline = control[:source_location]
-          error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
-          next if id.start_with? '(generated '
-          warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
-          warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
-          warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
-          warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
-          warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
-        }
+      params[:controls].each { |id, control|
+        sfile, sline = control[:source_location]
+        error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
+        next if id.start_with? '(generated '
+        warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? or control[:checks].empty?
       }
 
       # profile is valid if we could not find any error
@@ -167,8 +157,8 @@ module Inspec
       result
     end
 
-    def rules_count
-      params[:rules].values.map { |hm| hm.values.length }.inject(:+) || 0
+    def controls_count
+      params[:controls].values.length
     end
 
     # generates a archive of a folder profile
@@ -233,38 +223,63 @@ module Inspec
     def load_params
       params = @source_reader.metadata.params
       params[:name] = @profile_id unless @profile_id.nil?
-      params[:rules] = rules = {}
-      prefix = @source_reader.target.prefix || ''
-
-      # we're checking a profile, we don't care if it runs on the host machine
-      opts = @options.dup
-      opts[:ignore_supports] = true
-      runner = Runner.new(
-        id: @profile_id,
-        backend: :mock,
-        test_collector: opts.delete(:test_collector),
-      )
-      runner.add_profile(self, opts)
-
-      runner.rules.each do |id, rule|
-        file = rule.instance_variable_get(:@__file)
-        file = file[prefix.length..-1] if file.start_with?(prefix)
-        rules[file] ||= {}
-        rules[file][id] = {
-          title: rule.title,
-          desc: rule.desc,
-          impact: rule.impact,
-          refs: rule.ref,
-          tags: rule.tag,
-          checks: Inspec::Rule.checks(rule),
-          code: rule.instance_variable_get(:@__code),
-          source_location: rule.instance_variable_get(:@__source_location),
-          group_title: rule.instance_variable_get(:@__group_title),
-        }
-      end
-
+      load_checks_params(params)
       @profile_id ||= params[:name]
       params
+    end
+
+    def load_checks_params(params)
+      params[:controls] = controls = {}
+      params[:groups] = groups = {}
+      prefix = @source_reader.target.prefix || ''
+
+      if @runner_context.nil?
+        # we're checking a profile, we don't care if it runs on the host machine
+        opts = @options.dup
+        opts[:ignore_supports] = true
+        runner = Runner.new(
+          id: @profile_id,
+          backend: :mock,
+          test_collector: opts.delete(:test_collector),
+        )
+        runner.add_profile(self, opts)
+        runner.rules.values.each do |rule|
+          f = load_rule_filepath(prefix, rule)
+          load_rule(rule, f, controls, groups)
+        end
+      else
+        # load from context
+        @runner_context.rules.values.each do |rule|
+          f = load_rule_filepath(prefix, rule)
+          load_rule(rule, f, controls, groups)
+        end
+      end
+    end
+
+    def load_rule_filepath(prefix, rule)
+      file = rule.instance_variable_get(:@__file)
+      file = file[prefix.length..-1] if file.start_with?(prefix)
+      file
+    end
+
+    def load_rule(rule, file, controls, groups)
+      id = Inspec::Rule.rule_id(rule)
+      controls[id] = {
+        title: rule.title,
+        desc: rule.desc,
+        impact: rule.impact,
+        refs: rule.ref,
+        tags: rule.tag,
+        checks: Inspec::Rule.checks(rule),
+        code: rule.instance_variable_get(:@__code),
+        source_location: rule.instance_variable_get(:@__source_location),
+      }
+
+      groups[file] ||= {
+        title: rule.instance_variable_get(:@__group_title),
+        controls: [],
+      }
+      groups[file][:controls].push(id)
     end
   end
 end

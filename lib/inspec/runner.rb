@@ -18,7 +18,6 @@ module Inspec
     attr_reader :backend, :rules
     def initialize(conf = {})
       @rules = {}
-      @profile_id = conf[:id]
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
 
@@ -74,6 +73,7 @@ module Inspec
 
       @test_collector.add_profile(profile)
       options[:metadata] = profile.metadata
+      options[:profile] = profile
 
       libs = profile.libraries.map do |k, v|
         { ref: k, content: v }
@@ -88,7 +88,10 @@ module Inspec
     end
 
     def create_context(options = {})
-      Inspec::ProfileContext.new(@profile_id, @backend, @conf.merge(options))
+      meta = options['metadata']
+      profile_id = nil
+      profile_id = meta.params[:name] unless meta.nil?
+      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
     end
 
     def add_content(tests, libs, options = {})
@@ -99,6 +102,11 @@ module Inspec
       libs.each do |lib|
         ctx.load(lib[:content].to_s, lib[:ref], lib[:line] || 1)
         ctx.reload_dsl
+      end
+
+      # hand the context to the profile for further evaluation
+      unless (profile = options['profile']).nil?
+        profile.runner_context = ctx
       end
 
       # evaluate the test content
@@ -124,7 +132,10 @@ module Inspec
 
     def filter_controls(controls_map, include_list)
       return controls_map if include_list.nil? || include_list.empty?
-      controls_map.select { |k, _| include_list.include?(k) }
+      controls_map.select do |_, c|
+        id = ::Inspec::Rule.rule_id(c)
+        include_list.include?(id)
+      end
     end
 
     def block_source_info(block)
@@ -186,7 +197,7 @@ module Inspec
         # scope.
         dsl = Inspec::Resource.create_dsl(backend)
         example.send(:include, dsl)
-        @test_collector.add_test(example, rule_id, rule)
+        @test_collector.add_test(example, rule)
       end
     end
   end

@@ -12,7 +12,7 @@ describe 'controls' do
     }
     opts = { test_collector: Inspec::RunnerMock.new }
     Inspec::Profile.for_target(data, opts)
-                   .params[:rules].values[0]['1']
+                   .params[:controls]['1']
   end
 
   it 'works with empty refs' do
