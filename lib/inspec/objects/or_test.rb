@@ -2,6 +2,7 @@
 
 module Inspec
   class OrTest
+    attr_reader :tests
     def initialize(tests)
       @tests = tests
     end
