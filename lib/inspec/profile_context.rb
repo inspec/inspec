@@ -6,10 +6,12 @@ require 'inspec/rule'
 require 'inspec/dsl'
 require 'inspec/require_loader'
 require 'securerandom'
+require 'inspec/objects/attribute'
 
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
     attr_reader :rules
+    attr_reader :attributes
     def initialize(profile_id, backend, conf)
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
@@ -21,7 +23,7 @@ module Inspec
       @conf = conf.dup
       @rules = {}
       @require_loader = ::Inspec::RequireLoader.new
-
+      @attributes = []
       reload_dsl
     end
 
@@ -82,6 +84,19 @@ module Inspec
       else
         Inspec::Rule.merge(existing, r)
       end
+    end
+
+    def register_value(&block)
+      @values.push(block)
+    end
+
+    def register_attribute(name, options = {})
+      # we need to return an attribute object, in order to allow lazy access
+      attr = Attribute.new(name, options)
+      # set value
+      attr.value(@conf['attrs'][attr.name]) unless @conf['attrs'].nil?
+      @attributes.push(attr)
+      attr
     end
 
     def set_header(field, val)
@@ -180,9 +195,9 @@ module Inspec
           profile_context_owner.register_rule(control, &block) unless control.nil?
         end
 
-        # TODO: mock method for attributes; import attribute handling
-        define_method :attributes do |_name, _options|
-          nil
+        # method for attributes; import attribute handling
+        define_method :attribute do |name, options|
+          profile_context_owner.register_attribute(name, options)
         end
 
         define_method :skip_control do |id|

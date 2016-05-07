@@ -15,7 +15,7 @@ require 'inspec/metadata'
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
-    attr_reader :backend, :rules
+    attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = {}
       @conf = conf.dup
@@ -26,6 +26,9 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
+      # list of profile attributes
+      @attributes = []
+      load_attributes(@conf)
       configure_transport
     end
 
@@ -109,6 +112,9 @@ module Inspec
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
+
+      # merge all collect all attributes
+      @attributes |= ctx.attributes
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
