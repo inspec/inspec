@@ -86,17 +86,13 @@ module Inspec
       end
     end
 
-    def register_value(&block)
-      @values.push(block)
-    end
-
     def register_attribute(name, options = {})
-      # we need to return an attribute object, in order to allow lazy access
+      # we need to return an attribute object, to allow dermination of default values
       attr = Attribute.new(name, options)
-      # set value
-      attr.value(@conf['attrs'][attr.name]) unless @conf['attrs'].nil?
+      # read value from given gived values
+      attr.value(@conf['attributes'][attr.name]) unless @conf['attributes'].nil?
       @attributes.push(attr)
-      attr
+      attr.value
     end
 
     def set_header(field, val)
