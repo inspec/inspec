@@ -89,6 +89,9 @@ if os[:family] == 'centos' && os[:release].to_i >= 6
     it { should be_enabled }
     it { should be_installed }
     it { should be_running }
+    its('type') { should be 'upstart' }
+    its('name') { should be 'upstart-enabled-and-running' }
+    its('description') { should be nil }
   end
 
   describe upstart_service('upstart-enabled-not-running') do
@@ -101,6 +104,7 @@ if os[:family] == 'centos' && os[:release].to_i >= 6
     it { should_not be_enabled }
     it { should_not be_installed }
     it { should_not be_running }
+    its('type') { should be nil }
   end
 end
 

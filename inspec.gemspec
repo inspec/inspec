@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec', '~> 3'
   spec.add_dependency 'rspec-its', '~> 1.2'
   spec.add_dependency 'pry', '~> 0'
+  spec.add_dependency 'hashie', '~> 3.4'
 
   spec.add_development_dependency 'mocha', '~> 1.1'
 end

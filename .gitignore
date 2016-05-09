@@ -9,3 +9,4 @@ Berksfile.lock
 .librarian
 Puppetfile.lock
 .kitchen.local.yml
+profile.tar.gz
