@@ -7,9 +7,9 @@ require 'functional/helper'
 describe 'command tests' do
   include FunctionalHelper
 
-  describe 'detect' do
+  describe 'detect with json' do
     it 'runs well on all nodes' do
-      out = inspec('detect')
+      out = inspec('detect --format json')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       j = JSON.load(out.stdout)
@@ -17,6 +17,19 @@ describe 'command tests' do
       j.keys.must_include 'family'
       j.keys.must_include 'arch'
       j.keys.must_include 'release'
+    end
+  end
+
+  describe 'detect without json' do
+    it 'runs well on all nodes' do
+      out = inspec('detect')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      std = out.stdout
+      std.must_include 'Name:'
+      std.must_include 'Family:'
+      std.must_include 'Arch:'
+      std.must_include 'Release:'
     end
   end
 

@@ -113,9 +113,19 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'detect', 'detect the target OS'
   target_options
+  option :format, type: :string
   def detect
-    options_json[:command] = 'os.params'
-    shell_func
+    o = opts.dup
+    o[:command] = 'os.params'
+    res = run_command(o)
+    if opts['format'] == 'json'
+      puts res.to_json
+    else
+      headline('Operating System Details')
+      %w{name family release arch}.each { |item|
+        puts "#{mark_text(item.to_s.capitalize + ':')} #{res[item.to_sym]}"
+      }
+    end
   end
 
   desc 'shell', 'open an interactive debugging shell'
@@ -127,14 +137,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o = opts.dup
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
-
     if o[:command].nil?
       runner = Inspec::Runner.new(o)
       return Inspec::Shell.new(runner).start
     else
-      opts[:test_collector] = 'mock'
-      runner = Inspec::Runner.new(opts)
-      res = runner.create_context.load(o[:command])
+      res = run_command(o)
       jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
       puts jres
     end
@@ -145,6 +152,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
+  end
+
+  private
+
+  def run_command(opts)
+    opts[:test_collector] = 'mock'
+    runner = Inspec::Runner.new(opts)
+    runner.create_context.load(opts[:command])
   end
 end
 
