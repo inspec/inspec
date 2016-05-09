@@ -12,8 +12,9 @@ describe 'Inspec::Resources::Processes' do
   end
 
   it 'verify processes resource' do
-    resource = load_resource('processes', '/bin/bash')
+    resource = MockLoader.new(:freebsd10).load_resource('processes', '/bin/bash')
     _(resource.list).must_equal [{
+      label: nil,
       user: 'root',
       pid: 1,
       cpu: '0.0',
@@ -30,9 +31,35 @@ describe 'Inspec::Resources::Processes' do
     _(resource.list.length).must_equal 1
   end
 
+  it 'verify processes resource on linux os' do
+    resource = MockLoader.new(:centos6).load_resource('processes', '/sbin/init')
+    _(resource.list).must_equal [{
+      label: 'system_u:system_r:kernel_t:s0',
+      user: 'root',
+      pid: 1,
+      cpu: '0.0',
+      mem: '0.0',
+      vsz: 19232,
+      rss: 1492,
+      tty: '?',
+      stat: 'Ss',
+      start: 'May04',
+      time: '0:01',
+      command: '/sbin/init',
+    }]
+
+    _(resource.list.length).must_equal 1
+  end
+
   it 'retrieves the users and states as arrays' do
-    resource = load_resource('processes', 'svc')
+    resource = MockLoader.new(:freebsd10).load_resource('processes', 'svc')
     _(resource.users.sort).must_equal ['noot']
     _(resource.states.sort).must_equal ['S', 'Ss']
+  end
+
+  it 'retrieves the users and states as arrays on linux os' do
+    resource = MockLoader.new(:centos6).load_resource('processes', 'crypto/0')
+    _(resource.users.sort).must_equal ['root']
+    _(resource.states.sort).must_equal ['S']
   end
 end

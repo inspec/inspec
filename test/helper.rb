@@ -137,6 +137,7 @@ class MockLoader
 
     mock.commands = {
       'ps aux' => cmd.call('ps-aux'),
+      'ps auxZ' => cmd.call('ps-auxZ'),
       'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'Remove-Item win_secpol.cfg' => cmd.call('success'),

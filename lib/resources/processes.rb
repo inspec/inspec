@@ -45,30 +45,61 @@ module Inspec::Resources
     private
 
     def ps_aux
-      # get all running processes
-      cmd = inspec.command('ps aux')
+      os = inspec.os
+
+      if os.linux?
+        command = 'ps auxZ'
+        regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
+      else
+        command = 'ps aux'
+        regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
+      end
+      build_process_list(command, regex, os)
+    end
+
+    def build_process_list(command, regex, os) # rubocop:disable MethodLength, Metrics/AbcSize
+      cmd = inspec.command(command)
       all = cmd.stdout.split("\n")[1..-1]
       return [] if all.nil?
 
       lines = all.map do |line|
-        # user   32296  0.0  0.0  42592  7972 pts/15   Ss+  Apr06   0:00 zsh
-        line.match(/^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/)
+        line.match(regex)
       end.compact
 
-      lines.map do |m|
-        {
-          user: m[1],
-          pid: m[2].to_i,
-          cpu: m[3],
-          mem: m[4],
-          vsz: m[5].to_i,
-          rss: m[6].to_i,
-          tty: m[7],
-          stat: m[8],
-          start: m[9],
-          time: m[10],
-          command: m[11],
-        }
+      if os.linux?
+        lines.map do |m|
+          {
+            label: m[1],
+            user: m[2],
+            pid: m[3].to_i,
+            cpu: m[4],
+            mem: m[5],
+            vsz: m[6].to_i,
+            rss: m[7].to_i,
+            tty: m[8],
+            stat: m[9],
+            start: m[10],
+            time: m[11],
+            command: m[12],
+          }
+        end
+      else
+        lines.map do |m|
+          {
+            label: nil,
+            user: m[1],
+            pid: m[2].to_i,
+            cpu: m[3],
+            mem: m[4],
+            vsz: m[5].to_i,
+            rss: m[6].to_i,
+            tty: m[7],
+            stat: m[8],
+            start: m[9],
+            time: m[10],
+            command: m[11],
+          }
+        end
       end
     end
   end
