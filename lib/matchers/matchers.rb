@@ -74,6 +74,13 @@ RSpec::Matchers.define :contain_legacy_plus do
   end
 end
 
+# matcher to check that all entries match the regex
+RSpec::Matchers.define :all_match do |regex|
+  match do |arr|
+    arr.all? { |element| element.match(regex) }
+  end
+end
+
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
