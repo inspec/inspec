@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+return unless os.windows?
+
 # script that may have multiple lines
 vbscript = <<-EOH
   WScript.Echo "hello"

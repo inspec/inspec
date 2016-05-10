@@ -7,19 +7,21 @@
 
 # basic tests
 include_recipe('os_prepare::file')
-include_recipe('os_prepare::mount')
+include_recipe('os_prepare::mount') unless node['osprepare']['docker']
 include_recipe('os_prepare::service')
 include_recipe('os_prepare::package')
 include_recipe('os_prepare::registry_key')
-include_recipe('os_prepare::iptables')
+include_recipe('os_prepare::iptables') unless node['osprepare']['docker']
+
+# config file parsing
+include_recipe('os_prepare::json_yaml_csv_ini')
 
 # configure repos, eg. nginx
 include_recipe('os_prepare::apt')
 
 # application configuration
-include_recipe('os_prepare::postgres')
-include_recipe('os_prepare::auditctl')
-include_recipe('os_prepare::apache')
-
-# config file parsing
-include_recipe('os_prepare::json_yaml_csv_ini')
+if node['osprepare']['application']
+  include_recipe('os_prepare::postgres')
+  include_recipe('os_prepare::auditctl') unless node['osprepare']['docker']
+  include_recipe('os_prepare::apache')
+end
