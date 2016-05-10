@@ -6,7 +6,6 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 module Supermarket
-  autoload :Configuration, 'inspec-supermarket/configuration'
   autoload :API, 'inspec-supermarket/api'
 end
 
