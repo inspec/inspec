@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.21.0](https://github.com/chef/inspec/tree/0.21.0) (2016-05-10)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.20.1...0.21.0)
+## [0.21.1](https://github.com/chef/inspec/tree/0.21.1) (2016-05-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.0...0.21.1)
+
+**Fixed bugs:**
+
+- fix: remove non-existent class [\#729](https://github.com/chef/inspec/pull/729) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- Expose label for processes only on linux [\#733](https://github.com/chef/inspec/pull/733) ([vjeffrey](https://github.com/vjeffrey))
+- Add all\_match to matchers [\#730](https://github.com/chef/inspec/pull/730) ([vjeffrey](https://github.com/vjeffrey))
+
+## [v0.21.0](https://github.com/chef/inspec/tree/v0.21.0) (2016-05-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.20.1...v0.21.0)
 
 **Implemented enhancements:**
 
