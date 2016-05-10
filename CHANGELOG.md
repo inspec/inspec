@@ -1,7 +1,46 @@
 # Change Log
 
-## [0.20.1](https://github.com/chef/inspec/tree/0.20.1) (2016-04-30)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.20.0...0.20.1)
+## [0.21.0](https://github.com/chef/inspec/tree/0.21.0) (2016-05-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.20.1...0.21.0)
+
+**Implemented enhancements:**
+
+- Support nested describe.one blocks [\#711](https://github.com/chef/inspec/issues/711)
+- inspec exec format json backtrace [\#614](https://github.com/chef/inspec/issues/614)
+- Improve error output for compliance plugin [\#544](https://github.com/chef/inspec/issues/544)
+- Cryptic error output if authentication with Chef Compliance fails [\#489](https://github.com/chef/inspec/issues/489)
+- How to access the impact of a test failure? [\#377](https://github.com/chef/inspec/issues/377)
+- Optimize InSpec detect [\#300](https://github.com/chef/inspec/issues/300)
+- document output and/or expected results [\#210](https://github.com/chef/inspec/issues/210)
+- Remove redundant space when missing expectation [\#724](https://github.com/chef/inspec/pull/724) ([alexpop](https://github.com/alexpop))
+- Provide service params [\#721](https://github.com/chef/inspec/pull/721) ([alexpop](https://github.com/alexpop))
+- api: make processes return integers for pid/vsz/rss [\#717](https://github.com/chef/inspec/pull/717) ([arlimus](https://github.com/arlimus))
+- Expose systemd service properties via .info [\#715](https://github.com/chef/inspec/pull/715) ([alexpop](https://github.com/alexpop))
+- Use only strings in resource examples, docs and tests [\#708](https://github.com/chef/inspec/pull/708) ([alexpop](https://github.com/alexpop))
+- use filtertable with passwd resource [\#699](https://github.com/chef/inspec/pull/699) ([arlimus](https://github.com/arlimus))
+- show error if user is not logged in to compliance server [\#696](https://github.com/chef/inspec/pull/696) ([chris-rock](https://github.com/chris-rock))
+- JSON formatter redesign [\#671](https://github.com/chef/inspec/pull/671) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: handle train errors in inspec execution [\#705](https://github.com/chef/inspec/pull/705) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- How do I inherit a profile from another profile? [\#691](https://github.com/chef/inspec/issues/691)
+- How do I download a profile from a compliance server? [\#690](https://github.com/chef/inspec/issues/690)
+- inspec compliance login fails [\#689](https://github.com/chef/inspec/issues/689)
+
+**Merged pull requests:**
+
+- inspec detect learns human-readable output [\#720](https://github.com/chef/inspec/pull/720) ([chris-rock](https://github.com/chris-rock))
+- Add documentation on how to use ruby  [\#718](https://github.com/chef/inspec/pull/718) ([alexpop](https://github.com/alexpop))
+- export \#tests\(\) from OrTest object [\#714](https://github.com/chef/inspec/pull/714) ([arlimus](https://github.com/arlimus))
+- use strings instead of symbols [\#707](https://github.com/chef/inspec/pull/707) ([vjeffrey](https://github.com/vjeffrey))
+- hpux support for basic port properties [\#706](https://github.com/chef/inspec/pull/706) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+
+## [v0.20.1](https://github.com/chef/inspec/tree/v0.20.1) (2016-04-30)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.20.0...v0.20.1)
 
 **Implemented enhancements:**
 
@@ -10,6 +49,10 @@
 **Fixed bugs:**
 
 - fix appveyor caching [\#700](https://github.com/chef/inspec/pull/700) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.20.1 [\#702](https://github.com/chef/inspec/pull/702) ([alexpop](https://github.com/alexpop))
 
 ## [v0.20.0](https://github.com/chef/inspec/tree/v0.20.0) (2016-04-29)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.19.3...v0.20.0)
