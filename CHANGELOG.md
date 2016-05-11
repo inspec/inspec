@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.21.2](https://github.com/chef/inspec/tree/0.21.2) (2016-05-11)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.1...0.21.2)
+## [0.21.3](https://github.com/chef/inspec/tree/0.21.3) (2016-05-12)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.2...0.21.3)
+
+**Fixed bugs:**
+
+- Return empty array instead of nil for port methods [\#739](https://github.com/chef/inspec/pull/739) ([alexpop](https://github.com/alexpop))
+
+**Merged pull requests:**
+
+- deprecate array matcher [\#737](https://github.com/chef/inspec/pull/737) ([chris-rock](https://github.com/chris-rock))
+- Escape os\_env command on Windows to handle env variables containing parentheses. [\#735](https://github.com/chef/inspec/pull/735) ([tpcwang](https://github.com/tpcwang))
+
+## [v0.21.2](https://github.com/chef/inspec/tree/v0.21.2) (2016-05-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.1...v0.21.2)
 
 **Implemented enhancements:**
 
