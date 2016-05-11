@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.21.1](https://github.com/chef/inspec/tree/0.21.1) (2016-05-10)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.0...0.21.1)
+## [0.21.2](https://github.com/chef/inspec/tree/0.21.2) (2016-05-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.1...0.21.2)
+
+**Implemented enhancements:**
+
+- Read SELinux labels for processes [\#726](https://github.com/chef/inspec/issues/726)
+- Fix contain\_match, add none\_match [\#736](https://github.com/chef/inspec/pull/736) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- Fix contain\\_match, add none\\_match [\#736](https://github.com/chef/inspec/pull/736) ([alexpop](https://github.com/alexpop))
+
+## [v0.21.1](https://github.com/chef/inspec/tree/v0.21.1) (2016-05-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.0...v0.21.1)
 
 **Fixed bugs:**
 
