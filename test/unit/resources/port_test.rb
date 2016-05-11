@@ -36,7 +36,7 @@ describe 'Inspec::Resources::Port' do
     resource = MockLoader.new(:windows).load_resource('port', 135)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ['tcp']
-    _(resource.processes).must_equal nil
+    _(resource.processes).must_equal []
     _(resource.addresses).must_equal ["::", "192.168.10.157"]
   end
 
@@ -60,10 +60,10 @@ describe 'Inspec::Resources::Port' do
   it 'verify running on undefined' do
     resource = MockLoader.new(:undefined).load_resource('port', 22)
     _(resource.listening?).must_equal false
-    _(resource.protocols).must_equal nil
-    _(resource.pids).must_equal nil
-    _(resource.processes).must_equal nil
-    _(resource.addresses).must_equal nil
+    _(resource.protocols).must_equal []
+    _(resource.pids).must_equal []
+    _(resource.processes).must_equal []
+    _(resource.addresses).must_equal []
   end
 
   it 'verify port and interface on Ubuntu 14.04' do
@@ -78,7 +78,7 @@ describe 'Inspec::Resources::Port' do
   it 'verify not listening port on interface on Ubuntu 14.04' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', '127.0.0.1', 22)
     _(resource.listening?).must_equal false
-    _(resource.addresses).must_equal nil
+    _(resource.addresses).must_equal []
   end
 
   it 'verify port on Solaris 10' do
@@ -103,7 +103,7 @@ describe 'Inspec::Resources::Port' do
   it 'verify not listening port on hpux' do
     resource = MockLoader.new(:hpux).load_resource('port', 23)
     _(resource.listening?).must_equal false
-    _(resource.protocols).must_equal nil
-    _(resource.addresses).must_equal nil
+    _(resource.protocols).must_equal []
+    _(resource.addresses).must_equal []
   end
 end

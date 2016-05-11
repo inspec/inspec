@@ -59,22 +59,22 @@ module Inspec::Resources
 
     def protocols
       res = info.map { |x| x[:protocol] }.uniq.compact
-      res.size > 0 ? res : nil
+      res.size > 0 ? res : []
     end
 
     def processes
       res = info.map { |x| x[:process] }.uniq.compact
-      res.size > 0 ? res : nil
+      res.size > 0 ? res : []
     end
 
     def addresses
       res = info.map { |x| x[:address] }.uniq.compact
-      res.size > 0 ? res : nil
+      res.size > 0 ? res : []
     end
 
     def pids
       res = info.map { |x| x[:pid] }.uniq.compact
-      res.size > 0 ? res : nil
+      res.size > 0 ? res : []
     end
 
     def to_s
