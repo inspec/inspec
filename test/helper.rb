@@ -142,7 +142,7 @@ class MockLoader
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'Remove-Item win_secpol.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
-      '$Env:PATH'  => cmd.call('$env-PATH'),
+      '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test (winrm 1.6.0, 1.6.1)
       '2790db1e88204a073ed7fd3493f5445e5ce531afd0d2724a0e36c17110c535e6' => cmd.call('reg_schedule'),
       '25a1a38fafc289a646d30f7aa966ce0901c267798f47abf2f9440e27d31a5b7d' => cmd.call('reg_schedule'),

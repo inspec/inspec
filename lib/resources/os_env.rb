@@ -51,7 +51,7 @@ module Inspec::Resources
 
     def value_for(env)
       command = if inspec.os.windows?
-                  "$Env:#{env}"
+                  "${Env:#{env}}"
                 else
                   'env'
                 end
