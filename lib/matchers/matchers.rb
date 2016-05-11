@@ -74,30 +74,26 @@ RSpec::Matchers.define :contain_legacy_plus do
   end
 end
 
-# verifies that all entries match the regex
+# matcher to check that all entries match the regex
 RSpec::Matchers.define :all_match do |regex|
   match do |arr|
-    Array(arr).all? { |element| element.to_s.match(regex) }
-  end
-end
-
-# verifies that all entries don't match a regex
-RSpec::Matchers.define :none_match do |regex|
-  match do |arr|
-    Array(arr).all? { |element| !element.to_s.match(regex) }
+    arr.all? { |element| element.match(regex) }
   end
 end
 
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
-    Array(arr).one? { |element| element.to_s.match(regex) }
+    arr.inject { |result, i|
+      result = i.match(regex)
+      result || i.match(/$/)
+    }
   end
 end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    dup = Array(arr).select { |element| arr.count(element) > 1 }
+    dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end
 end
