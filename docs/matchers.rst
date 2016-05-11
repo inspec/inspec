@@ -10,6 +10,7 @@ Inspec uses matchers to help compare resource values to expectations. The follow
 * `eq`
 * `include`
 * `match`
+* Array matchers: `contain_match`, `all_match`, `none_match`, `contain_duplicates`
 
 
 be
@@ -134,4 +135,67 @@ Check if a string matches a regular expression.
 
   describe sshd_config do
     its('Ciphers') { should_not match /cbc/ }
+  end
+
+
+Array Matchers
+=====================================================
+
+The following matchers are designed to work with arrays:
+
+
+contain_match
+-----------------------------------------------------
+
+Check if an array contains at least one item that matches the regex:
+
+.. code-block:: ruby
+
+  describe ['lemon', 'ginger', 'grapes'] do
+    it { should contain_match /^gin/}
+  end
+  describe port(25) do
+    its('addresses') it { should_not contain_match /0\.0\.0\.0/}
+  end
+
+
+all_match
+-----------------------------------------------------
+
+Check if all items of an array match the regex:
+
+.. code-block:: ruby
+
+  describe ['grapefruit', 'grapes'] do
+    it { should all_match /^grape.+/}
+  end
+
+
+none_match
+-----------------------------------------------------
+
+Check if all items of an array match the regex:
+
+.. code-block:: ruby
+
+  describe ['ginger', 'grapefruit'] do
+    it { should none_match /^sugar$/}
+  end
+  describe port(25) do
+    its('addresses') it { should none_match /^0\.0\.0\.0$/ }
+  end
+
+
+contain_duplicates
+-----------------------------------------------------
+
+Check if an array contains duplicate items:
+
+.. code-block:: ruby
+
+  describe [80, 443, 80] do
+    it { should contain_duplicates }
+  end
+  describe ['ginger', 'grapefruit'] do
+    it { should_not contain_duplicates }
   end
