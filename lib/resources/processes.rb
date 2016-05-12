@@ -3,6 +3,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 # license: All rights reserved
+require 'hashie'
 
 module Inspec::Resources
   class Processes < Inspec.resource(1)
@@ -36,6 +37,8 @@ module Inspec::Resources
         states: :stat }.each do |var, key|
         instance_variable_set("@#{var}", @list.map { |l| l[key] }.uniq)
       end
+      # Make each array item a Mash so that we can have item.pid, etc
+      @list.map! { |p| Hashie::Mash.new(p) }
     end
 
     def to_s
