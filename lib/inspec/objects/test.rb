@@ -48,13 +48,12 @@ module Inspec
 
       if @qualifier.length > 1
         last = @qualifier[-1]
-        unless last.is_a?(Array) && last[0].to_s.empty?
-          if last.length == 1 && last[0] !~ /^to_.$/ && !last[0].include?('[')
-            # this will go in its()
-            xres = last[0]
-          else
-            res += '.' + ruby_qualifier(last)
-          end
+        last_call = last.is_a?(Array) ? last[0].to_s : ''
+        if last.length == 1 && last_call !~ /^to_.$/ && !last_call.include?('[') && !last_call.empty?
+          # this will go in its()
+          xres = last_call
+        else
+          res += '.' + ruby_qualifier(last)
         end
       end
 

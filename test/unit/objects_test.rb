@@ -52,5 +52,14 @@ describe resource.hello(\"world\") do
 end
 ".strip
     end
+
+    it 'constructs a simple resource+argument with method calls' do
+      obj.qualifier = [['resource'], [:world]]
+      obj.to_ruby.must_equal "
+describe resource do
+  its(\"world\") { should  }
+end
+".strip
+    end
   end
 end
