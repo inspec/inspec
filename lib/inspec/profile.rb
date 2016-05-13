@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
+require 'inspec/polyfill'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/metadata'
