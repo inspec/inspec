@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.21.5](https://github.com/chef/inspec/tree/0.21.5) (2016-05-13)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.4...0.21.5)
+## [0.21.6](https://github.com/chef/inspec/tree/0.21.6) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.5...0.21.6)
+
+**Fixed bugs:**
+
+- catch corner-case with symbols on test-objects [\#748](https://github.com/chef/inspec/pull/748) ([arlimus](https://github.com/arlimus))
+- Prevent nil.include? [\#747](https://github.com/chef/inspec/pull/747) ([alexpop](https://github.com/alexpop))
+
+## [v0.21.5](https://github.com/chef/inspec/tree/v0.21.5) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.4...v0.21.5)
 
 **Fixed bugs:**
 
