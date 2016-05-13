@@ -146,3 +146,14 @@ task :bump_version, [:version] do |_, args|
   inspec_version(v)
   Rake::Task['changelog'].invoke
 end
+
+desc 'Release a new docker image'
+task :release_docker do
+  version = Inspec::VERSION
+  cmd = "rm *.gem; gem build *gemspec && "\
+        "mv *.gem inspec.gem && "\
+        "docker build -t chef/inspec:#{version} . && "\
+        "docker push chef/inspec:#{version}"
+  puts "--> #{cmd}"
+  sh('sh', '-c', cmd)
+end

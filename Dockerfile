@@ -1,10 +1,9 @@
 FROM ruby:alpine
 RUN mkdir /share
-RUN apk add --update \
-  build-base \
-  libxml2-dev \
-  libffi-dev
-RUN gem install inspec --no-document
+COPY inspec.gem /
+RUN apk add --update build-base libxml2-dev libffi-dev && \
+    gem install /inspec.gem --no-document && \
+    apk del build-base
 ENTRYPOINT ["inspec"]
 CMD ["help"]
 VOLUME ["/share"]
