@@ -788,7 +788,7 @@ A ``etc_group`` |inspec resource| block declares a collection of properties to b
 
 .. code-block:: ruby
 
-   describe etc_group('path') do
+   describe etc_group('/etc/group') do
      its('matcher') { should eq 'some_value' }
    end
 
@@ -796,7 +796,7 @@ or:
 
 .. code-block:: ruby
 
-   describe etc_group.where(item: 'value', item: 'value') do
+   describe etc_group.where(item: 'wheel') do
      its('gids') { should_not contain_duplicates }
      its('groups') { should include 'user_name' }
      its('users') { should include 'user_name' }
