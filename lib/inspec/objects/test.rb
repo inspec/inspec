@@ -49,7 +49,7 @@ module Inspec
       if @qualifier.length > 1
         last = @qualifier[-1]
         # preventing its('to_i') as the value returned is always 0
-        if last.length == 1 && last[0] !~ /^to_.$/ && !last[0].include?('[')
+        if last.length == 1 && last[0] !~ /^to_.$/ && !last[0].nil? && !last[0].include?('[')
           xres = last[0]
         else
           res += '.' + ruby_qualifier(last)
