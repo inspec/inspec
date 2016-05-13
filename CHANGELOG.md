@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.21.4](https://github.com/chef/inspec/tree/0.21.4) (2016-05-13)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.3...0.21.4)
+## [0.21.5](https://github.com/chef/inspec/tree/0.21.5) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.4...0.21.5)
+
+**Fixed bugs:**
+
+- fix construction of ruby objects on string and array handlers [\#746](https://github.com/chef/inspec/pull/746) ([arlimus](https://github.com/arlimus))
+
+## [v0.21.4](https://github.com/chef/inspec/tree/v0.21.4) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.3...v0.21.4)
 
 **Implemented enhancements:**
 
