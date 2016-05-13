@@ -26,7 +26,6 @@ module Inspec::Resources
         grep = '(/[^/]*)*'+grep if grep[0] != '/'
         grep = Regexp.new('^' + grep + '(\s|$)')
       end
-
       all_cmds = ps_aux
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep
@@ -57,7 +56,12 @@ module Inspec::Resources
       build_process_list(command, regex, os)
     end
 
-    def build_process_list(command, regex, os) # rubocop:disable MethodLength, Metrics/AbcSize
+    Process = Struct.new(:label, :user, :pid,
+                         :cpu, :mem, :vsz,
+                         :rss, :tty, :stat,
+                         :start, :time, :command)
+
+    def build_process_list(command, regex, os)
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")[1..-1]
       return [] if all.nil?
@@ -66,40 +70,13 @@ module Inspec::Resources
         line.match(regex)
       end.compact
 
-      if os.linux?
-        lines.map do |m|
-          {
-            label: m[1],
-            user: m[2],
-            pid: m[3].to_i,
-            cpu: m[4],
-            mem: m[5],
-            vsz: m[6].to_i,
-            rss: m[7].to_i,
-            tty: m[8],
-            stat: m[9],
-            start: m[10],
-            time: m[11],
-            command: m[12],
-          }
-        end
-      else
-        lines.map do |m|
-          {
-            label: nil,
-            user: m[1],
-            pid: m[2].to_i,
-            cpu: m[3],
-            mem: m[4],
-            vsz: m[5].to_i,
-            rss: m[6].to_i,
-            tty: m[7],
-            stat: m[8],
-            start: m[9],
-            time: m[10],
-            command: m[11],
-          }
-        end
+      lines.map do |m|
+        a = m.to_a[1..-1] # grab all matching groups
+        a.unshift(nil) unless os.linux?
+        a[2] = a[2].to_i
+        a[5] = a[5].to_i
+        a[6] = a[6].to_i
+        Process.new(*a)
       end
     end
   end
