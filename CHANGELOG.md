@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.21.3](https://github.com/chef/inspec/tree/0.21.3) (2016-05-12)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.2...0.21.3)
+## [0.21.4](https://github.com/chef/inspec/tree/0.21.4) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.3...0.21.4)
+
+**Implemented enhancements:**
+
+- use struct for processes list [\#744](https://github.com/chef/inspec/pull/744) ([arlimus](https://github.com/arlimus))
+
+## [v0.21.3](https://github.com/chef/inspec/tree/v0.21.3) (2016-05-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.2...v0.21.3)
 
 **Fixed bugs:**
 
