@@ -13,7 +13,8 @@ describe 'Inspec::Resources::Processes' do
 
   it 'verify processes resource' do
     resource = MockLoader.new(:freebsd10).load_resource('processes', '/bin/bash')
-    _(resource.list).must_equal [{
+    _(resource.list.length).must_equal 1
+    _(resource.list[0].to_h).must_equal({
       label: nil,
       user: 'root',
       pid: 1,
@@ -26,14 +27,13 @@ describe 'Inspec::Resources::Processes' do
       start: '14:15',
       time: '0:00',
       command: '/bin/bash',
-    }]
-
-    _(resource.list.length).must_equal 1
+    })
   end
 
   it 'verify processes resource on linux os' do
     resource = MockLoader.new(:centos6).load_resource('processes', '/sbin/init')
-    _(resource.list).must_equal [{
+    _(resource.list.length).must_equal 1
+    _(resource.list[0].to_h).must_equal({
       label: 'system_u:system_r:kernel_t:s0',
       user: 'root',
       pid: 1,
@@ -46,9 +46,16 @@ describe 'Inspec::Resources::Processes' do
       start: 'May04',
       time: '0:01',
       command: '/sbin/init',
-    }]
+    })
+  end
 
-    _(resource.list.length).must_equal 1
+  it 'access attributes of a process' do
+    resource = MockLoader.new(:centos6).load_resource('processes', '/sbin/init')
+    process = resource.list[0]
+    process.user.must_equal 'root'
+    process[:user].must_equal 'root'
+    process['user'].must_equal 'root'
+    process[1].must_equal 'root'
   end
 
   it 'retrieves the users and states as arrays' do
