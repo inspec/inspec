@@ -30,7 +30,7 @@ module Inspec
       option :sudo_options, type: :string,
         desc: 'Additional sudo options for a remote scan.'
       option :sudo_command, type: :string,
-        desc: 'Altnerate command for sudo.'
+        desc: 'Alternate command for sudo.'
       option :ssl, type: :boolean,
         desc: 'Use SSL for transport layer encryption (WinRM).'
       option :self_signed, type: :boolean,
