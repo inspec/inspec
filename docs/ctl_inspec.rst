@@ -41,6 +41,9 @@ The following options may be used with any of the InSpec CLI subcommands:
 ``--sudo_password``
    The sudo password, if required.
 
+``--sudo_command``
+   Altnerate sudo command, if required.
+
 ``-t``, ``--target``
    The URI for the target of a remote scan, preceded by the target's backend. For example: ``backend://user:pass@host:port``, where ``backend`` is one of ``docker``, ``local``, ``ssh``, or ``winrm``.
 
