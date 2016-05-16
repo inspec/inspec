@@ -1,7 +1,23 @@
 # Change Log
 
-## [0.21.6](https://github.com/chef/inspec/tree/0.21.6) (2016-05-13)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.5...0.21.6)
+## [0.22.0](https://github.com/chef/inspec/tree/0.22.0) (2016-05-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.6...0.22.0)
+
+**Implemented enhancements:**
+
+- update train dependency to 0.12.0 [\#757](https://github.com/chef/inspec/pull/757) ([chris-rock](https://github.com/chris-rock))
+- run integration tests in docker [\#732](https://github.com/chef/inspec/pull/732) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- fixed 'it' statements under file\_test [\#758](https://github.com/chef/inspec/pull/758) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- modification in command resource example [\#756](https://github.com/chef/inspec/pull/756) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- add sudo\_command option [\#754](https://github.com/chef/inspec/pull/754) ([jeremymv2](https://github.com/jeremymv2))
+- remove string quotes around regexp \(docfix\) [\#750](https://github.com/chef/inspec/pull/750) ([lamont-granquist](https://github.com/lamont-granquist))
+- rake release\_docker + smaller image builds [\#745](https://github.com/chef/inspec/pull/745) ([arlimus](https://github.com/arlimus))
+
+## [v0.21.6](https://github.com/chef/inspec/tree/v0.21.6) (2016-05-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.5...v0.21.6)
 
 **Fixed bugs:**
 
