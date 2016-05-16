@@ -1107,7 +1107,7 @@ The ``content`` matcher tests if contents in the file match the value specified 
 
 .. code-block:: ruby
 
-   its('content') { should match 'value' }
+   its('content') { should match REGEX }
 
 The following complete example tests the ``pg_hba.conf`` file in |postgresql| for |md5| requirements.  The tests look at all ``host`` and ``local`` settings in that file, and then compare the |md5| checksums against the values in the test:
 
@@ -1286,9 +1286,9 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: bash
 
    describe file(hba_config_file) do
-     its('content') { should match '/local\s.*?all\s.*?all\s.*?md5/' }
-     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/}' }
-     its('content') { should match '%r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/}' }
+     its('content') { should match /local\s.*?all\s.*?all\s.*?md5/ }
+     its('content') { should match %r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/} }
+     its('content') { should match %r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/} }
    end
 
 **Test if a file exists**
