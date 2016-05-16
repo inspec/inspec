@@ -49,10 +49,10 @@ namespace :test do
     sh(Gem.ruby, 'test/docker_test.rb', *tests)
   end
 
-  task :vm do
-    concurrency = ENV['CONCURRENCY'] || 4
-    path = File.join(File.dirname(__FILE__), 'test', 'integration')
-    sh('sh', '-c', "cd #{path} && bundle exec kitchen test -c #{concurrency} -t .")
+  task :integration do
+    concurrency = ENV['CONCURRENCY'] || 1
+    os = ENV['OS'] || ''
+    sh('sh', '-c', "bundle exec kitchen test -c #{concurrency} #{os}")
   end
 
   task :ssh, [:target] do |_t, args|

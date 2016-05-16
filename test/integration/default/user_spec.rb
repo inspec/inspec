@@ -85,7 +85,8 @@ else
 
       # check that the user is part of the groups
       if k.to_s == 'groups'
-        its(k) { should include v }
+        # TODO: do not run those tests on docker yet
+        its(k) { should include v } unless ENV['DOCKER']
       # default eq comparison
       else
         its(k) { should eq v }

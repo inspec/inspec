@@ -23,6 +23,7 @@ group :integration do
   gem 'kitchen-vagrant'
   gem 'kitchen-inspec', '0.12.5'
   gem 'kitchen-ec2'
+  gem 'kitchen-dokken'
 end
 
 group :tools do

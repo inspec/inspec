@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+# TODO: do not run those tests on docker yet
+return if ENV['DOCKER']
+
+# lets define our own group
 root_group = 'root'
 
 if os[:family] == 'aix'

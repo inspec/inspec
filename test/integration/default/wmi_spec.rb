@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+return unless os.windows?
+
 # Get-WmiObject win32_service
 # Get-WmiObject -class win32_service
 # returns an array of service objects

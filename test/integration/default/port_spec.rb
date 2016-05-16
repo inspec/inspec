@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# TODO: do not run those tests on docker yet
+return if ENV['DOCKER']
+
 # check that ssh runs
 if os.unix?
   describe port(22) do

@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# TODO: do not run those tests on docker yet
+return if ENV['DOCKER']
+
 # based on operating system we select the available service
 if ['centos', 'fedora', 'freebsd', 'opensuse'].include?(os[:family])
   # CentOS, Fedora
@@ -38,8 +41,8 @@ describe service(available_service) do
 end
 
 # extra test for ubuntu upstart with systemv service
-if os[:family] == 'ubuntu'
-  describe service('ntp') do
+if os[:family] == 'ubuntu' && os[:release] == '12.04'
+  describe upstart_service('ssh') do
     it { should be_enabled }
     it { should be_installed }
     it { should be_running }

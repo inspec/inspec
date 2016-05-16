@@ -12,6 +12,13 @@ transport:
   username: ec2-user
   ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
+provisioner:
+  name: chef_solo
+
+verifier:
+  name: inspec
+  sudo: true
+
 platforms:
   - name: windows-2008
     driver:
@@ -73,3 +80,9 @@ platforms:
   - name: aws-linux
     driver:
       image_id: ami-daaeaec7
+
+suites:
+  - name: default
+    run_list:
+      - recipe[os_prepare]
+    attributes:

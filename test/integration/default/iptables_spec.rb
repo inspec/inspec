@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# TODO: do not run those tests on docker yet
+return if ENV['DOCKER']
+
 case os[:family]
 when 'ubuntu', 'fedora'
   describe iptables do

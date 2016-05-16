@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# TODO: do not run those tests on docker yet
+return if ENV['DOCKER']
+
 if os[:family] == 'freebsd'
   filedata = {
     user: 'root',
@@ -56,8 +59,8 @@ if os.unix?
     # it { should have_mode }
     its('mode') { should eq 00765 }
     it { should be_mode 00765 }
-    its('mode') { should cmp '0765' }
-    its('mode') { should_not cmp '0777' }
+    its('mode') { should cmp 0765 }
+    its('mode') { should_not cmp 0777 }
 
     it { should be_readable }
     it { should be_readable.by('owner') }
