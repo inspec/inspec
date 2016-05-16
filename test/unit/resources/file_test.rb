@@ -123,7 +123,7 @@ describe Inspec::Resources::FileResource do
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(true)
       end
 
-      it 'returns true when the cmd exits non-zero' do
+      it 'returns false when the cmd exits non-zero' do
         MockLoader.mock_command(resource, 'su -s /bin/sh -c "test -flag /fakepath/fakefile" user', exit_status: 1)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(false)
       end
@@ -144,7 +144,7 @@ describe Inspec::Resources::FileResource do
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(true)
       end
 
-      it 'returns true when the cmd exits non-zero' do
+      it 'returns false when the cmd exits non-zero' do
         MockLoader.mock_command(resource, 'sudo -u user test -flag /fakepath/fakefile', exit_status: 1)
         resource.send(:check_file_permission_by_user, 'user', 'flag').must_equal(false)
       end
