@@ -190,7 +190,7 @@ inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-passwo
 inspec exec test.rb -t docker://container_id
 
 # run with sudo
-inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...]
+inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_command ...]
 ```
 
 ### detect
