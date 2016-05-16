@@ -10,10 +10,14 @@ module Inspec::Resources
     desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
     example "
       describe command('ls -al /') do
-        it { should exist }
         its('stdout') { should match /bin/ }
         its('stderr') { should eq '' }
         its('exit_status') { should eq 0 }
+      end
+
+      command('ls -al /').exist? will return false. Existence of command should be checked this way.
+      describe command('ls') do
+        it { should exist }
       end
     "
 
