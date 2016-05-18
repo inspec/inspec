@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.22.0](https://github.com/chef/inspec/tree/0.22.0) (2016-05-16)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.21.6...0.22.0)
+## [0.22.1](https://github.com/chef/inspec/tree/0.22.1) (2016-05-18)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.22.0...0.22.1)
+
+**Fixed bugs:**
+
+- fix reporter/formatter disagreements [\#764](https://github.com/chef/inspec/pull/764) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- port resource fails in docker containers because netstat is missing, but gives poor error output as to why. [\#762](https://github.com/chef/inspec/issues/762)
+- Add support for alternate sudo command [\#755](https://github.com/chef/inspec/issues/755)
+- Chef Compliance Server UI - Need capability to remove an uploaded profile [\#712](https://github.com/chef/inspec/issues/712)
+
+## [v0.22.0](https://github.com/chef/inspec/tree/v0.22.0) (2016-05-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.21.6...v0.22.0)
 
 **Implemented enhancements:**
 
