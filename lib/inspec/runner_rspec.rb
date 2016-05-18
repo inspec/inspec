@@ -14,6 +14,7 @@ module Inspec
   class RunnerRspec
     def initialize(conf)
       @conf = conf
+      @formatter = nil
       reset_tests
       configure_output
     end
@@ -65,8 +66,12 @@ module Inspec
       with.run_specs(tests)
     end
 
+    # Provide an output hash of the run's report
+    #
+    # @return [Hash] a run's output hash
     def report
-      reporter = RSpec.configuration.formatters.find { |f| f.is_a? Inspec::RSpecReporter }
+      reporter = @formatter || RSpec.configuration.formatters[0]
+      return nil if reporter.nil? || !reporter.respond_to?(:output_hash)
       reporter.output_hash
     end
 
@@ -98,7 +103,7 @@ module Inspec
       end
 
       format = FORMATTERS[@conf['format']] || @conf['format'] || 'progress'
-      RSpec.configuration.add_formatter(format)
+      @formatter = RSpec.configuration.add_formatter(format)
       RSpec.configuration.color = @conf['color']
 
       setup_reporting if @conf['report']
