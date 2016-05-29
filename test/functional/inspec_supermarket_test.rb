@@ -7,7 +7,7 @@ require 'functional/helper'
 describe 'inspec supermarket' do
   include FunctionalHelper
 
-  it 'outpus help message' do
+  it 'outputs help message' do
     out = inspec('supermarket help')
     out.exit_status.must_equal 0
     out.stdout.must_include 'inspec supermarket exec PROFILE'
