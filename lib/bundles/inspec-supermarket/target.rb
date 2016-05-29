@@ -13,7 +13,9 @@ module Supermarket
     priority 500
 
     def self.resolve(target, opts = {})
-      return nil unless URI(target).scheme == 'supermarket'
+      uri = URI(target)
+      return nil unless uri.scheme == 'supermarket'
+      Supermarket::Helper.parse_host(target)
       return nil unless Supermarket::API.exist?(target)
       tool_info = Supermarket::API.find(target)
       super(tool_info['tool_source_url'], opts)

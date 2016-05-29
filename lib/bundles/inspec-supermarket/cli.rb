@@ -1,16 +1,20 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+#
+require 'net/http'
 
 module Supermarket
   class SupermarketCLI < Inspec::BaseCLI
     namespace 'supermarket'
 
-    desc 'profiles', 'list all available profiles in Chef Supermarket'
-    def profiles
+    desc 'profiles [URL]', 'list all available profiles in Chef Supermarket'
+    def profiles(location = '')
+      Supermarket::Helper.parse_host(location)
       # display profiles in format user/profile
       supermarket_profiles = Supermarket::API.profiles
-
+      puts "#{mark_text('supermarket: ')}  #{Supermarket::API.config_key('supermarket_url')}"
+      puts
       headline('Available profiles:')
       supermarket_profiles.each { |p|
         li("#{p['tool_owner']}/#{p['slug']}")
@@ -21,7 +25,7 @@ module Supermarket
     exec_options
     def exec(*tests)
       # iterate over tests and add compliance scheme
-      tests = tests.map { |t| 'supermarket://' + t }
+      tests = tests.map { |t| (URI(t).scheme != 'supermarket' ? 'supermarket://' + t : t) }
 
       # execute profile from inspec exec implementation
       diagnose
@@ -30,14 +34,18 @@ module Supermarket
 
     desc 'info PROFILE', 'display Supermarket profile details'
     def info(profile)
+      Supermarket::Helper.parse_host(profile)
       # check that the profile is available
       supermarket_profiles = Supermarket::API.profiles
+      puts "#{mark_text('supermarket: ')}  #{Supermarket::API.config_key('supermarket_url')}"
+      puts
+      tool_owner, tool_name = profile.split('/').last(2)
       found = supermarket_profiles.select { |p|
-        "#{p['tool_owner']}/#{p['slug']}" == profile
+        "#{p['tool_owner']}/#{p['slug']}" == "#{tool_owner}/#{tool_name}"
       }
 
-      if found.length == 0
-        puts "#{mark_text(profile)} is not available on Supermarket"
+      if found.empty?
+        puts "#{mark_text(profile)} is not available"
         return
       end
 
