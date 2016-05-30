@@ -28,6 +28,13 @@ describe FilterTable do
     factory.must_be_kind_of FilterTable::Factory
   end
 
+  it 'retrieves the resource from all entries' do
+    factory.add_accessor(:where)
+           .add(:baz?) { |x| x.resource }
+           .connect(resource, :data)
+    instance.baz?.must_equal instance
+  end
+
   describe 'when calling add_accessor' do
     it 'is chainable' do
       factory.add_accessor(:sth).must_equal factory
