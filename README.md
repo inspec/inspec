@@ -210,7 +210,26 @@ Which will provide you with:
 
 ## Documentation
 
-Documentation is available: https://github.com/chef/inspec/tree/master/docs
+Documentation
+
+ * https://github.com/chef/inspec/tree/master/docs
+
+Blogs:
+
+ * [The Road to InSpec](https://www.chef.io/blog/2015/11/04/the-road-to-inspec/)
+ * [Introduction to InSpec](http://tfitch.com/automation-tools-bootcamp/inspec.html)
+ * [InSpec Tutorial: Day 1 - Hello World](http://www.anniehedgie.com/inspec-basics-1)
+ * [InSpec Tutorial: Day 2 - Command Resource Blog Logo](http://www.anniehedgie.com/inspec-basics-2)
+ * [InSpec Tutorial: Day 3 - File Resource](http://www.anniehedgie.com/inspec-basics-3)
+ * [InSpec Tutorial: Day 4 - Custom Matchers](http://www.anniehedgie.com/inspec-basics-4)
+ * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
+ * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
+ * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
+
+Podcasts:
+
+ * [InSpec Foodfight](http://foodfightshow.org/2016/02/inspec.html)
+ * [Test Driven Infrastructure With Arthur Maltson And Michael Goetz](https://www.arresteddevops.com/tdi/)
 
 ## Share your Profiles
 
