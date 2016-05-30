@@ -40,7 +40,7 @@ module FilterTable
   end
 
   class Table
-    attr_reader :params
+    attr_reader :params, :resource
     def initialize(resource, params, filters)
       @resource = resource
       @params = params
