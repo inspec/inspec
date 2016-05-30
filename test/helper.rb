@@ -51,7 +51,7 @@ class MockLoader
     ubuntu1204: { family: 'ubuntu', release: '12.04', arch: 'x86_64' },
     ubuntu1404: { family: 'ubuntu', release: '14.04', arch: 'x86_64' },
     ubuntu1504: { family: 'ubuntu', release: '15.04', arch: 'x86_64' },
-    windows:    { family: 'windows', release: nil, arch: nil },
+    windows:    { family: 'windows', release: '6.2.9200', arch: 'x86_64' },
     wrlinux:    { family: 'wrlinux', release: '7.0(3)I2(2)', arch: 'x86_64' },
     solaris11:  { family: "solaris", release: '11', arch: 'i386'},
     solaris10:  { family: "solaris", release: '10', arch: 'i386'},
