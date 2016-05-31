@@ -200,19 +200,17 @@ module FilterTable
     private
 
     def create_connector(c)
-      if !c.block.nil?
-        showblock = ->(cond = Show) { c.block.call(self, cond) }
-      else
-        showblock = lambda { |condition = Show, &cond_block|
-          if condition == Show && !block_given?
-            r = where(nil).get_field(c.field_name)
-            r = r.flatten.uniq.compact if c.opts[:style] == :simple
-            r
-          else
-            where({ c.field_name => condition }, &cond_block)
-          end
-        }
-      end
+      return ->(cond = Show) { c.block.call(self, cond) } if !c.block.nil?
+
+      lambda { |condition = Show, &cond_block|
+        if condition == Show && !block_given?
+          r = where(nil).get_field(c.field_name)
+          r = r.flatten.uniq.compact if c.opts[:style] == :simple
+          r
+        else
+          where({ c.field_name => condition }, &cond_block)
+        end
+      }
     end
   end
 
