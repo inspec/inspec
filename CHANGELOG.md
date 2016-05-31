@@ -1,7 +1,26 @@
 # Change Log
 
-## [0.22.1](https://github.com/chef/inspec/tree/0.22.1) (2016-05-18)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.22.0...0.22.1)
+## [0.23](https://github.com/chef/inspec/tree/0.23) (2016-05-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.22.1...0.23)
+
+**Implemented enhancements:**
+
+- connect `port` and filter table [\#776](https://github.com/chef/inspec/pull/776) ([arlimus](https://github.com/arlimus))
+- add resource to filter table blocks [\#775](https://github.com/chef/inspec/pull/775) ([arlimus](https://github.com/arlimus))
+- add helper methods for os resource [\#774](https://github.com/chef/inspec/pull/774) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- inspec hangs on command\('ausearch -k docker'\).stdout [\#768](https://github.com/chef/inspec/issues/768)
+- registry\_key test failing on Windows 2008 R2 [\#767](https://github.com/chef/inspec/issues/767)
+- InSpec login successful with wrong username [\#766](https://github.com/chef/inspec/issues/766)
+
+**Merged pull requests:**
+
+- update readme with blogs [\#769](https://github.com/chef/inspec/pull/769) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.22.1](https://github.com/chef/inspec/tree/v0.22.1) (2016-05-18)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.22.0...v0.22.1)
 
 **Fixed bugs:**
 
