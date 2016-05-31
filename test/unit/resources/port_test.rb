@@ -15,6 +15,26 @@ describe 'Inspec::Resources::Port' do
     _(resource.addresses).must_equal ["0.0.0.0", "::"]
   end
 
+  it 'lists all ports' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port')
+    _(resource.entries.length).must_equal 4
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal %w{ tcp tcp6 udp }
+    _(resource.pids).must_equal [1, 2043, 545]
+    _(resource.processes).must_equal ['sshd', 'pidgin', 'rpcbind']
+    _(resource.addresses).must_equal ['0.0.0.0', '::']
+  end
+
+  it 'filter ports by conditions' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port').where { protocol =~ /udp/i }
+    _(resource.entries.length).must_equal 1
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal ['udp']
+    _(resource.pids).must_equal [545]
+    _(resource.processes).must_equal ['rpcbind']
+    _(resource.addresses).must_equal ['0.0.0.0']
+  end
+
   it 'verify UDP port on Ubuntu 14.04' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', 111)
     _(resource.listening?).must_equal true

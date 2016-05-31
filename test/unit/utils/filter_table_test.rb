@@ -69,6 +69,19 @@ describe FilterTable do
       factory.add(:baz).connect(resource, :data)
       instance.baz(123).must_be_kind_of(FilterTable::Table)
     end
+
+    it 'retrieves all entries' do
+      factory.add(:foo).connect(resource, :data)
+      instance.foo.must_equal([3, 2, 2])
+    end
+
+    it 'retrieves entries with simple style' do
+      factory.add(:foo, style: :simple)
+             .add(:num, style: :simple)
+             .connect(resource, :data)
+      instance.foo.must_equal([3, 2])
+      instance.num.must_equal([1, 2])
+    end
   end
 
   describe 'when calling entries' do

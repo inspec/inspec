@@ -81,10 +81,10 @@ module FilterTable
       end
     end
 
-    def get_fields(*fields)
+    def get_field(field)
       @params.map do |line|
-        fields.map { |f| line[f] }
-      end.flatten
+        line[field]
+      end
     end
 
     def to_s
@@ -132,17 +132,20 @@ module FilterTable
   end
 
   class Factory
+    Connector = Struct.new(:field_name, :block, :opts)
+
     def initialize
       @accessors = []
-      @fields = {}
-      @blocks = {}
+      @connectors = {}
     end
 
-    def connect(resource, table_accessor) # rubocop:disable Metrics/AbcSize
+    def connect(resource, table_accessor)
       # create the table structure
-      fields = @fields
-      blocks = @blocks
-      struct_fields = fields.values
+      connectors = @connectors
+      struct_fields = connectors.values.map(&:field_name)
+      connector_blocks = connectors.map do |method, c|
+        [method.to_sym, create_connector(c)]
+      end
 
       # the struct to hold single items from the #entries method
       entry_struct = Struct.new(*struct_fields.map(&:to_sym)) do
@@ -154,13 +157,8 @@ module FilterTable
 
       # the main filter table
       table = Class.new(Table) {
-        fields.each do |method, field_name|
-          block = blocks[method]
-          define_method method.to_sym do |condition = Show, &cond_block|
-            return block.call(self, condition) unless block.nil?
-            return where(nil).get_fields(field_name) if condition == Show && !block_given?
-            where({ field_name => condition }, &cond_block)
-          end
+        connector_blocks.each do |x|
+          define_method x[0], &x[1]
         end
 
         define_method :new_entry do |hashmap, filter = ''|
@@ -172,7 +170,7 @@ module FilterTable
       }
 
       # define all access methods with the parent resource
-      accessors = @accessors + @fields.keys
+      accessors = @accessors + @connectors.keys
       accessors.each do |method_name|
         resource.send(:define_method, method_name.to_sym) do |*args, &block|
           filter = table.new(self, method(table_accessor).call, ' with')
@@ -194,10 +192,25 @@ module FilterTable
         throw RuntimeError, "Called filter.add for resource #{@resource} with method name nil!"
       end
 
-      field_name = opts[:field] || method_name
-      @fields[method_name.to_sym] = field_name
-      @blocks[method_name.to_sym] = block
+      @connectors[method_name.to_sym] =
+        Connector.new(opts[:field] || method_name, block, opts)
       self
+    end
+
+    private
+
+    def create_connector(c)
+      return ->(cond = Show) { c.block.call(self, cond) } if !c.block.nil?
+
+      lambda { |condition = Show, &cond_block|
+        if condition == Show && !block_given?
+          r = where(nil).get_field(c.field_name)
+          r = r.flatten.uniq.compact if c.opts[:style] == :simple
+          r
+        else
+          where({ c.field_name => condition }, &cond_block)
+        end
+      }
     end
   end
 

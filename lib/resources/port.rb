@@ -3,6 +3,8 @@
 # author: Dominik Richter
 
 require 'utils/parser'
+require 'utils/filter'
+
 # Usage:
 # describe port(80) do
 #   it { should be_listening }
@@ -25,11 +27,17 @@ module Inspec::Resources
         it { should be_listening }
         its('protocols') {should eq ['tcp']}
       end
+
+      describe port.where { protocol =~ /tcp/ && port > 80 } do
+        it { should_not be_listening }
+      end
     "
 
-    def initialize(ip = nil, port) # rubocop:disable OptionalArguments
-      @ip = ip
-      @port = port
+    def initialize(*args)
+      args.unshift(nil) if args.length <= 1 # add the ip address to the front
+      @ip = args[0]
+      @port = args[1]
+
       @port_manager = nil
       @cache = nil
       os = inspec.os
@@ -53,32 +61,19 @@ module Inspec::Resources
       end
     end
 
-    def listening?(_protocol = nil, _local_address = nil)
-      info.size > 0
-    end
-
-    def protocols
-      res = info.map { |x| x[:protocol] }.uniq.compact
-      res.size > 0 ? res : []
-    end
-
-    def processes
-      res = info.map { |x| x[:process] }.uniq.compact
-      res.size > 0 ? res : []
-    end
-
-    def addresses
-      res = info.map { |x| x[:address] }.uniq.compact
-      res.size > 0 ? res : []
-    end
-
-    def pids
-      res = info.map { |x| x[:pid] }.uniq.compact
-      res.size > 0 ? res : []
-    end
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:ports,     field: 'port', style: :simple)
+          .add(:addresses, field: 'address', style: :simple)
+          .add(:protocols, field: 'protocol', style: :simple)
+          .add(:processes, field: 'process', style: :simple)
+          .add(:pids,      field: 'pid', style: :simple)
+          .add(:listening?) { |x| x.entries.length > 0 }
+    filter.connect(self, :info)
 
     def to_s
-      "Port  #{@port}"
+      "Port #{@port}"
     end
 
     private
@@ -88,22 +83,24 @@ module Inspec::Resources
       # abort if os detection has not worked
       return @cache = [] if @port_manager.nil?
       # query ports
-      ports = @port_manager.info || []
-      @cache = ports.select { |p| p[:port] == @port && (!@ip || p[:address] == @ip) }
+      cache = @port_manager.info || []
+      cache.select! { |x| x['port'] == @port } unless @port.nil?
+      cache.select! { |x| x['address'] == @ip } unless @ip.nil?
+      @cache = cache
     end
   end
 
   # implements an info method and returns all ip adresses and protocols for
   # each port
   # [{
-  #   port: 22,
-  #   address: '0.0.0.0'
-  #   protocol: 'tcp'
+  #   'port' => 22,
+  #   'address' => '0.0.0.0'
+  #   'protocol' => 'tcp'
   # },
   # {
-  #   port: 22,
-  #   address: '::'
-  #   protocol: 'tcp6'
+  #   'port' => 22,
+  #   'address' => '::'
+  #   'protocol' => 'tcp6'
   # }]
   class PortsInfo
     attr_reader :inspec
@@ -132,11 +129,9 @@ module Inspec::Resources
 
       ports.map { |x|
         {
-          port: x['LocalPort'],
-          address: x['LocalAddress'],
-          protocol: 'tcp',
-          process: nil,
-          pid: nil,
+          'port'     => x['LocalPort'],
+          'address'  => x['LocalAddress'],
+          'protocol' => 'tcp',
         }
       }
     end
@@ -168,11 +163,11 @@ module Inspec::Resources
         port_ids.each do |port_str|
           # should not break on ipv6 addresses
           ipv, proto, port, host = port_str.split(':', 4)
-          ports.push({ port:  port.to_i,
-                       address:  host,
-                       protocol: ipv == 'ipv6' ? proto + '6' : proto,
-                       process:  cmd,
-                       pid:      pid.to_i })
+          ports.push({ 'port'     => port.to_i,
+                       'address'  => host,
+                       'protocol' => ipv == 'ipv6' ? proto + '6' : proto,
+                       'process'  => cmd,
+                       'pid'      => pid.to_i })
         end
       end
 
@@ -260,7 +255,7 @@ module Inspec::Resources
         port_info = parse_netstat_line(line)
 
         # only push protocols we are interested in
-        next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+        next unless %w{tcp tcp6 udp udp6}.include?(port_info['protocol'])
         ports.push(port_info)
       end
       ports
@@ -310,13 +305,12 @@ module Inspec::Resources
       pid = pid.to_i if pid =~ /^\d+$/
       process = process[1]
 
-      # map data
       {
-        port: port,
-        address: host,
-        protocol: protocol,
-        process: process,
-        pid: pid,
+        'port'     => port,
+        'address'  => host,
+        'protocol' => protocol,
+        'process'  => process,
+        'pid'      => pid,
       }
     end
   end
@@ -333,7 +327,7 @@ module Inspec::Resources
         port_info = parse_sockstat_line(line)
 
         # push data, if not headerfile
-        next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+        next unless %w{tcp tcp6 udp udp6}.include?(port_info['protocol'])
         ports.push(port_info)
       end
       ports
@@ -386,13 +380,12 @@ module Inspec::Resources
       protocol = 'tcp' if protocol.eql?('tcp4')
       protocol = 'udp' if protocol.eql?('udp4')
 
-      # map data
       {
-        port: port,
-        address: host,
-        protocol: protocol,
-        process: process,
-        pid: pid,
+        'port'     => port,
+        'address'  => host,
+        'protocol' => protocol,
+        'process'  => process,
+        'pid'      => pid,
       }
     end
   end
@@ -423,11 +416,9 @@ module Inspec::Resources
         local_addr[local_addr.rindex('.')] = ':'
         host, port = parse_net_address(local_addr, protocol)
         {
-          port: port,
-          address: host,
-          protocol: protocol,
-          process: nil, # we do not have pid on solaris
-          pid: nil, # we do not have pid on solaris
+          'port'     => port,
+          'address'  => host,
+          'protocol' => protocol,
         }
       }
       ports
@@ -447,11 +438,11 @@ module Inspec::Resources
       # parse all lines
       cmd.each_line do |line|
         port_info = parse_netstat_line(line)
-        next unless %w{tcp tcp6 udp udp6}.include?(port_info[:protocol])
+        next unless %w{tcp tcp6 udp udp6}.include?(port_info['protocol'])
         ports.push(port_info)
       end
       # select all ports, where we `listen`
-      ports.select { |val| val if 'listen'.casecmp(val[:state]) == 0 }
+      ports.select { |val| val if 'listen'.casecmp(val['state']) == 0 }
     end
 
     def parse_netstat_line(line)
@@ -468,12 +459,10 @@ module Inspec::Resources
       host, port = parse_net_address(local_addr, protocol)
       # map data
       {
-        port: port,
-        address: host,
-        protocol: protocol,
-        state: state,
-        process: nil,
-        pid: nil,
+        'port'     => port,
+        'address'  => host,
+        'protocol' => protocol,
+        'state'    => state,
       }
     end
   end
