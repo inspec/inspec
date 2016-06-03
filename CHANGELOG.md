@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.23](https://github.com/chef/inspec/tree/0.23) (2016-05-31)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.22.1...0.23)
+## [0.24.0](https://github.com/chef/inspec/tree/0.24.0) (2016-06-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.23...0.24.0)
+
+**Implemented enhancements:**
+
+- support intra-libraries file referencing + loading [\#780](https://github.com/chef/inspec/pull/780) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- Update documentation for matching output of commands [\#777](https://github.com/chef/inspec/pull/777) ([tas50](https://github.com/tas50))
+
+## [v0.23](https://github.com/chef/inspec/tree/v0.23) (2016-05-31)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.22.1...v0.23)
 
 **Implemented enhancements:**
 
