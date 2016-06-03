@@ -307,4 +307,39 @@ describe Inspec::ProfileContext do
       end
     end
   end
+
+  describe 'library loading' do
+    it 'supports simple ruby require statements' do
+      # Please note: we do discourage the use of Gems in inspec resources at
+      # this time. Resources should be well packaged whenever possible.
+      proc { profile.load('Net::POP3') }.must_raise NameError
+      profile.load_libraries([['require "net/pop"', 'libraries/a.rb']])
+      profile.load('Net::POP3').to_s.must_equal 'Net::POP3'
+    end
+
+    it 'supports loading across the library' do
+      profile.load_libraries([
+        ["require 'a'\nA", 'libraries/b.rb'],
+        ['module A; end', 'libraries/a.rb']
+      ])
+      profile.load('A').to_s.must_equal 'A'
+    end
+
+    it 'fails loading if reference error occur' do
+      proc {
+        profile.load_libraries([
+          ["require 'a'\nB", 'libraries/b.rb'],
+          ['module A; end', 'libraries/a.rb']
+        ])
+      }.must_raise NameError
+    end
+
+    it 'fails loading if a reference dependency isnt found' do
+      proc {
+        profile.load_libraries([
+          ["require 'a'\nA", 'libraries/b.rb'],
+        ])
+      }.must_raise LoadError
+    end
+  end
 end
