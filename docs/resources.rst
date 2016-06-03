@@ -628,7 +628,7 @@ The ``stdout`` matcher tests results of the command as returned in standard outp
 
 .. code-block:: ruby
 
-   its('stdout') { should eq '/^1$/' }
+   its('stdout') { should match /^1$/ }
 
 Examples
 -----------------------------------------------------
@@ -639,9 +639,9 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: ruby
 
    describe command('psql -V') do
-     its('stdout') { should eq '/RC/' }
-     its('stdout') { should_not eq '/DEVEL/' }
-     its('stdout') { should_not eq '/BETA/' }
+     its('stdout') { should match /RC/ }
+     its('stdout') { should_not match /DEVEL/ }
+     its('stdout') { should_not match /BETA/ }
    end
 
 **Test standard output (stdout)**
