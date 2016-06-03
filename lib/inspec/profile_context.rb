@@ -4,6 +4,7 @@
 
 require 'inspec/rule'
 require 'inspec/dsl'
+require 'inspec/require_loader'
 require 'securerandom'
 
 module Inspec
@@ -19,6 +20,7 @@ module Inspec
       @backend = backend
       @conf = conf.dup
       @rules = {}
+      @require_loader = ::Inspec::RequireLoader.new
 
       reload_dsl
     end
@@ -26,7 +28,30 @@ module Inspec
     def reload_dsl
       resources_dsl = Inspec::Resource.create_dsl(@backend)
       ctx = create_context(resources_dsl, rule_context(resources_dsl))
-      @profile_context = ctx.new(@backend, @conf)
+      @profile_context = ctx.new(@backend, @conf, @require_loader)
+    end
+
+    def load_libraries(libs)
+      lib_prefix = 'libraries' + File::SEPARATOR
+      autoloads = []
+
+      libs.each do |content, source, line|
+        path = source
+        if source.start_with?(lib_prefix)
+          path = source.sub(lib_prefix, '')
+          autoloads.push(path) if File.dirname(path) == '.'
+        end
+
+        @require_loader.add(path, content, source, line)
+      end
+
+      # load all files directly that are flat inside the libraries folder
+      autoloads.each do |path|
+        next unless path.end_with?('.rb')
+        load(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+      end
+
+      reload_dsl
     end
 
     def load(content, source = nil, line = nil)
@@ -100,10 +125,27 @@ module Inspec
         include Inspec::DSL
         include resources_dsl
 
-        def initialize(backend, conf) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
+        def initialize(backend, conf, require_loader) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
           @backend = backend
           @conf = conf
+          @require_loader = require_loader
           @skip_profile = false
+        end
+
+        # Save the toplevel require method to load all ruby dependencies.
+        # It is used whenever the `require 'lib'` is not in libraries.
+        alias_method :__ruby_require, :require
+
+        def require(path)
+          rbpath = path + '.rb'
+          return __ruby_require(path) if !@require_loader.exists?(rbpath)
+          return false if @require_loader.loaded?(rbpath)
+
+          # This is equivalent to calling `require 'lib'` with lib on disk.
+          # We cannot rely on libraries residing on disk however.
+          # TODO: Sandboxing.
+          content, path, line = @require_loader.load(rbpath)
+          eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Lint/Eval
         end
 
         define_method :title do |arg|

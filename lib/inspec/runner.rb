@@ -99,10 +99,7 @@ module Inspec
 
       # load all libraries
       ctx = create_context(options)
-      libs.each do |lib|
-        ctx.load(lib[:content].to_s, lib[:ref], lib[:line] || 1)
-        ctx.reload_dsl
-      end
+      ctx.load_libraries(libs.map { |x| [x[:content], x[:ref], x[:line]] })
 
       # hand the context to the profile for further evaluation
       unless (profile = options['profile']).nil?

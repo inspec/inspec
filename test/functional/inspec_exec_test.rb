@@ -105,4 +105,12 @@ describe 'inspec exec' do
       out.stderr.must_equal "This profile requires InSpec version >= 99.0.0. You are running InSpec v#{Inspec::VERSION}.\n"
     end
   end
+
+  describe 'with a profile that loads a library and reference' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'library')) }
+
+    it 'executes the profile without error' do
+      out.exit_status.must_equal 0
+    end
+  end
 end
