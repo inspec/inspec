@@ -55,6 +55,8 @@ module Inspec
         desc: 'Which formatter to use: progress, documentation, json'
       option :color, type: :boolean, default: true,
         desc: 'Use colors in output.'
+      option :output, type: :string,
+        desc: 'Save the report to a path'
     end
 
     private
