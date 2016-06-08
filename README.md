@@ -222,6 +222,7 @@ Blogs:
  * [InSpec Tutorial: Day 2 - Command Resource Blog Logo](http://www.anniehedgie.com/inspec-basics-2)
  * [InSpec Tutorial: Day 3 - File Resource](http://www.anniehedgie.com/inspec-basics-3)
  * [InSpec Tutorial: Day 4 - Custom Matchers](http://www.anniehedgie.com/inspec-basics-4)
+ * [InSpec Tutorial: Day 5 - Creating a Profile](http://www.anniehedgie.com/inspec-basics-5)
  * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
  * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
  * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
