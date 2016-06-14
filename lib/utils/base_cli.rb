@@ -52,7 +52,7 @@ module Inspec
       option :controls, type: :array,
         desc: 'A list of controls to run. Ignore all other tests.'
       option :format, type: :string,
-        desc: 'Which formatter to use: progress, documentation, json'
+        desc: 'Which formatter to use: cli, progress, documentation, json, json-min'
       option :color, type: :boolean, default: true,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
