@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.24.0](https://github.com/chef/inspec/tree/0.24.0) (2016-06-03)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.23...0.24.0)
+## [0.25.0](https://github.com/chef/inspec/tree/0.25.0) (2016-06-14)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.24.0...0.25.0)
+
+**Closed issues:**
+
+- Why mode matcher doesn't work on a file resource [\#781](https://github.com/chef/inspec/issues/781)
+
+**Merged pull requests:**
+
+- Update readme with Annie's Tutorial Day 5 [\#785](https://github.com/chef/inspec/pull/785) ([anniehedgpeth](https://github.com/anniehedgpeth))
+- Feature: Implementation of RFC Attributes [\#723](https://github.com/chef/inspec/pull/723) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.24.0](https://github.com/chef/inspec/tree/v0.24.0) (2016-06-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.23...v0.24.0)
 
 **Implemented enhancements:**
 
