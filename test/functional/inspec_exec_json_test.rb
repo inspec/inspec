@@ -39,7 +39,6 @@ describe 'inspec exec with json formatter' do
       actual = profile.dup
       key = actual.delete('controls').keys
                   .find { |x| x =~ /generated from example.rb/ }
-
       actual.must_equal({
         "name" => "profile",
         "title" => "InSpec Example Profile",
@@ -55,6 +54,7 @@ describe 'inspec exec with json formatter' do
           "controls/example.rb" => {"title"=>"/tmp profile", "controls"=>["tmp-1.0", key]},
           "controls/gordon.rb" => {"title"=>"Gordon Config Checks", "controls"=>["gordon-1.0"]},
         },
+        "attributes" => []
       })
     end
 

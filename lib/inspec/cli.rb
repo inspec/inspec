@@ -108,7 +108,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   exec_options
   def exec(*targets)
     diagnose
-    run_tests(targets, opts)
+    o = opts.dup
+
+    # run tests
+    run_tests(targets, o)
   end
 
   desc 'detect', 'detect the target OS'

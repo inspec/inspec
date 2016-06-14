@@ -10,12 +10,13 @@ require 'inspec/backend'
 require 'inspec/profile_context'
 require 'inspec/profile'
 require 'inspec/metadata'
+require 'inspec/secrets'
 # spec requirements
 
 module Inspec
   class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
-    attr_reader :backend, :rules
+    attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = {}
       @conf = conf.dup
@@ -26,6 +27,10 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
+      # list of profile attributes
+      @attributes = []
+
+      load_attributes(@conf)
       configure_transport
     end
 
@@ -43,6 +48,21 @@ module Inspec
 
     def configure_transport
       @backend = Inspec::Backend.create(@conf)
+    end
+
+    # determine all attributes before the execution, fetch data from secrets backend
+    def load_attributes(options)
+      attributes = {}
+      # read endpoints for secrets eg. yml file
+      secrets_targets = options['attrs']
+      unless secrets_targets.nil?
+        secrets_targets.each do |target|
+          secrets = Inspec::SecretsBackend.resolve(target)
+          # merge hash values
+          attributes = attributes.merge(secrets.attributes) unless secrets.nil? || secrets.attributes.nil?
+        end
+      end
+      options['attributes'] = attributes
     end
 
     def add_target(target, options = {})
@@ -109,6 +129,9 @@ module Inspec
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
+
+      # merge all collect all attributes
+      @attributes |= ctx.attributes
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
