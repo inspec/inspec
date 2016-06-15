@@ -90,6 +90,7 @@ module Inspec
       'json-min' => 'InspecRspecMiniJson',
       'json' => 'InspecRspecJson',
       'json-rspec' => 'InspecRspecVanilla',
+      'cli' => 'InspecRspecCli',
     }.freeze
 
     # Configure the output formatter and stream to be used with RSpec.
@@ -102,7 +103,7 @@ module Inspec
         RSpec.configuration.output_stream = @conf['output']
       end
 
-      format = FORMATTERS[@conf['format']] || @conf['format'] || 'progress'
+      format = FORMATTERS[@conf['format']] || @conf['format'] || FORMATTERS['cli']
       @formatter = RSpec.configuration.add_formatter(format)
       RSpec.configuration.color = @conf['color']
 

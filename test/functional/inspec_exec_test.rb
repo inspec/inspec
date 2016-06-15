@@ -11,71 +11,68 @@ describe 'inspec exec' do
     out = inspec('exec ' + example_profile)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_match /^Pending: /
-    out.stdout.must_include '5 examples, 0 failures, 1 pending'
+    out.stdout.must_include "\n\e[32m[PASS]   ssh-1 Allow only SSH Protocol 2\e[0m\n"
+    out.stdout.must_include "\n\e[32m[PASS]   tmp-1.0 Create /tmp directory\e[0m\n"
+    out.stdout.must_include "\n\e[37m[SKIP]   gordon-1.0 Verify the version number of Gordon (1 skipped)\e[0m\n"
+    out.stdout.must_include "\nSummary:   4 successful    0 failures    1 skipped\n"
+  end
+
+  it 'executes a minimum metadata-only profile' do
+    out = inspec('exec ' + File.join(profile_path, 'simple-metadata'))
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_equal "
+Profile: yumyum profile
+Version: unknown
+
+
+Summary:   0 successful    0 failures    0 skipped
+"
+  end
+
+  it 'executes a metadata-only profile' do
+    out = inspec('exec ' + File.join(profile_path, 'complete-metadata'))
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.must_equal "
+Profile: title (name)
+Version: 1.2.3
+
+
+Summary:   0 successful    0 failures    0 skipped
+"
+  end
+
+  it 'executes a specs-only profile' do
+    out = inspec('exec ' + File.join(profile_path, 'spec_only'))
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 1
+    out.stdout.must_equal "
+\e[32m[PASS]    working should eq \"working\"\e[0m
+\e[37m[SKIP]    skippy This will be skipped intentionally.\e[0m
+\e[31m[FAIL]    failing should eq \"as intended\"
+expected: \"as intended\"
+     got: \"failing\"
+
+(compared using ==)
+\e[0m
+
+Summary:   1 successful    1 failures    1 skipped
+"
   end
 
   it 'executes only specified controls' do
     out = inspec('exec ' + example_profile + ' --controls tmp-1.0')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include '1 example, 0 failures'
-  end
-
-  it 'can execute the profile with the mini json formatter' do
-    out = inspec('exec ' + example_profile + ' --format json-min')
-    out.stderr.must_equal ''
-    out.exit_status.must_equal 0
-    JSON.load(out.stdout).must_be_kind_of Hash
+    out.stdout.must_include "\nSummary:   1 successful    0 failures    0 skipped\n"
   end
 
   it 'can execute a simple file with the default formatter' do
     out = inspec('exec ' + example_control)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include '2 examples, 0 failures'
-  end
-
-  it 'can execute a simple file with the mini json formatter' do
-    out = inspec('exec ' + example_control + ' --format json-min')
-    out.stderr.must_equal ''
-    out.exit_status.must_equal 0
-    JSON.load(out.stdout).must_be_kind_of Hash
-  end
-
-  describe 'execute a profile with mini json formatting' do
-    let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json-min').stdout) }
-    let(:controls) { json['controls'] }
-    let(:ex1) { controls.find{|x| x['id'] == 'tmp-1.0'} }
-    let(:ex2) { controls.find{|x| x['id'] =~ /generated/} }
-    let(:ex3) { controls.find{|x| x['id'] == 'gordon-1.0'} }
-
-    it 'must have 5 examples' do
-      json['controls'].length.must_equal 5
-    end
-
-    it 'has an id' do
-      controls.find { |ex| !ex.key? 'id' }.must_be :nil?
-    end
-
-    it 'has a profile_id' do
-      controls.find { |ex| !ex.key? 'profile_id' }.must_be :nil?
-    end
-
-    it 'has a code_desc' do
-      ex1['code_desc'].must_equal 'File /tmp should be directory'
-      controls.find { |ex| !ex.key? 'code_desc' }.must_be :nil?
-    end
-
-    it 'has a status' do
-      ex1['status'].must_equal 'passed'
-      ex3['status'].must_equal 'skipped'
-    end
-
-    it 'has a skip_message' do
-      ex1['skip_message'].must_be :nil?
-      ex3['skip_message'].must_equal "Can't find file \"/tmp/gordon/config.yaml\""
-    end
+    out.stdout.must_include 'Summary:   2 successful    0 failures    0 skipped'
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
