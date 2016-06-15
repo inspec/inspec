@@ -11,10 +11,11 @@ describe 'inspec exec' do
     out = inspec('exec ' + example_profile)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\n\e[32m[PASS]   ssh-1 Allow only SSH Protocol 2\e[0m\n"
-    out.stdout.must_include "\n\e[32m[PASS]   tmp-1.0 Create /tmp directory\e[0m\n"
-    out.stdout.must_include "\n\e[37m[SKIP]   gordon-1.0 Verify the version number of Gordon (1 skipped)\e[0m\n"
-    out.stdout.must_include "\nSummary:   4 successful    0 failures    1 skipped\n"
+    stdout = out.stdout.force_encoding(Encoding::UTF_8)
+    stdout.must_include "\n\e[32m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
+    stdout.must_include "\n\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
+    stdout.must_include "\n\e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m\n"
+    stdout.must_include "\nSummary:   4 successful    0 failures    1 skipped\n"
   end
 
   it 'executes a minimum metadata-only profile' do
@@ -47,10 +48,10 @@ Summary:   0 successful    0 failures    0 skipped
     out = inspec('exec ' + File.join(profile_path, 'spec_only'))
     out.stderr.must_equal ''
     out.exit_status.must_equal 1
-    out.stdout.must_equal "
-\e[32m[PASS]    working should eq \"working\"\e[0m
-\e[37m[SKIP]    skippy This will be skipped intentionally.\e[0m
-\e[31m[FAIL]    failing should eq \"as intended\"
+    out.stdout.force_encoding(Encoding::UTF_8).must_equal "
+\e[32m  ✔  working should eq \"working\"\e[0m
+\e[37m  ○  skippy This will be skipped intentionally.\e[0m
+\e[31m  ✖  failing should eq \"as intended\"
 expected: \"as intended\"
      got: \"failing\"
 

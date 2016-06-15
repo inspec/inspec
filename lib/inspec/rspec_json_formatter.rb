@@ -151,14 +151,14 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   }.freeze
 
   INDICATORS = {
-    'critical' => '[CRIT]   ',
-    'major'    => '[FAIL]   ',
-    'minor'    => '[WARN]   ',
-    'failed'   => '[FAIL]   ',
-    'skipped'  => '[SKIP]   ',
-    'passed'   => '[PASS]   ',
-    'unknown'  => '[ ?? ]   ',
-    'empty'    => '         ',
+    'critical' => '  ✖  ',
+    'major'    => '  ✖  ',
+    'minor'    => '  ✖  ',
+    'failed'   => '  ✖  ',
+    'skipped'  => '  ○  ',
+    'passed'   => '  ✔  ',
+    'unknown'  => '  ?  ',
+    'empty'    => '     ',
   }.freeze
 
   TEST_INDICATORS = {
@@ -172,7 +172,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     @indicators = INDICATORS
     @test_indicators = TEST_INDICATORS
 
-    @format = '%color%indicator%id %summary'
+    @format = '%color%indicator%id%summary'
     @current_control = nil
     @missing_controls = []
     super(*args)
@@ -268,8 +268,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     fails, skips, summary_indicator = current_control_infos
     summary = current_control_summary(fails, skips)
 
-    control_id = @current_control[:id]
-    control_id = nil if control_id.start_with? '(generated from '
+    control_id = @current_control[:id].to_s
+    control_id += ': '
+    control_id = '' if control_id.start_with? '(generated from '
 
     f = format_line(
       color:      @colors[summary_indicator] || '',
