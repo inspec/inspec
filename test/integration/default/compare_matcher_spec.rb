@@ -71,6 +71,11 @@ if os.linux?
     it { should_not cmp >= 13 }
   end
 
+  # Don't compare octal to number
+  describe '07' do
+    it { should_not cmp 7 }
+  end
+
   describe 'some 123' do
     it { should cmp 'some 123' }
     it { should cmp /^SOME\s\d+(1|2|3)3/i }
