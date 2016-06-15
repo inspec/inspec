@@ -14,7 +14,10 @@ describe 'inspec exec' do
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
     stdout.must_include "\n\e[32m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
     stdout.must_include "\n\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
-    stdout.must_include "\n\e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m\n"
+    stdout.must_include "
+\e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
+\e[37m     Can't find file \"/tmp/gordon/config.yaml\"\e[0m
+"
     stdout.must_include "\nSummary:   4 successful    0 failures    1 skipped\n"
   end
 
@@ -26,6 +29,7 @@ describe 'inspec exec' do
 Profile: yumyum profile
 Version: unknown
 
+     No tests executed.\e[0m
 
 Summary:   0 successful    0 failures    0 skipped
 "
@@ -39,6 +43,7 @@ Summary:   0 successful    0 failures    0 skipped
 Profile: title (name)
 Version: 1.2.3
 
+     No tests executed.\e[0m
 
 Summary:   0 successful    0 failures    0 skipped
 "
@@ -52,11 +57,10 @@ Summary:   0 successful    0 failures    0 skipped
 \e[32m  ✔  working should eq \"working\"\e[0m
 \e[37m  ○  skippy This will be skipped intentionally.\e[0m
 \e[31m  ✖  failing should eq \"as intended\"
-expected: \"as intended\"
-     got: \"failing\"
-
-(compared using ==)
-\e[0m
+     expected: \"as intended\"
+          got: \"failing\"
+     \n     (compared using ==)
+     \e[0m
 
 Summary:   1 successful    1 failures    1 skipped
 "
