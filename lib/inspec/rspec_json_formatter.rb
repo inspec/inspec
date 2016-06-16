@@ -162,9 +162,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   }.freeze
 
   TEST_INDICATORS = {
-    'failed'   => '  fail:  ',
-    'skipped'  => '  skip:  ',
-    'empty'    => '         ',
+    'failed'   => '     fail: ',
+    'skipped'  => '     skip: ',
+    'empty'    => '     ',
   }.freeze
 
   def initialize(*args)
@@ -174,32 +174,30 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
     @format = '%color%indicator%id%summary'
     @current_control = nil
+    @current_profile = nil
     @missing_controls = []
     super(*args)
   end
 
   def start(_notification)
-    output.puts ''
-
     @profiles_info ||= Hash[@profiles.map { |x| profile_info(x) }]
-    profiles = @profiles_info.values.find_all { |x| !x[:title].nil? || !x[:name].nil? }
-    profiles.each do |profile|
-      if profile[:title].nil?
-        output.puts "Profile: #{profile[:name] || 'unknown'}"
-      else
-        output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
-      end
-
-      output.puts 'Version: ' + (profile[:version] || 'unknown')
-      output.puts ''
-    end
-    output.puts '' unless profiles.empty?
   end
 
   def close(_notification)
     flush_current_control
+    output.puts('') unless @current_control.nil?
 
-    output.puts '' unless @current_control.nil?
+    @profiles_info.each do |_id, profile|
+      next if profile[:already_printed]
+      @current_profile = profile
+      next unless print_current_profile
+      print_line(
+        color: '', indicator: @indicators['empty'], id: '', profile: '',
+        summary: 'No tests executed.'
+      )
+      output.puts('')
+    end
+
     res = @output_hash[:summary]
     passed = res[:example_count] - res[:failure_count] - res[:skip_count]
     s = format('Summary: %3d successful  %3d failures  %3d skipped',
@@ -263,8 +261,35 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end + @colors['reset']
   end
 
+  def print_line(fields)
+    output.puts(format_line(fields))
+  end
+
+  def format_lines(lines, indentation)
+    lines.gsub(/\n/, "\n" + indentation)
+  end
+
+  def print_fails_and_skips(all, color)
+    all.each do |x|
+      indicator = @test_indicators[x[:status]]
+      indicator = @test_indicators['empty'] if all.length == 1 || indicator.nil?
+      msg = x[:message] || x[:skip_message] || x[:code_desc]
+      print_line(
+        color:      color,
+        indicator:  indicator,
+        summary:    format_lines(msg, @test_indicators['empty']),
+        id: nil, profile: nil
+      )
+    end
+  end
+
   def flush_current_control
     return if @current_control.nil?
+
+    prev_profile = @current_profile
+    @current_profile = @profiles_info[@current_control[:profile_id]]
+    print_current_profile if prev_profile != @current_profile
+
     fails, skips, summary_indicator = current_control_infos
     summary = current_control_summary(fails, skips)
 
@@ -272,27 +297,34 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     control_id += ': '
     control_id = '' if control_id.start_with? '(generated from '
 
-    f = format_line(
+    print_line(
       color:      @colors[summary_indicator] || '',
       indicator:  @indicators[summary_indicator] || @indicators['unknown'],
-      summary:    summary,
+      summary:    format_lines(summary, @indicators['empty']),
       id:         control_id,
       profile:    @current_control[:profile_id],
     )
-    output.puts(f)
 
-    all_lines = (fails + skips)
-    all_lines.each do |x|
-      indicator = @test_indicators[x[:status]]
-      indicator = @test_indicators['empty'] if all_lines.length == 1 || indicator.nil?
-      f = format_line(
-        color:      @colors[summary_indicator] || '',
-        indicator:  indicator,
-        summary:    x[:message] || x[:skip_message] || x[:code_desc],
-        id: nil, profile: nil
-      )
-      output.puts(f)
+    print_fails_and_skips(fails + skips, @colors[summary_indicator] || '')
+  end
+
+  def print_current_profile
+    profile = @current_profile
+    return false if profile.nil?
+
+    output.puts ''
+    profile[:already_printed] = true
+    return true if profile[:name].nil?
+
+    if profile[:title].nil?
+      output.puts "Profile: #{profile[:name] || 'unknown'}"
+    else
+      output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
     end
+
+    output.puts 'Version: ' + (profile[:version] || 'unknown')
+    output.puts ''
+    true
   end
 
   def format_example(example)
