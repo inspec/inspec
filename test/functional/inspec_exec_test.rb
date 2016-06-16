@@ -28,6 +28,7 @@ describe 'inspec exec' do
     out.stdout.must_equal "
 Profile: yumyum profile
 Version: unknown
+Target:  local://
 
      No tests executed.\e[0m
 
@@ -42,6 +43,7 @@ Summary:   0 successful    0 failures    0 skipped
     out.stdout.must_equal "
 Profile: title (name)
 Version: 1.2.3
+Target:  local://
 
      No tests executed.\e[0m
 
@@ -54,6 +56,8 @@ Summary:   0 successful    0 failures    0 skipped
     out.stderr.must_equal ''
     out.exit_status.must_equal 1
     out.stdout.force_encoding(Encoding::UTF_8).must_equal "
+Target:  local://
+
 \e[32m  ✔  working should eq \"working\"\e[0m
 \e[37m  ○  skippy This will be skipped intentionally.\e[0m
 \e[31m  ✖  failing should eq \"as intended\"

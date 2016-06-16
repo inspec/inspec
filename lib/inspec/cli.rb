@@ -9,6 +9,7 @@ require 'json'
 require 'pp'
 require 'utils/base_cli'
 require 'utils/json_log'
+require 'inspec/runner_mock'
 
 class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
@@ -160,7 +161,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   private
 
   def run_command(opts)
-    opts[:test_collector] = 'mock'
+    opts[:test_collector] = Inspec::RunnerMock.new
     runner = Inspec::Runner.new(opts)
     runner.create_context.load(opts[:command])
   end
