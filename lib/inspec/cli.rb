@@ -57,19 +57,30 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     if opts['format'] == 'json'
       puts JSON.generate(result)
     else
-      headline('Summary')
-      %w{location profile controls timestamp valid}.each { |item|
-        puts "#{mark_text(item.to_s.capitalize + ':')} #{result[:summary][item.to_sym]}"
-      }
+      %w{location profile controls timestamp valid}.each do |item|
+        puts format('%-12s %s', item.to_s.capitalize + ':',
+                    mark_text(result[:summary][item.to_sym]))
+      end
       puts
 
-      %w{errors warnings}.each { |list|
-        headline(list.to_s.capitalize)
-        result[list.to_sym].each { |item|
-          puts "#{item[:file]}:#{item[:line]}:#{item[:column]}: #{item[:msg]} "
+      if result[:errors].empty? and result[:warnings].empty?
+        puts 'No errors or warnings'
+      else
+        item_msg = lambda { |item|
+          pos = [item[:file], item[:line], item[:column]].compact.join(':')
+          pos.empty? ? item[:msg] : pos + ': ' + item[:msg]
         }
+        result[:errors].each do |item|
+          puts "\033[31m  ✖  #{item_msg.call(item)}\033[0m"
+        end
+        result[:warnings].each do |item|
+          puts "\033[33m  !  #{item_msg.call(item)}\033[0m"
+        end
+
         puts
-      }
+        puts format('Summary:   %3d errors  %3d warnings',
+                    result[:errors].length, result[:warnings].length)
+      end
     end
     exit 1 unless result[:summary][:valid]
   end

@@ -136,13 +136,11 @@ module Inspec
     end
 
     def mark_text(text)
-      "\e[0;32m#{text}\e[0m"
+      "\e[0;36m#{text}\e[0m"
     end
 
     def headline(title)
-      puts title
-      title.each_char { print '-' }
-      puts
+      puts "== #{title}\n\n"
     end
 
     def li(entry)
