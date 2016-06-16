@@ -140,7 +140,7 @@ module Inspec
     end
 
     def headline(title)
-      puts "== #{title}\n\n"
+      puts "\n== #{title}\n\n"
     end
 
     def li(entry)

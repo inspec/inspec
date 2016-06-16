@@ -138,7 +138,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     else
       headline('Operating System Details')
       %w{name family release arch}.each { |item|
-        puts "#{mark_text(item.to_s.capitalize + ':')} #{res[item.to_sym]}"
+        puts format('%-10s %s', item.to_s.capitalize + ':',
+                    mark_text(res[item.to_sym]))
       }
     end
   end

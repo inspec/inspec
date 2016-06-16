@@ -26,10 +26,11 @@ describe 'command tests' do
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       std = out.stdout
-      std.must_include 'Name:'
-      std.must_include 'Family:'
-      std.must_include 'Arch:'
-      std.must_include 'Release:'
+      std.must_include "\n== Operating System Details\n\n"
+      std.must_include "\nName:      \e[0;36m"
+      std.must_include "\nFamily:    \e[0;36m"
+      std.must_include "\nArch:      \e[0;36m"
+      std.must_include "\nRelease:   \e[0;36m"
     end
   end
 
