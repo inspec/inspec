@@ -202,8 +202,10 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
     res = @output_hash[:summary]
     passed = res[:example_count] - res[:failure_count] - res[:skip_count]
-    s = format('Summary: %3d successful  %3d failures  %3d skipped',
-               passed, res[:failure_count], res[:skip_count])
+    s = format('Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
+               COLORS['passed'], passed, COLORS['reset'],
+               COLORS['failed'], res[:failure_count], COLORS['reset'],
+               COLORS['skipped'], res[:skip_count], COLORS['reset'])
     output.puts(s)
   end
 

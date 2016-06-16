@@ -18,7 +18,7 @@ describe 'inspec exec' do
 \e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
 \e[37m     Can't find file \"/tmp/gordon/config.yaml\"\e[0m
 "
-    stdout.must_include "\nSummary:   4 successful    0 failures    1 skipped\n"
+    stdout.must_include "\nSummary: \e[32m4 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m\n"
   end
 
   it 'executes a minimum metadata-only profile' do
@@ -32,7 +32,7 @@ Target:  local://
 
      No tests executed.\e[0m
 
-Summary:   0 successful    0 failures    0 skipped
+Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
   end
 
@@ -47,7 +47,7 @@ Target:  local://
 
      No tests executed.\e[0m
 
-Summary:   0 successful    0 failures    0 skipped
+Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
   end
 
@@ -66,7 +66,7 @@ Target:  local://
      \n     (compared using ==)
      \e[0m
 
-Summary:   1 successful    1 failures    1 skipped
+Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
 "
   end
 
@@ -74,14 +74,14 @@ Summary:   1 successful    1 failures    1 skipped
     out = inspec('exec ' + example_profile + ' --controls tmp-1.0')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nSummary:   1 successful    0 failures    0 skipped\n"
+    out.stdout.must_include "\nSummary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
   end
 
   it 'can execute a simple file with the default formatter' do
     out = inspec('exec ' + example_control)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include 'Summary:   2 successful    0 failures    0 skipped'
+    out.stdout.must_include "\nSummary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
   end
 
   describe 'with a profile that is not supported on this OS/platform' do

@@ -66,20 +66,25 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       if result[:errors].empty? and result[:warnings].empty?
         puts 'No errors or warnings'
       else
+        red    = "\033[31m"
+        yellow = "\033[33m"
+        rst    = "\033[0m"
+
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(':')
           pos.empty? ? item[:msg] : pos + ': ' + item[:msg]
         }
         result[:errors].each do |item|
-          puts "\033[31m  ✖  #{item_msg.call(item)}\033[0m"
+          puts "#{red}  ✖  #{item_msg.call(item)}#{rst}"
         end
         result[:warnings].each do |item|
-          puts "\033[33m  !  #{item_msg.call(item)}\033[0m"
+          puts "#{yellow}  !  #{item_msg.call(item)}#{rst}"
         end
 
         puts
-        puts format('Summary:   %3d errors  %3d warnings',
-                    result[:errors].length, result[:warnings].length)
+        puts format('Summary:     %s%d errors%s, %s%d warnings%s',
+                    red, result[:errors].length, rst,
+                    yellow, result[:warnings].length, rst)
       end
     end
     exit 1 unless result[:summary][:valid]
