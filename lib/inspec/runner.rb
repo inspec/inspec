@@ -48,6 +48,7 @@ module Inspec
 
     def configure_transport
       @backend = Inspec::Backend.create(@conf)
+      @test_collector.backend = @backend
     end
 
     # determine all attributes before the execution, fetch data from secrets backend

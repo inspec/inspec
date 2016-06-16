@@ -73,10 +73,12 @@ end
 
 class InspecRspecJson < InspecRspecMiniJson
   RSpec::Core::Formatters.register self, :message, :dump_summary, :dump_profile, :stop, :close
+  attr_writer :backend
 
   def initialize(*args)
     super(*args)
     @profiles = []
+    @backend = nil
   end
 
   def add_profile(profile)
@@ -308,13 +310,23 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     print_fails_and_skips(fails + skips, @colors[summary_indicator] || '')
   end
 
+  def print_target(before, after)
+    return if @backend.nil?
+    connection = @backend.backend
+    return unless connection.respond_to?(:uri)
+    output.puts(before + connection.uri + after)
+  end
+
   def print_current_profile
     profile = @current_profile
     return false if profile.nil?
 
     output.puts ''
     profile[:already_printed] = true
-    return true if profile[:name].nil?
+    if profile[:name].nil?
+      print_target('Target:  ', "\n\n")
+      return true
+    end
 
     if profile[:title].nil?
       output.puts "Profile: #{profile[:name] || 'unknown'}"
@@ -323,7 +335,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     output.puts 'Version: ' + (profile[:version] || 'unknown')
-    output.puts ''
+    print_target('Target:  ', "\n")
+    output.puts
     true
   end
 

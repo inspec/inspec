@@ -40,6 +40,18 @@ module Inspec
       end
     end
 
+    # Configure the backend of the runner.
+    #
+    # @param [Inspec::Backend] backend
+    # @return [nil]
+    def backend=(backend)
+      RSpec.configuration.formatters
+           .find_all { |c| c.is_a? InspecRspecJson }
+           .each do |fmt|
+        fmt.backend = backend
+      end
+    end
+
     # Add an example group to the list of registered tests.
     #
     # @param [RSpecExampleGroup] example test
