@@ -1,7 +1,30 @@
 # Change Log
 
-## [0.25.0](https://github.com/chef/inspec/tree/0.25.0) (2016-06-14)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.24.0...0.25.0)
+## [0.26.0](https://github.com/chef/inspec/tree/0.26.0) (2016-06-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.25.0...0.26.0)
+
+**Implemented enhancements:**
+
+- use train instead of r-train [\#795](https://github.com/chef/inspec/pull/795) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Transport error while trying to ssh to mac osx  [\#788](https://github.com/chef/inspec/issues/788)
+
+**Closed issues:**
+
+- Can't upload inherited profile [\#789](https://github.com/chef/inspec/issues/789)
+
+**Merged pull requests:**
+
+- provide target info in cli output [\#796](https://github.com/chef/inspec/pull/796) ([arlimus](https://github.com/arlimus))
+- multi-profile reporting in cli formatter [\#794](https://github.com/chef/inspec/pull/794) ([arlimus](https://github.com/arlimus))
+- use utf-8 characters for default cli formatter [\#792](https://github.com/chef/inspec/pull/792) ([arlimus](https://github.com/arlimus))
+- integer?\("0300"\) should not be true [\#791](https://github.com/chef/inspec/pull/791) ([srenatus](https://github.com/srenatus))
+- introduce cli report formatter [\#790](https://github.com/chef/inspec/pull/790) ([arlimus](https://github.com/arlimus))
+
+## [v0.25.0](https://github.com/chef/inspec/tree/v0.25.0) (2016-06-14)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.24.0...v0.25.0)
 
 **Closed issues:**
 
