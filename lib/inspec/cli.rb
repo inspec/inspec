@@ -57,19 +57,35 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     if opts['format'] == 'json'
       puts JSON.generate(result)
     else
-      headline('Summary')
-      %w{location profile controls timestamp valid}.each { |item|
-        puts "#{mark_text(item.to_s.capitalize + ':')} #{result[:summary][item.to_sym]}"
-      }
+      %w{location profile controls timestamp valid}.each do |item|
+        puts format('%-12s %s', item.to_s.capitalize + ':',
+                    mark_text(result[:summary][item.to_sym]))
+      end
       puts
 
-      %w{errors warnings}.each { |list|
-        headline(list.to_s.capitalize)
-        result[list.to_sym].each { |item|
-          puts "#{item[:file]}:#{item[:line]}:#{item[:column]}: #{item[:msg]} "
+      if result[:errors].empty? and result[:warnings].empty?
+        puts 'No errors or warnings'
+      else
+        red    = "\033[31m"
+        yellow = "\033[33m"
+        rst    = "\033[0m"
+
+        item_msg = lambda { |item|
+          pos = [item[:file], item[:line], item[:column]].compact.join(':')
+          pos.empty? ? item[:msg] : pos + ': ' + item[:msg]
         }
+        result[:errors].each do |item|
+          puts "#{red}  ✖  #{item_msg.call(item)}#{rst}"
+        end
+        result[:warnings].each do |item|
+          puts "#{yellow}  !  #{item_msg.call(item)}#{rst}"
+        end
+
         puts
-      }
+        puts format('Summary:     %s%d errors%s, %s%d warnings%s',
+                    red, result[:errors].length, rst,
+                    yellow, result[:warnings].length, rst)
+      end
     end
     exit 1 unless result[:summary][:valid]
   end
@@ -127,7 +143,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     else
       headline('Operating System Details')
       %w{name family release arch}.each { |item|
-        puts "#{mark_text(item.to_s.capitalize + ':')} #{res[item.to_sym]}"
+        puts format('%-10s %s', item.to_s.capitalize + ':',
+                    mark_text(res[item.to_sym]))
       }
     end
   end
