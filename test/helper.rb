@@ -243,7 +243,7 @@ class MockLoader
       # xinetd configuration
       'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
       # wmi test
-      "Get-WmiObject -class win32_service  -filter \"name like '%winrm%'\" | ConvertTo-Json" => cmd.call('get-wmiobject'),
+      "4762fab9e8180997634ae70aae6d5f59e641084111fb9f5e5bf2848a583aa5f5" => cmd.call('get-wmiobject'),
       #user info on hpux
       "logins -x -l root" => cmd.call('logins-x'),
       #packages on hpux
