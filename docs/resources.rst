@@ -9,6 +9,7 @@ The following InSpec audit resources are available:
 * `audit_policy`_
 * `auditd_conf`_
 * `auditd_rules`_
+* `bash`_
 * `bond`_
 * `bridge`_
 * `csv`_
@@ -396,6 +397,130 @@ Note that filters can be chained, for example:
    describe auditd_rules.syscall('open').action('always').list do
      it { should eq(['exit']) }
    end
+
+
+
+
+bash
+=====================================================
+Use the ``bash`` |inspec resource| to test an arbitrary command in BASH on the system.
+
+**Stability: Stable**
+
+Syntax
+-----------------------------------------------------
+A ``bash`` |inspec resource| block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+
+.. code-block:: ruby
+
+  describe bash('command') do
+    it { should exist }
+    its('matcher') { should eq 'output' }
+  end
+
+where
+
+* ``'command'`` must specify a command to be run
+* ``'matcher'`` is one of ``exit_status``, ``stderr``, or ``stdout``
+* ``'output'`` tests the output of the command run on the system versus the output value stated in the test
+
+Matchers
+-----------------------------------------------------
+This InSpec audit resource has the following matchers.
+
+exist
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if a command may be run on the system:
+
+.. code-block:: ruby
+
+  it { should exist }
+
+exit_status
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exit_status`` matcher tests the exit status for the command:
+
+.. code-block:: ruby
+
+  its('exit_status') { should eq 123 }
+
+stderr
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stderr`` matcher tests results of the command as returned in standard error (stderr):
+
+.. code-block:: ruby
+
+  its('stderr') { should eq 'error' }
+
+stdout
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``stdout`` matcher tests results of the command as returned in standard output (stdout):
+
+.. code-block:: ruby
+
+  its('stdout') { should match /^1$/ }
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this InSpec audit resource.
+
+**List content of a directorye**
+
+.. code-block:: ruby
+
+  describe bash('ls -al /') do
+    its('stdout') { should match /bin/ }
+    its('stderr') { should eq '' }
+    its('exit_status') { should eq 0 }
+  end
+
+**Test standard output (stdout)**
+
+.. code-block:: ruby
+
+  describe bash('echo hello') do
+    its('stdout') { should eq 'hello\n' }
+    its('stderr') { should eq '' }
+    its('exit_status') { should eq 0 }
+  end
+
+**Test standard error (stderr)**
+
+.. code-block:: ruby
+
+  describe bash('>&2 echo error') do
+    its('stdout') { should eq '' }
+    its('stderr') { should eq 'error\n' }
+    its('exit_status') { should eq 0 }
+  end
+
+**Test an exit status code**
+
+.. code-block:: ruby
+
+  describe bash('exit 123') do
+    its('stdout') { should eq '' }
+    its('stderr') { should eq '' }
+    its('exit_status') { should eq 123 }
+  end
+
+**Specify the path of the bash executable**
+
+.. code-block:: ruby
+
+  describe bash('echo hello', path: '/bin/bash') do
+    its('stdout') { should eq 'hello\n' }
+  end
+
+**Specify bash arguments (defaults to -c)**
+
+.. code-block:: ruby
+
+  describe bash('echo hello', args: '-x -c') do
+    its('stdout') { should eq 'hello\n' }
+  end
+
+
 
 
 bond
