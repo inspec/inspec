@@ -247,6 +247,15 @@ RSpec::Matchers.define :cmp do |first_expected|
     !(value =~ /\A0+\d+\Z/).nil?
   end
 
+  def boolean?(value)
+    %w{true false}.include?(value.downcase)
+  end
+
+  # expects that the values have been checked with boolean?
+  def to_boolean(value)
+    value.casecmp('true') == 0
+  end
+
   def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
@@ -255,6 +264,8 @@ RSpec::Matchers.define :cmp do |first_expected|
       return !actual.to_s.match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
       return actual.method(op).call(expected.to_i)
+    elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
+      return actual.method(op).call(to_boolean(expected))
     elsif expected.is_a?(Integer) && integer?(actual)
       return actual.to_i.method(op).call(expected)
     elsif expected.is_a?(Float) && float?(actual)
