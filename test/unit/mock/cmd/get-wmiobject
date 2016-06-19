@@ -1,10 +1,9 @@
 {
-    "Path":  {
-                 "ClassName":  "Win32_Service"
-             },
-    "Caption":  "Windows Remote Management (WS-Management)",
-    "CreationClassName":  "Win32_Service",
     "DisplayName":  "Windows Remote Management (WS-Management)",
+    "Caption":  "Windows Remote Management (WS-Management)",
+    "DesktopInteract":  false,
     "Name":  "WinRM",
-    "PathName":  "C:\\Windows\\System32\\svchost.exe -k NetworkService"
+    "StartMode":  "Auto",
+    "ExitCode":  0,
+    "Status":  "OK"
 }
