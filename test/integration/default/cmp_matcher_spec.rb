@@ -100,4 +100,16 @@ if os.linux?
     it { should_not cmp < 3 }
     it { should_not cmp /something/ }
   end
+
+  describe true do
+    it { should cmp 'true' }
+    it { should cmp 'True' }
+    it { should cmp true }
+  end
+
+  describe false do
+    it { should cmp 'false' }
+    it { should cmp 'False' }
+    it { should cmp false }
+  end
 end
