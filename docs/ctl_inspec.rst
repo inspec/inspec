@@ -171,6 +171,33 @@ Use ``inspec help`` to print help for the |ctl inspec| from the command shell.
 
 
 
+init
+=====================================================
+Use ``inspec init`` to initialize a new inspec profile
+
+Syntax
+-----------------------------------------------------
+This command has the following syntax:
+.. code-block:: bash
+
+   $ inspec init profile PROFILE (options)
+
+where:
+
+* ``PROFILE`` is the name of the profile you wish to create
+
+Options
+-----------------------------------------------------
+This subcommand has additional options:
+
+``--overwrite``
+   Overwite directory if it exists
+
+``--no-overwrite``
+   Converse of ``--overwrite``. (default)
+
+
+
 json
 =====================================================
 Use ``inspec json`` to read all tests at the specified path, and then generate a |json| profile to standard output (stdout).
