@@ -2038,7 +2038,11 @@ A ``json`` |inspec resource| block declares the data to be tested. Assume the fo
      "name" : "hello",
      "meta" : {
        "creator" : "John Doe"
-     }
+     },
+     "array": [
+       "zero",
+       "one"
+     ]
    }
 
 
@@ -2049,6 +2053,7 @@ This file can be queried via:
    describe json('/paht/to/name.json') do
       its('name') { should eq 'hello' }
       its(['meta','creator']) { should eq 'John Doe' }
+      its(['array', 1]) { should eq 'one' }
    end
 
 where
@@ -4469,10 +4474,21 @@ Syntax
 -----------------------------------------------------
 A ``yaml`` |inspec resource| block declares the configuration data to be tested:
 
+.. code-block:: yaml
+
+   name: foo
+   array:
+     - zero
+     - one
+
+
+This file can be queried via:
+
 .. code-block:: ruby
 
    describe yaml do
      its('name') { should eq 'foo' }
+     its(['array', 1]) { should eq 'one' }
    end
 
 where
