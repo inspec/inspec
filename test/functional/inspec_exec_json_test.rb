@@ -80,8 +80,8 @@ describe 'inspec exec with json formatter' do
       actual = ex1.dup
 
       src = actual.delete('source_location')
-      src[0].must_match %r{examples/profile/controls/example.rb$}
-      src[1].must_equal 8
+      src['ref'].must_match %r{examples/profile/controls/example.rb$}
+      src['line'].must_equal 8
 
       result = actual.delete('results')[0]
       result.wont_be :nil?

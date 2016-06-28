@@ -145,7 +145,8 @@ module Inspec
 
       # iterate over hash of groups
       params[:controls].each { |id, control|
-        sfile, sline = control[:source_location]
+        sfile = control[:source_location][:ref]
+        sline = control[:source_location][:line]
         error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
         next if id.start_with? '(generated '
         warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
