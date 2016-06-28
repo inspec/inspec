@@ -11,7 +11,7 @@ module Inspec
     # Create the transport backend with aggregated resources.
     #
     # @param [Hash] config for the transport backend
-    # @return [TransportBackend] enriched transport instance
+    # @return [TransportBackend] enriched transport module
     def self.create(config)
       conf = Train.target_config(config)
       name = Train.validate_backend(conf)
@@ -25,7 +25,7 @@ module Inspec
         fail "Can't connect to transport backend '#{name}'."
       end
 
-      cls = Class.new do
+      Module.new do
         define_method :backend do
           connection
         end
@@ -36,12 +36,21 @@ module Inspec
         end
       end
 
-      cls.new
-
     rescue Train::ClientError => e
       raise "Client error, can't connect to '#{name}' backend: #{e.message}"
     rescue Train::TransportError => e
       raise "Transport error, can't connect to '#{name}' backend: #{e.message}"
+    end
+
+    # Creates an instance of the transport backend with all resources.
+    # It can be used to invoce methods directly.
+    #
+    # @param [Hash] config of the backend
+    # @param [Any] base optional base class
+    # @return [TransportBackend] backend instance
+    def self.instance(config, base = Object)
+      dsl = create(config)
+      Class.new(base) { include dsl }.new
     end
   end
 end

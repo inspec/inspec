@@ -5,7 +5,7 @@
 module Inspec
   class RunnerMock
     attr_reader :tests, :profiles
-    attr_writer :backend
+    attr_accessor :backend
     def initialize
       @tests = []
       @profiles = []
