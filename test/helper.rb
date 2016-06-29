@@ -70,7 +70,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Inspec::Backend.create({ backend: :mock })
+    @backend = Inspec::Backend.instance(backend: :mock)
     mock = @backend.backend
 
     # set os emulation

@@ -15,8 +15,25 @@ module Inspec
     def initialize(conf)
       @conf = conf
       @formatter = nil
+      @example_factory = RSpec::Core::ExampleGroup
       reset_tests
       configure_output
+    end
+
+    # Configure the backend of the runner.
+    #
+    # @param [Inspec::Backend] backend
+    # @return [nil]
+    def backend=(backend)
+      @example_factory = Class.new(RSpec::Core::ExampleGroup) do
+        extend backend
+      end
+
+      RSpec.configuration.formatters
+           .find_all { |c| c.is_a? InspecRspecJson }
+           .each do |fmt|
+        fmt.backend = Class.new { include backend }.new
+      end
     end
 
     # Create a new RSpec example group from arguments and block.
@@ -25,7 +42,7 @@ module Inspec
     # @param [Type] &block the block associated with this example group
     # @return [RSpecExampleGroup]
     def example_group(*args, &block)
-      RSpec::Core::ExampleGroup.describe(*args, &block)
+      @example_factory.describe(*args, &block)
     end
 
     # Add a full profile to the runner. Only pulls in metadata
@@ -37,18 +54,6 @@ module Inspec
            .find_all { |c| c.is_a? InspecRspecJson }
            .each do |fmt|
         fmt.add_profile(profile)
-      end
-    end
-
-    # Configure the backend of the runner.
-    #
-    # @param [Inspec::Backend] backend
-    # @return [nil]
-    def backend=(backend)
-      RSpec.configuration.formatters
-           .find_all { |c| c.is_a? InspecRspecJson }
-           .each do |fmt|
-        fmt.backend = backend
       end
     end
 

@@ -8,7 +8,7 @@ describe FindFiles do
     class FindFilesTest
       include FindFiles
       def inspec
-        Inspec::Backend.create(backend: :mock)
+        Inspec::Backend.instance(backend: :mock)
       end
     end
     FindFilesTest.new
