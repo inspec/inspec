@@ -23,24 +23,27 @@ describe 'inspec exec with json formatter' do
 
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
-    let(:profile) { json['profiles']['profile'] }
+    let(:profile) { json['profiles'][0] }
     let(:controls) { profile['controls'] }
-    let(:ex1) { controls['tmp-1.0'] }
-    let(:ex2) {
-      k = controls.keys.find { |x| x =~ /generated/ }
-      controls[k]
-    }
-    let(:ex3) { profile['controls']['gordon-1.0'] }
+    let(:ex1) { controls.find { |x| x['id'] == 'tmp-1.0' } }
+    let(:ex2) { controls.find { |x| x['id'] =~ /generated/ } }
+    let(:ex3) { profile['controls'].find { |x| x['id'] == 'gordon-1.0' } }
     let(:check_result) {
       ex3['results'].find { |x| x['resource'] == 'gordon_config' }
     }
 
+    it 'has only one profile' do
+      json['profiles'].must_be_kind_of(Array)
+      json['profiles'].length.must_equal 1
+    end
+
     it 'has all the metadata' do
       actual = profile.dup
-      key = actual.delete('controls').keys
-                  .find { |x| x =~ /generated from example.rb/ }
+      key = actual.delete('controls')
+                  .find { |x| x['id'] =~ /generated from example.rb/ }['id']
+      groups = actual.delete('groups')
       actual.must_equal({
-        "name" => "profile",
+        "id" => "profile",
         "title" => "InSpec Example Profile",
         "maintainer" => "Chef Software, Inc.",
         "copyright" => "Chef Software, Inc.",
@@ -49,13 +52,14 @@ describe 'inspec exec with json formatter' do
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
         "supports" => [{"os-family" => "unix"}],
-        "groups" => {
-          "controls/meta.rb" => {"title"=>"SSH Server Configuration", "controls"=>["ssh-1"]},
-          "controls/example.rb" => {"title"=>"/tmp profile", "controls"=>["tmp-1.0", key]},
-          "controls/gordon.rb" => {"title"=>"Gordon Config Checks", "controls"=>["gordon-1.0"]},
-        },
         "attributes" => []
       })
+
+      groups.sort_by { |x| x['id'] }.must_equal([
+        {"id"=>"controls/meta.rb", "title"=>"SSH Server Configuration", "controls"=>["ssh-1"]},
+        {"id"=>"controls/example.rb", "title"=>"/tmp profile", "controls"=>["tmp-1.0", key]},
+        {"id"=>"controls/gordon.rb", "title"=>"Gordon Config Checks", "controls"=>["gordon-1.0"]},
+      ])
     end
 
     it 'must have 4 controls' do
@@ -63,7 +67,7 @@ describe 'inspec exec with json formatter' do
     end
 
     it 'has an id for every control' do
-      controls.keys.find(&:nil?).must_be :nil?
+      controls.find { |x| x['id'].nil? }.must_be :nil?
     end
 
     it 'has no missing checks' do
@@ -91,6 +95,7 @@ describe 'inspec exec with json formatter' do
       result['start_time'].wont_be :nil?
 
       actual.must_equal({
+        "id" => "tmp-1.0",
         "title" => "Create /tmp directory",
         "desc" => "An optional description...",
         "impact" => 0.7,

@@ -17,7 +17,7 @@ describe Inspec::Profile do
     end
 
     it 'has no controls' do
-      profile.params[:controls].must_equal({})
+      profile.params[:controls].must_equal([])
     end
   end
 
@@ -29,7 +29,7 @@ describe Inspec::Profile do
     end
 
     it 'has no controls' do
-      profile.params[:controls].must_equal({})
+      profile.params[:controls].must_equal([])
     end
   end
 
@@ -42,7 +42,7 @@ describe Inspec::Profile do
     end
 
     it 'has no controls' do
-      profile.params[:controls].must_equal({})
+      profile.params[:controls].must_equal([])
     end
 
     it 'can overwrite the profile ID' do
@@ -60,7 +60,7 @@ describe Inspec::Profile do
     end
 
     it 'has no controls' do
-      profile.params[:controls].must_equal({})
+      profile.params[:controls].must_equal([])
     end
   end
 

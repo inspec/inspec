@@ -47,7 +47,7 @@ describe 'inspec json' do
     end
 
     describe 'a control' do
-      let(:control) { json['controls']['tmp-1.0'] }
+      let(:control) { json['controls'].find { |x| x['id'] == 'tmp-1.0' } }
 
       it 'has a title' do
         control['title'].must_equal 'Create /tmp directory'
@@ -87,8 +87,10 @@ describe 'inspec json' do
 
     it 'only has one control included' do
       json = JSON.load(out.stdout)
-      json['controls'].keys.must_equal %w{tmp-1.0}
-      json['groups'].keys.must_equal %w{controls/example.rb}
+      json['controls'].length.must_equal 1
+      json['controls'][0]['id'].must_equal 'tmp-1.0'
+      json['groups'].length.must_equal 1
+      json['groups'][0]['id'].must_equal 'controls/example.rb'
     end
   end
 

@@ -12,7 +12,7 @@ describe 'controls' do
     }
     opts = { test_collector: Inspec::RunnerMock.new, backend: Inspec::Backend.create({ backend: 'mock' }) }
     Inspec::Profile.for_target(data, opts)
-                   .params[:controls]['1']
+                   .params[:controls].find { |x| x[:id] == '1' }
   end
 
   it 'works with empty refs' do
