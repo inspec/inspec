@@ -248,7 +248,8 @@ module Inspec::Resources
       installed = params['LoadState'] == 'loaded'
       # test via 'systemctl is-active service'
       # SubState values running
-      running = params['SubState'] == 'running'
+      running = (params['ActiveState'] == 'active') ||
+                (params['SubState'] == 'running')
       # test via systemctl --quiet is-enabled
       # ActiveState values eg.g inactive, active
       enabled = %w{enabled static}.include? params['UnitFileState']

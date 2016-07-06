@@ -51,7 +51,7 @@ describe 'Inspec::Resources::Service' do
   # ubuntu 15.04 with systemd
   it 'verify ubuntu package parsing' do
     resource = MockLoader.new(:ubuntu1504).load_resource('service', 'sshd')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'
@@ -64,7 +64,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify ubuntu package parsing with default systemd_service' do
     resource = MockLoader.new(:ubuntu1504).load_resource('systemd_service', 'sshd')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'
@@ -103,7 +103,7 @@ describe 'Inspec::Resources::Service' do
   # centos 7 with systemd
   it 'verify centos 7 package parsing' do
     resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'
@@ -115,7 +115,7 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify centos 7 package parsing with systemd_service and service_ctl override' do
     resource = MockLoader.new(:centos7).load_resource('systemd_service', 'sshd', '/path/to/systemctl')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'UnitFileState' => 'enabled', 'SubState' => 'running' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'
@@ -166,7 +166,7 @@ describe 'Inspec::Resources::Service' do
   # arch linux with systemd
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('service', 'sshd')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'
@@ -192,7 +192,7 @@ describe 'Inspec::Resources::Service' do
   # debian 8 with systemd
   it 'verify debian 8 package parsing' do
     resource = MockLoader.new(:debian8).load_resource('service', 'sshd')
-    params = Hashie::Mash.new({ 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'
     _(resource.description).must_equal 'OpenSSH server daemon'

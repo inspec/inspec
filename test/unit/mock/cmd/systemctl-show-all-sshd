@@ -4,3 +4,4 @@ Description=OpenSSH server daemon
 LoadState=loaded
 UnitFileState=enabled
 SubState=running
+ActiveState=active
