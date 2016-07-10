@@ -61,6 +61,9 @@ if os.unix?
     it { should be_mode 00765 }
     its('mode') { should cmp 0765 }
     its('mode') { should_not cmp 0777 }
+    its('suid') { should eq false }
+    its('sgid') { should eq false }
+    its('sticky') { should eq false }
 
     it { should be_readable }
     it { should be_readable.by('owner') }
@@ -105,6 +108,12 @@ if os.unix?
     its('owner') { should eq filedata[:user] }
     its('group') { should eq filedata[:group] }
     its('type') { should eq :file }
+  end
+
+  describe file('/tmp/file') do
+    its('suid') { should eq true }
+    its('sgid') { should eq true }
+    its('sticky') { should eq true }
   end
 
   describe file('/tmp/folder') do

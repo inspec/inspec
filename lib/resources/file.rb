@@ -91,6 +91,18 @@ module Inspec::Resources
       end
     end
 
+    def suid
+      (mode & 04000) > 0
+    end
+
+    def sgid
+      (mode & 02000) > 0
+    end
+
+    def sticky
+      (mode & 01000) > 0
+    end
+
     def to_s
       "File #{source_path}"
     end

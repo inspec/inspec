@@ -25,6 +25,13 @@ if node['platform_family'] != 'windows'
     content 'hello world'
   end
 
+  file '/tmp/sfile' do
+    mode '7765'
+    owner 'root'
+    group gid
+    content 'hello suid/sgid/sticky'
+  end
+
   directory '/tmp/folder' do
     mode '0567'
     owner 'root'
