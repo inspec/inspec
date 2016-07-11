@@ -1,7 +1,34 @@
 # Change Log
 
-## [0.26.0](https://github.com/chef/inspec/tree/0.26.0) (2016-06-16)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.25.0...0.26.0)
+## [0.27.0](https://github.com/chef/inspec/tree/0.27.0) (2016-07-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.26.0...0.27.0)
+
+**Implemented enhancements:**
+
+- inspec report source\_location data type [\#807](https://github.com/chef/inspec/issues/807)
+- Additional fields in inspec reports [\#806](https://github.com/chef/inspec/issues/806)
+- api: report source location with field identifiers [\#808](https://github.com/chef/inspec/pull/808) ([arlimus](https://github.com/arlimus))
+- add boolean support for cmp matcher [\#801](https://github.com/chef/inspec/pull/801) ([chris-rock](https://github.com/chris-rock))
+- improve wmi resource [\#800](https://github.com/chef/inspec/pull/800) ([chris-rock](https://github.com/chris-rock))
+- Update documentation for bundles [\#716](https://github.com/chef/inspec/pull/716) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- `os` resource not accessible within a `describe` [\#451](https://github.com/chef/inspec/issues/451)
+- add suid sgid and sticky support for file resource [\#819](https://github.com/chef/inspec/pull/819) ([arlimus](https://github.com/arlimus))
+- pin gem version for ffi due to appveyor failures [\#816](https://github.com/chef/inspec/pull/816) ([arlimus](https://github.com/arlimus))
+- check service running by ActiveState [\#814](https://github.com/chef/inspec/pull/814) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- small fix for postgres\_session documentation \(Test for risky database entries example\) [\#815](https://github.com/chef/inspec/pull/815) ([atomic111](https://github.com/atomic111))
+- Add array documentation to yaml / json resource [\#803](https://github.com/chef/inspec/pull/803) ([bigbam505](https://github.com/bigbam505))
+- Updating ctl docs to include the init command [\#802](https://github.com/chef/inspec/pull/802) ([ChefRycar](https://github.com/ChefRycar))
+- add documentation for bash resource [\#799](https://github.com/chef/inspec/pull/799) ([chris-rock](https://github.com/chris-rock))
+- align inspec's check, detect, and exec cli formatters [\#797](https://github.com/chef/inspec/pull/797) ([arlimus](https://github.com/arlimus))
+
+## [v0.26.0](https://github.com/chef/inspec/tree/v0.26.0) (2016-06-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.25.0...v0.26.0)
 
 **Implemented enhancements:**
 
