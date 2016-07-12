@@ -24,6 +24,13 @@ module Inspec::Resources
         @conf_dir = '/var/lib/postgres/data'
         @conf_path = File.join @conf_dir, 'postgresql.conf'
 
+      when 'centos', 'redhat'
+        @service = 'postgresql'
+        @version = inspec.command('ls /var/lib/pgsql/').stdout.chomp
+        @data_dir = "/var/lib/pgsql/#{@version}/data"
+        @conf_dir = "/var/lib/pgsql/#{@version}/data"
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
+
       else
         @service = 'postgresql'
         @data_dir = '/var/lib/postgresql'
