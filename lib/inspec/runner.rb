@@ -109,7 +109,7 @@ module Inspec
     end
 
     def create_context(options = {})
-      meta = options['metadata']
+      meta = options[:metadata]
       profile_id = nil
       profile_id = meta.params[:name] unless meta.nil?
       Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
@@ -123,7 +123,7 @@ module Inspec
       ctx.load_libraries(libs.map { |x| [x[:content], x[:ref], x[:line]] })
 
       # hand the context to the profile for further evaluation
-      unless (profile = options['profile']).nil?
+      unless (profile = options[:profile]).nil?
         profile.runner_context = ctx
       end
 
