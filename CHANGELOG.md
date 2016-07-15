@@ -1,7 +1,24 @@
 # Change Log
 
-## [0.27.0](https://github.com/chef/inspec/tree/0.27.0) (2016-07-10)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.26.0...0.27.0)
+## [0.27.1](https://github.com/chef/inspec/tree/0.27.1) (2016-07-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.27.0...0.27.1)
+
+**Fixed bugs:**
+
+- Inconsistent json format caused by inconsistent hash keys [\#827](https://github.com/chef/inspec/issues/827)
+
+**Closed issues:**
+
+- wrong path detection for postgres conf\_dir and conf\_path [\#823](https://github.com/chef/inspec/issues/823)
+
+**Merged pull requests:**
+
+- FIX: file\(hba\_config\_file\) test in documentation [\#830](https://github.com/chef/inspec/pull/830) ([atomic111](https://github.com/atomic111))
+- Fix runner.rb key inconsistency [\#828](https://github.com/chef/inspec/pull/828) ([alexpop](https://github.com/alexpop))
+- FIX \#823 wrong postgres path detection for conf\_dir and conf\_path [\#824](https://github.com/chef/inspec/pull/824) ([atomic111](https://github.com/atomic111))
+
+## [v0.27.0](https://github.com/chef/inspec/tree/v0.27.0) (2016-07-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.26.0...v0.27.0)
 
 **Implemented enhancements:**
 
