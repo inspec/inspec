@@ -2,7 +2,6 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-
 module Inspec::Resources
   class MssqlSession < Inspec.resource(1)
     name 'mssql_session'
@@ -17,20 +16,18 @@ module Inspec::Resources
     def initialize(user = nil, pass = nil)
       @user = user
       @pass = pass
-      skip_resource("user and pass are required for MSSQL tests") if @user.nil? or @pass.nil?
+      skip_resource('user and pass are required for MSSQL tests') if @user.nil? or @pass.nil?
     end
 
-    def query(q, db = '')
+    def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
       cmd = inspec.command("sqlcmd -U #{@user} -P #{@pass} -Q \"#{escaped_query}\"")
 
       cmd
-     end
+    end
 
     def to_s
       'MSSQL'
     end
   end
 end
-
-
