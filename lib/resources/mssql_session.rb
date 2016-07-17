@@ -19,7 +19,7 @@ module Inspec::Resources
       skip_resource('user and pass are required for MSSQL tests') if @user.nil? or @pass.nil?
     end
 
-    def query(q, db = '')
+    def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
       cmd = inspec.command("sqlcmd -U #{@user} -P #{@pass} -Q \"#{escaped_query}\"")
 
