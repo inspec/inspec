@@ -223,6 +223,8 @@ Blogs:
  * [InSpec Tutorial: Day 3 - File Resource](http://www.anniehedgie.com/inspec-basics-3)
  * [InSpec Tutorial: Day 4 - Custom Matchers](http://www.anniehedgie.com/inspec-basics-4)
  * [InSpec Tutorial: Day 5 - Creating a Profile](http://www.anniehedgie.com/inspec-basics-5)
+ * [InSpec Tutorial: Day 6 - Ways to Run It and Places to Store It](http://www.anniehedgie.com/inspec-basics-6)
+ * [InSpec Tutorial: Day 7 - How to Inherit a Profile from Chef Compliance Server](http://www.anniehedgie.com/inspec-basics-7)
  * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
  * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
  * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
