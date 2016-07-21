@@ -164,6 +164,7 @@ class MockLoader
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
       # ports on windows
       'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
+      'netstat -an' => cmd.call('netstat-an.utf8'),
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux

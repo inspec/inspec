@@ -52,12 +52,39 @@ describe 'Inspec::Resources::Port' do
     _(resource.addresses).must_equal ["127.0.0.1"]
   end
 
-  it 'verify port on Windows' do
+  it 'verify port on Windows 2012' do
     resource = MockLoader.new(:windows).load_resource('port', 135)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ['tcp']
     _(resource.processes).must_equal []
     _(resource.addresses).must_equal ["::", "192.168.10.157"]
+  end
+
+  it 'verify port on Windows 2008 (unpriviledged)' do
+    ml = MockLoader.new(:windows)
+    # kill windows 2012 shell commands
+    ml.backend.backend.commands
+      .select { |k, _| k.start_with? 'Get-NetTCPConnection' }
+      .values.each { |r| r.stdout = '' }
+
+    resource = ml.load_resource('port', 135)
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal ['tcp']
+    _(resource.processes).must_equal []
+    _(resource.addresses).must_equal %w{0.0.0.0 ::}
+  end
+
+  it 'verify port list on Windows 2008 (unpriviledged)' do
+    ml = MockLoader.new(:windows)
+    # kill windows 2012 shell commands
+    ml.backend.backend.commands
+      .select { |k, _| k.start_with? 'Get-NetTCPConnection' }
+      .values.each { |r| r.stdout = '' }
+
+    resource = ml.load_resource('port')
+    resource.entries.length.must_equal 9
+    resource.protocols('tcp').entries.length.must_equal 6
+    resource.protocols('udp').entries.length.must_equal 3
   end
 
   it 'verify port on FreeBSD' do
