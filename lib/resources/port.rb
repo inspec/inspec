@@ -116,24 +116,40 @@ module Inspec::Resources
   # @see https://connect.microsoft.com/PowerShell/feedback/details/1349420/get-nettcpconnection-does-not-show-processid
   class WindowsPorts < PortsInfo
     def info
-      # get all port information
+      powershell_info || netstat_info
+    end
+
+    private
+
+    def powershell_info
       cmd = inspec.command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
+      return nil if cmd.exit_status != 0
 
-      begin
-        ports = JSON.parse(cmd.stdout)
-      rescue JSON::ParserError => _e
-        return nil
-      end
+      entries = JSON.parse(cmd.stdout)
+      return nil if entries.nil?
 
-      return nil if ports.nil?
-
-      ports.map { |x|
+      entries.map { |x|
         {
           'port'     => x['LocalPort'],
           'address'  => x['LocalAddress'],
           'protocol' => 'tcp',
         }
       }
+    rescue JSON::ParserError => _e
+      return nil
+    end
+
+    def netstat_info
+      cmd = inspec.command('netstat -an')
+      return nil if cmd.exit_status != 0
+      lines = cmd.stdout.scan(/^\s*(tcp\S*|udp\S*)\s+(\S+):(\d+)\s+/i)
+      lines.map do |line|
+        {
+          'port'     => line[2].to_i,
+          'address'  => line[1].delete('[').delete(']'),
+          'protocol' => line[0].downcase,
+        }
+      end
     end
   end
 
