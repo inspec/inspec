@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.27.1](https://github.com/chef/inspec/tree/0.27.1) (2016-07-15)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.27.0...0.27.1)
+## [0.28.0](https://github.com/chef/inspec/tree/0.28.0) (2016-07-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.27.1...0.28.0)
+
+**Fixed bugs:**
+
+- prevent circular loading of resource library [\#831](https://github.com/chef/inspec/pull/831) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- add port resource for windows 2008 [\#837](https://github.com/chef/inspec/pull/837) ([arlimus](https://github.com/arlimus))
+- Added two InSpec Tutorial blog posts [\#836](https://github.com/chef/inspec/pull/836) ([anniehedgpeth](https://github.com/anniehedgpeth))
+- add mssql resource [\#835](https://github.com/chef/inspec/pull/835) ([chrisevett](https://github.com/chrisevett))
+
+## [v0.27.1](https://github.com/chef/inspec/tree/v0.27.1) (2016-07-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.27.0...v0.27.1)
 
 **Fixed bugs:**
 
