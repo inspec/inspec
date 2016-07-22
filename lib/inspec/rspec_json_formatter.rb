@@ -214,14 +214,12 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def status_type(data, control)
     status = data[:status]
     return status if status != 'failed' || control[:impact].nil?
-    if    control[:impact] > 0.7
+    if control[:impact] >= 0.7
       'critical'
-    elsif control[:impact] > 0.4
+    elsif control[:impact] >= 0.4
       'major'
-    elsif control[:impact] > 0.0
-      'minor'
     else
-      'failed'
+      'minor'
     end
   end
 
