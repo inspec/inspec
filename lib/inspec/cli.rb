@@ -7,8 +7,8 @@
 require 'thor'
 require 'json'
 require 'pp'
-require 'utils/base_cli'
 require 'utils/json_log'
+require 'inspec/base_cli'
 require 'inspec/runner_mock'
 
 class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
