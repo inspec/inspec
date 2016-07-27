@@ -57,4 +57,13 @@ describe 'Inspec::Resources::XinetdConf' do
       _(resource.enabled?).must_equal false
     end
   end
+
+  describe 'with single services and no child configs' do
+    let (:resource) { load_resource('xinetd_conf', '/etc/xinetd.d/chargen-stream') }
+
+    it 'checks if all are disabled on one disabled service' do
+      one = resource.ids('chargen-stream')
+      _(one.disabled?).must_equal true
+    end
+  end
 end
