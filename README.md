@@ -228,6 +228,7 @@ Blogs:
  * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
  * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
  * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
+ * [Operating Chef/InSpec in an air gapped environment](https://github.com/jeremymv2/chef-intranet-scaffolding/blob/master/README.md)
 
 Podcasts:
 
