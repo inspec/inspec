@@ -87,7 +87,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
 end
 
 class InspecRspecJson < InspecRspecMiniJson
-  RSpec::Core::Formatters.register self, :start, :stop
+  RSpec::Core::Formatters.register self, :start, :stop, :dump_summary
   attr_writer :backend
 
   def initialize(*args)
@@ -131,6 +131,35 @@ class InspecRspecJson < InspecRspecMiniJson
 
     @output_hash[:profiles] = @profiles_info
     @output_hash[:other_checks] = missing
+  end
+
+  def dump_summary(summary)
+    super(summary)
+    total = 0
+    failed = 0
+    skipped = 0
+    passed = 0
+
+    @profiles_info.each do |_name, profile|
+      total += profile[:controls].length
+      profile[:controls].each do |_control_name, control|
+        next unless control[:results]
+        if control[:results].any? { |r| r[:status] == 'failed' }
+          failed += 1
+        elsif control[:results].any? { |r| r[:status] == 'skipped' }
+          skipped += 1
+        else
+          passed += 1
+        end
+      end
+    end
+
+    @output_hash[:control_summary] = {
+      total: total,
+      failed: failed,
+      skipped: skipped,
+      passed: passed,
+    }
   end
 
   private
