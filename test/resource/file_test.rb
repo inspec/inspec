@@ -2,6 +2,20 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+#
+# On most systems I've used a link to /proc/kcore is placed at
+# /dev/core. However, on TravisCI we also see it at /dev/kcore.
+#
+# Since we are using this file to test some properties of symlinks, we
+# don't particularly care where it is, so here we use /dev/kcore if it
+# exists and otherwise fall back to /dev/core.
+#
+kcore_dev = if file('/dev/kcore').exist?
+              '/dev/kcore'
+            else
+              '/dev/core'
+            end
+
 describe file('/tmp') do
   it { should exist }
 end
@@ -76,11 +90,11 @@ describe file('/dev') do
   it { should be_grouped_into 'root' }
 end
 
-describe file('/dev/kcore') do
+describe file(kcore_dev) do
   its('link_path') { should eq '/proc/kcore' }
 end
 
-describe file('/dev/kcore') do
+describe file(kcore_dev) do
   it { should be_linked_to '/proc/kcore' }
 end
 
