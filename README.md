@@ -302,7 +302,6 @@ You will require:
 **Run `integration` tests with vagrant:**
 
 ```bash
-cd test/integration
 bundle exec kitchen test
 ```
 
