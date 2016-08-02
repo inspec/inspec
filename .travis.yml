@@ -1,4 +1,7 @@
 sudo: required
+branches:
+  only:
+    - master
 language: ruby
 cache: bundler
 dist: trusty
