@@ -233,6 +233,14 @@ module Inspec::Resources
       super
     end
 
+    def is_enabled?(service_name)
+      inspec.command("#{service_ctl} is-enabled #{service_name} --quiet").exit_status == 0
+    end
+
+    def is_active?(service_name)
+      inspec.command("#{service_ctl} is-active #{service_name} --quiet").exit_status == 0
+    end
+
     def info(service_name)
       cmd = inspec.command("#{service_ctl} show --all #{service_name}")
       return nil if cmd.exit_status.to_i != 0
@@ -246,20 +254,13 @@ module Inspec::Resources
 
       # LoadState values eg. loaded, not-found
       installed = params['LoadState'] == 'loaded'
-      # test via 'systemctl is-active service'
-      # SubState values running
-      running = (params['ActiveState'] == 'active') ||
-                (params['SubState'] == 'running')
-      # test via systemctl --quiet is-enabled
-      # ActiveState values eg.g inactive, active
-      enabled = %w{enabled static}.include? params['UnitFileState']
 
       {
         name: params['Id'],
         description: params['Description'],
         installed: installed,
-        running: running,
-        enabled: enabled,
+        running: is_active?(service_name),
+        enabled: is_enabled?(service_name),
         type: 'systemd',
         params: params,
       }
