@@ -80,7 +80,7 @@ module Inspec::Resources
 
       if @content =~ /^LIST_RULES:/
         # do not warn on centos 5
-        unless inspec.os[:family] == 'centos' && inspec.os[:release].to_i == 5
+        unless inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
           warn '[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers.'
         end
         @legacy = AuditdRulesLegacy.new(@content)

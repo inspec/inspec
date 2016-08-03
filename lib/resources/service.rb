@@ -102,7 +102,7 @@ module Inspec::Resources
 
     def select_service_mgmt # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       os = inspec.os
-      family = os[:family]
+      platform = os[:name]
 
       # Ubuntu
       # @see: https://wiki.ubuntu.com/SystemdForUpstartUsers
@@ -112,46 +112,46 @@ module Inspec::Resources
       # Ubuntu < 15.04 : Upstart
       # Upstart runs with PID 1 as /sbin/init.
       # Systemd runs with PID 1 as /lib/systemd/systemd.
-      if %w{ubuntu}.include?(family)
-        version = inspec.os[:release].to_f
+      if %w{ubuntu}.include?(platform)
+        version = os[:release].to_f
         if version < 15.04
           Upstart.new(inspec, service_ctl)
         else
           Systemd.new(inspec, service_ctl)
         end
-      elsif %w{debian}.include?(family)
-        version = inspec.os[:release].to_i
+      elsif %w{debian}.include?(platform)
+        version = os[:release].to_i
         if version > 7
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/usr/sbin/service')
         end
-      elsif %w{redhat fedora centos}.include?(family)
-        version = inspec.os[:release].to_i
-        if (%w{ redhat centos }.include?(family) && version >= 7) || (family == 'fedora' && version >= 15)
+      elsif %w{redhat fedora centos}.include?(platform)
+        version = os[:release].to_i
+        if (%w{ redhat centos }.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
         end
-      elsif %w{wrlinux}.include?(family)
+      elsif %w{wrlinux}.include?(platform)
         SysV.new(inspec, service_ctl)
-      elsif %w{darwin}.include?(family)
+      elsif %w{mac_os_x}.include?(platform)
         LaunchCtl.new(inspec, service_ctl)
       elsif os.windows?
         WindowsSrv.new(inspec)
-      elsif %w{freebsd}.include?(family)
+      elsif %w{freebsd}.include?(platform)
         BSDInit.new(inspec, service_ctl)
-      elsif %w{arch}.include?(family)
+      elsif %w{arch}.include?(platform)
         Systemd.new(inspec, service_ctl)
-      elsif %w{suse opensuse}.include?(family)
-        if inspec.os[:release].to_i >= 12
+      elsif %w{suse opensuse}.include?(platform)
+        if os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
         end
-      elsif %w{aix}.include?(family)
+      elsif %w{aix}.include?(platform)
         SrcMstr.new(inspec)
-      elsif %w{amazon}.include?(family)
+      elsif %w{amazon}.include?(platform)
         Upstart.new(inspec, service_ctl)
       elsif os.solaris?
         Svcs.new(inspec)
@@ -359,7 +359,7 @@ module Inspec::Resources
       enabled = !config[/^\s*start on/].nil?
 
       # implement fallback for Ubuntu 10.04
-      if inspec.os[:family] == 'ubuntu' &&
+      if inspec.os[:name] == 'ubuntu' &&
          inspec.os[:release].to_f >= 10.04 &&
          inspec.os[:release].to_f < 12.04 &&
          status.exit_status == 0

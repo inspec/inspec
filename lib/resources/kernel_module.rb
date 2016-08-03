@@ -24,7 +24,7 @@ module Inspec::Resources
       # default lsmod command
       lsmod_cmd = 'lsmod'
       # special care for CentOS 5 and sudo
-      lsmod_cmd = '/sbin/lsmod' if inspec.os[:family] == 'centos' && inspec.os[:release].to_i == 5
+      lsmod_cmd = '/sbin/lsmod' if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
 
       # get list of all modules
       cmd = inspec.command(lsmod_cmd)

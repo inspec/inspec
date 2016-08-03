@@ -8,6 +8,13 @@ if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
 end
 
+
+#
+# This has to be merged someone concurrently with a a version bump in
+# train to avoid breaking users.
+#
+gem 'train', github: 'chef/train'
+
 # TODO: ffi 1.9.11 is currently erroneous on windows tests
 gem 'ffi', '= 1.9.10'
 

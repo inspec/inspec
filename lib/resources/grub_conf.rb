@@ -21,28 +21,40 @@ class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     end
   "
 
+  class UnknownGrubConfig < StandardError; end
+
   def initialize(path = nil, kernel = nil)
-    family = inspec.os[:family]
-    case family
-    when 'redhat', 'fedora', 'centos'
-      release = inspec.os[:release].to_f
-      supported = true
-      if release < 7
-        @conf_path = path || '/etc/grub.conf'
-        @version = 'legacy'
-      else
-        @conf_path = path || '/boot/grub/grub.cfg'
-        @defaults_path = '/etc/default/grub'
-        @version = 'grub2'
-      end
-    when 'ubuntu'
+    config_for_platform(path)
+    @kernel = kernel || 'default'
+  rescue UnknownGrubConfig
+    return skip_resource 'The `grub_config` resource is not supported on your OS yet.'
+  end
+
+  def config_for_platform(path)
+    os = inspec.os
+    if os.redhat? || os[:name] == 'fedora'
+      config_for_redhatish(path)
+    elsif os.debian?
       @conf_path = path || '/boot/grub/grub.cfg'
       @defaults_path = '/etc/default/grub'
       @version = 'grub2'
-      supported = true
+    elsif os[:name] == 'amazon' # rubocop:disable Style/GuardClause
+      @conf_path = path || '/etc/grub.conf'
+      @version = 'legacy'
+    else
+      fail UnknownGrubConfig
     end
-    @kernel = kernel || 'default'
-    return skip_resource 'The `grub_config` resource is not supported on your OS yet.' if supported.nil?
+  end
+
+  def config_for_redhatish(path)
+    if inspec.os[:release].to_f < 7
+      @conf_path = path || '/etc/grub.conf'
+      @version = 'legacy'
+    else
+      @conf_path = path || '/boot/grub/grub.cfg'
+      @defaults_path = '/etc/default/grub'
+      @version = 'grub2'
+    end
   end
 
   def method_missing(name)

@@ -77,7 +77,7 @@ describe Inspec::ProfileContext do
     include DescribeOneTest
 
     it 'must provide os resource' do
-      load('print os[:family]').must_output 'ubuntu'
+      load('print os[:family]').must_output 'debian'
     end
 
     it 'must provide file resource' do
@@ -215,7 +215,7 @@ describe Inspec::ProfileContext do
     describe 'adds a check via describe' do
       let(:check) {
         profile.load(format(context_format,
-          "describe os[:family] { it { must_equal 'ubuntu' } }"
+          "describe os[:family] { it { must_equal 'debian' } }"
           ))
         get_checks[0]
       }
@@ -225,7 +225,7 @@ describe Inspec::ProfileContext do
       end
 
       it 'registers the check with the describe argument' do
-        check[1].must_equal %w{ubuntu}
+        check[1].must_equal %w{debian}
       end
 
       it 'registers the check with the provided proc' do
@@ -236,7 +236,7 @@ describe Inspec::ProfileContext do
     describe 'adds a check via expect' do
       let(:check) {
         profile.load(format(context_format,
-          "expect(os[:family]).to eq('ubuntu')"
+          "expect(os[:family]).to eq('debian')"
           ))
         get_checks[0]
       }
@@ -246,7 +246,7 @@ describe Inspec::ProfileContext do
       end
 
       it 'registers the check with the describe argument' do
-        check[1].must_equal %w{ubuntu}
+        check[1].must_equal %w{debian}
       end
 
       it 'registers the check with the provided proc' do
@@ -258,7 +258,7 @@ describe Inspec::ProfileContext do
       let(:check) {
         profile.load(format(context_format,
           "describe 'the actual test' do
-            expect(os[:family]).to eq('ubuntu')
+            expect(os[:family]).to eq('debian')
           end"
           ))
         get_checks[0]
