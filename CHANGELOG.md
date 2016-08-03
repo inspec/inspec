@@ -1,7 +1,33 @@
 # Change Log
 
-## [0.28.0](https://github.com/chef/inspec/tree/0.28.0) (2016-07-21)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.27.1...0.28.0)
+## [0.28.1](https://github.com/chef/inspec/tree/0.28.1) (2016-08-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.28.0...0.28.1)
+
+**Fixed bugs:**
+
+- Read Chef attributes within the tests ? [\#813](https://github.com/chef/inspec/issues/813)
+- Docs for command use eq instead of match [\#502](https://github.com/chef/inspec/issues/502)
+- fix color code barriers [\#838](https://github.com/chef/inspec/pull/838) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Document all supported Operating Systems [\#842](https://github.com/chef/inspec/issues/842)
+
+**Merged pull requests:**
+
+- Add supported OS list to readme [\#859](https://github.com/chef/inspec/pull/859) ([vjeffrey](https://github.com/vjeffrey))
+- Update README with correct directions for integration tests [\#857](https://github.com/chef/inspec/pull/857) ([stevendanna](https://github.com/stevendanna))
+- Only test PRs and pushes to master [\#856](https://github.com/chef/inspec/pull/856) ([stevendanna](https://github.com/stevendanna))
+- Support either /dev/kcore or /dev/core in the tests [\#850](https://github.com/chef/inspec/pull/850) ([stevendanna](https://github.com/stevendanna))
+- add air gap environment post from @jeremymv2 [\#841](https://github.com/chef/inspec/pull/841) ([chris-rock](https://github.com/chris-rock))
+- move base\_cli to lib/inspec [\#832](https://github.com/chef/inspec/pull/832) ([arlimus](https://github.com/arlimus))
+
+## [v0.28.0](https://github.com/chef/inspec/tree/v0.28.0) (2016-07-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.27.1...v0.28.0)
+
+**Implemented enhancements:**
+
+- add port resource for windows 2008 [\#837](https://github.com/chef/inspec/pull/837) ([arlimus](https://github.com/arlimus))
 
 **Fixed bugs:**
 
@@ -9,7 +35,6 @@
 
 **Merged pull requests:**
 
-- add port resource for windows 2008 [\#837](https://github.com/chef/inspec/pull/837) ([arlimus](https://github.com/arlimus))
 - Added two InSpec Tutorial blog posts [\#836](https://github.com/chef/inspec/pull/836) ([anniehedgpeth](https://github.com/anniehedgpeth))
 - add mssql resource [\#835](https://github.com/chef/inspec/pull/835) ([chrisevett](https://github.com/chrisevett))
 
@@ -52,7 +77,7 @@
 **Merged pull requests:**
 
 - small fix for postgres\_session documentation \(Test for risky database entries example\) [\#815](https://github.com/chef/inspec/pull/815) ([atomic111](https://github.com/atomic111))
-- Add array documentation to yaml / json resource [\#803](https://github.com/chef/inspec/pull/803) ([bigbam505](https://github.com/bigbam505))
+- Add array documentation to yaml / json resource [\#803](https://github.com/chef/inspec/pull/803) ([brentm5](https://github.com/brentm5))
 - Updating ctl docs to include the init command [\#802](https://github.com/chef/inspec/pull/802) ([ChefRycar](https://github.com/ChefRycar))
 - add documentation for bash resource [\#799](https://github.com/chef/inspec/pull/799) ([chris-rock](https://github.com/chris-rock))
 - align inspec's check, detect, and exec cli formatters [\#797](https://github.com/chef/inspec/pull/797) ([arlimus](https://github.com/arlimus))
