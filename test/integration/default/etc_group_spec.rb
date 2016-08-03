@@ -1,7 +1,9 @@
 # encoding: utf-8
 
-# TODO: do not run those tests on docker yet
-return if ENV['DOCKER']
+if ENV['DOCKER']
+  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__.split("/").last} because we are running in docker\033[0m"
+  return
+end
 
 # lets define our own group
 root_group = 'root'
