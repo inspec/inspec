@@ -17,15 +17,19 @@ matrix:
   - rvm: 1.9.3
   - rvm: 2.0
   - rvm: 2.2
-    script: bundle exec rake lint test test:resources config=test/test.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="lint test test:resources config=test/test.yaml"
   - rvm: 2.2
-    script: N=5 bundle exec rake test:functional test:resources config=test/test-extra.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="test:functional test:resources config=test/test-extra.yaml" N=5
   - rvm: 2.2
     bundler_args: "--without guard tools"
-    script: DOCKER=true bundle exec rake test:integration OS='default-ubuntu-1204'
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS=default-ubuntu-1204 DOCKER=true
   - rvm: 2.2
     bundler_args: "--without guard tools"
-    script: DOCKER=true bundle exec rake test:integration OS='default-ubuntu-1604'
+    script: bundle exec rake $SUITE
+    env: SUITE=test:integration OS='default-ubuntu-1604' DOCKER=true
 deploy:
   provider: rubygems
   on:
