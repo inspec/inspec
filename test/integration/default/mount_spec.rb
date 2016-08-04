@@ -1,8 +1,13 @@
 # encoding: utf-8
+if ENV['DOCKER']
+  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__.split("/").last} because we are running in docker\033[0m"
+  return
+end
 
-# TODO: do not run those tests on docker yet
-return if ENV['DOCKER']
-return unless os.linux?
+if !os.linux?
+  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__} because we are not on linux.\033[0m"
+  return
+end
 
 # instead of `.with` or `.only_with` we recommend to use the `mount` resource
 describe mount '/mnt/iso-disk' do
