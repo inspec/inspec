@@ -4,6 +4,8 @@
 #
 # prepare all operating systems with the required configuration
 
+# container preparation
+include_recipe('os_prepare::prep_container')
 
 # basic tests
 include_recipe('os_prepare::file')
