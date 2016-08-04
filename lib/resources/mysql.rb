@@ -12,7 +12,7 @@ module Inspec::Resources
     def initialize
       # set OS-dependent filenames and paths
       case inspec.os[:family]
-      when 'ubuntu', 'debian'
+      when 'debian'
         init_ubuntu
       when 'redhat', 'fedora'
         init_redhat

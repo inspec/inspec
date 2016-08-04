@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-if os[:family] == 'ubuntu'
+if os[:name] == 'ubuntu'
 
   describe apt('ppa:nginx/stable') do
     it { should exist }

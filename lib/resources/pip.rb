@@ -57,9 +57,7 @@ module Inspec::Resources
     def pip_cmd
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
-      family = inspec.os[:family]
-      case family
-      when 'windows'
+      if inspec.os.windows?
         # we need to detect the pip command on Windows
         cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
         begin

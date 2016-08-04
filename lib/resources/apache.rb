@@ -10,8 +10,7 @@ module Inspec::Resources
 
     attr_reader :service, :conf_dir, :conf_path, :user
     def initialize
-      case inspec.os[:family]
-      when 'ubuntu', 'debian'
+      if inspec.os.debian?
         @service = 'apache2'
         @conf_dir = '/etc/apache2/'
         @conf_path = File.join @conf_dir, 'apache2.conf'

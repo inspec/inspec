@@ -10,33 +10,27 @@ module Inspec::Resources
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path
     def initialize
-      case inspec.os[:family]
-      when 'ubuntu', 'debian'
+      os = inspec.os
+      if os.debian?
         @service = 'postgresql'
         @data_dir = '/var/lib/postgresql'
         @version = inspec.command('ls /etc/postgresql/').stdout.chomp
         @conf_dir = "/etc/postgresql/#{@version}/main"
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
-
-      when 'arch'
-        @service = 'postgresql'
-        @data_dir = '/var/lib/postgres/data'
-        @conf_dir = '/var/lib/postgres/data'
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
-
-      when 'centos', 'redhat'
+      elsif os.redhat?
         @service = 'postgresql'
         @version = inspec.command('ls /var/lib/pgsql/').stdout.chomp
         @data_dir = "/var/lib/pgsql/#{@version}/data"
-        @conf_dir = "/var/lib/pgsql/#{@version}/data"
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
-
+      elsif os[:name] == 'arch'
+        @service = 'postgresql'
+        @data_dir = '/var/lib/postgres/data'
+        @conf_dir = '/var/lib/postgres/data'
       else
         @service = 'postgresql'
         @data_dir = '/var/lib/postgresql'
         @conf_dir = '/var/lib/pgsql/data'
-        @conf_path = File.join @conf_dir, 'postgresql.conf'
       end
+
+      @conf_path = File.join @conf_dir, 'postgresql.conf'
     end
 
     def to_s

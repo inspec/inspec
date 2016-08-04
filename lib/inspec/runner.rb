@@ -82,7 +82,7 @@ module Inspec
       end
 
       if !profile.metadata.supports_transport?(@backend)
-        os_info = @backend.os[:family].to_s
+        os_info = @backend.os[:name].to_s
         fail "This OS/platform (#{os_info}) is not supported by this profile."
       end
 
