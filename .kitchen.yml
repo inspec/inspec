@@ -61,6 +61,18 @@ platforms:
     # running it within the chef recipe is too late :-(
     - RUN /usr/bin/apt-get install -y procps lsb-release
     pid_one_command: /bin/systemd
+- name: fedora-23
+  driver:
+    image: fedora:23
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+    - RUN dnf install -y yum
+- name: fedora-24
+  driver:
+    image: fedora:24
+    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+    - RUN dnf install -y yum
 
 suites:
 - name: default
