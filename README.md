@@ -339,7 +339,7 @@ You will require:
 **Run `integration` tests with vagrant:**
 
 ```bash
-bundle exec kitchen test
+KITCHEN_YAML=.kitchen.vagrant.yml bundle exec kitchen test
 ```
 
 **Run `integration` tests with AWS EC2:**
@@ -349,8 +349,7 @@ export AWS_ACCESS_KEY_ID=enteryouryourkey
 export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
 export AWS_KEYPAIR_NAME=enteryoursshkeyid
 export EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
-cd test/integration
-KITCHEN_LOCAL_YAML=.kitchen.ec2.yml bundle exec kitchen test
+KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen test
 ```
 
 In addition you may need to add your ssh key to `.kitchen.ec2.yml`

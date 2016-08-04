@@ -10,6 +10,8 @@ when 'ubuntu', 'centos'
   # also skip it on ubuntu 15.10, because the cookbook is not supported
   # with `enable_pgdg_apt` yet
   return if node['platform_version'] == "15.10"
+  # skip it on centos 5, because ca-certificates is not available
+  return if node['platform_version'] == "5"
 
   node.default['postgresql']['enable_pgdg_apt'] = true
   node.default['postgresql']['config']['listen_addresses'] = 'localhost'

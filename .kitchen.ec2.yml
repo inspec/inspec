@@ -84,5 +84,8 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[apt]
+      - recipe[yum]
+      - recipe[ssh-hardening]
       - recipe[os_prepare]
     attributes:
