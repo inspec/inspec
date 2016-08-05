@@ -36,29 +36,15 @@ module Inspec::Resources
     def initialize(*args)
       args.unshift(nil) if args.length <= 1 # add the ip address to the front
       @ip = args[0]
-      @port = args[1]
+      @port = if args[1].nil?
+                nil
+              else
+                args[1].to_i
+              end
 
-      @port_manager = nil
       @cache = nil
-      os = inspec.os
-      if os.linux?
-        @port_manager = LinuxPorts.new(inspec)
-      elsif %w{darwin aix}.include?(os[:family])
-        # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
-        #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
-        # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
-        @port_manager = LsofPorts.new(inspec)
-      elsif os.windows?
-        @port_manager = WindowsPorts.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
-        @port_manager = FreeBsdPorts.new(inspec)
-      elsif os.solaris?
-        @port_manager = SolarisPorts.new(inspec)
-      elsif os.hpux?
-        @port_manager = HpuxPorts.new(inspec)
-      else
-        return skip_resource 'The `port` resource is not supported on your OS yet.'
-      end
+      @port_manager = port_manager_for_os
+      return skip_resource 'The `port` resource is not supported on your OS yet.' if @port_manager.nil?
     end
 
     filter = FilterTable.create
@@ -77,6 +63,26 @@ module Inspec::Resources
     end
 
     private
+
+    def port_manager_for_os
+      os = inspec.os
+      if os.linux?
+        LinuxPorts.new(inspec)
+      elsif %w{darwin aix}.include?(os[:family])
+        # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
+        #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
+        # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
+        LsofPorts.new(inspec)
+      elsif os.windows?
+        WindowsPorts.new(inspec)
+      elsif ['freebsd'].include?(os[:family])
+        FreeBsdPorts.new(inspec)
+      elsif os.solaris?
+        SolarisPorts.new(inspec)
+      elsif os.hpux?
+        HpuxPorts.new(inspec)
+      end
+    end
 
     def info
       return @cache if !@cache.nil?
