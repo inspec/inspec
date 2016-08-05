@@ -5,9 +5,8 @@
 # installs everything to do the package test
 
 case node['platform']
-when 'ubuntu'
+when 'ubuntu', 'debian'
   include_recipe('apt')
-
   package 'curl'
 when 'rhel', 'centos', 'fedora'
   include_recipe('yum')
