@@ -23,6 +23,7 @@ describe 'inspec exec with json formatter' do
 
   describe 'execute a profile with json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
+    let(:control_summary) { json['control_summary'] }
     let(:profile) { json['profiles']['profile'] }
     let(:controls) { profile['controls'] }
     let(:ex1) { controls['tmp-1.0'] }
@@ -60,6 +61,7 @@ describe 'inspec exec with json formatter' do
 
     it 'must have 4 controls' do
       controls.length.must_equal 4
+      control_summary['total'].must_equal 4
     end
 
     it 'has an id for every control' do
@@ -106,6 +108,13 @@ describe 'inspec exec with json formatter' do
         },
         "code" => "control \"tmp-1.0\" do                        # A unique ID for this control\n  impact 0.7                                # The criticality, if this control fails.\n  title \"Create /tmp directory\"             # A human-readable title\n  desc \"An optional description...\"         # Describe why this is needed\n  tag data: \"temp data\"                     # A tag allows you to associate key information\n  tag \"security\"                            # to the test\n  ref \"Document A-12\", url: 'http://...'    # Additional references\n\n  describe file('/tmp') do                  # The actual test\n    it { should be_directory }\n  end\nend\n",
       })
+    end
+
+    it 'must report 3 passing controls' do
+      control_summary['passed'].must_equal 3
+    end
+    it 'must report 1 skipped control' do
+      control_summary['skipped'].must_equal 1
     end
   end
 
