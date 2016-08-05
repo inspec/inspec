@@ -259,42 +259,49 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     [fails, skips, STATUS_TYPES.key(summary_status)]
   end
 
-  def current_control_summary(fails, skips)
-    summary = @current_control[:title]
-
+  def current_control_title
+    title = @current_control[:title]
     res = @current_control[:results]
-    if res.length == 1
-      # Single test - be nice and just print the exception message if the test
-      # failed. No need to say "1 failed".
-      fails.clear
-      skips.clear
-      c = res[0]
+    if title
+      title
+    elsif res.length == 1
       # If it's an anonymous control, just go with the only description
       # available for the underlying test.
-      summary = c[:code_desc].to_s unless summary
-      summary + c[:message].to_s
+      res[0][:code_desc].to_s
     elsif res.length == 0
       # Empty control block - if it's anonymous, there's nothing we can do.
       # Is this case even possible?
-      summary = 'Empty anonymous control' unless summary
+      'Empty anonymous control'
     else
-      if summary.nil?
-        # Multiple tests - but no title. Do our best and generate some form of
-        # identifier or label or name.
-        summary = (res.map { |r| r[:code_desc] }).join('; ')
-        max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
-        summary = summary[0..(max_len-1)] + '...' if summary.length > max_len
-      end
-      sum_info = [
-        (fails.length > 0) ? "#{fails.length} failed" : nil,
-        (skips.length > 0) ? "#{skips.length} skipped" : nil,
-      ].compact
+      # Multiple tests - but no title. Do our best and generate some form of
+      # identifier or label or name.
+      title = (res.map { |r| r[:code_desc] }).join('; ')
+      max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
+      title = title[0..(max_len-1)] + '...' if title.length > max_len
+      title
+    end
+  end
 
-      if sum_info.empty?
-        summary
+  def current_control_summary(fails, skips)
+    title = current_control_title
+    res = @current_control[:results]
+    suffix =
+      if res.length == 1
+        # Single test - be nice and just print the exception message if the test
+        # failed. No need to say "1 failed".
+        fails.clear
+        skips.clear
+        res[0][:message].to_s
       else
-        summary + ' (' + sum_info.join(' ') + ')'
+        [
+          (fails.length > 0) ? "#{fails.length} failed" : nil,
+          (skips.length > 0) ? "#{skips.length} skipped" : nil,
+        ].compact.join(' ')
       end
+    if suffix == ''
+      title
+    else
+      title + ' (' + suffix + ')'
     end
   end
 
