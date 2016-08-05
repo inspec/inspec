@@ -60,11 +60,12 @@ Target:  local://
 
 \e[32m  ✔  working should eq \"working\"\e[0m
 \e[37m  ○  skippy This will be skipped intentionally.\e[0m
-\e[31m  ✖  failing should eq \"as intended\"
+\e[31m  ✖  failing should eq \"as intended\" (
      expected: \"as intended\"
           got: \"failing\"
-     \n     (compared using ==)
-     \e[0m
+     
+     (compared using ==)
+     )\e[0m
 
 Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
 "
