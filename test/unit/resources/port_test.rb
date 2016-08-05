@@ -44,6 +44,15 @@ describe 'Inspec::Resources::Port' do
     _(resource.addresses).must_equal ["0.0.0.0"]
   end
 
+  it 'accepts the port as a string' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', '111')
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal %w{ udp }
+    _(resource.pids).must_equal [545]
+    _(resource.processes).must_equal ['rpcbind']
+    _(resource.addresses).must_equal ["0.0.0.0"]
+  end
+
   it 'verify port on MacOs x' do
     resource = MockLoader.new(:osx104).load_resource('port', 2022)
     _(resource.listening?).must_equal true
