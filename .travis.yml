@@ -29,10 +29,6 @@ matrix:
   - rvm: 2.2
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='default-ubuntu-1404' DOCKER=true
-  - rvm: 2.2
-    bundler_args: "--without guard tools"
-    script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-ubuntu-1604' DOCKER=true
   - rvm: 2.2
     bundler_args: "--without guard tools"
@@ -45,23 +41,11 @@ matrix:
   - rvm: 2.2
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='default-debian-7' DOCKER=true
-  - rvm: 2.2
-    bundler_args: "--without guard tools"
-    script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-debian-8' DOCKER=true
   - rvm: 2.2
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='default-oracle-67' DOCKER=true
-  - rvm: 2.2
-    bundler_args: "--without guard tools"
-    script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-oracle-72' DOCKER=true
-  - rvm: 2.2
-    bundler_args: "--without guard tools"
-    script: bundle exec rake $SUITE
-    env: SUITE=test:integration OS='default-fedora-23' DOCKER=true
   - rvm: 2.2
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
