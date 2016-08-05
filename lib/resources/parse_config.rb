@@ -25,20 +25,31 @@ module Inspec::Resources
       end
     "
 
+    attr_reader :content
     def initialize(content = nil, useropts = nil)
       @opts = {}
       @opts = useropts.dup unless useropts.nil?
       @files_contents = {}
-      @params = nil
 
       @content = content
-      read_content if @content.nil?
+      read_params unless @content.nil?
     end
 
     def method_missing(name)
-      @params || read_content
-      @params[name.to_s]
+      read_params[name.to_s]
     end
+
+    def params(*opts)
+      opts.inject(read_params) do |res, nxt|
+        res.respond_to?(:key) ? res[nxt] : nil
+      end
+    end
+
+    def to_s
+      "Parse Config #{@conf_path}"
+    end
+
+    private
 
     def parse_file(conf_path)
       @conf_path = conf_path
@@ -52,21 +63,18 @@ module Inspec::Resources
         return skip_resource "Can't read file \"#{conf_path}\""
       end
 
-      read_content
+      read_params
     end
 
     def read_file(path)
       @files_contents[path] ||= inspec.file(path).content
     end
 
-    def read_content
-      # parse the file
-      @params = SimpleConfig.new(@content, @opts).params
-      @content
-    end
-
-    def to_s
-      "Parse Config #{@conf_path}"
+    def read_params
+      return @params if defined?(@params)
+      return @params = {} if content.nil?
+      @params = SimpleConfig.new(content, @opts).params
+      @params
     end
   end
 

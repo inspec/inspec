@@ -123,6 +123,7 @@ class MockLoader
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
       '/etc/xinetd.d/chargen-dgram' => mockfile.call('xinetd.d_chargen-dgram'),
+      '/etc/sysctl.conf' => mockfile.call('sysctl.conf'),
     }
 
     # create all mock commands
