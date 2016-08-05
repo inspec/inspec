@@ -3,6 +3,14 @@
 
 require_relative 'docker_run'
 require_relative '../lib/inspec'
+#
+# BUGON: These requires are to get around concurrency issues with
+# autoloading in Ruby
+#
+require 'train'
+require 'train/plugins'
+require 'train/plugins/transport'
+require 'train/transports/docker'
 
 tests = ARGV
 if tests.empty?
