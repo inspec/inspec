@@ -71,10 +71,11 @@ module Inspec::Resources
     end
 
     def read_params
-      return @params if defined?(@params)
-      return @params = {} if content.nil?
-      @params = SimpleConfig.new(content, @opts).params
-      @params
+      @params ||= if content.nil?
+                    {}
+                  else
+                    SimpleConfig.new(content, @opts).params
+                  end
     end
   end
 
