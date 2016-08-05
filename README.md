@@ -231,6 +231,7 @@ OpenSUSE | 13.1/13.2/42.1 | x86_64
 OmniOS | | x86_64
 Gentoo Linux | | x86_64
 Arch Linux | | x86_64
+HP-UX | 11.31 | ia64 
 
 * For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.
 
