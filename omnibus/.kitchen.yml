@@ -5,11 +5,11 @@ driver:
     cpus: 2
     memory: 2048
   synced_folders:
-    - ['.', '/home/vagrant/inspec']
+    - ['..', '/home/vagrant/inspec']
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 12.4.1
+  require_chef_omnibus: true
 
 platforms:
   - name: centos-7.1

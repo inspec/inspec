@@ -1,3 +1,4 @@
+# encoding: utf-8
 #
 # This file is used to configure the inspec project. It contains
 # some minimal configuration examples for working with Omnibus. For a full list
@@ -50,5 +51,9 @@ software_gems ['omnibus-software']
 
 # Windows architecture defaults
 # ------------------------------
-windows_arch   %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase) ?
-                 ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym : :x86
+arch = if %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase)
+         ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym
+       else
+         :x86
+       end
+windows_arch arch

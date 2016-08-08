@@ -110,10 +110,12 @@ section:
 
 ```shell
 $ bundle exec kitchen login ubuntu-1204
-[vagrant@ubuntu...] $ cd inspec
-[vagrant@ubuntu...] $ bundle install
-[vagrant@ubuntu...] $ ...
-[vagrant@ubuntu...] $ bin/omnibus build inspec
+# Now inside the kitchen vm
+$ sudo -i
+$ export PATH=/opt/omnibus-toolchain/bin:/opt/omnibus-toolchain/embedded/bin:$PATH
+$ cd /home/vagrant/inspec/omnibus
+$ bundle install
+$ bundle exec omnibus build inspec
 ```
 
 For a complete list of all commands and platforms, run `kitchen list` or
