@@ -9,3 +9,4 @@ pkg/*
 bin/*
 files/**/cache/
 vendor/cookbooks
+Berksfile.lock
