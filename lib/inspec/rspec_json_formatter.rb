@@ -154,12 +154,7 @@ class InspecRspecJson < InspecRspecMiniJson
       end
     end
 
-    @output_hash[:control_summary] = {
-      total: total,
-      failed: failed,
-      skipped: skipped,
-      passed: passed,
-    }
+    # TODO: provide this information in the output
   end
 
   private
