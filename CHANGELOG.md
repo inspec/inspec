@@ -1,7 +1,51 @@
 # Change Log
 
-## [0.28.1](https://github.com/chef/inspec/tree/0.28.1) (2016-08-03)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.28.0...0.28.1)
+## [0.29.0](https://github.com/chef/inspec/tree/0.29.0) (2016-08-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.28.1...0.29.0)
+
+**Implemented enhancements:**
+
+- port\(\) could convert string parameter to integer [\#867](https://github.com/chef/inspec/issues/867)
+- add params and content method to parse\_config [\#876](https://github.com/chef/inspec/pull/876) ([chris-rock](https://github.com/chris-rock))
+- Activate centos, debian and oracle linux in our travis tests [\#869](https://github.com/chef/inspec/pull/869) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- 1.10.2 missing a space in failed test output [\#872](https://github.com/chef/inspec/issues/872)
+- inspec fails to determine file\_version for a file on a windows 2012R2 [\#858](https://github.com/chef/inspec/issues/858)
+- os\[:family\] returns "centos" rather than "redhat" on my Centos 7.2 box [\#847](https://github.com/chef/inspec/issues/847)
+- Inspec exec output when multiple matchers are used [\#812](https://github.com/chef/inspec/issues/812)
+- Inspec Detect Issues [\#772](https://github.com/chef/inspec/issues/772)
+- systemd is-enabled check does not handle backcompat with sysv-init scripts \(e.g. ntp on Ubuntu 16.04\) [\#749](https://github.com/chef/inspec/issues/749)
+- Update inspec for os\[:family\] change in Train [\#865](https://github.com/chef/inspec/pull/865) ([stevendanna](https://github.com/stevendanna))
+- Use systemctl's helper command to determine enabled & active status [\#863](https://github.com/chef/inspec/pull/863) ([stevendanna](https://github.com/stevendanna))
+
+**Closed issues:**
+
+- bump train dependency [\#870](https://github.com/chef/inspec/issues/870)
+- parse\_config error when searching for fs.suid\_dumpable [\#866](https://github.com/chef/inspec/issues/866)
+- Improve integration tests [\#861](https://github.com/chef/inspec/issues/861)
+- Adapt InSpec to work with latest train OS updates [\#855](https://github.com/chef/inspec/issues/855)
+
+**Merged pull requests:**
+
+- revert control\_summary field in output [\#887](https://github.com/chef/inspec/pull/887) ([arlimus](https://github.com/arlimus))
+- Remove some platforms from travis config [\#883](https://github.com/chef/inspec/pull/883) ([stevendanna](https://github.com/stevendanna))
+- Explicitly require docker transport to avoid autoload bug [\#882](https://github.com/chef/inspec/pull/882) ([stevendanna](https://github.com/stevendanna))
+- Require train 0.16 [\#881](https://github.com/chef/inspec/pull/881) ([chris-rock](https://github.com/chris-rock))
+- Generate test labels for multi-test controls [\#879](https://github.com/chef/inspec/pull/879) ([ksubrama](https://github.com/ksubrama))
+- Allow port to be specified as a string [\#878](https://github.com/chef/inspec/pull/878) ([stevendanna](https://github.com/stevendanna))
+- improve code style for parse\_config thanks @stevendanna [\#877](https://github.com/chef/inspec/pull/877) ([chris-rock](https://github.com/chris-rock))
+- remote target supported OS also includes hp-ux [\#873](https://github.com/chef/inspec/pull/873) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- Be a bit louder when skipping an entire integration suite [\#864](https://github.com/chef/inspec/pull/864) ([stevendanna](https://github.com/stevendanna))
+- Count controls in the summary output. Fix \#852 [\#860](https://github.com/chef/inspec/pull/860) ([vjeffrey](https://github.com/vjeffrey))
+
+## [v0.28.1](https://github.com/chef/inspec/tree/v0.28.1) (2016-08-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.28.0...v0.28.1)
+
+**Implemented enhancements:**
+
+- InSpec output for summary needs to count controls [\#852](https://github.com/chef/inspec/issues/852)
 
 **Fixed bugs:**
 
