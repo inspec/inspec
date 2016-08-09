@@ -117,18 +117,25 @@ module Inspec::Resources
 
       # load registry key and all properties
       script = <<-EOH
-      $reg = Get-Item 'Registry::#{path}'
-      $object = New-Object -Type PSObject
-      $reg.Property | ForEach-Object {
-          $key = $_
-          if ("(default)".Equals($key)) { $key = '' }
-          $value = New-Object psobject -Property @{
-            "value" =  $reg.GetValue($key);
-            "type"  = $reg.GetValueKind($key);
-          }
-          $object | Add-Member –MemberType NoteProperty –Name $_ –Value $value
+      $path = '#{path}'
+      Function Get-InSpec-RegistryKey($path) {
+        $fullpath = 'Registry::' + $path
+        $reg = Get-Item $fullpath
+
+        # convert properties
+        $properties = New-Object -Type PSObject
+        $reg.Property | ForEach-Object {
+            $key = $_
+            if ("(default)".Equals($key)) { $key = '' }
+            $value = New-Object psobject -Property @{
+              "value" =  $reg.GetValue($key);
+              "type"  = $reg.GetValueKind($key);
+            }
+            $properties | Add-Member –MemberType NoteProperty –Name $_ –Value $value
+        }
+        $properties
       }
-      $object | ConvertTo-Json
+      Get-InSpec-RegistryKey($path) | ConvertTo-Json
       EOH
 
       cmd = inspec.powershell(script)
