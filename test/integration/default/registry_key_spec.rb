@@ -66,7 +66,6 @@ describe registry_key('HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Serv
 end
 
 # test option hash
-
 describe registry_key({
   hive: 'HKLM',
   key: 'SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
@@ -80,4 +79,28 @@ describe registry_key({
   key: 'SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\8C941B34EA1EA6ED9AE2BC54CF687252B4C9B561'
 }) do
   it { should exist }
+end
+
+# test regular expressions in our match
+describe registry_key({
+  hive: 'HKEY_LOCAL_MACHINE',
+  key: 'SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+}) do
+  its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
+end
+
+# verify all children via a regular expression
+control 'regex-test' do
+  title "Ensure 'Always install with elevated privileges' is set to 'Disabled'"
+  children = registry_key({
+    hive: 'HKEY_USERS'
+  }).children(/^S-1-5-21-[0-9]+-[0-9]+-[0-9]+-[0-9]{3,}\\Software\\Policies\\Microsoft\\Windows\\Installer/)
+  describe children do
+    it { should_not eq []}
+  end
+  children.each { |key|
+    describe registry_key(key) do
+      its('AlwaysInstallElevated') { should cmp 0 }
+    end
+  }
 end

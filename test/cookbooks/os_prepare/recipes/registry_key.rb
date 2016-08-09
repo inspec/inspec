@@ -71,4 +71,17 @@ if node['platform_family'] == 'windows'
     recursive true
     action :create
   end
+
+  # used to verify pattern test
+  ::Chef::Recipe.send(:include, Chef::Mixin::PowershellOut)
+  cmd = powershell_out!('Get-WmiObject -Class Win32_UserAccount | % { $_.SID } | ConvertTo-Json')
+  sids = JSON.parse(cmd.stdout)
+  sids.each { |sid|
+    registry_key "HKEY_USERS\\#{sid}\\Software\\Policies\\Microsoft\\Windows\\Installer" do
+      values [{ name: 'AlwaysInstallElevated', type: :dword, data: 0 }]
+      recursive true
+      ignore_failure true # ignore users that have not been logged in
+      action :create
+    end
+  }
 end
