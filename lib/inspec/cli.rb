@@ -10,6 +10,7 @@ require 'pp'
 require 'utils/json_log'
 require 'inspec/base_cli'
 require 'inspec/runner_mock'
+require 'inspec/env_printer'
 
 class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :diagnose, type: :boolean,
@@ -168,6 +169,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     end
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
+  end
+
+  desc 'env', 'Output shell-appropriate completion configuration'
+  def env(shell = nil)
+    p = Inspec::EnvPrinter.new(self.class, shell)
+    p.print_and_exit!
   end
 
   desc 'version', 'prints the version of this tool'
