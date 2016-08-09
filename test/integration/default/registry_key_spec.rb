@@ -54,13 +54,30 @@ describe registry_key('HKLM\Software\Policies\Microsoft\Internet Explorer\Main')
   its('isolation64bit') { should eq 1 }
 end
 
+describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0') do
+  it { should exist }
+  its('NTLMMinServerSec') { should eq 537_395_200 }
+  its('NtlmMinServerSec') { should eq 537_395_200 }
+end
+
 describe registry_key('HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services') do
   it { should exist }
   its('MinEncryptionLevel') { should eq 3 }
 end
 
-describe registry_key('HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0') do
+# test option hash
+
+describe registry_key({
+  hive: 'HKLM',
+  key: 'SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+}) do
   it { should exist }
-  its('NTLMMinServerSec') { should eq 537_395_200 }
-  its('NtlmMinServerSec') { should eq 537_395_200 }
+  its('MinEncryptionLevel') { should eq 3 }
+end
+
+describe registry_key({
+  hive: 'HKEY_LOCAL_MACHINE',
+  key: 'SOFTWARE\Microsoft\SystemCertificates\Root\Certificates\8C941B34EA1EA6ED9AE2BC54CF687252B4C9B561'
+}) do
+  it { should exist }
 end

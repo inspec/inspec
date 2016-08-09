@@ -5,8 +5,23 @@
 
 require 'json'
 
-# Usage:
+# Three constructor methods are available:
+# 1. resistry_key(path'):
 # describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
+#   its('Start') { should eq 2 }
+# end
+#
+# 2. resistry_key('name','path'):
+# describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
+#   its('Start') { should eq 2 }
+# end
+#
+# 3. options hash
+# describe registry_key({
+#            name: 'Task Scheduler',
+#            hive: 'HKEY_LOCAL_MACHINE',
+#            key: ''\SYSTEM\CurrentControlSet\services\Schedule'
+# }) do
 #   its('Start') { should eq 2 }
 # end
 
@@ -20,28 +35,33 @@ module Inspec::Resources
       end
     "
 
-    attr_accessor :reg_key
-
     def initialize(name, reg_key = nil)
       # if we have one parameter, we use it as name
       reg_key ||= name
-      @name = name
-      @reg_key = reg_key
-
+      @options = {}
+      if reg_key && reg_key.is_a?(Hash)
+        @options = @options.merge!(reg_key)
+        # generate registry_key if we do not have a regular expression
+        @options[:path] = @options[:hive] + '\\' + @options[:key]
+        @options[:name] ||= @options[:path]
+      else
+        @options[:name] = name
+        @options[:path] = reg_key
+      end
       return skip_resource 'The `registry_key` resource is not supported on your OS yet.' if !inspec.os.windows?
     end
 
     def exists?
-      !registry_key(@reg_key).nil?
+      !registry_key(@options[:path]).nil?
     end
 
     def has_value?(value)
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       !val.nil? && registry_property_value(val, '(default)') == value ? true : false
     end
 
     def has_property?(property_name, property_type = nil)
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       !val.nil? && registry_property_exists(val, property_name) && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
     end
 
@@ -49,7 +69,7 @@ module Inspec::Resources
     # rubocop:disable Style/OptionalArguments
     def has_property_value?(property_name, property_type = nil, value)
       # rubocop:enable Style/OptionalArguments
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
 
       # convert value to binary if required
       value = value.bytes if !property_type.nil? && map2type(property_type) == 3 && !value.is_a?(Array)
@@ -60,15 +80,15 @@ module Inspec::Resources
     # returns nil, if not existant or value
     def method_missing(meth)
       # get data
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       registry_property_value(val, meth)
     end
 
     def to_s
-      "Registry Key #{@name}"
+      "Registry Key #{@options[:name]}"
     end
 
-    private
+    # private
 
     def prep_prop(property)
       property.to_s.downcase
