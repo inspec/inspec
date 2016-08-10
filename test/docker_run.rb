@@ -10,6 +10,8 @@ class DockerRunner
     @conf_path = conf_path ||
                  ENV['config']
 
+    docker_run_concurrency = (ENV['N'] || 5).to_i
+
     if @conf_path.nil?
       fail "You must provide a configuration file with docker boxes"
     end
@@ -28,7 +30,7 @@ class DockerRunner
 
     @images = docker_images_by_tag
     @image_pull_tickets = Concurrent::Semaphore.new(2)
-    @docker_run_tickets = Concurrent::Semaphore.new(5)
+    @docker_run_tickets = Concurrent::Semaphore.new(docker_run_concurrency)
   end
 
   def run_all(&block)
