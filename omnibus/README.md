@@ -118,5 +118,16 @@ $ bundle install
 $ bundle exec omnibus build inspec
 ```
 
-For a complete list of all commands and platforms, run `kitchen list` or
-`kitchen help`.
+If you are building for Windows, follow these steps:
+
+```
+$ bundle exec kitchen converge i386```
+# Now inside the kitchen vm, open a cmd/ps shell
+$ C:\vagrant\load-omnibus-toolchain.ps1 # (or .bar if you're on cmd)
+$ cd C:\vagrant\code\inspec\omnibus
+$ bundle install --without development
+$ bundle exec omnibus build inspec -l debug
+
+# If you get a 'can't sign this msi because I don't have a key to do so' error
+# at the end of it, you have succeeded.  Look for you unsigned MSI in C:\omnibus-ruby\pkg
+```

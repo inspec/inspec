@@ -2,11 +2,13 @@
 source 'https://rubygems.org'
 
 # Install omnibus
-gem 'omnibus', '~> 5.3'
+# Sadly due to an ongoing msys2 issue, producing windows builds requires
+# the two branches below.
+gem 'omnibus', github: 'chef/omnibus', branch: 'ksubrama/gcc_investigate'
 
 # Use Chef's software definitions. It is recommended that you write your own
 # software definitions, but you can clone/fork Chef's to get you started.
-gem 'omnibus-software', github: 'chef/omnibus-software'
+gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
@@ -17,6 +19,7 @@ group :development do
   gem 'berkshelf', '~> 4.3'
 
   # Use Test Kitchen with Vagrant for converging the build environment
-  gem 'test-kitchen',    '~> 1.7'
+  gem 'test-kitchen',    '~> 1.9'
   gem 'kitchen-vagrant', '~> 0.19'
+  gem 'winrm-fs', '~> 0.4'
 end

@@ -17,21 +17,53 @@
 #
 
 name 'inspec'
+friendly_name 'InSpec'
 maintainer 'Chef Software, Inc <maintainers@chef.io>'
 homepage 'https://github.com/chef/inspec'
 
 license 'Apache-2.0'
 license_file '../LICENSE'
 
-# Defaults to C:/inspec on Windows
-# and /opt/inspec on all other platforms
-install_dir "#{default_root}/#{name}"
+# Defaults to C:/opscode/inspec on Windows
+# and /opt/inspec on all other platforms.
+if windows?
+  install_dir "#{default_root}/opscode/#{name}"
+else
+  install_dir "#{default_root}/#{name}"
+end
 
 build_version Omnibus::BuildVersion.semver
 build_iteration 1
 
 dependency 'preparation'
+
 dependency 'inspec'
+
+# Mark all directories world readable.
+dependency 'gem-permissions'
+# Redirect all gem bat files and rb files to point to embedded ruby.
+dependency 'shebang-cleanup'
+# Ensure our SSL cert files are accessible to ruby.
+dependency 'openssl-customization'
+# Remove all .dll.a and .a files needed for static linkage.
+dependency 'clean-static-libs'
+
+package :rpm do
+  signing_passphrase ENV['OMNIBUS_RPM_SIGNING_PASSPHRASE']
+end
+
+package :pkg do
+  identifier 'com.getchef.pkg.inspec'
+  signing_identity 'Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)'
+end
+compress :dmg
+
+package :msi do
+  fast_msi true
+  upgrade_code 'DFCD452F-31E5-4236-ACD1-253F4720250B'
+  wix_light_extension 'WixUtilExtension'
+  signing_identity 'F74E1A68005E8A9C465C3D2FF7B41F3988F0EA09', machine_store: true
+end
 
 exclude '**/.git'
 exclude '**/bundler/git'
