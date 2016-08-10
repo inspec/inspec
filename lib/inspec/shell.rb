@@ -32,7 +32,7 @@ module Inspec
 
       # configure pry shell prompt
       Pry.config.prompt_name = 'inspec'
-      Pry.prompt = [proc { "\e[0;32m#{Pry.config.prompt_name}>\e[0m " }]
+      Pry.prompt = [proc { "#{readline_ignore("\e[0;32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
 
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, :intro) do
@@ -40,8 +40,12 @@ module Inspec
       end
     end
 
+    def readline_ignore(code)
+      "\001#{code}\002"
+    end
+
     def mark(x)
-      "\033[1m#{x}\033[0m"
+      "#{readline_ignore("\033[1m")}#{x}#{readline_ignore("\033[0m")}"
     end
 
     def print_example(example)
@@ -83,6 +87,7 @@ You can use resources in this environment to test the target machine. For exampl
 
 You are currently running on:
 
+    OS platform:  #{mark ctx.os[:name] || 'unknown'}
     OS family:  #{mark ctx.os[:family] || 'unknown'}
     OS release: #{mark ctx.os[:release] || 'unknown'}
 
