@@ -176,4 +176,20 @@ if os.windows?
     its('basename') { should cmp 'Windows' }
     its('path') { should cmp "C:\\Windows" }
   end
+
+  describe file('C:\\Test Directory\\test file.txt') do
+    it { should exist }
+    it { should be_file }
+  end
+
+  describe file('C:\\Test Directory') do
+    it { should exist }
+    it { should be_directory }
+  end
+
+  describe file("C:/Program Files (x86)/Windows NT/Accessories/wordpad.exe") do
+    it { should exist }
+    # Only works on Windows 2012 R2
+    its('file_version') { should eq '6.3.9600.17415' }
+  end
 end
