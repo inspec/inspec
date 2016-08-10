@@ -1,0 +1,61 @@
+function _inspec() {
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local -a _top_level_commands <%= subcommands_with_commands_and_descriptions.keys.map {|i| "_#{i}_commands" }.join(' ') %>
+
+    _top_level_commands=(
+<%= top_level_commands_with_descriptions.map {|i| " "*8 + "\"#{i}\"" }. join("\n") %>
+    )
+
+<% subcommands_with_commands_and_descriptions.each do |name, entry| -%>
+    _<%= name %>_commands=(
+<%= entry.map {|i| " "*8 + "\"#{i}\"" }.join("\n") %>
+    )
+
+<% end -%>
+    _arguments '1:::->toplevel' && return 0
+    _arguments '2:::->subcommand' && return 0
+    _arguments '3:::->subsubcommand' && return 0
+
+    #
+    # Are you thinking? "Jeez, whoever wrote this really doesn't get
+    # zsh's completion system?" If so, you are correct. However, I
+    # have goodnews! Pull requests are accepted!
+    #
+    case $state in
+        toplevel)
+            _describe -t commands "InSpec subcommands" _top_level_commands
+            ;;
+        subcommand)
+            case "$words[2]" in
+                archive|check|exec|json)
+                    _alternative 'files:filenames:_files'
+                    ;;
+                help)
+                    _describe -t commands "InSpec subcommands" _top_level_commands
+                    ;;
+<% subcommands_with_commands_and_descriptions.each do |name, entry| -%>
+                <%= name %>)
+                    _describe -t <%= name %>_commands "InSpec <%= name -%> subcommands" _<%= name %>_commands
+                    ;;
+<% end -%>
+            esac
+            ;;
+        subsubcommand)
+            case "$words[2]-$words[3]" in
+                compliance-upload)
+                    _alternative 'files:filenames:_files'
+                    ;;
+<% subcommands_with_commands_and_descriptions.each do |name, entry| -%>
+                <%= name %>-help)
+                    _describe -t <%= name %>_commands "InSpec <%= name %> subcommands" _<%= name %>_commands
+                    ;;
+<% end -%>
+            esac
+
+    esac
+
+}
+
+compdef _inspec inspec

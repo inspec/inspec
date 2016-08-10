@@ -1,0 +1,45 @@
+_inspec() {
+    local _inspec_top_level_commands="<%= top_level_commands.join(" ") %>"
+    <% subcommands_with_commands.each do |name, subcommands| -%>
+local _inspec_<%= name %>_commands="<%= subcommands.join(" ") -%>"
+    <% end -%>
+
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+
+    if [ "$COMP_CWORD" -eq 1 ]; then
+        case "$prev" in
+            inspec)
+                COMPREPLY=( $( compgen -W "$_inspec_top_level_commands" -- "$cur" ) )
+                ;;
+        esac
+    elif [ "$COMP_CWORD" -eq 2 ]; then
+        case "$prev" in
+            archive|check|exec|json)
+                COMPREPLY=( $( compgen -f -- "$cur" ) )
+                ;;
+            help)
+                COMPREPLY=( $( compgen -W "$_inspec_top_level_commands" -- "$cur" ) )
+                ;;
+<% subcommands_with_commands.each do |name, subcommands| -%>
+           <%= name %>)
+                COMPREPLY=( $( compgen -W "$_inspec_<%= name %>_commands" -- "$cur" ) )
+                ;;
+<% end -%>
+        esac
+    elif [ "$COMP_CWORD" -eq 3 ]; then
+        prev2=${COMP_WORDS[COMP_CWORD-2]}
+        case "$prev2-$prev" in
+            compliance-upload)
+                COMPREPLY=( $( compgen -f -- "$cur" ) )
+                ;;
+<% subcommands_with_commands.each do |name, subcommands| -%>
+           <%= name %>-help)
+                COMPREPLY=( $( compgen -W "$_inspec_<%= name %>_commands" -- "$cur" ) )
+                ;;
+<% end -%>
+        esac
+    fi
+}
+
+complete -F _inspec inspec
