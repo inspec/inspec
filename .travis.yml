@@ -50,6 +50,9 @@ matrix:
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-fedora-24' DOCKER=true
+  allow_failures:
+  - env: SUITE="lint test test:resources config=test/test.yaml" N=2
+  - env: SUITE="test:functional test:resources config=test/test-extra.yaml" N=2
 
 deploy:
   provider: rubygems
