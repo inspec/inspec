@@ -21,6 +21,7 @@ The following InSpec audit resources are available:
 * `group <https://github.com/chef/inspec/blob/master/docs/resources.rst#group-1/>`_
 * `grub_conf`_
 * `host`_
+* `iis_site`_
 * `inetd_conf`_
 * `interface`_
 * `iptables`_
@@ -1799,7 +1800,111 @@ The following examples show how to use this InSpec audit resource.
    end
 
 
+iis_site
+=====================================================
+Tests the status, path, bindings, and application pool of an IIS website. Supported in windows 2012 and higher.
 
+**Stability: Experimental**
+
+Syntax
+-----------------------------------------------------
+An ``iis_site`` |inspec resource| block declares the IIS web site properties to be tested:
+
+.. code-block:: ruby
+describe iis_site('website') do
+  it { should exist }
+  it { should be_running }
+  it { should have_app_pool('app_pool') }
+  it { should have_binding('https :443:www.contoso.com sslFlags=0') }
+  it { should have_path('C:\\inetpub\\wwwroot') }
+end
+
+where
+
+* ``iis_site()`` must specify a web site name
+* ``'website'`` is the web site name
+* ``'service_name'`` is a service listed in the ``inetd.conf`` file
+* ``have_app_pool('my_app_pool')`` tests that our site belongs to the 'my_app_pool' application pool
+* ``have_binding('my_binding')`` tests that our site has the specified binding. my_binding should be in the format of the default output from the Get-Website powershell cmdlet
+
+website
+
+Matchers
+-----------------------------------------------------
+This InSpec audit resource has the following matchers.
+
+exist
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``exist`` matcher tests if the website exists in IIS:
+
+.. code-block:: ruby
+
+   it { should exist }
+
+be_running
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``be_running`` matcher tests if the IIS site is running
+
+.. code-block:: ruby
+
+   it { should be_running }
+   
+have_app_pool
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_app_pool`` matcher tests if the IIS site belongs in the specified application pool
+
+.. code-block:: ruby
+
+   it { should have_app_pool('Default App Pool') }
+
+have_binding
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_binding`` matcher tests if the IIS site has the specified binding
+
+.. code-block:: ruby
+
+   it { should have_binding('http :80:*' ) }
+   
+have_path
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``have_path`` matcher tests if the IIS site is located in the specified path
+
+.. code-block:: ruby
+
+   it { should have_path('c:\\inetpub\\wwwroot\\my_site') }   
+   
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this InSpec audit resource.
+
+**Test if a web site 'My Site' is running and is located on disk at c:\\mysite**
+
+.. code-block:: ruby
+
+   describe iis_site('My Site') do
+     it { should be_running }
+     it { should have_path('c:\\mysite') }	 
+   end
+
+**Test to see if 'Default Web Site' has been removed**
+
+.. code-block:: ruby
+
+   describe iis_site('Default Web Site') do
+     it { should_not exist }
+   end
+
+**Test 'New Website' is running in Default App Pool and listening on port 80 via http**
+
+.. code-block:: ruby
+
+   describe iis_site('New Website') do
+     it { should have_app_pool('app_pool') }
+     it { should have_binding('http :80:*') }
+   end
+   
+   
 
 inetd_conf
 =====================================================

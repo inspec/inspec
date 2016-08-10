@@ -5,7 +5,7 @@
 #   it{ should exist }
 #   it{ should be_running }
 #   it{ should be_in_app_pool('Default App Pool') }
-#   it{ should have_physical_path('C:\\inetpub\wwwroot\\DefaultWebSite') }
+#   it{ should have_path('C:\\inetpub\wwwroot\\DefaultWebSite') }
 #   it{ should have_binding('https :443:www.contoso.com sslFlags=0') }
 #   it{ should have_binding('net.pipe *') }
 # end
