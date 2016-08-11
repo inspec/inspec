@@ -151,6 +151,17 @@ module Inspec
       ctx
     end
 
+    def reregister_rules(ctx)
+      new_tests = false
+      ctx.rules.each do |rule_id, rule|
+        if yield rule_id, rule
+          new_tests = true
+          register_rule(rule_id, rule)
+        end
+      end
+      new_tests
+    end
+
     def_delegator :@test_collector, :run
     def_delegator :@test_collector, :report
     def_delegator :@test_collector, :reset

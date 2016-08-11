@@ -170,13 +170,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       runner = Inspec::Runner.new(o)
       return Inspec::Shell.new(runner).start
     else
-      res = run_command(o)
-      if opts['format'] == 'json'
-        jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
-        puts jres
-      else
-        puts res
-      end
+      exit run_command(o)
     end
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
@@ -196,9 +190,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   private
 
   def run_command(opts)
-    opts[:test_collector] = Inspec::RunnerMock.new
     runner = Inspec::Runner.new(opts)
-    runner.create_context.load(opts[:command])
+    content = { content: opts[:command], ref: nil, line: nil }
+    runner.add_content(content, [])
+    runner.run
   end
 end
 

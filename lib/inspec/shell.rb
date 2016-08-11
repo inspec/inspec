@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'rspec/core/formatters/base_text_formatter'
+require 'pry'
 
 module Inspec
   # A pry based shell for inspec. Given a runner (with a configured backend and
@@ -11,18 +12,26 @@ module Inspec
   class Shell
     def initialize(runner)
       @runner = runner
-      # load and configure pry
-      require 'pry'
-      configure_pry
     end
 
     def start
-      # store context to run commands in this context
-      c = { content: 'binding.pry', ref: nil, line: nil }
-      @runner.add_content(c, [])
+      # Create an in-memory empty runner so that we can add tests to it later.
+      # This context lasts for the duration of this "start" method call/pry
+      # session.
+      c = { content: '', ref: nil, line: nil }
+      @ctx = @runner.add_content(c, [])
+      configure_pry
+
+      # This will hold a single evaluation binding context as opened within
+      # the instance_eval context of the anonymous class that the profile
+      # context creates to evaluate each individual test file. We want to
+      # pretend like we are constantly appending to the same file and want
+      # to capture the local variable context from inside said class.
+      @ctx_binding = @ctx.load('binding', nil, nil)
+      @ctx_binding.pry
     end
 
-    def configure_pry
+    def configure_pry # rubocop:disable Metrics/AbcSize
       # Remove all hooks and checks
       Pry.hooks.clear_all
       that = self
@@ -37,25 +46,34 @@ module Inspec
       Pry.prompt = [proc { "#{readline_ignore("\e[0;32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
 
       # Add a help menu as the default intro
-      Pry.hooks.add_hook(:before_session, :intro) do
+      Pry.hooks.add_hook(:before_session, 'inspec_intro') do
         intro
       end
 
-      # execute describe blocks
-      Pry.hooks.add_hook(:after_eval, 'run_controls') do |output, _binding, _pry_|
-        next unless output.is_a?(Inspec::Rule)
-        # reset tests, register the control and execute the runner
+      # Track the rules currently registered and what their merge count is.
+      Pry.hooks.add_hook(:before_eval, 'inspec_before_eval') do
+        @current_eval_rules = @ctx.rules.each_with_object({}) do |(rule_id, rule), h|
+          h[rule_id] = Inspec::Rule.merge_count(rule)
+        end
         @runner.reset
-        @runner.method(:register_rule).call(output.id, output)
-        @runner.run
+      end
+
+      # After pry has evaluated a commanding within the binding context of a
+      # test file, register all the rules it discovered.
+      Pry.hooks.add_hook(:after_eval, 'inspec_after_eval') do
+        @current_eval_new_tests =
+          @runner.reregister_rules(@ctx) do |rule_id, rule|
+            @current_eval_rules[rule_id] != Inspec::Rule.merge_count(rule)
+          end
+        @runner.run if @current_eval_new_tests
       end
 
       # Don't print out control class inspection when the user uses DSL methods.
       # Instead produce a result of evaluating their control.
-      Pry.config.print = proc do |_output, value, pry_|
-        next if value.is_a?(Inspec::Rule)
-        pry_.pager.open do |pager|
-          pager.print pry_.config.output_prefix
+      Pry.config.print = proc do |_output_, value, pry|
+        next if @current_eval_new_tests
+        pry.pager.open do |pager|
+          pager.print pry.config.output_prefix
           Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
         end
       end
@@ -139,14 +157,6 @@ EOF
 
     def resources
       puts Inspec::Resource.registry.keys.join(' ')
-    end
-  end
-
-  class NoSummaryFormatter < RSpec::Core::Formatters::BaseTextFormatter
-    RSpec::Core::Formatters.register self, :dump_summary
-
-    def dump_summary(*_args)
-      # output nothing
     end
   end
 end
