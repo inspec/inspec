@@ -64,7 +64,8 @@ module Inspec
     # helper method to run tests
     def run_tests(targets, opts)
       o = opts.dup
-      o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+      log_device = opts['format'] == 'json' ? nil : STDOUT
+      o[:logger] = Logger.new(log_device)
       o[:logger].level = get_log_level(o.log_level)
 
       runner = Inspec::Runner.new(o)

@@ -14,6 +14,7 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target, opts = {})
+      return nil unless target.is_a?(String)
       uri = URI.parse(target)
       return nil if uri.nil? or uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme

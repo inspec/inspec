@@ -15,6 +15,7 @@ module Compliance
     priority 500
 
     def self.resolve(target, _opts = {})
+      return nil unless target.is_a?(String)
       # check for local scheme compliance://
       uri = URI(target)
       return nil unless URI(uri).scheme == 'compliance'

@@ -38,7 +38,7 @@ describe 'command tests' do
     it 'can run arbitrary ruby' do
       x = rand
       y = rand
-      out = inspec("shell -c '#{x} + #{y}'")
+      out = inspec("shell -c '#{x} + #{y}' --format 'json'")
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       j = JSON.load(out.stdout)
@@ -46,7 +46,7 @@ describe 'command tests' do
     end
 
     it 'retrieves resources in JSON' do
-      out = inspec("shell -c 'os.params'")
+      out = inspec("shell -c 'os.params' --format 'json'")
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       j = JSON.load(out.stdout)
