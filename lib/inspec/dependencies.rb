@@ -157,7 +157,7 @@ module Inspec
     #
     # @param [Object] dependency
     # @return [Boolean] whether this dependency can safely be skipped.
-    def allow_missing?(dependency)
+    def allow_missing?(_dependency)
       # TODO
       false
     end
