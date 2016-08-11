@@ -8,21 +8,15 @@ describe 'example inheritance profile' do
   include FunctionalHelper
   let(:path) { File.join(examples_path, 'inheritance') }
 
-  [
-    'archive %s --overwrite',
-    'check %s',
-    'json %s',
-  ].each do |cmd|
-    it cmd[/^\w/] + ' fails without --profiles-path' do
-      out = inspec(format(cmd, path))
-      out.stderr.must_include 'You must supply a --profiles-path to inherit'
-      # out.stdout.must_equal '' => we still get partial output
-      out.exit_status.must_equal 1
-    end
-  end
-
   it 'check succeeds with --profiles-path' do
     out = inspec('check ' + path + ' --profiles-path ' + examples_path)
+    out.stderr.must_equal ''
+    out.stdout.must_match /Valid.*true/
+    out.exit_status.must_equal 0
+  end
+
+  it 'check succeeds without --profiles-path using inspec.yml' do
+    out = inspec('check ' + path)
     out.stderr.must_equal ''
     out.stdout.must_match /Valid.*true/
     out.exit_status.must_equal 0
@@ -37,8 +31,27 @@ describe 'example inheritance profile' do
     File.exist?(dst.path).must_equal true
   end
 
+  it 'archive is successful without --profiles-path using inspec.yml' do
+    out = inspec('archive ' + path + ' --output ' + dst.path)
+    out.stderr.must_equal ''
+    out.stdout.must_include 'Generate archive '+dst.path
+    out.stdout.must_include 'Finished archive generation.'
+    out.exit_status.must_equal 0
+    File.exist?(dst.path).must_equal true
+  end
+
   it 'read the profile json with --profiles-path' do
     out = inspec('json ' + path + ' --profiles-path '+examples_path)
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    s = out.stdout
+    hm = JSON.load(s)
+    hm['name'].must_equal 'inheritance'
+    hm['controls'].length.must_equal 3
+  end
+
+  it 'read the profile json without --profiles-path using inspec.yml' do
+    out = inspec('json ' + path)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     s = out.stdout
