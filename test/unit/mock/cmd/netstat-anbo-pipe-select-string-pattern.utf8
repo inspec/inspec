@@ -1,0 +1,99 @@
+
+>   TCP    0.0.0.0:22             0.0.0.0:0              LISTENING       1264
+   [sshd.exe]
+>   TCP    0.0.0.0:42             0.0.0.0:0              LISTENING       3576
+   [wins.exe]
+>   TCP    0.0.0.0:80             0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       564
+    RpcSs
+>   TCP    0.0.0.0:443            0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    0.0.0.0:3300           0.0.0.0:0              LISTENING       1120
+   [Syslogd_Service.exe]
+>   TCP    0.0.0.0:3389           0.0.0.0:0              LISTENING       1764
+    TermService
+>   TCP    0.0.0.0:5985           0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    0.0.0.0:47001          0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    0.0.0.0:49152          0.0.0.0:0              LISTENING       372
+   [wininit.exe]
+>   TCP    0.0.0.0:49153          0.0.0.0:0              LISTENING       752
+    EventLog
+>   TCP    0.0.0.0:49154          0.0.0.0:0              LISTENING       784
+    Schedule
+>   TCP    0.0.0.0:49155          0.0.0.0:0              LISTENING       1028
+   [spoolsv.exe]
+>   TCP    0.0.0.0:49156          0.0.0.0:0              LISTENING       464
+   Can not obtain ownership information
+>   TCP    0.0.0.0:49157          0.0.0.0:0              LISTENING       472
+   [lsass.exe]
+>   TCP    0.0.0.0:49312          0.0.0.0:0              LISTENING       3576
+   [wins.exe]
+>   TCP    10.0.2.15:139          0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    192.168.56.98:139      0.0.0.0:0              LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:22                [::]:0                 LISTENING       1264
+   [sshd.exe]
+>   TCP    [::]:80                [::]:0                 LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:135               [::]:0                 LISTENING       564
+    RpcSs
+>   TCP    [::]:443               [::]:0                 LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:445               [::]:0                 LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:3389              [::]:0                 LISTENING       1764
+    TermService
+>   TCP    [::]:5985              [::]:0                 LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:47001             [::]:0                 LISTENING       4
+   Can not obtain ownership information
+>   TCP    [::]:49152             [::]:0                 LISTENING       372
+   [wininit.exe]
+>   TCP    [::]:49153             [::]:0                 LISTENING       752
+    EventLog
+>   TCP    [::]:49154             [::]:0                 LISTENING       784
+    Schedule
+>   TCP    [::]:49155             [::]:0                 LISTENING       1028
+   [spoolsv.exe]
+>   TCP    [::]:49156             [::]:0                 LISTENING       464
+   Can not obtain ownership information
+>   TCP    [::]:49157             [::]:0                 LISTENING       472
+   [lsass.exe]
+>   TCP    [::]:49312             [::]:0                 LISTENING       3576
+   [wins.exe]
+>   UDP    0.0.0.0:42             *:*                                    3576
+   [wins.exe]
+>   UDP    0.0.0.0:161            *:*                                    3004
+   [snmp.exe]
+>   UDP    0.0.0.0:514            *:*                                    1120
+   [Syslogd_Service.exe]
+>   UDP    0.0.0.0:3389           *:*                                    1764
+    TermService
+>   UDP    0.0.0.0:5355           *:*                                    908
+    Dnscache
+>   UDP    0.0.0.0:64133          *:*                                    1120
+   [Syslogd_Service.exe]
+>   UDP    0.0.0.0:64134          *:*                                    1636
+   [Syslogd_Manager.exe]
+>   UDP    10.0.2.15:137          *:*                                    4
+   Can not obtain ownership information
+>   UDP    10.0.2.15:138          *:*                                    4
+   Can not obtain ownership information
+>   UDP    127.0.0.1:53235        *:*                                    3576
+   [wins.exe]
+>   UDP    192.168.56.98:137      *:*                                    4
+   Can not obtain ownership information
+>   UDP    192.168.56.98:138      *:*                                    4
+   Can not obtain ownership information
+>   UDP    [::]:161               *:*                                    3004
+   [snmp.exe]
+>   UDP    [::]:3389              *:*                                    1764
+    TermService
+>   UDP    [::]:5355              *:*                                    908
+    Dnscache
