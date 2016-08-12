@@ -1,7 +1,37 @@
 # Change Log
 
-## [0.29.0](https://github.com/chef/inspec/tree/0.29.0) (2016-08-08)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.28.1...0.29.0)
+## [0.30.0](https://github.com/chef/inspec/tree/0.30.0) (2016-08-12)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.29.0...0.30.0)
+
+**Implemented enhancements:**
+
+- introduce dependency resolution \(experimental\) [\#891](https://github.com/chef/inspec/pull/891) ([arlimus](https://github.com/arlimus))
+- Improve windows support of omnibus installer [\#890](https://github.com/chef/inspec/pull/890) ([ksubrama](https://github.com/ksubrama))
+- Add omnibus for inspec [\#658](https://github.com/chef/inspec/pull/658) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- RHEL postgres data dir is not /var/lib/postgres as coded [\#494](https://github.com/chef/inspec/issues/494)
+- Add readline ignore markers to color escape codes in the shell [\#900](https://github.com/chef/inspec/pull/900) ([stevendanna](https://github.com/stevendanna))
+
+**Closed issues:**
+
+- `inspec exec` help option does not provide any context sensitive help [\#906](https://github.com/chef/inspec/issues/906)
+- Add windows MSI packaging support to omnibus [\#889](https://github.com/chef/inspec/issues/889)
+- tab-completion support in the inspec command line and in the inspec shell :\) [\#607](https://github.com/chef/inspec/issues/607)
+
+**Merged pull requests:**
+
+- auto-generate inspec cli docs [\#911](https://github.com/chef/inspec/pull/911) ([arlimus](https://github.com/arlimus))
+- move test suites to allowed failures until travis is fixed [\#904](https://github.com/chef/inspec/pull/904) ([chris-rock](https://github.com/chris-rock))
+- travis experiment: lower docker concurrency [\#902](https://github.com/chef/inspec/pull/902) ([stevendanna](https://github.com/stevendanna))
+- Improve detection of postgresql conf dir and data dir [\#901](https://github.com/chef/inspec/pull/901) ([stevendanna](https://github.com/stevendanna))
+- Add `inspec env` command to configure shell tab-completion [\#896](https://github.com/chef/inspec/pull/896) ([stevendanna](https://github.com/stevendanna))
+- Support regular expressions for Windows registry key [\#892](https://github.com/chef/inspec/pull/892) ([chris-rock](https://github.com/chris-rock))
+- add integration test for windows file and directory [\#880](https://github.com/chef/inspec/pull/880) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.29.0](https://github.com/chef/inspec/tree/v0.29.0) (2016-08-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.28.1...v0.29.0)
 
 **Implemented enhancements:**
 
