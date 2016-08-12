@@ -4,11 +4,13 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'logger'
 require 'thor'
 require 'json'
 require 'pp'
 require 'utils/json_log'
 require 'inspec/base_cli'
+require 'inspec/plugins'
 require 'inspec/runner_mock'
 require 'inspec/env_printer'
 
@@ -153,7 +155,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'shell', 'open an interactive debugging shell'
   target_options
   option :command, aliases: :c
-  option :format, type: :string, default: Inspec::NoSummaryFormatter, hide: true
+  option :format, type: :string, default: nil, hide: true
   def shell_func
     diagnose
     o = opts.dup
