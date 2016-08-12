@@ -164,8 +164,8 @@ class MockLoader
       'lsmod' => cmd.call('lsmod'),
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
       # ports on windows
-      'Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
-      'netstat -an' => cmd.call('netstat-an.utf8'),
+      'Get-NetTCPConnection -state Listen | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json' => cmd.call('get-net-tcpconnection'),
+      'netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1' => cmd.call('netstat-anbo-pipe-select-string-pattern.utf8'),
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux

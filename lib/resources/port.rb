@@ -122,13 +122,13 @@ module Inspec::Resources
   # @see https://connect.microsoft.com/PowerShell/feedback/details/1349420/get-nettcpconnection-does-not-show-processid
   class WindowsPorts < PortsInfo
     def info
-      powershell_info || netstat_info
+      netstat_info || powershell_info
     end
 
     private
 
     def powershell_info
-      cmd = inspec.command('Get-NetTCPConnection | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
+      cmd = inspec.command('Get-NetTCPConnection -state Listen | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json')
       return nil if cmd.exit_status != 0
 
       entries = JSON.parse(cmd.stdout)
@@ -146,14 +146,21 @@ module Inspec::Resources
     end
 
     def netstat_info
-      cmd = inspec.command('netstat -an')
+      # retrieve processes grepping by LISTENING state with 0 lines before and 1 after to catch the process name
+      # also UDP ports have nothing in the State column
+      cmd = inspec.command('netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1')
       return nil if cmd.exit_status != 0
-      lines = cmd.stdout.scan(/^\s*(tcp\S*|udp\S*)\s+(\S+):(\d+)\s+/i)
+      lines = cmd.stdout.scan(/^>\s*(tcp\S*|udp\S*)\s+(\S+):(\d+)\s+(\S+)\s+(\S*)\s+(\d+)\s+(.+)/i)
       lines.map do |line|
+        pid = line[5].to_i
+        process = line[6].delete('[').delete(']').strip
+        process = 'System' if process == 'Can not obtain ownership information' && pid == 4
         {
           'port'     => line[2].to_i,
           'address'  => line[1].delete('[').delete(']'),
           'protocol' => line[0].downcase,
+          'pid'      => pid,
+          'process'  => process,
         }
       end
     end
