@@ -5,13 +5,50 @@
 
 require 'json'
 
-# Usage:
+# Three constructor methods are available:
+# 1. resistry_key(path'):
 # describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
 #   its('Start') { should eq 2 }
 # end
+#
+# 2. resistry_key('name','path'):
+# describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule') do
+#   its('Start') { should eq 2 }
+# end
+#
+# 3. options hash
+# describe registry_key({
+#            name: 'Task Scheduler',
+#            hive: 'HKEY_LOCAL_MACHINE',
+#            key: ''\SYSTEM\CurrentControlSet\services\Schedule'
+# }) do
+#   its('Start') { should eq 2 }
+# end
+#
+# Get all childs of a registry key:
+# describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet').children do
+#   it { should_not eq [] }
+# end
+#
+# Example to use regular expressions for keys
+# describe registry_key({
+#   hive: HKEY_USERS
+# }).children(/^S-1-5-21-[0-9]+-[0-9]+-[0-9]+-[0-9]{3,}\\Software\\Policies\\Microsoft\\Windows\\Installer/).each { |key|
+#   describe registry_key(key) do
+#     its('AlwaysInstallElevated') { should eq 'value' }
+#   end
+# }
+#
+# Example to use regular expressions in responses
+# describe registry_key({
+#   hive: 'HKEY_LOCAL_MACHINE',
+#   key: 'SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+# }) do
+#   its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
+# end
 
 module Inspec::Resources
-  class RegistryKey < Inspec.resource(1)
+  class RegistryKey < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'registry_key'
     desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
     example "
@@ -20,28 +57,35 @@ module Inspec::Resources
       end
     "
 
-    attr_accessor :reg_key
-
     def initialize(name, reg_key = nil)
       # if we have one parameter, we use it as name
       reg_key ||= name
-      @name = name
-      @reg_key = reg_key
-
+      @options = {}
+      if reg_key && reg_key.is_a?(Hash)
+        @options = @options.merge!(reg_key)
+        # generate registry_key if we do not have a regular expression
+        @options[:path] = @options[:hive]
+        # add optional key path
+        @options[:path] += '\\' + @options[:key] if @options[:key]
+        @options[:name] ||= @options[:path]
+      else
+        @options[:name] = name
+        @options[:path] = reg_key
+      end
       return skip_resource 'The `registry_key` resource is not supported on your OS yet.' if !inspec.os.windows?
     end
 
     def exists?
-      !registry_key(@reg_key).nil?
+      !registry_key(@options[:path]).nil?
     end
 
     def has_value?(value)
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       !val.nil? && registry_property_value(val, '(default)') == value ? true : false
     end
 
     def has_property?(property_name, property_type = nil)
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       !val.nil? && registry_property_exists(val, property_name) && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
     end
 
@@ -49,7 +93,7 @@ module Inspec::Resources
     # rubocop:disable Style/OptionalArguments
     def has_property_value?(property_name, property_type = nil, value)
       # rubocop:enable Style/OptionalArguments
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
 
       # convert value to binary if required
       value = value.bytes if !property_type.nil? && map2type(property_type) == 3 && !value.is_a?(Array)
@@ -57,15 +101,20 @@ module Inspec::Resources
       !val.nil? && registry_property_value(val, property_name) == value && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
     end
 
+    # returns an arrray of child nodes
+    def children(filter = nil)
+      children_keys(@options[:path], filter)
+    end
+
     # returns nil, if not existant or value
     def method_missing(meth)
       # get data
-      val = registry_key(@reg_key)
+      val = registry_key(@options[:path])
       registry_property_value(val, meth)
     end
 
     def to_s
-      "Registry Key #{@name}"
+      "Registry Key #{@options[:name]}"
     end
 
     private
@@ -94,25 +143,27 @@ module Inspec::Resources
 
     def registry_key(path)
       return @registry_cache if defined?(@registry_cache)
-
       # load registry key and all properties
       script = <<-EOH
-      $reg = Get-Item 'Registry::#{path}'
-      $object = New-Object -Type PSObject
-      $reg.Property | ForEach-Object {
-          $key = $_
-          if ("(default)".Equals($key)) { $key = '' }
-          $value = New-Object psobject -Property @{
-            "value" =  $reg.GetValue($key);
-            "type"  = $reg.GetValueKind($key);
-          }
-          $object | Add-Member –MemberType NoteProperty –Name $_ –Value $value
+      Function InSpec-GetRegistryKey($path) {
+        $reg = Get-Item ('Registry::' + $path)
+        $properties = New-Object -Type PSObject
+        $reg.Property | ForEach-Object {
+            $key = $_
+            if ("(default)".Equals($key)) { $key = '' }
+            $value = New-Object psobject -Property @{
+              "value" =  $reg.GetValue($key);
+              "type"  = $reg.GetValueKind($key);
+            }
+            $properties | Add-Member NoteProperty $_ $value
+        }
+        $properties
       }
-      $object | ConvertTo-Json
+      $path = '#{path}'
+      InSpec-GetRegistryKey($path) | ConvertTo-Json
       EOH
 
       cmd = inspec.powershell(script)
-
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0, try to parse json
       begin
@@ -124,8 +175,36 @@ module Inspec::Resources
       rescue JSON::ParserError => _e
         @registry_cache = nil
       end
-
       @registry_cache
+    end
+
+    def children_keys(path, filter = '')
+      return @children_cache if defined?(@children_cache)
+      filter = filter.source if filter.is_a? ::Regexp
+      script = <<-EOH
+      Function InSpec-FindChildsRegistryKeys($path, $filter) {
+        # get information about the child registry keys
+        $items = Get-ChildItem -Path ('Registry::' + $path) -rec -ea SilentlyContinue
+        # filter entries
+        $items | Where-Object {
+            $name = $_.Name
+            $simple = $name -replace "HKEY_LOCAL_MACHINE\\\\",""
+            $simple = $name -replace "HKEY_USERS\\\\",""
+            $simple -Match $filter
+        } | % { $_.Name }
+      }
+
+      $path = '#{path}'
+      $filter = "#{filter}"
+      ConvertTo-Json @(InSpec-FindChildsRegistryKeys $path $filter)
+      EOH
+      cmd = inspec.powershell(script)
+      begin
+        @children_cache = JSON.parse(cmd.stdout)
+      rescue JSON::ParserError => _e
+        @children_cache = []
+      end
+      @children_cache
     end
 
     # Registry key value types
