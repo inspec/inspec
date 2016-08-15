@@ -85,25 +85,12 @@ module Inspec::Resources
         return nil
       end
 
-      bindings_array = []
-
-      # chop up our binding to look like it does when you run the get-website ps cmdlet
-      # using the following format
-      # <protocol> <bindingInformation> {if https "sslFlags=<sslFlags>"}
-      # the binding is a collection and there will always be at least one entry per site
-      if site['bindings']['Collection']
-        site['bindings']['Collection'].each do |binding|
-          s = ''
-          s << binding['protocol'] << ' '
-          s << binding['bindingInformation']
-
-          # tack on sslflags if we using ssl
-          if binding['protocol'] == 'https'
-            s << ' sslFlags=' << binding['sslFlags']
-          end
-          bindings_array.push(s)
-        end
-      end
+      bindings_array = site['bindings']['Collection'].map { |k, _str|
+        k['protocol'] <<
+          ' ' <<
+          k['bindingInformation'] <<
+          (k['protocol'] == 'https' ? ' sslFlags=' << flags : '')
+      }
 
       # map our values to a hash table
       info = {

@@ -1823,11 +1823,8 @@ where
 
 * ``iis_site()`` must specify a web site name
 * ``'website'`` is the web site name
-* ``'service_name'`` is a service listed in the ``inetd.conf`` file
 * ``have_app_pool('my_app_pool')`` tests that our site belongs to the 'my_app_pool' application pool
 * ``have_binding('my_binding')`` tests that our site has the specified binding. my_binding should be in the format of the default output from the Get-Website powershell cmdlet
-
-website
 
 Matchers
 -----------------------------------------------------
