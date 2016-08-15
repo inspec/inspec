@@ -18,7 +18,10 @@ matrix:
   - rvm: 2.0
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="lint test test:resources config=test/test.yaml" N=2
+    env: SUITE="lint test"
+  - rvm: 2.2
+    script: bundle exec rake $SUITE
+    env: SUITE="test:resources config=test/test.yaml" N=2
   - rvm: 2.2
     script: bundle exec rake $SUITE
     env: SUITE="test:functional test:resources config=test/test-extra.yaml" N=2
@@ -53,6 +56,13 @@ matrix:
   allow_failures:
   - env: SUITE="lint test test:resources config=test/test.yaml" N=2
   - env: SUITE="test:functional test:resources config=test/test-extra.yaml" N=2
+  - env: SUITE=test:integration OS=default-ubuntu-1204 DOCKER=true
+  - env: SUITE=test:integration OS='default-ubuntu-1604' DOCKER=true
+  - env: SUITE=test:integration OS='default-centos-68' DOCKER=true
+  - env: SUITE=test:integration OS='default-centos-7' DOCKER=true
+  - env: SUITE=test:integration OS='default-debian-8' DOCKER=true
+  - env: SUITE=test:integration OS='default-oracle-72' DOCKER=true
+  - env: SUITE=test:integration OS='default-fedora-24' DOCKER=true
 
 deploy:
   provider: rubygems
