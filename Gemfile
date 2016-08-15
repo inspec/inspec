@@ -21,7 +21,7 @@ group :test do
 end
 
 group :integration do
-  gem 'berkshelf', '~> 4.0'
+  gem 'berkshelf', '~> 4.3'
   gem 'test-kitchen', '~> 1.6'
   gem 'kitchen-vagrant'
   gem 'kitchen-inspec', '0.12.5'
