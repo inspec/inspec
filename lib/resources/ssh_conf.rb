@@ -34,7 +34,7 @@ module Inspec::Resources
 
     def convert_hash(hash)
       new_hash = {}
-      hash.each do |k,v|
+      hash.each do |k, v|
         new_hash[k.downcase] = v
       end
       new_hash
