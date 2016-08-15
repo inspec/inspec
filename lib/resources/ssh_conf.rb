@@ -32,8 +32,16 @@ module Inspec::Resources
       end
     end
 
+    def convert_hash(hash)
+      new_hash = {}
+      hash.each do |k,v|
+        new_hash[k.downcase] = v
+      end
+      new_hash
+    end
+
     def method_missing(name)
-      param = read_params[name.to_s]
+      param = read_params[name.to_s.downcase]
       return nil if param.nil?
       # extract first value if we have only one value in array
       return param[0] if param.length == 1
@@ -69,7 +77,7 @@ module Inspec::Resources
         assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
         multiple_values: true,
       )
-      @params = conf.params
+      @params = convert_hash(conf.params)
     end
   end
 
