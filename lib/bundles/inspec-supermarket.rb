@@ -11,3 +11,4 @@ end
 
 require 'inspec-supermarket/cli'
 require 'inspec-supermarket/target'
+require 'inspec-supermarket/helper'

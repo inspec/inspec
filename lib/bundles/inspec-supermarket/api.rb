@@ -6,20 +6,24 @@ require 'net/http'
 
 module Supermarket
   class API
-    SUPERMARKET_URL = 'https://supermarket.chef.io'.freeze
+    @config = { 'supermarket_url' => 'https://supermarket.chef.io' }
 
-    def self.supermarket_url
-      SUPERMARKET_URL
+    def self.update_config(k, v)
+      @config[k] = v
+    end
+
+    def self.config_key(k)
+      @config[k]
     end
 
     # displays a list of profiles
     def self.profiles
-      url = "#{SUPERMARKET_URL}/api/v1/tools-search"
+      url = "#{@config['supermarket_url']}/api/v1/tools-search"
       _success, data = get(url, { q: 'compliance_profile' })
       if !data.nil?
         profiles = JSON.parse(data)
         profiles['items'].map { |x|
-          m = %r{^#{Supermarket::API.supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
+          m = %r{^#{@config['supermarket_url']}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
           x['slug'] = m[:slug]
           x
         }
@@ -28,18 +32,11 @@ module Supermarket
       end
     end
 
-    def self.profile_name(profile)
-      uri = URI(profile)
-      [uri.host, uri.path[1..-1]]
-    rescue URI::Error => _e
-      nil
-    end
-
     # displays profile infos
     def self.info(profile)
-      _tool_owner, tool_name = profile_name("supermarket://#{profile}")
+      _tool_owner, tool_name = profile.split('/').last(2)
       return if tool_name.nil? || tool_name.empty?
-      url = "#{SUPERMARKET_URL}/api/v1/tools/#{tool_name}"
+      url = "#{@config['supermarket_url']}/api/v1/tools/#{tool_name}"
       _success, data = get(url, {})
       JSON.parse(data) if !data.nil?
     rescue JSON::ParserError
@@ -48,8 +45,8 @@ module Supermarket
 
     # compares a profile with the supermarket tool info
     def self.same?(profile, supermarket_tool)
-      tool_owner, tool_name = profile_name(profile)
-      tool = "#{SUPERMARKET_URL}/api/v1/tools/#{tool_name}"
+      tool_owner, tool_name = profile.split('/').last(2)
+      tool = "#{@config['supermarket_url']}/api/v1/tools/#{tool_name}"
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
@@ -76,7 +73,8 @@ module Supermarket
 
     def self.send_request(uri, req)
       # send request
-      res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') {|http|
+      opts = { use_ssl: uri.scheme == 'https', verify_mode: OpenSSL::SSL::VERIFY_NONE }
+      res = Net::HTTP.start(uri.host, uri.port, opts) {|http|
         http.request(req)
       }
       [res.is_a?(Net::HTTPSuccess), res.body]
