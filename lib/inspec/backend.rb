@@ -42,6 +42,10 @@ module Inspec
       raise "Client error, can't connect to '#{name}' backend: #{e.message}"
     rescue Train::TransportError => e
       raise "Transport error, can't connect to '#{name}' backend: #{e.message}"
+    rescue Errno::EPIPE => e
+      # The SSH backend may raise an EPIPE if the remote end closes
+      # the connection unexpectedly.
+      raise "Can't connect to '#{name}' backend: #{e.message}"
     end
   end
 end
