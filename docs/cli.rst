@@ -320,22 +320,6 @@ This subcommand has additional options:
 
 
 
-scap
-=====================================================
-
-Scap commands
-
-Syntax
------------------------------------------------------
-
-This subcommand has the following syntax:
-
-.. code-block:: bash
-
-   $ inspec scap SUBCOMMAND ...
-
-
-
 shell
 =====================================================
 
@@ -359,7 +343,7 @@ This subcommand has additional options:
    Choose a backend: local, ssh, winrm, docker.
 
 ``-c``, ``--command=COMMAND``
-
+   A single command string to run instead of launching the shell
 
 ``--host=HOST``
    Specify a remote host which is tested.
