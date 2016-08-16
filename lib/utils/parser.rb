@@ -9,8 +9,9 @@ module PasswdParser
   # @return [Array] Collection of passwd entries
   def parse_passwd(content)
     content.to_s.split("\n").map do |line|
+      next if line[0] == '#'
       parse_passwd_line(line)
-    end
+    end.compact
   end
 
   # Parse a line of /etc/passwd
