@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
     README.md Rakefile MAINTAINERS.toml MAINTAINERS.md LICENSE inspec.gemspec
     Gemfile CHANGELOG.md .rubocop.yml
   } + Dir.glob(
-    '{bin,docs,examples,lib,tasks,test}/**/*', File::FNM_DOTMATCH
+    '{bin,docs,examples,lib}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
   spec.executables   = %w{ inspec }
@@ -36,6 +36,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hashie', '~> 3.4'
   spec.add_dependency 'molinillo', '~> 0'
   spec.add_dependency 'sslshake', '~> 1'
-
-  spec.add_development_dependency 'mocha', '~> 1.1'
 end
