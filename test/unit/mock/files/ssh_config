@@ -3,3 +3,4 @@ Host *
 #   Tunnel no
     SendEnv LANG LC_*
     HashKnownHosts yes
+    GSSAPIAuthentication no

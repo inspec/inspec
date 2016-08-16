@@ -15,6 +15,12 @@ describe 'Inspec::Resources::SshConf' do
       _(resource.SendEnv).must_equal 'LANG LC_*'
       _(resource.HashKnownHosts).must_equal 'yes'
     end
+
+    it 'is case insensitive' do
+      resource = load_resource('ssh_config')
+      _(resource.gssapiauthentication).must_equal 'no'
+      _(resource.GSSAPIAuthentication).must_equal 'no'
+    end
   end
 
   describe 'sshd_config' do
