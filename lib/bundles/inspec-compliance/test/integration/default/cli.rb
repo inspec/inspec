@@ -34,6 +34,7 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
   # login via access token token
   describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' #{token_options}") do
     its('stdout') { should include 'Successfully authenticated' }
+    its('stdout') { should_not include 'Your server supports --user and --password only' }
     its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }
   end
