@@ -1,0 +1,12 @@
+name: inheritance
+title: InSpec example inheritance
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache 2 license
+version: 1.0.0
+depends:
+  - name: profile_a
+    path: ../profile_a
+  - name: profile_b
+    path: ../profile_b

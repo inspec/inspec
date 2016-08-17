@@ -10,8 +10,11 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
-      return nil unless File.exist?(target)
-      new(target)
+      if !File.exist?(target)
+        nil
+      else
+        new(target)
+      end
     end
 
     def initialize(target)
