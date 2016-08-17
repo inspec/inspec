@@ -24,6 +24,13 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
     its('exit_status') { should eq 0 }
   end
 
+  # version command fails gracefully when server not configured
+  describe command("#{inspec_bin} compliance version") do
+    its('stdout') { should include 'Server configuration information is missing' }
+    its('stderr') { should eq '' }
+    its('exit_status') { should eq 0 }
+  end
+
   # login via access token token
   describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' #{token_options}") do
     its('stdout') { should include 'Successfully authenticated' }
@@ -43,6 +50,13 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
     its('stdout') { should include 'Profile is valid' }
     its('stdout') { should include 'Successfully uploaded profile' }
     its('stdout') { should_not include 'error(s)' }
+    its('stderr') { should eq '' }
+    its('exit_status') { should eq 0 }
+  end
+
+  # returns the version of the server
+  describe command("#{inspec_bin} compliance version") do
+    its('stdout') { should include 'Chef Compliance version:' }
     its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }
   end

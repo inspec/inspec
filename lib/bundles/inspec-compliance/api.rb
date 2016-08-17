@@ -44,8 +44,15 @@ module Compliance
     # NB this method does not use Compliance::Configuration to allow for using
     # it before we know the version (e.g. oidc or not)
     def self.version(url, insecure)
-      response = Compliance::HTTP.get(url+'/version', nil, insecure)
-      data = response.body
+      if url.nil?
+        puts "
+Server configuration information is missing.
+Please login using `inspec compliance login https://compliance.test --user admin --insecure --token 'PASTE TOKEN HERE' `
+"
+      else
+        response = Compliance::HTTP.get(url+'/version', nil, insecure)
+        data = response.body
+      end
       if !data.nil?
         JSON.parse(data)
       else
