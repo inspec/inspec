@@ -23,11 +23,8 @@ module Compliance
       desc: 'Chef Compliance access token'
     option :refresh_token, type: :string, required: false,
       desc: 'Chef Compliance refresh token'
-    def login(server) # rubocop:disable Metrics/AbcSize, PerceivedComplexity
+    def login(server) # rubocop:disable Metrics/AbcSize
       # show warning if the Compliance Server does not support
-      if !Compliance::Configuration.new.supported?(:oidc)
-        puts 'Your server supports --user and --password only'
-      end
 
       options['server'] = server
       url = options['server'] + options['apipath']
@@ -49,7 +46,7 @@ module Compliance
       end
 
       if success
-        puts 'Successfully authenticated'
+        puts '', 'Successfully authenticated'
       else
         puts msg
       end
