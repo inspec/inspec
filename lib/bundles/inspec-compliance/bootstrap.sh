@@ -20,18 +20,26 @@ sudo apt-get install chef-compliance
 sudo chef-compliance-ctl reconfigure --accept-license
 sudo chef-compliance-ctl restart
 
-# build master version of inspec
-sudo /opt/chef-compliance/embedded/bin/gem list inspec
-
-cd /inspec
-sudo /opt/chef-compliance/embedded/bin/gem build *.gemspec
-sudo /opt/chef-compliance/embedded/bin/gem install inspec*.gem
-sudo /opt/chef-compliance/embedded/bin/inspec version
-sudo /opt/chef-compliance/embedded/bin/gem list inspec
-
 # finalize setup
 cd /
 /opt/chef-compliance/embedded/service/core/bin/core setup --endpoint "http://127.0.0.1:10500/setup" --login "admin" --password "admin" --name "John Doe" --accept-eula
 
 # wget --no-check-certificate http://127.0.0.1/api/version
 # cat version
+
+# install ruby 2.3
+sudo apt-get install -y software-properties-common
+sudo apt-add-repository -y ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt-get install -y ruby2.3 ruby2.3-dev
+ruby2.3 -v
+
+# build master version of inspec
+sudo gem list inspec
+sudo cp -R /inspec /inspec-build
+cd  /inspec-build
+sudo rm -f inspec*.gem
+sudo gem build *.gemspec
+sudo gem install inspec*.gem
+sudo inspec version
+sudo gem list inspec
