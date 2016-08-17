@@ -117,8 +117,10 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
 
 Finished in 0.02862 seconds (files took 0.62628 seconds to load)
 5 examples, 0 failures, 1 pending
+```
 
-# logout from Chef Compliance
+# Logout from Chef Compliance
+
 ```
 $ inspec compliance logout
 Successfully logged out
@@ -130,11 +132,14 @@ At this point of time, InSpec is not able to pick up the token directly, therefo
 
  * run `kitchen converge`
  * open https://192.168.251.2 and log in with user `admin` and password `admin`
- * click on user->about and obtain the refresh token
+ * click on user->about and obtain the access token and the refresh token
  * run `kitchen verify` with the required env variables:
 
 ```
-COMPLIANCE_REFRESH_TOKEN=myrefreshtoken COMPLIANCE_ACCESS_TOKEN=mycompliancetoken b kitchen verify
+# both token need to be set, since the test suite runs for each token type
+export COMPLIANCE_ACCESSTOKEN='mycompliancetoken'
+export COMPLIANCE_REFRESHTOKEN='myrefreshtoken'
+kitchen verify
 -----> Starting Kitchen (v1.7.3)
 -----> Verifying <default-ubuntu-1404>...
        Search `/Users/chartmann/Development/compliance/inspec/lib/bundles/inspec-compliance/test/integration/default` for tests

@@ -1,13 +1,13 @@
 # encoding: utf-8
 
 # options
-inspec_bin = '/opt/chef-compliance/embedded/bin/inspec'
+inspec_bin = '/usr/local/bin/inspec'
 api_url = 'https://0.0.0.0'
 profile = '/inspec/examples/profile'
 
 # TODO: determine tokens automatically, define in kitchen yml
-access_token = ENV['COMPLIANCE_ACCESS_TOKEN']
-refresh_token = ENV['COMPLIANCE_REFRESH_TOKEN']
+access_token = ENV['COMPLIANCE_ACCESSTOKEN']
+refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
 
 %w{refresh_token access_token}.each do |type|
   case type
@@ -25,7 +25,7 @@ refresh_token = ENV['COMPLIANCE_REFRESH_TOKEN']
   end
 
   # login via access token token
-  describe command("#{inspec_bin} compliance login #{api_url} --insecure --user admin #{token_options}") do
+  describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' #{token_options}") do
     its('stdout') { should include 'Successfully authenticated' }
     its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }
