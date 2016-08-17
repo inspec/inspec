@@ -66,17 +66,26 @@ module Inspec::Resources
     def read_params
       return {} if read_content.nil?
       flat_params = parse_xinetd(read_content)
+      # we need to map service data in order to use it with filtertable
       params = { 'services' => {} }
 
-      # parse services that were defined:
+      # map services that were defined and map it to the service hash
       flat_params.each do |k, v|
         name = k[/^service (.+)$/, 1]
+        # its not a service, no change required
         if name.nil?
           params[k] = v
+        # handle service entries
         else
+          # store service
           params['services'][name] = v
+
           # add the service identifier to its parameters
-          v.each { |service| service.params['service'] = name }
+          if v.is_a?(Array)
+            v.each { |service| service.params['service'] = name }
+          else
+            v.params['service'] = name
+          end
         end
       end
       params

@@ -179,6 +179,7 @@ module SolarisNetstatParser
   end
 end
 
+# This parser for xinetd (extended Internet daemon) configuration files
 module XinetdParser
   def xinetd_include_dir(dir)
     return [] if dir.nil?
@@ -198,10 +199,12 @@ module XinetdParser
     simple_conf = []
     rest = raw
     until rest.empty?
+      # extract content line
       nl = rest.index("\n") || (rest.length-1)
       comment = rest.index('#') || (rest.length-1)
       dst_idx = (comment < nl) ? comment : nl
       inner_line = (dst_idx == 0) ? '' : rest[0..dst_idx-1].strip
+      # update unparsed content
       rest = rest[nl+1..-1]
       next if inner_line.empty?
 
@@ -213,6 +216,7 @@ module XinetdParser
         simple_conf = []
         rest = rest[rest.index("\n")+1..-1]
       elsif cur_group.nil?
+        # parse all included files
         others = xinetd_include_dir(inner_line[/includedir (.+)/, 1])
 
         # complex merging of included configurations, as multiple services
