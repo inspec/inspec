@@ -53,7 +53,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      profiles = Compliance::API.profiles(config)
+      msg, profiles = Compliance::API.profiles(config)
       if !profiles.empty?
         # iterate over profiles
         headline('Available profiles:')
@@ -61,7 +61,7 @@ module Compliance
           li("#{profile[:org]}/#{profile[:name]}")
         }
       else
-        puts 'Could not find any profiles'
+        puts msg, 'Could not find any profiles'
       end
     end
 
