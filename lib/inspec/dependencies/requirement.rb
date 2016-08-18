@@ -32,7 +32,7 @@ module Inspec
     def local_path
       @local_path ||= case source_type
                       when :local_path
-                        File.expand_path(opts[:path])
+                        File.expand_path(opts[:path], @cwd)
                       else
                         @vendor_index.prefered_entry_for(@name, source_url)
                       end
