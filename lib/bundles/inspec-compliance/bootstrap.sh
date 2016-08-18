@@ -34,12 +34,8 @@ sudo apt-get update
 sudo apt-get install -y ruby2.3 ruby2.3-dev
 ruby2.3 -v
 
-# build master version of inspec
-sudo gem list inspec
-sudo cp -R /inspec /inspec-build
-cd  /inspec-build
-sudo rm -f inspec*.gem
-sudo gem build *.gemspec
-sudo gem install inspec*.gem
-sudo inspec version
-sudo gem list inspec
+# prepare the usage of bundler
+sudo gem install bundler
+cd /inspec
+bundle install
+BUNDLE_GEMFILE=/inspec/Gemfile bundle exec inspec version

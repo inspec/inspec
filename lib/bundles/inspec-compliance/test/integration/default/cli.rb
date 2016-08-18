@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 # options
-inspec_bin = '/usr/local/bin/inspec'
+inspec_bin = 'BUNDLE_GEMFILE=/inspec/Gemfile bundle exec inspec'
 api_url = 'https://0.0.0.0'
 profile = '/inspec/examples/profile'
 
