@@ -1,9 +1,9 @@
 # encoding: utf-8
-require 'inspec/vendor_index'
-require 'inspec/resolver'
+require 'inspec/dependencies/vendor_index'
+require 'inspec/dependencies/resolver'
 
 module Inspec
-  class Dependencies
+  class DependencySet
     attr_reader :list, :vendor_path
 
     # initialize

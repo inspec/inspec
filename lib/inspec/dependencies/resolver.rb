@@ -4,7 +4,7 @@
 require 'logger'
 require 'molinillo'
 require 'inspec/errors'
-require 'inspec/requirement'
+require 'inspec/dependencies/requirement'
 
 module Inspec
   class Resolver

@@ -8,7 +8,7 @@ require 'inspec/polyfill'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/metadata'
-require 'inspec/dependencies'
+require 'inspec/dependencies/dependency_set'
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
@@ -298,7 +298,7 @@ module Inspec
 
     def load_dependencies
       cwd = File.directory?(@target) ? @target : nil
-      res = Inspec::Dependencies.new(cwd, nil)
+      res = Inspec::DependencySet.new(cwd, nil)
       res.vendor(metadata.dependencies)
       res
     end
