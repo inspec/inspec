@@ -10,6 +10,7 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
+      target.gsub!(/\\/, '/')
       return nil unless File.exist?(target)
       new(target)
     end
