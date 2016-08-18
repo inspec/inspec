@@ -31,9 +31,15 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
     its('exit_status') { should eq 0 }
   end
 
+  # submitting a wrong token should have an exit of 0
+  describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' --token 'wrong-token'") do
+    its('stdout') { should include 'token stored' }
+    its('exit_status') { should eq 0 }
+  end
+
   # login via access token token
   describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' #{token_options}") do
-    its('stdout') { should include 'Successfully authenticated' }
+    its('stdout') { should include 'token', 'stored' }
     its('stdout') { should_not include 'Your server supports --user and --password only' }
     its('stderr') { should eq '' }
     its('exit_status') { should eq 0 }

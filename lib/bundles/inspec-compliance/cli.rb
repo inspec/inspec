@@ -30,26 +30,22 @@ module Compliance
       url = options['server'] + options['apipath']
       if !options['user'].nil? && !options['password'].nil?
         # username / password
-        success, msg = login_legacy(url, options['user'], options['password'], options['insecure'])
+        _success, msg = login_legacy(url, options['user'], options['password'], options['insecure'])
       elsif !options['user'].nil? && !options['token'].nil?
         # access token
-        success, msg = store_access_token(url, options['user'], options['token'], options['insecure'])
+        _success, msg = store_access_token(url, options['user'], options['token'], options['insecure'])
       elsif !options['refresh_token'].nil? && !options['user'].nil?
         # refresh token
-        success, msg = store_refresh_token(url, options['refresh_token'], true, options['user'], options['insecure'])
+        _success, msg = store_refresh_token(url, options['refresh_token'], true, options['user'], options['insecure'])
         # TODO: we should login with the refreshtoken here
       elsif !options['refresh_token'].nil?
-        success, msg = login_refreshtoken(url, options)
+        _success, msg = login_refreshtoken(url, options)
       else
         puts 'Please run `inspec compliance login` with options --token or --refresh_token and --user'
         exit 1
       end
 
-      if success
-        puts '', 'Successfully authenticated'
-      else
-        puts msg
-      end
+      puts '', msg
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
@@ -220,7 +216,7 @@ module Compliance
           success = true
           msg = 'Successfully authenticated'
         else
-          msg = 'Reponse does not include a token'
+          msg = 'Response does not include a token'
         end
       else
         msg = "Authentication failed for Server: #{url}"
