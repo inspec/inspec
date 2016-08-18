@@ -10,7 +10,7 @@ module Inspec
   class Resolver
     def self.resolve(requirements, vendor_index, cwd, opts = {})
       reqs = requirements.map do |req|
-        req = Inspec::Requirement.from_metadata(req, cwd: cwd)
+        req = Inspec::Requirement.from_metadata(req, vendor_index, cwd: cwd)
         req || fail("Cannot initialize dependency: #{req}")
       end
 
@@ -19,7 +19,7 @@ module Inspec
 
     def initialize(vendor_index, opts = {})
       @logger = opts[:logger] || Logger.new(nil)
-      @debug_mode = false # TODO: hardcoded for now, grab from options
+      @debug_mode = false
 
       @vendor_index = vendor_index
       @cwd = opts[:cwd] || './'
@@ -88,7 +88,7 @@ module Inspec
     #   `specification`.
     def dependencies_for(specification)
       specification.profile.metadata.dependencies.map do |r|
-        Inspec::Requirement.from_metadata(r, cwd: @cwd)
+        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd)
       end
     end
 
