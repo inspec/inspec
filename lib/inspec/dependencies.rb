@@ -6,16 +6,17 @@ require 'logger'
 require 'fileutils'
 require 'molinillo'
 require 'inspec/errors'
+require 'inspec/requirement'
 
 module Inspec
   class Resolver
     def self.resolve(requirements, vendor_index, cwd, opts = {})
       reqs = requirements.map do |req|
-        Requirement.from_metadata(req, cwd: cwd) ||
-          fail("Cannot initialize dependency: #{req}")
+        req = Inspec::Requirement.from_metadata(req, cwd: cwd)
+        req || fail("Cannot initialize dependency: #{req}")
       end
 
-      new(vendor_index, opts).resolve(reqs)
+      new(vendor_index, opts.merge(cwd: cwd)).resolve(reqs)
     end
 
     def initialize(vendor_index, opts = {})
@@ -23,6 +24,7 @@ module Inspec
       @debug_mode = false # TODO: hardcoded for now, grab from options
 
       @vendor_index = vendor_index
+      @cwd = opts[:cwd] || './'
       @resolver = Molinillo::Resolver.new(self, self)
       @search_cache = {}
     end
@@ -87,7 +89,9 @@ module Inspec
     # @return [Array<Object>] the dependencies that are required by the given
     #   `specification`.
     def dependencies_for(specification)
-      specification.profile.metadata.dependencies
+      specification.profile.metadata.dependencies.map do |r|
+        Inspec::Requirement.from_metadata(r, cwd: @cwd)
+      end
     end
 
     # Determines whether the given `requirement` is satisfied by the given
@@ -205,60 +209,6 @@ module Inspec
     def load_path(_path)
       # TODO
       fail NotImplementedError, '#load_path(path) on VendorIndex wants to be implemented.'
-    end
-  end
-
-  class Requirement
-    attr_reader :name, :dep, :cwd, :opts
-    def initialize(name, dep, cwd, opts)
-      @name = name
-      @dep = Gem::Dependency.new(name, Gem::Requirement.new(Array(dep)), :runtime)
-      @opts = opts
-      @cwd = cwd
-    end
-
-    def matches_spec?(spec)
-      params = spec.profile.metadata.params
-      @dep.match?(params[:name], params[:version])
-    end
-
-    def pull
-      case
-      when @opts[:path] then pull_path(@opts[:path])
-      else
-        # TODO: should default to supermarket
-        fail 'You must specify the source of the dependency (for now...)'
-      end
-    end
-
-    def path
-      @path || pull
-    end
-
-    def profile
-      return nil if path.nil?
-      @profile ||= Inspec::Profile.for_target(path, {})
-    end
-
-    def self.from_metadata(dep, opts)
-      fail 'Cannot load empty dependency.' if dep.nil? || dep.empty?
-      name = dep[:name] || fail('You must provide a name for all dependencies')
-      version = dep[:version]
-      new(name, version, opts[:cwd], dep)
-    end
-
-    def to_s
-      @dep.to_s
-    end
-
-    private
-
-    def pull_path(path)
-      abspath = File.absolute_path(path, @cwd)
-      fail "Dependency path doesn't exist: #{path}" unless File.exist?(abspath)
-      fail "Dependency path isn't a folder: #{path}" unless File.directory?(abspath)
-      @path = abspath
-      true
     end
   end
 
