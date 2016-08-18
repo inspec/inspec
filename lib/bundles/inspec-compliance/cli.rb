@@ -9,8 +9,16 @@ module Compliance
   class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     namespace 'compliance'
 
-    desc 'login SERVER', 'Log in to a Chef Compliance SERVER'
-    option :server, type: :string, desc: 'Chef Compliance Server URL'
+    # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed
+    def self.banner(command, _namespace = nil, _subcommand = false)
+      "#{basename} #{subcommand_prefix} #{command.usage}"
+    end
+
+    def self.subcommand_prefix
+      namespace
+    end
+
+    desc "login SERVER --insecure --user='USER' --token='TOKEN'", 'Log in to a Chef Compliance SERVER'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     option :user, type: :string, required: false,
@@ -41,7 +49,7 @@ module Compliance
       elsif !options['refresh_token'].nil?
         _success, msg = login_refreshtoken(url, options)
       else
-        puts 'Please run `inspec compliance login` with options --token or --refresh_token and --user'
+        puts 'Please run `inspec compliance login SERVER` with options --token or --refresh_token, --user, and --insecure or --not-insecure'
         exit 1
       end
 
