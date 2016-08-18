@@ -1845,7 +1845,7 @@ The ``be_running`` matcher tests if the IIS site is running
 .. code-block:: ruby
 
    it { should be_running }
-   
+
 have_app_pool
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``have_app_pool`` matcher tests if the IIS site belongs in the specified application pool
@@ -1861,15 +1861,15 @@ The ``have_binding`` matcher tests if the IIS site has the specified binding
 .. code-block:: ruby
 
    it { should have_binding('http :80:*' ) }
-   
+
 have_path
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``have_path`` matcher tests if the IIS site is located in the specified path
 
 .. code-block:: ruby
 
-   it { should have_path('c:\\inetpub\\wwwroot\\my_site') }   
-   
+   it { should have_path('c:\\inetpub\\wwwroot\\my_site') }
+
 
 Examples
 -----------------------------------------------------
@@ -1881,7 +1881,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe iis_site('My Site') do
      it { should be_running }
-     it { should have_path('c:\\mysite') }	 
+     it { should have_path('c:\\mysite') }
    end
 
 **Test to see if 'Default Web Site' has been removed**
@@ -1900,8 +1900,8 @@ The following examples show how to use this InSpec audit resource.
      it { should have_app_pool('app_pool') }
      it { should have_binding('http :80:*') }
    end
-   
-   
+
+
 
 inetd_conf
 =====================================================
@@ -3564,6 +3564,18 @@ A ``port`` |inspec resource| block declares a port, and then depending on what n
 
 where the ``processes`` returns the processes listening on port 514.
 
+or:
+
+.. code-block:: ruby
+
+   describe port.where { protocol =~ /tcp/ && port > 22 && port < 80 } do
+     it { should_not be_listening }
+   end
+
+where
+
+* ``.where{}`` may specify a block to filter on attributes: port, address, protocol, process, pid, listening?
+
 Matchers
 -----------------------------------------------------
 This InSpec audit resource has the following matchers.
@@ -3654,6 +3666,20 @@ This check can be implemented in two equivalent ways:
 
    describe port('0.0.0.0', 80) do
      it { should be_listening }
+   end
+
+**Test that no ports above 80 are listening**
+
+.. code-block:: ruby
+
+   describe port.where { protocol =~ /tcp/ && port > 80 } do
+     it { should_not be_listening }
+   end
+
+**Tests that only httpd and sshd are listening**
+
+   describe port.where { listening? } do
+    its('processes') { should contain_exactly('sshd','httpd') }
    end
 
 postgres_conf
