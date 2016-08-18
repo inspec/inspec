@@ -38,6 +38,11 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
   # submitting a wrong token should have an exit of 0
   describe command("#{inspec_bin} compliance login #{api_url} --insecure --user 'admin' --token 'wrong-token'") do
     its('stdout') { should include 'token stored' }
+  end
+
+  # compliance login --help should give an accurate message for login
+  describe command("#{inspec_bin} compliance login --help") do
+    its('stdout') { should include "inspec compliance login SERVER --insecure --user='USER' --token='TOKEN'" }
     its('exit_status') { should eq 0 }
   end
 
