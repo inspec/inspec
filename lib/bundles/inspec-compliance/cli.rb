@@ -53,7 +53,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      profiles = Compliance::API.profiles(config)
+      msg, profiles = Compliance::API.profiles(config)
       if !profiles.empty?
         # iterate over profiles
         headline('Available profiles:')
@@ -61,7 +61,8 @@ module Compliance
           li("#{profile[:org]}/#{profile[:name]}")
         }
       else
-        puts 'Could not find any profiles'
+        puts msg, 'Could not find any profiles'
+        exit 1
       end
     end
 
@@ -153,6 +154,7 @@ module Compliance
       else
         puts 'Error during profile upload:'
         puts msg
+        exit 1
       end
     end
 
@@ -164,6 +166,7 @@ module Compliance
         puts "Chef Compliance version: #{info['version']}"
       else
         puts 'Could not determine server version.'
+        exit 1
       end
     end
 

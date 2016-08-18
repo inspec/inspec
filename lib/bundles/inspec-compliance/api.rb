@@ -27,16 +27,24 @@ module Compliance
       # TODO, api should not be dependent on .supported?
       response = Compliance::HTTP.get(url, config['token'], config['insecure'], !config.supported?(:oidc))
       data = response.body
-      if !data.nil?
+      response_code = response.code
+      case response_code
+      when '200'
+        msg = 'success'
         profiles = JSON.parse(data)
         # iterate over profiles
-        profiles.map do |owner, ps|
+        mapped_profiles = profiles.map do |owner, ps|
           ps.keys.map do |name|
             { org: owner, name: name }
           end
         end.flatten
+        return msg, mapped_profiles
+      when '401'
+        msg = '401 Unauthorized. Please check your token.'
+        return msg, []
       else
-        []
+        msg = "An unexpected error occurred (HTTP #{response_code}): #{response.message}"
+        return msg, []
       end
     end
 
@@ -62,7 +70,7 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     # verifies that a profile
     def self.exist?(config, profile)
-      profiles = Compliance::API.profiles(config)
+      _msg, profiles = Compliance::API.profiles(config)
       if !profiles.empty?
         index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
         !index.nil? && index >= 0
