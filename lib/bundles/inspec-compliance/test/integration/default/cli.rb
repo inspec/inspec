@@ -5,6 +5,10 @@ inspec_bin = 'BUNDLE_GEMFILE=/inspec/Gemfile bundle exec inspec'
 api_url = 'https://0.0.0.0'
 profile = '/inspec/examples/profile'
 
+user = command('whoami').stdout.strip
+pwd = command('pwd').stdout.strip
+puts "Run test as #{user} in path #{pwd}"
+
 # TODO: determine tokens automatically, define in kitchen yml
 access_token = ENV['COMPLIANCE_ACCESSTOKEN']
 refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
@@ -28,7 +32,7 @@ refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
   describe command("#{inspec_bin} compliance version") do
     its('stdout') { should include 'Server configuration information is missing' }
     its('stderr') { should eq '' }
-    its('exit_status') { should eq 0 }
+    its('exit_status') { should eq 1 }
   end
 
   # submitting a wrong token should have an exit of 0

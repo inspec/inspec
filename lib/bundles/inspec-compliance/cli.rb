@@ -62,6 +62,7 @@ module Compliance
         }
       else
         puts msg, 'Could not find any profiles'
+        exit 1
       end
     end
 
@@ -153,6 +154,7 @@ module Compliance
       else
         puts 'Error during profile upload:'
         puts msg
+        exit 1
       end
     end
 
@@ -164,6 +166,7 @@ module Compliance
         puts "Chef Compliance version: #{info['version']}"
       else
         puts 'Could not determine server version.'
+        exit 1
       end
     end
 

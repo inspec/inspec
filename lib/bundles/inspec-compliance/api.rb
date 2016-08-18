@@ -70,7 +70,7 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     # verifies that a profile
     def self.exist?(config, profile)
-      profiles = Compliance::API.profiles(config)
+      _msg, profiles = Compliance::API.profiles(config)
       if !profiles.empty?
         index = profiles.index { |p| "#{p[:org]}/#{p[:name]}" == profile }
         !index.nil? && index >= 0
