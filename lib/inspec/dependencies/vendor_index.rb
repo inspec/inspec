@@ -3,6 +3,19 @@ require 'digest'
 require 'fileutils'
 
 module Inspec
+  #
+  # VendorIndex manages an on-disk cache of inspec profiles.  The
+  # cache can contain:
+  #
+  #  - .tar.gz profile archives
+  #  - .zip profile archives
+  #  - unpacked profiles
+  #
+  # Cache entries names include a hash of their source to prevent
+  # conflicts between depenedencies with the same name from different
+  # sources.
+  #
+  #
   class VendorIndex
     attr_reader :path
     def initialize(path)

@@ -2,6 +2,10 @@
 require 'inspec/fetcher'
 
 module Inspec
+  #
+  # Inspec::Requirement represents a given profile dependency, where
+  # appropriate we delegate to Inspec::Profile directly.
+  #
   class Requirement
     attr_reader :name, :dep, :cwd, :opts
 

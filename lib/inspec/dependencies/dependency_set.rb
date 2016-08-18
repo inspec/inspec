@@ -3,6 +3,12 @@ require 'inspec/dependencies/vendor_index'
 require 'inspec/dependencies/resolver'
 
 module Inspec
+  #
+  # A DependencySet manages a list of dependencies for a profile.
+  #
+  # Currently this class is a thin wrapper interface to coordinate the
+  # VendorIndex and the Resolver.
+  #
   class DependencySet
     attr_reader :list, :vendor_path
 

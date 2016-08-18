@@ -7,6 +7,10 @@ require 'inspec/errors'
 require 'inspec/dependencies/requirement'
 
 module Inspec
+  #
+  # Inspec::Resolver is responsible for recursively resolving all the
+  # depenendencies for a given top-level dependency set.
+  #
   class Resolver
     def self.resolve(requirements, vendor_index, cwd, opts = {})
       reqs = requirements.map do |req|
