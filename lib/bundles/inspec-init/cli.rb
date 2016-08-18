@@ -7,6 +7,15 @@ module Init
   class CLI < Inspec::BaseCLI
     namespace 'init'
 
+    # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed
+    def self.banner(command, _namespace = nil, _subcommand = false)
+      "#{basename} #{subcommand_prefix} #{command.usage}"
+    end
+
+    def self.subcommand_prefix
+      namespace
+    end
+
     # read template directoy
     template_dir = File.join(File.dirname(__FILE__), 'templates')
     Dir.glob(File.join(template_dir, '*')) do |template|

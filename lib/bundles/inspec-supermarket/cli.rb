@@ -6,6 +6,15 @@ module Supermarket
   class SupermarketCLI < Inspec::BaseCLI
     namespace 'supermarket'
 
+    # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed
+    def self.banner(command, _namespace = nil, _subcommand = false)
+      "#{basename} #{subcommand_prefix} #{command.usage}"
+    end
+
+    def self.subcommand_prefix
+      namespace
+    end
+
     desc 'profiles', 'list all available profiles in Chef Supermarket'
     def profiles
       # display profiles in format user/profile
