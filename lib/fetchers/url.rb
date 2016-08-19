@@ -102,5 +102,9 @@ module Fetchers
       @target = url
       @archive = self.class.download_archive(url, opts)
     end
+
+    def url
+      @target
+    end
   end
 end

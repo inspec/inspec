@@ -10,7 +10,14 @@ module Fetchers
     attr_reader :files
 
     def self.resolve(target)
-      unless target.is_a?(String) && File.exist?(target)
+      return nil unless target.is_a?(String)
+
+      # Support "urls" in the form of file://
+      if target.start_with?('file://')
+        target = target.gsub(%r{^file://}, '')
+      end
+
+      if !File.exist?(target)
         nil
       else
         new(target)
@@ -18,6 +25,7 @@ module Fetchers
     end
 
     def initialize(target)
+      @target = target
       if File.file?(target)
         @files = [target]
       else

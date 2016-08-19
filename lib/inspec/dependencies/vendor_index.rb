@@ -18,9 +18,9 @@ module Inspec
   #
   class VendorIndex
     attr_reader :path
-    def initialize(path)
-      @path = path
-      FileUtils.mkdir_p(path) unless File.directory?(path)
+    def initialize(path = nil)
+      @path = path || File.join(Dir.home, '.inspec', 'cache')
+      FileUtils.mkdir_p(@path) unless File.directory?(@path)
     end
 
     def add(name, source, path_from)
@@ -42,7 +42,14 @@ module Inspec
       path = base_path_for(name, source_url)
       if File.directory?(path)
         path
-      elsif File.exist?("#{path}.tar.gz")
+      else
+        archive_entry_for(name, source_url)
+      end
+    end
+
+    def archive_entry_for(name, source_url)
+      path = base_path_for(name, source_url)
+      if File.exist?("#{path}.tar.gz")
         "#{path}.tar.gz"
       elsif File.exist?("#{path}.zip")
         "#{path}.zip"
