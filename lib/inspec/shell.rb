@@ -5,6 +5,9 @@
 require 'rspec/core/formatters/base_text_formatter'
 
 module Inspec
+  # A pry based shell for inspec. Given a runner (with a configured backend and
+  # all that jazz), this shell will produce a pry shell from which you can run
+  # inspec/ruby commands that will be run within the context of the runner.
   class Shell
     def initialize(runner)
       @runner = runner
@@ -17,7 +20,6 @@ module Inspec
       # store context to run commands in this context
       c = { content: 'binding.pry', ref: nil, line: nil }
       @runner.add_content(c, [])
-      @runner.run
     end
 
     def configure_pry
@@ -37,6 +39,25 @@ module Inspec
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, :intro) do
         intro
+      end
+
+      # execute describe blocks
+      Pry.hooks.add_hook(:after_eval, 'run_controls') do |output, _binding, _pry_|
+        next unless output.is_a?(Inspec::Rule)
+        # reset tests, register the control and execute the runner
+        @runner.reset
+        @runner.method(:register_rule).call(output.id, output)
+        @runner.run
+      end
+
+      # Don't print out control class inspection when the user uses DSL methods.
+      # Instead produce a result of evaluating their control.
+      Pry.config.print = proc do |_output, value, pry_|
+        next if value.is_a?(Inspec::Rule)
+        pry_.pager.open do |pager|
+          pager.print pry_.config.output_prefix
+          Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
+        end
       end
     end
 

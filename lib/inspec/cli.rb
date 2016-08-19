@@ -159,15 +159,22 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def shell_func
     diagnose
     o = opts.dup
-    o[:logger] = Logger.new(STDOUT)
+
+    log_device = opts['format'] == 'json' ? nil : STDOUT
+    o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o.log_level)
+
     if o[:command].nil?
       runner = Inspec::Runner.new(o)
       return Inspec::Shell.new(runner).start
     else
       res = run_command(o)
-      jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
-      puts jres
+      if opts['format'] == 'json'
+        jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
+        puts jres
+      else
+        puts res
+      end
     end
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message

@@ -20,6 +20,10 @@ module Inspec
 
       # Retrieve this profile's tests
       #
+      # "tests" here refers to a test file. Individual controls and anonymous
+      # tests are later extracted from the raw contents of a test file. The map
+      # her simply maps from a test file name to the file contents.
+      #
       # @return [Hash] Collection with references pointing to test contents
       def tests
         fail "SourceReader #{self} does not implement `tests()`. This method is required"

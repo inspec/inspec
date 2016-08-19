@@ -15,6 +15,10 @@ module Inspec
     def initialize(conf)
       @conf = conf
       @formatter = nil
+      reset
+    end
+
+    def reset
       reset_tests
       configure_output
     end
@@ -87,8 +91,6 @@ module Inspec
       reporter.output_hash
     end
 
-    private
-
     # Empty the list of registered tests.
     #
     # @return [nil]
@@ -97,6 +99,8 @@ module Inspec
       # resets "pending examples" in reporter
       RSpec.configuration.reset
     end
+
+    private
 
     FORMATTERS = {
       'json-min' => 'InspecRspecMiniJson',

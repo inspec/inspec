@@ -66,6 +66,7 @@ module Inspec
       options['attributes'] = attributes
     end
 
+    # Returns the profile context used the profile at this target.
     def add_target(target, options = {})
       profile = Inspec::Profile.for_target(target, options)
       fail "Could not resolve #{target} to valid input." if profile.nil?
@@ -89,6 +90,7 @@ module Inspec
       true
     end
 
+    # Returns the profile context used to initialize this profile.
     def add_profile(profile, options = {})
       return if !options[:ignore_supports] && !supports_profile?(profile)
 
@@ -115,6 +117,8 @@ module Inspec
       Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
     end
 
+    # Returns the profile context used to evaluate the given content.
+    # Calling this method again will use a different context each time.
     def add_content(tests, libs, options = {})
       return if tests.nil? || tests.empty?
 
@@ -127,21 +131,29 @@ module Inspec
         profile.runner_context = ctx
       end
 
+      append_content(ctx, tests, libs, options)
+    end
+
+    # Returns the profile context used to evaluate the given content.
+    def append_content(ctx, tests, _libs, options = {})
       # evaluate the test content
       tests = [tests] unless tests.is_a? Array
       tests.each { |t| add_test_to_context(t, ctx) }
 
-      # merge all collect all attributes
+      # merge and collect all attributes
       @attributes |= ctx.attributes
 
       # process the resulting rules
       filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
         register_rule(rule_id, rule)
       end
+
+      ctx
     end
 
     def_delegator :@test_collector, :run
     def_delegator :@test_collector, :report
+    def_delegator :@test_collector, :reset
 
     private
 
