@@ -10,3 +10,5 @@ depends:
     path: ../profile_a
   - name: profile_b
     path: ../profile_b
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.tar.gz

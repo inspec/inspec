@@ -1,18 +1,20 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
 require 'logger'
-require 'fileutils'
 require 'molinillo'
 require 'inspec/errors'
-require 'inspec/requirement'
+require 'inspec/dependencies/requirement'
 
 module Inspec
+  #
+  # Inspec::Resolver is responsible for recursively resolving all the
+  # depenendencies for a given top-level dependency set.
+  #
   class Resolver
     def self.resolve(requirements, vendor_index, cwd, opts = {})
       reqs = requirements.map do |req|
-        req = Inspec::Requirement.from_metadata(req, cwd: cwd)
+        req = Inspec::Requirement.from_metadata(req, vendor_index, cwd: cwd)
         req || fail("Cannot initialize dependency: #{req}")
       end
 
@@ -21,7 +23,7 @@ module Inspec
 
     def initialize(vendor_index, opts = {})
       @logger = opts[:logger] || Logger.new(nil)
-      @debug_mode = false # TODO: hardcoded for now, grab from options
+      @debug_mode = false
 
       @vendor_index = vendor_index
       @cwd = opts[:cwd] || './'
@@ -90,7 +92,7 @@ module Inspec
     #   `specification`.
     def dependencies_for(specification)
       specification.profile.metadata.dependencies.map do |r|
-        Inspec::Requirement.from_metadata(r, cwd: @cwd)
+        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd)
       end
     end
 
@@ -182,76 +184,5 @@ module Inspec
       @logger.info(what)
     end
     alias puts print
-  end
-
-  class Package
-    def initialize(path, version)
-      @path = path
-      @version = version
-    end
-  end
-
-  class VendorIndex
-    attr_reader :list, :path
-    def initialize(path)
-      @path = path
-      FileUtils.mkdir_p(path) unless File.directory?(path)
-      @list = Dir[File.join(path, '*')].map { |x| load_path(x) }
-    end
-
-    def find(_dependency)
-      # TODO
-      fail NotImplementedError, '#find(dependency) on VendorIndex seeks implementation.'
-    end
-
-    private
-
-    def load_path(_path)
-      # TODO
-      fail NotImplementedError, '#load_path(path) on VendorIndex wants to be implemented.'
-    end
-  end
-
-  class SupermarketDependency
-    def initialize(url, requirement)
-      @url = url
-      @requirement = requirement
-    end
-
-    def self.load(dep)
-      return nil if dep.nil?
-      sname = dep[:supermarket]
-      return nil if sname.nil?
-      surl = dep[:supermarket_url] || 'default_url...'
-      requirement = dep[:version]
-      url = surl + '/' + sname
-      new(url, requirement)
-    end
-  end
-
-  class Dependencies
-    attr_reader :list, :vendor_path
-
-    # initialize
-    #
-    # @param cwd [String] current working directory for relative path includes
-    # @param vendor_path [String] path which contains vendored dependencies
-    # @return [dependencies] this
-    def initialize(cwd, vendor_path)
-      @cwd = cwd
-      @vendor_path = vendor_path || File.join(Dir.home, '.inspec', 'cache')
-      @list = nil
-    end
-
-    # 1. Get dependencies, pull things to a local cache if necessary
-    # 2. Resolve dependencies
-    #
-    # @param dependencies [Gem::Dependency] list of dependencies
-    # @return [nil]
-    def vendor(dependencies)
-      return if dependencies.nil? || dependencies.empty?
-      @vendor_index ||= VendorIndex.new(@vendor_path)
-      @list = Resolver.resolve(dependencies, @vendor_index, @cwd)
-    end
   end
 end
