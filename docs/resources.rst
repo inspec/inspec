@@ -2854,7 +2854,7 @@ A ``os`` |inspec resource| block declares the platform to be tested:
 
 where
 
-* ``'platform'`` is one of ``bsd``, ``debian``, ``linux``, ``redhat``, ``solaris``, ``suse``,  ``unix``, or ``windows``
+* ``'platform'`` is one of ``aix``, ``bsd``, ``debian``, ``hpux``, ``linux``, ``redhat``, ``solaris``, ``suse``,  ``unix``, or ``windows``
 
 
 Matchers
