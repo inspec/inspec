@@ -154,8 +154,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'shell', 'open an interactive debugging shell'
   target_options
-  option :command, aliases: :c
-  option :format, type: :string, default: nil, hide: true
+  option :command, aliases: :c,
+    desc: 'A single command string to run instead of launching the shell'
+  option :format, type: :string, default: nil, hide: true,
+    desc: 'Which formatter to use: cli, progress, documentation, json, json-min'
   def shell_func
     diagnose
     o = opts.dup
