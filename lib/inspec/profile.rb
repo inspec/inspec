@@ -298,7 +298,7 @@ module Inspec
 
     def load_dependencies
       cwd = @target.is_a?(String) && File.directory?(@target) ? @target : nil
-      res = Inspec::Dependencies.new(cwd, nil)
+      res = Inspec::DependencySet.new(cwd, nil)
       res.vendor(metadata.dependencies)
       res
     end

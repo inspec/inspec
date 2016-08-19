@@ -18,8 +18,7 @@ module Inspec
       # Create an in-memory empty runner so that we can add tests to it later.
       # This context lasts for the duration of this "start" method call/pry
       # session.
-      c = { content: '', ref: nil, line: nil }
-      @ctx = @runner.add_content(c, [])
+      @ctx = @runner.create_context
       configure_pry
 
       # This will hold a single evaluation binding context as opened within
@@ -27,7 +26,7 @@ module Inspec
       # context creates to evaluate each individual test file. We want to
       # pretend like we are constantly appending to the same file and want
       # to capture the local variable context from inside said class.
-      @ctx_binding = @ctx.load('binding', nil, nil)
+      @ctx_binding = @ctx.load('binding')
       @ctx_binding.pry
     end
 
@@ -62,7 +61,7 @@ module Inspec
       # test file, register all the rules it discovered.
       Pry.hooks.add_hook(:after_eval, 'inspec_after_eval') do
         @current_eval_new_tests =
-          @runner.reregister_rules(@ctx) do |rule_id, rule|
+          @runner.register_rules(@ctx) do |rule_id, rule|
             @current_eval_rules[rule_id] != Inspec::Rule.merge_count(rule)
           end
         @runner.run if @current_eval_new_tests
