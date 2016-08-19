@@ -32,7 +32,7 @@ describe 'inspec compliance' do
     out = inspec('compliance login http://example.com')
     out.exit_status.must_equal 1
     #TODO: inspec should really use stderr for errors
-    out.stdout.must_include 'Please run `inspec compliance login` with options'
+    out.stdout.must_include 'Please run `inspec compliance login SERVER` with options'
   end
 
   it 'inspec compliance profiles without authentication' do
