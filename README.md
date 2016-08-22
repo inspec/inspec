@@ -170,6 +170,25 @@ Also have a look at our examples for:
 - [Using InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
 - [Implementing an InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
 
+## Or tests: Testing for a OR b
+
+* Using describe.one, you can test for a or b.  The control will be marked as passing if EITHER condition is met.
+
+```ruby
+control 'or-test' do
+  impact 1.0
+  title 'This is a OR test'
+  describe.one do
+    describe ssh_config do
+      its('Protocol') { should eq('3') }
+    end
+    describe ssh_config do
+      its('Protocol') { should eq('2') }
+    end
+  end
+end
+```
+
 ## Command Line Usage
 
 ### exec
@@ -231,7 +250,7 @@ OpenSUSE | 13.1/13.2/42.1 | x86_64
 OmniOS | | x86_64
 Gentoo Linux | | x86_64
 Arch Linux | | x86_64
-HP-UX | 11.31 | ia64 
+HP-UX | 11.31 | ia64
 
 * For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.
 
