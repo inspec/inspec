@@ -16,7 +16,7 @@ describe 'inspec exec' do
     stdout.must_include "\n\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[37m     Can't find file \"/tmp/gordon/config.yaml\"\e[0m
+\e[37m     ○  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
 "
     stdout.must_include "\nSummary: \e[32m4 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m\n"
   end
@@ -26,6 +26,7 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
+
 Profile: yumyum profile
 Version: unknown
 Target:  local://
@@ -41,6 +42,7 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
+
 Profile: title (name)
 Version: 1.2.3
 Target:  local://
@@ -58,14 +60,13 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     out.stdout.force_encoding(Encoding::UTF_8).must_equal "
 Target:  local://
 
-\e[32m  ✔  working should eq \"working\"\e[0m
-\e[37m  ○  skippy This will be skipped intentionally.\e[0m
-\e[31m  ✖  failing should eq \"as intended\" (
-     expected: \"as intended\"
-          got: \"failing\"
-     
-     (compared using ==)
-     )\e[0m
+
+  working should
+\e[32m     ✔  eq \"working\"\e[0m
+  skippy This
+\e[37m     ○  will be skipped intentionally.\e[0m
+  failing should
+\e[31m     ✖  eq \"as intended\"\e[0m
 
 Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
 "
@@ -118,6 +119,24 @@ Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
 
     it 'executes the profile without error' do
       out.exit_status.must_equal 0
+    end
+  end
+
+  describe 'given a profile with controls and anonymous describe blocks' do
+    let(:out) { inspec('exec ' + example_control) }
+
+    it 'prints the control results, then the anonymous describe block results' do
+      out.stdout.force_encoding(Encoding::UTF_8).must_equal "
+Target:  local://
+
+\e[32m  \xE2\x9C\x94  tmp-1.0: Create /tmp directory\e[0m
+\e[32m        File /tmp should be directory\e[0m
+
+  File /tmp
+\e[32m     \xE2\x9C\x94  should be directory\e[0m
+
+Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
+"
     end
   end
 end
