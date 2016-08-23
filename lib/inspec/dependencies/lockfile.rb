@@ -68,6 +68,14 @@ EOF
 
     private
 
+    # Refactor this to be "version-wise" - i.e. make one dispatch
+    # function for each version so that even if it duplicates code,
+    # it can describe the part of the code that it expects to be
+    # different. Then that dispatch routine can call more well
+    # defined methods like "parse_v0_dependencies" or
+    # "parse_flat_dependencies" or what not as things generally
+    # develop. It does help people easily set breakpoints/track
+    # different entry points of the API.
     def parse_content_hash(lockfile_content_hash)
       case version
       when 0

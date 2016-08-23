@@ -24,12 +24,16 @@ module Inspec
         Inspec::Requirement.from_lock_entry(dep, cwd, vendor_index)
       end
 
-      # Flatten tree because that is all we know how to deal with for
-      # right now.  Last dep seen for a given name wins right now.
       dep_list = flatten_dep_tree(dep_tree)
       new(cwd, vendor_path, dep_list)
     end
 
+    # This is experimental code to test the working of the
+    # dependency loader - perform a proper dependency related search
+    # in the future.
+    #
+    # Flatten tree because that is all we know how to deal with for
+    # right now. Last dep seen for a given name wins right now.
     def self.flatten_dep_tree(dep_tree)
       dep_list = {}
       dep_tree.each do |d|

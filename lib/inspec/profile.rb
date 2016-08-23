@@ -232,6 +232,13 @@ module Inspec
                     end
     end
 
+    #
+    # Generate an in-memory lockfile. This won't render the lock file
+    # to disk, it must be explicitly written to disk by the caller.
+    #
+    # @param vendor_path [String] Path to the on-disk vendor dir
+    # @return [Inspec::Lockfile]
+    #
     def generate_lockfile(vendor_path = nil)
       res = Inspec::DependencySet.new(cwd, vendor_path)
       res.vendor(metadata.dependencies)

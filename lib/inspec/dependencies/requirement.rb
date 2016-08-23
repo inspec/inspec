@@ -7,7 +7,7 @@ module Inspec
   # Inspec::Requirement represents a given profile dependency, where
   # appropriate we delegate to Inspec::Profile directly.
   #
-  class Requirement # rubocop:disable Metrics/ClassLength
+  class Requirement
     attr_reader :name, :dep, :cwd, :opts
     attr_writer :dependencies
 
@@ -113,9 +113,7 @@ module Inspec
     end
 
     def dependencies
-      return @dependencies unless @dependencies.nil?
-
-      @dependencies = profile.metadata.dependencies.map do |r|
+      @dependencies ||= profile.metadata.dependencies.map do |r|
         Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd)
       end
     end
