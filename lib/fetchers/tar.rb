@@ -19,6 +19,10 @@ module Fetchers
       new(target)
     end
 
+    def archive_path
+      target
+    end
+
     def initialize(target)
       @target = target
       @contents = {}

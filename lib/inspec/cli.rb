@@ -93,6 +93,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     exit 1 unless result[:summary][:valid]
   end
 
+  desc 'vendor', 'Download all dependencies and generate a lockfile'
+  def vendor(path = nil)
+    profile = Inspec::Profile.for_target('./', opts)
+    lockfile = profile.generate_lockfile(path)
+    File.write('inspec.lock', lockfile.to_yaml)
+  end
+
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
   profile_options
   option :output, aliases: :o, type: :string,

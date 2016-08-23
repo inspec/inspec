@@ -8,6 +8,7 @@ require 'inspec/polyfill'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/metadata'
+require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
 module Inspec
@@ -211,6 +212,44 @@ module Inspec
       @locked_dependencies ||= load_dependencies
     end
 
+    def lockfile_exists?
+      File.exist?(lockfile_path)
+    end
+
+    def lockfile_path
+      File.join(cwd, 'inspec.lock')
+    end
+
+    #
+    # TODO(ssd): Relative path handling really needs to be carefully
+    # thought through, especially with respect to relative paths in
+    # tarballs.
+    #
+    def cwd
+      @target.is_a?(String) && File.directory?(@target) ? @target : './'
+    end
+
+    def lockfile
+      @lockfile ||= if lockfile_exists?
+                      Inspec::Lockfile.from_file(lockfile_path)
+                    else
+                      generate_lockfile
+                    end
+    end
+
+    #
+    # Generate an in-memory lockfile. This won't render the lock file
+    # to disk, it must be explicitly written to disk by the caller.
+    #
+    # @param vendor_path [String] Path to the on-disk vendor dir
+    # @return [Inspec::Lockfile]
+    #
+    def generate_lockfile(vendor_path = nil)
+      res = Inspec::DependencySet.new(cwd, vendor_path)
+      res.vendor(metadata.dependencies)
+      Inspec::Lockfile.from_dependency_set(res)
+    end
+
     private
 
     # Create an archive name for this profile and an additional options
@@ -225,7 +264,7 @@ module Inspec
 
       name = params[:name] ||
              fail('Cannot create an archive without a profile name! Please '\
-             'specify the name in metadata or use --output to create the archive.')
+                  'specify the name in metadata or use --output to create the archive.')
       ext = opts[:zip] ? 'zip' : 'tar.gz'
       slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
       Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
@@ -297,10 +336,7 @@ module Inspec
     end
 
     def load_dependencies
-      cwd = @target.is_a?(String) && File.directory?(@target) ? @target : nil
-      res = Inspec::DependencySet.new(cwd, nil)
-      res.vendor(metadata.dependencies)
-      res
+      Inspec::DependencySet.from_lockfile(lockfile, cwd, nil)
     end
   end
 end

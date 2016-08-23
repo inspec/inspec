@@ -18,7 +18,7 @@ module Inspec
         req || fail("Cannot initialize dependency: #{req}")
       end
 
-      new(vendor_index, opts.merge(cwd: cwd)).resolve(reqs)
+      new(vendor_index, opts).resolve(reqs)
     end
 
     def initialize(vendor_index, opts = {})
@@ -26,7 +26,6 @@ module Inspec
       @debug_mode = false
 
       @vendor_index = vendor_index
-      @cwd = opts[:cwd] || './'
       @resolver = Molinillo::Resolver.new(self, self)
       @search_cache = {}
     end
@@ -39,8 +38,6 @@ module Inspec
       requirements.each(&:pull)
       @base_dep_graph = Molinillo::DependencyGraph.new
       @dep_graph = @resolver.resolve(requirements, @base_dep_graph)
-      arr = @dep_graph.map(&:payload)
-      Hash[arr.map { |e| [e.name, e] }]
     rescue Molinillo::VersionConflict => e
       raise VersionConflict.new(e.conflicts.keys.uniq, e.message)
     rescue Molinillo::CircularDependencyError => e
@@ -91,9 +88,7 @@ module Inspec
     # @return [Array<Object>] the dependencies that are required by the given
     #   `specification`.
     def dependencies_for(specification)
-      specification.profile.metadata.dependencies.map do |r|
-        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd)
-      end
+      specification.dependencies
     end
 
     # Determines whether the given `requirement` is satisfied by the given
