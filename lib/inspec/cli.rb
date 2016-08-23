@@ -15,6 +15,12 @@ require 'inspec/runner_mock'
 require 'inspec/env_printer'
 
 class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
+  class_option :log_level, aliases: :l, type: :string,
+               desc: 'Set the log level: info (default), debug, warn, error'
+
+  class_option :log_location, type: :string, default: STDOUT,
+               desc: 'Location to send diagnostic log messages to. (default: STDOUT)'
+
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
 
@@ -95,6 +101,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'vendor', 'Download all dependencies and generate a lockfile'
   def vendor(path = nil)
+    configure_logger(opts)
     profile = Inspec::Profile.for_target('./', opts)
     lockfile = profile.generate_lockfile(path)
     File.write('inspec.lock', lockfile.to_yaml)
@@ -135,6 +142,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   exec_options
   def exec(*targets)
     diagnose
+    configure_logger(opts)
     o = opts.dup
 
     # run tests
