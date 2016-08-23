@@ -220,8 +220,13 @@ module Inspec
       File.join(cwd, 'inspec.lock')
     end
 
+    #
+    # TODO(ssd): Relative path handling really needs to be carefully
+    # thought through, especially with respect to relative paths in
+    # tarballs.
+    #
     def cwd
-      @target.is_a?(String) && File.directory?(@target) ? @target : nil
+      @target.is_a?(String) && File.directory?(@target) ? @target : './'
     end
 
     def lockfile
