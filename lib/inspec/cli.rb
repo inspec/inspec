@@ -18,8 +18,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :log_level, aliases: :l, type: :string,
                desc: 'Set the log level: info (default), debug, warn, error'
 
-  class_option :log_location, type: :string, default: STDERR,
-               desc: 'Location to send diagnostic log messages to. (default: STDERR)'
+  class_option :log_location, type: :string,
+               desc: 'Location to send diagnostic log messages to. (default: STDOUT or STDERR)'
 
   class_option :diagnose, type: :boolean,
     desc: 'Show diagnostics (versions, configurations)'
