@@ -185,6 +185,7 @@ module Inspec
             res = describe(*args, &block)
           end
           register_control(rule, &block)
+
           res
         end
 

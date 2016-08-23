@@ -18,11 +18,6 @@ module Inspec
       reset
     end
 
-    def reset
-      reset_tests
-      configure_output
-    end
-
     # Create a new RSpec example group from arguments and block.
     #
     # @param [Type] *args list of arguments for this example
@@ -94,10 +89,11 @@ module Inspec
     # Empty the list of registered tests.
     #
     # @return [nil]
-    def reset_tests
+    def reset
       @tests = RSpec::Core::World.new
       # resets "pending examples" in reporter
       RSpec.configuration.reset
+      configure_output
     end
 
     private

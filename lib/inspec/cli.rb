@@ -140,7 +140,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def detect
     o = opts.dup
     o[:command] = 'os.params'
-    res = run_command(o)
+    (_, res) = run_command(o)
     if opts['format'] == 'json'
       puts res.to_json
     else
@@ -162,22 +162,23 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     diagnose
     o = opts.dup
 
-    log_device = opts['format'] == 'json' ? nil : STDOUT
+    json_output = ['json', 'json-min'].include?(opts['format'])
+    log_device = json_output ? nil : STDOUT
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o.log_level)
 
     if o[:command].nil?
       runner = Inspec::Runner.new(o)
       return Inspec::Shell.new(runner).start
-    else
-      res = run_command(o)
-      if opts['format'] == 'json'
-        jres = res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)
-        puts jres
-      else
-        puts res
-      end
     end
+
+    run_type, res = run_command(o)
+    exit res unless run_type == :ruby_eval
+
+    # No InSpec tests - just print evaluation output.
+    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if json_output
+    puts res
+    exit 0
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
   end
@@ -196,9 +197,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   private
 
   def run_command(opts)
-    opts[:test_collector] = Inspec::RunnerMock.new
     runner = Inspec::Runner.new(opts)
-    runner.create_context.load(opts[:command])
+    ctx = runner.create_context(opts)
+    res = ctx.load(opts[:command])
+
+    return :ruby_eval, res if ctx.rules.empty?
+
+    runner.register_rules(ctx)
+    return :rspec_run, runner.run # rubocop:disable Style/RedundantReturn
   end
 end
 

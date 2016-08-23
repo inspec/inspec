@@ -27,6 +27,7 @@ module Inspec
       @__profile_id = profile_id
       @__checks = []
       @__skip_rule = nil
+      @__merge_count = 0
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
@@ -135,6 +136,10 @@ module Inspec
       rule.instance_variable_set(:@__skip_rule, value)
     end
 
+    def self.merge_count(rule)
+      rule.instance_variable_get(:@__merge_count)
+    end
+
     def self.prepare_checks(rule)
       msg = skip_status(rule)
       return checks(rule) unless msg
@@ -169,6 +174,8 @@ module Inspec
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
       sr = skip_status(src)
       set_skip_rule(dst, sr) unless sr.nil?
+      # increment merge count
+      dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
     end
 
     private
