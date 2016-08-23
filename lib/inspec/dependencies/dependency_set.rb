@@ -54,31 +54,16 @@ module Inspec
       @cwd = cwd
       @vendor_path = vendor_path
       @dep_list = dep_list
-      @dep_graph = nil
     end
 
-    #
-    # Returns a flat list of all dependencies since that is all we
-    # know how to load at the moment.
-    #
     def list
-      @dep_list ||= begin
-                      return nil if @dep_graph.nil?
-                      arr = @dep_graph.map(&:payload)
-                      Hash[arr.map { |e| [e.name, e] }]
-                    end
+      @dep_list
     end
 
     def to_array
-      return [] if @dep_graph.nil?
-      @dep_graph.map do |v|
-        # Resolver's list of dependency includes dependencies that
-        # we'll find further down the tree We don't want those at the
-        # top level as they should already be included in the to_hash
-        # output of the nodes that connect them.
-        if v.incoming_edges.empty?
-          v.payload.to_hash
-        end
+      return [] if @dep_list.nil?
+      @dep_list.map do |_k, v|
+        v.to_hash
       end.compact
     end
 
@@ -92,8 +77,7 @@ module Inspec
     def vendor(dependencies)
       return nil if dependencies.nil? || dependencies.empty?
       @vendor_index ||= VendorIndex.new(@vendor_path)
-      @dep_graph = Resolver.resolve(dependencies, @vendor_index, @cwd)
-      list
+      @dep_list = Resolver.resolve(dependencies, @vendor_index, @cwd)
     end
   end
 end

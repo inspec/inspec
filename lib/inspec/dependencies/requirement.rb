@@ -7,7 +7,7 @@ module Inspec
   # Inspec::Requirement represents a given profile dependency, where
   # appropriate we delegate to Inspec::Profile directly.
   #
-  class Requirement
+  class Requirement # rubocop:disable Metrics/ClassLength
     attr_reader :name, :dep, :cwd, :opts
     attr_writer :dependencies
 
@@ -42,9 +42,18 @@ module Inspec
       @cwd = cwd
     end
 
-    def matches_spec?(spec)
-      params = spec.profile.metadata.params
-      @dep.match?(params[:name], params[:version])
+    def required_version
+      @version_requirement
+    end
+
+    def source_version
+      profile.metadata.params[:version]
+    end
+
+    def source_satisfies_spec?
+      name = profile.metadata.params[:name]
+      version = profile.metadata.params[:version]
+      @dep.match?(name, version)
     end
 
     def to_hash

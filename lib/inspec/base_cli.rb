@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'thor'
+require 'inspec/log'
 
 module Inspec
   class BaseCLI < Thor # rubocop:disable Metrics/ClassLength
@@ -128,6 +129,14 @@ module Inspec
     end
 
     def configure_logger(o)
+      #
+      # TODO(ssd): This is a big gross, but this configures the
+      # logging singleton Inspec::Log. Eventually it would be nice to
+      # move internal debug logging to use this logging singleton.
+      #
+      Inspec::Log.init(o.log_location)
+      Inspec::Log.level = get_log_level(o.log_level)
+
       o[:logger] = Logger.new(STDOUT)
       # output json if we have activated the json formatter
       if opts['log-format'] == 'json'
