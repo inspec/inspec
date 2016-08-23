@@ -108,7 +108,7 @@ module Inspec
       if fetcher.class == Fetchers::Local || @vendor_index.exists?(@name, source_url)
         local_path
       else
-        @vendor_index.add(@name, source_url, fetcher.archive.path)
+        @vendor_index.add(@name, source_url, fetcher.archive_path)
       end
     end
 
