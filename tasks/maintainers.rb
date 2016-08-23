@@ -27,9 +27,10 @@ begin
   require 'tomlrb'
   require 'octokit'
   require 'pp'
-  task default: :generate
 
   namespace :maintainers do
+    task default: :generate
+
     desc 'Generate MarkDown version of MAINTAINERS file'
     task :generate do
       maintainers = Tomlrb.load_file SOURCE
