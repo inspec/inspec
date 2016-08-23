@@ -4,8 +4,8 @@ platform:
 
 environment:
   matrix:
-    - ruby_version: "200-x64"
-    - ruby_version: "21"
+    - ruby_version: "23-x64"
+    - ruby_version: "23"
 
 clone_folder: c:\projects\inspec
 clone_depth: 1
