@@ -91,7 +91,7 @@ module Inspec
 
     def source_url
       if opts[:path]
-        "file://#{opts[:path]}"
+        "file://#{File.expand_path(opts[:path], @cwd)}"
       elsif opts[:url]
         opts[:url]
       end
