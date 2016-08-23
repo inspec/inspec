@@ -32,14 +32,6 @@ module Fetchers
       end
     end
 
-    def url
-      if parent
-        parent.url
-      else
-        'file://target'
-      end
-    end
-
     def read(file)
       @contents[file] ||= read_from_tar(file)
     end

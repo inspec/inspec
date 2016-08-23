@@ -106,9 +106,5 @@ module Fetchers
     def archive_path
       @archive.path
     end
-
-    def url
-      @target
-    end
   end
 end
