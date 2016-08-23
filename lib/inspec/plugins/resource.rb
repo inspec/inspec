@@ -2,8 +2,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'inspec/resource'
-
 module Inspec
   module Plugins
     class Resource
