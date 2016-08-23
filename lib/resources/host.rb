@@ -32,6 +32,10 @@ module Inspec::Resources
       describe host('example.com') do
         it { should be_reachable }
       end
+
+      describe host('example.com', port: '80') do
+        it { should be_reachable }
+      end
     "
 
     def initialize(hostname, params = {})
@@ -49,7 +53,7 @@ module Inspec::Resources
       end
     end
 
-    # if we get the IP adress, the host is resolvable
+    # if we get the IP address, the host is resolvable
     def resolvable?(type = nil)
       warn "The `host` resource ignores #{type} parameters. Continue to resolve host." if !type.nil?
       resolve.nil? || resolve.empty? ? false : true
@@ -60,7 +64,7 @@ module Inspec::Resources
       ping.nil? ? false : ping
     end
 
-    # returns all A records of the IP adress, will return an array
+    # returns all A records of the IP address, will return an array
     def ipaddress
       resolve.nil? || resolve.empty? ? nil : resolve
     end
@@ -122,9 +126,7 @@ module Inspec::Resources
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname}"
       request += " -RemotePort #{port}" unless port.nil?
-      request += '| Select-Object -Property ComputerName, RemoteAddress, RemotePort, SourceAddress, PingSucceeded | ConvertTo-Json'
-      p request
-      request += '| Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json'
+      request += '| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json'
       cmd = inspec.command(request)
 
       begin
@@ -133,7 +135,12 @@ module Inspec::Resources
         return nil
       end
 
-      ping['PingSucceeded']
+      # Logic being if you provided a port you wanted to check it was open
+      if port.nil?
+        ping['PingSucceeded']
+      else
+        ping['TcpTestSucceeded']
+      end
     end
 
     def resolve(hostname)
