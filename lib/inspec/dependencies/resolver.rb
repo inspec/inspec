@@ -28,11 +28,7 @@ module Inspec
         req = Inspec::Requirement.from_metadata(dep, vendor_index, cwd: working_dir)
         req || fail("Cannot initialize dependency: #{req}")
       end
-      new(vendor_index).resolve(reqs)
-    end
-
-    def initialize(vendor_index)
-      @vendor_index = vendor_index
+      new.resolve(reqs)
     end
 
     def resolve(deps, top_level = true, seen_items = {}, path_string = '')
