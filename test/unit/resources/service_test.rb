@@ -19,6 +19,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
+    _(resource.startmode). must_equal 'Auto'
     _(resource.params).must_equal params
   end
 

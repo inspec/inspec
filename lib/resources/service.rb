@@ -77,6 +77,7 @@ module Inspec::Resources
         it { should be_enabled }
         it { should be_running }
         its('type') { should be 'systemd' }
+        its ('startmode') { should be 'Auto'}
       end
 
       describe service('service_name').runlevels(3, 5) do
@@ -208,6 +209,12 @@ module Inspec::Resources
     def description
       return nil if info.nil?
       info[:description]
+    end
+
+    # returns the service start up mode from info
+    def startmode
+      return nil if info.nil?
+      info[:startmode]
     end
 
     def to_s
@@ -547,6 +554,7 @@ module Inspec::Resources
     #
     # Until StartMode is not added to Get-Service, we need to do a workaround
     # @see: https://connect.microsoft.com/PowerShell/feedback/details/424948/i-would-like-to-see-the-property-starttype-added-to-get-services
+    # Also see: https://msdn.microsoft.com/en-us/library/aa384896(v=vs.85).aspx
     # Use the following powershell to determine the start mode
     # PS: Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq $name -or $_.DisplayName -eq $name} | Select-Object -Prop
     # erty Name, StartMode, State, Status | ConvertTo-Json
@@ -587,6 +595,7 @@ module Inspec::Resources
         installed: true,
         running: service_running?(service),
         enabled: service_enabled?(service),
+        startmode: service['WMI']['StartMode'],
         type: 'windows',
       }
     end
