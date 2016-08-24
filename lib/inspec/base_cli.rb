@@ -134,7 +134,15 @@ module Inspec
       # logging singleton Inspec::Log. Eventually it would be nice to
       # move internal debug logging to use this logging singleton.
       #
-      Inspec::Log.init(o.log_location)
+      loc = if o.log_location
+              o.log_location
+            elsif %w{json json-min}.include?(o['format'])
+              STDERR
+            else
+              STDOUT
+            end
+
+      Inspec::Log.init(loc)
       Inspec::Log.level = get_log_level(o.log_level)
 
       o[:logger] = Logger.new(STDOUT)
