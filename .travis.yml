@@ -16,6 +16,7 @@ matrix:
   include:
   - rvm: 1.9.3
   - rvm: 2.0
+  - rvm: 2.1.8
   - rvm: 2.2
     script: bundle exec rake $SUITE
     env: SUITE="lint test test:functional"
