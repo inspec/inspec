@@ -190,17 +190,17 @@ module Inspec::Resources
     def info(package_name)
       search_paths = [
         'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*',
-        'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*'
+        'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*',
       ]
 
       # add 64 bit search paths
-      if inspec.os.arch == "x86_64"
+      if inspec.os.arch == 'x86_64'
         search_paths << 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
         search_paths << 'HKCU:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
       end
 
       # Find the package
-      cmd = inspec.command <<-EOF.gsub /^\s*/, ''
+      cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
         Get-ItemProperty (@("#{search_paths.join('", "')}") | Where-Object { Test-Path $_ }) |
         Where-Object { $_.DisplayName -like "#{package_name}*" -or $_.PSChildName -like "#{package_name}" } |
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
@@ -213,7 +213,7 @@ module Inspec::Resources
       end
 
       # What if we match multiple packages?  just pick the first one for now.
-      package = package[0] if package.kind_of?(Array)
+      package = package[0] if package.is_a?(Array)
 
       {
         name: package['DisplayName'],
