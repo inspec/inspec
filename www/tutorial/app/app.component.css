@@ -1,0 +1,28 @@
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 250%;
+}
+
+.demo-view {
+  display: block;
+}
+
+.instructions {
+  position: fixed;
+  top: 30%;
+  left: 35%;
+  width: 70%;
+  height: 35%;
+  margin-top: -9em;
+  margin-left: -15em;
+  color: white;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.instructions-content {
+  margin: 20px 20px 20px 20px;
+}

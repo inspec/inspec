@@ -1,0 +1,18 @@
+  Commands:
+  inspec archive PATH                # archive a profile to tar.gz (default) or zip
+  inspec check PATH                  # verify all tests at the specified PATH
+  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
+  inspec detect                      # detect the target OS
+  inspec env                         # Output shell-appropriate completion configuration
+  inspec exec PATHS                  # run all test files at the specified PATH.
+  inspec help [COMMAND]              # Describe available commands or one specific command
+  inspec init TEMPLATE ...           # Scaffolds a new project
+  inspec json PATH                   # read all tests in PATH and generate a JSON summary
+  inspec msccm SUBCOMMAND ...        # Microsoft Systems Center Configuration Manager commands
+  inspec scap SUBCOMMAND ...         # SCAP commands
+  inspec shell                       # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...  # Supermarket commands
+  inspec version                     # prints the version of this tool
+
+Options:
+  [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)

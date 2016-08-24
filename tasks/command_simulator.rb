@@ -13,7 +13,7 @@ commands.each do |keyname, command|
 
   # save the result and put it in inspec/www/app/results with the keyname as filename
   result = cmd.stdout
-  dir = 'www/app/results/'
+  dir = 'www/app/responses/'
   out_file = File.new(File.join(dir, "#{keyname}.txt"), 'w')
   out_file.puts(result)
   out_file.close

@@ -1,0 +1,11 @@
+# Typing #
+/src/typings/tsd/
+/typings/
+/tsd_typings/
+
+# Node Files #
+/node_modules
+npm-debug.log
+
+*.js
+*.map.js
