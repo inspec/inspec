@@ -8,6 +8,10 @@ if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
 end
 
+if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('2.1.0')
+  gem 'json', '~> 1.8'
+end
+
 # TODO: ffi 1.9.11 is currently erroneous on windows tests
 gem 'ffi', '= 1.9.10'
 
