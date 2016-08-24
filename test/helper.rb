@@ -173,7 +173,7 @@ class MockLoader
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
-      "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
+      'f18912b2e36924b367a110c31da6b835a1c217cd10014c7312b7435bf79a601c' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       # service config for upstart on ubuntu
