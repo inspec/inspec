@@ -17,7 +17,7 @@ module Fetchers
         target = target.gsub(%r{^file://}, '')
       else
         # support for windows paths
-        target.tr!('\\', '/')
+        target = target.tr('\\', '/')
       end
 
       if !File.exist?(target)

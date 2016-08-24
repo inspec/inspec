@@ -9,6 +9,15 @@ describe Inspec::Fetcher do
     res = Inspec::Fetcher.resolve(__FILE__)
     res.must_be_kind_of Fetchers::Local
   end
+
+  it 'is able to handle Windows paths' do
+    # simulate a local windows path
+    file = __FILE__
+    file.tr!('/', '\\')
+    res = Inspec::Fetcher.resolve(file)
+    res.must_be_kind_of Fetchers::Local
+    res.target.must_equal __FILE__
+  end
 end
 
 describe Inspec::Plugins::RelFetcher do
@@ -52,8 +61,6 @@ describe Inspec::Plugins::RelFetcher do
     # ignored by all tar streaming tools, its not extracted by GNU tar since 1.14
     %w{/pax_global_header /a/b}  => %w{b},
     %w{pax_global_header a/b}    => %w{b},
-    # windows path
-    %w{.\\path\\}                => %w{./path/}
   }.each do |ins, outs|
     describe 'empty profile' do
       let(:in_files) { ins }
