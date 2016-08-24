@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
+require 'inspec/log'
 require 'inspec/rule'
 require 'inspec/dsl'
 require 'inspec/require_loader'
@@ -10,18 +10,21 @@ require 'inspec/objects/attribute'
 
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
-    attr_reader :rules
-    attr_reader :attributes
+    def self.for_profile(profile, backend)
+      new(profile.name, backend, { 'profile' => profile })
+    end
+
+    attr_reader :attributes, :rules, :profile_id
     def initialize(profile_id, backend, conf)
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
              'This is a backend error which must be fixed upstream.'
       end
-
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
       @rules = {}
+      @subcontexts = []
       @dependencies = {}
       @dependencies = conf['profile'].locked_dependencies unless conf['profile'].nil?
       @require_loader = ::Inspec::RequireLoader.new
@@ -33,6 +36,16 @@ module Inspec
       resources_dsl = Inspec::Resource.create_dsl(@backend)
       ctx = create_context(resources_dsl, rule_context(resources_dsl))
       @profile_context = ctx.new(@backend, @conf, @dependencies, @require_loader)
+    end
+
+    def all_rules
+      ret = @rules.values
+      ret += @subcontexts.map(&:all_rules).flatten
+      ret
+    end
+
+    def add_subcontext(context)
+      @subcontexts << context
     end
 
     def load_libraries(libs)
@@ -59,6 +72,7 @@ module Inspec
     end
 
     def load(content, source = nil, line = nil)
+      Inspec::Log.debug("Loading #{source || '<anonymous content>'} into #{self}")
       @current_load = { file: source }
       if content.is_a? Proc
         @profile_context.instance_eval(&content)
@@ -167,7 +181,11 @@ module Inspec
         end
 
         def to_s
-          'Profile Context Run'
+          "Profile Context Run #{profile_name}"
+        end
+
+        define_method :profile_name do
+          profile_id
         end
 
         define_method :control do |*args, &block|
@@ -187,6 +205,10 @@ module Inspec
           register_control(rule, &block)
 
           res
+        end
+
+        define_method :add_subcontext do |context|
+          profile_context_owner.add_subcontext(context)
         end
 
         define_method :register_control do |control, &block|

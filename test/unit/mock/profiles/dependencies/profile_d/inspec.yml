@@ -1,4 +1,4 @@
-name: profile_b
+name: profile_d
 title: InSpec Profile
 maintainer: The Authors
 copyright: The Authors
@@ -6,6 +6,3 @@ copyright_email: you@example.com
 license: All Rights Reserved
 summary: An InSpec Compliance Profile
 version: 0.1.0
-depends:
-  - name: profile_d
-    path: ../profile_d

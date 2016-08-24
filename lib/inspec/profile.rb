@@ -53,6 +53,10 @@ module Inspec
       Metadata.finalize(@source_reader.metadata, @profile_id)
     end
 
+    def name
+      metadata.params[:name]
+    end
+
     def params
       @params ||= load_params
     end
@@ -293,14 +297,14 @@ module Inspec
           test_collector: opts.delete(:test_collector),
         )
         runner.add_profile(self, opts)
-        runner.rules.values.each do |rule|
+        runner.rules.each do |rule|
           f = load_rule_filepath(prefix, rule)
           load_rule(rule, f, controls, groups)
         end
         params[:attributes] = runner.attributes
       else
         # load from context
-        @runner_context.rules.values.each do |rule|
+        @runner_context.all_rules.each do |rule|
           f = load_rule_filepath(prefix, rule)
           load_rule(rule, f, controls, groups)
         end

@@ -18,7 +18,7 @@ module Inspec
     extend Forwardable
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
-      @rules = {}
+      @rules = []
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
 
@@ -132,15 +132,14 @@ module Inspec
       end
 
       # evaluate the test content
-      tests = [tests] unless tests.is_a? Array
-      tests.each { |t| add_test_to_context(t, ctx) }
+      Array(tests).each { |t| add_test_to_context(t, ctx) }
 
       # merge and collect all attributes
       @attributes |= ctx.attributes
 
       # process the resulting rules
-      filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
-        register_rule(rule_id, rule)
+      filter_controls(ctx.all_rules, options[:controls]).each do |rule|
+        register_rule(rule)
       end
 
       ctx
@@ -151,7 +150,7 @@ module Inspec
       ctx.rules.each do |rule_id, rule|
         next if block_given? && !(yield rule_id, rule)
         new_tests = true
-        register_rule(rule_id, rule)
+        register_rule(rule)
       end
       new_tests
     end
@@ -168,9 +167,9 @@ module Inspec
       ctx.load(content, test[:ref], test[:line])
     end
 
-    def filter_controls(controls_map, include_list)
-      return controls_map if include_list.nil? || include_list.empty?
-      controls_map.select do |_, c|
+    def filter_controls(controls_array, include_list)
+      return controls_array if include_list.nil? || include_list.empty?
+      controls_array.select do |c|
         id = ::Inspec::Rule.rule_id(c)
         include_list.include?(id)
       end
@@ -219,8 +218,8 @@ module Inspec
       nil
     end
 
-    def register_rule(rule_id, rule)
-      @rules[rule_id] = rule
+    def register_rule(rule)
+      @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
       examples = checks.map do |m, a, b|
         get_check_example(m, a, b)

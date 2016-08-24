@@ -3,11 +3,7 @@
 # license: All rights reserved
 
 title 'sample section'
-
-# you can also use plain tests
-describe file('/tmp') do
-  it { should be_directory }
-end
+include_controls 'profile_d'
 
 # you add controls here
 control 'profileb-1' do                        # A unique ID for this control
