@@ -145,6 +145,13 @@ module Inspec
       ctx
     end
 
+    # In some places we read the rules off of the runner, in other
+    # places we read it off of the profile context. To keep the API's
+    # the same, we provide an #all_rules method here as well.
+    def all_rules
+      @rules
+    end
+
     def register_rules(ctx)
       new_tests = false
       ctx.rules.each do |rule_id, rule|
