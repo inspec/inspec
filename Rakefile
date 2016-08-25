@@ -17,6 +17,13 @@ end
 desc 'Run robocop linter'
 task lint: [:rubocop]
 
+# update command output for demo
+desc 'Running commands and saving TBD'
+task :update_demo do
+  commands = 'tasks/get_command_output.rb'
+  ruby commands
+end
+
 # run tests
 task default: [:test, :lint]
 
