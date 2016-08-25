@@ -13,8 +13,7 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.0')
   gem 'rack', '< 2.0'
 end
 
-# TODO: ffi 1.9.11 is currently erroneous on windows tests
-gem 'ffi', '= 1.9.10'
+gem 'ffi', '>= 1.9.14'
 
 group :test do
   gem 'bundler', '~> 1.5'
