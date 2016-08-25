@@ -4,11 +4,12 @@
 
 title 'sample section'
 include_controls 'profile_c'
-
-# you can also use plain tests
-describe file('/tmp') do
-  it { should be_directory }
-end
+#
+# The following should fail even in the case where profile_d or
+# profile_b is pulled in somewhere else in the dependency tree.
+#
+# include_controls 'profile_d'
+# include_controls 'profile_b'
 
 # you add controls here
 control 'profilea-1' do                        # A unique ID for this control

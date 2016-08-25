@@ -1,8 +1,8 @@
 # encoding: utf-8
 # copyright: 2015, Dominik Richter
-# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
+require 'inspec/log'
 
 module Inspec::DSL
   def require_controls(id, &block)
@@ -32,28 +32,36 @@ module Inspec::DSL
   end
 
   def self.load_spec_files_for_profile(bind_context, opts, &block)
-    # get all spec files
-    target = opts[:dependencies].list[opts[:profile_id]] ||
-             fail("Can't find profile #{opts[:profile_id].inspect}, please add it as a dependency.")
-    profile = Inspec::Profile.for_target(target.path, opts)
-    context = load_profile_context(opts[:profile_id], profile, opts)
+    dependencies = opts[:dependencies]
+    profile_id = opts[:profile_id]
+
+    dep_entry = dependencies.list[profile_id]
+    if dep_entry.nil?
+      fail <<EOF
+Cannot load #{profile_id} since it is not listed as a dependency
+of #{bind_context.profile_name}.
+
+Dependencies available from this context are:
+
+     #{dependencies.list.keys.join("\n    ")}
+EOF
+    end
+
+    context = load_profile_context(dep_entry.profile, opts[:backend])
 
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
-    filter_included_controls(context, opts, &block) if !opts[:include_all]
+    filter_included_controls(context, dep_entry.profile, &block) if !opts[:include_all]
 
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
 
-    # finally register all combined rules
-    context.rules.values.each do |control|
-      bind_context.register_control(control)
-    end
+    bind_context.add_subcontext(context)
   end
 
-  def self.filter_included_controls(context, opts, &block)
+  def self.filter_included_controls(context, profile, &block)
     mock = Inspec::Backend.create({ backend: 'mock' })
-    include_ctx = Inspec::ProfileContext.new(opts[:profile_id], mock, opts[:conf])
+    include_ctx = Inspec::ProfileContext.for_profile(profile, mock)
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
     context.rules.keys.each do |id|
@@ -63,8 +71,8 @@ module Inspec::DSL
     end
   end
 
-  def self.load_profile_context(id, profile, opts)
-    ctx = Inspec::ProfileContext.new(id, opts[:backend], opts[:conf])
+  def self.load_profile_context(profile, backend)
+    ctx = Inspec::ProfileContext.for_profile(profile, backend)
     profile.libraries.each do |path, content|
       ctx.load(content.to_s, path, 1)
       ctx.reload_dsl

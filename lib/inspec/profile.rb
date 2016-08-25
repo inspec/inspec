@@ -53,6 +53,10 @@ module Inspec
       Metadata.finalize(@source_reader.metadata, @profile_id)
     end
 
+    def name
+      metadata.params[:name]
+    end
+
     def params
       @params ||= load_params
     end
@@ -278,34 +282,34 @@ module Inspec
       params
     end
 
+    #
+    # Returns a new runner for the current profile.
+    #
+    # @params [Symbol] The type of backend to use when constructing a
+    #                  new runner.
+    # @returns [Inspec::Runner]
+    #
+    def runner_for_profile(backend = :mock)
+      opts = @options.dup
+      opts[:ignore_supports] = true
+      r = Runner.new(id: @profile_id,
+                     backend: backend,
+                     test_collector: opts.delete(:test_collector))
+      r.add_profile(self, opts)
+      r
+    end
+
     def load_checks_params(params)
       params[:controls] = controls = {}
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
-
-      if @runner_context.nil?
-        # we're checking a profile, we don't care if it runs on the host machine
-        opts = @options.dup
-        opts[:ignore_supports] = true
-        runner = Runner.new(
-          id: @profile_id,
-          backend: :mock,
-          test_collector: opts.delete(:test_collector),
-        )
-        runner.add_profile(self, opts)
-        runner.rules.values.each do |rule|
-          f = load_rule_filepath(prefix, rule)
-          load_rule(rule, f, controls, groups)
-        end
-        params[:attributes] = runner.attributes
-      else
-        # load from context
-        @runner_context.rules.values.each do |rule|
-          f = load_rule_filepath(prefix, rule)
-          load_rule(rule, f, controls, groups)
-        end
-        params[:attributes] = @runner_context.attributes
+      # Load from the runner_context if it exists
+      runner = @runner_context || runner_for_profile
+      runner.all_rules.each do |rule|
+        f = load_rule_filepath(prefix, rule)
+        load_rule(rule, f, controls, groups)
       end
+      params[:attributes] = runner.attributes
       params
     end
 
