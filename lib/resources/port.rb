@@ -5,18 +5,6 @@
 require 'utils/parser'
 require 'utils/filter'
 
-# Usage:
-# describe port(80) do
-#   it { should be_listening }
-#   its('protocols') {should eq ['tcp']}
-#   its('addresses') {should eq ['127.0.0.1']}
-# end
-#
-# not supported serverspec syntax
-# describe port(80) do
-#   it { should be_listening.with('tcp') }
-# end
-#
 # TODO: currently we return local ip only
 # TODO: improve handling of same port on multiple interfaces
 module Inspec::Resources
