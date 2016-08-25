@@ -8,7 +8,8 @@ require 'utils/filter'
 # Usage:
 # describe port(80) do
 #   it { should be_listening }
-#   its('protocol') {should eq 'tcp'}
+#   its('protocols') {should eq ['tcp']}
+#   its('addresses') {should eq ['127.0.0.1']}
 # end
 #
 # not supported serverspec syntax
@@ -26,6 +27,7 @@ module Inspec::Resources
       describe port(80) do
         it { should be_listening }
         its('protocols') {should eq ['tcp']}
+        its('addresses') {should eq ['127.0.0.1']}
       end
 
       describe port.where { protocol =~ /tcp/ && port > 80 } do
