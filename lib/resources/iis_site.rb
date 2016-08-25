@@ -1,4 +1,5 @@
 # encoding: utf-8
+# frozen_string_literal: true
 # check for site in IIS
 # Usage:
 # describe iis_site('Default Web Site') do
