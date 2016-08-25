@@ -18,9 +18,9 @@ desc 'Run robocop linter'
 task lint: [:rubocop]
 
 # update command output for demo
-desc 'Running commands and saving TBD'
+desc 'Run inspec commands and save results to www/app/responses'
 task :update_demo do
-  commands = 'tasks/get_command_output.rb'
+  commands = 'tasks/command_simulator.rb'
   ruby commands
 end
 
