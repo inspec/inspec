@@ -23,6 +23,7 @@ The following InSpec audit resources are available:
 * `host`_
 * `iis_site`_
 * `inetd_conf`_
+* `ini`_
 * `interface`_
 * `iptables`_
 * `kernel_module`_
@@ -1998,6 +1999,48 @@ then the same test will return ``false`` for ``ftp`` and the entire test will fa
      its('telnet') { should eq nil }
    end
 
+
+ini
+=====================================================
+Use the ``ini`` |inspec resource| to test data in a INI file.
+
+**Stability: Stable**
+
+Syntax
+-----------------------------------------------------
+An ``ini`` |inspec resource| block declares the content of the ``ini`` file:
+
+.. code-block:: ruby
+
+   describe ini('path/to/ini_file.ini') do
+     its('auth_protocol') { should eq 'https' }
+   end
+
+where
+
+* ``'auth_protocol'`` is a key in the ``ini`` file
+* ``('https')`` is the expected value associated with the above key in the ``ini`` file
+
+Matchers
+-----------------------------------------------------
+This |inspec resource| matches any content in the ``ini`` file:
+
+.. code-block:: ruby
+
+   its('port') { should eq '143' }
+
+Examples
+-----------------------------------------------------
+The following examples show how to use this InSpec audit resource.
+
+For example:
+
+.. code-block:: ruby
+
+   describe ini('path/to/ini_file.ini') do
+     its('port') { should eq '143' }
+     its('server') { should eq '192.0.2.62' }
+   end
 
 
 interface
