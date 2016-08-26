@@ -63,7 +63,7 @@ Options
 This subcommand has additional options:
 
 ``--format=FORMAT``
-
+   
 
 ``--profiles-path=PROFILES_PATH``
    Folder which contains referenced profiles.
@@ -109,7 +109,7 @@ This subcommand has additional options:
    Choose a backend: local, ssh, winrm, docker.
 
 ``--format=FORMAT``
-
+   
 
 ``--host=HOST``
    Specify a remote host which is tested.
@@ -405,6 +405,22 @@ This subcommand has the following syntax:
 .. code-block:: bash
 
    $ inspec supermarket SUBCOMMAND ...
+
+
+
+vendor
+=====================================================
+
+Download all dependencies and generate a lockfile
+
+Syntax
+-----------------------------------------------------
+
+This subcommand has the following syntax:
+
+.. code-block:: bash
+
+   $ inspec vendor
 
 
 
