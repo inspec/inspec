@@ -240,7 +240,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       print_line(
         color: '', indicator: @indicators['empty'], id: '', profile: '',
         summary: 'No tests executed.'
-      )
+      ) if @current_control.nil?
       output.puts('')
     end
 
