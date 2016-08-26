@@ -438,7 +438,7 @@ module Inspec::Resources
         ConvertTo-Json
       EOH
 
-      cmd = inspec.script(script)
+      cmd = inspec.powershell(script)
 
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0, try to parse json
@@ -448,18 +448,18 @@ module Inspec::Resources
         return nil
       end
 
-      user = params['User']['Caption'] unless params['User'].nil?
-      groups = params['Groups']
+      user_hash = params['User'] || {}
+      group_hashes = params['Groups'] || []
       # if groups is no array, generate one
-      groups = [groups] if !groups.is_a?(Array)
-      groups = groups.map { |grp| grp['Caption'] } unless params['Groups'].nil?
+      group_hashes = [group_hashes] unless group_hashes.is_a?(Array)
+      group_names = group_hashes.map { |grp| grp['Caption'] }
 
       {
-        uid: nil,
-        user: user,
+        uid: user_hash['SID'],
+        user: user_hash['Caption'],
         gid: nil,
         group: nil,
-        groups: groups,
+        groups: group_names,
       }
     end
 

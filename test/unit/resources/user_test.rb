@@ -100,6 +100,7 @@ describe 'Inspec::Resources::User' do
 
   it 'read user on Windows' do
     resource = MockLoader.new(:windows).load_resource('user', 'example/Administrator')
+    _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
     _(resource.group).must_equal nil
     _(resource.groups).must_equal ['WIN-K0AKLED332V\\Administrators', 'EXAMPLE\\Domain Admins']
