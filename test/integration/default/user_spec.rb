@@ -76,6 +76,8 @@ end
 if os.windows?
   describe user(userinfo[:name]) do
     it { should exist }
+    # should return the SID of the user
+    its('uid') { should_not eq nil}
   end
 else
   describe user(userinfo[:name]) do
