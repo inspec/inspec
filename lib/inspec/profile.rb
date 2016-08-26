@@ -15,9 +15,8 @@ module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
 
-    def self.resolve_target(target, opts)
+    def self.resolve_target(target)
       # Fetchers retrieve file contents
-      opts[:target] = target
       fetcher = Inspec::Fetcher.resolve(target)
       if fetcher.nil?
         fail("Could not fetch inspec profile in #{target.inspect}.")
@@ -33,7 +32,7 @@ module Inspec
     end
 
     def self.for_target(target, opts)
-      new(resolve_target(target, opts), opts)
+      new(resolve_target(target), opts.merge(target: target))
     end
 
     attr_reader :source_reader

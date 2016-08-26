@@ -14,6 +14,20 @@ require 'inspec/secrets'
 # spec requirements
 
 module Inspec
+  #
+  # Inspec::Runner coordinates the running of tests and is the main
+  # entry point to the application.
+  #
+  # Users are expected to insantiate a runner, add targets to be run,
+  # and then call the run method:
+  #
+  # ```
+  # r = Inspec::Runner.new()
+  # r.add_target("/path/to/some/profile")
+  # r.add_target("http://url/to/some/profile")
+  # r.run
+  # ```
+  #
   class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
     attr_reader :backend, :rules, :attributes
@@ -66,11 +80,97 @@ module Inspec
       options['attributes'] = attributes
     end
 
-    # Returns the profile context used the profile at this target.
+    #
+    # add_target allows the user to add a target whose tests will be
+    # run when the user calls the run method. This is the main entry
+    # point to profile loading.
+    #
+    # A target is a path or URL that points to a profile. Using this
+    # target we generate a Profile and a ProfileContext. The content
+    # (libraries, tests, and attributes) from the Profile are loaded
+    # into the ProfileContext.
+    #
+    # If the profile depends on other profiles, those profiles will be
+    # loaded on-demand when include_content or required_content are
+    # called using similar code in Inspec::DSL.
+    #
+    # Once the we've loaded all of the tests files in the profile, we
+    # query the profile for the full list of rules. Those rules are
+    # registered with the @test_collector which is ultimately
+    # responsible for actually running the tests.
+    #
+    # TODO: Deduplicate/clarify the loading code that exists in here,
+    # the ProfileContext, the Profile, and Inspec::DSL
+    #
+    # TODO: Libraries of dependent profiles should be loaded even when
+    # include_content/required_content aren't called.
+    #
+    # @params target [String] A path or URL to a profile or raw test.
+    #
+    # @params options [Hash] An options hash. The relevant options
+    # considered by this call path are:
+    #
+    # - `:ignore_supports`: A boolean that controls whether to ignore
+    #   the profile's metadata regarding supported Inspec versions or
+    #   platforms.
+    #
+    # - `:controls`: An array of controls to run from this
+    #    profile. Any returned rules that are not part of these
+    #    controls will be filtered before being passed to @test_collector.
+    #
+    # @eturns [Inspec::ProfileContext]
+    #
     def add_target(target, options = {})
       profile = Inspec::Profile.for_target(target, options)
       fail "Could not resolve #{target} to valid input." if profile.nil?
       add_profile(profile, options)
+    end
+
+    # Returns the profile context used to initialize this profile.
+    def add_profile(profile, options = {})
+      return if !options[:ignore_supports] && !supports_profile?(profile)
+      @test_collector.add_profile(profile)
+      add_content_from_profile(profile, options[:controls])
+    end
+
+    def add_content_from_profile(profile, controls)
+      return if profile.tests.nil? || profile.tests.empty?
+
+      ctx = Inspec::ProfileContext.for_profile(profile, @backend)
+      profile.runner_context = ctx
+
+      libs = profile.libraries.map do |k, v|
+        [v, k]
+      end
+
+      tests = profile.tests.map do |ref, content|
+        r = profile.source_reader.target.abs_path(ref)
+        { ref: r, content: content }
+      end
+
+      ctx.load_libraries(libs)
+      ctx.load_tests(tests)
+      @attributes |= ctx.attributes
+
+      filter_controls(ctx.all_rules, controls).each do |rule|
+        register_rule(rule)
+      end
+
+      ctx
+    end
+
+    #
+    # This is used by inspec-shell and inspec-detect.  This should
+    # probably be cleaned up a bit.
+    #
+    # @params [Hash] Options
+    # @returns [Inspec::ProfileContext]
+    #
+    def create_context(options = {})
+      meta = options[:metadata]
+      profile_id = nil
+      profile_id = meta.params[:name] unless meta.nil?
+      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
     end
 
     def supports_profile?(profile)
@@ -88,61 +188,6 @@ module Inspec
       end
 
       true
-    end
-
-    # Returns the profile context used to initialize this profile.
-    def add_profile(profile, options = {})
-      return if !options[:ignore_supports] && !supports_profile?(profile)
-
-      @test_collector.add_profile(profile)
-      options[:metadata] = profile.metadata
-      options[:profile] = profile
-
-      libs = profile.libraries.map do |k, v|
-        { ref: k, content: v }
-      end
-
-      tests = profile.tests.map do |ref, content|
-        r = profile.source_reader.target.abs_path(ref)
-        { ref: r, content: content }
-      end
-
-      add_content(tests, libs, options)
-    end
-
-    def create_context(options = {})
-      meta = options[:metadata]
-      profile_id = nil
-      profile_id = meta.params[:name] unless meta.nil?
-      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
-    end
-
-    # Returns the profile context used to evaluate the given content.
-    # Calling this method again will use a different context each time.
-    def add_content(tests, libs, options = {})
-      return if tests.nil? || tests.empty?
-
-      # load all libraries
-      ctx = create_context(options)
-      ctx.load_libraries(libs.map { |x| [x[:content], x[:ref], x[:line]] })
-
-      # hand the context to the profile for further evaluation
-      unless (profile = options[:profile]).nil?
-        profile.runner_context = ctx
-      end
-
-      # evaluate the test content
-      Array(tests).each { |t| add_test_to_context(t, ctx) }
-
-      # merge and collect all attributes
-      @attributes |= ctx.attributes
-
-      # process the resulting rules
-      filter_controls(ctx.all_rules, options[:controls]).each do |rule|
-        register_rule(rule)
-      end
-
-      ctx
     end
 
     # In some places we read the rules off of the runner, in other
@@ -167,12 +212,6 @@ module Inspec
     def_delegator :@test_collector, :reset
 
     private
-
-    def add_test_to_context(test, ctx)
-      content = test[:content]
-      return if content.nil? || content.empty?
-      ctx.load(content, test[:ref], test[:line])
-    end
 
     def filter_controls(controls_array, include_list)
       return controls_array if include_list.nil? || include_list.empty?
