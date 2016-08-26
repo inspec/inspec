@@ -210,12 +210,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     'passed'   => '  ✔  ',
     'unknown'  => '  ?  ',
     'empty'    => '     ',
-  }.freeze
-
-  TEST_INDICATORS = {
-    'failed'   => '     fail: ',
-    'skipped'  => '     skip: ',
-    'empty'    => '     ',
+    'small'    => '   ',
   }.freeze
 
   MULTI_TEST_CONTROL_SUMMARY_MAX_LEN = 60
@@ -223,18 +218,20 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def initialize(*args)
     @colors = COLORS
     @indicators = INDICATORS
-    @test_indicators = TEST_INDICATORS
 
     @format = '%color%indicator%id%summary'
     @current_control = nil
     @current_profile = nil
     @missing_controls = []
+    @anonymous_tests = []
     super(*args)
   end
 
   def close(_notification)
     flush_current_control
     output.puts('') unless @current_control.nil?
+    print_tests
+    output.puts('')
 
     @profiles_info.each do |_id, profile|
       next if profile[:already_printed]
@@ -274,13 +271,15 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     summary_status = STATUS_TYPES['unknown']
     skips = []
     fails = []
+    passes = []
     @current_control[:results].each do |r|
       i = STATUS_TYPES[r[:status_type]]
       summary_status = i if i > summary_status
       fails.push(r) if i > 0
+      passes.push(r) if i == STATUS_TYPES['passed']
       skips.push(r) if i == STATUS_TYPES['skipped']
     end
-    [fails, skips, STATUS_TYPES.key(summary_status)]
+    [fails, skips, passes, STATUS_TYPES.key(summary_status)]
   end
 
   def current_control_title
@@ -344,17 +343,39 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     lines.gsub(/\n/, "\n" + indentation)
   end
 
-  def print_fails_and_skips(all, color)
+  def print_results(all)
     all.each do |x|
-      indicator = @test_indicators[x[:status]]
-      indicator = @test_indicators['empty'] if all.length == 1 || indicator.nil?
+      test_status = x[:status_type]
+      test_color = @colors[test_status]
+      indicator = @indicators[x[:status]]
+      indicator = @indicators['empty'] if all.length == 1 || indicator.nil?
       msg = x[:message] || x[:skip_message] || x[:code_desc]
       print_line(
-        color:      color,
-        indicator:  indicator,
-        summary:    format_lines(msg, @test_indicators['empty']),
+        color:      test_color,
+        indicator:  @indicators['small'] + indicator,
+        summary:    format_lines(msg, @indicators['empty']),
         id: nil, profile: nil
       )
+    end
+  end
+
+  def print_tests
+    @anonymous_tests.each do |control|
+      control_result = control[:results]
+      title = control_result[0][:code_desc].split[0..1].join(' ')
+      puts '  ' + title
+      control_result.each do |test|
+        control_id = ''
+        test_result = test[:code_desc].split[2..-1].join(' ')
+        status_indicator = test[:status_type]
+        print_line(
+          color:      @colors[status_indicator] || '',
+          indicator:  @indicators['small'] + @indicators[status_indicator] || @indicators['unknown'],
+          summary:    format_lines(test_result, @indicators['empty']),
+          id:         control_id,
+          profile:    control[:profile_id],
+        )
+      end
     end
   end
 
@@ -365,22 +386,24 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     @current_profile = @profiles_info[@current_control[:profile_id]]
     print_current_profile if prev_profile != @current_profile
 
-    fails, skips, summary_indicator = current_control_infos
+    fails, skips, passes, summary_indicator = current_control_infos
     summary = current_control_summary(fails, skips)
 
     control_id = @current_control[:id].to_s
     control_id += ': '
-    control_id = '' if control_id.start_with? '(generated from '
+    if control_id.start_with? '(generated from '
+      @anonymous_tests.push(@current_control)
+    else
+      print_line(
+        color:      @colors[summary_indicator] || '',
+        indicator:  @indicators[summary_indicator] || @indicators['unknown'],
+        summary:    format_lines(summary, @indicators['empty']),
+        id:         control_id,
+        profile:    @current_control[:profile_id],
+      )
 
-    print_line(
-      color:      @colors[summary_indicator] || '',
-      indicator:  @indicators[summary_indicator] || @indicators['unknown'],
-      summary:    format_lines(summary, @indicators['empty']),
-      id:         control_id,
-      profile:    @current_control[:profile_id],
-    )
-
-    print_fails_and_skips(fails + skips, @colors[summary_indicator] || '')
+      print_results(fails + skips + passes)
+    end
   end
 
   def print_target(before, after)
