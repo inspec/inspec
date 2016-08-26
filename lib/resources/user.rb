@@ -49,7 +49,7 @@ module Inspec::Resources
         its('gid') { should eq 1234 }
       end
     "
-    def initialize(user)
+    def initialize(user = nil)
       @user = user
 
       # select package manager
@@ -73,6 +73,13 @@ module Inspec::Resources
         return skip_resource 'The `user` resource is not supported on your OS yet.'
       end
     end
+
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:uids, field: 'uid', style: :simple)
+          .add(:listening?) { |x| x.entries.length > 0 }
+    filter.connect(self, :all_users)
 
     def exists?
       !identity.nil? && !identity[:user].nil?
@@ -175,6 +182,13 @@ module Inspec::Resources
       return @cred_cache if defined?(@cred_cache)
       @cred_cache = @user_provider.credentials(@user) if !@user_provider.nil?
     end
+
+    def all_users
+      require 'pry'; binding.pry
+      @all_users_cache ||= @user_provider.all_users unless @user_provider.nil?
+      binding.pry
+      @all_users_cache
+    end
   end
 
   class UserInfo
@@ -187,15 +201,26 @@ module Inspec::Resources
 
     def credentials(_username)
     end
+
+    def all_users
+      raise 'Must be implemented in any User providers'
+    end
   end
 
   # implements generic unix id handling
   class UnixUser < UserInfo
-    attr_reader :inspec, :id_cmd
+    attr_reader :inspec, :id_cmd, :list_users_cmd
     def initialize(inspec)
       @inspec = inspec
       @id_cmd ||= 'id'
+      @list_users_cmd ||= 'cut -d: -f1 /etc/passwd | grep -v "^#"'
       super
+    end
+
+    def all_users
+      cmd = inspec.command(list_users_cmd)
+      return [] if cmd.exit_status != 0
+      cmd.stdout.chomp.lines.map { |username| identity(username.chomp) }
     end
 
     # parse one id entry like '0(wheel)''
@@ -350,6 +375,11 @@ module Inspec::Resources
   # @see https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/dscl.1.html
   # @see http://superuser.com/questions/592921/mac-osx-users-vs-dscl-command-to-list-user
   class DarwinUser < UnixUser
+    def initialize(inspec)
+      @list_users_cmd ||= 'dscl . list /Users'
+      super
+    end
+
     def meta_info(username)
       cmd = inspec.command("dscl -q . -read /Users/#{username} NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell")
       return nil if cmd.exit_status != 0
@@ -411,6 +441,12 @@ module Inspec::Resources
       name = account.pop
       domain = account.pop if account.size > 0
       [name, domain]
+    end
+
+    def all_users
+      script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
+      cmd = inspec.powershell(script)
+      cmd.stdout.chomp.lines.map { |username| identity(username.chomp) }
     end
 
     def identity(username)
