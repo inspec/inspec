@@ -1,7 +1,61 @@
 # Change Log
 
-## [0.31.0](https://github.com/chef/inspec/tree/0.31.0) (2016-08-19)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.30.0...0.31.0)
+## [0.32.0](https://github.com/chef/inspec/tree/0.32.0) (2016-08-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.31.0...0.32.0)
+
+**Implemented enhancements:**
+
+- Provide SSL InSpec with full demo [\#903](https://github.com/chef/inspec/issues/903)
+- improve package resource on windows [\#86](https://github.com/chef/inspec/issues/86)
+- can check windows service startup mode now [\#968](https://github.com/chef/inspec/pull/968) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- Resolved an issue checking ports on windows [\#962](https://github.com/chef/inspec/pull/962) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Grouping multiple `it` blocks in one `describe` blocks ruins console output during test runs [\#918](https://github.com/chef/inspec/issues/918)
+- Windows default path format causes errors with inspec check [\#672](https://github.com/chef/inspec/issues/672)
+- bugfix windows forward slashes handling [\#963](https://github.com/chef/inspec/pull/963) ([chris-rock](https://github.com/chris-rock))
+- Fix command evaluation for inspec shell -c [\#943](https://github.com/chef/inspec/pull/943) ([ksubrama](https://github.com/ksubrama))
+
+**Closed issues:**
+
+- Support sid for user resource [\#960](https://github.com/chef/inspec/issues/960)
+- Create and load Lockfiles for dependencies [\#950](https://github.com/chef/inspec/issues/950)
+- Implement test cases for inspec shell [\#942](https://github.com/chef/inspec/issues/942)
+- Transitive dependency loading [\#915](https://github.com/chef/inspec/issues/915)
+- Document InSpec OR features [\#853](https://github.com/chef/inspec/issues/853)
+- Document ini resource [\#848](https://github.com/chef/inspec/issues/848)
+- Document special service resources [\#495](https://github.com/chef/inspec/issues/495)
+
+**Merged pull requests:**
+
+- Reformat service resource docs for discoverability [\#986](https://github.com/chef/inspec/pull/986) ([stevendanna](https://github.com/stevendanna))
+- Generate documentation for the `vendor` command [\#985](https://github.com/chef/inspec/pull/985) ([stevendanna](https://github.com/stevendanna))
+- suport for ruby 2.2.2 [\#983](https://github.com/chef/inspec/pull/983) ([chris-rock](https://github.com/chris-rock))
+- Add windows user SID as 'UID' in user resource. Fix \#960 [\#982](https://github.com/chef/inspec/pull/982) ([ksubrama](https://github.com/ksubrama))
+- document ini resource [\#981](https://github.com/chef/inspec/pull/981) ([vjeffrey](https://github.com/vjeffrey))
+- Upgrade FFI to Ruby 2.3 issues on windows [\#980](https://github.com/chef/inspec/pull/980) ([ksubrama](https://github.com/ksubrama))
+- move train connection out of loop for command\_simulator [\#979](https://github.com/chef/inspec/pull/979) ([vjeffrey](https://github.com/vjeffrey))
+- Update port.rb Documentation [\#978](https://github.com/chef/inspec/pull/978) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- first pass at collecting command output for demo [\#977](https://github.com/chef/inspec/pull/977) ([vjeffrey](https://github.com/vjeffrey))
+- Fix `rake` to work again [\#976](https://github.com/chef/inspec/pull/976) ([jkeiser](https://github.com/jkeiser))
+- Fix `bundle install` on Ruby 2.1.9 [\#975](https://github.com/chef/inspec/pull/975) ([jkeiser](https://github.com/jkeiser))
+- Initial control isolation support [\#973](https://github.com/chef/inspec/pull/973) ([stevendanna](https://github.com/stevendanna))
+- Allow JSON 2.x [\#972](https://github.com/chef/inspec/pull/972) ([chris-rock](https://github.com/chris-rock))
+- Add Ruby 2.3 to the test matrix, make it the primary test for most suites [\#971](https://github.com/chef/inspec/pull/971) ([jkeiser](https://github.com/jkeiser))
+- Speed up windows package lookup [\#970](https://github.com/chef/inspec/pull/970) ([ksubrama](https://github.com/ksubrama))
+- Expand relative paths based on profile location [\#965](https://github.com/chef/inspec/pull/965) ([stevendanna](https://github.com/stevendanna))
+- restructure test suites in travis [\#964](https://github.com/chef/inspec/pull/964) ([chris-rock](https://github.com/chris-rock))
+- Replace Molinillo-based resolver [\#961](https://github.com/chef/inspec/pull/961) ([stevendanna](https://github.com/stevendanna))
+- Add prototype of inspec.lock [\#949](https://github.com/chef/inspec/pull/949) ([stevendanna](https://github.com/stevendanna))
+- document OR feature [\#947](https://github.com/chef/inspec/pull/947) ([vjeffrey](https://github.com/vjeffrey))
+- print controls, then tests; print header of describe, then individual test results [\#946](https://github.com/chef/inspec/pull/946) ([vjeffrey](https://github.com/vjeffrey))
+- Add darwin helper [\#945](https://github.com/chef/inspec/pull/945) ([tas50](https://github.com/tas50))
+- Update platforms in the docs to match the code [\#944](https://github.com/chef/inspec/pull/944) ([tas50](https://github.com/tas50))
+- Add integration tests for file owner on windows [\#923](https://github.com/chef/inspec/pull/923) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.31.0](https://github.com/chef/inspec/tree/v0.31.0) (2016-08-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.30.0...v0.31.0)
 
 **Implemented enhancements:**
 

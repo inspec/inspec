@@ -152,6 +152,7 @@ task :bump_version, [:version] do |_, args|
   check_update_requirements
   inspec_version(v)
   Rake::Task['changelog'].invoke
+  Rake::Task['docs:cli'].invoke
 end
 
 desc 'Release a new docker image'
