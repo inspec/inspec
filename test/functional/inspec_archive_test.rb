@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'functional/helper'
+require 'tmpdir'
 
 describe 'inspec archive' do
   include FunctionalHelper
@@ -34,11 +35,13 @@ describe 'inspec archive' do
   end
 
   it 'archive on invalid archive' do
-    out = inspec('archive /proc --output ' + dst.path)
-    # out.stdout.must_equal '' => we have partial stdout output right now
-    out.stderr.must_include "Don't understand inspec profile in \"/proc\""
-    out.exit_status.must_equal 1
-    File.exist?(dst.path).must_equal false
+    Dir.tmpdir do |target_dir|
+      out = inspec('archive #{target_dir} --output ' + dst.path)
+      # out.stdout.must_equal '' => we have partial stdout output right now
+      out.stderr.must_include "Don't understand inspec profile in \"#{target_dir}\""
+      out.exit_status.must_equal 1
+      File.exist?(dst.path).must_equal false
+    end
   end
 
   it 'archive wont overwrite existing files' do

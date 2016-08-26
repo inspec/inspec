@@ -7,4 +7,5 @@ license: Proprietary, All rights reserved
 summary: Testing stub
 version: 1.0.0
 supports:
-- os-family: linux
+  - linux
+  - darwin
