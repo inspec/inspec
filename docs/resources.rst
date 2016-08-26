@@ -4237,8 +4237,17 @@ Under some circumstances, it may be required to override the logic in place to s
     it { should be_running }
   end
 
-This is also possible with `systemd_service`, `runit_service`, `sysv_service`, `bsd_service`, and `launchd_service`.
-You can also provide the control command, for when it is not to be found at the default location.
+The following service-manager-specific resources are available:
+
+* ``systemd_service``,
+* ``runit_service``,
+* ``sysv_service``,
+* ``bsd_service``, and
+* ``launchd_service``.
+
+These resources support the same matchers as the `service` resource.
+
+You can also provide the path to the service manager's control tool. This is useful in cases when it isn't available in the current `PATH`.
 For example, if your `sv` command for services managed by Runit is not in PATH:
 
 .. code-block:: ruby
