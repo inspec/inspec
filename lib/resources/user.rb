@@ -438,7 +438,7 @@ module Inspec::Resources
         ConvertTo-Json
       EOH
 
-      cmd = inspec.script(script)
+      cmd = inspec.powershell(script)
 
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0, try to parse json
