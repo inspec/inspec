@@ -48,6 +48,14 @@ module Inspec
       @subcontexts << context
     end
 
+    def load_tests(tests)
+      tests.each do |t|
+        content = t[:content]
+        next if content.nil? || content.empty?
+        load(content, t[:ref], t[:line])
+      end
+    end
+
     def load_libraries(libs)
       lib_prefix = 'libraries' + File::SEPARATOR
       autoloads = []
