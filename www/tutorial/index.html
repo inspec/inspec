@@ -13,6 +13,9 @@
     <script src="node_modules/systemjs/dist/system.src.js"></script>
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
+    <!-- 3. Load Xterm -->
+    <script src="node_modules/xterm/src/xterm.js"></script>
+    <script src="node_modules/xterm/addons/fit/fit.js"></script>
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>

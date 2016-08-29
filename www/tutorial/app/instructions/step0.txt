@@ -1,7 +1,11 @@
-Step 0
-write words here to tell people what to do.
-
-stand up! turn around! reach high for the sky!
-well done!
-now start by typing
-'next'
+  <b>Welcome to the interactive InSpec demo!</b>
+  <p>
+    This tutorial is great for getting familiar with InSpec. There are 3 sections:
+  </p>
+  <ol>
+    <!--TODO: give these real links-->
+    <li><a href="...">InSpec commandline interface</a></li>
+    <li><a href="...">InSpec interactive shell</a></li>
+    <li><a href="...">Create test and compliance profile</a></li>
+  </ol>
+  <p><b>Use the command "next" to move forward</b> or "prev" to move backwards.</p>

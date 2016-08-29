@@ -1,9 +1,28 @@
-<h1>InSpec Demo</h1>
-<div class="demo-view">
-  <div class="instructions">
-    <div class="instructions-content">
-      <pre> {{instructions}} </pre>
-    </div>
-  </div>
-  <terminal-view [responsesArray]="responsesArray" (stepCounter)="stepCounter=$event"></terminal-view>
+<div class="terminal-nav">
+  <!--TODO: make these functional-->
+  <span> < </span>
+  <span> > </span>
+  <span> x </span>
+</div>
+
+<div class="guide" *ngIf="counter === 0">
+  Welcome to the interactive InSpec demo!
+  <p>
+    This tutorial is great for getting familiar with InSpec. There are 3 sections:
+  </p>
+  <ol>
+    <!--TODO: give these real links-->
+    <li><a href="...">InSpec commandline interface</a></li>
+    <li><a href="...">InSpec interactive shell</a></li>
+    <li><a href="...">Create test and compliance profile</a></li>
+  </ol>
+  <p>Use the command "next" to move forward or "prev" to move backwards.</p>
+</div>
+
+<div class="guide" *ngIf="counter > 0">
+  <pre > {{ instructions }} </pre>
+</div>
+
+<div class="cli">
+  <xterm-terminal (stepNumber)="updateInstructions(stepNumber=$event)" [responsesArray]="responsesArray"></xterm-terminal>
 </div>

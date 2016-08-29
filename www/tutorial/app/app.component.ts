@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, SimpleChange } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HTTP_PROVIDERS } from '@angular/http';
-import { TerminalViewComponent } from './terminal-view/terminal-view.component';
+import { XtermTerminalComponent } from './xterm-terminal/xterm-terminal.component';
 
 @Component({
   selector: 'my-app',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css'],
   providers: [ HTTP_PROVIDERS ],
-  directives: [ TerminalViewComponent ]
+  directives: [ XtermTerminalComponent ]
 })
 
 export class AppComponent implements OnInit {
   instructions: any;
-  currentStep: number = 0;
   instructionsArray: any;
   responsesArray: any;
+  counter: number;
 
   constructor(private http: Http) { }
 
@@ -25,8 +25,12 @@ export class AppComponent implements OnInit {
     this.getResponses();
   }
 
-  updateInstructions() {
-    this.instructions = this.instructionsArray[this.currentStep]['_body'];
+  updateInstructions(step) {
+    if (step < 0) {
+      step = 0
+    }
+    this.counter = step;
+    this.instructions = this.instructionsArray[step]['_body'];
   }
 
   getInstructions() {
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit {
     ).subscribe(
       data => {
         this.instructionsArray = data;
-        this.updateInstructions();
+        this.updateInstructions(0);
       },
       err => console.error(err)
     );
