@@ -119,6 +119,7 @@ if os.linux?
     it { should cmp '0' }
     it { should cmp '00' }
     it { should_not cmp 1 }
+    it { should_not cmp '01' }
   end
 
 end
