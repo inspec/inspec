@@ -115,6 +115,10 @@ if os.linux?
 
   describe 0 do
     it { should cmp 0 }
+    it { should cmp 00 }
     it { should cmp '0' }
+    it { should cmp '00' }
+    it { should_not cmp 1 }
   end
+
 end
