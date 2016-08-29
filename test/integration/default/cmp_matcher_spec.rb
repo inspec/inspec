@@ -112,4 +112,9 @@ if os.linux?
     it { should cmp 'False' }
     it { should cmp false }
   end
+
+  describe 0 do
+    it { should cmp 0 }
+    it { should cmp '0' }
+  end
 end

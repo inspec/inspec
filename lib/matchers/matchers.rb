@@ -232,7 +232,7 @@ end
 RSpec::Matchers.define :cmp do |first_expected|
 
   def integer?(value)
-    !(value =~ /\A[1-9]\d*\Z/).nil?
+    !(value =~ /\A[0-9]\d*\Z/).nil?
   end
 
   def float?(value)
