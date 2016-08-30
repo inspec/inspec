@@ -1,4 +1,4 @@
-Berksfile         Dockerfile        LICENSE           Rakefile          docs              lib               test
-Berksfile.lock    Gemfile           MAINTAINERS.md    appveyor.yml      examples          omnibus           www
-CHANGELOG.md      Gemfile.lock      MAINTAINERS.toml  bin               inspec-0.30.0.gem profile.tar.gz
-CONTRIBUTING.md   ISSUE_TEMPLATE.md README.md         coverage          inspec.gemspec    tasks
+Berksfile         CONTRIBUTING.md   Gemfile.lock      MAINTAINERS.md    Rakefile          coverage          inspec-0.30.0.gem
+omnibus           test              Berksfile.lock    Dockerfile        ISSUE_TEMPLATE.md MAINTAINERS.toml  appveyor.yml
+docs              inspec.gemspec    profile.tar.gz    www               CHANGELOG.md      Gemfile           LICENSE
+README.md         bin               examples          lib               tasks

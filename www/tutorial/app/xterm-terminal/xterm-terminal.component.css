@@ -12,6 +12,7 @@ classes, so i added a host and /deep/ call to ensure they get set*/
     background-color: black;
     color: #fafafa;
     padding: 2px;
+    outline: 0;
 }
 
 :host /deep/ .terminal:focus .terminal-cursor {

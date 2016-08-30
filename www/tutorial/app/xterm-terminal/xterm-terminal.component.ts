@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 declare var Terminal: any;
 
 @Component({
@@ -7,25 +7,41 @@ declare var Terminal: any;
   styleUrls: ['app/xterm-terminal/xterm-terminal.component.css']
 })
 export class XtermTerminalComponent implements OnInit {
+  @Input() response: string;
   @Input() responsesArray: any;
-  @Output() stepNumber: EventEmitter<number> = new EventEmitter<number>();
-  step: number = 0;
-  shellprompt: string;
+  @Input() shell: string;
+  @Output() command: EventEmitter<string> = new EventEmitter<string>();
+  previousCommands: any = [];
+  last: number;
+  currentResponse: string;
+  shellStatus: string;
   buffer: string = '';
+
+  // xterm variables
   terminalContainer: any;
   term: any;
   optionElements: any;
-  cols: any;
-  rows: any;
+  cols: string;
+  rows: string;
+  shellprompt: string = '$ ';
+
 
  ngOnInit() {
     this.terminalContainer = document.getElementById('terminal-container'),
     this.optionElements = {
-      cursorBlink: document.querySelector('#option-cursor-blink')
+      cursorBlink: true
     },
     this.cols = '70',
     this.rows = '70';
     this.createTerminal();
+  }
+
+  ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+    if (changes['response'] && this.term) {
+      this.currentResponse = changes['response'].currentValue;
+      this.term.writeln(this.currentResponse);
+      this.setPrompt();
+    }
   }
 
   createTerminal() {
@@ -52,99 +68,67 @@ export class XtermTerminalComponent implements OnInit {
     if (this.term._initialized) {
       return;
     }
-
     this.term._initialized = true;
-    this.setPrompt();
-
-    this.term.writeln('WELCOME TO YOUR INSPEC DEMO SHELL FOOL!');
-    this.term.writeln('');
     this.setPrompt();
   }
 
   setPrompt() {
-    this.buffer = ''
-    this.shellprompt = '$ ';
-    this.term.write('\r\n' + this.shellprompt);
-  }
-
-  setInspecShellPrompt() {
-    this.term.write('\r\ninspec> ');
-    this.setPrompt();
+    this.buffer = '';
+    if (this.shell === 'inspec-shell') {
+      this.term.write('\r\ninspec> ');
+    } else {
+      this.term.write('\r\n' + this.shellprompt);
+    }
   }
 
   onKey(ev) {
     var shell = null
-    var printable = (!ev.altKey && !ev.altGraphKey && !ev.ctrlKey && !ev.metaKey)
+    var printable = ['Alt', 'Control', 'Meta', 'Shift', 'CapsLock', 'Tab', 'Escape'].indexOf(ev.key) == -1
 
-    // on enter, check buffer and print response
+    // on enter, save command to array and send current value of buffer
+    // to parent component (app).  if the command is the same as the previous command
+    // entered, we just diplay the currentResponse. the reason this is being done here and
+    // not in the app component is because the ngOnChanges that tracks the value of the
+    // emitted event won't recognize that there has been a change if it is the same
     if (ev.keyCode == 13) {
+      this.previousCommands.push(this.buffer);
       this.term.write('\r\n');
-
-      // play with inspec shell
-      if (this.buffer == 'inspec shell') {
-        shell = 'inspec-shell'
-        this.term.writeln('Welcome to the interactive InSpec Shell');
-        this.term.writeln('To find out how to use it, type: help')
-        this.setInspecShellPrompt();
+      if (this.previousCommands.length > 1) {
+        this.last = this.previousCommands.length - 2
       }
-
-      // exit inspec shell
-      if (this.buffer == 'exit' && shell == 'inspec-shell' ) {
-        shell = null
+      if (this.buffer === this.previousCommands[this.last]) {
+        this.term.writeln(this.currentResponse);
         this.setPrompt();
       }
-
-      // TODO: functionality for inspec shell
-      if (shell == 'inspec-shell') {
-        if (this.buffer == 'os.params') {
-          this.term.writeln('print file content for shell');
-        }
-
-      } else {
-        // match on various commands or print inspec help
-        if (this.buffer.match(/^inspec\s*exec\s*.*/)) {
-          this.parseInspecExec(this.buffer);
-        }
-        else if (this.buffer.match(/^inspec\s*version\s*/)) {
-          this.term.writeln(this.responsesArray[4]['_body']);
-          this.setPrompt();
-        }
-        else if (this.buffer.match(/^next\s*/)) {
-          this.step += 1;
-          this.stepNumber.emit(this.step);
-          this.setPrompt();
-        }
-        else if (this.buffer.match(/^previous\s*/)) {
-          this.step -= 1;
-          this.stepNumber.emit(this.step);
-          this.setPrompt();
-        }
-        else {
-          this.term.writeln(this.responsesArray[0]['_body']);
-          this.setPrompt();
-        }
+      else {
+        this.command.emit(this.buffer);
       }
-
+    }
     // on backspace, pop characters from buffer
-    } else if (ev.keyCode == 8) {
+    else if (ev.keyCode == 8) {
       if (this.term.x > 2) {
-        this.buffer = this.buffer.substr(0, this.buffer.length-1)
+        this.buffer = this.buffer.substr(0, this.buffer.length-1);
         this.term.write('\b \b');
       }
-    } else if (printable) {
+    }
+    // on up arrow, delete anything on line and print previous command
+    else if (ev.keyCode === 38) {
+      let last;
+      if (this.previousCommands.length > 0) {
+        last = this.previousCommands.pop();
+      } else {
+        last = '';
+      }
+      let letters = this.term.x - 2;
+      for (var i = 0; i < letters; i++) {
+        this.term.write('\b \b');
+      }
+      this.term.write(last);
+    }
+    // write each character on prompt line
+    else if (printable) {
       this.term.write(ev.key);
       this.buffer += ev.key;
-    }
-  }
-
-  parseInspecExec(value) {
-    let target = value.match(/^inspec exec\s*(.*)/);
-    if (target[1] === 'examples/profile') {
-      this.term.writeln(this.responsesArray[3]['_body']);
-      this.setPrompt();
-    } else {
-      this.term.writeln("Could not fetch inspec profile in '" + target[1] + "' ");
-      this.setPrompt();
     }
   }
 }

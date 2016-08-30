@@ -1,7 +1,6 @@
 <div class="terminal-nav">
-  <!--TODO: make these functional-->
-  <span> < </span>
-  <span> > </span>
+  <span (click)="updateInstructions('prev')"> < </span>
+  <span (click)="updateInstructions('next')"> > </span>
   <span> x </span>
 </div>
 
@@ -20,9 +19,9 @@
 </div>
 
 <div class="guide" *ngIf="counter > 0">
-  <pre > {{ instructions }} </pre>
+  <pre> {{ instructions }} </pre>
 </div>
 
 <div class="cli">
-  <xterm-terminal (stepNumber)="updateInstructions(stepNumber=$event)" [responsesArray]="responsesArray"></xterm-terminal>
+  <xterm-terminal (command)="evalCommand(command=$event)" [responsesArray]="responsesArray" [response]="response" [shell]="shell"></xterm-terminal>
 </div>

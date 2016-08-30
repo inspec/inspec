@@ -7,5 +7,7 @@
 /node_modules
 npm-debug.log
 
-*.js
-*.js.map
+app/*.js
+app/*.map
+app/**/*.js
+app/**/*.map
