@@ -4,6 +4,7 @@
 require 'inspec/log'
 require 'inspec/rule'
 require 'inspec/dsl'
+require 'inspec/resource'
 require 'inspec/require_loader'
 require 'securerandom'
 require 'inspec/objects/attribute'
@@ -11,10 +12,12 @@ require 'inspec/objects/attribute'
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
     def self.for_profile(profile, backend)
-      new(profile.name, backend, { 'profile' => profile })
+      c = new(profile.name, backend, { 'profile' => profile })
+      c.load_profile_content(profile)
     end
 
-    attr_reader :attributes, :rules, :profile_id
+    attr_reader :attributes, :rules, :profile_id, :resource_registry
+    attr_reader :profile_execution_context
     def initialize(profile_id, backend, conf)
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
@@ -29,13 +32,25 @@ module Inspec
       @dependencies = conf['profile'].locked_dependencies unless conf['profile'].nil?
       @require_loader = ::Inspec::RequireLoader.new
       @attributes = []
-      reload_dsl
+      # A local resource registry that only contains resources defined
+      # in the transitive dependency tree of the loaded profile.
+      @resource_registry = Inspec::Resource.new_registry
+    end
+
+    def to_resources_dsl
+      Inspec::Resource.create_dsl(@backend, @resource_registry)
+    end
+
+    def profile_execution_context
+      @profile_execution_context ||= begin
+                                       resources_dsl = to_resources_dsl
+                                       ctx = create_context(resources_dsl)
+                                       ctx.new(@backend, @conf, @dependencies, @require_loader)
+                                     end
     end
 
     def reload_dsl
-      resources_dsl = Inspec::Resource.create_dsl(@backend)
-      ctx = create_context(resources_dsl, rule_context(resources_dsl))
-      @profile_context = ctx.new(@backend, @conf, @dependencies, @require_loader)
+      @profile_execution_context = nil
     end
 
     def all_rules
@@ -45,15 +60,32 @@ module Inspec
     end
 
     def add_subcontext(context)
+      Inspec::Log.debug("Adding subcontext #{context} to #{self}")
+      @resource_registry.merge!(context.resource_registry)
+      reload_dsl
       @subcontexts << context
     end
 
-    def load_tests(tests)
-      tests.each do |t|
-        content = t[:content]
+    def load_profile_content(profile)
+      # load_attributes_from_profile(profile)
+      load_libraries_from_profile(profile)
+      load_tests_from_profile(profile)
+      self
+    end
+
+    def load_tests_from_profile(profile)
+      profile.tests.each do |path, content|
         next if content.nil? || content.empty?
-        load(content, t[:ref], t[:line])
+        abs_path = profile.source_reader.target.abs_path(path)
+        load(content, abs_path, nil)
       end
+    end
+
+    def load_libraries_from_profile(profile)
+      libs = profile.libraries.map do |path, content|
+        [content, path]
+      end
+      load_libraries(libs)
     end
 
     def load_libraries(libs)
@@ -71,11 +103,12 @@ module Inspec
       end
 
       # load all files directly that are flat inside the libraries folder
-      autoloads.each do |path|
-        next unless path.end_with?('.rb')
-        load(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+      Inspec::Resource.with_local_registry(@resource_registry) do
+        autoloads.each do |path|
+          next unless path.end_with?('.rb')
+          load(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+        end
       end
-
       reload_dsl
     end
 
@@ -83,11 +116,11 @@ module Inspec
       Inspec::Log.debug("Loading #{source || '<anonymous content>'} into #{self}")
       @current_load = { file: source }
       if content.is_a? Proc
-        @profile_context.instance_eval(&content)
+        profile_execution_context.instance_eval(&content)
       elsif source.nil? && line.nil?
-        @profile_context.instance_eval(content)
+        profile_execution_context.instance_eval(content)
       else
-        @profile_context.instance_eval(content, source || 'unknown', line || 1)
+        profile_execution_context.instance_eval(content, source || 'unknown', line || 1)
       end
     end
 
@@ -151,7 +184,8 @@ module Inspec
     #
     # @param outer_dsl [OuterDSLClass]
     # @return [ProfileContextClass]
-    def create_context(resources_dsl, rule_class) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def create_context(resources_dsl) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      rule_class = rule_context(resources_dsl)
       profile_context_owner = self
       profile_id = @profile_id
 
@@ -216,6 +250,13 @@ module Inspec
         end
 
         define_method :add_subcontext do |context|
+          Inspec::Log.debug("Adding resource_dsl from #{context} with registry #{context.resource_registry.keys}")
+          self.class.class_eval do
+            include context.to_resources_dsl
+          end
+          rule_class.class_eval do
+            include context.to_resources_dsl
+          end
           profile_context_owner.add_subcontext(context)
         end
 

@@ -20,3 +20,9 @@ control 'profilea-1' do                        # A unique ID for this control
     it { should be_directory }
   end
 end
+
+control 'profilea-2' do
+  describe gordon_config do
+    its('version') { should eq('1.0') }
+  end
+end

@@ -52,14 +52,6 @@ module Inspec
       @test_collector.tests
     end
 
-    def normalize_map(hm)
-      res = {}
-      hm.each {|k, v|
-        res[k.to_s] = v
-      }
-      res
-    end
-
     def configure_transport
       @backend = Inspec::Backend.create(@conf)
       @test_collector.backend = @backend
@@ -138,18 +130,6 @@ module Inspec
 
       ctx = Inspec::ProfileContext.for_profile(profile, @backend)
       profile.runner_context = ctx
-
-      libs = profile.libraries.map do |k, v|
-        [v, k]
-      end
-
-      tests = profile.tests.map do |ref, content|
-        r = profile.source_reader.target.abs_path(ref)
-        { ref: r, content: content }
-      end
-
-      ctx.load_libraries(libs)
-      ctx.load_tests(tests)
       @attributes |= ctx.attributes
 
       filter_controls(ctx.all_rules, controls).each do |rule|

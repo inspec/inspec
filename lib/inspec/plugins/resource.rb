@@ -48,12 +48,9 @@ module Inspec
             @__backend_runner__
           end
         end
-        # rubocop:enable Lint/NestedMethodDefinition
 
-        # add the resource to the registry by name with a newly-named registry class
-        klass_name = name.split('_').map(&:capitalize).join
-        Inspec::Resource::Registry.const_set(klass_name, cl)
-        Inspec::Resource.registry[name] = Inspec::Resource::Registry.const_get(klass_name)
+        # rubocop:enable Lint/NestedMethodDefinition
+        Inspec::Resource.registry[name] = cl
       end
 
       # Define methods which are available to all resources
