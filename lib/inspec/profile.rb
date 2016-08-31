@@ -75,7 +75,7 @@ module Inspec
         tests.each do |path, content|
           next if content.nil? || content.empty?
           abs_path = source_reader.target.abs_path(path)
-          @runner_context.load(content, abs_path, nil)
+          @runner_context.load_control_file(content, abs_path, nil)
         end
         @tests_collected = true
       end

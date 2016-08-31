@@ -3,26 +3,10 @@
 # license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'thread'
 require 'inspec/plugins'
 
 module Inspec
   class Resource
-    REGISTRY_LOCK = Mutex.new
-
-    class Registry
-      # empty class for namespacing resource classes in the registry
-    end
-
-    def self.with_local_registry(my_registry, &block)
-      REGISTRY_LOCK.synchronize do
-        old_registry = @registry
-        @registry = my_registry
-        block.call
-        @registry = old_registry
-      end
-    end
-
     def self.default_registry
       @default_registry ||= {}
     end
@@ -59,10 +43,14 @@ module Inspec
   # @param [int] version the resource version to use
   # @return [Resource] base class for creating a new resource
   def self.resource(version)
+    validate_resource_dsl_version!(version)
+    Inspec::Plugins::Resource
+  end
+
+  def self.validate_resource_dsl_version!(version)
     if version != 1
       fail 'Only resource version 1 is supported!'
     end
-    Inspec::Plugins::Resource
   end
 end
 
