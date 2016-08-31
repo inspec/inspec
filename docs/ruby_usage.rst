@@ -38,7 +38,7 @@ The following example shows how you can use pure |ruby| code(variables, loops, c
           # check key file owners and permissions
           describe file(intern['key']) do
             it { should be_owned_by username }
-            its('mode') { should eq 0600 }
+            its('mode') { should cmp '0600' }
           end
         end
       end

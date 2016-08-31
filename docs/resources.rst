@@ -1308,7 +1308,7 @@ The ``mode`` matcher tests if the mode assigned to the file matches the specifie
 
 .. code-block:: ruby
 
-   its('mode') { should eq 0644 }
+   its('mode') { should cmp '0644' }
 
 mtime
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1491,7 +1491,7 @@ The following examples show how to use this InSpec audit resource.
 .. code-block:: bash
 
    describe file('/dev') do
-    its('mode') { should eq 00755 }
+    its('mode') { should cmp '00755' }
    end
 
 **Test the owner of a file**
@@ -4331,7 +4331,7 @@ The following examples show how to use this InSpec audit resource.
 
    describe ssh_config do
      its('owner') { should eq 'root' }
-     its('mode') { should eq 644 }
+     its('mode') { should cmp '0644' }
    end
 
 **Test SSH configuration**
