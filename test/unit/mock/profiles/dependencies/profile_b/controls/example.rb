@@ -17,6 +17,6 @@ end
 
 control 'profileb-2' do
   describe gordon_config do
-    its('version') { should eq('1.0') }
+    its('version') { should eq('2.0') }
   end
 end

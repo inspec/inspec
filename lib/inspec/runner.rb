@@ -30,11 +30,18 @@ module Inspec
   #
   class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
+
+    def_delegator :@test_collector, :report
+    def_delegator :@test_collector, :reset
+
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = []
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
+      @target_profiles = []
+      @controls = @conf[:controls] || []
+      @ignore_supports = @conf[:ignore_supports]
 
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
@@ -57,6 +64,26 @@ module Inspec
       @test_collector.backend = @backend
     end
 
+    def run(with = nil)
+      Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      Inspec::Log.debug "Backend is #{@backend}"
+      all_controls = []
+
+      @target_profiles.each do |profile|
+        @test_collector.add_profile(profile)
+        profile.locked_dependencies
+        profile.load_libraries
+        @attributes |= profile.runner_context.attributes
+        all_controls += profile.collect_tests
+      end
+
+      all_controls.each do |rule|
+        register_rule(rule)
+      end
+
+      @test_collector.run(with)
+    end
+
     # determine all attributes before the execution, fetch data from secrets backend
     def load_attributes(options)
       attributes = {}
@@ -74,8 +101,7 @@ module Inspec
 
     #
     # add_target allows the user to add a target whose tests will be
-    # run when the user calls the run method. This is the main entry
-    # point to profile loading.
+    # run when the user calls the run method.
     #
     # A target is a path or URL that points to a profile. Using this
     # target we generate a Profile and a ProfileContext. The content
@@ -94,49 +120,15 @@ module Inspec
     # TODO: Deduplicate/clarify the loading code that exists in here,
     # the ProfileContext, the Profile, and Inspec::DSL
     #
-    # TODO: Libraries of dependent profiles should be loaded even when
-    # include_content/required_content aren't called.
-    #
     # @params target [String] A path or URL to a profile or raw test.
-    #
-    # @params options [Hash] An options hash. The relevant options
-    # considered by this call path are:
-    #
-    # - `:ignore_supports`: A boolean that controls whether to ignore
-    #   the profile's metadata regarding supported Inspec versions or
-    #   platforms.
-    #
-    # - `:controls`: An array of controls to run from this
-    #    profile. Any returned rules that are not part of these
-    #    controls will be filtered before being passed to @test_collector.
+    # @params _opts [Hash] Unused, but still here to avoid breaking kitchen-inspec
     #
     # @eturns [Inspec::ProfileContext]
     #
-    def add_target(target, options = {})
-      profile = Inspec::Profile.for_target(target, options)
+    def add_target(target, _opts = [])
+      profile = Inspec::Profile.for_target(target, backend: @backend, controls: @controls)
       fail "Could not resolve #{target} to valid input." if profile.nil?
-      add_profile(profile, options)
-    end
-
-    # Returns the profile context used to initialize this profile.
-    def add_profile(profile, options = {})
-      return if !options[:ignore_supports] && !supports_profile?(profile)
-      @test_collector.add_profile(profile)
-      add_content_from_profile(profile, options[:controls])
-    end
-
-    def add_content_from_profile(profile, controls)
-      return if profile.tests.nil? || profile.tests.empty?
-
-      ctx = Inspec::ProfileContext.for_profile(profile, @backend)
-      profile.runner_context = ctx
-      @attributes |= ctx.attributes
-
-      filter_controls(ctx.all_rules, controls).each do |rule|
-        register_rule(rule)
-      end
-
-      ctx
+      @target_profiles << profile if supports_profile?(profile)
     end
 
     #
@@ -154,7 +146,7 @@ module Inspec
     end
 
     def supports_profile?(profile)
-      return true if profile.metadata.nil?
+      return true if profile.metadata.nil? || @ignore_supports
 
       if !profile.metadata.supports_runtime?
         fail 'This profile requires InSpec version '\
@@ -187,19 +179,7 @@ module Inspec
       new_tests
     end
 
-    def_delegator :@test_collector, :run
-    def_delegator :@test_collector, :report
-    def_delegator :@test_collector, :reset
-
     private
-
-    def filter_controls(controls_array, include_list)
-      return controls_array if include_list.nil? || include_list.empty?
-      controls_array.select do |c|
-        id = ::Inspec::Rule.rule_id(c)
-        include_list.include?(id)
-      end
-    end
 
     def block_source_info(block)
       return {} if block.nil? || !block.respond_to?(:source_location)
@@ -245,6 +225,7 @@ module Inspec
     end
 
     def register_rule(rule)
+      Inspec::Log.debug "Registering rule #{rule}"
       @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
       examples = checks.map do |m, a, b|

@@ -8,6 +8,9 @@ require 'inspec/polyfill'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/metadata'
+require 'inspec/backend'
+require 'inspec/rule'
+require 'inspec/profile_context'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
@@ -31,7 +34,7 @@ module Inspec
       reader
     end
 
-    def self.for_target(target, opts)
+    def self.for_target(target, opts = {})
       new(resolve_target(target), opts.merge(target: target))
     end
 
@@ -47,9 +50,14 @@ module Inspec
       @target = @options.delete(:target)
       @logger = @options[:logger] || Logger.new(nil)
       @source_reader = source_reader
+      if options[:dependencies]
+        @locked_dependencies = options[:dependencies]
+      end
+      @controls = options[:controls] || []
       @profile_id = @options[:id]
-      @runner_context = nil
+      @backend = @options[:backend] || Inspec::Backend.create(options)
       Metadata.finalize(@source_reader.metadata, @profile_id)
+      @runner_context = @options[:profile_context] || Inspec::ProfileContext.for_profile(self, @backend)
     end
 
     def name
@@ -58,6 +66,46 @@ module Inspec
 
     def params
       @params ||= load_params
+    end
+
+    def collect_tests(include_list = @controls)
+      if !@tests_collected
+        locked_dependencies.each(&:collect_tests)
+
+        tests.each do |path, content|
+          next if content.nil? || content.empty?
+          abs_path = source_reader.target.abs_path(path)
+          @runner_context.load(content, abs_path, nil)
+        end
+        @tests_collected = true
+      end
+      filter_controls(@runner_context.all_rules, include_list)
+    end
+
+    def filter_controls(controls_array, include_list)
+      return controls_array if include_list.nil? || include_list.empty?
+      controls_array.select do |c|
+        id = ::Inspec::Rule.rule_id(c)
+        include_list.include?(id)
+      end
+    end
+
+    def load_libraries
+      locked_dependencies.each do |d|
+        c = d.load_libraries
+        @runner_context.add_resources(c)
+      end
+
+      libs = libraries.map do |path, content|
+        [content, path]
+      end
+
+      @runner_context.load_libraries(libs)
+      @runner_context
+    end
+
+    def to_s
+      "Inspec::Profile<#{name}>"
     end
 
     def info
@@ -248,9 +296,13 @@ module Inspec
     # @return [Inspec::Lockfile]
     #
     def generate_lockfile(vendor_path = nil)
-      res = Inspec::DependencySet.new(cwd, vendor_path)
+      res = Inspec::DependencySet.new(cwd, vendor_path, nil, @backend)
       res.vendor(metadata.dependencies)
       Inspec::Lockfile.from_dependency_set(res)
+    end
+
+    def load_dependencies
+      Inspec::DependencySet.from_lockfile(lockfile, cwd, nil, @backend)
     end
 
     private
@@ -281,34 +333,17 @@ module Inspec
       params
     end
 
-    #
-    # Returns a new runner for the current profile.
-    #
-    # @params [Symbol] The type of backend to use when constructing a
-    #                  new runner.
-    # @returns [Inspec::Runner]
-    #
-    def runner_for_profile(backend = :mock)
-      opts = @options.dup
-      opts[:ignore_supports] = true
-      r = Runner.new(id: @profile_id,
-                     backend: backend,
-                     test_collector: opts.delete(:test_collector))
-      r.add_profile(self, opts)
-      r
-    end
-
     def load_checks_params(params)
+      load_libraries
+      tests = collect_tests
       params[:controls] = controls = {}
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
-      # Load from the runner_context if it exists
-      runner = @runner_context || runner_for_profile
-      runner.all_rules.each do |rule|
+      tests.each do |rule|
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:attributes] = runner.attributes
+      params[:attributes] = @runner_context.attributes
       params
     end
 
@@ -336,10 +371,6 @@ module Inspec
         controls: [],
       }
       groups[file][:controls].push(id)
-    end
-
-    def load_dependencies
-      Inspec::DependencySet.from_lockfile(lockfile, cwd, nil)
     end
   end
 end

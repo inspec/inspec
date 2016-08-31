@@ -23,9 +23,9 @@ module Inspec
   # implementation of the fetcher being used.
   #
   class Resolver
-    def self.resolve(dependencies, vendor_index, working_dir)
+    def self.resolve(dependencies, vendor_index, working_dir, backend)
       reqs = dependencies.map do |dep|
-        req = Inspec::Requirement.from_metadata(dep, vendor_index, cwd: working_dir)
+        req = Inspec::Requirement.from_metadata(dep, vendor_index, cwd: working_dir, backend: backend)
         req || fail("Cannot initialize dependency: #{req}")
       end
       new.resolve(reqs)

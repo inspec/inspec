@@ -12,8 +12,7 @@ require 'inspec/objects/attribute'
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
     def self.for_profile(profile, backend)
-      c = new(profile.name, backend, { 'profile' => profile })
-      c.load_profile_content(profile)
+      new(profile.name, backend, { 'profile' => profile })
     end
 
     attr_reader :attributes, :rules, :profile_id, :resource_registry
@@ -28,13 +27,19 @@ module Inspec
       @conf = conf.dup
       @rules = {}
       @subcontexts = []
-      @dependencies = {}
-      @dependencies = conf['profile'].locked_dependencies unless conf['profile'].nil?
       @require_loader = ::Inspec::RequireLoader.new
       @attributes = []
       # A local resource registry that only contains resources defined
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
+    end
+
+    def dependencies
+      if @conf['profile'].nil?
+        {}
+      else
+        @conf['profile'].locked_dependencies
+      end
     end
 
     def to_resources_dsl
@@ -45,7 +50,7 @@ module Inspec
       @profile_execution_context ||= begin
                                        resources_dsl = to_resources_dsl
                                        ctx = create_context(resources_dsl)
-                                       ctx.new(@backend, @conf, @dependencies, @require_loader)
+                                       ctx.new(@backend, @conf, dependencies, @require_loader)
                                      end
     end
 
@@ -59,33 +64,14 @@ module Inspec
       ret
     end
 
-    def add_subcontext(context)
-      Inspec::Log.debug("Adding subcontext #{context} to #{self}")
+    def add_resources(context)
       @resource_registry.merge!(context.resource_registry)
+      profile_execution_context.add_resources(context)
       reload_dsl
+    end
+
+    def add_subcontext(context)
       @subcontexts << context
-    end
-
-    def load_profile_content(profile)
-      # load_attributes_from_profile(profile)
-      load_libraries_from_profile(profile)
-      load_tests_from_profile(profile)
-      self
-    end
-
-    def load_tests_from_profile(profile)
-      profile.tests.each do |path, content|
-        next if content.nil? || content.empty?
-        abs_path = profile.source_reader.target.abs_path(path)
-        load(content, abs_path, nil)
-      end
-    end
-
-    def load_libraries_from_profile(profile)
-      libs = profile.libraries.map do |path, content|
-        [content, path]
-      end
-      load_libraries(libs)
     end
 
     def load_libraries(libs)
@@ -249,14 +235,17 @@ module Inspec
           res
         end
 
-        define_method :add_subcontext do |context|
-          Inspec::Log.debug("Adding resource_dsl from #{context} with registry #{context.resource_registry.keys}")
+        define_method :add_resources do |context|
           self.class.class_eval do
             include context.to_resources_dsl
           end
+
           rule_class.class_eval do
             include context.to_resources_dsl
           end
+        end
+
+        define_method :add_subcontext do |context|
           profile_context_owner.add_subcontext(context)
         end
 

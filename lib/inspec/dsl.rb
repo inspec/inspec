@@ -34,21 +34,17 @@ Dependencies available from this context are:
 EOF
     end
 
-    context = Inspec::ProfileContext.for_profile(dep_entry.profile, opts[:backend])
-
+    context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
     filter_included_controls(context, dep_entry.profile, &block) if !opts[:include_all]
-
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
-
     bind_context.add_subcontext(context)
   end
 
   def self.filter_included_controls(context, profile, &block)
-    mock = Inspec::Backend.create({ backend: 'mock' })
-    include_ctx = Inspec::ProfileContext.for_profile(profile, mock)
+    include_ctx = profile.runner_context
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
     context.rules.keys.each do |id|

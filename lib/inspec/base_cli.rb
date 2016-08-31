@@ -70,7 +70,7 @@ module Inspec
       o[:logger].level = get_log_level(o.log_level)
 
       runner = Inspec::Runner.new(o)
-      targets.each { |target| runner.add_target(target, opts) }
+      targets.each { |target| runner.add_target(target) }
       exit runner.run
     rescue RuntimeError, Train::UserError => e
       $stderr.puts e.message
