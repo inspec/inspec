@@ -575,7 +575,7 @@ module Inspec::Resources
     # - 6: Pause Pending
     # - 7: Paused
     def info(service_name)
-      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
+      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name '#{service_name}'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
 
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0
