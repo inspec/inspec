@@ -2,10 +2,31 @@
 # copyright: 2015, Chef Software, Inc.
 # license: All rights reserved
 
-title '/tmp profile'
+title 'failures /tmp profile'
 
-# you can also use plain tests
+# control, first test passes, second fails
+control "tmp-1.0" do                        # A unique ID for this control
+  impact 0.7                                # The criticality, if this control fails.
+  title "Create /tmp directory"             # A human-readable title
+  desc "An optional description..."         # Describe why this is needed
+  tag data: "temp data"                     # A tag allows you to associate key information
+  tag "security"                            # to the test
+  ref "Document A-12", url: 'http://...'    # Additional references
+
+  describe file('/tmp') do                  # The actual test
+    it { should be_directory }
+    it { should_not be_directory }
+  end
+end
+
+# anonymous describe block, first passes, second is syntax error
 describe file('/tmp') do
   it { should be_directory }
   it { should_nota be_directory }
+end
+
+# anonymous describe block, first fails, second passes
+describe file('/tmp') do
+  it { should_not be_directory }
+  it { should be_directory }
 end

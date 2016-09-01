@@ -166,7 +166,13 @@ class InspecRspecJson < InspecRspecMiniJson
 
   def example2control(example, profiles)
     profile = profiles[example[:profile_id]]
-    return nil if profile.nil? || profile[:controls].nil?
+    # if this is an inherited profile, the profile comes in as
+    # nil, so we need do dig deep to get our control
+    if profile.nil? || profile[:controls].nil?
+      profiles.each do |x|
+        return x[1][:controls][example[:id]]
+      end
+    end
     profile[:controls][example[:id]]
   end
 
