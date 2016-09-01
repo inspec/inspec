@@ -194,7 +194,7 @@ class MockLoader
       'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
       # services for system 5 e.g. centos6, debian 6
       'service sshd status' => cmd.call('service-sshd-status'),
-      'find /etc/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
+      'find /etc/rc*.d /etc/init.d/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
       'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
       # user information for linux
       'id root' => cmd.call('id-root'),
