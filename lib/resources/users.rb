@@ -2,57 +2,23 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Usage:
-#
-# describe user('root') do
-#   it { should exist }
-#   its('uid') { should eq 0 }
-#   its('gid') { should eq 0 }
-#   its('group') { should eq 'root' }
-#   its('groups') { should eq ['root', 'wheel']}
-#   its('home') { should eq '/root' }
-#   its('shell') { should eq '/bin/bash' }
-#   its('mindays') { should eq 0 }
-#   its('maxdays') { should eq 99 }
-#   its('warndays') { should eq 5 }
-# end
-#
-# The following  Serverspec  matchers are deprecated in favor for direct value access
-#
-# describe user('root') do
-#   it { should belong_to_group 'root' }
-#   it { should have_uid 0 }
-#   it { should have_home_directory '/root' }
-#   it { should have_login_shell '/bin/bash' }
-#   its('minimum_days_between_password_change') { should eq 0 }
-#   its('maximum_days_between_password_change') { should eq 99 }
-# end
-
-# ServerSpec tests that are not supported:
-#
-# describe user('root') do
-#   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
-#   its(:encrypted_password) { should eq 1234 }
-# end
-
 require 'utils/parser'
 require 'utils/convert'
 
 module Inspec::Resources
-  class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
-    name 'user'
-    desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+  # The InSpec users resources looksup all local users available on a system
+  class Users < Inspec.resource(1)
+    name 'users'
+    desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
-      describe user('root') do
-        it { should exist }
-        its('uid') { should eq 1234 }
-        its('gid') { should eq 1234 }
+      describe users.where(uid: 0).entries do
+        it { should eq ['root'] }
+        its('uids') { should eq [1234] }
+        its('gids') { should eq [1234] }
       end
     "
-    def initialize(user = nil)
-      @user = user
-
-      # select package manager
+    def initialize
+      # select user provider
       @user_provider = nil
       os = inspec.os
       if os.linux?
@@ -77,51 +43,135 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:uids, field: 'uid', style: :simple)
-          .add(:listening?) { |x| x.entries.length > 0 }
-    filter.connect(self, :all_users)
+          .add(:usernames, field: :username)
+          .add(:uids,      field: :uid)
+          .add(:gids,      field: :gid)
+          .add(:groupnames, field: :groupname)
+          .add(:groups,    field: :groups)
+          .add(:homes,     field: :home)
+          .add(:shells,    field: :shell)
+          .add(:mindays,   field: :mindays)
+          .add(:maxdays,   field: :maxdays)
+          .add(:warndays,  field: :warndays)
+    filter.connect(self, :collect_user_info)
+
+    def to_s
+      'Users'
+    end
+
+    private
+
+    # method to get all available users
+    def list_users
+      @username_cache ||= @user_provider.list_users unless @user_provider.nil?
+    end
+
+    # collects information about every user
+    def collect_user_info
+      @users_cache ||= list_users.map { |username|
+        item = {}
+        item.merge!(@user_provider.identity(username.chomp))
+        item.merge!(@user_provider.meta_info(username.chomp))
+        item.merge!(@user_provider.credentials(username.chomp))
+        item
+      }
+      @users_cache
+    end
+  end
+
+  # The `user` resource handles the special case where only one resource is required
+  #
+  # describe user('root') do
+  #   it { should exist }
+  #   its('uid') { should eq 0 }
+  #   its('gid') { should eq 0 }
+  #   its('group') { should eq 'root' }
+  #   its('groups') { should eq ['root', 'wheel']}
+  #   its('home') { should eq '/root' }
+  #   its('shell') { should eq '/bin/bash' }
+  #   its('mindays') { should eq 0 }
+  #   its('maxdays') { should eq 99 }
+  #   its('warndays') { should eq 5 }
+  # end
+  #
+  # The following  Serverspec  matchers are deprecated in favor for direct value access
+  #
+  # describe user('root') do
+  #   it { should belong_to_group 'root' }
+  #   it { should have_uid 0 }
+  #   it { should have_home_directory '/root' }
+  #   it { should have_login_shell '/bin/bash' }
+  #   its('minimum_days_between_password_change') { should eq 0 }
+  #   its('maximum_days_between_password_change') { should eq 99 }
+  # end
+  #
+  # ServerSpec tests that are not supported:
+  #
+  # describe user('root') do
+  #   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
+  #   its(:encrypted_password) { should eq 1234 }
+  # end
+  class User < Inspec.resource(1)
+    name 'user'
+    desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+    example "
+      describe user('root') do
+        it { should exist }
+        its('uid') { should eq 1234 }
+        its('gid') { should eq 1234 }
+      end
+    "
+    def initialize(username = nil)
+      @username = username
+      @user_filter = inspec.users.where(username: username)
+    end
 
     def exists?
-      !identity.nil? && !identity[:user].nil?
+      @user_filter.entries.length == 1
+    end
+
+    def username
+      @user_filter.usernames.entries[0]
     end
 
     def uid
-      identity[:uid] unless identity.nil?
+      @user_filter.uids.entries[0]
     end
 
     def gid
-      identity[:gid] unless identity.nil?
+      @user_filter.gids.entries[0]
     end
 
-    def group
-      identity[:group] unless identity.nil?
+    def groupname
+      @user_filter.groupnames.entries[0]
     end
+    alias group groupname
 
     def groups
-      identity[:groups] unless identity.nil?
+      @user_filter.groups.entries[0]
     end
 
     def home
-      meta_info[:home] unless meta_info.nil?
+      @user_filter.homes.entries[0]
     end
 
     def shell
-      meta_info[:shell] unless meta_info.nil?
+      @user_filter.shells.entries[0]
     end
 
     # returns the minimum days between password changes
     def mindays
-      credentials[:mindays] unless credentials.nil?
+      @user_filter.mindays.entries[0]
     end
 
     # returns the maximum days between password changes
     def maxdays
-      credentials[:maxdays] unless credentials.nil?
+      @user_filter.maxdays.entries[0]
     end
 
     # returns the days for password change warning
     def warndays
-      credentials[:warndays] unless credentials.nil?
+      @user_filter.warndays.entries[0]
     end
 
     # implement 'mindays' method to be compatible with serverspec
@@ -163,15 +213,16 @@ module Inspec::Resources
     end
 
     def to_s
-      "User #{@user}"
+      "User #{@username}"
     end
 
+    private
+
+    # returns the iden
     def identity
       return @id_cache if defined?(@id_cache)
       @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
     end
-
-    private
 
     def meta_info
       return @meta_cache if defined?(@meta_cache)
@@ -182,15 +233,11 @@ module Inspec::Resources
       return @cred_cache if defined?(@cred_cache)
       @cred_cache = @user_provider.credentials(@user) if !@user_provider.nil?
     end
-
-    def all_users
-      require 'pry'; binding.pry
-      @all_users_cache ||= @user_provider.all_users unless @user_provider.nil?
-      binding.pry
-      @all_users_cache
-    end
   end
 
+  # This is an abstract class that every user provoider has to implement.
+  # A user provider implements a system abstracts and helps the InSpec resource
+  # hand-over system specific behavior to those providers
   class UserInfo
     include Converter
 
@@ -199,11 +246,32 @@ module Inspec::Resources
       @inspec = inspec
     end
 
-    def credentials(_username)
+    # returns a hash with user-specific values:
+    # {
+    #   uid: '',
+    #   user: '',
+    #   gid: '',
+    #   group: '',
+    #   groups: '',
+    # }
+    def identity(_username)
+      fail 'user provider must implement the `identity` method'
     end
 
-    def all_users
-      raise 'Must be implemented in any User providers'
+    # returns a hash with meta-data about user credentials
+    # {
+    #   mindays: 1,
+    #   maxdays: 1,
+    #   warndays: 1,
+    # }
+    # this method is optional and may not be implemented by each provider
+    def credentials(_username)
+      {}
+    end
+
+    # returns an array with users
+    def list_users
+      fail 'user provider must implement the `list_users` method'
     end
   end
 
@@ -217,10 +285,11 @@ module Inspec::Resources
       super
     end
 
-    def all_users
+    # returns a list of all local users on a system
+    def list_users
       cmd = inspec.command(list_users_cmd)
       return [] if cmd.exit_status != 0
-      cmd.stdout.chomp.lines.map { |username| identity(username.chomp) }
+      cmd.stdout.chomp.lines
     end
 
     # parse one id entry like '0(wheel)''
@@ -249,9 +318,9 @@ module Inspec::Resources
 
       {
         uid: convert_to_i(parse_value(params['uid']).keys[0]),
-        user: parse_value(params['uid']).values[0],
+        username: parse_value(params['uid']).values[0],
         gid: convert_to_i(parse_value(params['gid']).keys[0]),
-        group: parse_value(params['gid']).values[0],
+        groupname: parse_value(params['gid']).values[0],
         groups: parse_value(params['groups']).values,
       }
     end
@@ -443,10 +512,10 @@ module Inspec::Resources
       [name, domain]
     end
 
-    def all_users
+    def list_users
       script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
       cmd = inspec.powershell(script)
-      cmd.stdout.chomp.lines.map { |username| identity(username.chomp) }
+      cmd.stdout.chomp.lines
     end
 
     def identity(username)
@@ -492,7 +561,7 @@ module Inspec::Resources
 
       {
         uid: user_hash['SID'],
-        user: user_hash['Caption'],
+        username: user_hash['Caption'],
         gid: nil,
         group: nil,
         groups: group_names,
