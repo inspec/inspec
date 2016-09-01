@@ -367,7 +367,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       control_result.each do |test|
         control_id = ''
         test_result = test[:code_desc].split[2..-1].join(' ')
-        test_result = test[:message] unless test[:message].nil?
+        test_result = test[:message] unless test[:exception].nil?
         status_indicator = test[:status_type]
         print_line(
           color:      @colors[status_indicator] || '',
