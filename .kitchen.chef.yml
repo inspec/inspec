@@ -70,4 +70,5 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[ssh-hardening]
       - recipe[os_prepare]

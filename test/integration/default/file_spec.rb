@@ -4,7 +4,7 @@ if ENV['DOCKER']
   return
 end
 
-if os[:family] == 'freebsd'
+if os[:name] == 'freebsd'
   filedata = {
     user: 'root',
     group: 'wheel',
@@ -12,7 +12,7 @@ if os[:family] == 'freebsd'
     dir_md5sum: '598f4fe64aefab8f00bcbea4c9239abf',
     dir_sha256sum: '9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9',
   }
-elsif os[:family] == 'aix'
+elsif os[:name] == 'aix'
   filedata = {
     user: 'root',
     group: 'system',
@@ -111,7 +111,7 @@ if os.unix?
     its('type') { should eq :file }
   end
 
-  describe file('/tmp/file') do
+  describe file('/tmp/sfile') do
     its('suid') { should eq true }
     its('sgid') { should eq true }
     its('sticky') { should eq true }
