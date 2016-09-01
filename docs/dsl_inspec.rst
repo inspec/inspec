@@ -203,17 +203,17 @@ In this example the test will not be performed if ``redis-cli`` command does not
     impact 1.0
     title 'Check if nutcracker can pass commands to redis'
     desc 'execute redis-cli set key command, to check connectivity of the service'
-  
+
     only_if do
       command('redis-cli').exist?
     end
-  
+
     describe command('redis-cli SET test_inspec "HELLO"') do
       its(:stdout) { should match(/OK/) }
     end
   end
 
-Mixking this with proper commands or checkinf existence of the files can help to test different test paths using inspec. This way you can skip certain tests which would 100% fail due to the way servers are prepared (for example templates in different security groups in AWS), but you know that the same test suites are reused later in different circumstances by different teams.
+Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using inspec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
 
 Additional metadata for controls
 -----------------------------------------------------
