@@ -29,16 +29,26 @@ export class AppComponent implements OnInit {
 
   updateInstructions(step) {
     let totalSteps = this.instructionsArray.length - 1;
-    if (step === 'next' && this.counter < totalSteps) {
-      this.counter += 1;
-    }
-    else if (step === 'prev' && this.counter > 0) {
+    let originalCounter = this.counter;
+    let error = Math.random();
+    if (step === 'next') {
+      if (originalCounter === totalSteps) {
+        // if the user has reached the end of the demo, send
+        // a unique response to back to ensure correct handling in ui
+        this.response = 'Message: ' + error + ': you have reached the end of the demo';
+      } else {
+        this.counter += 1;
+        this.response = 'moving forward to step ' + this.counter;
+      }
+    } else if (step === 'prev') {
       this.counter -= 1;
+      if (this.counter < 0) {
+        this.counter = 0;
+        this.response = 'Message: ' + error + ': you have reached the beginning of the demo';
+      } else {
+        this.response = 'moving back to step ' + this.counter;
+      }
     }
-    else {
-      this.counter = 0;
-    }
-
     this.instructions = this.instructionsArray[this.counter]['_body'];
   }
 

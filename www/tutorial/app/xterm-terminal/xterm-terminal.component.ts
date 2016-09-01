@@ -97,9 +97,16 @@ export class XtermTerminalComponent implements OnInit {
         this.last = this.previousCommands.length - 2
       }
       if (this.buffer === this.previousCommands[this.last]) {
-        this.term.writeln(this.currentResponse);
-        this.setPrompt();
-      }
+        // if the command is next or last, we still want to emit
+        // the value, since the parent component is responsible
+        // for interpreting that value and displaying the correct instructions
+        if (this.buffer.match(/^next\s*/) || this.buffer.match(/^prev\s*/)) {
+          this.command.emit(this.buffer);
+        } else {
+            this.term.writeln(this.currentResponse);
+            this.setPrompt();
+          }
+        }
       else {
         this.command.emit(this.buffer);
       }
