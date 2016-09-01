@@ -1,0 +1,24 @@
+#terminal-container {
+    width: 1200px;
+    height: 800px;
+    margin: 0 auto;
+    padding: 2px;
+}
+
+/*the app was having trouble setting the following css
+classes, so i added a host and /deep/ call to ensure they get set*/
+
+:host /deep/ .terminal {
+    background-color: black;
+    color: #fafafa;
+    padding: 2px;
+    outline: 0;
+}
+
+:host /deep/ .terminal:focus .terminal-cursor {
+    background-color: #fafafa;
+}
+
+:host /deep/ .xterm-helpers {
+    display: none;
+}

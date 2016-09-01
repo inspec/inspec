@@ -1,0 +1,46 @@
+.terminal-nav {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 60px;
+  color: #888;
+  text-align: center;
+  line-height: 60px;
+  font-size: 30px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  transition: all 200ms ease-in;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.terminal-nav span:hover {
+  color: #ccc;
+}
+
+.guide {
+  font-family: monospace;
+  font-size: 1.2rem;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #444;
+}
+
+a {
+  color: lightskyblue;
+  text-decoration: none;
+}
+
+.cli {
+  font-family: monospace;
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 1200px;
+  margin: auto;
+}
