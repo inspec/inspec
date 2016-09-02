@@ -21,7 +21,12 @@ module Inspec::Resources
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.apache.conf_path
-      @conf_dir = File.dirname(@conf_path)
+      case inspec.os[:family]
+      when 'ubuntu', 'debian'
+        @conf_dir = File.dirname(@conf_path)
+      else
+        @conf_dir = inspec.apache.conf_dir
+      end
       @files_contents = {}
       @content = nil
       @params = nil
