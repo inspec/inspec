@@ -240,7 +240,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       print_line(
         color: '', indicator: @indicators['empty'], id: '', profile: '',
         summary: 'No tests executed.'
-      )
+      ) if @current_control.nil?
       output.puts('')
     end
 
@@ -348,7 +348,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       test_status = x[:status_type]
       test_color = @colors[test_status]
       indicator = @indicators[x[:status]]
-      indicator = @indicators['empty'] if all.length == 1 || indicator.nil?
+      indicator = @indicators['empty'] if indicator.nil?
       msg = x[:message] || x[:skip_message] || x[:code_desc]
       print_line(
         color:      test_color,
@@ -367,6 +367,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       control_result.each do |test|
         control_id = ''
         test_result = test[:code_desc].split[2..-1].join(' ')
+        test_result = test[:message] unless test[:exception].nil?
         status_indicator = test[:status_type]
         print_line(
           color:      @colors[status_indicator] || '',

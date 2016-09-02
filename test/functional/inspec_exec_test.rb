@@ -130,13 +130,21 @@ Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
 Target:  local://
 
 \e[32m  \xE2\x9C\x94  tmp-1.0: Create /tmp directory\e[0m
-\e[32m        File /tmp should be directory\e[0m
+\e[32m     \xE2\x9C\x94  File /tmp should be directory\e[0m
 
   File /tmp
 \e[32m     \xE2\x9C\x94  should be directory\e[0m
 
 Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
+    end
+  end
+
+  describe 'given a profile with an anonymous describe block' do
+    let(:out) { inspec('exec ' + failure_control) }
+
+    it 'prints the exception message when a test has a syntax error' do
+      out.stdout.must_include "undefined method `should_nota' "
     end
   end
 end
