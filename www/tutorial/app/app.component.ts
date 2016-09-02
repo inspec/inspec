@@ -29,71 +29,76 @@ export class AppComponent implements OnInit {
 
   updateInstructions(step) {
     let totalSteps = this.instructionsArray.length - 1;
-    let originalCounter = this.counter;
-    let error = Math.random();
+    let msg = Math.random();
     if (step === 'next') {
-      if (originalCounter === totalSteps) {
-        // if the user has reached the end of the demo, send
-        // a unique response to back to ensure correct handling in ui
-        this.response = 'Message: ' + error + ': you have reached the end of the demo';
-      } else {
+      if (this.counter < totalSteps) {
         this.counter += 1;
-        this.response = 'moving forward to step ' + this.counter;
       }
+      this.response = ' [30mMessage: ' + msg;
+
     } else if (step === 'prev') {
-      this.counter -= 1;
-      if (this.counter < 0) {
-        this.counter = 0;
-        this.response = 'Message: ' + error + ': you have reached the beginning of the demo';
-      } else {
-        this.response = 'moving back to step ' + this.counter;
+      if (this.counter > 0) {
+        this.counter -= 1;
       }
+      this.response = ' [30mMessage: ' + msg;
     }
     this.instructions = this.instructionsArray[this.counter]['_body'];
   }
 
   evalCommand(command) {
-    // play with inspec shell
     if (this.shell === 'inspec-shell') {
       this.parseInspecShell(command);
     }
-    // match on various commands or print inspec help
+    else if (command.match(/^inspec\s*.*/)) {
+      this.parseInspecCommand(command);
+    }
+    else if (command.match(/^next\s*/)) {
+      this.updateInstructions('next');
+    }
+    else if (command.match(/^prev\s*/)) {
+      this.updateInstructions('prev');
+    }
+    else if (command.match(/^ls\s*/)) {
+      this.response = " [37m" + this.responsesArray[1]['_body'];
+    }
+    else if (command.match(/^pwd\s*/)) {
+      this.response = " [37m" + this.responsesArray[2]['_body'];
+    }
+    else if (command.match(/^cat\s*README.md\s*/i)) {
+      this.response = " [37mOnly a few commands are implemented in this terminal.  Please follow the demo";
+    }
+    else if (command.match(/^less\s*README.md\s*/i)) {
+      this.response = " [37mOnly a few commands are implemented in this terminal.  Please follow the demo.";
+    }
     else {
-      if (command === 'inspec shell') {
-        this.shell = 'inspec-shell'
-        this.response = 'Welcome to the InSpec Shell\n To find out how to use it, type: help\n';
-      }
-      // TODO: cat readme.md less readme.md  "Only a few commands are implemented in this terminal."
-      else if (command.match(/^inspec\s*exec\s*.*/)) {
-        this.parseInspecExec(command);
-      }
-      else if (command.match(/^inspec\s*version\s*/)) {
-        this.response = this.responsesArray[4]['_body'];
-      }
-      else if (command.match(/^next\s*/)) {
-        this.updateInstructions('next');
-      }
-      else if (command.match(/^prev\s*/)) {
-        this.updateInstructions('prev');
-      }
-      else if (command.match(/^ls\s*/)) {
-        this.response = this.responsesArray[1]['_body'];
-      }
-      else if (command.match(/^pwd\s*/)) {
-        this.response = this.responsesArray[2]['_body'];
-      }
-      else {
-        this.response = this.responsesArray[0]['_body'];
-      }
+      this.response = " [37minvalid command: " + command;
+    }
+  }
+
+  parseInspecCommand(command) {
+    let command_target = command.match(/^inspec\s*(.*)/);
+    if (command_target[1] === 'shell') {
+      this.shell = 'inspec-shell'
+      this.response = " [37m" + 'Welcome to the InSpec Shell\r\n To find out how to use it, type: help\r\n To leave, type: exit';
+    }
+    else if (command_target[1].match(/^exec\s*.*/)) {
+      this.parseInspecExec(command);
+    }
+    else if (command_target[1].match(/^version\s*/)) {
+      this.response = " [37m" + this.responsesArray[4]['_body'];
+    }
+    else {
+      let msg = Math.random();
+      this.response = " [37m" + this.responsesArray[0]['_body'] + " [30m" + msg;
     }
   }
 
   parseInspecExec(command) {
     let target = command.match(/^inspec exec\s*(.*)/);
     if (target[1] === 'examples/profile') {
-      this.response = this.responsesArray[3]['_body'];
+      this.response = " [37m" + this.responsesArray[3]['_body'];
     } else {
-      this.response = "Could not fetch inspec profile in '" + target[1] + "' ";
+      this.response = " [31m Could not fetch inspec profile in '" + target[1] + "' ";
     }
   }
 
@@ -104,11 +109,11 @@ export class AppComponent implements OnInit {
       this.response = '';
     }
     else if (command.match(/^ls\s*/)) {
-      this.response = this.responsesArray[5]['_body'];
+      this.response = " [37m" + this.responsesArray[5]['_body'];
     }
     // TODO: functionality for inspec Shell
     else {
-      this.response = 'soon this will work, but not yet :) '
+      this.response = " [37m" + 'soon this will work, but not yet :) '
     }
   }
 
