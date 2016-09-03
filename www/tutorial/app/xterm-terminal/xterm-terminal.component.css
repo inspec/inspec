@@ -20,3 +20,7 @@
 :host /deep/ .xterm-color-0 {
     color: black;
 }
+
+:host /deep/ .xterm-color-6 {
+    color: lightskyblue;
+}
