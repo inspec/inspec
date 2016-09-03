@@ -10,8 +10,6 @@ describe 'Inspec::Resources::ApacheConf' do
   it 'reads values in apache2.conf and from Include, IncludeOptional params' do
     resource = MockLoader.new(:ubuntu1404).load_resource('apache_conf')
     _(resource.params).must_be_kind_of Hash
-    require 'pp'
-    pp resource.content
     _(resource.content).must_be_kind_of String
     _(resource.params('ServerRoot')).must_equal ['"/etc/apache2"']
     _(resource.params('Listen').sort).must_equal ['443', '80']
