@@ -118,6 +118,8 @@ class MockLoader
       'rootwrap.conf' => mockfile.call('rootwrap.conf'),
       '/etc/apache2/apache2.conf' => mockfile.call('apache2.conf'),
       '/etc/apache2/ports.conf' => mockfile.call('ports.conf'),
+      '/etc/httpd/conf/httpd.conf' => mockfile.call('httpd.conf'),
+      '/etc/httpd/conf.d/ssl.conf' => mockfile.call('ssl.conf'),
       '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
@@ -232,6 +234,7 @@ class MockLoader
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
       'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
       'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
