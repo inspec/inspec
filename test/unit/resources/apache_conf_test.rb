@@ -6,7 +6,8 @@ require 'inspec/resource'
 require 'hashie'
 
 describe 'Inspec::Resources::ApacheConf' do
-  it 'reads values in apache2.conf' do
+  # debian style apache2
+  it 'reads values in apache2.conf and from Include, IncludeOptional params' do
     resource = MockLoader.new(:ubuntu1404).load_resource('apache_conf')
     _(resource.params).must_be_kind_of Hash
     require 'pp'
@@ -20,7 +21,8 @@ describe 'Inspec::Resources::ApacheConf' do
                                              'ENABLE_USR_LIB_CGI_BIN']
   end
 
-  it 'reads values in httpd.conf' do
+  # non debian style httpd
+  it 'reads values in httpd.conf and from Include, IncludeOptional params' do
     resource = MockLoader.new(:centos6).load_resource('apache_conf')
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
