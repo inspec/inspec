@@ -147,4 +147,27 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
       out.stdout.must_include "undefined method `should_nota' "
     end
   end
+
+  describe 'given an inherited profile that has more that one test per control block' do
+    let(:out) { inspec('exec ' + simple_inheritance) }
+
+    it 'should print all the results' do
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  expected `File /tmp.directory?` to return false, got true\e[0m"
+    end
+  end
+
+  describe 'when passing in two profiles given an inherited profile that has more that one test per control block' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'dependencies', 'profile_d') + ' ' + simple_inheritance) }
+
+    it 'should print all the results' do
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  expected `File /tmp.directory?` to return false, got true\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
+    end
+  end
 end

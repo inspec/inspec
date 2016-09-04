@@ -164,10 +164,32 @@ class InspecRspecJson < InspecRspecMiniJson
     [info[:name], info]
   end
 
+  #
+  # TODO(ssd+vj): We should probably solve this by either ensuring the example has
+  # the profile_id of the top level profile when it is included as a dependency, or
+  # by registrying all dependent profiles with the formatter. The we could remove
+  # this heuristic matching.
+  #
+  def example2profile(example, profiles)
+    profiles.values.find { |p| profile_contains_example?(p, example) }
+  end
+
+  def profile_contains_example?(profile, example)
+    # Heuristic for finding the profile an example came from:
+    # Case 1: The profile_id on the example matches the name of the profile
+    # Case 2: The profile contains a control that matches the id of the example
+    if profile[:name] == example[:profile_id]
+      true
+    elsif profile[:controls] && profile[:controls].key?(example[:id])
+      true
+    else
+      false
+    end
+  end
+
   def example2control(example, profiles)
-    profile = profiles[example[:profile_id]]
-    return nil if profile.nil? || profile[:controls].nil?
-    profile[:controls][example[:id]]
+    p = example2profile(example, profiles)
+    p[:controls][example[:id]] if p && p[:controls]
   end
 
   def format_example(example)
