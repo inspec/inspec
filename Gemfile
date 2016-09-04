@@ -29,7 +29,8 @@ group :integration do
   gem 'berkshelf', '~> 4.3'
   gem 'test-kitchen', '~> 1.6'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec', '0.12.5'
+  # we need winrm v2 support >= 0.15.1
+  gem 'kitchen-inspec', '>= 0.15.1'
   gem 'kitchen-ec2'
   gem 'kitchen-dokken'
 end
