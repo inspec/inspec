@@ -146,9 +146,9 @@ class MockLoader
       'Remove-Item win_secpol.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
-      # registry key test (winrm 1.6.0, 1.6.1)
-      'dd429dd12596fa193ba4111469b4417ecbd78a1d7ba4317c334c9111644bae44' => cmd.call('reg_schedule'),
-      'Fdd429dd12596fa193ba4111469b4417ecbd78a1d7ba4317c334c9111644bae44' => cmd.call('reg_schedule'),
+      # registry key test using winrm 2.0
+      '2376c7b3d81de9382303356e1efdea99385effb84788562c3e697032d51bf942' => cmd.call('reg_schedule'),
+      'F2376c7b3d81de9382303356e1efdea99385effb84788562c3e697032d51bf942' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
@@ -210,8 +210,7 @@ class MockLoader
       # user info for freebsd
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows (winrm 1.6.0, 1.6.1)
-      '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
-      '174686f0441b8dd387b35cf1cbeed3f98441544351de5d8fb7b54f655e75583f' => cmd.call('GetUserAccount'),
+      '1f2dd0691487fe7ca8169dfd764e0197e6303f17de416e7c1b7439aedef87ae7' => cmd.call('GetUserAccount'),
       # group info for windows
       'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
       # network interface
@@ -248,7 +247,7 @@ class MockLoader
       # xinetd configuration
       'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
       # wmi test
-      "4762fab9e8180997634ae70aae6d5f59e641084111fb9f5e5bf2848a583aa5f5" => cmd.call('get-wmiobject'),
+      "2979ebeb80a475107d85411f109209a580ccf569071b3dc7acff030b8635c6b9" => cmd.call('get-wmiobject'),
       #user info on hpux
       "logins -x -l root" => cmd.call('logins-x'),
       #packages on hpux
