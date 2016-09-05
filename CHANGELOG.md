@@ -1,7 +1,51 @@
 # Change Log
 
-## [0.32.0](https://github.com/chef/inspec/tree/0.32.0) (2016-08-26)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.31.0...0.32.0)
+## [0.33.0](https://github.com/chef/inspec/tree/0.33.0) (2016-09-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.32.0...0.33.0)
+
+**Implemented enhancements:**
+
+- Introduce scoping to the ProfileContext which has a view of all of its dependencies  [\#958](https://github.com/chef/inspec/issues/958)
+- Create Help for Subcommands [\#305](https://github.com/chef/inspec/issues/305)
+- Allow service resource to accept Windows service name with spaces [\#1003](https://github.com/chef/inspec/pull/1003) ([martinheg](https://github.com/martinheg))
+
+**Fixed bugs:**
+
+- Error output not informative [\#1016](https://github.com/chef/inspec/issues/1016)
+- Suse Linux Enterprise Server 11 SPX is failing for describe service resource. [\#997](https://github.com/chef/inspec/issues/997)
+- Inspec Docker directory test fails [\#996](https://github.com/chef/inspec/issues/996)
+- package\(\) 'version' {should match\(pattern\)} does not return failed control, but shows as failed test [\#898](https://github.com/chef/inspec/issues/898)
+- Raise error when an invalid URI is received [\#1019](https://github.com/chef/inspec/pull/1019) ([alexpop](https://github.com/alexpop))
+- Fix os exception in mysql resource [\#1012](https://github.com/chef/inspec/pull/1012) ([alexpop](https://github.com/alexpop))
+- cmp not treating 0 as integer only as string [\#991](https://github.com/chef/inspec/pull/991) ([jeremymv2](https://github.com/jeremymv2))
+
+**Closed issues:**
+
+- apache\_conf resource seems to be using incorrect paths to amalgamate apache config \(only Centos/RHEL?\) [\#1013](https://github.com/chef/inspec/issues/1013)
+- More options link in Readme.md doesn't work \(404\) - need updating? [\#1001](https://github.com/chef/inspec/issues/1001)
+- Chef compliance breaks after updating inspec gem 0.32 [\#992](https://github.com/chef/inspec/issues/992)
+- Improve CLI report [\#984](https://github.com/chef/inspec/issues/984)
+- record inspec + in-browser playback for online demo [\#956](https://github.com/chef/inspec/issues/956)
+- UX & UI design for the interactive HTML demo [\#953](https://github.com/chef/inspec/issues/953)
+
+**Merged pull requests:**
+
+- use winrm v2 [\#1018](https://github.com/chef/inspec/pull/1018) ([chris-rock](https://github.com/chris-rock))
+- always display error message [\#1017](https://github.com/chef/inspec/pull/1017) ([chris-rock](https://github.com/chris-rock))
+- Fix apache conf [\#1014](https://github.com/chef/inspec/pull/1014) ([jeremymv2](https://github.com/jeremymv2))
+- fix cli inherited profiles [\#1008](https://github.com/chef/inspec/pull/1008) ([vjeffrey](https://github.com/vjeffrey))
+- improve suse 11 support for service resource [\#1007](https://github.com/chef/inspec/pull/1007) ([chris-rock](https://github.com/chris-rock))
+- Extend Inspec DSL docs [\#1006](https://github.com/chef/inspec/pull/1006) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- vj/fix cli report [\#1004](https://github.com/chef/inspec/pull/1004) ([vjeffrey](https://github.com/vjeffrey))
+- fix cli link to docs [\#1002](https://github.com/chef/inspec/pull/1002) ([chris-rock](https://github.com/chris-rock))
+- Promote cmp usage as it provides results with octal mode [\#999](https://github.com/chef/inspec/pull/999) ([alexpop](https://github.com/alexpop))
+- Initial attempt at isolating resources between dependencies [\#994](https://github.com/chef/inspec/pull/994) ([stevendanna](https://github.com/stevendanna))
+- inspec demo [\#989](https://github.com/chef/inspec/pull/989) ([vjeffrey](https://github.com/vjeffrey))
+- Allow functional tests to pass on OSX [\#988](https://github.com/chef/inspec/pull/988) ([stevendanna](https://github.com/stevendanna))
+- Minor refactor and explanatory comments [\#987](https://github.com/chef/inspec/pull/987) ([stevendanna](https://github.com/stevendanna))
+
+## [v0.32.0](https://github.com/chef/inspec/tree/v0.32.0) (2016-08-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.31.0...v0.32.0)
 
 **Implemented enhancements:**
 
