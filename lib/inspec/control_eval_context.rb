@@ -60,7 +60,7 @@ module Inspec
         end
 
         def to_s
-          "Profile Context Run #{profile_name}"
+          "Control Evaluation Context (#{profile_name})"
         end
 
         define_method :profile_name do
@@ -73,6 +73,12 @@ module Inspec
           register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
+        #
+        # Describe allows users to write rspec-like bare describe
+        # blocks without declaring an inclosing control. Here, we
+        # generate a control for them automatically and then execute
+        # the describe block in the context of that control.
+        #
         define_method :describe do |*args, &block|
           loc = block_location(block, caller[0])
           id = "(generated from #{loc} #{SecureRandom.hex})"
