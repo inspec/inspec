@@ -4,8 +4,9 @@ if ENV['DOCKER']
   return
 end
 
-if !os.linux?
-  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__} because we are not on linux.\033[0m"
+supported = %w{ubuntu centos amazon fedora}
+unless supported.include?(os[:name])
+  STDERR.puts "\033[1;33mTODO: Not running #{__FILE__} because we are not on #{supported.join(', ')}.\033[0m"
   return
 end
 

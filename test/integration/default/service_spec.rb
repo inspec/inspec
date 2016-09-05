@@ -5,7 +5,7 @@ if ENV['DOCKER']
 end
 
 # based on operating system we select the available service
-if ['centos', 'fedora', 'freebsd', 'opensuse'].include?(os[:family])
+if ['centos', 'fedora', 'freebsd', 'opensuse', 'suse'].include?(os[:family])
   # CentOS, Fedora
   unavailable_service = 'ssh'
   available_service = 'sshd'

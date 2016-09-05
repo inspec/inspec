@@ -61,7 +61,14 @@ platforms:
     box: chef/solaris-<%= solaris_version %>
 <% end %>
 
+<% [ '11-sp2-x86_64' ].each do |sles_version| %>
+- name: sles-<%= sles_version %>
+  driver:
+    box: chef/sles-<%= sles_version %>
+<% end %>
+
 suites:
   - name: default
     run_list:
+      - recipe[ssh-hardening]
       - recipe[os_prepare]

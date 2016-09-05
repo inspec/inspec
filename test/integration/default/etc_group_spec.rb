@@ -8,10 +8,12 @@ end
 # lets define our own group
 root_group = 'root'
 
-if os[:family] == 'aix'
+if os[:name] == 'aix'
   root_group = 'system'
-elsif os[:family] == 'freebsd'
+elsif os[:name] == 'freebsd'
   root_group = 'wheel'
+elsif os[:name] == 'suse'
+  root_group = 'sfcb'
 elsif os.solaris?
   root_group = 'sys'
 end
@@ -23,7 +25,9 @@ if os.unix?
     its('users') { should include 'root' }
   end
 
+  puts "ROOT GROUP: " + root_group
   describe etc_group.where(name: root_group) do
+    its('users') { should_not eq [] }
     its('users') { should include 'root' }
   end
 end
