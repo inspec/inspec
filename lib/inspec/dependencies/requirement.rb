@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'inspec/fetcher'
+require 'inspec/dependencies/dependency_set'
 require 'digest'
 
 module Inspec
@@ -18,17 +19,18 @@ module Inspec
       new(name, version, vendor_index, opts[:cwd], opts.merge(dep))
     end
 
-    def self.from_lock_entry(entry, cwd, vendor_index)
+    def self.from_lock_entry(entry, cwd, vendor_index, backend)
       req = new(entry['name'],
                 entry['version_constraints'],
                 vendor_index,
-                cwd, { url: entry['resolved_source'] })
+                cwd,
+                { url: entry['resolved_source'],
+                  backend: backend })
 
       locked_deps = []
       Array(entry['dependencies']).each do |dep_entry|
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, vendor_index)
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, vendor_index, backend)
       end
-
       req.lock_deps(locked_deps)
       req
     end
@@ -38,6 +40,7 @@ module Inspec
       @version_requirement = Gem::Requirement.new(Array(version_constraints))
       @dep = Gem::Dependency.new(name, @version_requirement, :runtime)
       @vendor_index = vendor_index
+      @backend = opts[:backend]
       @opts = opts
       @cwd = cwd
     end
@@ -123,7 +126,7 @@ module Inspec
 
     def dependencies
       @dependencies ||= profile.metadata.dependencies.map do |r|
-        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd)
+        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd, backend: @backend)
       end
     end
 
@@ -137,7 +140,11 @@ module Inspec
 
     def profile
       return nil if path.nil?
-      @profile ||= Inspec::Profile.for_target(path, {})
+      opts = { backend: @backend }
+      if !@dependencies.nil?
+        opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @vendor_index, @backend)
+      end
+      @profile ||= Inspec::Profile.for_target(path, opts)
     end
   end
 end

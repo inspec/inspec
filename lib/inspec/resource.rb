@@ -3,17 +3,20 @@
 # license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
-
 require 'inspec/plugins'
 
 module Inspec
   class Resource
-    class Registry
-      # empty class for namespacing resource classes in the registry
+    def self.default_registry
+      @default_registry ||= {}
     end
 
     def self.registry
-      @registry ||= {}
+      @registry ||= default_registry
+    end
+
+    def self.new_registry
+      default_registry.dup
     end
 
     # Creates the inner DSL which includes all resources for
@@ -22,9 +25,8 @@ module Inspec
     #
     # @param backend [BackendRunner] exposing the target to resources
     # @return [ResourcesDSL]
-    def self.create_dsl(backend)
+    def self.create_dsl(backend, my_registry = registry)
       # need the local name, to use it in the module creation further down
-      my_registry = registry
       Module.new do
         my_registry.each do |id, r|
           define_method id.to_sym do |*args|
@@ -41,10 +43,14 @@ module Inspec
   # @param [int] version the resource version to use
   # @return [Resource] base class for creating a new resource
   def self.resource(version)
+    validate_resource_dsl_version!(version)
+    Inspec::Plugins::Resource
+  end
+
+  def self.validate_resource_dsl_version!(version)
     if version != 1
       fail 'Only resource version 1 is supported!'
     end
-    Inspec::Plugins::Resource
   end
 end
 

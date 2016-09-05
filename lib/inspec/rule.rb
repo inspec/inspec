@@ -33,6 +33,10 @@ module Inspec
       instance_eval(&block) if block_given?
     end
 
+    def to_s
+      Inspec::Rule.rule_id(self)
+    end
+
     def id(*_)
       # never overwrite the ID
       @id

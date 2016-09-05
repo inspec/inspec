@@ -3,7 +3,9 @@
 # author: Christoph Hartmann
 require 'inspec/log'
 require 'inspec/rule'
-require 'inspec/dsl'
+require 'inspec/resource'
+require 'inspec/library_eval_context'
+require 'inspec/control_eval_context'
 require 'inspec/require_loader'
 require 'securerandom'
 require 'inspec/objects/attribute'
@@ -14,7 +16,7 @@ module Inspec
       new(profile.name, backend, { 'profile' => profile })
     end
 
-    attr_reader :attributes, :rules, :profile_id
+    attr_reader :attributes, :rules, :profile_id, :resource_registry
     def initialize(profile_id, backend, conf)
       if backend.nil?
         fail 'ProfileContext is initiated with a backend == nil. ' \
@@ -25,17 +27,35 @@ module Inspec
       @conf = conf.dup
       @rules = {}
       @subcontexts = []
-      @dependencies = {}
-      @dependencies = conf['profile'].locked_dependencies unless conf['profile'].nil?
       @require_loader = ::Inspec::RequireLoader.new
       @attributes = []
-      reload_dsl
+      # A local resource registry that only contains resources defined
+      # in the transitive dependency tree of the loaded profile.
+      @resource_registry = Inspec::Resource.new_registry
+      @library_eval_context = Inspec::LibraryEvalContext.create(@resource_registry, @require_loader)
+    end
+
+    def dependencies
+      if @conf['profile'].nil?
+        {}
+      else
+        @conf['profile'].locked_dependencies
+      end
+    end
+
+    def to_resources_dsl
+      Inspec::Resource.create_dsl(@backend, @resource_registry)
+    end
+
+    def control_eval_context
+      @control_eval_context ||= begin
+                                  ctx = Inspec::ControlEvalContext.create(self, to_resources_dsl)
+                                  ctx.new(@backend, @conf, dependencies, @require_loader)
+                                end
     end
 
     def reload_dsl
-      resources_dsl = Inspec::Resource.create_dsl(@backend)
-      ctx = create_context(resources_dsl, rule_context(resources_dsl))
-      @profile_context = ctx.new(@backend, @conf, @dependencies, @require_loader)
+      @control_eval_context = nil
     end
 
     def all_rules
@@ -44,16 +64,14 @@ module Inspec
       ret
     end
 
-    def add_subcontext(context)
-      @subcontexts << context
+    def add_resources(context)
+      @resource_registry.merge!(context.resource_registry)
+      control_eval_context.add_resources(context)
+      reload_dsl
     end
 
-    def load_tests(tests)
-      tests.each do |t|
-        content = t[:content]
-        next if content.nil? || content.empty?
-        load(content, t[:ref], t[:line])
-      end
+    def add_subcontext(context)
+      @subcontexts << context
     end
 
     def load_libraries(libs)
@@ -73,21 +91,29 @@ module Inspec
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
         next unless path.end_with?('.rb')
-        load(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+        load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
       end
-
       reload_dsl
     end
 
-    def load(content, source = nil, line = nil)
+    def load_control_file(*args)
+      load_with_context(control_eval_context, *args)
+    end
+    alias load load_control_file
+
+    def load_library_file(*args)
+      load_with_context(@library_eval_context, *args)
+    end
+
+    def load_with_context(context, content, source = nil, line = nil)
       Inspec::Log.debug("Loading #{source || '<anonymous content>'} into #{self}")
       @current_load = { file: source }
       if content.is_a? Proc
-        @profile_context.instance_eval(&content)
+        context.instance_eval(&content)
       elsif source.nil? && line.nil?
-        @profile_context.instance_eval(content)
+        context.instance_eval(content)
       else
-        @profile_context.instance_eval(content, source || 'unknown', line || 1)
+        context.instance_eval(content, source || 'unknown', line || 1)
       end
     end
 
@@ -128,132 +154,6 @@ module Inspec
     def full_id(pid, rid)
       return rid.to_s if pid.to_s.empty?
       pid.to_s + '/' + rid.to_s
-    end
-
-    # Create the context for controls. This includes all components of the DSL,
-    # including matchers and resources.
-    #
-    # @param [ResourcesDSL] resources_dsl which has all resources to attach
-    # @return [RuleContext] the inner context of rules
-    def rule_context(resources_dsl)
-      require 'rspec/core/dsl'
-      Class.new(Inspec::Rule) do
-        include RSpec::Core::DSL
-        include resources_dsl
-      end
-    end
-
-    # Creates the heart of the profile context:
-    # An instantiated object which has all resources registered to it
-    # and exposes them to the a test file. The profile context serves as a
-    # container for all profiles which are registered. Within the context
-    # profiles get access to all DSL calls for creating tests and controls.
-    #
-    # @param outer_dsl [OuterDSLClass]
-    # @return [ProfileContextClass]
-    def create_context(resources_dsl, rule_class) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      profile_context_owner = self
-      profile_id = @profile_id
-
-      # rubocop:disable Lint/NestedMethodDefinition
-      Class.new do
-        include Inspec::DSL
-        include resources_dsl
-
-        def initialize(backend, conf, dependencies, require_loader) # rubocop:disable Lint/NestedMethodDefinition, Lint/DuplicateMethods
-          @backend = backend
-          @conf = conf
-          @dependencies = dependencies
-          @require_loader = require_loader
-          @skip_profile = false
-        end
-
-        # Save the toplevel require method to load all ruby dependencies.
-        # It is used whenever the `require 'lib'` is not in libraries.
-        alias_method :__ruby_require, :require
-
-        def require(path)
-          rbpath = path + '.rb'
-          return __ruby_require(path) if !@require_loader.exists?(rbpath)
-          return false if @require_loader.loaded?(rbpath)
-
-          # This is equivalent to calling `require 'lib'` with lib on disk.
-          # We cannot rely on libraries residing on disk however.
-          # TODO: Sandboxing.
-          content, path, line = @require_loader.load(rbpath)
-          eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Lint/Eval
-        end
-
-        define_method :title do |arg|
-          profile_context_owner.set_header(:title, arg)
-        end
-
-        def to_s
-          "Profile Context Run #{profile_name}"
-        end
-
-        define_method :profile_name do
-          profile_id
-        end
-
-        define_method :control do |*args, &block|
-          id = args[0]
-          opts = args[1] || {}
-          register_control(rule_class.new(id, profile_id, opts, &block))
-        end
-
-        define_method :describe do |*args, &block|
-          loc = block_location(block, caller[0])
-          id = "(generated from #{loc} #{SecureRandom.hex})"
-
-          res = nil
-          rule = rule_class.new(id, profile_id, {}) do
-            res = describe(*args, &block)
-          end
-          register_control(rule, &block)
-
-          res
-        end
-
-        define_method :add_subcontext do |context|
-          profile_context_owner.add_subcontext(context)
-        end
-
-        define_method :register_control do |control, &block|
-          ::Inspec::Rule.set_skip_rule(control, true) if @skip_profile
-
-          profile_context_owner.register_rule(control, &block) unless control.nil?
-        end
-
-        # method for attributes; import attribute handling
-        define_method :attribute do |name, options|
-          profile_context_owner.register_attribute(name, options)
-        end
-
-        define_method :skip_control do |id|
-          profile_context_owner.unregister_rule(id)
-        end
-
-        def only_if
-          return unless block_given?
-          @skip_profile ||= !yield
-        end
-
-        alias_method :rule, :control
-        alias_method :skip_rule, :skip_control
-
-        private
-
-        def block_location(block, alternate_caller)
-          if block.nil?
-            alternate_caller[/^(.+:\d+):in .+$/, 1] || 'unknown'
-          else
-            path, line = block.source_location
-            "#{File.basename(path)}:#{line}"
-          end
-        end
-      end
-      # rubocop:enable all
     end
   end
 end

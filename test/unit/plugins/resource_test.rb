@@ -14,12 +14,6 @@ describe Inspec::Plugins::Resource do
       Class.new(base) do name 'hello'; end
       Inspec::Resource.registry['hello'].wont_be :nil?
     end
-
-    it "will create a good class name" do
-      Class.new(base) do name 'hello_world'; end
-      Inspec::Resource.registry['hello_world'].to_s
-                      .must_equal 'Inspec::Resource::Registry::HelloWorld'
-    end
   end
 
   def create(&block)

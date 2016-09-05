@@ -18,14 +18,22 @@ module Inspec
     # @param cwd [String] Current working directory for relative path includes
     # @param vendor_path [String] Path to the vendor directory
     #
-    def self.from_lockfile(lockfile, cwd, vendor_path)
+    def self.from_lockfile(lockfile, cwd, vendor_path, backend)
       vendor_index = VendorIndex.new(vendor_path)
       dep_tree = lockfile.deps.map do |dep|
-        Inspec::Requirement.from_lock_entry(dep, cwd, vendor_index)
+        Inspec::Requirement.from_lock_entry(dep, cwd, vendor_index, backend)
       end
 
       dep_list = flatten_dep_tree(dep_tree)
-      new(cwd, vendor_path, dep_list)
+      new(cwd, vendor_path, dep_list, backend)
+    end
+
+    def self.from_array(dependencies, cwd, vendor_path, backend)
+      dep_list = {}
+      dependencies.each do |d|
+        dep_list[d.name] = d
+      end
+      new(cwd, vendor_path, dep_list, backend)
     end
 
     # This is experimental code to test the working of the
@@ -50,14 +58,21 @@ module Inspec
     # @param cwd [String] current working directory for relative path includes
     # @param vendor_path [String] path which contains vendored dependencies
     # @return [dependencies] this
-    def initialize(cwd, vendor_path, dep_list = nil)
+    def initialize(cwd, vendor_path, dep_list, backend)
       @cwd = cwd
       @vendor_path = vendor_path
       @dep_list = dep_list
+      @backend = backend
+    end
+
+    def each
+      @dep_list.each do |_k, v|
+        yield v.profile
+      end
     end
 
     def list
-      @dep_list
+      @dep_list || {}
     end
 
     def to_array
@@ -77,7 +92,7 @@ module Inspec
     def vendor(dependencies)
       return nil if dependencies.nil? || dependencies.empty?
       @vendor_index ||= VendorIndex.new(@vendor_path)
-      @dep_list = Resolver.resolve(dependencies, @vendor_index, @cwd)
+      @dep_list = Resolver.resolve(dependencies, @vendor_index, @cwd, @backend)
     end
   end
 end

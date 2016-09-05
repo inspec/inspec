@@ -14,3 +14,9 @@ control 'profileb-1' do                        # A unique ID for this control
     it { should be_directory }
   end
 end
+
+control 'profileb-2' do
+  describe gordon_config do
+    its('version') { should eq('2.0') }
+  end
+end

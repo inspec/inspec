@@ -292,6 +292,7 @@ class MockLoader
 
   def self.load_profile(name, opts = {})
     opts[:test_collector] = Inspec::RunnerMock.new
+    opts[:backend] = Inspec::Backend.create(opts)
     Inspec::Profile.for_target(profile_path(name), opts)
   end
 
