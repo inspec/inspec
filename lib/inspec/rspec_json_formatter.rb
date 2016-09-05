@@ -386,10 +386,18 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       control_result = control[:results]
       title = control_result[0][:code_desc].split[0..1].join(' ')
       puts '  ' + title
+      # iterate over all describe blocks in anonoymous control block
       control_result.each do |test|
         control_id = ''
-        test_result = test[:code_desc].split[2..-1].join(' ')
-        test_result = test[:message] unless test[:exception].nil?
+        # display exceptions
+        unless test[:exception].nil?
+          test_result = test[:message]
+        else
+          # determine title
+          test_result = test[:code_desc].split[2..-1].join(' ')
+          # show error message
+          test_result += "\n" + test[:message] unless test[:message].nil?
+        end
         status_indicator = test[:status_type]
         print_line(
           color:      @colors[status_indicator] || '',

@@ -57,19 +57,14 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     out = inspec('exec ' + File.join(profile_path, 'spec_only'))
     out.stderr.must_equal ''
     out.exit_status.must_equal 1
-    out.stdout.force_encoding(Encoding::UTF_8).must_equal "
-Target:  local://
-
-
-  working should
-\e[32m     ✔  eq \"working\"\e[0m
-  skippy This
-\e[37m     ○  will be skipped intentionally.\e[0m
-  failing should
-\e[31m     ✖  eq \"as intended\"\e[0m
-
-Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m
-"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "working should"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  eq \"working\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy This"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "○  will be skipped intentionally."
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  eq \"as intended\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m"
   end
 
   it 'executes only specified controls' do
@@ -153,7 +148,7 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  expected `File /tmp.directory?` to return false, got true\e[0m"
     end
@@ -164,7 +159,7 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
