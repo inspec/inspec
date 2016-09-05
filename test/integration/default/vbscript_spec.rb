@@ -2,18 +2,23 @@
 
 return unless os.windows?
 
-# script that may have multiple lines
-vbscript = <<-EOH
-  WScript.Echo "hello"
-EOH
-
-describe vbscript(vbscript) do
+describe vbscript("WScript.Echo \"hello\"") do
   its('stdout') { should eq "hello\r\n" }
 end
 
-# remove whitespace \r\n from stdout
+# script that may have multiple lines
+vbscript = <<-EOH
+  WScript.Echo "hello"
+  Wscript.Stdout.Write "end"
+EOH
+
 describe vbscript(vbscript) do
-  its('strip') { should eq "hello" }
+  its('stdout') { should eq "hello\r\nend" }
+end
+
+# remove whitespace from stdout
+describe vbscript("WScript.Echo \"hello\"") do
+  its('strip') { should eq 'hello' }
 end
 
 # ensure that we do not require a newline

@@ -2,6 +2,8 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
+require 'securerandom'
+
 module Inspec::Resources
   # This resource allows users to run vbscript on windows machines. We decided
   # not to use scriptcontrol, due to the fact that it works on 32 bit systems only:
@@ -34,10 +36,11 @@ module Inspec::Resources
 
     def initialize(vbscript)
       return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
-
+      @seperator = SecureRandom.uuid
       cmd = <<-EOH
 $vbscript = @"
 #{vbscript}
+Wscript.Stdout.Write "#{@seperator}"
 "@
 $filename = [System.IO.Path]::GetTempFileName() + ".vbs"
 New-Item $filename -type file -force -value $vbscript | Out-Null
@@ -47,8 +50,21 @@ EOH
       super(cmd)
     end
 
+    def result
+      @result ||= parse_stdout
+    end
+
     def to_s
       'Windows VBScript'
+    end
+
+    private
+
+    def parse_stdout
+      res = inspec.backend.run_command(@command)
+      parsed_result = res.stdout.gsub(/#{@seperator}\r\n$/, '')
+      res.stdout = parsed_result
+      res
     end
   end
 end
