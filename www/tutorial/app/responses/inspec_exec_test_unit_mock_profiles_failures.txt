@@ -1,0 +1,18 @@
+
+Profile: InSpec Profile (failures)
+Version: 0.1.0
+Target:  local://
+
+[31;1m  ✖  tmp-1.0: Create /tmp directory (1 failed)[0m
+[31;1m     ✖  expected `File /tmp.directory?` to return false, got true[0m
+[32m     ✔  File /tmp should be directory[0m
+
+  File /tmp
+[32m     ✔  should be directory[0m
+[31m     ✖  undefined method `should_nota' for #<RSpec::ExampleGroups::FileTmp_2:0x007fd2fc4f8e50>[0m
+  File /tmp
+[31m     ✖  should not be directory
+     expected `File /tmp.directory?` to return false, got true[0m
+[32m     ✔  should be directory[0m
+
+Summary: [32m3 successful[0m, [31m3 failures[0m, [37m0 skipped[0m

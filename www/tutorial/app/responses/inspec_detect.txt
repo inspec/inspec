@@ -1,0 +1,7 @@
+
+== Operating System Details
+
+Name:      [0;36mmac_os_x[0m
+Family:    [0;36mdarwin[0m
+Release:   [0;36m10.11.6[0m
+Arch:      [0;36mx86_64[0m

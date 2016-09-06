@@ -15,4 +15,4 @@ omnibus/pkg
 www/tutorial/typings
 www/tutorial/node_modules
 www/tutorial/**/*.js.map
-www/tutorial/**/*.js
+www/tutorial/dist

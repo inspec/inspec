@@ -4,24 +4,14 @@
   <span> x </span>
 </div>
 
-<div class="guide" *ngIf="counter === 0">
-  Welcome to the interactive InSpec demo!
-  <p>
-    This tutorial is great for getting familiar with InSpec. There are 3 sections:
-  </p>
-  <ol>
-    <!--TODO: give these real links-->
-    <li><a href="...">InSpec commandline interface</a></li>
-    <li><a href="...">InSpec interactive shell</a></li>
-    <li><a href="...">Create test and compliance profile</a></li>
-  </ol>
-  <p>Use the command "next" to move forward or "prev" to move backwards.</p>
-</div>
+<img src="inspec-logo.png" alt="Inspec Logo">
+<div class="main">
+  <div class="guide">
+    <p class="bold">{{title}}</p>
+    <pre>{{instructions}}</pre>
+  </div>
 
-<div class="guide" *ngIf="counter > 0">
-  <pre> {{ instructions }} </pre>
-</div>
-
-<div class="cli">
-  <xterm-terminal (command)="evalCommand(command=$event)" [responsesArray]="responsesArray" [response]="response" [shell]="shell"></xterm-terminal>
+  <div class="cli">
+    <xterm-terminal (command)="evalCommand(command=$event)" [response]="response" [shell]="shell"></xterm-terminal>
+  </div>
 </div>

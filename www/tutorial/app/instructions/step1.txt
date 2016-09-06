@@ -1,7 +1,0 @@
-Step 1
-hey look we made it to step 1!
-
-  here are more things to do
-  talk to a frog, smell a flower
-  stare at the sky
-  and try typing 'inspec exec examples/profile'
