@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hashie', '~> 3.4'
   spec.add_dependency 'mixlib-log'
   spec.add_dependency 'sslshake', '~> 1'
+  spec.add_dependency 'parallel', '~> 1.9'
 end
