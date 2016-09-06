@@ -45,8 +45,8 @@ module Inspec
     def_delegator :@source_reader, :metadata
 
     # rubocop:disable Metrics/AbcSize
-    def initialize(source_reader, options = nil)
-      @options = options || {}
+    def initialize(source_reader, options = {})
+      @options = options
       @target = @options.delete(:target)
       @logger = @options[:logger] || Logger.new(nil)
       @source_reader = source_reader
@@ -57,7 +57,7 @@ module Inspec
       @profile_id = @options[:id]
       @backend = @options[:backend] || Inspec::Backend.create(options)
       Metadata.finalize(@source_reader.metadata, @profile_id)
-      @runner_context = @options[:profile_context] || Inspec::ProfileContext.for_profile(self, @backend)
+      @runner_context = @options[:profile_context] || Inspec::ProfileContext.for_profile(self, @backend, @options[:attributes])
     end
 
     def name

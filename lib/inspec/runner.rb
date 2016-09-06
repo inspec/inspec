@@ -126,13 +126,16 @@ module Inspec
     # @eturns [Inspec::ProfileContext]
     #
     def add_target(target, _opts = [])
-      profile = Inspec::Profile.for_target(target, backend: @backend, controls: @controls)
+      profile = Inspec::Profile.for_target(target,
+                                           backend: @backend,
+                                           controls: @controls,
+                                           attributes: @conf[:attributes])
       fail "Could not resolve #{target} to valid input." if profile.nil?
       @target_profiles << profile if supports_profile?(profile)
     end
 
     #
-    # This is used by inspec-shell and inspec-detect.  This should
+    # This is used by inspec-shell and inspec-detect. This should
     # probably be cleaned up a bit.
     #
     # @params [Hash] Options
