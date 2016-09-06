@@ -62,7 +62,7 @@ module Inspec
     def to_hash
       h = {
         'name' => name,
-        'resolved_source' => source_url,
+        'resolved_source' => resolved_source,
         'version_constraints' => @version_requirement.to_s,
       }
 
@@ -90,6 +90,10 @@ module Inspec
                           fail "No vendored archive path for #{self}, cannot take content hash" if archive_path.nil?
                           Digest::SHA256.hexdigest File.read(archive_path)
                         end
+    end
+
+    def resolved_source
+      fetcher.resolved_url
     end
 
     def source_url

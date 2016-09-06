@@ -31,6 +31,18 @@ module Inspec
       def relative_target
         RelFetcher.new(self)
       end
+
+      def resolved_url
+        if parent
+          parent.expanded_target
+        else
+          expanded_target
+        end
+      end
+
+      def expanded_target
+        target
+      end
     end
 
     BLACKLIST_FILES = [
