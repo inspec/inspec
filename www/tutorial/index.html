@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="node_modules/xterm/src/xterm.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <!-- 1. Load libraries -->
      <!-- Polyfill(s) for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <!-- 2. Configure SystemJS -->
-    <script src="systemjs.config.js"></script>
+    <!--2. Load Webpack Config-->
+    <script src="dist/bundle.js"></script>
     <!-- 3. Load Xterm -->
     <script src="node_modules/xterm/src/xterm.js"></script>
     <script src="node_modules/xterm/addons/fit/fit.js"></script>
-    <script>
-      System.import('app').catch(function(err){ console.error(err); });
-    </script>
   </head>
   <!-- 3. Display the application -->
   <body>

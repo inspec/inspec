@@ -16,6 +16,7 @@ export class XtermTerminalComponent implements OnInit {
   currentResponse: string;
   shellStatus: string;
   buffer: string = '';
+  poppedCommands: any = [];
 
   // xterm variables
   terminalContainer: any;
@@ -23,15 +24,12 @@ export class XtermTerminalComponent implements OnInit {
   optionElements: any;
   cols: string;
   rows: string;
-  shellprompt: string = '$ ';
+  shellprompt: string = ' [36m$ ';
 
 
  ngOnInit() {
-    this.terminalContainer = document.getElementById('terminal-container'),
-    this.optionElements = {
-      cursorBlink: true
-    },
-    this.cols = '70',
+    this.terminalContainer = document.getElementById('terminal-container');
+    this.cols = '70';
     this.rows = '70';
     this.createTerminal();
   }
@@ -75,21 +73,21 @@ export class XtermTerminalComponent implements OnInit {
   setPrompt() {
     this.buffer = '';
     if (this.shell === 'inspec-shell') {
-      this.term.write('\r\ninspec> ');
+      this.term.write(" [32m" + '\r\ninspec> ');
     } else {
-      this.term.write('\r\n' + this.shellprompt);
+      this.term.write(this.shellprompt);
     }
   }
 
   onKey(ev) {
     var shell = null
-    var printable = ['Alt', 'Control', 'Meta', 'Shift', 'CapsLock', 'Tab', 'Escape'].indexOf(ev.key) == -1
+    var printable = ['Alt', 'Control', 'Meta', 'Shift', 'CapsLock', 'Tab', 'Escape', 'ArrowLeft', 'ArrowRight'].indexOf(ev.key) == -1
 
     // on enter, save command to array and send current value of buffer
     // to parent component (app).  if the command is the same as the previous command
     // entered, we just diplay the currentResponse. the reason this is being done here and
     // not in the app component is because the ngOnChanges that tracks the value of the
-    // emitted event won't recognize that there has been a change if it is the same
+    // emitted event won't recognize that there has been a change if it is the same.
     if (ev.keyCode == 13) {
       this.previousCommands.push(this.buffer);
       this.term.write('\r\n');
@@ -119,18 +117,36 @@ export class XtermTerminalComponent implements OnInit {
       }
     }
     // on up arrow, delete anything on line and print previous command
+    // and push last to poppedCommands
     else if (ev.keyCode === 38) {
       let last;
       if (this.previousCommands.length > 0) {
         last = this.previousCommands.pop();
+        this.poppedCommands.push(last);
       } else {
         last = '';
       }
-      let letters = this.term.x - 2;
+      let letters = this.term.x - 3;
       for (var i = 0; i < letters; i++) {
         this.term.write('\b \b');
       }
       this.term.write(last);
+    }
+    // on down arrow, delete anything on line and print from popped command
+    // and push previous to previousCommands
+    else if (ev.keyCode === 40) {
+      let previous;
+      if (this.poppedCommands.length > 0) {
+        previous = this.poppedCommands.pop();
+        this.previousCommands.push(previous);
+      } else {
+        previous = '';
+      }
+      let letters = this.term.x - 3;
+      for (var i = 0; i < letters; i++) {
+        this.term.write('\b \b');
+      }
+      this.term.write(previous);
     }
     // write each character on prompt line
     else if (printable) {
