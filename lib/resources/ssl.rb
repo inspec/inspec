@@ -6,6 +6,8 @@
 
 require 'sslshake'
 require 'utils/filter'
+require 'uri'
+require 'parallel'
 
 # Custom resource based on the InSpec resource DSL
 class SSL < Inspec.resource(1)
@@ -44,6 +46,11 @@ class SSL < Inspec.resource(1)
   def initialize(opts = {})
     @host = opts[:host] ||
             inspec.backend.instance_variable_get(:@hostname)
+    # FIXME: This can be removed when/if @hostname is available as a property for 'Train::Transports::WinRM::Connection'
+    # Train enhancement request for this here: https://github.com/chef/train/issues/128
+    if @host.nil? && inspec.backend.class.to_s == 'Train::Transports::WinRM::Connection'
+      @host = URI.parse(inspec.backend.instance_variable_get(:@options)[:endpoint]).hostname
+    end
     if @host.nil? && inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
       @host = 'localhost'
     end
@@ -63,7 +70,7 @@ class SSL < Inspec.resource(1)
         .add(:enabled?) { |x| x.handshake.values.any? { |i| i['success'] } }
         .add(:handshake) { |x|
           groups = x.entries.group_by(&:protocol)
-          res = groups.map do |proto, e|
+          res = Parallel.map(groups, in_threads: 8) do |proto, e|
             [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
               protocol: proto, ciphers: e.map(&:cipher),
               timeout: @timeout, retries: @retries)]
