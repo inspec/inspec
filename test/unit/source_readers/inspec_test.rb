@@ -13,7 +13,7 @@ describe SourceReaders::InspecReader do
   end
 
   describe 'with a valid profile' do
-    let(:mock_file) { mock_file = MockLoader.profile_tgz('complete-profile') }
+    let(:mock_file) { MockLoader.profile_tgz('complete-profile') }
     let(:target) { Inspec::Fetcher.resolve(mock_file) }
     let(:res) { Inspec::SourceReader.resolve(target) }
 
@@ -27,12 +27,12 @@ describe SourceReaders::InspecReader do
 
     it 'retrieves all files' do
       _(res.tests.keys).must_equal %w{controls/filesystem_spec.rb}
-      _(res.tests.values[0]).must_match /^control 'test01' do$/
+      _(res.tests.values[0]).must_match(/^control 'test01' do$/)
     end
 
     it 'retrieves all libraries' do
       _(res.libraries.keys).must_equal %w{libraries/testlib.rb}
-      _(res.libraries.values[0]).must_match /^# Library resource$/
+      _(res.libraries.values[0]).must_match(/^# Library resource$/)
     end
   end
 end

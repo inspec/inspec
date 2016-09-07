@@ -96,7 +96,6 @@ describe Inspec::Profile do
       let(:profile_id) { 'legacy-empty-metadata' }
 
       it 'prints loads of warnings' do
-        metadata_rb = "#{home}/mock/profiles/#{profile_id}/metadata.rb"
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :error, nil, ["Missing profile name in metadata.rb"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']

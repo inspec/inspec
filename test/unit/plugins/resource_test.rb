@@ -20,7 +20,7 @@ describe Inspec::Plugins::Resource do
     random_name = (0...50).map { (65 + rand(26)).chr }.join
     Class.new(base) do
       name random_name
-      instance_eval &block
+      instance_eval(&block)
     end
     Inspec::Resource.registry[random_name]
   end

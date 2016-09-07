@@ -72,7 +72,7 @@ describe 'inspec json' do
       end
 
       it 'has a the source code' do
-        control['code'].must_match /\Acontrol \"tmp-1.0\" do.*end\n\Z/m
+        control['code'].must_match(/\Acontrol \"tmp-1.0\" do.*end\n\Z/m)
       end
     end
   end

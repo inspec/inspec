@@ -93,7 +93,7 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
-      out.stderr.must_match /^This OS\/platform \(.+\) is not supported by this profile.$/
+      out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
       out.exit_status.must_equal 1
     end
   end

@@ -30,7 +30,7 @@ describe Fetchers::Tar do
     end
 
     it 'must read the contents of the file' do
-      _(res.read('inspec.yml')).must_match /^name: complete$/
+      _(res.read('inspec.yml')).must_match(/^name: complete$/)
     end
   end
 end

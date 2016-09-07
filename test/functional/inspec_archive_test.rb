@@ -11,7 +11,7 @@ describe 'inspec archive' do
   it 'archive is successful' do
     out = inspec('archive ' + example_profile + ' --overwrite')
     out.exit_status.must_equal 0
-    out.stdout.must_match /Generate archive [^ ]*profile.tar.gz/
+    out.stdout.must_match(/Generate archive [^ ]*profile.tar.gz/)
     out.stdout.must_include 'Finished archive generation.'
   end
 
