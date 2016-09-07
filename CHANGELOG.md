@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.33.1](https://github.com/chef/inspec/tree/0.33.1) (2016-09-07)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.33.0...0.33.1)
+## [0.33.2](https://github.com/chef/inspec/tree/0.33.2) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.1...0.33.2)
+
+**Implemented enhancements:**
+
+- ssl resource fix and speed improvement [\#1027](https://github.com/chef/inspec/pull/1027) ([alexpop](https://github.com/alexpop))
+- allow direct access to iis configuration parameters [\#1020](https://github.com/chef/inspec/pull/1020) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- ssl resource fix and speed improvement [\#1027](https://github.com/chef/inspec/pull/1027) ([alexpop](https://github.com/alexpop))
+
+## [v0.33.1](https://github.com/chef/inspec/tree/v0.33.1) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.0...v0.33.1)
 
 **Closed issues:**
 
