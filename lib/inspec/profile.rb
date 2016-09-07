@@ -46,18 +46,18 @@ module Inspec
 
     # rubocop:disable Metrics/AbcSize
     def initialize(source_reader, options = {})
-      @options = options
-      @target = @options.delete(:target)
-      @logger = @options[:logger] || Logger.new(nil)
-      @source_reader = source_reader
-      if options[:dependencies]
-        @locked_dependencies = options[:dependencies]
-      end
+      @target = options.delete(:target)
+      @logger = options[:logger] || Logger.new(nil)
+      @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
-      @profile_id = @options[:id]
-      @backend = @options[:backend] || Inspec::Backend.create(options)
+      @profile_id = options[:id]
+      @backend = options[:backend] || Inspec::Backend.create(options)
+      @source_reader = source_reader
+      @tests_collected = false
       Metadata.finalize(@source_reader.metadata, @profile_id)
-      @runner_context = @options[:profile_context] || Inspec::ProfileContext.for_profile(self, @backend, @options[:attributes])
+      @runner_context = options[:profile_context] || Inspec::ProfileContext.for_profile(self,
+                                                                                        @backend,
+                                                                                        options[:attributes])
     end
 
     def name
