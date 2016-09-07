@@ -1,7 +1,21 @@
 # Change Log
 
-## [0.33.0](https://github.com/chef/inspec/tree/0.33.0) (2016-09-05)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.32.0...0.33.0)
+## [0.33.1](https://github.com/chef/inspec/tree/0.33.1) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.0...0.33.1)
+
+**Closed issues:**
+
+- Research: determine mechanism for recording + playing back inspec [\#955](https://github.com/chef/inspec/issues/955)
+- Create content for interactive inspec online demo [\#954](https://github.com/chef/inspec/issues/954)
+
+**Merged pull requests:**
+
+- Pass attributes from command line into profile context [\#1026](https://github.com/chef/inspec/pull/1026) ([stevendanna](https://github.com/stevendanna))
+- Remove SourceReader::Inspec\#prepare\_load\_path [\#1023](https://github.com/chef/inspec/pull/1023) ([stevendanna](https://github.com/stevendanna))
+- add demo yml contents [\#1022](https://github.com/chef/inspec/pull/1022) ([arlimus](https://github.com/arlimus))
+
+## [v0.33.0](https://github.com/chef/inspec/tree/v0.33.0) (2016-09-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.32.0...v0.33.0)
 
 **Implemented enhancements:**
 
