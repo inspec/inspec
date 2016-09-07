@@ -385,10 +385,6 @@ transport:
 ```
 
 
-### Chef Delivery Tests
-
-It may be informative to look at what [tests Chef Delivery](https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb) is running for CI.
-
 ## License
 
 | **Author:**          | Dominik Richter (<drichter@chef.io>)
