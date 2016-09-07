@@ -53,6 +53,13 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
   end
 
+  it "executes a profile and reads attributes" do
+    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --attrs #{File.join(examples_path, "profile-attribute.yml")}")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m"
+  end
+
   it 'executes a specs-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'spec_only'))
     out.stderr.must_equal ''
