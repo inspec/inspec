@@ -311,6 +311,11 @@ InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project.
 1. Create new Pull Request
 
 
+The InSpec community and maintainers are very active and helpful. This project benefits greatly from this activity.
+
+[![InSpec health](https://graphs.waffle.io/chef/inspec/throughput.svg)](https://waffle.io/chef/inspec/metrics/throughput)
+
+
 ## Testing InSpec
 
 We perform `unit`, `resource` and `integration` tests.
