@@ -2,9 +2,9 @@
   "name": "angular2-quickstart",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server  & open http://localhost:8080/",
-    "dev": "webpack-dev-server --inline --hot & open http://localhost:8080/"
+    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config webpack.config.js --progress --profile --colors --display-error-details --display-cached",
+    "start": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server & open http://localhost:8080/",
+    "dev": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js --inline --progress --hot --profile --colors --watch --display-error-details --display-cachedwebpack-dev-server & open http://localhost:8080/"
   },
   "license": "ISC",
   "dependencies": {
@@ -30,8 +30,13 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "concurrently": "^2.0.0",
+    "css-loader": "^0.25.0",
+    "lite-server": "^2.2.0",
+    "sass-loader": "^4.0.2",
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
-    "typings": "^1.0.4",
-    "ts-loader": "^0.7.2"
+    "typings": "^1.0.4"
   }
 }
