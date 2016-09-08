@@ -270,7 +270,7 @@ module Inspec::Resources
 
     # returns optional information about a user, eg shell
     def meta_info(_username)
-      {}
+      nil
     end
 
     # returns a hash with meta-data about user credentials
@@ -281,7 +281,7 @@ module Inspec::Resources
     # }
     # this method is optional and may not be implemented by each provider
     def credentials(_username)
-      {}
+      nil
     end
 
     # returns an array with users
@@ -292,9 +292,12 @@ module Inspec::Resources
     # retuns all aspects of the user as one hash
     def user_details(username)
       item = {}
-      item.merge!(identity(username))
-      item.merge!(meta_info(username))
-      item.merge!(credentials(username))
+      id = identity(username)
+      item.merge!(id) unless id.nil?
+      meta = meta_info(username)
+      item.merge!(meta) unless meta.nil?
+      cred = credentials(username)
+      item.merge!(cred) unless cred.nil?
       item
     end
 
@@ -407,10 +410,6 @@ module Inspec::Resources
       @inspec = inspec
       @id_cmd ||= 'id -a'
       super
-    end
-
-    def credentials(_username)
-      nil
     end
   end
 
