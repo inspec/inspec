@@ -1,11 +1,6 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
-require 'minitest/autorun'
-require 'minitest/spec'
-require 'mocha/setup'
-
 require 'simplecov'
 SimpleCov.start do
   add_filter '/test/'
@@ -14,6 +9,9 @@ SimpleCov.start do
   add_group 'Backends', 'lib/inspec/backend'
 end
 
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'mocha/setup'
 require 'fileutils'
 require 'pathname'
 require 'tempfile'
