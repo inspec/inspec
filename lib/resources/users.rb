@@ -67,7 +67,7 @@ module Inspec::Resources
           .add(:mindays,   field: :mindays)
           .add(:maxdays,   field: :maxdays)
           .add(:warndays,  field: :warndays)
-    filter.connect(self, :collect_user_info)
+    filter.connect(self, :collect_user_details)
 
     def to_s
       'Users'
@@ -81,11 +81,8 @@ module Inspec::Resources
     end
 
     # collects information about every user
-    def collect_user_info
-      @users_cache ||= list_users.map { |username|
-        @user_provider.user_details(username.chomp)
-      }
-      @users_cache
+    def collect_user_details
+      @users_cache ||= @user_provider.collect_user_details unless @user_provider.nil?
     end
   end
 
@@ -299,6 +296,13 @@ module Inspec::Resources
       item.merge!(meta_info(username))
       item.merge!(credentials(username))
       item
+    end
+
+    # returns the full information list for a user
+    def collect_user_details
+      list_users.map { |username|
+        user_details(username.chomp)
+      }
     end
   end
 
@@ -539,12 +543,6 @@ module Inspec::Resources
       [name, domain]
     end
 
-    def list_users
-      script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
-      cmd = inspec.powershell(script)
-      cmd.stdout.chomp.lines
-    end
-
     def identity(username)
       # extract domain/user information
       account, domain = parse_windows_account(username)
@@ -601,6 +599,12 @@ module Inspec::Resources
         home: nil,
         shell: nil,
       }
+    end
+
+    def list_users
+      script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
+      cmd = inspec.powershell(script)
+      cmd.stdout.chomp.lines
     end
   end
 end

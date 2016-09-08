@@ -1,6 +1,5 @@
 # encoding: utf-8
-
-if ['centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
+if ['centos', 'redhat', 'fedora', 'suse', 'debian', 'ubuntu'].include?(os[:family])
   userinfo = {
     username: 'root',
     groupname: 'root',
@@ -25,8 +24,9 @@ elsif ['freebsd'].include?(os[:family])
     shell: '/bin/csh',
   }
 elsif os.windows?
+  hostname = powershell('$env:computername').stdout.chomp
   userinfo = {
-    username: 'Administrator',
+    username: hostname + '\Administrator',
     groupname: nil,
     uid: nil,
     gid: nil,
@@ -34,6 +34,8 @@ elsif os.windows?
     home: nil,
     shell: nil,
   }
+  # store uid of user
+  userinfo[:uid] = user(userinfo[:username]).uid
 elsif os[:family] == 'aix'
   userinfo = {
     username:     'bin',
@@ -90,6 +92,13 @@ if os.windows?
     # should return the SID of the user
     its('uid') { should_not eq nil}
   end
+
+  # also support simple username for local users without domain
+  describe user('Administrator') do
+    it { should exist }
+    # should return the SID of the user
+    its('uid') { should_not eq nil}
+  end
 else
   # test single `user` resource
   describe user(userinfo[:username]) do
@@ -105,31 +114,31 @@ else
     end
   end
 
-  # catch case where user is not existant
-  describe user('not_available') do
-    it { should_not exist }
-    its ('uid') { should eq nil}
-    its ('username') { should eq nil}
-    its ('gid') { should eq nil}
-    its ('home') { should eq nil}
-    its ('shell') { should eq nil}
-  end
-
-  # test `users` resource
-  describe users.where(username: userinfo[:username]) do
-    userinfo.each do |k, v|
-      name = k.to_s
-      if name == 'groups'
-        # its(name) { should include v }
-      else
-        name += 's' unless %w{ maxdays mindays warndays }.include? name
-        its(name) { should eq [v] }
-      end
-    end
-  end
-
   describe users.where(username: userinfo[:username]).groups.entries[0] do
     it { should include userinfo[:groups] }
   end
+end
 
+# test `users` resource
+describe users.where(username: userinfo[:username]) do
+  userinfo.each do |k, v|
+    name = k.to_s
+    if name == 'groups'
+      # its(name) { should include v }
+    else
+      name += 's' unless %w{ maxdays mindays warndays }.include? name
+      expected_value = [v]
+      its(name) { should eq expected_value}
+    end
+  end
+end
+
+# catch case where user is not existant
+describe user('not_available') do
+  it { should_not exist }
+  its ('uid') { should eq nil}
+  its ('username') { should eq nil}
+  its ('gid') { should eq nil}
+  its ('home') { should eq nil}
+  its ('shell') { should eq nil}
 end
