@@ -6,8 +6,39 @@ require 'utils/parser'
 require 'utils/convert'
 
 module Inspec::Resources
+  module UserManagementSelector
+    # select user provider based on the operating system
+    # returns nil, if no user manager was found for the operating system
+    def select_user_manager(os)
+      if os.linux?
+        LinuxUser.new(inspec)
+      elsif os.windows?
+        WindowsUser.new(inspec)
+      elsif ['darwin'].include?(os[:family])
+        DarwinUser.new(inspec)
+      elsif ['freebsd'].include?(os[:family])
+        FreeBSDUser.new(inspec)
+      elsif ['aix'].include?(os[:family])
+        AixUser.new(inspec)
+      elsif os.solaris?
+        SolarisUser.new(inspec)
+      elsif ['hpux'].include?(os[:family])
+        HpuxUser.new(inspec)
+      end
+    end
+  end
+
   # The InSpec users resources looksup all local users available on a system
+  # This resource allows complex filter mechanisms
+  #
+  # describe users.where(uid: 0).entries do
+  #   it { should eq ['root'] }
+  #   its('uids') { should eq [1234] }
+  #   its('gids') { should eq [1234] }
+  # end
   class Users < Inspec.resource(1)
+    include UserManagementSelector
+
     name 'users'
     desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
@@ -19,25 +50,8 @@ module Inspec::Resources
     "
     def initialize
       # select user provider
-      @user_provider = nil
-      os = inspec.os
-      if os.linux?
-        @user_provider = LinuxUser.new(inspec)
-      elsif os.windows?
-        @user_provider = WindowsUser.new(inspec)
-      elsif ['darwin'].include?(os[:family])
-        @user_provider = DarwinUser.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
-        @user_provider = FreeBSDUser.new(inspec)
-      elsif ['aix'].include?(os[:family])
-        @user_provider = AixUser.new(inspec)
-      elsif os.solaris?
-        @user_provider = SolarisUser.new(inspec)
-      elsif ['hpux'].include?(os[:family])
-        @user_provider = HpuxUser.new(inspec)
-      else
-        return skip_resource 'The `user` resource is not supported on your OS yet.'
-      end
+      @user_provider = select_user_manager(inspec.os)
+      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
     end
 
     filter = FilterTable.create
@@ -69,11 +83,7 @@ module Inspec::Resources
     # collects information about every user
     def collect_user_info
       @users_cache ||= list_users.map { |username|
-        item = {}
-        item.merge!(@user_provider.identity(username.chomp))
-        item.merge!(@user_provider.meta_info(username.chomp))
-        item.merge!(@user_provider.credentials(username.chomp))
-        item
+        @user_provider.user_details(username.chomp)
       }
       @users_cache
     end
@@ -112,6 +122,7 @@ module Inspec::Resources
   #   its(:encrypted_password) { should eq 1234 }
   # end
   class User < Inspec.resource(1)
+    include UserManagementSelector
     name 'user'
     desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
@@ -123,55 +134,57 @@ module Inspec::Resources
     "
     def initialize(username = nil)
       @username = username
-      @user_filter = inspec.users.where(username: username)
+      # select user provider
+      @user_provider = select_user_manager(inspec.os)
+      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
     end
 
     def exists?
-      @user_filter.entries.length == 1
+      !identity.nil? && !identity[:username].nil?
     end
 
     def username
-      @user_filter.usernames.entries[0]
+      identity[:username] unless identity.nil?
     end
 
     def uid
-      @user_filter.uids.entries[0]
+      identity[:uid] unless identity.nil?
     end
 
     def gid
-      @user_filter.gids.entries[0]
+      identity[:gid] unless identity.nil?
     end
 
     def groupname
-      @user_filter.groupnames.entries[0]
+      identity[:groupname] unless identity.nil?
     end
     alias group groupname
 
     def groups
-      @user_filter.groups.entries[0]
+      identity[:groups] unless identity.nil?
     end
 
     def home
-      @user_filter.homes.entries[0]
+      meta_info[:home] unless meta_info.nil?
     end
 
     def shell
-      @user_filter.shells.entries[0]
+      meta_info[:shell] unless meta_info.nil?
     end
 
     # returns the minimum days between password changes
     def mindays
-      @user_filter.mindays.entries[0]
+      credentials[:mindays] unless credentials.nil?
     end
 
     # returns the maximum days between password changes
     def maxdays
-      @user_filter.maxdays.entries[0]
+      credentials[:maxdays] unless credentials.nil?
     end
 
     # returns the days for password change warning
     def warndays
-      @user_filter.warndays.entries[0]
+      credentials[:warndays] unless credentials.nil?
     end
 
     # implement 'mindays' method to be compatible with serverspec
@@ -221,17 +234,17 @@ module Inspec::Resources
     # returns the iden
     def identity
       return @id_cache if defined?(@id_cache)
-      @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
+      @id_cache = @user_provider.identity(@username) if !@user_provider.nil?
     end
 
     def meta_info
       return @meta_cache if defined?(@meta_cache)
-      @meta_cache = @user_provider.meta_info(@user) if !@user_provider.nil?
+      @meta_cache = @user_provider.meta_info(@username) if !@user_provider.nil?
     end
 
     def credentials
       return @cred_cache if defined?(@cred_cache)
-      @cred_cache = @user_provider.credentials(@user) if !@user_provider.nil?
+      @cred_cache = @user_provider.credentials(@username) if !@user_provider.nil?
     end
   end
 
@@ -258,6 +271,11 @@ module Inspec::Resources
       fail 'user provider must implement the `identity` method'
     end
 
+    # returns optional information about a user, eg shell
+    def meta_info(_username)
+      {}
+    end
+
     # returns a hash with meta-data about user credentials
     # {
     #   mindays: 1,
@@ -272,6 +290,15 @@ module Inspec::Resources
     # returns an array with users
     def list_users
       fail 'user provider must implement the `list_users` method'
+    end
+
+    # retuns all aspects of the user as one hash
+    def user_details(username)
+      item = {}
+      item.merge!(identity(username))
+      item.merge!(meta_info(username))
+      item.merge!(credentials(username))
+      item
     end
   end
 
