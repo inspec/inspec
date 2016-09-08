@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
 require 'functional/helper'
 
 describe 'example inheritance profile' do

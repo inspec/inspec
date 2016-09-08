@@ -16,12 +16,16 @@ module Fetchers
       @data = data
     end
 
-    def files
-      @data.keys
+    def fetch(_path)
+      archive_path
     end
 
-    def read(file)
-      @data[file]
+    def archive_path
+      { mock: @data }
+    end
+
+    def resolved_source
+      { mock_fetcher: true }
     end
   end
 end

@@ -4,13 +4,12 @@
 
 require 'uri'
 require 'inspec/fetcher'
-require 'fetchers/url'
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Compliance
-  class Fetcher < Fetchers::Url
+  class Fetcher < Inspec.fetcher(1)
     name 'compliance'
     priority 500
 
@@ -27,7 +26,7 @@ module Compliance
       # verifies that the target e.g base/ssh exists
       profile = uri.host + uri.path
       Compliance::API.exist?(config, profile)
-      super(target_url(config, profile), config)
+      resolve_next(target_url(config, profile), config)
     rescue URI::Error => _e
       nil
     end

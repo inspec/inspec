@@ -8,21 +8,31 @@ require 'open-uri'
 
 module Fetchers
   class Url < Inspec.fetcher(1)
+    MIME_TYPES = {
+      'application/x-zip-compressed' => '.zip',
+      'application/zip' => '.zip',
+      'application/x-gzip' => '.tar.gz',
+      'application/gzip' => '.tar.gz',
+    }.freeze
+
     name 'url'
     priority 200
 
-    attr_reader :files
-
     def self.resolve(target, opts = {})
-      return nil unless target.is_a?(String)
+      if target.is_a?(Hash) && target.key?(:url)
+        resolve_from_string(target[:url], opts)
+      elsif target.is_a?(String)
+        resolve_from_string(target, opts)
+      end
+    end
+
+    def self.resolve_from_string(target, opts)
       uri = URI.parse(target)
       return nil if uri.nil? or uri.scheme.nil?
       return nil unless %{ http https }.include? uri.scheme
       target = transform(target)
-      # fetch this url and hand it off
-      res = new(target, opts)
-      resolve_next(res.archive.path, res)
-    rescue URI::Error => _e
+      new(target, opts)
+    rescue URI::Error
       nil
     end
 
@@ -44,38 +54,50 @@ module Fetchers
     # https://github.com/hardening-io/tests-os-hardening/tree/48bd4388ddffde68badd83aefa654e7af3231876
     # is transformed to
     # https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz
+    GITHUB_URL_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}
+    GITHUB_URL_WITH_TREE_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)/tree/(?<commit>[\w\.]+)(/)?$}
     def self.transform(target)
-      # support for default github url
-      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}.match(target)
-      return "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz" if m
+      transformed_target = if m = GITHUB_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
+                             "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz"
+                           elsif m = GITHUB_URL_WITH_TREE_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
+                             "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz"
+                           end
 
-      # support for branch and commit urls
-      m = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)/tree/(?<commit>[\w\.]+)(/)?$}.match(target)
-      return "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz" if m
-
-      # if we could not find a match, return the original value
-      target
+      if transformed_target
+        Inspec::Log.warn("URL target #{target} transformed to #{transformed_target}. Consider using the git fetcher")
+        transformed_target
+      else
+        target
+      end
     end
 
-    MIME_TYPES = {
-      'application/x-zip-compressed' => '.zip',
-      'application/zip' => '.zip',
-      'application/x-gzip' => '.tar.gz',
-      'application/gzip' => '.tar.gz',
-    }.freeze
+    attr_reader :files, :archive_path
+
+    def initialize(url, opts)
+      @target = url
+      @insecure = opts['insecure']
+      @token = opts['token']
+    end
+
+    def fetch(path)
+      Inspec::Log.debug("Fetching URL: #{@target}")
+      @archive_path = download_archive(path)
+    end
+
+    def resolved_source
+      { url: @target }
+    end
+
+    private
 
     # download url into archive using opts,
     # returns File object and content-type from HTTP headers
-    def self.download_archive(url, opts = {})
+    def download_archive(path)
       http_opts = {}
-      # http_opts['http_basic_authentication'] = [opts['user'] || '', opts['password'] || ''] if opts['user']
-      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if opts['insecure']
-      http_opts['Authorization'] = "Bearer #{opts['token']}" if opts['token']
+      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
+      http_opts['Authorization'] = "Bearer #{@token}" if @token
 
-      remote = open(
-        url,
-        http_opts,
-      )
+      remote = open(@target, http_opts)
 
       content_type = remote.meta['content-type']
       file_type = MIME_TYPES[content_type] ||
@@ -86,25 +108,16 @@ module Fetchers
       if file_type.nil?
         fail "Could not determine file type for content type #{content_type}."
       end
-
+      final_path = "#{path}#{file_type}"
       # download content
       archive = Tempfile.new(['inspec-dl-', file_type])
       archive.binmode
       archive.write(remote.read)
       archive.rewind
       archive.close
-      archive
-    end
-
-    attr_reader :archive
-
-    def initialize(url, opts)
-      @target = url
-      @archive = self.class.download_archive(url, opts)
-    end
-
-    def archive_path
-      @archive.path
+      FileUtils.mv(archive.path, final_path)
+      Inspec::Log.debug("Fetched archive moved to: #{final_path}")
+      final_path
     end
   end
 end

@@ -62,7 +62,7 @@ EOF
     def to_yaml
       {
         'lockfile_version' => CURRENT_LOCKFILE_VERSION,
-        'depends' => @deps,
+        'depends' => @deps.map { |i| stringify_keys(i) },
       }.to_yaml
     end
 
@@ -88,7 +88,33 @@ EOF
     end
 
     def parse_content_hash_0(lockfile_content_hash)
-      @deps = lockfile_content_hash['depends']
+      @deps = if lockfile_content_hash['depends']
+                lockfile_content_hash['depends'].map { |i| symbolize_keys(i) }
+              end
+    end
+
+    def mutate_hash_keys_with(hash, fun)
+      hash.each_with_object({}) do |v, memo|
+        key = fun.call(v[0])
+        value = if v[1].is_a?(Hash)
+                  mutate_hash_keys_with(v[1], fun)
+                elsif v[1].is_a?(Array)
+                  v[1].map do |i|
+                    i.is_a?(Hash) ? mutate_hash_keys_with(i, fun) : i
+                  end
+                else
+                  v[1]
+                end
+        memo[key] = value
+      end
+    end
+
+    def stringify_keys(hash)
+      mutate_hash_keys_with(hash, proc { |i| i.to_s })
+    end
+
+    def symbolize_keys(hash)
+      mutate_hash_keys_with(hash, proc { |i| i.to_sym })
     end
   end
 end

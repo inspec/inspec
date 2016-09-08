@@ -17,6 +17,5 @@ module Inspec
 end
 
 require 'fetchers/local'
-require 'fetchers/zip'
-require 'fetchers/tar'
 require 'fetchers/url'
+require 'fetchers/git'

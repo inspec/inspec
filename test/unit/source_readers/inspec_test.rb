@@ -14,7 +14,7 @@ describe SourceReaders::InspecReader do
 
   describe 'with a valid profile' do
     let(:mock_file) { MockLoader.profile_tgz('complete-profile') }
-    let(:target) { Inspec::Fetcher.resolve(mock_file) }
+    let(:target) { Inspec::FileProvider.for_path(mock_file) }
     let(:res) { Inspec::SourceReader.resolve(target) }
 
     it 'resolves the target to inspec' do

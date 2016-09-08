@@ -46,17 +46,17 @@ module Inspec
                         path_string + " -> #{dep.name}"
                       end
 
-        if seen_items.key?(dep.source_url)
+        if seen_items.key?(dep.resolved_source)
           fail Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{path_string})"
         else
-          seen_items[dep.source_url] = true
+          seen_items[dep.resolved_source] = true
         end
 
         if !dep.source_satisfies_spec?
-          fail Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.source_url} has a version #{dep.source_version} which doesn't match #{dep.required_version}"
+          fail Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.required_version}"
         end
 
-        Inspec::Log.debug("Adding #{dep.source_url}")
+        Inspec::Log.debug("Adding dependency #{dep.name} (#{dep.resolved_source})")
         graph[dep.name] = dep
         if !dep.dependencies.empty?
           # Recursively resolve any transitive dependencies.

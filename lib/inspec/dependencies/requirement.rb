@@ -8,7 +8,7 @@ module Inspec
   # Inspec::Requirement represents a given profile dependency, where
   # appropriate we delegate to Inspec::Profile directly.
   #
-  class Requirement # rubocop:disable Metrics/ClassLength
+  class Requirement
     attr_reader :name, :dep, :cwd, :opts
     attr_writer :dependencies
 
@@ -20,12 +20,11 @@ module Inspec
     end
 
     def self.from_lock_entry(entry, cwd, vendor_index, backend)
-      req = new(entry['name'],
-                entry['version_constraints'],
+      req = new(entry[:name],
+                entry[:version_constraints],
                 vendor_index,
                 cwd,
-                { url: entry['resolved_source'],
-                  backend: backend })
+                entry[:resolved_source].merge(backend: backend))
 
       locked_deps = []
       Array(entry['dependencies']).each do |dep_entry|
@@ -59,10 +58,14 @@ module Inspec
       @dep.match?(name, version)
     end
 
+    def resolved_source
+      @resolved_source ||= fetcher.resolved_source
+    end
+
     def to_hash
       h = {
         'name' => name,
-        'resolved_source' => source_url,
+        'resolved_source' => resolved_source,
         'version_constraints' => @version_requirement.to_s,
       }
 
@@ -70,9 +73,7 @@ module Inspec
         h['dependencies'] = dependencies.map(&:to_hash)
       end
 
-      if is_vendored?
-        h['content_hash'] = content_hash
-      end
+      h['content_hash'] = content_hash if content_hash
       h
     end
 
@@ -80,48 +81,19 @@ module Inspec
       @dependencies = dep_array
     end
 
-    def is_vendored?
-      @vendor_index.exists?(@name, source_url)
-    end
-
     def content_hash
       @content_hash ||= begin
-                          archive_path = @vendor_index.archive_entry_for(@name, source_url)
-                          fail "No vendored archive path for #{self}, cannot take content hash" if archive_path.nil?
-                          Digest::SHA256.hexdigest File.read(archive_path)
+                          archive_path = @vendor_index.archive_entry_for(fetcher.cache_key) || fetcher.archive_path
+                          if archive_path && File.file?(archive_path)
+                            Digest::SHA256.hexdigest File.read(archive_path)
+                          end
                         end
     end
 
-    def source_url
-      if opts[:path]
-        "file://#{File.expand_path(opts[:path], @cwd)}"
-      elsif opts[:url]
-        opts[:url]
-      end
-    end
-
-    def local_path
-      @local_path ||= if fetcher.class == Fetchers::Local
-                        File.expand_path(fetcher.target, @cwd)
-                      else
-                        @vendor_index.prefered_entry_for(@name, source_url)
-                      end
-    end
-
     def fetcher
-      @fetcher ||= Inspec::Fetcher.resolve(source_url)
+      @fetcher ||= Inspec::Fetcher.resolve(opts)
       fail "No fetcher for #{name} (options: #{opts})" if @fetcher.nil?
       @fetcher
-    end
-
-    def pull
-      # TODO(ssd): Dispatch on the class here is gross.  Seems like
-      # Fetcher is missing an API we want.
-      if fetcher.class == Fetchers::Local || @vendor_index.exists?(@name, source_url)
-        local_path
-      else
-        @vendor_index.add(@name, source_url, fetcher.archive_path)
-      end
     end
 
     def dependencies
@@ -131,20 +103,17 @@ module Inspec
     end
 
     def to_s
-      "#{dep} (#{source_url})"
-    end
-
-    def path
-      @path ||= pull
+      "#{dep} (#{resolved_source})"
     end
 
     def profile
-      return nil if path.nil?
-      opts = { backend: @backend }
+      opts = @opts.dup
+      opts[:cache] = @vendor_index
+      opts[:backend] = @backend
       if !@dependencies.nil?
         opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @vendor_index, @backend)
       end
-      @profile ||= Inspec::Profile.for_target(path, opts)
+      @profile ||= Inspec::Profile.for_target(opts, opts)
     end
   end
 end

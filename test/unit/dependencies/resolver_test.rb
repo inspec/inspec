@@ -3,10 +3,13 @@ require 'inspec/errors'
 require 'inspec/dependencies/resolver'
 
 class FakeDep
-  attr_reader :name, :source_url
+  attr_reader :name
   def initialize(name)
     @name = name
-    @source_url = "file://#{name}"
+  end
+
+  def resolved_source
+    { path: name }
   end
 end
 
