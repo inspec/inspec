@@ -8,4 +8,5 @@ module Inspec
   # dependency resolution
   class CyclicDependencyError < Error; end
   class UnsatisfiedVersionSpecification < Error; end
+  class DuplicateDep < Error; end
 end
