@@ -26,6 +26,8 @@ describe 'Inspec::Resources::ApacheConf' do
     _(resource.content).must_be_kind_of String
     _(resource.params('ServerRoot')).must_equal ['"/etc/httpd"']
     _(resource.params('Listen').sort).must_equal ['443', '80']
-  end
 
+    # sourced using an absolute path in httpd.conf
+    _(resource.params('ExtendedStatus')).must_equal ['Off']
+  end
 end
