@@ -6,6 +6,10 @@ require 'utils/parser'
 require 'utils/convert'
 
 module Inspec::Resources
+  # This file contains two resources, the `user` and `users` resource.
+  # The `user` resource is optimized for requests that verify specific users
+  # that you know upfront for testing. If you need to query all users or find
+  # specific users with certain properties, use the `users` resource.
   module UserManagementSelector
     # select user provider based on the operating system
     # returns nil, if no user manager was found for the operating system
@@ -28,13 +32,23 @@ module Inspec::Resources
     end
   end
 
-  # The InSpec users resources looksup all local users available on a system
+  # The InSpec users resources looksup all local users available on a system.
+  # TODO: the current version of the users resource will use eg. /etc/passwd
+  # on Linux to parse all usernames. Therefore the resource may not return
+  # users managed on other systems like LDAP/ActiveDirectory. Please open
+  # a feature request at https://github.com/chef/inspec if you need that
+  # functionality
+  #
   # This resource allows complex filter mechanisms
   #
   # describe users.where(uid: 0).entries do
   #   it { should eq ['root'] }
   #   its('uids') { should eq [1234] }
   #   its('gids') { should eq [1234] }
+  # end
+  #
+  # describe users.where { uid =~ /S\-1\-5\-21\-\d+\-\d+\-\d+\-500/ } do
+  #   it { should exist }
   # end
   class Users < Inspec.resource(1)
     include UserManagementSelector
@@ -67,6 +81,9 @@ module Inspec::Resources
           .add(:mindays,   field: :mindays)
           .add(:maxdays,   field: :maxdays)
           .add(:warndays,  field: :warndays)
+          .add(:exists?) { |x|
+            !x.entries.empty?
+          }
     filter.connect(self, :collect_user_details)
 
     def to_s
