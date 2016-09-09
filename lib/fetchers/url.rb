@@ -77,6 +77,7 @@ module Fetchers
       @target = url
       @insecure = opts['insecure']
       @token = opts['token']
+      @config = opts
     end
 
     def fetch(path)
