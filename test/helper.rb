@@ -254,6 +254,10 @@ class MockLoader
       'netstat -an -f inet' => cmd.call('hpux-netstat-inet'),
       #ipv6 ports on hpux
       'netstat -an -f inet6' => cmd.call('hpux-netstat-inet6'),
+      # hostname linux
+      'hostname' => cmd.call('hostname'),
+      # hostname windows
+      '$env:computername' => cmd.call('$env-computername'),
     }
 
     @backend

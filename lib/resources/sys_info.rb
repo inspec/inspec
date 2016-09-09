@@ -11,15 +11,15 @@ module Inspec::Resources
       end
     "
 
+    # returns the hostname of the local system
     def hostname
       os = inspec.os
       if os.linux?
         inspec.command('hostname').stdout.chomp
       elsif os.windows?
-        # windows hostname
         inspec.powershell('$env:computername').stdout.chomp
       else
-        return skip_resource 'The `system` resource is not supported on your OS yet.'
+        skip_resource 'The `sys_info.hostname` resource is not supported on your OS yet.'
       end
     end
   end
