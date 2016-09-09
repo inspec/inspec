@@ -40,11 +40,11 @@ module Compliance
     end
 
     #
-    # We want to save supermarket: in the lockfile rather than url: to
+    # We want to save compliance: in the lockfile rather than url: to
     # make sure we go back through the ComplianceAPI handling.
     #
     def resolved_source
-      { supermarket: supermarket_profile_name }
+      { compliance: supermarket_profile_name }
     end
 
     def to_s
