@@ -6,11 +6,14 @@
 require 'forwardable'
 require 'inspec/polyfill'
 require 'inspec/fetcher'
+require 'inspec/file_provider'
 require 'inspec/source_reader'
 require 'inspec/metadata'
 require 'inspec/backend'
 require 'inspec/rule'
+require 'inspec/log'
 require 'inspec/profile_context'
+require 'inspec/dependencies/vendor_index'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
@@ -18,24 +21,34 @@ module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
 
-    def self.resolve_target(target)
-      # Fetchers retrieve file contents
+    def self.resolve_target(target, cache = nil)
+      cache ||= VendorIndex.new
       fetcher = Inspec::Fetcher.resolve(target)
       if fetcher.nil?
         fail("Could not fetch inspec profile in #{target.inspect}.")
       end
-      # Source readers understand the target's structure and provide
-      # access to tests, libraries, and metadata
-      reader = Inspec::SourceReader.resolve(fetcher.relative_target)
+
+      if cache.exists?(fetcher.cache_key)
+        Inspec::Log.debug "Using cached dependency for #{target}"
+        cache.prefered_entry_for(fetcher.cache_key)
+      else
+        fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+        fetcher.archive_path
+      end
+    end
+
+    def self.for_path(path, opts)
+      file_provider = FileProvider.for_path(path)
+      reader = Inspec::SourceReader.resolve(file_provider.relative_provider)
       if reader.nil?
-        fail("Don't understand inspec profile in #{target.inspect}, it "\
+        fail("Don't understand inspec profile in #{path}, it " \
              "doesn't look like a supported profile structure.")
       end
-      reader
+      new(reader, opts)
     end
 
     def self.for_target(target, opts = {})
-      new(resolve_target(target), opts.merge(target: target))
+      for_path(resolve_target(target, opts[:cache]), opts.merge(target: target))
     end
 
     attr_reader :source_reader
@@ -46,18 +59,18 @@ module Inspec
 
     # rubocop:disable Metrics/AbcSize
     def initialize(source_reader, options = {})
-      @options = options
-      @target = @options.delete(:target)
-      @logger = @options[:logger] || Logger.new(nil)
-      @source_reader = source_reader
-      if options[:dependencies]
-        @locked_dependencies = options[:dependencies]
-      end
+      @target = options.delete(:target)
+      @logger = options[:logger] || Logger.new(nil)
+      @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
-      @profile_id = @options[:id]
-      @backend = @options[:backend] || Inspec::Backend.create(options)
+      @profile_id = options[:id]
+      @backend = options[:backend] || Inspec::Backend.create(options)
+      @source_reader = source_reader
+      @tests_collected = false
       Metadata.finalize(@source_reader.metadata, @profile_id)
-      @runner_context = @options[:profile_context] || Inspec::ProfileContext.for_profile(self, @backend, @options[:attributes])
+      @runner_context = options[:profile_context] || Inspec::ProfileContext.for_profile(self,
+                                                                                        @backend,
+                                                                                        options[:attributes])
     end
 
     def name

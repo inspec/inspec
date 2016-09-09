@@ -7,11 +7,29 @@ module Fetchers
     name 'local'
     priority 0
 
-    attr_reader :files
-
     def self.resolve(target)
-      return nil unless target.is_a?(String)
+      local_path = if target.is_a?(String)
+                     resolve_from_string(target)
+                   elsif target.is_a?(Hash)
+                     resolve_from_hash(target)
+                   end
 
+      if local_path
+        new(local_path)
+      end
+    end
+
+    def self.resolve_from_hash(target)
+      if target.key?(:path)
+        local_path = target[:path]
+        if target.key?(:cwd)
+          local_path = File.expand_path(local_path, target[:cwd])
+        end
+        local_path
+      end
+    end
+
+    def self.resolve_from_string(target)
       # Support "urls" in the form of file://
       if target.start_with?('file://')
         target = target.gsub(%r{^file://}, '')
@@ -20,26 +38,25 @@ module Fetchers
         target = target.tr('\\', '/')
       end
 
-      if !File.exist?(target)
-        nil
-      else
-        new(target)
+      if File.exist?(target)
+        target
       end
     end
 
     def initialize(target)
       @target = target
-      if File.file?(target)
-        @files = [target]
-      else
-        @files = Dir[File.join(target, '**', '*')]
-      end
     end
 
-    def read(file)
-      return nil unless files.include?(file)
-      return nil unless File.file?(file)
-      File.read(file)
+    def fetch(_path)
+      archive_path
+    end
+
+    def archive_path
+      @target
+    end
+
+    def resolved_source
+      { path: @target }
     end
   end
 end

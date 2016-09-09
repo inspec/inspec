@@ -46,7 +46,7 @@ describe 'command tests' do
   describe 'check' do
     it 'verifies that a profile is ok' do
       out = inspec('check ' + example_profile)
-      out.stdout.must_match /Valid.*true/
+      out.stdout.must_match(/Valid.*true/)
       out.exit_status.must_equal 0
     end
   end

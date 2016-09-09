@@ -143,7 +143,7 @@ describe 'inspec shell tests' do
 
     it 'exposes all resources' do
       out = do_shell('os')
-      out.stdout.must_match /\=> .*Operating.* .*System.* .*Detection/
+      out.stdout.must_match(/\=> .*Operating.* .*System.* .*Detection/)
     end
 
     it 'can run ruby expressions' do

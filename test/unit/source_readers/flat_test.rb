@@ -13,8 +13,8 @@ describe SourceReaders::Flat do
   end
 
   describe 'with a flat file' do
-    let(:target) { Inspec::Fetcher.resolve(__FILE__) }
-    let(:res) { Inspec::SourceReader.resolve(target.relative_target) }
+    let(:target) { Inspec::FileProvider.for_path(__FILE__) }
+    let(:res) { Inspec::SourceReader.resolve(target.relative_provider) }
 
     it 'resolves the target' do
       _(res).must_be_kind_of reader
@@ -35,8 +35,8 @@ describe SourceReaders::Flat do
   end
 
   describe 'with a flat folder' do
-    let(:target) { Inspec::Fetcher.resolve(File.dirname(__FILE__)) }
-    let(:res) { Inspec::SourceReader.resolve(target.relative_target) }
+    let(:target) { Inspec::FileProvider.for_path(File.dirname(__FILE__)) }
+    let(:res) { Inspec::SourceReader.resolve(target.relative_provider) }
 
     it 'resolves the target' do
       _(res).must_be_kind_of reader

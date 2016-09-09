@@ -11,9 +11,6 @@ module Inspec
   class SourceReaderRegistry < PluginRegistry
     def resolve(target)
       return nil if target.nil?
-      unless target.is_a? Inspec::Plugins::Fetcher
-        fail "SourceReader cannot resolve targets that aren't Fetchers: #{target.class}"
-      end
       super(target)
     end
   end
