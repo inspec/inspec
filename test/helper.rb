@@ -208,7 +208,7 @@ class MockLoader
       # user info for freebsd
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows (winrm 1.6.0, 1.6.1)
-      '1f2dd0691487fe7ca8169dfd764e0197e6303f17de416e7c1b7439aedef87ae7' => cmd.call('GetUserAccount'),
+      '942eeec2b290bda610229d4bd29981ee945ed27b0f4ce7cca099aabe38af6386' => cmd.call('GetUserAccount'),
       # group info for windows
       'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
       # network interface

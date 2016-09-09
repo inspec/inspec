@@ -11,7 +11,8 @@
     "PasswordRequired": true,
     "SID": "S-1-5-21-725088257-906184668-2367214287-500",
     "SIDType": 1,
-    "Status": "OK"
+    "Status": "OK",
+    "Disabled": false
   },
   "Groups": [{
     "Caption": "WIN-K0AKLED332V\\Administrators",

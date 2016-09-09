@@ -81,9 +81,10 @@ module Inspec::Resources
           .add(:mindays,   field: :mindays)
           .add(:maxdays,   field: :maxdays)
           .add(:warndays,  field: :warndays)
-          .add(:exists?) { |x|
-            !x.entries.empty?
-          }
+          .add(:disabled,  field: :disabled)
+          .add(:exists?) { |x| !x.entries.empty? }
+          .add(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
+          .add(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
     filter.connect(self, :collect_user_details)
 
     def to_s
@@ -155,6 +156,14 @@ module Inspec::Resources
 
     def exists?
       !identity.nil? && !identity[:username].nil?
+    end
+
+    def disabled?
+      identity[:disabled] == true unless identity.nil?
+    end
+
+    def enabled?
+      identity[:disabled] == false unless identity.nil?
     end
 
     def username
@@ -576,7 +585,7 @@ module Inspec::Resources
         # get related groups
         $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
         # filter user information
-        $user = $user | Select-Object -Property Caption, Description, Domain, Name, LocalAccount, Lockout, PasswordChangeable, PasswordExpires, PasswordRequired, SID, SIDType, Status
+        $user = $user | Select-Object -Property Caption, Description, Domain, Name, LocalAccount, Lockout, PasswordChangeable, PasswordExpires, PasswordRequired, SID, SIDType, Status, Disabled
         # build response object
         New-Object -Type PSObject | `
         Add-Member -MemberType NoteProperty -Name User -Value ($user) -PassThru | `
@@ -599,13 +608,13 @@ module Inspec::Resources
       # if groups is no array, generate one
       group_hashes = [group_hashes] unless group_hashes.is_a?(Array)
       group_names = group_hashes.map { |grp| grp['Caption'] }
-
       {
         uid: user_hash['SID'],
         username: user_hash['Caption'],
         gid: nil,
         group: nil,
         groups: group_names,
+        disabled: user_hash['Disabled'],
       }
     end
 
