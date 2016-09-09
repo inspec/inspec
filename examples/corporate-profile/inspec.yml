@@ -1,0 +1,19 @@
+name: corporate-profile
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: All Rights Reserved
+summary: An InSpec Compliance Profile
+version: 0.1.0
+depends:
+  - name: ssh-hardening
+    supermarket: hardening/ssh-hardening
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
+  - name: ssl-benchmark
+    git: https://github.com/dev-sec/ssl-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/chris-rock/windows-patch-benchmark.git
+  - name: linux
+    compliance: base/linux
