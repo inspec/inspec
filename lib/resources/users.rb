@@ -2,44 +2,141 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-# Usage:
-#
-# describe user('root') do
-#   it { should exist }
-#   its('uid') { should eq 0 }
-#   its('gid') { should eq 0 }
-#   its('group') { should eq 'root' }
-#   its('groups') { should eq ['root', 'wheel']}
-#   its('home') { should eq '/root' }
-#   its('shell') { should eq '/bin/bash' }
-#   its('mindays') { should eq 0 }
-#   its('maxdays') { should eq 99 }
-#   its('warndays') { should eq 5 }
-# end
-#
-# The following  Serverspec  matchers are deprecated in favor for direct value access
-#
-# describe user('root') do
-#   it { should belong_to_group 'root' }
-#   it { should have_uid 0 }
-#   it { should have_home_directory '/root' }
-#   it { should have_login_shell '/bin/bash' }
-#   its('minimum_days_between_password_change') { should eq 0 }
-#   its('maximum_days_between_password_change') { should eq 99 }
-# end
-
-# ServerSpec tests that are not supported:
-#
-# describe user('root') do
-#   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
-#   its(:encrypted_password) { should eq 1234 }
-# end
-
 require 'utils/parser'
 require 'utils/convert'
 
 module Inspec::Resources
-  class User < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  # This file contains two resources, the `user` and `users` resource.
+  # The `user` resource is optimized for requests that verify specific users
+  # that you know upfront for testing. If you need to query all users or find
+  # specific users with certain properties, use the `users` resource.
+  module UserManagementSelector
+    # select user provider based on the operating system
+    # returns nil, if no user manager was found for the operating system
+    def select_user_manager(os)
+      if os.linux?
+        LinuxUser.new(inspec)
+      elsif os.windows?
+        WindowsUser.new(inspec)
+      elsif ['darwin'].include?(os[:family])
+        DarwinUser.new(inspec)
+      elsif ['freebsd'].include?(os[:family])
+        FreeBSDUser.new(inspec)
+      elsif ['aix'].include?(os[:family])
+        AixUser.new(inspec)
+      elsif os.solaris?
+        SolarisUser.new(inspec)
+      elsif ['hpux'].include?(os[:family])
+        HpuxUser.new(inspec)
+      end
+    end
+  end
+
+  # The InSpec users resources looksup all local users available on a system.
+  # TODO: the current version of the users resource will use eg. /etc/passwd
+  # on Linux to parse all usernames. Therefore the resource may not return
+  # users managed on other systems like LDAP/ActiveDirectory. Please open
+  # a feature request at https://github.com/chef/inspec if you need that
+  # functionality
+  #
+  # This resource allows complex filter mechanisms
+  #
+  # describe users.where(uid: 0).entries do
+  #   it { should eq ['root'] }
+  #   its('uids') { should eq [1234] }
+  #   its('gids') { should eq [1234] }
+  # end
+  #
+  # describe users.where { uid =~ /S\-1\-5\-21\-\d+\-\d+\-\d+\-500/ } do
+  #   it { should exist }
+  # end
+  class Users < Inspec.resource(1)
+    include UserManagementSelector
+
+    name 'users'
+    desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+    example "
+      describe users.where(uid: 0).entries do
+        it { should eq ['root'] }
+        its('uids') { should eq [1234] }
+        its('gids') { should eq [1234] }
+      end
+    "
+    def initialize
+      # select user provider
+      @user_provider = select_user_manager(inspec.os)
+      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
+    end
+
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:usernames, field: :username)
+          .add(:uids,      field: :uid)
+          .add(:gids,      field: :gid)
+          .add(:groupnames, field: :groupname)
+          .add(:groups,    field: :groups)
+          .add(:homes,     field: :home)
+          .add(:shells,    field: :shell)
+          .add(:mindays,   field: :mindays)
+          .add(:maxdays,   field: :maxdays)
+          .add(:warndays,  field: :warndays)
+          .add(:exists?) { |x|
+            !x.entries.empty?
+          }
+    filter.connect(self, :collect_user_details)
+
+    def to_s
+      'Users'
+    end
+
+    private
+
+    # method to get all available users
+    def list_users
+      @username_cache ||= @user_provider.list_users unless @user_provider.nil?
+    end
+
+    # collects information about every user
+    def collect_user_details
+      @users_cache ||= @user_provider.collect_user_details unless @user_provider.nil?
+    end
+  end
+
+  # The `user` resource handles the special case where only one resource is required
+  #
+  # describe user('root') do
+  #   it { should exist }
+  #   its('uid') { should eq 0 }
+  #   its('gid') { should eq 0 }
+  #   its('group') { should eq 'root' }
+  #   its('groups') { should eq ['root', 'wheel']}
+  #   its('home') { should eq '/root' }
+  #   its('shell') { should eq '/bin/bash' }
+  #   its('mindays') { should eq 0 }
+  #   its('maxdays') { should eq 99 }
+  #   its('warndays') { should eq 5 }
+  # end
+  #
+  # The following  Serverspec  matchers are deprecated in favor for direct value access
+  #
+  # describe user('root') do
+  #   it { should belong_to_group 'root' }
+  #   it { should have_uid 0 }
+  #   it { should have_home_directory '/root' }
+  #   it { should have_login_shell '/bin/bash' }
+  #   its('minimum_days_between_password_change') { should eq 0 }
+  #   its('maximum_days_between_password_change') { should eq 99 }
+  # end
+  #
+  # ServerSpec tests that are not supported:
+  #
+  # describe user('root') do
+  #   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
+  #   its(:encrypted_password) { should eq 1234 }
+  # end
+  class User < Inspec.resource(1)
+    include UserManagementSelector
     name 'user'
     desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
@@ -49,33 +146,19 @@ module Inspec::Resources
         its('gid') { should eq 1234 }
       end
     "
-    def initialize(user)
-      @user = user
-
-      # select package manager
-      @user_provider = nil
-      os = inspec.os
-      if os.linux?
-        @user_provider = LinuxUser.new(inspec)
-      elsif os.windows?
-        @user_provider = WindowsUser.new(inspec)
-      elsif ['darwin'].include?(os[:family])
-        @user_provider = DarwinUser.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
-        @user_provider = FreeBSDUser.new(inspec)
-      elsif ['aix'].include?(os[:family])
-        @user_provider = AixUser.new(inspec)
-      elsif os.solaris?
-        @user_provider = SolarisUser.new(inspec)
-      elsif ['hpux'].include?(os[:family])
-        @user_provider = HpuxUser.new(inspec)
-      else
-        return skip_resource 'The `user` resource is not supported on your OS yet.'
-      end
+    def initialize(username = nil)
+      @username = username
+      # select user provider
+      @user_provider = select_user_manager(inspec.os)
+      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
     end
 
     def exists?
-      !identity.nil? && !identity[:user].nil?
+      !identity.nil? && !identity[:username].nil?
+    end
+
+    def username
+      identity[:username] unless identity.nil?
     end
 
     def uid
@@ -86,9 +169,10 @@ module Inspec::Resources
       identity[:gid] unless identity.nil?
     end
 
-    def group
-      identity[:group] unless identity.nil?
+    def groupname
+      identity[:groupname] unless identity.nil?
     end
+    alias group groupname
 
     def groups
       identity[:groups] unless identity.nil?
@@ -156,27 +240,31 @@ module Inspec::Resources
     end
 
     def to_s
-      "User #{@user}"
-    end
-
-    def identity
-      return @id_cache if defined?(@id_cache)
-      @id_cache = @user_provider.identity(@user) if !@user_provider.nil?
+      "User #{@username}"
     end
 
     private
 
+    # returns the iden
+    def identity
+      return @id_cache if defined?(@id_cache)
+      @id_cache = @user_provider.identity(@username) if !@user_provider.nil?
+    end
+
     def meta_info
       return @meta_cache if defined?(@meta_cache)
-      @meta_cache = @user_provider.meta_info(@user) if !@user_provider.nil?
+      @meta_cache = @user_provider.meta_info(@username) if !@user_provider.nil?
     end
 
     def credentials
       return @cred_cache if defined?(@cred_cache)
-      @cred_cache = @user_provider.credentials(@user) if !@user_provider.nil?
+      @cred_cache = @user_provider.credentials(@username) if !@user_provider.nil?
     end
   end
 
+  # This is an abstract class that every user provoider has to implement.
+  # A user provider implements a system abstracts and helps the InSpec resource
+  # hand-over system specific behavior to those providers
   class UserInfo
     include Converter
 
@@ -185,17 +273,74 @@ module Inspec::Resources
       @inspec = inspec
     end
 
+    # returns a hash with user-specific values:
+    # {
+    #   uid: '',
+    #   user: '',
+    #   gid: '',
+    #   group: '',
+    #   groups: '',
+    # }
+    def identity(_username)
+      fail 'user provider must implement the `identity` method'
+    end
+
+    # returns optional information about a user, eg shell
+    def meta_info(_username)
+      nil
+    end
+
+    # returns a hash with meta-data about user credentials
+    # {
+    #   mindays: 1,
+    #   maxdays: 1,
+    #   warndays: 1,
+    # }
+    # this method is optional and may not be implemented by each provider
     def credentials(_username)
+      nil
+    end
+
+    # returns an array with users
+    def list_users
+      fail 'user provider must implement the `list_users` method'
+    end
+
+    # retuns all aspects of the user as one hash
+    def user_details(username)
+      item = {}
+      id = identity(username)
+      item.merge!(id) unless id.nil?
+      meta = meta_info(username)
+      item.merge!(meta) unless meta.nil?
+      cred = credentials(username)
+      item.merge!(cred) unless cred.nil?
+      item
+    end
+
+    # returns the full information list for a user
+    def collect_user_details
+      list_users.map { |username|
+        user_details(username.chomp)
+      }
     end
   end
 
   # implements generic unix id handling
   class UnixUser < UserInfo
-    attr_reader :inspec, :id_cmd
+    attr_reader :inspec, :id_cmd, :list_users_cmd
     def initialize(inspec)
       @inspec = inspec
       @id_cmd ||= 'id'
+      @list_users_cmd ||= 'cut -d: -f1 /etc/passwd | grep -v "^#"'
       super
+    end
+
+    # returns a list of all local users on a system
+    def list_users
+      cmd = inspec.command(list_users_cmd)
+      return [] if cmd.exit_status != 0
+      cmd.stdout.chomp.lines
     end
 
     # parse one id entry like '0(wheel)''
@@ -224,9 +369,9 @@ module Inspec::Resources
 
       {
         uid: convert_to_i(parse_value(params['uid']).keys[0]),
-        user: parse_value(params['uid']).values[0],
+        username: parse_value(params['uid']).values[0],
         gid: convert_to_i(parse_value(params['gid']).keys[0]),
-        group: parse_value(params['gid']).values[0],
+        groupname: parse_value(params['gid']).values[0],
         groups: parse_value(params['groups']).values,
       }
     end
@@ -282,10 +427,6 @@ module Inspec::Resources
       @inspec = inspec
       @id_cmd ||= 'id -a'
       super
-    end
-
-    def credentials(_username)
-      nil
     end
   end
 
@@ -350,6 +491,11 @@ module Inspec::Resources
   # @see https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/dscl.1.html
   # @see http://superuser.com/questions/592921/mac-osx-users-vs-dscl-command-to-list-user
   class DarwinUser < UnixUser
+    def initialize(inspec)
+      @list_users_cmd ||= 'dscl . list /Users'
+      super
+    end
+
     def meta_info(username)
       cmd = inspec.command("dscl -q . -read /Users/#{username} NFSHomeDirectory PrimaryGroupID RecordName UniqueID UserShell")
       return nil if cmd.exit_status != 0
@@ -456,7 +602,7 @@ module Inspec::Resources
 
       {
         uid: user_hash['SID'],
-        user: user_hash['Caption'],
+        username: user_hash['Caption'],
         gid: nil,
         group: nil,
         groups: group_names,
@@ -469,6 +615,12 @@ module Inspec::Resources
         home: nil,
         shell: nil,
       }
+    end
+
+    def list_users
+      script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
+      cmd = inspec.powershell(script)
+      cmd.stdout.chomp.lines
     end
   end
 end
