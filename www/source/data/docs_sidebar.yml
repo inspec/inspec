@@ -1,0 +1,34 @@
+---
+sidebar_links:
+- title: Getting Started
+  links:
+  - title: Overview
+    link: "/docs/overview/"
+  - title: Get InSpec
+    link: "/under_construction"
+  - title: Tutorials
+    link: "/docs/tutorials.html"
+- title: Reference
+  links:
+  - title: CLI reference
+    link: "/docs/reference/cli.html"
+  - title: InSpec shell
+    link: "/docs/reference/shell.html"
+  - title: InSpec DSL
+    link: "/docs/reference/dsl_inspec.html"
+  - title: Resources
+    link: "/docs/reference/resources.html"
+  - title: Resource DSL
+    link: "/docs/reference/dsl_resource.html"
+  - title: Matchers
+    link: "/docs/reference/matchers.html"
+  - title: Profiles
+    link: "/docs/reference/profiles.html"
+  - title: Ruby usage
+    link: "/docs/reference/ruby_usage.html"
+  - title: InSpec and friends
+    link: "/docs/reference/inspec_and_friends.html"
+- title: Contribute
+  links:
+  - title: Help build InSpec
+    link: "/community"

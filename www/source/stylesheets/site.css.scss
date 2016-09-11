@@ -1,0 +1,126 @@
+@charset "utf-8";
+@import "normalize";
+
+body {
+  text-align: center;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+}
+
+.logo img {
+  height: 18.75em;
+  margin-top: 6em;
+}
+
+h1 {
+  color: rgba(0,0,0,0.5);
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.8em;
+  font-weight: 400;
+  margin: 0;
+}
+
+.doc {
+  margin: 3em 0;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.1em;
+  font-weight: 300;
+
+  a {
+    border: 1px solid white;
+    border-radius: 3px;
+    padding: 0.75em 0.7em;
+    color: white;
+    text-decoration: none;
+    transition: color 0.1s linear;
+    &:hover {
+      background: rgba(0,0,0,0.2);
+      color: white;
+      transition: all 0.15s linear;
+    }
+  }
+}
+
+.welcome {
+  -webkit-animation-name: welcome;
+  -webkit-animation-duration: .9s;
+}
+
+@-webkit-keyframes welcome {
+  from {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+   -webkit-transform: scale(0);
+   opacity: 0;
+  }
+  82.5% {
+    -webkit-transform: scale(1.03);
+    -webkit-animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+
+// ---------------------------------------------
+
+$highlight: #007173;
+
+a {
+  text-decoration: none;
+  transition: color 0.2s ease;
+  color: inherit;
+
+  &:hover {
+    color: $highlight;
+  }
+}
+
+.button {
+  border-radius: 5px;
+  border: 1px solid $highlight;
+  padding: 0.85em 1em;
+  margin: 0 0 1rem 0;
+}
+
+.logo {
+  background: url("../images/inspec-logo.png") no-repeat left 40%;
+  background-size: 10rem;
+  min-width: 10rem;
+  height: 100px;
+  text-indent: 200%;
+  overflow: hidden;
+}
+
+.site-container {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.top-nav {
+  $height: 100px;
+
+  .logo {
+    width: 25%;
+    float: left;
+  }
+  .nav {
+    float: right;
+  }
+  div {
+    height: $height;
+  }
+  ul {
+    line-height: $height;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      display: inline-block;
+      margin-right: 2rem;
+    }
+  }
+}

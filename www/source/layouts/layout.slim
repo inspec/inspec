@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+    meta charset="utf-8"
+    meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
+
+    title = current_page.data.title || "InSpec"
+
+    link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'
+
+    == stylesheet_link_tag :site
+    == javascript_include_tag  "all"
+
+  body class="#{page_classes}"
+    = partial "layouts/nav"
+
+    #content-outer
+      == yield
