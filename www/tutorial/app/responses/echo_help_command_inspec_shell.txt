@@ -18,7 +18,7 @@ end
 describe command('ls') do
   it { should exist }
 end
-
+    
 
 [1mWeb Reference:[0m
 

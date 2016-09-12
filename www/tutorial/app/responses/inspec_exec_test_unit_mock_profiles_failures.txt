@@ -9,7 +9,7 @@ Target:  local://
 
   File /tmp
 [32m     ✔  should be directory[0m
-[31m     ✖  undefined method `should_nota' for #<RSpec::ExampleGroups::FileTmp_2:0x007fd2fc4f8e50>[0m
+[31m     ✖  undefined method `should_nota' for #<RSpec::ExampleGroups::FileTmp_2:0x007fc456a241b8>[0m
   File /tmp
 [31m     ✖  should not be directory
      expected `File /tmp.directory?` to return false, got true[0m
