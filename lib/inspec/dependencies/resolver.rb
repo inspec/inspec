@@ -31,7 +31,23 @@ module Inspec
       new.resolve(reqs)
     end
 
-    def resolve(deps, top_level = true, seen_items = {}, path_string = '')
+    def detect_duplicates(deps, top_level, path_string)
+      seen_items_local = []
+      deps.each do |dep|
+        if seen_items_local.include?(dep.name)
+          problem_cookbook = if top_level
+                               'the inspec.yml for this profile.'
+                             else
+                               "the dependency information for #{path_string.split(' ').last}"
+                             end
+          fail Inspec::DuplicateDep, "The dependency #{dep.name} is listed twice in #{problem_cookbook}"
+        else
+          seen_items_local << dep.name
+        end
+      end
+    end
+
+    def resolve(deps, top_level = true, seen_items = {}, path_string = '') # rubocop:disable Metrics/AbcSize
       graph = {}
       if top_level
         Inspec::Log.debug("Starting traversal of dependencies #{deps.map(&:name)}")
@@ -39,17 +55,19 @@ module Inspec
         Inspec::Log.debug("Traversing dependency tree of transitive dependency #{deps.map(&:name)}")
       end
 
+      detect_duplicates(deps, top_level, path_string)
       deps.each do |dep|
-        path_string = if path_string.empty?
-                        dep.name
-                      else
-                        path_string + " -> #{dep.name}"
-                      end
+        new_seen_items = seen_items.dup
+        new_path_string = if path_string.empty?
+                            dep.name
+                          else
+                            path_string + " -> #{dep.name}"
+                          end
 
-        if seen_items.key?(dep.resolved_source)
-          fail Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{path_string})"
+        if new_seen_items.key?(dep.resolved_source)
+          fail Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{new_path_string})"
         else
-          seen_items[dep.resolved_source] = true
+          new_seen_items[dep.resolved_source] = true
         end
 
         if !dep.source_satisfies_spec?
@@ -59,8 +77,7 @@ module Inspec
         Inspec::Log.debug("Adding dependency #{dep.name} (#{dep.resolved_source})")
         graph[dep.name] = dep
         if !dep.dependencies.empty?
-          # Recursively resolve any transitive dependencies.
-          resolve(dep.dependencies, false, seen_items.dup, path_string)
+          resolve(dep.dependencies, false, new_seen_items.dup, new_path_string)
         end
       end
 
