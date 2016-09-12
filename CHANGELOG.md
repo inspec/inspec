@@ -1,7 +1,41 @@
 # Change Log
 
-## [0.33.2](https://github.com/chef/inspec/tree/0.33.2) (2016-09-07)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.33.1...0.33.2)
+## [0.34.0](https://github.com/chef/inspec/tree/0.34.0) (2016-09-12)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.2...0.34.0)
+
+**Implemented enhancements:**
+
+- Vendor Github and Supermarket dependencies [\#959](https://github.com/chef/inspec/issues/959)
+- use simple config for security policy resource [\#1044](https://github.com/chef/inspec/pull/1044) ([chris-rock](https://github.com/chris-rock))
+- identify enabled/disabled accounts for windows [\#1039](https://github.com/chef/inspec/pull/1039) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- Compliance should allow the ability to upload the unconverted SCAP profiles from the agencies. [\#1055](https://github.com/chef/inspec/issues/1055)
+- Multiple matchers in a describe block display only a single line [\#1025](https://github.com/chef/inspec/issues/1025)
+- Create all content for inspec homepage demo [\#1021](https://github.com/chef/inspec/issues/1021)
+- User resource should use Filtertable [\#948](https://github.com/chef/inspec/issues/948)
+
+**Merged pull requests:**
+
+- rename example to meta-profile [\#1051](https://github.com/chef/inspec/pull/1051) ([chris-rock](https://github.com/chris-rock))
+- fix webpack start script for tutorial [\#1050](https://github.com/chef/inspec/pull/1050) ([vjeffrey](https://github.com/vjeffrey))
+- Add Inspec::Fetcher\#relative\_target for compatibility [\#1046](https://github.com/chef/inspec/pull/1046) ([stevendanna](https://github.com/stevendanna))
+- Typo supermarket -\> compliance [\#1041](https://github.com/chef/inspec/pull/1041) ([stevendanna](https://github.com/stevendanna))
+- Improve duplicate and cycle detection in resolver [\#1038](https://github.com/chef/inspec/pull/1038) ([stevendanna](https://github.com/stevendanna))
+- Add example of corporate profile [\#1037](https://github.com/chef/inspec/pull/1037) ([stevendanna](https://github.com/stevendanna))
+- Ensure simplecov starts before everything else [\#1036](https://github.com/chef/inspec/pull/1036) ([stevendanna](https://github.com/stevendanna))
+- add sys\_info resource to get information about the hostname [\#1035](https://github.com/chef/inspec/pull/1035) ([chris-rock](https://github.com/chris-rock))
+- Add GitFetcher and rework Fetchers+SourceReaders [\#1034](https://github.com/chef/inspec/pull/1034) ([stevendanna](https://github.com/stevendanna))
+- add demo content [\#1033](https://github.com/chef/inspec/pull/1033) ([vjeffrey](https://github.com/vjeffrey))
+- add health graphs [\#1032](https://github.com/chef/inspec/pull/1032) ([arlimus](https://github.com/arlimus))
+- fix table formatting in readme [\#1031](https://github.com/chef/inspec/pull/1031) ([arlimus](https://github.com/arlimus))
+- remove old delivery tests [\#1029](https://github.com/chef/inspec/pull/1029) ([arlimus](https://github.com/arlimus))
+- make demo better [\#1015](https://github.com/chef/inspec/pull/1015) ([vjeffrey](https://github.com/vjeffrey))
+- user resource should support filtertable [\#990](https://github.com/chef/inspec/pull/990) ([ksubrama](https://github.com/ksubrama))
+
+## [v0.33.2](https://github.com/chef/inspec/tree/v0.33.2) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.1...v0.33.2)
 
 **Implemented enhancements:**
 
