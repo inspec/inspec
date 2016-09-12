@@ -2,18 +2,17 @@
 demos:
 - demo: 0:intro
   desc: |
-    Welcome to the interactive InSpec demo. You will learn how to use the commandline and shell and get an introduction to all aspects of the language.
+    Welcome to the interactive InSpec demo. You will learn how to use the command line and shell and get an introduction to all aspects of the language.
 
     To navigate this demo, type `next` to move forward and `prev` to move back.
+    Use `clear` to clear the terminal screen.
 - demo: 1:inspec-help
   desc: |
     InSpec is called via
     ```
     inspec
     ```
-    Try it out!
-
-    You will see the help menu. You can also view it with
+    Try it out!  You will see the help menu. You can also view it with:
     ```
     inspec help
     ```
@@ -31,31 +30,31 @@ demos:
     The easiest subcommand is `inspec version`. It tells you which version of InSpec is running.
 - demo: 1:inspec-check
   desc: |
-    The most frequent use of InSpec is to execute profiles. You can find the `example/profile` in the InSpec repository. Before executing it for the first time, let's verify if it is valid profile
+    The most frequent use of InSpec is to execute profiles. You can find the `examples/profile` in the InSpec repository. Before executing it for the first time, let's verify if it is valid profile
     ```
-    inspec check example/profile
+    inspec check examples/profile
     ```
     This command is not only used for syntax testing and linting, but can also provide information on valid profiles including its version and control overview.
 - demo: 1:inspec-exec
   desc: |
     Let's try testing some profiles! To run the profile and test the local machine, type:
     ```
-    inspec exec example/profile
+    inspec exec examples/profile
     ```
     The result is shown in the report.
 - demo: 1:inspec-exec-ssh
   desc: |
     InSpec can also test your remote machines! Let's assume there is node `host.node` registered with SSH configured for user `bob` with a keyfile in the current directory (`bob.rsa`). You can run the same profile against this node via:
     ```
-    inspec exec example/profile -t ssh://bob@host.node -i bob.rsa
+    inspec exec examples/profile -t ssh://bob@host.node -i bob.rsa
     ```
 - demo: 1:inspec-exec-ssh-long
   desc: |
     The wonderful `-t` option (or `--target`) is a shorthand for specifying all fields separately:
     ```
-    inspec exec example/profile -b ssh --host host.node --user bob -i bob.rsa
+    inspec exec examples/profile -b ssh --host host.node --user bob -i bob.rsa
     ```
-    For more options try
+    For more options try:
     ```
     inspec help exec
     ```
@@ -63,19 +62,19 @@ demos:
   desc: |
     We can also scan Windows machines. Let's assume `windows.node` is configured with WinRM access for user `alice` with a password `pass`. The command will now read:
     ```
-    inspec exec example/profile -t winrm://alice:pass@windows.node
+    inspec exec examples/profile -t winrm://alice:pass@windows.node
     ```
 - demo: 1:inspec-exec-winrm-ssl
   desc: |
     The previous example is not quite realistic. Most Windows nodes with WinRM are configured to use SSL. Let's assume the user also has a self-signed certificate. It would now read
     ```
-    inspec exec example/profile -t winrm://alice:pass@windows.node --ssl --self-signed
+    inspec exec examples/profile -t winrm://alice:pass@windows.node --ssl --self-signed
     ```
 - demo: 1:inspec-exec-docker
   desc: |
     InSpec also supports scanning containers. Let's try it with Docker and pick a container
     ```
-    inspec exec example/profile -t docker://abcdef123
+    inspec exec examples/profile -t docker://abcdef123
     ```
 - demo: 1:inspec-detect
   desc: |

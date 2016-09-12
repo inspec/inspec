@@ -1,0 +1,16 @@
+[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)[0m
+[37m     ○  Can't find file "/tmp/gordon/config.yaml"[0m
+[32m     ✔  File  content should match nil[0m
+[32m  ✔  ssh-1: Allow only SSH Protocol 2[0m
+[32m     ✔  File /bin/sh should be owned by "root"[0m
+
+  File /tmp
+[32m     ✔  should be directory[0m
+
+
+Profile: InSpec example inheritance (inheritance)
+Version: 1.0.0
+Target:  local://
+
+
+Summary: [32m3 successful[0m, [31m0 failures[0m, [37m1 skipped[0m

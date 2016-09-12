@@ -1,1 +1,0 @@
-whoa there! that's all the steps we got! go experiment @ 'https://github.com/chef/inspec'

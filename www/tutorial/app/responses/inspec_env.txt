@@ -1,0 +1,110 @@
+function _inspec() {
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local -a _top_level_commands _compliance_commands _init_commands _supermarket_commands
+
+    _top_level_commands=(
+        "help:Describe\ available\ commands\ or\ one\ specific\ command"
+        "json:read\ all\ tests\ in\ PATH\ and\ generate\ a\ JSON\ summary"
+        "check:verify\ all\ tests\ at\ the\ specified\ PATH"
+        "vendor:Download\ all\ dependencies\ and\ generate\ a\ lockfile"
+        "archive:archive\ a\ profile\ to\ tar.gz\ \(default\)\ or\ zip"
+        "exec:run\ all\ test\ files\ at\ the\ specified\ PATH."
+        "detect:detect\ the\ target\ OS"
+        "shell:open\ an\ interactive\ debugging\ shell"
+        "env:Output\ shell-appropriate\ completion\ configuration"
+        "version:prints\ the\ version\ of\ this\ tool"
+        "compliance:Chef\ Compliance\ commands"
+        "init:Scaffolds\ a\ new\ project"
+        "supermarket:Supermarket\ commands"
+    )
+
+    _compliance_commands=(
+        "help:Describe\ subcommands\ or\ one\ specific\ subcommand"
+        "login:Log\ in\ to\ a\ Chef\ Compliance\ SERVER"
+        "profiles:list\ all\ available\ profiles\ in\ Chef\ Compliance"
+        "exec:executes\ a\ Chef\ Compliance\ profile"
+        "upload:uploads\ a\ local\ profile\ to\ Chef\ Compliance"
+        "version:displays\ the\ version\ of\ the\ Chef\ Compliance\ server"
+        "logout:user\ logout\ from\ Chef\ Compliance"
+    )
+
+    _init_commands=(
+        "help:Describe\ subcommands\ or\ one\ specific\ subcommand"
+        "profile:Create\ a\ new\ profile"
+    )
+
+    _supermarket_commands=(
+        "help:Describe\ subcommands\ or\ one\ specific\ subcommand"
+        "profiles:list\ all\ available\ profiles\ in\ Chef\ Supermarket"
+        "exec:execute\ a\ Supermarket\ profile"
+        "info:display\ Supermarket\ profile\ details"
+    )
+
+    _arguments '1:::->toplevel' && return 0
+    _arguments '2:::->subcommand' && return 0
+    _arguments '3:::->subsubcommand' && return 0
+
+    #
+    # Are you thinking? "Jeez, whoever wrote this really doesn't get
+    # zsh's completion system?" If so, you are correct. However, I
+    # have goodnews! Pull requests are accepted!
+    #
+    case $state in
+        toplevel)
+            _describe -t commands "InSpec subcommands" _top_level_commands
+            ;;
+        subcommand)
+            case "$words[2]" in
+                archive|check|exec|json)
+                    _alternative 'files:filenames:_files'
+                    ;;
+                help)
+                    _describe -t commands "InSpec subcommands" _top_level_commands
+                    ;;
+                compliance)
+                    _describe -t compliance_commands "InSpec compliance subcommands" _compliance_commands
+                    ;;
+                init)
+                    _describe -t init_commands "InSpec init subcommands" _init_commands
+                    ;;
+                supermarket)
+                    _describe -t supermarket_commands "InSpec supermarket subcommands" _supermarket_commands
+                    ;;
+            esac
+            ;;
+        subsubcommand)
+            case "$words[2]-$words[3]" in
+                compliance-upload)
+                    _alternative 'files:filenames:_files'
+                    ;;
+                compliance-help)
+                    _describe -t compliance_commands "InSpec compliance subcommands" _compliance_commands
+                    ;;
+                init-help)
+                    _describe -t init_commands "InSpec init subcommands" _init_commands
+                    ;;
+                supermarket-help)
+                    _describe -t supermarket_commands "InSpec supermarket subcommands" _supermarket_commands
+                    ;;
+            esac
+
+    esac
+
+}
+
+compdef _inspec inspec
+#
+# The shell zsh was auto-detected. If this is incorrect, please
+# specify a shell explicitly by running:
+#
+#     inspec env SHELLNAME
+#
+# Currently supported shells are: bash, zsh
+#
+# To use this, eval it in your shell
+#
+#    eval "$(inspec env zsh)"
+#
+#

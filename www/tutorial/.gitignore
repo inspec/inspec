@@ -11,3 +11,5 @@ app/*.js
 app/*.map
 app/**/*.js
 app/**/*.map
+
+!webpack.config.js

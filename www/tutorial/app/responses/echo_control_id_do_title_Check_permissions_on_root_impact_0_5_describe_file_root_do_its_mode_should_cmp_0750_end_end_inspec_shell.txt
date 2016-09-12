@@ -1,0 +1,8 @@
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: [1mhelp[0m
+
+[0G[?1034h[0;32minspec> [0m[0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m    [0;32minspec> [0m    [0;32minspec> [0m  [31m  ✖  id: File /root mode should cmp "0750" (wrong number of arguments (1 for 0))[0m
+
+
+Summary: [32m0 successful[0m, [31m1 failures[0m, [37m0 skipped[0m
+[0;32minspec> [0m

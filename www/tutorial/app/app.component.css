@@ -1,3 +1,7 @@
+.main {
+  height: 100%;
+}
+
 .terminal-nav {
   display: inline-block;
   position: fixed;
@@ -10,7 +14,6 @@
   line-height: 60px;
   font-size: 30px;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
   transition: all 200ms ease-in;
   cursor: pointer;
   z-index: 10;
@@ -20,27 +23,45 @@
   color: #ccc;
 }
 
-.guide {
-  font-family: monospace;
-  font-size: 1.2rem;
-  max-width: 1000px;
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background-color: #444;
+img {
+  width: 200px;
+  height: 50px;
+  padding-bottom: 5px;
 }
 
-a {
-  color: lightskyblue;
-  text-decoration: none;
+.guide {
+  -webkit-font-smoothing: antialiased;
+  color: #DDDDDD;
+  font-family: monospace;
+  font-weight: 100;
+  font-size: 16px;
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+  background-color: #444;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+p {
+  display: block;
+}
+
+pre {
+  white-space: pre-wrap;
 }
 
 .cli {
+  -webkit-font-smoothing: antialiased;
   font-family: monospace;
   font-size: 1.2rem;
   white-space: pre-wrap;
   word-wrap: break-word;
   max-width: 1200px;
   margin: auto;
+  height: 70%;
 }
