@@ -109,6 +109,7 @@ describe 'Inspec::Resources::User' do
     _(resource.mindays).must_equal nil
     _(resource.maxdays).must_equal nil
     _(resource.warndays).must_equal nil
+    _(resource.disabled?).must_equal false
   end
 
   it 'read user on undefined os' do
