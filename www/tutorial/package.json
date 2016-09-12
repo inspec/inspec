@@ -2,8 +2,8 @@
   "name": "angular2-quickstart",
   "version": "1.0.0",
   "scripts": {
-    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config webpack.config.js --progress --profile --colors --display-error-details --display-cached",
-    "start": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server & open http://localhost:8080/",
+    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config config/webpack.config.js --progress --profile --colors --display-error-details --display-cached",
+    "start": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js & open http://localhost:8080/",
     "dev": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js --inline --progress --hot --profile --colors --watch --display-error-details --display-cachedwebpack-dev-server & open http://localhost:8080/"
   },
   "license": "ISC",
