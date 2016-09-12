@@ -2,6 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 require 'utils/plugin_registry'
+require 'inspec/file_provider'
 require 'digest'
 
 module Inspec
@@ -53,6 +54,20 @@ module Inspec
       #
       def resolved_source
         fail "Fetcher #{self} does not implement `resolved_source()`. This is required for terminal fetchers."
+      end
+
+      #
+      # relative_target is provided to keep compatibility with 3rd
+      # party plugins.
+      #
+      # Deprecated: This function may be removed in future versions of
+      # Inspec, don't depend on it in new plugins.
+      #
+      # @returns [Inspec::RelativeFileProvider]
+      #
+      def relative_target
+        file_provider = Inspec::FileProvider.for_path(archive_path)
+        file_provider.relative_provider
       end
 
       #
