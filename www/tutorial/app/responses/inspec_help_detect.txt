@@ -18,7 +18,7 @@ Options:
       [--self-signed], [--no-self-signed]  # Allow remote scans with self-signed certificates (WinRM).
       [--json-config=JSON_CONFIG]          # Read configuration from JSON file (`-` reads from stdin).
   l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
-      [--format=FORMAT]
+      [--format=FORMAT]                    
   l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
       [--log-location=LOG_LOCATION]        # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
       [--diagnose], [--no-diagnose]        # Show diagnostics (versions, configurations)
