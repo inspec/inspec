@@ -371,7 +371,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       test_color = @colors[test_status]
       indicator = @indicators[x[:status]]
       indicator = @indicators['empty'] if indicator.nil?
-      msg = x[:message] || x[:skip_message] || x[:code_desc]
+      msg =  "#{x[:message]} #{x[:skip_message]} #{x[:code_desc]}"
       print_line(
         color:      test_color,
         indicator:  @indicators['small'] + indicator,
