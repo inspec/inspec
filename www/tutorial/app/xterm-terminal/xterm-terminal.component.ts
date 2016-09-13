@@ -79,12 +79,8 @@ export class XtermTerminalComponent implements OnInit {
   // print response and set prompt
   printResponse(response) {
     if (response.match(/.30mnext|.30mprev/)) {
-      this.deleteCharacters();
-      if (this.term.x < 3) {
-        // this check prevents us from printing a second prompt on the line
-        // when the arrow in the nav is used to move forward
-        this.setPrompt();
-      }
+      // call createTerminal to clear terminal screen on next and prev
+      this.createTerminal();
     } else {
       this.term.writeln(response);
       this.setPrompt();
@@ -102,14 +98,14 @@ export class XtermTerminalComponent implements OnInit {
         this.term.write(' [32minspec> '); // green inspec shell prompt
       }
     } else {
-      this.term.write(' [36m$ '); // blue regular shell prompt
+      this.term.write('[36m$ '); // blue regular shell prompt
     }
   }
 
   // delete everything on the line
   deleteCharacters() {
     // don't delete the prompt
-    let letters = this.term.x - 3;
+    let letters = this.term.x - 2;
     for (var i = 0; i < letters; i++) {
       this.term.write('\b \b');
     }
@@ -157,7 +153,7 @@ export class XtermTerminalComponent implements OnInit {
     // on enter, save command to array and send current value of buffer
     // to parent component (app)
     if (ev.keyCode == 13) {
-      if ((this.buffer === 'clear') || (this.buffer === 'clr')) {
+      if ((this.buffer === 'clear') || (this.buffer === 'cls')) {
         this.createTerminal();
       } else {
         this.previousCommands.push(this.buffer);
@@ -168,7 +164,7 @@ export class XtermTerminalComponent implements OnInit {
           // value until we have the whole multi-line command
           if (this.buffer.match(/^describe.*|^it.*|^end$|^impact.*|^title.*|^control.*/)) {
             this.handleBlockCommand(this.buffer);
-          }
+          } else {this.command.emit(this.buffer);}
         } else {
           this.command.emit(this.buffer);
         }
@@ -178,13 +174,13 @@ export class XtermTerminalComponent implements OnInit {
     else if (ev.keyCode == 8) {
       // if inspec shell is being used, this needs to be set to 9 to account for the extra letters
       if (this.shell === 'inspec-shell') {
-        if (this.term.x > 9) {
+        if (this.term.x > 8) {
           this.buffer = this.buffer.substr(0, this.buffer.length-1);
           this.term.write('\b \b');
         }
       } else {
         // setting the value here to 3 ensures that we don't delete the promp '$' or the space after it
-        if (this.term.x > 3) {
+        if (this.term.x > 2) {
           this.buffer = this.buffer.substr(0, this.buffer.length-1);
           this.term.write('\b \b');
         }

@@ -1,7 +1,7 @@
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m[0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m
+[0G[?1034h[0;32minspec> [0m[0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m  
   File /root
 [31m     ✖  should exist
      expected File /root to exist[0m

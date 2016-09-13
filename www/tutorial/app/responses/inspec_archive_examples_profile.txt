@@ -1,5 +1,5 @@
-I, [2016-09-11T18:48:39.514660 #65769]  INFO -- : Checking profile in examples/profile
-I, [2016-09-11T18:48:39.514820 #65769]  INFO -- : Metadata OK.
-I, [2016-09-11T18:48:39.532230 #65769]  INFO -- : Found 4 controls.
-I, [2016-09-11T18:48:39.532272 #65769]  INFO -- : Control definitions OK.
-I, [2016-09-11T18:48:39.532442 #65769]  INFO -- : Archive /Users/vjeffrey/code/compliance/inspec/profile.tar.gz exists already. Use --overwrite.
+I, [2016-09-12T11:14:11.355216 #80401]  INFO -- : Checking profile in examples/profile
+I, [2016-09-12T11:14:11.355374 #80401]  INFO -- : Metadata OK.
+I, [2016-09-12T11:14:11.371905 #80401]  INFO -- : Found 4 controls.
+I, [2016-09-12T11:14:11.371945 #80401]  INFO -- : Control definitions OK.
+I, [2016-09-12T11:14:11.372150 #80401]  INFO -- : Archive /Users/vjeffrey/code/compliance/inspec/profile.tar.gz exists already. Use --overwrite.

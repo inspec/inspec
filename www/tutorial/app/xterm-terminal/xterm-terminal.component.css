@@ -1,10 +1,9 @@
 #terminal-container {
-    width: 1200px;
-    height: 400px;
+    max-width: 1200px;
+    height: 350px;
     margin: 0 auto;
     padding: 2px;
     font-size: 16px;
-    margin-left: 70px;
 }
 
 #terminal-container .terminal {

@@ -1,3 +1,5 @@
+// /<reference path="../node_modules/angular2/typings/browser.d.ts"/>
+
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 

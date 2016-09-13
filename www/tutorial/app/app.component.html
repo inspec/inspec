@@ -7,8 +7,8 @@
 <img src="inspec-logo.png" alt="Inspec Logo">
 <div class="main">
   <div class="guide">
-    <p class="bold">{{title}}</p>
-    <pre>{{instructions}}</pre>
+    <p class="title">{{title}}</p>
+    <p [innerHTML]="formatInstructions()"></p>
   </div>
 
   <div class="cli">
