@@ -77,6 +77,10 @@ module Inspec
       metadata.params[:name]
     end
 
+    def version
+      metadata.params[:version]
+    end
+
     def params
       @params ||= load_params
     end

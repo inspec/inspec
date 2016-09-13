@@ -172,4 +172,16 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
     end
   end
+
+  describe 'when using profiles on the supermarket' do
+    it 'can run supermarket profiles directly from the command line' do
+      out = inspec("exec supermarket://nathenharvey/tmp-compliance-profile")
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    end
+
+    it 'can run supermarket profiles from inspec.yml' do
+      out = inspec("exec #{File.join(profile_path, 'supermarket-dep')}")
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    end
+  end
 end

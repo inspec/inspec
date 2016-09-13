@@ -7,12 +7,10 @@ license: Apache 2
 summary: InSpec Profile that is only consuming dependencies
 version: 0.2.0
 depends:
-  - name: ssh-hardening
-    supermarket: hardening/ssh-hardening
+  - name: hardening/ssh-hardening  # defaults to supermarket
   - name: os-hardening
     url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
-  - name: ssl-benchmark
-    git: https://github.com/dev-sec/ssl-benchmark.git
+  - git: https://github.com/dev-sec/ssl-benchmark.git
   - name: windows-patch-benchmark
     git: https://github.com/chris-rock/windows-patch-benchmark.git
   - name: linux

@@ -9,14 +9,9 @@ module Inspec
   # appropriate we delegate to Inspec::Profile directly.
   #
   class Requirement
-    attr_reader :name, :dep, :cwd, :opts
-    attr_writer :dependencies
-
     def self.from_metadata(dep, vendor_index, opts)
       fail 'Cannot load empty dependency.' if dep.nil? || dep.empty?
-      name = dep[:name] || fail('You must provide a name for all dependencies')
-      version = dep[:version]
-      new(name, version, vendor_index, opts[:cwd], opts.merge(dep))
+      new(dep[:name], dep[:version], vendor_index, opts[:cwd], opts.merge(dep))
     end
 
     def self.from_lock_entry(entry, cwd, vendor_index, backend)
@@ -34,28 +29,26 @@ module Inspec
       req
     end
 
+    attr_reader :name, :cwd, :opts, :required_version
     def initialize(name, version_constraints, vendor_index, cwd, opts)
       @name = name
-      @version_requirement = Gem::Requirement.new(Array(version_constraints))
-      @dep = Gem::Dependency.new(name, @version_requirement, :runtime)
+      @required_version = Gem::Requirement.new(Array(version_constraints))
       @vendor_index = vendor_index
       @backend = opts[:backend]
       @opts = opts
       @cwd = cwd
     end
 
-    def required_version
-      @version_requirement
-    end
-
     def source_version
-      profile.metadata.params[:version]
+      profile.version
     end
 
     def source_satisfies_spec?
-      name = profile.metadata.params[:name]
-      version = profile.metadata.params[:version]
-      @dep.match?(name, version)
+      gem_dep.match?(profile.name, profile.version)
+    end
+
+    def gem_dep
+      @gem_dep ||= Gem::Dependency.new(profile.name, required_version, :runtime)
     end
 
     def resolved_source
@@ -66,7 +59,7 @@ module Inspec
       h = {
         'name' => name,
         'resolved_source' => resolved_source,
-        'version_constraints' => @version_requirement.to_s,
+        'version_constraints' => required_version.to_s,
       }
 
       if !dependencies.empty?
@@ -103,7 +96,7 @@ module Inspec
     end
 
     def to_s
-      "#{dep} (#{resolved_source})"
+      "#{name ? name : '<unfetched>'} (#{resolved_source})"
     end
 
     def profile
