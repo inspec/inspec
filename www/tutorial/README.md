@@ -17,7 +17,7 @@ run `npm run start` to open in your browser @ localhost:8080
 
 ## How does it work???
 
-Well, let me tell you a story of a file named `tutorial.yml`, who lives in a directory named `inspec/www/tutorial`.
+Well, let me tell you a story of a file named `tutorial.yml`, who lives in a directory named `inspec/www/tutorial/tutorial_files`.
 
 This kind, informational file was full of content, and oh so desired to spread its knowledge.
 But it knew not how to do so, for it was a simple yml file.
@@ -48,9 +48,12 @@ And it was so. :)
 
 To generate content for the tutorial, update the tutorial.yml and/or commands.yml file and
 run `bundle exec rake update_demo` from the root of inspec project.
+ ** The github-markdown gem is causing some problems with this right now. Please run the ruby file directly for the moment:
+ `ruby tasks/command_simulator.rb`
 
-This will create/update two json files (commands.json and instructions.json)
+This will create/update three json files (commands.json, instructions.json, extra_commands.json)
 and the .txt files for the app/responses/ directory (generated from the commands included in the tutorial.yml)
+Those are the files required by the app to create the demo content.
 
 
 ----------------------------------------------------------

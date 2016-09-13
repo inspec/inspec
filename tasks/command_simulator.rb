@@ -1,14 +1,15 @@
 # encoding: utf-8
 require 'train'
 require 'yaml'
+require 'github/markup'
 require 'json'
 require 'shellwords'
 
 # Load all commands and instructions
-demos = YAML.load(File.read('www/tutorial/tutorial.yml'))['demos']
+demos = YAML.load(File.read('www/tutorial/tutorial_files/tutorial.yml'))['demos']
 commands = demos.map { |x| x['desc'] }.map { |x| x.scan(/```(.*?)```/m) }.flatten.map(&:strip).map { |x| x.split("\n") }
-tutorial_instructions = demos.map { |x| [x['demo'], x['desc']] }
-extra_commands = YAML.load(File.read('www/tutorial/commands.yml'))['commands']
+tutorial_instructions = demos.map { |x| [x['title'], x['desc']] }
+extra_commands = YAML.load(File.read('www/tutorial/tutorial_files/commands.yml'))['commands']
 
 # find out if we have a single command or a multiline shell command
 cmds = commands.map { |x|
@@ -51,18 +52,19 @@ end
 commands_file = File.new('www/tutorial/commands.json', 'w')
 json = commands.map { |x| [x => create_key(x)] }.to_json
 commands_file.write(json)
-puts 'Wrote www/tutorial/commands.json'
+puts 'Wrote www/tutorial/tutorial_files/commands.json'
 
 # Create instructions.json file
 instructions_file = File.new('www/tutorial/instructions.json', 'w')
+tutorial_instructions.map! { |set| [set[0], GitHub::Markup.render('instructions.markdown', set[1])] }
 instructions_file.write(tutorial_instructions.to_json)
-puts 'Wrote www/tutorial/instructions.json'
+puts 'Wrote www/tutorial/tutorial_files/instructions.json'
 
 # Create extra_commands.json file used to expose the extra commands
 # that have been enabled but not noted in the tutorial instructions
 extra_commands_file = File.new('www/tutorial/extra_commands.json', 'w')
 extra_commands_file.write(extra_commands.to_json)
-puts 'Wrote www/tutorial/extra_commands.json'
+puts 'Wrote www/tutorial/tutorial_files/extra_commands.json'
 
 # Generate command results files
 # Create Train connection

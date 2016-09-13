@@ -24,9 +24,9 @@ export class AppComponent implements OnInit {
   shell: string;
 
   // colors for responses
-  red: string = " [31m";
-  white: string = " [37m";
-  black: string = " [30m";
+  red: string = "[31m";
+  white: string = "[37m";
+  black: string = "[30m";
 
   matchFound: boolean; // helps to handle no match found response
   counter: number = 0; // keeps track of step number count
@@ -44,6 +44,10 @@ export class AppComponent implements OnInit {
     this.getInstructions();
     this.getResponses();
     this.getExtraCmds();
+  }
+
+  ngAfterViewChecked() {
+    window.scrollTo( 0, document.body.scrollHeight );
   }
 
   // called when command entered is 'next' or 'prev'
@@ -76,13 +80,15 @@ export class AppComponent implements OnInit {
     } else {
       if (this.instructionsArray[this.counter][1]) {
         this.title = this.instructionsArray[this.counter][0];
-        let text = this.instructionsArray[this.counter][1];
-        let formattedText = text.replace(/```/g, '');
-        this.instructions = formattedText;
+        this.instructions = this.instructionsArray[this.counter][1];
       } else {
         this.instructions = 'Sorry, something seems to have gone wrong. Please try refreshing your browser.';
       }
     }
+  }
+
+  formatInstructions() {
+    return this.instructions || '';
   }
 
   // called when a new value is emitted for command
@@ -203,7 +209,7 @@ export class AppComponent implements OnInit {
   // load json file for instructions and save to instructionsArray
   // call displayInstructions to load first set of instructions
   getInstructions() {
-    this.http.get('instructions.json')
+    this.http.get('tutorial_files/instructions.json')
       .subscribe(data => {
         this.instructionsArray = JSON.parse(data['_body']);
         this.displayInstructions();
@@ -214,7 +220,7 @@ export class AppComponent implements OnInit {
 
   // load json file for commands and push each object to commandsArray
   getResponses() {
-    this.http.get('commands.json')
+    this.http.get('tutorial_files/commands.json')
       .subscribe(data => {
         let result = JSON.parse(data['_body']);
         for (var i = 0; i < result.length; i++) {
@@ -228,7 +234,7 @@ export class AppComponent implements OnInit {
 
   // load json file for extra commands to display extra commands available to user
   getExtraCmds() {
-    this.http.get('extra_commands.json')
+    this.http.get('tutorial_files/extra_commands.json')
       .subscribe(data => {
         let result = JSON.parse(data['_body']);
         for (var i = 0; i < result.length; i++) {
