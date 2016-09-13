@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'middleman-core/load_paths'
 ::Middleman.setup_load_paths
 
