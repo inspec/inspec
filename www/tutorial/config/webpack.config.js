@@ -21,6 +21,11 @@ module.exports = {
             },
             {
               test: /\.css$/, loader: 'style!css',
+            },
+            {
+              test: /\.js$/,
+              exclude: /.spec.js/,
+              loader: "uglify"
             }
         ],
 
