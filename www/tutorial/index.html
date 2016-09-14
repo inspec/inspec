@@ -3,23 +3,29 @@
     <title>InSpec Demo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- build:css css/combined.css -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="node_modules/xterm/src/xterm.css">
+    <!-- endbuild -->
+
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <!-- 1. Load libraries -->
+  </head>
+  <body>
+    <!-- FIXME I need compilation and integration vv -->
     <script src="node_modules/shellwords/src/shellwords.coffee"></script>
-     <!-- Polyfill(s) for older browsers -->
+
+    <!-- build:js scripts/combined.js -->
+    <script src="node_modules/xterm/src/xterm.js"></script>
+    <script src="node_modules/xterm/addons/fit/fit.js"></script>
+    <!-- Polyfill for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <!--2. Load Webpack Config-->
+    <!-- endbuild -->
+
     <script src="dist/bundle.js"></script>
-    <!-- 3. Load Xterm -->
-    <script src="node_modules/xterm/src/xterm.js"></script>
-    <script src="node_modules/xterm/addons/fit/fit.js"></script>
-  </head>
-  <!-- 3. Display the application -->
-  <body>
+
     <my-app>Loading...</my-app>
   </body>
 </html>
