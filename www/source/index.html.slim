@@ -37,3 +37,72 @@ section
       p
         | The InSpec language can easily be extended to
           cover new operating systems, devices, or applications.
+
+section
+  h1 Working with InSpec
+
+  p InSpec solves your infrastructure testing needs.
+
+  .row
+    .columns.medium-6
+      p
+        b Test the desired state
+      p Match your infrastructure to expectations
+
+      p
+        b Simple and expressive
+      p Reduce friction and overhead. These tests are easy to understand.
+
+      p
+        b Test any system anywhere
+      p Runs locally and remotely. Supports all major operating systems and configurations.
+
+      p
+        b Extensible
+      p Easily create custom resources and share them.
+
+    .columns.medium-6
+      // Image with this code, code style is ruby:
+      //
+      // describe file('/etc/myapp.conf') do
+      //   it { should exist }
+      //   its('mode') { should cmp '0644' }
+      // end
+      //
+      // describe myapp.conf do
+      //   its('port') { should cmp 8080 }
+      // end
+      //
+      // describe port(8080) do
+      //   it { should be_listening }
+      // end
+
+  p Compliance and security requirements as code
+
+  .row
+    .columns.medium-6
+      p
+        b Add context to your tests
+      p Supports many fields like descriptions, tags, and impact
+
+      p
+        b Focus on critical findings
+      p ... instead of minor tests.
+
+      p
+        b Codify agreements
+      p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+
+    .columns.medium-6
+      // Image with this code, code style is ruby:
+      //
+      // control 'sshd-21'
+      //   title 'Set SSH Protocol to 2'
+      //   desc  'A detailed description about why we wan this ...'
+      //   impact 1.0  # this is critical
+      //   ref   'Our little compliance guide, section 2.1'
+      //
+      //   describe sshd_config do
+      //     its('Protocol') { should cmp 2 }
+      //   end
+      // end
