@@ -122,10 +122,12 @@ module Inspec
       @rules.delete(full_id(@profile_id, id))
     end
 
+    attr_reader :current_load
+
     def register_rule(r)
       # get the full ID
-      r.instance_variable_set(:@__file, @current_load[:file])
-      r.instance_variable_set(:@__group_title, @current_load[:title])
+      r.instance_variable_set(:@__file, current_load[:file])
+      r.instance_variable_set(:@__group_title, current_load[:title])
 
       # add the rule to the registry
       fid = full_id(Inspec::Rule.profile_id(r), Inspec::Rule.rule_id(r))
