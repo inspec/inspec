@@ -29,7 +29,7 @@ module Inspec
       req
     end
 
-    attr_reader :name, :cwd, :opts, :required_version
+    attr_reader :cwd, :opts, :required_version
     def initialize(name, version_constraints, vendor_index, cwd, opts)
       @name = name
       @required_version = Gem::Requirement.new(Array(version_constraints))
@@ -37,6 +37,14 @@ module Inspec
       @backend = opts[:backend]
       @opts = opts
       @cwd = cwd
+    end
+
+    #
+    # A dependency can be renamed in inspec.yml/inspec.lock.  Prefer
+    # the name the user gave this dependency over the profile name.
+    #
+    def name
+      @name || profile.name
     end
 
     def source_version

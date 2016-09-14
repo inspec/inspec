@@ -59,6 +59,12 @@ module Inspec
       @control_eval_context = nil
     end
 
+    def profile_supports_os?
+      return true if @conf['profile'].nil?
+
+      @conf['profile'].supports_os?
+    end
+
     def all_rules
       ret = @rules.values
       ret += @subcontexts.map(&:all_rules).flatten

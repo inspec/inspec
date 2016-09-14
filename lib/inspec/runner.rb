@@ -66,7 +66,6 @@ module Inspec
 
     def run(with = nil)
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
-      Inspec::Log.debug "Backend is #{@backend}"
       all_controls = []
 
       @target_profiles.each do |profile|
@@ -149,17 +148,16 @@ module Inspec
     end
 
     def supports_profile?(profile)
-      return true if profile.metadata.nil? || @ignore_supports
+      return true if @ignore_supports
 
-      if !profile.metadata.supports_runtime?
+      if !profile.supports_runtime?
         fail 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
-      if !profile.metadata.supports_transport?(@backend)
-        os_info = @backend.os[:name].to_s
-        fail "This OS/platform (#{os_info}) is not supported by this profile."
+      if !profile.supports_os?
+        fail "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
       end
 
       true

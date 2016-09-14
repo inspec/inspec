@@ -184,4 +184,11 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
     end
   end
+
+  describe 'when a dependency does not support our backend platform' do
+    it 'skips the controls from that profile' do
+      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')}")
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m2 skipped\e[0m\n"
+    end
+  end
 end
