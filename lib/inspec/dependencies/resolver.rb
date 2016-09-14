@@ -50,7 +50,7 @@ module Inspec
     def resolve(deps, top_level = true, seen_items = {}, path_string = '') # rubocop:disable Metrics/AbcSize
       graph = {}
       if top_level
-        Inspec::Log.debug("Starting traversal of dependencies #{deps.map(&:name)}")
+        Inspec::Log.debug("Starting traversal of dependencies #{deps.map(&:to_s)}")
       else
         Inspec::Log.debug("Traversing dependency tree of transitive dependency #{deps.map(&:name)}")
       end
