@@ -51,8 +51,7 @@ module Inspec
       for_path(resolve_target(target, opts[:cache]), opts.merge(target: target))
     end
 
-    attr_reader :source_reader
-    attr_accessor :runner_context
+    attr_reader :source_reader, :backend, :runner_context
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -79,6 +78,24 @@ module Inspec
 
     def version
       metadata.params[:version]
+    end
+
+    #
+    # Is this profile is supported on the current platform of the
+    # backend machine and the current inspec version.
+    #
+    # @returns [TrueClass, FalseClass]
+    #
+    def supported?
+      supports_os? && supports_runtime?
+    end
+
+    def supports_os?
+      metadata.supports_transport?(@backend)
+    end
+
+    def supports_runtime?
+      metadata.supports_runtime?
     end
 
     def params
