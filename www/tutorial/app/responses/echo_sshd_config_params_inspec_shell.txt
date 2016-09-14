@@ -1,10 +1,6 @@
+[0;32minspec> [0msshd_config.params
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m=> {[31m[1;31m"[0m[31mprotocol[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31m2[1;31m"[0m[31m[0m],
- [31m[1;31m"[0m[31msyslogfacility[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31mAUTHPRIV[1;31m"[0m[31m[0m],
- [31m[1;31m"[0m[31mauthorizedkeysfile[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31m.ssh/authorized_keys[1;31m"[0m[31m[0m],
- [31m[1;31m"[0m[31museprivilegeseparation[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31msandbox[1;31m"[0m[31m[0m],
- [31m[1;31m"[0m[31macceptenv[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31mLANG LC_*[1;31m"[0m[31m[0m],
- [31m[1;31m"[0m[31msubsystem[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31msftp[1;35m\t[0m[31m/usr/libexec/sftp-server[1;31m"[0m[31m[0m]}
-[0;32minspec> [0m
+[0G[0;32minspec> [0m=> {[31m[1;31m"[0m[31mauthorizedkeysfile[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31m.ssh/authorized_keys[1;31m"[0m[31m[0m],
+ [31m[1;31m"[0m[31msubsystem[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31msftp[1;35m\t[0m[31m/usr/lib/ssh/sftp-server[1;31m"[0m[31m[0m]}

@@ -13,3 +13,4 @@ app/**/*.js
 app/**/*.map
 
 !webpack.config.js
+scripts/simulator/filesystem/examples/profile/*

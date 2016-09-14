@@ -1,5 +1,5 @@
+[0;32minspec> [0mfile('/proc/cpuinfo').owner
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m=> [1;36mnil[0m
-[0;32minspec> [0m
+[0G[0;32minspec> [0m=> [31m[1;31m"[0m[31mroot[1;31m"[0m[31m[0m

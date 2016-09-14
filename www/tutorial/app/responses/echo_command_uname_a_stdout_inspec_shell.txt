@@ -1,5 +1,5 @@
+[0;32minspec> [0mcommand('uname -a').stdout
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m=> [31m[1;31m"[0m[31mDarwin vjeffrey01 15.6.0 Darwin Kernel Version 15.6.0: Mon Aug 29 20:21:34 PDT 2016; root:xnu-3248.60.11~1/RELEASE_X86_64 x86_64[1;35m\n[0m[31m[1;31m"[0m[31m[0m
-[0;32minspec> [0m
+[0G[0;32minspec> [0m=> [31m[1;31m"[0m[31mLinux 88d033cb7c95 4.4.20-moby #1 SMP Thu Sep 8 21:27:34 UTC 2016 x86_64 Linux[1;35m\n[0m[31m[1;31m"[0m[31m[0m

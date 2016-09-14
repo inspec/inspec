@@ -31,10 +31,9 @@ export class AppComponent implements OnInit {
   matchFound: boolean; // helps to handle no match found response
   counter: number = 0; // keeps track of step number count
   userCommand: string; // used to display better error msg when no match is found
-  extraCmds: string = ''; // used to display extra commands available (from commands.yml)
 
   // arrays of data parsed from json files
-  commandsArray: any = [];
+  commands: any = [];
   instructionsArray: any = [];
 
   constructor(private http: Http) { }
@@ -42,8 +41,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // load json files
     this.getInstructions();
-    this.getResponses();
-    this.getExtraCmds();
+    this.getCommands();
   }
 
   ngAfterViewChecked() {
@@ -65,8 +63,19 @@ export class AppComponent implements OnInit {
         this.counter -= 1;
       }
       this.response = this.black + 'prev' + msg;
+    } else if (step === 'last') {
+      this.counter = totalSteps - 1
+      this.response = this.black + 'last' + msg;
     }
     this.displayInstructions();
+  }
+
+  extraCmds() {
+    let cmds = this.commands
+    let extra = Object.keys(cmds).filter(function(key){
+      return cmds[key]['extra'] == true
+    });
+    return extra
   }
 
   // display instructions based on value of counter and
@@ -76,7 +85,7 @@ export class AppComponent implements OnInit {
   displayInstructions() {
     if (this.counter === this.instructionsArray.length - 1) {
       this.title = "the end; that's all folks!";
-      this.instructions = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds;
+      this.instructions = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds();
     } else {
       if (this.instructionsArray[this.counter][1]) {
         this.title = this.instructionsArray[this.counter][0];
@@ -102,20 +111,11 @@ export class AppComponent implements OnInit {
     else if (command.match(/^prev\s*/)) {
       this.updateInstructions('prev');
     }
+    else if (command.match(/^last\s*/)) {
+      this.updateInstructions('last');
+    }
     else if (this.shell === 'inspec-shell') {
       this.parseInspecShell(command);
-    }
-    else if (command.match(/^ls\s*/)) {
-      this.response = this.white + "README.md";
-    }
-    else if (command.match(/^pwd\s*/)) {
-      this.response = this.white + "anonymous-web-user/inspec";
-    }
-    else if (command.match(/^cat\s*README.md\s*/i)) {
-      this.response = this.white + "Only a few commands are implemented in this terminal.  Please follow the demo";
-    }
-    else if (command.match(/^less\s*README.md\s*/i)) {
-      this.response = this.white + "Only a few commands are implemented in this terminal.  Please follow the demo.";
     }
     else {
       this.checkCommand(command);
@@ -156,7 +156,7 @@ export class AppComponent implements OnInit {
   }
 
   // takes the command as input, replaces all white space with regex whitespace matcher
-  // and creates a new regex. check if the regex matches any of the keys in the commandsArray
+  // and creates a new regex. check if the regex matches any of the keys in the commands
   // if it matches, we set matchFound to true and call displayResult. if it doesn't match,
   // we display a default error message
   checkCommand(command) {
@@ -164,17 +164,18 @@ export class AppComponent implements OnInit {
     let cmd = command.replace(/ /g,"\\s*")
     let regexcmd = new RegExp(('^'+cmd+'$'), 'm')
     this.matchFound = false;
-    for (var i = 0; i < this.commandsArray.length; i++) {
-      let object = this.commandsArray[i]
-      for (let key in object) {
-        if (key.match(regexcmd)) {
-          this.matchFound = true;
-          let value = object[key];
-          this.http.get(dir + value).subscribe(data => {
-            this.displayResult(command, data);
-          },
-          err => console.error(err));
-        }
+
+    // iterate over commands and try to match the command with the input
+    let cmds = Object.keys(this.commands)
+    for (var i = 0; i < cmds.length; i++) {
+      let cmd = cmds[i];
+      if (cmd.match(regexcmd)) {
+        this.matchFound = true;
+        let key = this.commands[cmd]['key'];
+        this.http.get(dir + key).subscribe(data => {
+          this.displayResult(command, data);
+        },
+        err => console.error(err));
       }
     }
     // if no match is found, we check if the command entered was inspec exec something
@@ -209,7 +210,7 @@ export class AppComponent implements OnInit {
   // load json file for instructions and save to instructionsArray
   // call displayInstructions to load first set of instructions
   getInstructions() {
-    this.http.get('tutorial_files/instructions.json')
+    this.http.get('app/responses/instructions.json')
       .subscribe(data => {
         this.instructionsArray = JSON.parse(data['_body']);
         this.displayInstructions();
@@ -218,28 +219,12 @@ export class AppComponent implements OnInit {
     );
   }
 
-  // load json file for commands and push each object to commandsArray
-  getResponses() {
-    this.http.get('tutorial_files/commands.json')
+  // load json file for commands and push each object to commands
+  getCommands() {
+    this.http.get('app/responses/commands.json')
       .subscribe(data => {
         let result = JSON.parse(data['_body']);
-        for (var i = 0; i < result.length; i++) {
-          let object = result[i][0];
-          this.commandsArray.push(object);
-        }
-      },
-      err => console.error(err)
-    );
-  }
-
-  // load json file for extra commands to display extra commands available to user
-  getExtraCmds() {
-    this.http.get('tutorial_files/extra_commands.json')
-      .subscribe(data => {
-        let result = JSON.parse(data['_body']);
-        for (var i = 0; i < result.length; i++) {
-          this.extraCmds += result[i] + "\r\n";
-        }
+        this.commands = result
       },
       err => console.error(err)
     );

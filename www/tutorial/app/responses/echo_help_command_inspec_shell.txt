@@ -1,7 +1,8 @@
-Welcome to the interactive InSpec Shell
+[0;32minspec> [0mhelp command
+[0;32minspec> [0mWelcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m[1mName:[0m command
+[0G[1mName:[0m command
 
 [1mDescription:[0m
 
@@ -24,4 +25,3 @@ end
 
 https://github.com/chef/inspec/blob/master/docs/resources.rst#command
 
-[0;32minspec> [0m
