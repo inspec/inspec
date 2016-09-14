@@ -142,8 +142,12 @@ module Inspec
       "Inspec::Profile<#{name}>"
     end
 
-    def info
-      res = params.dup
+    # return info using uncached params
+    def info!
+      info(load_params.dup)
+    end
+
+    def info(res = params.dup)
       # add information about the controls
       controls = res[:controls].map do |id, rule|
         next if id.to_s.empty?

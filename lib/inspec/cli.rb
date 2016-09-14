@@ -213,13 +213,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   def run_command(opts)
     runner = Inspec::Runner.new(opts)
-    ctx = runner.create_context(opts)
-    res = ctx.load(opts[:command])
+    res = runner.eval_with_virtual_profile(opts[:command])
+    runner.load
 
-    return :ruby_eval, res if ctx.rules.empty?
-
-    runner.register_rules(ctx)
-    return :rspec_run, runner.run # rubocop:disable Style/RedundantReturn
+    return :ruby_eval, res if runner.all_rules.empty?
+    return :rspec_run, runner.run_tests # rubocop:disable Style/RedundantReturn
   end
 end
 

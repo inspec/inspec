@@ -15,18 +15,13 @@ module Inspec
     end
 
     def start
-      # Create an in-memory empty runner so that we can add tests to it later.
-      # This context lasts for the duration of this "start" method call/pry
-      # session.
-      @ctx = @runner.create_context
-      configure_pry
-
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
       # pretend like we are constantly appending to the same file and want
       # to capture the local variable context from inside said class.
-      @ctx_binding = @ctx.load('binding')
+      @ctx_binding = @runner.eval_with_virtual_profile('binding')
+      configure_pry
       @ctx_binding.pry
     end
 
@@ -51,26 +46,20 @@ module Inspec
 
       # Track the rules currently registered and what their merge count is.
       Pry.hooks.add_hook(:before_eval, 'inspec_before_eval') do
-        @current_eval_rules = @ctx.rules.each_with_object({}) do |(rule_id, rule), h|
-          h[rule_id] = Inspec::Rule.merge_count(rule)
-        end
         @runner.reset
       end
 
       # After pry has evaluated a commanding within the binding context of a
       # test file, register all the rules it discovered.
       Pry.hooks.add_hook(:after_eval, 'inspec_after_eval') do
-        @current_eval_new_tests =
-          @runner.register_rules(@ctx) do |rule_id, rule|
-            @current_eval_rules[rule_id] != Inspec::Rule.merge_count(rule)
-          end
-        @runner.run if @current_eval_new_tests
+        @runner.load
+        @runner.run_tests if !@runner.all_rules.empty?
       end
 
       # Don't print out control class inspection when the user uses DSL methods.
       # Instead produce a result of evaluating their control.
       Pry.config.print = proc do |_output_, value, pry|
-        next if @current_eval_new_tests
+        next if !@runner.all_rules.empty?
         pry.pager.open do |pager|
           pager.print pry.config.output_prefix
           Pry::ColorPrinter.pp(value, pager, Pry::Terminal.width! - 1)
