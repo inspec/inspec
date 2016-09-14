@@ -23,7 +23,7 @@ module Inspec
       require 'rspec/core/dsl'
       Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
-        include resources_dsl
+        with_resource_dsl resources_dsl
       end
     end
 

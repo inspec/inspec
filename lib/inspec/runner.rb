@@ -229,21 +229,11 @@ module Inspec
       Inspec::Log.debug "Registering rule #{rule}"
       @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
-      examples = checks.map do |m, a, b|
+      examples = checks.flat_map do |m, a, b|
         get_check_example(m, a, b)
-      end.flatten.compact
+      end.compact
 
-      examples.each do |example|
-        # TODO: Remove this!! It is very dangerous to do this here.
-        # The goal of this is to make the audit DSL available to all
-        # describe blocks. Right now, these blocks are executed outside
-        # the scope of this run, thus not gaining ony of the DSL pieces.
-        # To circumvent this, the full DSL is attached to the example's
-        # scope.
-        dsl = Inspec::Resource.create_dsl(backend)
-        example.send(:include, dsl)
-        @test_collector.add_test(example, rule)
-      end
+      examples.each { |e| @test_collector.add_test(e, rule) }
     end
   end
 end
