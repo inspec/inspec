@@ -6,6 +6,8 @@
 require 'inspec/plugins'
 
 module Inspec
+  class ProfileNotFound < StandardError; end
+
   class Resource
     def self.default_registry
       @default_registry ||= {}
@@ -25,9 +27,22 @@ module Inspec
     #
     # @param backend [BackendRunner] exposing the target to resources
     # @return [ResourcesDSL]
-    def self.create_dsl(backend, my_registry = registry)
-      # need the local name, to use it in the module creation further down
+    def self.create_dsl(profile_context)
+      backend = profile_context.backend
+      my_registry = profile_context.resource_registry
+
       Module.new do
+        define_method :resource_class do |profile_name, resource_name|
+          inner_context = if profile_name == profile_context.profile_id
+                            profile_context
+                          else
+                            profile_context.subcontext_by_name(profile_name)
+                          end
+
+          fail ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
+          inner_context.resource_registry[resource_name]
+        end
+
         my_registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(backend, id.to_s, *args)

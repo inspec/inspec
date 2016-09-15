@@ -92,6 +92,14 @@ module Inspec
           res
         end
 
+        define_method :add_resource do |name, new_res|
+          resources_dsl.module_exec do
+            define_method name.to_sym do |*args|
+              new_res.new(@backend, name.to_s, *args)
+            end
+          end
+        end
+
         define_method :add_resources do |context|
           self.class.class_eval do
             include context.to_resources_dsl
