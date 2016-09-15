@@ -22,7 +22,7 @@ module Inspec
                 entry[:resolved_source].merge(backend: backend))
 
       locked_deps = []
-      Array(entry['dependencies']).each do |dep_entry|
+      Array(entry[:dependencies]).each do |dep_entry|
         locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, vendor_index, backend)
       end
       req.lock_deps(locked_deps)

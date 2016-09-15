@@ -173,6 +173,15 @@ Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     end
   end
 
+  describe "with a 2-level dependency tree" do
+    it 'correctly runs tests from the whole tree' do
+      out = inspec('exec ' + File.join(profile_path, 'dependencies', 'inheritance'))
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m6 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    end
+  end
+
   describe 'when using profiles on the supermarket' do
     it 'can run supermarket profiles directly from the command line' do
       out = inspec("exec supermarket://nathenharvey/tmp-compliance-profile")
