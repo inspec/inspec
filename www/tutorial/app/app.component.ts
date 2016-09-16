@@ -114,6 +114,10 @@ export class AppComponent implements OnInit {
     else if (command.match(/^last\s*/)) {
       this.updateInstructions('last');
     }
+    else if (command.match(/^inspec\s*shell\s*$/)) {
+      this.shell = 'inspec-shell';
+      this.response = this.white + 'Welcome to the interactive InSpec Shell\r\nTo find out how to use it, type: help\r\nTo exit, type: exit\r\n';
+    }
     else if (this.shell === 'inspec-shell') {
       this.parseInspecShell(command);
     }
@@ -161,7 +165,7 @@ export class AppComponent implements OnInit {
   // we display a default error message
   checkCommand(command) {
     let dir = 'app/responses/';
-    let cmd = command.replace(/ /g,"\\s*")
+    let cmd = command.replace(/ /g,'\\s*')
     let regexcmd = new RegExp(('^'+cmd+'$'), 'm')
     this.matchFound = false;
 

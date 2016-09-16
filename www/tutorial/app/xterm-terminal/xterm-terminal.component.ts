@@ -78,7 +78,7 @@ export class XtermTerminalComponent implements OnInit {
   // then no need to print the response, just set the prompt. otherwise,
   // print response and set prompt
   printResponse(response) {
-    if (response.match(/.30mnext|.30mprev/)) {
+    if (response.match(/.30mnext|.30mprev|.30mlast/)) {
       // call createTerminal to clear terminal screen on next and prev
       this.createTerminal();
     } else {
