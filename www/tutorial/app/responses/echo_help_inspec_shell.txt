@@ -1,7 +1,8 @@
-Welcome to the interactive InSpec Shell
+[0;32minspec> [0mhelp
+[0;32minspec> [0mWelcome to the interactive InSpec Shell
 To find out how to use it, type: [1mhelp[0m
 
-[0G[?1034h[0;32minspec> [0m
+[0G
 Available commands:
 
     `[resource]` - run resource on target machine
@@ -16,8 +17,7 @@ You can use resources in this environment to test the target machine. For exampl
 
 You are currently running on:
 
-    OS platform:  [1mmac_os_x[0m
-    OS family:  [1mdarwin[0m
-    OS release: [1m10.11.6[0m
+    OS platform:  [1malpine[0m
+    OS family:  [1malpine[0m
+    OS release: [1m3.4.0[0m
 
-[0;32minspec> [0m

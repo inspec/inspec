@@ -1,4 +1,8 @@
 commands:
+    - ls
+    - cat README.md
+    - inspec help supermarket
+    - inspec help compliance
     - inspec version
     - inspec detect --format json
     - inspec exec examples/profile --format json

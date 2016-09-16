@@ -20,8 +20,8 @@ task lint: [:rubocop]
 # update command output for demo
 desc 'Run inspec commands and save results to www/app/responses'
 task :update_demo do
-  commands = 'tasks/command_simulator.rb'
-  ruby commands
+  ruby 'www/tutorial/scripts/build_simulator_runtime.rb'
+  ruby 'www/tutorial/scripts/run_simulator_recording.rb'
 end
 
 # run tests
