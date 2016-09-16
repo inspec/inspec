@@ -43,7 +43,7 @@ describe 'inspec exec with json formatter' do
                   .find { |x| x['id'] =~ /generated from example.rb/ }['id']
       groups = actual.delete('groups')
       actual.must_equal({
-        "id" => "profile",
+        "name" => "profile",
         "title" => "InSpec Example Profile",
         "maintainer" => "Chef Software, Inc.",
         "copyright" => "Chef Software, Inc.",
@@ -56,9 +56,9 @@ describe 'inspec exec with json formatter' do
       })
 
       groups.sort_by { |x| x['id'] }.must_equal([
-        {"id"=>"controls/meta.rb", "title"=>"SSH Server Configuration", "controls"=>["ssh-1"]},
         {"id"=>"controls/example.rb", "title"=>"/tmp profile", "controls"=>["tmp-1.0", key]},
         {"id"=>"controls/gordon.rb", "title"=>"Gordon Config Checks", "controls"=>["gordon-1.0"]},
+        {"id"=>"controls/meta.rb", "title"=>"SSH Server Configuration", "controls"=>["ssh-1"]},
       ])
     end
 
