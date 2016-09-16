@@ -44,18 +44,16 @@ class SSL < Inspec.resource(1)
   attr_reader :host, :port
 
   def initialize(opts = {})
-    @host = opts[:host] ||
-            inspec.backend.instance_variable_get(:@hostname)
-    # FIXME: This can be removed when/if @hostname is available as a property for 'Train::Transports::WinRM::Connection'
-    # Train enhancement request for this here: https://github.com/chef/train/issues/128
-    if @host.nil? && inspec.backend.class.to_s == 'Train::Transports::WinRM::Connection'
-      @host = URI.parse(inspec.backend.instance_variable_get(:@options)[:endpoint]).hostname
-    end
-    if @host.nil? && inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
-      @host = 'localhost'
-    end
+    @host = opts[:host]
     if @host.nil?
-      fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+      # Transports like SSH and WinRM will provide a hostname
+      if inspec.backend.respond_to?('hostname')
+        @host = inspec.backend.hostname
+      elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
+        @host = 'localhost'
+      else
+        fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+      end
     end
     @port = opts[:port] || 443
     @timeout = opts[:timeout]
