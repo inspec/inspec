@@ -149,16 +149,22 @@ module Inspec
 
     def info(res = params.dup)
       # add information about the controls
-      controls = res[:controls].map do |id, rule|
+      res[:controls] = res[:controls].map do |id, rule|
         next if id.to_s.empty?
         data = rule.dup
         data.delete(:checks)
         data[:impact] ||= 0.5
         data[:impact] = 1.0 if data[:impact] > 1.0
         data[:impact] = 0.0 if data[:impact] < 0.0
-        [id, data]
+        data[:id] = id
+        data
+      end.compact
+
+      # resolve hash structure in groups
+      res[:groups] = res[:groups].map do |id, group|
+        group[:id] = id
+        group
       end
-      res[:controls] = Hash[controls.compact]
 
       # add information about the required attributes
       res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?

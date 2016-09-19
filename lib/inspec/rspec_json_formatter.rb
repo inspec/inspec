@@ -105,7 +105,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   def start(_notification)
     # Note that the default profile may have no name - therefore
     # the hash may have a valid nil => entry.
-    @profiles_info = Hash[@profiles.map { |x| profile_info(x) }]
+    @profiles_info = @profiles.map(&:info!).map(&:dup)
   end
 
   def dump_one_example(example, control)
@@ -195,11 +195,6 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
   private
 
-  def profile_info(profile)
-    info = profile.info!.dup
-    [info[:name], info]
-  end
-
   #
   # TODO(ssd+vj): We should probably solve this by either ensuring the example has
   # the profile_id of the top level profile when it is included as a dependency, or
@@ -207,7 +202,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   # this heuristic matching.
   #
   def example2profile(example, profiles)
-    profiles.values.find { |p| profile_contains_example?(p, example) }
+    profiles.find { |p| profile_contains_example?(p, example) }
   end
 
   def profile_contains_example?(profile, example)
@@ -216,7 +211,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     # Case 2: The profile contains a control that matches the id of the example
     if profile[:name] == example[:profile_id]
       true
-    elsif profile[:controls] && profile[:controls].key?(example[:id])
+    elsif profile[:controls] && profile[:controls].any? { |x| x[:id] == example[:id] }
       true
     else
       false
@@ -224,8 +219,9 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   def example2control(example, profiles)
-    p = example2profile(example, profiles)
-    p[:controls][example[:id]] if p && p[:controls]
+    profile = example2profile(example, profiles)
+    return nil unless profile && profile[:controls]
+    profile[:controls].find { |x| x[:id] == example[:id] }
   end
 
   def format_example(example)
@@ -292,7 +288,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     print_tests
     output.puts('')
 
-    @profiles_info.each do |_id, profile|
+    @profiles_info.each do |profile|
       next if profile[:already_printed]
       @current_profile = profile
       next unless print_current_profile
@@ -458,7 +454,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     return if @current_control.nil?
 
     prev_profile = @current_profile
-    @current_profile = @profiles_info[@current_control[:profile_id]]
+    @current_profile = @profiles_info.find { |i| i[:id] == @current_control[:profile_id] }
     print_current_profile if prev_profile != @current_profile
 
     fails, skips, passes, summary_indicator = current_control_infos

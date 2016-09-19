@@ -12,8 +12,8 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
-    stdout.must_include "\n\e[32m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
-    stdout.must_include "\n\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
+    stdout.must_include "\e[32m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
+    stdout.must_include "\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
 \e[37m     ○  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
