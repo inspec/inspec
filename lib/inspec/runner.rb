@@ -32,7 +32,6 @@ module Inspec
     extend Forwardable
 
     def_delegator :@test_collector, :report
-    def_delegator :@test_collector, :reset
 
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
@@ -64,8 +63,15 @@ module Inspec
       @test_collector.backend = @backend
     end
 
-    def run(with = nil)
-      Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+    def reset
+      @test_collector.reset
+      @target_profiles.each do |profile|
+        profile.runner_context.rules = {}
+      end
+      @rules = []
+    end
+
+    def load
       all_controls = []
 
       @target_profiles.each do |profile|
@@ -79,7 +85,15 @@ module Inspec
       all_controls.each do |rule|
         register_rule(rule)
       end
+    end
 
+    def run(with = nil)
+      Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      load
+      run_tests(with)
+    end
+
+    def run_tests(with = nil)
       @test_collector.run(with)
     end
 
@@ -133,20 +147,6 @@ module Inspec
       @target_profiles << profile if supports_profile?(profile)
     end
 
-    #
-    # This is used by inspec-shell and inspec-detect. This should
-    # probably be cleaned up a bit.
-    #
-    # @params [Hash] Options
-    # @returns [Inspec::ProfileContext]
-    #
-    def create_context(options = {})
-      meta = options[:metadata]
-      profile_id = nil
-      profile_id = meta.params[:name] unless meta.nil?
-      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
-    end
-
     def supports_profile?(profile)
       return true if @ignore_supports
 
@@ -178,6 +178,14 @@ module Inspec
         register_rule(rule)
       end
       new_tests
+    end
+
+    def eval_with_virtual_profile(command)
+      require 'fetchers/mock'
+      add_target({ 'inspec.yml' => 'name: inspec-shell' })
+      our_profile = @target_profiles.first
+      ctx = our_profile.runner_context
+      ctx.load(command)
     end
 
     private

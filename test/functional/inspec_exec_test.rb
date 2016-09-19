@@ -18,7 +18,8 @@ describe 'inspec exec' do
 \e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
 \e[37m     ○  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
 "
-    stdout.must_include "\nSummary: \e[32m4 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m\n"
+    stdout.must_include "\nProfile Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m"
+    stdout.must_include "\nTest Summary: \e[32m4 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m\n"
   end
 
   it 'executes a minimum metadata-only profile' do
@@ -33,7 +34,7 @@ Target:  local://
 
      No tests executed.\e[0m
 
-Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
+Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
   end
 
@@ -49,7 +50,7 @@ Target:  local://
 
      No tests executed.\e[0m
 
-Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
+Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
   end
 
@@ -78,14 +79,15 @@ Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
     out = inspec('exec ' + example_profile + ' --controls tmp-1.0')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nSummary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    out.stdout.must_include "\nProfile Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
   end
 
   it 'can execute a simple file with the default formatter' do
     out = inspec('exec ' + example_control)
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nSummary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    out.stdout.must_include "\nProfile Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    out.stdout.must_include "\nTest Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m"
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
@@ -137,7 +139,8 @@ Target:  local://
   File /tmp
 \e[32m     \xE2\x9C\x94  should be directory\e[0m
 
-Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
+Profile Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
+Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m
 "
     end
   end

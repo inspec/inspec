@@ -63,9 +63,7 @@ describe 'inspec shell tests' do
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
       j.keys.must_include 'other_checks'
-      j.keys.must_include 'summary'
-      j['summary']['example_count'].must_equal 1
-      j['summary']['failure_count'].must_equal 0
+      j.keys.must_include 'statistics'
     end
 
     it 'runs anonymous tests that succeed' do
@@ -80,9 +78,7 @@ describe 'inspec shell tests' do
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
       j.keys.must_include 'other_checks'
-      j.keys.must_include 'summary'
-      j['summary']['example_count'].must_equal 1
-      j['summary']['failure_count'].must_equal 1
+      j.keys.must_include 'statistics'
     end
 
     it 'runs anonymous tests that fail' do
@@ -97,9 +93,7 @@ describe 'inspec shell tests' do
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
       j.keys.must_include 'other_checks'
-      j.keys.must_include 'summary'
-      j['summary']['example_count'].must_equal 1
-      j['summary']['failure_count'].must_equal 0
+      j.keys.must_include 'statistics'
     end
 
     it 'runs controls with tests' do
@@ -114,14 +108,12 @@ describe 'inspec shell tests' do
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
       j.keys.must_include 'other_checks'
-      j.keys.must_include 'summary'
-      j['summary']['example_count'].must_equal 2
-      j['summary']['failure_count'].must_equal 1
+      j.keys.must_include 'statistics'
     end
 
     it 'runs controls with multiple tests' do
       out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1)
-      out.stdout.must_include '1 successful'
+      out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failures'
     end
   end
@@ -178,7 +170,7 @@ describe 'inspec shell tests' do
 
     it 'runs controls with multiple tests' do
       out = do_shell("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end")
-      out.stdout.must_include '1 successful'
+      out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failures'
     end
 
