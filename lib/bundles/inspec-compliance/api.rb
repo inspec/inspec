@@ -9,18 +9,6 @@ module Compliance
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
   class API
-    # login method for pre-1.0 compliance server
-    def self.legacy_login_post(url, username, password, insecure)
-      # form request
-      # TODO: reuse post function
-      uri = URI.parse(url)
-      req = Net::HTTP::Post.new(uri.path)
-      req.basic_auth(username, password)
-      req.form_data={}
-
-      send_request(uri, req, insecure)
-    end
-
     # return all compliance profiles available for the user
     def self.profiles(config)
       url = "#{config['server']}/user/compliance"
@@ -86,19 +74,19 @@ Please login using `inspec compliance login https://compliance.test --user admin
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
-    def self.post_refresh_token(url, token, insecure)
+    # Use username and refresh_toke to get an API access token
+    def self.get_token_via_refresh_token(url, refresh_token, insecure)
       uri = URI.parse("#{url}/login")
       req = Net::HTTP::Post.new(uri.path)
-      # req['Authorization'] = "Bearer #{token}"
-      req.body = { token: token }.to_json
+      req.body = { token: refresh_token }.to_json
       access_token = nil
       response = Compliance::HTTP.send_request(uri, req, insecure)
       data = response.body
-      if !data.nil?
+      if response.code == '200'
         begin
           tokendata = JSON.parse(data)
           access_token = tokendata['access_token']
-          msg = 'Successfully fetched access token'
+          msg = 'Successfully fetched API access token'
           success = true
         rescue JSON::ParserError => e
           success = false
@@ -106,7 +94,29 @@ Please login using `inspec compliance login https://compliance.test --user admin
         end
       else
         success = false
-        msg = 'Invalid refresh_token'
+        msg = "Failed to authenticate to #{url} \n\
+  Response code: #{response.code}\n  Body: #{response.body}"
+      end
+
+      [success, msg, access_token]
+    end
+
+    # Use username and password to get an API access token
+    def self.get_token_via_password(url, username, password, insecure)
+      uri = URI.parse("#{url}/login")
+      req = Net::HTTP::Post.new(uri.path)
+      req.body = { userid: username, password: password }.to_json
+      access_token = nil
+      response = Compliance::HTTP.send_request(uri, req, insecure)
+      data = response.body
+      if response.code == '200'
+        access_token = data
+        msg = 'Successfully fetched an API access token valid for 12 hours'
+        success = true
+      else
+        success = false
+        msg = "Failed to authenticate to #{url} \n\
+  Response code: #{response.code}\n  Body: #{response.body}"
       end
 
       [success, msg, access_token]
