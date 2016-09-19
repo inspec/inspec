@@ -1,17 +1,18 @@
-<div class="terminal-nav">
-  <span (click)="updateInstructions('prev')"> < </span>
-  <span (click)="updateInstructions('next')"> > </span>
-  <span> x </span>
-</div>
-
-<img src="inspec-logo.png" alt="Inspec Logo">
-<div class="main">
-  <div class="guide">
-    <p class="title">{{title}}</p>
-    <p [innerHTML]="formatInstructions()"></p>
+<div class="tutorial">
+  <div class="tutorial-nav">
+    <i (click)="updateInstructions('prev')" class="icon-angle-circled-left"></i>
+    <i (click)="updateInstructions('next')" class="icon-angle-circled-right"></i>
+    <i class="icon-cancel-circled"></i>
   </div>
 
-  <div class="cli">
-    <xterm-terminal (command)="evalCommand(command=$event)" [response]="response" [shell]="shell"></xterm-terminal>
+  <div class="tutorial-wrapper">
+    <div class="tutorial-guide">
+      <p class="title">{{title}}</p>
+      <p [innerHTML]="formatInstructions()"></p>
+    </div>
   </div>
 </div>
+
+<xterm-terminal class="cli" (stdin)="evalCommand(command=$event)" [stdout]="stdout" [prompt]="prompt"></xterm-terminal>
+
+<img src="inspec-logo-white.png" alt="InSpec Logo">

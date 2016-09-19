@@ -1,9 +1,11 @@
 #terminal-container {
-    max-width: 1200px;
-    height: 350px;
     margin: 0 auto;
     padding: 2px;
     font-size: 16px;
+    max-width: 1000px;
+    -webkit-font-smoothing: antialiased;
+    font-family: monospace;
+    font-size: 1.2rem;
 }
 
 #terminal-container .terminal {

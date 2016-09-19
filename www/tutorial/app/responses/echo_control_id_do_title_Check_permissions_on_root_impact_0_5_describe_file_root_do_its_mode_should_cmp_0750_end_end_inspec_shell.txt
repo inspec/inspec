@@ -5,13 +5,10 @@
 [0;32minspec> [0m        its('mode') { should cmp '0750'}
 [0;32minspec> [0m      end
 [0;32minspec> [0m  end
-Welcome to the interactive InSpec Shell
-To find out how to use it, type: [1mhelp[0m
-
 [0G[0;32minspec> [0m[31m  ✖  id: File /root mode should cmp "0750" (
      expected: "0750"
           got: 0700
-     
+
      (compared using `cmp` matcher)
      )[0m
 

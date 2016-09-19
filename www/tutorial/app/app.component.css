@@ -1,13 +1,9 @@
-.main {
-  overflow: auto;
-}
-
-.terminal-nav {
+.tutorial-nav {
   display: inline-block;
   position: fixed;
-  top: 0;
+  top: 10;
   right: 0;
-  width: 120px;
+  width: 150px;
   height: 60px;
   color: #888;
   text-align: center;
@@ -25,23 +21,38 @@
 
 img {
   padding-top: 5px;
-  width: 160px;
-  height: 40px;
+  width: 100px;
   padding-bottom: 5px;
+  position: fixed;
+  bottom: 10;
+  right: 30px;
+  z-index: 100;
 }
 
-.guide {
-  -webkit-font-smoothing: antialiased;
+.tutorial {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.tutorial-wrapper {
+  max-width: 1000px;
+  min-width: 400px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.tutorial-guide {
+  padding: 10px;
   color: #DDDDDD;
+  background-color: #444;
   font-family: 'Ubuntu Mono', 'Monaco', sans-serif;
   letter-spacing: 1.2px;
-  font-size: 15px;
-  max-width: 1000px;
-  margin: auto;
-  padding: 1rem;
-  background-color: #444;
   text-align: left;
   line-height: 1.4;
+  border-radius: 5px;
 }
 
 .title {
@@ -57,15 +68,13 @@ I'm unsure why, but attempting to set the style of code in this setting is just
 not working....but this works! */
 :host /deep/ code {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .cli {
-  -webkit-font-smoothing: antialiased;
-  font-family: monospace;
-  font-size: 1.2rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  max-width: 1200px;
-  margin: auto;
+  position: fixed;
+  top: 250px;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }

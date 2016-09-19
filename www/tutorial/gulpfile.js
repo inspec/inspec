@@ -22,7 +22,6 @@ gulp.task('copy', function(){
       'app/**/*.css',
       'app/**/*.html',
       'tutorial_files/**',
-      'node_modules/shellwords/src/shellwords.coffee',
     ])
     .pipe(gcopy('dist/'));
 })

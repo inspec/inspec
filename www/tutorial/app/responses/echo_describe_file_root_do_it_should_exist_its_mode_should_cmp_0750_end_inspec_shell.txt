@@ -2,9 +2,6 @@
 [0;32minspec> [0m    it { should exist }
 [0;32minspec> [0m    its('mode') { should cmp '0750'}
 [0;32minspec> [0m  end
-Welcome to the interactive InSpec Shell
-To find out how to use it, type: [1mhelp[0m
-
 [0G[0;32minspec> [0m
   File /root
 [32m     ✔  should exist[0m
