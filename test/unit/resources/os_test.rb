@@ -19,7 +19,7 @@ describe 'Inspec::Resources::Os' do
     _(resource.name).must_equal 'windows'
     _(resource.family).must_equal 'windows'
     _(resource.release).must_equal '6.2.9200'
-    _(resource.arch).must_equal 'x86_64'
+    _(resource.arch).must_equal '64-bit'
   end
 
   it 'verify os parsing on Debian' do
