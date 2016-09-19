@@ -10,10 +10,13 @@ html
     link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'
 
     == stylesheet_link_tag :site
-    == javascript_include_tag  "all"
 
   body class="#{page_classes}"
     = partial "layouts/nav"
 
     #content-outer
       == yield
+
+    == javascript_include_tag "all"
+    javascript:
+      $(document).foundation();
