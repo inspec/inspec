@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.35.0](https://github.com/chef/inspec/tree/0.35.0) (2016-09-16)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.34.1...0.35.0)
+## [1.0.0-beta1](https://github.com/chef/inspec/tree/1.0.0-beta1) (2016-09-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.35.0...1.0.0-beta1)
+
+**Implemented enhancements:**
+
+- InSpec output for summary needs to count controls [\#852](https://github.com/chef/inspec/issues/852)
+- ssl resource to use inspec.backend.hostname and require train 0.19.1 [\#1084](https://github.com/chef/inspec/pull/1084) ([alexpop](https://github.com/alexpop))
+- optimize command simulator auto-generation [\#1078](https://github.com/chef/inspec/pull/1078) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- proper scrolling of terminal [\#1053](https://github.com/chef/inspec/issues/1053)
+
+**Merged pull requests:**
+
+- fix inspec shell handling [\#1090](https://github.com/chef/inspec/pull/1090) ([vjeffrey](https://github.com/vjeffrey))
+- update responses [\#1087](https://github.com/chef/inspec/pull/1087) ([vjeffrey](https://github.com/vjeffrey))
+- print profile summary and test summary [\#1083](https://github.com/chef/inspec/pull/1083) ([vjeffrey](https://github.com/vjeffrey))
+- Fix minor typo in documentation [\#1082](https://github.com/chef/inspec/pull/1082) ([Dispader](https://github.com/Dispader))
+- uglify wepack content, kudos @chris-rock [\#1081](https://github.com/chef/inspec/pull/1081) ([arlimus](https://github.com/arlimus))
+- Static keys in all json [\#811](https://github.com/chef/inspec/pull/811) ([arlimus](https://github.com/arlimus))
+
+## [v0.35.0](https://github.com/chef/inspec/tree/v0.35.0) (2016-09-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.34.1...v0.35.0)
 
 **Fixed bugs:**
 
