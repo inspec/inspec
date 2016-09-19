@@ -22,9 +22,9 @@ module Compliance
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     option :user, type: :string, required: false,
-      desc: 'Chef Compliance Username (for legacy auth)'
+      desc: 'Chef Compliance Username'
     option :password, type: :string, required: false,
-      desc: 'Chef Compliance Password (for legacy auth)'
+      desc: 'Chef Compliance Password'
     option :apipath, type: :string, default: '/api',
       desc: 'Set the path to the API, defaults to /api'
     option :token, type: :string, required: false,
@@ -38,7 +38,7 @@ module Compliance
       url = options['server'] + options['apipath']
       if !options['user'].nil? && !options['password'].nil?
         # username / password
-        _success, msg = login_legacy(url, options['user'], options['password'], options['insecure'])
+        _success, msg = login_username_password(url, options['user'], options['password'], options['insecure'])
       elsif !options['user'].nil? && !options['token'].nil?
         # access token
         _success, msg = store_access_token(url, options['user'], options['token'], options['insecure'])
@@ -199,7 +199,7 @@ module Compliance
     private
 
     def login_refreshtoken(url, options)
-      success, msg, access_token = Compliance::API.post_refresh_token(url, options['refresh_token'], options['insecure'])
+      success, msg, access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
       if success
         config = Compliance::Configuration.new
         config['server'] = url
@@ -212,25 +212,17 @@ module Compliance
       [success, msg]
     end
 
-    def login_legacy(url, username, password, insecure)
+    def login_username_password(url, username, password, insecure)
       config = Compliance::Configuration.new
-      success, data = Compliance::API.legacy_login_post(url+'/oauth/token', username, password, insecure)
-      if !data.nil?
-        tokendata = JSON.parse(data)
-        if tokendata['access_token']
-          config['server'] = url
-          config['user'] = username
-          config['token'] = tokendata['access_token']
-          config['insecure'] = insecure
-          config['version'] = Compliance::API.version(url, insecure)
-          config.store
-          success = true
-          msg = 'Successfully authenticated'
-        else
-          msg = 'Response does not include a token'
-        end
-      else
-        msg = "Authentication failed for Server: #{url}"
+      success, msg, api_token = Compliance::API.get_token_via_password(url, username, password, insecure)
+      if success
+        config['server'] = url
+        config['user'] = username
+        config['token'] = api_token
+        config['insecure'] = insecure
+        config['version'] = Compliance::API.version(url, insecure)
+        config.store
+        success = true
       end
       [success, msg]
     end
@@ -245,10 +237,10 @@ module Compliance
       config['version'] = Compliance::API.version(url, insecure)
       config.store
 
-      [true, 'access token stored']
+      [true, 'API access token stored']
     end
 
-    # saves the a user refresh token supplied by the user
+    # saves a refresh token supplied by the user
     def store_refresh_token(url, refresh_token, verify, user, insecure)
       config = Compliance::Configuration.new
       config['server'] = url
@@ -260,13 +252,13 @@ module Compliance
       if !verify
         config.store
         success = true
-        msg = 'refresh token stored'
+        msg = 'API refresh token stored'
       else
-        success, msg, access_token = Compliance::API.post_refresh_token(url, refresh_token, insecure)
+        success, msg, access_token = Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
         if success
           config['token'] = access_token
           config.store
-          msg = 'token verified and stored'
+          msg = 'API access token verified and stored'
         end
       end
 
