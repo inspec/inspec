@@ -1,0 +1,16 @@
+.button {
+  font-family: $heading-font;
+  text-transform: uppercase;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 0 $off-white;
+
+  &.primary {
+    color: $inspec-grey;
+    background: $white;
+    border: 1px solid $inspec-blue;
+  }
+
+  & + .button {
+    margin-left: 15px;
+  }
+}
