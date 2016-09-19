@@ -2195,7 +2195,7 @@ This file can be queried via:
 
 .. code-block:: ruby
 
-   describe json('/paht/to/name.json') do
+   describe json('/path/to/name.json') do
       its('name') { should eq 'hello' }
       its(['meta','creator']) { should eq 'John Doe' }
       its(['array', 1]) { should eq 'one' }
