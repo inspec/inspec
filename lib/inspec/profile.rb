@@ -66,6 +66,7 @@ module Inspec
       @backend = options[:backend] || Inspec::Backend.create(options)
       @source_reader = source_reader
       @tests_collected = false
+      @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id)
       @runner_context = options[:profile_context] || Inspec::ProfileContext.for_profile(self,
                                                                                         @backend,
@@ -125,6 +126,8 @@ module Inspec
     end
 
     def load_libraries
+      return @runner_context if @libraries_loaded
+
       locked_dependencies.each do |d|
         c = d.load_libraries
         @runner_context.add_resources(c)
@@ -135,6 +138,7 @@ module Inspec
       end
 
       @runner_context.load_libraries(libs)
+      @libraries_loaded = true
       @runner_context
     end
 

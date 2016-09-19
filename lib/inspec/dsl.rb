@@ -18,6 +18,15 @@ module Inspec::DSL
   alias require_rules require_controls
   alias include_rules include_controls
 
+  def require_resource(options = {})
+    fail 'You must specify a specific resource name when calling require_resource()' if options[:resource].nil?
+
+    from_profile = options[:profile] || profile_name
+    target_name = options[:as] || options[:resource]
+    res = resource_class(from_profile, options[:resource])
+    add_resource(target_name, res)
+  end
+
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     dependencies = opts[:dependencies]
     profile_id = opts[:profile_id]

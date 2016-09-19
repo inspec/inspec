@@ -72,6 +72,9 @@ module Inspec
       end
 
       # rubocop:enable Lint/NestedMethodDefinition
+      if __resource_registry.key?(name)
+        Inspec::Log.warn("Overwriting resource #{name}. To reference a specific version of #{name} use the resource() method")
+      end
       __resource_registry[name] = cl
     end
   end
