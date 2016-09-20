@@ -1,0 +1,18 @@
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: $main-font;
+}
+
+#main-content {
+  margin-top: 64px;
+
+  @include nav-small {
+    padding: 0 $side-nav-padding-small;
+  }
+
+  @include nav-large {
+    padding-right: 10px;
+    margin: $top-nav-height 0 0 ($side-nav-width + 50px);
+  }
+}

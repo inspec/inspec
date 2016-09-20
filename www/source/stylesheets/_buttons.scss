@@ -10,6 +10,18 @@
     border: 1px solid $inspec-blue;
   }
 
+  &.transparent {
+    color: $inspec-grey;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none;
+
+    &:hover {
+      color: darken($inspec-grey, 20%);
+    }
+  }
+
   & + .button {
     margin-left: 15px;
   }

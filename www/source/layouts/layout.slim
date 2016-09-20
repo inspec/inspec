@@ -14,7 +14,7 @@ html
   body class="#{page_classes}"
     = partial "layouts/nav"
 
-    #content-outer
+    main#main-content
       == yield
 
     == javascript_include_tag "all"

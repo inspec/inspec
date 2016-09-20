@@ -1,0 +1,154 @@
+$side-nav-width: 200px;
+$top-nav-height: 100px;
+$side-nav-padding-large: 10px;
+$side-nav-padding-small: 30px;
+
+$nav-breakpoint: 730px;
+
+@mixin nav-large {
+  @media (min-width: #{$nav-breakpoint}) {
+    @content;
+  }
+}
+
+@mixin nav-small {
+  @media (max-width: $nav-breakpoint - 1px) {
+    @content;
+  }
+}
+
+#main-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: $white;
+
+  @include nav-large {
+    position: fixed;
+    z-index: 100;
+    width: $side-nav-width;
+  }
+}
+
+.main-nav--toggle {
+  display: none;
+  transition: all 0.3s ease;
+
+  path {
+    fill: $inspec-grey;
+  }
+
+  @include nav-small {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: $side-nav-padding-small;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  &.is-active {
+    transform: rotate(-90deg);
+
+    path {
+      fill: $inspec-blue;
+    }
+  }
+}
+
+.main-nav--link-ctas {
+  padding: 9px 0 9px $side-nav-padding-small;
+  border-bottom: 1px solid lighten($inspec-grey, 40%);
+
+  & > .button {
+    margin-bottom: 0;
+  }
+
+  @include nav-large {
+    display: none;
+  }
+}
+
+.main-nav--logo {
+  display: block;
+
+  @include nav-small {
+    max-width: 130px;
+    margin: 15px 0 15px $side-nav-padding-small;
+  }
+
+  @include nav-large {
+    padding: 0 $side-nav-padding-large;
+    margin: 30px 0;
+  }
+}
+
+.main-nav--links {
+  border-top: 1px solid lighten($inspec-grey, 40%);
+  margin-bottom: 0;
+  @extend .no-bullet;
+
+  @include nav-small {
+    display: none;
+  }
+}
+
+.main-nav--link {
+  position: relative;
+  padding: 9px 0;
+  border-bottom: 1px solid lighten($inspec-grey, 40%);
+  text-transform: uppercase;
+  font-size: 14px;
+
+  & > a {
+    color: $inspec-grey;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: darken($inspec-grey, 15%);
+    }
+  }
+}
+
+.main-nav--link-icon {
+  position: absolute;
+  top: 13px;
+  left: $side-nav-padding-small;
+  font-size: 0.9em;
+
+  @include nav-large {
+    left: $side-nav-padding-large;
+  }
+}
+
+.main-nav--link-text {
+  margin-left: 55px;
+
+  @include nav-large {
+    margin-left: 34px;
+  }
+}
+
+#main-nav-ctas {
+  background: $white;
+
+  @include nav-small {
+    display: none;
+  }
+
+  @include nav-large {
+    position: fixed;
+    z-index: 90;
+    top: 0;
+    width: 100%;
+    max-width: 1200px;
+    padding: 30px 10px 30px 0;
+    text-align: right;
+
+    & > .button {
+      margin-bottom: 0;
+    }
+  }
+}
