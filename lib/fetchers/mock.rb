@@ -27,5 +27,9 @@ module Fetchers
     def resolved_source
       { mock_fetcher: true }
     end
+
+    def cache_key
+      ''
+    end
   end
 end

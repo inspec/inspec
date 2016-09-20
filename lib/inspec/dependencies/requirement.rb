@@ -74,21 +74,11 @@ module Inspec
         h['dependencies'] = dependencies.map(&:to_hash)
       end
 
-      h['content_hash'] = content_hash if content_hash
       h
     end
 
     def lock_deps(dep_array)
       @dependencies = dep_array
-    end
-
-    def content_hash
-      @content_hash ||= begin
-                          archive_path = @vendor_index.archive_entry_for(fetcher.cache_key) || fetcher.archive_path
-                          if archive_path && File.file?(archive_path)
-                            Digest::SHA256.hexdigest File.read(archive_path)
-                          end
-                        end
     end
 
     def fetcher

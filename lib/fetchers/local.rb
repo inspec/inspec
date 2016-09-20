@@ -55,8 +55,19 @@ module Fetchers
       @target
     end
 
+    def cache_key
+      archive_shasum.to_s
+    end
+
+    def archive_shasum
+      return nil if File.directory?(@target)
+      @archive_shasum ||= Digest::SHA256.hexdigest File.read(@target)
+    end
+
     def resolved_source
-      { path: @target }
+      h = { path: @target }
+      h[:shasum] = archive_shasum if archive_shasum
+      h
     end
   end
 end
