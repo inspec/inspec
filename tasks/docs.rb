@@ -15,6 +15,44 @@
 # limitations under the License.
 #
 
+class Markdown
+  class << self
+    def h1(msg)
+      "# #{msg}\n\n"
+    end
+
+    def h2(msg)
+      "## #{msg}\n\n"
+    end
+
+    def h3(msg)
+      "### #{msg}\n\n"
+    end
+
+    def code(msg, syntax = nil)
+      "```#{syntax}\n"\
+      "#{msg}\n"\
+      "```\n\n"
+    end
+
+    def li(msg)
+      "* #{msg.gsub("\n", "\n    ")}\n"
+    end
+
+    def ul(msg)
+      msg + "\n"
+    end
+
+    def p(msg)
+      "#{msg}\n\n"
+    end
+
+    def suffix
+      '.md'
+    end
+  end
+end
+
 class RST
   class << self
     def h1(msg)
@@ -34,12 +72,24 @@ class RST
     end
 
     def code(msg, syntax = nil)
-      ".. code-block:: bash\n\n"\
+      ".. code-block:: #{syntax}\n\n"\
       "   #{msg.gsub("\n", "\n   ")}\n\n"
+    end
+
+    def li(msg)
+      "#{msg.gsub("\n", "\n   ")}\n\n"
+    end
+
+    def ul(msg)
+      msg
     end
 
     def p(msg)
       "#{msg}\n\n"
+    end
+
+    def suffix
+      '.rst'
     end
   end
 end
@@ -68,6 +118,7 @@ namespace :docs do
       unless opts.empty?
         res << f.h3('Options') + f.p('This subcommand has additional options:')
 
+        list = ''
         opts.keys.sort.each do |option|
           opt = cmd.options[option]
           # TODO: remove when UX of help is reworked 1.0
@@ -75,14 +126,16 @@ namespace :docs do
                      .map { |x| x.tr('[]', '') }
                      .map { |x| x.start_with?('-') ? x : '-'+x }
                      .map { |x| '``' + x + '``' }
-          res << "#{usage.join(', ')}\n   #{opt.description}\n\n"
-        end
-
+          list << f.li("#{usage.join(', ')}\n#{opt.description}")
+        end.join
+        res << f.ul(list)
       end
-      res << "\n\n"
+
+      # FIXME: for some reason we have extra lines in our RST; needs investigation
+      res << "\n\n" if f == RST
     end
 
-    dst = 'docs/cli.rst'
+    dst = 'docs/cli' + f.suffix
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
