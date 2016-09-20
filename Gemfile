@@ -26,6 +26,7 @@ group :test do
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
   gem 'inquirer'
+  gem 'nokogiri', '~> 1.6'
 end
 
 group :integration do
