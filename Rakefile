@@ -6,6 +6,7 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require_relative 'tasks/maintainers'
+require_relative 'tasks/docs'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
@@ -164,57 +165,4 @@ task :release_docker do
         "docker push chef/inspec:#{version}"
   puts "--> #{cmd}"
   sh('sh', '-c', cmd)
-end
-
-namespace :docs do
-  desc 'Create cli docs'
-  task :cli do
-    res = "=====================================================\n"\
-          "InSpec CLI\n"\
-          "=====================================================\n\n"\
-          "Use the InSpec CLI to run tests and audits against targets "\
-          "using local, SSH, WinRM, or Docker connections.\n\n"
-
-    require 'inspec/cli'
-    cmds = Inspec::InspecCLI.all_commands
-    cmds.keys.sort.each do |key|
-      cmd = cmds[key]
-
-      res << "#{cmd.usage.split.first}\n"\
-             "=====================================================\n\n"
-
-      res << cmd.description.capitalize
-      res << "\n\n"
-
-      res << "Syntax\n"\
-             "-----------------------------------------------------\n\n"
-
-      res << "This subcommand has the following syntax:\n\n"\
-             ".. code-block:: bash\n\n"\
-             "   $ inspec #{cmd.usage}\n\n"
-
-      opts = cmd.options.select { |_, o| !o.hide }
-      unless opts.empty?
-        res << "Options\n"\
-               "-----------------------------------------------------\n\n"\
-               "This subcommand has additional options:\n\n"
-
-        opts.keys.sort.each do |option|
-          opt = cmd.options[option]
-          # TODO: remove when UX of help is reworked 1.0
-          usage = opt.usage.split(', ')
-                     .map { |x| x.tr('[]', '') }
-                     .map { |x| x.start_with?('-') ? x : '-'+x }
-                     .map { |x| '``' + x + '``' }
-          res << "#{usage.join(', ')}\n   #{opt.description}\n\n"
-        end
-
-      end
-      res << "\n\n"
-    end
-
-    dst = 'docs/cli.rst'
-    File.write(dst, res)
-    puts "Documentation generated in #{dst.inspect}"
-  end
 end
