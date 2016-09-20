@@ -22,6 +22,10 @@
     }
   }
 
+  &.block {
+    display: block;
+  }
+
   & + .button {
     margin-left: 15px;
   }
