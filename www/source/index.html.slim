@@ -1,108 +1,80 @@
 ---
 title: InSpec - Audit and Test Framework
 ---
+.row
+  .columns.medium-12
+    .home-hero
+      img.home-hero--code src="/images/home/hero-code.gif" alt=""
+    h2.main-subhead.text-center InSpec is compliance as simple code
+    p
+      | InSpec is compliance as code – a human-readable language for automating
+        the continuous testing and compliance auditing of your entire
+        infrastructure. You can also use it to verify if your servers and
+        applications are configured correctly.
+    p.text-center.home-hero--buttons
+      a.button.secondary href="" Download Inspec
+      a.button.primary href="" Start the Demo
+    hr.home-divider
+    .icon-blocks.row
+      .columns.large-3.medium-6
+        img.icon-block--img src="/images/home/platform-icon.png"
+        h3.icon-block--heading Platform Agnostic
+        p
+          | InSpec supports all major operating systems and many applications
+            out of the box.
+      .columns.large-3.medium-6
+        img.icon-block--img src="/images/home/test-icon.png"
+        h3.icon-block--heading Test Locally or Remotely
+        p
+          | InSpec provides a local agent, as well as full remote testing support.
+      .columns.large-3.medium-6
+        img.icon-block--img src="/images/home/free-icon.png"
+        h3.icon-block--heading Free to Run Anywhere
+        p
+          | InSpec is a language that can easily express freedom to run anywhere.
+      .columns.large-3.medium-6
+        img.icon-block--img src="/images/home/fully-icon.png"
+        h3.icon-block--heading Fully Extensible Language
+        p
+          | Easily extend the InSpec language to cover new operating systems,
+            devices, or applications.
+    hr.home-divider
+    .code-snippet.row
+      .columns.large-6
+        img.code-snippet--img[src="/images/home/code-1.svg" onerror="this.src='/images/home/code-1.png'"
+          alt="Code Snippet"]
+      .columns.large-6.code-snippet--panel.first
+        small.code-snippet--description
+          strong Transform your compliance and security requirements into simple code.
+        h3.code-snippet--heading Codify Agreements:
+        p.code-snippet--text
+          | Combine profiles and customize them with overlays. Pick controls
+            and define exceptions as code.
+        h3.code-snippet--heading Add Context to Your Tests:
+        p.code-snippet--text Supports many fields like descriptions, tags, and impact.
+        h3.code-snippet--heading Apply to all systems:
+        p.code-snippet--text
+          | Combine profiles and customize them with overlays. Pick controls
+            and define exceptions as code.
+    .code-snippet.row
+      .columns.large-6
+        img.code-snippet--img[src="/images/home/code-2.svg" onerror="this.src='/images/home/code-2.png'"
+          alt="Code Snippet"]
+      .columns.large-6.code-snippet--panel.second
+        small.code-snippet--description
+          strong Solve your infrastructure testing needs simply and efficiently.
+        h3.code-snippet--heading Test the desired state:
+        p.code-snippet--text Match your infrastructure to your expectations.
+        h3.code-snippet--heading Use simple and expressive code:
+        p.code-snippet--text These tests are easy to understand by anyone, reducing friction.
+        h3.code-snippet--heading Test any system anywhere:
+        p.code-snippet--text
+          | Runs locally and remotely. Supports all major operating systems
+            and configurations.
+        h3.code-snippet--heading Extensible:
+        p.code-snippet--text Easily create custom resources and share them.
+    hr.home-divider
+    h2.main-subhead.text-center The Guiding Principles of InSpec
+    p Lorem ipsum...
 
-.welcome
-  h1 InSpec audit and test automation
-  p
-    | InSpec is a language and automation for testing your entire infrastructure.
-      With InSpec you verify if your servers and applications are configured
-      correctly. It is used for continuous testing and compliance auditing.
 
-  p InSpec is an open source project, and we’d love for you to
-    a href="/community" get involved.
-
-  a.button
-    Try it online
-
-section
-  h1 Why InSpec?
-
-  .row
-    .columns.medium-4
-      p
-        b Platform agnostic
-      p
-        | InSpec supports all major operating systems and many applications out of the box.
-          You can easily express
-    .columns.medium-4
-      p
-        b Freedom to run anywhere
-      p
-        | InSpec provides a local agent as well as full remote testing support.
-          It is applied to all systems from legacy servers to modern container automation.
-    .colums.medium-4
-      p
-        b Fully extensible
-      p
-        | The InSpec language can easily be extended to
-          cover new operating systems, devices, or applications.
-
-section
-  h1 Working with InSpec
-
-  p InSpec solves your infrastructure testing needs.
-
-  .row
-    .columns.medium-6
-      p
-        b Test the desired state
-      p Match your infrastructure to expectations
-
-      p
-        b Simple and expressive
-      p Reduce friction and overhead. These tests are easy to understand.
-
-      p
-        b Test any system anywhere
-      p Runs locally and remotely. Supports all major operating systems and configurations.
-
-      p
-        b Extensible
-      p Easily create custom resources and share them.
-
-    .columns.medium-6
-      // Image with this code, code style is ruby:
-      //
-      // describe file('/etc/myapp.conf') do
-      //   it { should exist }
-      //   its('mode') { should cmp '0644' }
-      // end
-      //
-      // describe myapp.conf do
-      //   its('port') { should cmp 8080 }
-      // end
-      //
-      // describe port(8080) do
-      //   it { should be_listening }
-      // end
-
-  p Compliance and security requirements as code
-
-  .row
-    .columns.medium-6
-      p
-        b Add context to your tests
-      p Supports many fields like descriptions, tags, and impact
-
-      p
-        b Focus on critical findings
-      p ... instead of minor tests.
-
-      p
-        b Codify agreements
-      p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
-
-    .columns.medium-6
-      // Image with this code, code style is ruby:
-      //
-      // control 'sshd-21'
-      //   title 'Set SSH Protocol to 2'
-      //   desc  'A detailed description about why we wan this ...'
-      //   impact 1.0  # this is critical
-      //   ref   'Our little compliance guide, section 2.1'
-      //
-      //   describe sshd_config do
-      //     its('Protocol') { should cmp 2 }
-      //   end
-      // end
