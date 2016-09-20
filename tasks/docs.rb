@@ -50,6 +50,11 @@ class Markdown
     def suffix
       '.md'
     end
+
+    def meta(opts)
+      o = opts.map { |k, v| "#{k}: #{v}" }.join("\n")
+      "---\n#{o}\n---\n\n"
+    end
   end
 end
 
@@ -91,6 +96,10 @@ class RST
     def suffix
       '.rst'
     end
+
+    def meta(_o)
+      '' # ignore for now
+    end
   end
 end
 
@@ -98,9 +107,10 @@ namespace :docs do
   desc 'Create cli docs'
   task :cli do
     f = RST
-    res = f.h1('InSpec CLI') +
-          f.p('Use the InSpec CLI to run tests and audits against targets '\
-              'using local, SSH, WinRM, or Docker connections.')
+    res = f.meta(title: 'About the InSpec CLI')
+    res << f.h1('InSpec CLI')
+    res << f.p('Use the InSpec CLI to run tests and audits against targets '\
+               'using local, SSH, WinRM, or Docker connections.')
 
     require 'inspec/cli'
     cmds = Inspec::InspecCLI.all_commands
