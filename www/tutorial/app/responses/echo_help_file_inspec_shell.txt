@@ -14,8 +14,9 @@ describe file('path') do
   it { should be_owned_by 'root' }
   its('mode') { should cmp '0644' }
 end
-
+    
 
 [1mWeb Reference:[0m
 
 https://github.com/chef/inspec/blob/master/docs/resources.rst#file
+

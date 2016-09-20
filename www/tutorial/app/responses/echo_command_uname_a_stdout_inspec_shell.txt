@@ -1,1 +1,1 @@
-[0G[0;32minspec> [0m=> [31m[1;31m"[0m[31mLinux 2e958a7a89d6 4.4.19-moby #1 SMP Mon Aug 22 23:30:19 UTC 2016 x86_64 Linux[1;35m\n[0m[31m[1;31m"[0m[31m[0m
+[0G[0;32minspec> [0m=> [31m[1;31m"[0m[31mLinux 20b81abc543e 4.4.20-moby #1 SMP Thu Sep 8 21:27:34 UTC 2016 x86_64 Linux[1;35m\n[0m[31m[1;31m"[0m[31m[0m

@@ -15,8 +15,9 @@ end
 describe command('ls') do
   it { should exist }
 end
-
+    
 
 [1mWeb Reference:[0m
 
 https://github.com/chef/inspec/blob/master/docs/resources.rst#command
+

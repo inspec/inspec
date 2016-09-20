@@ -6,7 +6,7 @@ Use the os InSpec audit resource to test the platform on which the system is run
 
 [1mExample:[0m
 
-describe os.family do
+describe os[:family] do
   it { should eq 'redhat' }
 end
  describe os.redhat? do
@@ -15,8 +15,9 @@ end
  describe os.linux? do
   it { should eq true }
 end
-
+    
 
 [1mWeb Reference:[0m
 
 https://github.com/chef/inspec/blob/master/docs/resources.rst#os
+

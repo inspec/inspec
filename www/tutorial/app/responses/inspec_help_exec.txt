@@ -24,6 +24,7 @@ Options:
       [--color], [--no-color]              # Use colors in output.
                                            # Default: true
       [--attrs=one two three]              # Load attributes file (experimental)
+      [--cache=CACHE]                      # Use the given path for caching dependencies. (default: ~/.inspec/cache)
   l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
       [--log-location=LOG_LOCATION]        # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
       [--diagnose], [--no-diagnose]        # Show diagnostics (versions, configurations)
