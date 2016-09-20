@@ -1,19 +1,42 @@
-#main-nav.site-container.top-nav
-  .container.clearfix
-    a href="/"
-      .logo
-        h1 InSpec
-    .nav.links-wrap
-      ul.links
-        li.link
-          a.overview href="/intro" Intro
-        li.link
-          a.docs href="/docs/index.html" Docs
-        li.link
-          a.tutorials href="/docs/tutorials.html" Tutorials
-        li.link
-          a.community href="/community" Community
-        li.link
-          a.community href="/under_construction" Download
-        li.link
-          a.community href="/demo" Try the Demo
+nav#main-nav
+  a.main-nav--logo href="/"
+    img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
+
+  = partial "layouts/svg/nav-icon.svg"
+
+  ul.main-nav--links
+    li.main-nav--link-ctas
+      a.button.transparent href="" Try the Demo
+      a.button.secondary href="" Download
+    li.main-nav--link
+      a href="/overview"
+        i.main-nav--link-icon.fa.fa-home
+        span.main-nav--link-text Overview
+    li.main-nav--link
+      a href="/tutorials"
+        i.main-nav--link-icon.fa.fa-flask
+        span.main-nav--link-text Tutorials
+    li.main-nav--link
+      a href=""
+        i.main-nav--link-icon.fa.fa-file-text-o
+        span.main-nav--link-text Docs
+    li.main-nav--link
+      a href="/community"
+        i.main-nav--link-icon.fa.fa-group
+        span.main-nav--link-text Community
+    li.main-nav--link
+      a href=""
+        i.main-nav--link-icon.fa.fa-download
+        span.main-nav--link-text Downloads
+    li.main-nav--link
+      a href=""
+        i.main-nav--link-icon.fa.fa-github
+        span.main-nav--link-text Github Project
+    li.main-nav--link
+      a href=""
+        i.main-nav--link-icon.fa.fa-code-fork
+        span.main-nav--link-text Contribute
+
+nav#main-nav-ctas
+  a.button.transparent href="" Try the Demo
+  a.button.secondary href="" Download

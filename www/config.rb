@@ -44,6 +44,7 @@ configure :build do
   activate :minify_javascript
 end
 
+activate :sprockets
 activate :autoprefixer
 activate :directory_indexes
 set :trailing_slash, false

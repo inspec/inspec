@@ -1,0 +1,28 @@
+.button {
+  font-family: $heading-font;
+  text-transform: uppercase;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 0 $off-white;
+
+  &.primary {
+    color: $inspec-grey;
+    background: $white;
+    border: 1px solid $inspec-blue;
+  }
+
+  &.transparent {
+    color: $inspec-grey;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none;
+
+    &:hover {
+      color: darken($inspec-grey, 20%);
+    }
+  }
+
+  & + .button {
+    margin-left: 15px;
+  }
+}
