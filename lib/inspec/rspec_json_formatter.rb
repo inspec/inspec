@@ -63,10 +63,18 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   private
 
   def format_example(example)
+    if example.metadata[:description_args].length == 0
+      code_description = example.metadata[:full_description]
+    else
+      # For skipped profiles, rspec returns in full_description the skip_message as well. We don't want
+      # to mix the two, so we pick the full_description from the example.metadata[:example_group] hash.
+      code_description = example.metadata[:example_group][:description]
+    end
+
     res = {
       id: example.metadata[:id],
       status: example.execution_result.status.to_s,
-      code_desc: example.full_description,
+      code_desc: code_description,
     }
 
     unless (pid = example.metadata[:profile_id]).nil?
@@ -374,8 +382,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       if res.length == 1
         # Single test - be nice and just print the exception message if the test
         # failed. No need to say "1 failed".
-        fails.clear
-        skips.clear
         res[0][:message].to_s
       else
         [
@@ -425,7 +431,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def print_tests
+  def print_tests # rubocop:disable Metrics/AbcSize
     @anonymous_tests.each do |control|
       control_result = control[:results]
       title = control_result[0][:code_desc].split[0..1].join(' ')
@@ -438,7 +444,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
           test_result = test[:message]
         else
           # determine title
-          test_result = test[:code_desc].split[2..-1].join(' ')
+          test_result = test[:skip_message] || test[:code_desc].split[2..-1].join(' ')
           # show error message
           test_result += "\n" + test[:message] unless test[:message].nil?
         end

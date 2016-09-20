@@ -68,11 +68,11 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "working should"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  eq \"working\""
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy This"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "○  will be skipped intentionally."
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\n"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "○  This will be skipped intentionally"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  eq \"as intended\""
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m"
   end
 
   it 'executes only specified controls' do
@@ -97,6 +97,18 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     it 'exits with an error' do
       out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
       out.exit_status.must_equal 1
+    end
+  end
+
+  describe 'with a profile that contains skipped controls' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-controls') + ' --no-create-lockfile') }
+    let(:json) { JSON.load(out.stdout) }
+
+    it 'exits with an error' do
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[37m     ○  This will be skipped super intentionally.\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "  ○  CONTROL database: MySQL Session\e[0m\n\e[37m     ○  Can't run MySQL SQL checks without authentication\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m2 skipped\e[0m"
+      out.exit_status.must_equal 0
     end
   end
 
@@ -158,7 +170,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
     end
