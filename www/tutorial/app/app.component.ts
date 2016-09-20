@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     let totalSteps = this.instructionsArray.length - 1;
     let msg = Math.random();
     if (step === 'next') {
-      if (this.counter < totalSteps) {
+      if (this.counter <= totalSteps) {
         this.counter += 1;
       }
       this.response = this.black + 'next' + msg;
@@ -64,9 +64,10 @@ export class AppComponent implements OnInit {
       }
       this.response = this.black + 'prev' + msg;
     } else if (step === 'last') {
-      this.counter = totalSteps - 1
+      this.counter = totalSteps;
       this.response = this.black + 'last' + msg;
     }
+
     this.displayInstructions();
   }
 
@@ -83,7 +84,7 @@ export class AppComponent implements OnInit {
   // then end of the demo, display a message containing extra commands that have been
   // enabled in the demo
   displayInstructions() {
-    if (this.counter === this.instructionsArray.length - 1) {
+    if (this.counter === this.instructionsArray.length) {
       this.title = "the end; that's all folks!";
       this.instructions = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds();
     } else {
@@ -189,11 +190,7 @@ export class AppComponent implements OnInit {
       let msg = Math.random();
       if (command.match(/^inspec exec\s*.*/)) {
         let target = command.match(/^inspec exec\s*(.*)/)
-        if (target[1].match(/.*-t.*|.*-b.*/)) {
-          this.response = this.red + "Sorry, we haven't figured out how to handle the transport options in this demo just yet." + this.black + msg;
-        } else {
-          this.response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black + msg;
-        }
+        this.response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black + msg;
       } else {
         this.response = this.red + 'invalid command: ' + this.userCommand + this.black + msg;
       }
