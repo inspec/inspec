@@ -91,9 +91,11 @@ module Inspec::Resources
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
+      # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
+      # If the package is purged cmd fails with non-zero exit status
       {
         name: params['Package'],
-        installed: true,
+        installed: params['Status'].split(' ').first == 'install' ? true : false,
         version: params['Version'],
         type: 'deb',
       }
