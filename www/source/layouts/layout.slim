@@ -12,10 +12,13 @@ html
     == stylesheet_link_tag :site
 
   body class="#{page_classes}"
-    = partial "layouts/nav"
+    .container
+      = partial "layouts/nav"
 
-    main#main-content
-      == yield
+      main#main-content
+        == yield
+
+    = partial "layouts/footer"
 
     == javascript_include_tag "all"
     javascript:
