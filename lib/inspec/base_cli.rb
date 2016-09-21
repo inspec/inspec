@@ -60,6 +60,8 @@ module Inspec
         desc: 'Load attributes file (experimental)'
       option :cache, type: :string,
         desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
+      option :no_write_lockfile, type: :boolean, default: false,
+        desc: 'Do not write out a lockfile based on this execution'
     end
 
     private
