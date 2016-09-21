@@ -4,7 +4,7 @@ require 'fileutils'
 
 module Inspec
   #
-  # VendorIndex manages an on-disk cache of inspec profiles.  The
+  # Inspec::Cache manages an on-disk cache of inspec profiles.  The
   # cache can contain:
   #
   #  - .tar.gz profile archives
@@ -16,7 +16,7 @@ module Inspec
   # sources.
   #
   #
-  class VendorIndex
+  class Cache
     attr_reader :path
     def initialize(path = nil)
       @path = path || File.join(Dir.home, '.inspec', 'cache')
@@ -43,7 +43,7 @@ module Inspec
 
     #
     # For a given name and source_url, return true if the
-    # profile exists in the VendorIndex.
+    # profile exists in the Cache.
     #
     # @param [String] name
     # @param [String] source_url
@@ -56,7 +56,7 @@ module Inspec
     end
 
     #
-    # Return the path to given profile in the vendor index.
+    # Return the path to given profile in the cache.
     #
     # The `source_url` parameter should be a URI-like string that
     # fully specifies the source of the exact version we want to pull
