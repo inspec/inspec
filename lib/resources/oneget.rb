@@ -16,6 +16,7 @@ module Inspec::Resources
     example "
       describe oneget('zoomit') do
         it { should be_installed }
+        its('version') { should eq '1.2.3' }
       end
     "
 
