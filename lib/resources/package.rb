@@ -95,7 +95,7 @@ module Inspec::Resources
       # If the package is purged cmd fails with non-zero exit status
       {
         name: params['Package'],
-        installed: params['Status'].split(' ').first == 'install' ? true : false,
+        installed: params['Status'].split(' ').first == 'install',
         version: params['Version'],
         type: 'deb',
       }
