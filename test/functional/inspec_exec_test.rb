@@ -8,7 +8,7 @@ describe 'inspec exec' do
   include FunctionalHelper
 
   it 'can execute the profile' do
-    out = inspec('exec --no-write-lockfile ' + example_profile)
+    out = inspec('exec ' + example_profile  + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
@@ -23,7 +23,7 @@ describe 'inspec exec' do
   end
 
   it 'executes a minimum metadata-only profile' do
-    out = inspec('exec --no-write-lockfile ' + File.join(profile_path, 'simple-metadata'))
+    out = inspec('exec ' + File.join(profile_path, 'simple-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
@@ -39,7 +39,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   it 'executes a metadata-only profile' do
-    out = inspec('exec --no-write-lockfile ' + File.join(profile_path, 'complete-metadata'))
+    out = inspec('exec ' + File.join(profile_path, 'complete-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
@@ -55,14 +55,14 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   it "executes a profile and reads attributes" do
-    out = inspec("exec --no-write-lockfile #{File.join(examples_path, 'profile-attribute')} --attrs #{File.join(examples_path, "profile-attribute.yml")}")
+    out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(examples_path, "profile-attribute.yml")}")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m"
   end
 
   it 'executes a specs-only profile' do
-    out = inspec('exec --no-write-lockfile ' + File.join(profile_path, 'spec_only'))
+    out = inspec('exec ' + File.join(profile_path, 'spec_only') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 1
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
@@ -76,14 +76,14 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   it 'executes only specified controls' do
-    out = inspec('exec --no-write-lockfile ' + example_profile + ' --controls tmp-1.0')
+    out = inspec('exec ' + example_profile + ' --no-create-lockfile --controls tmp-1.0')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_include "\nProfile Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
   end
 
   it 'can execute a simple file with the default formatter' do
-    out = inspec('exec --no-write-lockfile ' + example_control)
+    out = inspec('exec ' + example_control  + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_include "\nProfile Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
@@ -91,7 +91,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
-    let(:out) { inspec('exec --no-write-lockfile ' + File.join(profile_path, 'skippy-profile-os')) }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --no-create-lockfile') }
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
@@ -101,7 +101,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'with a profile that is supported on this version of inspec' do
-    let(:out) { inspec('exec --no-write-lockfile ' + File.join(profile_path, 'supported_inspec')) }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'supported_inspec') + ' --no-create-lockfile') }
 
     it 'exits cleanly' do
       out.stderr.must_equal ''
@@ -110,7 +110,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'with a profile that is not supported on this version of inspec' do
-    let(:out) { inspec('exec --no-write-lockfile ' + File.join(profile_path, 'unsupported_inspec')) }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'unsupported_inspec') + ' --no-create-lockfile') }
 
     it 'does not support this profile' do
       out.exit_status.must_equal 1
@@ -119,7 +119,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'with a profile that loads a library and reference' do
-    let(:out) { inspec('exec --no-write-lockfile ' + File.join(profile_path, 'library')) }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'library') + ' --no-create-lockfile') }
 
     it 'executes the profile without error' do
       out.exit_status.must_equal 0
@@ -127,7 +127,7 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'given a profile with controls and anonymous describe blocks' do
-    let(:out) { inspec('exec --no-write-lockfile ' + example_control) }
+    let(:out) { inspec('exec ' + example_control + ' --no-create-lockfile') }
 
     it 'prints the control results, then the anonymous describe block results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_equal "
@@ -146,7 +146,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'given a profile with an anonymous describe block' do
-    let(:out) { inspec('exec --no-write-lockfile ' + failure_control) }
+    let(:out) { inspec('exec ' + failure_control + ' --no-create-lockfile') }
 
     it 'prints the exception message when a test has a syntax error' do
       out.stdout.must_include "undefined method `should_nota' "
@@ -154,7 +154,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'given an inherited profile that has more that one test per control block' do
-    let(:out) { inspec('exec --no-write-lockfile ' + simple_inheritance) }
+    let(:out) { inspec('exec ' + simple_inheritance + ' --no-create-lockfile') }
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
@@ -165,7 +165,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
   end
 
   describe 'when passing in two profiles given an inherited profile that has more that one test per control block' do
-    let(:out) { inspec('exec --no-write-lockfile ' + File.join(profile_path, 'dependencies', 'profile_d') + ' ' + simple_inheritance) }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'dependencies', 'profile_d') + ' ' + simple_inheritance + ' --no-create-lockfile') }
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
@@ -178,7 +178,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
 
   describe 'using namespaced resources' do
     it 'works' do
-      out = inspec('exec --no-write-lockfile ' + File.join(profile_path, 'dependencies', 'resource-namespace'))
+      out = inspec('exec ' + File.join(profile_path, 'dependencies', 'resource-namespace') + ' --no-create-lockfile')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m5 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
@@ -187,7 +187,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
 
   describe "with a 2-level dependency tree" do
     it 'correctly runs tests from the whole tree' do
-      out = inspec('exec --no-write-lockfile ' + File.join(profile_path, 'dependencies', 'inheritance'))
+      out = inspec('exec ' + File.join(profile_path, 'dependencies', 'inheritance') + ' --no-create-lockfile')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m6 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
@@ -196,19 +196,19 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
 
   describe 'when using profiles on the supermarket' do
     it 'can run supermarket profiles directly from the command line' do
-      out = inspec("exec --no-write-lockfile supermarket://nathenharvey/tmp-compliance-profile")
+      out = inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
     end
 
     it 'can run supermarket profiles from inspec.yml' do
-      out = inspec("exec --no-write-lockfile #{File.join(profile_path, 'supermarket-dep')}")
+      out = inspec("exec #{File.join(profile_path, 'supermarket-dep')} --no-create-lockfile")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
     end
   end
 
   describe 'when a dependency does not support our backend platform' do
     it 'skips the controls from that profile' do
-      out = inspec("exec --no-write-lockfile #{File.join(profile_path, 'profile-support-skip')}")
+      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m2 skipped\e[0m\n"
     end
   end
