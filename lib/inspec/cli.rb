@@ -102,8 +102,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'vendor', 'Download all dependencies and generate a lockfile'
   def vendor(path = nil)
     configure_logger(opts)
-    profile = Inspec::Profile.for_target('./', opts)
-    lockfile = profile.generate_lockfile(path)
+    profile = Inspec::Profile.for_target('./', opts.merge(cache: Inspec::Cache.new(path)))
+    lockfile = profile.generate_lockfile
     File.write('inspec.lock', lockfile.to_yaml)
   end
 

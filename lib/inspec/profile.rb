@@ -13,7 +13,7 @@ require 'inspec/backend'
 require 'inspec/rule'
 require 'inspec/log'
 require 'inspec/profile_context'
-require 'inspec/dependencies/vendor_index'
+require 'inspec/dependencies/cache'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
@@ -25,7 +25,7 @@ module Inspec
     # TODO: This function is getting pretty gross.
     #
     def self.resolve_target(target, cache = nil)
-      cache ||= VendorIndex.new
+      cache ||= Cache.new
       fetcher = Inspec::Fetcher.resolve(target)
 
       if fetcher.nil?
@@ -88,6 +88,7 @@ EOF
       @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
       @profile_id = options[:id]
+      @cache = options[:cache] || Cache.new
       @backend = options[:backend] || Inspec::Backend.create(options)
       @source_reader = source_reader
       @tests_collected = false
@@ -368,14 +369,14 @@ EOF
     # @param vendor_path [String] Path to the on-disk vendor dir
     # @return [Inspec::Lockfile]
     #
-    def generate_lockfile(vendor_path = nil)
-      res = Inspec::DependencySet.new(cwd, vendor_path, nil, @backend)
+    def generate_lockfile
+      res = Inspec::DependencySet.new(cwd, @cache, nil, @backend)
       res.vendor(metadata.dependencies)
       Inspec::Lockfile.from_dependency_set(res)
     end
 
     def load_dependencies
-      Inspec::DependencySet.from_lockfile(lockfile, cwd, nil, @backend)
+      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend)
     end
 
     private

@@ -11,6 +11,7 @@ require 'inspec/profile_context'
 require 'inspec/profile'
 require 'inspec/metadata'
 require 'inspec/secrets'
+require 'inspec/dependencies/cache'
 # spec requirements
 
 module Inspec
@@ -41,7 +42,7 @@ module Inspec
       @target_profiles = []
       @controls = @conf[:controls] || []
       @ignore_supports = @conf[:ignore_supports]
-
+      @cache = Inspec::Cache.new(@conf[:cache])
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
@@ -140,6 +141,7 @@ module Inspec
     #
     def add_target(target, _opts = [])
       profile = Inspec::Profile.for_target(target,
+                                           cache: @cache,
                                            backend: @backend,
                                            controls: @controls,
                                            attributes: @conf[:attributes])

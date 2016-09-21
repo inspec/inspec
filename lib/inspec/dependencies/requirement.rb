@@ -9,31 +9,31 @@ module Inspec
   # appropriate we delegate to Inspec::Profile directly.
   #
   class Requirement
-    def self.from_metadata(dep, vendor_index, opts)
+    def self.from_metadata(dep, cache, opts)
       fail 'Cannot load empty dependency.' if dep.nil? || dep.empty?
-      new(dep[:name], dep[:version], vendor_index, opts[:cwd], opts.merge(dep))
+      new(dep[:name], dep[:version], cache, opts[:cwd], opts.merge(dep))
     end
 
-    def self.from_lock_entry(entry, cwd, vendor_index, backend)
+    def self.from_lock_entry(entry, cwd, cache, backend)
       req = new(entry[:name],
                 entry[:version_constraints],
-                vendor_index,
+                cache,
                 cwd,
                 entry[:resolved_source].merge(backend: backend))
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, vendor_index, backend)
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, cache, backend)
       end
       req.lock_deps(locked_deps)
       req
     end
 
     attr_reader :cwd, :opts, :required_version
-    def initialize(name, version_constraints, vendor_index, cwd, opts)
+    def initialize(name, version_constraints, cache, cwd, opts)
       @name = name
       @required_version = Gem::Requirement.new(Array(version_constraints))
-      @vendor_index = vendor_index
+      @cache = cache
       @backend = opts[:backend]
       @opts = opts
       @cwd = cwd
@@ -89,7 +89,7 @@ module Inspec
 
     def dependencies
       @dependencies ||= profile.metadata.dependencies.map do |r|
-        Inspec::Requirement.from_metadata(r, @vendor_index, cwd: @cwd, backend: @backend)
+        Inspec::Requirement.from_metadata(r, @cache, cwd: @cwd, backend: @backend)
       end
     end
 
@@ -99,10 +99,10 @@ module Inspec
 
     def profile
       opts = @opts.dup
-      opts[:cache] = @vendor_index
+      opts[:cache] = @cache
       opts[:backend] = @backend
       if !@dependencies.nil?
-        opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @vendor_index, @backend)
+        opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @cache, @backend)
       end
       @profile ||= Inspec::Profile.for_target(opts, opts)
     end

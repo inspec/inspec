@@ -58,6 +58,8 @@ module Inspec
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
+      option :cache, type: :string,
+        desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
     end
 
     private

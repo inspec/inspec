@@ -1,14 +1,10 @@
 # encoding: utf-8
-require 'inspec/dependencies/vendor_index'
 require 'inspec/dependencies/requirement'
 require 'inspec/dependencies/resolver'
 
 module Inspec
   #
   # A DependencySet manages a list of dependencies for a profile.
-  #
-  # Currently this class is a thin wrapper interface to coordinate the
-  # VendorIndex and the Resolver.
   #
   class DependencySet
     #
@@ -18,22 +14,21 @@ module Inspec
     # @param cwd [String] Current working directory for relative path includes
     # @param vendor_path [String] Path to the vendor directory
     #
-    def self.from_lockfile(lockfile, cwd, vendor_path, backend)
-      vendor_index = VendorIndex.new(vendor_path)
+    def self.from_lockfile(lockfile, cwd, cache, backend)
       dep_tree = lockfile.deps.map do |dep|
-        Inspec::Requirement.from_lock_entry(dep, cwd, vendor_index, backend)
+        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend)
       end
 
       dep_list = flatten_dep_tree(dep_tree)
-      new(cwd, vendor_path, dep_list, backend)
+      new(cwd, cache, dep_list, backend)
     end
 
-    def self.from_array(dependencies, cwd, vendor_path, backend)
+    def self.from_array(dependencies, cwd, cache, backend)
       dep_list = {}
       dependencies.each do |d|
         dep_list[d.name] = d
       end
-      new(cwd, vendor_path, dep_list, backend)
+      new(cwd, cache, dep_list, backend)
     end
 
     # This is experimental code to test the working of the
@@ -58,9 +53,9 @@ module Inspec
     # @param cwd [String] current working directory for relative path includes
     # @param vendor_path [String] path which contains vendored dependencies
     # @return [dependencies] this
-    def initialize(cwd, vendor_path, dep_list, backend)
+    def initialize(cwd, cache, dep_list, backend)
       @cwd = cwd
-      @vendor_path = vendor_path
+      @cache = cache
       @dep_list = dep_list
       @backend = backend
     end
@@ -91,8 +86,7 @@ module Inspec
     #
     def vendor(dependencies)
       return nil if dependencies.nil? || dependencies.empty?
-      @vendor_index ||= VendorIndex.new(@vendor_path)
-      @dep_list = Resolver.resolve(dependencies, @vendor_index, @cwd, @backend)
+      @dep_list = Resolver.resolve(dependencies, @cache, @cwd, @backend)
     end
   end
 end
