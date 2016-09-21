@@ -33,7 +33,7 @@ module Inspec
       end
 
       cache_key = if target.is_a?(Hash)
-                    target[:shasum] || target[:ref] || fetcher.cache_key
+                    target[:sha256] || target[:ref] || fetcher.cache_key
                   else
                     fetcher.cache_key
                   end
@@ -43,13 +43,13 @@ module Inspec
         cache.prefered_entry_for(cache_key)
       else
         fetcher.fetch(cache.base_path_for(fetcher.cache_key))
-        if target.respond_to?(:key?) && target.key?(:shasum)
-          if fetcher.resolved_source[:shasum] != target[:shasum]
+        if target.respond_to?(:key?) && target.key?(:sha256)
+          if fetcher.resolved_source[:sha256] != target[:sha256]
             fail <<EOF
 The remote source #{fetcher} no longer has the requested content:
 
-Request Content Hash: #{target[:shasum]}
- Actual Content Hash: #{fetcher.resolved_source[:shasum]}
+Request Content Hash: #{target[:sha256]}
+ Actual Content Hash: #{fetcher.resolved_source[:sha256]}
 
 For URL, supermarket, compliance, and other sources that do not
 provide versioned artifacts, this likely means that the remote source

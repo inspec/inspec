@@ -38,7 +38,7 @@ describe Fetchers::Url do
       res = fetcher.resolve(url)
       res.expects(:open).returns(mock_open)
       _(res).must_be_kind_of Fetchers::Url
-      _(res.resolved_source).must_equal({url: 'http://chef.io/some.tar.gz', shasum: expected_shasum})
+      _(res.resolved_source).must_equal({url: 'http://chef.io/some.tar.gz', sha256: expected_shasum})
     end
 
     it 'handles a https url' do
@@ -46,7 +46,7 @@ describe Fetchers::Url do
       res = fetcher.resolve(url)
       res.expects(:open).returns(mock_open)
       _(res).must_be_kind_of Fetchers::Url
-      _(res.resolved_source).must_equal({url: 'https://chef.io/some.tar.gz', shasum: expected_shasum})
+      _(res.resolved_source).must_equal({url: 'https://chef.io/some.tar.gz', sha256: expected_shasum})
 
     end
 
@@ -68,7 +68,7 @@ describe Fetchers::Url do
         res = fetcher.resolve(github)
         res.expects(:open).returns(mock_open)
         _(res).wont_be_nil
-        _(res.resolved_source).must_equal({url: 'https://github.com/chef/inspec/archive/master.tar.gz', shasum: expected_shasum})
+        _(res.resolved_source).must_equal({url: 'https://github.com/chef/inspec/archive/master.tar.gz', sha256: expected_shasum})
       end
     end
 
@@ -77,7 +77,7 @@ describe Fetchers::Url do
       res = fetcher.resolve(github)
       res.expects(:open).returns(mock_open)
       _(res).wont_be_nil
-      _(res.resolved_source).must_equal({url: 'https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz', shasum: expected_shasum})
+      _(res.resolved_source).must_equal({url: 'https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz', sha256: expected_shasum})
     end
 
     it "resolves a github commit url" do
@@ -86,7 +86,7 @@ describe Fetchers::Url do
       res.expects(:open).returns(mock_open)
       _(res).wont_be_nil
       _(res.resolved_source).must_equal({url: 'https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz',
-                                         shasum: expected_shasum})
+                                         sha256: expected_shasum})
     end
   end
 

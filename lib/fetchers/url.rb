@@ -85,21 +85,21 @@ module Fetchers
       @archive_path ||= download_archive(path)
     end
 
-    def shasum
-      content = if @archive_path
-                  File.read(@archive_path)
-                else
-                  remote_archive_content
-                end
-      Digest::SHA256.hexdigest content
+    def sha256
+      c = if @archive_path
+            File.read(@archive_path)
+          else
+            content
+          end
+      Digest::SHA256.hexdigest c
     end
 
     def resolved_source
-      @resolved_source ||= { url: @target, shasum: shasum }
+      @resolved_source ||= { url: @target, sha256: sha256 }
     end
 
     def cache_key
-      shasum
+      sha256
     end
 
     def to_s
@@ -116,7 +116,7 @@ module Fetchers
       open(@target, http_opts)
     end
 
-    def remote_archive_content
+    def content
       open_target.read
     end
 
