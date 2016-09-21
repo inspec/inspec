@@ -21,18 +21,43 @@ module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
 
+    #
+    # TODO: This function is getting pretty gross.
+    #
     def self.resolve_target(target, cache = nil)
       cache ||= VendorIndex.new
       fetcher = Inspec::Fetcher.resolve(target)
+
       if fetcher.nil?
         fail("Could not fetch inspec profile in #{target.inspect}.")
       end
 
-      if cache.exists?(fetcher.cache_key)
+      cache_key = if target.is_a?(Hash)
+                    target[:sha256] || target[:ref] || fetcher.cache_key
+                  else
+                    fetcher.cache_key
+                  end
+
+      if cache.exists?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
-        cache.prefered_entry_for(fetcher.cache_key)
+        cache.prefered_entry_for(cache_key)
       else
         fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+        if target.respond_to?(:key?) && target.key?(:sha256)
+          if fetcher.resolved_source[:sha256] != target[:sha256]
+            fail <<EOF
+The remote source #{fetcher} no longer has the requested content:
+
+Request Content Hash: #{target[:sha256]}
+ Actual Content Hash: #{fetcher.resolved_source[:sha256]}
+
+For URL, supermarket, compliance, and other sources that do not
+provide versioned artifacts, this likely means that the remote source
+has changed since your lockfile was generated.
+EOF
+          end
+        end
+
         fetcher.archive_path
       end
     end

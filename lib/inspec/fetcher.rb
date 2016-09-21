@@ -16,7 +16,7 @@ module Inspec
       end
     end
 
-    NON_FETCHER_KEYS = [:name, :version_constraint, :cwd, :backend, :cache].freeze
+    NON_FETCHER_KEYS = [:name, :version_constraint, :cwd, :backend, :cache, :sha256].freeze
     def fetcher_specified?(target)
       # Only set a default for Hash-based (i.e. from
       # inspec.yml/inspec.lock) targets

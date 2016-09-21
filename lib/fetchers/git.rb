@@ -56,6 +56,10 @@ module Fetchers
       @repo_directory
     end
 
+    def cache_key
+      resolved_ref
+    end
+
     def archive_path
       @repo_directory
     end

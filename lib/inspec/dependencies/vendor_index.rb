@@ -50,6 +50,7 @@ module Inspec
     # @return [Boolean]
     #
     def exists?(key)
+      return false if key.nil? || key.empty?
       path = base_path_for(key)
       File.directory?(path) || File.exist?("#{path}.tar.gz") || File.exist?("#{path}.zip")
     end

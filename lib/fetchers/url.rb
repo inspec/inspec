@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'uri'
+require 'digest'
 require 'tempfile'
 require 'open-uri'
 
@@ -81,34 +82,61 @@ module Fetchers
     end
 
     def fetch(path)
-      Inspec::Log.debug("Fetching URL: #{@target}")
-      @archive_path = download_archive(path)
+      @archive_path ||= download_archive(path)
+    end
+
+    def sha256
+      c = if @archive_path
+            File.read(@archive_path)
+          else
+            content
+          end
+      Digest::SHA256.hexdigest c
     end
 
     def resolved_source
-      { url: @target }
+      @resolved_source ||= { url: @target, sha256: sha256 }
+    end
+
+    def cache_key
+      sha256
+    end
+
+    def to_s
+      @target
     end
 
     private
 
-    # download url into archive using opts,
-    # returns File object and content-type from HTTP headers
-    def download_archive(path)
+    def open_target
+      Inspec::Log.debug("Fetching URL: #{@target}")
       http_opts = {}
       http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
       http_opts['Authorization'] = "Bearer #{@token}" if @token
+      open(@target, http_opts)
+    end
 
-      remote = open(@target, http_opts)
+    def content
+      open_target.read
+    end
 
+    def file_type_from_remote(remote)
       content_type = remote.meta['content-type']
-      file_type = MIME_TYPES[content_type] ||
-                  throw(RuntimeError, 'Failed to resolve URL target, its '\
-                  "metadata did not match ZIP or TAR: #{content_type}")
+      file_type = MIME_TYPES[content_type]
 
-      # fall back to tar
       if file_type.nil?
-        fail "Could not determine file type for content type #{content_type}."
+        Inspec::Log.warn("Unrecognized content type: #{content_type}. Assuming tar.gz")
+        file_type = '.tar.gz'
       end
+
+      file_type
+    end
+
+    # download url into archive using opts,
+    # returns File object and content-type from HTTP headers
+    def download_archive(path)
+      remote = open_target
+      file_type = file_type_from_remote(remote)
       final_path = "#{path}#{file_type}"
       # download content
       archive = Tempfile.new(['inspec-dl-', file_type])

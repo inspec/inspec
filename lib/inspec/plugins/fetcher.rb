@@ -57,6 +57,13 @@ module Inspec
       end
 
       #
+      # The unique key based on the content of the remote archive.
+      #
+      def cache_key
+        fail "Fetcher #{self} does not implement `cache_key()`. This is required for terminal fetchers."
+      end
+
+      #
       # relative_target is provided to keep compatibility with 3rd
       # party plugins.
       #
@@ -68,18 +75,6 @@ module Inspec
       def relative_target
         file_provider = Inspec::FileProvider.for_path(archive_path)
         file_provider.relative_provider
-      end
-
-      #
-      # A string based on the components of the resolved source,
-      # suitable for constructing per-source file names.
-      #
-      def cache_key
-        key = ''
-        resolved_source.each do |k, v|
-          key << "#{k}:#{v}"
-        end
-        Digest::SHA256.hexdigest key
       end
     end
   end
