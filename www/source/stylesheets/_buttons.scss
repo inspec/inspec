@@ -3,11 +3,18 @@
   text-transform: uppercase;
   border-radius: 0;
   box-shadow: 3px 3px 0 0 $off-white;
+  transition: all 0.3s ease;
 
   &.primary {
     color: $inspec-grey;
     background: $white;
     border: 1px solid $inspec-blue;
+  }
+
+  &.primary:active,
+  &.secondary:active {
+    transform: translateX(2px) translateY(2px);
+    box-shadow: 0 0 0 0 $off-white;
   }
 
   &.transparent {
