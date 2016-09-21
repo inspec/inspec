@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'os'
     desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
     example "
-      describe os.family do
+      describe os[:family] do
         it { should eq 'redhat' }
       end
 
