@@ -1,8 +1,15 @@
 body {
-  max-width: 1200px;
-  margin: 0 auto;
   font-family: $main-font;
   color: $body-text;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.row {
+  max-width: 1200px;
 }
 
 #main-content {
