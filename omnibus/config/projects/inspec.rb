@@ -16,6 +16,8 @@
 # limitations under the License.
 #
 
+require_relative '../../../lib/inspec/version.rb'
+
 name 'inspec'
 friendly_name 'InSpec'
 maintainer 'Chef Software, Inc <maintainers@chef.io>'
@@ -32,7 +34,7 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
-build_version Omnibus::BuildVersion.semver
+build_version Inspec::VERSION
 build_iteration 1
 
 dependency 'preparation'
