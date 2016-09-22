@@ -6,6 +6,7 @@ gemspec
 # detecting that net-ssh 3 does not work with 1.9.3
 if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
+  gem 'tins', '~> 1.6.0'
 end
 
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
@@ -23,6 +24,8 @@ group :test do
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'
+  gem 'ruby-progressbar', '~> 1.8'
+  gem 'inquirer'
 end
 
 group :integration do
@@ -46,7 +49,6 @@ group :tools do
   gem 'rb-readline'
   gem 'license_finder'
   gem 'github_changelog_generator', '~> 1'
-  gem 'ruby-progressbar', '~> 1.8'
 end
 
 # gems for Maintainers.md generation
