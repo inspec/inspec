@@ -4,11 +4,12 @@
 
 require 'utils/parser'
 require 'utils/convert'
+require 'utils/filter'
 
 module Inspec::Resources
   # This file contains two resources, the `user` and `users` resource.
   # The `user` resource is optimized for requests that verify specific users
-  # that you know upfront for testing. If you need to query all users or find
+  # that you know upfront for testing. If you need to query all users or search
   # specific users with certain properties, use the `users` resource.
   module UserManagementSelector
     # select user provider based on the operating system
@@ -65,7 +66,7 @@ module Inspec::Resources
     def initialize
       # select user provider
       @user_provider = select_user_manager(inspec.os)
-      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
+      return skip_resource 'The `users` resource is not supported on your OS yet.' if @user_provider.nil?
     end
 
     filter = FilterTable.create
