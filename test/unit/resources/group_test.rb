@@ -50,30 +50,7 @@ describe 'Inspec::Resources::Group' do
   it 'verify group on windows' do
     resource = MockLoader.new(:windows).load_resource('group', 'Administrators')
     _(resource.exists?).must_equal true
-    _(resource.gid).must_equal nil
-    _(resource.has_gid?(0)).must_equal false
-  end
-
-  it 'verify group on windows' do
-    resource = MockLoader.new(:windows).load_resource('group', 'Administrators', 'WIN-K0AKLED332V')
-    _(resource.exists?).must_equal true
-    _(resource.gid).must_equal nil
-    _(resource.has_gid?(0)).must_equal false
-  end
-
-  # windows with domain group
-  it 'verify domain group on windows' do
-    resource = MockLoader.new(:windows).load_resource('group', 'Domain Admins', 'EXAMPLE')
-    _(resource.exists?).must_equal true
-    _(resource.gid).must_equal nil
-    _(resource.has_gid?(0)).must_equal false
-  end
-
-  # windows with domain group
-  it 'verify domain group on windows wiht lower case' do
-    resource = MockLoader.new(:windows).load_resource('group', 'domain admins', 'example')
-    _(resource.exists?).must_equal true
-    _(resource.gid).must_equal nil
+    _(resource.gid).must_equal 'S-1-5-32-544'
     _(resource.has_gid?(0)).must_equal false
   end
 
