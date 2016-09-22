@@ -5,8 +5,9 @@ require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rubocop/rake_task'
-require_relative 'tasks/maintainers'
 require_relative 'tasks/docs'
+require_relative 'tasks/maintainers'
+require_relative 'tasks/www'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
