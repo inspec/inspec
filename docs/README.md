@@ -6,7 +6,27 @@ The goal of this folder is for any community member to clone these docs, make th
 
 ## How to build docs
 
-TODO
+We build docs by:
+
+1. Auto-generating docs from code
+2. Transforming markdown+snippets in this folder into pure markdown in `www/source/docs`
+3. Rendering them to the website via instructions in `www/`
+
+For development, you **only need step 1**!
+
+**1 Generate docs**
+
+To generate all docs run:
+
+```
+bundle exec rake docs
+```
+
+You can run tasks individually. For a list of tasks run:
+
+```
+bundle exec rake --tasks docs
+```
 
 ## Stability Index
 
