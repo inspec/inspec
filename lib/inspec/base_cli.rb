@@ -132,6 +132,16 @@ module Inspec
       Logger.const_get(l.upcase)
     end
 
+    def pretty_handle_exception(exception)
+      case exception
+      when Inspec::Error
+        $stderr.puts exception.message
+        exit(1)
+      else
+        raise exception # rubocop:disable Style/SignalException
+      end
+    end
+
     def configure_logger(o)
       #
       # TODO(ssd): This is a big gross, but this configures the

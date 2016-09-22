@@ -48,6 +48,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       fdst = File.expand_path(dst)
       File.write(fdst, JSON.dump(profile.info))
     end
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'check PATH', 'verify all tests at the specified PATH'
@@ -97,6 +99,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       end
     end
     exit 1 unless result[:summary][:valid]
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'vendor', 'Download all dependencies and generate a lockfile'
@@ -105,6 +109,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     profile = Inspec::Profile.for_target('./', opts.merge(cache: Inspec::Cache.new(path)))
     lockfile = profile.generate_lockfile
     File.write('inspec.lock', lockfile.to_yaml)
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
@@ -136,6 +142,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
     # generate archive
     exit 1 unless profile.archive(opts)
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'exec PATHS', 'run all test files at the specified PATH.'
@@ -147,6 +155,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
     # run tests
     run_tests(targets, o)
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'detect', 'detect the target OS'
@@ -165,6 +175,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
                     mark_text(res[item.to_sym]))
       }
     end
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'shell', 'open an interactive debugging shell'
@@ -196,12 +208,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     exit 0
   rescue RuntimeError, Train::UserError => e
     $stderr.puts e.message
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'env', 'Output shell-appropriate completion configuration'
   def env(shell = nil)
     p = Inspec::EnvPrinter.new(self.class, shell)
     p.print_and_exit!
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc 'version', 'prints the version of this tool'

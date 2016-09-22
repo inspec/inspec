@@ -4,6 +4,7 @@
 
 require 'uri'
 require 'inspec/fetcher'
+require 'inspec/errors'
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
@@ -24,11 +25,23 @@ module Compliance
 
       # check if we have a compliance token
       config = Compliance::Configuration.new
-      return nil if config['token'].nil?
+      if config['token'].nil?
+        fail Inspec::FetcherFailure, <<EOF
+
+Cannot fetch #{uri} because your compliance token has not been
+configured.
+
+Please login using
+
+    inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE'
+EOF
+      end
 
       # verifies that the target e.g base/ssh exists
       profile = uri.host + uri.path
-      Compliance::API.exist?(config, profile)
+      if !Compliance::API.exist?(config, profile)
+        fail Inpsec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+      end
       new(target_url(profile, config), config)
     rescue URI::Error => _e
       nil
