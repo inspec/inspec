@@ -1,0 +1,460 @@
+---
+title: About the file Resource
+---
+
+# file
+
+Use the `file` InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
+
+# Syntax
+
+A `file` resource block declares the location of the file type to be tested, what type that file should be (if required), and then one (or more) matchers:
+
+    describe file('path') do
+      it { should MATCHER 'value' }
+    end
+
+where
+
+* `('path')` is the name of the file and/or the path to the file
+* `MATCHER` is a valid matcher for this resource
+* `'value'` is the value to be tested
+
+
+# Matchers
+
+This InSpec audit resource has the following matchers:
+
+## be
+
+<%= partial "/shared/matcher_be" %>
+
+## be_block_device
+
+The `be_block_device` matcher tests if the file exists as a block device, such as `/dev/disk0` or `/dev/disk0s9`:
+
+    it { should be_block_device }
+
+## be_character_device
+
+The `be_character_device` matcher tests if the file exists as a character device (that corresponds to a block device), such as `/dev/rdisk0` or `/dev/rdisk0s9`:
+
+    it { should be_character_device }
+
+## be_directory
+
+The `be_directory` matcher tests if the file exists as a directory, such as `/etc/passwd`, `/etc/shadow`, or `/var/log/httpd`:
+
+    it { should be_directory }
+
+## be_executable
+
+The `be_executable` matcher tests if the file exists as an executable:
+
+    it { should be_executable }
+
+The `be_executable` matcher may also test if the file is executable by a specific owner, group, or user. For example, a group:
+
+    it { should be_executable.by('group') }
+
+an owner:
+
+    it { should be_executable.by('owner') }
+
+a user:
+
+    it { should be_executable.by_user('user') }
+
+## be_file
+
+The `be_file` matcher tests if the file exists as a file. This can be useful with configuration files like `/etc/passwd` where there typically is not an associated file extension---`passwd.txt`:
+
+    it { should be_file }
+
+## be_grouped_into
+
+The `be_grouped_into` matcher tests if the file exists as part of the named group:
+
+    it { should be_grouped_into 'group' }
+
+## be_immutable
+
+The `be_immutable` matcher tests if the file is immutable, i.e. "cannot be changed":
+
+    it { should be_immutable }
+
+## be_linked_to
+
+The `be_linked_to` matcher tests if the file is linked to the named target:
+
+    it { should be_linked_to '/etc/target-file' }
+
+## be_mounted
+
+The `be_mounted` matcher tests if the file is accessible from the file system:
+
+    it { should be_mounted }
+
+## be_owned_by
+
+The `be_owned_by` matcher tests if the file is owned by the named user, such as `root`:
+
+    it { should be_owned_by 'root' }
+
+## be_pipe
+
+The `be_pipe` matcher tests if the file exists as first-in, first-out special file (`.fifo`) that is typically used to define a named pipe, such as `/var/log/nginx/access.log.fifo`:
+
+    it { should be_pipe }
+
+## be_readable
+
+The `be_readable` matcher tests if the file is readable:
+
+    it { should be_readable }
+
+The `be_readable` matcher may also test if the file is readable by a specific owner, group, or user. For example, a group:
+
+    it { should be_readable.by('group') }
+
+an owner:
+
+    it { should be_readable.by('owner') }
+
+a user:
+
+    it { should be_readable.by_user('user') }
+
+## be_socket
+
+The `be_socket` matcher tests if the file exists as socket (`.sock`), such as `/var/run/php-fpm.sock`:
+
+    it { should be_socket }
+
+## be_symlink
+
+The `be_symlink` matcher tests if the file exists as a symbolic, or soft link that contains an absolute or relative path reference to another file:
+
+    it { should be_symlink }
+
+## be_version
+
+The `be_version` matcher tests the version of the file:
+
+    it { should be_version '1.2.3' }
+
+## be_writable
+
+The `be_writable` matcher tests if the file is writable:
+
+    it { should be_writable }
+
+The `be_writable` matcher may also test if the file is writable by a specific owner, group, or user. For example, a group:
+
+    it { should be_writable.by('group') }
+
+an owner:
+
+    it { should be_writable.by('owner') }
+
+a user:
+
+    it { should be_writable.by_user('user') }
+
+## cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+## content
+
+The `content` matcher tests if contents in the file match the value specified in a regular expression. The values of the `content` matcher are arbitrary and depend on the file type being tested and also the type of information that is expected to be in that file:
+
+    its('content') { should match REGEX }
+
+The following complete example tests the `pg_hba.conf` file in PostgreSQL for MD5 requirements.  The tests look at all `host` and `local` settings in that file, and then compare the MD5 checksums against the values in the test:
+
+    describe file(hba_config_file) do
+      its('content') { should match(%r{local\s.*?all\s.*?all\s.*?md5}) }
+      its('content') { should match(%r{host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5}) }
+      its('content') { should match(%r{host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5})
+    end
+
+## eq
+
+<%= partial "/shared/matcher_eq" %>
+
+## exist
+
+The `exist` matcher tests if the named file exists:
+
+    it { should exist }
+
+## file_version
+
+The `file_version` matcher tests if the file's version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
+
+    its('file_version') { should eq '1.2.3' }
+
+## group
+
+The `group` matcher tests if the group to which a file belongs matches the specified value:
+
+    its('group') { should eq 'admins' }
+
+## have_mode
+
+The `have_mode` matcher tests if a file has a mode assigned to it:
+
+    it { should have_mode }
+
+## include
+
+<%= partial "/shared/matcher_include" %>
+
+## link_path
+
+The `link_path` matcher tests if the file exists at the specified path:
+
+    its('link_path') { should eq '/some/path/to/file' }
+
+## link_target
+
+The `link_target` matcher tests if a file that is linked to this file exists at the specified path:
+
+    its('link_target') { should eq '/some/path/to/file' }
+
+## match
+
+<%= partial "/shared/matcher_match" %>
+
+## md5sum
+
+The `md5sum` matcher tests if the MD5 checksum for a file matches the specified value:
+
+    its('md5sum') { should eq '3329x3hf9130gjs9jlasf2305mx91s4j' }
+
+## mode
+
+The `mode` matcher tests if the mode assigned to the file matches the specified value:
+
+    its('mode') { should cmp '0644' }
+
+## mtime
+
+The `mtime` matcher tests if the file modification time for the file matches the specified value:
+
+    its('mtime') { should eq 'October 31 2015 12:10:45' }
+
+or:
+
+    describe file('/').mtime.to_i do
+      it { should <= Time.now.to_i }
+      it { should >= Time.now.to_i - 1000}
+    end
+
+## owner
+
+The `owner` matcher tests if the owner of the file matches the specified value:
+
+    its('owner') { should eq 'root' }
+
+## product_version
+
+The `product_version` matcher tests if the file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
+
+    its('product_version') { should eq 2.3.4 }
+
+## selinux_label
+
+The `selinux_label` matcher tests if the SELinux label for a file matches the specified value:
+
+    its('selinux_label') { should eq 'system_u:system_r:httpd_t:s0' }
+
+## sha256sum
+
+The `sha256sum` matcher tests if the SHA-256 checksum for a file matches the specified value:
+
+    its('sha256sum') { should eq 'b837ch38lh19bb8eaopl8jvxwd2e4g58jn9lkho1w3ed9jbkeicalplaad9k0pjn' }
+
+## size
+
+The `size` matcher tests if a file's size matches, is greater than, or is less than the specified value. For example, equal:
+
+    its('size') { should eq 32375 }
+
+Greater than:
+
+    its('size') { should > 64 }
+
+Less than:
+
+    its('size') { should < 10240 }
+
+## type
+
+The `type` matcher tests if the first letter of the file's mode string contains one of the following characters:
+
+* `-` or `f` (the file is a file); use `'file` to test for this file type
+* `d` (the file is a directory); use `'directory` to test for this file type
+* `l` (the file is a symbolic link); use `'link` to test for this file type
+* `p` (the file is a named pipe); use `'pipe` to test for this file type
+* `s` (the file is a socket); use `'socket` to test for this file type
+* `c` (the file is a character device); use `'character` to test for this file type
+* `b` (the file is a block device); use `'block` to test for this file type
+* `D` (the file is a door); use `'door` to test for this file type
+
+For example:
+
+    its('type') { should eq 'file' }
+
+or:
+
+    its('type') { should eq 'socket' }
+
+# Examples
+
+The following examples show how to use this InSpec audit resource.
+
+## Test the contents of a file for MD5 requirements
+
+    describe file(hba_config_file) do
+      its('content') { should match /local\s.*?all\s.*?all\s.*?md5/ }
+      its('content') { should match %r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/} }
+      its('content') { should match %r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/} }
+    end
+
+## Test if a file exists
+
+    describe file('/tmp') do
+     it { should exist }
+    end
+
+## Test that a file does not exist
+
+    describe file('/tmpest') do
+     it { should_not exist }
+    end
+
+## Test if a path is a directory
+
+    describe file('/tmp') do
+     its('type') { should eq :directory }
+     it { should be_directory }
+    end
+
+## Test if a path is a file and not a directory
+
+    describe file('/proc/version') do
+      its('type') { should eq 'file' }
+      it { should be_file }
+      it { should_not be_directory }
+    end
+
+## Test if a file is a symbolic link
+
+    describe file('/dev/stdout') do
+      its('type') { should eq 'symlink' }
+      it { should be_symlink }
+      it { should_not be_file }
+      it { should_not be_directory }
+    end
+
+## Test if a file is a character device
+
+    describe file('/dev/zero') do
+      its('type') { should eq 'character' }
+      it { should be_character_device }
+      it { should_not be_file }
+      it { should_not be_directory }
+    end
+
+## Test if a file is a block device
+
+    describe file('/dev/zero') do
+      its('type') { should eq 'block' }
+      it { should be_character_device }
+      it { should_not be_file }
+      it { should_not be_directory }
+    end
+
+## Test the mode for a file
+
+    describe file('/dev') do
+     its('mode') { should cmp '00755' }
+    end
+
+## Test the owner of a file
+
+    describe file('/root') do
+      its('owner') { should eq 'root' }
+    end
+
+## Test if a file is owned by the root user
+
+    describe file('/dev') do
+      it { should be_owned_by 'root' }
+    end
+
+## Test the mtime for a file
+
+    describe file('/').mtime.to_i do
+      it { should <= Time.now.to_i }
+      it { should >= Time.now.to_i - 1000}
+    end
+
+## Test that a file's size is between 64 and 10240
+
+    describe file('/') do
+      its('size') { should be > 64 }
+      its('size') { should be < 10240 }
+    end
+
+## Test that a file's size is zero
+
+    describe file('/proc/cpuinfo') do
+      its('size') { should be 0 }
+    end
+
+## Test that a file is not mounted
+
+    describe file('/proc/cpuinfo') do
+      it { should_not be_mounted }
+    end
+
+## Test an MD5 checksum
+
+    require 'digest'
+    cpuinfo = file('/proc/cpuinfo').content
+
+    md5sum = Digest::MD5.hexdigest(cpuinfo)
+
+    describe file('/proc/cpuinfo') do
+      its('md5sum') { should eq md5sum }
+    end
+
+## Test an SHA-256 checksum
+
+    require 'digest'
+    cpuinfo = file('/proc/cpuinfo').content
+
+    sha256sum = Digest::SHA256.hexdigest(cpuinfo)
+
+    describe file('/proc/cpuinfo') do
+      its('sha256sum') { should eq sha256sum }
+    end
+
+## Verify NTP
+
+The following example shows how to use the `file` audit resource to verify if the `ntp.conf` and `leap-seconds` files are present, and then the `command` resource to verify if NTP is installed and running:
+
+    describe file('/etc/ntp.conf') do
+       it { should be_file }
+    end
+
+    describe file('/etc/ntp.leapseconds') do
+      it { should be_file }
+    end
+
+    describe command('pgrep ntp') do
+       its('exit_status') { should eq 0 }
+    end
