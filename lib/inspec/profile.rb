@@ -40,7 +40,7 @@ module Inspec
 
       if cache.exists?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
-        cache.prefered_entry_for(cache_key)
+        [cache.prefered_entry_for(cache_key), false]
       else
         fetcher.fetch(cache.base_path_for(fetcher.cache_key))
         if target.respond_to?(:key?) && target.key?(:sha256)
@@ -58,7 +58,7 @@ EOF
           end
         end
 
-        fetcher.archive_path
+        [fetcher.archive_path, fetcher.writable?]
       end
     end
 
@@ -73,7 +73,8 @@ EOF
     end
 
     def self.for_target(target, opts = {})
-      for_path(resolve_target(target, opts[:cache]), opts.merge(target: target))
+      path, writable = resolve_target(target, opts[:cache])
+      for_path(path, opts.merge(target: target, writable: writable))
     end
 
     attr_reader :source_reader, :backend, :runner_context
@@ -87,6 +88,7 @@ EOF
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
+      @writable = options[:writable] || false
       @profile_id = options[:id]
       @cache = options[:cache] || Cache.new
       @backend = options[:backend] || Inspec::Backend.create(options)
@@ -105,6 +107,10 @@ EOF
 
     def version
       metadata.params[:version]
+    end
+
+    def writable? # rubocop:disable Style/TrivialAccessors
+      @writable
     end
 
     #

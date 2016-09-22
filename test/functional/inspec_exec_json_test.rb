@@ -8,21 +8,21 @@ describe 'inspec exec with json formatter' do
   include FunctionalHelper
 
   it 'can execute a simple file with the json formatter' do
-    out = inspec('exec ' + example_control + ' --format json')
+    out = inspec('exec ' + example_control + ' --format json --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     JSON.load(out.stdout).must_be_kind_of Hash
   end
 
   it 'can execute the profile with the json formatter' do
-    out = inspec('exec ' + example_profile + ' --format json')
+    out = inspec('exec ' + example_profile + ' --format json --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     JSON.load(out.stdout).must_be_kind_of Hash
   end
 
   describe 'execute a profile with json formatting' do
-    let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json').stdout) }
+    let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json --no-create-lockfile').stdout) }
     let(:profile) { json['profiles'][0] }
     let(:controls) { profile['controls'] }
     let(:ex1) { controls.find { |x| x['id'] == 'tmp-1.0' } }
@@ -115,7 +115,7 @@ describe 'inspec exec with json formatter' do
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
-    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --format json') }
+    let(:out) { inspec('exec ' + File.join(profile_path, 'skippy-profile-os') + ' --format json --no-create-lockfile') }
     let(:json) { JSON.load(out.stdout) }
 
     # TODO: failure handling in json formatters...

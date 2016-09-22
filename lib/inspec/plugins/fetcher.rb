@@ -24,6 +24,10 @@ module Inspec
         Inspec::Fetcher
       end
 
+      def writable?
+        false
+      end
+
       #
       # The path to the archive on disk.  This can be passed to a
       # FileProvider to get access to the files in the fetched

@@ -42,6 +42,7 @@ module Inspec
       @target_profiles = []
       @controls = @conf[:controls] || []
       @ignore_supports = @conf[:ignore_supports]
+      @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:cache])
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
@@ -77,6 +78,7 @@ module Inspec
 
       @target_profiles.each do |profile|
         @test_collector.add_profile(profile)
+        write_lockfile(profile) if @create_lockfile
         profile.locked_dependencies
         profile.load_libraries
         @attributes |= profile.runner_context.attributes
@@ -92,6 +94,18 @@ module Inspec
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
+    end
+
+    def write_lockfile(profile)
+      return false if !profile.writable?
+
+      if profile.lockfile_exists?
+        Inspec::Log.debug "Using existing lockfile #{profile.lockfile_path}"
+      else
+        Inspec::Log.debug "Creating lockfile: #{profile.lockfile_path}"
+        lockfile = profile.generate_lockfile
+        File.write(profile.lockfile_path, lockfile.to_yaml)
+      end
     end
 
     def run_tests(with = nil)

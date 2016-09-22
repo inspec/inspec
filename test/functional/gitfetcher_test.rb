@@ -37,7 +37,7 @@ EOF
   end
 
   it 'executes a profile with a git based dependency' do
-    out = inspec("exec #{@profile_dir}")
+    out = inspec("exec #{@profile_dir} --no-create-lockfile")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
   end

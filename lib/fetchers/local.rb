@@ -55,6 +55,10 @@ module Fetchers
       @target
     end
 
+    def writable?
+      File.directory?(@target)
+    end
+
     def cache_key
       sha256.to_s
     end
