@@ -199,11 +199,17 @@ This subcommand has additional options:
 ``-b``, ``--backend=BACKEND``
    Choose a backend: local, ssh, winrm, docker.
 
+``--cache=CACHE``
+   Use the given path for caching dependencies. (default: ~/.inspec/cache)
+
 ``--color``, ``--no-color``
    Use colors in output.
 
 ``--controls=one two three``
    A list of controls to run. Ignore all other tests.
+
+``--create-lockfile``, ``--no-create-lockfile``
+   Write out a lockfile based on this execution (unless one already exists)
 
 ``--format=FORMAT``
    Which formatter to use: cli, progress, documentation, json, json-min

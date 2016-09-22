@@ -1,7 +1,66 @@
 # Change Log
 
-## [1.0.0-beta1](https://github.com/chef/inspec/tree/1.0.0-beta1) (2016-09-19)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.35.0...1.0.0-beta1)
+## [1.0.0.beta2](https://github.com/chef/inspec/tree/1.0.0.beta2) (2016-09-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.pre.beta1...1.0.0.beta2)
+
+**Implemented enhancements:**
+
+- kernel\_parameter does not show fully info when test fails [\#1093](https://github.com/chef/inspec/issues/1093)
+- InSpec html demo [\#851](https://github.com/chef/inspec/issues/851)
+- Counting and status of controls without tests [\#849](https://github.com/chef/inspec/issues/849)
+- supports does not mark resources as skipped [\#354](https://github.com/chef/inspec/issues/354)
+- `include Inspec::DSL` anywhere [\#271](https://github.com/chef/inspec/issues/271)
+- Suse Support [\#113](https://github.com/chef/inspec/issues/113)
+- Update the username and password login method [\#1095](https://github.com/chef/inspec/pull/1095) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- InSpec in Workflow [\#1115](https://github.com/chef/inspec/issues/1115)
+- uninstalled package shows as installed [\#1092](https://github.com/chef/inspec/issues/1092)
+- undefined method `send\_request' for Compliance::API:Class [\#1088](https://github.com/chef/inspec/issues/1088)
+- safari inspec online demo bug! [\#1086](https://github.com/chef/inspec/issues/1086)
+- \[package\] Regression on Windows 2008R2 [\#998](https://github.com/chef/inspec/issues/998)
+- \[script\] Is there a limit on the number of char's within a script block [\#539](https://github.com/chef/inspec/issues/539)
+- Use parenthesis when passing regular expressions [\#1106](https://github.com/chef/inspec/pull/1106) ([alexpop](https://github.com/alexpop))
+- Include code description in the output of failed controls [\#1096](https://github.com/chef/inspec/pull/1096) ([alexpop](https://github.com/alexpop))
+- Update the username and password login method [\#1095](https://github.com/chef/inspec/pull/1095) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- Package Resource isn't searching 64-bit Registry Hives [\#1100](https://github.com/chef/inspec/issues/1100)
+- demo improvements [\#1089](https://github.com/chef/inspec/issues/1089)
+- Dependencies: All resources are scoped [\#1058](https://github.com/chef/inspec/issues/1058)
+- Improve InSpec tutorial [\#1045](https://github.com/chef/inspec/issues/1045)
+- 1.10.2 has an extra space in pip package output [\#1043](https://github.com/chef/inspec/issues/1043)
+- Follow up to 1013: find\_files\(\) errors still occurring for apache\_conf resource after 0.33.0 upgrade [\#1030](https://github.com/chef/inspec/issues/1030)
+- MVP in-browser inspec demo [\#957](https://github.com/chef/inspec/issues/957)
+- Failing tests in inherited tests are not displayed [\#899](https://github.com/chef/inspec/issues/899)
+
+**Merged pull requests:**
+
+- Use the gem version for the omnibus package version [\#1122](https://github.com/chef/inspec/pull/1122) ([yzl](https://github.com/yzl))
+- Add legal pages [\#1121](https://github.com/chef/inspec/pull/1121) ([magwalk](https://github.com/magwalk))
+- update docs to markdown [\#1120](https://github.com/chef/inspec/pull/1120) ([arlimus](https://github.com/arlimus))
+- add readme to www-build [\#1118](https://github.com/chef/inspec/pull/1118) ([arlimus](https://github.com/arlimus))
+- Always write lockfiles for local top-level profiles  [\#1116](https://github.com/chef/inspec/pull/1116) ([stevendanna](https://github.com/stevendanna))
+- Add `--cache` option to `inspec exec` [\#1113](https://github.com/chef/inspec/pull/1113) ([stevendanna](https://github.com/stevendanna))
+- fix double-space in pip to\_s resource [\#1112](https://github.com/chef/inspec/pull/1112) ([chris-rock](https://github.com/chris-rock))
+- fixes debian package manager and some of the code examples [\#1111](https://github.com/chef/inspec/pull/1111) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- Add main site footer [\#1110](https://github.com/chef/inspec/pull/1110) ([magwalk](https://github.com/magwalk))
+- Add community and tutorials pages [\#1108](https://github.com/chef/inspec/pull/1108) ([magwalk](https://github.com/magwalk))
+- Add homepage content and styles [\#1107](https://github.com/chef/inspec/pull/1107) ([magwalk](https://github.com/magwalk))
+- Styling setup and main navigation [\#1105](https://github.com/chef/inspec/pull/1105) ([magwalk](https://github.com/magwalk))
+- docs task and rst/md formatter separation [\#1104](https://github.com/chef/inspec/pull/1104) ([arlimus](https://github.com/arlimus))
+- Fail if a remote source content doesn't match lockfile [\#1103](https://github.com/chef/inspec/pull/1103) ([stevendanna](https://github.com/stevendanna))
+- Optimize tutorial [\#1101](https://github.com/chef/inspec/pull/1101) ([chris-rock](https://github.com/chris-rock))
+- Build with master of omnibus [\#1099](https://github.com/chef/inspec/pull/1099) ([yzl](https://github.com/yzl))
+- use Gem::Version instead of a regular expression for a test version bump [\#1098](https://github.com/chef/inspec/pull/1098) ([chris-rock](https://github.com/chris-rock))
+- fix demo instructions [\#1094](https://github.com/chef/inspec/pull/1094) ([vjeffrey](https://github.com/vjeffrey))
+- Allow users to reference resources from dependencies [\#1080](https://github.com/chef/inspec/pull/1080) ([stevendanna](https://github.com/stevendanna))
+- In ApacheConf\#include\_files, check for abs paths [\#1042](https://github.com/chef/inspec/pull/1042) ([davidcpell](https://github.com/davidcpell))
+
+## [v1.0.0.pre.beta1](https://github.com/chef/inspec/tree/v1.0.0.pre.beta1) (2016-09-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.35.0...v1.0.0.pre.beta1)
 
 **Implemented enhancements:**
 
