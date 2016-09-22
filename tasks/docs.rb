@@ -15,6 +15,10 @@
 # limitations under the License.
 #
 
+require 'erb'
+require 'ruby-progressbar'
+require 'fileutils'
+
 class Markdown
   class << self
     def h1(msg)
@@ -103,6 +107,30 @@ class RST
   end
 end
 
+class ResourceDocs
+  def initialize(root)
+    @paths = {}  # cache of paths
+    @root = root # relative root path for all docs
+  end
+
+  def render(path)
+    @paths[path] ||= render_path(path)
+  end
+
+  def partial(x)
+    render(x + '.md.erb')
+  end
+
+  private
+
+  def render_path(path)
+    abs = File.join(@root, path)
+    fail "Can't find file to render in #{abs}" unless File.file?(abs)
+
+    ERB.new(File.read(abs)).result(binding)
+  end
+end
+
 namespace :docs do
   desc 'Create cli docs'
   task :cli do
@@ -153,6 +181,30 @@ namespace :docs do
     dst = 'docs/cli' + f.suffix
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
+  end
+
+  desc 'Create resources docs'
+  task :resources do
+    src = 'docs'
+    dst = 'www/source/docs/resources'
+    docs = ResourceDocs.new(src)
+    resources = Dir[File.join(src, 'resources/*.md.erb')]
+                .map { |x| x.sub(/^#{src}/, '') }
+    puts "Found #{src.length} resource docs"
+    puts "Clean up #{dst}"
+    FileUtils.rm_rf(dst) if File.exist?(dst)
+    FileUtils.mkdir_p(dst)
+    puts "Rendering docs to #{dst}/"
+
+    progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
+    resources.each do |file|
+      progressbar.log('    '+file)
+      dst_name = File.basename(file).sub(/\.erb$/, '')
+      res = docs.render(file)
+      File.write(File.join(dst, dst_name), res)
+      progressbar.increment
+    end
+    progressbar.finish
   end
 end
 

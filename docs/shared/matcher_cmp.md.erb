@@ -1,0 +1,45 @@
+Use the `cmp` matcher compare two values, such as comparing strings to numbers, comparing a single value to an array of values, comparing an array of strings to a regular expression, improving the printing of octal values, and comparing while ignoring case sensitivity.
+
+Compare a single value to an array:
+
+    describe some_resource do
+      its('users') { should cmp 'root' }
+      its('users') { should cmp ['root'] }
+    end
+
+Compare strings and regular expressions:
+
+    describe some_resource do
+      its('setting') { should cmp /raw/i }
+    end
+
+Compare strings and numbers:
+
+    describe some_resource do
+      its('setting') { should eq '2' }
+    end
+
+vs:
+
+    describe some_resource do
+      its('setting') { should cmp '2' }
+      its('setting') { should cmp 2 }
+    end
+
+Ignoring case sensitivity:
+
+.. code-block:: ruby
+
+   describe some_resource do
+     its('setting') { should cmp 'raw' }
+     its('setting') { should cmp 'RAW' }
+   end
+
+Printing octal values:
+
+    describe some_resource('/proc/cpuinfo') do
+      its('mode') { should cmp '0345' }
+    end
+
+    expected: 0345
+    got: 0444

@@ -16,3 +16,6 @@
 
 # Ignore .DS_store file
 .DS_Store
+
+# Ignore rendered files from docs/
+source/docs/resources/

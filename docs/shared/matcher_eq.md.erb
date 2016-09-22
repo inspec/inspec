@@ -1,0 +1,3 @@
+Use the `eq` matcher to test the equality of two values: `its('Port') { should eq '22' }`.
+
+Using `its('Port') { should eq 22 }` will fail because `22` is not a string value! Use the `cmp` matcher for less restrictive value comparisons.
