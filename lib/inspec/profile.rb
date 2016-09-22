@@ -5,7 +5,7 @@
 
 require 'forwardable'
 require 'inspec/polyfill'
-require 'inspec/fetcher'
+require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
 require 'inspec/source_reader'
 require 'inspec/metadata'
@@ -21,45 +21,8 @@ module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
 
-    #
-    # TODO: This function is getting pretty gross.
-    #
     def self.resolve_target(target, cache = nil)
-      cache ||= Cache.new
-      fetcher = Inspec::Fetcher.resolve(target)
-
-      if fetcher.nil?
-        fail("Could not fetch inspec profile in #{target.inspect}.")
-      end
-
-      cache_key = if target.is_a?(Hash)
-                    target[:sha256] || target[:ref] || fetcher.cache_key
-                  else
-                    fetcher.cache_key
-                  end
-
-      if cache.exists?(cache_key)
-        Inspec::Log.debug "Using cached dependency for #{target}"
-        [cache.prefered_entry_for(cache_key), false]
-      else
-        fetcher.fetch(cache.base_path_for(fetcher.cache_key))
-        if target.respond_to?(:key?) && target.key?(:sha256)
-          if fetcher.resolved_source[:sha256] != target[:sha256]
-            fail <<EOF
-The remote source #{fetcher} no longer has the requested content:
-
-Request Content Hash: #{target[:sha256]}
- Actual Content Hash: #{fetcher.resolved_source[:sha256]}
-
-For URL, supermarket, compliance, and other sources that do not
-provide versioned artifacts, this likely means that the remote source
-has changed since your lockfile was generated.
-EOF
-          end
-        end
-
-        [fetcher.archive_path, fetcher.writable?]
-      end
+      Inspec::CachedFetcher.new(target, cache || Cache.new)
     end
 
     def self.for_path(path, opts)
@@ -72,9 +35,14 @@ EOF
       new(reader, opts)
     end
 
+    def self.for_fetcher(fetcher, opts)
+      path, writable = fetcher.fetch
+      for_path(path, opts.merge(target: fetcher.target, writable: writable))
+    end
+
     def self.for_target(target, opts = {})
-      path, writable = resolve_target(target, opts[:cache])
-      for_path(path, opts.merge(target: target, writable: writable))
+      fetcher = resolve_target(target, opts[:cache])
+      for_fetcher(fetcher, opts)
     end
 
     attr_reader :source_reader, :backend, :runner_context

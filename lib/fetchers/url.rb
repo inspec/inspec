@@ -85,21 +85,12 @@ module Fetchers
       @archive_path ||= download_archive(path)
     end
 
-    def sha256
-      c = if @archive_path
-            File.read(@archive_path)
-          else
-            content
-          end
-      Digest::SHA256.hexdigest c
-    end
-
     def resolved_source
       @resolved_source ||= { url: @target, sha256: sha256 }
     end
 
     def cache_key
-      sha256
+      @archive_shasum ||= sha256
     end
 
     def to_s
@@ -108,16 +99,9 @@ module Fetchers
 
     private
 
-    def open_target
-      Inspec::Log.debug("Fetching URL: #{@target}")
-      http_opts = {}
-      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
-      http_opts['Authorization'] = "Bearer #{@token}" if @token
-      open(@target, http_opts)
-    end
-
-    def content
-      open_target.read
+    def sha256
+      file = @archive_path || temp_archive_path
+      Digest::SHA256.hexdigest File.read(file)
     end
 
     def file_type_from_remote(remote)
@@ -132,20 +116,34 @@ module Fetchers
       file_type
     end
 
-    # download url into archive using opts,
-    # returns File object and content-type from HTTP headers
-    def download_archive(path)
-      remote = open_target
-      file_type = file_type_from_remote(remote)
-      final_path = "#{path}#{file_type}"
-      # download content
-      archive = Tempfile.new(['inspec-dl-', file_type])
+    def temp_archive_path
+      @temp_archive_path ||= download_archive_to_temp
+    end
+
+    # Downloads archive to temporary file with side effect :( of setting @archive_type
+    def download_archive_to_temp
+      return @temp_archive_path if ! @temp_archive_path.nil?
+      Inspec::Log.debug("Fetching URL: #{@target}")
+      http_opts = {}
+      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
+      http_opts['Authorization'] = "Bearer #{@token}" if @token
+      remote = open(@target, http_opts)
+      @archive_type = file_type_from_remote(remote) # side effect :(
+      archive = Tempfile.new(['inspec-dl-', @archive_type])
       archive.binmode
       archive.write(remote.read)
       archive.rewind
       archive.close
-      FileUtils.mv(archive.path, final_path)
+      Inspec::Log.debug("Archive stored at temporary location: #{archive.path}")
+      @temp_archive_path = archive.path
+    end
+
+    def download_archive(path)
+      download_archive_to_temp
+      final_path = "#{path}#{@archive_type}"
+      FileUtils.mv(temp_archive_path, final_path)
       Inspec::Log.debug("Fetched archive moved to: #{final_path}")
+      @temp_archive_path = nil
       final_path
     end
   end

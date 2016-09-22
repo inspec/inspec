@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'inspec/fetcher'
+require 'inspec/cached_fetcher'
 require 'inspec/dependencies/dependency_set'
 require 'digest'
 
@@ -82,9 +82,7 @@ module Inspec
     end
 
     def fetcher
-      @fetcher ||= Inspec::Fetcher.resolve(opts)
-      fail "No fetcher for #{name} (options: #{opts})" if @fetcher.nil?
-      @fetcher
+      @fetcher ||= Inspec::CachedFetcher.new(opts, @cache)
     end
 
     def dependencies
@@ -94,17 +92,18 @@ module Inspec
     end
 
     def to_s
-      "#{name ? name : '<unfetched>'} (#{resolved_source})"
+      name
     end
 
     def profile
+      return @profile if ! @profile.nil?
+
       opts = @opts.dup
-      opts[:cache] = @cache
       opts[:backend] = @backend
       if !@dependencies.nil?
         opts[:dependencies] = Inspec::DependencySet.from_array(@dependencies, @cwd, @cache, @backend)
       end
-      @profile ||= Inspec::Profile.for_target(opts, opts)
+      @profile = Inspec::Profile.for_fetcher(fetcher, opts)
     end
   end
 end

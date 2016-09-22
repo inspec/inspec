@@ -24,6 +24,8 @@ module Inspec
         Inspec::Fetcher
       end
 
+      attr_accessor :target
+
       def writable?
         false
       end
