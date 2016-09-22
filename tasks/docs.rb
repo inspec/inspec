@@ -106,7 +106,11 @@ end
 namespace :docs do
   desc 'Create cli docs'
   task :cli do
+    # formatter for the output file
     f = Markdown
+    # list of subcommands we ignore; these are e.g. plugins
+    skip_commands = %w{scap}
+
     res = f.meta(title: 'About the InSpec CLI')
     res << f.h1('InSpec CLI')
     res << f.p('Use the InSpec CLI to run tests and audits against targets '\
@@ -115,6 +119,7 @@ namespace :docs do
     require 'inspec/cli'
     cmds = Inspec::InspecCLI.all_commands
     cmds.keys.sort.each do |key|
+      next if skip_commands.include? key
       cmd = cmds[key]
 
       res << f.h2(cmd.usage.split.first)
@@ -136,7 +141,7 @@ namespace :docs do
                      .map { |x| x.tr('[]', '') }
                      .map { |x| x.start_with?('-') ? x : '-'+x }
                      .map { |x| '``' + x + '``' }
-          list << f.li("#{usage.join(', ')}\n#{opt.description}")
+          list << f.li("#{usage.join(', ')}  \n#{opt.description}")
         end.join
         res << f.ul(list)
       end
