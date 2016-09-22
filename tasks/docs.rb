@@ -51,6 +51,11 @@ class Markdown
       "#{msg}\n\n"
     end
 
+    def a(name, dst = nil)
+      dst ||= name
+      "[#{name}](#{dst})"
+    end
+
     def suffix
       '.md'
     end
@@ -95,6 +100,11 @@ class RST
 
     def p(msg)
       "#{msg}\n\n"
+    end
+
+    def a(name, _dst = nil)
+      # FIXME: needs link handling
+      "`#{name}`_"
     end
 
     def suffix
@@ -205,6 +215,21 @@ namespace :docs do
       progressbar.increment
     end
     progressbar.finish
+
+    f = Markdown
+    res = f.meta(title: 'InSpec Resources Reference')
+    res << f.h1('InSpec Resources Reference')
+    res << f.p('The following InSpec audit resources are available:')
+    list = ''
+    resources.each do |file|
+      name = File.basename(file).sub(/\.md\.erb$/, '')
+      list << f.li(f.a(name, name + '.html'))
+    end
+    res << f.ul(list)
+    dst = File.join(src, 'resources.md')
+    puts "Create #{dst}"
+    File.write(dst, res)
+
   end
 end
 
