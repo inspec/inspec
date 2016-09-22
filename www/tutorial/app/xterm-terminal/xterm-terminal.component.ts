@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChange
+} from '@angular/core';
 declare var Terminal: any;
 
 @Component({
@@ -6,19 +14,22 @@ declare var Terminal: any;
   templateUrl: 'app/xterm-terminal/xterm-terminal.component.html',
   styleUrls: ['app/xterm-terminal/xterm-terminal.component.css']
 })
-export class XtermTerminalComponent implements OnInit {
-  @Input() response: string;
-  @Input() shell: string;
-  @Output() command: EventEmitter<string> = new EventEmitter<string>();
+export class XtermTerminalComponent implements OnInit, OnChanges{
 
-  // handle up/down arrow functionality
-  previousCommands: any = [];
-  poppedCommands: any = [];
+  // This Xterm implementation emits all commands, once the users presses 'Enter'
+  @Output() stdin: EventEmitter<string> = new EventEmitter<string>();
+  // waits for events that should be printed on the terminal
+  @Input() stdout: EventEmitter<string>;
+  // sets the shell prompt
+  @Input() prompt: string;
+
+  // handle up/down command history functionality
+  history: any = [];
+  historyIndex: number;
   last: number;
 
-  // handle user input
-  buffer: string = ''; // the buffer is our string of user input
-  blockCmd: string = ''; // handle describe and control blocks
+  // caches stdin, until the user presses Enter
+  buffer: string = '';
 
   // xterm variables
   terminalContainer: any;
@@ -27,200 +38,184 @@ export class XtermTerminalComponent implements OnInit {
   cols: string;
   rows: string;
 
+  // we cannot use \33[2K\r since strict mode recognize it as ocal number
+  clearLine = "\u001b[2K\r"
+
   ngOnInit() {
     // set up Xterm terminal (https://github.com/sourcelair/xterm.js)
     this.terminalContainer = document.getElementById('terminal-container');
-    this.cols = '70';
-    this.rows = '70';
-    this.createTerminal();
-   }
+    this.initializeTerminal();
+  }
 
-  // watch for changes on the value of response and call printResponse
-  ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
-    if (changes['response'] && this.term) {
-      let currentResponse = changes['response'].currentValue;
-      this.printResponse(currentResponse);
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    let log: string[] = [];
+    for (let propName in changes) {
+      let changedProp = changes[propName];
+      // reprint prompt
+      if (propName == 'prompt' && this.term != null) {
+        this.term.write(this.clearLine+this.prompt)
+      }
     }
   }
 
+  onResize(event) {
+    this.updateTerminalSize()
+  }
+
+  updateTerminalSize() {
+    // recalculate cols and rows
+    let charwidth = 24;
+    // read size from parent wrapping element
+    let cols = 80
+    let rows = Math.floor(this.terminalContainer.parentElement.clientHeight / charwidth)
+    this.term.resize(cols, rows);
+  }
+
   // create Xterm terminal (https://github.com/sourcelair/xterm.js)
-  createTerminal() {
+  initializeTerminal() {
     while (this.terminalContainer.children.length) {
       this.terminalContainer.removeChild(this.terminalContainer.children[0]);
     }
     this.term = new Terminal({
-      cursorBlink: true
+      cursorBlink: true,
     });
 
     this.term.open(this.terminalContainer);
     this.term.fit();
 
-    var initialGeometry = this.term.proposeGeometry(),
-      cols = initialGeometry.cols,
-      rows = initialGeometry.rows;
-
-    this.cols = cols;
-    this.rows = rows;
-    this.runFakeTerminal()
-  }
-
-  // more Xterm terminal stuff. we're faking it. faking it can be a good thing ;)
-  runFakeTerminal() {
+    // start registering the event listener, only need to be done the first time
     if (this.term._initialized) {
       return;
     }
     this.term._initialized = true;
-    this.setPrompt();
+    this.writePrompt();
+
+    // determine rows for terminal
+    this.updateTerminalSize()
+
+    let self = this
+    // raw data
+    this.term.on('data', function(data){
+      self.writeBuffer(data)
+    })
+
+    // overwrite keydown handler to be able to customize cursor handling
+    this.term.attachCustomKeydownHandler(function(ev){
+      return self.keydown(ev);
+    })
+
+    // handle stream events from the app
+    this.stdout.subscribe(function(data) {
+      self.onStdout(data)
+    }, function(err) {
+      console.error(err)
+    })
   }
 
-  // if the response matches the special message we send when the user
-  // has entered 'next' or 'prev' (to navigate through the demo)
-  // then no need to print the response, just set the prompt. otherwise,
-  // print response and set prompt
-  printResponse(response) {
-    if (response.match(/.30mnext|.30mprev|.30mlast/)) {
-      // call createTerminal to clear terminal screen on next and prev
-      this.createTerminal();
-    } else {
-      this.term.writeln(response);
-      this.setPrompt();
-    }
+  // this writes the raw buffer and includes invisible charaters
+  writeBuffer(data) {
+    this.term.write(data);
+    this.buffer += data;
   }
 
-  // the value of shell is taken as an input. the default
-  // shellprompt is displayed unless shell is set to 'inspec-shell'
-  setPrompt() {
-    this.buffer = '';
-    if (this.shell === 'inspec-shell') {
-      if (this.blockCmd != '') {
-        this.term.write(' [32minspec>*'); // green inspec shell prompt with * to denote multi-line command
+  // reset the command buffer
+  resetBuffer() {
+    this.buffer = ''
+  }
+
+  // print out stdout data
+  onStdout(data) {
+    let res = data
+    this.term.write(res);
+  }
+
+  // print out error
+  onStderr(response) {
+    this.term.writeln(response);
+  }
+
+  // writes the command prompt, a prompt is not part of the input buffer
+  writePrompt() {
+    this.term.write(this.prompt);
+  }
+
+  // stores a command in commmand history
+  storeInHistory(cmd) {
+    // remove cariage returns from history commands
+    cmd = cmd.replace(/\r/,'')
+    this.history.push(cmd);
+    this.historyIndex = this.history.length
+  }
+
+  // prints the current selected command at history index
+  historyCmdtoStdout() {
+    this.buffer = this.history[this.historyIndex]
+    this.reprintCommand(this.buffer )
+  }
+
+  // reprint a command in the current line
+  reprintCommand(cmd){
+    this.term.write(this.clearLine+this.prompt + cmd)
+  }
+
+  // resets the terminal
+  clear() {
+    this.term.reset()
+    this.writePrompt()
+  }
+
+  // terminal event handler
+  // be aware that we need to decouple the event loops, therefore we need to
+  // use setTimeout to reliable print content on the terminal
+  keydown(ev) {
+    // console.log(ev);
+    let self = this
+    if (ev.keyCode === 13) {
+      let cmd = self.buffer
+      // special handling for clear and cls
+      if (/^\s*clear|cls\s*/.exec(cmd) != null) {
+        // reset terminal
+        setTimeout(function(){
+          self.clear()
+        }, 0);
       } else {
-        this.term.write(' [32minspec> '); // green inspec shell prompt
+        // decouple from event loop, write a new line
+        setTimeout(function(){
+          self.term.writeln('')
+          self.stdin.emit(cmd);
+          self.storeInHistory(cmd)
+        }, 0);
       }
-    } else {
-      this.term.write('[36m$ '); // blue regular shell prompt
-    }
-  }
-
-  // delete everything on the line
-  deleteCharacters() {
-    // don't delete the prompt
-    let letters = this.term.x - 2;
-    for (var i = 0; i < letters; i++) {
-      this.term.write('\b \b');
-    }
-  }
-
-  // keydown calls handleDelete to check if the user is holding down the backpace key
-  // TODO: make this work! the backspace event isn't coming in for some reason :(
-  handleDelete(ev) {
-    if (ev.keyCode == 8) {
-      this.deleteCharacters();
-    }
-  }
-
-  // handle describe and control blocks. if the command entered matches the
-  // syntax we would generally expect in a control/describe block, then we
-  // wait to have the whole string command (as marked by 'end' for a simple describe
-  // block and end end for a control block) and emit that
-  handleBlockCommand(buffer) {
-    this.blockCmd += buffer + '';
-    if (this.blockCmd.match(/^control/)) {
-      if (this.blockCmd.match(/end.*end.*/)) {
-        this.command.emit(this.blockCmd);
-        this.blockCmd = '';
-      } else {
-        this.setPrompt();
-      }
-    } else {
-      if (buffer.match(/^end$/)) {
-        this.command.emit(this.blockCmd);
-        this.blockCmd = '';
-      } else {
-        this.setPrompt();
-      }
-    }
-  }
-
-  // onKey will check if the character is printable (on keyup) and add it to the buffer. if the enter key is hit
-  // the value of the buffer is emitted as 'command'.  onKey also supports proper backspace handling and
-  // the ability to up-arrow through previous commands/down arrow back through them.
-  onKey(ev) {
-    var shell = null
-    // determine if the character is a printable one
-    var printable = ['Alt', 'Control', 'Meta', 'Shift', 'CapsLock', 'Tab', 'Escape', 'ArrowLeft', 'ArrowRight'].indexOf(ev.key) == -1
-
-    // on enter, save command to array and send current value of buffer
-    // to parent component (app)
-    if (ev.keyCode == 13) {
-      if ((this.buffer === 'clear') || (this.buffer === 'cls')) {
-        this.createTerminal();
-      } else {
-        this.previousCommands.push(this.buffer);
-        this.term.write('\r\n');
-        if (this.shell === 'inspec-shell') {
-          // if the command entered matches any of the typical describe and
-          // control blocks, then we call handleBlockCommand to not emit the
-          // value until we have the whole multi-line command
-          if (this.buffer.match(/^describe.*|^it.*|^end$|^impact.*|^title.*|^control.*/)) {
-            this.handleBlockCommand(this.buffer);
-          } else {this.command.emit(this.buffer);}
-        } else {
-          this.command.emit(this.buffer);
-        }
-      }
+      // reset index to last item +1
+      self.resetBuffer()
     }
     // on backspace, pop characters from buffer
     else if (ev.keyCode == 8) {
-      // if inspec shell is being used, this needs to be set to 9 to account for the extra letters
-      if (this.shell === 'inspec-shell') {
-        if (this.term.x > 8) {
-          this.buffer = this.buffer.substr(0, this.buffer.length-1);
-          this.term.write('\b \b');
-        }
-      } else {
-        // setting the value here to 3 ensures that we don't delete the promp '$' or the space after it
-        if (this.term.x > 2) {
-          this.buffer = this.buffer.substr(0, this.buffer.length-1);
-          this.term.write('\b \b');
-        }
-      }
+      self.buffer = self.buffer.substr(0, self.buffer.length-1);
+      setTimeout(function(){
+        self.reprintCommand(self.buffer)
+      }, 0);
     }
-    // on up arrow, delete anything on line, print previous command
-    // and push last to poppedCommands
-    else if (ev.keyCode === 38) {
-      let last;
-      this.buffer = '';
-      if (this.previousCommands.length > 0) {
-        last = this.previousCommands.pop();
-        this.poppedCommands.push(last);
-      } else {
-        last = '';
-      }
-      this.deleteCharacters();
-      this.buffer = last;
-      this.term.write(last);
-    }
-    // on down arrow, delete anything on line, print last item from poppedCommands
-    // and push previous to previousCommands
+    // press the up key, find previous item in cmd history
     else if (ev.keyCode === 40) {
-      let previous;
-      this.buffer = '';
-      if (this.poppedCommands.length > 0) {
-        previous = this.poppedCommands.pop();
-        this.previousCommands.push(previous);
-      } else {
-        previous = '';
-      }
-      this.deleteCharacters();
-      this.buffer = previous;
-      this.term.write(previous);
+      setTimeout(function(){
+        if (self.historyIndex < self.history.length - 1) {
+          self.historyIndex += 1
+          self.historyCmdtoStdout()
+        }
+      }, 0);
+
     }
-    // if the character is printable and none of the event key codes from above were matched
-    // then we write the character on the prompt line and add the character to the buffer
-    else if (printable) {
-      this.term.write(ev.key);
-      this.buffer += ev.key;
+    // press the down key, find next item in cmd history
+    else if (ev.keyCode === 38) {
+      setTimeout(function(){
+        if (self.historyIndex >= 1) {
+          self.historyIndex -= 1
+          self.historyCmdtoStdout()
+        }
+      }, 0);
     }
+    // this forces xterm not to handle the key events with its own event handler
+    return false;
   }
 }

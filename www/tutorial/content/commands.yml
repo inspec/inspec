@@ -1,7 +1,6 @@
 commands:
     - ls
     - cat README.md
-    - inspec help supermarket
     - inspec help compliance
     - inspec version
     - inspec detect --format json
@@ -9,6 +8,3 @@ commands:
     - inspec exec examples/profile --format json | jq
     - inspec json examples/profile
     - inspec archive examples/profile
-    - inspec env
-    - inspec exec examples/inheritance
-    - inspec exec test/unit/mock/profiles/failures

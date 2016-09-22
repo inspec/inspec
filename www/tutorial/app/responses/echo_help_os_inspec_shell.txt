@@ -1,7 +1,3 @@
-[0;32minspec> [0mhelp os
-[0;32minspec> [0mWelcome to the interactive InSpec Shell
-To find out how to use it, type: [1mhelp[0m
-
 [0G[1mName:[0m os
 
 [1mDescription:[0m
@@ -10,7 +6,7 @@ Use the os InSpec audit resource to test the platform on which the system is run
 
 [1mExample:[0m
 
-describe os.family do
+describe os[:family] do
   it { should eq 'redhat' }
 end
  describe os.redhat? do

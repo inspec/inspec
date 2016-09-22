@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { XtermTerminalComponent } from './xterm-terminal/xterm-terminal.component';
 declare var require: any;
-var shellwords = require("shellwords");
+
+const SH_PROMPT = '[36m$[0m ';
+const INSPEC_PROMPT = '[0;32minspec> [0m';
 
 @Component({
   selector: 'my-app',
@@ -15,170 +17,110 @@ var shellwords = require("shellwords");
 })
 
 export class AppComponent implements OnInit {
-  // template values
-  instructions: any;
+
+  // all available commands parsed from json files
+  commands: any = [];
+  // we support two shell modes: 'sh' and 'inspec'
+  shellMode: string = 'sh'
+
+  // all tutorial instructions
+  instructionsArray: any = [];
+  // title of the current tutorial step
   title: string;
+  // instruction of the current step
+  instruction: any;
+  // keeps track of step number count
+  counter: number = 0;
 
   // taken as input by xterm terminal componen
-  response: string;
-  shell: string;
+  stdout: EventEmitter<string> = new EventEmitter<string>();
+
+  // blue regular shell prompt
+  prompt: string = SH_PROMPT;
 
   // colors for responses
   red: string = "[31m";
   white: string = "[37m";
   black: string = "[30m";
 
-  matchFound: boolean; // helps to handle no match found response
-  counter: number = 0; // keeps track of step number count
-  userCommand: string; // used to display better error msg when no match is found
-
-  // arrays of data parsed from json files
-  commands: any = [];
-  instructionsArray: any = [];
+  // inspec shell depth
+  shell_depth = 0;
+  shell_command = ''
 
   constructor(private http: Http) { }
 
   ngOnInit() {
-    // load json files
-    this.getInstructions();
-    this.getCommands();
+    // load content
+    this.loadInstructions();
+    this.loadCommands();
   }
 
   ngAfterViewChecked() {
     window.scrollTo( 0, document.body.scrollHeight );
   }
 
-  // called when command entered is 'next' or 'prev'
-  // modifies value of counter and calls displayInstructions
-  updateInstructions(step) {
-    let totalSteps = this.instructionsArray.length - 1;
-    let msg = Math.random();
-    if (step === 'next') {
-      if (this.counter <= totalSteps) {
-        this.counter += 1;
-      }
-      this.response = this.black + 'next' + msg;
-    } else if (step === 'prev') {
-      if (this.counter > 0) {
-        this.counter -= 1;
-      }
-      this.response = this.black + 'prev' + msg;
-    } else if (step === 'last') {
-      this.counter = totalSteps;
-      this.response = this.black + 'last' + msg;
-    }
-
-    this.displayInstructions();
-  }
-
+  // determines all commands that are not part of the tutorial
   extraCmds() {
-    let cmds = this.commands
-    let extra = Object.keys(cmds).filter(function(key){
-      return cmds[key]['extra'] == true
+    let extra = this.commands.filter(function(item){
+      return item['extra'] == true
     });
-    return extra
-  }
-
-  // display instructions based on value of counter and
-  // format text to remove triple backticks. if the user has reached
-  // then end of the demo, display a message containing extra commands that have been
-  // enabled in the demo
-  displayInstructions() {
-    if (this.counter === this.instructionsArray.length) {
-      this.title = "the end; that's all folks!";
-      this.instructions = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds();
-    } else {
-      if (this.instructionsArray[this.counter][1]) {
-        this.title = this.instructionsArray[this.counter][0];
-        this.instructions = this.instructionsArray[this.counter][1];
-      } else {
-        this.instructions = 'Sorry, something seems to have gone wrong. Please try refreshing your browser.';
-      }
-    }
+    return extra.map(function(item){return item.command})
   }
 
   formatInstructions() {
-    return this.instructions || '';
+    return this.instruction || '';
   }
 
-  // called when a new value is emitted for command
-  // checks for a match, calls parseInspecShell if shell is inspec-shell
-  // and calls checkCommand if none of the first commands match
-  evalCommand(command) {
-    this.userCommand = command;
-    if (command.match(/^next\s*/)) {
-      this.updateInstructions('next');
+  // called when tutorial commands need to be displayed
+  updateInstructions(step = null) {
+    // if step is given, we calculate the new index
+    let totalSteps = this.instructionsArray.length - 1;
+    switch(step) {
+      case "next":
+        if (this.counter < totalSteps) {
+          this.counter += 1;
+        }
+        break;
+      case 'prev':
+        if (this.counter > 0) {
+          this.counter -= 1;
+        }
+        break;
+      case 'first':
+        this.counter = 1;
+        break
+      case 'last':
+        this.counter = totalSteps;
+        break
     }
-    else if (command.match(/^prev\s*/)) {
-      this.updateInstructions('prev');
-    }
-    else if (command.match(/^last\s*/)) {
-      this.updateInstructions('last');
-    }
-    else if (command.match(/^inspec\s*shell\s*$/)) {
-      this.shell = 'inspec-shell';
-      this.response = this.white + 'Welcome to the interactive InSpec Shell\r\nTo find out how to use it, type: help\r\nTo exit, type: exit\r\n';
-    }
-    else if (this.shell === 'inspec-shell') {
-      this.parseInspecShell(command);
-    }
-    else {
-      this.checkCommand(command);
-    }
-  }
 
-  // if the shell is inspec-shell, we want to exit the shell env on 'exit'
-  // format the command for checkCommand by using shellwords.escape and
-  // adding 'echo' and 'inspec shell' to match command from commands.json
-  parseInspecShell(command) {
-    if (command.match(/^exit\s*/))  {
-      this.shell = '';
-      this.response = '';
-    }
-    else if (command.match(/^pwd\s*/)) {
-      this.response = this.white + "anonymous-web-user/inspec-shell";
-    }
-    else {
-      let escaped_cmd;
-      let formatted_cmd;
-      // TODO: make this better
-      // I don't really like what we're doing here when we have a
-      // describe and control block, but I had a lot of trouble getting this
-      // to work because of the new lines carriage returns in the command from commands.json
-      // so at the moment we're splitting the command on "do" and assuming a match if that first
-      // result group matches (everything before do) :/
-      if (command.match(/^describe.*|^control/)) {
-        let split_cmd = command.split('do');
-        escaped_cmd = shellwords.escape(split_cmd[0]);
-        formatted_cmd = 'echo.*' + escaped_cmd ;
-      } else {
-        escaped_cmd = shellwords.escape(command)
-        formatted_cmd = 'echo.*' + escaped_cmd + '.*inspec.*shell';
-      }
-      let regex_compatible = formatted_cmd.replace(/\W+/g, '.*');
-      this.checkCommand(regex_compatible);
+    if (this.counter === this.instructionsArray.length - 1) {
+      this.title = "the end; that's all folks!";
+      this.instruction = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds();
+    } else if (this.instructionsArray[this.counter][1]) {
+      this.title = this.instructionsArray[this.counter][0];
+      this.instruction = this.instructionsArray[this.counter][1];
+    } else {
+      this.instruction = 'Sorry, something seems to have gone wrong. Please try refreshing your browser.';
     }
   }
 
-  // takes the command as input, replaces all white space with regex whitespace matcher
-  // and creates a new regex. check if the regex matches any of the keys in the commands
-  // if it matches, we set matchFound to true and call displayResult. if it doesn't match,
+  // takes the command as input. checks if the regex matches any of the keys in the commands
+  // if it matches, we set matchFound to true and call printOnStdout. if it doesn't match,
   // we display a default error message
-  checkCommand(command) {
+  execCommand(command, shell) {
+    let response = ''
     let dir = 'app/responses/';
     let cmd = command.replace(/ /g,'\\s*')
     let regexcmd = new RegExp(('^'+cmd+'$'), 'm')
-    this.matchFound = false;
-
+    var matchFound = false;
     // iterate over commands and try to match the command with the input
-    let cmds = Object.keys(this.commands)
-    for (var i = 0; i < cmds.length; i++) {
-      let cmd = cmds[i];
-      if (cmd.match(regexcmd)) {
-        this.matchFound = true;
-        let key = this.commands[cmd]['key'];
-        this.http.get(dir + key).subscribe(data => {
-          this.displayResult(command, data);
+    for (var i = 0; i < this.commands.length; i++) {
+      let item = this.commands[i]
+      if (item.regex.exec(command) && item.shell == shell) {
+        matchFound = true;
+        this.http.get(dir + item.key).subscribe(data => {
+          this.printOnStdout(data['_body'])
         },
         err => console.error(err));
       }
@@ -186,46 +128,119 @@ export class AppComponent implements OnInit {
     // if no match is found, we check if the command entered was inspec exec something
     // and if it is respond appropriately ('could not fetch inspec profile in ''), otherwise
     // respond with 'invalid command' and the command entered
-    if (this.matchFound === false) {
-      let msg = Math.random();
+    if (matchFound === false) {
+      console.log('no match found')
       if (command.match(/^inspec exec\s*.*/)) {
         let target = command.match(/^inspec exec\s*(.*)/)
-        this.response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black + msg;
+        response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black;
       } else {
-        this.response = this.red + 'invalid command: ' + this.userCommand + this.black + msg;
+        response = this.red + 'command not found: ' + command;
       }
+      this.printOnStdout(response + "\n\r")
     }
   }
 
-  // if the command if inspec shell, we also need to set the shell variable to
-  // inspec shell. print response value and random msg (to ensure recognition of value change by xterm
-  // terminal component)
-  displayResult(command, data) {
-    if (command.match(/^inspec\s*shell\s*$/)) {
-      this.shell = 'inspec-shell';
+  // handles a stdin command and prints on terminal stdout
+  evalCommand(command) {
+    let self = this
+    // tutorial commands
+    var m = /^\s*(next|prev|first|last)\s*$/.exec(command)
+    let multiline = /\s*(describe|control|end)\s*/.exec(command)
+    if (m) {
+      // update the instructions widget
+      // we are not calling this from the ng event loop, therefore we need to
+      // trigger angular to update the tutorial section
+      setTimeout(function(){
+        self.updateInstructions(m[1]);
+      }, 0);
+      // send an empty response to get the command prompt back
+      this.printOnStdout('')
     }
-    let msg = Math.random();
-    this.response = this.white + data['_body'] + this.black + msg;
+    // switch to InSpec shell commands
+    // TODO, support targets for InSpec shell
+    else if (/^\s*inspec\s*shell\s*$/.exec(command)) {
+      // switch to InSpec shell
+      this.shellMode = 'inspec'
+      // switch prompt
+      this.prompt = INSPEC_PROMPT;
+      // output inspec hello text
+      let init = "Welcome to the interactive InSpec Shell\n\rTo find out how to use it, type: [1mhelp[0m\n\r"
+      this.printOnStdout(init);
+    }
+    // leave InSpec shell
+    else if (/^\s*exit\s*$/.exec(command) && this.shellMode == 'inspec') {
+      this.shellMode = 'sh'
+      // switch prompt
+      this.prompt = SH_PROMPT;
+      this.printOnStdout("\n\r");
+    }
+    else if (this.shellMode == 'inspec' && multiline) {
+      // count control + describe
+      let mstart = command.match(/describe|control/g)
+      if (mstart) {
+        this.shell_depth += mstart.length
+      }
+      // end
+      let mend = command.match(/end/g)
+      if (mend) {
+        this.shell_depth -= mend.length
+      }
+
+      this.shell_command += command + "\n"
+
+      if (mend && this.shell_depth == 0) {
+        command = this.shell_command
+        this.shell_depth = 0
+        this.shell_command = ''
+        this.execCommand(command, this.shellMode);
+      }
+    }
+    // default sh commands
+    else if ((this.shell_depth == 0) || this.shellMode == 'sh') {
+      this.execCommand(command, this.shellMode);
+    }
+    // store command in cache, must be an inspec shell command
+    else {
+      this.shell_command += command + "\n"
+    }
+  }
+
+  // submit stdout data to terminal
+  printOnStdout(data){
+    this.stdout.emit(data)
+    this.stdout.emit(this.prompt)
   }
 
   // load json file for instructions and save to instructionsArray
-  // call displayInstructions to load first set of instructions
-  getInstructions() {
+  // call updateInstructions to load first set of instructions
+  loadInstructions() {
+    let self = this
     this.http.get('app/responses/instructions.json')
       .subscribe(data => {
-        this.instructionsArray = JSON.parse(data['_body']);
-        this.displayInstructions();
+        self.instructionsArray = JSON.parse(data['_body']);
+        self.updateInstructions();
       },
       err => console.error(err)
     );
   }
 
   // load json file for commands and push each object to commands
-  getCommands() {
+  loadCommands() {
+    let self = this;
     this.http.get('app/responses/commands.json')
       .subscribe(data => {
-        let result = JSON.parse(data['_body']);
-        this.commands = result
+        let commands = JSON.parse(data['_body']);
+        // generate regular expression for each entry
+        for (var i = 0; i < commands.length; i++) {
+          // preps a string for use in regular expressions
+          // @see http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+          let cmd = commands[i].command.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+          cmd = cmd.replace(/ /g,"\\s*")
+          cmd = cmd.replace(/\n/g,"\\s*")
+          let pattern = '^\\s*'+cmd+'\\s*$'
+          commands[i].regex = new RegExp(pattern, 'im')
+        }
+        this.commands = commands
       },
       err => console.error(err)
     );

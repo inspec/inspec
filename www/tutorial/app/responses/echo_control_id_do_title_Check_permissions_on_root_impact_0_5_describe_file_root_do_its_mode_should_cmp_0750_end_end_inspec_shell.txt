@@ -1,14 +1,4 @@
-[0;32minspec> [0mcontrol "id" do
-[0;32minspec> [0m    title "Check permissions on /root!"
-[0;32minspec> [0m    impact 0.5
-[0;32minspec> [0m    describe file('/root') do
-[0;32minspec> [0m        its('mode') { should cmp '0750'}
-[0;32minspec> [0m      end
-[0;32minspec> [0m  end
-Welcome to the interactive InSpec Shell
-To find out how to use it, type: [1mhelp[0m
-
-[0G[0;32minspec> [0m[31m  ✖  id: File /root mode should cmp "0750" (
+[0G[0;32minspec> [0m[31m  ✖  id: Check permissions on /root! (
      expected: "0750"
           got: 0700
      
@@ -16,4 +6,9 @@ To find out how to use it, type: [1mhelp[0m
      )[0m
 
 
-Summary: [32m0 successful[0m, [31m1 failures[0m, [37m0 skipped[0m
+
+Profile: inspec-shell
+Version: unknown
+
+
+Profile Summary: [32m0 successful[0m, [31m1 failures[0m, [37m0 skipped[0m
