@@ -46,6 +46,7 @@ group :tools do
   gem 'rb-readline'
   gem 'license_finder'
   gem 'github_changelog_generator', '~> 1'
+  gem 'ruby-progressbar', '~> 1.8'
 end
 
 # gems for Maintainers.md generation
