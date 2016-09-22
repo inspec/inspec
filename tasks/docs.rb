@@ -106,7 +106,7 @@ end
 namespace :docs do
   desc 'Create cli docs'
   task :cli do
-    f = RST
+    f = Markdown
     res = f.meta(title: 'About the InSpec CLI')
     res << f.h1('InSpec CLI')
     res << f.p('Use the InSpec CLI to run tests and audits against targets '\
@@ -149,4 +149,18 @@ namespace :docs do
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
+end
+
+def run_tasks_in_namespace(ns)
+  Rake.application.in_namespace(ns) do |x|
+    x.tasks.each do |task|
+      puts "----> #{task}"
+      task.invoke
+    end
+  end
+end
+
+desc 'Create all docs in docs/ from source code'
+task :docs do
+  run_tasks_in_namespace :docs
 end
