@@ -1,5 +1,5 @@
-.icon-blocks {
-  @media (min-width: 640px) and (max-width: 1023px) {
+.index .icon-blocks {
+  @media (max-width: 1023px) {
     .columns:nth-child(odd) {
       clear: left;
     }

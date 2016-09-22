@@ -20,4 +20,10 @@
 .tutorials--link {
   text-transform: uppercase;
   font-family: $heading-font;
+
+  & > span {
+    text-transform: none;
+    font-family: $main-font;
+    color: $body-text;
+  }
 }
