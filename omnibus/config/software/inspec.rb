@@ -44,5 +44,5 @@ build do
   gem "build #{name}.gemspec", env: env
   gem "install #{name}-*.gem --no-document", env: env
 
-  appbundle 'inspec'
+  appbundle 'inspec', env: env
 end
