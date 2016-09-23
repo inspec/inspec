@@ -8,6 +8,7 @@ html
     title = current_page.data.title || "InSpec"
 
     link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'
+    link rel='stylesheet' type='text/css' href='css/inspec_tutorial.css'
 
     == stylesheet_link_tag :site
 
@@ -20,6 +21,19 @@ html
 
     = partial "layouts/footer"
 
+    script src='scripts/inspec_tutorial.js'
+    script src='dist/inspec_tutorial.js'
+    div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
+      = "Loading"
+
     == javascript_include_tag "all"
     javascript:
       $(document).foundation();
+      $('.try-demo').click(function(event){
+        event.stopPropagation();
+        $('.inspec-tutorial').show()
+        $('.quit-inspec-tutorial').click(function(event){
+          event.stopPropagation();
+          $('.inspec-tutorial').hide()
+        })
+      });
