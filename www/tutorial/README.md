@@ -12,6 +12,13 @@ learn a thing or two, tell us what you'd like to know more about, and have fun e
 run `npm install` to load dependencies
 run `npm run start` to open in your browser @ localhost:8080
 
+## How to build it
+
+```
+npm install
+gulp build
+```
+
 ## How does it work???
 
 Well, let me tell you a story of a file named `tutorial.yml`, who lives in a directory named `content`. This kind, informational file was full of content, and oh so desired to spread its knowledge. But it knew not how to do so, for it was a simple yml file.
