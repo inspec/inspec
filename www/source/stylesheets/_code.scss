@@ -1,0 +1,18 @@
+pre {
+  padding: 10px;
+  margin-bottom: 1em;
+  background: rgba($inspec-blue, 0.15);
+  border: 1px solid rgba($inspec-blue, 0.3);
+  color: darken($inspec-blue, 25%);
+
+  & > code {
+    background: transparent;
+    border: none;
+  }
+}
+
+code {
+  background: rgba($inspec-blue, 0.15);
+  border: 1px solid transparent;
+  color: darken($inspec-blue, 25%);
+}
