@@ -16,10 +16,19 @@
 #
 
 require 'inquirer'
+require_relative 'shared.rb'
 
 namespace :www do
   desc 'Builds the site locally'
   task :build do
+    Log.section 'Build the online tutorial in www/tutorial/'
+    system([
+      'cd www/tutorial/',
+      'npm install',
+      'gulp build',
+    ].join(' && '))
+
+    Log.section 'Build middleman project in www/'
     Bundler.with_clean_env {
       system('cd www/ && bundle install && bundle exec middleman build')
     }
@@ -50,7 +59,7 @@ namespace :www do
     file_count = Dir['www/build/*'].length
     file_size = `du -hs www/build`.sub(/\s+.*$/m, '')
 
-    puts '----> Remove local gh-pages branch'
+    Log.info 'Remove local gh-pages branch'
     system('git branch -D gh-pages')
 
     current_branch = `git rev-parse --abbrev-ref HEAD`.strip
@@ -58,27 +67,27 @@ namespace :www do
       fail 'Cannot determine current branch to go back to! Aborting.'
     end
 
-    puts '----> Create empty gh-pages branch'
+    Log.info 'Create empty gh-pages branch'
     system('git checkout --orphan gh-pages')
 
-    puts '----> Clear out all local git files!'
+    Log.info 'Clear out all local git files!'
     system('git rm -rf .')
 
-    puts "----> Add the built files in #{dst}"
+    Log.info "Add the built files in #{dst}"
     system("git add #{dst}")
 
-    puts '----> Remove all other files in this empty branch'
+    Log.info 'Remove all other files in this empty branch'
     system('git clean -df')
 
-    puts '----> Move the site to the root directory'
+    Log.info 'Move the site to the root directory'
     system("git mv #{File.join(dst, '*')} .")
 
-    puts '----> Commit to gh-pages'
+    Log.info 'Commit to gh-pages'
     system("git commit -m 'website update'")
 
     if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
                    'Do you want to push this live?', default: false)
-      puts '----> push to origin, this may take a moment'
+      Log.info 'push to origin, this may take a moment'
       system('git push -u origin --force-with-lease gh-pages')
     else
       puts 'Aborted.'

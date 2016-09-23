@@ -19,11 +19,13 @@ gulp.task('webpack', function() {
 gulp.task('copy', function(){
   gulp.src([
       '*.png',
-      'app/**/*.css',
-      'app/**/*.html',
+      'app/**/*.{css,html,json}',
       'tutorial_files/**',
     ])
     .pipe(gcopy('dist/'));
+  gulp.src(
+    'assets/font-awesome/{css,font}/*')
+    .pipe(gcopy('dist/', { prefix: 2 }));
 })
 
 gulp.task('build', ['webpack', 'copy'], function(){
