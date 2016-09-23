@@ -9,7 +9,7 @@ const SH_PROMPT = '[36m$[0m ';
 const INSPEC_PROMPT = '[0;32minspec> [0m';
 
 @Component({
-  selector: 'my-app',
+  selector: '[inspec-tutorial]',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css'],
   providers: [ HTTP_PROVIDERS ],

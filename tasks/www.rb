@@ -19,20 +19,32 @@ require 'inquirer'
 require_relative 'shared.rb'
 
 namespace :www do
-  desc 'Builds the site locally'
-  task :build do
+  desc 'Builds the tutorial contents'
+  task :tutorial do
     Log.section 'Build the online tutorial in www/tutorial/'
     system([
       'cd www/tutorial/',
       'npm install',
       'gulp build',
     ].join(' && '))
+  end
 
+  desc 'Builds the middleman site'
+  task :site do
     Log.section 'Build middleman project in www/'
     Bundler.with_clean_env {
       system('cd www/ && bundle install && bundle exec middleman build')
     }
   end
+
+  desc 'Assemble the website site from middleman and the tutorial'
+  task :assemble do
+    Log.section 'Copy only tutorial into middleman build directory'
+    system('rsync -a --exclude=index.html www/tutorial/dist/* www/build/')
+  end
+
+  desc 'Builds the full site locally'
+  task build: ['www:tutorial', 'www:site', 'www:assemble']
 
   desc 'Releases the site to gh-pages'
   task :release do
