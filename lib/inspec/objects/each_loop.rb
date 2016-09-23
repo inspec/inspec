@@ -2,10 +2,11 @@
 
 module Inspec
   class EachLoop < List
-    attr_reader :tests
+    attr_reader :tests, :variables
     def initialize
       super
       @tests = []
+      @variables = []
     end
 
     def add_test(t = nil)
@@ -24,9 +25,11 @@ module Inspec
     end
 
     def to_ruby
+      vars = variables.map(&:to_ruby).join("\n")
+      vars += "\n" unless vars.empty?
       obj = super
       all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
-      format("%s.each do |entry|\n  %s\nend", obj, all_tests)
+      format("%s%s.each do |entry|\n  %s\nend", vars, obj, all_tests)
     end
   end
 end
