@@ -6,7 +6,7 @@ describe Inspec::Lockfile do
     let(:lockfile_content) {
       <<EOF
 ---
-lockfile_version: 0
+lockfile_version: 1
 depends:
 - name: foo
   resolved_source:
@@ -23,7 +23,7 @@ EOF
     let(:lockfile_content) {
       <<EOF
 ---
-lockfile_version: 0
+lockfile_version: 1
 depends:
 - name: foo
   resolved_source:
@@ -39,7 +39,7 @@ EOF
   end
 
   let(:lockfile_hash) {
-    { 'lockfile_version' => 0,
+    { 'lockfile_version' => 1,
       'depends' => [
         { 'name' => "foo", 'resolved_source' => {'url' => "http://foo"}, 'version_constraints' => ">= 0",
           'dependencies' => [{ 'name' => 'bar', 'resolved_source' => {'url' => 'http://bar' }, 'version_constraints' => ">= 0"}]
@@ -47,7 +47,7 @@ EOF
   }
 
   let(:lockfile_hash_with_symbols) {
-    { 'lockfile_version' => 0,
+    { 'lockfile_version' => 1,
       'depends' => [
         { name: "foo", resolved_source: {url: "http://foo"}, version_constraints: ">= 0",
           dependencies: [{ name: 'bar', resolved_source: {url: 'http://bar' }, version_constraints: ">= 0"}]

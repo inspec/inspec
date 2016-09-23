@@ -4,8 +4,8 @@ require 'yaml'
 module Inspec
   class Lockfile
     # When we finalize this feature, we should set these to 1
-    MINIMUM_SUPPORTED_VERSION = 0
-    CURRENT_LOCKFILE_VERSION = 0
+    MINIMUM_SUPPORTED_VERSION = 1
+    CURRENT_LOCKFILE_VERSION = 1
 
     def self.from_dependency_set(dep_set)
       lockfile_content = {
@@ -32,14 +32,6 @@ lower than the minimum supported version #{MINIMUM_SUPPORTED_VERSION}.
 Please create a new lockfile for this project by running:
 
     inspec vendor
-EOF
-      elsif version == 0
-        # Remove this case once this feature stablizes
-        $stderr.puts <<EOF
-WARNING: This is a version 0 lockfile. Thank you for trying the
-experimental dependency management feature. Please be aware you may
-need to regenerate this lockfile in future versions as the feature is
-currently in development.
 EOF
       elsif version > CURRENT_LOCKFILE_VERSION
         fail <<EOF
@@ -78,8 +70,8 @@ EOF
     # different entry points of the API.
     def parse_content_hash(lockfile_content_hash)
       case version
-      when 0
-        parse_content_hash_0(lockfile_content_hash)
+      when 1
+        parse_content_hash_1(lockfile_content_hash)
       else
         # If we've gotten here, there is likely a mistake in the
         # lockfile version validation in the constructor.
@@ -87,7 +79,7 @@ EOF
       end
     end
 
-    def parse_content_hash_0(lockfile_content_hash)
+    def parse_content_hash_1(lockfile_content_hash)
       @deps = if lockfile_content_hash['depends']
                 lockfile_content_hash['depends'].map { |i| symbolize_keys(i) }
               end
