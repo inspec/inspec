@@ -11,8 +11,8 @@ source 'https://rubygems.org'
 # gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # Use entries from chef's Gemfile
-gem 'omnibus', github: 'chef/omnibus'
-gem 'omnibus-software', github: 'chef/omnibus-software'
+gem 'omnibus', github: 'chef/omnibus', branch: 'sersut/ff-ksubrama/gcc_investigate'
+gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'shain/ruby_windows_monster'
 gem 'license_scout', github: 'chef/license_scout'
 
 # This development group is installed by default when you run `bundle install`,
