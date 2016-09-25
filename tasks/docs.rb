@@ -194,22 +194,21 @@ namespace :docs do
   end
 
   desc 'Create resources docs'
-  task :resources do
+  task :resources, [:clean] do
     src = 'docs'
-    dst = 'www/source/docs/resources'
+    dst = 'www/source/docs/reference/resources'
+    FileUtils.mkdir_p(dst)
+
     docs = ResourceDocs.new(src)
     resources = Dir[File.join(src, 'resources/*.md.erb')]
                 .map { |x| x.sub(/^#{src}/, '') }
     puts "Found #{src.length} resource docs"
-    puts "Clean up #{dst}"
-    FileUtils.rm_rf(dst) if File.exist?(dst)
-    FileUtils.mkdir_p(dst)
     puts "Rendering docs to #{dst}/"
 
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
     resources.each do |file|
-      progressbar.log('    '+file)
-      dst_name = File.basename(file).sub(/\.erb$/, '')
+      progressbar.log('          '+file)
+      dst_name = File.basename(file).sub(/\.md\.erb$/, '.html.md')
       res = docs.render(file)
       File.write(File.join(dst, dst_name), res)
       progressbar.increment
@@ -223,13 +222,36 @@ namespace :docs do
     list = ''
     resources.each do |file|
       name = File.basename(file).sub(/\.md\.erb$/, '')
-      list << f.li(f.a(name, name + '.html'))
+      list << f.li(f.a(name, 'resources/' + name + '.html'))
     end
     res << f.ul(list)
     dst = File.join(src, 'resources.md')
     puts "Create #{dst}"
     File.write(dst, res)
+  end
 
+  desc 'Clean all rendered docs from www/'
+  task :clean do
+    dst = 'www/source/docs/reference'
+    puts "Clean up #{dst}"
+    FileUtils.rm_rf(dst) if File.exist?(dst)
+    FileUtils.mkdir_p(dst)
+  end
+
+  desc 'Copy fixed doc files'
+  task copy: [:clean, :resources] do
+    src = 'docs'
+    dst = 'www/source/docs/reference'
+    files = Dir[File.join(src, '*.md')]
+
+    progressbar = ProgressBar.create(total: files.length, title: 'Copying')
+    files.each do |path|
+      name = File.basename(path).sub(/\.md$/, '.html.md')
+      progressbar.log('          '+File.join(dst, name))
+      FileUtils.cp(path, File.join(dst, name))
+      progressbar.increment
+    end
+    progressbar.finish
   end
 end
 
