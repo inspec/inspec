@@ -1,7 +1,46 @@
 # Change Log
 
-## [1.0.0.beta2](https://github.com/chef/inspec/tree/1.0.0.beta2) (2016-09-22)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.pre.beta1...1.0.0.beta2)
+## [1.0.0.beta3](https://github.com/chef/inspec/tree/1.0.0.beta3) (2016-09-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta2...1.0.0.beta3)
+
+**Implemented enhancements:**
+
+- Improve lockfile handling [\#1070](https://github.com/chef/inspec/issues/1070)
+- Show skip\_message and correct title [\#1109](https://github.com/chef/inspec/pull/1109) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- InSpec CLI output not showing skip message when control title is defined [\#1097](https://github.com/chef/inspec/issues/1097)
+- bugfix: there is one more button to start the online demo [\#1140](https://github.com/chef/inspec/pull/1140) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- add docs to inspec.io [\#1119](https://github.com/chef/inspec/issues/1119)
+- Cache key for dependencies needs to be based on content hash for urls [\#1066](https://github.com/chef/inspec/issues/1066)
+
+**Merged pull requests:**
+
+- Enable builds on both Windows and \*nix [\#1145](https://github.com/chef/inspec/pull/1145) ([scotthain](https://github.com/scotthain))
+- Website: Minor edits in preparation for launch [\#1144](https://github.com/chef/inspec/pull/1144) ([magwalk](https://github.com/magwalk))
+- Truncate long filename. Temporary fix [\#1143](https://github.com/chef/inspec/pull/1143) ([stevendanna](https://github.com/stevendanna))
+- add variables to each loops [\#1142](https://github.com/chef/inspec/pull/1142) ([chris-rock](https://github.com/chris-rock))
+- embed tutorial in website [\#1139](https://github.com/chef/inspec/pull/1139) ([arlimus](https://github.com/arlimus))
+- scope all tutorial assets [\#1138](https://github.com/chef/inspec/pull/1138) ([arlimus](https://github.com/arlimus))
+- add build task for online tutorial with all assets [\#1137](https://github.com/chef/inspec/pull/1137) ([arlimus](https://github.com/arlimus))
+- implement filter table for group/groups resource [\#1135](https://github.com/chef/inspec/pull/1135) ([chris-rock](https://github.com/chris-rock))
+- fix minor typos in user resource [\#1134](https://github.com/chef/inspec/pull/1134) ([chris-rock](https://github.com/chris-rock))
+- Website Copy Edits [\#1133](https://github.com/chef/inspec/pull/1133) ([magwalk](https://github.com/magwalk))
+- add build tasks for www [\#1132](https://github.com/chef/inspec/pull/1132) ([arlimus](https://github.com/arlimus))
+- add resources.md doc generation [\#1130](https://github.com/chef/inspec/pull/1130) ([arlimus](https://github.com/arlimus))
+- add all resources to docs [\#1129](https://github.com/chef/inspec/pull/1129) ([arlimus](https://github.com/arlimus))
+- reorder and fix sidebar contents for docs [\#1128](https://github.com/chef/inspec/pull/1128) ([arlimus](https://github.com/arlimus))
+- add ruby usage in inspec as markdown [\#1127](https://github.com/chef/inspec/pull/1127) ([arlimus](https://github.com/arlimus))
+- Add markdown docs [\#1125](https://github.com/chef/inspec/pull/1125) ([arlimus](https://github.com/arlimus))
+- Avoid spurious downloads during dependency management [\#1124](https://github.com/chef/inspec/pull/1124) ([stevendanna](https://github.com/stevendanna))
+- Website Design Fixes [\#1123](https://github.com/chef/inspec/pull/1123) ([magwalk](https://github.com/magwalk))
+
+## [v1.0.0.beta2](https://github.com/chef/inspec/tree/v1.0.0.beta2) (2016-09-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.pre.beta1...v1.0.0.beta2)
 
 **Implemented enhancements:**
 
