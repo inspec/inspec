@@ -30,7 +30,3 @@ sidebar_links:
     link: "/docs/reference/shell.html"
   - title: Ruby usage
     link: "/docs/reference/ruby_usage.html"
-- title: Contribute
-  links:
-  - title: Help build InSpec
-    link: "/community"
