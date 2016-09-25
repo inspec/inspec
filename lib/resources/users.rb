@@ -547,21 +547,12 @@ module Inspec::Resources
     end
   end
 
-  # For now, we stick with WMI Win32_UserAccount
+  # This optimization was inspired by
+  # @see https://mcpmag.com/articles/2015/04/15/reporting-on-local-accounts.aspx
+  # Alternative solutions are WMI Win32_UserAccount
   # @see https://msdn.microsoft.com/en-us/library/aa394507(v=vs.85).aspx
   # @see https://msdn.microsoft.com/en-us/library/aa394153(v=vs.85).aspx
-  #
-  # using Get-AdUser would be the best command for domain machines, but it will not be installed
-  # on client machines by default
-  # @see https://technet.microsoft.com/en-us/library/ee617241.aspx
-  # @see https://technet.microsoft.com/en-us/library/hh509016(v=WS.10).aspx
-  # @see http://woshub.com/get-aduser-getting-active-directory-users-data-via-powershell/
-  # @see http://stackoverflow.com/questions/17548523/the-term-get-aduser-is-not-recognized-as-the-name-of-a-cmdlet
-  #
-  # Just for reference, we could also use ADSI (Active Directory Service Interfaces)
-  # @see https://mcpmag.com/articles/2015/04/15/reporting-on-local-accounts.aspx
   class WindowsUser < UserInfo
-    # parse windows account name
     def parse_windows_account(username)
       account = username.split('\\')
       name = account.pop
@@ -570,67 +561,92 @@ module Inspec::Resources
     end
 
     def identity(username)
-      # extract domain/user information
-      account, domain = parse_windows_account(username)
+      # TODO: we look for local users only at this point
+      name, _domain = parse_windows_account(username)
+      return if collect_user_details.nil?
+      res = collect_user_details.select { |user| user[:username] == name }
+      res[0] if res.length > 0
+    end
 
-      # TODO: escape content
-      if !domain.nil?
-        filter = "Name = '#{account}' and Domain = '#{domain}'"
-      else
-        filter = "Name = '#{account}' and LocalAccount = true"
-      end
+    def list_users
+      collect_user_details.map { |user| user[:username] }
+    end
 
+    # https://msdn.microsoft.com/en-us/library/aa746340(v=vs.85).aspx
+    def collect_user_details # rubocop:disable Metrics/MethodLength
+      return @users_cache if defined?(@users_cache)
       script = <<-EOH
-        # find user
-        $user = Get-WmiObject Win32_UserAccount -filter "#{filter}"
-        # get related groups
-        $groups = $user.GetRelated('Win32_Group') | Select-Object -Property Caption, Domain, Name, LocalAccount, SID, SIDType, Status
-        # filter user information
-        $user = $user | Select-Object -Property Caption, Description, Domain, Name, LocalAccount, Lockout, PasswordChangeable, PasswordExpires, PasswordRequired, SID, SIDType, Status, Disabled
-        # build response object
-        New-Object -Type PSObject | `
-        Add-Member -MemberType NoteProperty -Name User -Value ($user) -PassThru | `
-        Add-Member -MemberType NoteProperty -Name Groups -Value ($groups) -PassThru | `
-        ConvertTo-Json
+Function  ConvertTo-SID { Param([byte[]]$BinarySID)
+  (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
+}
+
+Function  Convert-UserFlag { Param  ($UserFlag)
+  $List  = @()
+  Switch  ($UserFlag) {
+    ($UserFlag  -BOR 0x0001)  { $List += 'SCRIPT' }
+    ($UserFlag  -BOR 0x0002)  { $List += 'ACCOUNTDISABLE' }
+    ($UserFlag  -BOR 0x0008)  { $List += 'HOMEDIR_REQUIRED' }
+    ($UserFlag  -BOR 0x0010)  { $List += 'LOCKOUT' }
+    ($UserFlag  -BOR 0x0020)  { $List += 'PASSWD_NOTREQD' }
+    ($UserFlag  -BOR 0x0040)  { $List += 'PASSWD_CANT_CHANGE' }
+    ($UserFlag  -BOR 0x0080)  { $List += 'ENCRYPTED_TEXT_PWD_ALLOWED' }
+    ($UserFlag  -BOR 0x0100)  { $List += 'TEMP_DUPLICATE_ACCOUNT' }
+    ($UserFlag  -BOR 0x0200)  { $List += 'NORMAL_ACCOUNT' }
+    ($UserFlag  -BOR 0x0800)  { $List += 'INTERDOMAIN_TRUST_ACCOUNT' }
+    ($UserFlag  -BOR 0x1000)  { $List += 'WORKSTATION_TRUST_ACCOUNT' }
+    ($UserFlag  -BOR 0x2000)  { $List += 'SERVER_TRUST_ACCOUNT' }
+    ($UserFlag  -BOR 0x10000)  { $List += 'DONT_EXPIRE_PASSWORD' }
+    ($UserFlag  -BOR 0x20000)  { $List += 'MNS_LOGON_ACCOUNT' }
+    ($UserFlag  -BOR 0x40000)  { $List += 'SMARTCARD_REQUIRED' }
+    ($UserFlag  -BOR 0x80000)  { $List += 'TRUSTED_FOR_DELEGATION' }
+    ($UserFlag  -BOR 0x100000)  { $List += 'NOT_DELEGATED' }
+    ($UserFlag  -BOR 0x200000)  { $List += 'USE_DES_KEY_ONLY' }
+    ($UserFlag  -BOR 0x400000)  { $List += 'DONT_REQ_PREAUTH' }
+    ($UserFlag  -BOR 0x800000)  { $List += 'PASSWORD_EXPIRED' }
+    ($UserFlag  -BOR 0x1000000)  { $List += 'TRUSTED_TO_AUTH_FOR_DELEGATION' }
+    ($UserFlag  -BOR 0x04000000)  { $List += 'PARTIAL_SECRETS_ACCOUNT' }
+  }
+  $List
+}
+
+$Computername =  $Env:Computername
+$adsi  = [ADSI]"WinNT://$Computername"
+$adsi.Children | where {$_.SchemaClassName -eq  'user'} |  ForEach {
+  New-Object PSObject -property @{
+    uid = ConvertTo-SID -BinarySID $_.ObjectSID[0]
+    username = $_.Name[0]
+    description = $_.Description[0]
+    disabled = $_.AccountDisabled[0]
+    userflags = Convert-UserFlag  -UserFlag $_.UserFlags[0]
+    passwordage = [math]::Round($_.PasswordAge[0]/86400)
+    minpasswordlength = $_.MinPasswordLength[0]
+    mindays = [math]::Round($_.MinPasswordAge[0]/86400)
+    maxdays = [math]::Round($_.MaxPasswordAge[0]/86400)
+    warndays = $null
+    badpasswordattempts = $_.BadPasswordAttempts[0]
+    maxbadpasswords = $_.MaxBadPasswordsAllowed[0]
+    gid = $null
+    group = $null
+    groups = $null
+    home = $_.HomeDirectory[0]
+    shell = $null
+    domain = $Computername
+  }
+} | ConvertTo-Json
       EOH
-
       cmd = inspec.powershell(script)
-
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0, try to parse json
       begin
-        params = JSON.parse(cmd.stdout)
+        users = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => _e
         return nil
       end
 
-      user_hash = params['User'] || {}
-      group_hashes = params['Groups'] || []
-      # if groups is no array, generate one
-      group_hashes = [group_hashes] unless group_hashes.is_a?(Array)
-      group_names = group_hashes.map { |grp| grp['Caption'] }
-      {
-        uid: user_hash['SID'],
-        username: user_hash['Caption'],
-        gid: nil,
-        group: nil,
-        groups: group_names,
-        disabled: user_hash['Disabled'],
-      }
-    end
-
-    # not implemented yet
-    def meta_info(_username)
-      {
-        home: nil,
-        shell: nil,
-      }
-    end
-
-    def list_users
-      script = 'Get-WmiObject Win32_UserAccount | Select-Object -ExpandProperty Caption'
-      cmd = inspec.powershell(script)
-      cmd.stdout.chomp.lines
+      # ensure we have an array of groups
+      users = [users] if !users.is_a?(Array)
+      # convert keys to symbols
+      @users_cache = users.map { |user| user.each_with_object({}) { |(k, v), h| h[k.to_sym] = v } }
     end
   end
 end

@@ -1,0 +1,53 @@
+[
+    {
+        "warndays":  null,
+        "mindays":  0,
+        "minpasswordlength":  0,
+        "badpasswordattempts":  0,
+        "description":  "Built-in account for administering the computer/domain",
+        "username":  "Administrator",
+        "disabled":  false,
+        "passwordage":  355,
+        "maxbadpasswords":  0,
+        "home":  "",
+        "uid":  "S-1-5-21-1759981009-4135989804-1844563890-500",
+        "domain":  "WIN-CIV7VMLVHLD",
+        "group":  null,
+        "userflags":  [
+                          "SCRIPT",
+                          "NORMAL_ACCOUNT",
+                          "PASSWORD_EXPIRED"
+                      ],
+        "groups":  null,
+        "gid":  null,
+        "maxdays":  42,
+        "shell":  null
+    },
+    {
+        "warndays":  null,
+        "mindays":  0,
+        "minpasswordlength":  0,
+        "badpasswordattempts":  0,
+        "description":  "Built-in account for guest access to the computer/domain",
+        "username":  "Guest",
+        "disabled":  true,
+        "passwordage":  0,
+        "maxbadpasswords":  0,
+        "home":  "",
+        "uid":  "S-1-5-21-1759981009-4135989804-1844563890-501",
+        "domain":  "WIN-CIV7VMLVHLD",
+        "group":  null,
+        "userflags":  [
+                          "SCRIPT",
+                          "ACCOUNTDISABLE",
+                          "PASSWD_NOTREQD",
+                          "PASSWD_CANT_CHANGE",
+                          "NORMAL_ACCOUNT",
+                          "DONT_EXPIRE_PASSWORD"
+                      ],
+        "groups":  null,
+        "gid":  null,
+        "maxdays":  42,
+        "shell":  null
+    }
+]
