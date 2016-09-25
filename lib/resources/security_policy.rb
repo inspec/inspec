@@ -16,6 +16,57 @@
 require 'hashie'
 
 module Inspec::Resources
+  # known and supported MS privilege rights
+  # @see https://technet.microsoft.com/en-us/library/dd277311.aspx
+  # @see https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716(v=vs.85).aspx
+  MS_PRIVILEGES_RIGHTS = [
+    'SeNetworkLogonRight',
+    'SeBackupPrivilege',
+    'SeChangeNotifyPrivilege',
+    'SeSystemtimePrivilege',
+    'SeCreatePagefilePrivilege',
+    'SeDebugPrivilege',
+    'SeRemoteShutdownPrivilege',
+    'SeAuditPrivilege',
+    'SeIncreaseQuotaPrivilege',
+    'SeIncreaseBasePriorityPrivilege',
+    'SeLoadDriverPrivilege',
+    'SeBatchLogonRight',
+    'SeServiceLogonRight',
+    'SeInteractiveLogonRight',
+    'SeSecurityPrivilege',
+    'SeSystemEnvironmentPrivilege',
+    'SeProfileSingleProcessPrivilege',
+    'SeSystemProfilePrivilege',
+    'SeAssignPrimaryTokenPrivilege',
+    'SeRestorePrivilege',
+    'SeShutdownPrivilege',
+    'SeTakeOwnershipPrivilege',
+    'SeUndockPrivilege',
+    'SeManageVolumePrivilege',
+    'SeRemoteInteractiveLogonRight',
+    'SeImpersonatePrivilege',
+    'SeCreateGlobalPrivilege',
+    'SeIncreaseWorking',
+    'SeTimeZonePrivilege',
+    'SeCreateSymbolicLinkPrivilege',
+    'SeDenyNetworkLogonRight', # Deny access to this computer from the network
+    'SeDenyInteractiveLogonRight', # Deny logon locally
+    'SeDenyBatchLogonRight', # Deny logon as a batch job
+    'SeDenyServiceLogonRight', # Deny logon as a service
+    'SeTcbPrivilege',
+    'SeMachineAccountPrivilege',
+    'SeCreateTokenPrivilege',
+    'SeCreatePermanentPrivilege',
+    'SeEnableDelegationPrivilege',
+    'SeLockMemoryPrivilege',
+    'SeSyncAgentPrivilege',
+    'SeUnsolicitedInputPrivilege',
+    'SeTrustedCredManAccessPrivilege',
+    'SeRelabelPrivilege', # the privilege to change a Windows integrity label (new to Windows Vista)
+    'SeDenyRemoteInteractiveLogonRight', # Deny logon through Terminal Services
+  ].freeze
+
   class SecurityPolicy < Inspec.resource(1)
     name 'security_policy'
     desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
@@ -42,6 +93,9 @@ module Inspec::Resources
       # deep search for hash key
       params.extend Hashie::Extensions::DeepFind
       res = params.deep_find(name.to_s)
+
+      # return an empty array if configuration does not include rights configuration
+      return [] if res.nil? && MS_PRIVILEGES_RIGHTS.include?(name.to_s)
       res
     end
 
