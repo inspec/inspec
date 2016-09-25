@@ -19,12 +19,9 @@ module Inspec::Resources
     desc 'Use the parse_config InSpec audit resource to test arbitrary configuration files.'
     example "
       output = command('some-command').stdout
-
       describe parse_config(output, { data_config_option: value } ) do
         its('setting') { should eq 1 }
       end
-
-
 
       output2 = command('curl http://127.0.0.1/php_status').stdout
       # php status is in format 'key : value', and we do not allow for multiple values
@@ -43,7 +40,6 @@ module Inspec::Resources
       describe parse_config(output2, options2 ).params['listen queue'].to_i do
         it { should be < 100 }
       end
-
     "
 
     attr_reader :content
