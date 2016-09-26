@@ -64,3 +64,9 @@
     min-width: 54px;
   }
 }
+
+// FIXME: this is used to remove the top border line of the search
+// see https://github.com/chef/inspec/issues/1114#issuecomment-249525984
+.sidebar-layout-docs > .main-nav--links {
+  border-top: none;
+}
