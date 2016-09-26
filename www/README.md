@@ -32,13 +32,21 @@ bundle exec rake www:build
 
 ## Releasing
 
-To push a new version of the website, make sure that you have built the site
-(see previous section) and that you are happy with the results. If so, run:
+To build everything and push a new version of the website, run this command:
 
 ```
-bundle exec rake www:release
+bundle exec rake www
 ```
 
-It will clear and create a local `gh-pages` branch, add the site to it,
-and ask you before it pushes everything to `origin/gh-pages` i.e. the live
-website.
+It will clear everything and build from scratch and create a local `gh-pages` branch with a static version of the website.
+Before pushing, it will ask you if you are happy with it.
+
+**Please verify the site now!** To host the current folder you can run:
+
+```
+ruby -run -e httpd . -p 8000
+```
+
+Open your browser to [localhost:8000](http://localhost:8000).
+
+If you are happy, you can confirm the site and let the release task push it live.
