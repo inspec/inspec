@@ -116,6 +116,7 @@ end
 
 task :www do
   Rake::Task['www:clean'].invoke
+  Rake::Task['docs'].invoke
   Rake::Task['www:build'].invoke
   Rake::Task['www:release'].invoke
 end
