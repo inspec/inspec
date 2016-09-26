@@ -20,6 +20,7 @@ gulp.task('copy', function(){
   gulp.src([
       '*.png',
       'app/**/*.{css,html,json}',
+      'app/responses/**/*',
       'tutorial_files/**',
     ])
     .pipe(gcopy('dist/'));
