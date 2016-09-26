@@ -67,6 +67,13 @@ module Inspec
       @conf['profile'].supports_os?
     end
 
+    def remove_rule(id)
+      @rules[id] = nil if @rules.key?(id)
+      @control_subcontexts.each do |c|
+        c.remove_rule(id)
+      end
+    end
+
     def all_controls
       ret = @rules.values
       ret += @control_subcontexts.map(&:all_rules).flatten

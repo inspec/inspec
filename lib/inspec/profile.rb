@@ -388,6 +388,7 @@ module Inspec
       params[:groups] = groups = {}
       prefix = @source_reader.target.prefix || ''
       tests.each do |rule|
+        next if rule.nil?
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end

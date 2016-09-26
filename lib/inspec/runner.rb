@@ -86,7 +86,7 @@ module Inspec
       end
 
       all_controls.each do |rule|
-        register_rule(rule)
+        register_rule(rule) unless rule.nil?
       end
     end
 

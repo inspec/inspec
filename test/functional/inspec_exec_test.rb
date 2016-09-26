@@ -197,6 +197,15 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     end
   end
 
+  describe 'with require_controls' do
+    it 'does not run rules you did not include' do
+      out = inspec('exec ' + File.join(profile_path, 'dependencies', 'require_controls_test') + ' --no-create-lockfile')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[32m1 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[0m\n"
+    end
+  end
+
   describe "with a 2-level dependency tree" do
     it 'correctly runs tests from the whole tree' do
       out = inspec('exec ' + File.join(profile_path, 'dependencies', 'inheritance') + ' --no-create-lockfile')
