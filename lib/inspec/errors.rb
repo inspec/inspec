@@ -9,4 +9,5 @@ module Inspec
   class CyclicDependencyError < Error; end
   class UnsatisfiedVersionSpecification < Error; end
   class DuplicateDep < Error; end
+  class FetcherFailure < Error; end
 end
