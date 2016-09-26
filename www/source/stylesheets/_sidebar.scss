@@ -1,6 +1,26 @@
-.main-sidebar ul {
+.sidebar-layout-docs {
+  .main-nav--links {
+    border-top: none;
+  }
+
+  .main-nav--link-ctas {
+    border-bottom: none;
+    margin-bottom: 3px;
+  }
+}
+
+.main-nav--sidebar {
+  padding: 0 $side-nav-padding-small;
+
+  @include nav-large {
+    padding: 0 $side-nav-padding-large;
+  }
+}
+
+.main-sidebar--links {
   list-style: none;
   margin-left: 0.5rem;
+
   ul {
     margin-left: 0;
     margin-bottom: 1rem;
@@ -9,7 +29,6 @@
 
 .main-sidebar--link h6 {
   font-weight: 500;
-
 }
 
 .main-sidebar--list--item {
@@ -63,10 +82,4 @@
     height: 27px;
     min-width: 54px;
   }
-}
-
-// FIXME: this is used to remove the top border line of the search
-// see https://github.com/chef/inspec/issues/1114#issuecomment-249525984
-.sidebar-layout-docs > .main-nav--links {
-  border-top: none;
 }

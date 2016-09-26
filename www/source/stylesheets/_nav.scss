@@ -28,6 +28,11 @@ $nav-breakpoint: 730px;
     position: fixed;
     z-index: 100;
     width: $side-nav-width;
+
+    &.is-fixed-bottom {
+      bottom: 137px;
+      position: absolute;
+    }
   }
 }
 
@@ -92,6 +97,11 @@ $nav-breakpoint: 730px;
 
   @include nav-small {
     display: none;
+  }
+
+  .sidebar-layout-docs & {
+    max-height: calc(100vh - 64px);
+    overflow-y: scroll;
   }
 }
 
