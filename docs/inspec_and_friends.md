@@ -4,6 +4,9 @@ title: InSpec and friends
 
 # InSpec and friends
 
+This page looks at projects that are similar to InSpec to explain how they
+relate to each other.
+
 ## RSpec
 
 RSpec is an awesome framework that is widely used to test Ruby code. It
@@ -37,7 +40,7 @@ control "sshd-11" do
 end
 ```
 
-## Serverspec
+## Serverspec
 
 Serverspec can be credited as the first extension of RSpec that enabled
 users to run RSpec tests on servers to verify deployed artifacts. It was
