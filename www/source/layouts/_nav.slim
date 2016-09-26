@@ -9,7 +9,8 @@ nav#main-nav class="sidebar-layout-#{locals[:sidebar_layout]}"
       a.button.transparent.try-demo href="#" Try the Demo
       a.button.secondary href="https://downloads.chef.io/inspec" Download
     - if locals[:sidebar_layout] == 'docs'
-      = partial "layouts/sidebar"
+      li.main-nav--sidebar
+        = partial "layouts/sidebar"
     - else
       li.main-nav--link
         a href="/"
