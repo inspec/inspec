@@ -32,3 +32,35 @@
 .center {
   text-align: center;
 }
+
+.gsc-adBlock, .gcsc-branding {
+  display: none !important;
+}
+
+.gsc-control-cse {
+  padding: 0 !important;
+
+  tbody {
+    border: none;
+    background: none;
+  }
+
+  .gsc-input-box {
+    height: 3rem;
+    table {
+      margin-bottom: 0;
+    }
+  }
+
+  .gsc-input input {
+    box-shadow: none !important;
+  }
+
+  .gsc-search-button {
+    font-family: inherit;
+    font-size: 11px;
+    padding: 5px 18px;
+    height: 27px;
+    min-width: 54px;
+  }
+}
