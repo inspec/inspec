@@ -16,7 +16,6 @@ describe 'Inspec::Resources::Processes' do
     _(resource.list.length).must_equal 1
     _(resource.list[0].to_h).must_equal({
       label: nil,
-      user: 'root',
       pid: 1,
       cpu: '0.0',
       mem: '0.0',
@@ -27,6 +26,7 @@ describe 'Inspec::Resources::Processes' do
       start: '14:15',
       time: '0:00',
       command: '/bin/bash',
+      user: 'root',
     })
   end
 
@@ -35,7 +35,6 @@ describe 'Inspec::Resources::Processes' do
     _(resource.list.length).must_equal 1
     _(resource.list[0].to_h).must_equal({
       label: 'system_u:system_r:kernel_t:s0',
-      user: 'root',
       pid: 1,
       cpu: '0.0',
       mem: '0.0',
@@ -46,6 +45,7 @@ describe 'Inspec::Resources::Processes' do
       start: 'May04',
       time: '0:01',
       command: '/sbin/init',
+      user: 'root',
     })
   end
 
@@ -55,7 +55,8 @@ describe 'Inspec::Resources::Processes' do
     process.user.must_equal 'root'
     process[:user].must_equal 'root'
     process['user'].must_equal 'root'
-    process[1].must_equal 'root'
+    process[-1].must_equal 'root'
+    process[1].must_equal 1
   end
 
   it 'retrieves the users and states as arrays' do
