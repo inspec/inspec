@@ -46,6 +46,11 @@ namespace :www do
   desc 'Builds the full site locally'
   task build: ['www:tutorial', 'www:site', 'www:assemble']
 
+  task :clean do
+    dst = 'www/build'
+    FileUtils.rm_rf(dst) if File.directory?(dst)
+  end
+
   desc 'Releases the site to gh-pages'
   task :release do
     # This folder contains the built files
@@ -110,5 +115,7 @@ namespace :www do
 end
 
 task :www do
+  Rake::Task['www:clean'].invoke
+  Rake::Task['www:build'].invoke
   Rake::Task['www:release'].invoke
 end
