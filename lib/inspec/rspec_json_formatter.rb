@@ -287,6 +287,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     @missing_controls = []
     @anonymous_tests = []
     @control_tests = []
+    @profile_printed = false
     super(*args)
   end
 
@@ -296,17 +297,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     print_tests
     output.puts('')
 
-    @profiles_info.each do |profile|
-      next if profile[:already_printed]
-      @current_profile = profile
-      next unless print_current_profile
-      print_line(
-        color: '', indicator: @indicators['empty'], id: '', profile: '',
-        summary: 'No tests executed.'
-      ) if @current_control.nil?
-      output.puts('')
-    end
-
+    print_profiles_info if !@profile_printed
     controls_res = controls_summary
     tests_res = tests_summary
 
@@ -463,9 +454,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def flush_current_control
     return if @current_control.nil?
 
-    prev_profile = @current_profile
     @current_profile = @profiles_info.find { |i| i[:id] == @current_control[:profile_id] }
-    print_current_profile if prev_profile != @current_profile
+    print_current_profile if !@profile_printed
 
     fails, skips, passes, summary_indicator = current_control_infos
     summary = current_control_summary(fails, skips)
@@ -495,14 +485,32 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     output.puts(before + connection.uri + after)
   end
 
+  def print_profiles_info
+    @profiles_info.each do |profile|
+      next if profile[:already_printed]
+      @current_profile = profile
+      next unless print_current_profile
+      print_line(
+        color: '', indicator: @indicators['empty'], id: '', profile: '',
+        summary: 'No tests executed.'
+      ) if @current_control.nil?
+      output.puts('')
+    end
+  end
+
   def print_current_profile
     profile = @current_profile
-    return false if profile.nil?
-
+    if profile.nil?
+      print_profiles_info
+      @profile_printed = true
+      return true
+    end
     output.puts ''
     profile[:already_printed] = true
+
     if profile[:name].nil?
       print_target('Target:  ', "\n\n")
+      @profile_printed = true
       return true
     end
 
@@ -515,6 +523,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     output.puts 'Version: ' + (profile[:version] || 'unknown')
     print_target('Target:  ', "\n")
     output.puts
+    @profile_printed = true
     true
   end
 

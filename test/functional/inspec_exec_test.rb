@@ -188,6 +188,14 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     end
   end
 
+  describe 'given an inherited profile' do
+    let(:out) { inspec('exec ' + simple_inheritance) }
+
+    it 'should print the profile information and then the test results' do
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "local://\n\n\n\e[31;1m  ✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[31;1m     ✖  File /tmp should not be directory\n"
+    end
+  end
+
   describe 'using namespaced resources' do
     it 'works' do
       out = inspec('exec ' + File.join(profile_path, 'dependencies', 'resource-namespace') + ' --no-create-lockfile')
