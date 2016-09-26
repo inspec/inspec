@@ -6,7 +6,7 @@ module Inspec::Resources
 
     desc 'Use the user InSpec system resource to test for operating system properties.'
     example "
-      describe sysinfo do
+      describe sys_info do
         its('hostname') { should eq 'example.com' }
       end
     "
