@@ -3,7 +3,7 @@ sidebar_links:
 - title: Getting Started
   links:
   - title: Overview
-    link: "/docs/reference/overview.html"
+    link: "/docs"
   - title: Get InSpec
     link: "https://downloads.chef.io/inspec"
   - title: Tutorials
