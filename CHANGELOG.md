@@ -1,7 +1,39 @@
 # Change Log
 
-## [1.0.0.beta3](https://github.com/chef/inspec/tree/1.0.0.beta3) (2016-09-25)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta2...1.0.0.beta3)
+## [1.0.0](https://github.com/chef/inspec/tree/1.0.0) (2016-09-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta3...1.0.0)
+
+**Implemented enhancements:**
+
+- InSpec OS package [\#646](https://github.com/chef/inspec/issues/646)
+- replace wmi win32\_useraccount with adsi users [\#1149](https://github.com/chef/inspec/pull/1149) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- README.md has broken link to non-existent file [\#1136](https://github.com/chef/inspec/issues/1136)
+
+**Merged pull requests:**
+
+- update omnibus images [\#1164](https://github.com/chef/inspec/pull/1164) ([chris-rock](https://github.com/chris-rock))
+- website / tutorial interaction [\#1163](https://github.com/chef/inspec/pull/1163) ([chris-rock](https://github.com/chris-rock))
+- fix buttons on community page [\#1162](https://github.com/chef/inspec/pull/1162) ([arlimus](https://github.com/arlimus))
+- fix alignment of community buttons [\#1161](https://github.com/chef/inspec/pull/1161) ([arlimus](https://github.com/arlimus))
+- Fix require\_controls DSL method [\#1160](https://github.com/chef/inspec/pull/1160) ([stevendanna](https://github.com/stevendanna))
+- Document the require\_resource function [\#1158](https://github.com/chef/inspec/pull/1158) ([stevendanna](https://github.com/stevendanna))
+- fix css in docs search [\#1157](https://github.com/chef/inspec/pull/1157) ([arlimus](https://github.com/arlimus))
+- update www readme for releasing the site [\#1156](https://github.com/chef/inspec/pull/1156) ([arlimus](https://github.com/arlimus))
+- Fix minor typo in sys\_info documentation [\#1155](https://github.com/chef/inspec/pull/1155) ([stevendanna](https://github.com/stevendanna))
+- fix outdated link in readme [\#1154](https://github.com/chef/inspec/pull/1154) ([arlimus](https://github.com/arlimus))
+- fix minor website bugs [\#1153](https://github.com/chef/inspec/pull/1153) ([arlimus](https://github.com/arlimus))
+- clean www before releasing [\#1152](https://github.com/chef/inspec/pull/1152) ([arlimus](https://github.com/arlimus))
+- add docs to the website [\#1151](https://github.com/chef/inspec/pull/1151) ([arlimus](https://github.com/arlimus))
+- return empty array for known privileges [\#1150](https://github.com/chef/inspec/pull/1150) ([chris-rock](https://github.com/chris-rock))
+- Extend example for parse\_config.rb [\#1148](https://github.com/chef/inspec/pull/1148) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- Bump lockfile version to 1.0 [\#1141](https://github.com/chef/inspec/pull/1141) ([stevendanna](https://github.com/stevendanna))
+- Improve error messages from compliance fetcher [\#1126](https://github.com/chef/inspec/pull/1126) ([stevendanna](https://github.com/stevendanna))
+
+## [v1.0.0.beta3](https://github.com/chef/inspec/tree/v1.0.0.beta3) (2016-09-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta2...v1.0.0.beta3)
 
 **Implemented enhancements:**
 
