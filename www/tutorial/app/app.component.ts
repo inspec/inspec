@@ -55,10 +55,6 @@ export class AppComponent implements OnInit {
     this.loadCommands();
   }
 
-  ngAfterViewChecked() {
-    // window.scrollTo( 0, document.body.scrollHeight );
-  }
-
   // determines all commands that are not part of the tutorial
   extraCmds() {
     let extra = this.commands.filter(function(item){
@@ -129,7 +125,6 @@ export class AppComponent implements OnInit {
     // and if it is respond appropriately ('could not fetch inspec profile in ''), otherwise
     // respond with 'invalid command' and the command entered
     if (matchFound === false) {
-      console.log('no match found')
       if (command.match(/^inspec exec\s*.*/)) {
         let target = command.match(/^inspec exec\s*(.*)/)
         response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black;

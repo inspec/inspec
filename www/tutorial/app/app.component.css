@@ -55,6 +55,10 @@ img {
   border-radius: 5px;
 }
 
+.tutorial-guide /deep/ code {
+  color: lightskyblue;
+}
+
 .title {
   color: lightskyblue;
 }

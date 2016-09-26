@@ -64,7 +64,7 @@ export class XtermTerminalComponent implements OnInit, OnChanges{
 
   updateTerminalSize() {
     // recalculate cols and rows
-    let charwidth = 24;
+    let charwidth = 30;
     // read size from parent wrapping element
     let cols = 80
     let rows = Math.floor(this.terminalContainer.parentElement.clientHeight / charwidth)
@@ -90,9 +90,6 @@ export class XtermTerminalComponent implements OnInit, OnChanges{
     this.term._initialized = true;
     this.writePrompt();
 
-    // determine rows for terminal
-    this.updateTerminalSize()
-
     let self = this
     // raw data
     this.term.on('data', function(data){
@@ -110,6 +107,16 @@ export class XtermTerminalComponent implements OnInit, OnChanges{
     }, function(err) {
       console.error(err)
     })
+
+    // determine rows for terminal
+    this.updateTerminalSize()
+
+    // TODO: hack, find a better way
+    // this allows outside tiggers via
+    // window.dispatchEvent(new Event('resizeTerminal'));
+    window.addEventListener('resizeTerminal', function (e) {
+      self.updateTerminalSize();
+    }, false);
   }
 
   // this writes the raw buffer and includes invisible charaters

@@ -35,6 +35,7 @@ html
       $('.try-demo').click(function(event){
         event.stopPropagation();
         $('.inspec-tutorial').show()
+        window.dispatchEvent(new Event('resizeTerminal'));
         $('.quit-inspec-tutorial').click(function(event){
           event.stopPropagation();
           $('.inspec-tutorial').hide()
