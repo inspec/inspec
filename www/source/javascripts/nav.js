@@ -3,9 +3,10 @@ const $navLinks = $('.main-nav--links');
 const $navToggle = $('.main-nav--toggle');
 const navBreakpoint = 730; // this should match $nav-breakpoint in _nav.scss
 const $mainContent = $('#main-content');
+const $mainNav = $('#main-nav');
 
 $(document).ready(function() {
-  $mainContent.css('min-height', $('#main-nav').outerHeight() - $('#main-nav-ctas').outerHeight());
+  $mainContent.css('min-height', $mainNav.outerHeight() - $('#main-nav-ctas').outerHeight());
 });
 
 $navToggle.click(function() {
@@ -25,9 +26,9 @@ const footerOffsetTop = $("#main-footer").offset().top;
 var navOffsetBottom;
 
 function toggleFixedNavPosition() {
-  navOffsetBottom = $("#main-nav").outerHeight() + $(window).scrollTop();
+  navOffsetBottom = $mainNav.outerHeight() + $(window).scrollTop();
 
-  $("#main-nav").toggleClass("is-fixed-bottom", footerOffsetTop < navOffsetBottom)
+  $mainNav.toggleClass("is-fixed-bottom", footerOffsetTop < navOffsetBottom)
 }
 
 toggleFixedNavPosition();
