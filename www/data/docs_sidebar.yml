@@ -5,7 +5,7 @@ sidebar_links:
   - title: Overview
     link: "/docs/reference/overview.html"
   - title: Get InSpec
-    link: "/under_construction"
+    link: "https://downloads.chef.io/inspec"
   - title: Tutorials
     link: "/docs/tutorials.html"
   - title: InSpec and friends
