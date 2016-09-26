@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    window.scrollTo( 0, document.body.scrollHeight );
+    // window.scrollTo( 0, document.body.scrollHeight );
   }
 
   // determines all commands that are not part of the tutorial
