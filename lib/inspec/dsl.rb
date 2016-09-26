@@ -53,12 +53,15 @@ EOF
   end
 
   def self.filter_included_controls(context, profile, &block)
-    include_ctx = profile.runner_context
+    mock = Inspec::Backend.create({ backend: 'mock' })
+    include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {})
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
-    context.rules.keys.each do |id|
-      unless include_ctx.rules[id]
-        context.rules[id] = nil
+    context.all_rules.each do |r|
+      id = Inspec::Rule.rule_id(r)
+      fid = Inspec::Rule.profile_id(r) + '/' + id
+      unless include_ctx.rules[id] || include_ctx.rules[fid]
+        context.remove_rule(fid)
       end
     end
   end
