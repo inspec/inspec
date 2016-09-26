@@ -109,6 +109,11 @@ and to target all of these examples in a single `inspec.yml` file:
 
 # Profile Dependencies
 
+A profile dependency is needed when:
+
+ * using `include_controls` or `require_controls` in order to load controls defined in another profile
+ * using a custom InSpec resource defined in another profile
+
 Use the `depends` setting in the `inspec.yml` file to specify one (or more) profiles on which this profile depends. A profile dependency may be sourced from a path, URL, a git repo, a cookbook located on Chef Supermarket or on GitHub, or a profile located on the Chef Compliance server.
 
 ## Path
@@ -193,18 +198,30 @@ Use the `depends` setting in the `inspec.yml` file to define any combination of 
     depends:
       - name: ssh-hardening
         supermarket: hardening/ssh-hardening
+        version: '= 2.0.0'
       - name: os-hardening
         url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
       - name: ssl-benchmark
         git: https://github.com/dev-sec/ssl-benchmark.git
+        version: '< 2.0'
       - name: windows-patch-benchmark
         git: https://github.com/chris-rock/windows-patch-benchmark.git
+        version: '~> 0.6'
       - name: linux
         compliance: base/linux
+
+## Vendoring Dependencies
+
+When you execute a local profile, the `inspec.yml` file will be read in order to source any profile dependencies. It will then cache the dependencies locally and generate an `inspec.lock` file. If you add or update dependencies in `inspec.yml`, please refresh the lock file by either:
+
+ * running `inspec vendor` inside the profile directory; or
+ * deleting `inspec.lock` before running `inspec exec`
 
 # Profile Inheritance
 
 When a profile is run, it may include controls that are defined in other profiles. Controls may also be required.
+
+This requires an `inspec.yml` dependency to the profile you inherit from.
 
 ## include_controls
 
