@@ -242,6 +242,20 @@ For example, to require that controls `cis-fs-2.1` and `cis-fs-2.2` be loaded fr
 
     end
 
+
+## require_resource
+
+By default, all of the resources from a listed dependency are available
+for use in your profile. If two of your dependencies provide a resource with
+the same name, you can use the `require_resource` DSL function to
+disambiguate the two:
+
+    require_resource(profile: 'my_dep', resource: 'my_res',
+                     as: 'my_res2')
+
+This will allow you to reference the resource `my_res` from the
+profile `my_dep` using the name `my_res2`.
+
 # Profile Attributes
 
 Attributes may be used in profiles to define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. First specify a variable in the control for each secret, then add the secret to a Yaml file located on the local machine, and then run `inspec exec` and specify the path to that Yaml file using the `--attrs` attribute.
