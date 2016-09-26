@@ -18,4 +18,4 @@
 .DS_Store
 
 # Ignore rendered files from docs/
-source/docs/resources/
+source/docs/reference/
