@@ -1,0 +1,30 @@
+.main-sidebar ul {
+  list-style: none;
+  margin-left: 0.5rem;
+  ul {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+.main-sidebar--link h6 {
+  font-weight: 500;
+
+}
+
+.main-sidebar--list--item {
+  position: relative;
+  padding: 3px 0;
+  text-transform: uppercase;
+  font-size: 14px;
+
+  & > a {
+    color: $inspec-grey;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: darken($inspec-grey, 15%);
+    }
+  }
+}
