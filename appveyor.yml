@@ -33,7 +33,7 @@ install:
   - ruby -r rubygems -e "p Gem.path"
 
 build_script:
-  - bundle install --path=vendor/bundle --without integration tools maintenance
+  - bundle install --path=vendor/bundle --without integration tools maintenance deploy
 
 test_script:
   - SET SPEC_OPTS=--format progress
