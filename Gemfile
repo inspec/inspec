@@ -25,7 +25,6 @@ group :test do
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
-  gem 'inquirer'
   gem 'nokogiri', '~> 1.6'
 end
 
@@ -59,4 +58,8 @@ group :maintenance do
   # To sync maintainers with github
   gem 'octokit'
   gem 'netrc'
+end
+
+group :deploy do
+  gem 'inquirer'
 end

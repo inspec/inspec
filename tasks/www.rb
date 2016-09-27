@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-require 'inquirer'
 require_relative 'shared.rb'
 
 namespace :www do
@@ -102,6 +101,7 @@ namespace :www do
     Log.info 'Commit to gh-pages'
     system("git commit -m 'website update'")
 
+    require 'inquirer'
     if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
                    'Do you want to push this live?', default: false)
       Log.info 'push to origin, this may take a moment'

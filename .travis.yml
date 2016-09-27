@@ -7,7 +7,7 @@ cache: bundler
 dist: trusty
 services:
 - docker
-bundler_args: "--without integration tools maintenance"
+bundler_args: "--without integration tools maintenance deploy"
 before_install:
 - gem install bundler
 - gem update --system 2.4.5
