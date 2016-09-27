@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
   }
 
   // called when tutorial commands need to be displayed
-  updateInstructions(step = null) {
+  updateInstructions(step?) {
     // if step is given, we calculate the new index
     let totalSteps = this.instructionsArray.length - 1;
     switch(step) {
