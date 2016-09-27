@@ -6,7 +6,7 @@ title: About the os Resource
 
 Use the `os` InSpec audit resource to test the platform on which the system is running.
 
-# Syntax
+## Syntax
 
 An `os` resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:
 
@@ -22,31 +22,31 @@ or using the block name:
 
 * `'platform_name'` (a string) or `:family_name` (a symbol) is one of `aix`, `bsd`, `darwin`, `debian`, `hpux`, `linux`, `redhat`, `solaris`, `suse`,  `unix`, or `windows`
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# os.family? Helpers
+## os.family? Helpers
 
 The `os` audit resource includes a collection of helpers that enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific helpers to test for specific platforms:
 
@@ -94,7 +94,7 @@ Use the following helpers to test for operating system names, releases, and arch
        it { should eq 'foo' }
     end
 
-# os[:family] Symbols
+## os[:family] Symbols
 
 Use `os[:family]` to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific symbols to test for specific platforms:
 
@@ -131,23 +131,23 @@ For example, both of the following tests should have the same result:
       end
     end
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test for RedHat
+### Test for RedHat
 
     describe os[:family] do
       it { should eq 'redhat' }
     end
 
-## Test for Ubuntu
+### Test for Ubuntu
 
     describe os[:family] do
       it { should eq 'debian' }
     end
 
-## Test for Microsoft Windows
+### Test for Microsoft Windows
 
     describe os[:family] do
       it { should eq 'windows' }

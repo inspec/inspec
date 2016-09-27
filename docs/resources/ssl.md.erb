@@ -6,7 +6,7 @@ title: About the ssl Resource
 
 Use the `ssl` InSpec audit resource to test SSL settings for the named port.
 
-# Syntax
+## Syntax
 
 An `ssl` resource block declares an SSL port, and then other properties of the test like cipher and/or protocol:
 
@@ -26,21 +26,21 @@ where
 * `filter` may take any of the following arguments: `ciphers`, `protocols`, and `handshake`
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_enabled
+### be_enabled
 
 The `be_enabled` matcher tests if SSL is enabled:
 
     it { should be_enabled }
 
-## ciphers
+### ciphers
 
 The `ciphers` matcher tests the named cipher:
 
@@ -52,23 +52,23 @@ or:
       it { should_not be_enabled }
     end
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## protocols
+### protocols
 
 The `protocols` matcher tests the number of times the named user appears in `/etc/shadow`:
 
@@ -80,11 +80,11 @@ or:
       it { should_not be_enabled }
     end
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Run the ssl-benchmark example profile
+### Run the ssl-benchmark example profile
 
 The following shows how to use the `ssl` InSpec audit resource to find all TCP ports on the system, including IPv4 and IPv6. (This is a partial example based on the `ssl_text.rb` file in the `ssl-benchmark` profile on GitHub.)
 

@@ -6,7 +6,7 @@ title: About the ssh_config Resource
 
 Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.
 
-# Syntax
+## Syntax
 
 An `ssh_config` resource block declares the client OpenSSH configuration data to be tested:
 
@@ -21,31 +21,31 @@ where
 * `{ should include('foo') }` tests the value of `name` as read from `ssh_config` versus the value declared in the test
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## name
+### name
 
 The `name` matcher tests the value of `name` as read from `ssh_config` versus the value declared in the test:
 
@@ -55,11 +55,11 @@ or:
 
     its('name') { should include('bar') }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test SSH configuration settings
+### Test SSH configuration settings
 
     describe ssh_config do
       its('cipher') { should contain '3des' }
@@ -67,7 +67,7 @@ The following examples show how to use this InSpec audit resource.
       its('hostname') { should include('example.com') }
     end
 
-## Test which variables from the local environment are sent to the server
+### Test which variables from the local environment are sent to the server
 
     only_if do
       command('sshd').exist? or command('ssh').exists?
@@ -77,14 +77,14 @@ The following examples show how to use this InSpec audit resource.
       its('SendEnv') { should include('GORDON_CLIENT') }
     end
 
-## Test owner and group permissions
+### Test owner and group permissions
 
     describe ssh_config do
       its('owner') { should eq 'root' }
       its('mode') { should cmp '0644' }
     end
 
-## Test SSH configuration
+### Test SSH configuration
 
     describe ssh_config do
       its('Host') { should eq '*' }

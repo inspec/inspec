@@ -6,7 +6,7 @@ title: About the grub_conf Resource
 
 Grub is a boot loader on the Linux platform used to load and then transfer control to an operating system kernel, after which that kernel initializes the rest of the operating system. Use the `grub_conf` InSpec audit resource to test boot loader configuration settings that are defined in the `grub.conf` configuration file.
 
-# Syntax
+## Syntax
 
 A `grub_conf` resource block declares a list of settings in a `grub.conf` file:
 
@@ -29,35 +29,35 @@ where
 * `'value'` is the value that is expected
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test a grub.conf file
+### Test a grub.conf file
 
 A Grub configuration file located at `/etc/grub.conf` is similar to the following:
 
@@ -99,7 +99,7 @@ The following test verifies the `ramdisk_size` for the non-deault kernel:
        its('kernel') { should include 'ramdisk_size=400000' }
      end
 
-## Test a configuration file and boot configuration
+### Test a configuration file and boot configuration
 
     describe grub_conf('/etc/grub.conf',  'default') do
       its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
@@ -108,7 +108,7 @@ The following test verifies the `ramdisk_size` for the non-deault kernel:
       its('timeout') { should eq '5' }
     end
 
-## Test a specific kernel
+### Test a specific kernel
 
     grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
       its('kernel') { should include 'audit=1' }

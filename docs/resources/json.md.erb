@@ -6,7 +6,7 @@ title: About the json Resource
 
 Use the `json` InSpec audit resource to test data in a JSON file.
 
-# Syntax
+## Syntax
 
 A `json` resource block declares the data to be tested. Assume the following JSON file:
 
@@ -35,41 +35,41 @@ where
 * `should eq 'foo'` tests a value of `name` as read from a JSON file versus the value declared in the test
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## name
+### name
 
 The `name` matcher tests the value of `name` as read from a JSON file versus the value declared in the test:
 
     its('name') { should eq 'foo' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test a cookbook version in a policyfile.lock.json file
+### Test a cookbook version in a policyfile.lock.json file
 
     describe json('policyfile.lock.json') do
       its(['cookbook_locks', 'omnibus', 'version']) { should eq('2.2.0') }

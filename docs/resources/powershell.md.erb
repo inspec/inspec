@@ -6,7 +6,7 @@ title: About the powershell Resource
 
 Use the `powershell` InSpec audit resource to test a Powershell script on the Windows platform.
 
-# Syntax
+## Syntax
 
 A `powershell` resource block declares a Powershell script to be tested, and then compares the output of that command to the matcher in the test:
 
@@ -25,53 +25,53 @@ where
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exit_status
+### exit_status
 
 The `exit_status` matcher tests the exit status for the command:
 
     its('exit_status') { should eq 123 }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## stderr
+### stderr
 
 The `stderr` matcher tests results of the command as returned in standard error (stderr):
 
     its('stderr') { should eq 'error' }
 
-## stdout
+### stdout
 
 The `stdout` matcher tests results of the command as returned in standard output (stdout):
 
     its('stdout') { should eq '/^1$/' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Get all groups of Administrator user
+### Get all groups of Administrator user
 
     script = <<-EOH
       # find user
@@ -85,7 +85,7 @@ The following examples show how to use this InSpec audit resource.
       its('stdout') { should_not eq '' }
     end
 
-## Write-Output 'hello'
+### Write-Output 'hello'
 
 The following Powershell script:
 

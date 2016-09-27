@@ -6,7 +6,7 @@ title: About the iis_site Resource
 
 Use the `iis_site` InSpec audit resource to test the state of IIS on Windows Server 2012 (and later).
 
-# Syntax
+## Syntax
 
 An `iis_site` resource block declares details about the named site:
 
@@ -36,35 +36,35 @@ For example:
       it { should have_path('C:\\inetpub\\wwwroot') }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_running
+### be_running
 
 The `be_running` matcher tests if the site is running:
 
     it { should be_running }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if the site exists:
 
     it { should exist }
 
-## have_app_pool
+### have_app_pool
 
 The `have_app_pool` matcher tests if the named application pool exists for the site:
 
@@ -74,7 +74,7 @@ For example, testing if a site's application pool inherits the settings of the p
 
     it { should have_app_pool('/') }
 
-## have_binding
+### have_binding
 
 The `have_binding` matcher tests if the specified binding exists for the site:
 
@@ -86,7 +86,7 @@ or:
 
 A site may have multiple bindings; use a `have_binding` matcher for each unique site binding to be tested.
 
-### Binding Attributes
+##### Binding Attributes
 
 The `have_binding` matcher can also test attributes that are defined for a site binding. For example, the `sslFlags` attribute defines if SSL is enabled, and (when enabled) what level of SSL is applied to the site.
 
@@ -106,25 +106,25 @@ Testing a site with 128-bit SSL enabled:
 
     it { should have_binding('https :443:www.contoso.com sslFlags=Ssl128') }
 
-## have_path
+### have_path
 
 The `have_path` matcher tests if the named path is defined for the site:
 
     it { should have_path('C:\\inetpub\\wwwroot') }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test a default IIS site
+### Test a default IIS site
 
     describe iis_site('Default Web Site') do
       it { should exist }
@@ -134,7 +134,7 @@ The following examples show how to use this InSpec audit resource.
       it { should have_path('%SystemDrive%\\inetpub\\wwwroot\\') }
     end
 
-## Test if IIS service is running
+### Test if IIS service is running
 
     describe service('W3SVC') do
       it { should be_installed }

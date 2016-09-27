@@ -6,7 +6,7 @@ title: About the sshd_config Resource
 
 Use the `sshd_config` InSpec audit resource to test configuration data for the OpenSSH daemon located at `/etc/ssh/sshd_config` on Linux and Unix platforms. sshd---the OpenSSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command executation, and data exchanges.
 
-# Syntax
+## Syntax
 
 An `sshd_config` resource block declares the client OpenSSH configuration data to be tested:
 
@@ -21,31 +21,31 @@ where
 * `{ should include('foo') }` tests the value of `name` as read from `sshd_config` versus the value declared in the test
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## name
+### name
 
 The `name` matcher tests the value of `name` as read from `sshd_config` versus the value declared in the test:
 
@@ -55,35 +55,35 @@ or:
 
     its('name') {should include('bar') }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test which variables may be sent to the server
+### Test which variables may be sent to the server
 
     describe sshd_config do
       its('AcceptEnv') { should include('GORDON_SERVER') }
     end
 
-## Test for IPv6-only addresses
+### Test for IPv6-only addresses
 
     describe sshd_config do
       its('AddressFamily') { should cmp 'inet6' }
     end
 
-## Test the Protocol setting
+### Test the Protocol setting
 
     describe sshd_config do
       its('Protocol') { should cmp 2 }
     end
 
-## Test for approved, strong ciphers
+### Test for approved, strong ciphers
 
     describe sshd_config do
       its('Ciphers') { should cmp('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
     end
 
-## Test SSH protocols
+### Test SSH protocols
 
     describe sshd_config do
       its('Port') { should cmp  22 }

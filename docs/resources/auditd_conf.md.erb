@@ -6,7 +6,7 @@ title: About the auditd_conf Resource
 
 Use the `auditd_conf` InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under `/etc/audit/auditd.conf'` on Unix and Linux platforms.
 
-# Syntax
+## Syntax
 
 A `auditd_conf` resource block declares configuration settings that should be tested:
 
@@ -21,27 +21,27 @@ where
 * `{ should cmp 'value' }` is the value that is expected
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## keyword
+### keyword
 
 This matcher will matche any keyword that is listed in the `auditd.conf` configuration file. Option names and values are case-insensitive:
 
@@ -51,15 +51,15 @@ or:
 
     its('max_log_file') { should cmp 6 }
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test the auditd.conf file
+### Test the auditd.conf file
 
     describe auditd_conf do
       its('log_file') { should cmp '/full/path/to/file' }

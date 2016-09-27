@@ -6,7 +6,7 @@ title: About the kernel_module Resource
 
 Use the `kernel_module` InSpec audit resource to test kernel modules on Linux platforms. These parameters are located under `/lib/modules`. Any submodule may be tested using this resource.
 
-# Syntax
+## Syntax
 
 A `kernel_module` resource block declares a module name, and then tests if that module is a loadable kernel module:
 
@@ -19,41 +19,41 @@ where
 * `'module_name'` must specify a kernel module, such as `'bridge'`
 * `{ should be_loaded }` tests if the module is a loadable kernel module
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_loaded
+### be_loaded
 
 The `be_loaded` matcher tests if the module is a loadable kernel module:
 
     it { should be_loaded }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test if a module is loaded
+### Test if a module is loaded
 
     describe kernel_module('bridge') do
       it { should be_loaded }

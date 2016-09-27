@@ -6,7 +6,7 @@ title: About the registry_key Resource
 
 Use the `registry_key` InSpec audit resource to test key values in the Windows registry.
 
-# Syntax
+## Syntax
 
 A `registry_key` resource block declares the item in the Windows registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested.
 
@@ -33,7 +33,7 @@ Or use a Ruby Hash:
     end
 
 
-## Registry Key Path Separators
+### Registry Key Path Separators
 
 A Windows registry key can be used as a string in Ruby code, such as when a registry key is used as the name of a recipe. In Ruby, when a registry key is enclosed in a double-quoted string (`" "`), the same backslash character (`\`) that is used to define the registry key path separator is also used in Ruby to define an escape character. Therefore, the registry key path separators must be escaped when they are enclosed in a double-quoted string. For example, the following registry key:
 
@@ -48,15 +48,15 @@ or may be enclosed in a double-quoted string with an extra backslash as an escap
     "HKCU\\SOFTWARE\\path\\to\\key\\Themes"
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## children
+### children
 
 The `children` matcher return all of the child items of a registry key. A regular expression may be used to filter child items:
 
@@ -81,57 +81,57 @@ The following example shows how find a property that may exist against multiple 
         end
       }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if the registry key is present:
 
     it { should exist }
 
-## have_property
+### have_property
 
 The `have_property` matcher tests if a property exists for a registry key:
 
     it { should have_property 'value' }
 
-## have_property_value
+### have_property_value
 
 The `have_property_value` matcher tests if a property value exists for a registry key:
 
     it { should have_property_value 'value' }
 
-## have_value
+### have_value
 
 The `have_value` matcher tests if a value exists for a registry key:
 
     it { should have_value 'value' }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## name
+### name
 
 The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test the start time for the Schedule service
+### Test the start time for the Schedule service
 
     describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\...\Schedule') do
       its('Start') { should eq 2 }
@@ -139,7 +139,7 @@ The following examples show how to use this InSpec audit resource.
 
 where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the full path to the setting.
 
-## Use a regular expression in responses
+### Use a regular expression in responses
 
     describe registry_key({
       hive: 'HKEY_LOCAL_MACHINE',

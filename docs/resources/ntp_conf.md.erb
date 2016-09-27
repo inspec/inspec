@@ -7,7 +7,7 @@ title: About the ntp_conf Resource
 Use the `ntp_conf` InSpec audit resource to test the synchronization settings defined in the `ntp.conf` file. This file is typically located at `/etc/ntp.conf`.
 
 
-# Syntax
+## Syntax
 
 An `ntp_conf` resource block declares the synchronization settings that should be tested:
 
@@ -22,7 +22,7 @@ where
 * `{ should eq 'value' }` is the value that is expected
 
 
-# Matchers
+## Matchers
 
 This resource matches any service that is listed in the `ntp.conf` file:
 
@@ -40,31 +40,31 @@ For example:
     end
 
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test for clock drift against named servers
+### Test for clock drift against named servers
 
     describe ntp_conf do
       its('driftfile') { should eq '/var/lib/ntp/ntp.drift' }

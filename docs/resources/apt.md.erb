@@ -6,7 +6,7 @@ title: About the apt Resource
 
 Use the `apt` InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.
 
-# Syntax
+## Syntax
 
 An `apt` resource block tests the contents of Apt and PPA repositories:
 
@@ -22,61 +22,61 @@ where
 * `exist` and `be_enabled` are a valid matchers for this resource
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_enabled
+### be_enabled
 
 The `be_enabled` matcher tests if a package exists in the repository:
 
     it { should be_enabled }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if a package exists on the system:
 
     it { should exist }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test if apt repository exists and is enabled
+### Test if apt repository exists and is enabled
 
     describe apt('http://ppa.launchpad.net/juju/stable/ubuntu') do
       it { should exist }
       it { should be_enabled }
     end
 
-## Verify that a PPA repository exists and is enabled
+### Verify that a PPA repository exists and is enabled
 
     describe apt('ppa:nginx/stable') do
       it { should exist }
       it { should be_enabled }
     end
 
-## Verify that a repository is not present
+### Verify that a repository is not present
 
     describe apt('ubuntu-wine/ppa') do
       it { should_not exist }

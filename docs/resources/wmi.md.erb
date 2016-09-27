@@ -6,7 +6,7 @@ title: About the wmi Resource
 
 Use the `wmi` InSpec audit resource to test WMI settings on the Windows platform.
 
-# Syntax
+## Syntax
 
 A `wmi` resource block tests WMI settings on the Windows platform:
 
@@ -47,35 +47,35 @@ and the second uses a filter in the Ruby Hash to first identify WinRM, and then 
     end
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test a password expiration policy
+### Test a password expiration policy
 
     describe wmi({
       class: 'RSOP_SecuritySettingNumeric',
@@ -85,7 +85,7 @@ The following examples show how to use this InSpec audit resource.
        its('Setting') { should eq 1 }
     end
 
-## Test if an anonymous user can query the Local Security Authority (LSA)
+### Test if an anonymous user can query the Local Security Authority (LSA)
 
     describe wmi({
       namespace: 'root\rsop\computer',
