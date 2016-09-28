@@ -23,6 +23,10 @@ namespace :www do
     Log.section 'Build the online tutorial in www/tutorial/'
     sh('cd www/tutorial/ && npm install')
     sh('cd www/tutorial/ && gulp build')
+    Verify.file('www/tutorial/dist/index.html')
+    Verify.file('www/tutorial/dist/css/inspec_tutorial.css')
+    Verify.file('www/tutorial/dist/scripts/inspec_tutorial.js')
+    Verify.file('www/tutorial/dist/dist/inspec_tutorial.js')
   end
 
   desc 'Builds the middleman site'

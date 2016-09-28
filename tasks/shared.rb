@@ -24,3 +24,14 @@ module Log
     puts "\033[32;1m----> #{msg}\033[0m"
   end
 end
+
+module Verify
+  def self.file(path)
+    return print("\033[32m.\033[0m") if File.file?(path)
+    fail "Failed to build this step. Looking for file in #{path} but it doesn't exist."
+  end
+
+  def self.ok
+    puts "\n\033[32mAll build checks passed.\033[0m"
+  end
+end
