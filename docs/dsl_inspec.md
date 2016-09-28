@@ -74,7 +74,7 @@ The following examples show simple compliance tests using a single `control` blo
 
 ## Test System Event Log
 
-The following test shows how to audit machines running Windows 2012 R2 that pwassword complexity is enabled:
+The following test shows how to audit machines running Windows 2012 R2 that password complexity is enabled:
 
 ```ruby
 control 'windows-account-102' do
@@ -89,7 +89,7 @@ end
 
 ## Are PosgtreSQL passwords empty?
 
-The following test shows how to audit machines running PostgerSQL to ensure that passwords are not empty.
+The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.
 
 ```ruby
 control 'postgres-7' do
@@ -173,7 +173,7 @@ end
 
 ## Test Windows Registry Keys
 
-The following test shows how to audit machines to ensure Safe DLL Seach Mode is enabled:
+The following test shows how to audit machines to ensure Safe DLL Search Mode is enabled:
 
 ```ruby
 control 'windows-base-101' do
