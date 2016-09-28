@@ -35,6 +35,9 @@ namespace :www do
     Bundler.with_clean_env {
       sh('cd www/ && bundle install && bundle exec middleman build')
     }
+    Verify.file('www/build/index.html')
+    Verify.file('www/build/javascripts/all.js')
+    Verify.file('www/build/stylesheets/site.css')
   end
 
   desc 'Assemble the website site from middleman and the tutorial'

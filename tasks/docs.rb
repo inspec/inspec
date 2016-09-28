@@ -267,4 +267,7 @@ end
 desc 'Create all docs in docs/ from source code'
 task :docs do
   run_tasks_in_namespace :docs
+  Verify.file('www/source/docs/reference/README.html.md')
+  Verify.file('www/source/docs/reference/cli.html.md')
+  Verify.file('www/source/docs/reference/resources.html.md')
 end
