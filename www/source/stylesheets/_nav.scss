@@ -28,10 +28,20 @@ $nav-breakpoint: 730px;
     position: fixed;
     z-index: 100;
     width: $side-nav-width;
+  }
 
-    &.is-fixed-bottom {
-      bottom: 137px;
+  &.is-fixed-bottom {
+    @include nav-large {
+      top: auto;
       position: absolute;
+    }
+
+    @media (min-width: 640px) and (max-width: 879px) {
+      bottom: 156px;
+    }
+
+    @media (min-width: 880px) {
+      bottom: 141px;
     }
   }
 }
@@ -102,6 +112,10 @@ $nav-breakpoint: 730px;
   .sidebar-layout-docs & {
     max-height: calc(100vh - 64px);
     overflow-y: scroll;
+
+    @include nav-large {
+      max-height: calc(100vh - 107px);
+    }
   }
 }
 

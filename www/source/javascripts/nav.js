@@ -5,10 +5,6 @@ const navBreakpoint = 730; // this should match $nav-breakpoint in _nav.scss
 const $mainContent = $('#main-content');
 const $mainNav = $('#main-nav');
 
-$(document).ready(function() {
-  $mainContent.css('min-height', $mainNav.outerHeight() - $('#main-nav-ctas').outerHeight());
-});
-
 $navToggle.click(function() {
   $(this).toggleClass('is-active');
   $navLinks.slideToggle();
@@ -22,17 +18,21 @@ $(window).resize(function() {
 });
 
 // toggles fixed nav position when the window is too short
-const footerOffsetTop = $("#main-footer").offset().top;
-var navOffsetBottom;
+var footerOffsetTop, navOffsetBottom;
 
 function toggleFixedNavPosition() {
   navOffsetBottom = $mainNav.outerHeight() + $(window).scrollTop();
+  footerOffsetTop = $("#main-footer").offset().top;
 
-  $mainNav.toggleClass("is-fixed-bottom", footerOffsetTop < navOffsetBottom)
+  $mainNav.toggleClass("is-fixed-bottom", (footerOffsetTop < navOffsetBottom) && $(window).height() <= 759)
 }
 
-toggleFixedNavPosition();
+$(document).ready(function() {
+  $mainContent.css('min-height', $mainNav.outerHeight() - $('#main-nav-ctas').outerHeight());
+  toggleFixedNavPosition();
+});
 
 $(window).scroll(function() {
   toggleFixedNavPosition();
 });
+
