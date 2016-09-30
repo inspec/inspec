@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
   // called when tutorial commands need to be displayed
   updateInstructions(step?) {
     // if step is given, we calculate the new index
-    let totalSteps = this.instructionsArray.length - 1;
+    let totalSteps = this.instructionsArray.length;
     switch(step) {
       case "next":
         if (this.counter < totalSteps) {
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
         break
     }
 
-    if (this.counter === this.instructionsArray.length - 1) {
+    if (this.counter === this.instructionsArray.length) {
       this.title = "the end; that's all folks!";
       this.instruction = "here are some other commands you can try out: \r\n\r\n" + this.extraCmds();
     } else if (this.instructionsArray[this.counter][1]) {
