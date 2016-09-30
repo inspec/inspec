@@ -14,6 +14,9 @@ Options:
       [--sudo-password=SUDO_PASSWORD]      # Specify a sudo password, if it is required.
       [--sudo-options=SUDO_OPTIONS]        # Additional sudo options for a remote scan.
       [--sudo-command=SUDO_COMMAND]        # Alternate command for sudo.
+      [--shell], [--no-shell]              # Run scans in a subshell. Only activates on Unix.
+      [--shell-options=SHELL_OPTIONS]      # Additional shell options.
+      [--shell-command=SHELL_COMMAND]      # Specify a particular shell to use.
       [--ssl], [--no-ssl]                  # Use SSL for transport layer encryption (WinRM).
       [--self-signed], [--no-self-signed]  # Allow remote scans with self-signed certificates (WinRM).
       [--json-config=JSON_CONFIG]          # Read configuration from JSON file (`-` reads from stdin).

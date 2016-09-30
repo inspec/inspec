@@ -32,6 +32,12 @@ module Inspec
         desc: 'Additional sudo options for a remote scan.'
       option :sudo_command, type: :string,
         desc: 'Alternate command for sudo.'
+      option :shell, type: :boolean,
+        desc: 'Run scans in a subshell. Only activates on Unix.'
+      option :shell_options, type: :string,
+        desc: 'Additional shell options.'
+      option :shell_command, type: :string,
+        desc: 'Specify a particular shell to use.'
       option :ssl, type: :boolean,
         desc: 'Use SSL for transport layer encryption (WinRM).'
       option :self_signed, type: :boolean,
