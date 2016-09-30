@@ -17,7 +17,7 @@ Entries in the `limits.conf` file are similar to:
     ^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
     domain      type    item    value
 
-# Syntax
+## Syntax
 
 A `limits_conf` resource block declares a domain to be tested, along with associated type, item, and value:
 
@@ -34,19 +34,19 @@ where
 * `'item'` is the item for which limits are defined, such as `core`, `nofile`, `stack`, `nproc`, `priority`, or `maxlogins`
 * `'value'` is the value associated with the `item`
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## domain
+### domain
 
 The `domain` matcher tests the domain in the `limits.conf` file, along with associated type, item, and value:
 
@@ -56,23 +56,23 @@ For example:
 
     its('grantmc') { should include ['hard', 'nofile', '63536'] }
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test limits
+### Test limits
 
     describe limits_conf('path') do
       its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }

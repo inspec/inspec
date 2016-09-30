@@ -6,7 +6,7 @@ title: About the host Resource
 
 Use the `host` InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
 
-# Syntax
+## Syntax
 
 A `host` resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol:
 
@@ -25,59 +25,59 @@ where
 * `be_reachable` is a valid matcher for this resource
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_reachable
+### be_reachable
 
 The `be_reachable` matcher tests if the host name is available:
 
     it { should be_reachable }
 
-## be_resolvable
+### be_resolvable
 
 The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
 
     it { should be_resolvable }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## ipaddress
+### ipaddress
 
 The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
 
     its('ipaddress') { should include '93.184.216.34' }
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Verify host name is reachable over a specific protocol and port number
+### Verify host name is reachable over a specific protocol and port number
 
     describe host('example.com', port: 53, proto: 'udp') do
       it { should be_reachable }
     end
 
-## Verify that a specific IP address can be resolved
+### Verify that a specific IP address can be resolved
 
     describe host('example.com', port: 80, proto: 'tcp') do
       it { should be_resolvable }

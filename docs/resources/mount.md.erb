@@ -6,7 +6,7 @@ title: About the mount Resource
 
 Use the `mount` InSpec audit resource to test the mount points on Linux systems.
 
-# Syntax
+## Syntax
 
 An `mount` resource block declares the synchronization settings that should be tested:
 
@@ -21,59 +21,59 @@ where
 * `'value'` is the value to be tested
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_mounted
+### be_mounted
 
 The `be_mounted` matcher tests if the file is accessible from the file system:
 
     it { should be_mounted }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## device
+### device
 
 The `device` matcher tests the device from the `fstab` table:
 
     its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## options
+### options
 
 The `options` matcher tests the mount options for the file system from the `fstab` table:
 
     its('options') { should eq ['rw', 'mode=620'] }
 
-## type
+### type
 
 The `type` matcher tests the file system type:
 
     its('type') { should eq  'ext4' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test a the mount point on '/'
+### Test a the mount point on '/'
 
     describe mount('/') do
       it { should be_mounted }

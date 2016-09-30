@@ -6,7 +6,7 @@ title: About the inetd_conf Resource
 
 Use the `inetd_conf` InSpec audit resource to test if a service is listed in the `inetd.conf` file on Linux and Unix platforms. inetd---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The `inetd.conf` file is typically located at `/etc/inetd.conf` and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.`
 
-# Syntax
+## Syntax
 
 An `inetd_conf` resource block declares the list of services that are enabled in the `inetd.conf` file:
 
@@ -21,7 +21,7 @@ where
 * `should eq 'value'` is the value that is expected
 
 
-# Matchers
+## Matchers
 
 This resource matches any service that is listed in the `inetd.conf` file. You may want to ensure that specific services do not listen via `inetd.conf`:
 
@@ -43,31 +43,31 @@ For example:
       its('exec') { should eq nil }
     end
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Verify that FTP is disabled
+### Verify that FTP is disabled
 
 The contents if the `inetd.conf` file contain the following:
 
@@ -88,7 +88,7 @@ Because both the `ftp` and `telnet` Internet services are commented out (`#`), b
 
 then the same test will return `false` for `ftp` and the entire test will fail.
 
-## Test if telnet is installed
+### Test if telnet is installed
 
     describe package('telnetd') do
       it { should_not be_installed }

@@ -6,7 +6,7 @@ title: About the bash Resource
 
 Use the `bash` InSpec audit resource to test an arbitrary command that is run on the system using a Bash script.
 
-# Syntax
+## Syntax
 
 A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
 
@@ -30,55 +30,55 @@ For example:
     end
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if a command may be run on the system:
 
     it { should exist }
 
-## exit_status
+### exit_status
 
 The `exit_status` matcher tests the exit status for the command:
 
     its('exit_status') { should eq 0 }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## stderr
+### stderr
 
 The `stderr` matcher tests results of the command as returned in standard error (stderr):
 
     its('stderr') { should eq '' }
 
-## stdout
+### stdout
 
 The `stdout` matcher tests results of the command as returned in standard output (stdout).
 
     its('stdout') { should match /bin/ }
 
 
-# Examples
+## Examples
 
 None.

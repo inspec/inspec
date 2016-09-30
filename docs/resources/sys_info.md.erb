@@ -6,7 +6,7 @@ title: About the sys_info Resource
 
 Use the `sys_info` InSpec audit resource to test for operating system properties for the named host, and then returns that info as standard output.
 
-# Syntax
+## Syntax
 
 An `sys_info` resource block declares the hostname to be tested:
 
@@ -14,41 +14,41 @@ An `sys_info` resource block declares the hostname to be tested:
       its('hostname') { should eq 'value' }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## hostname
+### hostname
 
 The `hostname` matcher tests the host for which standard output is returned:
 
     its('hostname') { should eq 'value' }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Get system information for example.com
+### Get system information for example.com
 
     describe sys_info do
       its('hostname') { should eq 'example.com' }

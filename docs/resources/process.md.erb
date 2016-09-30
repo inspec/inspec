@@ -6,7 +6,7 @@ title: About the processes Resource
 
 Use the `processes` InSpec audit resource to test properties for programs that are running on the system.
 
-# Syntax
+## Syntax
 
 A `processes` resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs:
 
@@ -20,53 +20,53 @@ where
 * `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## property_name
+### property_name
 
 The `property_name` matcher tests the named property for the specified value:
 
     its('property_name') { should eq ['property_value'] }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test if the list length for the mysqld process is 1
+### Test if the list length for the mysqld process is 1
 
     describe processes('mysqld') do
       its('list.length') { should eq 1 }
     end
 
-## Test if the init process is owned by the root user
+### Test if the init process is owned by the root user
 
     describe processes('init') do
       its('users') { should eq ['root'] }
     end
 
-## Test if a high-priority process is running
+### Test if a high-priority process is running
 
     describe processes('some_process') do
       its('states') { should eq ['R<'] }

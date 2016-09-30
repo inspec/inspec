@@ -6,7 +6,7 @@ title: About the bsd_service Resource
 
 Use the `bsd_service` InSpec audit resource to test a service using a Berkeley OS-style `init` on the FreeBSD platform.
 
-# Syntax
+## Syntax
 
 A `bsd_service` resource block declares the name of a service and then one (or more) matchers to test the state of the service:
 
@@ -29,48 +29,48 @@ The path to the service manager's control may be specified for situations where 
       it { should be_running }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_enabled
+### be_enabled
 
 The `be_enabled` matcher tests if the named service is enabled:
 
     it { should be_enabled }
 
-## be_installed
+### be_installed
 
 The `be_installed` matcher tests if the named service is installed:
 
     it { should be_installed }
 
-## be_running
+### be_running
 
 The `be_running` matcher tests if the named service is running:
 
     it { should be_running }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 None.

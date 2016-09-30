@@ -6,7 +6,7 @@ title: About the postgres_session Resource
 
 Use the `postgres_session` InSpec audit resource to test SQL commands run against a PostgreSQL database.
 
-# Syntax
+## Syntax
 
 A `postgres_session` resource block declares the username and password to use for the session, and then the command to be run:
 
@@ -22,41 +22,41 @@ where
 * `sql.query('')` contains the query to be run
 * `its('output') { should eq('') }` compares the results of the query against the expected result in the test
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## output
+### output
 
 The `output` matcher tests the results of the query:
 
     its('output') { should eq(/^0/) }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test the PostgreSQL shadow password
+### Test the PostgreSQL shadow password
 
     sql = postgres_session('my_user', 'password')
 
@@ -64,7 +64,7 @@ The following examples show how to use this InSpec audit resource.
       its('output') { should eq('') }
     end
 
-## Test for risky database entries
+### Test for risky database entries
 
     describe postgres_session('my_user', 'password').query('SELECT count (*)
                   FROM pg_language

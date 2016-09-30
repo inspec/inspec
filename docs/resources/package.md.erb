@@ -7,7 +7,7 @@ title: About the package Resource
 Use the `package` InSpec audit resource to test if the named package and/or package version is installed on the system.
 
 
-# Syntax
+## Syntax
 
 A `package` resource block declares a package and (optionally) a package version:
 
@@ -20,60 +20,60 @@ where
 * `('name')` must specify the name of a package, such as `'nginx'`
 * `be_installed` is a valid matcher for this resource
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_installed
+### be_installed
 
 The `be_installed` matcher tests if the named package is installed on the system:
 
     it { should be_installed }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## version
+### version
 
 The `version` matcher tests if the named package version is on the system:
 
     its('version') { should eq '1.2.3' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test if nginx version 1.9.5 is installed
+### Test if nginx version 1.9.5 is installed
 
     describe package('nginx') do
       it { should be_installed }
       its('version') { should eq 1.9.5 }
     end
 
-## Test that a package is not installed
+### Test that a package is not installed
 
     describe package('some_package') do
       it { should_not be_installed }
     end
 
-## Test if telnet is installed
+### Test if telnet is installed
 
     describe package('telnetd') do
       it { should_not be_installed }
@@ -83,7 +83,7 @@ The following examples show how to use this InSpec audit resource.
       its('telnet') { should eq nil }
     end
 
-## Test if ClamAV (an antivirus engine) is installed and running
+### Test if ClamAV (an antivirus engine) is installed and running
 
     describe package('clamav') do
       it { should be_installed }
@@ -96,7 +96,7 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_running }
     end
 
-## Verify if Memcached is installed, enabled, and running
+### Verify if Memcached is installed, enabled, and running
 
 Memcached is an in-memory key-value store that helps improve the performance of database-driven websites and can be installed, maintained, and tested using the `memcached` cookbook (maintained by Chef). The following example is from the `memcached` cookbook and shows how to use a combination of the `package`, `service`, and `port` InSpec audit resources to test if Memcached is installed, enabled, and running:
 

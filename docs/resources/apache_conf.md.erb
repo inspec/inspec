@@ -6,7 +6,7 @@ title: About the apache_conf Resource
 
 Use the `apache_conf` InSpec audit resource to test the configuration settings for Apache. This file is typically located under `/etc/apache2` on the Debian and Ubuntu platforms and under `/etc/httpd` on the Fedora, CentOS, RedHat Enterprise Linux, and ArchLinux platforms. The configuration settings may vary significantly from platform to platform.
 
-# Syntax
+## Syntax
 
 An `apache_conf` InSpec audit resource block declares configuration settings that should be tested:
 
@@ -20,7 +20,7 @@ where
 * `('path')` is the non-default path to the Apache configuration file
 * `{ should eq 'value' }` is the value that is expected
 
-# Matchers
+## Matchers
 
 This InSpec audit resource matches any service that is listed in the Apache configuration file:
 
@@ -38,37 +38,37 @@ For example:
     end
 
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test for blocking .htaccess files on CentOS
+### Test for blocking .htaccess files on CentOS
 
     describe apache_conf do
       its('AllowOverride') { should eq 'None' }
     end
 
-## Test ports for SSL
+### Test ports for SSL
 
     describe apache_conf do
       its('Listen') { should eq '443'}

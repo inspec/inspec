@@ -6,7 +6,7 @@ title: About the ini Resource
 
 Use the `ini` InSpec audit resource to test settings in an INI file.
 
-# Syntax
+## Syntax
 
 An `ini` resource block declares the configuration settings to be tested:
 
@@ -27,35 +27,35 @@ For example:
       its('server') { should eq '192.0.2.62' }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test SMTP settings in a PHP INI file
+### Test SMTP settings in a PHP INI file
 
 For example, a PHP INI file located at contains the following settings:
 

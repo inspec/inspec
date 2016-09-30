@@ -6,7 +6,7 @@ title: About the port Resource
 
 Use the `port` InSpec audit resource to test basic port properties, such as port, process, if it's listening.
 
-# Syntax
+## Syntax
 
 A `port` resource block declares a port, and then depending on what needs to be tested, a process, protocol, process identifier, and its state (is it listening?):
 
@@ -35,55 +35,55 @@ For example, to test if the SSH daemon is available on a Linux machine via the d
       its('addresses') { should include '0.0.0.0' }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## address
+### address
 
 The `addresses` matcher tests if the specified address is associated with a port:
 
     its('addresses') { should include '0.0.0.0' }
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## be_listening
+### be_listening
 
 The `be_listening` matcher tests if the port is listening for traffic:
 
     it { should be_listening }
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## pids
+### pids
 
 The `pids` matcher tests the process identifiers (PIDs):
 
     its('pids') { should eq ['27808'] }
 
-## processes
+### processes
 
 The `processes` matcher tests if the named process is running on the system:
 
     its('processes') { should eq ['syslog'] }
 
-## protocols
+### protocols
 
 The `protocols` matcher tests the Internet protocol: ICMP (`'icmp'`), TCP (`'tcp'` or `'tcp6'`), or UDP (`'udp'` or `'udp6'`):
 
@@ -93,18 +93,18 @@ or for the IPv6 protocol:
 
     its('protocols') { should include 'tcp6' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test port 80, listening with the TCP protocol
+### Test port 80, listening with the TCP protocol
 
     describe port(80) do
       it { should be_listening }
       its('protocols') {should eq ['tcp']}
     end
 
-## Test port 80, on a specific address
+### Test port 80, on a specific address
 
 A specific port address may be checked using either of the following examples:
 
@@ -119,14 +119,14 @@ or:
       it { should be_listening }
     end
 
-## Test port 80, listening with TCP version IPv6 protocol
+### Test port 80, listening with TCP version IPv6 protocol
 
     describe port(80) do
       it { should be_listening }
       its('protocols') {should eq ['tcp6']}
     end
 
-## Test that only secure ports accept requests
+### Test that only secure ports accept requests
 
     describe port(80) do
       it { should_not be_listening }
@@ -137,7 +137,7 @@ or:
       its('protocols') {should eq ['tcp']}
     end
 
-## Verify port 65432 is not listening
+### Verify port 65432 is not listening
 
     describe port(22) do
       it { should be_listening }

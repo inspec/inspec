@@ -6,7 +6,7 @@ title: About the users Resource
 
 Use the `users` InSpec audit resource to look up all local users available on the system, and then test specific properties of those users. This resource does not return information about users that may be located on other systems, such as LDAP or Active Directory.
 
-# Syntax
+## Syntax
 
 A `users` resource block declares a user name, and then one (or more) matchers:
 
@@ -33,29 +33,29 @@ or:
       it { should exist }
     end
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if the named user exists:
 
     it { should exist }
 
-## gid
+### gid
 
 The `gid` matcher tests the group identifier:
 
@@ -63,7 +63,7 @@ The `gid` matcher tests the group identifier:
 
 where `1234` represents the user identifier.
 
-## group
+### group
 
 The `group` matcher tests the group to which the user belongs:
 
@@ -71,27 +71,27 @@ The `group` matcher tests the group to which the user belongs:
 
 where `root` represents the group.
 
-## groups
+### groups
 
 The `groups` matcher tests two (or more) groups to which the user belongs:
 
     its('groups') { should eq ['root', 'other']}
 
-## home
+### home
 
 The `home` matcher tests the home directory path for the user:
 
     its('home') { should eq '/root' }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## maxdays
+### maxdays
 
 The `maxdays` matcher tests the maximum number of days between password changes:
 
@@ -99,7 +99,7 @@ The `maxdays` matcher tests the maximum number of days between password changes:
 
 where `99` represents the maximum number of days.
 
-## mindays
+### mindays
 
 The `mindays` matcher tests the minimum number of days between password changes:
 
@@ -107,13 +107,13 @@ The `mindays` matcher tests the minimum number of days between password changes:
 
 where `0` represents the maximum number of days.
 
-## shell
+### shell
 
 The `shell` matcher tests the path to the default shell for the user:
 
     its('shell') { should eq '/bin/bash' }
 
-## uid
+### uid
 
 The `uid` matcher tests the user identifier:
 
@@ -121,7 +121,7 @@ The `uid` matcher tests the user identifier:
 
 where `1234` represents the user identifier.
 
-## warndays
+### warndays
 
 The `warndays` matcher tests the number of days a user is warned before a password must be changed:
 
@@ -129,11 +129,11 @@ The `warndays` matcher tests the number of days a user is warned before a passwo
 
 where `5` represents the number of days a user is warned.
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Use a regular expression to find users
+### Use a regular expression to find users
 
     describe users.where { uid =~ /S\-1\-5\-21\-\d+\-\d+\-\d+\-500/ } do
       it { should exist }

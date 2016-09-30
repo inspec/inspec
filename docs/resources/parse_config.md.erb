@@ -6,7 +6,7 @@ title: About the parse_config Resource
 
 Use the `parse_config` InSpec audit resource to test arbitrary configuration files.
 
-# Syntax
+## Syntax
 
 A `parse_config` resource block declares the location of the configuration setting to be tested, and then what value is to be tested. Because this resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom Ruby code:
 
@@ -35,11 +35,11 @@ where each test
 * May run a command to `stdout`, and then run the test against that output
 * May use options to define how configuration data is to be parsed
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## assignment_re
+### assignment_re
 
 Use `assignment_re` to test a key value using a regular expression:
 
@@ -49,29 +49,29 @@ may be tested using the following regular expression, which determines assignmen
 
     assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## comment_char
+### comment_char
 
 Use `comment_char` to test for comments in a configuration file:
 
     comment_char: '#'
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## key_vals
+### key_vals
 
 Use `key_vals` to test how many values a key contains:
 
@@ -81,11 +81,11 @@ contains three values. To test that value to ensure it only contains one, use:
 
     key_vals: 1
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## multiple_values
+### multiple_values
 
 Use `multiple_values` if the source file uses the same key multiple times. All values will be aggregated in an array:
 
@@ -105,7 +105,7 @@ To use plain key value mapping, use `multiple_values: false`:
     params['key'] = 'b'
     params['key2'] = 'c'
 
-## standalone_comments
+### standalone_comments
 
 Use `standalone_comments` to parse comments as a line, otherwise inline comments are allowed:
 
@@ -117,6 +117,6 @@ Use `standalone_comments: false`, to parse the following:
     'key = value # comment'
     params['key'] = 'value'
 
-# Examples
+## Examples
 
 None.

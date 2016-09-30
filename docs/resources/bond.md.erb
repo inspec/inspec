@@ -6,7 +6,7 @@ title: About the bond Resource
 
 Use the `bond` InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the `/proc/net/bonding` directory may be tested.
 
-# Syntax
+## Syntax
 
 A `bond` resource block declares a bonded network interface, and then specifies the properties of that bonded network interface to be tested:
 
@@ -20,72 +20,72 @@ where
 * `{ should exist }` is a valid matcher for this resource
 
 
-# Matchers
+## Matchers
 
 This InSpec audit resource has the following matchers:
 
-## be
+### be
 
 <%= partial "/shared/matcher_be" %>
 
-## cmp
+### cmp
 
 <%= partial "/shared/matcher_cmp" %>
 
-## content
+### content
 
 The `content` matcher tests if contents in the file that defines the bonded network interface match the value specified in the test. The values of the `content` matcher are arbitrary:
 
     its('content') { should match('value') }
 
-## eq
+### eq
 
 <%= partial "/shared/matcher_eq" %>
 
-## exist
+### exist
 
 The `exist` matcher tests if the bonded network interface is available:
 
     it { should exist }
 
-## have_interface
+### have_interface
 
 The `have_interface` matcher tests if the bonded network interface has one (or more) secondary interfaces:
 
     it { should have_interface }
 
-## include
+### include
 
 <%= partial "/shared/matcher_include" %>
 
-## interfaces
+### interfaces
 
 The `interfaces` matcher tests if the named secondary interfaces are available:
 
     its('interfaces') { should eq ['eth0', 'eth1', ...] }
 
-## match
+### match
 
 <%= partial "/shared/matcher_match" %>
 
-## params
+### params
 
 The `params` matcher tests arbitrary parameters for the bonded network interface:
 
     its('params') { should eq 'value' }
 
-# Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-## Test if eth0 is a secondary interface for bond0
+### Test if eth0 is a secondary interface for bond0
 
     describe bond('bond0') do
       it { should exist }
       it { should have_interface 'eth0' }
     end
 
-## Test parameters for bond0
+### Test parameters for bond0
 
     describe bond('bond0') do
       its('Bonding Mode') { should eq 'IEEE 802.3ad Dynamic link aggregation' }
