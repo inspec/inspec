@@ -20,12 +20,10 @@ module.exports = {
               test: /\.tsx?$/, loader: "ts-loader"
             },
             {
-              test: /\.css$/, loader: 'style!css',
+              test: /\.css$/, loader: 'style!css'
             },
             {
-              test: /\.js$/,
-              exclude: /.spec.js/,
-              loader: "uglify"
+              test: /\.js$/, exclude: /(node_modules)/, loader: 'babel'
             }
         ],
 
