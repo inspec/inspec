@@ -21,25 +21,29 @@ namespace :www do
   desc 'Builds the tutorial contents'
   task :tutorial do
     Log.section 'Build the online tutorial in www/tutorial/'
-    system([
-      'cd www/tutorial/',
-      'npm install',
-      'gulp build',
-    ].join(' && '))
+    sh('cd www/tutorial/ && npm install')
+    sh('cd www/tutorial/ && gulp build')
+    Verify.file('www/tutorial/dist/index.html')
+    Verify.file('www/tutorial/dist/css/inspec_tutorial.css')
+    Verify.file('www/tutorial/dist/scripts/inspec_tutorial.js')
+    Verify.file('www/tutorial/dist/dist/inspec_tutorial.js')
   end
 
   desc 'Builds the middleman site'
   task :site do
     Log.section 'Build middleman project in www/'
     Bundler.with_clean_env {
-      system('cd www/ && bundle install && bundle exec middleman build')
+      sh('cd www/ && bundle install && bundle exec middleman build')
     }
+    Verify.file('www/build/index.html')
+    Verify.file('www/build/javascripts/all.js')
+    Verify.file('www/build/stylesheets/site.css')
   end
 
   desc 'Assemble the website site from middleman and the tutorial'
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
-    system('rsync -a --exclude=index.html www/tutorial/dist/* www/build/')
+    sh('rsync -a --exclude=index.html www/tutorial/dist/* www/build/')
   end
 
   desc 'Builds the full site locally'
@@ -64,10 +68,10 @@ namespace :www do
     end
 
     # check if git exists
-    system('command -v git >/dev/null 2>&1') ||
+    sh('command -v git >/dev/null 2>&1') ||
       fail("It looks like `git` isn't installed. It is required to run this build task.")
 
-    unless system('git diff-index --quiet HEAD --')
+    unless sh('git diff-index --quiet HEAD --')
       fail 'Please make sure you have no uncommitted changes in this repository.'
     end
 
@@ -76,7 +80,7 @@ namespace :www do
     file_size = `du -hs www/build`.sub(/\s+.*$/m, '')
 
     Log.info 'Remove local gh-pages branch'
-    system('git branch -D gh-pages')
+    sh('git branch -D gh-pages')
 
     current_branch = `git rev-parse --abbrev-ref HEAD`.strip
     if current_branch.empty?
@@ -84,33 +88,33 @@ namespace :www do
     end
 
     Log.info 'Create empty gh-pages branch'
-    system('git checkout --orphan gh-pages')
+    sh('git checkout --orphan gh-pages')
 
     Log.info 'Clear out all local git files!'
-    system('git rm -rf .')
+    sh('git rm -rf .')
 
     Log.info "Add the built files in #{dst}"
-    system("git add #{dst}")
+    sh("git add #{dst}")
 
     Log.info 'Remove all other files in this empty branch'
-    system('git clean -df')
+    sh('git clean -df')
 
     Log.info 'Move the site to the root directory'
-    system("git mv #{File.join(dst, '*')} .")
+    sh("git mv #{File.join(dst, '*')} .")
 
     Log.info 'Commit to gh-pages'
-    system("git commit -m 'website update'")
+    sh("git commit -m 'website update'")
 
     require 'inquirer'
     if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
                    'Do you want to push this live?', default: false)
       Log.info 'push to origin, this may take a moment'
-      system('git push -u origin --force-with-lease gh-pages')
+      sh('git push -u origin --force-with-lease gh-pages')
     else
       puts 'Aborted.'
     end
 
-    system("git checkout #{current_branch}")
+    sh("git checkout #{current_branch}")
   end
 end
 
