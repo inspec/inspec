@@ -16,6 +16,8 @@ html
     == stylesheet_link_tag :site
 
   body class="#{page_classes}"
+    = partial "layouts/global-message"
+
     .container
       = partial "layouts/nav"
 

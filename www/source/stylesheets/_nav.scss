@@ -23,6 +23,7 @@ $nav-breakpoint: 730px;
   z-index: 1000;
   width: 100%;
   background: $white;
+  transition: top 0.3s ease;
 
   @include nav-large {
     position: fixed;
@@ -32,7 +33,7 @@ $nav-breakpoint: 730px;
 
   &.is-fixed-bottom {
     @include nav-large {
-      top: auto;
+      top: auto !important;
       position: absolute;
     }
 
@@ -157,6 +158,7 @@ $nav-breakpoint: 730px;
 }
 
 #main-nav-ctas {
+  transition: top 0.3s ease;
   background: $white;
 
   @include nav-small {

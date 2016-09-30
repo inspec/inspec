@@ -14,7 +14,9 @@ body {
 }
 
 #main-content {
+  position: relative;
   margin-top: 64px;
+  transition: margin 0.3s ease;
 
   @include nav-small {
     padding: 0 $side-nav-padding-small;
