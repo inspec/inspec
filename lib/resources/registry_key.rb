@@ -147,6 +147,11 @@ module Inspec::Resources
       script = <<-EOH
       Function InSpec-GetRegistryKey($path) {
         $reg = Get-Item ('Registry::' + $path)
+        if ($reg -eq $null) {
+          Write-Error "InSpec: Failed to find registry key"
+          exit 1001
+        }
+
         $properties = New-Object -Type PSObject
         $reg.Property | ForEach-Object {
             $key = $_
@@ -167,11 +172,16 @@ module Inspec::Resources
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0, try to parse json
       begin
-        @registry_cache = JSON.parse(cmd.stdout)
-        # convert keys to lower case
-        @registry_cache = Hash[@registry_cache.map do |key, value|
-          [key.downcase, value]
-        end]
+        if cmd.exit_status == 1001 && cmd.stderr =~ /InSpec: Failed to find registry key/
+          # TODO: provide the stderr output
+          @registry_cache = nil
+        else
+          @registry_cache = JSON.parse(cmd.stdout)
+          # convert keys to lower case
+          @registry_cache = Hash[@registry_cache.map do |key, value|
+            [key.downcase, value]
+          end]
+        end
       rescue JSON::ParserError => _e
         @registry_cache = nil
       end
