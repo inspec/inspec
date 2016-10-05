@@ -1,7 +1,51 @@
 # Change Log
 
-## [1.0.0](https://github.com/chef/inspec/tree/1.0.0) (2016-09-26)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta3...1.0.0)
+## [1.1.0](https://github.com/chef/inspec/tree/1.1.0) (2016-10-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0...1.1.0)
+
+**Fixed bugs:**
+
+- InSpec in Visibility [\#1117](https://github.com/chef/inspec/issues/1117)
+- inspec exec on tar.gz with local library requirements doesn't work [\#779](https://github.com/chef/inspec/issues/779)
+- parse\_config\_file fails when it encounters a '\[' [\#687](https://github.com/chef/inspec/issues/687)
+- use mock backend for inspec vendor/check/json [\#1202](https://github.com/chef/inspec/pull/1202) ([arlimus](https://github.com/arlimus))
+- bugfix: support nil entries in filter table [\#1201](https://github.com/chef/inspec/pull/1201) ([arlimus](https://github.com/arlimus))
+- bugfix: always use the mock backend for inspec archive [\#1200](https://github.com/chef/inspec/pull/1200) ([arlimus](https://github.com/arlimus))
+- Missing registry keys should not exist [\#1199](https://github.com/chef/inspec/pull/1199) ([alexpop](https://github.com/alexpop))
+- bugfix: use correct logger in cli [\#1198](https://github.com/chef/inspec/pull/1198) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- registry\_key ignores failed Get-Item, always "exists" [\#1196](https://github.com/chef/inspec/issues/1196)
+- www: Online tutorial doesn't load \(not building\) [\#1182](https://github.com/chef/inspec/issues/1182)
+- Issue locally running an inspec check on a service resource [\#1176](https://github.com/chef/inspec/issues/1176)
+- Demo at `http://inspec.io/` stuck on `Loading` [\#1165](https://github.com/chef/inspec/issues/1165)
+- Confusing reporter output with inherited profiles [\#1071](https://github.com/chef/inspec/issues/1071)
+- Provide clear error message if dependency is not available [\#1069](https://github.com/chef/inspec/issues/1069)
+- Dependencies: Design UX for scoping of attributes and resources [\#1057](https://github.com/chef/inspec/issues/1057)
+- RFC Dependencies [\#888](https://github.com/chef/inspec/issues/888)
+
+**Merged pull requests:**
+
+- Remove pre-1.0 warning from meta-profile [\#1194](https://github.com/chef/inspec/pull/1194) ([chris-rock](https://github.com/chris-rock))
+- Add shell options [\#1192](https://github.com/chef/inspec/pull/1192) ([jonathanmorley](https://github.com/jonathanmorley))
+- Website: Fix buggy behavior in nav and add global message [\#1190](https://github.com/chef/inspec/pull/1190) ([magwalk](https://github.com/magwalk))
+- add example for yumconf-like structured files [\#1185](https://github.com/chef/inspec/pull/1185) ([vjeffrey](https://github.com/vjeffrey))
+- add sanity checks and fail build process if requirements aren't met [\#1183](https://github.com/chef/inspec/pull/1183) ([arlimus](https://github.com/arlimus))
+- tp/learn links [\#1181](https://github.com/chef/inspec/pull/1181) ([tpetchel](https://github.com/tpetchel))
+- include control section in instructions [\#1180](https://github.com/chef/inspec/pull/1180) ([vjeffrey](https://github.com/vjeffrey))
+- Changing headings to align with SEO best practices [\#1179](https://github.com/chef/inspec/pull/1179) ([davidwrede](https://github.com/davidwrede))
+- move inquirer to deploy [\#1178](https://github.com/chef/inspec/pull/1178) ([vjeffrey](https://github.com/vjeffrey))
+- Ignore lockfiles in example profiles [\#1177](https://github.com/chef/inspec/pull/1177) ([stevendanna](https://github.com/stevendanna))
+- Remove default parameter in `updateInstructions\(\)` [\#1175](https://github.com/chef/inspec/pull/1175) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Website: Fix docs nav functionality and optimize for mobile [\#1174](https://github.com/chef/inspec/pull/1174) ([magwalk](https://github.com/magwalk))
+- Adds segment [\#1172](https://github.com/chef/inspec/pull/1172) ([cwebberOps](https://github.com/cwebberOps))
+- print profile info before test results \(inherited profiles\) [\#1170](https://github.com/chef/inspec/pull/1170) ([vjeffrey](https://github.com/vjeffrey))
+- www: fix wording [\#1168](https://github.com/chef/inspec/pull/1168) ([arlimus](https://github.com/arlimus))
+- Update dependency documentation and mention the lockfile [\#1167](https://github.com/chef/inspec/pull/1167) ([alexpop](https://github.com/alexpop))
+
+## [v1.0.0](https://github.com/chef/inspec/tree/v1.0.0) (2016-09-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta3...v1.0.0)
 
 **Implemented enhancements:**
 
@@ -89,7 +133,6 @@
 - InSpec in Workflow [\#1115](https://github.com/chef/inspec/issues/1115)
 - uninstalled package shows as installed [\#1092](https://github.com/chef/inspec/issues/1092)
 - undefined method `send\_request' for Compliance::API:Class [\#1088](https://github.com/chef/inspec/issues/1088)
-- safari inspec online demo bug! [\#1086](https://github.com/chef/inspec/issues/1086)
 - \[package\] Regression on Windows 2008R2 [\#998](https://github.com/chef/inspec/issues/998)
 - \[script\] Is there a limit on the number of char's within a script block [\#539](https://github.com/chef/inspec/issues/539)
 - Use parenthesis when passing regular expressions [\#1106](https://github.com/chef/inspec/pull/1106) ([alexpop](https://github.com/alexpop))
