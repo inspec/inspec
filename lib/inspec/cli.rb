@@ -34,6 +34,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     diagnose
     o = opts.dup
     o[:ignore_supports] = true
+    o[:backend] = Inspec::Backend.create(target: 'mock://')
 
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
@@ -60,6 +61,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o = opts.dup
     # configure_logger(o) # we do not need a logger for check yet
     o[:ignore_supports] = true # we check for integrity only
+    o[:backend] = Inspec::Backend.create(target: 'mock://')
 
     # run check
     profile = Inspec::Profile.for_target(path, o)
@@ -105,8 +107,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
 
   desc 'vendor', 'Download all dependencies and generate a lockfile'
   def vendor(path = nil)
-    configure_logger(opts)
-    profile = Inspec::Profile.for_target('./', opts.merge(cache: Inspec::Cache.new(path)))
+    o = opts.dup
+    o[:cache] = Inspec::Cache.new(path)
+    o[:backend] = Inspec::Backend.create(target: 'mock://')
+    configure_logger(o)
+
+    profile = Inspec::Profile.for_target('./', o)
     lockfile = profile.generate_lockfile
     File.write('inspec.lock', lockfile.to_yaml)
   rescue StandardError => e
