@@ -21,6 +21,10 @@ describe registry_key('HKLM\System\Test') do
   it { should have_property_value('Binary value', :binary, 'dfa0f066') }
 end
 
+describe registry_key('HKLM\Missing\In\Action') do
+  it { should_not exist }
+end
+
 # serverspec compatability
 describe windows_registry_key('HKLM\System\Test') do
   it { should exist }
