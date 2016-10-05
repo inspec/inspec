@@ -44,6 +44,7 @@ module FilterTable
     def initialize(resource, params, filters)
       @resource = resource
       @params = params
+      @params = [] if @params.nil?
       @filters = filters
     end
 
