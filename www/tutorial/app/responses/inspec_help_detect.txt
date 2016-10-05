@@ -14,11 +14,14 @@ Options:
       [--sudo-password=SUDO_PASSWORD]      # Specify a sudo password, if it is required.
       [--sudo-options=SUDO_OPTIONS]        # Additional sudo options for a remote scan.
       [--sudo-command=SUDO_COMMAND]        # Alternate command for sudo.
+      [--shell], [--no-shell]              # Run scans in a subshell. Only activates on Unix.
+      [--shell-options=SHELL_OPTIONS]      # Additional shell options.
+      [--shell-command=SHELL_COMMAND]      # Specify a particular shell to use.
       [--ssl], [--no-ssl]                  # Use SSL for transport layer encryption (WinRM).
       [--self-signed], [--no-self-signed]  # Allow remote scans with self-signed certificates (WinRM).
       [--json-config=JSON_CONFIG]          # Read configuration from JSON file (`-` reads from stdin).
   l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
-      [--format=FORMAT]                    
+      [--format=FORMAT]
   l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
       [--log-location=LOG_LOCATION]        # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
       [--diagnose], [--no-diagnose]        # Show diagnostics (versions, configurations)

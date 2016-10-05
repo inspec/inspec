@@ -210,6 +210,9 @@ inspec exec test.rb -t docker://container_id
 
 # run with sudo
 inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_command ...]
+
+# run in a subshell
+inspec exec test.rb --shell [--shell-options ...] [--shell-command ...]
 ```
 
 ### detect
