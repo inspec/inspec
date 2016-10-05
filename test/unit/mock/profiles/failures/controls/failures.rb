@@ -30,3 +30,13 @@ describe file('/tmp') do
   it { should_not be_directory }
   it { should be_directory }
 end
+
+# control, first and second fail, third passes
+control 'cmp-1.0' do
+  title 'Using the cmp matcher for numbers'
+  describe 7 do
+    it { should cmp >= 9 }
+    it { should_not cmp /^\d$/ }
+    it { should cmp == '7' }
+  end
+end
