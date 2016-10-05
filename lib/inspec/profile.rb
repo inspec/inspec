@@ -64,9 +64,9 @@ module Inspec
       @tests_collected = false
       @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id)
-      @runner_context = options[:profile_context] || Inspec::ProfileContext.for_profile(self,
-                                                                                        @backend,
-                                                                                        options[:attributes])
+      @runner_context =
+        options[:profile_context] ||
+        Inspec::ProfileContext.for_profile(self, @backend, options[:attributes])
     end
 
     def name

@@ -131,6 +131,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o = opts.dup
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
+    o[:backend] = Inspec::Backend.create(target: 'mock://')
 
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
