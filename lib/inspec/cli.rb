@@ -136,7 +136,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     result = profile.check
 
     if result && !opts[:ignore_errors] == false
-      @logger.info 'Profile check failed. Please fix the profile before generating an archive.'
+      o[:logger].info 'Profile check failed. Please fix the profile before generating an archive.'
       return exit 1
     end
 
