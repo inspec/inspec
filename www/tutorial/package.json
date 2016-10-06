@@ -2,9 +2,9 @@
   "name": "angular2-quickstart",
   "version": "1.0.0",
   "scripts": {
-    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config config/webpack.config.js --progress --profile --colors --display-error-details --display-cached",
-    "start": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js",
-    "dev": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js --inline --progress --hot --profile --colors --watch --display-error-details --display-cachedwebpack-dev-server"
+    "build": "typings install && node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config config/webpack.config.js --progress --profile --colors --display-error-details --display-cached",
+    "start": "typings install && node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js",
+    "dev": "typings install && node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.config.js --inline --progress --hot --profile --colors --watch --display-error-details --display-cachedwebpack-dev-server"
   },
   "license": "ISC",
   "dependencies": {
@@ -30,6 +30,9 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "babel-core": "^6.16.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
     "concurrently": "^2.0.0",
     "css-loader": "^0.25.0",
     "gulp": "^3.9.1",
