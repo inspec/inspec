@@ -105,6 +105,7 @@ export class AppComponent implements OnInit {
   // if it matches, we set matchFound to true and call printOnStdout. if it doesn't match,
   // we display a default error message
   execCommand(command, shell) {
+    command = command.replace(/\r/g,'');
     let response = ''
     let dir = 'app/responses/';
     let cmd = command.replace(/ /g,'\\s*')
@@ -126,7 +127,7 @@ export class AppComponent implements OnInit {
     // respond with 'invalid command' and the command entered
     if (matchFound === false) {
       if (command.match(/^inspec exec\s*.*/)) {
-        let target = command.match(/^inspec exec\s*(.*)/)
+        let target = command.match(/^inspec exec\s*(.*)/);
         response = this.red + "Could not fetch inspec profile in '" + target[1] + "' " + this.black;
       } else {
         response = this.red + 'command not found: ' + command;

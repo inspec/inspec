@@ -149,7 +149,7 @@ export class XtermTerminalComponent implements OnInit, OnChanges{
   // stores a command in commmand history
   storeInHistory(cmd) {
     // remove cariage returns from history commands
-    cmd = cmd.replace(/\r/,'')
+    cmd = cmd.replace(/\r/,'');
     this.history.push(cmd);
     this.historyIndex = this.history.length
   }
@@ -162,13 +162,15 @@ export class XtermTerminalComponent implements OnInit, OnChanges{
 
   // reprint a command in the current line
   reprintCommand(cmd){
-    this.term.write(this.clearLine+this.prompt + cmd)
+    // strip out any extra \r characters
+    cmd = cmd.replace(/\r/g,'');
+    this.term.write(this.clearLine + this.prompt + cmd);
   }
 
   // resets the terminal
   clear() {
-    this.term.reset()
-    this.writePrompt()
+    this.term.reset();
+    this.writePrompt();
   }
 
   // terminal event handler
