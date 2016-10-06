@@ -1,0 +1,17 @@
+[0G[0;32minspec> [0m
+Profile: inspec-shell
+Version: unknown
+
+
+
+  File /root
+[32m     ✔  should exist[0m
+[31m     ✖  mode should cmp "0750"
+
+     expected: "0750"
+          got: 0700
+
+     (compared using `cmp` matcher)
+     [0m
+
+Test Summary: [32m1 successful[0m, [31m1 failures[0m, [37m0 skipped[0m

@@ -4,6 +4,7 @@ require 'yaml'
 require 'github/markup'
 require 'json'
 require 'shellwords'
+require 'digest'
 
 # global config
 input_dir = File.expand_path(File.join(File.dirname(__FILE__), '../content'))
@@ -14,6 +15,14 @@ simulator = 'inspec-simulator'
 def create_key(command)
   formatted_command = command.gsub(/\W/, '_')
   not_too_long = formatted_command.gsub(/_{2,}/, '_')
+  # ensure file names do not get to long (for Windows)
+  if not_too_long.length > 40
+    hash = Digest::MD5.hexdigest not_too_long
+    # hard_cut at 40 chars
+    not_too_long = not_too_long.slice(0..40)
+    # find last underscore and change end with hash
+    not_too_long.gsub!(/_[^_]*$/, '_' + hash)
+  end
   not_too_long + '.txt'
 end
 

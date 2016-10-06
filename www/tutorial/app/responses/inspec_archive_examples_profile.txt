@@ -1,6 +1,6 @@
-I, [2016-09-21T20:14:01.136322 #1698]  INFO -- : Checking profile in examples/profile
-I, [2016-09-21T20:14:01.136404 #1698]  INFO -- : Metadata OK.
-I, [2016-09-21T20:14:01.151169 #1698]  INFO -- : Found 4 controls.
-I, [2016-09-21T20:14:01.151207 #1698]  INFO -- : Control definitions OK.
-I, [2016-09-21T20:14:01.151402 #1698]  INFO -- : Generate archive /filesystem/profile.tar.gz.
-I, [2016-09-21T20:14:01.154062 #1698]  INFO -- : Finished archive generation.
+I, [2016-10-05T13:48:43.300330 #1605]  INFO -- : Checking profile in examples/profile
+I, [2016-10-05T13:48:43.300376 #1605]  INFO -- : Metadata OK.
+I, [2016-10-05T13:48:43.310004 #1605]  INFO -- : Found 4 controls.
+I, [2016-10-05T13:48:43.310038 #1605]  INFO -- : Control definitions OK.
+I, [2016-10-05T13:48:43.310163 #1605]  INFO -- : Generate archive /filesystem/profile.tar.gz.
+I, [2016-10-05T13:48:43.312478 #1605]  INFO -- : Finished archive generation.
