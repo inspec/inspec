@@ -37,4 +37,12 @@ describe 'Inspec::Resources::Os' do
     _(resource.release).must_equal '15.04'
     _(resource.arch).must_equal 'x86_64'
   end
+
+  it 'verify os parsing on Mint' do
+    resource = MockLoader.new(:mint18).load_resource('os')
+    _(resource.name).must_equal 'linuxmint'
+    _(resource.family).must_equal 'debian'
+    _(resource.release).must_equal '18'
+    _(resource.arch).must_equal 'x86_64'
+  end
 end

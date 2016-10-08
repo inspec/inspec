@@ -24,6 +24,15 @@ describe 'Inspec::Resources::Package' do
     _(resource.info).must_equal pkg
   end
 
+  # mint
+  it 'verify mint package parsing' do
+    resource = MockLoader.new(:mint17).load_resource('package', 'curl')
+    pkg = { name: 'curl', installed: true, version: '7.35.0-1ubuntu2', type: 'deb' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.35.0-1ubuntu2'
+    _(resource.info).must_equal pkg
+  end
+
   # centos
   it 'verify centos package parsing' do
     resource = MockLoader.new(:centos7).load_resource('package', 'curl')
