@@ -49,6 +49,8 @@ class MockLoader
     ubuntu1204: { name: 'ubuntu', family: 'debian', release: '12.04', arch: 'x86_64' },
     ubuntu1404: { name: 'ubuntu', family: 'debian', release: '14.04', arch: 'x86_64' },
     ubuntu1504: { name: 'ubuntu', family: 'debian', release: '15.04', arch: 'x86_64' },
+    mint17:     { name: 'linuxmint', family: 'debian', release: '17.3', arch: 'x86_64' },
+    mint18:     { name: 'linuxmint', family: 'debian', release: '18', arch: 'x86_64' },
     windows:    { name: 'windows', family: 'windows', release: '6.2.9200', arch: 'x86_64' },
     wrlinux:    { name: 'wrlinux', family: 'redhat', release: '7.0(3)I2(2)', arch: 'x86_64' },
     solaris11:  { name: "solaris", family: 'solaris', release: '11', arch: 'i386'},
