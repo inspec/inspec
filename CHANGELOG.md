@@ -1,7 +1,33 @@
 # Change Log
 
-## [1.1.0](https://github.com/chef/inspec/tree/1.1.0) (2016-10-05)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0...1.1.0)
+## [1.2.0](https://github.com/chef/inspec/tree/1.2.0) (2016-10-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.1.0...1.2.0)
+
+**Implemented enhancements:**
+
+- Support of linux mint or OS detection via distro families [\#280](https://github.com/chef/inspec/issues/280)
+- Support of Linux Mint [\#1209](https://github.com/chef/inspec/pull/1209) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
+**Fixed bugs:**
+
+- Online tutorial: weird behavior with backspace, invalid commands [\#1184](https://github.com/chef/inspec/issues/1184)
+- parse\_config and parse\_config\_file does not show fully info when test fails \(or even if it succedes\) [\#1147](https://github.com/chef/inspec/issues/1147)
+- www: Online tutorial: safari inspec online demo bug! [\#1086](https://github.com/chef/inspec/issues/1086)
+- cmp code\_desc missing operation and expected valid [\#1204](https://github.com/chef/inspec/pull/1204) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- Resources on `http://inspec.io/docs/reference/resources/` are not in alphabetical order [\#1195](https://github.com/chef/inspec/issues/1195)
+- www: Online tutorial: update inspec tutorial to 1.0.0 version [\#1169](https://github.com/chef/inspec/issues/1169)
+
+**Merged pull requests:**
+
+- fix backspace bug [\#1206](https://github.com/chef/inspec/pull/1206) ([vjeffrey](https://github.com/vjeffrey))
+- es5. that is a thing. [\#1191](https://github.com/chef/inspec/pull/1191) ([vjeffrey](https://github.com/vjeffrey))
+- tutorial response filename length [\#1159](https://github.com/chef/inspec/pull/1159) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.1.0](https://github.com/chef/inspec/tree/v1.1.0) (2016-10-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0...v1.1.0)
 
 **Fixed bugs:**
 
