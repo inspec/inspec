@@ -120,6 +120,13 @@ module Inspec::Resources
         else
           Systemd.new(inspec, service_ctl)
         end
+      elsif %w{linuxmint}.include?(platform)
+        version = os[:release].to_f
+        if version < 18
+          Upstart.new(inspec, service_ctl)
+        else
+          Systemd.new(inspec, service_ctl)
+        end
       elsif %w{debian}.include?(platform)
         version = os[:release].to_i
         if version > 7
