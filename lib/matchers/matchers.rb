@@ -313,6 +313,10 @@ RSpec::Matchers.define :cmp do |first_expected|
     actual = '0' + actual.to_s(8) if octal?(@expected)
     "\n" + format_expectation(true) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
+
+  description do
+    "cmp #{@operation} #{@expected.inspect}"
+  end
 end
 
 # user resource matcher for serverspec compatibility
