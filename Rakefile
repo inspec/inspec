@@ -167,3 +167,20 @@ task :release_docker do
   puts "--> #{cmd}"
   sh('sh', '-c', cmd)
 end
+
+desc 'Release a new Habitat package'
+task :release_habitat do
+    version = Inspec::VERSION
+    ENV['HAB_ORIGIN'] = "chef"
+    if Dir.exist?("./results") then
+        raise "Please remove the ./results directory"
+    end
+    if ! ENV.has_key?("HAB_AUTH_TOKEN") then
+        raise "Please set the HAB_AUTH_TOKEN environment variable"
+    end
+    cmd = "echo #{version} > ./habitat/VERSION && "\
+          "hab studio build ./habitat && " \
+          "hab pkg upload ./results/*.hart"
+    puts "--> #{cmd}"
+    sh('sh', '-c', cmd)
+end

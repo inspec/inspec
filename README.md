@@ -110,6 +110,19 @@ gem install inspec-*.gem
 
 On Windows, you need to install [Ruby](http://rubyinstaller.org/downloads/) with [Ruby Development Kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) to build dependencies with its native extensions.
 
+### Install via Habitat
+
+Currently, this method of installation only supports Linux. See the [Habitat site](https://www.habitat.sh/) for more information.
+
+Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site. 
+
+```bash
+hab pkg install chef/inspec
+export PATH="$(hab pkg path core/ruby)/bin:$(hab pkg path chef/inspec)/bin:$PATH"
+
+inspec
+```
+
 ### Run InSpec
 
 You should now be able to run:
