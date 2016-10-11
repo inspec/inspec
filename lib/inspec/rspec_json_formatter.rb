@@ -63,12 +63,12 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   private
 
   def format_example(example)
-    if example.metadata[:description_args].length == 0
-      code_description = example.metadata[:full_description]
-    else
+    if example.metadata[:description_args].length > 0 && !example.metadata[:skip].nil?
       # For skipped profiles, rspec returns in full_description the skip_message as well. We don't want
       # to mix the two, so we pick the full_description from the example.metadata[:example_group] hash.
       code_description = example.metadata[:example_group][:description]
+    else
+      code_description = example.metadata[:full_description]
     end
 
     res = {
