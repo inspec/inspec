@@ -176,6 +176,8 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  7 should cmp >= 9\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  7 should not cmp == /^\\d$/\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  7 should cmp == \"7\""
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"
+          got: \"01777\"\n"
     end
   end
 

@@ -29,6 +29,7 @@ end
 describe file('/tmp') do
   it { should_not be_directory }
   it { should be_directory }
+  its('mode') { should cmp '01147' }
 end
 
 # control, first and second fail, third passes
