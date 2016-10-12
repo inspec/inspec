@@ -7,7 +7,19 @@
 require 'shellwords'
 
 module Inspec::Resources
-  class FileResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  module FilePermsSelector
+    def select_file_perms_style(os)
+      if os.unix?
+        @perms_provider = UnixPermission.new(inspec)
+      elsif os.windows?
+        @perms_provider = WindowsPermission.new(inspec)
+      end
+    end
+  end
+
+  class FileResource < Inspec.resource(1)
+    include FilePermsSelector
+
     name 'file'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
     example "
@@ -24,7 +36,10 @@ module Inspec::Resources
 
     attr_reader :file, :mount_options
     def initialize(path)
+      # select permissions style
+      @perms_provider = select_file_perms_style(inspec.os)
       @file = inspec.backend.file(path)
+      return skip_resource 'The `file` resource is not supported on your OS yet.' if @perms_provider.nil?
     end
 
     %w{
@@ -52,19 +67,19 @@ module Inspec::Resources
     def readable?(by_usergroup, by_specific_user)
       return false unless exist?
 
-      file_permission_granted?('r', by_usergroup, by_specific_user)
+      file_permission_granted?('read', by_usergroup, by_specific_user)
     end
 
     def writable?(by_usergroup, by_specific_user)
       return false unless exist?
 
-      file_permission_granted?('w', by_usergroup, by_specific_user)
+      file_permission_granted?('write', by_usergroup, by_specific_user)
     end
 
     def executable?(by_usergroup, by_specific_user)
       return false unless exist?
 
-      file_permission_granted?('x', by_usergroup, by_specific_user)
+      file_permission_granted?('execute', by_usergroup, by_specific_user)
     end
 
     def mounted?(expected_options = nil, identical = false)
@@ -109,16 +124,14 @@ module Inspec::Resources
 
     private
 
-    def file_permission_granted?(flag, by_usergroup, by_specific_user)
-      unless inspec.os.unix?
-        fail 'Checking file permissions is not supported on your os'
-      end
-
+    def file_permission_granted?(access, by_usergroup, by_specific_user)
+      return nil if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
+        return nil if !inspec.os.unix?
         usergroup = usergroup_for(by_usergroup, by_specific_user)
-        check_file_permission_by_mask(usergroup, flag)
+        check_file_permission_by_mask(usergroup, access)
       else
-        check_file_permission_by_user(by_specific_user, flag)
+        @perms_provider.check_file_permission_by_user(by_specific_user, access, source_path)
       end
     end
 
@@ -129,23 +142,6 @@ module Inspec::Resources
       (file.mode & mask) != 0
     end
 
-    def check_file_permission_by_user(user, flag)
-      if inspec.os.linux?
-        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{source_path}\" #{user}"
-      elsif inspec.os.bsd? || inspec.os.solaris?
-        perm_cmd = "sudo -u #{user} test -#{flag} #{source_path}"
-      elsif inspec.os.aix?
-        perm_cmd = "su #{user} -c test -#{flag} #{source_path}"
-      elsif inspec.os.hpux?
-        perm_cmd = "su #{user} -c \"test -#{flag} #{source_path}\""
-      else
-        return skip_resource 'The `file` resource does not support `by_user` on your OS.'
-      end
-
-      cmd = inspec.command(perm_cmd)
-      cmd.exit_status == 0 ? true : false
-    end
-
     def usergroup_for(usergroup, specific_user)
       if usergroup == 'others'
         'other'
@@ -154,6 +150,55 @@ module Inspec::Resources
       else
         usergroup
       end
+    end
+  end
+
+  class FilePermission
+    attr_reader :inspec
+    def initialize(inspec)
+      @inspec = inspec
+    end
+  end
+
+  class UnixPermission < FilePermission
+    def check_file_permission_by_user(user, access_type, path)
+      flag = case access_type
+             when 'read'
+               'r'
+             when 'write'
+               'w'
+             when 'execute'
+               'x'
+             end
+      if inspec.os.linux?
+        perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
+      elsif inspec.os.bsd? || inspec.os.solaris?
+        perm_cmd = "sudo -u #{user} test -#{flag} #{path}"
+      elsif inspec.os.aix?
+        perm_cmd = "su #{user} -c test -#{flag} #{path}"
+      elsif inspec.os.hpux?
+        perm_cmd = "su #{user} -c \"test -#{flag} #{path}\""
+      else
+        return skip_resource 'The `file` resource does not support `by_user` on your OS.'
+      end
+
+      cmd = inspec.command(perm_cmd)
+      cmd.exit_status == 0 ? true : false
+    end
+  end
+
+  class WindowsPermission < FilePermission
+    def check_file_permission_by_user(user, access_type, path)
+      access_rule = case access_type
+                    when 'read'
+                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ListDirectory\')'
+                    when 'write'
+                      '@(\'FullControl\', \'Modify\', \'Write\')'
+                    when 'execute'
+                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
+                    end
+      cmd = inspec.command("@(@((Get-Acl #{path}).access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
+      cmd.stdout.chomp == '0' ? false : true
     end
   end
 end
