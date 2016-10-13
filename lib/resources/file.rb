@@ -7,18 +7,19 @@
 require 'shellwords'
 
 module Inspec::Resources
-  module FilePermsSelector
+  module FilePermissionsSelector
     def select_file_perms_style(os)
       if os.unix?
-        @perms_provider = UnixPermission.new(inspec)
+        @perms_provider = UnixFilePermissions.new(inspec)
       elsif os.windows?
-        @perms_provider = WindowsPermission.new(inspec)
+        @perms_provider = WindowsFilePermissions.new(inspec)
       end
     end
   end
 
   class FileResource < Inspec.resource(1)
-    include FilePermsSelector
+    include FilePermissionsSelector
+    include MountParser
 
     name 'file'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
@@ -32,7 +33,6 @@ module Inspec::Resources
         its('mode') { should cmp '0644' }
       end
     "
-    include MountParser
 
     attr_reader :file, :mount_options
     def initialize(path)
@@ -153,14 +153,14 @@ module Inspec::Resources
     end
   end
 
-  class FilePermission
+  class FilePermissions
     attr_reader :inspec
     def initialize(inspec)
       @inspec = inspec
     end
   end
 
-  class UnixPermission < FilePermission
+  class UnixFilePermissions < FilePermissions
     def check_file_permission_by_user(user, access_type, path)
       flag = case access_type
              when 'read'
@@ -187,7 +187,7 @@ module Inspec::Resources
     end
   end
 
-  class WindowsPermission < FilePermission
+  class WindowsFilePermissions < FilePermissions
     def check_file_permission_by_user(user, access_type, path)
       access_rule = case access_type
                     when 'read'
