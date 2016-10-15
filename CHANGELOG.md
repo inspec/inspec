@@ -1,7 +1,31 @@
 # Change Log
 
-## [1.2.0](https://github.com/chef/inspec/tree/1.2.0) (2016-10-10)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.1.0...1.2.0)
+## [1.2.1](https://github.com/chef/inspec/tree/1.2.1) (2016-10-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.0...1.2.1)
+
+**Implemented enhancements:**
+
+- Show actual value for cmp octal comparisons in string to match expected [\#1211](https://github.com/chef/inspec/pull/1211) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- Using "cmp" Against File Mode Fails [\#1188](https://github.com/chef/inspec/issues/1188)
+- Unexpected failures with kitchen-inspec and inspec 1.0.0 [\#1187](https://github.com/chef/inspec/issues/1187)
+- Rspec deprecation warnings added to test summary creating invalid json file [\#952](https://github.com/chef/inspec/issues/952)
+- update train to fix empty target URIs [\#1221](https://github.com/chef/inspec/pull/1221) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- www: typo on inspec.io [\#1197](https://github.com/chef/inspec/issues/1197)
+
+**Merged pull requests:**
+
+- move Inspec Habitat package to chef/inspec. [\#1216](https://github.com/chef/inspec/pull/1216) ([metadave](https://github.com/metadave))
+- fix kitchen-inspec integration-1187 [\#1213](https://github.com/chef/inspec/pull/1213) ([vjeffrey](https://github.com/vjeffrey))
+- Website: Fix typo in homepage code image [\#1210](https://github.com/chef/inspec/pull/1210) ([magwalk](https://github.com/magwalk))
+
+## [v1.2.0](https://github.com/chef/inspec/tree/v1.2.0) (2016-10-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.1.0...v1.2.0)
 
 **Implemented enhancements:**
 
