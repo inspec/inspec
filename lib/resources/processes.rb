@@ -26,7 +26,7 @@ module Inspec::Resources
         grep = '(/[^/]*)*'+grep if grep[0] != '/'
         grep = Regexp.new('^' + grep + '(\s|$)')
       end
-      all_cmds = ps_aux
+      all_cmds = ps_axo
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep
       end
@@ -43,39 +43,37 @@ module Inspec::Resources
 
     private
 
-    def ps_aux
+    def ps_axo
       os = inspec.os
 
       if os.linux?
-        command = 'ps auxZ'
+        command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user'
         regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
       else
-        command = 'ps aux'
-        regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
+        command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user'
+        regex = /^\s*([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
       end
       build_process_list(command, regex, os)
     end
 
-    Process = Struct.new(:label, :user, :pid,
+    Process = Struct.new(:label, :pid,
                          :cpu, :mem, :vsz,
                          :rss, :tty, :stat,
-                         :start, :time, :command)
+                         :start, :time, :command, :user)
 
     def build_process_list(command, regex, os)
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")[1..-1]
       return [] if all.nil?
-
       lines = all.map do |line|
         line.match(regex)
       end.compact
-
       lines.map do |m|
         a = m.to_a[1..-1] # grab all matching groups
         a.unshift(nil) unless os.linux?
-        a[2] = a[2].to_i
+        a[1] = a[1].to_i
+        a[4] = a[4].to_i
         a[5] = a[5].to_i
-        a[6] = a[6].to_i
         Process.new(*a)
       end
     end
