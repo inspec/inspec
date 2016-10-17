@@ -45,6 +45,10 @@ inspec exec test.rb -t docker://container_id
 
 InSpec requires Ruby ( >1.9 ).
 
+### Install as package
+
+The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec). 
+
 ### Install it via rubygems.org
 
 When installing from source, gem dependencies may require ruby build tools to be installed.
@@ -114,7 +118,7 @@ On Windows, you need to install [Ruby](http://rubyinstaller.org/downloads/) with
 
 Currently, this method of installation only supports Linux. See the [Habitat site](https://www.habitat.sh/) for more information.
 
-Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site. 
+Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site.
 
 ```bash
 hab pkg install chef/inspec
@@ -284,28 +288,13 @@ Windows | 2012+
 
 Documentation
 
+ * http://inspec.io/docs/
+ * http://inspec.io/docs/reference/resources/
  * https://github.com/chef/inspec/tree/master/docs
 
-Blogs:
+Tutorials/Blogs/Podcasts:
 
- * [The Road to InSpec](https://www.chef.io/blog/2015/11/04/the-road-to-inspec/)
- * [Introduction to InSpec](http://tfitch.com/automation-tools-bootcamp/inspec.html)
- * [InSpec Tutorial: Day 1 - Hello World](http://www.anniehedgie.com/inspec-basics-1)
- * [InSpec Tutorial: Day 2 - Command Resource Blog Logo](http://www.anniehedgie.com/inspec-basics-2)
- * [InSpec Tutorial: Day 3 - File Resource](http://www.anniehedgie.com/inspec-basics-3)
- * [InSpec Tutorial: Day 4 - Custom Matchers](http://www.anniehedgie.com/inspec-basics-4)
- * [InSpec Tutorial: Day 5 - Creating a Profile](http://www.anniehedgie.com/inspec-basics-5)
- * [InSpec Tutorial: Day 6 - Ways to Run It and Places to Store It](http://www.anniehedgie.com/inspec-basics-6)
- * [InSpec Tutorial: Day 7 - How to Inherit a Profile from Chef Compliance Server](http://www.anniehedgie.com/inspec-basics-7)
- * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
- * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
- * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
- * [Operating Chef/InSpec in an air gapped environment](https://github.com/jeremymv2/chef-intranet-scaffolding/blob/master/README.md)
-
-Podcasts:
-
- * [InSpec Foodfight](http://foodfightshow.org/2016/02/inspec.html)
- * [Test Driven Infrastructure With Arthur Maltson And Michael Goetz](https://www.arresteddevops.com/tdi/)
+ * http://inspec.io/tutorials/
 
 ## Share your Profiles
 
