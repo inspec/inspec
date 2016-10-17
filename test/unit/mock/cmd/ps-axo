@@ -1,5 +1,4 @@
-PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND   USER
-  1  0.0  0.0  18084  3228 ?        Ss   14:15   0:00 /bin/bash root
- 13  0.0  0.0  15284  2148 ?        R+   15:08   0:00 ps aux    root
- 19  0.0  0.0  24521  1536 s001     Ss   09:23   0:00 svc       noot
- 23  0.0  0.0  25044  1908 s000     S    08:46   0:00 svc       noot
+  PID  %CPU %MEM      VSZ    RSS TTY      STAT STARTED      TIME USER            COMMAND
+  7115   0.3  0.0  2516588   3052 ttys008  U    Fri05PM   0:00.05 root            login -fp apop
+  7116   0.0  0.0  2499948   1292 ttys008  S+   Fri05PM   0:00.97 apop            -bash
+  7853   0.0  0.1  2526272   8804 ttys009  Ss   Fri05PM   0:00.06 apop            /Users/apop/Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp apop

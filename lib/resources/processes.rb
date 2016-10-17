@@ -47,10 +47,10 @@ module Inspec::Resources
       os = inspec.os
 
       if os.linux?
-        command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user'
+        command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
         regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
       else
-        command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user'
+        command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command'
         regex = /^\s*([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
       end
       build_process_list(command, regex, os)
@@ -59,7 +59,7 @@ module Inspec::Resources
     Process = Struct.new(:label, :pid,
                          :cpu, :mem, :vsz,
                          :rss, :tty, :stat,
-                         :start, :time, :command, :user)
+                         :start, :time, :user, :command)
 
     def build_process_list(command, regex, os)
       cmd = inspec.command(command)

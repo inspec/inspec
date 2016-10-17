@@ -140,8 +140,8 @@ class MockLoader
     }
 
     mock.commands = {
-      'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user' => cmd.call('ps-axo'),
-      'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,comm,user' => cmd.call('ps-axoZ'),
+      'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
+      'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'Remove-Item win_secpol.cfg' => cmd.call('success'),

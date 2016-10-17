@@ -1,3 +1,4 @@
-LABEL                          PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND    USER
-system_u:system_r:kernel_t:s0    1  0.0  0.0  19232  1492 ?        Ss   May04   0:01 /sbin/init root
-system_u:system_r:kernel_t:s0   39  0.0  0.0      0     0 ?        S    May04   0:00 crypto/0   root
+LABEL                             PID %CPU %MEM    VSZ   RSS TT       STAT  STARTED     TIME USER                             COMMAND
+system_u:system_r:init_t:s0      5127  0.0  0.2 547208  5376 ?        Ss   10:54:22 00:00:00 opscode-pgsql                    postgres: bifrost bifrost 127.0.0.1(43699) idle
+system_u:system_r:init_t:s0      5140  1.9 11.2 2908400 215308 ?      Ssl  10:54:23 00:00:05 opscode                          java -Xmx466M -Xms466M -XX:NewSize=32M -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -Xloggc:/var/log/opscode/opscode-solr4/gclog.log -verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -Dsolr.data.dir=/var/opt/opscode/opscode-solr4/data -Dsolr.solr.home=/var/opt/opscode/opscode-solr4/home -Djava.io.tmpdir=/var/opt/opscode/opscode-solr4/ -server -jar /opt/opscode/embedded/service/opscode-solr4/jetty/start.jar
+system_u:system_r:init_t:s0      5169  0.0  0.0   4084   536 ?        S    10:54:23 00:00:00 opscode                          svlogd -tt /var/log/opscode/opscode-solr4
