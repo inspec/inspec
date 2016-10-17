@@ -17,7 +17,7 @@ module Inspec::Resources
     end
   end
 
-  class FileResource < Inspec.resource(1)
+  class FileResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     include FilePermissionsSelector
     include MountParser
 
@@ -39,7 +39,6 @@ module Inspec::Resources
       # select permissions style
       @perms_provider = select_file_perms_style(inspec.os)
       @file = inspec.backend.file(path)
-      return skip_resource 'The `file` resource is not supported on your OS yet.' if @perms_provider.nil?
     end
 
     %w{
@@ -66,18 +65,21 @@ module Inspec::Resources
 
     def readable?(by_usergroup, by_specific_user)
       return false unless exist?
+      return skip_resource '`readable?` is not supported on your OS yet.' if @perms_provider.nil?
 
       file_permission_granted?('read', by_usergroup, by_specific_user)
     end
 
     def writable?(by_usergroup, by_specific_user)
       return false unless exist?
+      return skip_resource '`writable?` is not supported on your OS yet.' if @perms_provider.nil?
 
       file_permission_granted?('write', by_usergroup, by_specific_user)
     end
 
     def executable?(by_usergroup, by_specific_user)
       return false unless exist?
+      return skip_resource '`executable?` is not supported on your OS yet.' if @perms_provider.nil?
 
       file_permission_granted?('execute', by_usergroup, by_specific_user)
     end
@@ -125,7 +127,7 @@ module Inspec::Resources
     private
 
     def file_permission_granted?(access, by_usergroup, by_specific_user)
-      return nil if @perms_provider.nil?
+      fail '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
         return nil if !inspec.os.unix?
         usergroup = usergroup_for(by_usergroup, by_specific_user)
@@ -169,6 +171,8 @@ module Inspec::Resources
                'w'
              when 'execute'
                'x'
+             else
+               fail 'Invalid access_type provided'
              end
       if inspec.os.linux?
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
@@ -196,6 +200,8 @@ module Inspec::Resources
                       '@(\'FullControl\', \'Modify\', \'Write\')'
                     when 'execute'
                       '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
+                    else
+                      fail 'Invalid access_type provided'
                     end
       cmd = inspec.command("@(@((Get-Acl #{path}).access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
       cmd.stdout.chomp == '0' ? false : true
