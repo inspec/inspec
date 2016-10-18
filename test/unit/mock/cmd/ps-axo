@@ -1,0 +1,4 @@
+  PID  %CPU %MEM      VSZ    RSS TTY      STAT STARTED      TIME USER            COMMAND
+  7115   0.3  0.0  2516588   3052 ttys008  U    Fri05PM   0:00.05 root            login -fp apop
+  7116   0.0  0.0  2499948   1292 ttys008  S+   Fri05PM   0:00.97 apop            -bash
+  7853   0.0  0.1  2526272   8804 ttys009  Ss   Fri05PM   0:00.06 apop            /Users/apop/Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp apop
