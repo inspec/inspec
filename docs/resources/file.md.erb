@@ -29,13 +29,13 @@ This InSpec audit resource has the following matchers:
 
 <%= partial "/shared/matcher_be" %>
 
-### be_block_device
+### be\_block\_device
 
 The `be_block_device` matcher tests if the file exists as a block device, such as `/dev/disk0` or `/dev/disk0s9`:
 
     it { should be_block_device }
 
-### be_character_device
+### be\_character\_device
 
 The `be_character_device` matcher tests if the file exists as a character device (that corresponds to a block device), such as `/dev/rdisk0` or `/dev/rdisk0s9`:
 
@@ -71,7 +71,7 @@ The `be_file` matcher tests if the file exists as a file. This can be useful wit
 
     it { should be_file }
 
-### be_grouped_into
+### be\_grouped\_into
 
 The `be_grouped_into` matcher tests if the file exists as part of the named group:
 
@@ -83,7 +83,7 @@ The `be_immutable` matcher tests if the file is immutable, i.e. "cannot be chang
 
     it { should be_immutable }
 
-### be_linked_to
+### be\_linked\_to
 
 The `be_linked_to` matcher tests if the file is linked to the named target:
 
@@ -95,7 +95,7 @@ The `be_mounted` matcher tests if the file is accessible from the file system:
 
     it { should be_mounted }
 
-### be_owned_by
+### be\_owned\_by
 
 The `be_owned_by` matcher tests if the file is owned by the named user, such as `root`:
 
