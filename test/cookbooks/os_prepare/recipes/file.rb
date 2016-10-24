@@ -40,7 +40,30 @@ if node['platform_family'] != 'windows'
 
 else
 
-  directory 'C:\Test Directory'
-  file 'C:\Test Directory\test file.txt'
+  user 'TestUser' do
+    password 'p@ssw0rd'
+  end
+
+  directory 'C:\Test Directory' do
+    rights :read, 'Administrators'
+    rights :read_execute, 'Administrators'
+    rights :write, 'Administrators'
+    rights :modify, 'Administrators'
+    rights :full_control, 'Administrators', :applies_to_children => true
+    deny_rights :read, 'TestUser'
+    deny_rights :write, 'TestUser'
+    deny_rights :read_execute, 'TestUser'
+  end
+
+  file 'C:\Test Directory\test file.txt' do
+    rights :read, 'Administrators'
+    rights :read_execute, 'Administrators'
+    rights :write, 'Administrators'
+    rights :modify, 'Administrators'
+    rights :full_control, 'Administrators'
+    deny_rights :read, 'TestUser'
+    deny_rights :write, 'TestUser'
+    deny_rights :read_execute, 'TestUser'
+  end
 
 end
