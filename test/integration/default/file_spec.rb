@@ -4,7 +4,11 @@ if ENV['DOCKER']
   return
 end
 
-if os[:name] == 'freebsd'
+if os[:family] == 'windows'
+  filedata = {
+    user: os_env('COMPUTERNAME').content + '\TestUser'
+  }
+elsif os[:name] == 'freebsd'
   filedata = {
     user: 'root',
     group: 'wheel',
@@ -177,14 +181,26 @@ if os.windows?
     its('path') { should cmp "C:\\Windows" }
   end
 
-  describe file('C:\\Test Directory\\test file.txt') do
+  describe file('C:/Test Directory/test file.txt') do
     it { should exist }
     it { should be_file }
+    it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should_not be_readable.by_user(filedata[:user]) }
+    it { should_not be_writable.by_user(filedata[:user]) }
+    it { should_not be_executable.by_user(filedata[:user]) }
   end
 
-  describe file('C:\\Test Directory') do
+  describe file('C:/Test Directory') do
     it { should exist }
     it { should be_directory }
+    it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should_not be_readable.by_user(filedata[:user]) }
+    it { should_not be_writable.by_user(filedata[:user]) }
+    it { should_not be_executable.by_user(filedata[:user]) }
   end
 
   describe file("C:/Program Files (x86)/Windows NT/Accessories/wordpad.exe") do
