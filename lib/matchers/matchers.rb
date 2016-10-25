@@ -219,7 +219,7 @@ end
 # unsupported
 RSpec::Matchers.define :contain do |_rule|
   match do |_resource|
-    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should match('value') }`."
+    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should include('value') }`."
   end
 end
 
