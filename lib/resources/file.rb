@@ -10,9 +10,9 @@ module Inspec::Resources
   module FilePermissionsSelector
     def select_file_perms_style(os)
       if os.unix?
-        @perms_provider = UnixFilePermissions.new(inspec)
+        UnixFilePermissions.new(inspec)
       elsif os.windows?
-        @perms_provider = WindowsFilePermissions.new(inspec)
+        WindowsFilePermissions.new(inspec)
       end
     end
   end
@@ -129,7 +129,7 @@ module Inspec::Resources
     def file_permission_granted?(access, by_usergroup, by_specific_user)
       fail '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
-        return nil if !inspec.os.unix?
+        fail '`check_file_permission_by_mask` is not supported on your OS' unless inspec.os.unix?
         usergroup = usergroup_for(by_usergroup, by_specific_user)
         check_file_permission_by_mask(usergroup, access)
       else
@@ -203,7 +203,7 @@ module Inspec::Resources
                     else
                       fail 'Invalid access_type provided'
                     end
-      cmd = inspec.command("@(@((Get-Acl #{path}).access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
+      cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
       cmd.stdout.chomp == '0' ? false : true
     end
   end
