@@ -16,3 +16,5 @@ test/**/*.lock
 examples/**/*.lock
 habitat/VERSION
 habitat/results
+/.ruby-gemset
+/.ruby-version
