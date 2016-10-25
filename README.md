@@ -177,7 +177,7 @@ end
 
 ```ruby
 describe yaml('.kitchen.yml') do
-  its('driver.name') { should eq('vagrant') }
+  its(%w(driver name)) { should eq('vagrant') }
 end
 ```
 
