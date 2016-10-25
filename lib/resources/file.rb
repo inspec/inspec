@@ -29,6 +29,7 @@ module Inspec::Resources
         it { should be_file }
         it { should be_readable }
         it { should be_writable }
+        it { should be_executable.by_user('root') }
         it { should be_owned_by 'root' }
         its('mode') { should cmp '0644' }
       end
