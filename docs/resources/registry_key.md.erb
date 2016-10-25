@@ -73,9 +73,8 @@ For example, to get all child items for a registry key:
 The following example shows how find a property that may exist against multiple registry keys, and then test that property for every registry key in which that property is located:
 
     describe registry_key({
-      hive: HKEY_USERS
-    }).children(/^S-1-5-21-[0-9]+-[0-9]+-[0-9]+-[0-9]{3,}\\Software\\Policies\\Microsoft\\Windows\\Installer/).each
-      { |key|
+      hive: 'HKEY_USERS'
+    }).children(/^S-1-5-21-[0-9]+-[0-9]+-[0-9]+-[0-9]{3,}\\Software\\Policies\\Microsoft\\Windows\\Installer/).each { |key|
         describe registry_key(key) do
           its('AlwaysInstallElevated') { should eq 'value' }
         end
