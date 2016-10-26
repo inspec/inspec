@@ -41,7 +41,7 @@ class SSL < Inspec.resource(1)
     'tls1.2',
   ].freeze
 
-  attr_reader :host, :port
+  attr_reader :host, :port, :timeout, :retries
 
   def initialize(opts = {})
     @host = opts[:host]
@@ -71,7 +71,7 @@ class SSL < Inspec.resource(1)
           res = Parallel.map(groups, in_threads: 8) do |proto, e|
             [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
               protocol: proto, ciphers: e.map(&:cipher),
-              timeout: @timeout, retries: @retries)]
+              timeout: x.resource.timeout, retries: x.resource.retries)]
           end
           Hash[res]
         }
