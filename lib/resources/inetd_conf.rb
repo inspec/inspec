@@ -22,6 +22,12 @@ module Inspec::Resources
       @conf_path = path || '/etc/inetd.conf'
     end
 
+    # overwrite exec to ensure it works with its
+    # TODO: this needs to be fixed in RSpec
+    def exec
+      read_params['exec']
+    end
+
     def method_missing(name)
       read_params[name.to_s]
     end
