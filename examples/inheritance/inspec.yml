@@ -11,3 +11,5 @@ supports:
 depends:
   - name: profile
     path: ../profile
+  - name: profile-attribute
+    path: ../profile-attribute
