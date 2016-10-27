@@ -70,7 +70,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Inspec::Backend.create({ backend: :mock })
+    @backend = Inspec::Backend.create({ backend: :mock, verbose: true })
     mock = @backend.backend
 
     # set os emulation
@@ -176,7 +176,7 @@ class MockLoader
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
-      'f18912b2e36924b367a110c31da6b835a1c217cd10014c7312b7435bf79a601c' => cmd.call('get-item-property-package'),
+      '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       # service config for upstart on ubuntu
