@@ -1,6 +1,6 @@
 # InSpec: Inspect Your Infrastructure
 
-[![Join the chat at https://gitter.im/chef/inspec](https://badges.gitter.im/chef/inspec.svg)](https://gitter.im/chef/inspec?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 [![Build Status Master](https://travis-ci.org/chef/inspec.svg?branch=master)](https://travis-ci.org/chef/inspec)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
 
