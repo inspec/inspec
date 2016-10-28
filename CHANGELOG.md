@@ -1,7 +1,52 @@
 # Change Log
 
-## [1.2.1](https://github.com/chef/inspec/tree/1.2.1) (2016-10-15)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.2.0...1.2.1)
+## [1.3.0](https://github.com/chef/inspec/tree/1.3.0) (2016-10-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.1...1.3.0)
+
+**Implemented enhancements:**
+
+- extend the attributes object with helper methods [\#1220](https://github.com/chef/inspec/pull/1220) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- inetd\_conf resource error [\#1253](https://github.com/chef/inspec/issues/1253)
+- Process user should eq \["longusername"\]: usernames get truncated with a '+' at the end [\#995](https://github.com/chef/inspec/issues/995)
+- Remove wildcard from windows package detection [\#1259](https://github.com/chef/inspec/pull/1259) ([chris-rock](https://github.com/chris-rock))
+- Fix nil timeout and retries [\#1256](https://github.com/chef/inspec/pull/1256) ([alexpop](https://github.com/alexpop))
+- Supermarket tools get and filter by tool\_type [\#1254](https://github.com/chef/inspec/pull/1254) ([alexpop](https://github.com/alexpop))
+- Fix processes resource user and command truncation [\#1225](https://github.com/chef/inspec/pull/1225) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- inetd and xinetd resources inconsistencies [\#1252](https://github.com/chef/inspec/issues/1252)
+- TestKitchen - Duplicate testing when verifier specified in suite definition [\#1240](https://github.com/chef/inspec/issues/1240)
+- Document new DCO process in contributing.md [\#1223](https://github.com/chef/inspec/issues/1223)
+- Move InSpec Community to https://community-slack.chef.io/ [\#1222](https://github.com/chef/inspec/issues/1222)
+- Export Docker package for InSpec from Habitat [\#1212](https://github.com/chef/inspec/issues/1212)
+- Test verify action on Windows 2012 fails - \[no implicit conversion of nil into Array\] on default-windows-2012r2 [\#1193](https://github.com/chef/inspec/issues/1193)
+- Add InSpec habitat plan [\#843](https://github.com/chef/inspec/issues/843)
+
+**Merged pull requests:**
+
+- Use Slack Badge instead of Gitter badge [\#1262](https://github.com/chef/inspec/pull/1262) ([chris-rock](https://github.com/chris-rock))
+- remove accidentally added file [\#1260](https://github.com/chef/inspec/pull/1260) ([chris-rock](https://github.com/chris-rock))
+- overwrite exec for inetd because respec its is executing `exec` [\#1257](https://github.com/chef/inspec/pull/1257) ([chris-rock](https://github.com/chris-rock))
+- Use include instead of match in the error message [\#1248](https://github.com/chef/inspec/pull/1248) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Code-block directive is not needed here [\#1247](https://github.com/chef/inspec/pull/1247) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Set the global message to display again [\#1246](https://github.com/chef/inspec/pull/1246) ([ryankeairns](https://github.com/ryankeairns))
+- Ignore RVM files [\#1245](https://github.com/chef/inspec/pull/1245) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Change global message regarding 10/25 webinar [\#1244](https://github.com/chef/inspec/pull/1244) ([ryankeairns](https://github.com/ryankeairns))
+- Fix issue with registry\_key example [\#1243](https://github.com/chef/inspec/pull/1243) ([seththoenen](https://github.com/seththoenen))
+- Accessing nested mappings in a yam file [\#1242](https://github.com/chef/inspec/pull/1242) ([chriswessells](https://github.com/chriswessells))
+- Fix broken link in README.md [\#1233](https://github.com/chef/inspec/pull/1233) ([swalberg](https://github.com/swalberg))
+- DOCS: fix commit amend dash [\#1232](https://github.com/chef/inspec/pull/1232) ([alexpop](https://github.com/alexpop))
+- Headers and list elements that include more than one `\_` character we… [\#1231](https://github.com/chef/inspec/pull/1231) ([nathenharvey](https://github.com/nathenharvey))
+- Implements profile signing and verification \[Experimental\] [\#1228](https://github.com/chef/inspec/pull/1228) ([metadave](https://github.com/metadave))
+- Document new DCO process [\#1224](https://github.com/chef/inspec/pull/1224) ([chris-rock](https://github.com/chris-rock))
+- adding by\_user permissions support for windows [\#1215](https://github.com/chef/inspec/pull/1215) ([jeremymv2](https://github.com/jeremymv2))
+
+## [v1.2.1](https://github.com/chef/inspec/tree/v1.2.1) (2016-10-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.0...v1.2.1)
 
 **Implemented enhancements:**
 
