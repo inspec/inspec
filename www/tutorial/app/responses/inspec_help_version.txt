@@ -1,0 +1,9 @@
+Usage:
+  inspec version
+
+Options:
+  l, [--log-level=LOG_LEVEL]         # Set the log level: info (default), debug, warn, error
+      [--log-location=LOG_LOCATION]  # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
+      [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
+
+prints the version of this tool

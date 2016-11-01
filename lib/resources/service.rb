@@ -77,6 +77,7 @@ module Inspec::Resources
         it { should be_enabled }
         it { should be_running }
         its('type') { should be 'systemd' }
+        its ('startmode') { should be 'Auto'}
       end
 
       describe service('service_name').runlevels(3, 5) do
@@ -115,6 +116,13 @@ module Inspec::Resources
       if %w{ubuntu}.include?(platform)
         version = os[:release].to_f
         if version < 15.04
+          Upstart.new(inspec, service_ctl)
+        else
+          Systemd.new(inspec, service_ctl)
+        end
+      elsif %w{linuxmint}.include?(platform)
+        version = os[:release].to_f
+        if version < 18
           Upstart.new(inspec, service_ctl)
         else
           Systemd.new(inspec, service_ctl)
@@ -208,6 +216,12 @@ module Inspec::Resources
     def description
       return nil if info.nil?
       info[:description]
+    end
+
+    # returns the service start up mode from info
+    def startmode
+      return nil if info.nil?
+      info[:startmode]
     end
 
     def to_s
@@ -400,9 +414,9 @@ module Inspec::Resources
       # read all enabled services from runlevel
       # on rhel via: 'chkconfig --list', is not installed by default
       # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
-      enabled_services_cmd = inspec.command('find /etc/rc*.d -name S*')
+      enabled_services_cmd = inspec.command('find /etc/rc*.d /etc/init.d/rc*.d -name S*').stdout
       service_line = %r{rc(?<runlevel>[0-6])\.d/S[^/]*?#{Regexp.escape service_name}$}
-      all_services = enabled_services_cmd.stdout.split("\n").map { |line|
+      all_services = enabled_services_cmd.split("\n").map { |line|
         service_line.match(line)
       }.compact
       enabled = !all_services.empty?
@@ -547,6 +561,7 @@ module Inspec::Resources
     #
     # Until StartMode is not added to Get-Service, we need to do a workaround
     # @see: https://connect.microsoft.com/PowerShell/feedback/details/424948/i-would-like-to-see-the-property-starttype-added-to-get-services
+    # Also see: https://msdn.microsoft.com/en-us/library/aa384896(v=vs.85).aspx
     # Use the following powershell to determine the start mode
     # PS: Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq $name -or $_.DisplayName -eq $name} | Select-Object -Prop
     # erty Name, StartMode, State, Status | ConvertTo-Json
@@ -567,7 +582,7 @@ module Inspec::Resources
     # - 6: Pause Pending
     # - 7: Paused
     def info(service_name)
-      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name #{service_name}| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
+      cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name '#{service_name}'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq '#{service_name}' -or $_.DisplayName -eq '#{service_name}'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json")
 
       # cannot rely on exit code for now, successful command returns exit code 1
       # return nil if cmd.exit_status != 0
@@ -587,6 +602,7 @@ module Inspec::Resources
         installed: true,
         running: service_running?(service),
         enabled: service_enabled?(service),
+        startmode: service['WMI']['StartMode'],
         type: 'windows',
       }
     end

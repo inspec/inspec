@@ -1,0 +1,74 @@
+---
+title: About the pip Resource
+---
+
+# pip
+
+Use the `pip` InSpec audit resource to test packages that are installed using the Python PIP installer.
+
+## Syntax
+
+A `pip` resource block declares a package and (optionally) a package version:
+
+    describe pip('Jinja2') do
+      it { should be_installed }
+    end
+
+where
+
+* `'Jinja2'` is the name of the package
+* `be_installed` tests to see if the `Jinja2` package is installed
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if Jinja2 is installed on the system
+
+    describe pip('Jinja2') do
+      it { should be_installed }
+    end
+
+### Test if Jinja2 2.8 is installed on the system
+
+    describe pip('Jinja2') do
+      it { should be_installed }
+      its('version') { should eq '2.8' }
+    end

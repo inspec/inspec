@@ -24,9 +24,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'train', '>=0.16.0', '<1.0'
+  spec.add_dependency 'train', '>=0.20.1', '<1.0'
   spec.add_dependency 'thor', '~> 0.19'
-  spec.add_dependency 'json', '~> 1.8'
+  spec.add_dependency 'json', '>= 1.8', '< 3.0'
   spec.add_dependency 'rainbow', '~> 2'
   spec.add_dependency 'method_source', '~> 0.8'
   spec.add_dependency 'rubyzip', '~> 1.1'
@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec-its', '~> 1.2'
   spec.add_dependency 'pry', '~> 0'
   spec.add_dependency 'hashie', '~> 3.4'
-  spec.add_dependency 'molinillo', '~> 0'
+  spec.add_dependency 'mixlib-log'
   spec.add_dependency 'sslshake', '~> 1'
+  spec.add_dependency 'parallel', '~> 1.9'
 end

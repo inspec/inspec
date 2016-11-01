@@ -1,0 +1,63 @@
+---
+title: About the mysql_session Resource
+---
+
+# mysql_session
+
+Use the `mysql_session` InSpec audit resource to test SQL commands run against a MySQL database.
+
+## Syntax
+
+A `mysql_session` resource block declares the username and password to use for the session, and then the command to be run:
+
+    describe mysql_session('username', 'password').query('QUERY') do
+      its('output') { should eq('') }
+    end
+
+where
+
+* `mysql_session` declares a username and password with permission to run the query
+* `query('QUERY')` contains the query to be run
+* `its('output') { should eq('') }` compares the results of the query against the expected result in the test
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### output
+
+The `output` matcher tests the results of the query:
+
+    its('output') { should eq(/^0/) }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for matching databases
+
+    sql = mysql_session('my_user','password')
+
+    describe sql.query('show databases like \'test\';') do
+      its('stdout') { should_not match(/test/) }
+    end

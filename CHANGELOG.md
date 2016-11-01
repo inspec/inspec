@@ -1,7 +1,541 @@
 # Change Log
 
-## [0.30.0](https://github.com/chef/inspec/tree/0.30.0) (2016-08-12)
-[Full Changelog](https://github.com/chef/inspec/compare/v0.29.0...0.30.0)
+## [1.3.0](https://github.com/chef/inspec/tree/1.3.0) (2016-10-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.1...1.3.0)
+
+**Implemented enhancements:**
+
+- extend the attributes object with helper methods [\#1220](https://github.com/chef/inspec/pull/1220) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- inetd\_conf resource error [\#1253](https://github.com/chef/inspec/issues/1253)
+- Process user should eq \["longusername"\]: usernames get truncated with a '+' at the end [\#995](https://github.com/chef/inspec/issues/995)
+- Remove wildcard from windows package detection [\#1259](https://github.com/chef/inspec/pull/1259) ([chris-rock](https://github.com/chris-rock))
+- Fix nil timeout and retries [\#1256](https://github.com/chef/inspec/pull/1256) ([alexpop](https://github.com/alexpop))
+- Supermarket tools get and filter by tool\_type [\#1254](https://github.com/chef/inspec/pull/1254) ([alexpop](https://github.com/alexpop))
+- Fix processes resource user and command truncation [\#1225](https://github.com/chef/inspec/pull/1225) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- inetd and xinetd resources inconsistencies [\#1252](https://github.com/chef/inspec/issues/1252)
+- TestKitchen - Duplicate testing when verifier specified in suite definition [\#1240](https://github.com/chef/inspec/issues/1240)
+- Document new DCO process in contributing.md [\#1223](https://github.com/chef/inspec/issues/1223)
+- Move InSpec Community to https://community-slack.chef.io/ [\#1222](https://github.com/chef/inspec/issues/1222)
+- Export Docker package for InSpec from Habitat [\#1212](https://github.com/chef/inspec/issues/1212)
+- Test verify action on Windows 2012 fails - \[no implicit conversion of nil into Array\] on default-windows-2012r2 [\#1193](https://github.com/chef/inspec/issues/1193)
+- Add InSpec habitat plan [\#843](https://github.com/chef/inspec/issues/843)
+
+**Merged pull requests:**
+
+- Use Slack Badge instead of Gitter badge [\#1262](https://github.com/chef/inspec/pull/1262) ([chris-rock](https://github.com/chris-rock))
+- remove accidentally added file [\#1260](https://github.com/chef/inspec/pull/1260) ([chris-rock](https://github.com/chris-rock))
+- overwrite exec for inetd because respec its is executing `exec` [\#1257](https://github.com/chef/inspec/pull/1257) ([chris-rock](https://github.com/chris-rock))
+- Use include instead of match in the error message [\#1248](https://github.com/chef/inspec/pull/1248) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Code-block directive is not needed here [\#1247](https://github.com/chef/inspec/pull/1247) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Set the global message to display again [\#1246](https://github.com/chef/inspec/pull/1246) ([ryankeairns](https://github.com/ryankeairns))
+- Ignore RVM files [\#1245](https://github.com/chef/inspec/pull/1245) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Change global message regarding 10/25 webinar [\#1244](https://github.com/chef/inspec/pull/1244) ([ryankeairns](https://github.com/ryankeairns))
+- Fix issue with registry\_key example [\#1243](https://github.com/chef/inspec/pull/1243) ([seththoenen](https://github.com/seththoenen))
+- Accessing nested mappings in a yam file [\#1242](https://github.com/chef/inspec/pull/1242) ([chriswessells](https://github.com/chriswessells))
+- Fix broken link in README.md [\#1233](https://github.com/chef/inspec/pull/1233) ([swalberg](https://github.com/swalberg))
+- DOCS: fix commit amend dash [\#1232](https://github.com/chef/inspec/pull/1232) ([alexpop](https://github.com/alexpop))
+- Headers and list elements that include more than one `\_` character we… [\#1231](https://github.com/chef/inspec/pull/1231) ([nathenharvey](https://github.com/nathenharvey))
+- Implements profile signing and verification \[Experimental\] [\#1228](https://github.com/chef/inspec/pull/1228) ([metadave](https://github.com/metadave))
+- Document new DCO process [\#1224](https://github.com/chef/inspec/pull/1224) ([chris-rock](https://github.com/chris-rock))
+- adding by\_user permissions support for windows [\#1215](https://github.com/chef/inspec/pull/1215) ([jeremymv2](https://github.com/jeremymv2))
+
+## [v1.2.1](https://github.com/chef/inspec/tree/v1.2.1) (2016-10-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.0...v1.2.1)
+
+**Implemented enhancements:**
+
+- Show actual value for cmp octal comparisons in string to match expected [\#1211](https://github.com/chef/inspec/pull/1211) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- Using "cmp" Against File Mode Fails [\#1188](https://github.com/chef/inspec/issues/1188)
+- Unexpected failures with kitchen-inspec and inspec 1.0.0 [\#1187](https://github.com/chef/inspec/issues/1187)
+- Rspec deprecation warnings added to test summary creating invalid json file [\#952](https://github.com/chef/inspec/issues/952)
+- update train to fix empty target URIs [\#1221](https://github.com/chef/inspec/pull/1221) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- www: typo on inspec.io [\#1197](https://github.com/chef/inspec/issues/1197)
+
+**Merged pull requests:**
+
+- move Inspec Habitat package to chef/inspec. [\#1216](https://github.com/chef/inspec/pull/1216) ([metadave](https://github.com/metadave))
+- fix kitchen-inspec integration-1187 [\#1213](https://github.com/chef/inspec/pull/1213) ([vjeffrey](https://github.com/vjeffrey))
+- Website: Fix typo in homepage code image [\#1210](https://github.com/chef/inspec/pull/1210) ([magwalk](https://github.com/magwalk))
+
+## [v1.2.0](https://github.com/chef/inspec/tree/v1.2.0) (2016-10-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.1.0...v1.2.0)
+
+**Implemented enhancements:**
+
+- Support of linux mint or OS detection via distro families [\#280](https://github.com/chef/inspec/issues/280)
+- Support of Linux Mint [\#1209](https://github.com/chef/inspec/pull/1209) ([artem-sidorenko](https://github.com/artem-sidorenko))
+
+**Fixed bugs:**
+
+- Online tutorial: weird behavior with backspace, invalid commands [\#1184](https://github.com/chef/inspec/issues/1184)
+- parse\_config and parse\_config\_file does not show fully info when test fails \(or even if it succedes\) [\#1147](https://github.com/chef/inspec/issues/1147)
+- www: Online tutorial: safari inspec online demo bug! [\#1086](https://github.com/chef/inspec/issues/1086)
+- cmp code\_desc missing operation and expected valid [\#1204](https://github.com/chef/inspec/pull/1204) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- Resources on `http://inspec.io/docs/reference/resources/` are not in alphabetical order [\#1195](https://github.com/chef/inspec/issues/1195)
+- www: Online tutorial: update inspec tutorial to 1.0.0 version [\#1169](https://github.com/chef/inspec/issues/1169)
+
+**Merged pull requests:**
+
+- fix backspace bug [\#1206](https://github.com/chef/inspec/pull/1206) ([vjeffrey](https://github.com/vjeffrey))
+- es5. that is a thing. [\#1191](https://github.com/chef/inspec/pull/1191) ([vjeffrey](https://github.com/vjeffrey))
+- tutorial response filename length [\#1159](https://github.com/chef/inspec/pull/1159) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.1.0](https://github.com/chef/inspec/tree/v1.1.0) (2016-10-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0...v1.1.0)
+
+**Fixed bugs:**
+
+- InSpec in Visibility [\#1117](https://github.com/chef/inspec/issues/1117)
+- inspec exec on tar.gz with local library requirements doesn't work [\#779](https://github.com/chef/inspec/issues/779)
+- parse\_config\_file fails when it encounters a '\[' [\#687](https://github.com/chef/inspec/issues/687)
+- use mock backend for inspec vendor/check/json [\#1202](https://github.com/chef/inspec/pull/1202) ([arlimus](https://github.com/arlimus))
+- bugfix: support nil entries in filter table [\#1201](https://github.com/chef/inspec/pull/1201) ([arlimus](https://github.com/arlimus))
+- bugfix: always use the mock backend for inspec archive [\#1200](https://github.com/chef/inspec/pull/1200) ([arlimus](https://github.com/arlimus))
+- Missing registry keys should not exist [\#1199](https://github.com/chef/inspec/pull/1199) ([alexpop](https://github.com/alexpop))
+- bugfix: use correct logger in cli [\#1198](https://github.com/chef/inspec/pull/1198) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- registry\_key ignores failed Get-Item, always "exists" [\#1196](https://github.com/chef/inspec/issues/1196)
+- www: Online tutorial doesn't load \(not building\) [\#1182](https://github.com/chef/inspec/issues/1182)
+- Issue locally running an inspec check on a service resource [\#1176](https://github.com/chef/inspec/issues/1176)
+- Demo at `http://inspec.io/` stuck on `Loading` [\#1165](https://github.com/chef/inspec/issues/1165)
+- Confusing reporter output with inherited profiles [\#1071](https://github.com/chef/inspec/issues/1071)
+- Provide clear error message if dependency is not available [\#1069](https://github.com/chef/inspec/issues/1069)
+- Dependencies: Design UX for scoping of attributes and resources [\#1057](https://github.com/chef/inspec/issues/1057)
+- RFC Dependencies [\#888](https://github.com/chef/inspec/issues/888)
+
+**Merged pull requests:**
+
+- Remove pre-1.0 warning from meta-profile [\#1194](https://github.com/chef/inspec/pull/1194) ([chris-rock](https://github.com/chris-rock))
+- Add shell options [\#1192](https://github.com/chef/inspec/pull/1192) ([jonathanmorley](https://github.com/jonathanmorley))
+- Website: Fix buggy behavior in nav and add global message [\#1190](https://github.com/chef/inspec/pull/1190) ([magwalk](https://github.com/magwalk))
+- add example for yumconf-like structured files [\#1185](https://github.com/chef/inspec/pull/1185) ([vjeffrey](https://github.com/vjeffrey))
+- add sanity checks and fail build process if requirements aren't met [\#1183](https://github.com/chef/inspec/pull/1183) ([arlimus](https://github.com/arlimus))
+- tp/learn links [\#1181](https://github.com/chef/inspec/pull/1181) ([tpetchel](https://github.com/tpetchel))
+- include control section in instructions [\#1180](https://github.com/chef/inspec/pull/1180) ([vjeffrey](https://github.com/vjeffrey))
+- Changing headings to align with SEO best practices [\#1179](https://github.com/chef/inspec/pull/1179) ([davidwrede](https://github.com/davidwrede))
+- move inquirer to deploy [\#1178](https://github.com/chef/inspec/pull/1178) ([vjeffrey](https://github.com/vjeffrey))
+- Ignore lockfiles in example profiles [\#1177](https://github.com/chef/inspec/pull/1177) ([stevendanna](https://github.com/stevendanna))
+- Remove default parameter in `updateInstructions\(\)` [\#1175](https://github.com/chef/inspec/pull/1175) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Website: Fix docs nav functionality and optimize for mobile [\#1174](https://github.com/chef/inspec/pull/1174) ([magwalk](https://github.com/magwalk))
+- Adds segment [\#1172](https://github.com/chef/inspec/pull/1172) ([cwebberOps](https://github.com/cwebberOps))
+- print profile info before test results \(inherited profiles\) [\#1170](https://github.com/chef/inspec/pull/1170) ([vjeffrey](https://github.com/vjeffrey))
+- www: fix wording [\#1168](https://github.com/chef/inspec/pull/1168) ([arlimus](https://github.com/arlimus))
+- Update dependency documentation and mention the lockfile [\#1167](https://github.com/chef/inspec/pull/1167) ([alexpop](https://github.com/alexpop))
+
+## [v1.0.0](https://github.com/chef/inspec/tree/v1.0.0) (2016-09-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta3...v1.0.0)
+
+**Implemented enhancements:**
+
+- InSpec OS package [\#646](https://github.com/chef/inspec/issues/646)
+- replace wmi win32\_useraccount with adsi users [\#1149](https://github.com/chef/inspec/pull/1149) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- README.md has broken link to non-existent file [\#1136](https://github.com/chef/inspec/issues/1136)
+
+**Merged pull requests:**
+
+- update omnibus images [\#1164](https://github.com/chef/inspec/pull/1164) ([chris-rock](https://github.com/chris-rock))
+- website / tutorial interaction [\#1163](https://github.com/chef/inspec/pull/1163) ([chris-rock](https://github.com/chris-rock))
+- fix buttons on community page [\#1162](https://github.com/chef/inspec/pull/1162) ([arlimus](https://github.com/arlimus))
+- fix alignment of community buttons [\#1161](https://github.com/chef/inspec/pull/1161) ([arlimus](https://github.com/arlimus))
+- Fix require\_controls DSL method [\#1160](https://github.com/chef/inspec/pull/1160) ([stevendanna](https://github.com/stevendanna))
+- Document the require\_resource function [\#1158](https://github.com/chef/inspec/pull/1158) ([stevendanna](https://github.com/stevendanna))
+- fix css in docs search [\#1157](https://github.com/chef/inspec/pull/1157) ([arlimus](https://github.com/arlimus))
+- update www readme for releasing the site [\#1156](https://github.com/chef/inspec/pull/1156) ([arlimus](https://github.com/arlimus))
+- Fix minor typo in sys\_info documentation [\#1155](https://github.com/chef/inspec/pull/1155) ([stevendanna](https://github.com/stevendanna))
+- fix outdated link in readme [\#1154](https://github.com/chef/inspec/pull/1154) ([arlimus](https://github.com/arlimus))
+- fix minor website bugs [\#1153](https://github.com/chef/inspec/pull/1153) ([arlimus](https://github.com/arlimus))
+- clean www before releasing [\#1152](https://github.com/chef/inspec/pull/1152) ([arlimus](https://github.com/arlimus))
+- add docs to the website [\#1151](https://github.com/chef/inspec/pull/1151) ([arlimus](https://github.com/arlimus))
+- return empty array for known privileges [\#1150](https://github.com/chef/inspec/pull/1150) ([chris-rock](https://github.com/chris-rock))
+- Extend example for parse\_config.rb [\#1148](https://github.com/chef/inspec/pull/1148) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- Bump lockfile version to 1.0 [\#1141](https://github.com/chef/inspec/pull/1141) ([stevendanna](https://github.com/stevendanna))
+- Improve error messages from compliance fetcher [\#1126](https://github.com/chef/inspec/pull/1126) ([stevendanna](https://github.com/stevendanna))
+
+## [v1.0.0.beta3](https://github.com/chef/inspec/tree/v1.0.0.beta3) (2016-09-25)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.beta2...v1.0.0.beta3)
+
+**Implemented enhancements:**
+
+- Improve lockfile handling [\#1070](https://github.com/chef/inspec/issues/1070)
+- Show skip\_message and correct title [\#1109](https://github.com/chef/inspec/pull/1109) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- InSpec CLI output not showing skip message when control title is defined [\#1097](https://github.com/chef/inspec/issues/1097)
+- bugfix: there is one more button to start the online demo [\#1140](https://github.com/chef/inspec/pull/1140) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- add docs to inspec.io [\#1119](https://github.com/chef/inspec/issues/1119)
+- Cache key for dependencies needs to be based on content hash for urls [\#1066](https://github.com/chef/inspec/issues/1066)
+
+**Merged pull requests:**
+
+- Enable builds on both Windows and \*nix [\#1145](https://github.com/chef/inspec/pull/1145) ([scotthain](https://github.com/scotthain))
+- Website: Minor edits in preparation for launch [\#1144](https://github.com/chef/inspec/pull/1144) ([magwalk](https://github.com/magwalk))
+- Truncate long filename. Temporary fix [\#1143](https://github.com/chef/inspec/pull/1143) ([stevendanna](https://github.com/stevendanna))
+- add variables to each loops [\#1142](https://github.com/chef/inspec/pull/1142) ([chris-rock](https://github.com/chris-rock))
+- embed tutorial in website [\#1139](https://github.com/chef/inspec/pull/1139) ([arlimus](https://github.com/arlimus))
+- scope all tutorial assets [\#1138](https://github.com/chef/inspec/pull/1138) ([arlimus](https://github.com/arlimus))
+- add build task for online tutorial with all assets [\#1137](https://github.com/chef/inspec/pull/1137) ([arlimus](https://github.com/arlimus))
+- implement filter table for group/groups resource [\#1135](https://github.com/chef/inspec/pull/1135) ([chris-rock](https://github.com/chris-rock))
+- fix minor typos in user resource [\#1134](https://github.com/chef/inspec/pull/1134) ([chris-rock](https://github.com/chris-rock))
+- Website Copy Edits [\#1133](https://github.com/chef/inspec/pull/1133) ([magwalk](https://github.com/magwalk))
+- add build tasks for www [\#1132](https://github.com/chef/inspec/pull/1132) ([arlimus](https://github.com/arlimus))
+- add resources.md doc generation [\#1130](https://github.com/chef/inspec/pull/1130) ([arlimus](https://github.com/arlimus))
+- add all resources to docs [\#1129](https://github.com/chef/inspec/pull/1129) ([arlimus](https://github.com/arlimus))
+- reorder and fix sidebar contents for docs [\#1128](https://github.com/chef/inspec/pull/1128) ([arlimus](https://github.com/arlimus))
+- add ruby usage in inspec as markdown [\#1127](https://github.com/chef/inspec/pull/1127) ([arlimus](https://github.com/arlimus))
+- Add markdown docs [\#1125](https://github.com/chef/inspec/pull/1125) ([arlimus](https://github.com/arlimus))
+- Avoid spurious downloads during dependency management [\#1124](https://github.com/chef/inspec/pull/1124) ([stevendanna](https://github.com/stevendanna))
+- Website Design Fixes [\#1123](https://github.com/chef/inspec/pull/1123) ([magwalk](https://github.com/magwalk))
+
+## [v1.0.0.beta2](https://github.com/chef/inspec/tree/v1.0.0.beta2) (2016-09-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.0.0.pre.beta1...v1.0.0.beta2)
+
+**Implemented enhancements:**
+
+- kernel\_parameter does not show fully info when test fails [\#1093](https://github.com/chef/inspec/issues/1093)
+- InSpec html demo [\#851](https://github.com/chef/inspec/issues/851)
+- Counting and status of controls without tests [\#849](https://github.com/chef/inspec/issues/849)
+- supports does not mark resources as skipped [\#354](https://github.com/chef/inspec/issues/354)
+- `include Inspec::DSL` anywhere [\#271](https://github.com/chef/inspec/issues/271)
+- Suse Support [\#113](https://github.com/chef/inspec/issues/113)
+- Update the username and password login method [\#1095](https://github.com/chef/inspec/pull/1095) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- InSpec in Workflow [\#1115](https://github.com/chef/inspec/issues/1115)
+- uninstalled package shows as installed [\#1092](https://github.com/chef/inspec/issues/1092)
+- undefined method `send\_request' for Compliance::API:Class [\#1088](https://github.com/chef/inspec/issues/1088)
+- \[package\] Regression on Windows 2008R2 [\#998](https://github.com/chef/inspec/issues/998)
+- \[script\] Is there a limit on the number of char's within a script block [\#539](https://github.com/chef/inspec/issues/539)
+- Use parenthesis when passing regular expressions [\#1106](https://github.com/chef/inspec/pull/1106) ([alexpop](https://github.com/alexpop))
+- Include code description in the output of failed controls [\#1096](https://github.com/chef/inspec/pull/1096) ([alexpop](https://github.com/alexpop))
+- Update the username and password login method [\#1095](https://github.com/chef/inspec/pull/1095) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- Package Resource isn't searching 64-bit Registry Hives [\#1100](https://github.com/chef/inspec/issues/1100)
+- demo improvements [\#1089](https://github.com/chef/inspec/issues/1089)
+- Dependencies: All resources are scoped [\#1058](https://github.com/chef/inspec/issues/1058)
+- Improve InSpec tutorial [\#1045](https://github.com/chef/inspec/issues/1045)
+- 1.10.2 has an extra space in pip package output [\#1043](https://github.com/chef/inspec/issues/1043)
+- Follow up to 1013: find\_files\(\) errors still occurring for apache\_conf resource after 0.33.0 upgrade [\#1030](https://github.com/chef/inspec/issues/1030)
+- MVP in-browser inspec demo [\#957](https://github.com/chef/inspec/issues/957)
+- Failing tests in inherited tests are not displayed [\#899](https://github.com/chef/inspec/issues/899)
+
+**Merged pull requests:**
+
+- Use the gem version for the omnibus package version [\#1122](https://github.com/chef/inspec/pull/1122) ([yzl](https://github.com/yzl))
+- Add legal pages [\#1121](https://github.com/chef/inspec/pull/1121) ([magwalk](https://github.com/magwalk))
+- update docs to markdown [\#1120](https://github.com/chef/inspec/pull/1120) ([arlimus](https://github.com/arlimus))
+- add readme to www-build [\#1118](https://github.com/chef/inspec/pull/1118) ([arlimus](https://github.com/arlimus))
+- Always write lockfiles for local top-level profiles  [\#1116](https://github.com/chef/inspec/pull/1116) ([stevendanna](https://github.com/stevendanna))
+- Add `--cache` option to `inspec exec` [\#1113](https://github.com/chef/inspec/pull/1113) ([stevendanna](https://github.com/stevendanna))
+- fix double-space in pip to\_s resource [\#1112](https://github.com/chef/inspec/pull/1112) ([chris-rock](https://github.com/chris-rock))
+- fixes debian package manager and some of the code examples [\#1111](https://github.com/chef/inspec/pull/1111) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- Add main site footer [\#1110](https://github.com/chef/inspec/pull/1110) ([magwalk](https://github.com/magwalk))
+- Add community and tutorials pages [\#1108](https://github.com/chef/inspec/pull/1108) ([magwalk](https://github.com/magwalk))
+- Add homepage content and styles [\#1107](https://github.com/chef/inspec/pull/1107) ([magwalk](https://github.com/magwalk))
+- Styling setup and main navigation [\#1105](https://github.com/chef/inspec/pull/1105) ([magwalk](https://github.com/magwalk))
+- docs task and rst/md formatter separation [\#1104](https://github.com/chef/inspec/pull/1104) ([arlimus](https://github.com/arlimus))
+- Fail if a remote source content doesn't match lockfile [\#1103](https://github.com/chef/inspec/pull/1103) ([stevendanna](https://github.com/stevendanna))
+- Optimize tutorial [\#1101](https://github.com/chef/inspec/pull/1101) ([chris-rock](https://github.com/chris-rock))
+- Build with master of omnibus [\#1099](https://github.com/chef/inspec/pull/1099) ([yzl](https://github.com/yzl))
+- use Gem::Version instead of a regular expression for a test version bump [\#1098](https://github.com/chef/inspec/pull/1098) ([chris-rock](https://github.com/chris-rock))
+- fix demo instructions [\#1094](https://github.com/chef/inspec/pull/1094) ([vjeffrey](https://github.com/vjeffrey))
+- Allow users to reference resources from dependencies [\#1080](https://github.com/chef/inspec/pull/1080) ([stevendanna](https://github.com/stevendanna))
+- In ApacheConf\#include\_files, check for abs paths [\#1042](https://github.com/chef/inspec/pull/1042) ([davidcpell](https://github.com/davidcpell))
+
+## [v1.0.0.pre.beta1](https://github.com/chef/inspec/tree/v1.0.0.pre.beta1) (2016-09-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.35.0...v1.0.0.pre.beta1)
+
+**Implemented enhancements:**
+
+- InSpec output for summary needs to count controls [\#852](https://github.com/chef/inspec/issues/852)
+- ssl resource to use inspec.backend.hostname and require train 0.19.1 [\#1084](https://github.com/chef/inspec/pull/1084) ([alexpop](https://github.com/alexpop))
+- optimize command simulator auto-generation [\#1078](https://github.com/chef/inspec/pull/1078) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- proper scrolling of terminal [\#1053](https://github.com/chef/inspec/issues/1053)
+
+**Merged pull requests:**
+
+- fix inspec shell handling [\#1090](https://github.com/chef/inspec/pull/1090) ([vjeffrey](https://github.com/vjeffrey))
+- update responses [\#1087](https://github.com/chef/inspec/pull/1087) ([vjeffrey](https://github.com/vjeffrey))
+- print profile summary and test summary [\#1083](https://github.com/chef/inspec/pull/1083) ([vjeffrey](https://github.com/vjeffrey))
+- Fix minor typo in documentation [\#1082](https://github.com/chef/inspec/pull/1082) ([Dispader](https://github.com/Dispader))
+- uglify wepack content, kudos @chris-rock [\#1081](https://github.com/chef/inspec/pull/1081) ([arlimus](https://github.com/arlimus))
+- Static keys in all json [\#811](https://github.com/chef/inspec/pull/811) ([arlimus](https://github.com/arlimus))
+
+## [v0.35.0](https://github.com/chef/inspec/tree/v0.35.0) (2016-09-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.34.1...v0.35.0)
+
+**Fixed bugs:**
+
+- resource dsl not loded properly inside describe blocks [\#1074](https://github.com/chef/inspec/issues/1074)
+
+**Closed issues:**
+
+- online demo: check style of tutorial text [\#1054](https://github.com/chef/inspec/issues/1054)
+- online demo: clear \(linux\) and cls \(windows\) command to clear the terminal [\#1052](https://github.com/chef/inspec/issues/1052)
+- respect inspec.yml supports with include\_controls [\#1049](https://github.com/chef/inspec/issues/1049)
+- Simplify dependency in inspec.yml [\#1048](https://github.com/chef/inspec/issues/1048)
+
+**Merged pull requests:**
+
+- Process transitive dependencies from lock file [\#1079](https://github.com/chef/inspec/pull/1079) ([stevendanna](https://github.com/stevendanna))
+- Don't gpg-sign commits during tests [\#1077](https://github.com/chef/inspec/pull/1077) ([stevendanna](https://github.com/stevendanna))
+- Ensure resources are visible inside its blocks [\#1076](https://github.com/chef/inspec/pull/1076) ([stevendanna](https://github.com/stevendanna))
+- add gulp build pipeline to online demo [\#1075](https://github.com/chef/inspec/pull/1075) ([arlimus](https://github.com/arlimus))
+- inspec simulator [\#1073](https://github.com/chef/inspec/pull/1073) ([chris-rock](https://github.com/chris-rock))
+- Skip controls from profiles that don't support the current platform [\#1072](https://github.com/chef/inspec/pull/1072) ([stevendanna](https://github.com/stevendanna))
+- add tutorials \(references\) to the site skeleton [\#1068](https://github.com/chef/inspec/pull/1068) ([arlimus](https://github.com/arlimus))
+- Vj/improve demo [\#1065](https://github.com/chef/inspec/pull/1065) ([vjeffrey](https://github.com/vjeffrey))
+- Provide inspec.yml shortcut syntax [\#1064](https://github.com/chef/inspec/pull/1064) ([stevendanna](https://github.com/stevendanna))
+
+## [v0.34.1](https://github.com/chef/inspec/tree/v0.34.1) (2016-09-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.34.0...v0.34.1)
+
+**Fixed bugs:**
+
+- Force encoding in bin only [\#1062](https://github.com/chef/inspec/pull/1062) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- Fixup rubocop violation in www/ [\#1067](https://github.com/chef/inspec/pull/1067) ([stevendanna](https://github.com/stevendanna))
+- add homepage skeleton [\#1063](https://github.com/chef/inspec/pull/1063) ([arlimus](https://github.com/arlimus))
+
+## [v0.34.0](https://github.com/chef/inspec/tree/v0.34.0) (2016-09-12)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.2...v0.34.0)
+
+**Implemented enhancements:**
+
+- Vendor Github and Supermarket dependencies [\#959](https://github.com/chef/inspec/issues/959)
+- use simple config for security policy resource [\#1044](https://github.com/chef/inspec/pull/1044) ([chris-rock](https://github.com/chris-rock))
+- identify enabled/disabled accounts for windows [\#1039](https://github.com/chef/inspec/pull/1039) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- Compliance should allow the ability to upload the unconverted SCAP profiles from the agencies. [\#1055](https://github.com/chef/inspec/issues/1055)
+- Multiple matchers in a describe block display only a single line [\#1025](https://github.com/chef/inspec/issues/1025)
+- Create all content for inspec homepage demo [\#1021](https://github.com/chef/inspec/issues/1021)
+- User resource should use Filtertable [\#948](https://github.com/chef/inspec/issues/948)
+
+**Merged pull requests:**
+
+- rename example to meta-profile [\#1051](https://github.com/chef/inspec/pull/1051) ([chris-rock](https://github.com/chris-rock))
+- fix webpack start script for tutorial [\#1050](https://github.com/chef/inspec/pull/1050) ([vjeffrey](https://github.com/vjeffrey))
+- Add Inspec::Fetcher\#relative\_target for compatibility [\#1046](https://github.com/chef/inspec/pull/1046) ([stevendanna](https://github.com/stevendanna))
+- Typo supermarket -\> compliance [\#1041](https://github.com/chef/inspec/pull/1041) ([stevendanna](https://github.com/stevendanna))
+- Improve duplicate and cycle detection in resolver [\#1038](https://github.com/chef/inspec/pull/1038) ([stevendanna](https://github.com/stevendanna))
+- Add example of corporate profile [\#1037](https://github.com/chef/inspec/pull/1037) ([stevendanna](https://github.com/stevendanna))
+- Ensure simplecov starts before everything else [\#1036](https://github.com/chef/inspec/pull/1036) ([stevendanna](https://github.com/stevendanna))
+- add sys\_info resource to get information about the hostname [\#1035](https://github.com/chef/inspec/pull/1035) ([chris-rock](https://github.com/chris-rock))
+- Add GitFetcher and rework Fetchers+SourceReaders [\#1034](https://github.com/chef/inspec/pull/1034) ([stevendanna](https://github.com/stevendanna))
+- add demo content [\#1033](https://github.com/chef/inspec/pull/1033) ([vjeffrey](https://github.com/vjeffrey))
+- add health graphs [\#1032](https://github.com/chef/inspec/pull/1032) ([arlimus](https://github.com/arlimus))
+- fix table formatting in readme [\#1031](https://github.com/chef/inspec/pull/1031) ([arlimus](https://github.com/arlimus))
+- remove old delivery tests [\#1029](https://github.com/chef/inspec/pull/1029) ([arlimus](https://github.com/arlimus))
+- make demo better [\#1015](https://github.com/chef/inspec/pull/1015) ([vjeffrey](https://github.com/vjeffrey))
+- user resource should support filtertable [\#990](https://github.com/chef/inspec/pull/990) ([ksubrama](https://github.com/ksubrama))
+
+## [v0.33.2](https://github.com/chef/inspec/tree/v0.33.2) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.1...v0.33.2)
+
+**Implemented enhancements:**
+
+- ssl resource fix and speed improvement [\#1027](https://github.com/chef/inspec/pull/1027) ([alexpop](https://github.com/alexpop))
+- allow direct access to iis configuration parameters [\#1020](https://github.com/chef/inspec/pull/1020) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- ssl resource fix and speed improvement [\#1027](https://github.com/chef/inspec/pull/1027) ([alexpop](https://github.com/alexpop))
+
+## [v0.33.1](https://github.com/chef/inspec/tree/v0.33.1) (2016-09-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.33.0...v0.33.1)
+
+**Closed issues:**
+
+- Research: determine mechanism for recording + playing back inspec [\#955](https://github.com/chef/inspec/issues/955)
+- Create content for interactive inspec online demo [\#954](https://github.com/chef/inspec/issues/954)
+
+**Merged pull requests:**
+
+- Pass attributes from command line into profile context [\#1026](https://github.com/chef/inspec/pull/1026) ([stevendanna](https://github.com/stevendanna))
+- Remove SourceReader::Inspec\#prepare\_load\_path [\#1023](https://github.com/chef/inspec/pull/1023) ([stevendanna](https://github.com/stevendanna))
+- add demo yml contents [\#1022](https://github.com/chef/inspec/pull/1022) ([arlimus](https://github.com/arlimus))
+
+## [v0.33.0](https://github.com/chef/inspec/tree/v0.33.0) (2016-09-05)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.32.0...v0.33.0)
+
+**Implemented enhancements:**
+
+- Introduce scoping to the ProfileContext which has a view of all of its dependencies  [\#958](https://github.com/chef/inspec/issues/958)
+- Create Help for Subcommands [\#305](https://github.com/chef/inspec/issues/305)
+- Allow service resource to accept Windows service name with spaces [\#1003](https://github.com/chef/inspec/pull/1003) ([martinheg](https://github.com/martinheg))
+
+**Fixed bugs:**
+
+- Error output not informative [\#1016](https://github.com/chef/inspec/issues/1016)
+- Suse Linux Enterprise Server 11 SPX is failing for describe service resource. [\#997](https://github.com/chef/inspec/issues/997)
+- Inspec Docker directory test fails [\#996](https://github.com/chef/inspec/issues/996)
+- package\(\) 'version' {should match\(pattern\)} does not return failed control, but shows as failed test [\#898](https://github.com/chef/inspec/issues/898)
+- Raise error when an invalid URI is received [\#1019](https://github.com/chef/inspec/pull/1019) ([alexpop](https://github.com/alexpop))
+- Fix os exception in mysql resource [\#1012](https://github.com/chef/inspec/pull/1012) ([alexpop](https://github.com/alexpop))
+- cmp not treating 0 as integer only as string [\#991](https://github.com/chef/inspec/pull/991) ([jeremymv2](https://github.com/jeremymv2))
+
+**Closed issues:**
+
+- apache\_conf resource seems to be using incorrect paths to amalgamate apache config \(only Centos/RHEL?\) [\#1013](https://github.com/chef/inspec/issues/1013)
+- More options link in Readme.md doesn't work \(404\) - need updating? [\#1001](https://github.com/chef/inspec/issues/1001)
+- Chef compliance breaks after updating inspec gem 0.32 [\#992](https://github.com/chef/inspec/issues/992)
+- Improve CLI report [\#984](https://github.com/chef/inspec/issues/984)
+- record inspec + in-browser playback for online demo [\#956](https://github.com/chef/inspec/issues/956)
+- UX & UI design for the interactive HTML demo [\#953](https://github.com/chef/inspec/issues/953)
+
+**Merged pull requests:**
+
+- use winrm v2 [\#1018](https://github.com/chef/inspec/pull/1018) ([chris-rock](https://github.com/chris-rock))
+- always display error message [\#1017](https://github.com/chef/inspec/pull/1017) ([chris-rock](https://github.com/chris-rock))
+- Fix apache conf [\#1014](https://github.com/chef/inspec/pull/1014) ([jeremymv2](https://github.com/jeremymv2))
+- fix cli inherited profiles [\#1008](https://github.com/chef/inspec/pull/1008) ([vjeffrey](https://github.com/vjeffrey))
+- improve suse 11 support for service resource [\#1007](https://github.com/chef/inspec/pull/1007) ([chris-rock](https://github.com/chris-rock))
+- Extend Inspec DSL docs [\#1006](https://github.com/chef/inspec/pull/1006) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- vj/fix cli report [\#1004](https://github.com/chef/inspec/pull/1004) ([vjeffrey](https://github.com/vjeffrey))
+- fix cli link to docs [\#1002](https://github.com/chef/inspec/pull/1002) ([chris-rock](https://github.com/chris-rock))
+- Promote cmp usage as it provides results with octal mode [\#999](https://github.com/chef/inspec/pull/999) ([alexpop](https://github.com/alexpop))
+- Initial attempt at isolating resources between dependencies [\#994](https://github.com/chef/inspec/pull/994) ([stevendanna](https://github.com/stevendanna))
+- inspec demo [\#989](https://github.com/chef/inspec/pull/989) ([vjeffrey](https://github.com/vjeffrey))
+- Allow functional tests to pass on OSX [\#988](https://github.com/chef/inspec/pull/988) ([stevendanna](https://github.com/stevendanna))
+- Minor refactor and explanatory comments [\#987](https://github.com/chef/inspec/pull/987) ([stevendanna](https://github.com/stevendanna))
+
+## [v0.32.0](https://github.com/chef/inspec/tree/v0.32.0) (2016-08-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.31.0...v0.32.0)
+
+**Implemented enhancements:**
+
+- Provide SSL InSpec with full demo [\#903](https://github.com/chef/inspec/issues/903)
+- improve package resource on windows [\#86](https://github.com/chef/inspec/issues/86)
+- can check windows service startup mode now [\#968](https://github.com/chef/inspec/pull/968) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- Resolved an issue checking ports on windows [\#962](https://github.com/chef/inspec/pull/962) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Grouping multiple `it` blocks in one `describe` blocks ruins console output during test runs [\#918](https://github.com/chef/inspec/issues/918)
+- Windows default path format causes errors with inspec check [\#672](https://github.com/chef/inspec/issues/672)
+- bugfix windows forward slashes handling [\#963](https://github.com/chef/inspec/pull/963) ([chris-rock](https://github.com/chris-rock))
+- Fix command evaluation for inspec shell -c [\#943](https://github.com/chef/inspec/pull/943) ([ksubrama](https://github.com/ksubrama))
+
+**Closed issues:**
+
+- Support sid for user resource [\#960](https://github.com/chef/inspec/issues/960)
+- Create and load Lockfiles for dependencies [\#950](https://github.com/chef/inspec/issues/950)
+- Implement test cases for inspec shell [\#942](https://github.com/chef/inspec/issues/942)
+- Transitive dependency loading [\#915](https://github.com/chef/inspec/issues/915)
+- Document InSpec OR features [\#853](https://github.com/chef/inspec/issues/853)
+- Document ini resource [\#848](https://github.com/chef/inspec/issues/848)
+- Document special service resources [\#495](https://github.com/chef/inspec/issues/495)
+
+**Merged pull requests:**
+
+- Reformat service resource docs for discoverability [\#986](https://github.com/chef/inspec/pull/986) ([stevendanna](https://github.com/stevendanna))
+- Generate documentation for the `vendor` command [\#985](https://github.com/chef/inspec/pull/985) ([stevendanna](https://github.com/stevendanna))
+- suport for ruby 2.2.2 [\#983](https://github.com/chef/inspec/pull/983) ([chris-rock](https://github.com/chris-rock))
+- Add windows user SID as 'UID' in user resource. Fix \#960 [\#982](https://github.com/chef/inspec/pull/982) ([ksubrama](https://github.com/ksubrama))
+- document ini resource [\#981](https://github.com/chef/inspec/pull/981) ([vjeffrey](https://github.com/vjeffrey))
+- Upgrade FFI to Ruby 2.3 issues on windows [\#980](https://github.com/chef/inspec/pull/980) ([ksubrama](https://github.com/ksubrama))
+- move train connection out of loop for command\_simulator [\#979](https://github.com/chef/inspec/pull/979) ([vjeffrey](https://github.com/vjeffrey))
+- Update port.rb Documentation [\#978](https://github.com/chef/inspec/pull/978) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- first pass at collecting command output for demo [\#977](https://github.com/chef/inspec/pull/977) ([vjeffrey](https://github.com/vjeffrey))
+- Fix `rake` to work again [\#976](https://github.com/chef/inspec/pull/976) ([jkeiser](https://github.com/jkeiser))
+- Fix `bundle install` on Ruby 2.1.9 [\#975](https://github.com/chef/inspec/pull/975) ([jkeiser](https://github.com/jkeiser))
+- Initial control isolation support [\#973](https://github.com/chef/inspec/pull/973) ([stevendanna](https://github.com/stevendanna))
+- Allow JSON 2.x [\#972](https://github.com/chef/inspec/pull/972) ([chris-rock](https://github.com/chris-rock))
+- Add Ruby 2.3 to the test matrix, make it the primary test for most suites [\#971](https://github.com/chef/inspec/pull/971) ([jkeiser](https://github.com/jkeiser))
+- Speed up windows package lookup [\#970](https://github.com/chef/inspec/pull/970) ([ksubrama](https://github.com/ksubrama))
+- Expand relative paths based on profile location [\#965](https://github.com/chef/inspec/pull/965) ([stevendanna](https://github.com/stevendanna))
+- restructure test suites in travis [\#964](https://github.com/chef/inspec/pull/964) ([chris-rock](https://github.com/chris-rock))
+- Replace Molinillo-based resolver [\#961](https://github.com/chef/inspec/pull/961) ([stevendanna](https://github.com/stevendanna))
+- Add prototype of inspec.lock [\#949](https://github.com/chef/inspec/pull/949) ([stevendanna](https://github.com/stevendanna))
+- document OR feature [\#947](https://github.com/chef/inspec/pull/947) ([vjeffrey](https://github.com/vjeffrey))
+- print controls, then tests; print header of describe, then individual test results [\#946](https://github.com/chef/inspec/pull/946) ([vjeffrey](https://github.com/vjeffrey))
+- Add darwin helper [\#945](https://github.com/chef/inspec/pull/945) ([tas50](https://github.com/tas50))
+- Update platforms in the docs to match the code [\#944](https://github.com/chef/inspec/pull/944) ([tas50](https://github.com/tas50))
+- Add integration tests for file owner on windows [\#923](https://github.com/chef/inspec/pull/923) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.31.0](https://github.com/chef/inspec/tree/v0.31.0) (2016-08-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.30.0...v0.31.0)
+
+**Implemented enhancements:**
+
+- Support writing full tests in inspec shell [\#240](https://github.com/chef/inspec/issues/240)
+- inspec shell documentation - Fix \#805 [\#925](https://github.com/chef/inspec/pull/925) ([ksubrama](https://github.com/ksubrama))
+- Windows ports with pid and process name [\#912](https://github.com/chef/inspec/pull/912) ([alexpop](https://github.com/alexpop))
+- Improve inspec shell by having it evaluate describe/control blocks. [\#909](https://github.com/chef/inspec/pull/909) ([ksubrama](https://github.com/ksubrama))
+
+**Fixed bugs:**
+
+- `inspec login help` help text inconsistent with `inspec` CLI usage [\#905](https://github.com/chef/inspec/issues/905)
+- Subcommand help outputs incorrect usage line [\#895](https://github.com/chef/inspec/issues/895)
+- `inspec compliance version` fails with stacktrace if no compliance URL is configured [\#894](https://github.com/chef/inspec/issues/894)
+- `inspec` binary occasionally exits zero on SSH failures [\#840](https://github.com/chef/inspec/issues/840)
+- inspec login fails [\#793](https://github.com/chef/inspec/issues/793)
+- ssh\_config and sshd\_config matchers should be case-insensitive [\#759](https://github.com/chef/inspec/issues/759)
+- Login succeeds but later commands fail [\#731](https://github.com/chef/inspec/issues/731)
+- passwd resource does not ignore comments [\#725](https://github.com/chef/inspec/issues/725)
+- remove tests and dev dependencies from released gem [\#924](https://github.com/chef/inspec/pull/924) ([arlimus](https://github.com/arlimus))
+- update dependencies and loosen molinillo [\#917](https://github.com/chef/inspec/pull/917) ([arlimus](https://github.com/arlimus))
+- Handle xinetd config with only one entry [\#846](https://github.com/chef/inspec/pull/846) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- Document InSpec Shell [\#805](https://github.com/chef/inspec/issues/805)
+
+**Merged pull requests:**
+
+- fix functional test for compliance plugin [\#941](https://github.com/chef/inspec/pull/941) ([chris-rock](https://github.com/chris-rock))
+- give accurate information for inspec compliance login --help [\#938](https://github.com/chef/inspec/pull/938) ([vjeffrey](https://github.com/vjeffrey))
+- Document awesome where syntax for port [\#937](https://github.com/chef/inspec/pull/937) ([pburkholder](https://github.com/pburkholder))
+- Fetch deps based on urls [\#935](https://github.com/chef/inspec/pull/935) ([stevendanna](https://github.com/stevendanna))
+- Ease testing of compliance integration tests [\#934](https://github.com/chef/inspec/pull/934) ([chris-rock](https://github.com/chris-rock))
+- restructure unit tests [\#933](https://github.com/chef/inspec/pull/933) ([chris-rock](https://github.com/chris-rock))
+- return token stored message on login [\#932](https://github.com/chef/inspec/pull/932) ([vjeffrey](https://github.com/vjeffrey))
+- fail gracefully on inspec compliance profiles when bad token is provided [\#930](https://github.com/chef/inspec/pull/930) ([vjeffrey](https://github.com/vjeffrey))
+- Fix recursive deps for path-based deps [\#929](https://github.com/chef/inspec/pull/929) ([stevendanna](https://github.com/stevendanna))
+- fix integration tests for Chef Compliance [\#928](https://github.com/chef/inspec/pull/928) ([chris-rock](https://github.com/chris-rock))
+- Remove false username/passwd msg from inspec compliance login [\#927](https://github.com/chef/inspec/pull/927) ([vjeffrey](https://github.com/vjeffrey))
+- inspec compliance version fails gracefully when no server config [\#926](https://github.com/chef/inspec/pull/926) ([vjeffrey](https://github.com/vjeffrey))
+- add kitchen.yml for non-public kitchen boxes [\#922](https://github.com/chef/inspec/pull/922) ([chris-rock](https://github.com/chris-rock))
+- Ignore comment lines in /etc/passwd [\#920](https://github.com/chef/inspec/pull/920) ([stevendanna](https://github.com/stevendanna))
+- ssh\_config parse should be case insensitive [\#919](https://github.com/chef/inspec/pull/919) ([vjeffrey](https://github.com/vjeffrey))
+- add ssl resource \(early access\) [\#914](https://github.com/chef/inspec/pull/914) ([arlimus](https://github.com/arlimus))
+- Add iis\_site resource [\#907](https://github.com/chef/inspec/pull/907) ([chrisevett](https://github.com/chrisevett))
+
+## [v0.30.0](https://github.com/chef/inspec/tree/v0.30.0) (2016-08-12)
+[Full Changelog](https://github.com/chef/inspec/compare/v0.29.0...v0.30.0)
 
 **Implemented enhancements:**
 
@@ -72,10 +606,6 @@
 
 ## [v0.28.1](https://github.com/chef/inspec/tree/v0.28.1) (2016-08-03)
 [Full Changelog](https://github.com/chef/inspec/compare/v0.28.0...v0.28.1)
-
-**Implemented enhancements:**
-
-- InSpec output for summary needs to count controls [\#852](https://github.com/chef/inspec/issues/852)
 
 **Fixed bugs:**
 

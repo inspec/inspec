@@ -1,0 +1,79 @@
+---
+title: About the auditd_conf Resource
+---
+
+# auditd_conf
+
+Use the `auditd_conf` InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under `/etc/audit/auditd.conf'` on Unix and Linux platforms.
+
+## Syntax
+
+A `auditd_conf` resource block declares configuration settings that should be tested:
+
+    describe auditd_conf('path') do
+      its('keyword') { should cmp 'value' }
+    end
+
+where
+
+* `'keyword'` is a configuration setting defined in the `auditd.conf` configuration file
+* `('path')` is the non-default path to the `auditd.conf` configuration file
+* `{ should cmp 'value' }` is the value that is expected
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### keyword
+
+This matcher will matche any keyword that is listed in the `auditd.conf` configuration file. Option names and values are case-insensitive:
+
+    its('log_format') { should cmp 'raw' }
+
+or:
+
+    its('max_log_file') { should cmp 6 }
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test the auditd.conf file
+
+    describe auditd_conf do
+      its('log_file') { should cmp '/full/path/to/file' }
+      its('log_format') { should cmp 'raw' }
+      its('flush') { should cmp 'none' }
+      its('freq') { should cmp 1 }
+      its('num_logs') { should cmp 0 }
+      its('max_log_file') { should cmp 6 }
+      its('max_log_file_action') { should cmp 'email' }
+      its('space_left') { should cmp 2 }
+      its('action_mail_acct') { should cmp 'root' }
+      its('space_left_action') { should cmp 'email' }
+      its('admin_space_left') { should cmp 1 }
+      its('admin_space_left_action') { should cmp 'halt' }
+      its('disk_full_action') { should cmp 'halt' }
+      its('disk_error_action') { should cmp 'halt' }
+    end

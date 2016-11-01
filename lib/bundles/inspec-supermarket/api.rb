@@ -1,4 +1,5 @@
 # encoding: utf-8
+# frozen_string_literal: true
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -8,18 +9,14 @@ module Supermarket
   class API
     SUPERMARKET_URL = 'https://supermarket.chef.io'.freeze
 
-    def self.supermarket_url
-      SUPERMARKET_URL
-    end
-
     # displays a list of profiles
-    def self.profiles
-      url = "#{SUPERMARKET_URL}/api/v1/tools-search"
-      _success, data = get(url, { q: 'compliance_profile' })
+    def self.profiles(supermarket_url = SUPERMARKET_URL)
+      url = "#{supermarket_url}/api/v1/tools"
+      _success, data = get(url, { start: 0, items: 100, order: 'recently_added' })
       if !data.nil?
         profiles = JSON.parse(data)
-        profiles['items'].map { |x|
-          m = %r{^#{Supermarket::API.supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
+        profiles['items'].select { |p| p['tool_type'] == 'compliance_profile' }.map { |x|
+          m = %r{^#{supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
           x['slug'] = m[:slug]
           x
         }
@@ -36,10 +33,10 @@ module Supermarket
     end
 
     # displays profile infos
-    def self.info(profile)
+    def self.info(profile, supermarket_url = SUPERMARKET_URL)
       _tool_owner, tool_name = profile_name("supermarket://#{profile}")
       return if tool_name.nil? || tool_name.empty?
-      url = "#{SUPERMARKET_URL}/api/v1/tools/#{tool_name}"
+      url = "#{supermarket_url}/api/v1/tools/#{tool_name}"
       _success, data = get(url, {})
       JSON.parse(data) if !data.nil?
     rescue JSON::ParserError
@@ -47,24 +44,24 @@ module Supermarket
     end
 
     # compares a profile with the supermarket tool info
-    def self.same?(profile, supermarket_tool)
+    def self.same?(profile, supermarket_tool, supermarket_url = SUPERMARKET_URL)
       tool_owner, tool_name = profile_name(profile)
-      tool = "#{SUPERMARKET_URL}/api/v1/tools/#{tool_name}"
+      tool = "#{supermarket_url}/api/v1/tools/#{tool_name}"
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
-    def self.find(profile)
-      profiles = Supermarket::API.profiles
+    def self.find(profile, supermarket_url)
+      profiles = Supermarket::API.profiles(supermarket_url=SUPERMARKET_URL)
       if !profiles.empty?
-        index = profiles.index { |t| same?(profile, t) }
+        index = profiles.index { |t| same?(profile, t, supermarket_url) }
         # return profile or nil
         profiles[index] if !index.nil? && index >= 0
       end
     end
 
     # verifies that a profile exists
-    def self.exist?(profile)
-      !find(profile).nil?
+    def self.exist?(profile, supermarket_url = SUPERMARKET_URL)
+      !find(profile, supermarket_url).nil?
     end
 
     def self.get(url, params)

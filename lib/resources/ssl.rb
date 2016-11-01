@@ -6,6 +6,8 @@
 
 require 'sslshake'
 require 'utils/filter'
+require 'uri'
+require 'parallel'
 
 # Custom resource based on the InSpec resource DSL
 class SSL < Inspec.resource(1)
@@ -39,16 +41,19 @@ class SSL < Inspec.resource(1)
     'tls1.2',
   ].freeze
 
-  attr_reader :host, :port
+  attr_reader :host, :port, :timeout, :retries
 
   def initialize(opts = {})
-    @host = opts[:host] ||
-            inspec.backend.instance_variable_get(:@hostname)
-    if @host.nil? && inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
-      @host = 'localhost'
-    end
+    @host = opts[:host]
     if @host.nil?
-      fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+      # Transports like SSH and WinRM will provide a hostname
+      if inspec.backend.respond_to?('hostname')
+        @host = inspec.backend.hostname
+      elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
+        @host = 'localhost'
+      else
+        fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+      end
     end
     @port = opts[:port] || 443
     @timeout = opts[:timeout]
@@ -63,10 +68,10 @@ class SSL < Inspec.resource(1)
         .add(:enabled?) { |x| x.handshake.values.any? { |i| i['success'] } }
         .add(:handshake) { |x|
           groups = x.entries.group_by(&:protocol)
-          res = groups.map do |proto, e|
+          res = Parallel.map(groups, in_threads: 8) do |proto, e|
             [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
               protocol: proto, ciphers: e.map(&:cipher),
-              timeout: @timeout, retries: @retries)]
+              timeout: x.resource.timeout, retries: x.resource.retries)]
           end
           Hash[res]
         }

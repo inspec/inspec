@@ -3,11 +3,7 @@
 # license: All rights reserved
 
 title 'sample section'
-
-# you can also use plain tests
-describe file('/tmp') do
-  it { should be_directory }
-end
+include_controls 'profile_d'
 
 # you add controls here
 control 'profileb-1' do                        # A unique ID for this control
@@ -16,5 +12,11 @@ control 'profileb-1' do                        # A unique ID for this control
   desc 'An optional description...'
   describe file('/tmp') do                  # The actual test
     it { should be_directory }
+  end
+end
+
+control 'profileb-2' do
+  describe gordon_config do
+    its('version') { should eq('2.0') }
   end
 end

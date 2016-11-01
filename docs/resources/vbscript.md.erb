@@ -1,0 +1,69 @@
+---
+title: About the vbscript Resource
+---
+
+# vbscript
+
+Use the `vbscript` InSpec audit resource to test a VBScript on the Windows platform.
+
+## Syntax
+
+A `vbscript` resource block tests the output of a VBScript on the Windows platform:
+
+    describe vbscript('script_name') do
+      its('stdout') { should eq 'output' }
+    end
+
+where
+
+* `'script_name'` is the name of the VBScript to test
+* `('output')` is the expected output of the VBScript
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a VBScript
+
+A VBScript file similar to:
+
+    vbscript = <<-EOH
+      WScript.Echo "hello"
+    EOH
+
+may be tested for multiple lines:
+
+    describe vbscript(vbscript) do
+      its('stdout') { should eq "hello\r\n" }
+    end
+
+and tested for whitespace removal from standard output:
+
+    describe vbscript(vbscript) do
+      its('strip') { should eq "hello" }
+    end

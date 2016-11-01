@@ -24,20 +24,5 @@ describe Fetchers::Mock do
     it 'must be resolved' do
       fetcher.resolve({}).must_be_kind_of fetcher
     end
-
-    it 'has no files on empty' do
-      fetcher.resolve({}).files.must_equal []
-    end
-
-    it 'has files' do
-      f = rand.to_s
-      fetcher.resolve({f => nil}).files.must_equal [f]
-    end
-
-    it 'can read a file' do
-      f = rand.to_s
-      s = rand.to_s
-      fetcher.resolve({f => s}).read(f).must_equal s
-    end
   end
 end

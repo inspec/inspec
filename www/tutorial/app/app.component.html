@@ -1,0 +1,18 @@
+<div class="tutorial">
+  <div class="tutorial-nav">
+    <i (click)="updateInstructions('prev')" class="icon-angle-circled-left"></i>
+    <i (click)="updateInstructions('next')" class="icon-angle-circled-right"></i>
+    <i class="icon-cancel-circled quit-inspec-tutorial"></i>
+  </div>
+
+  <div class="tutorial-wrapper">
+    <div class="tutorial-guide">
+      <p class="title">{{title}}</p>
+      <p [innerHTML]="formatInstructions()"></p>
+    </div>
+  </div>
+</div>
+
+<xterm-terminal class="cli" (stdin)="evalCommand(command=$event)" [stdout]="stdout" [prompt]="prompt"></xterm-terminal>
+
+<img src="inspec-logo-white.png" alt="InSpec Logo">

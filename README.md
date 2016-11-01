@@ -1,6 +1,6 @@
 # InSpec: Inspect Your Infrastructure
 
-[![Join the chat at https://gitter.im/chef/inspec](https://badges.gitter.im/chef/inspec.svg)](https://gitter.im/chef/inspec?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 [![Build Status Master](https://travis-ci.org/chef/inspec.svg?branch=master)](https://travis-ci.org/chef/inspec)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/inspec?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/inspec/branch/master)
 
@@ -18,7 +18,7 @@ describe inetd_conf do
 end
 ```
 
-InSpec makes it easy to run your tests wherever you need. More options listed here: https://github.com/chef/inspec/blob/master/docs/ctl_inspec.rst
+InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](http://inspec.io/docs/reference/cli/).
 
 ```bash
 # run test locally
@@ -44,6 +44,10 @@ inspec exec test.rb -t docker://container_id
 ## Installation
 
 InSpec requires Ruby ( >1.9 ).
+
+### Install as package
+
+The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec). 
 
 ### Install it via rubygems.org
 
@@ -110,6 +114,19 @@ gem install inspec-*.gem
 
 On Windows, you need to install [Ruby](http://rubyinstaller.org/downloads/) with [Ruby Development Kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) to build dependencies with its native extensions.
 
+### Install via Habitat
+
+Currently, this method of installation only supports Linux. See the [Habitat site](https://www.habitat.sh/) for more information.
+
+Download the `hab` binary from the [Habitat](https://www.habitat.sh/docs/get-habitat/) site.
+
+```bash
+hab pkg install chef/inspec
+export PATH="$(hab pkg path core/ruby)/bin:$(hab pkg path chef/inspec)/bin:$PATH"
+
+inspec
+```
+
 ### Run InSpec
 
 You should now be able to run:
@@ -156,11 +173,12 @@ describe sshd_config do
 end
 ```
 
-* Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.
+* Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.  The %w() formatting will
+pass rubocop lintng and allow you to access nested mappings.
 
 ```ruby
 describe yaml('.kitchen.yml') do
-  its('driver.name') { should eq('vagrant') }
+  its(%w(driver name)) { should eq('vagrant') }
 end
 ```
 
@@ -169,6 +187,25 @@ Also have a look at our examples for:
 - [Using InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
 - [Using InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
 - [Implementing an InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
+
+## Or tests: Testing for a OR b
+
+* Using describe.one, you can test for a or b.  The control will be marked as passing if EITHER condition is met.
+
+```ruby
+control 'or-test' do
+  impact 1.0
+  title 'This is a OR test'
+  describe.one do
+    describe ssh_config do
+      its('Protocol') { should eq('3') }
+    end
+    describe ssh_config do
+      its('Protocol') { should eq('2') }
+    end
+  end
+end
+```
 
 ## Command Line Usage
 
@@ -191,6 +228,9 @@ inspec exec test.rb -t docker://container_id
 
 # run with sudo
 inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_command ...]
+
+# run in a subshell
+inspec exec test.rb --shell [--shell-options ...] [--shell-command ...]
 ```
 
 ### detect
@@ -231,7 +271,7 @@ OpenSUSE | 13.1/13.2/42.1 | x86_64
 OmniOS | | x86_64
 Gentoo Linux | | x86_64
 Arch Linux | | x86_64
-HP-UX | 11.31 | ia64 
+HP-UX | 11.31 | ia64
 
 * For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.
 
@@ -249,30 +289,13 @@ Windows | 2012+
 
 Documentation
 
+ * http://inspec.io/docs/
+ * http://inspec.io/docs/reference/resources/
  * https://github.com/chef/inspec/tree/master/docs
 
-Blogs:
+Tutorials/Blogs/Podcasts:
 
- * [The Road to InSpec](https://www.chef.io/blog/2015/11/04/the-road-to-inspec/)
- * [Introduction to InSpec](http://tfitch.com/automation-tools-bootcamp/inspec.html)
- * [InSpec Tutorial: Day 1 - Hello World](http://www.anniehedgie.com/inspec-basics-1)
- * [InSpec Tutorial: Day 2 - Command Resource Blog Logo](http://www.anniehedgie.com/inspec-basics-2)
- * [InSpec Tutorial: Day 3 - File Resource](http://www.anniehedgie.com/inspec-basics-3)
- * [InSpec Tutorial: Day 4 - Custom Matchers](http://www.anniehedgie.com/inspec-basics-4)
- * [InSpec Tutorial: Day 5 - Creating a Profile](http://www.anniehedgie.com/inspec-basics-5)
- * [InSpec Tutorial: Day 6 - Ways to Run It and Places to Store It](http://www.anniehedgie.com/inspec-basics-6)
- * [InSpec Tutorial: Day 7 - How to Inherit a Profile from Chef Compliance Server](http://www.anniehedgie.com/inspec-basics-7)
- * [InSpec Tutorial: Day 8 - Regular Expressions](http://www.anniehedgie.com/inspec-basics-8)
- * [InSpec Tutorial: Day 9 - Attributes](http://www.anniehedgie.com/inspec-basics-9)
- * [Windows infrastructure testing using InSpec – Part I](http://datatomix.com/?p=236)
- * [Windows infrastructure testing using InSpec and Profiles – Part II](http://datatomix.com/?p=238)
- * [Testing Ansible with Inspec](http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html)
- * [Operating Chef/InSpec in an air gapped environment](https://github.com/jeremymv2/chef-intranet-scaffolding/blob/master/README.md)
-
-Podcasts:
-
- * [InSpec Foodfight](http://foodfightshow.org/2016/02/inspec.html)
- * [Test Driven Infrastructure With Arthur Maltson And Michael Goetz](https://www.arresteddevops.com/tdi/)
+ * http://inspec.io/tutorials/
 
 ## Share your Profiles
 
@@ -292,6 +315,11 @@ InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project.
 1. Commit your changes (git commit -am 'Add some feature')
 1. Push to the branch (git push origin my-new-feature)
 1. Create new Pull Request
+
+
+The InSpec community and maintainers are very active and helpful. This project benefits greatly from this activity.
+
+[![InSpec health](https://graphs.waffle.io/chef/inspec/throughput.svg)](https://waffle.io/chef/inspec/metrics/throughput)
 
 
 ## Testing InSpec
@@ -363,21 +391,15 @@ transport:
 ```
 
 
-### Chef Delivery Tests
-
-It may be informative to look at what [tests Chef Delivery](https://github.com/chef/inspec/blob/master/.delivery/build-cookbook/recipes/unit.rb) is running for CI.
-
 ## License
 
-| **Author:**          | Dominik Richter (<drichter@chef.io>)
-
-| **Author:**          | Christoph Hartmann (<chartmann@chef.io>)
-
-| **Copyright:**       | Copyright (c) 2015 Chef Software Inc.
-
-| **Copyright:**       | Copyright (c) 2015 Vulcano Security GmbH.
-
-| **License:**         | Apache License, Version 2.0
+|  |  |
+| ------ | --- |
+| **Author:** | Dominik Richter (<drichter@chef.io>) |
+| **Author:** | Christoph Hartmann (<chartmann@chef.io>) |
+| **Copyright:** | Copyright (c) 2015 Chef Software Inc. |
+| **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
+| **License:** | Apache License, Version 2.0 |
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

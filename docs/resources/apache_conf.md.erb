@@ -1,0 +1,75 @@
+---
+title: About the apache_conf Resource
+---
+
+# apache_conf
+
+Use the `apache_conf` InSpec audit resource to test the configuration settings for Apache. This file is typically located under `/etc/apache2` on the Debian and Ubuntu platforms and under `/etc/httpd` on the Fedora, CentOS, RedHat Enterprise Linux, and ArchLinux platforms. The configuration settings may vary significantly from platform to platform.
+
+## Syntax
+
+An `apache_conf` InSpec audit resource block declares configuration settings that should be tested:
+
+    describe apache_conf('path') do
+      its('setting_name') { should eq 'value' }
+    end
+
+where
+
+* `'setting_name'` is a configuration setting defined in the Apache configuration file
+* `('path')` is the non-default path to the Apache configuration file
+* `{ should eq 'value' }` is the value that is expected
+
+## Matchers
+
+This InSpec audit resource matches any service that is listed in the Apache configuration file:
+
+    its('PidFile') { should_not eq '/var/run/httpd.pid' }
+
+or:
+
+    its('Timeout') { should eq 300 }
+
+For example:
+
+    describe apache_conf do
+      its('MaxClients') { should eq 100 }
+      its('Listen') { should eq '443'}
+    end
+
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for blocking .htaccess files on CentOS
+
+    describe apache_conf do
+      its('AllowOverride') { should eq 'None' }
+    end
+
+### Test ports for SSL
+
+    describe apache_conf do
+      its('Listen') { should eq '443'}
+    end

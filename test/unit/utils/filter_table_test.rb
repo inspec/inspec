@@ -28,6 +28,16 @@ describe FilterTable do
     factory.must_be_kind_of FilterTable::Factory
   end
 
+  it 'supports empty arrays' do
+    factory.add_accessor(:where).add(:baz).connect(resource, :data)
+    resource.new([]).where { false }.params.must_equal []
+  end
+
+  it 'supports nil arrays' do
+    factory.add_accessor(:where).add(:baz).connect(resource, :data)
+    resource.new(nil).where { false }.params.must_equal []
+  end
+
   it 'retrieves the resource from all entries' do
     factory.add_accessor(:where)
            .add(:baz?) { |x| x.resource }

@@ -5,7 +5,9 @@ require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rubocop/rake_task'
+require_relative 'tasks/docs'
 require_relative 'tasks/maintainers'
+require_relative 'tasks/www'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
@@ -16,6 +18,13 @@ end
 # lint the project
 desc 'Run robocop linter'
 task lint: [:rubocop]
+
+# update command output for demo
+desc 'Run inspec commands and save results to www/app/responses'
+task :update_demo do
+  ruby 'www/tutorial/scripts/build_simulator_runtime.rb'
+  ruby 'www/tutorial/scripts/run_simulator_recording.rb'
+end
 
 # run tests
 task default: [:test, :lint]
@@ -145,6 +154,7 @@ task :bump_version, [:version] do |_, args|
   check_update_requirements
   inspec_version(v)
   Rake::Task['changelog'].invoke
+  Rake::Task['docs:cli'].invoke
 end
 
 desc 'Release a new docker image'
@@ -158,55 +168,19 @@ task :release_docker do
   sh('sh', '-c', cmd)
 end
 
-namespace :docs do
-  desc 'Create cli docs'
-  task :cli do
-    res = "=====================================================\n"\
-          "InSpec CLI\n"\
-          "=====================================================\n\n"\
-          "Use the InSpec CLI to run tests and audits against targets "\
-          "using local, SSH, WinRM, or Docker connections.\n\n"
-
-    require 'inspec/cli'
-    cmds = Inspec::InspecCLI.all_commands
-    cmds.keys.sort.each do |key|
-      cmd = cmds[key]
-
-      res << "#{cmd.usage.split.first}\n"\
-             "=====================================================\n\n"
-
-      res << cmd.description.capitalize
-      res << "\n\n"
-
-      res << "Syntax\n"\
-             "-----------------------------------------------------\n\n"
-
-      res << "This subcommand has the following syntax:\n\n"\
-             ".. code-block:: bash\n\n"\
-             "   $ inspec #{cmd.usage}\n\n"
-
-      opts = cmd.options.select { |_, o| !o.hide }
-      unless opts.empty?
-        res << "Options\n"\
-               "-----------------------------------------------------\n\n"\
-               "This subcommand has additional options:\n\n"
-
-        opts.keys.sort.each do |option|
-          opt = cmd.options[option]
-          # TODO: remove when UX of help is reworked 1.0
-          usage = opt.usage.split(', ')
-                     .map { |x| x.tr('[]', '') }
-                     .map { |x| x.start_with?('-') ? x : '-'+x }
-                     .map { |x| '``' + x + '``' }
-          res << "#{usage.join(', ')}\n   #{opt.description}\n\n"
-        end
-
-      end
-      res << "\n\n"
+desc 'Release a new Habitat package'
+task :release_habitat do
+    version = Inspec::VERSION
+    ENV['HAB_ORIGIN'] = "chef"
+    if Dir.exist?("./results") then
+        raise "Please remove the ./results directory"
     end
-
-    dst = 'docs/cli.rst'
-    File.write(dst, res)
-    puts "Documentation generated in #{dst.inspect}"
-  end
+    if ! ENV.has_key?("HAB_AUTH_TOKEN") then
+        raise "Please set the HAB_AUTH_TOKEN environment variable"
+    end
+    cmd = "echo #{version} > ./habitat/VERSION && "\
+          "hab studio build ./habitat && " \
+          "hab pkg upload ./results/*.hart"
+    puts "--> #{cmd}"
+    sh('sh', '-c', cmd)
 end

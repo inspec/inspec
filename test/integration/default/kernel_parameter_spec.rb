@@ -5,7 +5,7 @@ if ENV['DOCKER']
 end
 
 # prepare values
-if ['ubuntu', 'centos', 'fedora', 'opensuse', 'debian'].include?(os[:family])
+if ['ubuntu', 'centos', 'fedora', 'opensuse', 'debian', 'suse'].include?(os[:name])
   test_values = {
     kernel_panic: 0,
     ip_local_port_range: "32768\t61000",
@@ -15,17 +15,18 @@ if ['ubuntu', 'centos', 'fedora', 'opensuse', 'debian'].include?(os[:family])
   }
 
   # configue parameter derivations for different OS
-  test_values[:sched_autogroup_enabled] = 0 if ['centos', 'debian'].include?(os[:family])
+  test_values[:sched_autogroup_enabled] = 0 if ['centos', 'debian'].include?(os[:name])
 
-  if (os[:family] == 'ubuntu' && os[:release].to_f == 10.04) ||
-     (os[:family] == 'debian' && os[:release].to_i == 6) ||
-     (os[:family] == 'centos' && os[:release].to_i == 5) ||
-     (os[:family] == 'opensuse')
+  if (os[:name] == 'ubuntu' && os[:release].to_f == 10.04) ||
+     (os[:name] == 'debian' && os[:release].to_i == 6) ||
+     (os[:name] == 'centos' && os[:release].to_i == 5) ||
+     (os[:name] == 'opensuse') ||
+     (os[:name] == 'suse')
     test_values[:sched_autogroup_enabled] = nil
   end
 
-  test_values[:nf_log] = nil if os[:family] == 'centos' && os[:release].to_i == 5
-  test_values[:kernel_panic] = 90 if os[:family] == 'opensuse'
+  test_values[:nf_log] = nil if os[:name] == 'centos' && os[:release].to_i == 5
+  test_values[:kernel_panic] = 90 if os[:name] == 'opensuse'
 
 else
   test_values = {}

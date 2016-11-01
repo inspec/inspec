@@ -49,7 +49,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "Pip Package  #{@package_name}"
+      "Pip Package #{@package_name}"
     end
 
     private

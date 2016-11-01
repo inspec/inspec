@@ -1,0 +1,39 @@
+.button {
+  font-family: $heading-font;
+  text-transform: uppercase;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 0 $off-white;
+  transition: all 0.3s ease;
+
+  &.primary {
+    color: $inspec-grey;
+    background: $white;
+    border: 1px solid $inspec-blue;
+  }
+
+  &.primary:active,
+  &.secondary:active {
+    transform: translateX(2px) translateY(2px);
+    box-shadow: 0 0 0 0 $off-white;
+  }
+
+  &.transparent {
+    color: $inspec-grey;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none;
+
+    &:hover {
+      color: darken($inspec-grey, 20%);
+    }
+  }
+
+  &.block {
+    display: block;
+  }
+
+  & + .button {
+    margin-left: 15px;
+  }
+}

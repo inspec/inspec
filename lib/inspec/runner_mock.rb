@@ -7,6 +7,10 @@ module Inspec
     attr_reader :tests, :profiles
     attr_writer :backend
     def initialize
+      reset
+    end
+
+    def reset
       @tests = []
       @profiles = []
     end

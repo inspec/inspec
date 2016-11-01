@@ -1,0 +1,67 @@
+---
+title: About the oneget Resource
+---
+
+# oneget
+
+Use the `oneget` InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses Oneget, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`__. This resource uses the `Get-Package` cmdlet to return all of the package names in the Oneget repository.
+
+## Syntax
+
+A `oneget` resource block declares a package and (optionally) a package version:
+
+    describe oneget('name') do
+      it { should be_installed }
+    end
+
+where
+
+* `('name')` must specify the name of a package, such as `'VLC'`
+* `be_installed` is a valid matcher for this resource
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if VLC is installed
+
+    describe oneget('VLC') do
+      it { should be_installed }
+    end

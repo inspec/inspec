@@ -1,0 +1,154 @@
+---
+title: About the user Resource
+---
+
+# user
+
+Use the `user` InSpec audit resource to test user profiles for a single, known/expected local user, including the groups to which that user belongs, the frequency of required password changes, and the directory paths to home and shell.
+
+## Syntax
+
+A `user` resource block declares a user name, and then one (or more) matchers:
+
+    describe user('root') do
+      it { should exist }
+      its('uid') { should eq 1234 }
+      its('gid') { should eq 1234 }
+      its('group') { should eq 'root' }
+      its('groups') { should eq ['root', 'other']}
+      its('home') { should eq '/root' }
+      its('shell') { should eq '/bin/bash' }
+      its('mindays') { should eq 0 }
+      its('maxdays') { should eq 90 }
+      its('warndays') { should eq 8 }
+    end
+
+where
+
+* `('root')` is the user to be tested
+* `it { should exist }` tests if the user exists
+* `gid`, `group`, `groups`, `home`, `maxdays`, `mindays`, `shell`, `uid`, and `warndays` are valid matchers for this resource
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### exist
+
+The `exist` matcher tests if the named user exists:
+
+    it { should exist }
+
+### gid
+
+The `gid` matcher tests the group identifier:
+
+    its('gid') { should eq 1234 } }
+
+where `1234` represents the user identifier.
+
+### group
+
+The `group` matcher tests the group to which the user belongs:
+
+    its('group') { should eq 'root' }
+
+where `root` represents the group.
+
+### groups
+
+The `groups` matcher tests two (or more) groups to which the user belongs:
+
+    its('groups') { should eq ['root', 'other']}
+
+### home
+
+The `home` matcher tests the home directory path for the user:
+
+    its('home') { should eq '/root' }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### maxdays
+
+The `maxdays` matcher tests the maximum number of days between password changes:
+
+    its('maxdays') { should eq 99 }
+
+where `99` represents the maximum number of days.
+
+### mindays
+
+The `mindays` matcher tests the minimum number of days between password changes:
+
+    its('mindays') { should eq 0 }
+
+where `0` represents the maximum number of days.
+
+### shell
+
+The `shell` matcher tests the path to the default shell for the user:
+
+    its('shell') { should eq '/bin/bash' }
+
+### uid
+
+The `uid` matcher tests the user identifier:
+
+    its('uid') { should eq 1234 } }
+
+where `1234` represents the user identifier.
+
+### warndays
+
+The `warndays` matcher tests the number of days a user is warned before a password must be changed:
+
+    its('warndays') { should eq 5 }
+
+where `5` represents the number of days a user is warned.
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Verify available users for the MySQL server
+
+    describe user('root') do
+      it { should exist }
+      it { should belong_to_group 'root' }
+      its('uid') { should eq 0 }
+      its('groups') { should eq ['root'] }
+    end
+
+    describe user('mysql') do
+     it { should_not exist }
+    end
+
+### Test users on multiple platforms
+
+The `nginx` user is typically `www-data`, but on CentOS it's `nginx`. The following example shows how to test for the `nginx` user with a single test, but accounting for all platforms:
+
+    web_user = 'www-data'
+    web_user = 'nginx' if os[:family] == 'centos'
+
+    describe user(web_user) do
+      it { should exist }
+    end

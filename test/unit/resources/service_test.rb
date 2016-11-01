@@ -19,6 +19,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
+    _(resource.startmode). must_equal 'Auto'
     _(resource.params).must_equal params
   end
 
@@ -64,6 +65,58 @@ describe 'Inspec::Resources::Service' do
 
   it 'verify ubuntu package parsing with default systemd_service' do
     resource = MockLoader.new(:ubuntu1504).load_resource('systemd_service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  # linux mint 17 with upstart
+  it 'verify mint package parsing' do
+    resource = MockLoader.new(:mint17).load_resource('service', 'ssh')
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal 'upstart'
+    _(resource.name).must_equal 'ssh'
+    _(resource.description).must_equal nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it 'verify mint package parsing with default upstart_service' do
+    resource = MockLoader.new(:mint17).load_resource('upstart_service', 'ssh')
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal 'upstart'
+    _(resource.name).must_equal 'ssh'
+    _(resource.description).must_equal nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+    _(resource.params.UnitFileState).must_equal nil
+  end
+
+  # mint 18 with systemd
+  it 'verify mint package parsing' do
+    resource = MockLoader.new(:mint18).load_resource('service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+    _(resource.params.SubState).must_equal 'running'
+  end
+
+  it 'verify mint package parsing with default systemd_service' do
+    resource = MockLoader.new(:mint18).load_resource('systemd_service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
     _(resource.name).must_equal 'sshd.service'

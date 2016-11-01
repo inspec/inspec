@@ -24,6 +24,15 @@ describe 'Inspec::Resources::Package' do
     _(resource.info).must_equal pkg
   end
 
+  # mint
+  it 'verify mint package parsing' do
+    resource = MockLoader.new(:mint17).load_resource('package', 'curl')
+    pkg = { name: 'curl', installed: true, version: '7.35.0-1ubuntu2', type: 'deb' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.35.0-1ubuntu2'
+    _(resource.info).must_equal pkg
+  end
+
   # centos
   it 'verify centos package parsing' do
     resource = MockLoader.new(:centos7).load_resource('package', 'curl')
@@ -53,10 +62,10 @@ describe 'Inspec::Resources::Package' do
 
   # windows
   it 'verify windows package parsing' do
-    resource = MockLoader.new(:windows).load_resource('package', 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161')
-    pkg = { name: 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161', installed: true, version: '9.0.30729.6161', type: 'windows' }
+    resource = MockLoader.new(:windows).load_resource('package', 'Chef Client v12.12.15')
+    pkg = { name: 'Chef Client v12.12.15', installed: true, version: '12.12.15.1', type: 'windows' }
     _(resource.installed?).must_equal true
-    _(resource.version).must_equal '9.0.30729.6161'
+    _(resource.version).must_equal '12.12.15.1'
     _(resource.info).must_equal pkg
   end
 

@@ -1,0 +1,154 @@
+---
+title: About the os Resource
+---
+
+# os
+
+Use the `os` InSpec audit resource to test the platform on which the system is running.
+
+## Syntax
+
+An `os` resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:
+
+    describe os[:family] do
+      it { should eq 'platform_name' }
+    end
+
+or using the block name:
+
+    describe os[:family_name] do
+      ...
+    end
+
+* `'platform_name'` (a string) or `:family_name` (a symbol) is one of `aix`, `bsd`, `darwin`, `debian`, `hpux`, `linux`, `redhat`, `solaris`, `suse`,  `unix`, or `windows`
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## os.family? Helpers
+
+The `os` audit resource includes a collection of helpers that enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific helpers to test for specific platforms:
+
+* `aix?`
+* `bsd?` (including Darwin, FreeBSD, NetBSD, and OpenBSD)
+* `darwin?`
+* `debian?`
+* `hpux?`
+* `linux?` (including Alpine Linux, Amazon Linux, ArchLinux, CoreOS, Exherbo, Fedora, Gentoo, and Slackware)
+* `redhat?`
+* `solaris?` (including Nexenta Core, OmniOS, Open Indiana, Solaris Open, and SmartOS)
+* `suse?`
+* `unix?`
+* `windows?`
+
+For example, to test for Darwin use:
+
+    describe os.bsd? do
+       it { should eq true }
+    end
+
+To test for Windows use:
+
+    describe os.windows? do
+       it { should eq true }
+    end
+
+and to test for Redhat use:
+
+    describe os.redhat? do
+       it { should eq true }
+    end
+
+Use the following helpers to test for operating system names, releases, and architectures:
+
+    describe os.name do
+       it { should eq 'foo' }
+    end
+
+    describe os.release do
+       it { should eq 'foo' }
+    end
+
+    describe os.arch do
+       it { should eq 'foo' }
+    end
+
+## os[:family] Symbols
+
+Use `os[:family]` to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific symbols to test for specific platforms:
+
+* `:aix`
+* `:bsd` For platforms that are part of the Berkeley OS family: `:darwin`, `:freebsd`, `:netbsd`, and `:openbsd`.
+* `:debian`
+* `:hpux`
+* `:linux`. For platforms that are part of the Linux family: `:alpine`, `:amazon`, `:arch`, `:coreos`, `:exherbo`, `:fedora`, `:gentoo`, and `:slackware`.
+* `:redhat`
+* `:solaris`. For platforms that are part of the Solaris family: `:nexentacore`, `:omnios`, `:openindiana`, `:opensolaris`, and `:smartos`.
+* `:suse`
+* `:unix`
+* `:windows`
+
+For example, both of the following tests should have the same result:
+
+    if os[:family] == 'debian'
+      describe port(69) do
+        its('processes') { should include 'in.tftpd' }
+      end
+    elsif os[:family] == 'rhel'
+      describe port(69) do
+        its('processes') { should include 'xinetd' }
+      end
+    end
+
+    if os[:debian]
+      describe port(69) do
+        its('processes') { should include 'in.tftpd' }
+      end
+    elsif os[:rhel]
+      describe port(69) do
+        its('processes') { should include 'xinetd' }
+      end
+    end
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for RedHat
+
+    describe os[:family] do
+      it { should eq 'redhat' }
+    end
+
+### Test for Ubuntu
+
+    describe os[:family] do
+      it { should eq 'debian' }
+    end
+
+### Test for Microsoft Windows
+
+    describe os[:family] do
+      it { should eq 'windows' }
+    end

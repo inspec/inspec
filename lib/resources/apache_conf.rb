@@ -21,7 +21,7 @@ module Inspec::Resources
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.apache.conf_path
-      @conf_dir = File.dirname(@conf_path)
+      @conf_dir = conf_path ? File.dirname(@conf_path) : inspec.apache.conf_dir
       @files_contents = {}
       @content = nil
       @params = nil
@@ -105,7 +105,7 @@ module Inspec::Resources
 
       includes = []
       (include_files + include_files_optional).each do |f|
-        id = File.join(@conf_dir, f)
+        id    = Pathname.new(f).absolute? ? f : File.join(@conf_dir, f)
         files = find_files(id, depth: 1, type: 'file')
 
         includes.push(files) if files

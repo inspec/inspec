@@ -1,0 +1,62 @@
+---
+title: About the csv Resource
+---
+
+# csv
+
+Use the `csv` InSpec audit resource to test configuration data in a CSV file.
+
+## Syntax
+
+A `csv` resource block declares the configuration data to be tested:
+
+    describe csv('file') do
+      its('name') { should eq 'foo' }
+    end
+
+where
+
+* `'file'` is the path to a CSV file
+* `name` is a configuration setting in a CSV file
+* `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests the value of `name` as read from a CSV file versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a CSV file
+
+    describe csv('some_file.csv') do
+      its('setting') { should eq 1 }
+    end

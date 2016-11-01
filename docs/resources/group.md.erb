@@ -1,0 +1,74 @@
+---
+title: About the group Resource
+---
+
+# group
+
+Use the `group` InSpec audit resource to test groups on the system.
+
+## Syntax
+
+A `group` resource block declares a group, and then the details to be tested, such as if the group is a local group, the group identifier, or if the group exists:
+
+    describe group('group_name') do
+      it { should exist }
+      its('gid') { should eq 0 }
+    end
+
+where
+
+* `'group_name'` must specify the name of a group on the system
+* `exist` and `'gid'` are valid matchers for this resource
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_local
+
+The `be_local` matcher tests if the group is a local group:
+
+    it { should be_local }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### exist
+
+The `exist` matcher tests if the named user exists:
+
+    it { should exist }
+
+### gid
+
+The `gid` matcher tests the named group identifier:
+
+    its('gid') { should eq 1234 }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test the group identifier for the root group
+
+    describe group('root') do
+      it { should exist }
+      its('gid') { should eq 0 }
+    end

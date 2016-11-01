@@ -14,19 +14,13 @@ describe Inspec::Plugins::Resource do
       Class.new(base) do name 'hello'; end
       Inspec::Resource.registry['hello'].wont_be :nil?
     end
-
-    it "will create a good class name" do
-      Class.new(base) do name 'hello_world'; end
-      Inspec::Resource.registry['hello_world'].to_s
-                      .must_equal 'Inspec::Resource::Registry::HelloWorld'
-    end
   end
 
   def create(&block)
     random_name = (0...50).map { (65 + rand(26)).chr }.join
     Class.new(base) do
       name random_name
-      instance_eval &block
+      instance_eval(&block)
     end
     Inspec::Resource.registry[random_name]
   end

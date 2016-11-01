@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
 require 'functional/helper'
 
 describe 'example inheritance profile' do
@@ -11,14 +10,14 @@ describe 'example inheritance profile' do
   it 'check succeeds with --profiles-path' do
     out = inspec('check ' + path + ' --profiles-path ' + examples_path)
     out.stderr.must_equal ''
-    out.stdout.must_match /Valid.*true/
+    out.stdout.must_match(/Valid.*true/)
     out.exit_status.must_equal 0
   end
 
   it 'check succeeds without --profiles-path using inspec.yml' do
     out = inspec('check ' + path)
     out.stderr.must_equal ''
-    out.stdout.must_match /Valid.*true/
+    out.stdout.must_match(/Valid.*true/)
     out.exit_status.must_equal 0
   end
 

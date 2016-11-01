@@ -66,8 +66,14 @@ module Inspec
       res, xtra = describe_chain
       itsy = xtra.nil? ? 'it' : 'its(' + xtra.to_s.inspect + ')'
       naughty = @negated ? '_not' : ''
-      xpect = defined?(@expectation) ? expectation.inspect+' ' : ''
-      format("%sdescribe %s do\n  %s { should%s %s %s}\nend",
+      xpect = defined?(@expectation) ? expectation.inspect : ''
+      if matcher == 'match'
+        # without this, xpect values like / \/zones\// will not be parsed properly
+        xpect = "(#{xpect})"
+      elsif xpect != ''
+        xpect = ' ' + xpect
+      end
+      format("%sdescribe %s do\n  %s { should%s %s%s }\nend",
              vars, res, itsy, naughty, matcher, xpect)
     end
 

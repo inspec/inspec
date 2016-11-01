@@ -219,7 +219,7 @@ end
 # unsupported
 RSpec::Matchers.define :contain do |_rule|
   match do |_resource|
-    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should match('value') }`."
+    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should include('value') }`."
   end
 end
 
@@ -232,7 +232,7 @@ end
 RSpec::Matchers.define :cmp do |first_expected|
 
   def integer?(value)
-    !(value =~ /\A[1-9]\d*\Z/).nil?
+    !(value =~ /\A0+\Z|\A[1-9]\d*\Z/).nil?
   end
 
   def float?(value)
@@ -305,13 +305,17 @@ RSpec::Matchers.define :cmp do |first_expected|
   end
 
   failure_message do |actual|
-    actual = '0' + actual.to_s(8) if octal?(@expected)
+    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
     "\n" + format_expectation(false) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
-    actual = '0' + actual.to_s(8) if octal?(@expected)
+    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
     "\n" + format_expectation(true) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
+  end
+
+  description do
+    "cmp #{@operation} #{@expected.inspect}"
   end
 end
 

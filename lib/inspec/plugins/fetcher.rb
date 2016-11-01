@@ -1,106 +1,86 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
 require 'utils/plugin_registry'
+require 'inspec/file_provider'
+require 'digest'
 
 module Inspec
   module Plugins
+    #
+    # An Inspec::Plugins::Fetcher is responsible for fetching a remote
+    # source to a local directory or file provided by the user.
+    #
+    # In general, there are two kinds of fetchers.  (1) Fetchers that
+    # implement this entire API (see the Git or Url fetchers for
+    # examples), and (2) fetchers that only implement self.resolve and
+    # then call the resolve_next method with a modified target hash.
+    # Fetchers in (2) do not need to implement the functions in this
+    # class because the caller will never actually get an instance of
+    # those fetchers.
+    #
     class Fetcher < PluginRegistry::Plugin
       def self.plugin_registry
         Inspec::Fetcher
       end
 
-      # Provide a list of files that are available to this fetcher.
-      #
-      # @return [Array[String]] A list of filenames
-      def files
-        fail "Fetcher #{self} does not implement `files()`. This is required."
+      attr_accessor :target
+
+      def writable?
+        false
       end
 
-      # Read a file using this fetcher. The name must correspond to a file
-      # available to this fetcher. Use #files to retrieve the list of
-      # files.
       #
-      # @param [String] _file The filename you are interested in
-      # @return [String] The file's contents
-      def read(_file)
-        fail "Fetcher #{self} does not implement `read(...)`. This is required."
+      # The path to the archive on disk.  This can be passed to a
+      # FileProvider to get access to the files in the fetched
+      # profile.
+      #
+      def archive_path
+        fail "Fetcher #{self} does not implement `archive_path()`. This is required."
       end
 
+      #
+      # Fetches the remote source to a local source, using the
+      # provided path as a partial filename. That is, if you pass
+      # /foo/bar/baz, the fetcher can create:
+      #
+      # /foo/bar/baz/: A profile directory, or
+      # /foo/bar/baz.tar.gz: A profile tarball, or
+      # /foo/bar/baz.zip
+      #
+      def fetch(_path)
+        fail "Fetcher #{self} does not implement `fetch()`. This is required."
+      end
+
+      #
+      # The full specification of the remote source, with any
+      # ambigious references provided by the user resolved to an exact
+      # reference where possible.  For example, in the Git provide, a
+      # tag will be resolved to an exact revision.
+      #
+      def resolved_source
+        fail "Fetcher #{self} does not implement `resolved_source()`. This is required for terminal fetchers."
+      end
+
+      #
+      # The unique key based on the content of the remote archive.
+      #
+      def cache_key
+        fail "Fetcher #{self} does not implement `cache_key()`. This is required for terminal fetchers."
+      end
+
+      #
+      # relative_target is provided to keep compatibility with 3rd
+      # party plugins.
+      #
+      # Deprecated: This function may be removed in future versions of
+      # Inspec, don't depend on it in new plugins.
+      #
+      # @returns [Inspec::RelativeFileProvider]
+      #
       def relative_target
-        RelFetcher.new(self)
-      end
-    end
-
-    BLACKLIST_FILES = [
-      '/pax_global_header',
-      'pax_global_header',
-    ].freeze
-
-    class RelFetcher < Fetcher
-      attr_reader :files
-      attr_reader :prefix
-
-      def initialize(fetcher)
-        @parent = fetcher
-        @prefix = get_prefix(fetcher.files)
-        @files = fetcher.files.find_all { |x| x.start_with? prefix }
-                        .map { |x| x[prefix.length..-1] }
-      end
-
-      def abs_path(file)
-        return nil if file.nil?
-        prefix + file
-      end
-
-      def read(file)
-        @parent.read(abs_path(file))
-      end
-
-      private
-
-      def get_prefix(fs)
-        return '' if fs.empty?
-
-        # filter backlisted files
-        fs -= BLACKLIST_FILES
-
-        sorted = fs.sort_by(&:length)
-        get_folder_prefix(sorted)
-      end
-
-      def get_folder_prefix(fs, first_iteration = true)
-        return get_files_prefix(fs) if fs.length == 1
-        pre = fs[0] + File::SEPARATOR
-        rest = fs[1..-1]
-        if rest.all? { |i| i.start_with? pre }
-          return get_folder_prefix(rest, false)
-        end
-        return get_files_prefix(fs) if first_iteration
-        fs
-      end
-
-      def get_files_prefix(fs)
-        return '' if fs.empty?
-
-        file = fs[0]
-        bn = File.basename(file)
-        # no more prefixes
-        return '' if bn == file
-
-        i = file.rindex(bn)
-        pre = file[0..i-1]
-
-        rest = fs.find_all { |f| !f.start_with?(pre) }
-        return pre if rest.empty?
-
-        new_pre = get_prefix(rest)
-        return new_pre if pre.start_with? new_pre
-        # edge case: completely different prefixes; retry prefix detection
-        a = File.dirname(pre + 'a')
-        b = File.dirname(new_pre + 'b')
-        get_prefix([a, b])
+        file_provider = Inspec::FileProvider.for_path(archive_path)
+        file_provider.relative_provider
       end
     end
   end

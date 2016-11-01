@@ -1,0 +1,84 @@
+---
+title: About the bash Resource
+---
+
+# bash
+
+Use the `bash` InSpec audit resource to test an arbitrary command that is run on the system using a Bash script.
+
+## Syntax
+
+A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+
+    describe bash('command') do
+      it { should exist }
+      its('matcher') { should eq 'output' }
+    end
+
+where
+
+* `'command'` must specify a command to be run
+* `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
+* `'output'` tests the output of the command run on the system versus the output value stated in the test
+
+For example:
+
+    describe bash('ls -al /') do
+      its('stdout') { should match /bin/ }
+      its('stderr') { should eq '' }
+      its('exit_status') { should eq 0 }
+    end
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### exist
+
+The `exist` matcher tests if a command may be run on the system:
+
+    it { should exist }
+
+### exit_status
+
+The `exit_status` matcher tests the exit status for the command:
+
+    its('exit_status') { should eq 0 }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### stderr
+
+The `stderr` matcher tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq '' }
+
+### stdout
+
+The `stdout` matcher tests results of the command as returned in standard output (stdout).
+
+    its('stdout') { should match /bin/ }
+
+
+## Examples
+
+None.

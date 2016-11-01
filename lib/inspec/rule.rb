@@ -12,6 +12,24 @@ module Inspec
   class Rule # rubocop:disable Metrics/ClassLength
     include ::RSpec::Matchers
 
+    #
+    # Include any resources from the given resource DSL.  The passed
+    # resource_dsl will also be included in any Inspec::Expect objects
+    # we make.
+    #
+    # @params resource_dsl [Module]
+    # @returns [TrueClass]
+    #
+    def self.with_resource_dsl(resource_dsl)
+      include resource_dsl
+      @resource_dsl = resource_dsl
+      true
+    end
+
+    def self.resource_dsl # rubocop:disable Style/TrivialAccessors
+      @resource_dsl
+    end
+
     def initialize(id, profile_id, _opts, &block)
       @impact = nil
       @title = nil
@@ -27,9 +45,14 @@ module Inspec
       @__profile_id = profile_id
       @__checks = []
       @__skip_rule = nil
+      @__merge_count = 0
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
+    end
+
+    def to_s
+      Inspec::Rule.rule_id(self)
     end
 
     def id(*_)
@@ -101,12 +124,12 @@ module Inspec
           include dsl
         end.new(method(:__add_check))
       else
-        __add_check('describe', values, block)
+        __add_check('describe', values, with_dsl(block))
       end
     end
 
     def expect(value, &block)
-      target = Inspec::Expect.new(value, &block)
+      target = Inspec::Expect.new(value, &with_dsl(block))
       __add_check('expect', [value], target)
       target
     end
@@ -133,6 +156,10 @@ module Inspec
 
     def self.set_skip_rule(rule, value)
       rule.instance_variable_set(:@__skip_rule, value)
+    end
+
+    def self.merge_count(rule)
+      rule.instance_variable_get(:@__merge_count)
     end
 
     def self.prepare_checks(rule)
@@ -169,12 +196,39 @@ module Inspec
       dst.instance_variable_set(:@__checks, sc) unless sc.empty?
       sr = skip_status(src)
       set_skip_rule(dst, sr) unless sr.nil?
+      # increment merge count
+      dst.instance_variable_set(:@__merge_count, merge_count(dst) + 1)
     end
 
     private
 
     def __add_check(describe_or_expect, values, block)
       @__checks.push([describe_or_expect, values, block])
+    end
+
+    #
+    # Takes a block and returns a block that will run the given block
+    # with access to the resource_dsl of the current class. This is to
+    # ensure that inside the constructed Rspec::ExampleGroup users
+    # have access to DSL methods. Previous this was done in
+    # Inspec::Runner before sending the example groups to rspec. It
+    # was moved here to ensure that code inside `its` blocks hae the
+    # same visibility into resources as code outside its blocks.
+    #
+    # @param [Proc] block
+    # @return [Proc]
+    #
+    def with_dsl(block)
+      return nil if block.nil?
+      if self.class.resource_dsl
+        dsl = self.class.resource_dsl
+        proc do |*args|
+          include dsl
+          instance_exec(*args, &block)
+        end
+      else
+        block
+      end
     end
 
     # Idio(ma)tic unindent

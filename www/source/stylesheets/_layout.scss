@@ -1,0 +1,29 @@
+body {
+  position: relative;
+  font-family: $main-font;
+  color: $body-text;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.row {
+  max-width: 1200px;
+}
+
+#main-content {
+  position: relative;
+  margin-top: 64px;
+  transition: margin 0.3s ease;
+
+  @include nav-small {
+    padding: 0 $side-nav-padding-small;
+  }
+
+  @include nav-large {
+    padding-right: 10px;
+    margin: $top-nav-height 0 0 ($side-nav-width + 50px);
+  }
+}

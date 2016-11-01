@@ -1,0 +1,132 @@
+---
+title: About the auditd_rules Resource
+---
+
+# auditd_rules
+
+Use the `auditd_rules` InSpec audit resource to test the rules for logging that exist on the system. The `audit.rules` file is typically located under `/etc/audit/` and contains the list of rules that define what is captured in log files. This resource uses `auditctl` to query the run-time `auditd` rules setup, which may be different from `audit.rules`.
+
+
+## Syntax
+
+An `auditd_rules` resource block declares one (or more) rules to be tested, and then what that rule should do. The syntax depends on the version of `audit`:
+
+For `audit` >= 2.3:
+
+    describe auditd_rules do
+      its('lines') { should contain_match(rule) }
+    end
+
+For `audit` < 2.3:
+
+    describe audit_daemon_rules do
+      its("LIST_RULES") {
+        rule
+      }
+    end
+
+For example:
+
+    describe auditd_rules do
+      its('LIST_RULES') { should eq [
+        'exit,always syscall=rmdir,unlink',
+        'exit,always auid=1001 (0x3e9) syscall=open',
+        'exit,always watch=/etc/group perm=wa',
+        'exit,always watch=/etc/passwd perm=wa',
+        'exit,always watch=/etc/shadow perm=wa',
+        'exit,always watch=/etc/sudoers perm=wa',
+        'exit,always watch=/etc/secret_directory perm=r',
+      ] }
+    end
+
+or test that individual rules are defined:
+
+    describe auditd_rules do
+      its('LIST_RULES') {
+        should contain_match(/^exit,always watch=\/etc\/group perm=wa key=identity/)
+      }
+      its('LIST_RULES') {
+        should contain_match(/^exit,always watch=\/etc\/passwd perm=wa key=identity/)
+      }
+      its('LIST_RULES') {
+        should contain_match(/^exit,always watch=\/etc\/gshadow perm=wa key=identity/)
+      }
+      its('LIST_RULES') {
+        should contain_match(/^exit,always watch=\/etc\/shadow perm=wa key=identity/)
+      }
+      its('LIST_RULES') {
+        should contain_match(/^exit,always watch=\/etc\/security\/opasswd perm=wa key=identity/)
+      }
+    end
+
+where each test must declare one (or more) rules to be tested.
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if a rule contains a matching element that is identified by a regular expression
+
+For `audit` >= 2.3:
+
+    describe auditd_rules do
+      its('lines') { should contain_match(%r{-w /etc/ssh/sshd_config/}) }
+    end
+
+For `audit` < 2.3:
+
+    describe audit_daemon_rules do
+      its("LIST_RULES") {
+        should contain_match(/^exit,always arch=.*\
+        key=time-change\
+        syscall=adjtimex,settimeofday/)
+      }
+    end
+
+
+### Query the audit daemon status
+
+    describe auditd_rules.status('backlog') do
+      it { should cmp 0 }
+    end
+
+### Query properties of rules targeting specific syscalls or files
+
+    describe auditd_rules.syscall('open').action do
+      it { should eq(['always']) }
+    end
+
+    describe auditd_rules.key('sshd_config') do
+      its('permissions') { should contain_match(/x/) }
+    end
+
+Filters may be chained. For example:
+
+    describe auditd_rules.syscall('open').action('always').list do
+      it { should eq(['exit']) }
+    end

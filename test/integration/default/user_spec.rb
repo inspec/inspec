@@ -1,12 +1,11 @@
 # encoding: utf-8
-
-if ['centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:family])
+if ['centos', 'redhat', 'fedora', 'suse', 'debian', 'ubuntu'].include?(os[:family])
   userinfo = {
-    name: 'root',
-    group: 'root',
+    username: 'root',
+    groupname: 'root',
     uid: 0,
     gid: 0,
-    groups: ["root"],
+    groups: "root",
     home: '/root',
     shell: '/bin/bash',
   }
@@ -16,8 +15,8 @@ if ['centos', 'redhat', 'fedora', 'opensuse', 'debian', 'ubuntu'].include?(os[:f
     if os[:release].to_i == 5
 elsif ['freebsd'].include?(os[:family])
   userinfo = {
-    name: 'root',
-    group: 'wheel',
+    username: 'root',
+    groupname: 'wheel',
     uid: 0,
     gid: 0,
     groups: "wheel", # at least this group should be there
@@ -25,19 +24,22 @@ elsif ['freebsd'].include?(os[:family])
     shell: '/bin/csh',
   }
 elsif os.windows?
+  hostname = powershell('$env:computername').stdout.chomp
   userinfo = {
-    name: 'Administrator',
-    group: nil,
+    username: hostname + '\Administrator',
+    groupname: nil,
     uid: nil,
     gid: nil,
     groups: nil,
     home: nil,
     shell: nil,
   }
+  # store uid of user
+  userinfo[:uid] = user(userinfo[:username]).uid
 elsif os[:family] == 'aix'
   userinfo = {
-    name:     'bin',
-    group:    'bin',
+    username:     'bin',
+    groupname:    'bin',
     uid:      2,
     gid:      2,
     groups:   "adm", # at least this group should be there
@@ -50,8 +52,8 @@ elsif os[:family] == 'aix'
 elsif os.solaris?
   if os[:release].to_i > 10
     userinfo = {
-      name: 'root',
-      group: 'root',
+      username: 'root',
+      groupname: 'root',
       uid: 0,
       gid: 0,
       groups: "sys", # at least this group should be there
@@ -60,8 +62,8 @@ elsif os.solaris?
     }
   else
     userinfo = {
-      name: 'root',
-      group: 'root',
+      username: 'root',
+      groupname: 'root',
       uid: 0,
       gid: 0,
       groups: "sys", # at least this group should be there
@@ -69,23 +71,41 @@ elsif os.solaris?
       shell: '/sbin/sh',
     }
   end
+elsif os.darwin?
+  userinfo = {
+    username:     'root',
+    groupname:    'wheel',
+    uid:      0,
+    gid:      0,
+    groups:   "wheel", # at least this group should be there
+    home:     '/var/root',
+    shell:    '/bin/sh',
+  }
 else
   userinfo = {}
 end
 
 if os.windows?
-  describe user(userinfo[:name]) do
+  # test single `user` resource
+  describe user(userinfo[:username]) do
     it { should exist }
+    # should return the SID of the user
+    its('uid') { should_not eq nil}
+  end
+
+  # also support simple username for local users without domain
+  describe user('Administrator') do
+    it { should exist }
+    # should return the SID of the user
+    its('uid') { should_not eq nil}
   end
 else
-  describe user(userinfo[:name]) do
+  # test single `user` resource
+  describe user(userinfo[:username]) do
     it { should exist }
     userinfo.each do |k, v|
-      next if k.to_sym == :name
-
       # check that the user is part of the groups
       if k.to_s == 'groups'
-        # TODO: do not run those tests on docker yet
         its(k) { should include v } unless ENV['DOCKER']
       # default eq comparison
       else
@@ -93,4 +113,32 @@ else
       end
     end
   end
+
+  describe users.where(username: userinfo[:username]).groups.entries[0] do
+    it { should include userinfo[:groups] }
+  end
+end
+
+# test `users` resource
+describe users.where(username: userinfo[:username]) do
+  userinfo.each do |k, v|
+    name = k.to_s
+    if name == 'groups'
+      # its(name) { should include v }
+    else
+      name += 's' unless %w{ maxdays mindays warndays }.include? name
+      expected_value = [v]
+      its(name) { should eq expected_value}
+    end
+  end
+end
+
+# catch case where user is not existant
+describe user('not_available') do
+  it { should_not exist }
+  its ('uid') { should eq nil}
+  its ('username') { should eq nil}
+  its ('gid') { should eq nil}
+  its ('home') { should eq nil}
+  its ('shell') { should eq nil}
 end

@@ -1,0 +1,84 @@
+.tutorial-nav {
+  display: inline-block;
+  position: fixed;
+  top: 10px;
+  right: 0;
+  width: 150px;
+  height: 60px;
+  color: #888;
+  text-align: center;
+  line-height: 60px;
+  font-size: 30px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  transition: all 200ms ease-in;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.terminal-nav span:hover {
+  color: #ccc;
+}
+
+img {
+  padding-top: 5px;
+  width: 100px;
+  padding-bottom: 5px;
+  position: fixed;
+  bottom: 10px;
+  right: 30px;
+  z-index: 100;
+}
+
+.tutorial {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.tutorial-wrapper {
+  max-width: 1000px;
+  min-width: 400px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.tutorial-guide {
+  padding: 10px;
+  color: #DDDDDD;
+  background-color: #444;
+  font-family: 'Ubuntu Mono', 'Monaco', sans-serif;
+  letter-spacing: 1.2px;
+  text-align: left;
+  line-height: 1.4;
+  border-radius: 5px;
+}
+
+.tutorial-guide /deep/ code {
+  color: lightskyblue;
+}
+
+.title {
+  color: lightskyblue;
+}
+
+p {
+  display: block;
+}
+
+/* This syntax is my new best friend for when nothing else works!
+I'm unsure why, but attempting to set the style of code in this setting is just
+not working....but this works! */
+:host /deep/ code {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.cli {
+  position: fixed;
+  top: 250px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}

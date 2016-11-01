@@ -1,0 +1,43 @@
+---
+title: About the directory Resource
+---
+
+# directory
+
+Use the `directory` InSpec audit resource to test if the file type is a directory. This is equivalent to using the `file` resource and the `be_directory` matcher, but provides a simpler and more direct way to test directories. All of the matchers available to `file` may be used with `directory`.
+
+## Syntax
+
+A `directory` resource block declares the location of the directory to be tested, and then one (or more) matchers:
+
+    describe directory('path') do
+      it { should MATCHER 'value' }
+    end
+
+## Matchers
+
+This resource may use any of the matchers available to the `file` resource that may be useful when testing a directory.
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+None.

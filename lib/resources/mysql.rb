@@ -33,7 +33,7 @@ module Inspec::Resources
       @log_dir = '/var/log/'
       @log_path = '/var/log/mysql.log'
       @log_group = 'adm'
-      case os[:release]
+      case inspec.os[:release]
       when '14.04'
         @log_dir_group = 'syslog'
       else

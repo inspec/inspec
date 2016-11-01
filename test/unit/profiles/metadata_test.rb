@@ -107,7 +107,7 @@ describe 'metadata with supported operating systems' do
 
   describe 'testing the supported runtime' do
     let(:current_version) { Inspec::VERSION }
-    let(:next_version) { current_version.sub(/\.\d+$/) { |num| num.to_i.next } }
+    let(:next_version) { Gem::Version.new(current_version).bump.to_s }
 
     it 'returns true on testing the current version' do
       m = supports_meta({ 'inspec' => current_version })

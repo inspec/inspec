@@ -11,17 +11,39 @@ require 'inspec/profile_context'
 require 'inspec/profile'
 require 'inspec/metadata'
 require 'inspec/secrets'
+require 'inspec/dependencies/cache'
 # spec requirements
 
 module Inspec
+  #
+  # Inspec::Runner coordinates the running of tests and is the main
+  # entry point to the application.
+  #
+  # Users are expected to insantiate a runner, add targets to be run,
+  # and then call the run method:
+  #
+  # ```
+  # r = Inspec::Runner.new()
+  # r.add_target("/path/to/some/profile")
+  # r.add_target("http://url/to/some/profile")
+  # r.run
+  # ```
+  #
   class Runner # rubocop:disable Metrics/ClassLength
     extend Forwardable
+
+    def_delegator :@test_collector, :report
+
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
-      @rules = {}
+      @rules = []
       @conf = conf.dup
       @conf[:logger] ||= Logger.new(nil)
-
+      @target_profiles = []
+      @controls = @conf[:controls] || []
+      @ignore_supports = @conf[:ignore_supports]
+      @create_lockfile = @conf[:create_lockfile]
+      @cache = Inspec::Cache.new(@conf[:cache])
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
@@ -38,17 +60,56 @@ module Inspec
       @test_collector.tests
     end
 
-    def normalize_map(hm)
-      res = {}
-      hm.each {|k, v|
-        res[k.to_s] = v
-      }
-      res
-    end
-
     def configure_transport
       @backend = Inspec::Backend.create(@conf)
       @test_collector.backend = @backend
+    end
+
+    def reset
+      @test_collector.reset
+      @target_profiles.each do |profile|
+        profile.runner_context.rules = {}
+      end
+      @rules = []
+    end
+
+    def load
+      all_controls = []
+
+      @target_profiles.each do |profile|
+        @test_collector.add_profile(profile)
+        write_lockfile(profile) if @create_lockfile
+        profile.locked_dependencies
+        profile.load_libraries
+        @attributes |= profile.runner_context.attributes
+        all_controls += profile.collect_tests
+      end
+
+      all_controls.each do |rule|
+        register_rule(rule) unless rule.nil?
+      end
+    end
+
+    def run(with = nil)
+      Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      load
+      run_tests(with)
+    end
+
+    def write_lockfile(profile)
+      return false if !profile.writable?
+
+      if profile.lockfile_exists?
+        Inspec::Log.debug "Using existing lockfile #{profile.lockfile_path}"
+      else
+        Inspec::Log.debug "Creating lockfile: #{profile.lockfile_path}"
+        lockfile = profile.generate_lockfile
+        File.write(profile.lockfile_path, lockfile.to_yaml)
+      end
+    end
+
+    def run_tests(with = nil)
+      @test_collector.run(with)
     end
 
     # determine all attributes before the execution, fetch data from secrets backend
@@ -66,98 +127,84 @@ module Inspec
       options['attributes'] = attributes
     end
 
-    def add_target(target, options = {})
-      profile = Inspec::Profile.for_target(target, options)
+    #
+    # add_target allows the user to add a target whose tests will be
+    # run when the user calls the run method.
+    #
+    # A target is a path or URL that points to a profile. Using this
+    # target we generate a Profile and a ProfileContext. The content
+    # (libraries, tests, and attributes) from the Profile are loaded
+    # into the ProfileContext.
+    #
+    # If the profile depends on other profiles, those profiles will be
+    # loaded on-demand when include_content or required_content are
+    # called using similar code in Inspec::DSL.
+    #
+    # Once the we've loaded all of the tests files in the profile, we
+    # query the profile for the full list of rules. Those rules are
+    # registered with the @test_collector which is ultimately
+    # responsible for actually running the tests.
+    #
+    # TODO: Deduplicate/clarify the loading code that exists in here,
+    # the ProfileContext, the Profile, and Inspec::DSL
+    #
+    # @params target [String] A path or URL to a profile or raw test.
+    # @params _opts [Hash] Unused, but still here to avoid breaking kitchen-inspec
+    #
+    # @eturns [Inspec::ProfileContext]
+    #
+    def add_target(target, _opts = [])
+      profile = Inspec::Profile.for_target(target,
+                                           cache: @cache,
+                                           backend: @backend,
+                                           controls: @controls,
+                                           attributes: @conf[:attributes])
       fail "Could not resolve #{target} to valid input." if profile.nil?
-      add_profile(profile, options)
+      @target_profiles << profile if supports_profile?(profile)
     end
 
     def supports_profile?(profile)
-      return true if profile.metadata.nil?
+      return true if @ignore_supports
 
-      if !profile.metadata.supports_runtime?
+      if !profile.supports_runtime?
         fail 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
-      if !profile.metadata.supports_transport?(@backend)
-        os_info = @backend.os[:name].to_s
-        fail "This OS/platform (#{os_info}) is not supported by this profile."
+      if !profile.supports_os?
+        fail "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
       end
 
       true
     end
 
-    def add_profile(profile, options = {})
-      return if !options[:ignore_supports] && !supports_profile?(profile)
-
-      @test_collector.add_profile(profile)
-      options[:metadata] = profile.metadata
-      options[:profile] = profile
-
-      libs = profile.libraries.map do |k, v|
-        { ref: k, content: v }
-      end
-
-      tests = profile.tests.map do |ref, content|
-        r = profile.source_reader.target.abs_path(ref)
-        { ref: r, content: content }
-      end
-
-      add_content(tests, libs, options)
+    # In some places we read the rules off of the runner, in other
+    # places we read it off of the profile context. To keep the API's
+    # the same, we provide an #all_rules method here as well.
+    def all_rules
+      @rules
     end
 
-    def create_context(options = {})
-      meta = options[:metadata]
-      profile_id = nil
-      profile_id = meta.params[:name] unless meta.nil?
-      Inspec::ProfileContext.new(profile_id, @backend, @conf.merge(options))
+    def register_rules(ctx)
+      new_tests = false
+      ctx.rules.each do |rule_id, rule|
+        next if block_given? && !(yield rule_id, rule)
+        new_tests = true
+        register_rule(rule)
+      end
+      new_tests
     end
 
-    def add_content(tests, libs, options = {})
-      return if tests.nil? || tests.empty?
-
-      # load all libraries
-      ctx = create_context(options)
-      ctx.load_libraries(libs.map { |x| [x[:content], x[:ref], x[:line]] })
-
-      # hand the context to the profile for further evaluation
-      unless (profile = options[:profile]).nil?
-        profile.runner_context = ctx
-      end
-
-      # evaluate the test content
-      tests = [tests] unless tests.is_a? Array
-      tests.each { |t| add_test_to_context(t, ctx) }
-
-      # merge all collect all attributes
-      @attributes |= ctx.attributes
-
-      # process the resulting rules
-      filter_controls(ctx.rules, options[:controls]).each do |rule_id, rule|
-        register_rule(rule_id, rule)
-      end
+    def eval_with_virtual_profile(command)
+      require 'fetchers/mock'
+      add_target({ 'inspec.yml' => 'name: inspec-shell' })
+      our_profile = @target_profiles.first
+      ctx = our_profile.runner_context
+      ctx.load(command)
     end
-
-    def_delegator :@test_collector, :run
-    def_delegator :@test_collector, :report
 
     private
-
-    def add_test_to_context(test, ctx)
-      content = test[:content]
-      return if content.nil? || content.empty?
-      ctx.load(content, test[:ref], test[:line])
-    end
-
-    def filter_controls(controls_map, include_list)
-      return controls_map if include_list.nil? || include_list.empty?
-      controls_map.select do |_, c|
-        id = ::Inspec::Rule.rule_id(c)
-        include_list.include?(id)
-      end
-    end
 
     def block_source_info(block)
       return {} if block.nil? || !block.respond_to?(:source_location)
@@ -202,24 +249,15 @@ module Inspec
       nil
     end
 
-    def register_rule(rule_id, rule)
-      @rules[rule_id] = rule
+    def register_rule(rule)
+      Inspec::Log.debug "Registering rule #{rule}"
+      @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
-      examples = checks.map do |m, a, b|
+      examples = checks.flat_map do |m, a, b|
         get_check_example(m, a, b)
-      end.flatten.compact
+      end.compact
 
-      examples.each do |example|
-        # TODO: Remove this!! It is very dangerous to do this here.
-        # The goal of this is to make the audit DSL available to all
-        # describe blocks. Right now, these blocks are executed outside
-        # the scope of this run, thus not gaining ony of the DSL pieces.
-        # To circumvent this, the full DSL is attached to the example's
-        # scope.
-        dsl = Inspec::Resource.create_dsl(backend)
-        example.send(:include, dsl)
-        @test_collector.add_test(example, rule)
-      end
+      examples.each { |e| @test_collector.add_test(e, rule) }
     end
   end
 end

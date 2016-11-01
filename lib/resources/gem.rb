@@ -9,6 +9,7 @@ module Inspec::Resources
     example "
       describe gem('rubocop') do
         it { should be_installed }
+        its('version') { should eq '0.33.0' }
       end
     "
 

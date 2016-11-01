@@ -1,0 +1,22 @@
+[0G[1mName:[0m file
+
+[1mDescription:[0m
+
+Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.
+
+[1mExample:[0m
+
+describe file('path') do
+  it { should exist }
+  it { should be_file }
+  it { should be_readable }
+  it { should be_writable }
+  it { should be_owned_by 'root' }
+  its('mode') { should cmp '0644' }
+end
+    
+
+[1mWeb Reference:[0m
+
+https://github.com/chef/inspec/blob/master/docs/resources.rst#file
+

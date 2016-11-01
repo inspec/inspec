@@ -7,28 +7,71 @@ module Fetchers
     name 'local'
     priority 0
 
-    attr_reader :files
-
     def self.resolve(target)
-      if !File.exist?(target)
-        nil
+      local_path = if target.is_a?(String)
+                     resolve_from_string(target)
+                   elsif target.is_a?(Hash)
+                     resolve_from_hash(target)
+                   end
+
+      if local_path
+        new(local_path)
+      end
+    end
+
+    def self.resolve_from_hash(target)
+      if target.key?(:path)
+        local_path = target[:path]
+        if target.key?(:cwd)
+          local_path = File.expand_path(local_path, target[:cwd])
+        end
+        local_path
+      end
+    end
+
+    def self.resolve_from_string(target)
+      # Support "urls" in the form of file://
+      if target.start_with?('file://')
+        target = target.gsub(%r{^file://}, '')
       else
-        new(target)
+        # support for windows paths
+        target = target.tr('\\', '/')
+      end
+
+      if File.exist?(target)
+        target
       end
     end
 
     def initialize(target)
-      if File.file?(target)
-        @files = [target]
-      else
-        @files = Dir[File.join(target, '**', '*')]
-      end
+      @target = target
     end
 
-    def read(file)
-      return nil unless files.include?(file)
-      return nil unless File.file?(file)
-      File.read(file)
+    def fetch(_path)
+      archive_path
+    end
+
+    def archive_path
+      @target
+    end
+
+    def writable?
+      File.directory?(@target)
+    end
+
+    def cache_key
+      sha256.to_s
+    end
+
+    def sha256
+      return nil if File.directory?(@target)
+      @archive_shasum ||= Digest::SHA256.hexdigest File.read(@target)
+    end
+
+    def resolved_source
+      h = { path: @target }
+      h[:sha256] = sha256 if sha256
+      h
     end
   end
 end

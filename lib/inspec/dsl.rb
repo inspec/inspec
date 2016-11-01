@@ -1,8 +1,8 @@
 # encoding: utf-8
 # copyright: 2015, Dominik Richter
-# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
+require 'inspec/log'
 
 module Inspec::DSL
   def require_controls(id, &block)
@@ -18,60 +18,51 @@ module Inspec::DSL
   alias require_rules require_controls
   alias include_rules include_controls
 
-  def self.rule_from_check(m, a, b)
-    if a.is_a?(Array) && !a.empty? &&
-       a[0].respond_to?(:resource_skipped) &&
-       !a[0].resource_skipped.nil?
-      ::Inspec::Rule.__send__(m, *a) do
-        it a[0].resource_skipped
-      end
-    else
-      # execute the method
-      ::Inspec::Rule.__send__(m, *a, &b)
-    end
+  def require_resource(options = {})
+    fail 'You must specify a specific resource name when calling require_resource()' if options[:resource].nil?
+
+    from_profile = options[:profile] || profile_name
+    target_name = options[:as] || options[:resource]
+    res = resource_class(from_profile, options[:resource])
+    add_resource(target_name, res)
   end
 
   def self.load_spec_files_for_profile(bind_context, opts, &block)
-    # get all spec files
-    target = opts[:dependencies].list[opts[:profile_id]] ||
-             fail("Can't find profile #{opts[:profile_id].inspect}, please add it as a dependency.")
-    profile = Inspec::Profile.for_target(target.path, opts)
-    context = load_profile_context(opts[:profile_id], profile, opts)
+    dependencies = opts[:dependencies]
+    profile_id = opts[:profile_id]
 
+    dep_entry = dependencies.list[profile_id]
+    if dep_entry.nil?
+      fail <<EOF
+Cannot load #{profile_id} since it is not listed as a dependency
+of #{bind_context.profile_name}.
+
+Dependencies available from this context are:
+
+    #{dependencies.list.keys.join("\n    ")}
+EOF
+    end
+
+    context = dep_entry.profile.runner_context
     # if we don't want all the rules, then just make 1 pass to get all rule_IDs
     # that we want to keep from the original
-    filter_included_controls(context, opts, &block) if !opts[:include_all]
-
+    filter_included_controls(context, dep_entry.profile, &block) if !opts[:include_all]
     # interpret the block and skip/modify as required
     context.load(block) if block_given?
-
-    # finally register all combined rules
-    context.rules.values.each do |control|
-      bind_context.register_control(control)
-    end
+    bind_context.add_subcontext(context)
   end
 
-  def self.filter_included_controls(context, opts, &block)
+  def self.filter_included_controls(context, profile, &block)
     mock = Inspec::Backend.create({ backend: 'mock' })
-    include_ctx = Inspec::ProfileContext.new(opts[:profile_id], mock, opts[:conf])
+    include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {})
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
-    context.rules.keys.each do |id|
-      unless include_ctx.rules[id]
-        context.rules[id] = nil
+    context.all_rules.each do |r|
+      id = Inspec::Rule.rule_id(r)
+      fid = Inspec::Rule.profile_id(r) + '/' + id
+      unless include_ctx.rules[id] || include_ctx.rules[fid]
+        context.remove_rule(fid)
       end
     end
-  end
-
-  def self.load_profile_context(id, profile, opts)
-    ctx = Inspec::ProfileContext.new(id, opts[:backend], opts[:conf])
-    profile.libraries.each do |path, content|
-      ctx.load(content.to_s, path, 1)
-      ctx.reload_dsl
-    end
-    profile.tests.each do |path, content|
-      ctx.load(content.to_s, path, 1)
-    end
-    ctx
   end
 end

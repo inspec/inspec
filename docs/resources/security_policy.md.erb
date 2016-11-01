@@ -1,0 +1,61 @@
+---
+title: About the security_policy Resource
+---
+
+# security_policy
+
+Use the `security_policy` InSpec audit resource to test security policies on the Windows platform.
+
+## Syntax
+
+A `security_policy` resource block declares the name of a security policy and the value to be tested:
+
+    describe security_policy do
+      its('policy_name') { should eq 'value' }
+    end
+
+where
+
+* `'policy_name'` must specify a security policy
+* `{ should eq 'value' }` tests the value of `policy_name` against the value declared in the test
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### policy_name
+
+The `policy_name` matcher must be the name of a security policy:
+
+    its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Verify that only the Administrators group has remote access
+
+    describe security_policy do
+      its('SeRemoteInteractiveLogonRight') { should eq '*S-1-5-32-544' }
+    end

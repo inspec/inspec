@@ -15,8 +15,7 @@ module Inspec
     def initialize(conf)
       @conf = conf
       @formatter = nil
-      reset_tests
-      configure_output
+      reset
     end
 
     # Create a new RSpec example group from arguments and block.
@@ -87,16 +86,17 @@ module Inspec
       reporter.output_hash
     end
 
-    private
-
     # Empty the list of registered tests.
     #
     # @return [nil]
-    def reset_tests
+    def reset
       @tests = RSpec::Core::World.new
       # resets "pending examples" in reporter
       RSpec.configuration.reset
+      configure_output
     end
+
+    private
 
     FORMATTERS = {
       'json-min' => 'InspecRspecMiniJson',

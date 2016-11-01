@@ -1,0 +1,98 @@
+---
+title: About the os_env Resource
+---
+
+# os_env
+
+Use the `os_env` InSpec audit resource to test the environment variables for the platform on which the system is running.
+
+## Syntax
+
+A `os_env` resource block declares an environment variable, and then declares its value:
+
+    describe os_env('VARIABLE') do
+      its('matcher') { should eq 1 }
+    end
+
+where
+
+* `('VARIABLE')` must specify an environment variable, such as `PATH`
+* `matcher` is a valid matcher for this resource
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### content
+
+The `content` matcher return the value of the environment variable:
+
+    its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### split
+
+The `split` splits the content with the `:` deliminator:
+
+    its('split') { should include (':') }
+
+or:
+
+    its('split') { should_not include ('.') }
+
+Use `-1` to test for cases where there is a trailing colon (`:`), such as `dir1::dir2:`:
+
+    its('split') { should include ('-1') }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test the PATH environment variable
+
+    describe os_env('PATH') do
+      its('split') { should_not include('') }
+      its('split') { should_not include('.') }
+    end
+
+### Test Habitat environment variables
+
+Habitat uses the `os_env` resource to test environment variables. The environment variables are first defined in a whitespace array, after which each environment variable is tested:
+
+    hab_env_vars = %w(HAB_AUTH_TOKEN
+                      HAB_CACHE_KEY_PATH
+                      HAB_DEPOT_URL
+                      HAB_ORG
+                      HAB_ORIGIN
+                      HAB_ORIGIN_KEYS
+                      HAB_RING
+                      HAB_RING_KEY
+                      HAB_STUDIOS_HOME
+                      HAB_STUDIO_ROOT
+                      HAB_USER)
+
+    hab_env_vars.each do |e|
+      describe os_env(e) do
+        its('content') { should eq nil }
+      end
+    end

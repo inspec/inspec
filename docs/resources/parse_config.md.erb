@@ -1,0 +1,122 @@
+---
+title: About the parse_config Resource
+---
+
+# parse_config
+
+Use the `parse_config` InSpec audit resource to test arbitrary configuration files.
+
+## Syntax
+
+A `parse_config` resource block declares the location of the configuration setting to be tested, and then what value is to be tested. Because this resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom Ruby code:
+
+    output = command('some-command').stdout
+
+    describe parse_config(output, { data_config_option: value } ) do
+      its('setting') { should eq 1 }
+    end
+
+or:
+
+    audit = command('/sbin/auditctl -l').stdout
+      options = {
+        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        multiple_values: true
+      }
+
+    describe parse_config(audit, options) do
+      its('setting') { should eq 1 }
+    end
+
+where each test
+
+* Must declare the location of the configuration file to be tested
+* Must declare one (or more) settings to be tested
+* May run a command to `stdout`, and then run the test against that output
+* May use options to define how configuration data is to be parsed
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### assignment_re
+
+Use `assignment_re` to test a key value using a regular expression:
+
+    'key = value'
+
+may be tested using the following regular expression, which determines assignment from key to value:
+
+    assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### comment_char
+
+Use `comment_char` to test for comments in a configuration file:
+
+    comment_char: '#'
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### key_vals
+
+Use `key_vals` to test how many values a key contains:
+
+    key = a b c
+
+contains three values. To test that value to ensure it only contains one, use:
+
+    key_vals: 1
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### multiple_values
+
+Use `multiple_values` if the source file uses the same key multiple times. All values will be aggregated in an array:
+
+    # # file structure:
+    # key = a
+    # key = b
+    # key2 = c
+    params['key'] = ['a', 'b']
+    params['key2'] = ['c']
+
+To use plain key value mapping, use `multiple_values: false`:
+
+    # # file structure:
+    # key = a
+    # key = b
+    # key2 = c
+    params['key'] = 'b'
+    params['key2'] = 'c'
+
+### standalone_comments
+
+Use `standalone_comments` to parse comments as a line, otherwise inline comments are allowed:
+
+    'key = value # comment'
+    params['key'] = 'value # comment'
+
+Use `standalone_comments: false`, to parse the following:
+
+    'key = value # comment'
+    params['key'] = 'value'
+
+## Examples
+
+None.

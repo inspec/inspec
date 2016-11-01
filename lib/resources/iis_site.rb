@@ -1,4 +1,5 @@
 # encoding: utf-8
+# frozen_string_literal: true
 # check for site in IIS
 # Usage:
 # describe iis_site('Default Web Site') do
@@ -35,6 +36,22 @@ module Inspec::Resources
 
       # verify that this resource is only supported on Windows
       return skip_resource 'The `iis_site` resource is not supported on your OS.' if inspec.os[:family] != 'windows'
+    end
+
+    def app_pool
+      iis_site[:app_pool]
+    end
+
+    def bindings
+      iis_site[:bindings]
+    end
+
+    def state
+      iis_site[:state]
+    end
+
+    def path
+      iis_site[:path]
     end
 
     def exists?

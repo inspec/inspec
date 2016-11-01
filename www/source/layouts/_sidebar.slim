@@ -1,0 +1,16 @@
+- if locals[:sidebar_layout] == 'docs'
+  form.main-sidebar--search action="/docs/search/" method="get"
+    input type="text" placeholder="Search Documentation" name="q"
+ul.main-sidebar--links
+  - sidebar_data(sidebar_layout).each do |item|
+    li.main-sidebar--link
+      h6 = item.title
+      ul.main-sidebar--list.no-bullet
+        - item.links.each do |item_link|
+          li.main-sidebar--list--item class=link_classes(current_resource.url, item_link)
+            = link_to item_link.title, item_link.link
+            - if print_sub_links?(current_resource.url, item_link)
+              ul.main-sidebar--list--item--dropdown.no-bullet
+                - item_link.sub_links.each do |sub_link|
+                  li.main-sidebar--list--item  class=link_classes(current_resource.url, sub_link)
+                    = link_to sub_link.title, sub_link.link

@@ -1,0 +1,67 @@
+---
+title: About the bridge Resource
+---
+
+# bridge
+
+Use the `bridge` InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
+
+* On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
+* On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
+
+## Syntax
+
+A `bridge` resource block declares the bridge to be tested and what interface it should be associated with:
+
+    describe bridge('br0') do
+      it { should exist }
+      it { should have_interface 'eth0' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### exist
+
+The `exist` matcher tests if the network bridge is available:
+
+    it { should exist }
+
+### have_interface
+
+The `have_interface` matcher tests if the named interface is defined for the network bridge:
+
+    it { should have_interface 'eth0' }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### interfaces
+
+The `interfaces` matcher tests if the named interface is present:
+
+    its('interfaces') { should eq 'foo' }
+    its('interfaces') { should eq 'bar' }
+    its('interfaces') { should include('foo') }
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+None.

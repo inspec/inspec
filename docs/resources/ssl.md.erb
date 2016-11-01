@@ -1,0 +1,133 @@
+---
+title: About the ssl Resource
+---
+
+# ssl
+
+Use the `ssl` InSpec audit resource to test SSL settings for the named port.
+
+## Syntax
+
+An `ssl` resource block declares an SSL port, and then other properties of the test like cipher and/or protocol:
+
+    describe ssl(port: #) do
+      it { should be_enabled }
+    end
+
+or:
+
+    describe ssl(port: #).filter('value') do
+      it { should be_enabled }
+    end
+
+where
+
+* `ssl(port: #)` is the port number, such as `ssl(port: 443)`
+* `filter` may take any of the following arguments: `ciphers`, `protocols`, and `handshake`
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_enabled
+
+The `be_enabled` matcher tests if SSL is enabled:
+
+    it { should be_enabled }
+
+### ciphers
+
+The `ciphers` matcher tests the named cipher:
+
+    its('ciphers') { should_not eq '/rc4/i' }
+
+or:
+
+    describe ssl(port: 443).ciphers(/rc4/i) do
+      it { should_not be_enabled }
+    end
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### protocols
+
+The `protocols` matcher tests the number of times the named user appears in `/etc/shadow`:
+
+    its('protocols') { should eq 'ssl2' }
+
+or:
+
+    describe ssl(port: 443).protocols('ssl2') do
+      it { should_not be_enabled }
+    end
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Run the ssl-benchmark example profile
+
+The following shows how to use the `ssl` InSpec audit resource to find all TCP ports on the system, including IPv4 and IPv6. (This is a partial example based on the `ssl_text.rb` file in the `ssl-benchmark` profile on GitHub.)
+
+    ...
+
+    control 'tls1.2' do
+      title 'Run TLS 1.2 whenever SSL is active on a port'
+      impact 0.5
+
+      sslports.each do |socket|
+        proc_desc = "on node == #{command('hostname').stdout.strip} running #{socket.process.inspect} (#{socket.pid})"
+        describe ssl(port: socket.port).protocols('tls1.2') do
+          it(proc_desc) { should be_enabled }
+          it { should be_enabled }
+        end
+      end
+    end
+
+    ...
+
+    control 'rc4' do
+      title 'Disable RC4 ciphers from all exposed SSL/TLS ports and versions.'
+      impact 0.5
+
+      sslports.each do |socket|
+        proc_desc = "on node == #{command('hostname').stdout.strip} running #{socket.process.inspect} (#{socket.pid})"
+        describe ssl(port: socket.port).ciphers(/rc4/i) do
+          it(proc_desc) { should_not be_enabled }
+          it { should_not be_enabled }
+        end
+      end
+    end
+
+There are two ways to run the `ssl-benchmark` example profile to test SSL via the `ssl` resource.
+
+Clone the profile:
+
+    $ git clone https://github.com/dev-sec/ssl-benchmark
+
+and then run:
+
+    $ inspec exec ssl-benchmark
+
+Or execute the profile directly via URL:
+
+    $ inspec exec https://github.com/dev-sec/ssl-benchmark

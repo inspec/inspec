@@ -7,7 +7,7 @@ module Inspec::Resources
     name 'os'
     desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
     example "
-      describe os.family do
+      describe os[:family] do
         it { should eq 'redhat' }
       end
 
@@ -21,7 +21,7 @@ module Inspec::Resources
     "
 
     # reuse helper methods from backend
-    %w{aix? redhat? debian? suse? bsd? solaris? linux? unix? windows? hpux?}.each do |os_family|
+    %w{aix? redhat? debian? suse? bsd? solaris? linux? unix? windows? hpux? darwin?}.each do |os_family|
       define_method(os_family.to_sym) do
         inspec.backend.os.send(os_family)
       end

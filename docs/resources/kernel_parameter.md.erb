@@ -1,0 +1,72 @@
+---
+title: About the kernel_parameter Resource
+---
+
+# kernel_parameter
+
+Use the `kernel_parameter` InSpec audit resource to test kernel parameters on Linux platforms.
+
+## Syntax
+
+A `kernel_parameter` resource block declares a parameter and then a value to be tested:
+
+    describe kernel_parameter('path.to.parameter') do
+      its('value') { should eq 0 }
+    end
+
+where
+
+* `'kernel.parameter'` must specify a kernel parameter, such as `'net.ipv4.conf.all.forwarding'`
+* `{ should eq 0 }` states the value to be tested
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### value
+
+The `value` matcher tests the value assigned to the named IP address versus the value declared in the test:
+
+    its('value') { should eq 0 }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if global forwarding is enabled for an IPv4 address
+
+    describe kernel_parameter('net.ipv4.conf.all.forwarding') do
+      its('value') { should eq 1 }
+    end
+
+### Test if global forwarding is disabled for an IPv6 address
+
+    describe kernel_parameter('net.ipv6.conf.all.forwarding') do
+      its('value') { should eq 0 }
+    end
+
+### Test if an IPv6 address accepts redirects
+
+    describe kernel_parameter('net.ipv6.conf.interface.accept_redirects') do
+      its('value') { should eq 'true' }
+    end

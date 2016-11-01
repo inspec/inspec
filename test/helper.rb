@@ -1,11 +1,6 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
-require 'minitest/autorun'
-require 'minitest/spec'
-require 'mocha/setup'
-
 require 'simplecov'
 SimpleCov.start do
   add_filter '/test/'
@@ -14,6 +9,9 @@ SimpleCov.start do
   add_group 'Backends', 'lib/inspec/backend'
 end
 
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'mocha/setup'
 require 'fileutils'
 require 'pathname'
 require 'tempfile'
@@ -51,6 +49,8 @@ class MockLoader
     ubuntu1204: { name: 'ubuntu', family: 'debian', release: '12.04', arch: 'x86_64' },
     ubuntu1404: { name: 'ubuntu', family: 'debian', release: '14.04', arch: 'x86_64' },
     ubuntu1504: { name: 'ubuntu', family: 'debian', release: '15.04', arch: 'x86_64' },
+    mint17:     { name: 'linuxmint', family: 'debian', release: '17.3', arch: 'x86_64' },
+    mint18:     { name: 'linuxmint', family: 'debian', release: '18', arch: 'x86_64' },
     windows:    { name: 'windows', family: 'windows', release: '6.2.9200', arch: 'x86_64' },
     wrlinux:    { name: 'wrlinux', family: 'redhat', release: '7.0(3)I2(2)', arch: 'x86_64' },
     solaris11:  { name: "solaris", family: 'solaris', release: '11', arch: 'i386'},
@@ -70,7 +70,7 @@ class MockLoader
     scriptpath = ::File.realpath(::File.dirname(__FILE__))
 
     # create mock backend
-    @backend = Inspec::Backend.create({ backend: :mock })
+    @backend = Inspec::Backend.create({ backend: :mock, verbose: true })
     mock = @backend.backend
 
     # set os emulation
@@ -118,6 +118,9 @@ class MockLoader
       'rootwrap.conf' => mockfile.call('rootwrap.conf'),
       '/etc/apache2/apache2.conf' => mockfile.call('apache2.conf'),
       '/etc/apache2/ports.conf' => mockfile.call('ports.conf'),
+      '/etc/httpd/conf/httpd.conf' => mockfile.call('httpd.conf'),
+      '/etc/httpd/conf.d/ssl.conf' => mockfile.call('ssl.conf'),
+      '/etc/httpd/mods-enabled/status.conf' => mockfile.call('status.conf'),
       '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
@@ -137,16 +140,16 @@ class MockLoader
     }
 
     mock.commands = {
-      'ps aux' => cmd.call('ps-aux'),
-      'ps auxZ' => cmd.call('ps-auxZ'),
+      'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
+      'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'Remove-Item win_secpol.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
-      # registry key test (winrm 1.6.0, 1.6.1)
-      'dd429dd12596fa193ba4111469b4417ecbd78a1d7ba4317c334c9111644bae44' => cmd.call('reg_schedule'),
-      'Fdd429dd12596fa193ba4111469b4417ecbd78a1d7ba4317c334c9111644bae44' => cmd.call('reg_schedule'),
+      # registry key test using winrm 2.0
+      '2376c7b3d81de9382303356e1efdea99385effb84788562c3e697032d51bf942' => cmd.call('reg_schedule'),
+      '89b48f91634e7efc40105fc082c5e12693b08c0a7c4a578b1f3a07e34f676c66' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
@@ -159,7 +162,7 @@ class MockLoader
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call('get-package-firefox'),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call('get-package-ruby'),
-      "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name dhcp| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json" => cmd.call('get-service-dhcp'),
+      "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name 'dhcp'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json" => cmd.call('get-service-dhcp'),
       "Get-WindowsFeature | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property Name,DisplayName,Description,Installed,InstallState | ConvertTo-Json" => cmd.call('get-windows-feature'),
       'lsmod' => cmd.call('lsmod'),
       '/sbin/sysctl -q -n net.ipv4.conf.all.forwarding' => cmd.call('sbin_sysctl'),
@@ -173,7 +176,7 @@ class MockLoader
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
-      "Get-WmiObject -Class Win32_Product | Where-Object {$_.Name -eq 'Microsoft Visual C++ 2008 Redistributable - x64 9.0.30729.6161'} | Select-Object -Property Name,Version,Vendor,PackageCode,Caption,Description | ConvertTo-Json" => cmd.call('win32_product'),
+      '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
       # service config for upstart on ubuntu
@@ -192,7 +195,7 @@ class MockLoader
       'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
       # services for system 5 e.g. centos6, debian 6
       'service sshd status' => cmd.call('service-sshd-status'),
-      'find /etc/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
+      'find /etc/rc*.d /etc/init.d/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
       'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
       # user information for linux
       'id root' => cmd.call('id-root'),
@@ -208,10 +211,9 @@ class MockLoader
       # user info for freebsd
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows (winrm 1.6.0, 1.6.1)
-      '650b6b72a66316418b25421a54afe21a230704558082914c54711904bb10e370' => cmd.call('GetUserAccount'),
-      '174686f0441b8dd387b35cf1cbeed3f98441544351de5d8fb7b54f655e75583f' => cmd.call('GetUserAccount'),
+      '21c8fabaade05b84ec979759a30814f04353722f173424921bddedc7b65cacbf' => cmd.call('adsiusers'),
       # group info for windows
-      'Get-WmiObject Win32_Group | Select-Object -Property Caption, Domain, Name, SID, LocalAccount | ConvertTo-Json' => cmd.call('GetWin32Group'),
+      'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
       # network interface
       '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
@@ -232,6 +234,8 @@ class MockLoader
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
       'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
+      'find /etc/httpd/mods-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-status-conf'),
       'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
@@ -245,7 +249,7 @@ class MockLoader
       # xinetd configuration
       'find /etc/xinetd.d -type f' => cmd.call('find-xinetd.d'),
       # wmi test
-      "4762fab9e8180997634ae70aae6d5f59e641084111fb9f5e5bf2848a583aa5f5" => cmd.call('get-wmiobject'),
+      "2979ebeb80a475107d85411f109209a580ccf569071b3dc7acff030b8635c6b9" => cmd.call('get-wmiobject'),
       #user info on hpux
       "logins -x -l root" => cmd.call('logins-x'),
       #packages on hpux
@@ -254,6 +258,10 @@ class MockLoader
       'netstat -an -f inet' => cmd.call('hpux-netstat-inet'),
       #ipv6 ports on hpux
       'netstat -an -f inet6' => cmd.call('hpux-netstat-inet6'),
+      # hostname linux
+      'hostname' => cmd.call('hostname'),
+      # hostname windows
+      '$env:computername' => cmd.call('$env-computername'),
     }
 
     @backend
@@ -289,6 +297,7 @@ class MockLoader
 
   def self.load_profile(name, opts = {})
     opts[:test_collector] = Inspec::RunnerMock.new
+    opts[:backend] = Inspec::Backend.create(opts)
     Inspec::Profile.for_target(profile_path(name), opts)
   end
 

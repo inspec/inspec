@@ -1,0 +1,69 @@
+---
+title: About the ini Resource
+---
+
+# ini
+
+Use the `ini` InSpec audit resource to test settings in an INI file.
+
+## Syntax
+
+An `ini` resource block declares the configuration settings to be tested:
+
+    describe ini('path') do
+      its('setting_name') { should eq 'value' }
+    end
+
+where
+
+* `'setting_name'` is a synchronization setting defined in the INI file
+* `('path')` is the path to the INI file
+* `{ should eq 'value' }` is the value that is expected
+
+For example:
+
+    describe ini('path/to/ini_file.ini') do
+      its('port') { should eq '143' }
+      its('server') { should eq '192.0.2.62' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test SMTP settings in a PHP INI file
+
+For example, a PHP INI file located at contains the following settings:
+
+    ; SMTP = smtp.gmail.com
+    ; smtp_port = 465
+
+and can be tested like this:
+
+    describe ini(/etc/php5/apache2/php.ini) do
+      its('smtp_port') { should eq('465') }
+    end

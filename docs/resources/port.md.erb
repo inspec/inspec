@@ -1,0 +1,150 @@
+---
+title: About the port Resource
+---
+
+# port
+
+Use the `port` InSpec audit resource to test basic port properties, such as port, process, if it's listening.
+
+## Syntax
+
+A `port` resource block declares a port, and then depending on what needs to be tested, a process, protocol, process identifier, and its state (is it listening?):
+
+    describe port(514) do
+      it { should be_listening }
+      its('processes') {should include 'syslog'}
+    end
+
+where the `processes` returns the processes listening on port 514.
+
+A filter may specify an attribute:
+
+    describe port.where { protocol =~ /tcp/ && port > 22 && port < 80 } do
+      it { should_not be_listening }
+    end
+
+where
+
+* `.where{}` specifies a block in which one (or more) attributes---`port`, `address`, `protocol`, `process`, `pid`, or `listening?`----scope the test to ports that match those attributes
+
+For example, to test if the SSH daemon is available on a Linux machine via the default port (22):
+
+    describe port(22) do
+      its('processes') { should include 'sshd' }
+      its('protocols') { should include 'tcp' }
+      its('addresses') { should include '0.0.0.0' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### address
+
+The `addresses` matcher tests if the specified address is associated with a port:
+
+    its('addresses') { should include '0.0.0.0' }
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_listening
+
+The `be_listening` matcher tests if the port is listening for traffic:
+
+    it { should be_listening }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### pids
+
+The `pids` matcher tests the process identifiers (PIDs):
+
+    its('pids') { should eq ['27808'] }
+
+### processes
+
+The `processes` matcher tests if the named process is running on the system:
+
+    its('processes') { should eq ['syslog'] }
+
+### protocols
+
+The `protocols` matcher tests the Internet protocol: ICMP (`'icmp'`), TCP (`'tcp'` or `'tcp6'`), or UDP (`'udp'` or `'udp6'`):
+
+    its('protocols') { should include 'tcp' }
+
+or for the IPv6 protocol:
+
+    its('protocols') { should include 'tcp6' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test port 80, listening with the TCP protocol
+
+    describe port(80) do
+      it { should be_listening }
+      its('protocols') {should eq ['tcp']}
+    end
+
+### Test port 80, on a specific address
+
+A specific port address may be checked using either of the following examples:
+
+    describe port(80) do
+      it { should be_listening }
+      its('addresses') {should include '0.0.0.0'}
+    end
+
+or:
+
+    describe port('0.0.0.0', 80) do
+      it { should be_listening }
+    end
+
+### Test port 80, listening with TCP version IPv6 protocol
+
+    describe port(80) do
+      it { should be_listening }
+      its('protocols') {should eq ['tcp6']}
+    end
+
+### Test that only secure ports accept requests
+
+    describe port(80) do
+      it { should_not be_listening }
+    end
+
+    describe port(443) do
+      it { should be_listening }
+      its('protocols') {should eq ['tcp']}
+    end
+
+### Verify port 65432 is not listening
+
+    describe port(22) do
+      it { should be_listening }
+      its('protocols') { should include('tcp') }
+      its('protocols') { should_not include('udp') }
+    end
+
+    describe port(65432) do
+      it { should_not be_listening }
+    end

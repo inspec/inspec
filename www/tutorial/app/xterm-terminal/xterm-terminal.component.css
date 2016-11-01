@@ -1,0 +1,31 @@
+#terminal-container {
+    margin: 0 auto;
+    padding: 2px;
+    font-size: 16px;
+    max-width: 1000px;
+    -webkit-font-smoothing: antialiased;
+    font-family: monospace;
+    font-size: 1.2rem;
+}
+
+#terminal-container .terminal {
+    background-color: #111;
+    color: #fafafa;
+    padding: 2px;
+}
+
+#terminal-container .terminal:focus .terminal-cursor {
+    background-color: #fafafa;
+}
+
+/* the black color used by xterm terminal isn't quite black
+so we're deep assigning here to make sure that 0 is marked as black */
+:host /deep/ .xterm-color-0 {
+    color: black;
+}
+
+/* the blue color that xterm terminal uses doesn't show well
+on the black background so we're deep assigning to make 6 a lightskyblu*/
+:host /deep/ .xterm-color-6 {
+    color: lightskyblue;
+}

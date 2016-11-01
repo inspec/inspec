@@ -1,0 +1,83 @@
+---
+title: About the mount Resource
+---
+
+# mount
+
+Use the `mount` InSpec audit resource to test the mount points on Linux systems.
+
+## Syntax
+
+An `mount` resource block declares the synchronization settings that should be tested:
+
+    describe mount('path') do
+      it { should MATCHER 'value' }
+    end
+
+where
+
+* `('path')` is the path to the mounted directory
+* `MATCHER` is a valid matcher for this resource
+* `'value'` is the value to be tested
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_mounted
+
+The `be_mounted` matcher tests if the file is accessible from the file system:
+
+    it { should be_mounted }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### device
+
+The `device` matcher tests the device from the `fstab` table:
+
+    its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### options
+
+The `options` matcher tests the mount options for the file system from the `fstab` table:
+
+    its('options') { should eq ['rw', 'mode=620'] }
+
+### type
+
+The `type` matcher tests the file system type:
+
+    its('type') { should eq  'ext4' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a the mount point on '/'
+
+    describe mount('/') do
+      it { should be_mounted }
+      its('device') { should eq  '/dev/mapper/VolGroup-lv_root' }
+      its('type') { should eq  'ext4' }
+      its('options') { should eq ['rw', 'mode=620'] }
+    end

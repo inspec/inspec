@@ -1,0 +1,2 @@
+[0G[0;32minspec> [0m=> {[31m[1;31m"[0m[31mauthorizedkeysfile[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31m.ssh/authorized_keys[1;31m"[0m[31m[0m],
+ [31m[1;31m"[0m[31msubsystem[1;31m"[0m[31m[0m=>[[31m[1;31m"[0m[31msftp[1;35m\t[0m[31m/usr/lib/ssh/sftp-server[1;31m"[0m[31m[0m]}

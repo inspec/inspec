@@ -6,10 +6,15 @@ gemspec
 # detecting that net-ssh 3 does not work with 1.9.3
 if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
+  gem 'tins', '~> 1.6.0'
 end
 
-# TODO: ffi 1.9.11 is currently erroneous on windows tests
-gem 'ffi', '= 1.9.10'
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
+  gem 'json', '~> 1.8'
+  gem 'rack', '< 2.0'
+end
+
+gem 'ffi', '>= 1.9.14'
 
 group :test do
   gem 'bundler', '~> 1.5'
@@ -19,15 +24,24 @@ group :test do
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'
+  gem 'ruby-progressbar', '~> 1.8'
+  gem 'nokogiri', '~> 1.6'
 end
 
 group :integration do
   gem 'berkshelf', '~> 4.3'
   gem 'test-kitchen', '~> 1.6'
   gem 'kitchen-vagrant'
-  gem 'kitchen-inspec', '0.12.5'
+  # we need winrm v2 support >= 0.15.1
+  gem 'kitchen-inspec', '>= 0.15.1'
   gem 'kitchen-ec2'
   gem 'kitchen-dokken'
+end
+
+group :simulator do
+  gem 'github-markup'
+  gem 'redcarpet'
+  gem 'docker-api'
 end
 
 group :tools do
@@ -44,4 +58,8 @@ group :maintenance do
   # To sync maintainers with github
   gem 'octokit'
   gem 'netrc'
+end
+
+group :deploy do
+  gem 'inquirer'
 end

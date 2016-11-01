@@ -1,0 +1,29 @@
+Usage:
+  inspec detect
+
+Options:
+  t, [--target=TARGET]                     # Simple targeting option using URIs, e.g. ssh://user:pass@host:port
+  b, [--backend=BACKEND]                   # Choose a backend: local, ssh, winrm, docker.
+      [--host=HOST]                        # Specify a remote host which is tested.
+  p, [--port=N]                            # Specify the login port for a remote scan.
+      [--user=USER]                        # The login user for a remote scan.
+      [--password=PASSWORD]                # Login password for a remote scan, if required.
+  i, [--key-files=one two three]           # Login key or certificate file for a remote scan.
+      [--path=PATH]                        # Login path to use when connecting to the target (WinRM).
+      [--sudo], [--no-sudo]                # Run scans with sudo. Only activates on Unix and non-root user.
+      [--sudo-password=SUDO_PASSWORD]      # Specify a sudo password, if it is required.
+      [--sudo-options=SUDO_OPTIONS]        # Additional sudo options for a remote scan.
+      [--sudo-command=SUDO_COMMAND]        # Alternate command for sudo.
+      [--shell], [--no-shell]              # Run scans in a subshell. Only activates on Unix.
+      [--shell-options=SHELL_OPTIONS]      # Additional shell options.
+      [--shell-command=SHELL_COMMAND]      # Specify a particular shell to use.
+      [--ssl], [--no-ssl]                  # Use SSL for transport layer encryption (WinRM).
+      [--self-signed], [--no-self-signed]  # Allow remote scans with self-signed certificates (WinRM).
+      [--json-config=JSON_CONFIG]          # Read configuration from JSON file (`-` reads from stdin).
+  l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
+      [--format=FORMAT]
+  l, [--log-level=LOG_LEVEL]               # Set the log level: info (default), debug, warn, error
+      [--log-location=LOG_LOCATION]        # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
+      [--diagnose], [--no-diagnose]        # Show diagnostics (versions, configurations)
+
+detect the target OS

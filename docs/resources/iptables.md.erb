@@ -1,0 +1,70 @@
+---
+title: About the iptables Resource
+---
+
+# iptables
+
+Use the `iptables` InSpec audit resource to test rules that are defined in `iptables`, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.
+
+## Syntax
+
+A `iptables` resource block declares tests for rules in IP tables:
+
+    describe iptables(rule:'name', table:'name', chain: 'name') do
+      it { should have_rule('RULE') }
+    end
+
+where
+
+* `iptables()` may specify any combination of `rule`, `table`, or `chain`
+* `rule:'name'` is the name of a rule that matches a set of packets
+* `table:'name'` is the packet matching table against which the test is run
+* `chain: 'name'` is the name of a user-defined chain or one of `ACCEPT`, `DROP`, `QUEUE`, or `RETURN`
+* `have_rule('RULE')` tests that rule in the iptables file
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### have_rule
+
+The `have_rule` matcher tests the named rule against the information in the `iptables` file:
+
+    it { should have_rule('RULE') }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if the IP table allows a packet through
+
+    describe iptables do
+      it { should have_rule('-P INPUT ACCEPT') }
+    end
+
+### Test if the IP table allows a packet through, for a specific table and chain
+
+    describe iptables(table:'mangle', chain: 'input') do
+      it { should have_rule('-P INPUT ACCEPT') }
+    end

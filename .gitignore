@@ -12,3 +12,9 @@ Puppetfile.lock
 profile.tar.gz
 omnibus/.cache
 omnibus/pkg
+test/**/*.lock
+examples/**/*.lock
+habitat/VERSION
+habitat/results
+/.ruby-gemset
+/.ruby-version

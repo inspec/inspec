@@ -22,13 +22,9 @@ module Inspec::Resources
       unless inspec.os.windows?
         return skip_resource 'The `script` resource is not supported on your OS yet.'
       end
-
-      # encodes a script as base64 to run as powershell encodedCommand
-      # this comes with performance issues: @see https://gist.github.com/fnichol/7b20596b950e65fb96f9
-      require 'winrm'
-      script = WinRM::PowershellScript.new(script)
-      cmd = "powershell -encodedCommand #{script.encoded}"
-      super(cmd)
+      # since WinRM 2.0 and the default use of powershell for local execution in
+      # train, we do not need to wrap the script here anymore
+      super(script)
     end
 
     # we cannot determine if a command exists, because that does not work for scripts

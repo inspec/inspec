@@ -7,11 +7,7 @@ module Inspec
 
   # dependency resolution
   class CyclicDependencyError < Error; end
-  class VersionConflict < Error
-    attr_reader :conflicts
-    def initialize(conflicts, msg = nil)
-      super(msg)
-      @conflicts = conflicts
-    end
-  end
+  class UnsatisfiedVersionSpecification < Error; end
+  class DuplicateDep < Error; end
+  class FetcherFailure < Error; end
 end

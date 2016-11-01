@@ -4,7 +4,11 @@ if ENV['DOCKER']
   return
 end
 
-if os[:family] == 'freebsd'
+if os[:family] == 'windows'
+  filedata = {
+    user: os_env('COMPUTERNAME').content + '\TestUser'
+  }
+elsif os[:name] == 'freebsd'
   filedata = {
     user: 'root',
     group: 'wheel',
@@ -12,7 +16,7 @@ if os[:family] == 'freebsd'
     dir_md5sum: '598f4fe64aefab8f00bcbea4c9239abf',
     dir_sha256sum: '9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9',
   }
-elsif os[:family] == 'aix'
+elsif os[:name] == 'aix'
   filedata = {
     user: 'root',
     group: 'system',
@@ -60,8 +64,8 @@ if os.unix?
     # it { should have_mode }
     its('mode') { should eq 00765 }
     it { should be_mode 00765 }
-    its('mode') { should cmp 0765 }
-    its('mode') { should_not cmp 0777 }
+    its('mode') { should cmp '0765' }
+    its('mode') { should_not cmp '0777' }
     its('suid') { should eq false }
     its('sgid') { should eq false }
     its('sticky') { should eq false }
@@ -111,7 +115,7 @@ if os.unix?
     its('type') { should eq :file }
   end
 
-  describe file('/tmp/file') do
+  describe file('/tmp/sfile') do
     its('suid') { should eq true }
     its('sgid') { should eq true }
     its('sticky') { should eq true }
@@ -177,19 +181,37 @@ if os.windows?
     its('path') { should cmp "C:\\Windows" }
   end
 
-  describe file('C:\\Test Directory\\test file.txt') do
+  describe file('C:/Test Directory/test file.txt') do
     it { should exist }
     it { should be_file }
+    it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should_not be_readable.by_user(filedata[:user]) }
+    it { should_not be_writable.by_user(filedata[:user]) }
+    it { should_not be_executable.by_user(filedata[:user]) }
   end
 
-  describe file('C:\\Test Directory') do
+  describe file('C:/Test Directory') do
     it { should exist }
     it { should be_directory }
+    it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
+    it { should_not be_readable.by_user(filedata[:user]) }
+    it { should_not be_writable.by_user(filedata[:user]) }
+    it { should_not be_executable.by_user(filedata[:user]) }
   end
 
   describe file("C:/Program Files (x86)/Windows NT/Accessories/wordpad.exe") do
     it { should exist }
     # Only works on Windows 2012 R2
     its('file_version') { should eq '6.3.9600.17415' }
+  end
+
+  # read the owner of a file
+  describe directory('C:/opscode/chef') do
+    its('owner') { should cmp 'NT AUTHORITY\SYSTEM' }
+    it { should be_owned_by 'NT AUTHORITY\SYSTEM' }
   end
 end

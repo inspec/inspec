@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'thor'
+require 'inspec/log'
 
 module Inspec
   class BaseCLI < Thor # rubocop:disable Metrics/ClassLength
@@ -31,6 +32,12 @@ module Inspec
         desc: 'Additional sudo options for a remote scan.'
       option :sudo_command, type: :string,
         desc: 'Alternate command for sudo.'
+      option :shell, type: :boolean,
+        desc: 'Run scans in a subshell. Only activates on Unix.'
+      option :shell_options, type: :string,
+        desc: 'Additional shell options.'
+      option :shell_command, type: :string,
+        desc: 'Specify a particular shell to use.'
       option :ssl, type: :boolean,
         desc: 'Use SSL for transport layer encryption (WinRM).'
       option :self_signed, type: :boolean,
@@ -57,6 +64,10 @@ module Inspec
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
+      option :cache, type: :string,
+        desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
+      option :create_lockfile, type: :boolean, default: true,
+        desc: 'Write out a lockfile based on this execution (unless one already exists)'
     end
 
     private
@@ -64,11 +75,12 @@ module Inspec
     # helper method to run tests
     def run_tests(targets, opts)
       o = opts.dup
-      o[:logger] = Logger.new(opts['format'] == 'json' ? nil : STDOUT)
+      log_device = opts['format'] == 'json' ? nil : STDOUT
+      o[:logger] = Logger.new(log_device)
       o[:logger].level = get_log_level(o.log_level)
 
       runner = Inspec::Runner.new(o)
-      targets.each { |target| runner.add_target(target, opts) }
+      targets.each { |target| runner.add_target(target) }
       exit runner.run
     rescue RuntimeError, Train::UserError => e
       $stderr.puts e.message
@@ -126,7 +138,33 @@ module Inspec
       Logger.const_get(l.upcase)
     end
 
+    def pretty_handle_exception(exception)
+      case exception
+      when Inspec::Error
+        $stderr.puts exception.message
+        exit(1)
+      else
+        raise exception # rubocop:disable Style/SignalException
+      end
+    end
+
     def configure_logger(o)
+      #
+      # TODO(ssd): This is a big gross, but this configures the
+      # logging singleton Inspec::Log. Eventually it would be nice to
+      # move internal debug logging to use this logging singleton.
+      #
+      loc = if o.log_location
+              o.log_location
+            elsif %w{json json-min}.include?(o['format'])
+              STDERR
+            else
+              STDOUT
+            end
+
+      Inspec::Log.init(loc)
+      Inspec::Log.level = get_log_level(o.log_level)
+
       o[:logger] = Logger.new(STDOUT)
       # output json if we have activated the json formatter
       if opts['log-format'] == 'json'

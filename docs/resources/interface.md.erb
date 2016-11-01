@@ -1,0 +1,66 @@
+---
+title: About the interface Resource
+---
+
+# interface
+
+Use the `interface` InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
+
+* On Linux platforms, `/sys/class/net/#{iface}` is used as source
+* On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
+
+## Syntax
+
+An `interface` resource block declares network interface properties to be tested:
+
+    describe interface do
+      it { should be_up }
+      its('speed') { should eq 1000 }
+      its('name') { should eq eth0 }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_up
+
+The `be_up` matcher tests if the network interface is available:
+
+    it { should be_up }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests if the named network interface exists:
+
+    its('name') { should eq eth0 }
+
+### speed
+
+The `speed` matcher tests the speed of the network interface, in MB/sec:
+
+    its('speed') { should eq 1000 }
+
+## Examples
+
+None.

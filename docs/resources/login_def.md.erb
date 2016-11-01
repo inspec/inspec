@@ -1,0 +1,77 @@
+---
+title: About the login_defs Resource
+---
+
+# login_defs
+
+Use the `login_defs` InSpec audit resource to test configuration settings in the `/etc/login.defs` file. The `logins.defs` file defines site-specific configuration for the shadow password suite on Linux and Unix platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
+
+## Syntax
+
+A `login_defs` resource block declares the `login.defs` configuration data to be tested:
+
+    describe login_defs do
+      its('name') { should include('foo') }
+    end
+
+where
+
+* `name` is a configuration setting in `login.defs`
+* `{ should include('foo') }` tests the value of `name` as read from `login.defs` versus the value declared in the test
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests the value of `name` as read from `login.defs` versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test password expiration settings
+
+    describe login_defs do
+      its('PASS_MAX_DAYS') { should eq '180' }
+      its('PASS_MIN_DAYS') { should eq '1' }
+      its('PASS_MIN_LEN') { should eq '15' }
+      its('PASS_WARN_AGE') { should eq '30' }
+    end
+
+### Test the encryption method
+
+    describe login_defs do
+      its('ENCRYPT_METHOD') { should eq 'SHA512' }
+    end
+
+### Test umask setting
+
+    describe login_def do
+      its('UMASK') { should eq '077' }
+      its('PASS_MAX_DAYS') { should eq '90' }
+    end

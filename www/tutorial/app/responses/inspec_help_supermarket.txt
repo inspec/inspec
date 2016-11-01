@@ -1,0 +1,6 @@
+Commands:
+  inspec supermarket exec PROFILE    # execute a Supermarket profile
+  inspec supermarket help [COMMAND]  # Describe subcommands or one specific s...
+  inspec supermarket info PROFILE    # display Supermarket profile details
+  inspec supermarket profiles        # list all available profiles in Chef Su...
+

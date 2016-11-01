@@ -1,0 +1,15 @@
+h1,h2,h3,h4,h5,h6 {
+  font-family: $main-font;
+}
+
+.main-subhead {
+  @media (min-width: 640px) {
+    font-size: 30px;
+  }
+}
+
+p, ul {
+  @media (max-width: 400px) {
+    font-size: 14px;
+  }
+}

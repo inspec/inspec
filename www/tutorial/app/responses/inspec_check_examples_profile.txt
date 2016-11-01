@@ -1,0 +1,7 @@
+Location:    [0;36mexamples/profile[0m
+Profile:     [0;36mprofile[0m
+Controls:    [0;36m4[0m
+Timestamp:   [0;36m2016-10-05T13:48:20+00:00[0m
+Valid:       [0;36mtrue[0m
+
+No errors or warnings

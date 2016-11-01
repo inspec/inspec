@@ -1,0 +1,17 @@
+name: meta-profile
+title: Meta Compliance Profile
+maintainer: InSpec Authors
+copyright: InSpec Authors
+copyright_email: support@chef.io
+license: Apache 2
+summary: InSpec Profile that is only consuming dependencies
+version: 0.2.0
+depends:
+  - name: hardening/ssh-hardening  # defaults to supermarket
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
+  - git: https://github.com/dev-sec/ssl-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/chris-rock/windows-patch-benchmark.git
+  - name: linux
+    compliance: base/linux

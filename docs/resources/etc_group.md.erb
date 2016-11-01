@@ -1,0 +1,116 @@
+---
+title: About the etc_group Resource
+---
+
+# etc_group
+
+Use the `etc_group` InSpec audit resource to test groups that are defined on Linux and Unix platforms. The `/etc/group` file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.
+
+## Syntax
+
+A `etc_group` resource block declares a collection of properties to be tested:
+
+    describe etc_group('path') do
+      its('matcher') { should eq 'some_value' }
+    end
+
+or:
+
+    describe etc_group.where(item: 'value', item: 'value') do
+      its('gids') { should_not contain_duplicates }
+      its('groups') { should include 'user_name' }
+      its('users') { should include 'user_name' }
+    end
+
+where
+
+* `('path')` is the non-default path to the `inetd.conf` file
+* `.where()` may specify a specific item and value, to which the matchers are compared
+* `'gids'`, `'groups'`, and `'users'` are valid matchers for this resource
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### gids
+
+The `gids` matcher tests if the named group identifier is present or if it contains duplicates:
+
+    its('gids') { should_not contain_duplicates }
+
+### groups
+
+The `groups` matcher tests all groups for the named user:
+
+    its('groups') { should include 'my_group' }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### users
+
+The `users` matcher tests all groups for the named user:
+
+    its('users') { should include 'my_user' }
+
+### where
+
+The `where` matcher allows the test to be focused to one (or more) specific items:
+
+    etc_group.where(item: 'value', item: 'value')
+
+where `item` may be one (or more) of:
+
+* `name: 'name'`
+* `group_name: 'group_name'`
+* `password: 'password'`
+* `gid: 'gid'`
+* `group_id: 'gid'`
+* `users: 'user_name'`
+* `members: 'member_name'`
+
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test group identifiers (GIDs) for duplicates
+
+    describe etc_group do
+      its('gids') { should_not contain_duplicates }
+    end
+
+### Test all groups to see if a specific user belongs to one (or more) groups
+
+    describe etc_group do
+      its('groups') { should include 'my_group' }
+    end
+
+### Test all groups for a specific user name
+
+    describe etc_group do
+      its('users') { should include 'my_user' }
+    end
+
+### Filter a list of groups for a specific user
+
+    describe etc_group.where(name: 'my_group') do
+      its('users') { should include 'my_user' }
+    end

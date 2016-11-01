@@ -1,0 +1,69 @@
+---
+title: About the yaml Resource
+---
+
+# yaml
+
+Use the `yaml` InSpec audit resource to test configuration data in a Yaml file.
+
+## Syntax
+
+A `yaml` resource block declares the configuration data to be tested. Assume the following Yaml file:
+
+    name: foo
+    array:
+      - zero
+      - one
+
+This file can be queried using:
+
+    describe yaml do
+      its('name') { should eq 'foo' }
+      its(['array', 1]) { should eq 'one' }
+    end
+
+where
+
+* `name` is a configuration setting in a Yaml file
+* `should eq 'foo'` tests a value of `name` as read from a Yaml file versus the value declared in the test
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests the value of `name` as read from a Yaml file versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a kitchen.yml file driver
+
+    describe yaml('.kitchen.yaml') do
+      its('driver.name') { should eq('vagrant') }
+    end

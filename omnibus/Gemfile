@@ -4,11 +4,16 @@ source 'https://rubygems.org'
 # Install omnibus
 # Sadly due to an ongoing msys2 issue, producing windows builds requires
 # the two branches below.
-gem 'omnibus', github: 'chef/omnibus', branch: 'ksubrama/gcc_investigate'
+# gem 'omnibus', github: 'chef/omnibus', branch: 'ksubrama/gcc_investigate'
 
 # Use Chef's software definitions. It is recommended that you write your own
 # software definitions, but you can clone/fork Chef's to get you started.
-gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
+# gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
+
+# Use entries from chef's Gemfile
+gem 'omnibus', github: 'chef/omnibus', branch: 'sersut/ff-ksubrama/gcc_investigate'
+gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'shain/ruby_windows_monster'
+gem 'license_scout', github: 'chef/license_scout'
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need

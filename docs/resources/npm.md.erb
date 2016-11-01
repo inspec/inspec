@@ -1,0 +1,75 @@
+---
+title: About the npm Resource
+---
+
+# npm
+
+Use the `npm` InSpec audit resource to test if a global NPM package is installed. NPM is the the package manager for Node.js packages (https://docs.npmjs.com), such as Bower and StatsD.
+
+
+## Syntax
+
+A `npm` resource block declares a package and (optionally) a package version:
+
+    describe gem('npm_package_name') do
+      it { should be_installed }
+    end
+
+where
+
+* `('npm_package_name')` must specify an NPM package, such as `'bower'` or `'statsd'`
+* `be_installed` is a valid matcher for this resource
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### be_installed
+
+The `be_installed` matcher tests if the named Gem package and package version (if specified) is installed:
+
+    it { should be_installed }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Verify that bower is installed, with a specific version
+
+    describe npm('bower') do
+      it { should be_installed }
+      its('version') { should eq '1.4.1' }
+    end
+
+### Verify that statsd is not installed
+
+    describe npm('statsd') do
+      it { should_not be_installed }
+    end
