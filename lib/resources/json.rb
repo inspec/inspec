@@ -12,6 +12,15 @@ module Inspec::Resources
       describe json('policyfile.lock.json') do
         its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
       end
+
+      describe json({ command: 'curl -i -H \"Accept: application/json\" url' }) do
+        its('state') { should eq('open') }
+      end
+
+      describe json({ content: '{\"item1\": { \"status\": \"available\" } }' }) do
+        its(['item1', 'status']) { should cmp 'available' }
+      end
+
     "
 
     include ObjectTraverser
@@ -71,7 +80,7 @@ module Inspec::Resources
 
     def to_s
       if @path.is_a?(Hash) && @path.key?(:content)
-        "Json content"
+        'Json content'
       else
         "Json #{@path}"
       end
