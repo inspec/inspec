@@ -28,17 +28,18 @@ module Inspec::Resources
     # make params readable
     attr_reader :params
 
-    def initialize(path)
-      @path = path
-      if path.is_a?(Hash)
-        if path.key?(:content)
-          @file_content = path[:content]
-        elsif path.key?(:command)
-          @command = inspec.command(path[:command])
+    def initialize(opts)
+      @opts = opts
+      if opts.is_a?(Hash)
+        if opts.key?(:content)
+          @file_content = opts[:content]
+        elsif opts.key?(:command)
+          @command = inspec.command(opts[:command])
           @file_content = @command.stdout
         end
       else
-        @file = inspec.file(@path)
+        @path = opts
+        @file = inspec.file(@opts)
         @file_content = @file.content
 
         # check if file is available
@@ -79,7 +80,7 @@ module Inspec::Resources
     end
 
     def to_s
-      if @path.is_a?(Hash) && @path.key?(:content)
+      if @opts.is_a?(Hash) && @opts.key?(:content)
         'Json content'
       else
         "Json #{@path}"
