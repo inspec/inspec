@@ -21,19 +21,28 @@ module Inspec::Resources
 
     def initialize(path)
       @path = path
-      @file = inspec.file(@path)
-      @file_content = @file.content
+      if path.is_a?(Hash)
+        if path.key?(:content)
+          @file_content = path[:content]
+        elsif path.key?(:command)
+          @command = inspec.command(path[:command])
+          @file_content = @command.stdout
+        end
+      else
+        @file = inspec.file(@path)
+        @file_content = @file.content
 
-      # check if file is available
-      if !@file.file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
+        # check if file is available
+        if !@file.file?
+          skip_resource "Can't find file \"#{@conf_path}\""
+          return @params = {}
+        end
 
-      # check if file is readable
-      if @file_content.empty? && @file.size > 0
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
+        # check if file is readable
+        if @file_content.empty? && @file.size > 0
+          skip_resource "Can't read file \"#{@conf_path}\""
+          return @params = {}
+        end
       end
 
       @params = parse(@file_content)
@@ -61,7 +70,11 @@ module Inspec::Resources
     end
 
     def to_s
-      "Json #{@path}"
+      if @path.is_a?(Hash) && @path.key?(:content)
+        "Json content"
+      else
+        "Json #{@path}"
+      end
     end
   end
 end
