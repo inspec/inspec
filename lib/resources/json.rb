@@ -12,6 +12,15 @@ module Inspec::Resources
       describe json('policyfile.lock.json') do
         its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
       end
+
+      describe json({ command: 'retrieve_data.py --json' }) do
+        its('state') { should eq('open') }
+      end
+
+      describe json({ content: '{\"item1\": { \"status\": \"available\" } }' }) do
+        its(['item1', 'status']) { should cmp 'available' }
+      end
+
     "
 
     include ObjectTraverser
@@ -19,21 +28,31 @@ module Inspec::Resources
     # make params readable
     attr_reader :params
 
-    def initialize(path)
-      @path = path
-      @file = inspec.file(@path)
-      @file_content = @file.content
+    def initialize(opts)
+      @opts = opts
+      if opts.is_a?(Hash)
+        if opts.key?(:content)
+          @file_content = opts[:content]
+        elsif opts.key?(:command)
+          @command = inspec.command(opts[:command])
+          @file_content = @command.stdout
+        end
+      else
+        @path = opts
+        @file = inspec.file(@opts)
+        @file_content = @file.content
 
-      # check if file is available
-      if !@file.file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
+        # check if file is available
+        if !@file.file?
+          skip_resource "Can't find file \"#{@conf_path}\""
+          return @params = {}
+        end
 
-      # check if file is readable
-      if @file_content.empty? && @file.size > 0
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
+        # check if file is readable
+        if @file_content.empty? && @file.size > 0
+          skip_resource "Can't read file \"#{@conf_path}\""
+          return @params = {}
+        end
       end
 
       @params = parse(@file_content)
@@ -61,7 +80,11 @@ module Inspec::Resources
     end
 
     def to_s
-      "Json #{@path}"
+      if @opts.is_a?(Hash) && @opts.key?(:content)
+        'Json content'
+      else
+        "Json #{@path}"
+      end
     end
   end
 end
