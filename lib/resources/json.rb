@@ -13,7 +13,7 @@ module Inspec::Resources
         its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
       end
 
-      describe json({ command: 'curl -i -H \"Accept: application/json\" url' }) do
+      describe json({ command: 'retrieve_data.py --json' }) do
         its('state') { should eq('open') }
       end
 
