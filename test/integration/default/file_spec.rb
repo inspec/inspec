@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 if os[:family] == 'windows'
   filedata = {
     user: os_env('COMPUTERNAME').content + '\TestUser'
@@ -112,6 +113,12 @@ if os.unix?
     its('type') { should eq :file }
   end
 
+  # see mount_spec.rb for file mount tests
+  # describe file('/mnt/iso-disk') do
+  #   it { should be_mounted }
+  #   ...
+  # end
+
   describe file('/tmp/sfile') do
     its('suid') { should eq true }
     its('sgid') { should eq true }
@@ -140,33 +147,6 @@ if os.unix?
     its('owner') { should eq filedata[:user] }
     its('group') { should eq filedata[:group] }
     its('type') { should eq :directory }
-  end
-end
-
-# check file mount on linux
-if os.linux?
-  # for server spec compatibility
-  # Do not use `.with` or `.only_with`, this syntax is deprecated and will be removed
-  # in InSpec version 1
-  describe file('/mnt/iso-disk') do
-    it { should be_mounted }
-    it { should be_mounted.with( :type => 'iso9660' ) }
-    it { should be_mounted.with( :type => 'iso9660', :options => { :ro => true } ) }
-    it { should be_mounted.with( :type => 'iso9660', :device => '/tmp/empty.iso' ) }
-    it { should_not be_mounted.with( :type => 'ext4' ) }
-    it { should_not be_mounted.with( :type => 'xfs' ) }
-  end
-
-  # compare with exact match
-  # also see mount_spec.rb
-  describe file('/mnt/iso-disk') do
-    it { should be_mounted.only_with( {
-      :device=>"/tmp/empty.iso",
-      :type=>"iso9660",
-      :options=>{
-        :ro=>true}
-      })
-    }
   end
 end
 
