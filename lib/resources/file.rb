@@ -17,7 +17,7 @@ module Inspec::Resources
     end
   end
 
-  class FileResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class FileResource < Inspec.resource(1)
     include FilePermissionsSelector
     include MountParser
 
@@ -127,31 +127,12 @@ module Inspec::Resources
 
     private
 
-    def file_permission_granted?(access, by_usergroup, by_specific_user)
+    def file_permission_granted?(access_type, by_usergroup, by_specific_user)
       fail '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
-        fail '`check_file_permission_by_mask` is not supported on your OS' unless inspec.os.unix?
-        usergroup = usergroup_for(by_usergroup, by_specific_user)
-        check_file_permission_by_mask(usergroup, access)
+        @perms_provider.check_file_permission_by_mask(file, access_type, by_usergroup, by_specific_user)
       else
-        @perms_provider.check_file_permission_by_user(by_specific_user, access, source_path)
-      end
-    end
-
-    def check_file_permission_by_mask(usergroup, flag)
-      mask = file.unix_mode_mask(usergroup, flag)
-      fail 'Invalid usergroup/owner provided' if mask.nil?
-
-      (file.mode & mask) != 0
-    end
-
-    def usergroup_for(usergroup, specific_user)
-      if usergroup == 'others'
-        'other'
-      elsif (usergroup.nil? || usergroup.empty?) && specific_user.nil?
-        'all'
-      else
-        usergroup
+        @perms_provider.check_file_permission_by_user(access_type, by_specific_user, source_path)
       end
     end
   end
@@ -164,17 +145,39 @@ module Inspec::Resources
   end
 
   class UnixFilePermissions < FilePermissions
-    def check_file_permission_by_user(user, access_type, path)
-      flag = case access_type
-             when 'read'
-               'r'
-             when 'write'
-               'w'
-             when 'execute'
-               'x'
-             else
-               fail 'Invalid access_type provided'
-             end
+    def permission_flag(access_type)
+      case access_type
+      when 'read'
+        'r'
+      when 'write'
+        'w'
+      when 'execute'
+        'x'
+      else
+        fail 'Invalid access_type provided'
+      end
+    end
+
+    def usergroup_for(usergroup, specific_user)
+      if usergroup == 'others'
+        'other'
+      elsif (usergroup.nil? || usergroup.empty?) && specific_user.nil?
+        'all'
+      else
+        usergroup
+      end
+    end
+
+    def check_file_permission_by_mask(file, access_type, usergroup, specific_user)
+      usergroup = usergroup_for(usergroup, specific_user)
+      flag = permission_flag(access_type)
+      mask = file.unix_mode_mask(usergroup, flag)
+      fail 'Invalid usergroup/owner provided' if mask.nil?
+      (file.mode & mask) != 0
+    end
+
+    def check_file_permission_by_user(access_type, user, path)
+      flag = permission_flag(access_type)
       if inspec.os.linux?
         perm_cmd = "su -s /bin/sh -c \"test -#{flag} #{path}\" #{user}"
       elsif inspec.os.bsd? || inspec.os.solaris?
@@ -193,7 +196,11 @@ module Inspec::Resources
   end
 
   class WindowsFilePermissions < FilePermissions
-    def check_file_permission_by_user(user, access_type, path)
+    def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
+      fail '`check_file_permission_by_mask` is not supported on Windows'
+    end
+
+    def check_file_permission_by_user(access_type, user, path)
       access_rule = case access_type
                     when 'read'
                       '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ListDirectory\')'
