@@ -90,4 +90,4 @@ class GordonConfig < Inspec.resource(1)
 end
 ```
 
-For a full example, see our [example resource](../examples/profile/libraries/gordon_config.rb).
+For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/gordon_config.rb).
