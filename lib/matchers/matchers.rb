@@ -216,10 +216,11 @@ RSpec::Matchers.define :have_rule do |rule|
   end
 end
 
-# unsupported
-RSpec::Matchers.define :contain do |_rule|
-  match do |_resource|
-    fail "[UNSUPPORTED] `contain` matcher. Please use the following syntax `its('content') { should include('value') }`."
+# deprecated
+RSpec::Matchers.define :contain do |rule|
+  match do |resource|
+    warn "[DEPRECATION] `contain` matcher. Please use the following syntax `its('content') { should include('value') }`."
+    expect(resource).to include(rule)
   end
 end
 
