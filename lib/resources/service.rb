@@ -613,7 +613,8 @@ module Inspec::Resources
     def service_enabled?(service)
       !service['WMI'].nil? &&
         !service['WMI']['StartMode'].nil? &&
-        service['WMI']['StartMode'] == 'Auto'
+        (service['WMI']['StartMode'] == 'Auto' ||
+        service['WMI']['StartMode'] == 'Manual')
     end
 
     # detect if service is running
