@@ -6,6 +6,7 @@ require 'functional/helper'
 describe 'example inheritance profile' do
   include FunctionalHelper
   let(:path) { File.join(examples_path, 'inheritance') }
+  let(:attrs) { File.join(examples_path, 'profile-attribute.yml') }
 
   it 'check succeeds with --profiles-path' do
     out = inspec('check ' + path + ' --profiles-path ' + examples_path)
@@ -46,7 +47,7 @@ describe 'example inheritance profile' do
     s = out.stdout
     hm = JSON.load(s)
     hm['name'].must_equal 'inheritance'
-    hm['controls'].length.must_equal 3
+    hm['controls'].length.must_equal 5
   end
 
   it 'read the profile json without --profiles-path using inspec.yml' do
@@ -56,6 +57,13 @@ describe 'example inheritance profile' do
     s = out.stdout
     hm = JSON.load(s)
     hm['name'].must_equal 'inheritance'
-    hm['controls'].length.must_equal 3
+    hm['controls'].length.must_equal 5
+  end
+
+  it 'can execute a profile inheritance' do
+    out = inspec('exec ' + path + ' --format json --no-create-lockfile --attrs ' + attrs)
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 0
+    JSON.load(out.stdout).must_be_kind_of Hash
   end
 end

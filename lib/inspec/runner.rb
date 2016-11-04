@@ -116,7 +116,7 @@ module Inspec
     def load_attributes(options)
       attributes = {}
       # read endpoints for secrets eg. yml file
-      secrets_targets = options['attrs']
+      secrets_targets = options[:attrs]
       unless secrets_targets.nil?
         secrets_targets.each do |target|
           secrets = Inspec::SecretsBackend.resolve(target)
@@ -124,7 +124,9 @@ module Inspec
           attributes = attributes.merge(secrets.attributes) unless secrets.nil? || secrets.attributes.nil?
         end
       end
-      options['attributes'] = attributes
+      options[:attributes] = options[:attributes] || {}
+      options[:attributes] = options[:attributes].merge(attributes)
+      options[:attributes]
     end
 
     #

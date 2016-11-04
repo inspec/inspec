@@ -14,16 +14,16 @@ module Inspec
       new(dep[:name], dep[:version], cache, opts[:cwd], opts.merge(dep))
     end
 
-    def self.from_lock_entry(entry, cwd, cache, backend)
+    def self.from_lock_entry(entry, cwd, cache, backend, opts = {})
       req = new(entry[:name],
                 entry[:version_constraints],
                 cache,
                 cwd,
-                entry[:resolved_source].merge(backend: backend))
+                entry[:resolved_source].merge(backend: backend).merge(opts))
 
       locked_deps = []
       Array(entry[:dependencies]).each do |dep_entry|
-        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, cache, backend)
+        locked_deps << Inspec::Requirement.from_lock_entry(dep_entry, cwd, cache, backend, opts)
       end
       req.lock_deps(locked_deps)
       req
@@ -85,6 +85,7 @@ module Inspec
       @fetcher ||= Inspec::CachedFetcher.new(opts, @cache)
     end
 
+    # load dependencies of the dependency
     def dependencies
       @dependencies ||= profile.metadata.dependencies.map do |r|
         Inspec::Requirement.from_metadata(r, @cache, cwd: @cwd, backend: @backend)
@@ -95,9 +96,9 @@ module Inspec
       name
     end
 
+    # load the profile for the requirement
     def profile
       return @profile if ! @profile.nil?
-
       opts = @opts.dup
       opts[:backend] = @backend
       if !@dependencies.nil?

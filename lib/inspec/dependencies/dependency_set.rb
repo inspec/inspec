@@ -14,9 +14,9 @@ module Inspec
     # @param cwd [String] Current working directory for relative path includes
     # @param vendor_path [String] Path to the vendor directory
     #
-    def self.from_lockfile(lockfile, cwd, cache, backend)
+    def self.from_lockfile(lockfile, cwd, cache, backend, opts = {})
       dep_tree = lockfile.deps.map do |dep|
-        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend)
+        Inspec::Requirement.from_lock_entry(dep, cwd, cache, backend, opts)
       end
 
       dep_list = flatten_dep_tree(dep_tree)
