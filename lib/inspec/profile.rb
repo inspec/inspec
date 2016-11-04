@@ -60,13 +60,14 @@ module Inspec
       @profile_id = options[:id]
       @cache = options[:cache] || Cache.new
       @backend = options[:backend] || Inspec::Backend.create(options)
+      @attr_values = options[:attributes]
       @source_reader = source_reader
       @tests_collected = false
       @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id)
       @runner_context =
         options[:profile_context] ||
-        Inspec::ProfileContext.for_profile(self, @backend, options[:attributes])
+        Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
     end
 
     def name
@@ -350,7 +351,7 @@ module Inspec
     end
 
     def load_dependencies
-      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend)
+      Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, { attributes: @attr_values })
     end
 
     private
