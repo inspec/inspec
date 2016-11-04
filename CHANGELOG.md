@@ -1,7 +1,32 @@
 # Change Log
 
-## [1.3.0](https://github.com/chef/inspec/tree/1.3.0) (2016-10-28)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.2.1...1.3.0)
+## [1.4.0](https://github.com/chef/inspec/tree/1.4.0) (2016-11-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.3.0...1.4.0)
+
+**Fixed bugs:**
+
+- Windows Service State incorrectly interpretted for use in describe service.  [\#1269](https://github.com/chef/inspec/issues/1269)
+- /etc/passwd and /etc/shadow checks fail on CentOS [\#1264](https://github.com/chef/inspec/issues/1264)
+- Listing profiles on the Supermarket should return all profiles [\#1219](https://github.com/chef/inspec/issues/1219)
+
+**Closed issues:**
+
+- Add file integration tests for docker [\#1277](https://github.com/chef/inspec/issues/1277)
+- Solaris Sudo Not Always In /usr/bin/sudo [\#1265](https://github.com/chef/inspec/issues/1265)
+- Link to robert\_config.rb is broken on inspec.io [\#1226](https://github.com/chef/inspec/issues/1226)
+
+**Merged pull requests:**
+
+- activate file integration tests in docker [\#1278](https://github.com/chef/inspec/pull/1278) ([chris-rock](https://github.com/chris-rock))
+- Contain matcher maps to include matcher with warning [\#1276](https://github.com/chef/inspec/pull/1276) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Windows Service Check for service enabled state.  [\#1274](https://github.com/chef/inspec/pull/1274) ([hj70ft](https://github.com/hj70ft))
+- fix file permission check by mask [\#1273](https://github.com/chef/inspec/pull/1273) ([chris-rock](https://github.com/chris-rock))
+- fix \#1226 [\#1272](https://github.com/chef/inspec/pull/1272) ([chris-rock](https://github.com/chris-rock))
+- Enable the json resource to accept command output or JSON content [\#1271](https://github.com/chef/inspec/pull/1271) ([jerearista](https://github.com/jerearista))
+- Added tutorials for Days 8 & 9 [\#1263](https://github.com/chef/inspec/pull/1263) ([anniehedgpeth](https://github.com/anniehedgpeth))
+
+## [v1.3.0](https://github.com/chef/inspec/tree/v1.3.0) (2016-10-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.2.1...v1.3.0)
 
 **Implemented enhancements:**
 
@@ -56,7 +81,6 @@
 
 - Using "cmp" Against File Mode Fails [\#1188](https://github.com/chef/inspec/issues/1188)
 - Unexpected failures with kitchen-inspec and inspec 1.0.0 [\#1187](https://github.com/chef/inspec/issues/1187)
-- Rspec deprecation warnings added to test summary creating invalid json file [\#952](https://github.com/chef/inspec/issues/952)
 - update train to fix empty target URIs [\#1221](https://github.com/chef/inspec/pull/1221) ([arlimus](https://github.com/arlimus))
 
 **Closed issues:**
