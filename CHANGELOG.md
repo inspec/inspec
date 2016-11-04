@@ -1,7 +1,22 @@
 # Change Log
 
-## [1.4.0](https://github.com/chef/inspec/tree/1.4.0) (2016-11-04)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.3.0...1.4.0)
+## [1.4.1](https://github.com/chef/inspec/tree/1.4.1) (2016-11-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.4.0...1.4.1)
+
+**Fixed bugs:**
+
+- Passing attributes to inherited profiles [\#1250](https://github.com/chef/inspec/issues/1250)
+
+**Closed issues:**
+
+- RFC: Harmonize profile location targets in inspec.yml/kitchen.yml/audit cookbook [\#1227](https://github.com/chef/inspec/issues/1227)
+
+**Merged pull requests:**
+
+- Fix attributes in profile dependencies [\#1258](https://github.com/chef/inspec/pull/1258) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.4.0](https://github.com/chef/inspec/tree/v1.4.0) (2016-11-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.3.0...v1.4.0)
 
 **Fixed bugs:**
 
