@@ -89,7 +89,8 @@ module Inspec::Resources
         active = false if raw_line != line
 
         # eg.: deb http://archive.ubuntu.com/ubuntu/ wily main restricted
-        parse_repo = /^\s*(\S+)\s+"?([^ "\t\r\n\f]+)"?\s+(\S+)\s+(.*)$/.match(line)
+        # or : deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ wily main restricted
+        parse_repo = /^\s*(\S+)\s+(?:\[\S+\])?\s*"?([^ "\t\r\n\f]+)"?\s+(\S+)\s+(.*)$/.match(line)
 
         # check if we got any result and the second param is an url
         next if parse_repo.nil? || !parse_repo[2] =~ HTTP_URL_RE
