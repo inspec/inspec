@@ -17,3 +17,27 @@ describe mount '/mnt/iso-disk' do
   its('type') { should eq  'iso9660' }
   its('options') { should eq  ['ro'] }
 end
+
+# for server spec compatibility
+# Do not use `.with` or `.only_with`, this syntax is deprecated and will be removed
+# in InSpec version 1
+describe file('/mnt/iso-disk') do
+  it { should be_mounted }
+  it { should be_mounted.with( :type => 'iso9660' ) }
+  it { should be_mounted.with( :type => 'iso9660', :options => { :ro => true } ) }
+  it { should be_mounted.with( :type => 'iso9660', :device => '/tmp/empty.iso' ) }
+  it { should_not be_mounted.with( :type => 'ext4' ) }
+  it { should_not be_mounted.with( :type => 'xfs' ) }
+end
+
+# compare with exact match
+# also see mount_spec.rb
+describe file('/mnt/iso-disk') do
+  it { should be_mounted.only_with( {
+    :device=>"/tmp/empty.iso",
+    :type=>"iso9660",
+    :options=>{
+      :ro=>true}
+    })
+  }
+end
