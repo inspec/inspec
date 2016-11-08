@@ -27,9 +27,36 @@ module Inspec
       Inspec::CachedFetcher.new(target, cache || Cache.new)
     end
 
+    # Check if the profile contains a vendored cache, move content into global cache
+    # TODO: use relative file provider
+    # TODO: use source reader for Cache as well
+    def self.copy_deps_into_cache(file_provider, opts)
+      # filter content
+      cache = file_provider.files.find_all do |entry|
+        entry.start_with?('vendor')
+      end
+      content = Hash[cache.map { |x| [x, file_provider.read(x)] }]
+      keys = content.keys
+      keys.each do |key|
+        next if content[key].nil?
+        # remove prefix
+        rel = Pathname.new(key).relative_path_from(Pathname.new('vendor')).to_s
+        tar = Pathname.new(opts[:cache].path).join(rel)
+
+        FileUtils.mkdir_p tar.dirname.to_s
+        Inspec::Log.debug "Copy #{tar} to cache directory"
+        File.write(tar.to_s, content[key].force_encoding('UTF-8'))
+      end
+    end
+
     def self.for_path(path, opts)
       file_provider = FileProvider.for_path(path)
-      reader = Inspec::SourceReader.resolve(file_provider.relative_provider)
+      rp = file_provider.relative_provider
+
+      # copy embedded dependecies into global cache
+      copy_deps_into_cache(rp, opts) unless opts[:cache].nil?
+
+      reader = Inspec::SourceReader.resolve(rp)
       if reader.nil?
         fail("Don't understand inspec profile in #{path}, it " \
              "doesn't look like a supported profile structure.")

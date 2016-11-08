@@ -25,6 +25,10 @@ module SourceReaders
 
     attr_reader :metadata, :tests, :libraries
 
+    # This create a new instance of an InSpec profile source reader
+    #
+    # @param [SourceReader] target
+    # @param [String] metadata_source eg. inspec.yml or metadata.rb
     def initialize(target, metadata_source)
       @target = target
       @metadata = Inspec::Metadata.from_ref(
