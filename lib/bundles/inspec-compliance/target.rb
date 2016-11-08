@@ -40,7 +40,7 @@ EOF
       # verifies that the target e.g base/ssh exists
       profile = uri.host + uri.path
       if !Compliance::API.exist?(config, profile)
-        fail Inpsec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+        fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
       end
       new(target_url(profile, config), config)
     rescue URI::Error => _e
