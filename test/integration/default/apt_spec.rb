@@ -22,6 +22,11 @@ if os[:name] == 'ubuntu'
     it { should_not be_enabled }
   end
 
+  describe apt('https://packages.chef.io/stable-apt') do
+    it { should exist }
+    it { should be_enabled }
+  end
+
 elsif os[:family] == 'debian'
 
   describe apt('http://nginx.org/packages/debian') do
@@ -34,4 +39,8 @@ elsif os[:family] == 'debian'
     it { should_not be_enabled }
   end
 
+  describe apt('https://packages.chef.io/stable-apt') do
+    it { should exist }
+    it { should be_enabled }
+  end
 end
