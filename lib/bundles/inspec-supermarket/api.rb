@@ -11,11 +11,11 @@ module Supermarket
 
     # displays a list of profiles
     def self.profiles(supermarket_url = SUPERMARKET_URL)
-      url = "#{supermarket_url}/api/v1/tools"
-      _success, data = get(url, { start: 0, items: 100, order: 'recently_added' })
+      url = "#{supermarket_url}/api/v1/tools-search"
+      _success, data = get(url, { type: 'compliance_profile', items: 100, order: 'recently_added' })
       if !data.nil?
         profiles = JSON.parse(data)
-        profiles['items'].select { |p| p['tool_type'] == 'compliance_profile' }.map { |x|
+        profiles['items'].map { |x|
           m = %r{^#{supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
           x['slug'] = m[:slug]
           x
