@@ -44,8 +44,6 @@ module Inspec
         desc: 'Allow remote scans with self-signed certificates (WinRM).'
       option :json_config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
-      option :log_level, aliases: :l, type: :string,
-        desc: 'Set the log level: info (default), debug, warn, error'
     end
 
     def self.profile_options
