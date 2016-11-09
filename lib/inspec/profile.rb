@@ -22,6 +22,8 @@ module Inspec
     extend Forwardable
 
     def self.resolve_target(target, cache = nil)
+      c = cache || Cache.new
+      Inspec::Log.debug "Resolve #{target} into cache #{c.path}"
       Inspec::CachedFetcher.new(target, cache || Cache.new)
     end
 

@@ -33,7 +33,7 @@ module FunctionalHelper
     TMP_CACHE[res.path] = res
   }
 
-  def inspec(commandline)
-    CMD.run_command("#{exec_inspec} #{commandline}")
+  def inspec(commandline, prefix = nil)
+    CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
   end
 end
