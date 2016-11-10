@@ -51,8 +51,10 @@ class SSL < Inspec.resource(1)
         @host = inspec.backend.hostname
       elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
         @host = 'localhost'
+      elsif inspec.backend.class.to_s == 'Train::Transports::Mock::Connection'
+        # nothing to do, we are not going to execute anyway
       else
-        fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+        skip_resource 'Cannot determine host for SSL test. Please specify it or use a different target.'
       end
     end
     @port = opts[:port] || 443
