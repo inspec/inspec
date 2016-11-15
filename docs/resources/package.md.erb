@@ -64,7 +64,7 @@ The following examples show how to use this InSpec audit resource.
 
     describe package('nginx') do
       it { should be_installed }
-      its('version') { should eq 1.9.5 }
+      its('version') { should eq '1.9.5' }
     end
 
 ### Test that a package is not installed
