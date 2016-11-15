@@ -35,6 +35,13 @@ describe 'inspec compliance' do
     out.stdout.must_include 'Please run `inspec compliance login SERVER` with options'
   end
 
+  it 'automate with missing parameters' do
+    out = inspec('compliance login_automate http://example.com')
+    out.exit_status.must_equal 1
+    #TODO: inspec should really use stderr for errors
+    out.stdout.must_include 'Please login to your automate instance using'
+  end
+
   it 'inspec compliance profiles without authentication' do
     out = inspec('compliance profile')
     out.stdout.must_include 'You need to login first with `inspec compliance login`'

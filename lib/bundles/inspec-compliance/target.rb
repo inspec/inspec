@@ -13,8 +13,7 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-
-    def self.resolve(target)
+    def self.resolve(target) # rubocop:disable PerceivedComplexity
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -26,14 +25,21 @@ module Compliance
       # check if we have a compliance token
       config = Compliance::Configuration.new
       if config['token'].nil?
+        if config['automate'][0]
+          server = 'automate'
+          msg = 'inspec compliance automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
+        else
+          server = 'compliance'
+          msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+        end
         fail Inspec::FetcherFailure, <<EOF
 
-Cannot fetch #{uri} because your compliance token has not been
+Cannot fetch #{uri} because your #{server} token has not been
 configured.
 
 Please login using
 
-    inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE'
+    #{msg}
 EOF
       end
 
@@ -48,8 +54,13 @@ EOF
     end
 
     def self.target_url(profile, config)
-      owner, id = profile.split('/')
-      "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+      if config['automate'][0]
+        target = "#{config['server']}/#{profile}/tar"
+      else
+        owner, id = profile.split('/')
+        target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+      end
+      target
     end
 
     #

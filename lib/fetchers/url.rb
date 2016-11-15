@@ -8,7 +8,7 @@ require 'tempfile'
 require 'open-uri'
 
 module Fetchers
-  class Url < Inspec.fetcher(1)
+  class Url < Inspec.fetcher(1) # rubocop:disable Metrics/ClassLength
     MIME_TYPES = {
       'application/x-zip-compressed' => '.zip',
       'application/zip' => '.zip',
@@ -126,7 +126,19 @@ module Fetchers
       Inspec::Log.debug("Fetching URL: #{@target}")
       http_opts = {}
       http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
-      http_opts['Authorization'] = "Bearer #{@token}" if @token
+      if @config
+        if @config['automate']
+          automate = true
+          http_opts['chef-delivery-enterprise'] = @config['ent']
+          if @config['automate'][1] == 'dctoken'
+            http_opts['x-data-collector-token'] = @config['token']
+          else
+            http_opts['chef-delivery-user'] = @config['user']
+            http_opts['chef-delivery-token'] = @config['token']
+          end
+        end
+      end
+      http_opts['Authorization'] = "Bearer #{@token}" if @token && automate.nil?
       remote = open(@target, http_opts)
       @archive_type = file_type_from_remote(remote) # side effect :(
       archive = Tempfile.new(['inspec-dl-', @archive_type])
