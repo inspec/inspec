@@ -36,6 +36,7 @@ module Inspec::Resources
 
     def exists?
       return true unless info.nil? || info[:uri].nil?
+      false
     end
 
     # rubocop:disable Style/WordArray
