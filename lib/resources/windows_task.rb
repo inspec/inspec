@@ -70,7 +70,7 @@ module Inspec::Resources
       info[:type] unless info.nil?
     end
 
-    def info # rubocop:disable Metrics/MethodLength
+    def info
       return @cache unless @cache.nil?
       # PowerShell v5 has Get-ScheduledTask cmdlet,
       # _using something with backward support to v3_
@@ -95,7 +95,7 @@ module Inspec::Resources
         task_to_run: params['Task To Run'],
         run_as_user: params['Run As User'],
         scheduled_task_state: params['Scheduled Task State'],
-        type: 'windows-task'
+        type: 'windows-task',
       }
     end
 
