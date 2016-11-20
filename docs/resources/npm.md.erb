@@ -11,7 +11,7 @@ Use the `npm` InSpec audit resource to test if a global NPM package is installed
 
 A `npm` resource block declares a package and (optionally) a package version:
 
-    describe gem('npm_package_name') do
+    describe npm('npm_package_name') do
       it { should be_installed }
     end
 
