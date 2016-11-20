@@ -10,14 +10,14 @@ Use the `pip` InSpec audit resource to test packages that are installed using th
 
 A `pip` resource block declares a package and (optionally) a package version:
 
-    describe pip('Jinja2') do
+    describe pip('package_name') do
       it { should be_installed }
     end
 
 where
 
-* `'Jinja2'` is the name of the package
-* `be_installed` tests to see if the `Jinja2` package is installed
+* `'package_name'` is the name of the package, such as `'Jinja2'`
+* `be_installed` tests to see if the package described above is installed
 
 
 ## Matchers
