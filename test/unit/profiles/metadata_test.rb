@@ -43,6 +43,18 @@ describe 'metadata with supported operating systems' do
       res.params[:supports].must_equal([{ os: 'ubuntu' }])
     end
 
+    it 'makes sure the supports release field is a string' do
+      res = Inspec::Metadata.from_yaml('mock',
+        "---\nsupports:\n  - release: 12.02", nil)
+      res.params[:supports].must_equal([{ release: '12.02' }])
+    end
+
+    it 'makes sure the supports release field is nil if not configured' do
+      res = Inspec::Metadata.from_yaml('mock',
+        "---\nsupports:\n  - release: ", nil)
+      res.params[:supports].must_equal([{ release: nil }])
+    end
+
     it 'load a profile with empty supports clause' do
       m = supports_meta(nil)
       m.supports_transport?(backend).must_equal true
@@ -97,6 +109,11 @@ describe 'metadata with supported operating systems' do
     it 'rejects a profile which supports ubuntu 12.04' do
       m = supports_meta({ 'os-name' => 'ubuntu', 'release' => '12.04' })
       m.supports_transport?(backend).must_equal false
+    end
+
+    it 'loads a profile which supports ubuntu float 14.04 as parsed by yml' do
+      m = supports_meta({ 'os-name' => 'ubuntu', 'release' => 14.04 })
+      m.supports_transport?(backend).must_equal true
     end
 
     it 'reject unsupported os' do

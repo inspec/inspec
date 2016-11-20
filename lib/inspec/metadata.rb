@@ -68,6 +68,7 @@ module Inspec
                     os.method(family_check).call
                   )
 
+      # ensure we do have a string if we have a non-nil value eg. 16.06
       release_ok = release.nil? || os[:release] == release
 
       # we want to make sure that all matchers are true
@@ -143,7 +144,9 @@ module Inspec
 
     def self.finalize_supports_elem(elem, logger)
       case x = elem
-      when Hash then x
+      when Hash
+        x[:release] = x[:release].to_s if x[:release]
+        x
       when Array
         logger.warn(
           'Failed to read supports entry that is an array. Please use '\
@@ -162,7 +165,7 @@ module Inspec
 
     def self.finalize_supports(supports, logger)
       case x = supports
-      when Hash   then [x]
+      when Hash   then [finalize_supports_elem(x, logger)]
       when Array  then x.map { |e| finalize_supports_elem(e, logger) }.compact
       when nil    then []
       else
