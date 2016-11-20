@@ -10,7 +10,7 @@ Use the `vbscript` InSpec audit resource to test a VBScript on the Windows platf
 
 A `vbscript` resource block tests the output of a VBScript on the Windows platform:
 
-    describe vbscript('script_name') do
+    describe vbscript('script contents') do
       its('stdout') { should eq 'output' }
     end
 
@@ -52,18 +52,18 @@ The following examples show how to use this InSpec audit resource.
 
 A VBScript file similar to:
 
-    vbscript = <<-EOH
+    script = <<-EOH
       WScript.Echo "hello"
     EOH
 
 may be tested for multiple lines:
 
-    describe vbscript(vbscript) do
+    describe vbscript(script) do
       its('stdout') { should eq "hello\r\n" }
     end
 
 and tested for whitespace removal from standard output:
 
-    describe vbscript(vbscript) do
+    describe vbscript(script) do
       its('strip') { should eq "hello" }
     end
