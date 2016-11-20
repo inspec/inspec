@@ -14,7 +14,7 @@ A `powershell` resource block declares a Powershell script to be tested, and the
       # a PowerShell script
     EOH
 
-    describe script(script) do
+    describe powershell(script) do
       its('matcher') { should eq 'output' }
     end
 
