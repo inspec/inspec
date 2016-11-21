@@ -444,8 +444,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  ############# Print results and lines methods #############
-
   # Formats the line (called from print_line)
   def format_line(fields)
     format = '%color%indicator%id%summary'
@@ -486,7 +484,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # Prints anonymous describe blocks; called from close method
+  # Prints anonymous describe blocks; called from close function
   def print_tests(anonymous_tests) # rubocop:disable Metrics/AbcSize
     anonymous_tests.each do |control|
       control_result = control[:results]
@@ -516,9 +514,35 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  ############# Print profile info methods #############
+  # TODO: does a lot of stuff!
+  # Called from format_example and close
+  def flush_current_control(current_control)
+    return if current_control.nil?
 
-  # Prints target information; called from print_current_profile
+    profile = @profiles_info.find { |i| i[:id] == current_control[:profile_id] }
+    print_current_profile(profile) if !@profile_printed
+
+    fails, skips, passes, summary_indicator = current_control_infos(current_control)
+    summary = current_control_summary(fails, skips, current_control)
+
+    control_id = current_control[:id].to_s
+    control_id += ': '
+    if control_id.start_with? '(generated from '
+      @anonymous_tests.push(current_control)
+    else
+      @control_tests.push(current_control)
+      print_line(
+        color:      COLORS[summary_indicator] || '',
+        indicator:  INDICATORS[summary_indicator] || INDICATORS['unknown'],
+        summary:    format_lines(summary, INDICATORS['empty']),
+        id:         control_id,
+        profile:    current_control[:profile_id],
+      )
+
+      print_results(fails + skips + passes)
+    end
+  end
+
   def print_target
     return if @backend.nil?
     connection = @backend.backend
@@ -526,8 +550,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     output.puts('Target:  ' + connection.uri + "\n\n")
   end
 
-  # Prints blank info is no current_control is defined
-  # Called from print_current_profile and close
   def print_profiles_info(current_control)
     @profiles_info.each do |profile|
       next if profile[:already_printed]
