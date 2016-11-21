@@ -543,6 +543,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
+  # Prints target information; called from print_current_profile
   def print_target
     return if @backend.nil?
     connection = @backend.backend
@@ -550,6 +551,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     output.puts('Target:  ' + connection.uri + "\n\n")
   end
 
+  # Prints blank info is no current_control is defined
+  # Called from print_current_profile and close
   def print_profiles_info(current_control)
     @profiles_info.each do |profile|
       next if profile[:already_printed]
