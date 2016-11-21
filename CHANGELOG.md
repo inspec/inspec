@@ -1,7 +1,30 @@
 # Change Log
 
-## [1.4.1](https://github.com/chef/inspec/tree/1.4.1) (2016-11-04)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.4.0...1.4.1)
+## [1.5.0](https://github.com/chef/inspec/tree/1.5.0) (2016-11-20)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.4.1...1.5.0)
+
+**Implemented enhancements:**
+
+- inspec supermarket profiles - update for new supermarket api [\#1255](https://github.com/chef/inspec/issues/1255)
+
+**Fixed bugs:**
+
+- File resource permissions for windows [\#783](https://github.com/chef/inspec/issues/783)
+- docs: quoted version for package resource example [\#1296](https://github.com/chef/inspec/pull/1296) ([alexpop](https://github.com/alexpop))
+
+**Merged pull requests:**
+
+- ensure metadata release entry is a string [\#1305](https://github.com/chef/inspec/pull/1305) ([chris-rock](https://github.com/chris-rock))
+- Fixes resources in the docs [\#1303](https://github.com/chef/inspec/pull/1303) ([burtlo](https://github.com/burtlo))
+- copy vendored dependencies into cache [\#1291](https://github.com/chef/inspec/pull/1291) ([chris-rock](https://github.com/chris-rock))
+- fix double-log-level [\#1290](https://github.com/chef/inspec/pull/1290) ([chris-rock](https://github.com/chris-rock))
+- update supermarket profile search to use new type param [\#1289](https://github.com/chef/inspec/pull/1289) ([robbkidd](https://github.com/robbkidd))
+- Change `Inpsec` to `Inspec` [\#1286](https://github.com/chef/inspec/pull/1286) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- improve vendor command [\#1285](https://github.com/chef/inspec/pull/1285) ([chris-rock](https://github.com/chris-rock))
+- improved regex for matching deb sources [\#1280](https://github.com/chef/inspec/pull/1280) ([grimm26](https://github.com/grimm26))
+
+## [v1.4.1](https://github.com/chef/inspec/tree/v1.4.1) (2016-11-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.4.0...v1.4.1)
 
 **Fixed bugs:**
 
