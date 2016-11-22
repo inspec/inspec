@@ -261,6 +261,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     'passed'   => "\033[32m",
     'skipped'  => "\033[37m",
     'reset'    => "\033[0m",
+    
   }.freeze
 
   INDICATORS = {
