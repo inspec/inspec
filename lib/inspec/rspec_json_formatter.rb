@@ -253,7 +253,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     'critical' => 3,
   }.freeze
 
-COLORS = {
+  COLORS = {
     'critical' => "\033[31;1m",
     'major'    => "\033[31m",
     'minor'    => "\033[33m",
@@ -264,14 +264,13 @@ COLORS = {
   }.freeze
 
   INDICATORS = {
-    'critical' => '  ×  ',
-    'major'    => '  ∅  ',
-    'minor'    => '  ⊚  ',
-    'failed'   => '  ×  ',
-    'skipped'  => '  ↺  ',
+    'critical' => '  ✖  ',
+    'major'    => '  ✖  ',
+    'minor'    => '  ✖  ',
+    'failed'   => '  ✖  ',
+    'skipped'  => '  ○  ',
     'passed'   => '  ✔  ',
     'unknown'  => '  ?  ',
-    'helpr'    => '  ✣  ',
     'empty'    => '     ',
     'small'    => '   ',
   }.freeze
