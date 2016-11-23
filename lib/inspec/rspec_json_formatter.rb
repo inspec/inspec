@@ -107,35 +107,21 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
   attr_reader :profiles
 
-  def profiles_info
-    @profiles_info ||= profiles.map(&:info!).map(&:dup)
-  end
-
   # Called by the runner during example collection.
   def add_profile(profile)
     profiles.push(profile)
   end
 
-  def dump_one_example(example, control)
-    control[:results] ||= []
-    example.delete(:id)
-    example.delete(:profile_id)
-    control[:results].push(example)
-  end
-
   def stop(notification)
     super(notification)
-    examples = @output_hash.delete(:controls)
-    missing = []
 
-    examples.each do |example|
-      control = example2control(example, profiles_info)
-      next missing.push(example) if control.nil?
-      dump_one_example(example, control)
-    end
-
+    @output_hash[:other_checks] = examples_without_controls
     @output_hash[:profiles] = profiles_info
-    @output_hash[:other_checks] = missing
+
+    examples_with_controls.each do |example|
+      control = example2control(example)
+      move_example_into_control(example, control)
+    end
   end
 
   def controls_summary
@@ -203,14 +189,30 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
   private
 
-  #
-  # TODO(ssd+vj): We should probably solve this by either ensuring the example has
-  # the profile_id of the top level profile when it is included as a dependency, or
-  # by registrying all dependent profiles with the formatter. The we could remove
-  # this heuristic matching.
-  #
-  def example2profile(example, profiles)
-    profiles.find { |p| profile_contains_example?(p, example) }
+  def examples
+    @examples ||= @output_hash.delete(:controls)
+  end
+
+  def examples_without_controls
+    examples.find_all { |example| example2control(example).nil? }
+  end
+
+  def examples_with_controls
+    (examples - examples_without_controls)
+  end
+
+  def profiles_info
+    @profiles_info ||= profiles.map(&:info!).map(&:dup)
+  end
+
+  def example2control(example)
+    profile = profile_from_example(example)
+    return nil unless profile && profile[:controls]
+    profile[:controls].find { |x| x[:id] == example[:id] }
+  end
+
+  def profile_from_example(example)
+    profiles_info.find { |p| profile_contains_example?(p, example) }
   end
 
   def profile_contains_example?(profile, example)
@@ -226,10 +228,11 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     end
   end
 
-  def example2control(example, profiles)
-    profile = example2profile(example, profiles)
-    return nil unless profile && profile[:controls]
-    profile[:controls].find { |x| x[:id] == example[:id] }
+  def move_example_into_control(example, control)
+    control[:results] ||= []
+    example.delete(:id)
+    example.delete(:profile_id)
+    control[:results].push(example)
   end
 
   def format_example(example)
@@ -286,7 +289,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 
   def close(_notification) # rubocop:disable Metrics/AbcSize
-    require 'pry' ; binding.pry
     flush_current_control(@current_control)
     output.puts('') unless @current_control.nil?
     print_tests(@anonymous_tests)
@@ -597,12 +599,12 @@ class InspecRspecJUnit < RSpecJUnitFormatter
 
   def format_example(example)
     data = super(example)
-    control = example2control(data, profiles_info) || {}
+    control = example2control(data) || {}
     control[:id] = data[:id]
     control[:profile_id] = data[:profile_id]
 
     data[:status_type] = status_type(data, control)
-    dump_one_example(data, control)
+    move_example_into_control(data, control)
 
   def initialize(*args)
     super(*args)
