@@ -246,16 +246,6 @@ end
 class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   RSpec::Core::Formatters.register self, :close
 
-  STATUS_TYPES = {
-    'unknown'  => -3,
-    'passed'   => -2,
-    'skipped'  => -1,
-    'minor'    => 1,
-    'major'    => 2,
-    'failed'   => 2.5,
-    'critical' => 3,
-  }.freeze
-
   COLORS = {
     'critical' => "\033[38;5;9m",
     'major'    => "\033[38;5;208m",
@@ -290,7 +280,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
   def close(_notification) # rubocop:disable Metrics/AbcSize
     flush_current_control(@current_control)
-    output.puts('') unless @current_control.nil?
+    output.puts('') if @current_control
     print_tests(@anonymous_tests)
     output.puts('')
 
@@ -347,101 +337,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       'major'
     else
       'minor'
-    end
-  end
-
-  # TODO: does a lot of stuff!
-  # Called from format_example and close
-  def flush_current_control(current_control)
-    return if current_control.nil?
-
-    profile = @profiles_info.find { |i| i[:id] == current_control[:profile_id] }
-    print_current_profile(profile) if !@profile_printed
-
-    fails, skips, passes, summary_indicator = current_control_infos(current_control)
-    summary = current_control_summary(fails, skips, current_control)
-
-    control_id = current_control[:id].to_s
-    control_id += ': '
-    if control_id.start_with? '(generated from '
-      @anonymous_tests.push(current_control)
-    else
-      @control_tests.push(current_control)
-      print_line(
-        color:      COLORS[summary_indicator] || '',
-        indicator:  INDICATORS[summary_indicator] || INDICATORS['unknown'],
-        summary:    format_lines(summary, INDICATORS['empty']),
-        id:         control_id,
-        profile:    current_control[:profile_id],
-      )
-
-      print_results(fails + skips + passes)
-    end
-  end
-
-  ############# Current control methods #############
-
-  # Takes current_control (called from flush_current_control) and returns
-  # fails, skips, passes.
-  def current_control_infos(current_control)
-    summary_status = STATUS_TYPES['unknown']
-    skips = []
-    fails = []
-    passes = []
-    current_control[:results].each do |r|
-      i = STATUS_TYPES[r[:status_type]]
-      summary_status = i if i > summary_status
-      fails.push(r) if i > 0
-      passes.push(r) if i == STATUS_TYPES['passed']
-      skips.push(r) if i == STATUS_TYPES['skipped']
-    end
-    [fails, skips, passes, STATUS_TYPES.key(summary_status)]
-  end
-
-  # Determine title for control given current_control.
-  # Called from current_control_summary.
-  def current_control_title(current_control)
-    title = current_control[:title]
-    res = current_control[:results]
-    if title
-      title
-    elsif res.length == 1
-      # If it's an anonymous control, just go with the only description
-      # available for the underlying test.
-      res[0][:code_desc].to_s
-    elsif res.length == 0
-      # Empty control block - if it's anonymous, there's nothing we can do.
-      # Is this case even possible?
-      'Empty anonymous control'
-    else
-      # Multiple tests - but no title. Do our best and generate some form of
-      # identifier or label or name.
-      title = (res.map { |r| r[:code_desc] }).join('; ')
-      max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
-      title = title[0..(max_len-1)] + '...' if title.length > max_len
-      title
-    end
-  end
-
-  # Return summary of current_control, called from flush_current_control
-  def current_control_summary(fails, skips, current_control)
-    title = current_control_title(current_control)
-    res = current_control[:results]
-    suffix =
-      if res.length == 1
-        # Single test - be nice and just print the exception message if the test
-        # failed. No need to say "1 failed".
-        res[0][:message].to_s
-      else
-        [
-          (fails.length > 0) ? "#{fails.length} failed" : nil,
-          (skips.length > 0) ? "#{skips.length} skipped" : nil,
-        ].compact.join(' ')
-      end
-    if suffix == ''
-      title
-    else
-      title + ' (' + suffix + ')'
     end
   end
 
@@ -515,55 +410,35 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
+
   # TODO: does a lot of stuff!
   # Called from format_example and close
-  def flush_current_control(current_control)
-    return if current_control.nil?
+  def flush_current_control(control)
+    return if control.nil?
+    profile = control2profile(control)
 
-    profile = profiles_info.find { |i| i[:id] == current_control[:profile_id] }
-    print_current_profile(profile) if !@profile_printed
+    cc = CurrentControl.new(control,profile)
 
-    fails, skips, passes, summary_indicator = current_control_infos(current_control)
-    summary = current_control_summary(fails, skips, current_control)
+    print_current_profile(cc.profile) if !@profile_printed
 
-    control_id = current_control[:id].to_s
-    control_id += ': '
-    if control_id.start_with? '(generated from '
-      @anonymous_tests.push(current_control)
+    if cc.anonymous?
+      @anonymous_tests.push(control)
     else
-      @control_tests.push(current_control)
+      @control_tests.push(control)
       print_line(
-        color:      COLORS[summary_indicator] || '',
-        indicator:  INDICATORS[summary_indicator] || INDICATORS['unknown'],
-        summary:    format_lines(summary, INDICATORS['empty']),
-        id:         control_id,
-        profile:    current_control[:profile_id],
+        color:      COLORS[cc.summary_indicator] || '',
+        indicator:  INDICATORS[cc.summary_indicator] || INDICATORS['unknown'],
+        summary:    format_lines(cc.summary, INDICATORS['empty']),
+        id:         "#{cc.id}: ",
+        profile:    cc.profile_id,
       )
 
-      print_results(fails + skips + passes)
+      print_results(cc.fails + cc.skips + cc.passes)
     end
   end
 
-  # Prints target information; called from print_current_profile
-  def print_target
-    return if @backend.nil?
-    connection = @backend.backend
-    return unless connection.respond_to?(:uri)
-    output.puts('Target:  ' + connection.uri + "\n\n")
-  end
-
-  # Prints blank info is no current_control is defined
-  # Called from print_current_profile and close
-  def print_profiles_info(current_control)
-    profiles_info.each do |profile|
-      next if profile[:already_printed]
-      next unless print_current_profile(profile)
-      print_line(
-        color: '', indicator: INDICATORS['empty'], id: '', profile: '',
-        summary: 'No tests executed.'
-      ) if current_control.nil?
-      output.puts('')
-    end
+  def control2profile(control)
+    profiles_info.find { |i| i[:id] == control[:profile_id] }
   end
 
   def print_current_profile(profile)
@@ -597,6 +472,28 @@ end
 class InspecRspecJUnit < RSpecJUnitFormatter
   RSpec::Core::Formatters.register self, :close
 
+  # Prints target information; called from print_current_profile
+  def print_target
+    return if @backend.nil?
+    connection = @backend.backend
+    return unless connection.respond_to?(:uri)
+    output.puts('Target:  ' + connection.uri + "\n\n")
+  end
+
+  # Prints blank info is no current_control is defined
+  # Called from print_current_profile and close
+  def print_profiles_info(current_control)
+    profiles_info.each do |profile|
+      next if profile[:already_printed]
+      next unless print_current_profile(profile)
+      print_line(
+        color: '', indicator: INDICATORS['empty'], id: '', profile: '',
+        summary: 'No tests executed.'
+      ) if @current_control.nil?
+      output.puts('')
+    end
+  end
+
   def format_example(example)
     data = super(example)
     control = example2control(data) || {}
@@ -611,5 +508,105 @@ class InspecRspecJUnit < RSpecJUnitFormatter
   end
 
   def close(_notification)
+  end
+
+  #
+  # This class wraps a control object to provide a useful inteface for
+  # maintaining the associated profile, ids, results, title, etc.
+  #
+  class CurrentControl
+
+    STATUS_TYPES = {
+      'unknown'  => -3,
+      'passed'   => -2,
+      'skipped'  => -1,
+      'minor'    => 1,
+      'major'    => 2,
+      'failed'   => 2.5,
+      'critical' => 3,
+    }.freeze
+
+    def initialize(control,profile)
+      @control = control
+      @profile
+      calculate_results
+    end
+
+    attr_reader :control, :profile
+
+    attr_reader :skips, :fails, :passes, :summary_indicator
+
+    def id
+      control[:id]
+    end
+
+    def anonymous?
+      control[:id].to_s.start_with? '(generated from '
+    end
+
+    def profile_id
+      control[:profile_id]
+    end
+
+    def calculate_results
+      summary_status = STATUS_TYPES['unknown']
+      @skips = []
+      @fails = []
+      @passes = []
+      control[:results].each do |r|
+        i = STATUS_TYPES[r[:status_type]]
+        summary_status = i if i > summary_status
+        fails.push(r) if i > 0
+        passes.push(r) if i == STATUS_TYPES['passed']
+        skips.push(r) if i == STATUS_TYPES['skipped']
+      end
+      @summary_indicator = STATUS_TYPES.key(summary_status)
+    end
+
+    # Determine title for control given current_control.
+    # Called from current_control_summary.
+    def title
+      title = control[:title]
+      res = control[:results]
+      if title
+        title
+      elsif res.length == 1
+        # If it's an anonymous control, just go with the only description
+        # available for the underlying test.
+        res[0][:code_desc].to_s
+      elsif res.length == 0
+        # Empty control block - if it's anonymous, there's nothing we can do.
+        # Is this case even possible?
+        'Empty anonymous control'
+      else
+        # Multiple tests - but no title. Do our best and generate some form of
+        # identifier or label or name.
+        title = (res.map { |r| r[:code_desc] }).join('; ')
+        max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
+        title = title[0..(max_len-1)] + '...' if title.length > max_len
+        title
+      end
+    end
+
+    # Return summary of the control which is usually a title with fails and skips
+    def summary
+      res = control[:results]
+      suffix =
+        if res.length == 1
+          # Single test - be nice and just print the exception message if the test
+          # failed. No need to say "1 failed".
+          res[0][:message].to_s
+        else
+          [
+            (fails.length > 0) ? "#{fails.length} failed" : nil,
+            (skips.length > 0) ? "#{skips.length} skipped" : nil,
+          ].compact.join(' ')
+        end
+      if suffix == ''
+        title
+      else
+        title + ' (' + suffix + ')'
+      end
+    end
   end
 end
