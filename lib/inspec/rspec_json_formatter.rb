@@ -253,20 +253,14 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     'critical' => 3,
   }.freeze
 
-  COLORS = {
-    'critical' => "\033[0;48;5;9m",     # Red label
-    'major'    => "\033[0;48;5;208m",   # Orange label
-    'minor'    => "\033[0;48;5;33m",    # Blue label
-    'failed'   => "\033[38;5;9m",       # Red string
-    'passed'   => "\033[0;48;5;41m",    # Green label
-    'success'  => "\033[38;5;113m",     # Green string
-    'skipped'  => "\033[0;48;5;247m",   # Gray label
-    'skip'     => "\033[38;5;247m",     # Gray string
-    'reset'    => "\033[0m",            # Reset back to white
-    'cmnd'     => "\033[0;36m",         # Aqua string for commands
-    'inpt'     => "\033[38;5;214m",     # Orange string for user input
-    'atmate'   => "\033[38;5;197m",     # Pink string to launch Automate
-    'helpr'    => "\033[38;5;7m",       # Lt Gray string for helper text
+COLORS = {
+    'critical' => "\033[31;1m",
+    'major'    => "\033[31m",
+    'minor'    => "\033[33m",
+    'failed'   => "\033[31m",
+    'passed'   => "\033[32m",
+    'skipped'  => "\033[37m",
+    'reset'    => "\033[0m",
   }.freeze
 
   INDICATORS = {
