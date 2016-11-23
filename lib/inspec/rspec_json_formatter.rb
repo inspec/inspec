@@ -312,6 +312,28 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
   private
 
+  # Formats example; calls example2control, gets a 'status_type', and calls
+  # flush current_control; returns control data
+  def format_example(example)
+    data = super(example)
+    control = example2control(data, @profiles_info) || {}
+    control[:id] = data[:id]
+    control[:profile_id] = data[:profile_id]
+
+    data[:status_type] = status_type(data, control)
+    dump_one_example(data, control)
+
+    @current_control ||= control
+    if !control[:id].nil?
+      if @current_control[:id] != control[:id]
+        flush_current_control(@current_control)
+        @current_control = control
+      end
+    end
+
+    data
+  end
+
   # Determines 'status_type' (critical, major, minor) of control given
   # status (failed/passed/skipped) and impact value (0.0 - 1.0).
   # Called from format_example, sets the 'status_type' for each 'example'
@@ -326,6 +348,37 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       'minor'
     end
   end
+
+  # TODO: does a lot of stuff!
+  # Called from format_example and close
+  def flush_current_control(current_control)
+    return if current_control.nil?
+
+    profile = @profiles_info.find { |i| i[:id] == current_control[:profile_id] }
+    print_current_profile(profile) if !@profile_printed
+
+    fails, skips, passes, summary_indicator = current_control_infos(current_control)
+    summary = current_control_summary(fails, skips, current_control)
+
+    control_id = current_control[:id].to_s
+    control_id += ': '
+    if control_id.start_with? '(generated from '
+      @anonymous_tests.push(current_control)
+    else
+      @control_tests.push(current_control)
+      print_line(
+        color:      COLORS[summary_indicator] || '',
+        indicator:  INDICATORS[summary_indicator] || INDICATORS['unknown'],
+        summary:    format_lines(summary, INDICATORS['empty']),
+        id:         control_id,
+        profile:    current_control[:profile_id],
+      )
+
+      print_results(fails + skips + passes)
+    end
+  end
+
+  ############# Current control methods #############
 
   # Takes current_control (called from flush_current_control) and returns
   # fails, skips, passes.
@@ -391,6 +444,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
+  ############# Print results and lines methods #############
+
   # Formats the line (called from print_line)
   def format_line(fields)
     format = '%color%indicator%id%summary'
@@ -431,7 +486,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # Prints anonymous describe blocks; called from close function
+  # Prints anonymous describe blocks; called from close method
   def print_tests(anonymous_tests) # rubocop:disable Metrics/AbcSize
     anonymous_tests.each do |control|
       control_result = control[:results]
@@ -461,34 +516,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # TODO: does a lot of stuff!
-  # Called from format_example and close
-  def flush_current_control(current_control)
-    return if current_control.nil?
-
-    profile = @profiles_info.find { |i| i[:id] == current_control[:profile_id] }
-    print_current_profile(profile) if !@profile_printed
-
-    fails, skips, passes, summary_indicator = current_control_infos(current_control)
-    summary = current_control_summary(fails, skips, current_control)
-
-    control_id = current_control[:id].to_s
-    control_id += ': '
-    if control_id.start_with? '(generated from '
-      @anonymous_tests.push(current_control)
-    else
-      @control_tests.push(current_control)
-      print_line(
-        color:      COLORS[summary_indicator] || '',
-        indicator:  INDICATORS[summary_indicator] || INDICATORS['unknown'],
-        summary:    format_lines(summary, INDICATORS['empty']),
-        id:         control_id,
-        profile:    current_control[:profile_id],
-      )
-
-      print_results(fails + skips + passes)
-    end
-  end
+  ############# Print profile info methods #############
 
   # Prints target information; called from print_current_profile
   def print_target
@@ -507,7 +535,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       print_line(
         color: '', indicator: INDICATORS['empty'], id: '', profile: '',
         summary: 'No tests executed.'
-      ) if @current_control.nil?
+      ) if current_control.nil?
       output.puts('')
     end
   end
@@ -537,26 +565,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     print_target
     @profile_printed = true
     true
-  end
-
-  def format_example(example)
-    data = super(example)
-    control = example2control(data, @profiles_info) || {}
-    control[:id] = data[:id]
-    control[:profile_id] = data[:profile_id]
-
-    data[:status_type] = status_type(data, control)
-    dump_one_example(data, control)
-
-    @current_control ||= control
-    if !control[:id].nil?
-      if @current_control[:id] != control[:id]
-        flush_current_control(@current_control)
-        @current_control = control
-      end
-    end
-
-    data
   end
 end
 
