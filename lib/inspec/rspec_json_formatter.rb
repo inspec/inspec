@@ -94,7 +94,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
 end
 
 class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLength
-  RSpec::Core::Formatters.register self, :start, :stop, :dump_summary
+  RSpec::Core::Formatters.register self, :stop, :dump_summary
   attr_writer :backend
 
   def initialize(*args)
@@ -105,17 +105,15 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     @backend = nil
   end
 
-  # Called by the runner during example collection.
-  def add_profile(profile)
-    @profiles.push(profile)
+  attr_reader :profiles
+
+  def profiles_info
+    @profiles_info ||= profiles.map(&:info!).map(&:dup)
   end
 
-  # Called after all examples have been collected but before rspec
-  # test execution has begun.
-  def start(_notification)
-    # Note that the default profile may have no name - therefore
-    # the hash may have a valid nil => entry.
-    @profiles_info = @profiles.map(&:info!).map(&:dup)
+  # Called by the runner during example collection.
+  def add_profile(profile)
+    profiles.push(profile)
   end
 
   def dump_one_example(example, control)
@@ -131,12 +129,12 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     missing = []
 
     examples.each do |example|
-      control = example2control(example, @profiles_info)
+      control = example2control(example, profiles_info)
       next missing.push(example) if control.nil?
       dump_one_example(example, control)
     end
 
-    @output_hash[:profiles] = @profiles_info
+    @output_hash[:profiles] = profiles_info
     @output_hash[:other_checks] = missing
   end
 
@@ -288,6 +286,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 
   def close(_notification) # rubocop:disable Metrics/AbcSize
+    require 'pry' ; binding.pry
     flush_current_control(@current_control)
     output.puts('') unless @current_control.nil?
     print_tests(@anonymous_tests)
@@ -519,7 +518,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def flush_current_control(current_control)
     return if current_control.nil?
 
-    profile = @profiles_info.find { |i| i[:id] == current_control[:profile_id] }
+    profile = profiles_info.find { |i| i[:id] == current_control[:profile_id] }
     print_current_profile(profile) if !@profile_printed
 
     fails, skips, passes, summary_indicator = current_control_infos(current_control)
@@ -554,7 +553,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # Prints blank info is no current_control is defined
   # Called from print_current_profile and close
   def print_profiles_info(current_control)
-    @profiles_info.each do |profile|
+    profiles_info.each do |profile|
       next if profile[:already_printed]
       next unless print_current_profile(profile)
       print_line(
@@ -595,6 +594,15 @@ end
 
 class InspecRspecJUnit < RSpecJUnitFormatter
   RSpec::Core::Formatters.register self, :close
+
+  def format_example(example)
+    data = super(example)
+    control = example2control(data, profiles_info) || {}
+    control[:id] = data[:id]
+    control[:profile_id] = data[:profile_id]
+
+    data[:status_type] = status_type(data, control)
+    dump_one_example(data, control)
 
   def initialize(*args)
     super(*args)
