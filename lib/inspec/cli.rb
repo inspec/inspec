@@ -33,8 +33,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def json(target)
     diagnose
     o = opts.dup
+    configure_logger(o)
     o[:ignore_supports] = true
     o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:cache] = Inspec::Cache.new(nil)
 
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
@@ -56,12 +58,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'check PATH', 'verify all tests at the specified PATH'
   option :format, type: :string
   profile_options
-  def check(path) # rubocop:disable Metrics/AbcSize
+  def check(path) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     diagnose
     o = opts.dup
-    # configure_logger(o) # we do not need a logger for check yet
+    configure_logger(o)
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:cache] = Inspec::Cache.new(nil)
 
     # run check
     profile = Inspec::Profile.for_target(path, o)
