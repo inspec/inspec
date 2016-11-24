@@ -15,8 +15,8 @@ describe 'inspec exec' do
     stdout.must_include "\e[32m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
     stdout.must_include "\e[32m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
-\e[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[37m     ○  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
+\e[37m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
+\e[37m     ↺  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
 "
     stdout.must_include "\nProfile Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m"
     stdout.must_include "\nTest Summary: \e[32m4 successful\e[0m, \e[31m0 failures\e[0m, \e[37m1 skipped\e[0m\n"
@@ -69,9 +69,9 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     out.stdout.force_encoding(Encoding::UTF_8).must_include "working should"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  eq \"working\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\n"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "○  This will be skipped intentionally"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "↺  This will be skipped intentionally"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  eq \"as intended\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  eq \"as intended\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[32m1 successful\e[0m, \e[31m1 failures\e[0m, \e[37m1 skipped\e[0m"
   end
 
@@ -105,8 +105,8 @@ Test Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[37m     ○  This will be skipped super intentionally.\e[0m\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "  ○  CONTROL database: MySQL Session\e[0m\n\e[37m     ○  Can't run MySQL SQL checks without authentication\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[37m     ↺  This will be skipped super intentionally.\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[37m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[32m0 successful\e[0m, \e[31m0 failures\e[0m, \e[37m2 skipped\e[0m"
       out.exit_status.must_equal 0
     end
@@ -169,12 +169,12 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     let(:out) { inspec('exec ' + simple_inheritance + ' --no-create-lockfile') }
 
     it 'should print all the results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  7 should cmp >= 9\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  7 should not cmp == /^\\d$/\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should cmp >= 9\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should not cmp == /^\\d$/\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  7 should cmp == \"7\""
       out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"
           got: \"01777\"\n"
@@ -185,10 +185,10 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     let(:out) { inspec('exec ' + File.join(profile_path, 'dependencies', 'profile_d') + ' ' + simple_inheritance + ' --no-create-lockfile') }
 
     it 'should print all the results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  undefined method `should_nota'"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "✖  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
     end
   end
@@ -197,7 +197,7 @@ Test Summary: \e[32m2 successful\e[0m, \e[31m0 failures\e[0m, \e[37m0 skipped\e[
     let(:out) { inspec('exec ' + simple_inheritance) }
 
     it 'should print the profile information and then the test results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "local://\n\n\n\e[31;1m  ✖  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[31;1m     ✖  File /tmp should not be directory\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "local://\n\n\n\e[31;1m  ×  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[31;1m     ×  File /tmp should not be directory\n"
     end
   end
 
