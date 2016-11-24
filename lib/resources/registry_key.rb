@@ -20,7 +20,7 @@ require 'json'
 # describe registry_key({
 #            name: 'Task Scheduler',
 #            hive: 'HKEY_LOCAL_MACHINE',
-#            key: ''\SYSTEM\CurrentControlSet\services\Schedule'
+#            key: '\SYSTEM\CurrentControlSet\services\Schedule'
 # }) do
 #   its('Start') { should eq 2 }
 # end
