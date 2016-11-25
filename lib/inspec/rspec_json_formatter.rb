@@ -65,7 +65,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   private
 
   def format_example(example)
-    if example.metadata[:description_args].length > 0 && !example.metadata[:skip].nil?
+    if !example.metadata[:description_args].empty? && example.metadata[:skip]
       # For skipped profiles, rspec returns in full_description the skip_message as well. We don't want
       # to mix the two, so we pick the full_description from the example.metadata[:example_group] hash.
       code_description = example.metadata[:example_group][:description]
@@ -124,7 +124,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     end
   end
 
-  def controls_summary
+  def profile_summary
     failed = 0
     skipped = 0
     passed = 0
@@ -132,7 +132,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     major = 0
     minor = 0
 
-    @control_tests.each do |control|
+    @all_controls.each do |control|
       next if control[:id].start_with? '(generated from '
       next unless control[:results]
       if control[:results].any? { |r| r[:status] == 'failed' }
@@ -170,8 +170,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     skipped = 0
     passed = 0
 
-    all_tests = @anonymous_tests + @control_tests
-    all_tests.each do |control|
+    @all_controls.each do |control|
       next unless control[:results]
       control[:results].each do |result|
         if result[:status] == 'failed'
@@ -272,72 +271,287 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
   def initialize(*args)
     @current_control = nil
-    @anonymous_tests = []
-    @control_tests = []
+    @all_controls = []
     @profile_printed = false
     super(*args)
   end
 
-  def close(_notification) # rubocop:disable Metrics/AbcSize
-    flush_current_control(@current_control)
-    output.puts('') if @current_control
-    print_tests(@anonymous_tests)
+  #
+  # This method is called through the RSpec Formatter interface for every
+  # example found in the test suite.
+  #
+  # Within #format_example we are getting and example and:
+  #    * if this is an example, within a control, within a profile then we want
+  #      to display the profile header, display the control, and then display
+  #      the example.
+  #    * if this is another example, within the same control, within the same
+  #      profile we want to display the example.
+  #    * if this is an example that does not map to a control (anonymous) then
+  #      we want to store it for later to displayed at the end of a profile.
+  #
+  def format_example(example)
+    example_data = super(example)
+
+    control = create_or_find_control(example_data)
+
+    # If we are switching to a new control then we want to print the control
+    # we were previously collecting examples unless the last control is
+    # anonymous (no control). Anonymous controls and their examples are handled
+    # later on the profile change.
+
+    if switching_to_new_control?(control)
+      print_last_control_with_examples unless last_control_is_anonymous?
+    end
+
+    store_last_control(control)
+
+    # Each profile may have zero or more anonymous examples. These are examples
+    # that defined in a profile but outside of a control. They may be defined
+    # at the start, in-between, or end of list of examples. To display them
+    # at the very end of a profile, which means we have to wait for the profile
+    # to change to know we are done with a profile.
+
+    if switching_to_new_profile?(control.profile)
+      output.puts('')
+      print_anonymous_examples_associated_with_last_profile
+      clear_anonymous_examples_associated_with_last_profile
+    end
+
+    print_profile(control.profile)
+    store_last_profile(control.profile)
+
+    # The anonymous controls should be added to a hash that we will display
+    # when we are done examining all the examples within this profile.
+
+    if control.anonymous?
+      add_anonymous_example_within_this_profile(control.as_hash)
+    end
+
+    @all_controls.push(control.as_hash)
+    example_data
+  end
+
+  #
+  # This is the last method is invoked through the formatter interface.
+  # Because the profile
+  # we may have some remaining anonymous examples so we want to display them
+  # as well as a summary of the profile and test stats.
+  #
+  def close(_notification)
+    print_last_control_with_examples
     output.puts('')
-
-    print_profiles_info(@current_control) if !@profile_printed
-    controls_res = controls_summary
-    tests_res = tests_summary
-
-    s = format('Profile Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], controls_res['passed'], COLORS['reset'],
-               COLORS['failed'], controls_res['failed']['total'], COLORS['reset'],
-               COLORS['skipped'], controls_res['skipped'], COLORS['reset'])
-    output.puts(s) if controls_res['total'] > 0
-
-    s = format('Test Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], tests_res['passed'], COLORS['reset'],
-               COLORS['failed'], tests_res['failed'], COLORS['reset'],
-               COLORS['skipped'], tests_res['skipped'], COLORS['reset'])
-    output.puts(s) if !@anonymous_tests.empty? || @current_control.nil?
+    print_anonymous_examples_associated_with_last_profile
+    output.puts('')
+    print_profile_summary
+    print_tests_summary
   end
 
   private
 
-  # Formats example; calls example2control, gets a 'status_type', and calls
-  # flush current_control; returns control data
-  def format_example(example)
-    data = super(example)
-    control = example2control(data, @profiles_info) || {}
-    control[:id] = data[:id]
-    control[:profile_id] = data[:profile_id]
+  #
+  # With the example we can find the profile associated with it and if there
+  # is already a control defined. If there is one then we will use that data
+  # to build our control object. If there isn't we simply create a new hash of
+  # controld data that will be populated from the examples that are found.
+  #
+  # @return [Control] A new control or one found associated with the example.
+  #
+  def create_or_find_control(example)
+    profile = profile_from_example(example)
 
-    data[:status_type] = status_type(data, control)
-    dump_one_example(data, control)
+    control_data = {}
 
-    @current_control ||= control
-    if !control[:id].nil?
-      if @current_control[:id] != control[:id]
-        flush_current_control(@current_control)
-        @current_control = control
-      end
+    if profile && profile[:controls]
+      control_data = profile[:controls].find { |ctrl| ctrl[:id] == example[:id] }
     end
 
-    data
+    control = Control.new(control_data, profile)
+    control.add_example(example)
+
+    control
   end
 
-  # Determines 'status_type' (critical, major, minor) of control given
-  # status (failed/passed/skipped) and impact value (0.0 - 1.0).
-  # Called from format_example, sets the 'status_type' for each 'example'
-  def status_type(data, control)
-    status = data[:status]
-    return status if status != 'failed' || control[:impact].nil?
-    if control[:impact] >= 0.7
-      'critical'
-    elsif control[:impact] >= 0.4
-      'major'
-    else
-      'minor'
+  #
+  # If there is already a control we have have seen before and it is different
+  # than the new control then we are indeed switching controls.
+  #
+  def switching_to_new_control?(control)
+    @last_control && @last_control.id != control.id
+  end
+
+  def store_last_control(control)
+    @last_control = control
+  end
+
+  def print_last_control_with_examples
+    print_control(@last_control)
+    @last_control.examples.each { |example| print_result(example) }
+  end
+
+  def last_control_is_anonymous?
+    @last_control.anonymous?
+  end
+
+  #
+  # If there is a profile we have seen before and it is different than the
+  # new profile then we are indeed switching profiles.
+  #
+  def switching_to_new_profile?(new_profile)
+    @last_profile && @last_profile != new_profile
+  end
+
+  #
+  # Print all the anonymous examples that have been found for this profile
+  #
+  def print_anonymous_examples_associated_with_last_profile
+    Array(anonymous_examples_within_this_profile).uniq.each do |control|
+      print_anonymous_control(control)
     end
+  end
+
+  #
+  # As we process examples we need an accumulator that will allow us to store
+  # all the examples that do not have a named control associated with them.
+  #
+  def anonymous_examples_within_this_profile
+    @anonymous_examples_within_this_profile ||= []
+  end
+
+  #
+  # Remove all controls from the anonymous examples that are tracked.
+  #
+  def clear_anonymous_examples_associated_with_last_profile
+    @anonymous_examples_within_this_profile = []
+  end
+
+  #
+  # Append a new control to the anonymous examples
+  #
+  def add_anonymous_example_within_this_profile(control)
+    anonymous_examples_within_this_profile.push(control)
+  end
+
+  def store_last_profile(new_profile)
+    @last_profile = new_profile
+  end
+
+  #
+  # Print the profile
+  #
+  #   * For anonymous profiles, where are generated for examples and controls
+  #     defined outside of a profile, simply display the target information
+  #   * For profiles without a title use the name (or 'unknown'), version,
+  #     and target information.
+  #   * For all other profiles display the title with name (or 'unknown'),
+  #     version, and target information.
+  #
+  def print_profile(profile)
+    return if profile[:already_printed]
+    output.puts ''
+
+    if profile[:name].nil?
+      print_target
+      profile[:already_printed] = true
+      return
+    end
+
+    if profile[:title].nil?
+      output.puts "Profile: #{profile[:name] || 'unknown'}"
+    else
+      output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
+    end
+
+    output.puts 'Version: ' + (profile[:version] || 'unknown')
+    print_target
+    profile[:already_printed] = true
+  end
+
+  #
+  # This target information displays which system that came under test
+  #
+  def print_target
+    return if @backend.nil?
+    connection = @backend.backend
+    return unless connection.respond_to?(:uri)
+    output.puts('Target:  ' + connection.uri + "\n\n")
+  end
+
+  #
+  # We want to print the details about the control
+  #
+  def print_control(control)
+    print_line(
+      color:      COLORS[control.summary_indicator] || '',
+      indicator:  INDICATORS[control.summary_indicator] || INDICATORS['unknown'],
+      summary:    format_lines(control.summary, INDICATORS['empty']),
+      id:         "#{control.id}: ",
+      profile:    control.profile_id,
+    )
+  end
+
+  def print_result(result)
+    test_status = result[:status_type]
+    test_color = COLORS[test_status]
+    indicator = INDICATORS[result[:status]]
+    indicator = INDICATORS['empty'] if indicator.nil?
+    if result[:message]
+      msg = result[:code_desc] + "\n" + result[:message]
+    else
+      msg = result[:skip_message] || result[:code_desc]
+    end
+    print_line(
+      color:      test_color,
+      indicator:  INDICATORS['small'] + indicator,
+      summary:    format_lines(msg, INDICATORS['empty']),
+      id: nil, profile: nil
+    )
+  end
+
+  def print_anonymous_control(control)
+    control_result = control[:results]
+    title = control_result[0][:code_desc].split[0..1].join(' ')
+    puts '  ' + title
+    # iterate over all describe blocks in anonoymous control block
+    control_result.each do |test|
+      control_id = ''
+      # display exceptions
+      unless test[:exception].nil?
+        test_result = test[:message]
+      else
+        # determine title
+        test_result = test[:skip_message] || test[:code_desc].split[2..-1].join(' ')
+        # show error message
+        test_result += "\n" + test[:message] unless test[:message].nil?
+      end
+      status_indicator = test[:status_type]
+      print_line(
+        color:      COLORS[status_indicator] || '',
+        indicator:  INDICATORS['small'] + INDICATORS[status_indicator] || INDICATORS['unknown'],
+        summary:    format_lines(test_result, INDICATORS['empty']),
+        id:         control_id,
+        profile:    control[:profile_id],
+      )
+    end
+  end
+
+  def print_profile_summary
+    summary = profile_summary
+
+    s = format('Profile Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
+               COLORS['passed'], summary['passed'], COLORS['reset'],
+               COLORS['failed'], summary['failed']['total'], COLORS['reset'],
+               COLORS['skipped'], summary['skipped'], COLORS['reset'])
+    output.puts(s) if summary['total'] > 0
+  end
+
+  def print_tests_summary
+    summary = tests_summary
+
+    s = format('Test Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
+               COLORS['passed'], summary['passed'], COLORS['reset'],
+               COLORS['failed'], summary['failed'], COLORS['reset'],
+               COLORS['skipped'], summary['skipped'], COLORS['reset'])
+    output.puts(s)
   end
 
   # Formats the line (called from print_line)
@@ -359,163 +573,11 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     lines.gsub(/\n/, "\n" + indentation)
   end
 
-  # Sorts through results, calls print_line (called from flush_current_control)
-  def print_results(all)
-    all.each do |x|
-      test_status = x[:status_type]
-      test_color = COLORS[test_status]
-      indicator = INDICATORS[x[:status]]
-      indicator = INDICATORS['empty'] if indicator.nil?
-      if x[:message]
-        msg = x[:code_desc] + "\n" + x[:message]
-      else
-        msg = x[:skip_message] || x[:code_desc]
-      end
-      print_line(
-        color:      test_color,
-        indicator:  INDICATORS['small'] + indicator,
-        summary:    format_lines(msg, INDICATORS['empty']),
-        id: nil, profile: nil
-      )
-    end
-  end
-
-  # Prints anonymous describe blocks; called from close function
-  def print_tests(anonymous_tests) # rubocop:disable Metrics/AbcSize
-    anonymous_tests.each do |control|
-      control_result = control[:results]
-      title = control_result[0][:code_desc].split[0..1].join(' ')
-      puts '  ' + title
-      # iterate over all describe blocks in anonoymous control block
-      control_result.each do |test|
-        control_id = ''
-        # display exceptions
-        unless test[:exception].nil?
-          test_result = test[:message]
-        else
-          # determine title
-          test_result = test[:skip_message] || test[:code_desc].split[2..-1].join(' ')
-          # show error message
-          test_result += "\n" + test[:message] unless test[:message].nil?
-        end
-        status_indicator = test[:status_type]
-        print_line(
-          color:      COLORS[status_indicator] || '',
-          indicator:  INDICATORS['small'] + INDICATORS[status_indicator] || INDICATORS['unknown'],
-          summary:    format_lines(test_result, INDICATORS['empty']),
-          id:         control_id,
-          profile:    control[:profile_id],
-        )
-      end
-    end
-  end
-
-
-  # TODO: does a lot of stuff!
-  # Called from format_example and close
-  def flush_current_control(control)
-    return if control.nil?
-    profile = control2profile(control)
-
-    cc = CurrentControl.new(control,profile)
-
-    print_current_profile(cc.profile) if !@profile_printed
-
-    if cc.anonymous?
-      @anonymous_tests.push(control)
-    else
-      @control_tests.push(control)
-      print_line(
-        color:      COLORS[cc.summary_indicator] || '',
-        indicator:  INDICATORS[cc.summary_indicator] || INDICATORS['unknown'],
-        summary:    format_lines(cc.summary, INDICATORS['empty']),
-        id:         "#{cc.id}: ",
-        profile:    cc.profile_id,
-      )
-
-      print_results(cc.fails + cc.skips + cc.passes)
-    end
-  end
-
-  def control2profile(control)
-    profiles_info.find { |i| i[:id] == control[:profile_id] }
-  end
-
-  def print_current_profile(profile)
-    if profile.nil?
-      print_profiles_info(@current_control)
-      @profile_printed = true
-      return true
-    end
-    output.puts ''
-    profile[:already_printed] = true
-
-    if profile[:name].nil?
-      print_target
-      @profile_printed = true
-      return true
-    end
-
-    if profile[:title].nil?
-      output.puts "Profile: #{profile[:name] || 'unknown'}"
-    else
-      output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
-    end
-
-    output.puts 'Version: ' + (profile[:version] || 'unknown')
-    print_target
-    @profile_printed = true
-    true
-  end
-end
-
-class InspecRspecJUnit < RSpecJUnitFormatter
-  RSpec::Core::Formatters.register self, :close
-
-  # Prints target information; called from print_current_profile
-  def print_target
-    return if @backend.nil?
-    connection = @backend.backend
-    return unless connection.respond_to?(:uri)
-    output.puts('Target:  ' + connection.uri + "\n\n")
-  end
-
-  # Prints blank info is no current_control is defined
-  # Called from print_current_profile and close
-  def print_profiles_info(current_control)
-    profiles_info.each do |profile|
-      next if profile[:already_printed]
-      next unless print_current_profile(profile)
-      print_line(
-        color: '', indicator: INDICATORS['empty'], id: '', profile: '',
-        summary: 'No tests executed.'
-      ) if @current_control.nil?
-      output.puts('')
-    end
-  end
-
-  def format_example(example)
-    data = super(example)
-    control = example2control(data) || {}
-    control[:id] = data[:id]
-    control[:profile_id] = data[:profile_id]
-
-    data[:status_type] = status_type(data, control)
-    move_example_into_control(data, control)
-
-  def initialize(*args)
-    super(*args)
-  end
-
-  def close(_notification)
-  end
-
   #
-  # This class wraps a control object to provide a useful inteface for
+  # This class wraps a control hash object to provide a useful inteface for
   # maintaining the associated profile, ids, results, title, etc.
   #
-  class CurrentControl
-
+  class Control
     STATUS_TYPES = {
       'unknown'  => -3,
       'passed'   => -2,
@@ -526,18 +588,53 @@ class InspecRspecJUnit < RSpecJUnitFormatter
       'critical' => 3,
     }.freeze
 
-    def initialize(control,profile)
+    def initialize(control, profile)
       @control = control
-      @profile
-      calculate_results
+      @profile = profile
+      @summary_indicator = STATUS_TYPES['unknown']
+      @skips = []
+      @fails = []
+      @passes = []
     end
 
     attr_reader :control, :profile
+
+    alias as_hash control
 
     attr_reader :skips, :fails, :passes, :summary_indicator
 
     def id
       control[:id]
+    end
+
+    #
+    # Adds an example to the control. This example
+    def add_example(example)
+      control[:id] = example[:id]
+      control[:profile_id] = example[:profile_id]
+
+      example[:status_type] = status_type(example)
+      example.delete(:id)
+      example.delete(:profile_id)
+
+      control[:results] ||= []
+      control[:results].push(example)
+      update_results(example)
+    end
+
+    # Determines 'status_type' (critical, major, minor) of control given
+    # status (failed/passed/skipped) and impact value (0.0 - 1.0).
+    # Called from format_example, sets the 'status_type' for each 'example'
+    def status_type(example)
+      status = example[:status]
+      return status if status != 'failed' || control[:impact].nil?
+      if control[:impact] >= 0.7
+        'critical'
+      elsif control[:impact] >= 0.4
+        'major'
+      else
+        'minor'
+      end
     end
 
     def anonymous?
@@ -548,19 +645,16 @@ class InspecRspecJUnit < RSpecJUnitFormatter
       control[:profile_id]
     end
 
-    def calculate_results
-      summary_status = STATUS_TYPES['unknown']
-      @skips = []
-      @fails = []
-      @passes = []
-      control[:results].each do |r|
-        i = STATUS_TYPES[r[:status_type]]
-        summary_status = i if i > summary_status
-        fails.push(r) if i > 0
-        passes.push(r) if i == STATUS_TYPES['passed']
-        skips.push(r) if i == STATUS_TYPES['skipped']
-      end
-      @summary_indicator = STATUS_TYPES.key(summary_status)
+    def examples
+      control[:results]
+    end
+
+    def update_results(example)
+      summary_status = STATUS_TYPES[example[:status_type]]
+      @summary_indicator = STATUS_TYPES.key(summary_status) if summary_status > summary_indicator
+      fails.push(example) if summary_status > 0
+      passes.push(example) if summary_status == STATUS_TYPES['passed']
+      skips.push(example) if summary_status == STATUS_TYPES['skipped']
     end
 
     # Determine title for control given current_control.
@@ -574,7 +668,7 @@ class InspecRspecJUnit < RSpecJUnitFormatter
         # If it's an anonymous control, just go with the only description
         # available for the underlying test.
         res[0][:code_desc].to_s
-      elsif res.length == 0
+      elsif res.length.empty?
         # Empty control block - if it's anonymous, there's nothing we can do.
         # Is this case even possible?
         'Empty anonymous control'
@@ -598,8 +692,8 @@ class InspecRspecJUnit < RSpecJUnitFormatter
           res[0][:message].to_s
         else
           [
-            (fails.length > 0) ? "#{fails.length} failed" : nil,
-            (skips.length > 0) ? "#{skips.length} skipped" : nil,
+            !fails.empty? ? "#{fails.length} failed" : nil,
+            !skips.empty? ? "#{skips.length} skipped" : nil,
           ].compact.join(' ')
         end
       if suffix == ''
@@ -608,5 +702,16 @@ class InspecRspecJUnit < RSpecJUnitFormatter
         title + ' (' + suffix + ')'
       end
     end
+  end
+end
+
+class InspecRspecJUnit < RSpecJUnitFormatter
+  RSpec::Core::Formatters.register self, :close
+
+  def initialize(*args)
+    super(*args)
+  end
+
+  def close(_notification)
   end
 end
