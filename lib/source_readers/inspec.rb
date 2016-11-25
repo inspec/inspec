@@ -44,7 +44,7 @@ module SourceReaders
 
     def load_tests
       tests = @target.files.find_all do |path|
-        path.start_with?('controls', 'test') && path.end_with?('.rb')
+        path.start_with?('controls') && path.end_with?('.rb')
       end
       Hash[tests.map { |x| [x, @target.read(x)] }]
     end
