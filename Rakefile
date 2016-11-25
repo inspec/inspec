@@ -164,6 +164,8 @@ task :release_docker do
         "mv *.gem inspec.gem && "\
         "docker build -t chef/inspec:#{version} . && "\
         "docker push chef/inspec:#{version}"
+        "docker tag chef/inspec:#{version} chef/inspec:latest"
+        "docker push chef/inspec:latest"
   puts "--> #{cmd}"
   sh('sh', '-c', cmd)
 end
