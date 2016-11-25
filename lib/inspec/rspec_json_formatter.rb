@@ -1,9 +1,11 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
+# author: John Kerry
 
 require 'rspec/core'
 require 'rspec/core/formatters/json_formatter'
+require 'rspec_junit_formatter'
 
 # Vanilla RSpec JSON formatter with a slight extension to show example IDs.
 # TODO: Remove these lines when RSpec includes the ID natively
@@ -545,5 +547,16 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     data
+  end
+end
+
+class InspecRspecJUnit < RSpecJUnitFormatter
+  RSpec::Core::Formatters.register self, :close
+
+  def initialize(*args)
+    super(*args)
+  end
+
+  def close(_notification)
   end
 end

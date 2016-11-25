@@ -103,6 +103,7 @@ module Inspec
       'json' => 'InspecRspecJson',
       'json-rspec' => 'InspecRspecVanilla',
       'cli' => 'InspecRspecCli',
+      'junit' => 'InspecRspecJUnit',
     }.freeze
 
     # Configure the output formatter and stream to be used with RSpec.

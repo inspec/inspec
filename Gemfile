@@ -15,6 +15,7 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
 end
 
 gem 'ffi', '>= 1.9.14'
+gem 'rspec_junit_formatter', '~> 0.2.3'
 
 group :test do
   gem 'bundler', '~> 1.5'
