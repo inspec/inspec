@@ -262,7 +262,11 @@ class MockLoader
       'hostname' => cmd.call('hostname'),
       # hostname windows
       '$env:computername' => cmd.call('$env-computername'),
-    }
+      # windows_task doesnt exist
+      "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
+      # windows_task exist
+      "schtasks /query /v /fo csv /tn 'WeLovePizza' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-success'),
+     }
 
     @backend
   end
