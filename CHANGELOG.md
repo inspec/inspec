@@ -1,7 +1,33 @@
 # Change Log
 
-## [1.5.0](https://github.com/chef/inspec/tree/1.5.0) (2016-11-20)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.4.1...1.5.0)
+## [1.6.0](https://github.com/chef/inspec/tree/1.6.0) (2016-11-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.5.0...1.6.0)
+
+**Fixed bugs:**
+
+- InSpec loads whichever \*.rb file it finds along the way causing itself to fail [\#1326](https://github.com/chef/inspec/issues/1326)
+
+**Closed issues:**
+
+- command resource check doesn't fail when it should [\#1318](https://github.com/chef/inspec/issues/1318)
+- is this a typo....  inpsec? [\#1309](https://github.com/chef/inspec/issues/1309)
+- support JUnit format [\#1301](https://github.com/chef/inspec/issues/1301)
+- apt resource fails corner cases with optional second column [\#1261](https://github.com/chef/inspec/issues/1261)
+
+**Merged pull requests:**
+
+- do not load controls from test directory [\#1327](https://github.com/chef/inspec/pull/1327) ([chris-rock](https://github.com/chris-rock))
+- Replaced Colors for output [\#1320](https://github.com/chef/inspec/pull/1320) ([hannah-radish](https://github.com/hannah-radish))
+- Hannah vj/fix tests formatting [\#1319](https://github.com/chef/inspec/pull/1319) ([hannah-radish](https://github.com/hannah-radish))
+- revert style changes temporarily [\#1317](https://github.com/chef/inspec/pull/1317) ([vjeffrey](https://github.com/vjeffrey))
+- Updated color palettes, label colors and icons [\#1313](https://github.com/chef/inspec/pull/1313) ([hannah-radish](https://github.com/hannah-radish))
+- Remove extra `'` in registry key examples [\#1308](https://github.com/chef/inspec/pull/1308) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- also push docker latest tag with each release [\#1307](https://github.com/chef/inspec/pull/1307) ([chris-rock](https://github.com/chris-rock))
+- Adding windows\_task resource [\#1306](https://github.com/chef/inspec/pull/1306) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Adding JUnit formatter support [\#1304](https://github.com/chef/inspec/pull/1304) ([jkerry](https://github.com/jkerry))
+
+## [v1.5.0](https://github.com/chef/inspec/tree/v1.5.0) (2016-11-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.4.1...v1.5.0)
 
 **Implemented enhancements:**
 
