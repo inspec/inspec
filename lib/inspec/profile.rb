@@ -21,10 +21,9 @@ module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
     extend Forwardable
 
-    def self.resolve_target(target, cache = nil)
-      c = cache || Cache.new
-      Inspec::Log.debug "Resolve #{target} into cache #{c.path}"
-      Inspec::CachedFetcher.new(target, cache || Cache.new)
+    def self.resolve_target(target, cache)
+      Inspec::Log.debug "Resolve #{target} into cache #{cache.path}"
+      Inspec::CachedFetcher.new(target, cache)
     end
 
     # Check if the profile contains a vendored cache, move content into global cache
@@ -65,11 +64,13 @@ module Inspec
     end
 
     def self.for_fetcher(fetcher, opts)
+      opts[:cache] = opts[:cache] || Cache.new
       path, writable = fetcher.fetch
       for_path(path, opts.merge(target: fetcher.target, writable: writable))
     end
 
     def self.for_target(target, opts = {})
+      opts[:cache] = opts[:cache] || Cache.new
       fetcher = resolve_target(target, opts[:cache])
       for_fetcher(fetcher, opts)
     end
