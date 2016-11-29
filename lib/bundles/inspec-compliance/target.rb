@@ -25,9 +25,9 @@ module Compliance
       # check if we have a compliance token
       config = Compliance::Configuration.new
       if config['token'].nil?
-        if config['automate'][0]
+        if config['server_type'] == 'automate'
           server = 'automate'
-          msg = 'inspec compliance automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
+          msg = 'inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
         else
           server = 'compliance'
           msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
@@ -54,7 +54,7 @@ EOF
     end
 
     def self.target_url(profile, config)
-      if config['automate'][0]
+      if config['server_type'] == 'automate'
         target = "#{config['server']}/#{profile}/tar"
       else
         owner, id = profile.split('/')

@@ -11,9 +11,9 @@ module Compliance
   class API # rubocop:disable Metrics/ClassLength
     # return all compliance profiles available for the user
     def self.profiles(config)
-      config['automate'][0] ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
+      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
       # TODO, api should not be dependent on .supported?
-      response = Compliance::HTTP.get(url, config['token'], config['insecure'], config['user'], !config.supported?(:oidc), config['automate'], config['ent'])
+      response = Compliance::HTTP.get(url, config['token'], config['insecure'], config['user'], !config.supported?(:oidc), config['automate'], config['server_type'])
       data = response.body
       response_code = response.code
       case response_code
@@ -21,7 +21,7 @@ module Compliance
         msg = 'success'
         profiles = JSON.parse(data)
         # iterate over profiles
-        if config['automate'][0]
+        if config['server_type'] == 'automate'
           mapped_profiles = profiles.map do |owner, ps|
             { org: ps['owner_id'], name: owner }
           end.flatten
@@ -75,8 +75,8 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.upload(config, owner, profile_name, archive_path)
       # upload the tar to Chef Compliance
-      config['automate'][0] ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
-      res = Compliance::HTTP.post_file(url, config['token'], config['user'], archive_path, config['insecure'], !config.supported?(:oidc), config['automate'], config['ent'])
+      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      res = Compliance::HTTP.post_file(url, config['token'], config['user'], archive_path, config['insecure'], !config.supported?(:oidc), config['automate'], config['server_type'])
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 

@@ -9,15 +9,15 @@ module Compliance
   # implements a simple http abstraction on top of Net::HTTP
   class HTTP
     # generic get requires
-    def self.get(url, token, insecure, user, basic_auth = false, automate = false, ent = nil) # rubocop:disable Metrics/ParameterLists
+    def self.get(url, token, insecure, user, basic_auth = false, automate = nil, server_type) # rubocop:disable Metrics/ParameterLists
       uri = URI.parse(url)
       req = Net::HTTP::Get.new(uri.path)
 
       return send_request(uri, req, insecure) if token.nil?
 
-      if automate[0]
-        req.add_field('chef-delivery-enterprise', ent)
-        if automate[1] == 'dctoken'
+      if server_type == 'automate'
+        req.add_field('chef-delivery-enterprise', automate['ent'])
+        if automate['token_type'] == 'dctoken'
           req.add_field('x-data-collector-token', token)
         else
           req.add_field('chef-delivery-user', user)
@@ -47,7 +47,7 @@ module Compliance
     end
 
     # post a file
-    def self.post_file(url, token, user, file_path, insecure, basic_auth = false, automate = false, ent = nil) # rubocop:disable Metrics/ParameterLists
+    def self.post_file(url, token, user, file_path, insecure, basic_auth = false, automate = nil, server_type) # rubocop:disable Metrics/ParameterLists
       uri = URI.parse(url)
       fail "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
       http = Net::HTTP.new(uri.host, uri.port)
@@ -57,9 +57,9 @@ module Compliance
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
 
       req = Net::HTTP::Post.new(uri.path)
-      if automate[0]
-        req.add_field('chef-delivery-enterprise', ent)
-        if automate[1] == 'dctoken'
+      if server_type == 'automate'
+        req.add_field('chef-delivery-enterprise', automate['ent'])
+        if automate['token_type'] == 'dctoken'
           req.add_field('x-data-collector-token', token)
         else
           req.add_field('chef-delivery-user', user)

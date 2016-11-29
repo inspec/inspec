@@ -127,18 +127,18 @@ module Fetchers
       http_opts = {}
       http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
       if @config
-        if @config['automate']
-          automate = true
-          http_opts['chef-delivery-enterprise'] = @config['ent']
-          if @config['automate'][1] == 'dctoken'
+        if @config['server_type'] == 'automate'
+          http_opts['chef-delivery-enterprise'] = @config['automate']['ent']
+          if @config['automate']['token_type'] == 'dctoken'
             http_opts['x-data-collector-token'] = @config['token']
           else
             http_opts['chef-delivery-user'] = @config['user']
             http_opts['chef-delivery-token'] = @config['token']
           end
+        elsif @token
+          http_opts['Authorization'] = "Bearer #{@token}"
         end
       end
-      http_opts['Authorization'] = "Bearer #{@token}" if @token && automate.nil?
       remote = open(@target, http_opts)
       @archive_type = file_type_from_remote(remote) # side effect :(
       archive = Tempfile.new(['inspec-dl-', @archive_type])

@@ -78,7 +78,7 @@ module Compliance
           exit 1
         end
       else
-        puts "Please login to your automate instance using 'inspec compliance automate SERVER --user AUTOMATE_USER --ent AUTOMATE_ENT --dctoken DC_TOKEN or --usertoken USER_TOKEN' "
+        puts "Please login to your automate instance using 'inspec compliance login_automate SERVER --user AUTOMATE_USER --ent AUTOMATE_ENT --dctoken DC_TOKEN or --usertoken USER_TOKEN' "
         exit 1
       end
       puts '', msg
@@ -180,7 +180,7 @@ module Compliance
       puts "Start upload to #{owner}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      config['automate'] ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
+      config['server_type'] == 'automate' ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
       puts upload_msg
       success, msg = Compliance::API.upload(config, owner, pname, archive_path)
 
@@ -196,7 +196,7 @@ module Compliance
     desc 'version', 'displays the version of the Chef Compliance server'
     def version
       config = Compliance::Configuration.new
-      if config['automate']
+      if config['server_type'] == 'automate'
         puts 'Version not available when logged in with Automate.'
       else
         info = Compliance::API.version(config['server'], config['insecure'])
@@ -212,12 +212,14 @@ module Compliance
     desc 'logout', 'user logout from Chef Compliance'
     def logout
       config = Compliance::Configuration.new
-      unless config.supported?(:oidc) || config['token'].nil? || config['automate']
+      unless config.supported?(:oidc) || config['token'].nil? || config['server_type'] == 'automate'
         config = Compliance::Configuration.new
         url = "#{config['server']}/logout"
         Compliance::API.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
       end
       success = config.destroy
+      config['token'] = ''
+      config['server'] = ''
 
       if success
         puts 'Successfully logged out'
@@ -230,9 +232,11 @@ module Compliance
 
     def login_automate_config(url, user, dctoken, usertoken, ent)
       config = Compliance::Configuration.new
-      config['server'] = url
-      config['ent'] = ent
       config['user'] = user
+      config['server'] = url
+      config['automate'] = {}
+      config['automate']['ent'] = ent
+      config['server_type'] = 'automate'
 
       # determine token method being used
       if !dctoken.nil?
@@ -245,7 +249,7 @@ module Compliance
         token_msg = 'automate user token'
       end
 
-      config['automate'] = [true, token_type]
+      config['automate']['token_type'] = token_type
       config.store
       msg = "You have logged into your automate instance: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
       msg
@@ -259,6 +263,7 @@ module Compliance
         config['token'] = access_token
         config['insecure'] = options['insecure']
         config['version'] = Compliance::API.version(url, options['insecure'])
+        config['server_type'] = 'compliance'
         config.store
       end
 
@@ -274,6 +279,7 @@ module Compliance
         config['token'] = api_token
         config['insecure'] = insecure
         config['version'] = Compliance::API.version(url, insecure)
+        config['server_type'] = 'compliance'
         config.store
         success = true
       end
@@ -320,7 +326,7 @@ module Compliance
 
     def loggedin(config)
       serverknown = !config['server'].nil?
-      puts 'You need to login first with `inspec compliance login` or `inspec compliance automate`' if !serverknown
+      puts 'You need to login first with `inspec compliance login` or `inspec compliance login_automate`' if !serverknown
       serverknown
     end
   end
