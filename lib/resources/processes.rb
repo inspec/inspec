@@ -21,9 +21,10 @@ module Inspec::Resources
                 :states
 
     def initialize(grep)
+      @grep = grep
       # turn into a regexp if it isn't one yet
       if grep.class == String
-        grep = '(/[^/]*)*'+grep if grep[0] != '/'
+        grep = '(/[^/]*)*' + grep if grep[0] != '/'
         grep = Regexp.new('^' + grep + '(\s|$)')
       end
       all_cmds = ps_axo
@@ -38,7 +39,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Processes'
+      "Processes #{@grep.class == String ? @grep : @grep.inspect}"
     end
 
     private
