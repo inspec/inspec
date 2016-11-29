@@ -70,4 +70,14 @@ describe 'Inspec::Resources::Processes' do
     _(resource.users.sort).must_equal ['opscode-pgsql']
     _(resource.states.sort).must_equal ['Ss']
   end
+
+  it 'command name matches with output (string)' do
+    resource = MockLoader.new(:centos6).load_resource('processes', 'mysqld')
+    _(resource.to_s).must_equal 'Processes mysqld'
+  end
+
+  it 'command name matches with output (regex)' do
+    resource = MockLoader.new(:centos6).load_resource('processes', /mysqld/)
+    _(resource.to_s).must_equal 'Processes /mysqld/'
+  end
 end
