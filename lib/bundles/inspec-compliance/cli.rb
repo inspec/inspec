@@ -128,6 +128,8 @@ module Compliance
         exit 1
       end
 
+      Inspec::Profile.vendor(path, options) if File.directory?(path)
+
       o = options.dup
       configure_logger(o)
       # check the profile, we only allow to upload valid profiles
@@ -172,7 +174,6 @@ module Compliance
       # if it is a directory, tar it to tmp directory
       if File.directory?(path)
         archive_path = Dir::Tmpname.create([profile_name, '.tar.gz']) {}
-        # archive_path = file.path
         puts "Generate temporary profile archive at #{archive_path}"
         profile.archive({ output: archive_path, ignore_errors: false, overwrite: true })
       else
