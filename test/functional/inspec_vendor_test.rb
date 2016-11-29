@@ -22,7 +22,10 @@ describe 'example inheritance profile' do
 
   it 'can vendor profile dependencies from the profile path' do
     # clean existing vendor directory
-    FileUtils.rm_r ("#{inheritance_path}/vendor")
+    begin
+      FileUtils.rm_r ("#{inheritance_path}/vendor")
+    rescue Errno::ENOENT => e
+    end
 
     # vendor all dependencies
     out = inspec('vendor --overwrite', "cd #{inheritance_path} &&")
@@ -39,7 +42,10 @@ describe 'example inheritance profile' do
 
   it 'ensure nothing is loaded from external source if vendored profile is used' do
     # clean existing vendor directory
-    FileUtils.rm_r ("#{meta_path}/vendor")
+    begin
+      FileUtils.rm_r ("#{meta_path}/vendor")
+    rescue Errno::ENOENT => e
+    end
 
     # vendor all dependencies
     out = inspec('vendor ' + meta_path + ' --overwrite')
@@ -66,7 +72,10 @@ describe 'example inheritance profile' do
     out = inspec('vendor ' + meta_path + ' --overwrite')
 
     # clean cache directory
-    FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
+    begin
+      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
+    rescue Errno::ENOENT => e
+    end
 
     # execute json command
     out = inspec('json ' + meta_path + ' -l debug')
@@ -84,7 +93,10 @@ describe 'example inheritance profile' do
     out = inspec('vendor ' + meta_path + ' --overwrite')
 
     # clean cache directory
-    FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
+    begin
+      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
+    rescue Errno::ENOENT => e
+    end
 
     # execute check command
     out = inspec('check ' + meta_path + ' -l debug')
@@ -115,5 +127,26 @@ describe 'example inheritance profile' do
 
     lockfile = File.join(inheritance_path, 'inspec.lock')
     File.exist?(lockfile).must_equal true
+  end
+
+  it 'use lockfile in tarball' do
+    # ensure the profile is vendored and packaged as tar
+    out = inspec('vendor ' + meta_path + ' --overwrite')
+    out.exit_status.must_equal 0
+    out = inspec('archive ' + meta_path + ' --overwrite')
+    out.exit_status.must_equal 0
+
+    # clean cache directory
+    begin
+      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
+    rescue Errno::ENOENT => e
+    end
+
+    # execute json command
+    out = inspec(' meta-profile.tar.gz -l debug')
+    out.exit_status.must_equal 0
+
+    length = out.stdout.scan(/Fetching URL:/).length
+    length.must_equal 0
   end
 end

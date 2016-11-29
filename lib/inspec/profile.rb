@@ -206,7 +206,7 @@ module Inspec
       res
     end
 
-    # Check if the profile is internall well-structured. The logger will be
+    # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
     #
     # @return [Boolean] true if no errors were found, false otherwise
@@ -343,7 +343,7 @@ module Inspec
     end
 
     def lockfile_exists?
-      File.exist?(lockfile_path)
+      @source_reader.target.files.include?('inspec.lock')
     end
 
     def lockfile_path
@@ -361,7 +361,7 @@ module Inspec
 
     def lockfile
       @lockfile ||= if lockfile_exists?
-                      Inspec::Lockfile.from_file(lockfile_path)
+                      Inspec::Lockfile.from_content(@source_reader.target.read('inspec.lock'))
                     else
                       generate_lockfile
                     end

@@ -15,12 +15,17 @@ module Inspec
       new(lockfile_content)
     end
 
-    def self.from_file(path)
-      parsed_content = YAML.load(File.read(path))
+    def self.from_content(content)
+      parsed_content = YAML.load(content)
       version = parsed_content['lockfile_version']
       fail "No lockfile_version set in #{path}!" if version.nil?
       validate_lockfile_version!(version.to_i)
       new(parsed_content)
+    end
+
+    def self.from_file(path)
+      content = File.read(path)
+      from_content(content)
     end
 
     def self.validate_lockfile_version!(version)
