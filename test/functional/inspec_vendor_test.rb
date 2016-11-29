@@ -52,9 +52,9 @@ describe 'example inheritance profile' do
     File.exist?(lockfile).must_equal true
 
     out = inspec('exec ' + meta_path + ' -l debug --no-create-lockfile')
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/tests-ssh-hardening/archive/master.tar.gz", :sha256=>"01414bd307ea2f7d4dc8cd141085ba7ad61d4c3b2606d57b2dae987c1c3954cb"'
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:git=>"https://github.com/dev-sec/ssl-benchmark.git", :ref=>"e17486c864434c818f96ca13edd2c5a420100a45"'
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:git=>"https://github.com/chris-rock/windows-patch-benchmark.git", :ref=>"c183d08eb25638e7f5eac97e521640ea314c8e3d"'
+    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/tests-ssh-hardening/archive/master.tar.gz"'
+    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-benchmark/archive/master.tar.gz"'
+    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).index('Fetching URL:').must_be_nil
     out.stdout.force_encoding(Encoding::UTF_8).index('Fetched archive moved to:').must_be_nil
 
@@ -66,11 +66,15 @@ describe 'example inheritance profile' do
     out = inspec('vendor ' + meta_path + ' --overwrite')
 
     # clean cache directory
-    FileUtils.rm_r "#{Dir.home}/.inspec/cache"
+    FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
 
     # execute json command
     out = inspec('json ' + meta_path + ' -l debug')
     out.exit_status.must_equal 0
+
+    copies = out.stdout.scan(/Copy .* to cache directory/).length
+    copies.must_equal 3
+
     length = out.stdout.scan(/Dependency does not exist in the cache/).length
     length.must_equal 1
   end
@@ -80,11 +84,15 @@ describe 'example inheritance profile' do
     out = inspec('vendor ' + meta_path + ' --overwrite')
 
     # clean cache directory
-    FileUtils.rm_r "#{Dir.home}/.inspec/cache"
+    FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
 
     # execute check command
     out = inspec('check ' + meta_path + ' -l debug')
     out.exit_status.must_equal 0
+
+    copies = out.stdout.scan(/Copy .* to cache directory/).length
+    copies.must_equal 3
+
     length = out.stdout.scan(/Dependency does not exist in the cache/).length
     length.must_equal 1
   end
