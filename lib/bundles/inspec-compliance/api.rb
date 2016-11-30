@@ -12,8 +12,8 @@ module Compliance
     # return all compliance profiles available for the user
     def self.profiles(config)
       config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
-      # TODO, api should not be dependent on .supported?
-      response = Compliance::HTTP.get(url, config['token'], config['insecure'], config['user'], !config.supported?(:oidc), config['automate'], config['server_type'])
+      headers = get_headers(config)
+      response = Compliance::HTTP.get(url, headers, config['insecure'])
       data = response.body
       response_code = response.code
       case response_code
@@ -76,7 +76,8 @@ Please login using `inspec compliance login https://compliance.test --user admin
     def self.upload(config, owner, profile_name, archive_path)
       # upload the tar to Chef Compliance
       config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
-      res = Compliance::HTTP.post_file(url, config['token'], config['user'], archive_path, config['insecure'], !config.supported?(:oidc), config['automate'], config['server_type'])
+      headers = get_headers(config)
+      res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
@@ -126,6 +127,21 @@ Please login using `inspec compliance login https://compliance.test --user admin
       end
 
       [success, msg, access_token]
+    end
+
+    def self.get_headers(config)
+      if config['server_type'] == 'automate'
+        headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
+        if config['automate']['token_type'] == 'dctoken'
+          headers['x-data-collector-token'] = config['token']
+        else
+          headers['chef-delivery-user'] = config['user']
+          headers['chef-delivery-token'] = config['token']
+        end
+      else
+        headers = { 'Authorization' => "Bearer #{config['token']}" }
+      end
+      headers
     end
   end
 end

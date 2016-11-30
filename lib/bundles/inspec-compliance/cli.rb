@@ -66,13 +66,15 @@ module Compliance
       desc: 'Automate username'
     option :ent, type: :string,
       desc: 'Enterprise for Chef Automate reporting'
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     def login_automate(server) # rubocop:disable Metrics/AbcSize
       options['server'] = server
       url = options['server'] + '/compliance/profiles'
 
       if url && !options['user'].nil? && !options['ent'].nil?
         if !options['dctoken'].nil? || !options['usertoken'].nil?
-          msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'])
+          msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
         else
           puts "Please specify a token using --dctoken='DATA_COLLECTOR_TOKEN' or usertoken='AUTOMATE_TOKEN' "
           exit 1
@@ -218,8 +220,6 @@ module Compliance
         Compliance::API.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
       end
       success = config.destroy
-      config['token'] = ''
-      config['server'] = ''
 
       if success
         puts 'Successfully logged out'
@@ -230,13 +230,14 @@ module Compliance
 
     private
 
-    def login_automate_config(url, user, dctoken, usertoken, ent)
+    def login_automate_config(url, user, dctoken, usertoken, ent, insecure) # rubocop:disable Metrics/ParameterLists
       config = Compliance::Configuration.new
       config['user'] = user
       config['server'] = url
       config['automate'] = {}
       config['automate']['ent'] = ent
       config['server_type'] = 'automate'
+      config['insecure'] = insecure
 
       # determine token method being used
       if !dctoken.nil?
@@ -251,7 +252,7 @@ module Compliance
 
       config['automate']['token_type'] = token_type
       config.store
-      msg = "You have logged into your automate instance: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
+      msg = "Stored configuration for Chef Automate: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
       msg
     end
 
