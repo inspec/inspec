@@ -67,36 +67,31 @@ describe 'example inheritance profile' do
     out.stderr.must_equal ''
   end
 
-  it 'ensure json command is not fetching remote profiles if vendored' do
-    # ensure the profile is vendored
-    out = inspec('vendor ' + meta_path + ' --overwrite')
-
+  it 'ensure json/check command do not fetch remote profiles if vendored' do
     # clean cache directory
     begin
       FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
     rescue Errno::ENOENT => e
     end
 
+    # ensure the profile is vendored
+    out = inspec('vendor ' + meta_path + ' --overwrite')
+
     # execute json command
-    out = inspec('json ' + meta_path + ' -l debug')
+    out = inspec('json ' + meta_path + ' -l debug --output ' + dst.path)
     out.exit_status.must_equal 0
+    hm = JSON.load(File.read(dst.path))
+    hm['name'].must_equal 'meta-profile'
+    hm['controls'].length.must_equal 79
 
     copies = out.stdout.scan(/Copy .* to cache directory/).length
     copies.must_equal 3
 
     length = out.stdout.scan(/Dependency does not exist in the cache/).length
     length.must_equal 1
-  end
 
-  it 'ensure check command is not fetching remote profiles if vendored' do
-    # ensure the profile is vendored
-    out = inspec('vendor ' + meta_path + ' --overwrite')
-
-    # clean cache directory
-    begin
-      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
-    rescue Errno::ENOENT => e
-    end
+    length = out.stdout.scan(/Fetching URL:/).length
+    length.must_equal 0
 
     # execute check command
     out = inspec('check ' + meta_path + ' -l debug')
@@ -107,13 +102,9 @@ describe 'example inheritance profile' do
 
     length = out.stdout.scan(/Dependency does not exist in the cache/).length
     length.must_equal 1
-  end
 
-  it 'ensure json command works for vendored profile' do
-    out = inspec('json ' + meta_path + ' --output ' + dst.path)
-    hm = JSON.load(File.read(dst.path))
-    hm['name'].must_equal 'meta-profile'
-    hm['controls'].length.must_equal 79
+    length = out.stdout.scan(/Fetching URL:/).length
+    length.must_equal 0
   end
 
   it 'can vendor profile dependencies from the profile path' do
@@ -135,12 +126,6 @@ describe 'example inheritance profile' do
     out.exit_status.must_equal 0
     out = inspec('archive ' + meta_path + ' --overwrite')
     out.exit_status.must_equal 0
-
-    # clean cache directory
-    begin
-      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
-    rescue Errno::ENOENT => e
-    end
 
     # execute json command
     out = inspec(' meta-profile.tar.gz -l debug')
