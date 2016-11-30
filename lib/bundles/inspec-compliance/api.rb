@@ -8,12 +8,12 @@ require 'uri'
 module Compliance
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
-  class API
+  class API # rubocop:disable Metrics/ClassLength
     # return all compliance profiles available for the user
     def self.profiles(config)
-      url = "#{config['server']}/user/compliance"
-      # TODO, api should not be dependent on .supported?
-      response = Compliance::HTTP.get(url, config['token'], config['insecure'], !config.supported?(:oidc))
+      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
+      headers = get_headers(config)
+      response = Compliance::HTTP.get(url, headers, config['insecure'])
       data = response.body
       response_code = response.code
       case response_code
@@ -21,11 +21,17 @@ module Compliance
         msg = 'success'
         profiles = JSON.parse(data)
         # iterate over profiles
-        mapped_profiles = profiles.map do |owner, ps|
-          ps.keys.map do |name|
-            { org: owner, name: name }
-          end
-        end.flatten
+        if config['server_type'] == 'automate'
+          mapped_profiles = profiles.map do |owner, ps|
+            { org: ps['owner_id'], name: owner }
+          end.flatten
+        else
+          mapped_profiles = profiles.map do |owner, ps|
+            ps.keys.map do |name|
+              { org: owner, name: name }
+            end
+          end.flatten
+        end
         return msg, mapped_profiles
       when '401'
         msg = '401 Unauthorized. Please check your token.'
@@ -69,8 +75,9 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.upload(config, owner, profile_name, archive_path)
       # upload the tar to Chef Compliance
-      url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
-      res = Compliance::HTTP.post_file(url, config['token'], archive_path, config['insecure'], !config.supported?(:oidc))
+      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      headers = get_headers(config)
+      res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
@@ -120,6 +127,21 @@ Please login using `inspec compliance login https://compliance.test --user admin
       end
 
       [success, msg, access_token]
+    end
+
+    def self.get_headers(config)
+      if config['server_type'] == 'automate'
+        headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
+        if config['automate']['token_type'] == 'dctoken'
+          headers['x-data-collector-token'] = config['token']
+        else
+          headers['chef-delivery-user'] = config['user']
+          headers['chef-delivery-token'] = config['token']
+        end
+      else
+        headers = { 'Authorization' => "Bearer #{config['token']}" }
+      end
+      headers
     end
   end
 end

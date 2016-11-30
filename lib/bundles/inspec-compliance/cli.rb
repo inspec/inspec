@@ -36,6 +36,7 @@ module Compliance
 
       options['server'] = server
       url = options['server'] + options['apipath']
+
       if !options['user'].nil? && !options['password'].nil?
         # username / password
         _success, msg = login_username_password(url, options['user'], options['password'], options['insecure'])
@@ -53,6 +54,35 @@ module Compliance
         exit 1
       end
 
+      puts '', msg
+    end
+
+    desc "login_automate SERVER --user='USER' --ent='ENT' --dctoken or --usertoken='TOKEN'", 'Log in to an Automate SERVER'
+    option :dctoken, type: :string,
+      desc: 'Data Collector token'
+    option :usertoken, type: :string,
+      desc: 'Automate user token'
+    option :user, type: :string,
+      desc: 'Automate username'
+    option :ent, type: :string,
+      desc: 'Enterprise for Chef Automate reporting'
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    def login_automate(server) # rubocop:disable Metrics/AbcSize
+      options['server'] = server
+      url = options['server'] + '/compliance/profiles'
+
+      if url && !options['user'].nil? && !options['ent'].nil?
+        if !options['dctoken'].nil? || !options['usertoken'].nil?
+          msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
+        else
+          puts "Please specify a token using --dctoken='DATA_COLLECTOR_TOKEN' or usertoken='AUTOMATE_TOKEN' "
+          exit 1
+        end
+      else
+        puts "Please login to your automate instance using 'inspec compliance login_automate SERVER --user AUTOMATE_USER --ent AUTOMATE_ENT --dctoken DC_TOKEN or --usertoken USER_TOKEN' "
+        exit 1
+      end
       puts '', msg
     end
 
@@ -79,10 +109,8 @@ module Compliance
     def exec(*tests)
       config = Compliance::Configuration.new
       return if !loggedin(config)
-
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'compliance://' + t }
-
       # execute profile from inspec exec implementation
       diagnose
       run_tests(tests, opts)
@@ -154,7 +182,8 @@ module Compliance
       puts "Start upload to #{owner}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      puts 'Uploading to Chef Compliance'
+      config['server_type'] == 'automate' ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
+      puts upload_msg
       success, msg = Compliance::API.upload(config, owner, pname, archive_path)
 
       if success
@@ -169,24 +198,27 @@ module Compliance
     desc 'version', 'displays the version of the Chef Compliance server'
     def version
       config = Compliance::Configuration.new
-      info = Compliance::API.version(config['server'], config['insecure'])
-      if !info.nil? && info['version']
-        puts "Chef Compliance version: #{info['version']}"
+      if config['server_type'] == 'automate'
+        puts 'Version not available when logged in with Automate.'
       else
-        puts 'Could not determine server version.'
-        exit 1
+        info = Compliance::API.version(config['server'], config['insecure'])
+        if !info.nil? && info['version']
+          puts "Chef Compliance version: #{info['version']}"
+        else
+          puts 'Could not determine server version.'
+          exit 1
+        end
       end
     end
 
     desc 'logout', 'user logout from Chef Compliance'
     def logout
       config = Compliance::Configuration.new
-      unless config.supported?(:oidc) || config['token'].nil?
+      unless config.supported?(:oidc) || config['token'].nil? || config['server_type'] == 'automate'
         config = Compliance::Configuration.new
         url = "#{config['server']}/logout"
         Compliance::API.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
       end
-
       success = config.destroy
 
       if success
@@ -198,6 +230,32 @@ module Compliance
 
     private
 
+    def login_automate_config(url, user, dctoken, usertoken, ent, insecure) # rubocop:disable Metrics/ParameterLists
+      config = Compliance::Configuration.new
+      config['user'] = user
+      config['server'] = url
+      config['automate'] = {}
+      config['automate']['ent'] = ent
+      config['server_type'] = 'automate'
+      config['insecure'] = insecure
+
+      # determine token method being used
+      if !dctoken.nil?
+        config['token'] = dctoken
+        token_type = 'dctoken'
+        token_msg = 'data collector token'
+      else
+        config['token'] = usertoken
+        token_type = 'usertoken'
+        token_msg = 'automate user token'
+      end
+
+      config['automate']['token_type'] = token_type
+      config.store
+      msg = "Stored configuration for Chef Automate: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
+      msg
+    end
+
     def login_refreshtoken(url, options)
       success, msg, access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
       if success
@@ -206,6 +264,7 @@ module Compliance
         config['token'] = access_token
         config['insecure'] = options['insecure']
         config['version'] = Compliance::API.version(url, options['insecure'])
+        config['server_type'] = 'compliance'
         config.store
       end
 
@@ -221,6 +280,7 @@ module Compliance
         config['token'] = api_token
         config['insecure'] = insecure
         config['version'] = Compliance::API.version(url, insecure)
+        config['server_type'] = 'compliance'
         config.store
         success = true
       end
@@ -267,7 +327,7 @@ module Compliance
 
     def loggedin(config)
       serverknown = !config['server'].nil?
-      puts 'You need to login first with `inspec compliance login`' if !serverknown
+      puts 'You need to login first with `inspec compliance login` or `inspec compliance login_automate`' if !serverknown
       serverknown
     end
   end
