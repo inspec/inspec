@@ -586,7 +586,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # This class wraps a control hash object to provide a useful inteface for
   # maintaining the associated profile, ids, results, title, etc.
   #
-  class Control
+  class Control # rubocop:disable Metrics/ClassLength
     include Comparable
 
     STATUS_TYPES = {
@@ -608,8 +608,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     attr_reader :control, :profile
 
     alias as_hash control
-
-    attr_reader :skips, :fails, :passes
 
     def id
       control[:id]
@@ -683,11 +681,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
             !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
           ].compact.join(' ')
         end
-      if suffix == ''
-        title
-      else
-        title + ' (' + suffix + ')'
-      end
+
+      suffix == '' ? title : title + ' (' + suffix + ')'
     end
 
     # We are interested in comparing controls against other controls. It is
@@ -708,9 +703,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
     private
 
-    def summary_calculation_needed?
-      @summary_calculation_needed
-    end
+    attr_reader :summary_calculation_needed, :skips, :fails, :passes
+
+    alias summary_calculation_needed? summary_calculation_needed
 
     def summary_calculation_is_needed
       @summary_calculation_needed = true
@@ -751,7 +746,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
         'minor'
       end
     end
-
   end
 end
 
