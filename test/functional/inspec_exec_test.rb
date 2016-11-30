@@ -197,7 +197,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     let(:out) { inspec('exec ' + simple_inheritance) }
 
     it 'should print the profile information and then the test results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "local://\n\n\n\e[38;5;9m  ×  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[38;5;9m     ×  File /tmp should not be directory\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "\e[38;5;9m  ×  tmp-1.0: Create /tmp directory (1 failed)\e[0m\n\e[38;5;41m     ✔  File /tmp should be directory\e[0m\n\e[38;5;9m     ×  File /tmp should not be directory\n"
     end
   end
 

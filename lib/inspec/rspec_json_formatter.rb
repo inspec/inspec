@@ -75,6 +75,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
 
     res = {
       id: example.metadata[:id],
+      profile_id: example.metadata[:profile_id],
       status: example.execution_result.status.to_s,
       code_desc: code_description,
     }
@@ -132,7 +133,9 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     major = 0
     minor = 0
 
-    @all_controls.each do |control|
+    all_unique_controls = Array(@all_controls).uniq
+
+    all_unique_controls.each do |control|
       next if control[:id].start_with? '(generated from '
       next unless control[:results]
       if control[:results].any? { |r| r[:status] == 'failed' }
@@ -170,7 +173,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     skipped = 0
     passed = 0
 
-    @all_controls.each do |control|
+    Array(@all_controls).uniq.each do |control|
       next unless control[:results]
       control[:results].each do |result|
         if result[:status] == 'failed'
@@ -215,16 +218,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   def profile_contains_example?(profile, example)
-    # Heuristic for finding the profile an example came from:
-    # Case 1: The profile_id on the example matches the name of the profile
-    # Case 2: The profile contains a control that matches the id of the example
-    if profile[:name] == example[:profile_id]
-      true
-    elsif profile[:controls] && profile[:controls].any? { |x| x[:id] == example[:id] }
-      true
-    else
-      false
-    end
+    profile[:name] == example[:profile_id]
   end
 
   def move_example_into_control(example, control)
@@ -291,7 +285,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #
   def format_example(example)
     example_data = super(example)
-
     control = create_or_find_control(example_data)
 
     # If we are switching to a new control then we want to print the control
@@ -312,7 +305,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     # to change to know we are done with a profile.
 
     if switching_to_new_profile?(control.profile)
-      output.puts('')
+      output.puts ''
       print_anonymous_examples_associated_with_last_profile
       clear_anonymous_examples_associated_with_last_profile
     end
@@ -338,10 +331,12 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # as well as a summary of the profile and test stats.
   #
   def close(_notification)
-    print_last_control_with_examples
-    output.puts('')
+    # when the profile has no controls or examples it will not have been printed.
+    # then we want to ensure we print all the profiles
+    print_last_control_with_examples unless last_control_is_anonymous?
+    output.puts ''
     print_anonymous_examples_associated_with_last_profile
-    output.puts('')
+    print_profiles_without_examples
     print_profile_summary
     print_tests_summary
   end
@@ -376,7 +371,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # than the new control then we are indeed switching controls.
   #
   def switching_to_new_control?(control)
-    @last_control && @last_control.id != control.id
+    @last_control && @last_control != control
   end
 
   def store_last_control(control)
@@ -384,12 +379,14 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 
   def print_last_control_with_examples
-    print_control(@last_control)
-    @last_control.examples.each { |example| print_result(example) }
+    if @last_control
+      print_control(@last_control)
+      @last_control.examples.each { |example| print_result(example) }
+    end
   end
 
   def last_control_is_anonymous?
-    @last_control.anonymous?
+    @last_control && @last_control.anonymous?
   end
 
   #
@@ -407,6 +404,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     Array(anonymous_examples_within_this_profile).uniq.each do |control|
       print_anonymous_control(control)
     end
+    output.puts '' unless Array(anonymous_examples_within_this_profile).empty?
   end
 
   #
@@ -446,7 +444,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #     version, and target information.
   #
   def print_profile(profile)
-    return if profile[:already_printed]
+    return if profile.nil? || profile[:already_printed]
     output.puts ''
 
     if profile[:name].nil?
@@ -464,6 +462,17 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     output.puts 'Version: ' + (profile[:version] || 'unknown')
     print_target
     profile[:already_printed] = true
+  end
+
+  def print_profiles_without_examples
+    profiles_info.reject { |p| p[:already_printed] }.each do |profile|
+      print_profile(profile)
+      print_line(
+        color: '', indicator: INDICATORS['empty'], id: '', profile: '',
+        summary: 'No tests executed.'
+      )
+      output.puts ''
+    end
   end
 
   #
@@ -578,6 +587,16 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # maintaining the associated profile, ids, results, title, etc.
   #
   class Control
+    include Comparable
+
+    def <=>(other)
+      if id == other.id && profile_id == other.profile_id
+        0
+      else
+        -1
+      end
+    end
+
     STATUS_TYPES = {
       'unknown'  => -3,
       'passed'   => -2,
@@ -591,7 +610,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     def initialize(control, profile)
       @control = control
       @profile = profile
-      @summary_indicator = STATUS_TYPES['unknown']
+      @summary_status = STATUS_TYPES['unknown']
       @skips = []
       @fails = []
       @passes = []
@@ -601,7 +620,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
     alias as_hash control
 
-    attr_reader :skips, :fails, :passes, :summary_indicator
+    attr_reader :skips, :fails, :passes
 
     def id
       control[:id]
@@ -619,6 +638,12 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
       control[:results] ||= []
       control[:results].push(example)
+      # TODO: this is not working in all instances as there are often multiple
+      #   controls with different result sets and we want the last one.
+      #   Because we are storing the results in the control hash and then re
+      #   re-creating this wrapper Control we are losing any of the calculations
+      #   that we have done before. So while updating the results when a new
+      #   example seems like a good idea, it really does'nt work.
       update_results(example)
     end
 
@@ -650,11 +675,18 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     def update_results(example)
-      summary_status = STATUS_TYPES[example[:status_type]]
-      @summary_indicator = STATUS_TYPES.key(summary_status) if summary_status > summary_indicator
-      fails.push(example) if summary_status > 0
-      passes.push(example) if summary_status == STATUS_TYPES['passed']
-      skips.push(example) if summary_status == STATUS_TYPES['skipped']
+      example_status = STATUS_TYPES[example[:status_type]]
+      @summary_status = example_status if example_status > @summary_status
+      fails.push(example) if example_status > 0
+      passes.push(example) if example_status == STATUS_TYPES['passed']
+      skips.push(example) if example_status == STATUS_TYPES['skipped']
+    end
+
+    def summary_indicator
+      # TODO: this is happening in two places because we have controls that grow
+      #  with the number of results ... the
+      examples.each { |e| update_results(e) }
+      STATUS_TYPES.key(@summary_status)
     end
 
     # Determine title for control given current_control.
@@ -668,7 +700,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
         # If it's an anonymous control, just go with the only description
         # available for the underlying test.
         res[0][:code_desc].to_s
-      elsif res.length.empty?
+      elsif res.empty?
         # Empty control block - if it's anonymous, there's nothing we can do.
         # Is this case even possible?
         'Empty anonymous control'
@@ -685,6 +717,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     # Return summary of the control which is usually a title with fails and skips
     def summary
       res = control[:results]
+      examples.each { |e| update_results(e) }
+
       suffix =
         if res.length == 1
           # Single test - be nice and just print the exception message if the test
@@ -692,8 +726,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
           res[0][:message].to_s
         else
           [
-            !fails.empty? ? "#{fails.length} failed" : nil,
-            !skips.empty? ? "#{skips.length} skipped" : nil,
+            !fails.empty? ? "#{fails.uniq.length} failed" : nil,
+            !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
           ].compact.join(' ')
         end
       if suffix == ''
