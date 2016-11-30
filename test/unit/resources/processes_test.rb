@@ -49,6 +49,25 @@ describe 'Inspec::Resources::Processes' do
     })
   end
 
+  it 'verify long-run processes resource on linux os' do
+    resource = MockLoader.new(:centos6).load_resource('processes', 'httpd')
+    _(resource.list.length).must_equal 4
+    _(resource.list[0].to_h).must_equal({
+      label: '-',
+      pid: 4589,
+      cpu: '0.0',
+      mem: '0.0',
+      vsz: 70992,
+      rss: 2864,
+      tty: '?',
+      stat: 'Ss',
+      start: 'Nov 09',
+      time: '00:01:01',
+      user: 'root',
+      command: '/usr/local/apache2/bin/httpd -k start',
+    })
+  end
+
   it 'access attributes of a process' do
     resource = MockLoader.new(:centos6).load_resource('processes', 'postgres: bifrost bifrost')
     process = resource.list[0]
