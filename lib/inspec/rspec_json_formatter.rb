@@ -589,14 +589,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   class Control
     include Comparable
 
-    def <=>(other)
-      if id == other.id && profile_id == other.profile_id
-        0
-      else
-        -1
-      end
-    end
-
     STATUS_TYPES = {
       'unknown'  => -3,
       'passed'   => -2,
@@ -610,10 +602,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     def initialize(control, profile)
       @control = control
       @profile = profile
-      @summary_status = STATUS_TYPES['unknown']
-      @skips = []
-      @fails = []
-      @passes = []
+      summary_calculation_is_needed
     end
 
     attr_reader :control, :profile
@@ -626,8 +615,23 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       control[:id]
     end
 
-    #
-    # Adds an example to the control. This example
+    def anonymous?
+      control[:id].to_s.start_with? '(generated from '
+    end
+
+    def profile_id
+      control[:profile_id]
+    end
+
+    def examples
+      control[:results]
+    end
+
+    def summary_indicator
+      calculate_summary! if summary_calculation_needed?
+      STATUS_TYPES.key(@summary_status)
+    end
+
     def add_example(example)
       control[:id] = example[:id]
       control[:profile_id] = example[:profile_id]
@@ -638,13 +642,99 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
       control[:results] ||= []
       control[:results].push(example)
-      # TODO: this is not working in all instances as there are often multiple
-      #   controls with different result sets and we want the last one.
-      #   Because we are storing the results in the control hash and then re
-      #   re-creating this wrapper Control we are losing any of the calculations
-      #   that we have done before. So while updating the results when a new
-      #   example seems like a good idea, it really does'nt work.
-      update_results(example)
+      summary_calculation_is_needed
+    end
+
+    # Determine title for control given current_control.
+    # Called from current_control_summary.
+    def title
+      title = control[:title]
+      if title
+        title
+      elsif examples.length == 1
+        # If it's an anonymous control, just go with the only description
+        # available for the underlying test.
+        examples[0][:code_desc].to_s
+      elsif examples.empty?
+        # Empty control block - if it's anonymous, there's nothing we can do.
+        # Is this case even possible?
+        'Empty anonymous control'
+      else
+        # Multiple tests - but no title. Do our best and generate some form of
+        # identifier or label or name.
+        title = (examples.map { |example| example[:code_desc] }).join('; ')
+        max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
+        title = title[0..(max_len-1)] + '...' if title.length > max_len
+        title
+      end
+    end
+
+    # Return summary of the control which is usually a title with fails and skips
+    def summary
+      calculate_summary! if summary_calculation_needed?
+      suffix =
+        if examples.length == 1
+          # Single test - be nice and just print the exception message if the test
+          # failed. No need to say "1 failed".
+          examples[0][:message].to_s
+        else
+          [
+            !fails.empty? ? "#{fails.uniq.length} failed" : nil,
+            !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
+          ].compact.join(' ')
+        end
+      if suffix == ''
+        title
+      else
+        title + ' (' + suffix + ')'
+      end
+    end
+
+    # We are interested in comparing controls against other controls. It is
+    # important to compare their id values and the id values of their profiles.
+    # In the event that a control has the same id in a different profile we
+    # do not want them to be considered the same.
+    #
+    # Controls are never ordered so we don't care about the remaining
+    # implementation of the spaceship operator.
+    #
+    def <=>(other)
+      if id == other.id && profile_id == other.profile_id
+        0
+      else
+        -1
+      end
+    end
+
+    private
+
+    def summary_calculation_needed?
+      @summary_calculation_needed
+    end
+
+    def summary_calculation_is_needed
+      @summary_calculation_needed = true
+    end
+
+    def summary_has_been_calculated
+      @summary_calculation_needed = false
+    end
+
+    def calculate_summary!
+      @summary_status = STATUS_TYPES['unknown']
+      @skips = []
+      @fails = []
+      @passes = []
+      examples.each { |example| update_summary(example) }
+      summary_has_been_calculated
+    end
+
+    def update_summary(example)
+      example_status = STATUS_TYPES[example[:status_type]]
+      @summary_status = example_status if example_status > @summary_status
+      fails.push(example) if example_status > 0
+      passes.push(example) if example_status == STATUS_TYPES['passed']
+      skips.push(example) if example_status == STATUS_TYPES['skipped']
     end
 
     # Determines 'status_type' (critical, major, minor) of control given
@@ -662,80 +752,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       end
     end
 
-    def anonymous?
-      control[:id].to_s.start_with? '(generated from '
-    end
-
-    def profile_id
-      control[:profile_id]
-    end
-
-    def examples
-      control[:results]
-    end
-
-    def update_results(example)
-      example_status = STATUS_TYPES[example[:status_type]]
-      @summary_status = example_status if example_status > @summary_status
-      fails.push(example) if example_status > 0
-      passes.push(example) if example_status == STATUS_TYPES['passed']
-      skips.push(example) if example_status == STATUS_TYPES['skipped']
-    end
-
-    def summary_indicator
-      # TODO: this is happening in two places because we have controls that grow
-      #  with the number of results ... the
-      examples.each { |e| update_results(e) }
-      STATUS_TYPES.key(@summary_status)
-    end
-
-    # Determine title for control given current_control.
-    # Called from current_control_summary.
-    def title
-      title = control[:title]
-      res = control[:results]
-      if title
-        title
-      elsif res.length == 1
-        # If it's an anonymous control, just go with the only description
-        # available for the underlying test.
-        res[0][:code_desc].to_s
-      elsif res.empty?
-        # Empty control block - if it's anonymous, there's nothing we can do.
-        # Is this case even possible?
-        'Empty anonymous control'
-      else
-        # Multiple tests - but no title. Do our best and generate some form of
-        # identifier or label or name.
-        title = (res.map { |r| r[:code_desc] }).join('; ')
-        max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
-        title = title[0..(max_len-1)] + '...' if title.length > max_len
-        title
-      end
-    end
-
-    # Return summary of the control which is usually a title with fails and skips
-    def summary
-      res = control[:results]
-      examples.each { |e| update_results(e) }
-
-      suffix =
-        if res.length == 1
-          # Single test - be nice and just print the exception message if the test
-          # failed. No need to say "1 failed".
-          res[0][:message].to_s
-        else
-          [
-            !fails.empty? ? "#{fails.uniq.length} failed" : nil,
-            !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
-          ].compact.join(' ')
-        end
-      if suffix == ''
-        title
-      else
-        title + ' (' + suffix + ')'
-      end
-    end
   end
 end
 
