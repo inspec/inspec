@@ -48,32 +48,6 @@ module Inspec
       end
     end
 
-    def self.vendor(path, opts)
-      puts 'Vendoring profile.'
-
-      path.nil? ? path = Pathname.new(Dir.pwd) : path = Pathname.new(path)
-      cache_path = path.join('vendor')
-      inspec_lock = path.join('inspec.lock')
-
-      if (cache_path.exist? || inspec_lock.exist?) && !opts[:overwrite]
-        puts 'Profile is already vendored. Use --overwrite.'
-        return false
-      end
-
-      # remove existing
-      FileUtils.rm_rf(cache_path) if cache_path.exist?
-      File.delete(inspec_lock) if inspec_lock.exist?
-
-      puts "Vendor dependencies of #{path} into #{cache_path}"
-      opts[:cache] = Inspec::Cache.new(cache_path.to_s)
-      opts[:backend] = Inspec::Backend.create(target: 'mock://')
-
-      # vendor dependencies and generate lockfile
-      profile = Inspec::Profile.for_target(path.to_s, opts)
-      lockfile = profile.generate_lockfile
-      File.write(inspec_lock, lockfile.to_yaml)
-    end
-
     def self.for_path(path, opts)
       file_provider = FileProvider.for_path(path)
       rp = file_provider.relative_provider

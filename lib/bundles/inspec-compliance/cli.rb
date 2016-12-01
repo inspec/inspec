@@ -128,7 +128,7 @@ module Compliance
         exit 1
       end
 
-      Inspec::Profile.vendor(path, options) if File.directory?(path)
+      vendor_deps(path, options) if File.directory?(path)
 
       o = options.dup
       configure_logger(o)

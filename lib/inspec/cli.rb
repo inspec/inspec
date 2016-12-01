@@ -111,14 +111,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     desc: 'Overwrite existing vendored dependencies and lockfile.'
   def vendor(path = nil)
     o = opts.dup
-    o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-    configure_logger(o)
-
-    Inspec::Profile.vendor(path, o)
-
-  rescue StandardError => e
-    pretty_handle_exception(e)
+    vendor_deps(path, o)
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
