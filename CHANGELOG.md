@@ -1,7 +1,39 @@
 # Change Log
 
-## [1.6.0](https://github.com/chef/inspec/tree/1.6.0) (2016-11-28)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.5.0...1.6.0)
+## [1.7.0](https://github.com/chef/inspec/tree/1.7.0) (2016-12-02)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.6.0...1.7.0)
+
+**Implemented enhancements:**
+
+- inspec compliance profiles should support automate as a backend [\#1295](https://github.com/chef/inspec/issues/1295)
+- this is killing my eyes!!!!!!!!! [\#951](https://github.com/chef/inspec/issues/951)
+- Show process name during inspec output [\#1329](https://github.com/chef/inspec/pull/1329) ([jcastillocano](https://github.com/jcastillocano))
+
+**Fixed bugs:**
+
+- inspec.lock not loaded from tarball profiles [\#1322](https://github.com/chef/inspec/issues/1322)
+- InSpec tries to re-fetch profiles even if lockfile exists [\#1316](https://github.com/chef/inspec/issues/1316)
+- fix docker release script [\#1328](https://github.com/chef/inspec/pull/1328) ([chris-rock](https://github.com/chris-rock))
+- Provide inspec.lock for archives as well [\#1323](https://github.com/chef/inspec/pull/1323) ([alexpop](https://github.com/alexpop))
+- inspec check and json to use vendored dependencies [\#1321](https://github.com/chef/inspec/pull/1321) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- RegExp in processes resource can't match long-run process [\#1332](https://github.com/chef/inspec/issues/1332)
+- inspec archive vendoring [\#1325](https://github.com/chef/inspec/issues/1325)
+- inspec compliance upload of a meta-profile [\#1294](https://github.com/chef/inspec/issues/1294)
+
+**Merged pull requests:**
+
+- improve functional tests for vendored profiles [\#1337](https://github.com/chef/inspec/pull/1337) ([chris-rock](https://github.com/chris-rock))
+- Adds junit to the inspec help exec [\#1336](https://github.com/chef/inspec/pull/1336) ([burtlo](https://github.com/burtlo))
+- Vendor profile when uploading to chef-compliance [\#1334](https://github.com/chef/inspec/pull/1334) ([vjeffrey](https://github.com/vjeffrey))
+- fix bug: RegExp in processes resource can't match long-run process \#1332 [\#1333](https://github.com/chef/inspec/pull/1333) ([Wing924](https://github.com/Wing924))
+- clean up rspec\_json\_formatter [\#1314](https://github.com/chef/inspec/pull/1314) ([vjeffrey](https://github.com/vjeffrey))
+- enable inspec compliance cli support automate [\#1297](https://github.com/chef/inspec/pull/1297) ([vjeffrey](https://github.com/vjeffrey))
+
+## [v1.6.0](https://github.com/chef/inspec/tree/v1.6.0) (2016-11-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.5.0...v1.6.0)
 
 **Fixed bugs:**
 
