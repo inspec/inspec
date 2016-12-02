@@ -33,7 +33,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def json(target)
     diagnose
     o = opts.dup
-    configure_logger(o)
     o[:ignore_supports] = true
     o[:backend] = Inspec::Backend.create(target: 'mock://')
 
@@ -60,7 +59,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def check(path) # rubocop:disable Metrics/AbcSize
     diagnose
     o = opts.dup
-    configure_logger(o)
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
 
