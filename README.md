@@ -27,6 +27,9 @@ inspec exec test.rb
 # run test on remote host on SSH
 inspec exec test.rb -t ssh://user@hostname -i /path/to/key
 
+# run test on remote host using SSH agent private key authentication. Requires InSpec 1.7.1
+inspec exec test.rb -t ssh://user@hostname
+
 # run test on remote windows host on WinRM
 inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
 
@@ -47,7 +50,7 @@ InSpec requires Ruby ( >1.9 ).
 
 ### Install as package
 
-The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec). 
+The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec).
 
 ### Install it via rubygems.org
 
