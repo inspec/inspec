@@ -1,7 +1,22 @@
 # Change Log
 
-## [1.7.0](https://github.com/chef/inspec/tree/1.7.0) (2016-12-02)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.6.0...1.7.0)
+## [1.7.1](https://github.com/chef/inspec/tree/1.7.1) (2016-12-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.0...1.7.1)
+
+**Implemented enhancements:**
+
+- Use train 0.22.0 for SSH agent support [\#1342](https://github.com/chef/inspec/pull/1342) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- Remove check and json logging for now [\#1343](https://github.com/chef/inspec/pull/1343) ([alexpop](https://github.com/alexpop))
+
+**Merged pull requests:**
+
+- dont remove gh-pages if it doesnt exist [\#1340](https://github.com/chef/inspec/pull/1340) ([arlimus](https://github.com/arlimus))
+
+## [v1.7.0](https://github.com/chef/inspec/tree/v1.7.0) (2016-12-02)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.6.0...v1.7.0)
 
 **Implemented enhancements:**
 
