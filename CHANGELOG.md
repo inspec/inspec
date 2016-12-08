@@ -1,7 +1,14 @@
 # Change Log
 
-## [1.7.1](https://github.com/chef/inspec/tree/1.7.1) (2016-12-03)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.7.0...1.7.1)
+## [1.7.2](https://github.com/chef/inspec/tree/1.7.2) (2016-12-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.1...1.7.2)
+
+**Fixed bugs:**
+
+- use cached profile for compliance dependencies if vendored [\#1348](https://github.com/chef/inspec/pull/1348) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.7.1](https://github.com/chef/inspec/tree/v1.7.1) (2016-12-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.0...v1.7.1)
 
 **Implemented enhancements:**
 
