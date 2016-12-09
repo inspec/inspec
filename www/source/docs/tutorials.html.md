@@ -9,6 +9,9 @@ The following tutorial provides step-by-step instructions on how easy it is to b
 * [Day 5 - Creating a Profile](http://www.anniehedgie.com/inspec-basics-5)
 * [Day 6 - Ways to Run It and Places to Store It](http://www.anniehedgie.com/inspec-basics-6)
 * [Day 7 - How to Inherit a Profile from Chef Compliance Server](http://www.anniehedgie.com/inspec-basics-7)
+* [Day 8 - Regular Expressions](http://www.anniehedgie.com/inspec-basics-8)
+* [Day 9 - Attributes](http://www.anniehedgie.com/inspec-basics-9)
+* [Day 10 - Attributes with Environment Variables](http://www.anniehedgie.com/inspec-basics-10)
 
 Additionally, these are great guides for specific areas or more advanced topics:
 
