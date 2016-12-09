@@ -122,6 +122,8 @@ module Inspec
       autoloads.each do |path|
         next unless path.end_with?('.rb')
         load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
+        # merge in any new custom resources defined in libraries
+        @resource_registry.merge!(Inspec::Resource.registry)
       end
       reload_dsl
     end
