@@ -131,7 +131,7 @@ The following examples show how to use this InSpec audit resource.
       it { should be_running }
       it { should have_app_pool('DefaultAppPool') }
       it { should have_binding('http *:80:') }
-      it { should have_path('%SystemDrive%\\inetpub\\wwwroot\\') }
+      it { should have_path('%SystemDrive%\\inetpub\\wwwroot') }
     end
 
 ### Test if IIS service is running
