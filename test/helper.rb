@@ -127,6 +127,8 @@ class MockLoader
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
       '/etc/xinetd.d/chargen-dgram' => mockfile.call('xinetd.d_chargen-dgram'),
       '/etc/sysctl.conf' => mockfile.call('sysctl.conf'),
+      '/tmp/gordon_config.json' => mockfile.call('gordon_config.json'),
+      '/tmp/gordon_config.yaml' => mockfile.call('gordon_config.yaml')
     }
 
     # create all mock commands

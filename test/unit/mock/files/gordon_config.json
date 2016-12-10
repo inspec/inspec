@@ -1,0 +1,7 @@
+{
+  "gordon_config": {
+    "Lives": 3,
+    "MaxSpeed": 200,
+    "Transmission": "manual"
+  }
+}
