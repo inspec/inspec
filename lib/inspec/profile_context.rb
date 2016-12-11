@@ -58,6 +58,7 @@ module Inspec
     end
 
     def reload_dsl
+      @resource_registry.merge!(Inspec::Resource.new_registry)
       @control_eval_context = nil
     end
 
@@ -145,8 +146,6 @@ module Inspec
       else
         context.instance_eval(content, source || 'unknown', line || 1)
       end
-      # merge in new resources from global context
-      self.resource_registry.merge!(Inspec::Resource.new_registry)
     end
 
     def unregister_rule(id)
