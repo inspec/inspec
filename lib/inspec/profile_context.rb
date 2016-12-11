@@ -93,9 +93,8 @@ module Inspec
       found
     end
 
-    def add_resources(context, registry = nil)
-      @resource_registry.merge!(registry || context.resource_registry)
-      return if registry
+    def add_resources(context)
+      @resource_registry.merge!(context.resource_registry)
       control_eval_context.add_resources(context)
       @lib_subcontexts << context
       reload_dsl
@@ -123,7 +122,6 @@ module Inspec
       autoloads.each do |path|
         next unless path.end_with?('.rb')
         load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
-        add_resources(@library_eval_context, Inspec::Resource.registry)
       end
       reload_dsl
     end
@@ -147,6 +145,8 @@ module Inspec
       else
         context.instance_eval(content, source || 'unknown', line || 1)
       end
+      # merge in new resources from global context
+      self.resource_registry.merge!(Inspec::Resource.new_registry)
     end
 
     def unregister_rule(id)
