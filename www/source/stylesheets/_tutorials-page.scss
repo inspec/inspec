@@ -1,7 +1,7 @@
 .tutorials--subhead {
   font-family: $heading-font;
   text-transform: uppercase;
-  color: $inspec-blue;
+  color: $color_link;
   font-size: 18px;
 }
 
@@ -24,6 +24,6 @@
   & > span {
     text-transform: none;
     font-family: $main-font;
-    color: $body-text;
+    color: $color_paragraph;
   }
 }

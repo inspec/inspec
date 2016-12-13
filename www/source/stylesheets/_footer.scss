@@ -1,9 +1,9 @@
-
+//Not Styled Yet
 
 #main-footer {
   padding: 30px 0;
   margin-top: 40px;
-  background: $off-white-2;
+  background: $color_heading;
 }
 
 .footer--logos {
@@ -24,7 +24,7 @@
   &.chef {
     width: 27%;
     padding-right: 5%;
-    border-right: 1px solid $inspec-grey;
+    border-right: 1px solid $color_gray;
   }
 
   &.inspec {
@@ -66,13 +66,13 @@
 }
 
 .footer--link {
-  color: $inspec-grey;
+  color: $color_gray;
   text-transform: uppercase;
   font-family: $heading-font;
 
   &:hover,
   &:focus,
   &:active {
-    color: darken($inspec-grey, 15%);
+    color: darken($color_gray, 15%);
   }
 }

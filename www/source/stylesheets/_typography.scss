@@ -1,15 +1,55 @@
-h1,h2,h3,h4,h5,h6 {
-  font-family: $main-font;
+h1 {
+	font-family: $heading-font;
+	font-size: 36px;
+	color: $color_heading;
+}
+h2 {
+	font-family: $heading-font;
+	font-size: 30px;
+	color: $color_heading;
+}
+h3 {
+	font-family: $heading-font;
+	font-size: 20px;
+	color: $color_heading;
+}
+h4 {
+	font-family: $heading-font;
+	font-size: 20px;
+	color: $color_paragraph;
+}
+p {
+	font-family: $main-font;
+	color: $color_paragraph;
+	font-weight: 300;
+}
+small {
+	font-family: $main-font;
+	font-size: 65%;
+	color: $color_gray;
+	@extend %uppercase;
 }
 
-.main-subhead {
-  @media (min-width: 640px) {
-    font-size: 30px;
-  }
+hr {
+	border: 0;
+	height: 1px;
+	width: 20%;
+	background-color: $color_hr;
+	background: linear-gradient(to right, $color_hr 0, $color_link 100%);
+	filter: progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
 }
 
-p, ul {
-  @media (max-width: 400px) {
-    font-size: 14px;
-  }
+//Font Colors//
+
+.t-dk {
+	color: $color_heading;
+}
+.t-white {
+	color: $color_white;
+}
+.t-blue {
+	color: $color_link;
+}
+.t-transparent {
+	opacity: 0.6;
 }

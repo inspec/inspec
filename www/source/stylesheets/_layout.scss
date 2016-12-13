@@ -1,29 +1,91 @@
-body {
-  position: relative;
-  font-family: $main-font;
-  color: $body-text;
+
+//Alignment
+
+.strict-center {
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: center;
+}
+.strict-right {
+	float: right;
+	text-align: right;
+}
+//margins
+
+.margin-both-xl {
+	margin-top: $percent_lg;
+	margin-bottom: $percent_lg;
+}
+.margin-top-xl {
+	margin-top: $percent_lg;
+}
+.margin-under-xl {
+	margin-bottom: $percent_lg;
+}
+.margin-both {
+	margin-top: $percent_md;
+	margin-bottom: $percent_md;
+}
+.margin-top {
+	margin-top: $percent_md;
+}
+.margin-under {
+	margin-bottom: $percent_md;
+}
+.margin-under-xs {
+	margin-bottom: $percent_sm;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+//Art
+
+.icon-art {
+	height: 100px;
+	margin-bottom: 15px;
+	margin-top: 15px;
 }
-
-.row {
-  max-width: 1200px;
+.icon {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	border: 2px solid $color_white;
+	overflow: hidden;
+	background: $color_white;
+	margin-top: -35px;
+	z-index: 50;
+	position: absolute;
+	img {
+		display: block;
+		padding: 30%;
+		height: auto;
+	}
 }
-
-#main-content {
-  position: relative;
-  margin-top: 64px;
-  transition: margin 0.3s ease;
-
-  @include nav-small {
-    padding: 0 $side-nav-padding-small;
-  }
-
-  @include nav-large {
-    padding-right: 10px;
-    margin: $top-nav-height 0 0 ($side-nav-width + 50px);
-  }
+.shadow {
+	box-shadow: 0 0 25px $color_shadow;
 }
+.block-angl {
+	background: $color_triangle_block;
+	clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
+}
+.triangle-shade {
+	background-image: url('/images/home/triangle-motif.png');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 85% 0;
+}
+.purp-shade {
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%, rgba(151,110,229,0.2) 50%, rgba(151,110,229,0) 100%);
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
+	background: radial-gradient(ellipse at center,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66976ee5', endColorstr='#00976ee5',GradientType=1 );
+}
+.blue-gradient {
+	  background: -moz-linear-gradient(100% -14.24% -80deg,rgba(99, 206, 153, 1) 0%,rgba(91, 201, 163, 1) 8.33%,rgba(67, 185, 194, 1) 36.64%,rgba(58, 179, 206, 1) 52.48%,rgba(58, 175, 206, 1) 67.93%,rgba(58, 162, 206, 1) 83.94%,rgba(58, 142, 206, 1) 100%);
+	  background: -webkit-linear-gradient(-80deg, rgba(99, 206, 153, 1) 0%, rgba(91, 201, 163, 1) 8.33%, rgba(67, 185, 194, 1) 36.64%, rgba(58, 179, 206, 1) 52.48%, rgba(58, 175, 206, 1) 67.93%, rgba(58, 162, 206, 1) 83.94%, rgba(58, 142, 206, 1) 100%);
+	  background: -webkit-gradient(linear,100% -14.24% ,56.15% 114.24% ,color-stop(0,rgba(99, 206, 153, 1) ),color-stop(0.0833,rgba(91, 201, 163, 1) ),color-stop(0.3664,rgba(67, 185, 194, 1) ),color-stop(0.5248,rgba(58, 179, 206, 1) ),color-stop(0.6793,rgba(58, 175, 206, 1) ),color-stop(0.8394,rgba(58, 162, 206, 1) ),color-stop(1,rgba(58, 142, 206, 1) ));
+	  background: -o-linear-gradient(-80deg, rgba(99, 206, 153, 1) 0%, rgba(91, 201, 163, 1) 8.33%, rgba(67, 185, 194, 1) 36.64%, rgba(58, 179, 206, 1) 52.48%, rgba(58, 175, 206, 1) 67.93%, rgba(58, 162, 206, 1) 83.94%, rgba(58, 142, 206, 1) 100%);
+	  background: -ms-linear-gradient(-80deg, rgba(99, 206, 153, 1) 0%, rgba(91, 201, 163, 1) 8.33%, rgba(67, 185, 194, 1) 36.64%, rgba(58, 179, 206, 1) 52.48%, rgba(58, 175, 206, 1) 67.93%, rgba(58, 162, 206, 1) 83.94%, rgba(58, 142, 206, 1) 100%);
+	  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63CE99', endColorstr='#3A8ECE' ,GradientType=0)";
+	  background: linear-gradient(170deg, rgba(99, 206, 153, 1) 0%, rgba(91, 201, 163, 1) 8.33%, rgba(67, 185, 194, 1) 36.64%, rgba(58, 179, 206, 1) 52.48%, rgba(58, 175, 206, 1) 67.93%, rgba(58, 162, 206, 1) 83.94%, rgba(58, 142, 206, 1) 100%);
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#63CE99',endColorstr='#3A8ECE' , GradientType=1);
+	}

@@ -1,39 +1,31 @@
-.button {
-  font-family: $heading-font;
-  text-transform: uppercase;
-  border-radius: 0;
-  box-shadow: 3px 3px 0 0 $off-white;
-  transition: all 0.3s ease;
+a {
+	font-family: $main-font;
+	color: $color_link;
+	@extend %transition;
+}
 
-  &.primary {
-    color: $inspec-grey;
-    background: $white;
-    border: 1px solid $inspec-blue;
-  }
-
-  &.primary:active,
-  &.secondary:active {
-    transform: translateX(2px) translateY(2px);
-    box-shadow: 0 0 0 0 $off-white;
-  }
-
-  &.transparent {
-    color: $inspec-grey;
-    background: transparent;
-    padding-left: 0;
-    padding-right: 0;
-    box-shadow: none;
-
-    &:hover {
-      color: darken($inspec-grey, 20%);
-    }
-  }
-
-  &.block {
-    display: block;
-  }
-
-  & + .button {
-    margin-left: 15px;
-  }
+.btn {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 7px;
+	color: $color_white;
+	padding: 0.6rem 1.25rem;
+	border-left: 1px solid $color_purple;
+	border-right: 1px solid $color_link;
+	box-sizing: border-box;
+	background-position: 0 0, 0 100%;
+	background-repeat: no-repeat;
+	background-size: 100% 1px;
+	background-image: linear-gradient(to right, $color_purple 0, $color_link 100%), linear-gradient(to right, $color_purple 0, $color_link 100%);
+	&:hover {
+		background-color: $color_purple;
+		color: $color_white;
+	}
+	&.inverse {
+		color: $color_purple;
+		&:hover {
+			background-color: $color_purple;
+			color: $color_white;
+		}
+	}
 }

@@ -1,3 +1,5 @@
+//Not Styled Yet
+
 $side-nav-width: 200px;
 $top-nav-height: 100px;
 $side-nav-padding-large: 10px;
@@ -22,7 +24,7 @@ $nav-breakpoint: 730px;
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: $white;
+  background: $color_white;
   transition: top 0.3s ease;
 
   @include nav-large {
@@ -52,7 +54,7 @@ $nav-breakpoint: 730px;
   transition: all 0.3s ease;
 
   path {
-    fill: $inspec-grey;
+    fill: $color_gray;
   }
 
   @include nav-small {
@@ -69,14 +71,14 @@ $nav-breakpoint: 730px;
     transform: rotate(-90deg);
 
     path {
-      fill: $inspec-blue;
+      fill: $color_link;
     }
   }
 }
 
 .main-nav--link-ctas {
   padding: 9px 0 9px $side-nav-padding-small;
-  border-bottom: 1px solid lighten($inspec-grey, 40%);
+  border-bottom: 1px solid lighten($color_gray, 40%);
 
   & > .button {
     margin-bottom: 0;
@@ -102,7 +104,7 @@ $nav-breakpoint: 730px;
 }
 
 .main-nav--links {
-  border-top: 1px solid lighten($inspec-grey, 40%);
+  border-top: 1px solid lighten($color_gray, 40%);
   margin-bottom: 0;
   @extend .no-bullet;
 
@@ -123,17 +125,17 @@ $nav-breakpoint: 730px;
 .main-nav--link {
   position: relative;
   padding: 9px 0;
-  border-bottom: 1px solid lighten($inspec-grey, 40%);
+  border-bottom: 1px solid lighten($color_gray, 40%);
   text-transform: uppercase;
   font-size: 14px;
 
   & > a {
-    color: $inspec-grey;
+    color: $color_gray;
 
     &:hover,
     &:focus,
     &:active {
-      color: darken($inspec-grey, 15%);
+      color: darken($color_gray, 15%);
     }
   }
 }
@@ -159,7 +161,7 @@ $nav-breakpoint: 730px;
 
 #main-nav-ctas {
   transition: top 0.3s ease;
-  background: $white;
+  background: $color_white;
 
   @include nav-small {
     display: none;

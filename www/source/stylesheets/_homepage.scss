@@ -1,106 +1,98 @@
-.home-divider {
-  margin: 50px auto;
-  width: 90%;
-  max-width: 600px;
+
+//Hero Banner - Home Page
+
+header {
+	height: 500px;
+}
+#container {
+	height: 500px;
+	overflow: hidden;
+	position: relative;
+}
+.h-top {
+	position: absolute;
+	z-index: 1;
+	img {
+		&:first-of-type {
+			height: 500px;
+			position: relative;
+		}
+		&:nth-child(3) {
+			position: absolute;
+			height: 250px;
+			top: 120px;
+			z-index: -1;
+		}
+	}
+	h1 {
+		position: absolute;
+		z-index: 10;
+		top: 75%;
+	}
 }
 
-.home-hero {
-  position: relative;
-  padding-bottom: 45%;
-  margin-bottom: 20px;
+// Animation for Home Page
 
-  @media (min-width: 420px) {
-    padding-bottom: 0;
-    min-height: 140px;
+//Reflecting Diamond
+
+.bright-animate{
+  animation: brightness 6s infinite;
+  -webkit-animation: brightness 6s infinite;
+  -moz-animation: brightness 6s infinite;
+}
+
+@-webkit-keyframes brightness {
+  0%, 100%  {
+    -webkit-filter: brightness(none);
+    filter: brightness(none);
+  }
+  50% {
+     -webkit-filter: brightness(1.2);
+    filter: brightness(1.2);
   }
 }
 
-.home-hero--code {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  width: 95%;
-  max-width: 300px;
-  transform: translateX(-50%);
-}
-
-.home-hero--buttons > .button {
-  @media (max-width: 430px) {
-    display: block;
-    width: 90%;
-    margin: 0 auto 15px;
+@keyframes brightness {
+  0%, 100%  {
+    -moz-filter: brightness(none);
+   filter: brightness(none);
+   }
+  50% {
+     -moz-filter: brightness(1.2);
+  filter: brightness(1.2);
   }
 }
 
-.code-snippet {
-  margin-bottom: 40px;
+//Warping Grid Animation//
+
+.grid-animate{
+  -webkit-animation: g-animate 5s linear infinite both;
+  animation: g-animate 5s linear infinite both;
+  -moz-animation: g-animate 5s linear infinite both;
 }
+@-webkit-keyframes g-animate {
+  25% { -webkit-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+        transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+      }
 
-.code-snippet--panel {
-  position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  50% {-webkit-transform:  scale3d(1.2, 0.7, 1);
+       transform:  scale3d(1.2, 0.7, 1);
+     }
 
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: -1;
-    top: -20px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-
-    @media (min-width: 1024px) {
-      top: -10px;
-      left: -60px;
-    }
+  75% {-webkit-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+        transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+      }
   }
+  @keyframes g-animate {
+  25% { -moz-transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2);
+        transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2);
+      }
 
-  &.first {
-    .code-snippet--heading {
-      color: $inspec-green;
-    }
+  50% {-moz-transform:   scale3d(1.2, 0.7, 1);
+       transform:   scale3d(1.2, 0.7, 1);
+     }
 
-    &:before {
-      background: rgba($inspec-green, 0.1);
-    }
+  75% {-moz-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+        transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+      }
   }
-
-  &.second {
-    .code-snippet--heading {
-      color: $inspec-blue;
-    }
-
-    &:before {
-      background: rgba($inspec-blue, 0.1);
-    }
-  }
-}
-
-.code-snippet--img {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-
-  @media (max-width: 1023px) {
-    max-width: 400px;
-  }
-}
-
-.code-snippet--description {
-  display: block;
-  margin-bottom: 16px;
-}
-
-.code-snippet--heading {
-  margin-bottom: 0;
-  font-family: $heading-font;
-  font-size: 17px;
-  text-transform: uppercase;
-}
-
-.code-snippet--text {
-  font-size: 15px;
-}

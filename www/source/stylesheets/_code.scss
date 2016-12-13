@@ -1,18 +1,23 @@
-pre {
-  padding: 10px;
-  margin-bottom: 1em;
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid rgba($inspec-blue, 0.3);
-  color: darken($inspec-blue, 25%);
 
-  & > code {
-    background: transparent;
-    border: none;
-  }
+.code-example {
+	border-radius: 7px;
+	padding: $percent_sm;
+	background: $color_heading;
 }
 
-code {
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid transparent;
-  color: darken($inspec-blue, 25%);
+// Code Font Colors
+
+.code-demo {
+	color: $color_white;
+	border: 0;
+	background-color: initial;
+}
+.code-attribute {
+	color: $color_purple;
+}
+.code-token {
+	color: $color_code_token;
+}
+.code-comment {
+	opacity: 0.6;
 }
