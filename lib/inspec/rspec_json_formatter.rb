@@ -101,12 +101,9 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   def initialize(*args)
     super(*args)
     @profiles = []
-    # Will be valid after "start" state is reached.
     @profiles_info = nil
     @backend = nil
   end
-
-  attr_reader :profiles
 
   # Called by the runner during example collection.
   def add_profile(profile)
@@ -125,6 +122,14 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     end
   end
 
+  private
+
+  attr_reader :profiles
+
+  def all_unique_controls
+    Array(@all_controls).uniq
+  end
+
   def profile_summary
     failed = 0
     skipped = 0
@@ -132,8 +137,6 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     critical = 0
     major = 0
     minor = 0
-
-    all_unique_controls = Array(@all_controls).uniq
 
     all_unique_controls.each do |control|
       next if control[:id].start_with? '(generated from '
@@ -173,7 +176,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     skipped = 0
     passed = 0
 
-    Array(@all_controls).uniq.each do |control|
+    all_unique_controls.each do |control|
       next unless control[:results]
       control[:results].each do |result|
         if result[:status] == 'failed'
@@ -189,10 +192,8 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     { 'total' => total, 'failed' => failed, 'skipped' => skipped, 'passed' => passed }
   end
 
-  private
-
   def examples
-    @examples ||= @output_hash.delete(:controls)
+    @output_hash[:controls]
   end
 
   def examples_without_controls
