@@ -129,7 +129,7 @@ describe 'example inheritance profile' do
     out.exit_status.must_equal 0
 
     # execute json command
-    out = inspec(' meta-profile.tar.gz -l debug')
+    out = inspec(' meta-profile-1.0.0.tar.gz -l debug')
     out.exit_status.must_equal 0
 
     length = out.stdout.scan(/Fetching URL:/).length
