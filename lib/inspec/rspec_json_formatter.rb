@@ -107,7 +107,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
   # Called by the runner during example collection.
   def add_profile(profile)
-    profiles.push(profile)
+    @profiles.push(profile)
   end
 
   def stop(notification)
@@ -123,8 +123,6 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   private
-
-  attr_reader :profiles
 
   def all_unique_controls
     Array(@all_controls).uniq
@@ -205,7 +203,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   def profiles_info
-    @profiles_info ||= profiles.map(&:info!).map(&:dup)
+    @profiles_info ||= @profiles.map(&:info!).map(&:dup)
   end
 
   def example2control(example)
