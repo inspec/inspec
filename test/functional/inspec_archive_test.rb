@@ -11,7 +11,7 @@ describe 'inspec archive' do
   it 'archive is successful' do
     out = inspec('archive ' + example_profile + ' --overwrite')
     out.exit_status.must_equal 0
-    out.stdout.must_match(/Generate archive [^ ]*profile.tar.gz/)
+    out.stdout.must_match(/Generate archive [^ ]*profile-1.0.0.tar.gz/)
     out.stdout.must_include 'Finished archive generation.'
   end
 
@@ -25,7 +25,7 @@ describe 'inspec archive' do
   end
 
   it 'auto-archives when no --output is given' do
-    auto_dst = File.join(repo_path, 'profile.tar.gz')
+    auto_dst = File.join(repo_path, 'profile-1.0.0.tar.gz')
     out = inspec('archive ' + example_profile + ' --overwrite')
     out.stderr.must_equal ''
     out.stdout.must_include 'Generate archive '+auto_dst
