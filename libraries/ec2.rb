@@ -4,7 +4,7 @@ require 'aws_conn'
 
 class Ec2 < Inspec.resource(1)
   name 'aws_ec2'
-  desc 'Returns information about an EC2 instance'
+  desc 'Verifies settings for an EC2 instance'
 
   example "
     describe aws_ec2('i-123456') do

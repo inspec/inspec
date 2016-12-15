@@ -8,7 +8,3 @@ describe aws_ec2(name: 'aws-inspec') do
   its('vpc_id') { should eq 'vpc-1234567' }
   its('subnet_id') { should eq 'subnet-1234567' }
 end
-
-describe aws_ec2(name: 'aws-opsworks-cm-serdar2') do
-  it { should_not be_running }
-end
