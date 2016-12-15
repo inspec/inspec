@@ -399,12 +399,9 @@ module Inspec
       name = params[:name] ||
              fail('Cannot create an archive without a profile name! Please '\
                   'specify the name in metadata or use --output to create the archive.')
-      version = params[:version] ||
-                fail('Cannot create an archive without a profile version! Please '\
-                     'specify the version in metadata or use --output to create the archive.')
       ext = opts[:zip] ? 'zip' : 'tar.gz'
       slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
-      Pathname.new(Dir.pwd).join("#{slug}-#{version}.#{ext}")
+      Pathname.new(Dir.pwd).join("#{slug}.#{ext}")
     end
 
     def load_params
