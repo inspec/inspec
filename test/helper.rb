@@ -114,6 +114,7 @@ class MockLoader
       'kitchen.yml' => mockfile.call('kitchen.yml'),
       'example.csv' => mockfile.call('example.csv'),
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
+      'nonexistent.json' => mockfile.call('nonexistent.json'),
       '/sys/class/net/br0/bridge' => mockdir.call(true),
       'rootwrap.conf' => mockfile.call('rootwrap.conf'),
       '/etc/apache2/apache2.conf' => mockfile.call('apache2.conf'),
