@@ -1,0 +1,9 @@
+sudo: false
+language: ruby
+cache: bundler
+
+rvm:
+  - 2.3.1
+
+bundler_args: --without integration
+script: bundle exec rake
