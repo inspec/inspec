@@ -7,6 +7,9 @@
 # container preparation
 include_recipe('os_prepare::prep_container')
 
+# confgure ssh
+include_recipe('os_prepare::ssh')
+
 # basic tests
 include_recipe('os_prepare::file')
 include_recipe('os_prepare::mount') unless node['osprepare']['docker']
