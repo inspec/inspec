@@ -252,6 +252,13 @@ RSpec::Matchers.define :cmp do |first_expected|
     %w{true false}.include?(value.downcase)
   end
 
+  def version?(value)
+    Gem::Version.new(value)
+    true
+  rescue ArgumentError => _ex
+    false
+  end
+
   # expects that the values have been checked with boolean?
   def to_boolean(value)
     value.casecmp('true') == 0
@@ -261,6 +268,8 @@ RSpec::Matchers.define :cmp do |first_expected|
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       return actual.casecmp(expected) == 0 if op == :==
+      return Gem::Version.new(actual).method(op).call(Gem::Version.new(expected)) if
+        version?(expected) && version?(actual)
     elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))
       return !actual.to_s.match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)

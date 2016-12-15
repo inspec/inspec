@@ -71,6 +71,24 @@ if os.linux?
     it { should_not cmp >= 13 }
   end
 
+  # versions
+  describe '2.4.12' do
+    it { should cmp == '2.4.12' }
+    it { should cmp >= '2.4.5' }
+    it { should cmp >= '2.4.2' }
+    it { should cmp <= '2.4.20' }
+    it { should cmp <= '3.0' }
+    it { should cmp < '2.4.22' }
+    it { should cmp < '3.5' }
+    it { should cmp < '3.5.1' }
+    it { should cmp > '1' }
+    it { should cmp > '1.0' }
+    it { should cmp > '1.0.1' }
+    it { should cmp > '2.4.1' }
+    it { should cmp > '2.4.1.2' }
+    it { should cmp > '2.4.0.1-alpha' }
+  end
+
   # Don't compare octal to number
   describe '07' do
     it { should_not cmp 7 }
