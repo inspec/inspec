@@ -53,11 +53,12 @@ EOF
     end
   end
 
-  describe "#resource" do
+  describe "#resource_class" do
     let(:resource_dsl) { Inspec::Resource.create_dsl(profile_context) }
     let(:inner_context) { Inspec::ProfileContext.new('inner-context', backend, {}) }
+    let(:newfoo) { mock() }
     let(:control_content) do <<EOF
-resource('profile_a', 'foobar')
+resource_class('profile_a', 'foobar')
 EOF
     end
 
@@ -68,10 +69,9 @@ EOF
     end
 
     it "returns the resource from a subcontext" do
-      profile_context.expects(:subcontext_by_name).with('profile_a').returns(inner_context)
-      inner_context.expects(:resource_registry).returns({'foobar' => mock(:new => 'newfoo')})
-      eval_context.instance_eval(control_content).must_equal "newfoo"
+      profile_context.expects(:subcontext_by_name).at_most_once.with('profile_a').returns(inner_context)
+      inner_context.expects(:resource_registry).returns({ 'foobar' => newfoo })
+      eval_context.instance_eval(control_content).must_equal newfoo
     end
-
   end
 end
