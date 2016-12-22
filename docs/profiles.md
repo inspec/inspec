@@ -190,6 +190,7 @@ For example:
       - name: linux
         compliance: base/linux
 
+You need to `inspec vendor` the profile before uploading it to Chef Compliance version 1.7.7 or newer. The vendor subcommand fetches all dependent profiles and stores them in the `vendor` directory.
 
 ## Define in inspec.yml
 
