@@ -12,7 +12,7 @@ module Supermarket
     # displays a list of profiles
     def self.profiles(supermarket_url = SUPERMARKET_URL)
       url = "#{supermarket_url}/api/v1/tools-search"
-      _success, data = get(url, { type: 'compliance_profile', items: 100, order: 'recently_added' })
+      _success, data = get(url, { type: 'compliance_profile', items: 100 })
       if !data.nil?
         profiles = JSON.parse(data)
         profiles['items'].map { |x|
