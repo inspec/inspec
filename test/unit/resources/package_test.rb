@@ -87,6 +87,15 @@ describe 'Inspec::Resources::Package' do
     _(resource.info).must_equal pkg
   end
 
+  # darwin (brew)
+  it 'verify brew package parsing' do
+    resource = MockLoader.new(:osx104).load_resource('package', 'curl')
+    pkg = { name: 'curl', installed: true, version: '7.52.1', type: 'brew' }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal '7.52.1'
+    _(resource.info).must_equal pkg
+  end
+
   # undefined
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('package', 'curl')
