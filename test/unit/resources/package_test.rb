@@ -70,7 +70,7 @@ describe 'Inspec::Resources::Package' do
   end
 
   # solaris 10
-  it 'verify windows package parsing' do
+  it 'verify solaris 10 package parsing' do
     resource = MockLoader.new(:solaris10).load_resource('package', 'SUNWzfsr')
     pkg = { name: 'SUNWzfsr', installed: true, version: '11.10.0-2006.05.18.01.46', type: 'pkg' }
     _(resource.installed?).must_equal true
@@ -79,7 +79,7 @@ describe 'Inspec::Resources::Package' do
   end
 
   # solaris 11
-  it 'verify windows package parsing' do
+  it 'verify solaris 11 package parsing' do
     resource = MockLoader.new(:solaris11).load_resource('package', 'system/file-system/zfs')
     pkg = { name: 'system/file-system/zfs', installed: true, version: '0.5.11-0.175.3.1.0.5.0', type: 'pkg' }
     _(resource.installed?).must_equal true
