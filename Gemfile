@@ -2,13 +2,6 @@
 source 'https://rubygems.org'
 gemspec
 
-# pin dependency for Ruby 1.9.3 since bundler is not
-# detecting that net-ssh 3 does not work with 1.9.3
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
-  gem 'net-ssh', '~> 2.9'
-  gem 'tins', '~> 1.6.0'
-end
-
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '~> 1.8'
   gem 'rack', '< 2.0'
