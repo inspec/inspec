@@ -42,6 +42,20 @@ module Inspec::Resources
       res
     end
 
+    def method_missing(name)
+      param = params[name.to_s]
+      return nil if param.nil?
+      # extract first value if we have only one value in array
+      return param[0] if param.length == 1
+      param
+    end
+
+    def to_s
+      'PostgreSQL Configuration'
+    end
+
+    private
+
     def read_content
       @content = ''
       @params = {}
@@ -86,10 +100,6 @@ module Inspec::Resources
 
     def read_file(path)
       @files_contents[path] ||= inspec.file(path).content
-    end
-
-    def to_s
-      'PostgreSQL Configuration'
     end
   end
 end
