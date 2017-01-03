@@ -74,7 +74,10 @@ module Inspec::Resources
         raw_conf = read_file(to_read[0])
         @content += raw_conf
 
-        params = SimpleConfig.new(raw_conf).params
+        opts = {
+          assignment_re: /^\s*([^=]*?)\s*=\s*[']?\s*(.*?)\s*[']?\s*$/,
+        }
+        params = SimpleConfig.new(raw_conf, opts).params
         @params.merge!(params)
 
         to_read = to_read.drop(1)

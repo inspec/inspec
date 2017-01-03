@@ -128,6 +128,7 @@ class MockLoader
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
       '/etc/xinetd.d/chargen-dgram' => mockfile.call('xinetd.d_chargen-dgram'),
       '/etc/sysctl.conf' => mockfile.call('sysctl.conf'),
+      '/etc/postgresql/9.4/main/postgresql.conf' => mockfile.call('postgresql.conf'),
     }
 
     # create all mock commands
