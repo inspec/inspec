@@ -158,6 +158,7 @@ class MockLoader
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
+      'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
