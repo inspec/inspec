@@ -143,11 +143,13 @@ module Inspec::Resources
       # parse data
       pkg = JSON.parse(cmd.stdout)[0]
       {
-        name: pkg.name.to_s,
+        name: pkg['name'],
         installed: true,
-        version: pkg.installed.version.to_s,
+        version: pkg['installed'][0]['version'],
         type: 'brew',
       }
+    rescue JSON::ParserError => _e
+      return nil
     end
   end
 
