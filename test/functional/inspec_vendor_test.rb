@@ -83,7 +83,7 @@ describe 'example inheritance profile' do
     out.exit_status.must_equal 0
     hm = JSON.load(File.read(dst.path))
     hm['name'].must_equal 'meta-profile'
-    hm['controls'].length.must_equal 79
+    hm['controls'].length.must_equal 78
 
     # copies = out.stdout.scan(/Copy .* to cache directory/).length
     # copies.must_equal 3
