@@ -9,6 +9,7 @@ require 'thor'
 require 'json'
 require 'pp'
 require 'utils/json_log'
+require 'utils/latest_version'
 require 'inspec/base_cli'
 require 'inspec/plugins'
 require 'inspec/runner_mock'
@@ -223,6 +224,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
+    # display outdated version
+    latest = LatestInSpecVersion.new.latest
+    if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
+      puts "\nYour version of InSpec is out of date! The latest version is #{latest}."
+    end
   end
 
   private
