@@ -27,6 +27,9 @@ inspec exec test.rb
 # run test on remote host on SSH
 inspec exec test.rb -t ssh://user@hostname -i /path/to/key
 
+# run test on remote host using SSH agent private key authentication. Requires InSpec 1.7.1
+inspec exec test.rb -t ssh://user@hostname
+
 # run test on remote windows host on WinRM
 inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-password'
 
@@ -47,7 +50,7 @@ InSpec requires Ruby ( >1.9 ).
 
 ### Install as package
 
-The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec). 
+The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec).
 
 ### Install it via rubygems.org
 
@@ -262,7 +265,7 @@ Mac OS X | 10.9, 10.10, 10.11 | x86_64
 Oracle Enterprise Linux | 5, 6, 7 | i386, x86_64
 Red Hat Enterprise Linux | 5, 6, 7 | i386, x86_64
 Solaris | 10, 11 | sparc, x86
-Windows | 7, 8, 8.1, 2008*, 2008R2* , 2012, 2012R2 | x86, x86_64
+Windows | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64
 Ubuntu Linux | | x86, x86_64
 SUSE Linux Enterprise Server  | 11, 12 | x86_64
 Scientific Linux | 5.x, 6.x and 7.x | i386, x86_64
@@ -273,7 +276,7 @@ Gentoo Linux | | x86_64
 Arch Linux | | x86_64
 HP-UX | 11.31 | ia64
 
-* For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.
+*For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.*
 
 In addition, runtime support is provided for:
 

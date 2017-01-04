@@ -79,8 +79,10 @@ namespace :www do
     file_count = Dir['www/build/*'].length
     file_size = `du -hs www/build`.sub(/\s+.*$/m, '')
 
-    Log.info 'Remove local gh-pages branch'
-    sh('git branch -D gh-pages')
+    if system('git rev-parse --verify gh-pages')
+      Log.info 'Remove local gh-pages branch'
+      sh('git branch -D gh-pages')
+    end
 
     current_branch = `git rev-parse --abbrev-ref HEAD`.strip
     if current_branch.empty?

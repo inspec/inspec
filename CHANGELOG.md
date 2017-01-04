@@ -1,7 +1,87 @@
 # Change Log
 
-## [1.6.0](https://github.com/chef/inspec/tree/1.6.0) (2016-11-28)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.5.0...1.6.0)
+## [1.8.0](https://github.com/chef/inspec/tree/1.8.0) (2016-12-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.2...1.8.0)
+
+**Fixed bugs:**
+
+- JSON resource's error message is missing filename when file is not found [\#1358](https://github.com/chef/inspec/issues/1358)
+
+**Closed issues:**
+
+- inspec exec doesn't work for SSH [\#1361](https://github.com/chef/inspec/issues/1361)
+- inspec-archive should create a zip with version string [\#1350](https://github.com/chef/inspec/issues/1350)
+- https and security conserns on inspec.io [\#1217](https://github.com/chef/inspec/issues/1217)
+- Resource for windows scheduled task [\#1214](https://github.com/chef/inspec/issues/1214)
+- Last steps for inspec.io launch [\#1114](https://github.com/chef/inspec/issues/1114)
+
+**Merged pull requests:**
+
+- add fallback syntax for serverspec tests [\#1367](https://github.com/chef/inspec/pull/1367) ([chris-rock](https://github.com/chris-rock))
+- JSON resource's error message is missing filename when file is not found [\#1366](https://github.com/chef/inspec/pull/1366) ([makotots](https://github.com/makotots))
+- extending cmp to support better version ops [\#1364](https://github.com/chef/inspec/pull/1364) ([jeremymv2](https://github.com/jeremymv2))
+- add windows 10 and windows 2016 as supported platform [\#1359](https://github.com/chef/inspec/pull/1359) ([chris-rock](https://github.com/chris-rock))
+- Remove trailing `\\` from iis\_site example [\#1354](https://github.com/chef/inspec/pull/1354) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Adds additional tutorials created by Annie Hedgie [\#1352](https://github.com/chef/inspec/pull/1352) ([burtlo](https://github.com/burtlo))
+- Add profile version to archive [\#1351](https://github.com/chef/inspec/pull/1351) ([jaxxstorm](https://github.com/jaxxstorm))
+- burtlo/cleaner cli formatter [\#1331](https://github.com/chef/inspec/pull/1331) ([burtlo](https://github.com/burtlo))
+
+## [v1.7.2](https://github.com/chef/inspec/tree/v1.7.2) (2016-12-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.1...v1.7.2)
+
+**Fixed bugs:**
+
+- use cached profile for compliance dependencies if vendored [\#1348](https://github.com/chef/inspec/pull/1348) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.7.1](https://github.com/chef/inspec/tree/v1.7.1) (2016-12-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.0...v1.7.1)
+
+**Implemented enhancements:**
+
+- Use train 0.22.0 for SSH agent support [\#1342](https://github.com/chef/inspec/pull/1342) ([alexpop](https://github.com/alexpop))
+
+**Fixed bugs:**
+
+- Remove check and json logging for now [\#1343](https://github.com/chef/inspec/pull/1343) ([alexpop](https://github.com/alexpop))
+
+**Merged pull requests:**
+
+- dont remove gh-pages if it doesnt exist [\#1340](https://github.com/chef/inspec/pull/1340) ([arlimus](https://github.com/arlimus))
+
+## [v1.7.0](https://github.com/chef/inspec/tree/v1.7.0) (2016-12-02)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.6.0...v1.7.0)
+
+**Implemented enhancements:**
+
+- inspec compliance profiles should support automate as a backend [\#1295](https://github.com/chef/inspec/issues/1295)
+- this is killing my eyes!!!!!!!!! [\#951](https://github.com/chef/inspec/issues/951)
+- Show process name during inspec output [\#1329](https://github.com/chef/inspec/pull/1329) ([jcastillocano](https://github.com/jcastillocano))
+
+**Fixed bugs:**
+
+- inspec.lock not loaded from tarball profiles [\#1322](https://github.com/chef/inspec/issues/1322)
+- InSpec tries to re-fetch profiles even if lockfile exists [\#1316](https://github.com/chef/inspec/issues/1316)
+- fix docker release script [\#1328](https://github.com/chef/inspec/pull/1328) ([chris-rock](https://github.com/chris-rock))
+- Provide inspec.lock for archives as well [\#1323](https://github.com/chef/inspec/pull/1323) ([alexpop](https://github.com/alexpop))
+- inspec check and json to use vendored dependencies [\#1321](https://github.com/chef/inspec/pull/1321) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- RegExp in processes resource can't match long-run process [\#1332](https://github.com/chef/inspec/issues/1332)
+- inspec archive vendoring [\#1325](https://github.com/chef/inspec/issues/1325)
+- inspec compliance upload of a meta-profile [\#1294](https://github.com/chef/inspec/issues/1294)
+
+**Merged pull requests:**
+
+- improve functional tests for vendored profiles [\#1337](https://github.com/chef/inspec/pull/1337) ([chris-rock](https://github.com/chris-rock))
+- Adds junit to the inspec help exec [\#1336](https://github.com/chef/inspec/pull/1336) ([burtlo](https://github.com/burtlo))
+- Vendor profile when uploading to chef-compliance [\#1334](https://github.com/chef/inspec/pull/1334) ([vjeffrey](https://github.com/vjeffrey))
+- fix bug: RegExp in processes resource can't match long-run process \#1332 [\#1333](https://github.com/chef/inspec/pull/1333) ([Wing924](https://github.com/Wing924))
+- clean up rspec\_json\_formatter [\#1314](https://github.com/chef/inspec/pull/1314) ([vjeffrey](https://github.com/vjeffrey))
+- enable inspec compliance cli support automate [\#1297](https://github.com/chef/inspec/pull/1297) ([vjeffrey](https://github.com/vjeffrey))
+
+## [v1.6.0](https://github.com/chef/inspec/tree/v1.6.0) (2016-11-28)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.5.0...v1.6.0)
 
 **Fixed bugs:**
 

@@ -6,7 +6,7 @@ environment:
   bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
 
   matrix:
-    - ruby_version: "193"
+    - ruby_version: "21"
     - ruby_version: "22"
     - ruby_version: "23"
 

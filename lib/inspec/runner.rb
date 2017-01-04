@@ -80,7 +80,12 @@ module Inspec
         @test_collector.add_profile(profile)
         write_lockfile(profile) if @create_lockfile
         profile.locked_dependencies
-        profile.load_libraries
+        profile_context = profile.load_libraries
+
+        profile_context.dependencies.list.values.each do |requirement|
+          @test_collector.add_profile(requirement.profile)
+        end
+
         @attributes |= profile.runner_context.attributes
         all_controls += profile.collect_tests
       end

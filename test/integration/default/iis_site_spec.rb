@@ -24,3 +24,10 @@ describe iis_site('Default Web Site') do
   it { should have_path('%SystemDrive%\\inetpub\\wwwroot') }
   its('path') { should eq '%SystemDrive%\\inetpub\\wwwroot' }
 end
+
+# test compatability with Serverspec
+describe iis_website('Default Web Site') do
+  it{ should exist }
+  it{ should be_running }
+  it{ should be_in_app_pool('DefaultAppPool') }
+end

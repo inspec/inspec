@@ -121,4 +121,27 @@ module Inspec::Resources
       info
     end
   end
+
+  # for compatability with serverspec
+  # this is deprecated syntax and will be removed in future versions
+  class IisSiteServerSpec < IisSite
+    name 'iis_website'
+    desc 'Tests IIS site configuration on windows. Deprecated, use `iis_site` instead.'
+    example "
+      describe iis_website('Default Website') do
+        it{ should exist }
+        it{ should be_running }
+        it{ should be_in_app_pool('Default App Pool') }
+      end
+    "
+
+    def initialize(site_name)
+      super(site_name)
+      warn '[DEPRECATION] `iis_website(site_name)` is deprecated.  Please use `iis_site(site_name)` instead.'
+    end
+
+    def in_app_pool?(app_pool)
+      has_app_pool?(app_pool)
+    end
+  end
 end

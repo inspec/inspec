@@ -13,8 +13,7 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-
-    def self.resolve(target)
+    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -23,41 +22,62 @@ module Compliance
 
       return nil if uri.nil?
 
-      # check if we have a compliance token
-      config = Compliance::Configuration.new
-      if config['token'].nil?
-        fail Inspec::FetcherFailure, <<EOF
+      # we have detailed information available in our lockfile, no need to ask the server
+      if target.respond_to?(:key?) && target.key?(:url)
+        profile_fetch_url = target[:url]
+        config = {}
+      else
+        # check if we have a compliance token
+        config = Compliance::Configuration.new
+        if config['token'].nil?
+          if config['server_type'] == 'automate'
+            server = 'automate'
+            msg = 'inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
+          else
+            server = 'compliance'
+            msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
+          end
+          fail Inspec::FetcherFailure, <<EOF
 
-Cannot fetch #{uri} because your compliance token has not been
+Cannot fetch #{uri} because your #{server} token has not been
 configured.
 
 Please login using
 
-    inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE'
+    #{msg}
 EOF
-      end
+        end
 
-      # verifies that the target e.g base/ssh exists
-      profile = uri.host + uri.path
-      if !Compliance::API.exist?(config, profile)
-        fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+        # verifies that the target e.g base/ssh exists
+        profile = uri.host + uri.path
+        if !Compliance::API.exist?(config, profile)
+          fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+        end
+        profile_fetch_url = target_url(profile, config)
       end
-      new(target_url(profile, config), config)
+      new(profile_fetch_url, config)
     rescue URI::Error => _e
       nil
     end
 
     def self.target_url(profile, config)
-      owner, id = profile.split('/')
-      "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+      if config['server_type'] == 'automate'
+        target = "#{config['server']}/#{profile}/tar"
+      else
+        owner, id = profile.split('/')
+        target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+      end
+      target
     end
 
-    #
     # We want to save compliance: in the lockfile rather than url: to
-    # make sure we go back through the ComplianceAPI handling.
-    #
+    # make sure we go back through the Compliance API handling.
     def resolved_source
-      { compliance: supermarket_profile_name }
+      @resolved_source ||= {
+        compliance: compliance_profile_name,
+        url: @target,
+        sha256: sha256,
+      }
     end
 
     def to_s
@@ -66,7 +86,7 @@ EOF
 
     private
 
-    def supermarket_profile_name
+    def compliance_profile_name
       m = %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}.match(@target)
       "#{m[:owner]}/#{m[:id]}"
     end

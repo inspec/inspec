@@ -9,6 +9,7 @@ require 'thor'
 require 'json'
 require 'pp'
 require 'utils/json_log'
+require 'utils/latest_version'
 require 'inspec/base_cli'
 require 'inspec/plugins'
 require 'inspec/runner_mock'
@@ -59,7 +60,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def check(path) # rubocop:disable Metrics/AbcSize
     diagnose
     o = opts.dup
-    # configure_logger(o) # we do not need a logger for check yet
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
 
@@ -108,35 +108,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'vendor PATH', 'Download all dependencies and generate a lockfile in a `vendor` directory'
   option :overwrite, type: :boolean, default: false,
     desc: 'Overwrite existing vendored dependencies and lockfile.'
-  def vendor(path = nil) # rubocop:disable Metrics/AbcSize
+  def vendor(path = nil)
     o = opts.dup
-
-    path.nil? ? path = Pathname.new(Dir.pwd) : path = Pathname.new(path)
-    cache_path = path.join('vendor')
-    inspec_lock = path.join('inspec.lock')
-
-    if (cache_path.exist? || inspec_lock.exist?) && !opts[:overwrite]
-      puts 'Profile is already vendored. Use --overwrite.'
-      return false
-    end
-
-    # remove existing
-    FileUtils.rm_rf(cache_path) if cache_path.exist?
-    File.delete(inspec_lock) if inspec_lock.exist?
-
-    puts "Vendor dependencies of #{path} into #{cache_path}"
-    o[:logger] = Logger.new(STDOUT)
-    o[:logger].level = get_log_level(o.log_level)
-    o[:cache] = Inspec::Cache.new(cache_path.to_s)
-    o[:backend] = Inspec::Backend.create(target: 'mock://')
-    configure_logger(o)
-
-    # vendor dependencies and generate lockfile
-    profile = Inspec::Profile.for_target(path.to_s, o)
-    lockfile = profile.generate_lockfile
-    File.write(inspec_lock, lockfile.to_yaml)
-  rescue StandardError => e
-    pretty_handle_exception(e)
+    vendor_deps(path, o)
   end
 
   desc 'archive PATH', 'archive a profile to tar.gz (default) or zip'
@@ -211,7 +185,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   option :command, aliases: :c,
     desc: 'A single command string to run instead of launching the shell'
   option :format, type: :string, default: nil, hide: true,
-    desc: 'Which formatter to use: cli, progress, documentation, json, json-min'
+    desc: 'Which formatter to use: cli, progress, documentation, json, json-min, junit'
   def shell_func
     diagnose
     o = opts.dup
@@ -250,6 +224,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   desc 'version', 'prints the version of this tool'
   def version
     puts Inspec::VERSION
+    # display outdated version
+    latest = LatestInSpecVersion.new.latest
+    if Gem::Version.new(Inspec::VERSION) < Gem::Version.new(latest)
+      puts "\nYour version of InSpec is out of date! The latest version is #{latest}."
+    end
   end
 
   private

@@ -8,6 +8,6 @@ summary: InSpec Profile that is only consuming dependencies
 version: 0.2.0
 depends:
   - name: hardening/ssh-hardening  # defaults to supermarket
-  - git: https://github.com/dev-sec/ssl-benchmark.git
+  - url: https://github.com/dev-sec/ssl-benchmark
   - name: windows-patch-benchmark
-    git: https://github.com/chris-rock/windows-patch-benchmark.git
+    url: https://github.com/chris-rock/windows-patch-benchmark

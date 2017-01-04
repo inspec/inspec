@@ -30,3 +30,5 @@ sidebar_links:
     link: "/docs/reference/shell.html"
   - title: Ruby usage
     link: "/docs/reference/ruby_usage.html"
+  - title: Migration from Serverspec
+    link: "/docs/reference/migration.html"

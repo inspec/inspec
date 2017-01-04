@@ -22,7 +22,7 @@ module Supermarket
 
       headline('Available profiles:')
       supermarket_profiles.each { |p|
-        li("#{p['tool_owner']}/#{p['slug']}")
+        li("#{p['tool_name']} #{mark_text(p['tool_owner'] + '/' + p['slug'])}")
       }
     end
 

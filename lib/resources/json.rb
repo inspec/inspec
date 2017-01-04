@@ -44,13 +44,13 @@ module Inspec::Resources
 
         # check if file is available
         if !@file.file?
-          skip_resource "Can't find file \"#{@conf_path}\""
+          skip_resource "Can't find file \"#{@path}\""
           return @params = {}
         end
 
         # check if file is readable
-        if @file_content.empty? && @file.size > 0
-          skip_resource "Can't read file \"#{@conf_path}\""
+        if @file_content.nil? && @file.size > 0
+          skip_resource "Can't read file \"#{@path}\""
           return @params = {}
         end
       end
