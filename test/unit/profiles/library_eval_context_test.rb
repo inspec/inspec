@@ -17,6 +17,17 @@ class MyTestResource < Inspec.resource(1)
     '2.0'
   end
 end
+
+class AnotherResource < IniConfig
+  name 'another_resource'
+
+  desc 'Another Resource description'
+  example 'see README'
+
+  def version
+    '2.0'
+  end
+end
 EOF
   }
 
@@ -29,12 +40,12 @@ EOF
 
   it 'adds the resource to our registry' do
     eval_context.instance_eval(resource_content)
-    registry.keys.include?("my_test_resource").must_equal true
+    registry.keys.include?('my_test_resource').must_equal true
   end
 
-  it 'adds nothing to the default registry' do
-    old_default_registry = Inspec::Resource.default_registry.dup
+  it 'adds the global resource to default registry' do
     eval_context.instance_eval(resource_content)
-    old_default_registry.must_equal Inspec::Resource.default_registry
+    Inspec::Resource.new_registry.keys.include?('another_resource').must_equal true
   end
+
 end

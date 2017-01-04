@@ -58,6 +58,7 @@ module Inspec
     end
 
     def reload_dsl
+      @resource_registry.merge!(Inspec::Resource.new_registry)
       @control_eval_context = nil
     end
 
