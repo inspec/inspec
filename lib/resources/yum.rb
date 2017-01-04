@@ -134,6 +134,10 @@ module Inspec::Resources
       return false if repo.nil?
       info['status'] == 'enabled'
     end
+
+    def to_s
+      "YumRepo #{shortname(info['id'])}"
+    end
   end
 
   # for compatability with serverspec

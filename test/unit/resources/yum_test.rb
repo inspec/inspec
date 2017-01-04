@@ -58,6 +58,7 @@ describe 'Inspec::Resources::YumRepo' do
     extras = resource.repo('base-debuginfo/x86_64')
     _(extras.exist?).must_equal true
     _(extras.enabled?).must_equal false
+    _(extras.to_s).must_equal 'YumRepo base-debuginfo'
   end
 
   it 'test enabled extra repo (serverspec backwards comptability)' do
