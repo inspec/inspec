@@ -53,21 +53,11 @@ EOF
         if !Compliance::API.exist?(config, profile)
           fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         end
-        profile_fetch_url = target_url(profile, config)
+        profile_fetch_url = Compliance::API.target_url(config, profile)
       end
       new(profile_fetch_url, config)
     rescue URI::Error => _e
       nil
-    end
-
-    def self.target_url(profile, config)
-      if config['server_type'] == 'automate'
-        target = "#{config['server']}/#{profile}/tar"
-      else
-        owner, id = profile.split('/')
-        target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
-      end
-      target
     end
 
     # We want to save compliance: in the lockfile rather than url: to
