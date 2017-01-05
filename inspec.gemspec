@@ -38,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sslshake', '~> 1'
   spec.add_dependency 'parallel', '~> 1.9'
   spec.add_dependency 'rspec_junit_formatter', '~> 0.2.3'
+  spec.add_dependency 'http', '~> 2.1.0'
 end
