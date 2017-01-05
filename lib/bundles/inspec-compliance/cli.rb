@@ -116,6 +116,35 @@ module Compliance
       run_tests(tests, opts)
     end
 
+    desc 'download PROFILE', 'downloads a profile from Chef Compliance'
+    option :name, type: :string,
+      desc: 'Name of the archive filename (file type will be added)'
+    def download(profile_name)
+      o = options.dup
+      configure_logger(o)
+
+      config = Compliance::Configuration.new
+      return if !loggedin(config)
+
+      if Compliance::API.exist?(config, profile_name)
+        puts "Downloading `#{profile_name}`"
+
+        fetcher = Compliance::Fetcher.resolve(
+          {
+            compliance: profile_name,
+          },
+        )
+
+        # we provide a name, the fetcher adds the extension
+        _owner, id = profile_name.split('/')
+        file_name = fetcher.fetch(o.name || id)
+        puts "Profile stored to #{file_name}"
+      else
+        puts "Profile #{profile_name} is not available in Chef Compliance."
+        exit 1
+      end
+    end
+
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
     option :overwrite, type: :boolean, default: false,
       desc: 'Overwrite existing profile on Chef Compliance.'

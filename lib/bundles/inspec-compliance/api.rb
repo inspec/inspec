@@ -143,5 +143,15 @@ Please login using `inspec compliance login https://compliance.test --user admin
       end
       headers
     end
+
+    def self.target_url(config, profile)
+      if config['server_type'] == 'automate'
+        target = "#{config['server']}/#{profile}/tar"
+      else
+        owner, id = profile.split('/')
+        target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+      end
+      target
+    end
   end
 end
