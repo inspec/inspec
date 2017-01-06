@@ -44,9 +44,64 @@ html
       var objectSelect = $('#icon-trigger');
       var objectPosition = objectSelect.offset().top;
       if (scroll > objectPosition) {
-            $('hr').addClass('stretch')
+            $('hr.first').addClass('stretch')
       }
       });
+
+    javascript:
+      $(document).ready(function(){
+
+      var getMax = function(){
+          return $(document).height() - $(window).height();
+      }
+
+      var getValue = function(){
+          return $(window).scrollTop();
+      }
+
+      if('max' in document.createElement('progress')){
+          // Browser supports progress element
+          var progressBar = $('progress');
+
+          // Set the Max attr for the first time
+          progressBar.attr({ max: getMax() });
+
+          $(document).on('scroll', function(){
+              // On scroll only Value attr needs to be calculated
+              progressBar.attr({ value: getValue() });
+          });
+
+          $(window).resize(function(){
+              // On resize, both Max/Value attr needs to be calculated
+              progressBar.attr({ max: getMax(), value: getValue() });
+          });
+      }
+      else {
+          var progressBar = $('.progress-bar'),
+              max = getMax(),
+              value, width;
+
+          var getWidth = function(){
+              // Calculate width in percentage
+              value = getValue();
+              width = (value/max) * 100;
+              width = width + '%';
+              return width;
+          }
+
+          var setWidth = function(){
+              progressBar.css({ width: getWidth() });
+          }
+
+          $(document).on('scroll', setWidth);
+          $(window).on('resize', function(){
+              // Need to reset the Max attr
+              max = getMax();
+              setWidth();
+          });
+          }
+        });
+
 
     javascript:
       $(document).foundation();
@@ -59,7 +114,6 @@ html
           $('.inspec-tutorial').hide()
         })
       });
-
 
      javascript:
        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";

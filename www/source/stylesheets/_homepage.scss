@@ -15,7 +15,8 @@ header {
 }
 
 #particles-second{
-	width: 100%;
+	width:100%;
+	max-width: 100%;
 	overflow: hidden;
 	position: absolute;
 	background-color: transparent;
@@ -165,12 +166,17 @@ img.ball:nth-child(3){
       }
   }
 
-	//Warping Grid Animation//
+	//Growing HR//
+
+
+	hr.first {
+		width: 0px;
+	}
 
 	.stretch{
-	  -webkit-animation: grow 1.2s linear 1 both;
-	  animation: grow 1.2s linear 1  both;
-	  -moz-animation: grow 1.2s linear 1 both;
+	  -webkit-animation: grow 0.8s linear 1 both;
+	  animation: grow 0.8s linear 1  both;
+	  -moz-animation: grow 0.8s linear 1 both;
 	}
 	@-webkit-keyframes grow {
 	  from { width:0px;}

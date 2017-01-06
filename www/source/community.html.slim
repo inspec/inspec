@@ -9,53 +9,63 @@ description: This is where you interact with the InSpec open source community - 
       | Inspec is better with friends.
       br/
       | Let’s build together.
-    hr.text-left/
+    hr.strict-left
     h3.margin-top
       | Join us on Slack and get answers fast
     P
       | Is something unclear or are you just feeling stuck?  We're here to help keep you moving. Chat with us on Slack, so we can help you keep moving.
-    p.margin-both-xs
+    p
       | <a href="https://slack.com/">Sign in</a> to slack or request an invite below:
     input
+
   .columns.large-6.medium-6.relative
     img.grid.strict-right src="/images/community/blue-web.svg" /
     img.ball src="/images/community/glow-ball.png" /
     img.ball.bright-animate src="/images/community/glow-ball.png" /
     img.ball src="/images/community/glow-ball.png" /
 
-.row.strict-center.margin-top
-  .large-6.medium-6.columns.strict-center
-    img.icon-art src="/images/community/contribute.svg" /
-    h3 Contribute to InSpec
-    p
-      | InSpec is an open source project created and supported by active and
-        passionate users. If you would like to contribute, we would love to have you.
-  .large-6.medium-6.columns.strict-center
-    img.icon-art src="/images/community/bugs.svg" /
-    h3 Report Bugs and Request Features
-    p
-      | We rely on your feedback to improve InSpec. <br>Whether you found a bug
-        or have a great idea for an improvement, join us on GitHub.
-.row.margin-under
-  .columns.medium-6.strict-center
-    p
-    a.btn href="https://github.com/chef/inspec" Start Contributing
-  .columns.medium-6.strict-center
-    p
-    a.btn href="https://github.com/chef/inspec/issues" Give Feedback
-
-
-/.row
+.row
   .icon.shadow
     img src="/images/circ-arrow.svg" /
-/.block-angl.blue-gradient
-/  .section.purp-shade
-/    .row.triangle-shade
-/      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
-/        small.t-dk Inspec on Twitter
-/        h2.t-white
-/          | Latest from #inspec
-/    .row
-/      .large-12.medium-12.columns.margin-under
-/        .shadow
-/          <a class="twitter-grid" href="https://twitter.com/f5hannahmaddy/timelines/817243525699862529">Inspec</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+.block-angl.blue-gradient.relative
+  .section.purp-shade
+    #particles-second
+     canvas.particles-js-canvas-el
+    .row
+      .large-6.medium-6.strict-center.column.margin-top-xl.margin-under
+        .box-white.shadow
+          img.icon-art src="/images/community/contribute.svg" /
+          h3 Contribute to InSpec
+          p
+            | InSpec is an open source project created and supported by active and
+              passionate users. If you would like to contribute, we would love to have you.
+          br/
+          a.btn.margin-top-xs href="https://github.com/chef/inspec" Start Contributing
+          p
+
+      .large-6.medium-6.strict-center.column.margin-top-xl.margin-under
+        .box-white.shadow
+          img.icon-art src="/images/community/bugs.svg" /
+          h3 Report Bugs and Request Features
+          p
+            | We rely on your feedback to improve InSpec. <br>Whether you found a bug
+              or have a great idea for an improvement, join us on GitHub.
+          br/
+          a.btn.margin-top-xs href="https://github.com/chef/inspec/issues" Give Feedback
+          p
+
+
+    /.row
+    /  .icon.shadow
+    /    img src="/images/circ-arrow.svg" /
+    /.block-angl.blue-gradient
+    /  .section.purp-shade
+    /    .row.triangle-shade
+    /      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
+    /        small.t-dk Inspec on Twitter
+    /        h2.t-white
+    /          | Latest from #inspec
+    /    .row
+    /      .large-12.medium-12.columns.margin-under
+    /        .shadow
+    /          <a class="twitter-grid" href="https://twitter.com/f5hannahmaddy/timelines/817243525699862529">Inspec</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
