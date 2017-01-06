@@ -1,7 +1,45 @@
 # Change Log
 
-## [1.8.0](https://github.com/chef/inspec/tree/1.8.0) (2016-12-16)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.7.2...1.8.0)
+## [1.9.0](https://github.com/chef/inspec/tree/1.9.0) (2017-01-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.8.0...1.9.0)
+
+**Implemented enhancements:**
+
+- Optimize regular expression for postgres config parsing [\#1395](https://github.com/chef/inspec/pull/1395) ([chris-rock](https://github.com/chris-rock))
+- print name for supermarket profiles [\#1376](https://github.com/chef/inspec/pull/1376) ([chris-rock](https://github.com/chris-rock))
+- call ssh cookbook from prepare cookbook [\#1369](https://github.com/chef/inspec/pull/1369) ([chris-rock](https://github.com/chris-rock))
+- display if inspec version is outdated [\#1365](https://github.com/chef/inspec/pull/1365) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- profile upload fails to compliance server [\#1298](https://github.com/chef/inspec/issues/1298)
+- undefined method `max\_connections' for PostgreSQL [\#825](https://github.com/chef/inspec/issues/825)
+- bugfix: expose postgres\_conf parameters via `its` [\#826](https://github.com/chef/inspec/pull/826) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Yum.repo should show correct name [\#1390](https://github.com/chef/inspec/issues/1390)
+- The 'package' resource is broken in OSX \(with brew as package manager\) [\#1386](https://github.com/chef/inspec/issues/1386)
+- JUnit XML dumping fails [\#1383](https://github.com/chef/inspec/issues/1383)
+- json.rb produces stacktrace when a target file is unreadable [\#1382](https://github.com/chef/inspec/issues/1382)
+- Document Serverspec Migration [\#804](https://github.com/chef/inspec/issues/804)
+
+**Merged pull requests:**
+
+- Download InSpec profiles from Chef Compliance [\#1402](https://github.com/chef/inspec/pull/1402) ([chris-rock](https://github.com/chris-rock))
+- Yum.repo should show correct name [\#1391](https://github.com/chef/inspec/pull/1391) ([Wing924](https://github.com/Wing924))
+- fixes brew json parsing [\#1389](https://github.com/chef/inspec/pull/1389) ([chris-rock](https://github.com/chris-rock))
+- Fix wrong description for the Solaris cases in the unit tests of the 'package' resource [\#1388](https://github.com/chef/inspec/pull/1388) ([jvrplmlmn](https://github.com/jvrplmlmn))
+- Unit test the 'package' resource for OSX \(with brew\) [\#1387](https://github.com/chef/inspec/pull/1387) ([jvrplmlmn](https://github.com/jvrplmlmn))
+- drop ruby 1.9.3 [\#1384](https://github.com/chef/inspec/pull/1384) ([chris-rock](https://github.com/chris-rock))
+- Make "permission denied" condition match that of Train [\#1381](https://github.com/chef/inspec/pull/1381) ([makotots](https://github.com/makotots))
+- mention inspec vendor for compliance dependency [\#1380](https://github.com/chef/inspec/pull/1380) ([alexpop](https://github.com/alexpop))
+- control and lib\_eval\_context unit tests [\#1373](https://github.com/chef/inspec/pull/1373) ([jeremymv2](https://github.com/jeremymv2))
+- Fix Learn Chef tutorial link [\#1372](https://github.com/chef/inspec/pull/1372) ([tpetchel](https://github.com/tpetchel))
+- add guidance for Serverspec migration [\#1368](https://github.com/chef/inspec/pull/1368) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.8.0](https://github.com/chef/inspec/tree/v1.8.0) (2016-12-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.7.2...v1.8.0)
 
 **Fixed bugs:**
 
