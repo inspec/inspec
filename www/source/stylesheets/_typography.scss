@@ -2,23 +2,28 @@ h1 {
 	font-family: $heading-font;
 	font-size: 36px;
 	color: $color_heading;
+	font-weight: 300;
 }
 h2 {
 	font-family: $heading-font;
 	font-size: 30px;
 	color: $color_heading;
+	font-weight: 300;
 }
 h3 {
 	font-family: $heading-font;
 	font-size: 20px;
 	color: $color_heading;
+	font-weight: 300;
 }
 h4 {
 	font-family: $heading-font;
 	font-size: 20px;
 	color: $color_paragraph;
+	line-height: 1.4em;
+	font-weight: 300;
 }
-p {
+p, ol, ul, li {
 	font-family: $main-font;
 	color: $color_paragraph;
 	font-weight: 300;
@@ -31,9 +36,10 @@ small {
 }
 
 hr {
+	margin: 0;
+	width: 0px;
 	border: 0;
 	height: 1px;
-	width: 20%;
 	background-color: $color_hr;
 	background: linear-gradient(to right, $color_hr 0, $color_link 100%);
 	filter: progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );

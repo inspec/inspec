@@ -1,46 +1,46 @@
 nav#main-nav class="sidebar-layout-#{locals[:sidebar_layout]}"
-  a.main-nav--logo href="/"
-    img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
 
   = partial "layouts/svg/nav-icon.svg"
 
   ul.main-nav--links
     li.main-nav--link-ctas
-      a.button.transparent.try-demo href="#" Try the Demo
-      a.button.secondary href="https://downloads.chef.io/inspec" Download
+      a.button href="/"
+        span.main-nav--link-text Overview
+      a href="/tutorials"
+        span.main-nav--link-text Tutorials
+      a href="/docs"
+        span.main-nav--link-text Docs
+      a href="/community"
+        span.main-nav--link-text Community
+      a href="https://downloads.chef.io/inspec"
+        span.main-nav--link-text Downloads
+      a href="https://github.com/chef/inspec"
+        i.main-nav--link-icon.fa.fa-github
+        span.main-nav--link-text Github Project
+      a href="https://github.com/chef/inspec/blob/master/CONTRIBUTING.md"
+        i.main-nav--link-icon.fa.fa-code-fork
+        span.main-nav--link-text Contribute
+      a.btn.try-demo href="#" Try the Demo
+      a.btn href="https://downloads.chef.io/inspec" Download
+
     - if locals[:sidebar_layout] == 'docs'
       li.main-nav--sidebar
         = partial "layouts/sidebar"
     - else
-      li.main-nav--link
-        a href="/"
-          i.main-nav--link-icon.fa.fa-home
-          span.main-nav--link-text Overview
-      li.main-nav--link
-        a href="/tutorials"
-          i.main-nav--link-icon.fa.fa-flask
-          span.main-nav--link-text Tutorials
-      li.main-nav--link
-        a href="/docs"
-          i.main-nav--link-icon.fa.fa-file-text-o
-          span.main-nav--link-text Docs
-      li.main-nav--link
-        a href="/community"
-          i.main-nav--link-icon.fa.fa-group
-          span.main-nav--link-text Community
-      li.main-nav--link
-        a href="https://downloads.chef.io/inspec"
-          i.main-nav--link-icon.fa.fa-download
-          span.main-nav--link-text Downloads
-      li.main-nav--link
-        a href="https://github.com/chef/inspec"
-          i.main-nav--link-icon.fa.fa-github
-          span.main-nav--link-text Github Project
-      li.main-nav--link
-        a href="https://github.com/chef/inspec/blob/master/CONTRIBUTING.md"
-          i.main-nav--link-icon.fa.fa-code-fork
-          span.main-nav--link-text Contribute
 
 nav#main-nav-ctas
-  a.button.transparent.try-demo href="#" Try the Demo
-  a.button.secondary href="https://downloads.chef.io/inspec" Download
+  a.main-nav--logo href="/"
+    img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
+  a href="/tutorials"
+    span.main-nav--link-text Tutorials
+  a href="/docs"
+    span.main-nav--link-text Docs
+  a href="/community"
+    span.main-nav--link-text Community
+  a href="https://github.com/chef/inspec"
+    i.fa.fa-github-alt
+    span.main-nav--link-text Github
+  a.btn.try-demo href="#" Try the Demo
+  a.btn href="https://downloads.chef.io/inspec"
+    i.fa.fa-cloud-download
+    span.main-nav--link-text Download

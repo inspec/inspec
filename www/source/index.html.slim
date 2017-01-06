@@ -1,36 +1,30 @@
 ---
 title: InSpec - Audit and Test Framework
 ---
-
 /! animated banner
-header
+header.blue-gradient
   .h-top.strict-center.purp-shade
     h1.center.t-white.strict-center data-enllax-ratio=".1" data-enllax-type="foreground"  InSpec is compliance as code
     img.grid-animate.strict-center src="/images/home/web.svg" /
     /! diamond image
     img.strict-center.bright-animate.3d-animate data-enllax-ratio=".3" data-enllax-type="foreground" src="/images/home/diamond.png" /
   /! Blue gradient and canvas elements
-  #container.blue-gradient
-    canvas#pixie
   /! style for callout icons
+  #particles-js
+   canvas.particles-js-canvas-el /
   .row
     .icon.shadow
-      img src="/images/home/circ-arrow.svg" /
+      img src="/images/circ-arrow.svg" /
 /! Second Content
 .row.margin-both
   .large-8.columns data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground"
-    h4
+    h4#icon-trigger
       | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
-    p
-      small
-        | Crafted with
-        span.t-blue  ❤
-        |  by humans, for humans
 /! Third Content
-#icon-trigger.row.strict-center.margin-under-xs
+.row.strict-center.margin-under-xs
   .large-12.columns
     hr/
-    small Cool facts about inspec
+    small FEATURES OF INSPEC
     h2 InSpec is compliance by design
     hr/
 /! images with text - grid of 4
@@ -40,7 +34,7 @@ header
     h3 Platform Agnostic
     p
       | InSpec supports all major operating systems and many applications out of the box.
-  .large-3.medium-3.columns.strict-center data-enllax-ratio=".1" data-enllax-type="foreground"
+  .large-3.medium-3.columns.strict-center
     img.icon-art src="/images/home/free.svg" /
     h3 Free to run anywhere
     p
@@ -50,124 +44,131 @@ header
     h3 Test locally or remotely
     p
       | InSpec provides a local agent, as well as full remote testing support.
-  .large-3.medium-3.columns.strict-center data-enllax-ratio=".1" data-enllax-type="foreground"
+  .large-3.medium-3.columns.strict-center
     img.icon-art src="/images/home/language.svg" /
-    h3 Fully extensible language
+    h3 Extensible language
     p
       | Easily extend the InSpec language to cover new operating systems, devices, or applications.
 /! Fourth Content
 /! style for callout icons
 .row
   .icon.shadow
-    img src="/images/home/circ-lock.svg" /
-.block-angl.blue-gradient.margin-under
-  .row.triangle-shade
-    .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
-      small.t-dk Inspec for compliance
-      h2.t-white
-        | Transform your compliance and security requirements
-        | into simple code
-  .row
-    .large-5.medium-5.columns.margin-under
-      h3.t-white Codify agreements
-      p.t-white
-        | Combine profiles and customize them with overlays. Pick
-        | controls and define exceptions as code.
-      h3.t-white Add context to your tests
-      p.t-white
-        | Supports many fields like descriptions, tags, and
-        | impact.
-      h3.t-white Apply to all systems
-      p.t-white
-        | Combine profiles and customize them with overlays. Pick
-        | controls and define exceptions as code.
-    /! code
-    .large-6.medium-6.columns.code-example.shadow
-      code.code-demo
-        span.code-attribute> control
-        | 'sshd-21'
-        br/
-        span.code-token title
-        | 'Set SSH Protocol to 2'
-        br/
-        span.code-token desc
-        | 'A detailed description about why we
-        | want this...'
-        br/
-        span.code-token impact 1.0
-        | \#this is critical
-        br/
-        span.code-token ref
-        | 'Our little compliance guide, section
-        | 2.1'
-        br/
-        span.code-attribute describe
-        | sshd_config
-        span.code-attribute do
-        br/
-        span.code-attribute its
-        | ('Protocol') { should cmp 2 }
-        br/
-        span.code-attribute end
-        br/
-        span.code-attribute end
-      a.btn.strict-right Try the Demo
-  /! Next row
-  .row
-    .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
-      small.t-dk Inspec for infrastructure
-      h2.t-white
-        | Solve your infrastructure testing needs simply and
-        | efficiently
-  .row
-    .large-5.medium-5.columns.margin-under-xl
-      h3.t-white Test the desired state
-      p.t-white Match your infrastructure to your expectations.
-      h3.t-white Add context to your tests
-      p.t-white
-        | Supports many fields like descriptions, tags, and
-        | impact.
-      h3.t-white Apply to all systems
-      p.t-white
-        | Combine profiles and customize them with overlays. Pick
-        | controls and define exceptions as code.
-    /! code
-    .large-6.medium-6.columns.code-example.shadow
-      code.code-demo
-        span.code-attribute control
-        | 'sshd-21'
-        br/
-        span.code-token title
-        | 'Set SSH Protocol to 2'
-        br/
-        span.code-token desc
-        | 'A detailed description about why we
-        | want this...'
-        br/
-        span.code-token impact 1.0
-        | \#this is critical
-        br/
-        span.code-token ref
-        | 'Our little compliance guide, section
-        | 2.1'
-        br/
-        span.code-attribute describe
-        | sshd_config
-        span.code-attribute do
-        br/
-        span.code-attribute its
-        | ('Protocol') { should cmp 2 }
-        br/
-        span.code-attribute end
-        br/
-        span.code-attribute end
-      a.btn.strict-right Try the Demo
-/! Fifth Content
-.row.strict-center.margin-under-xs
-  .large-12.columns data-enllax-ratio=".2" data-enllax-type="foreground"
-    hr/
-    small Inspec and friends
-    h2 Inspec plays nicely with others
-    hr/
-h4.strict-center.large-8
-  | Use Inspec for DevOps with other technologies for a unified workflow, end-to-end visibility, and automated compliance.
+    img src="/images/circ-arrow.svg" /
+.block-angl.blue-gradient
+  .section.purp-shade
+    .row.triangle-shade
+      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
+        small.t-dk Inspec for compliance
+        h2.t-white
+          | Transform your compliance and security requirements into simple code
+    #particles-second
+     canvas.particles-js-canvas-el
+    .row
+      .large-5.medium-5.columns.margin-under
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Codify agreements
+        p.t-white
+          | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Add context to your tests
+        p.t-white
+          | Supports many fields like descriptions, tags, and impact.
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Apply to all systems
+        p.t-white
+          | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+      /! code
+      .large-6.medium-6.columns.code-example.shadow
+        code.code-demo
+          span.code-attribute control
+          | 'sshd-21'
+          br/
+          span.code-token.indent   title
+          |  'Set SSH Protocol to 2'
+          br/
+          span.code-token.indent  desc
+          |  'A detailed description'
+          br/
+          span.code-token.indent   impact
+          |  1.0 #this is critical
+          br/
+          span.code-token.indent   ref
+          |  'compliance guide, section 2.1'
+          br/
+          br/
+          span.code-attribute.indent   describe
+          |  sshd_config
+          span.code-attribute do
+          br/
+          span.code-attribute.indent  its
+          |  ('Protocol') {should cmp 2}
+          br/
+          span.code-attribute.indent end
+          br/
+          span.code-attribute end
+        a.btn.strict-right.t-white Try the Demo
+    /! Next row
+    .row
+      .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
+        small.t-dk Inspec for infrastructure
+        h2.t-white
+          | Solve your infrastructure testing needs simply and efficiently
+    .row
+      .large-5.medium-5.columns.margin-under-xl
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Test the desired state
+        p.t-white Match your infrastructure to your expectations.
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Use simple and expressive code
+        p.t-white
+          | These tests are easy to understand by anyone, reducing friction.
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Test any system anywhere
+        p.t-white
+          | Runs locally and remotely. Supports all major operating systems and configurations.
+        h3.t-white
+          i.fa.fa-angle-right.t-dk
+          |  Extensible
+        p.t-white
+          | Easily create custom resources and share them.
+        /! code
+      .large-6.medium-6.columns.code-example.shadow
+        code.code-demo
+          span.code-attribute  describe
+          |  file('/etc/myap.conf')
+          span.code-attribute  do
+          br/
+          span.code-attribute.indent  it
+          |  {should exist}
+          br/
+          span.code-attribute.indent  its
+          |  ('mode') {should cmp '0644'}
+          br/
+          span.code-attribute   end
+          br/
+          br/
+          span.code-attribute  describe
+          |  myapp.conf
+          span.code-attribute  do
+          br/
+          span.code-attribute.indent  its
+          |  ('port') {should cmp 8080}
+          br/
+          span.code-attribute   end
+          br/
+          br/
+          span.code-attribute  describe
+          |  port(8080)
+          span.code-attribute  do
+          br/
+          span.code-attribute.indent  it
+          |  {should be_listening}
+          br/
+          span.code-attribute   end
+        a.btn.strict-right.t-white Try the Demo

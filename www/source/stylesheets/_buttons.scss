@@ -1,5 +1,5 @@
 a {
-	font-family: $main-font;
+	font-family: $heading-font;
 	color: $color_link;
 	@extend %transition;
 }
@@ -7,8 +7,8 @@ a {
 .btn {
 	background: transparent;
 	border: 1px solid transparent;
-	border-radius: 7px;
-	color: $color_white;
+	border-radius: 4px;
+	color: $color_purple;
 	padding: 0.6rem 1.25rem;
 	border-left: 1px solid $color_purple;
 	border-right: 1px solid $color_link;
@@ -20,8 +20,10 @@ a {
 	&:hover {
 		background-color: $color_purple;
 		color: $color_white;
+		border-color: $color_purple;
+		background-image: initial;
 	}
-	&.inverse {
+	&.btn-inverse {
 		color: $color_purple;
 		&:hover {
 			background-color: $color_purple;

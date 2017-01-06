@@ -1,10 +1,10 @@
 //colors
 $color_heading: #2c2e30;
-$color_paragraph: #647b82;
+$color_paragraph: #69787f;
 $color_gray: #b0bebf;
 $color_white: white;
 $color_link: #3ab3ce;
-$color_purple: #955af2;
+$color_purple: #8d66d8;
 $color_code_token: #3bc5cc;
 $color_hr: rgba(99,206,153,1);
 $color_shadow: rgba(151,110,229,0.2);
@@ -15,14 +15,14 @@ $color_blue_shade_2: rgba(58, 142, 206, 1);
 
 //Font
 
-$heading-font: 'open sans light', Helvetica, Arial, sans-serif;
+$heading-font:'Roboto', sans-serif;
 $main-font: 'source sans pro light', Helvetica, Arial, sans-serif;
 
 //Margin Sizes
 
 $percent_lg: 12%;
-$percent_md: 8%;
-$percent_sm: 3%;
+$percent_md: 100px;
+$percent_sm: 40px;
 
 //Shared Styles
 

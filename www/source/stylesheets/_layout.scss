@@ -11,6 +11,15 @@
 	float: right;
 	text-align: right;
 }
+
+.strict-left {
+	text-align: left;
+	float: left;
+}
+
+.relative {
+	position: relative;
+}
 //margins
 
 .margin-both-xl {
@@ -27,11 +36,27 @@
 	margin-top: $percent_md;
 	margin-bottom: $percent_md;
 }
+
+.pad-both {
+	padding-top: $percent_md;
+  padding-bottom: $percent_md;
+}
+.margin-both-offset {
+	margin-top: 140px;
+	margin-bottom: $percent_md;
+}
 .margin-top {
 	margin-top: $percent_md;
 }
 .margin-under {
 	margin-bottom: $percent_md;
+}
+.margin-both-xs {
+	margin-top: $percent_sm;
+	margin-bottom: $percent_sm;
+}
+.margin-top-xs {
+	margin-top: $percent_sm;
 }
 .margin-under-xs {
 	margin-bottom: $percent_sm;
@@ -67,17 +92,15 @@
 	background: $color_triangle_block;
 	clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
 }
-.triangle-shade {
-	background-image: url('/images/home/triangle-motif.png');
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position: 85% 0;
-}
+
 .purp-shade {
 	background: -moz-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%, rgba(151,110,229,0.2) 50%, rgba(151,110,229,0) 100%);
 	background: -webkit-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
 	background: radial-gradient(ellipse at center,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66976ee5', endColorstr='#00976ee5',GradientType=1 );
+}
+.dark-bg  {
+	background-color: $color_heading;
 }
 .blue-gradient {
 	  background: -moz-linear-gradient(100% -14.24% -80deg,rgba(99, 206, 153, 1) 0%,rgba(91, 201, 163, 1) 8.33%,rgba(67, 185, 194, 1) 36.64%,rgba(58, 179, 206, 1) 52.48%,rgba(58, 175, 206, 1) 67.93%,rgba(58, 162, 206, 1) 83.94%,rgba(58, 142, 206, 1) 100%);

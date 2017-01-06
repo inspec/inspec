@@ -7,6 +7,11 @@ $side-nav-padding-small: 30px;
 
 $nav-breakpoint: 730px;
 
+nav {
+  z-index: 200;
+  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
+}
+
 @mixin nav-large {
   @media (min-width: #{$nav-breakpoint}) {
     @content;
@@ -90,17 +95,9 @@ $nav-breakpoint: 730px;
 }
 
 .main-nav--logo {
-  display: block;
-
-  @include nav-small {
-    max-width: 130px;
-    margin: 15px 0 15px $side-nav-padding-small;
-  }
-
-  @include nav-large {
-    padding: 0 $side-nav-padding-large;
-    margin: 30px 0;
-  }
+  display: inline-block;
+  width: 130px;
+  float: left;
 }
 
 .main-nav--links {
@@ -162,6 +159,29 @@ $nav-breakpoint: 730px;
 #main-nav-ctas {
   transition: top 0.3s ease;
   background: $color_white;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  .main-nav--link-text {
+    margin-left: 6px;
+  }
+
+  a {
+    margin-left: 1.6em;
+    color: $color_gray;
+  }
+
+  a#main-nav--logo {
+    margin-left: initial!important;
+  }
+
+  a:hover, a.btn, a:active {
+    color: $color_purple;
+  }
+
+  a.btn:hover {
+    color: white;
+  }
 
   @include nav-small {
     display: none;
@@ -172,12 +192,18 @@ $nav-breakpoint: 730px;
     z-index: 90;
     top: 0;
     width: 100%;
-    max-width: 1200px;
-    padding: 30px 10px 30px 0;
+    line-height: 80px;
     text-align: right;
 
     & > .button {
       margin-bottom: 0;
     }
   }
+}
+
+a.main-nav--logo {
+  display: inline-block;
+  width: 130px;
+  float: left;
+  margin-left: initial!important;
 }

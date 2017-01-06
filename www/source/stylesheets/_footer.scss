@@ -1,78 +1,83 @@
 //Not Styled Yet
 
 #main-footer {
-  padding: 30px 0;
-  margin-top: 40px;
   background: $color_heading;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
-.footer--logos {
-  @include nav-small {
-    max-width: 230px;
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
+#main-footer > .row {
+  max-width: 100%;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
 }
+
+footer > #dlmsg {
+  padding-top: $percent_md;
+  padding-bottom: $percent_md;
+}
+
+footer  a.btn:last-child {
+  margin-left: 1.6em;
+}
+
+footer span {
+  margin-left: 6px;
+}
+
+
 
 .footer--logo {
   display: inline-block;
   vertical-align: middle;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  filter: brightness(0) invert(1);
 
-  &.chef {
-    width: 27%;
-    padding-right: 5%;
-    border-right: 1px solid $color_gray;
+  &.chef  {
+    width: 80px;
+    border-left: 1px solid $color_white;
+    padding-left:1.6em;
   }
 
   &.inspec {
-    width: 46%;
-    padding-left: 5%;
+    width: 130px;
+    padding-right:1.6em;
   }
 }
 
 .footer--links {
+  margin-left: auto;
+  display: inline-flex;
   @extend .no-bullet;
-  margin: 25px 0 0;
-  font-size: 14px;
-  line-height: 1.1;
-
-  & > li {
-    margin-bottom: 25px;
-  }
-
-  @media (min-width: 640px) {
-    margin: 10px 0 5px;
-
-    & > li {
-      display: inline-block;
-      margin: 0 25px 0 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  @media (min-width: 880px) {
-    display: inline-block;
-
-    &:first-child {
-      margin-right: 25px;
-    }
-  }
 }
 
 .footer--link {
+  margin-left: 1.6em;
   color: $color_gray;
-  text-transform: uppercase;
   font-family: $heading-font;
-
   &:hover,
   &:focus,
   &:active {
-    color: darken($color_gray, 15%);
+    color: $color_purple;
   }
+}
+//Hex Animation
+img#hex {
+  width: 25px;
+  -webkit-animation: spin 2s linear infinite both;
+  animation: spin 2s linear infinite both;
+  -moz-animation: spin 2s linear infinite both;
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
 }
