@@ -5,6 +5,13 @@
 	background: $color_heading;
 }
 
+code {
+	border-radius: 7px;
+	padding: $percent_sm;
+	background: $color_heading;
+	color:$color_white;
+}
+
 // Code Font Colors
 
 .code-demo {
@@ -21,6 +28,8 @@
 .code-comment {
 	opacity: 0.6;
 }
+
+//Indentation
 .indent {
 	padding-left: 1em;
 	word-wrap: normal;

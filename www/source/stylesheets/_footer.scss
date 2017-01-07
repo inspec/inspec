@@ -2,7 +2,7 @@
 
 #main-footer {
   background: $color_heading;
-  padding-left: 40px;
+  padding-left: 40px; //Same margins as nav
   padding-right: 40px;
 }
 
@@ -13,20 +13,18 @@
   align-items: center;
 }
 
-footer > #dlmsg {
+footer > #dlmsg { //Download Message
   padding-top: $percent_md;
   padding-bottom: $percent_md;
 }
 
-footer  a.btn:last-child {
+footer a.btn:last-child {
   margin-left: 1.6em;
 }
 
 footer span {
-  margin-left: 6px;
+  margin-left: 6px; //Icon
 }
-
-
 
 .footer--logo {
   display: inline-block;
@@ -61,22 +59,10 @@ footer span {
   }
 }
 //Hex Animation
+
 img#hex {
   width: 25px;
   -webkit-animation: spin 2s linear infinite both;
   animation: spin 2s linear infinite both;
   -moz-animation: spin 2s linear infinite both;
-}
-
-@-moz-keyframes spin {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-}
-@keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
 }

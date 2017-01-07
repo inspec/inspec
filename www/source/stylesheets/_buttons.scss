@@ -1,10 +1,15 @@
+//Normal Links
+
 a {
 	font-family: $heading-font;
 	color: $color_link;
 	@extend %transition;
 }
 
+//All CTA's
+
 .btn {
+	@extend %transition;
 	background: transparent;
 	border: 1px solid transparent;
 	border-radius: 4px;
@@ -30,4 +35,19 @@ a {
 			color: $color_white;
 		}
 	}
+}
+
+//Form Buttons
+
+button {
+	@extend %transition;
+	background: $color_purple;
+	border: 2px $color-purple;
+	border-radius: 4px;
+	color: $color_white;
+	padding: 0.6rem 1.25rem;
+}
+
+button:hover {
+ opacity:0.8;
 }

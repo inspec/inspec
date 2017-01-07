@@ -7,6 +7,7 @@
 	margin: auto;
 	text-align: center;
 }
+
 .strict-right {
 	float: right;
 	text-align: right;
@@ -24,8 +25,10 @@
 .relative {
 	position: relative;
 }
+
 //margins
 
+//xl
 .margin-both-xl {
 	margin-top: $percent_lg;
 	margin-bottom: $percent_lg;
@@ -36,17 +39,17 @@
 .margin-under-xl {
 	margin-bottom: $percent_lg;
 }
+//default
 .margin-both {
 	margin-top: $percent_md;
 	margin-bottom: $percent_md;
 }
-
 .pad-both {
 	padding-top: $percent_md;
   padding-bottom: $percent_md;
 }
 .margin-both-offset {
-	margin-top: 140px;
+	margin-top: $percent_md+80px; //add header height
 	margin-bottom: $percent_md;
 }
 .margin-top {
@@ -55,6 +58,7 @@
 .margin-under {
 	margin-bottom: $percent_md;
 }
+//small
 .margin-both-xs {
 	margin-top: $percent_sm;
 	margin-bottom: $percent_sm;
@@ -67,19 +71,21 @@
 }
 
 //White Box
+
 .box-white{
 	border-radius: 7px;
 	padding: 2em;
 	background-color: white;
 }
+
 //Art
 
-.icon-art {
+.icon-art { //Illustrations with content underneath
 	height: 100px;
 	margin-bottom: 15px;
 	margin-top: 15px;
 }
-.icon {
+.icon { //gradient arrows with white box
 	width: 70px;
 	height: 70px;
 	border-radius: 50%;
@@ -95,24 +101,28 @@
 		height: auto;
 	}
 }
-.shadow {
+
+.shadow { //dropshadow
 	box-shadow: 0 0 25px $color_shadow;
 }
-.block-angl {
+
+.block-angl { //Angled Background
 	background: $color_triangle_block;
 	clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%);
 }
 
-.purp-shade {
+.purp-shade { //Purple radial gradient applied over blue-gradient
 	background: -moz-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%, rgba(151,110,229,0.2) 50%, rgba(151,110,229,0) 100%);
 	background: -webkit-radial-gradient(center, ellipse cover,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
 	background: radial-gradient(ellipse at center,  rgba(151,110,229,0.4) 0%,rgba(151,110,229,0.2) 50%,rgba(151,110,229,0) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66976ee5', endColorstr='#00976ee5',GradientType=1 );
 }
+
 .dark-bg  {
 	background-color: $color_heading;
 }
-.blue-gradient {
+
+.blue-gradient { //Default Blue Gradient
 	  background: -moz-linear-gradient(100% -14.24% -80deg,rgba(99, 206, 153, 1) 0%,rgba(91, 201, 163, 1) 8.33%,rgba(67, 185, 194, 1) 36.64%,rgba(58, 179, 206, 1) 52.48%,rgba(58, 175, 206, 1) 67.93%,rgba(58, 162, 206, 1) 83.94%,rgba(58, 142, 206, 1) 100%);
 	  background: -webkit-linear-gradient(-80deg, rgba(99, 206, 153, 1) 0%, rgba(91, 201, 163, 1) 8.33%, rgba(67, 185, 194, 1) 36.64%, rgba(58, 179, 206, 1) 52.48%, rgba(58, 175, 206, 1) 67.93%, rgba(58, 162, 206, 1) 83.94%, rgba(58, 142, 206, 1) 100%);
 	  background: -webkit-gradient(linear,100% -14.24% ,56.15% 114.24% ,color-stop(0,rgba(99, 206, 153, 1) ),color-stop(0.0833,rgba(91, 201, 163, 1) ),color-stop(0.3664,rgba(67, 185, 194, 1) ),color-stop(0.5248,rgba(58, 179, 206, 1) ),color-stop(0.6793,rgba(58, 175, 206, 1) ),color-stop(0.8394,rgba(58, 162, 206, 1) ),color-stop(1,rgba(58, 142, 206, 1) ));
@@ -123,7 +133,67 @@
 	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#63CE99',endColorstr='#3A8ECE' , GradientType=1);
 	}
 
-	//Proogress bar
+//form
+
+input.form-item {
+	width: 60%;
+	display: inline;
+}
+
+form > button {
+	margin-left: 1em;
+}
+
+form > button > i {
+	margin-right: 6px;
+}
+
+input[type="email"] {
+    border: 1px solid #d3e2e2;
+		-webkit-box-shadow:  0 0 2px $color_shadow;
+		box-shadow:  0 0 2px $color_shadow;
+		font-family: $main-font;
+		font-weight: 300;
+		color: $color_heading;
+}
+
+input[type="email"]:hover, input[type="email"]:focus {
+	border: 1px solid $color_purple;
+	-webkit-box-shadow:  0 0 5px $color_shadow;
+	box-shadow:  0 0 5px $color_shadow;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+	font-family: $main-font;
+	color: $color_gray;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+	font-family: $main-font;
+	color: $color_gray;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+	font-family: $main-font;
+	color: $color_gray;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+	font-family: $main-font;
+	color: $color_gray;
+}
+
+input::placeholder,
+textarea::placeholder {
+	font-family: $main-font;
+	color: $color_gray;
+}
+
+//Progress bar
 
 	progress {
   /* Positioning */
@@ -133,7 +203,7 @@
 
   /* Dimensions */
   width: 100%;
-  height: 1.3px;
+  height: 1.6px;
 
   /* Reset the appearance */
   -webkit-appearance: none;

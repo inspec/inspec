@@ -3,8 +3,9 @@
 
 header {
 	height: 440px;
-}
-#particles-js {
+	}
+
+#particles-js { //Animated dot particles
 	width: 100%;
 	height: 500px;
 	overflow: hidden;
@@ -12,9 +13,8 @@ header {
 	background-color: transparent;
 	margin-top: -500px;
 	z-index: 20;
-}
-
-#particles-second{
+	}
+#particles-second{ //Animated line particles
 	width:100%;
 	max-width: 100%;
 	overflow: hidden;
@@ -22,36 +22,35 @@ header {
 	background-color: transparent;
 	height:100%;
 	z-index: -1;
-}
+	}
 
-
-.h-top {
+.h-top { //Container for homepage header art
 	height: 440px;
 	img {
-		&:first-of-type {
+		&:first-of-type { //Grid Art
 			height: 420px;
 	    position: absolute;
 	    top:70px;
 	    z-index: 10;
 		}
-		&:nth-child(3) {
+		&:nth-child(3) { //Diamond
 			height: 230px;
-		margin-top: 110px;
+		margin-top: 128px;
 		}
 	}
-	h1 {
+	h1 { //Heading
 		z-index: 10;
 		position: absolute;
-		margin-top: 355px;
+		margin-top: 358px;
 	}
 }
 
-//Hero Community
+//Hero illustration for Community
 
 img.grid {
 	margin-top: -80px;
 	z-index: -1;
-}
+	}
 
 img.ball {
 	position: absolute;
@@ -59,47 +58,45 @@ img.ball {
 	margin-left: 240px;
   margin-top: 20px;
 	-webkit-animation: spin 2s linear infinite both;
- animation: spin 2s linear infinite both;
- -moz-animation: spin 2s linear infinite both;
-}
+	animation: spin 2s linear infinite both;
+	-moz-animation: spin 2s linear infinite both;
+	}
 
 img.ball:nth-child(2){
-width: 55px;
-margin-left: 150px;
-margin-top: 110px;
-}
+	width: 55px;
+	margin-left: 150px;
+	margin-top: 110px;
+	}
 
 img.ball:nth-child(3){
 	width: 75px;
 	margin-left: 290px;
   margin-top: 130px;
-}
-
-//Tutorials
-
-.tutorials {
-	height: 200px;
-	margin-top: 25px;
-	align-items: center;
-}
-
-.tutorials .purp-shade {
-	line-height: 200px;
-	height: 200px;
-}
-
-.tutorials h2 {
-	padding-top: 60px;
-}
-
-.tutorials #particles-second {
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
-    background-color: transparent;
-    max-height: 200px;
-		z-index: initial;
 	}
+
+// Children page Headers
+
+.child-h {
+	height: 180px;
+	margin-top: 81px; //plus header height
+	}
+
+.child-h .purp-shade, .child-h #particles-second  {
+	height: 180px;
+	}
+
+.child-h .row {
+	position: relative;
+  top: 50%; //vertically align content inside parent
+  -webkit-transform: translateY(-50%); //vertically align content inside parent
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+	}
+
+.child-h #particles-second {
+	z-index: 1;
+	}
+
 // Animation for Home Page
 
 //Reflecting Diamond
@@ -108,29 +105,9 @@ img.ball:nth-child(3){
   animation: brightness 6s infinite;
   -webkit-animation: brightness 6s infinite;
   -moz-animation: brightness 6s infinite;
-}
-
-@-webkit-keyframes brightness {
-  0%, 100%  {
-    -webkit-filter: brightness(none);
-    filter: brightness(none);
-  }
-  50% {
-     -webkit-filter: brightness(1.2);
-    filter: brightness(1.2);
-  }
-}
-
-@keyframes brightness {
-  0%, 100%  {
-    -moz-filter: brightness(none);
-   filter: brightness(none);
-   }
-  50% {
-     -moz-filter: brightness(1.2);
-  filter: brightness(1.2);
-  }
-}
+	}
+	@-webkit-keyframes brightness { 0%, 100%  { -webkit-filter: brightness(none); filter: brightness(none); } 50% { -webkit-filter: brightness(1.2); filter: brightness(1.2); } }
+	@keyframes brightness { 0%, 100%  { -moz-filter: brightness(none); filter: brightness(none); } 50% { -moz-filter: brightness(1.2); filter: brightness(1.2); } }
 
 //Warping Grid Animation//
 
@@ -138,54 +115,26 @@ img.ball:nth-child(3){
   -webkit-animation: g-animate 5s linear infinite both;
   animation: g-animate 5s linear infinite both;
   -moz-animation: g-animate 5s linear infinite both;
-}
-@-webkit-keyframes g-animate {
-  25% { -webkit-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
-        transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
-      }
-
-  50% {-webkit-transform:  scale3d(1.2, 0.7, 1);
-       transform:  scale3d(1.2, 0.7, 1);
-     }
-
-  75% {-webkit-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-        transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-      }
-  }
-  @keyframes g-animate {
-  25% { -moz-transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2);
-        transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2);
-      }
-
-  50% {-moz-transform:   scale3d(1.2, 0.7, 1);
-       transform:   scale3d(1.2, 0.7, 1);
-     }
-
-  75% {-moz-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-        transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-      }
-  }
-
-	//Growing HR//
-
-
-	hr.first {
-		width: 0px;
 	}
 
+	@-webkit-keyframes g-animate { 25% { -webkit-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2); transform: rotateZ(10deg) scale3d(0.7, 1, 1.2); } 50% {-webkit-transform:  scale3d(1.2, 0.7, 1); transform:  scale3d(1.2, 0.7, 1); } 75% {-webkit-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5); transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5); } }
+	@keyframes g-animate { 25% { -moz-transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2); transform:  rotateZ(10deg) scale3d(0.7, 1, 1.2); } 50% {-moz-transform:   scale3d(1.2, 0.7, 1); transform:   scale3d(1.2, 0.7, 1); } 75% {-moz-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5); transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5); } }
+
+//Growing HR
+
+	hr.first {
+		width: 0px; //Apply to animated HR, JS calls this
+	}
 	.stretch{
 	  -webkit-animation: grow 0.6s linear 1 both;
 	  animation: grow 0.6s linear 1  both;
 	  -moz-animation: grow 0.6s linear 1 both;
 	}
-	@-webkit-keyframes grow {
-	  from { width:0px;}
-	  to {width:150px;}
-	}
+	@-webkit-keyframes grow { from { width:0px;} to {width:150px;} }
+	@keyframes grow { from { width:0px;} to {width:150px;} }
 
-	@keyframes grow {
-			from { width:0px;}
+//Spin Animation Keyframes
 
-			to {width:150px;}
-
-	  }
+	@-moz-keyframes spin { from { -moz-transform: rotate(0deg); } to { -moz-transform: rotate(360deg); } }
+	@-webkit-keyframes spin { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+	@keyframes spin { from {transform:rotate(0deg);} to {transform:rotate(360deg);} }

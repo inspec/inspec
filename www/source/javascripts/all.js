@@ -4,3 +4,4 @@
 //= require jquery.enllax.min
 //= require particles
 //= require app
+//= require slackform
