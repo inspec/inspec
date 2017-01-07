@@ -2,7 +2,7 @@
 //Hero Banner - Home Page
 
 header {
-	height: 500px;
+	height: 440px;
 }
 #particles-js {
 	width: 100%;
@@ -26,23 +26,23 @@ header {
 
 
 .h-top {
-	height: 500px;
+	height: 440px;
 	img {
 		&:first-of-type {
 			height: 420px;
-			position: absolute;
-			top:90px;
-			z-index: 10;
+	    position: absolute;
+	    top:70px;
+	    z-index: 10;
 		}
 		&:nth-child(3) {
-			height: 250px;
-			margin-top: 115px;
+			height: 230px;
+		margin-top: 110px;
 		}
 	}
 	h1 {
 		z-index: 10;
 		position: absolute;
-		margin-top: 400px;
+		margin-top: 355px;
 	}
 }
 
@@ -174,9 +174,9 @@ img.ball:nth-child(3){
 	}
 
 	.stretch{
-	  -webkit-animation: grow 0.8s linear 1 both;
-	  animation: grow 0.8s linear 1  both;
-	  -moz-animation: grow 0.8s linear 1 both;
+	  -webkit-animation: grow 0.6s linear 1 both;
+	  animation: grow 0.6s linear 1  both;
+	  -moz-animation: grow 0.6s linear 1 both;
 	}
 	@-webkit-keyframes grow {
 	  from { width:0px;}

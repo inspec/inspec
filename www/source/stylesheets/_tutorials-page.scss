@@ -1,16 +1,9 @@
 .tutorials--subhead {
   font-family: $heading-font;
-  text-transform: uppercase;
   color: $color_link;
-  font-size: 18px;
 }
 
 .tutorials--links {
-  margin-bottom: 30px;
-
-  @media (min-width: 640px) {
-    padding-left: 30px;
-  }
 
   & > li {
     margin-bottom: 4px;
@@ -18,7 +11,6 @@
 }
 
 .tutorials--link {
-  text-transform: uppercase;
   font-family: $heading-font;
 
   & > span {

@@ -35,6 +35,9 @@ small {
 	@extend %uppercase;
 }
 
+ li {
+	margin-left: 1.6em;
+}
 hr {
 	margin-top: 6px;
 	margin-bottom: 6px;
@@ -59,4 +62,7 @@ hr {
 }
 .t-transparent {
 	opacity: 0.6;
+}
+.t-purple {
+	color: $color_purple;
 }
