@@ -1,23 +1,63 @@
-h1 InSpec Documentation
 
-p Welcome to the InSpec documentation! This is a reference guide for all available features and options.
 
-p In the navigation, you will see 2 sections. The first provides a few links to get started and context around InSpec. The second section contains references to all elements of InSpec: The DSL, CLI, profiles, resources, and matchers.
+/! animated banner
+header.child-h.blue-gradient
+  #particles-second
+   canvas.particles-js-canvas-el /
+  .purp-shade
+    .row.relative-top.searchbar
+      column.columns.large-11.medium-11
+        form.main-sidebar--search action="/docs/search/" method="get"
+          input type="text" placeholder="Search Documentation" name="q"
+      column.columns.large-1.medium-1
+        .search.shadow
+          img src="/images/community/search.svg" /
 
-h2 Are you new to InSpec?
+.row.margin-both
 
-p If you're just getting started and want a quick introduction, then we recommend you start with the following items in the order listed.
+  column.columns.large-3.medium-3#sidebar
+   - if locals[:sidebar_layout] == 'docs'
+    ul.main-sidebar--links
+       - sidebar_data(sidebar_layout).each do |item|
+         li.main-sidebar--link
+           small = item.title
+           ul.main-sidebar--list.no-bullet
+             - item.links.each do |item_link|
+               li.main-sidebar--list--item class=link_classes(current_resource.url, item_link)
+                 = link_to item_link.title, item_link.link
+                 - if print_sub_links?(current_resource.url, item_link)
+                   ul.main-sidebar--list--item--dropdown.no-bullet
+                     - item_link.sub_links.each do |sub_link|
+                       li.main-sidebar--list--item  class=link_classes(current_resource.url, sub_link)
+                         = link_to sub_link.title, sub_link.link
 
-.row
-  .columns.medium-6.center
-    a.button.try-demo href="#" Try InSpec demo
-    p Complete a short interactive demo
-  .columns.medium-6.center
-    a.button.try-demo href="tutorials" Tutorials
-    p Get your first hands-on experience
+  column.columns.large-9.medium-9
 
-h2 Contributing
+    h2.margin-under-xs InSpec Documentation
 
-p This documentation is automatically generated from the InSpec repository and source code.
+    p Welcome to the InSpec documentation! This is a reference guide for all available features and options.
 
-p To contribute, please have a look at the <a href="https://github.com/chef/inspec/tree/master/docs">docs</a> folder of the project.
+    p In the navigation, you will see 2 sections. The first provides a few links to get started and context around InSpec. The second section contains references to all elements of InSpec: The DSL, CLI, profiles, resources, and matchers.
+
+    h3.margin-top-xs Are you new to InSpec?
+
+    hr.strict-left
+    br
+
+    p If you're just getting started and want a quick introduction, then we recommend you start with the following items in the order listed.
+
+    .row
+      .columns.medium-6
+        .box-white-brdr.strict-center
+          p Complete a short interactive demo
+          a.btn.try-demo href="#" Try the Demo
+      .columns.medium-6
+        .box-white-brdr.strict-center
+          p Get your first hands-on experience
+          a.btn href="tutorials" Tutorials
+
+    h3.margin-top-xs Contributing
+    hr.strict-left
+    br
+    p.clear This documentation is automatically generated from the InSpec repository and source code.
+    p To contribute, please have a look at the <a href="https://github.com/chef/inspec/tree/master/docs">docs</a> folder of the project.

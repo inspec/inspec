@@ -9,19 +9,21 @@ header.blue-gradient
     img.grid-animate.strict-center style="opacity:0.8" src="/images/home/web.svg" /
     /! diamond image
     img.strict-center.bright-animate.3d-animate data-enllax-ratio=".3" data-enllax-type="foreground" src="/images/home/diamond.png" /
-  /! Blue gradient and canvas elements
-  /! style for callout icons
+  /!  canvas elements
   #particles-js
    canvas.particles-js-canvas-el /
+  /! style for callout icons
   .row
     .icon.shadow
       img src="/images/circ-arrow.svg" /
+
 /! Second Content
 .row.margin-both
-  .large-8.columns data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground"
+  .large-8.medium-8.columns data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground"
     h2 Automated testing, codified
     h4#icon-trigger
       | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
+
 /! Third Content
 #icon-trigger.row.strict-center.margin-under-xs
   .large-12.columns
@@ -51,6 +53,7 @@ header.blue-gradient
     h3 Extensible language
     p
       | Easily extend the InSpec language to cover new operating systems, devices, or applications.
+
 /! Fourth Content
 /! style for callout icons
 .row
@@ -58,7 +61,7 @@ header.blue-gradient
     img src="/images/circ-arrow.svg" /
 .block-angl.blue-gradient
   .section.purp-shade
-    .row.triangle-shade
+    .row.relative-top
       .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
         small.t-dk Inspec for compliance
         h2.t-white
@@ -83,7 +86,7 @@ header.blue-gradient
         p.t-white
           | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
       /! code
-      .large-6.medium-6.columns.code-example.shadow
+      .large-6.medium-6.columns.code-example.shadow.relative-top
         code.code-demo
           span.code-attribute control
           | 'sshd-21'
@@ -140,9 +143,9 @@ header.blue-gradient
         p.t-white
           | Easily create custom resources and share them.
         /! code
-      .large-6.medium-6.columns.code-example.shadow
+      .large-6.medium-6.columns.code-example.shadow.relative-top
         code.code-demo
-          span.code-attribute  describe
+          span.code-attribute describe
           |  file('/etc/myap.conf')
           span.code-attribute  do
           br/

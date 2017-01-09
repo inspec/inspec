@@ -1,68 +1,86 @@
 h1 {
-	font-family: $heading-font;
-	font-size: 36px;
-	color: $color_heading;
-	font-weight: 300;
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 2.25em;
+	font-weight : 300;
 }
+
 h2 {
-	font-family: $heading-font;
-	font-size: 30px;
-	color: $color_heading;
-	font-weight: 300;
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 1.75em;
+	font-weight : 300;
 }
+
 h3 {
-	font-family: $heading-font;
-	font-size: 20px;
-	color: $color_heading;
-	font-weight: 300;
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 1.25em;
+	font-weight : 300;
 }
+
 h4 {
-	font-family: $heading-font;
-	font-size: 20px;
-	color: $color_paragraph;
-	line-height: 1.4em;
-	font-weight: 300;
+	color       : $color_paragraph;
+	font-family : $heading-font;
+	font-size   : 1.25em;
+	font-weight : 300;
+	line-height : 1.4em;
 }
-p, ol, ul, li {
-	font-family: $main-font;
-	color: $color_paragraph;
-	font-weight: 300;
+
+li,
+ol,
+p,
+ul {
+	color       : $color_paragraph;
+	font-family : $main-font;
+	font-weight : 300;
 }
+
 small {
-	font-family: $main-font;
-	font-size: 65%;
-	color: $color_gray;
-	@extend %uppercase;
+	@extend       %uppercase;
+	color       : $color_gray;
+	font-family : $main-font;
+	font-size   : 65%;
 }
 
-li { //indent for li
-	margin-left: 1.6em;
+li {
+	// indent for li
+	margin-left : 1.6em;
 }
+
 hr {
-	margin-top: 6px;
-	margin-bottom: 6px;
-	width: 150px;
-	border: 0;
-	height: 1px;
-	background-color: $color_hr;
-	background: linear-gradient(to right, $color_hr 0, $color_link 100%);
-	filter: progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
+	width            : 150px;
+	height           : 1px;
+	margin-top       : 6px;
+	margin-bottom    : 6px;
+	border           : 0;
+	background       : linear-gradient(
+				to right,
+				$color_hr 0,
+				$color_link 100%
+	                   );
+	background-color : $color_hr;
+	filter           : progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
 }
 
-//Font Colors//
+// Font Colors//
 
 .t-dk {
-	color: $color_heading;
+	color : $color_heading;
 }
+
 .t-white {
-	color: $color_white;
+	color : $color_white;
 }
+
 .t-blue {
-	color: $color_link;
+	color : $color_link;
 }
+
 .t-transparent {
-	opacity: 0.6;
+	opacity : 0.6;
 }
+
 .t-purple {
-	color: $color_purple;
+	color : $color_purple;
 }

@@ -1,68 +1,72 @@
-//Not Styled Yet
 
 #main-footer {
-  background: $color_heading;
-  padding-left: 40px; //Same margins as nav
-  padding-right: 40px;
+  padding-right : 40px;
+  padding-left  : 40px;
+  background    : $color_heading;
+  // Same margins as nav
 }
 
 #main-footer > .row {
-  max-width: 100%;
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
+  display        : flex;
+  max-width      : 100%;
+  vertical-align : middle;
+  align-items    : center;
 }
 
-footer > #dlmsg { //Download Message
-  padding-top: $percent_md;
-  padding-bottom: $percent_md;
+footer > #dlmsg {
+  // Download Message
+  padding-top    : $percent_md;
+  padding-bottom : $percent_md;
 }
 
 footer a.btn:last-child {
-  margin-left: 1.6em;
+  margin-left : 1.6em;
 }
 
 footer span {
-  margin-left: 6px; //Icon
+  margin-left : 6px;
+  // Icon
 }
 
 .footer--logo {
-  display: inline-block;
-  vertical-align: middle;
-  filter: brightness(0) invert(1);
+  display        : inline-block;
+  filter         : brightness(0) invert(1);
+  vertical-align : middle;
 
-  &.chef  {
-    width: 80px;
-    border-left: 1px solid $color_white;
-    padding-left:1.6em;
+  &.chef {
+    width        : 80px;
+    padding-left : 1.6em;
+    border-left  : 1px solid $color_white;
   }
 
   &.inspec {
-    width: 130px;
-    padding-right:1.6em;
+    width         : 130px;
+    padding-right : 1.6em;
   }
 }
 
 .footer--links {
-  margin-left: auto;
-  display: inline-flex;
-  @extend .no-bullet;
+  @extend       .no-bullet;
+  display     : inline-flex;
+  margin-left : auto;
 }
 
 .footer--link {
-  color: $color_gray;
-  font-family: $heading-font;
-  &:hover,
+  color       : $color_gray;
+  font-family : $heading-font;
+
+  &:active,
   &:focus,
-  &:active {
-    color: $color_purple;
+  &:hover {
+    color : $color_purple;
   }
 }
-//Hex Animation
+
+// Hex Animation
 
 img#hex {
-  width: 25px;
-  -webkit-animation: spin 2s linear infinite both;
-  animation: spin 2s linear infinite both;
-  -moz-animation: spin 2s linear infinite both;
+  width             : 25px;
+  -moz-animation    : spin 2s linear infinite both;
+  -webkit-animation : spin 2s linear infinite both;
+  animation         : spin 2s linear infinite both;
 }

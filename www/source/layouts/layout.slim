@@ -36,6 +36,10 @@ html
     == javascript_include_tag "all"
 
     javascript:
+     //initiate sticky sidebar
+      $('#sidebar').stick_in_parent();
+
+    javascript:
       //Initiate parallax library
       $(window).enllax();
 
@@ -105,6 +109,30 @@ html
           }
         });
 
+    javascript:
+     $(document).ready(function() {
+
+         var stickyNavTop = $('.stickhere').offset().top;
+
+         var stickyNav = function(){
+             var scrollTop = $(window).scrollTop();
+
+             if (scrollTop > stickyNavTop)
+                 {
+                     $('.stickhere').addClass('sticky');
+                 }
+             else
+                 {
+                     $('.stickhere').removeClass('sticky');
+                 }
+         };
+
+         stickyNav();
+
+         $(window).scroll(function() {
+             stickyNav();
+         });
+     });
 
     javascript:
       $(document).foundation();

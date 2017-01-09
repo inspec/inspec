@@ -1,87 +1,55 @@
-// THIS IS STILL OLD STUFF //
 
-.sidebar-layout-docs {
-  .main-nav--links {
-    border-top: none;
-  }
 
-  .main-nav--link-ctas {
-    border-bottom: none;
-    margin-bottom: 3px;
-  }
+//stickjs - subtract header height
+.is_stuck {
+  margin-top: $percent_md;
 }
 
-.main-nav--sidebar {
-  padding: 0 $side-nav-padding-small;
+//overwriting default ul li styles for side bar
 
-  @include nav-large {
-    padding: 0 $side-nav-padding-large;
-  }
+ul.main-sidebar--links {
+  list-style-type: none;
+  margin-bottom: $percent_sm!important;
 }
 
-.main-sidebar--links {
-  list-style: none;
-  margin-left: 0.5rem;
-
-  ul {
-    margin-left: 0;
-    margin-bottom: 1rem;
-  }
+ul.main-sidebar--links li {
+  margin-left: 0em;
+}
+ul.main-sidebar--links li:last-child {
+  margin-bottom: $percent_sm!important;
 }
 
-.main-sidebar--link h6 {
-  font-weight: 500;
-}
-
-.main-sidebar--list--item {
-  position: relative;
-  padding: 3px 0;
-  text-transform: uppercase;
-  font-size: 14px;
-
-  & > a {
-    color: $inspec-grey;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: darken($inspec-grey, 15%);
-    }
-  }
-}
-
-.center {
-  text-align: center;
-}
-
-.gsc-adBlock, .gcsc-branding {
-  display: none !important;
+// THIS IS STILL OLD STUFF  - don't know what it is - hannah//
+.gcsc-branding,
+.gsc-adBlock {
+  display : none !important;
 }
 
 .gsc-control-cse {
-  padding: 0 !important;
+  padding : 0 !important;
 
   tbody {
-    border: none;
-    background: none;
+    border     : none;
+    background : none;
   }
 
   .gsc-input-box {
-    height: 3rem;
+    height : 3rem;
+
     table {
-      margin-bottom: 0;
+      margin-bottom : 0;
     }
   }
 
   .gsc-input input {
-    box-shadow: none !important;
+    box-shadow : none !important;
   }
 
   .gsc-search-button {
-    font-family: inherit;
-    font-size: 11px;
-    padding: 5px 18px;
-    height: 27px;
-    min-width: 54px;
+    min-width   : 54px;
+    height      : 27px;
+    padding     : 5px 18px;
+    font-family : inherit;
+    font-size   : 11px;
   }
 }

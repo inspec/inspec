@@ -1,36 +1,39 @@
-
 .code-example {
-	border-radius: 7px;
-	padding: $percent_sm;
-	background: $color_heading;
+	padding       : $percent_sm;
+	border-radius : 7px;
+	background    : $color_heading;
 }
 
 code {
-	border-radius: 7px;
-	padding: $percent_sm;
-	background: $color_heading;
-	color:$color_white;
+	padding       : 2%;
+	color         : $color_white;
+	border-radius : 7px;
+	background    : $color_heading;
 }
 
 // Code Font Colors
 
 .code-demo {
-	color: $color_white;
-	border: 0;
-	background-color: initial;
-}
-.code-attribute {
-	color: $color_purple;
-}
-.code-token {
-	color: $color_code_token;
-}
-.code-comment {
-	opacity: 0.6;
+	color            : $color_white;
+	border           : 0;
+	background-color : initial;
 }
 
-//Indentation
+.code-attribute {
+	color : $color_purple;
+}
+
+.code-token {
+	color : $color_code_token;
+}
+
+.code-comment {
+	opacity : 0.6;
+}
+
+// Indentation
+
 .indent {
-	padding-left: 1em;
-	word-wrap: normal;
+	padding-left : 1em;
+	word-wrap    : normal;
 }

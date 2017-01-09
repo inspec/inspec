@@ -12,7 +12,7 @@ module SidebarHelpers
   end
 
   def link_classes(current_url, item_link)
-    'is-active' if same_link?(current_url, item_link.link)
+    't-purple' if same_link?(current_url, item_link.link)
   end
 
   def print_sub_links?(current_url, item_link)

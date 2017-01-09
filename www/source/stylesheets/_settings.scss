@@ -1,44 +1,39 @@
-//Hide the global message
-#global-message {
-    display: none;
-}
+$color_heading        : #2c2e30;
+$color_paragraph      : #69787f;
+$color_gray           : #b0bebf;
+$color_white          : white;
+$color_link           : #3ab3ce;
+$color_purple         : #8d66d8;
+$color_code_token     : #3bc5cc;
+$color_hr             : rgba(99,206,153,1);
+$color_shadow         : rgba(151,110,229,0.2);
+$color_triangle_block : #41ade5;
+$color_purple_shade   : rgba(151,110,229,0.4);
+$color_blue_shade     : rgba(91, 201, 163, 1);
+$color_blue_shade_2   : rgba(58, 142, 206, 1);
 
-//colors
-$color_heading: #2c2e30;
-$color_paragraph: #69787f;
-$color_gray: #b0bebf;
-$color_white: white;
-$color_link: #3ab3ce;
-$color_purple: #8d66d8;
-$color_code_token: #3bc5cc;
-$color_hr: rgba(99,206,153,1);
-$color_shadow: rgba(151,110,229,0.2);
-$color_triangle_block: #41ade5;
-$color_purple_shade: rgba(151,110,229,0.4);
-$color_blue_shade: rgba(91, 201, 163, 1);
-$color_blue_shade_2: rgba(58, 142, 206, 1);
+//fonts
+$heading-font         : 'Roboto', sans-serif;
+$main-font            : 'source sans pro light', Helvetica, Arial, sans-serif;
 
-//Font
+//margins
+$percent_lg           : 12%;
+$percent_md           : 100px;
+$percent_sm           : 40px;
 
-$heading-font:'Roboto', sans-serif;
-$main-font: 'source sans pro light', Helvetica, Arial, sans-serif;
-
-//Margin Sizes
-
-$percent_lg: 12%;
-$percent_md: 100px;
-$percent_sm: 40px;
-
-//Shared Styles
-
+//shared styles
 %uppercase {
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	font-weight: bold;
+	text-transform : uppercase;
+	font-weight    : bold;
+	letter-spacing : 0.1em;
 }
 
 %transition {
-  -moz-transition: all .2s;
-  -webkit-transition: all .2s;
-  transition: all .2s;
+	-moz-transition    : all .2s;
+	-webkit-transition : all .2s;
+	transition         : all .2s;
+}
+
+#global-message {
+	display : none;
 }

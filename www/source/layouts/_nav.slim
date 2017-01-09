@@ -2,27 +2,6 @@ nav#main-nav class="sidebar-layout-#{locals[:sidebar_layout]}"
 
   = partial "layouts/svg/nav-icon.svg"
 
-  ul.main-nav--links
-    li.main-nav--link-ctas
-      a.button href="/"
-        span.main-nav--link-text Overview
-      a href="/tutorials"
-        span.main-nav--link-text Tutorials
-      a href="/docs"
-        span.main-nav--link-text Docs
-      a href="/community"
-        span.main-nav--link-text Community
-      a href="https://downloads.chef.io/inspec"
-        span.main-nav--link-text Downloads
-      a href="https://github.com/chef/inspec"
-        i.main-nav--link-icon.fa.fa-github
-        span.main-nav--link-text Github Project
-      a href="https://github.com/chef/inspec/blob/master/CONTRIBUTING.md"
-        i.main-nav--link-icon.fa.fa-code-fork
-        span.main-nav--link-text Contribute
-      a.btn.try-demo href="#" Try the Demo
-      a.btn href="https://downloads.chef.io/inspec" Download
-
     - if locals[:sidebar_layout] == 'docs'
       li.main-nav--sidebar
         = partial "layouts/sidebar"

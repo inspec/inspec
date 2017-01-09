@@ -1,53 +1,66 @@
-//Normal Links
+// Normal Links
 
 a {
-	font-family: $heading-font;
-	color: $color_link;
-	@extend %transition;
+	@extend       %transition;
+	color       : $color_link;
+	font-family : $heading-font;
 }
 
-//All CTA's
+// All CTA's
 
 .btn {
-	@extend %transition;
-	background: transparent;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	color: $color_purple;
-	padding: 0.6rem 1.25rem;
-	border-left: 1px solid $color_purple;
-	border-right: 1px solid $color_link;
-	box-sizing: border-box;
-	background-position: 0 0, 0 100%;
-	background-repeat: no-repeat;
-	background-size: 100% 1px;
-	background-image: linear-gradient(to right, $color_purple 0, $color_link 100%), linear-gradient(to right, $color_purple 0, $color_link 100%);
+	@extend               %transition;
+	box-sizing          : border-box;
+	padding             : 0.6rem 1.25rem;
+	color               : $color_purple;
+	border              : 1px solid transparent;
+	border-right        : 1px solid $color_link;
+	border-left         : 1px solid $color_purple;
+	border-radius       : 4px;
+	background          : transparent;
+	background-image    : linear-gradient(
+				to right,
+				$color_purple 0,
+				$color_link 100%
+	                      ),
+	                      linear-gradient(
+				to right,
+				$color_purple 0,
+				$color_link 100%
+	                      );
+	background-repeat   : no-repeat;
+	background-position : 0 0,
+	                      0 100%;
+	background-size     : 100% 1px;
+
 	&:hover {
-		background-color: $color_purple;
-		color: $color_white;
-		border-color: $color_purple;
-		background-image: initial;
+		color            : $color_white;
+		border-color     : $color_purple;
+		background-image : initial;
+		background-color : $color_purple;
 	}
+
 	&.btn-inverse {
-		color: $color_purple;
+		color : $color_purple;
+
 		&:hover {
-			background-color: $color_purple;
-			color: $color_white;
+			color            : $color_white;
+			background-color : $color_purple;
 		}
 	}
 }
 
-//Form Buttons
+// Form Buttons
 
 button {
-	@extend %transition;
-	background: $color_purple;
-	border: 2px $color-purple;
-	border-radius: 4px;
-	color: $color_white;
-	padding: 0.6rem 1.25rem;
+	@extend         %transition;
+	padding       : 0.6rem 1.25rem;
+	color         : $color_white;
+	border        : 2px $color-purple;
+	border-radius : 4px;
+	background    : $color_purple;
 }
 
 button:hover {
- opacity:0.8;
+	opacity : 0.8;
 }
