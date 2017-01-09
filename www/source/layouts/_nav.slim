@@ -1,27 +1,27 @@
-nav#main-nav class="sidebar-layout-#{locals[:sidebar_layout]}"
 
-  = partial "layouts/svg/nav-icon.svg"
-
-    - if locals[:sidebar_layout] == 'docs'
-      li.main-nav--sidebar
-        = partial "layouts/sidebar"
-    - else
-
+nav
   <progress value="0"></progress>
 
-nav#main-nav-ctas
-  a.main-nav--logo href="/"
-    img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
-  a href="/tutorials"
-    span.main-nav--link-text Tutorials
-  a href="/docs"
-    span.main-nav--link-text Docs
-  a href="/community"
-    span.main-nav--link-text Community
-  a href="https://github.com/chef/inspec"
-    i.fa.fa-github-alt
-    span.main-nav--link-text Github
-  a.btn.try-demo href="#" Try the Demo
-  a.btn href="https://downloads.chef.io/inspec"
-    i.fa.fa-cloud-download
-    span.main-nav--link-text Download
+  #main-nav-ctas
+    a.main-nav--logo href="/"
+      img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
+    ul
+      li
+        a href="/tutorials"
+          span.main-nav--link-text Tutorials
+      li
+        a href="/docs"
+          span.main-nav--link-text Docs
+      li
+        a href="/community"
+          span.main-nav--link-text Community
+      li
+        a href="https://github.com/chef/inspec"
+          i.fa.fa-github-alt
+          span.main-nav--link-text Github
+      li
+        a.btn.try-demo href="#" Try the Demo
+      li
+        a.btn href="https://downloads.chef.io/inspec"
+          i.fa.fa-cloud-download
+          span.main-nav--link-text Download

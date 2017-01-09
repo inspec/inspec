@@ -295,6 +295,7 @@ progress {
 	color              : $color_link;
 	border             : none;
 	background-color   : transparent;
+	z-index						 : 500;
 	/* Dimensions */
 	/* Reset the appearance */
 	/* Get rid of the default border in Firefox/Opera. */
@@ -328,6 +329,9 @@ progress[value]::progress-value {
 
 
 //search bar
+
+
+
 .searchbar{
 	display:flex;
 	align-items: center

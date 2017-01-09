@@ -3,6 +3,10 @@ h1 {
 	font-family : $heading-font;
 	font-size   : 2.25em;
 	font-weight : 300;
+  //mobile
+	@media only screen and (max-width: 40.063em) {
+		font-size   : 1.8em;
+		}
 }
 
 h2 {
@@ -10,6 +14,10 @@ h2 {
 	font-family : $heading-font;
 	font-size   : 1.75em;
 	font-weight : 300;
+  //mobile
+	@media only screen and (max-width: 40.063em) {
+		font-size   : 1.4em;
+		}
 }
 
 h3 {
@@ -17,6 +25,10 @@ h3 {
 	font-family : $heading-font;
 	font-size   : 1.25em;
 	font-weight : 300;
+  //mobile
+	@media only screen and (max-width: 40.063em) {
+		font-size   : 1.2em;
+		}
 }
 
 h4 {
@@ -25,6 +37,20 @@ h4 {
 	font-size   : 1.25em;
 	font-weight : 300;
 	line-height : 1.4em;
+  //mobile
+	@media only screen and (max-width: 40.063em) {
+		font-size   : 1.2em;
+		line-height : 1.6em;
+		}
+
+}
+
+p {
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+		line-height : 1.6em;
+		}
+
 }
 
 li,
@@ -34,7 +60,9 @@ ul {
 	color       : $color_paragraph;
 	font-family : $main-font;
 	font-weight : 300;
+	list-style-type: none;
 }
+
 
 small {
 	@extend       %uppercase;

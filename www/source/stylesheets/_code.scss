@@ -1,8 +1,4 @@
-.code-example {
-	padding       : $percent_sm;
-	border-radius : 7px;
-	background    : $color_heading;
-}
+//default
 
 code {
 	padding       : 2%;
@@ -10,6 +6,15 @@ code {
 	border-radius : 7px;
 	background    : $color_heading;
 }
+
+// Container for code example
+
+.code-example {
+	padding       : $percent_sm;
+	border-radius : 7px;
+	background    : $color_heading;
+}
+
 
 // Code Font Colors
 

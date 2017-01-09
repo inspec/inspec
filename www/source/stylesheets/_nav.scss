@@ -3,13 +3,9 @@ $side-nav-width: 200px;
 $top-nav-height: 100px;
 $side-nav-padding-large: 10px;
 $side-nav-padding-small: 30px;
-
 $nav-breakpoint: 730px;
 
-nav {
-  z-index: 200;
-  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
-}
+
 
 @mixin nav-large {
   @media (min-width: #{$nav-breakpoint}) {
@@ -145,10 +141,7 @@ nav {
   @include nav-large {
     left: $side-nav-padding-large;
   }
-}
 
-.main-nav--link-text {
-  margin-left: 55px;
 
   @include nav-large {
     margin-left: 34px;
@@ -166,7 +159,6 @@ nav {
   }
 
   a {
-    margin-left: 1.6em;
     color: $color_gray;
   }
 
@@ -198,6 +190,24 @@ nav {
       margin-bottom: 0;
     }
   }
+}
+
+//Hannah's Styles'
+
+nav {
+  z-index: 200;
+  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
+  height: 80px;
+}
+
+nav ul {
+  margin-bottom: 0;
+}
+
+nav li {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 80px;
 }
 
 a.main-nav--logo {

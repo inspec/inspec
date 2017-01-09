@@ -1,43 +1,27 @@
 // Nav Scripts
-const $navLinks = $('.main-nav--links');
-const $navToggle = $('.main-nav--toggle');
-const navBreakpoint = 730; // this should match $nav-breakpoint in _nav.scss
-const $mainContent = $('#main-content');
+const navBreakpoint = 710;
 const $mainNav = $('#main-nav');
-const $mainNavCtas = $('#main-nav-ctas');
+const $navLinks = $('.main-nav--link-text');
+const $navToggle = $('.main-nav--toggle');
+const currentPagePath = location.pathname;
+const navPageLinks = [ 'docs', 'tutorials', 'community'];
+const stickyBreakpoint = 120;
+const stickyVisibleBreakpoint = 160;
+
 
 $navToggle.click(function() {
-  $(this).toggleClass('is-active');
   $navLinks.slideToggle();
+  $mainNav.toggleClass('t-purple');
 });
 
-$(window).resize(function() {
-  if ($(window).width() >= navBreakpoint) {
-    $navToggle.removeClass('is-active');
-    $navLinks.attr("style", "");
+for (var linkName in navPageLinks) {
+  var linkNamePath = navPageLinks[linkName],
+      currentPageRoot = currentPagePath.split('/')[1];
+  if (currentPageRoot == linkNamePath) {
+    $('a.main-nav--link-text' + navPageLinks[linkName]).addClass('t-purple');
   }
-});
+};
 
-// toggles fixed nav position when the window is too short
-var footerOffsetTop, navOffsetBottom;
-
-function toggleFixedNavPosition() {
-  navOffsetBottom = $mainNav.outerHeight() + $(window).scrollTop();
-  footerOffsetTop = $("#main-footer").offset().top;
-
-  $mainNav.toggleClass("is-fixed-bottom", (footerOffsetTop < navOffsetBottom) && $(window).height() <= 759)
-}
-
-$(document).ready(function() {
-  $mainContent.css('min-height', $mainNav.outerHeight() - $('#main-nav-ctas').outerHeight());
-  toggleFixedNavPosition();
-});
-
-$(window).scroll(function() {
-  toggleFixedNavPosition();
-});
-
-//
 
 
 // handle nav when global message exists
