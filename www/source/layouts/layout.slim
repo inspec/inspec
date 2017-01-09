@@ -40,22 +40,28 @@ html
       $('#sidebar').stick_in_parent();
 
     javascript:
-      //Initiate parallax library
-      $(window).enllax();
+
+      if (window.innerWidth > 760) { //don't parallax on tablet/mobile
+      $(window).enllax(); //initiate parallax on larger screens
+      }
 
     javascript:
+
       //Animate HR on scroll
+
       $(window).scroll(function() {
       var scroll = $(window).scrollTop();
-      var objectSelect = $('#icon-trigger');
+      var objectSelect = $('#icon-trigger'); //parent that triggers scroll
       var objectPosition = objectSelect.offset().top;
       if (scroll > objectPosition) {
-            $('hr.first').addClass('stretch')
+      $('hr.first').addClass('stretch')  //add class animate class to HR
       }
       });
 
     javascript:
+
       //Animating progress bar for header
+
       $(document).ready(function(){
 
       var getMax = function(){
@@ -135,6 +141,7 @@ html
      });
 
     javascript:
+
       $(document).foundation();
       $('.try-demo').click(function(event){
         event.stopPropagation();

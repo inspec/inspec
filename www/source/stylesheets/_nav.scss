@@ -153,6 +153,7 @@ $nav-breakpoint: 730px;
   background: $color_white;
   padding-left: 40px;
   padding-right: 40px;
+  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
 
   .main-nav--link-text {
     margin-left: 6px;
@@ -196,7 +197,6 @@ $nav-breakpoint: 730px;
 
 nav {
   z-index: 200;
-  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
   height: 80px;
 }
 

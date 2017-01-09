@@ -27,21 +27,21 @@ header {
 
 .h-top {
 	// Container for homepage header art
-	height : 360px;
+	height : 360px; //same as header height
 
 	img {
 		&:first-of-type {
 			// Grid Art
 			z-index  : 10;
 			position : absolute;
-			top      : 100px;
+			top      : 90px;
 			height   : 360px;
 		}
 
 		&:nth-child(3) {
 			// Diamond
 			height     : 220px;
-			margin-top : 85px;
+			margin-top : 55px;
 		}
 	}
 
@@ -49,7 +49,7 @@ header {
 		// Heading
 		z-index    : 10;
 		position   : absolute;
-		margin-top : 290px;
+		margin-top : 280px;
 	}
 }
 

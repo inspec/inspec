@@ -35,25 +35,26 @@ footer span {
 
   &.chef {
     width        : 80px;
-    padding-left : 1.6em;
+    padding-left : 1.6em; //same as default li margin
     border-left  : 1px solid $color_white;
   }
 
   &.inspec {
     width         : 130px;
-    padding-right : 1.6em;
+    padding-right : 1.6em; //same as default li margin
   }
 }
 
-.footer--links {
+ul.footer--links {
   @extend       .no-bullet;
   display     : inline-flex;
   margin-left : auto;
 }
 
-.footer--link {
+li a.footer--link {
   color       : $color_gray;
   font-family : $heading-font;
+  font-weight: 400;
 
   &:active,
   &:focus,
