@@ -48,6 +48,13 @@ a {
 			background-color : $color_purple;
 		}
 	}
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	float: initial;
+	padding     : 0.8rem 1.6rem;
+	margin     : 0 auto;
+	text-align : center;
+	}
 }
 
 // Form Buttons

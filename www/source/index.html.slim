@@ -69,7 +69,7 @@ header.blue-gradient
     #particles-second
      canvas.particles-js-canvas-el
     .row
-      .large-5.medium-5.columns.margin-under
+      .large-5.medium-5.columns.margin-under-xs
         h3.t-white
           i.fa.fa-angle-right.t-dk
           |  Codify agreements
@@ -86,35 +86,36 @@ header.blue-gradient
         p.t-white
           | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
       /! code
-      .large-6.medium-6.columns.code-example.shadow.relative-top
-        code.code-demo
-          span.code-attribute control
-          | 'sshd-21'
-          br/
-          span.code-token.indent   title
-          |  'Set SSH Protocol to 2'
-          br/
-          span.code-token.indent  desc
-          |  'A detailed description'
-          br/
-          span.code-token.indent   impact
-          |  1.0 #this is critical
-          br/
-          span.code-token.indent   ref
-          |  'compliance guide, section 2.1'
-          br/
-          br/
-          span.code-attribute.indent   describe
-          |  sshd_config
-          span.code-attribute do
-          br/
-          span.code-attribute.indent  its
-          |  ('Protocol') {should cmp 2}
-          br/
-          span.code-attribute.indent end
-          br/
-          span.code-attribute end
-        a.btn.strict-right.t-white.try-demo Try the Demo
+      .large-6.medium-6.columns
+        .code-example.shadow.relative-top.margin-under
+          code.code-demo
+            span.code-attribute control
+            | 'sshd-21'
+            br/
+            span.code-token.indent   title
+            |  'Set SSH Protocol to 2'
+            br/
+            span.code-token.indent  desc
+            |  'A detailed description'
+            br/
+            span.code-token.indent   impact
+            |  1.0 #this is critical
+            br/
+            span.code-token.indent   ref
+            |  'compliance guide, section 2.1'
+            br/
+            br/
+            span.code-attribute.indent   describe
+            |  sshd_config
+            span.code-attribute do
+            br/
+            span.code-attribute.indent  its
+            |  ('Protocol') {should cmp 2}
+            br/
+            span.code-attribute.indent end
+            br/
+            span.code-attribute end
+          a.btn.strict-right.t-white.try-demo Try the Demo
     /! Next row
     .row
       .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
@@ -122,7 +123,7 @@ header.blue-gradient
         h2.t-white
           | Solve your infrastructure testing needs simply and efficiently
     .row
-      .large-5.medium-5.columns.margin-under-xl
+      .large-5.medium-5.columns.margin-under-xs
         h3.t-white
           i.fa.fa-angle-right.t-dk
           |  Test the desired state
@@ -143,38 +144,38 @@ header.blue-gradient
         p.t-white
           | Easily create custom resources and share them.
         /! code
-      .large-6.medium-6.columns.code-example.shadow.relative-top
-        code.code-demo
-          span.code-attribute describe
-          |  file('/etc/myap.conf')
-          span.code-attribute  do
-          br/
-          span.code-attribute.indent  it
-          |  {should exist}
-          br/
-          span.code-attribute.indent  its
-          |  ('mode') {should cmp '0644'}
-          br/
-          span.code-attribute   end
-          br/
-          br/
-          span.code-attribute  describe
-          |  myapp.conf
-          span.code-attribute  do
-          br/
-          span.code-attribute.indent  its
-          |  ('port') {should cmp 8080}
-          br/
-          span.code-attribute   end
-          br/
-          br/
-          span.code-attribute  describe
-          |  port(8080)
-          span.code-attribute  do
-          br/
-          span.code-attribute.indent  it
-          |  {should be_listening}
-          br/
-          span.code-attribute   end
-        a.btn.strict-right.t-white.try-demo Try the Demo
-
+      .large-6.medium-6.columns
+        .code-example.shadow.relative-top.margin-under
+          code.code-demo
+            span.code-attribute describe
+            |  file('/etc/myap.conf')
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  it
+            |  {should exist}
+            br/
+            span.code-attribute.indent  its
+            |  ('mode') {should cmp '0644'}
+            br/
+            span.code-attribute   end
+            br/
+            br/
+            span.code-attribute  describe
+            |  myapp.conf
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  its
+            |  ('port') {should cmp 8080}
+            br/
+            span.code-attribute   end
+            br/
+            br/
+            span.code-attribute  describe
+            |  port(8080)
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  it
+            |  {should be_listening}
+            br/
+            span.code-attribute   end
+          a.btn.strict-right.t-white.try-demo Try the Demo

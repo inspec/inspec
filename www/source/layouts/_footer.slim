@@ -7,14 +7,18 @@ footer#main-footer.dark-bg
       a.btn.t-white href="https://downloads.chef.io/inspec"
         i.fa.fa-cloud-download
         span Download
-  .row
-    .footer--logos
-      a.footer--logo.inspec href="/"
-        img src="/images/inspec-by-chef-logo.png"
-    a.footer--logo.chef href="http://www.chef.io"
-        img src="/images/chef-logo.png"
 
-    ul.footer--links
+  .columns.large-4.medium-4
+    ul.footer--logos
+      li
+        a.footer--logo.inspec href="/"
+          img src="/images/inspec-by-chef-logo.png"
+      li
+        a.footer--logo.chef href="http://www.chef.io"
+            img src="/images/chef-logo.png"
+
+  .columns.large-8.medium-8
+    ul.footer--links.strict-right
       li
         a.footer--link href="/legal/licensing" Licensing
       li
@@ -24,5 +28,5 @@ footer#main-footer.dark-bg
       li
         a.footer--link href="/legal/privacy-policy" Privacy Policy
 
-  p.strict-center
+  p.strict-center.clear
     small &copy; Chef Software 2016

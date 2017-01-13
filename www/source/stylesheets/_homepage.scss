@@ -13,6 +13,7 @@ header {
 	margin-top       : -500px;
 	overflow         : hidden;
 	background-color : transparent;
+
 }
 
 #particles-second {
@@ -23,6 +24,12 @@ header {
 	height           : 80%;
 	overflow         : hidden;
 	background-color : transparent;
+
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	height : 100%;
+	}
+
 }
 
 .h-top {
@@ -42,6 +49,11 @@ header {
 			// Diamond
 			height     : 220px;
 			margin-top : 55px;
+			//mobile
+			@media only screen and (max-width: 40.063em) {
+			height     : 200px;
+			margin-top : 65px;
+			}
 		}
 	}
 
@@ -50,6 +62,10 @@ header {
 		z-index    : 10;
 		position   : absolute;
 		margin-top : 280px;
+		//mobile
+		@media only screen and (max-width: 40.063em) {
+		margin-top : 260px;
+		}
 	}
 }
 

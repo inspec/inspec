@@ -10,6 +10,14 @@
 .strict-right {
 	float      : right;
 	text-align : right;
+
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	float: initial;
+	margin     : 0 auto;
+	text-align : center;
+	}
+
 }
 
 .strict-left {
@@ -37,14 +45,28 @@
 .margin-both-xl {
 	margin-top    : $percent_lg;
 	margin-bottom : $percent_lg;
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	margin-top    : $percent_md;
+	margin-bottom : $percent_md;
+	}
+
 }
 
 .margin-top-xl {
 	margin-top : $percent_lg;
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	margin-top    : $percent_md;
+	}
 }
 
 .margin-under-xl {
 	margin-bottom : $percent_lg;
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	margin-bottom : $percent_md;
+	}
 }
 
 // default
@@ -147,6 +169,11 @@
 	background : $color_triangle_block;
 	-webkit-clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
 	clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	-webkit-clip-path: initial;
+	clip-path: initial;
+		}
 }
 
 .purp-shade {

@@ -1,17 +1,10 @@
 
 #main-footer {
-  padding-right : 40px;
+  padding-right : 40px; // Same margins as nav
   padding-left  : 40px;
   background    : $color_heading;
-  // Same margins as nav
 }
 
-#main-footer > .row {
-  display        : flex;
-  max-width      : 100%;
-  vertical-align : middle;
-  align-items    : center;
-}
 
 footer > #dlmsg {
   // Download Message
@@ -24,11 +17,20 @@ footer a.btn:last-child {
 }
 
 footer span {
-  margin-left : 6px;
-  // Icon
+  margin-left : 6px;// Icon
 }
 
-.footer--logo {
+ul.footer--logos {
+  margin-left: 0!important;
+}
+
+ul.footer--logos li {
+  display: inline-block;
+  margin-left: 0!important;
+
+}
+
+.footer--logo  {
   display        : inline-block;
   filter         : brightness(0) invert(1);
   vertical-align : middle;
