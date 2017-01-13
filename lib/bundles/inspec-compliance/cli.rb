@@ -57,6 +57,16 @@ module Compliance
       puts '', msg
     end
 
+    desc 'login_refresh', 'Refresh compliance login token from a stored refresh token'
+    def login_refresh
+      config = Compliance::Configuration.new
+      return if !loggedin(config)
+
+      _success, msg = store_refresh_token(config['server'], config['refresh_token'], true, config['user'], config['insecure'])
+
+      puts '', msg
+    end
+
     desc "login_automate SERVER --user='USER' --ent='ENT' --dctoken or --usertoken='TOKEN'", 'Log in to an Automate SERVER'
     option :dctoken, type: :string,
       desc: 'Data Collector token'
