@@ -87,7 +87,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test standard output (stdout)
 
     describe command('echo hello') do
-      its('stdout') { should eq 'hello\n' }
+      its('stdout') { should eq "hello\n" }
       its('stderr') { should eq '' }
       its('exit_status') { should eq 0 }
     end
@@ -96,7 +96,7 @@ The following examples show how to use this InSpec audit resource.
 
     describe command('>&2 echo error') do
       its('stdout') { should eq '' }
-      its('stderr') { should eq 'error\n' }
+      its('stderr') { should eq "error\n" }
       its('exit_status') { should eq 0 }
     end
 
