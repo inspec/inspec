@@ -85,11 +85,28 @@ end
  ...
 
 
- ## Kudos
+## Tests
 
- This project was inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
+To run the integration tests, please make sure all required environment variables like `AWS_ACCESS_KEY_ID`
+, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. We use terraform to create the AWS setup and InSpec to verify the all aspects. Integration tests can be executed via:
 
- ## License
+```
+bundle exec rake test:integration
+```
+
+Right now, instances are not destroyed automatically. Please use
+
+```
+bundle exec rake test:cleanup
+```
+
+to remove the setup created by terraform.
+
+## Kudos
+
+This project was inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
+
+## License
 
 |  |  |
 | ------ | --- |

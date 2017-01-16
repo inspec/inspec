@@ -23,4 +23,21 @@ namespace :test do
     dir = File.join(File.dirname(__FILE__))
     sh("bundle exec inspec check #{dir}")
   end
+
+  task :integration do
+    integration_dir = "test/integration"
+
+    puts "----> Build"
+    sh("cd #{integration_dir}/build/ && terraform plan")
+    sh("cd #{integration_dir}/build/ && terraform apply")
+
+    puts "----> Verify"
+    sh("bundle exec inspec exec #{integration_dir}/verify")
+  end
+
+  task :cleanup do
+    integration_dir = "test/integration"
+    puts "----> Destroy"
+    sh("cd #{integration_dir}/build/ && terraform destroy -force")
+  end
 end
