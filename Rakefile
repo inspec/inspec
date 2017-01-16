@@ -15,7 +15,7 @@ desc 'Run robocop linter'
 task lint: [:rubocop]
 
 # run tests
-task default: [:lint, 'test:check']
+task default: [:lint]
 
 namespace :test do
   # run inspec check to verify that the profile is properly configured
