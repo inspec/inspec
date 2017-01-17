@@ -25,6 +25,7 @@ This project will be merged into [InSpec](https://github.com/chef/inspec), once 
 
 To run the profile, use InSpec with an environment variable for AWS credentials:
 
+- `AWS_DEFAULT_REGION`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
