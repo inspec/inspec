@@ -1,0 +1,41 @@
+= wrap_layout :layout do
+
+  /! animated banner
+  header.child-h.blue-gradient.margin-top-offset
+    #particles-second
+     canvas.particles-js-canvas-el /
+    .purp-shade
+      .row.relative-top.searchbar
+
+        .column.columns
+
+
+            form.main-sidebar--search action="/docs/search/" method="get"
+              input type="text" placeholder="Search Documentation" name="q"
+
+
+              button.search.shadow action="/docs/search/" method="get"
+                img src="/images/community/search.svg"
+
+
+  .row.margin-both
+
+    column.columns.large-3.medium-3#sidebar.mobile-hide
+     - if locals[:sidebar_layout] == 'docs'
+      ul.main-sidebar--links
+         - sidebar_data(sidebar_layout).each do |item|
+           li.main-sidebar--link
+             small = item.title
+             ul.main-sidebar--list.no-bullet
+               - item.links.each do |item_link|
+                 li.main-sidebar--list--item class=link_classes(current_resource.url, item_link)
+                   = link_to item_link.title, item_link.link
+                   - if print_sub_links?(current_resource.url, item_link)
+                     ul.main-sidebar--list--item--dropdown.no-bullet
+                       - item_link.sub_links.each do |sub_link|
+                         li.main-sidebar--list--item  class=link_classes(current_resource.url, sub_link)
+                           = link_to sub_link.title, sub_link.link
+
+    column.columns.large-9.medium-9
+
+      == yield
