@@ -343,7 +343,7 @@ module Compliance
         success = true
         msg = 'API refresh token stored'
       else
-        success, msg = Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
+        success, msg, _access_token= Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
         if success
           config.store
           msg = 'API access token verified'

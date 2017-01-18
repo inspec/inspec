@@ -147,9 +147,7 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.get_token(config)
       return config['token'] unless config['refresh_token']
-
       _success, _msg, token = get_token_via_refresh_token(config['server'], config['refresh_token'], config['insecure'])
-
       token
     end
 
