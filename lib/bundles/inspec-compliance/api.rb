@@ -81,7 +81,7 @@ Please login using `inspec compliance login https://compliance.test --user admin
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
-    # Use username and refresh_toke to get an API access token
+    # Use username and refresh_token to get an API access token
     def self.get_token_via_refresh_token(url, refresh_token, insecure)
       uri = URI.parse("#{url}/login")
       req = Net::HTTP::Post.new(uri.path)
@@ -130,18 +130,27 @@ Please login using `inspec compliance login https://compliance.test --user admin
     end
 
     def self.get_headers(config)
+      token = get_token(config)
       if config['server_type'] == 'automate'
         headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
         if config['automate']['token_type'] == 'dctoken'
-          headers['x-data-collector-token'] = config['token']
+          headers['x-data-collector-token'] = token
         else
           headers['chef-delivery-user'] = config['user']
-          headers['chef-delivery-token'] = config['token']
+          headers['chef-delivery-token'] = token
         end
       else
-        headers = { 'Authorization' => "Bearer #{config['token']}" }
+        headers = { 'Authorization' => "Bearer #{token}" }
       end
       headers
+    end
+
+    def self.get_token(config)
+      return config['token'] unless config['refresh_token']
+
+      _success, _msg, token = get_token_via_refresh_token(config['server'], config['refresh_token'], config['insecure'])
+
+      token
     end
 
     def self.target_url(config, profile)
