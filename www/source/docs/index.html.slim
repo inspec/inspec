@@ -1,21 +1,26 @@
 
 
 /! animated banner
-header.child-h.blue-gradient
+header.child-h.blue-gradient.margin-top-offset
   #particles-second
    canvas.particles-js-canvas-el /
   .purp-shade
     .row.relative-top.searchbar
-      column.columns.large-11.medium-11
-        form.main-sidebar--search action="/docs/search/" method="get"
-          input type="text" placeholder="Search Documentation" name="q"
-      column.columns.large-1.medium-1
-        .search.shadow
-          img src="/images/community/search.svg" /
+
+      .column.columns
+
+
+          form.main-sidebar--search action="/docs/search/" method="get"
+            input type="text" placeholder="Search Documentation" name="q"
+
+
+            button.search.shadow action="/docs/search/" method="get"
+              img src="/images/community/search.svg"
+
 
 .row.margin-both
 
-  column.columns.large-3.medium-3#sidebar
+  column.columns.large-3.medium-3#sidebar.mobile-hide
    - if locals[:sidebar_layout] == 'docs'
     ul.main-sidebar--links
        - sidebar_data(sidebar_layout).each do |item|
@@ -48,7 +53,7 @@ header.child-h.blue-gradient
 
     .row
       .columns.medium-6
-        .box-white-brdr.strict-center
+        .box-white-brdr.strict-center.
           p Complete a short interactive demo
           a.btn.try-demo href="#" Try the Demo
       .columns.medium-6

@@ -12,7 +12,7 @@
 	text-align : right;
 
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	float: initial;
 	margin     : 0 auto;
 	text-align : center;
@@ -46,7 +46,7 @@
 	margin-top    : $percent_lg;
 	margin-bottom : $percent_lg;
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	margin-top    : $percent_md;
 	margin-bottom : $percent_md;
 	}
@@ -56,7 +56,7 @@
 .margin-top-xl {
 	margin-top : $percent_lg;
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	margin-top    : $percent_md;
 	}
 }
@@ -64,8 +64,16 @@
 .margin-under-xl {
 	margin-bottom : $percent_lg;
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	margin-bottom : $percent_md;
+	}
+}
+
+.padding-top-xl {
+	padding-top : $percent_lg;
+	//mobile
+	@include nav-small{
+	padding-top    : $percent_md;
 	}
 }
 
@@ -82,14 +90,18 @@
 }
 
 .margin-both-offset {
-	margin-top    : $percent_md+80px;
+	margin-top    : $percent_md + 80px; // add header height
 	margin-bottom : $percent_md;
-	// add header height
+	@include nav-small {
+	margin-top    : $percent_md + 60px;
+	}
 }
 
 .margin-top-offset {
-	margin-top    : $percent_md+80px;
-	// add header height
+	margin-top    : 80px; // add header height
+	@include nav-small {
+	margin-top    : 60px;
+	}
 }
 
 .margin-top {
@@ -98,6 +110,10 @@
 
 .margin-under {
 	margin-bottom : $percent_md;
+}
+
+.padding-under {
+ padding-bottom : $percent_md;
 }
 
 // small
@@ -129,6 +145,9 @@
 	padding       : 2em;
 	border        : 1px solid #d3e2e2;
 	border-radius : 7px;
+	@include nav-small {
+		margin-bottom: 1em;
+	}
 }
 
 // Art
@@ -170,7 +189,7 @@
 	-webkit-clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
 	clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	-webkit-clip-path: initial;
 	clip-path: initial;
 		}
@@ -255,10 +274,19 @@
 input.form-item {
 	display : inline;
 	width   : 60%;
+	@include nav-small {
+	width: 100%;
+	display: block;
+	}
 }
 
 form > button {
 	margin-left : 1em;
+	@include nav-small {
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 1em;
+	}
 }
 
 form > button > i {
@@ -358,11 +386,31 @@ progress[value]::progress-value {
 //search bar
 
 
-
 .searchbar{
 	display:flex;
-	align-items: center
+	align-items: center;
+	width:100%;
 }
+
+//search form
+
+form.main-sidebar--search {
+	width: 100%;
+}
+
+//search input
+
+form.main-sidebar--search input[type="text"] {
+	width: 90%;
+	display: inline;
+	margin-top: 1.2em;
+
+	@include nav-small {
+		width:100%;
+	}
+
+}
+
 
 //Search button
 
@@ -377,10 +425,15 @@ progress[value]::progress-value {
 	cursor: pointer;
 	position: relative;
 	z-index: 50;
+	float: right;
+	outline: none;
+
+	@include nav-small {
+		display: none;
+	}
 
 	img {
 		display : block;
 		height  : auto;
-		padding : 30%;
 	}
 }

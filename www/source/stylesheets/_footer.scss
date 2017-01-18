@@ -14,6 +14,12 @@ footer > #dlmsg {
 
 footer a.btn:last-child {
   margin-left : 1.6em;
+
+  //mobile
+  @include nav-small{
+  margin-left: initial;
+  }
+
 }
 
 footer span {
@@ -22,6 +28,9 @@ footer span {
 
 ul.footer--logos {
   margin-left: 0!important;
+  @include nav-small {
+    text-align: center;
+  }
 }
 
 ul.footer--logos li {
@@ -39,6 +48,12 @@ ul.footer--logos li {
     width        : 80px;
     padding-left : 1.6em; //same as default li margin
     border-left  : 1px solid $color_white;
+
+    //mobile
+    @include nav-small{
+    border-left  : initial;
+    }
+
   }
 
   &.inspec {
@@ -51,6 +66,18 @@ ul.footer--links {
   @extend       .no-bullet;
   display     : inline-flex;
   margin-left : auto;
+  //mobile
+  @include nav-small{
+  display:block;
+  }
+
+  li {
+    //mobile
+    @include nav-small{
+    margin-left: initial;
+    margin-bottom: $percent_sm/2;
+    }
+  }
 }
 
 li a.footer--link {
@@ -63,7 +90,9 @@ li a.footer--link {
   &:hover {
     color : $color_purple;
   }
+
 }
+
 
 // Hex Animation
 

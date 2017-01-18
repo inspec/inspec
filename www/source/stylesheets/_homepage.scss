@@ -2,6 +2,9 @@
 
 header {
 	height : 360px;
+	@include nav-small {
+	height: 300px;
+	}
 }
 
 #particles-js {
@@ -26,7 +29,7 @@ header {
 	background-color : transparent;
 
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 	height : 100%;
 	}
 
@@ -35,6 +38,9 @@ header {
 .h-top {
 	// Container for homepage header art
 	height : 360px; //same as header height
+	@include nav-small {
+	height: 300px;
+	}
 
 	img {
 		&:first-of-type {
@@ -43,6 +49,10 @@ header {
 			position : absolute;
 			top      : 90px;
 			height   : 360px;
+			@include nav-small {
+			height: 300px;
+			top      : 50px;
+			}
 		}
 
 		&:nth-child(3) {
@@ -50,9 +60,9 @@ header {
 			height     : 220px;
 			margin-top : 55px;
 			//mobile
-			@media only screen and (max-width: 40.063em) {
-			height     : 200px;
-			margin-top : 65px;
+			@include nav-small{
+			height     : 190px;
+			margin-top : 35px;
 			}
 		}
 	}
@@ -63,8 +73,8 @@ header {
 		position   : absolute;
 		margin-top : 280px;
 		//mobile
-		@media only screen and (max-width: 40.063em) {
-		margin-top : 260px;
+		@include nav-small{
+		margin-top : 210px;
 		}
 	}
 }
@@ -253,4 +263,14 @@ hr.first {
 	to {
 		transform : rotate(360deg);
 	}
+}
+
+//Rotate 90 degrees for nav-small
+
+.turn {
+-webkit-transform: rotate(90deg);
+ -moz-transform: rotate(90deg);
+ -o-transform: rotate(90deg);
+ -ms-transform: rotate(90deg);
+ transform: rotate(90deg);
 }

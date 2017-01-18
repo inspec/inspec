@@ -1,10 +1,18 @@
 //default
 
 code {
-	padding       : 2%;
-	color         : $color_white;
+	color         : $color_link;
 	border-radius : 7px;
-	background    : $color_heading;
+	background    : $color_lt_blue;
+	border-color: $color_lt_blue;
+}
+
+pre {
+    padding: 10px;
+    margin-bottom: 1em;
+    background    : $color_lt_blue;
+    border: 1px solid rgba(65,151,181,0.3);
+    color: $color_link
 }
 
 // Container for code example

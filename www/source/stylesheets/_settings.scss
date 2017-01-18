@@ -11,6 +11,7 @@ $color_triangle_block : #41ade5;
 $color_purple_shade   : rgba(151,110,229,0.4);
 $color_blue_shade     : rgba(91, 201, 163, 1);
 $color_blue_shade_2   : rgba(58, 142, 206, 1);
+$color_lt_blue				: #eaf8f9;
 
 //fonts
 $heading-font         : 'Roboto', sans-serif;
@@ -20,6 +21,27 @@ $main-font            : 'source sans pro light', Helvetica, Arial, sans-serif;
 $percent_lg           : 12%;
 $percent_md           : 100px;
 $percent_sm           : 40px;
+
+//mixins
+
+$side-nav-width: 200px;
+$top-nav-height: 100px;
+$side-nav-padding-large: 10px;
+$side-nav-padding-small: 30px;
+$nav-breakpoint: 780px;
+
+
+@mixin nav-large {
+  @media (min-width: #{$nav-breakpoint}) {
+    @content;
+  }
+}
+
+@mixin nav-small {
+  @media (max-width: $nav-breakpoint - 1px) {
+    @content;
+  }
+}
 
 //shared styles
 %uppercase {
@@ -33,6 +55,32 @@ $percent_sm           : 40px;
 	-webkit-transition : all .2s;
 	transition         : all .2s;
 }
+
+//Hide/show div on mobile
+
+.mobile-hide {
+	display: initial;
+	@include nav-small {
+	display: none;
+	}
+}
+
+.mobile-show {
+	display: none;
+	@include nav-small {
+	display: block;
+	}
+}
+
+.hide {
+  display: none;
+}
+
+.show  {
+  display: block;
+}
+
+//Hide Global Message
 
 #global-message {
 	display : none;

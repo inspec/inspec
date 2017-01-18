@@ -4,7 +4,7 @@ h1 {
 	font-size   : 2.25em;
 	font-weight : 300;
   //mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 		font-size   : 1.8em;
 		}
 }
@@ -15,7 +15,7 @@ h2 {
 	font-size   : 1.75em;
 	font-weight : 300;
   //mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 		font-size   : 1.4em;
 		}
 }
@@ -26,7 +26,7 @@ h3 {
 	font-size   : 1.25em;
 	font-weight : 300;
   //mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 		font-size   : 1.2em;
 		}
 }
@@ -38,7 +38,7 @@ h4 {
 	font-weight : 300;
 	line-height : 1.4em;
   //mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 		font-size   : 1.2em;
 		line-height : 1.6em;
 		}
@@ -47,7 +47,7 @@ h4 {
 
 p {
 	//mobile
-	@media only screen and (max-width: 40.063em) {
+	@include nav-small{
 		line-height : 1.6em;
 		}
 
@@ -74,6 +74,10 @@ small {
 li {
 	// indent for li
 	margin-left : 1.6em;
+
+	@include nav-small {
+	margin-left : initial;
+	}
 }
 
 hr {
