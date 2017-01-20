@@ -61,7 +61,10 @@ It is possible to not have a credentials file at all and specify all of the requ
 For example:
 
 ```bash
-AZURE_SUBSCRIPTION_ID="2fbdbb02-df2e-11e6-bf01-fe55135034f3" AZURE_CLIENT_ID="58dc4f6c-df2e-11e6-bf01-fe55135034f3" AZURE_CLIENT_SECRET="Jibr4iwwaaZwBb6W" AZURE_TENANT_ID="6ad89b58-df2e-11e6-bf01-fe55135034f3" inspec exec inspec-azure
+AZURE_SUBSCRIPTION_ID="2fbdbb02-df2e-11e6-bf01-fe55135034f3" \
+AZURE_CLIENT_ID="58dc4f6c-df2e-11e6-bf01-fe55135034f3" \
+AZURE_CLIENT_SECRET="Jibr4iwwaaZwBb6W" \
+AZURE_TENANT_ID="6ad89b58-df2e-11e6-bf01-fe55135034f3" inspec exec inspec-azure
 ```
 
 ## Use the resources
