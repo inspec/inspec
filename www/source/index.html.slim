@@ -1,75 +1,205 @@
 ---
 title: InSpec - Audit and Test Framework
 ---
-.row
-  .columns.medium-12
-    .home-hero
-      img.home-hero--code src="/images/home/hero-code.gif" alt=""
-    h2.main-subhead.text-center InSpec is compliance as code
+
+/! animated banner
+header.blue-gradient.margin-top-offset
+  .h-top.strict-center.purp-shade
+    h1.columns.t-white.strict-center data-enllax-ratio=".1" data-enllax-type="foreground"  InSpec is compliance as code
+    img.grid-animate.strict-center style="opacity:0.8" src="/images/home/web.svg" /
+    /! diamond image
+    img.strict-center.bright-animate.3d-animate src="/images/home/diamond.png" /
+  /!  canvas elements
+  #particles-js
+   canvas.particles-js-canvas-el /
+  /! style for callout icons
+  .row
+    .icon.shadow
+      img src="/images/circ-arrow.svg" /
+
+      
+/! Second Content
+.row.margin-both
+  .large-9.medium-9.columns data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground" 
+
+    h2 Automated testing, codified
+    p#icon-trigger
+      | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
+
+/! Third Content
+#icon-trigger.row.strict-center.margin-under-xs
+  .large-12.columns
+    hr.first/
+    small FEATURES OF INSPEC
+    h2 InSpec is compliance by design
+    hr.first/
+/! images with text - grid of 4
+.row.strict-center.margin-under
+  .large-3.medium-3.columns.strict-center
+    img.floating.icon-art src="/images/home/platform.svg" /
+    h3 Platform Agnostic
     p
-      | InSpec is compliance as code – a human-readable language for automating
-        the continuous testing and compliance auditing of your entire
-        infrastructure. You can also use it to verify if your servers and
-        applications are configured correctly.
-    p.text-center.home-hero--buttons
-      a.button.secondary href="https://downloads.chef.io/inspec" Download InSpec
-      a.button.primary.try-demo href="#" Start the Demo
-    hr.home-divider
-    .icon-blocks.row
-      .columns.large-3.small-6
-        img.icon-block--img src="/images/home/platform-icon.png"
-        h3.icon-block--heading Platform Agnostic
-        p.icon-block--text
-          | InSpec supports all major operating systems and many applications
-            out of the box.
-      .columns.large-3.small-6
-        img.icon-block--img src="/images/home/test-icon.png"
-        h3.icon-block--heading Test Locally or Remotely
-        p.icon-block--text
-          | InSpec provides a local agent, as well as full remote testing support.
-      .columns.large-3.small-6
-        img.icon-block--img src="/images/home/free-icon.png"
-        h3.icon-block--heading Free to Run Anywhere
-        p.icon-block--text
-          | InSpec is a language that can easily express compliance as code, with the freedom to run anywhere.
-      .columns.large-3.small-6
-        img.icon-block--img src="/images/home/fully-icon.png"
-        h3.icon-block--heading Fully Extensible Language
-        p.icon-block--text
-          | Easily extend the InSpec language to cover new operating systems,
-            devices, or applications.
-    hr.home-divider
-    .code-snippet.row
-      .columns.large-6
-        img.code-snippet--img[src="/images/home/code-1.svg" onerror="this.src='/images/home/code-1.png'"
-          alt="Code Snippet"]
-      .columns.large-6.code-snippet--panel.first
-        small.code-snippet--description
-          strong Transform your compliance and security requirements into simple code.
-        h3.code-snippet--heading Codify Agreements:
-        p.code-snippet--text
-          | Combine profiles and customize them with overlays. Pick controls
-            and define exceptions as code.
-        h3.code-snippet--heading Add Context to Your Tests:
-        p.code-snippet--text Supports many fields like descriptions, tags, and impact.
-        h3.code-snippet--heading Apply to all systems:
-        p.code-snippet--text
-          | Combine profiles and customize them with overlays. Pick controls
-            and define exceptions as code.
-    .code-snippet.row
-      .columns.large-6
-        img.code-snippet--img[src="/images/home/code-2.svg" onerror="this.src='/images/home/code-2.png'"
-          alt="Code Snippet"]
-      .columns.large-6.code-snippet--panel.second
-        small.code-snippet--description
-          strong Solve your infrastructure testing needs simply and efficiently.
-        h3.code-snippet--heading Test the desired state:
-        p.code-snippet--text Match your infrastructure to your expectations.
-        h3.code-snippet--heading Use simple and expressive code:
-        p.code-snippet--text These tests are easy to understand by anyone, reducing friction.
-        h3.code-snippet--heading Test any system anywhere:
-        p.code-snippet--text
-          | Runs locally and remotely. Supports all major operating systems
-            and configurations.
-        h3.code-snippet--heading Extensible:
-        p.code-snippet--text Easily create custom resources and share them.
+      | InSpec supports all major operating systems and many applications out of the box.
+  .large-3.medium-3.columns.strict-center
+    img.icon-art src="/images/home/free.svg" /
+    h3 Free to run anywhere
+    p
+      | InSpec is a language that can easily express compliance as code, with the freedom to run anywhere.
+  .large-3.medium-3.columns.strict-center
+    img.icon-art src="/images/home/test.svg" /
+    h3 Test locally or remotely
+    p
+      | InSpec provides a local agent, as well as full remote testing support.
+  .large-3.medium-3.columns.strict-center
+    img.icon-art src="/images/home/language.svg" /
+    h3 Extensible language
+    p
+      | Easily extend the InSpec language to cover new operating systems, devices, or applications.
+
+/! Fourth Content
+/! style for callout icons
+.row
+  .icon.shadow
+    img src="/images/circ-arrow.svg" /
+.block-angl.blue-gradient
+  .section.purp-shade
+
+    .row.relative-top 
+      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground" 
+
+        small.t-dk Inspec for compliance
+        h2.t-white
+          | Transform your compliance and security requirements into simple code
+    #particles-second
+     canvas.particles-js-canvas-el
+    .row
+      .large-5.medium-5.columns.margin-under-xs
+
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Codify agreements
+        p.t-white
+          | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Add context to your tests
+        p.t-white
+          | Supports many fields like descriptions, tags, and impact.
+
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Apply to all systems
+        p.t-white
+          | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+      /! code
+      .large-6.medium-6.columns
+        .code-example.shadow.relative-top.margin-under
+          code.code-demo
+            span.code-attribute control
+            | 'sshd-21'
+            br/
+            span.code-token.indent   title
+            |  'Set SSH Protocol to 2'
+            br/
+            span.code-token.indent  desc
+            |  'A detailed description'
+            br/
+            span.code-token.indent   impact
+            |  1.0 #this is critical
+            br/
+            span.code-token.indent   ref
+            |  'compliance guide, section 2.1'
+            br/
+            br/
+            span.code-attribute.indent   describe
+
+            |  sshd_config 
+
+            span.code-attribute do
+            br/
+            span.code-attribute.indent  its
+            |  ('Protocol') {should cmp 2}
+            br/
+            span.code-attribute.indent end
+            br/
+            span.code-attribute end
+
+          a.btn.strict-right.t-white.try-demo.mobile-hide Try the Demo     
+    /! Next row
+    .row
+      .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground" 
+
+        small.t-dk Inspec for infrastructure
+        h2.t-white
+          | Solve your infrastructure testing needs simply and efficiently
+    .row
+      .large-5.medium-5.columns.margin-under-xs
+
+        h3.t-white 
+          i.fa.fa-angle-right.t-dk
+          |  Test the desired state
+        p.t-white Match your infrastructure to your expectations.
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Use simple and expressive code
+        p.t-white
+          | These tests are easy to understand by anyone, reducing friction.
+
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Test any system anywhere
+        p.t-white
+          | Runs locally and remotely. Supports all major operating systems and configurations.
+
+        h3.t-white 
+
+          i.fa.fa-angle-right.t-dk
+          |  Extensible
+        p.t-white
+          | Easily create custom resources and share them.
+        /! code
+      .large-6.medium-6.columns
+        .code-example.shadow.relative-top.margin-under
+          code.code-demo
+            span.code-attribute describe
+
+            |  file('/etc/myap.conf') 
+
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  it
+            |  {should exist}
+            br/
+            span.code-attribute.indent  its
+            |  ('mode') {should cmp '0644'}
+            br/
+            span.code-attribute   end
+            br/
+            br/
+            span.code-attribute  describe
+            |  myapp.conf
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  its
+            |  ('port') {should cmp 8080}
+            br/
+            span.code-attribute   end
+            br/
+            br/
+            span.code-attribute  describe
+            |  port(8080)
+            span.code-attribute  do
+            br/
+            span.code-attribute.indent  it
+            |  {should be_listening}
+            br/
+            span.code-attribute   end
+          a.btn.strict-right.t-white.try-demo.mobile-hide Try the Demo
+
+      

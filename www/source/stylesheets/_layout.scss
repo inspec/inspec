@@ -1,29 +1,442 @@
-body {
-  position: relative;
-  font-family: $main-font;
-  color: $body-text;
+// Alignment
+
+.strict-center {
+	right      : 0;
+	left       : 0;
+	margin     : auto;
+	text-align : center;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+.strict-right {
+	float      : right;
+	text-align : right;
+
+	//mobile
+	@include nav-small{
+	float: initial;
+	margin     : 0 auto;
+	text-align : center;
+	}
+
 }
 
-.row {
-  max-width: 1200px;
+.strict-left {
+	float      : left;
+	text-align : left;
 }
 
-#main-content {
-  position: relative;
-  margin-top: 64px;
-  transition: margin 0.3s ease;
+.clear {
+	clear : both;
+}
 
-  @include nav-small {
-    padding: 0 $side-nav-padding-small;
-  }
+.relative {
+	position : relative;
+}
 
-  @include nav-large {
-    padding-right: 10px;
-    margin: $top-nav-height 0 0 ($side-nav-width + 50px);
-  }
+.relative-top {
+	z-index  : 10;
+	position : relative;
+}
+
+// margins
+
+// xl
+
+.margin-both-xl {
+	margin-top    : $percent_lg;
+	margin-bottom : $percent_lg;
+	//mobile
+	@include nav-small{
+	margin-top    : $percent_md;
+	margin-bottom : $percent_md;
+	}
+
+}
+
+.margin-top-xl {
+	margin-top : $percent_lg;
+	//mobile
+	@include nav-small{
+	margin-top    : $percent_md;
+	}
+}
+
+.margin-under-xl {
+	margin-bottom : $percent_lg;
+	//mobile
+	@include nav-small{
+	margin-bottom : $percent_md;
+	}
+}
+
+.padding-top-xl {
+	padding-top : $percent_lg;
+	//mobile
+	@include nav-small{
+	padding-top    : $percent_md;
+	}
+}
+
+// default
+
+.margin-both {
+	margin-top    : $percent_md;
+	margin-bottom : $percent_md;
+}
+
+.pad-both {
+	padding-top    : $percent_md;
+	padding-bottom : $percent_md;
+}
+
+.margin-both-offset {
+	margin-top    : $percent_md + 80px; // add header height
+	margin-bottom : $percent_md;
+	@include nav-small {
+	margin-top    : $percent_md + 60px;
+	}
+}
+
+.margin-top-offset {
+	margin-top    : 80px; // add header height
+	@include nav-small {
+	margin-top    : 60px;
+	}
+}
+
+.margin-top {
+	margin-top : $percent_md;
+}
+
+.margin-under {
+	margin-bottom : $percent_md;
+}
+
+.padding-under {
+ padding-bottom : $percent_md;
+}
+
+// small
+
+.margin-both-xs {
+	margin-top    : $percent_sm;
+	margin-bottom : $percent_sm;
+}
+
+.margin-top-xs {
+	margin-top : $percent_sm;
+}
+
+.margin-under-xs {
+	margin-bottom : $percent_sm;
+}
+
+// White Box
+
+.box-white {
+	padding          : 2em;
+	border-radius    : 7px;
+	background-color : white;
+}
+
+// White Box with border
+
+.box-white-brdr {
+	padding       : 2em;
+	border        : 1px solid #d3e2e2;
+	border-radius : 7px;
+	@include nav-small {
+		margin-bottom: 1em;
+	}
+}
+
+// Art
+
+.icon-art {
+	// Illustrations with content underneath
+	height        : 100px;
+	margin-top    : 15px;
+	margin-bottom : 15px;
+}
+
+.icon {
+	// gradient arrows with white box
+	z-index       : 50;
+	position      : absolute;
+	width         : 70px;
+	height        : 70px;
+	margin-top    : -35px;
+	overflow      : hidden;
+	border        : 2px solid $color_white;
+	border-radius : 50%;
+	background    : $color_white;
+
+	img {
+		display : block;
+		height  : auto;
+		padding : 30%;
+	}
+}
+
+.shadow {
+	// dropshadow
+	box-shadow : 0 0 25px $color_shadow;
+}
+
+.block-angl {
+	// Angled Background
+	background : $color_triangle_block;
+	-webkit-clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
+	clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 100%);
+	//mobile
+	@include nav-small{
+	-webkit-clip-path: initial;
+	clip-path: initial;
+		}
+}
+
+.purp-shade {
+	// Purple radial gradient applied over blue-gradient
+	background : -moz-radial-gradient(
+
+	             	center,
+	             	ellipse cover,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
+	             );
+	background : -webkit-radial-gradient(
+	             	center,
+	             	ellipse cover,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
+	             );
+	background : radial-gradient(
+	             	ellipse at center,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
+
+	             );
+	filter     : progid:DXImageTransform.Microsoft.gradient( startColorstr='#66976ee5', endColorstr='#00976ee5',GradientType=1 );
+}
+
+.dark-bg {
+	background-color : $color_heading;
+}
+
+.blue-gradient {
+	// Default Blue Gradient
+	background : -moz-linear-gradient(
+	             	100% -14.24% -80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
+	             );
+	background : -ms-linear-gradient(
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
+	             );
+	background : -o-linear-gradient(
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
+	             );
+	background : -webkit-gradient(linear,100% -14.24% ,56.15% 114.24% ,color-stop(0,rgba(99, 206, 153, 1) ),color-stop(0.0833,rgba(91, 201, 163, 1) ),color-stop(0.3664,rgba(67, 185, 194, 1) ),color-stop(0.5248,rgba(58, 179, 206, 1) ),color-stop(0.6793,rgba(58, 175, 206, 1) ),color-stop(0.8394,rgba(58, 162, 206, 1) ),color-stop(1,rgba(58, 142, 206, 1) ));
+	background : -webkit-linear-gradient(
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
+
+	             );
+}
+
+// form
+
+input.form-item {
+	display : inline;
+	width   : 60%;
+	@include nav-small {
+	width: 100%;
+	display: block;
+	}
+}
+
+form > button {
+	margin-left : 1em;
+	@include nav-small {
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 1em;
+	}
+}
+
+form > button > i {
+	margin-right : 6px;
+}
+
+input[type="email"], input[type="text"] {
+	color              : $color_heading;
+	border             : 1px solid #d3e2e2;
+	-webkit-box-shadow : 0 0 2px $color_shadow;
+	box-shadow         : 0 0 2px $color_shadow;
+	font-family        : $main-font;
+	font-weight        : 300;
+	margin:0;
+}
+input[type="text"]:focus,
+input[type="text"]:hover,
+input[type="email"]:focus,
+input[type="email"]:hover {
+	border             : 1px solid $color_purple;
+	-webkit-box-shadow : 0 0 5px $color_shadow;
+	box-shadow         : 0 0 5px $color_shadow;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+	color       : $color_gray;
+	font-family : $main-font;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+	color       : $color_gray;
+	font-family : $main-font;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+	color       : $color_gray;
+	font-family : $main-font;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color       : $color_gray;
+	font-family : $main-font;
+}
+
+// Progress bar
+
+progress {
+	/* Positioning */
+	-moz-appearance    : none;
+	-webkit-appearance : none;
+	appearance         : none;
+	position           : fixed;
+	top                : 0;
+	left               : 0;
+	width              : 100%;
+	height             : 1.6px;
+	color              : $color_link;
+	border             : none;
+	background-color   : transparent;
+	z-index						 : 500;
+	/* Dimensions */
+	/* Reset the appearance */
+	/* Get rid of the default border in Firefox/Opera. */
+	/* Progress bar container for Firefox/IE10+ */
+	/* Progress bar value for IE10+ */
+}
+
+progress[value]::-webkit-progress-bar {
+	background-color : white;
+}
+
+progress[value]::-webkit-progress-value {
+	background-color : $color_link;
+}
+
+progress[value]::-moz-progress-bar {
+	background-color : white;
+}
+
+progress[value]::-moz-progress-value {
+	background-color : $color_link;
+}
+
+progress[value]::progress-bar {
+	background-color : white;
+}
+
+progress[value]::progress-value {
+	background-color : $color_link;
+}
+
+
+//search bar
+
+
+.searchbar{
+	display:flex;
+	align-items: center;
+	width:100%;
+}
+
+//search form
+
+form.main-sidebar--search {
+	width: 100%;
+}
+
+//search input
+
+form.main-sidebar--search input[type="text"] {
+	width: 90%;
+	display: inline;
+	margin-top: 1.2em;
+
+	@include nav-small {
+		width:100%;
+	}
+
+}
+
+
+//Search button
+
+.search {
+	// search icon
+	width         : 70px;
+	height        : 70px;
+	overflow      : hidden;
+	border        : 2px solid $color_white;
+	border-radius : 50%;
+	background    : $color_white;
+	cursor: pointer;
+	position: relative;
+	z-index: 50;
+	float: right;
+	outline: none;
+
+	@include nav-small {
+		display: none;
+	}
+
+	img {
+		display : block;
+		height  : auto;
+	}
 }

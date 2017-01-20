@@ -19,3 +19,7 @@ habitat/VERSION
 habitat/results
 /.ruby-gemset
 /.ruby-version
+
+www/source/index.html.slim
+
+www/source/index.html.slim

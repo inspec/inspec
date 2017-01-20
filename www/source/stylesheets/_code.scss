@@ -1,18 +1,52 @@
-pre {
-  padding: 10px;
-  margin-bottom: 1em;
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid rgba($inspec-blue, 0.3);
-  color: darken($inspec-blue, 25%);
-
-  & > code {
-    background: transparent;
-    border: none;
-  }
-}
+//default
 
 code {
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid transparent;
-  color: darken($inspec-blue, 25%);
+	color         : $color_link;
+	border-radius : 7px;
+	background    : $color_lt_blue;
+	border-color: $color_lt_blue;
+}
+
+pre {
+    padding: 10px;
+    margin-bottom: 1em;
+    background    : $color_lt_blue;
+    border: 1px solid rgba(65,151,181,0.3);
+    color: $color_link
+}
+
+// Container for code example
+
+.code-example {
+	padding       : $percent_sm;
+	border-radius : 7px;
+	background    : $color_heading;
+}
+
+
+// Code Font Colors
+
+.code-demo {
+	color            : $color_white;
+	border           : 0;
+	background-color : initial;
+}
+
+.code-attribute {
+	color : $color_purple;
+}
+
+.code-token {
+	color : $color_code_token;
+}
+
+.code-comment {
+	opacity : 0.6;
+}
+
+// Indentation
+
+.indent {
+	padding-left : 1em;
+	word-wrap    : normal;
 }

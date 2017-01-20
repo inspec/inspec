@@ -13,7 +13,7 @@ page '/*.json', layout: false
 page '/*.txt', layout: false
 
 # With alternative layout: we send the sidebar request to the default layout
-page 'docs/*', layout: :layout, locals: { sidebar_layout: 'docs' }
+page 'docs/*', layout: :docs, locals: { sidebar_layout: 'docs' }
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 # proxy '/this-page-has-no-template.html', '/template-file.html', locals: {
