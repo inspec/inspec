@@ -1,12 +1,14 @@
 
-nav#main-nav
-  <progress value="0"></progress>
 
+nav#main-nav 
+  <progress value="0"></progress>
+  
   #main-nav-ctas
     a.main-nav--logo href="/"
       img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
-
+      
     i.fa.fa-bars.main-nav--toggle.strict-right.show-for-small-only
+      
 
     ul.main-nav--links
       li.main-nav--link.hide-docs
@@ -17,43 +19,45 @@ nav#main-nav
           span.main-nav--link-text.docs Docs
         span.fa.fa-angle-right.t-purple.toggle.mobile-show
 
-
+          
+            
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/cli.html"
           span.main-nav--link-text inspec executable
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/profiles.html"
           span.main-nav--link-text Profiles
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/resources.html"
           span.main-nav--link-text Resources
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/matchers.html"
           span.main-nav--link-text Matchers
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/dsl_inspec.html"
           span.main-nav--link-text InSpec DSL
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/dsl_resource.html"
           span.main-nav--link-text Resource DSL
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/plugin_kitchen_inspec.html"
           span.main-nav--link-text kitchen-inspec
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/shell.html"
           span.main-nav--link-text inspec shell
-
+          
       li.main-nav--link.docs--inside--link
         a href="/docs/reference/ruby_usage.html"
           span.main-nav--link-text Ruby usage
-
+          
+  
 
       li.main-nav--link.hide-docs
         a href="/community"

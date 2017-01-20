@@ -198,24 +198,26 @@
 .purp-shade {
 	// Purple radial gradient applied over blue-gradient
 	background : -moz-radial-gradient(
-			center,
-			ellipse cover,
-			rgba(151,110,229,0.4) 0%,
-			rgba(151,110,229,0.2) 50%,
-			rgba(151,110,229,0) 100%
+
+	             	center,
+	             	ellipse cover,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
 	             );
 	background : -webkit-radial-gradient(
-			center,
-			ellipse cover,
-			rgba(151,110,229,0.4) 0%,
-			rgba(151,110,229,0.2) 50%,
-			rgba(151,110,229,0) 100%
+	             	center,
+	             	ellipse cover,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
 	             );
 	background : radial-gradient(
-			ellipse at center,
-			rgba(151,110,229,0.4) 0%,
-			rgba(151,110,229,0.2) 50%,
-			rgba(151,110,229,0) 100%
+	             	ellipse at center,
+	             	rgba(151,110,229,0.4) 0%,
+	             	rgba(151,110,229,0.2) 50%,
+	             	rgba(151,110,229,0) 100%
+
 	             );
 	filter     : progid:DXImageTransform.Microsoft.gradient( startColorstr='#66976ee5', endColorstr='#00976ee5',GradientType=1 );
 }
@@ -227,45 +229,46 @@
 .blue-gradient {
 	// Default Blue Gradient
 	background : -moz-linear-gradient(
-			100% -14.24% -80deg,
-			rgba(99, 206, 153, 1) 0%,
-			rgba(91, 201, 163, 1) 8.33%,
-			rgba(67, 185, 194, 1) 36.64%,
-			rgba(58, 179, 206, 1) 52.48%,
-			rgba(58, 175, 206, 1) 67.93%,
-			rgba(58, 162, 206, 1) 83.94%,
-			rgba(58, 142, 206, 1) 100%
+	             	100% -14.24% -80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
 	             );
 	background : -ms-linear-gradient(
-			-80deg,
-			rgba(99, 206, 153, 1) 0%,
-			rgba(91, 201, 163, 1) 8.33%,
-			rgba(67, 185, 194, 1) 36.64%,
-			rgba(58, 179, 206, 1) 52.48%,
-			rgba(58, 175, 206, 1) 67.93%,
-			rgba(58, 162, 206, 1) 83.94%,
-			rgba(58, 142, 206, 1) 100%
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
 	             );
 	background : -o-linear-gradient(
-			-80deg,
-			rgba(99, 206, 153, 1) 0%,
-			rgba(91, 201, 163, 1) 8.33%,
-			rgba(67, 185, 194, 1) 36.64%,
-			rgba(58, 179, 206, 1) 52.48%,
-			rgba(58, 175, 206, 1) 67.93%,
-			rgba(58, 162, 206, 1) 83.94%,
-			rgba(58, 142, 206, 1) 100%
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
 	             );
 	background : -webkit-gradient(linear,100% -14.24% ,56.15% 114.24% ,color-stop(0,rgba(99, 206, 153, 1) ),color-stop(0.0833,rgba(91, 201, 163, 1) ),color-stop(0.3664,rgba(67, 185, 194, 1) ),color-stop(0.5248,rgba(58, 179, 206, 1) ),color-stop(0.6793,rgba(58, 175, 206, 1) ),color-stop(0.8394,rgba(58, 162, 206, 1) ),color-stop(1,rgba(58, 142, 206, 1) ));
 	background : -webkit-linear-gradient(
-			-80deg,
-			rgba(99, 206, 153, 1) 0%,
-			rgba(91, 201, 163, 1) 8.33%,
-			rgba(67, 185, 194, 1) 36.64%,
-			rgba(58, 179, 206, 1) 52.48%,
-			rgba(58, 175, 206, 1) 67.93%,
-			rgba(58, 162, 206, 1) 83.94%,
-			rgba(58, 142, 206, 1) 100%
+	             	-80deg,
+	             	rgba(99, 206, 153, 1) 0%,
+	             	rgba(91, 201, 163, 1) 8.33%,
+	             	rgba(67, 185, 194, 1) 36.64%,
+	             	rgba(58, 179, 206, 1) 52.48%,
+	             	rgba(58, 175, 206, 1) 67.93%,
+	             	rgba(58, 162, 206, 1) 83.94%,
+	             	rgba(58, 142, 206, 1) 100%
+
 	             );
 }
 

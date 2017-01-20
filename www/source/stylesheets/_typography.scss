@@ -87,9 +87,11 @@ hr {
 	margin-bottom    : 6px;
 	border           : 0;
 	background       : linear-gradient(
-				to right,
-				$color_hr 0,
-				$color_link 100%
+
+	                   	to right,
+	                   	$color_hr 0,
+	                   	$color_link 100%
+
 	                   );
 	background-color : $color_hr;
 	filter           : progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
