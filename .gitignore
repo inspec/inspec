@@ -1,0 +1,5 @@
+.envrc
+.ruby-version
+.direnv
+Gemfile.lock
+inspec.lock

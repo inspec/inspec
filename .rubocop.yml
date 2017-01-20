@@ -1,0 +1,72 @@
+---
+AllCops:
+  Exclude:
+  - Gemfile
+  - Rakefile
+  - 'test/**/*'
+  - 'examples/**/*'
+  - 'vendor/**/*'
+  - 'lib/bundles/inspec-init/templates/**/*'
+Documentation:
+  Enabled: false
+AlignParameters:
+  Enabled: true
+Encoding:
+  Enabled: true
+HashSyntax:
+  Enabled: true
+LineLength:
+  Enabled: false
+EmptyLinesAroundBlockBody:
+  Enabled: false
+MethodLength:
+  Max: 40
+NumericLiterals:
+  MinDigits: 10
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Max: 11
+Metrics/AbcSize:
+  Max: 33
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  '{}'
+    '%i': ()
+    '%q': '{}'
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': '{}'
+    '%W': ()
+    '%x': ()
+Style/AlignHash:
+  Enabled: false
+Style/PredicateName:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
+Style/BracesAroundHashParameters:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/Not:
+  Enabled: false
+Style/FileName:
+  Enabled: false
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+Style/NegatedIf:
+  Enabled: false
+Style/UnlessElse:
+  Enabled: false
+BlockDelimiters:
+  Enabled: false
+Style/SpaceAroundOperators:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
