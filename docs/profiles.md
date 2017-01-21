@@ -215,7 +215,7 @@ Use the `depends` setting in the `inspec.yml` file to define any combination of 
 
 When you execute a local profile, the `inspec.yml` file will be read in order to source any profile dependencies. It will then cache the dependencies locally and generate an `inspec.lock` file. If you add or update dependencies in `inspec.yml`, please refresh the lock file by either:
 
- * running `inspec vendor` inside the profile directory; or
+ * running `inspec vendor --overwrite` inside the profile directory; or
  * deleting `inspec.lock` before running `inspec exec`
 
 # Profile Inheritance
