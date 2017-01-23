@@ -14,15 +14,28 @@ header.blue-gradient.margin-top-offset
    canvas.particles-js-canvas-el /
   /! style for callout icons
   .row
-    .icon.shadow
-      img src="/images/circ-arrow.svg" /
+    .icon.shadow.code-trigger
+      img src="/images/open-close.svg" /
+      
+/! Surprise Code example
+.code-pop
+  .strict-center
+    p.code.code-demo.code-pop-animate
+      span.code-attribute
+        | describe 
+      | code
+      span.code-attribute
+        |  do it
+      |  {should be_inspec} 
+      span.code-attribute
+        | end
 
       
 /! Second Content
 .row.margin-both
-  .large-9.medium-9.columns data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground" 
+  .large-9.medium-9.columns data-enllax-ratio=".1" data-enllax-type="foreground"
 
-    h2 Automated testing, codified
+    h2  Automated testing, codified
     p#icon-trigger
       | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
 
@@ -115,7 +128,7 @@ header.blue-gradient.margin-top-offset
             |  'compliance guide, section 2.1'
             br/
             br/
-            span.code-attribute.indent   describe
+            span.code-attribute describe
 
             |  sshd_config 
 
