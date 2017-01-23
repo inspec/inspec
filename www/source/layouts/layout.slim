@@ -53,6 +53,16 @@ html
       
     javascript:
     
+      //Code pop-up animation on homepage
+      
+      $('.code-trigger').click(function() {
+        $(this).toggleClass('turn-angle');
+        $('.code-pop').slideToggle(500);
+      });
+    
+      
+    javascript:
+    
       //Animate HR on scroll
       
       $(window).scroll(function() {    

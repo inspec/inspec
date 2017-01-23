@@ -100,18 +100,6 @@
     margin-left: 6px;
   }
 
-  a {
-    color: $color_gray;
-  }
-
-
-  a:hover, a.btn, a:active {
-    color: $color_purple;
-  }
-
-  a.btn:hover {
-    color: white;
-  }
 
 
   @include nav-large {
@@ -129,6 +117,21 @@
 }
 
 //Hannah's Styles'
+
+.main-nav--link {
+  a {
+    color: $color_gray;
+  }
+
+
+  a:hover, a.btn, a:active {
+    color: $color_purple;
+  }
+
+  a.btn:hover {
+    color: white;
+  }
+}
 
 nav {
   z-index: 200;

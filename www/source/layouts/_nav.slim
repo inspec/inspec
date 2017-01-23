@@ -12,56 +12,56 @@ nav#main-nav
 
     ul.main-nav--links
       li.main-nav--link.hide-docs
-        a href="/tutorials"
-          span.main-nav--link-text Tutorials
+        <a href="/tutorials" class="#{'t-purple' if current_page.url == '/tutorials'}" <span class="main-nav--link-text">Tutorials</span>
+        </a>
       li.main-nav--link
-        a href="/docs"
-          span.main-nav--link-text.docs Docs
+        <a href="/docs" class="#{'t-purple' if current_page.url == '/docs'}" <span class="main-nav--link-text">Docs</span>
+        </a>
         span.fa.fa-angle-right.t-purple.toggle.mobile-show
 
           
             
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/cli.html"
+        a href="/docs/reference/cli/"
           span.main-nav--link-text inspec executable
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/profiles.html"
+        a href="/docs/reference/profiles/"
           span.main-nav--link-text Profiles
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/resources.html"
+        a href="/docs/reference/resources/"
           span.main-nav--link-text Resources
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/matchers.html"
+        a href="/docs/reference/matchers/"
           span.main-nav--link-text Matchers
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/dsl_inspec.html"
+        a href="/docs/reference/dsl_inspec/"
           span.main-nav--link-text InSpec DSL
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/dsl_resource.html"
+        a href="/docs/reference/dsl_resource/"
           span.main-nav--link-text Resource DSL
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/plugin_kitchen_inspec.html"
+        a href="/docs/reference/plugin_kitchen_inspec/"
           span.main-nav--link-text kitchen-inspec
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/shell.html"
+        a href="/docs/reference/shell/"
           span.main-nav--link-text inspec shell
           
       li.main-nav--link.docs--inside--link
-        a href="/docs/reference/ruby_usage.html"
+        a href="/docs/reference/ruby_usage/"
           span.main-nav--link-text Ruby usage
           
   
 
       li.main-nav--link.hide-docs
-        a href="/community"
-          span.main-nav--link-text Community
+        <a href="/community" class="#{'t-purple' if current_page.url == '/community'}" <span class="main-nav--link-text">Community</span>
+        </a>
       li.main-nav--link.hide-docs
         a href="https://github.com/chef/inspec"
           i.fa.fa-github-alt
@@ -72,3 +72,4 @@ nav#main-nav
         a.btn href="https://downloads.chef.io/inspec" 
           i.fa.fa-cloud-download
           span.main-nav--link-text Download
+          

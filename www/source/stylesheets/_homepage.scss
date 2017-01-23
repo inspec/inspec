@@ -161,9 +161,9 @@ img.ball:nth-child(3) {
 // Warping Grid Animation//
 
 .grid-animate {
-	-moz-animation    : g-animate 5s linear infinite both;
-	-webkit-animation : g-animate 5s linear infinite both;
-	animation         : g-animate 5s linear infinite both;
+	-moz-animation    : g-animate 8s linear infinite both;
+	-webkit-animation : g-animate 8s linear infinite both;
+	animation         : g-animate 8s linear infinite both;
 }
 
 @-webkit-keyframes g-animate {
@@ -273,4 +273,14 @@ hr.first {
  -o-transform: rotate(90deg);
  -ms-transform: rotate(90deg);
  transform: rotate(90deg);
+}
+
+//Rotate 45 Degs
+
+.turn-angle{
+-webkit-transform: rotate(45deg);
+ -moz-transform: rotate(45deg);
+ -o-transform: rotate(45deg);
+ -ms-transform: rotate(45deg);
+ transform: rotate(45deg);
 }

@@ -23,6 +23,14 @@ pre {
 	background    : $color_heading;
 }
 
+// Container for pop-up code example
+
+.code-pop {
+	padding       : $percent_sm/1.5;
+	background    : $color_heading;
+	display:none; //Hide until click trigger
+}
+
 
 // Code Font Colors
 
@@ -49,4 +57,41 @@ pre {
 .indent {
 	padding-left : 1em;
 	word-wrap    : normal;
+}
+
+//Animation for type ahead animation
+
+.code-pop-animate { //Target
+	font-family: Consolas,Liberation Mono,Courier,monospace;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0 auto;
+	-webkit-animation-delay: 6s;
+	animation-delay: 6;
+	-moz-animation-delay: 6s;
+	animation: type 6s steps(41, end);
+	-moz-animation: type 6s steps(41, end);
+	-webkit-animation: type 6s steps(41, end);
+}
+
+//Click event trigger {
+.code-trigger{
+	cursor: pointer;
+}
+
+.code-animate { //typing animation for fode
+	animation: type 6s steps(41, end);
+	-moz-animation: type 6s steps(41, end);
+	-webkit-animation: type 6s steps(41, end);
+}
+
+
+@keyframes type {
+  from { width: 0; }
+	to {width:100%;}
+}
+
+@-webkit-keyframes type {
+  from { width: 0; }
+	to {width:100%;}
 }
