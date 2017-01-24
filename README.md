@@ -88,7 +88,7 @@ end
 ## Tests
 
 To run the integration tests, please make sure all required environment variables like `AWS_ACCESS_KEY_ID`
-, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. We use terraform to create the AWS setup and InSpec to verify the all aspects. Integration tests can be executed via:
+, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. (`AWS_DEFAULT_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. Integration tests can be executed via:
 
 ```
 bundle exec rake test:integration
