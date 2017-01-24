@@ -26,8 +26,8 @@ class AzureConnection
     # If a connection already exists then return it
     return @conn if defined?(@conn)
 
-    # Determine if only one subscription is specified in the configuration file, if so use that
-    if @credentials.sections.length == 1
+    # Determine if more than one subscription is specified in the configuration file, if so use the first one
+    if @credentials.sections.length >= 1
       @subscription_id = @credentials.sections[0]
     else
       @subscription_id = ENV['AZURE_SUBSCRIPTION_ID']
