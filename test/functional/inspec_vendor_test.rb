@@ -58,7 +58,7 @@ describe 'example inheritance profile' do
     File.exist?(lockfile).must_equal true
 
     out = inspec('exec ' + meta_path + ' -l debug --no-create-lockfile')
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/tests-ssh-hardening/archive/master.tar.gz"'
+    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-benchmark/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).index('Fetching URL:').must_be_nil
@@ -83,7 +83,7 @@ describe 'example inheritance profile' do
     out.exit_status.must_equal 0
     hm = JSON.load(File.read(dst.path))
     hm['name'].must_equal 'meta-profile'
-    hm['controls'].length.must_equal 78
+    hm['controls'].length.must_be :>=, 78
 
     # copies = out.stdout.scan(/Copy .* to cache directory/).length
     # copies.must_equal 3
@@ -124,7 +124,6 @@ describe 'example inheritance profile' do
   it 'use lockfile in tarball' do
     # ensure the profile is vendored and packaged as tar
     out = inspec('vendor ' + meta_path + ' --overwrite')
-    out.exit_status.must_equal 0
     out = inspec('archive ' + meta_path + ' --overwrite')
     out.exit_status.must_equal 0
 
