@@ -36,6 +36,16 @@ module Inspec::Resources
       !found.nil?
     end
 
+    def version
+      # default modinfo command
+      modinfo_cmd = "modinfo -F version #{@module}"
+      # command for CentOS 5 and sudo
+      modinfo_cmd = "/sbin/modinfo -F version #{@module}" if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
+
+      cmd = inspec.command(modinfo_cmd)
+      cmd.exit_status.zero? ? cmd.stdout.gsub("\n", '') : false
+    end
+
     def to_s
       "Kernel Module #{@module}"
     end

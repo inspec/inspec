@@ -49,6 +49,12 @@ The `be_loaded` matcher tests if the module is a loadable kernel module:
 
 <%= partial "/shared/matcher_match" %>
 
+### version
+
+The `version` matcher tests if the named module version is on the system:
+
+    its(:version) { should eq '3.2.2' }
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -57,4 +63,5 @@ The following examples show how to use this InSpec audit resource.
 
     describe kernel_module('bridge') do
       it { should be_loaded }
+      its(:version) { should cmp >= '2.2.2' }
     end

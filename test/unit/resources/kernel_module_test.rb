@@ -20,4 +20,9 @@ describe 'Inspec::Resources::KernelModule' do
     resource = load_resource('kernel_module', 'dhcp')
     _(resource.loaded?).must_equal false
   end
+
+  it 'verify kernel_module version' do
+    resource = load_resource('kernel_module', 'dhcp')
+    _(resource.version).must_equal '3.2.2'
+  end
 end
