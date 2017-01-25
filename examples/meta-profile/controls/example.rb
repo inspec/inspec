@@ -3,7 +3,7 @@
 # license: All rights reserved
 
 # import full profile
-include_controls 'hardening/ssh-hardening'
+include_controls 'dev-sec/ssh-baseline'
 
 # select only individual controls
 include_controls 'ssl-benchmark' do
