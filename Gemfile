@@ -20,6 +20,7 @@ group :test do
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
   gem 'nokogiri', '~> 1.6'
+  gem 'webmock', '~> 2.3.2'
 end
 
 group :integration do

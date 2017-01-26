@@ -11,6 +11,7 @@ end
 
 require 'minitest/autorun'
 require 'minitest/spec'
+require 'webmock/minitest'
 require 'mocha/setup'
 require 'fileutils'
 require 'pathname'
