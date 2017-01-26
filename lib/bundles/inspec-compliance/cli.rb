@@ -179,7 +179,7 @@ module Compliance
       end
 
       # determine user information
-      if config['token'].nil? || config['user'].nil?
+      if (config['token'].nil? && config['refresh_token'].nil?) || config['user'].nil?
         error.call('Please login via `inspec compliance login`')
       end
 
@@ -287,11 +287,10 @@ module Compliance
     end
 
     def login_refreshtoken(url, options)
-      success, msg, access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
+      success, msg, _access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
       if success
         config = Compliance::Configuration.new
         config['server'] = url
-        config['token'] = access_token
         config['insecure'] = options['insecure']
         config['version'] = Compliance::API.version(url, options['insecure'])
         config['server_type'] = 'compliance'
@@ -344,11 +343,10 @@ module Compliance
         success = true
         msg = 'API refresh token stored'
       else
-        success, msg, access_token = Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
+        success, msg, _access_token= Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
         if success
-          config['token'] = access_token
           config.store
-          msg = 'API access token verified and stored'
+          msg = 'API access token verified'
         end
       end
 
