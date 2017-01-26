@@ -4,6 +4,7 @@
 # license: Apache v2
 
 require 'http'
+require 'hashie'
 
 module Inspec::Resources
   class Http < Inspec.resource(1)
@@ -13,7 +14,12 @@ module Inspec::Resources
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
         its('status') { should cmp 200 }
         its('body') { should cmp 'pong' }
-        its('Content-Type') { should cmp 'text/html' }
+        its('headers.Content-Type') { should cmp 'text/html' }
+      end
+
+      describe http('http://example.com/ping').headers do
+        its('Content-Length') { should cmp 258 }
+        its('Content-Type') { should cmp 'text/html; charset=UTF-8' }
       end
     "
 
@@ -35,12 +41,12 @@ module Inspec::Resources
       response.to_s
     end
 
-    def method_missing(name)
-      response.headers[name.to_s]
+    def headers
+      Hashie::Mash.new(response.headers.to_h)
     end
 
     def to_s
-      "http #{@method} on #{@url}: #{response}"
+      "http #{@method} on #{@url}"
     end
 
     private
