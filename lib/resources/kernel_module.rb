@@ -37,13 +37,14 @@ module Inspec::Resources
     end
 
     def version
-      # default modinfo command
-      modinfo_cmd = "modinfo -F version #{@module}"
-      # command for CentOS 5 and sudo
-      modinfo_cmd = "/sbin/modinfo -F version #{@module}" if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
+      if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
+        modinfo_cmd = "/sbin/modinfo -F version #{@module}"
+      else
+        modinfo_cmd = "modinfo -F version #{@module}"
+      end
 
       cmd = inspec.command(modinfo_cmd)
-      cmd.exit_status.zero? ? cmd.stdout.gsub("\n", '') : false
+      cmd.exit_status.zero? ? cmd.stdout.delete("\n") : nil
     end
 
     def to_s
