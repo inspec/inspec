@@ -5,15 +5,27 @@ module Inspec
     attr_reader :tests
     def initialize(tests)
       @tests = tests
+      @negated = false
     end
 
     def skip
       nil
     end
 
+    def negate!
+      @negated = !@negated
+    end
+
     def to_ruby
-      all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
-      format("describe.one do\n  %s\nend", all_tests)
+      if @negated
+        # We don't use the describe.one wrapper when negated because:
+        # !(test1 || test2)     same as    (!test1 && !test2)    where && is implicit in inspec
+        all_tests = @tests.map{ |t| t.negate!; t }.map(&:to_ruby).join("\n")
+        return all_tests
+      else
+        all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
+        return format("describe.one do\n  %s\nend", all_tests)
+      end
     end
 
     def to_hash

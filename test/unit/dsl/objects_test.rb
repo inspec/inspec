@@ -61,5 +61,108 @@ describe resource do
 end
 ".strip
     end
+
+    it 'constructs a resource+argument block with method call, matcher and expectation' do
+      obj.qualifier = [['command','ls /etc'], ['exit_status']]
+      obj.matcher = 'eq'
+      obj.expectation = 0
+
+      obj.to_ruby.must_equal '
+describe command("ls /etc") do
+  its("exit_status") { should eq 0 }
+end
+'.strip
+    end
+
+    it 'constructs a simple describe with static data, negated regex matcher and expectation' do
+      obj.qualifier = [['"aaa"']]
+      obj.matcher = 'match'
+      obj.negate!
+      obj.expectation = Regexp.new('^aa.*')
+
+      obj.to_ruby.must_equal '
+describe "aaa" do
+  it { should_not match(/^aa.*/) }
+end
+'.strip
+    end
+
+    it 'constructs a resource+argument block without a property call' do
+      obj.qualifier = [['service', 'avahi-daemon']]
+      obj.qualifier.push(["info['properties']['UnitFileState']"])
+      obj.expectation =  "enabled"
+      obj.matcher = 'eq'
+      obj.to_ruby.must_equal '
+describe service("avahi-daemon").info[\'properties\'][\'UnitFileState\'] do
+  it { should eq "enabled" }
+end
+'.strip
+    end
+  end
+
+
+  describe 'EachLoop, each_loop' do
+    it 'constructs an each loop to match listening addresses' do
+      loop_obj = Inspec::EachLoop.new
+      loop_obj.qualifier = [['port', 25]]
+      loop_obj.qualifier.push(['addresses'])
+      obj = Inspec::Test.new
+      obj.matcher = 'match'
+      obj.negate!
+      obj.expectation = '0.0.0.0'
+      loop_obj.add_test(obj)
+      loop_obj.to_ruby.must_equal '
+port(25).addresses.each do |entry|
+  describe entry do
+    it { should_not match("0.0.0.0") }
+  end
+end
+'.strip
+    end
+  end
+
+
+  describe 'OrTest' do
+    let(:obj1) do
+      obj1 = Inspec::Test.new
+      obj1.qualifier = [['command','ls /etc'], ['exit_status']]
+      obj1.matcher = 'eq'
+      obj1.expectation = 0
+      obj1
+    end
+    let(:obj2) do
+      obj2 = obj1.dup
+      obj2.negate!
+      obj2.expectation = 100
+      obj2
+    end
+
+    it 'constructs a simple describe.one block wrapping two tests' do
+      or_obj = Inspec::OrTest.new([obj1,obj2])
+      or_obj.to_ruby.must_equal '
+describe.one do
+  describe command("ls /etc") do
+    its("exit_status") { should eq 0 }
+  end
+  describe command("ls /etc") do
+    its("exit_status") { should_not eq 100 }
+  end
+end
+'.strip
+    end
+
+    it 'negates a describe.one block, wow!' do
+      or_obj = Inspec::OrTest.new([obj1,obj2])
+      or_obj.negate!
+      or_obj.to_ruby.must_equal '
+describe command("ls /etc") do
+  its("exit_status") { should_not eq 0 }
+end
+describe command("ls /etc") do
+  its("exit_status") { should eq 100 }
+end
+'.strip
+    end
+
   end
 end
