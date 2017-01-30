@@ -9,55 +9,68 @@ describe 'Objects' do
   describe 'Inspec::Test' do
     let(:obj) { Inspec::Test.new }
     it 'constructs a simple resource+argument' do
-      obj.qualifier = [['resource'], ['arg']]
+      obj.qualifier = [['resource'], ['version']]
+      obj.matcher = 'cmp >='
+      obj.expectation = '2.4.2'
       obj.to_ruby.must_equal '
 describe resource do
-  its("arg") { should  }
+  its("version") { should cmp >= "2.4.2" }
 end
 '.strip
     end
 
     it 'constructs a simple resource+argument with to_s' do
       obj.qualifier = [['resource'], ['to_s']]
-      obj.to_ruby.must_equal "
+      obj.matcher = 'cmp'
+      obj.expectation = Regexp.new('^Desc.+$')
+      obj.to_ruby.must_equal '
 describe resource.to_s do
-  it { should  }
+  it { should cmp /^Desc.+$/ }
 end
-".strip
+'.strip
     end
 
     it 'constructs a simple resource+argument with to_i' do
       obj.qualifier = [['resource'], ['to_i']]
-      obj.to_ruby.must_equal "
+      obj.matcher = 'cmp >'
+      obj.expectation = 3
+      obj.to_ruby.must_equal '
 describe resource.to_i do
-  it { should  }
+  it { should cmp > 3 }
 end
-".strip
+'.strip
     end
 
     it 'constructs a simple resource+argument with array accessors' do
       obj.qualifier = [['resource'], ['name[2]']]
-      obj.to_ruby.must_equal "
-describe resource.name[2] do
-  it { should  }
-end
-".strip
-    end
-
-    it 'constructs a simple resource+argument with method calls' do
-      obj.qualifier = [['resource'], ['hello', 'world']]
+      obj.matcher = 'exist'
+      obj.matcher = 'eq'
+      obj.expectation = 'mytest'
       obj.to_ruby.must_equal '
-describe resource.hello("world") do
-  it { should  }
+describe resource.name[2] do
+  it { should eq "mytest" }
 end
 '.strip
     end
 
     it 'constructs a simple resource+argument with method calls' do
-      obj.qualifier = [['resource'], [:world]]
+      obj.qualifier = [['resource'], ['hello', 'world']]
+      obj.matcher = 'eq'
+      obj.expectation = 'mytest'
+      obj.to_ruby.must_equal '
+describe resource.hello("world") do
+  it { should eq "mytest" }
+end
+'.strip
+    end
+
+    it 'constructs a simple resource+argument with method calls' do
+      obj.qualifier = [['resource'], [:mode]]
+      obj.matcher = 'cmp'
+      obj.expectation = '0755'
       obj.to_ruby.must_equal '
 describe resource do
-  its("world") { should  }
+  its("mode") { should cmp "0755" }
 end
 '.strip
     end
