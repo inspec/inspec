@@ -25,7 +25,7 @@ end
       obj.expectation = Regexp.new('^Desc.+$')
       obj.to_ruby.must_equal '
 describe resource.to_s do
-  it { should cmp /^Desc.+$/ }
+  it { should cmp(/^Desc.+$/) }
 end
 '.strip
     end
@@ -127,7 +127,7 @@ end
       loop_obj.to_ruby.must_equal '
 port(25).addresses.each do |entry|
   describe entry do
-    it { should_not match("0.0.0.0") }
+    it { should_not match "0.0.0.0" }
   end
 end
 '.strip

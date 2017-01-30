@@ -67,7 +67,7 @@ module Inspec
       itsy = xtra.nil? ? 'it' : 'its(' + xtra.to_s.inspect + ')'
       naughty = @negated ? '_not' : ''
       xpect = defined?(@expectation) ? expectation.inspect : ''
-      if matcher == 'match'
+      if @expectation.class == Regexp
         # without this, xpect values like / \/zones\// will not be parsed properly
         xpect = "(#{xpect})"
       elsif xpect != ''
