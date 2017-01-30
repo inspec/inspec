@@ -6,7 +6,7 @@ require 'helper'
 require 'inspec/objects'
 
 describe 'Objects' do
-  describe 'Test' do
+  describe 'Inspec::Test' do
     let(:obj) { Inspec::Test.new }
     it 'constructs a simple resource+argument' do
       obj.qualifier = [['resource'], ['arg']]
@@ -101,7 +101,7 @@ end
   end
 
 
-  describe 'EachLoop, each_loop' do
+  describe 'Inspec::EachLoop, each_loop' do
     it 'constructs an each loop to match listening addresses' do
       loop_obj = Inspec::EachLoop.new
       loop_obj.qualifier = [['port', 25]]
@@ -122,7 +122,26 @@ end
   end
 
 
-  describe 'OrTest' do
+  describe 'Inspec::List' do
+    it 'constructs a list filtering test' do
+      list_obj = Inspec::List.new([['passwd']])
+      list_obj.qualifier.push(["where { user =~ /^(?!root|sync|shutdown|halt).*$/ }"])
+
+      obj = Inspec::Test.new
+      obj.qualifier = list_obj.qualifier
+      obj.matcher = 'be_empty'
+      obj.qualifier.push(['entries'])
+      obj.negate!
+      obj.to_ruby.must_equal '
+describe passwd.where { user =~ /^(?!root|sync|shutdown|halt).*$/ } do
+  its("entries") { should_not be_empty }
+end
+'.strip
+    end
+  end
+
+
+  describe 'Inspec::OrTest and Inspec::Control' do
     let(:obj1) do
       obj1 = Inspec::Test.new
       obj1.qualifier = [['command','ls /etc'], ['exit_status']]
@@ -164,5 +183,26 @@ end
 '.strip
     end
 
+    it 'constructs a control' do
+      control = Inspec::Control.new
+      control.add_test(obj1)
+      control.id = 'test.control.id'
+      control.title = 'Test Control Important Title'
+      control.desc = 'The most critical control the world has ever seen'
+      control.impact = 1.0
+      control.to_ruby.must_equal '
+control "test.control.id" do
+  title "Test Control Important Title"
+  desc  "The most critical control the world has ever seen"
+  impact 1.0
+  describe command("ls /etc") do
+    its("exit_status") { should eq 0 }
   end
+end
+'.strip
+    end
+
+  end
+
+
 end
