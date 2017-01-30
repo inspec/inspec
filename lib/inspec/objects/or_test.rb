@@ -20,7 +20,10 @@ module Inspec
       if @negated
         # We don't use the describe.one wrapper when negated because:
         # !(test1 || test2)     same as    (!test1 && !test2)    where && is implicit in inspec
-        all_tests = @tests.map{ |t| t.negate!; t }.map(&:to_ruby).join("\n")
+        all_tests = @tests.map { |test|
+          test.negate!
+          test
+        }.map(&:to_ruby).join("\n")
         return all_tests
       else
         all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")

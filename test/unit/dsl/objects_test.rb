@@ -10,11 +10,11 @@ describe 'Objects' do
     let(:obj) { Inspec::Test.new }
     it 'constructs a simple resource+argument' do
       obj.qualifier = [['resource'], ['arg']]
-      obj.to_ruby.must_equal "
+      obj.to_ruby.must_equal '
 describe resource do
-  its(\"arg\") { should  }
+  its("arg") { should  }
 end
-".strip
+'.strip
     end
 
     it 'constructs a simple resource+argument with to_s' do
@@ -46,20 +46,20 @@ end
 
     it 'constructs a simple resource+argument with method calls' do
       obj.qualifier = [['resource'], ['hello', 'world']]
-      obj.to_ruby.must_equal "
-describe resource.hello(\"world\") do
+      obj.to_ruby.must_equal '
+describe resource.hello("world") do
   it { should  }
 end
-".strip
+'.strip
     end
 
     it 'constructs a simple resource+argument with method calls' do
       obj.qualifier = [['resource'], [:world]]
-      obj.to_ruby.must_equal "
+      obj.to_ruby.must_equal '
 describe resource do
-  its(\"world\") { should  }
+  its("world") { should  }
 end
-".strip
+'.strip
     end
 
     it 'constructs a resource+argument block with method call, matcher and expectation' do
@@ -186,13 +186,13 @@ end
     it 'constructs a control' do
       control = Inspec::Control.new
       control.add_test(obj1)
-      control.id = 'test.control.id'
-      control.title = 'Test Control Important Title'
+      control.id = 'sample.control.id'
+      control.title = 'Sample Control Important Title'
       control.desc = 'The most critical control the world has ever seen'
       control.impact = 1.0
       control.to_ruby.must_equal '
-control "test.control.id" do
-  title "Test Control Important Title"
+control "sample.control.id" do
+  title "Sample Control Important Title"
   desc  "The most critical control the world has ever seen"
   impact 1.0
   describe command("ls /etc") do
@@ -201,8 +201,48 @@ control "test.control.id" do
 end
 '.strip
     end
-
   end
 
+  describe 'Inspec::Variable' do
+    it 'constructs a control with variable to instantiate a resource only once' do
+      control = Inspec::Control.new
+      variable = Inspec::Value.new([['command','which grep']])
+      variable_id = variable.name_variable.to_s
+
+      obj1 = Inspec::Test.new
+      obj1.variables.push(variable)
+      obj1.qualifier.push([variable_id])
+      obj1.qualifier.push(['exit_status'])
+      obj1.matcher = 'eq'
+      obj1.expectation = 0
+      control.add_test(obj1)
+
+      obj2 = Inspec::Test.new
+      obj2.qualifier.push([variable_id.to_s])
+      obj2.qualifier.push(['stdout'])
+      obj2.matcher = 'contain'
+      obj2.expectation = 'grep'
+      control.add_test(obj2)
+
+      control.id = 'variable.control.id'
+      control.title = 'Variable Control Important Title'
+      control.desc = 'The most variable control the world has ever seen'
+      control.impact = 1.0
+      control.to_ruby.must_equal '
+control "variable.control.id" do
+  title "Variable Control Important Title"
+  desc  "The most variable control the world has ever seen"
+  impact 1.0
+  a = command("which grep")
+  describe a do
+    its("exit_status") { should eq 0 }
+  end
+  describe a do
+    its("stdout") { should contain "grep" }
+  end
+end
+'.strip
+    end
+  end
 
 end
