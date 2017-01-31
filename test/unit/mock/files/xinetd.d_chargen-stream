@@ -4,6 +4,7 @@ service chargen
     # disable = no
     id		= chargen-stream
     type		= INTERNAL
-  	wait		= yes
-  	socket_type	= stream
+    wait		= yes
+    socket_type	= stream
+    protocol	= tcp
 }

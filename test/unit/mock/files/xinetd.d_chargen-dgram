@@ -4,6 +4,7 @@ service chargen
     # comment
     id		= chargen-dgram
     type		= INTERNAL
-  	wait		= yes
-  	socket_type	= dgram
+    wait		= yes
+    socket_type	= dgram
+    protocol	= udp
 }

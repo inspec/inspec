@@ -41,6 +41,7 @@ module Inspec::Resources
           .add(:ids,          field: 'id')
           .add(:socket_types, field: 'socket_type')
           .add(:types,        field: 'type')
+          .add(:protocols,    field: 'protocol')
           .add(:wait,         field: 'wait')
           .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
           .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
