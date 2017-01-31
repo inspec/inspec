@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'net-ssh', '>= 2.9", "< 4.0'
   spec.add_dependency 'train', '>=0.22.0', '<1.0'
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
