@@ -17,11 +17,11 @@ describe 'Inspec::Resources::XinetdConf' do
 
   describe 'with services from child configs' do
     it 'has one service name' do
-      _(resource.services.uniq).must_equal %w{chargen}
+      _(resource.services.uniq).must_equal %w{chargen echo}
     end
 
     it 'has multiple service definitions' do
-      _(resource.ids).must_equal %w{chargen-stream chargen-dgram}
+      _(resource.ids).must_equal %w{chargen-stream chargen-dgram echo-stream echo-dgram}
     end
 
     it 'can filter by name' do
@@ -32,6 +32,17 @@ describe 'Inspec::Resources::XinetdConf' do
       one = resource.services('chargen').socket_types('dgram')
       _(one.services.length).must_equal 1
       _(one.ids).must_equal %w{chargen-dgram}
+    end
+
+    it 'get all protocols' do
+      one = resource.services('echo')
+      _(one.protocols).must_equal %w{tcp udp}
+      _(one.ids).must_equal %w{echo-stream echo-dgram}
+    end
+
+    it 'can filter by protocols' do
+      one = resource.services('echo')
+      _(one.protocols(/tcp.*/).ids).must_equal %w{echo-stream}
     end
 
     it 'checks if all are disabled on one disabled service' do

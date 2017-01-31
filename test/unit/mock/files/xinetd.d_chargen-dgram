@@ -4,6 +4,8 @@ service chargen
     # comment
     id		= chargen-dgram
     type		= INTERNAL
-  	wait		= yes
-  	socket_type	= dgram
+    wait		= yes
+    socket_type	= dgram
+    # How protocol is defined by default in CentOS 6:
+    # protocol	=  socket type is usually enough
 }

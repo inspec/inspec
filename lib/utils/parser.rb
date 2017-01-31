@@ -209,7 +209,12 @@ module XinetdParser
       next if inner_line.empty?
 
       if inner_line == '}'
-        res[cur_group] = SimpleConfig.new(simple_conf.join("\n"))
+        if cur_group == 'defaults'
+          res[cur_group] = SimpleConfig.new(simple_conf.join("\n"))
+        else
+          res[cur_group] ||= []
+          res[cur_group].push(SimpleConfig.new(simple_conf.join("\n")))
+        end
         cur_group = nil
       elsif rest.lstrip[0] == '{'
         cur_group = inner_line
@@ -224,7 +229,7 @@ module XinetdParser
         others.each { |ores|
           ores.each { |k, v|
             res[k] ||= []
-            res[k].push(v)
+            res[k].concat(v)
           }
         }
       else

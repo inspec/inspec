@@ -1,0 +1,26 @@
+# default: off
+# description: An xinetd internal service which echo's characters back to
+# clients.
+# This is the tcp version.
+service echo
+{
+	disable		= yes
+	type		= INTERNAL
+	id		= echo-stream
+	socket_type	= stream
+	protocol	= tcp
+	user		= root
+	wait		= no
+}
+
+# This is the udp version.
+service echo
+{
+	disable		= no
+	type		= INTERNAL
+	id		= echo-dgram
+	socket_type	= dgram
+	protocol	= udp
+	user		= root
+	wait		= yes
+}
