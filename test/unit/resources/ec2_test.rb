@@ -3,24 +3,32 @@ require 'helper'
 require 'ec2'
 
 class TestEc2 < Minitest::Test
-  def setup
-    @conn = Minitest::Mock.new
-    @client = Minitest::Mock.new
-    @resource = Minitest::Mock.new
+  Id = "instance-id"
 
-    @conn.expect :ec2_client, @client
-    @conn.expect :ec2_resource, @resource
+  def setup
+    @mockConn = Minitest::Mock.new
+    @mockClient = Minitest::Mock.new
+    @mockResource = Minitest::Mock.new
+
+    @mockConn.expect :ec2_client, @mockClient
+    @mockConn.expect :ec2_resource, @mockResource
   end
 
   def test_that_id_returns_directly_provided_id
-    @cut = Ec2.new('i-foo', @conn)
+    @cut = Ec2.new(Id, @mockConn)
      
-    assert_equal @cut.id, 'i-foo'
+    assert_equal @cut.id, Id
   end
 
-  # def test_that_id_returns_id_for_provided_name
-    # @cut = Ec2.new({name: 'cut'}, @conn)
-     # 
-    # assert_equal @cut.id, 'i-foo'
-  # end
+  def test_that_id_returns_id_for_provided_name
+    @cut = Ec2.new({name: 'cut'}, @mockConn)
+    mockInstance = Minitest::Mock.new
+
+    mockInstance.expect :nil?, false
+    mockInstance.expect :id, Id
+
+    @mockResource.expect :instances, [mockInstance], [Hash]
+     
+    assert_equal @cut.id, Id
+  end
 end
