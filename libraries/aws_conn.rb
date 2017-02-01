@@ -20,4 +20,12 @@ class AWSConnection
   def ec2_client
     @ec2_client ||= Aws::EC2::Client.new
   end
+
+  def iam_resource
+    @iam_resource ||= Aws::IAM::Resource.new
+  end
+
+  def iam_client
+    @iam_client ||= Aws::IAM::Client.new
+  end
 end

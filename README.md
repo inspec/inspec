@@ -6,7 +6,6 @@ This resource pack provides resources for AWS. It will ship with the required re
 
 ```
 ├── README.md - this readme
-├── controls - contains no controls
 └── libraries - contains AWS resources
 ```
 
