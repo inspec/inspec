@@ -1,11 +1,22 @@
 # Change Log
 
-## [1.10.0](https://github.com/chef/inspec/tree/1.10.0) (2017-01-26)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.9.0...1.10.0)
+## [1.11.0](https://github.com/chef/inspec/tree/1.11.0) (2017-02-01)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.10.0...1.11.0)
 
 **Implemented enhancements:**
 
 - HTTP request resource [\#336](https://github.com/chef/inspec/issues/336)
+
+**Merged pull requests:**
+
+- derive xinetd protocol from socket\_type when not defined in the config file [\#1448](https://github.com/chef/inspec/pull/1448) ([alexpop](https://github.com/alexpop))
+- Fix xinetd parsing of services from the same file. Expose resource.protocols [\#1444](https://github.com/chef/inspec/pull/1444) ([alexpop](https://github.com/alexpop))
+- Add negate! support for describe.one object [\#1442](https://github.com/chef/inspec/pull/1442) ([alexpop](https://github.com/alexpop))
+- Make minor grammar/style changes to `inspec.io` [\#1441](https://github.com/chef/inspec/pull/1441) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Version method for kernel\_module [\#1435](https://github.com/chef/inspec/pull/1435) ([postgred](https://github.com/postgred))
+
+## [v1.10.0](https://github.com/chef/inspec/tree/v1.10.0) (2017-01-26)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.9.0...v1.10.0)
 
 **Closed issues:**
 
@@ -13,6 +24,7 @@
 
 **Merged pull requests:**
 
+- 1.10.0 [\#1433](https://github.com/chef/inspec/pull/1433) ([chris-rock](https://github.com/chris-rock))
 - improve http header handling [\#1432](https://github.com/chef/inspec/pull/1432) ([chris-rock](https://github.com/chris-rock))
 - use new devsec baseline [\#1431](https://github.com/chef/inspec/pull/1431) ([chris-rock](https://github.com/chris-rock))
 - 'execution' is spelled correctly [\#1428](https://github.com/chef/inspec/pull/1428) ([nathenharvey](https://github.com/nathenharvey))
@@ -222,7 +234,6 @@
 
 - Add file integration tests for docker [\#1277](https://github.com/chef/inspec/issues/1277)
 - Solaris Sudo Not Always In /usr/bin/sudo [\#1265](https://github.com/chef/inspec/issues/1265)
-- Link to robert\_config.rb is broken on inspec.io [\#1226](https://github.com/chef/inspec/issues/1226)
 
 **Merged pull requests:**
 
@@ -2028,10 +2039,19 @@
 
 **Implemented enhancements:**
 
+- pretty-print resources [\#78](https://github.com/chef/inspec/issues/78)
+- Add networking resources [\#68](https://github.com/chef/inspec/issues/68)
 - Add WinRM transport layer [\#64](https://github.com/chef/inspec/issues/64)
+
+**Fixed bugs:**
+
+- expose all necessary methods in OS resource [\#79](https://github.com/chef/inspec/issues/79)
 
 **Closed issues:**
 
+- script resource [\#74](https://github.com/chef/inspec/issues/74)
+- add project docs [\#72](https://github.com/chef/inspec/issues/72)
+- OS detection on debian does not detect versions [\#39](https://github.com/chef/inspec/issues/39)
 - ensure all resources have a proper to\_s method [\#98](https://github.com/chef/inspec/issues/98)
 - Escape commands before we execute them [\#70](https://github.com/chef/inspec/issues/70)
 
@@ -2058,6 +2078,90 @@
 - Improve unit tests [\#106](https://github.com/chef/inspec/pull/106) ([chris-rock](https://github.com/chris-rock))
 - add to\_s methods to resources, fixes \#98 [\#105](https://github.com/chef/inspec/pull/105) ([chris-rock](https://github.com/chris-rock))
 - 0.7.0 release [\#104](https://github.com/chef/inspec/pull/104) ([chris-rock](https://github.com/chris-rock))
+- implement iptables resource [\#103](https://github.com/chef/inspec/pull/103) ([chris-rock](https://github.com/chris-rock))
+- bugfix: return function if data is already cached [\#102](https://github.com/chef/inspec/pull/102) ([chris-rock](https://github.com/chris-rock))
+- implement apt resource [\#101](https://github.com/chef/inspec/pull/101) ([chris-rock](https://github.com/chris-rock))
+- improve shell [\#100](https://github.com/chef/inspec/pull/100) ([chris-rock](https://github.com/chris-rock))
+- implement host resource [\#99](https://github.com/chef/inspec/pull/99) ([chris-rock](https://github.com/chris-rock))
+- implement bridge resource [\#97](https://github.com/chef/inspec/pull/97) ([chris-rock](https://github.com/chris-rock))
+- interactive shell [\#95](https://github.com/chef/inspec/pull/95) ([arlimus](https://github.com/arlimus))
+- interface resource [\#94](https://github.com/chef/inspec/pull/94) ([chris-rock](https://github.com/chris-rock))
+- lint: dont use undefined vars [\#93](https://github.com/chef/inspec/pull/93) ([arlimus](https://github.com/arlimus))
+- fix delivery dependencies [\#92](https://github.com/chef/inspec/pull/92) ([arlimus](https://github.com/arlimus))
+- improvement: add default print method to resources [\#91](https://github.com/chef/inspec/pull/91) ([arlimus](https://github.com/arlimus))
+- extend os backend helper [\#90](https://github.com/chef/inspec/pull/90) ([chris-rock](https://github.com/chris-rock))
+- integrate docs [\#89](https://github.com/chef/inspec/pull/89) ([chris-rock](https://github.com/chris-rock))
+- integrate docs [\#88](https://github.com/chef/inspec/pull/88) ([chris-rock](https://github.com/chris-rock))
+- script resource [\#87](https://github.com/chef/inspec/pull/87) ([chris-rock](https://github.com/chris-rock))
+- implement group resource [\#85](https://github.com/chef/inspec/pull/85) ([chris-rock](https://github.com/chris-rock))
+- add author header [\#84](https://github.com/chef/inspec/pull/84) ([chris-rock](https://github.com/chris-rock))
+- Resource bugfix [\#83](https://github.com/chef/inspec/pull/83) ([arlimus](https://github.com/arlimus))
+- Resource in resource [\#80](https://github.com/chef/inspec/pull/80) ([arlimus](https://github.com/arlimus))
+- ignore local delivery config [\#77](https://github.com/chef/inspec/pull/77) ([arlimus](https://github.com/arlimus))
+- bugfix user resource for windows [\#76](https://github.com/chef/inspec/pull/76) ([chris-rock](https://github.com/chris-rock))
+- activate lint in travis [\#75](https://github.com/chef/inspec/pull/75) ([arlimus](https://github.com/arlimus))
+- Simplify SSL configuration [\#69](https://github.com/chef/inspec/pull/69) ([arlimus](https://github.com/arlimus))
+- implement user resource [\#67](https://github.com/chef/inspec/pull/67) ([chris-rock](https://github.com/chris-rock))
+- switch from open4 -\> mixlib-shellout [\#66](https://github.com/chef/inspec/pull/66) ([arlimus](https://github.com/arlimus))
+- WinRM path [\#63](https://github.com/chef/inspec/pull/63) ([arlimus](https://github.com/arlimus))
+- bugfix: catch cases where oneget returns an array [\#62](https://github.com/chef/inspec/pull/62) ([chris-rock](https://github.com/chris-rock))
+- extend delivery tests to extra docker images [\#61](https://github.com/chef/inspec/pull/61) ([arlimus](https://github.com/arlimus))
+- rename --key-file to --key on cli [\#60](https://github.com/chef/inspec/pull/60) ([arlimus](https://github.com/arlimus))
+- Simpleconfig groups [\#57](https://github.com/chef/inspec/pull/57) ([arlimus](https://github.com/arlimus))
+- OS detection tests [\#56](https://github.com/chef/inspec/pull/56) ([arlimus](https://github.com/arlimus))
+- Start Linting remaining resources [\#55](https://github.com/chef/inspec/pull/55) ([arlimus](https://github.com/arlimus))
+- fix various robocop lint issues [\#54](https://github.com/chef/inspec/pull/54) ([chris-rock](https://github.com/chris-rock))
+- overhaul rule structure [\#53](https://github.com/chef/inspec/pull/53) ([arlimus](https://github.com/arlimus))
+- Verify ssh transport backend [\#51](https://github.com/chef/inspec/pull/51) ([arlimus](https://github.com/arlimus))
+- Unit test for service resource [\#50](https://github.com/chef/inspec/pull/50) ([chris-rock](https://github.com/chris-rock))
+- Ssh backend tests [\#49](https://github.com/chef/inspec/pull/49) ([arlimus](https://github.com/arlimus))
+- Docker concurrency [\#48](https://github.com/chef/inspec/pull/48) ([arlimus](https://github.com/arlimus))
+- unit tests for package resource [\#47](https://github.com/chef/inspec/pull/47) ([chris-rock](https://github.com/chris-rock))
+- Docker runner test [\#46](https://github.com/chef/inspec/pull/46) ([arlimus](https://github.com/arlimus))
+- add port resource [\#45](https://github.com/chef/inspec/pull/45) ([chris-rock](https://github.com/chris-rock))
+- bugfix: windows server 2008 detection [\#44](https://github.com/chef/inspec/pull/44) ([arlimus](https://github.com/arlimus))
+- Add detect command [\#43](https://github.com/chef/inspec/pull/43) ([arlimus](https://github.com/arlimus))
+- unit test mock os [\#42](https://github.com/chef/inspec/pull/42) ([chris-rock](https://github.com/chris-rock))
+- let travis do dockerized resource tests [\#41](https://github.com/chef/inspec/pull/41) ([arlimus](https://github.com/arlimus))
+- docker test run [\#40](https://github.com/chef/inspec/pull/40) ([arlimus](https://github.com/arlimus))
+- bugfix: detect os via unames [\#38](https://github.com/chef/inspec/pull/38) ([arlimus](https://github.com/arlimus))
+- run kitchen test instead of converge [\#37](https://github.com/chef/inspec/pull/37) ([arlimus](https://github.com/arlimus))
+- bugfix: local file owner [\#36](https://github.com/chef/inspec/pull/36) ([arlimus](https://github.com/arlimus))
+- bugfix: backend description for local + docker [\#35](https://github.com/chef/inspec/pull/35) ([arlimus](https://github.com/arlimus))
+- implement fake os method for mock backend \(for now\) [\#34](https://github.com/chef/inspec/pull/34) ([chris-rock](https://github.com/chris-rock))
+- add Windows feature resource [\#33](https://github.com/chef/inspec/pull/33) ([chris-rock](https://github.com/chris-rock))
+- add linux kernel resources [\#32](https://github.com/chef/inspec/pull/32) ([chris-rock](https://github.com/chris-rock))
+- Exist vs exists [\#31](https://github.com/chef/inspec/pull/31) ([arlimus](https://github.com/arlimus))
+- File formats [\#30](https://github.com/chef/inspec/pull/30) ([chris-rock](https://github.com/chris-rock))
+- OS detection and resource [\#29](https://github.com/chef/inspec/pull/29) ([arlimus](https://github.com/arlimus))
+- bugfix: fix simplified runner configuration [\#28](https://github.com/chef/inspec/pull/28) ([chris-rock](https://github.com/chris-rock))
+- improvement: simplify runner configuration [\#27](https://github.com/chef/inspec/pull/27) ([arlimus](https://github.com/arlimus))
+- bugfix: catch cases, where no service is available [\#26](https://github.com/chef/inspec/pull/26) ([chris-rock](https://github.com/chris-rock))
+- support package for windows [\#25](https://github.com/chef/inspec/pull/25) ([chris-rock](https://github.com/chris-rock))
+- implement service for FreeBSD [\#24](https://github.com/chef/inspec/pull/24) ([chris-rock](https://github.com/chris-rock))
+- move integration dependencies to Gemfile [\#23](https://github.com/chef/inspec/pull/23) ([chris-rock](https://github.com/chris-rock))
+- add oracle linux docker tests [\#22](https://github.com/chef/inspec/pull/22) ([arlimus](https://github.com/arlimus))
+- Support FreeBSD [\#21](https://github.com/chef/inspec/pull/21) ([arlimus](https://github.com/arlimus))
+- Service resource [\#20](https://github.com/chef/inspec/pull/20) ([chris-rock](https://github.com/chris-rock))
+- Improvements [\#19](https://github.com/chef/inspec/pull/19) ([chris-rock](https://github.com/chris-rock))
+- bugfix: set host for ssh config in specinfra [\#18](https://github.com/chef/inspec/pull/18) ([chris-rock](https://github.com/chris-rock))
+- improve readme [\#17](https://github.com/chef/inspec/pull/17) ([chris-rock](https://github.com/chris-rock))
+- Integration tests for the backend runner [\#16](https://github.com/chef/inspec/pull/16) ([arlimus](https://github.com/arlimus))
+- Fix specinfra OS detection [\#15](https://github.com/chef/inspec/pull/15) ([arlimus](https://github.com/arlimus))
+- Os detection [\#14](https://github.com/chef/inspec/pull/14) ([chris-rock](https://github.com/chris-rock))
+- bugfix: require specinfra backend [\#13](https://github.com/chef/inspec/pull/13) ([chris-rock](https://github.com/chris-rock))
+- improve docker test runner structure [\#12](https://github.com/chef/inspec/pull/12) ([arlimus](https://github.com/arlimus))
+- Concurrent integrationtest [\#11](https://github.com/chef/inspec/pull/11) ([arlimus](https://github.com/arlimus))
+- add oneget resource [\#10](https://github.com/chef/inspec/pull/10) ([chris-rock](https://github.com/chris-rock))
+- Winrm [\#9](https://github.com/chef/inspec/pull/9) ([chris-rock](https://github.com/chris-rock))
+- bugfix: linux file stat parameters and mount [\#8](https://github.com/chef/inspec/pull/8) ([arlimus](https://github.com/arlimus))
+- Mysql conf [\#7](https://github.com/chef/inspec/pull/7) ([arlimus](https://github.com/arlimus))
+- Lint update [\#6](https://github.com/chef/inspec/pull/6) ([arlimus](https://github.com/arlimus))
+- SSH PTY [\#5](https://github.com/chef/inspec/pull/5) ([arlimus](https://github.com/arlimus))
+- Start Docker + SSH backends [\#4](https://github.com/chef/inspec/pull/4) ([arlimus](https://github.com/arlimus))
+- travis checks [\#3](https://github.com/chef/inspec/pull/3) ([chris-rock](https://github.com/chris-rock))
+- Package [\#2](https://github.com/chef/inspec/pull/2) ([chris-rock](https://github.com/chris-rock))
+- shared linux file handling + specinfra config + cleanup [\#1](https://github.com/chef/inspec/pull/1) ([arlimus](https://github.com/arlimus))
 
 
 
