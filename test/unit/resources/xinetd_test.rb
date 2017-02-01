@@ -34,10 +34,22 @@ describe 'Inspec::Resources::XinetdConf' do
       _(one.ids).must_equal %w{chargen-dgram}
     end
 
-    it 'get all protocols' do
+    it 'get all protocols for echo' do
       one = resource.services('echo')
       _(one.protocols).must_equal %w{tcp udp}
       _(one.ids).must_equal %w{echo-stream echo-dgram}
+    end
+
+    it 'get all protocols for chargen, including derived from socket_type' do
+      one = resource.services('chargen')
+      _(one.protocols).must_equal %w{tcp udp}
+      _(one.ids).must_equal %w{chargen-stream chargen-dgram}
+    end
+
+    it 'params has only the protocols parsed from the config files' do
+      one = resource.params['services']['chargen'].map{|x| x.params['protocol']}
+      # in this example(CentOS), protocol is not defined in the config
+      _(one).must_equal [nil, nil]
     end
 
     it 'can filter by protocols' do
