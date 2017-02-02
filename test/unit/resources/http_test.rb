@@ -41,7 +41,7 @@ describe 'Inspec::Resources::Http' do
                              headers: {'content-type' => 'application/json'})
     _(resource.status).must_equal 200
     _(resource.body).must_equal 'headers ok'
-    _(resource.headers.Mock).must_equal 'ok'
+    _(resource.headers.mock).must_equal 'ok'
   end
 
   it 'verify http with params' do

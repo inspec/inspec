@@ -1,9 +1,10 @@
 # encoding: utf-8
 # copyright: 2017, Criteo
-# author: Guilhem Lettron
+# copyright: 2017, Chef Software Inc
+# author: Guilhem Lettron, Christoph Hartmann
 # license: Apache v2
 
-require 'http'
+require 'faraday'
 require 'hashie'
 
 module Inspec::Resources
@@ -38,7 +39,7 @@ module Inspec::Resources
     end
 
     def body
-      response.to_s
+      response.body
     end
 
     def headers
@@ -52,9 +53,18 @@ module Inspec::Resources
     private
 
     def response
-      http = HTTP.headers(@headers)
-      http = http.basic_auth(@auth) unless @auth.empty?
-      @response ||= http.request(@method, @url, { body: @data, params: @params })
+      conn = Faraday.new url: @url, headers: @headers, params: @params
+
+      # set basic authentication
+      conn.basic_auth @auth[:user], @auth[:pass] unless @auth.empty?
+
+      # set default timeout
+      conn.options.timeout      = 5  # open/read timeout in seconds
+      conn.options.open_timeout = 3  # connection open timeout in seconds
+
+      @response = conn.send(@method.downcase) do |req|
+        req.body = @data
+      end
     end
   end
 end
