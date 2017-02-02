@@ -748,13 +748,71 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 end
 
-class InspecRspecJUnit < RSpecJUnitFormatter
+class InspecRspecJUnit < InspecRspecJson
   RSpec::Core::Formatters.register self, :close
 
-  def initialize(*args)
-    super(*args)
+  #
+  # This is the last method is invoked through the formatter interface.
+  # Converts the junit formatter constructed output_hash into nokogiri generated
+  # XML and writes it to output.
+  #
+  def close(_notification)
+    require 'nokogiri'
+    xml_output = Nokogiri::XML::Builder.new { |xml|
+      xml.testsuites do
+        @output_hash[:profiles].each do |profile|
+          build_profile_xml(xml, profile)
+        end
+      end
+    }.to_xml
+    output.puts xml_output
   end
 
-  def close(_notification)
+  private
+
+  def build_profile_xml(xml, profile)
+    xml.testsuite(
+      name: profile[:name],
+      tests: count_profile_tests(profile),
+      failed: count_profile_failed_tests(profile),
+    ) do
+      profile[:controls].each do |control|
+        build_control_xml(xml, control)
+      end
+    end
+  end
+
+  def build_control_xml(xml, control)
+    return if control[:results].nil?
+    control[:results].each do |result|
+      build_result_xml(xml, control, result)
+    end
+  end
+
+  def build_result_xml(xml, control, result)
+    test_class = control[:title].nil? ? 'Anonymnous' : control[:id]
+    xml.testcase(name: result[:code_desc], class: test_class, time: result[:run_time]) do
+      if result[:status] == 'failed'
+        xml.failure(message: result[:message])
+      end
+    end
+  end
+
+  def count_profile_tests(profile)
+    profile[:controls].reduce(0) { |acc, elem|
+      acc + (elem[:results].nil? ? 0 : elem[:results].count)
+    }
+  end
+
+  def count_profile_failed_tests(profile)
+    profile[:controls].reduce(0) { |acc, elem|
+      if elem[:results].nil?
+        acc
+      else
+        acc + elem[:results].reduce(0) { |fail_test_total, test_case|
+          test_case[:status] == 'failed' ? fail_test_total + 1 : fail_test_total
+        }
+      end
+    }
   end
 end
