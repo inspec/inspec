@@ -53,7 +53,7 @@ module Inspec
           # this will go in its()
           xres = last_call
         else
-          res += '.' + ruby_qualifier(last)
+          res += '.' + ruby_qualifier(last) unless last_call.empty?
         end
       end
 
