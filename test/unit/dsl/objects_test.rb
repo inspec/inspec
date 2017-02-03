@@ -196,6 +196,32 @@ end
 '.strip
     end
 
+    it 'loops a describe.one block, ooooooo!' do
+      res = Inspec::EachLoop.new
+      res.qualifier.push(['(1..5)'])
+      # already defined in the let block:
+      obj1.matcher = 'eq entity'
+      obj2.matcher = 'eq entity'
+      obj1.remove_expectation
+      obj2.remove_expectation
+
+      or_obj = Inspec::OrTest.new([obj1,obj2])
+      res.tests = [or_obj]
+
+      res.to_ruby.must_equal '
+(1..5).each do |entry|
+  describe.one do
+    describe command("ls /etc") do
+      its("exit_status") { should eq entity }
+    end
+    describe command("ls /etc") do
+      its("exit_status") { should_not eq entity }
+    end
+  end
+end
+'.strip
+    end
+
     it 'constructs a control' do
       control = Inspec::Control.new
       control.add_test(obj1)
