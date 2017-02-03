@@ -50,6 +50,7 @@ class MockLoader
     ubuntu1204: { name: 'ubuntu', family: 'debian', release: '12.04', arch: 'x86_64' },
     ubuntu1404: { name: 'ubuntu', family: 'debian', release: '14.04', arch: 'x86_64' },
     ubuntu1504: { name: 'ubuntu', family: 'debian', release: '15.04', arch: 'x86_64' },
+    ubuntu1604: { name: 'ubuntu', family: 'debian', release: '16.04', arch: 'x86_64' },
     mint17:     { name: 'linuxmint', family: 'debian', release: '17.3', arch: 'x86_64' },
     mint18:     { name: 'linuxmint', family: 'debian', release: '18', arch: 'x86_64' },
     windows:    { name: 'windows', family: 'windows', release: '6.2.9200', arch: 'x86_64' },
@@ -249,6 +250,8 @@ class MockLoader
       'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
       # solaris 11 package manager
       'pkg info system/file-system/zfs' => cmd.call('pkg-info-system-file-system-zfs'),
+      # dpkg-query package list
+      "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'" => cmd.call('dpkg-query-W'),
       # port netstat on solaris 10 & 11
       'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
       # xinetd configuration
