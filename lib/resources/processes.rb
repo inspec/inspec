@@ -4,21 +4,22 @@
 # author: Christoph Hartmann
 # license: All rights reserved
 
+require 'utils/filter'
+
 module Inspec::Resources
   class Processes < Inspec.resource(1)
     name 'processes'
     desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
     example "
       describe processes('mysqld') do
-        its('list.length') { should eq 1 }
+        its('entries.length') { should eq 1 }
         its('users') { should eq ['mysql'] }
         its('states') { should include 'S' }
       end
+      describe processes(/.+/).where { label != 'unconfined' && pid < 1000 } do
+        its('users') { should cmp [] }
+      end
     "
-
-    attr_reader :list,
-                :users,
-                :states
 
     def initialize(grep)
       @grep = grep
@@ -31,18 +32,39 @@ module Inspec::Resources
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep
       end
-
-      { users: :user,
-        states: :stat }.each do |var, key|
-        instance_variable_set("@#{var}", @list.map { |l| l[key] }.uniq)
-      end
     end
 
     def to_s
       "Processes #{@grep.class == String ? @grep : @grep.inspect}"
     end
 
+    def list
+      warn '[DEPRECATION] `processes.list` is deprecated. Please use `processes.entries` instead. It will be removed in version 2.0.0.'
+      @list
+    end
+
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:labels,   field: 'label')
+          .add(:pids,     field: 'pid')
+          .add(:cpus,     field: 'cpu')
+          .add(:mem,      field: 'mem')
+          .add(:vsz,      field: 'vsz')
+          .add(:rss,      field: 'rss')
+          .add(:tty,      field: 'tty')
+          .add(:states,   field: 'stat')
+          .add(:start,    field: 'start')
+          .add(:time,     field: 'time')
+          .add(:users,    field: 'user')
+          .add(:commands, field: 'command')
+          .connect(self, :filtered_processes)
+
     private
+
+    def filtered_processes
+      @list
+    end
 
     def ps_axo
       os = inspec.os

@@ -216,7 +216,7 @@ end
     end
   end
 
-  describe 'Inspec::Variable' do
+  describe 'Inspec::Variable, take #1' do
     it 'constructs a control with variable to instantiate a resource only once' do
       control = Inspec::Control.new
       variable = Inspec::Value.new([['command','which grep']])
@@ -257,5 +257,39 @@ end
 '.strip
     end
   end
+
+
+  describe 'Inspec::Variable, take #2' do
+    it 'constructs a control with variable, loop and var reference' do
+      control = Inspec::Control.new
+      command_value = /^\/usr\/bin\/chrony/
+      pid_filter = '>'
+      pid_value = 0
+      loopy = Inspec::EachLoop.new
+      loopy.qualifier = [['processes', command_value]]
+      loopy.qualifier.push(["where { pid #{pid_filter} #{pid_value} }.entries"])
+      obj = loopy.add_test
+
+      variable = Inspec::Value.new([['passwd.where { user == "_chrony" }.uids.first']])
+      variable_id = variable.name_variable.to_s
+      obj.variables.push(variable)
+      obj.qualifier = [['user(entry.user)'], ['uid']]
+      obj.matcher = "cmp #{variable_id}"
+
+      control.add_test(obj)
+      control.id = 'variable.control.id'
+      control.impact = 0.1
+      control.to_ruby.must_equal '
+control "variable.control.id" do
+  impact 0.1
+  a = passwd.where { user == "_chrony" }.uids.first
+  describe user(entry.user) do
+    its("uid") { should cmp a }
+  end
+end
+'.strip
+    end
+  end
+
 
 end
