@@ -8,13 +8,26 @@ require 'inspec/objects'
 describe 'Objects' do
   describe 'Inspec::Test' do
     let(:obj) { Inspec::Test.new }
-    it 'constructs a simple resource+argument' do
+    it 'constructs a simple resource + its("argument")' do
       obj.qualifier = [['resource'], ['version']]
       obj.matcher = 'cmp >='
       obj.expectation = '2.4.2'
       obj.to_ruby.must_equal '
 describe resource do
   its("version") { should cmp >= "2.4.2" }
+end
+'.strip
+    end
+
+    # same as the above test but with it
+    it 'constructs a simple resource.argument' do
+      # [''] forces an 'it' instead of 'its':
+      obj.qualifier = [['resource'], ['version'], ['']]
+      obj.matcher = 'cmp >='
+      obj.expectation = '2.4.2'
+      obj.to_ruby.must_equal '
+describe resource.version do
+  it { should cmp >= "2.4.2" }
 end
 '.strip
     end
