@@ -32,12 +32,7 @@ describe 'inspec exec with junit formatter' do
       end
     end
     describe 'the test suite' do
-      let(:suite) { doc.xpath("//testsuite").first}
-
-      it 'has a single properties element with no children' do
-        suite.xpath("//properties").length.must_equal 1
-        suite.xpath("//properties").children.length.must_equal 0
-      end
+      let(:suite) { doc.xpath("//testsuites/testsuite").first}
 
       it 'must have 5 testcase children' do
         suite.xpath("//testcase").length.must_equal 5
@@ -48,11 +43,7 @@ describe 'inspec exec with junit formatter' do
       end
 
       it 'has the failures attribute with 0 total tests' do
-        suite["failures"].must_equal "0"
-      end
-
-      it 'has the errors attribute with 0 total tests' do
-        suite["errors"].must_equal "0"
+        suite["failed"].must_equal "0"
       end
 
       it 'has 2 elements named "File /tmp should be directory"' do
@@ -60,7 +51,7 @@ describe 'inspec exec with junit formatter' do
       end
 
       describe 'the testcase named "gordon_config Can\'t find file ..."' do
-        let(:gordon_yml_tests) { suite.xpath("//testcase[@classname='lib.inspec.runner']") }
+        let(:gordon_yml_tests) { suite.xpath("//testcase[@class='gordon-1.0' and @name='gordon_config']") }
         let(:first_gordon_test) {gordon_yml_tests.first}
 
         it 'should be unique' do

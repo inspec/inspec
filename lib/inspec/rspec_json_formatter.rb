@@ -794,6 +794,8 @@ class InspecRspecJUnit < InspecRspecJson
     xml.testcase(name: result[:code_desc], class: test_class, time: result[:run_time]) do
       if result[:status] == 'failed'
         xml.failure(message: result[:message])
+      elsif result[:status] == 'skipped'
+        xml.skipped
       end
     end
   end
