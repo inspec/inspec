@@ -5,4 +5,3 @@
 //= require nav
 //= require particles
 //= require app
-//= require slackform
