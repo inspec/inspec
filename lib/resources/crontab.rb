@@ -1,38 +1,21 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
+# author: Avi Israeli
 
-# Verifies apt and ppa repositories
+# Verifies if crontab entry exists
 #
 # Usage:
-# describe apt('ubuntu-wine/ppa') do
+# describe crontab('* * * * * /foo/bar') do
 #   it { should exist }
-#   it { should be_enabled }
 # end
 #
-# it also understands a ppa url
-# describe apt('ppa:ubuntu-wine/ppa') do
-#   it { should exist }
-#   it { should be_enabled }
-# end
-#
-# The following ppa formats are supported:
-# - ubuntu-wine/ppa
-# - ppa:ubuntu-wine/ppa
-# - http://ppa.launchpad.net/juju/stable/ubuntu
-#
-# Install a ppa as following:
-# apt-get install python-software-properties
-# apt-get install software-properties-common
-# add-apt-repository ppa:ubuntu-wine/ppa
-
-module Inspec::Resources
+m
+odule Inspec::Resources
   class Crontab < Inspec.resource(1)
     name 'crontab'
-    desc 'Use the crontab InSpec audit resource to verify crontab entries on the Debian and Ubuntu platforms, '
+    desc 'Use the crontab InSpec audit resource to verify if crontab entry exists'
     example "
       describe crontab('* * * * * /foo/bar') do
-        it { it  should exist  }
+        it {  should exist  }
       end
     "
 
