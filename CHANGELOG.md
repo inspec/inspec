@@ -1,17 +1,30 @@
 # Change Log
 
-## [1.12.0](https://github.com/chef/inspec/tree/1.12.0) (2017-02-03)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.11.0...1.12.0)
+## [1.13.0](https://github.com/chef/inspec/tree/1.13.0) (2017-02-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.12.0...1.13.0)
+
+**Implemented enhancements:**
+
+- add "packages" resource [\#1458](https://github.com/chef/inspec/pull/1458) ([jtimberman](https://github.com/jtimberman))
+- Provide a way to force it vs its for any argument [\#1457](https://github.com/chef/inspec/pull/1457) ([alexpop](https://github.com/alexpop))
 
 **Closed issues:**
 
-- `skip` parameter ignored inside `describe` block [\#1450](https://github.com/chef/inspec/issues/1450)
+- Ignore me [\#1464](https://github.com/chef/inspec/issues/1464)
+- redirect URL downloads.inspec.io to https://downloads.chef.io/inspec [\#1462](https://github.com/chef/inspec/issues/1462)
 
-**Merged pull requests:**
+## [v1.12.0](https://github.com/chef/inspec/tree/v1.12.0) (2017-02-03)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.11.0...v1.12.0)
+
+**Implemented enhancements:**
 
 - Allow setting of the tests array [\#1455](https://github.com/chef/inspec/pull/1455) ([alexpop](https://github.com/alexpop))
 - switch to faraday as http backend [\#1452](https://github.com/chef/inspec/pull/1452) ([chris-rock](https://github.com/chris-rock))
 - Add FilterTable support to processes resource [\#1451](https://github.com/chef/inspec/pull/1451) ([alexpop](https://github.com/alexpop))
+
+**Closed issues:**
+
+- `skip` parameter ignored inside `describe` block [\#1450](https://github.com/chef/inspec/issues/1450)
 
 ## [v1.11.0](https://github.com/chef/inspec/tree/v1.11.0) (2017-02-01)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.10.0...v1.11.0)
@@ -19,14 +32,17 @@
 **Implemented enhancements:**
 
 - HTTP request resource [\#336](https://github.com/chef/inspec/issues/336)
+- derive xinetd protocol from socket\_type when not defined in the config file [\#1448](https://github.com/chef/inspec/pull/1448) ([alexpop](https://github.com/alexpop))
+- Add negate! support for describe.one object [\#1442](https://github.com/chef/inspec/pull/1442) ([alexpop](https://github.com/alexpop))
+- Version method for kernel\_module [\#1435](https://github.com/chef/inspec/pull/1435) ([postgred](https://github.com/postgred))
+
+**Fixed bugs:**
+
+- Fix xinetd parsing of services from the same file. Expose resource.protocols [\#1444](https://github.com/chef/inspec/pull/1444) ([alexpop](https://github.com/alexpop))
 
 **Merged pull requests:**
 
-- derive xinetd protocol from socket\_type when not defined in the config file [\#1448](https://github.com/chef/inspec/pull/1448) ([alexpop](https://github.com/alexpop))
-- Fix xinetd parsing of services from the same file. Expose resource.protocols [\#1444](https://github.com/chef/inspec/pull/1444) ([alexpop](https://github.com/alexpop))
-- Add negate! support for describe.one object [\#1442](https://github.com/chef/inspec/pull/1442) ([alexpop](https://github.com/alexpop))
 - Make minor grammar/style changes to `inspec.io` [\#1441](https://github.com/chef/inspec/pull/1441) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-- Version method for kernel\_module [\#1435](https://github.com/chef/inspec/pull/1435) ([postgred](https://github.com/postgred))
 
 ## [v1.10.0](https://github.com/chef/inspec/tree/v1.10.0) (2017-01-26)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.9.0...v1.10.0)
