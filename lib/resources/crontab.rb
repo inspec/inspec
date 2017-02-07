@@ -33,14 +33,12 @@ module Inspec::Resources
       return @repo_cache if defined?(@repo_cache)
 
       # load all crontabl
-      cmd = inspec.command("crontab -l ")
+      cmd = inspec.command('crontab -l ')
       values = cmd.stdout.split("\n")
       values.each do |value|
-        if value == @crontab_entry
-          return true
-        end
+        return true if value == @crontab_entry
       end
-      return false
+      false
     end
   end
 end
