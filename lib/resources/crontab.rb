@@ -8,8 +8,7 @@
 #   it { should exist }
 # end
 #
-m
-odule Inspec::Resources
+module Inspec::Resources
   class Crontab < Inspec.resource(1)
     name 'crontab'
     desc 'Use the crontab InSpec audit resource to verify if crontab entry exists'
