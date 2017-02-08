@@ -135,7 +135,7 @@ class ResourceDocs
 
   def render_path(path)
     abs = File.join(@root, path)
-    fail "Can't find file to render in #{abs}" unless File.file?(abs)
+    raise "Can't find file to render in #{abs}" unless File.file?(abs)
 
     ERB.new(File.read(abs)).result(binding)
   end

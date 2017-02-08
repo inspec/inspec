@@ -3,7 +3,7 @@
 module Inspec
   class List < Value
     def map
-      fail 'Inspec::List.map needs to be called with a block' unless block_given?
+      raise 'Inspec::List.map needs to be called with a block' unless block_given?
       t = List.new
       t.qualifier = [['x']]
       yield(t)

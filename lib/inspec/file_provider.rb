@@ -17,7 +17,7 @@ module Inspec
       elsif File.exist?(path)
         DirProvider.new(path)
       else
-        fail "No file provider for the provided path: #{path}"
+        raise "No file provider for the provided path: #{path}"
       end
     end
 
@@ -25,11 +25,11 @@ module Inspec
     end
 
     def read(_file)
-      fail "#{self} does not implement `read(...)`. This is required."
+      raise "#{self} does not implement `read(...)`. This is required."
     end
 
     def files
-      fail "Fetcher #{self} does not implement `files()`. This is required."
+      raise "Fetcher #{self} does not implement `files()`. This is required."
     end
 
     def relative_provider
@@ -148,7 +148,7 @@ module Inspec
       @parent = parent_provider
       @prefix = get_prefix(parent.files)
       if @prefix.nil?
-        fail "Could not determine path prefix for #{parent}"
+        raise "Could not determine path prefix for #{parent}"
       end
       @files = parent.files.find_all { |x| x.start_with?(prefix) && x != prefix }
                      .map { |x| x[prefix.length..-1] }

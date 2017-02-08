@@ -135,7 +135,7 @@ end
 
 def generate_simulation_files(simulator, commands, output_dir)
   require 'docker'
-  fail "#{simulator} docker image is not available" unless Docker::Image.exist?(simulator)
+  raise "#{simulator} docker image is not available" unless Docker::Image.exist?(simulator)
 
   # start container and get id
   Docker.options[:read_timeout] = 3 * 60

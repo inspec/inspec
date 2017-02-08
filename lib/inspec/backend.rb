@@ -17,12 +17,12 @@ module Inspec
       name = Train.validate_backend(conf)
       transport = Train.create(name, conf)
       if transport.nil?
-        fail "Can't find transport backend '#{name}'."
+        raise "Can't find transport backend '#{name}'."
       end
 
       connection = transport.connection
       if connection.nil?
-        fail "Can't connect to transport backend '#{name}'."
+        raise "Can't connect to transport backend '#{name}'."
       end
 
       cls = Class.new do

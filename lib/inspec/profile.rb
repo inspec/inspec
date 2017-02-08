@@ -57,7 +57,7 @@ module Inspec
 
       reader = Inspec::SourceReader.resolve(rp)
       if reader.nil?
-        fail("Don't understand inspec profile in #{path}, it " \
+        raise("Don't understand inspec profile in #{path}, it " \
              "doesn't look like a supported profile structure.")
       end
       new(reader, opts)
@@ -108,7 +108,7 @@ module Inspec
       metadata.params[:version]
     end
 
-    def writable? # rubocop:disable Style/TrivialAccessors
+    def writable?
       @writable
     end
 
@@ -397,10 +397,10 @@ module Inspec
       end
 
       name = params[:name] ||
-             fail('Cannot create an archive without a profile name! Please '\
+             raise('Cannot create an archive without a profile name! Please '\
                   'specify the name in metadata or use --output to create the archive.')
       version = params[:version] ||
-                fail('Cannot create an archive without a profile version! Please '\
+                raise('Cannot create an archive without a profile version! Please '\
                      'specify the version in metadata or use --output to create the archive.')
       ext = opts[:zip] ? 'zip' : 'tar.gz'
       slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')

@@ -107,7 +107,7 @@ module Inspec::Resources
       # iterate over each line and filter comments
       @content.split("\n").each_with_object([]) do |line, lines|
         grp_info = parse_group_line(line)
-        lines.push(grp_info) if !grp_info.nil? && grp_info.size > 0
+        lines.push(grp_info) if !grp_info.nil? && !grp_info.empty?
       end
     end
 
@@ -119,7 +119,7 @@ module Inspec::Resources
       line, _idx_nl = parse_comment_line(line, opts)
       x = line.split(':')
       # abort if we have an empty or comment line
-      return nil if x.size == 0
+      return nil if x.empty?
       # map data
       {
         'name' => x.at(0), # Name of the group.

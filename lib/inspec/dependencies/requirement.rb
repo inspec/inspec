@@ -10,7 +10,7 @@ module Inspec
   #
   class Requirement
     def self.from_metadata(dep, cache, opts)
-      fail 'Cannot load empty dependency.' if dep.nil? || dep.empty?
+      raise 'Cannot load empty dependency.' if dep.nil? || dep.empty?
       new(dep[:name], dep[:version], cache, opts[:cwd], opts.merge(dep))
     end
 

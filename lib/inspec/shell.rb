@@ -79,7 +79,7 @@ module Inspec
       # determine min whitespace that can be removed
       min = nil
       example.lines.each do |line|
-        if line.strip.length > 0 # ignore empty lines
+        if !line.strip.empty? # ignore empty lines
           line_whitespace = line.length - line.lstrip.length
           min = line_whitespace if min.nil? || line_whitespace < min
         end

@@ -38,7 +38,6 @@ module Inspec
     end
 
     def __register(name, obj)
-      # rubocop:disable Lint/NestedMethodDefinition
       cl = Class.new(obj) do
         def initialize(backend, name, *args)
           # attach the backend to this instance

@@ -70,7 +70,7 @@ module FilterTable
     end
 
     def new_entry(*_)
-      fail "#{self.class} must not be used on its own. It must be inherited "\
+      raise "#{self.class} must not be used on its own. It must be inherited "\
            'and the #new_entry method must be implemented. This is an internal '\
            'error and should not happen.'
     end

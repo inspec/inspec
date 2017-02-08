@@ -166,7 +166,7 @@ module Inspec
                                            backend: @backend,
                                            controls: @controls,
                                            attributes: @conf[:attributes])
-      fail "Could not resolve #{target} to valid input." if profile.nil?
+      raise "Could not resolve #{target} to valid input." if profile.nil?
       @target_profiles << profile if supports_profile?(profile)
     end
 
@@ -174,13 +174,13 @@ module Inspec
       return true if @ignore_supports
 
       if !profile.supports_runtime?
-        fail 'This profile requires InSpec version '\
+        raise 'This profile requires InSpec version '\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
       if !profile.supports_os?
-        fail "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
+        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
       end
 
       true
@@ -249,7 +249,7 @@ module Inspec
           # otherwise return all working tests
           return ok_tests
         else
-          fail "A rule was registered with #{method_name.inspect}, "\
+          raise "A rule was registered with #{method_name.inspect}, "\
                "which isn't understood and cannot be processed."
         end
       end

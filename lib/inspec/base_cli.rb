@@ -142,7 +142,7 @@ module Inspec
         $stderr.puts exception.message
         exit(1)
       else
-        raise exception # rubocop:disable Style/SignalException
+        raise exception
       end
     end
 

@@ -43,7 +43,7 @@ module Inspec::Resources
       end
 
       content = inspec.file(@conf_path).content
-      if content.empty? && inspec.file(@conf_path).size > 0
+      if content.empty? && !inspec.file(@conf_path).empty?
         skip_resource "Can't read file \"#{@conf_path}\""
         return @params = {}
       end

@@ -45,7 +45,7 @@ module Supermarket
         "#{p['tool_owner']}/#{p['slug']}" == profile
       }
 
-      if found.length == 0
+      if found.empty?
         puts "#{mark_text(profile)} is not available on Supermarket"
         return
       end

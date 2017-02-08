@@ -64,15 +64,15 @@ namespace :www do
     end
 
     unless File.directory?(dst) && File.file?(File.join(dst, 'index.html'))
-      fail 'It looks like the site was not build. Aborting.'
+      raise 'It looks like the site was not build. Aborting.'
     end
 
     # check if git exists
     sh('command -v git >/dev/null 2>&1') ||
-      fail("It looks like `git` isn't installed. It is required to run this build task.")
+      raise("It looks like `git` isn't installed. It is required to run this build task.")
 
     unless sh('git diff-index --quiet HEAD --')
-      fail 'Please make sure you have no uncommitted changes in this repository.'
+      raise 'Please make sure you have no uncommitted changes in this repository.'
     end
 
     File.write('www/build/CNAME', 'inspec.io')
@@ -86,7 +86,7 @@ namespace :www do
 
     current_branch = `git rev-parse --abbrev-ref HEAD`.strip
     if current_branch.empty?
-      fail 'Cannot determine current branch to go back to! Aborting.'
+      raise 'Cannot determine current branch to go back to! Aborting.'
     end
 
     Log.info 'Create empty gh-pages branch'
