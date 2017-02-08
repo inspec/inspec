@@ -68,10 +68,17 @@ module Compliance
       opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if insecure
 
       fail "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
-      res = Net::HTTP.start(uri.host, uri.port, opts) {|http|
+      res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
         http.request(req)
       }
       res
+
+    rescue OpenSSL::SSL::SSLError => e
+      raise e unless e.message.include? 'certificate verify failed'
+
+      puts "Error: Failed to connect to #{uri}."
+      puts 'If the server uses a self-signed certificate, please re-run the login command with the --insecure option.'
+      exit 1
     end
   end
 end
