@@ -10,6 +10,7 @@ module Compliance
   class HTTP
     # generic get requires
     def self.get(url, headers = nil, insecure)
+      url = "https://#{url}" if URI.parse(url).scheme.nil?
       uri = URI.parse(url)
       req = Net::HTTP::Get.new(uri.path)
       if !headers.nil?
