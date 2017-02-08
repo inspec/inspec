@@ -1,8 +1,7 @@
-# encoding: utf-8
-require 'tmpdir'
-require 'fileutils'
-require 'mixlib/shellout'
-require 'inspec/log'
+require "tmpdir"
+require "fileutils"
+require "mixlib/shellout"
+require "inspec/log"
 
 module Fetchers
   #
@@ -25,7 +24,7 @@ module Fetchers
   # omnibus source for hints.
   #
   class Git < Inspec.fetcher(1)
-    name 'git'
+    name "git"
     priority 200
 
     def self.resolve(target, opts = {})
@@ -78,7 +77,7 @@ module Fetchers
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref('master')
+                          resolve_ref("master")
                         end
     end
 
@@ -86,7 +85,7 @@ module Fetchers
       cmd = shellout("git ls-remote \"#{@remote_url}\" \"#{ref_name}*\"")
       ref = parse_ls_remote(cmd.stdout, ref_name)
       if !ref
-        fail "Unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+        raise "Unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
       end
       ref
     end
@@ -127,7 +126,7 @@ module Fetchers
     end
 
     def cloned?
-      File.directory?(File.join(@repo_directory, '.git'))
+      File.directory?(File.join(@repo_directory, ".git"))
     end
 
     def clone(dir = @repo_directory)
@@ -146,7 +145,7 @@ module Fetchers
       cmd.error!
       cmd.status
     rescue Errno::ENOENT
-      raise 'To use git sources, you must have git installed.'
+      raise "To use git sources, you must have git installed."
     end
 
     def shellout(cmd, opts = {})
@@ -154,12 +153,12 @@ module Fetchers
       cmd = Mixlib::ShellOut.new(cmd, opts)
       cmd.run_command
       Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
-      Inspec::Log.debug('External command: STDOUT BEGIN')
+      Inspec::Log.debug("External command: STDOUT BEGIN")
       Inspec::Log.debug(cmd.stdout)
-      Inspec::Log.debug('External command: STDOUT END')
-      Inspec::Log.debug('External command: STDERR BEGIN')
+      Inspec::Log.debug("External command: STDOUT END")
+      Inspec::Log.debug("External command: STDERR BEGIN")
       Inspec::Log.debug(cmd.stderr)
-      Inspec::Log.debug('External command: STDERR END')
+      Inspec::Log.debug("External command: STDERR END")
       cmd
     end
   end

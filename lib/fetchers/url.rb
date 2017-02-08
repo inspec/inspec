@@ -1,22 +1,21 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'uri'
-require 'digest'
-require 'tempfile'
-require 'open-uri'
+require "uri"
+require "digest"
+require "tempfile"
+require "open-uri"
 
 module Fetchers
   class Url < Inspec.fetcher(1) # rubocop:disable Metrics/ClassLength
     MIME_TYPES = {
-      'application/x-zip-compressed' => '.zip',
-      'application/zip' => '.zip',
-      'application/x-gzip' => '.tar.gz',
-      'application/gzip' => '.tar.gz',
+      "application/x-zip-compressed" => ".zip",
+      "application/zip" => ".zip",
+      "application/x-gzip" => ".tar.gz",
+      "application/gzip" => ".tar.gz",
     }.freeze
 
-    name 'url'
+    name "url"
     priority 200
 
     def self.resolve(target, opts = {})
@@ -76,8 +75,8 @@ module Fetchers
 
     def initialize(url, opts)
       @target = url
-      @insecure = opts['insecure']
-      @token = opts['token']
+      @insecure = opts["insecure"]
+      @token = opts["token"]
       @config = opts
     end
 
@@ -105,12 +104,12 @@ module Fetchers
     end
 
     def file_type_from_remote(remote)
-      content_type = remote.meta['content-type']
+      content_type = remote.meta["content-type"]
       file_type = MIME_TYPES[content_type]
 
       if file_type.nil?
         Inspec::Log.warn("Unrecognized content type: #{content_type}. Assuming tar.gz")
-        file_type = '.tar.gz'
+        file_type = ".tar.gz"
       end
 
       file_type
@@ -125,23 +124,23 @@ module Fetchers
       return @temp_archive_path if ! @temp_archive_path.nil?
       Inspec::Log.debug("Fetching URL: #{@target}")
       http_opts = {}
-      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
+      http_opts["ssl_verify_mode".to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
       if @config
-        if @config['server_type'] == 'automate'
-          http_opts['chef-delivery-enterprise'] = @config['automate']['ent']
-          if @config['automate']['token_type'] == 'dctoken'
-            http_opts['x-data-collector-token'] = @config['token']
+        if @config["server_type"] == "automate"
+          http_opts["chef-delivery-enterprise"] = @config["automate"]["ent"]
+          if @config["automate"]["token_type"] == "dctoken"
+            http_opts["x-data-collector-token"] = @config["token"]
           else
-            http_opts['chef-delivery-user'] = @config['user']
-            http_opts['chef-delivery-token'] = @config['token']
+            http_opts["chef-delivery-user"] = @config["user"]
+            http_opts["chef-delivery-token"] = @config["token"]
           end
         elsif @token
-          http_opts['Authorization'] = "Bearer #{@token}"
+          http_opts["Authorization"] = "Bearer #{@token}"
         end
       end
       remote = open(@target, http_opts)
       @archive_type = file_type_from_remote(remote) # side effect :(
-      archive = Tempfile.new(['inspec-dl-', @archive_type])
+      archive = Tempfile.new(["inspec-dl-", @archive_type])
       archive.binmode
       archive.write(remote.read)
       archive.rewind

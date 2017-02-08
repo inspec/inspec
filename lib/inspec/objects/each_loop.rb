@@ -1,5 +1,3 @@
-# encoding:utf-8
-
 module Inspec
   class EachLoop < List
     attr_reader :variables
@@ -12,7 +10,7 @@ module Inspec
 
     def add_test(t = nil)
       t ||= Test.new
-      t.qualifier[0] = ['entry']
+      t.qualifier[0] = ["entry"]
       @tests.push(t)
       t
     end

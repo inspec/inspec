@@ -1,13 +1,12 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/simpleconfig'
+require "utils/simpleconfig"
 
 module Inspec::Resources
   class IniConfig < JsonConfig
-    name 'ini'
-    desc 'Use the ini InSpec audit resource to test data in a INI file.'
+    name "ini"
+    desc "Use the ini InSpec audit resource to test data in a INI file."
     example "
       descibe ini do
         its('auth_protocol') { should eq 'https' }

@@ -1,21 +1,20 @@
-# encoding: utf-8
 # Copyright 2015 Dominik Richter. All rights reserved.
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'forwardable'
-require 'inspec/polyfill'
-require 'inspec/cached_fetcher'
-require 'inspec/file_provider'
-require 'inspec/source_reader'
-require 'inspec/metadata'
-require 'inspec/backend'
-require 'inspec/rule'
-require 'inspec/log'
-require 'inspec/profile_context'
-require 'inspec/dependencies/cache'
-require 'inspec/dependencies/lockfile'
-require 'inspec/dependencies/dependency_set'
+require "forwardable"
+require "inspec/polyfill"
+require "inspec/cached_fetcher"
+require "inspec/file_provider"
+require "inspec/source_reader"
+require "inspec/metadata"
+require "inspec/backend"
+require "inspec/rule"
+require "inspec/log"
+require "inspec/profile_context"
+require "inspec/dependencies/cache"
+require "inspec/dependencies/lockfile"
+require "inspec/dependencies/dependency_set"
 
 module Inspec
   class Profile # rubocop:disable Metrics/ClassLength
@@ -32,19 +31,19 @@ module Inspec
     def self.copy_deps_into_cache(file_provider, opts)
       # filter content
       cache = file_provider.files.find_all do |entry|
-        entry.start_with?('vendor')
+        entry.start_with?("vendor")
       end
       content = Hash[cache.map { |x| [x, file_provider.read(x)] }]
       keys = content.keys
       keys.each do |key|
         next if content[key].nil?
         # remove prefix
-        rel = Pathname.new(key).relative_path_from(Pathname.new('vendor')).to_s
+        rel = Pathname.new(key).relative_path_from(Pathname.new("vendor")).to_s
         tar = Pathname.new(opts[:cache].path).join(rel)
 
         FileUtils.mkdir_p tar.dirname.to_s
         Inspec::Log.debug "Copy #{tar} to cache directory"
-        File.write(tar.to_s, content[key].force_encoding('UTF-8'))
+        File.write(tar.to_s, content[key].force_encoding("UTF-8"))
       end
     end
 
@@ -57,7 +56,7 @@ module Inspec
 
       reader = Inspec::SourceReader.resolve(rp)
       if reader.nil?
-        fail("Don't understand inspec profile in #{path}, it " \
+        raise("Don't understand inspec profile in #{path}, it " \
              "doesn't look like a supported profile structure.")
       end
       new(reader, opts)
@@ -247,7 +246,7 @@ module Inspec
       @logger.info "Checking profile in #{@target}"
       meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
       if meta_path =~ /metadata\.rb$/
-        warn.call(@target, 0, 0, nil, 'The use of `metadata.rb` is deprecated. Use `inspec.yml`.')
+        warn.call(@target, 0, 0, nil, "The use of `metadata.rb` is deprecated. Use `inspec.yml`.")
       end
 
       # verify metadata
@@ -256,7 +255,7 @@ module Inspec
       m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
       m_unsupported = metadata.unsupported
       m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
-      @logger.info 'Metadata OK.' if m_errors.empty? && m_unsupported.empty?
+      @logger.info "Metadata OK." if m_errors.empty? && m_unsupported.empty?
 
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
@@ -264,13 +263,13 @@ module Inspec
       # check if the profile is using the old test directory instead of the
       # new controls directory
       if @source_reader.tests.keys.any? { |x| x =~ %r{^test/$} }
-        warn.call(@target, 0, 0, nil, 'Profile uses deprecated `test` directory, rename it to `controls`.')
+        warn.call(@target, 0, 0, nil, "Profile uses deprecated `test` directory, rename it to `controls`.")
       end
 
       count = controls_count
       result[:summary][:controls] = count
       if count == 0
-        warn.call(nil, nil, nil, nil, 'No controls or tests were defined.')
+        warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
       else
         @logger.info("Found #{count} controls.")
       end
@@ -279,8 +278,8 @@ module Inspec
       params[:controls].each { |id, control|
         sfile = control[:source_location][:ref]
         sline = control[:source_location][:line]
-        error.call(sfile, sline, nil, id, 'Avoid controls with empty IDs') if id.nil? or id.empty?
-        next if id.start_with? '(generated '
+        error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? or id.empty?
+        next if id.start_with? "(generated "
         warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has no description") if control[:desc].to_s.empty?
         warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
@@ -291,7 +290,7 @@ module Inspec
       # profile is valid if we could not find any error
       result[:summary][:valid] = result[:errors].empty?
 
-      @logger.info 'Control definitions OK.' if result[:warnings].empty?
+      @logger.info "Control definitions OK." if result[:warnings].empty?
       result
     end
 
@@ -317,24 +316,24 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # display all files that will be part of the archive
-      @logger.debug 'Add the following files to archive:'
+      @logger.debug "Add the following files to archive:"
       root_path = @source_reader.target.prefix
       files = @source_reader.target.files
-      files.each { |f| @logger.debug '    ' + f }
+      files.each { |f| @logger.debug "    " + f }
 
       if opts[:zip]
         # generate zip archive
-        require 'inspec/archive/zip'
+        require "inspec/archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
         zag.archive(root_path, files, dst)
       else
         # generate tar archive
-        require 'inspec/archive/tar'
+        require "inspec/archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
         tag.archive(root_path, files, dst)
       end
 
-      @logger.info 'Finished archive generation.'
+      @logger.info "Finished archive generation."
       true
     end
 
@@ -343,11 +342,11 @@ module Inspec
     end
 
     def lockfile_exists?
-      @source_reader.target.files.include?('inspec.lock')
+      @source_reader.target.files.include?("inspec.lock")
     end
 
     def lockfile_path
-      File.join(cwd, 'inspec.lock')
+      File.join(cwd, "inspec.lock")
     end
 
     #
@@ -356,12 +355,12 @@ module Inspec
     # tarballs.
     #
     def cwd
-      @target.is_a?(String) && File.directory?(@target) ? @target : './'
+      @target.is_a?(String) && File.directory?(@target) ? @target : "./"
     end
 
     def lockfile
       @lockfile ||= if lockfile_exists?
-                      Inspec::Lockfile.from_content(@source_reader.target.read('inspec.lock'))
+                      Inspec::Lockfile.from_content(@source_reader.target.read("inspec.lock"))
                     else
                       generate_lockfile
                     end
@@ -397,13 +396,13 @@ module Inspec
       end
 
       name = params[:name] ||
-             fail('Cannot create an archive without a profile name! Please '\
-                  'specify the name in metadata or use --output to create the archive.')
+        raise("Cannot create an archive without a profile name! Please "\
+             "specify the name in metadata or use --output to create the archive.")
       version = params[:version] ||
-                fail('Cannot create an archive without a profile version! Please '\
-                     'specify the version in metadata or use --output to create the archive.')
-      ext = opts[:zip] ? 'zip' : 'tar.gz'
-      slug = name.downcase.strip.tr(' ', '-').gsub(/[^\w-]/, '_')
+        raise("Cannot create an archive without a profile version! Please "\
+             "specify the version in metadata or use --output to create the archive.")
+      ext = opts[:zip] ? "zip" : "tar.gz"
+      slug = name.downcase.strip.tr(" ", "-").gsub(/[^\w-]/, "_")
       Pathname.new(Dir.pwd).join("#{slug}-#{version}.#{ext}")
     end
 
@@ -420,7 +419,7 @@ module Inspec
       tests = collect_tests
       params[:controls] = controls = {}
       params[:groups] = groups = {}
-      prefix = @source_reader.target.prefix || ''
+      prefix = @source_reader.target.prefix || ""
       tests.each do |rule|
         next if rule.nil?
         f = load_rule_filepath(prefix, rule)

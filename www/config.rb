@@ -1,5 +1,4 @@
-# encoding: utf-8
-require 'slim'
+require "slim"
 
 ###
 # Page options, layouts, aliases and proxies
@@ -8,12 +7,12 @@ require 'slim'
 # Per-page layout changes:
 #
 # With no layout
-page '/*.xml', layout: false
-page '/*.json', layout: false
-page '/*.txt', layout: false
+page "/*.xml", layout: false
+page "/*.json", layout: false
+page "/*.txt", layout: false
 
 # With alternative layout: we send the sidebar request to the default layout
-page 'docs/*', layout: :docs, locals: { sidebar_layout: 'docs' }
+page "docs/*", layout: :docs, locals: { sidebar_layout: "docs" }
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 # proxy '/this-page-has-no-template.html', '/template-file.html', locals: {
@@ -29,7 +28,7 @@ configure :development do
 end
 
 # Methods defined in the helpers block are available in templates
-require 'lib/sidebar_helpers'
+require "lib/sidebar_helpers"
 helpers SidebarHelpers
 
 # Methods defined in the helpers block are available in templates

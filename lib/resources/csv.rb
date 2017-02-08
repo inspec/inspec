@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -7,8 +6,8 @@
 # @see http://technicalpickles.com/posts/parsing-csv-with-ruby
 module Inspec::Resources
   class CsvConfig < JsonConfig
-    name 'csv'
-    desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
+    name "csv"
+    desc "Use the csv InSpec audit resource to test configuration data in a CSV file."
     example "
       describe csv('example.csv') do
         its('name') { should eq(['John', 'Alice']) }
@@ -17,7 +16,7 @@ module Inspec::Resources
 
     # override file load and parse hash from csv
     def parse(content)
-      require 'csv'
+      require "csv"
       # convert empty field to nil
       CSV::Converters[:blank_to_nil] = lambda do |field|
         field && field.empty? ? nil : field

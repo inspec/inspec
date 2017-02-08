@@ -1,10 +1,9 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
 # license: All rights reserved
 
-require 'utils/simpleconfig'
+require "utils/simpleconfig"
 
 # Usage:
 #
@@ -20,8 +19,8 @@ require 'utils/simpleconfig'
 
 module Inspec::Resources
   class LoginDef < Inspec.resource(1)
-    name 'login_defs'
-    desc 'Use the login_defs InSpec audit resource to test configuration settings in the /etc/login.defs file. The logins.defs file defines site-specific configuration for the shadow password suite on Linux and UNIX platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.'
+    name "login_defs"
+    desc "Use the login_defs InSpec audit resource to test configuration settings in the /etc/login.defs file. The logins.defs file defines site-specific configuration for the shadow password suite on Linux and UNIX platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted."
     example "
       describe login_defs do
         its('ENCRYPT_METHOD') { should eq 'SHA512' }
@@ -29,7 +28,7 @@ module Inspec::Resources
     "
 
     def initialize(path = nil)
-      @conf_path = path || '/etc/login.defs'
+      @conf_path = path || "/etc/login.defs"
     end
 
     def method_missing(name)
@@ -62,7 +61,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'login.defs'
+      "login.defs"
     end
   end
 end

@@ -1,10 +1,9 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
 module Fetchers
   class Local < Inspec.fetcher(1)
-    name 'local'
+    name "local"
     priority 0
 
     def self.resolve(target)
@@ -31,11 +30,11 @@ module Fetchers
 
     def self.resolve_from_string(target)
       # Support "urls" in the form of file://
-      if target.start_with?('file://')
-        target = target.gsub(%r{^file://}, '')
+      if target.start_with?("file://")
+        target = target.gsub(%r{^file://}, "")
       else
         # support for windows paths
-        target = target.tr('\\', '/')
+        target = target.tr('\\', "/")
       end
 
       if File.exist?(target)

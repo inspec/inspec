@@ -1,5 +1,3 @@
-# encoding:utf-8
-
 module Inspec
   class Value
     include ::Inspec::RubyHelper
@@ -14,12 +12,12 @@ module Inspec
     end
 
     def to_ruby
-      res = @variable.nil? ? '' : "#{@variable} = "
-      res + @qualifier.map { |x| ruby_qualifier(x) }.join('.')
+      res = @variable.nil? ? "" : "#{@variable} = "
+      res + @qualifier.map { |x| ruby_qualifier(x) }.join(".")
     end
 
     def name_variable(cache = [])
-      @variable = Array('a'..'z').find { |x| !cache.include?(x) }
+      @variable = Array("a".."z").find { |x| !cache.include?(x) }
       cache.push(@variable)
       @variable
     end

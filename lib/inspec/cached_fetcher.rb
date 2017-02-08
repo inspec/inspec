@@ -1,6 +1,5 @@
-# encoding: utf-8
-require 'inspec/fetcher'
-require 'forwardable'
+require "inspec/fetcher"
+require "forwardable"
 
 module Inspec
   class CachedFetcher
@@ -12,7 +11,7 @@ module Inspec
       @fetcher = Inspec::Fetcher.resolve(target)
 
       if @fetcher.nil?
-        fail("Could not fetch inspec profile in #{target.inspect}.")
+        raise("Could not fetch inspec profile in #{target.inspect}.")
       end
 
       @cache = cache
@@ -50,7 +49,7 @@ module Inspec
     def assert_cache_sanity!
       if target.respond_to?(:key?) && target.key?(:sha256)
         if fetcher.resolved_source[:sha256] != target[:sha256]
-          fail <<EOF
+          raise <<EOF
 The remote source #{fetcher} no longer has the requested content:
 
 Request Content Hash: #{target[:sha256]}

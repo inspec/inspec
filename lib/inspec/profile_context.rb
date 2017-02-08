@@ -1,28 +1,27 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/log'
-require 'inspec/rule'
-require 'inspec/resource'
-require 'inspec/library_eval_context'
-require 'inspec/control_eval_context'
-require 'inspec/require_loader'
-require 'securerandom'
-require 'inspec/objects/attribute'
+require "inspec/log"
+require "inspec/rule"
+require "inspec/resource"
+require "inspec/library_eval_context"
+require "inspec/control_eval_context"
+require "inspec/require_loader"
+require "securerandom"
+require "inspec/objects/attribute"
 
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
     def self.for_profile(profile, backend, attributes)
-      new(profile.name, backend, { 'profile' => profile,
-                                   'attributes' => attributes })
+      new(profile.name, backend, { "profile" => profile,
+                                   "attributes" => attributes })
     end
 
     attr_reader :attributes, :profile_id, :resource_registry, :backend
     attr_accessor :rules
     def initialize(profile_id, backend, conf)
       if backend.nil?
-        fail 'ProfileContext is initiated with a backend == nil. ' \
-             'This is a backend error which must be fixed upstream.'
+        raise "ProfileContext is initiated with a backend == nil. " \
+             "This is a backend error which must be fixed upstream."
       end
       @profile_id = profile_id
       @backend = backend
@@ -39,10 +38,10 @@ module Inspec
     end
 
     def dependencies
-      if @conf['profile'].nil?
+      if @conf["profile"].nil?
         {}
       else
-        @conf['profile'].locked_dependencies
+        @conf["profile"].locked_dependencies
       end
     end
 
@@ -62,9 +61,9 @@ module Inspec
     end
 
     def profile_supports_os?
-      return true if @conf['profile'].nil?
+      return true if @conf["profile"].nil?
 
-      @conf['profile'].supports_os?
+      @conf["profile"].supports_os?
     end
 
     def remove_rule(id)
@@ -105,14 +104,14 @@ module Inspec
     end
 
     def load_libraries(libs)
-      lib_prefix = 'libraries' + File::SEPARATOR
+      lib_prefix = "libraries" + File::SEPARATOR
       autoloads = []
 
       libs.each do |content, source, line|
         path = source
         if source.start_with?(lib_prefix)
-          path = source.sub(lib_prefix, '')
-          autoloads.push(path) if File.dirname(path) == '.'
+          path = source.sub(lib_prefix, "")
+          autoloads.push(path) if File.dirname(path) == "."
         end
 
         @require_loader.add(path, content, source, line)
@@ -120,7 +119,7 @@ module Inspec
 
       # load all files directly that are flat inside the libraries folder
       autoloads.each do |path|
-        next unless path.end_with?('.rb')
+        next unless path.end_with?(".rb")
         load_library_file(*@require_loader.load(path)) unless @require_loader.loaded?(path)
       end
       reload_dsl
@@ -143,7 +142,7 @@ module Inspec
       elsif source.nil? && line.nil?
         context.instance_eval(content)
       else
-        context.instance_eval(content, source || 'unknown', line || 1)
+        context.instance_eval(content, source || "unknown", line || 1)
       end
     end
 
@@ -156,9 +155,9 @@ module Inspec
     def register_rule(r)
       # get the full ID
       file = if @current_load.nil?
-               'unknown'
+               "unknown"
              else
-               @current_load[:file] || 'unknown'
+               @current_load[:file] || "unknown"
              end
       r.instance_variable_set(:@__file, file)
       r.instance_variable_set(:@__group_title, current_load[:title])
@@ -177,7 +176,7 @@ module Inspec
       # we need to return an attribute object, to allow dermination of default values
       attr = Attribute.new(name, options)
       # read value from given gived values
-      attr.value(@conf['attributes'][attr.name]) unless @conf['attributes'].nil?
+      attr.value(@conf["attributes"][attr.name]) unless @conf["attributes"].nil?
       @attributes.push(attr)
       attr.value
     end
@@ -190,7 +189,7 @@ module Inspec
 
     def full_id(pid, rid)
       return rid.to_s if pid.to_s.empty?
-      pid.to_s + '/' + rid.to_s
+      pid.to_s + "/" + rid.to_s
     end
   end
 end

@@ -1,10 +1,9 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
 module Fetchers
   class Mock < Inspec.fetcher(1)
-    name 'mock'
+    name "mock"
     priority 0
 
     def self.resolve(target)
@@ -29,7 +28,7 @@ module Fetchers
     end
 
     def cache_key
-      ''
+      ""
     end
   end
 end

@@ -1,9 +1,8 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'inspec/plugins'
-require 'utils/plugin_registry'
+require "inspec/plugins"
+require "utils/plugin_registry"
 
 module Inspec
   # Pre-checking of target resolution. Make sure that SourceReader plugins
@@ -19,11 +18,11 @@ module Inspec
 
   def self.source_reader(version)
     if version != 1
-      fail 'Only source readers version 1 is supported!'
+      raise "Only source readers version 1 is supported!"
     end
     Inspec::Plugins::SourceReader
   end
 end
 
-require 'source_readers/inspec'
-require 'source_readers/flat'
+require "source_readers/inspec"
+require "source_readers/flat"

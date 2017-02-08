@@ -1,23 +1,22 @@
-# encoding: utf-8
 # frozen_string_literal: true
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'net/http'
+require "net/http"
 
 module Supermarket
   class API
-    SUPERMARKET_URL = 'https://supermarket.chef.io'.freeze
+    SUPERMARKET_URL = "https://supermarket.chef.io".freeze
 
     # displays a list of profiles
     def self.profiles(supermarket_url = SUPERMARKET_URL)
       url = "#{supermarket_url}/api/v1/tools-search"
-      _success, data = get(url, { type: 'compliance_profile', items: 100 })
+      _success, data = get(url, { type: "compliance_profile", items: 100 })
       if !data.nil?
         profiles = JSON.parse(data)
-        profiles['items'].map { |x|
-          m = %r{^#{supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x['tool'])
-          x['slug'] = m[:slug]
+        profiles["items"].map { |x|
+          m = %r{^#{supermarket_url}/api/v1/tools/(?<slug>[\w-]+)(/)?$}.match(x["tool"])
+          x["slug"] = m[:slug]
           x
         }
       else
@@ -47,7 +46,7 @@ module Supermarket
     def self.same?(profile, supermarket_tool, supermarket_url = SUPERMARKET_URL)
       tool_owner, tool_name = profile_name(profile)
       tool = "#{supermarket_url}/api/v1/tools/#{tool_name}"
-      supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
+      supermarket_tool["tool_owner"] == tool_owner && supermarket_tool["tool"] == tool
     end
 
     def self.find(profile, supermarket_url)
@@ -73,7 +72,7 @@ module Supermarket
 
     def self.send_request(uri, req)
       # send request
-      res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') {|http|
+      res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") { |http|
         http.request(req)
       }
       [res.is_a?(Net::HTTPSuccess), res.body]

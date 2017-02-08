@@ -1,11 +1,10 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 # author: John Kerry
 
-require 'rspec/core'
-require 'rspec/core/formatters/json_formatter'
-require 'rspec_junit_formatter'
+require "rspec/core"
+require "rspec/core/formatters/json_formatter"
+require "rspec_junit_formatter"
 
 # Vanilla RSpec JSON formatter with a slight extension to show example IDs.
 # TODO: Remove these lines when RSpec includes the ID natively
@@ -84,8 +83,8 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
       res[:profile_id] = pid
     end
 
-    if res[:status] == 'pending'
-      res[:status] = 'skipped'
+    if res[:status] == "pending"
+      res[:status] = "skipped"
       res[:skip_message] = example.metadata[:description]
       res[:resource] = example.metadata[:described_class].to_s
     end
@@ -137,9 +136,9 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     minor = 0
 
     all_unique_controls.each do |control|
-      next if control[:id].start_with? '(generated from '
+      next if control[:id].start_with? "(generated from "
       next unless control[:results]
-      if control[:results].any? { |r| r[:status] == 'failed' }
+      if control[:results].any? { |r| r[:status] == "failed" }
         failed += 1
         if control[:impact] >= 0.7
           critical += 1
@@ -148,7 +147,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
         else
           minor += 1
         end
-      elsif control[:results].any? { |r| r[:status] == 'skipped' }
+      elsif control[:results].any? { |r| r[:status] == "skipped" }
         skipped += 1
       else
         passed += 1
@@ -157,15 +156,15 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
     total = failed + passed + skipped
 
-    { 'total' => total,
-      'failed' => {
-        'total' => failed,
-        'critical' => critical,
-        'major' => major,
-        'minor' => minor,
+    { "total" => total,
+      "failed" => {
+        "total" => failed,
+        "critical" => critical,
+        "major" => major,
+        "minor" => minor,
       },
-      'skipped' => skipped,
-      'passed' => passed }
+      "skipped" => skipped,
+      "passed" => passed }
   end
 
   def tests_summary
@@ -177,9 +176,9 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     all_unique_controls.each do |control|
       next unless control[:results]
       control[:results].each do |result|
-        if result[:status] == 'failed'
+        if result[:status] == "failed"
           failed += 1
-        elsif result[:status] == 'skipped'
+        elsif result[:status] == "skipped"
           skipped += 1
         else
           passed += 1
@@ -187,7 +186,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
       end
     end
 
-    { 'total' => total, 'failed' => failed, 'skipped' => skipped, 'passed' => passed }
+    { "total" => total, "failed" => failed, "skipped" => skipped, "passed" => passed }
   end
 
   def examples
@@ -239,25 +238,25 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   RSpec::Core::Formatters.register self, :close
 
   COLORS = {
-    'critical' => "\033[38;5;9m",
-    'major'    => "\033[38;5;208m",
-    'minor'    => "\033[0;36m",
-    'failed'   => "\033[38;5;9m",
-    'passed'   => "\033[38;5;41m",
-    'skipped'  => "\033[38;5;247m",
-    'reset'    => "\033[0m",
+    "critical" => "\033[38;5;9m",
+    "major"    => "\033[38;5;208m",
+    "minor"    => "\033[0;36m",
+    "failed"   => "\033[38;5;9m",
+    "passed"   => "\033[38;5;41m",
+    "skipped"  => "\033[38;5;247m",
+    "reset"    => "\033[0m",
   }.freeze
 
   INDICATORS = {
-    'critical' => '  ×  ',
-    'major'    => '  ∅  ',
-    'minor'    => '  ⊚  ',
-    'failed'   => '  ×  ',
-    'skipped'  => '  ↺  ',
-    'passed'   => '  ✔  ',
-    'unknown'  => '  ?  ',
-    'empty'    => '     ',
-    'small'    => '   ',
+    "critical" => "  ×  ",
+    "major"    => "  ∅  ",
+    "minor"    => "  ⊚  ",
+    "failed"   => "  ×  ",
+    "skipped"  => "  ↺  ",
+    "passed"   => "  ✔  ",
+    "unknown"  => "  ?  ",
+    "empty"    => "     ",
+    "small"    => "   ",
   }.freeze
 
   MULTI_TEST_CONTROL_SUMMARY_MAX_LEN = 60
@@ -304,7 +303,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     # to change to know we are done with a profile.
 
     if switching_to_new_profile?(control.profile)
-      output.puts ''
+      output.puts ""
       print_anonymous_examples_associated_with_last_profile
       clear_anonymous_examples_associated_with_last_profile
     end
@@ -333,7 +332,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     # when the profile has no controls or examples it will not have been printed.
     # then we want to ensure we print all the profiles
     print_last_control_with_examples unless last_control_is_anonymous?
-    output.puts ''
+    output.puts ""
     print_anonymous_examples_associated_with_last_profile
     print_profiles_without_examples
     print_profile_summary
@@ -403,7 +402,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     Array(anonymous_examples_within_this_profile).uniq.each do |control|
       print_anonymous_control(control)
     end
-    output.puts '' unless Array(anonymous_examples_within_this_profile).empty?
+    output.puts "" unless Array(anonymous_examples_within_this_profile).empty?
   end
 
   #
@@ -444,7 +443,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #
   def print_profile(profile)
     return if profile.nil? || profile[:already_printed]
-    output.puts ''
+    output.puts ""
 
     if profile[:name].nil?
       print_target
@@ -458,7 +457,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
     end
 
-    output.puts 'Version: ' + (profile[:version] || 'unknown')
+    output.puts "Version: " + (profile[:version] || "unknown")
     print_target
     profile[:already_printed] = true
   end
@@ -467,10 +466,10 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     profiles_info.reject { |p| p[:already_printed] }.each do |profile|
       print_profile(profile)
       print_line(
-        color: '', indicator: INDICATORS['empty'], id: '', profile: '',
-        summary: 'No tests executed.'
+        color: "", indicator: INDICATORS["empty"], id: "", profile: "",
+        summary: "No tests executed."
       )
-      output.puts ''
+      output.puts ""
     end
   end
 
@@ -481,7 +480,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     return if @backend.nil?
     connection = @backend.backend
     return unless connection.respond_to?(:uri)
-    output.puts('Target:  ' + connection.uri + "\n\n")
+    output.puts("Target:  " + connection.uri + "\n\n")
   end
 
   #
@@ -489,9 +488,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #
   def print_control(control)
     print_line(
-      color:      COLORS[control.summary_indicator] || '',
-      indicator:  INDICATORS[control.summary_indicator] || INDICATORS['unknown'],
-      summary:    format_lines(control.summary, INDICATORS['empty']),
+      color:      COLORS[control.summary_indicator] || "",
+      indicator:  INDICATORS[control.summary_indicator] || INDICATORS["unknown"],
+      summary:    format_lines(control.summary, INDICATORS["empty"]),
       id:         "#{control.id}: ",
       profile:    control.profile_id,
     )
@@ -501,7 +500,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     test_status = result[:status_type]
     test_color = COLORS[test_status]
     indicator = INDICATORS[result[:status]]
-    indicator = INDICATORS['empty'] if indicator.nil?
+    indicator = INDICATORS["empty"] if indicator.nil?
     if result[:message]
       msg = result[:code_desc] + "\n" + result[:message]
     else
@@ -509,33 +508,33 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
     print_line(
       color:      test_color,
-      indicator:  INDICATORS['small'] + indicator,
-      summary:    format_lines(msg, INDICATORS['empty']),
+      indicator:  INDICATORS["small"] + indicator,
+      summary:    format_lines(msg, INDICATORS["empty"]),
       id: nil, profile: nil
     )
   end
 
   def print_anonymous_control(control)
     control_result = control[:results]
-    title = control_result[0][:code_desc].split[0..1].join(' ')
-    puts '  ' + title
+    title = control_result[0][:code_desc].split[0..1].join(" ")
+    puts "  " + title
     # iterate over all describe blocks in anonoymous control block
     control_result.each do |test|
-      control_id = ''
+      control_id = ""
       # display exceptions
       unless test[:exception].nil?
         test_result = test[:message]
       else
         # determine title
-        test_result = test[:skip_message] || test[:code_desc].split[2..-1].join(' ')
+        test_result = test[:skip_message] || test[:code_desc].split[2..-1].join(" ")
         # show error message
         test_result += "\n" + test[:message] unless test[:message].nil?
       end
       status_indicator = test[:status_type]
       print_line(
-        color:      COLORS[status_indicator] || '',
-        indicator:  INDICATORS['small'] + INDICATORS[status_indicator] || INDICATORS['unknown'],
-        summary:    format_lines(test_result, INDICATORS['empty']),
+        color:      COLORS[status_indicator] || "",
+        indicator:  INDICATORS["small"] + INDICATORS[status_indicator] || INDICATORS["unknown"],
+        summary:    format_lines(test_result, INDICATORS["empty"]),
         id:         control_id,
         profile:    control[:profile_id],
       )
@@ -545,30 +544,30 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def print_profile_summary
     summary = profile_summary
 
-    s = format('Profile Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], summary['passed'], COLORS['reset'],
-               COLORS['failed'], summary['failed']['total'], COLORS['reset'],
-               COLORS['skipped'], summary['skipped'], COLORS['reset'])
-    output.puts(s) if summary['total'] > 0
+    s = format("Profile Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s",
+               COLORS["passed"], summary["passed"], COLORS["reset"],
+               COLORS["failed"], summary["failed"]["total"], COLORS["reset"],
+               COLORS["skipped"], summary["skipped"], COLORS["reset"])
+    output.puts(s) if summary["total"] > 0
   end
 
   def print_tests_summary
     summary = tests_summary
 
-    s = format('Test Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], summary['passed'], COLORS['reset'],
-               COLORS['failed'], summary['failed'], COLORS['reset'],
-               COLORS['skipped'], summary['skipped'], COLORS['reset'])
+    s = format("Test Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s",
+               COLORS["passed"], summary["passed"], COLORS["reset"],
+               COLORS["failed"], summary["failed"], COLORS["reset"],
+               COLORS["skipped"], summary["skipped"], COLORS["reset"])
     output.puts(s)
   end
 
   # Formats the line (called from print_line)
   def format_line(fields)
-    format = '%color%indicator%id%summary'
+    format = "%color%indicator%id%summary"
     format.gsub(/%\w+/) do |x|
       term = x[1..-1]
       fields.key?(term.to_sym) ? fields[term.to_sym].to_s : x
-    end + COLORS['reset']
+    end + COLORS["reset"]
   end
 
   # Prints line; used to print results
@@ -589,13 +588,13 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     include Comparable
 
     STATUS_TYPES = {
-      'unknown'  => -3,
-      'passed'   => -2,
-      'skipped'  => -1,
-      'minor'    => 1,
-      'major'    => 2,
-      'failed'   => 2.5,
-      'critical' => 3,
+      "unknown"  => -3,
+      "passed"   => -2,
+      "skipped"  => -1,
+      "minor"    => 1,
+      "major"    => 2,
+      "failed"   => 2.5,
+      "critical" => 3,
     }.freeze
 
     def initialize(control, profile)
@@ -613,7 +612,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     def anonymous?
-      control[:id].to_s.start_with? '(generated from '
+      control[:id].to_s.start_with? "(generated from "
     end
 
     def profile_id
@@ -655,13 +654,13 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       elsif examples.empty?
         # Empty control block - if it's anonymous, there's nothing we can do.
         # Is this case even possible?
-        'Empty anonymous control'
+        "Empty anonymous control"
       else
         # Multiple tests - but no title. Do our best and generate some form of
         # identifier or label or name.
-        title = (examples.map { |example| example[:code_desc] }).join('; ')
+        title = (examples.map { |example| example[:code_desc] }).join("; ")
         max_len = MULTI_TEST_CONTROL_SUMMARY_MAX_LEN
-        title = title[0..(max_len-1)] + '...' if title.length > max_len
+        title = title[0..(max_len-1)] + "..." if title.length > max_len
         title
       end
     end
@@ -678,10 +677,10 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
           [
             !fails.empty? ? "#{fails.uniq.length} failed" : nil,
             !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
-          ].compact.join(' ')
+          ].compact.join(" ")
         end
 
-      suffix == '' ? title : title + ' (' + suffix + ')'
+      suffix == "" ? title : title + " (" + suffix + ")"
     end
 
     # We are interested in comparing controls against other controls. It is
@@ -715,7 +714,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     def calculate_summary!
-      @summary_status = STATUS_TYPES['unknown']
+      @summary_status = STATUS_TYPES["unknown"]
       @skips = []
       @fails = []
       @passes = []
@@ -727,8 +726,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       example_status = STATUS_TYPES[example[:status_type]]
       @summary_status = example_status if example_status > @summary_status
       fails.push(example) if example_status > 0
-      passes.push(example) if example_status == STATUS_TYPES['passed']
-      skips.push(example) if example_status == STATUS_TYPES['skipped']
+      passes.push(example) if example_status == STATUS_TYPES["passed"]
+      skips.push(example) if example_status == STATUS_TYPES["skipped"]
     end
 
     # Determines 'status_type' (critical, major, minor) of control given
@@ -736,13 +735,13 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     # Called from format_example, sets the 'status_type' for each 'example'
     def status_type(example)
       status = example[:status]
-      return status if status != 'failed' || control[:impact].nil?
+      return status if status != "failed" || control[:impact].nil?
       if control[:impact] >= 0.7
-        'critical'
+        "critical"
       elsif control[:impact] >= 0.4
-        'major'
+        "major"
       else
-        'minor'
+        "minor"
       end
     end
   end

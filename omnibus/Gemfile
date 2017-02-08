@@ -1,5 +1,4 @@
-# encoding: utf-8
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 # Install omnibus
 # Sadly due to an ongoing msys2 issue, producing windows builds requires
@@ -11,9 +10,9 @@ source 'https://rubygems.org'
 # gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # Use entries from chef's Gemfile
-gem 'omnibus', github: 'chef/omnibus', branch: 'sersut/ff-ksubrama/gcc_investigate'
-gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'shain/ruby_windows_monster'
-gem 'license_scout', github: 'chef/license_scout'
+gem "omnibus", github: "chef/omnibus", branch: "sersut/ff-ksubrama/gcc_investigate"
+gem "omnibus-software", github: "chef/omnibus-software", branch: "shain/ruby_windows_monster"
+gem "license_scout", github: "chef/license_scout"
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
@@ -21,10 +20,10 @@ gem 'license_scout', github: 'chef/license_scout'
 # by running `bundle install --without development` to speed up build times.
 group :development do
   # Use Berkshelf for resolving cookbook dependencies
-  gem 'berkshelf', '~> 4.3'
+  gem "berkshelf", "~> 4.3"
 
   # Use Test Kitchen with Vagrant for converging the build environment
-  gem 'test-kitchen',    '~> 1.9'
-  gem 'kitchen-vagrant', '~> 0.19'
-  gem 'winrm-fs', '~> 0.4'
+  gem "test-kitchen",    "~> 1.9"
+  gem "kitchen-vagrant", "~> 0.19"
+  gem "winrm-fs", "~> 0.4"
 end

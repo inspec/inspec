@@ -1,18 +1,17 @@
-# encoding: utf-8
 # helper methods for source/layouts/sidebar.slim
 module SidebarHelpers
   SIDEBAR_LAYOUTS = %w{docs}.freeze
 
   def sidebar_data(sidebar_layout)
     unless SIDEBAR_LAYOUTS.include?(sidebar_layout)
-      fail "'#{sidebar_layout}' is not a valid sidebar layout type."
+      raise "'#{sidebar_layout}' is not a valid sidebar layout type."
     end
 
     data.public_send(:"#{sidebar_layout}_sidebar").sidebar_links.dup
   end
 
   def link_classes(current_url, item_link)
-    't-purple' if same_link?(current_url, item_link.link)
+    "t-purple" if same_link?(current_url, item_link.link)
   end
 
   def print_sub_links?(current_url, item_link)
@@ -27,7 +26,7 @@ module SidebarHelpers
   end
 
   def strip_trailing_slash(str)
-    str.end_with?('/') ? str[0..-2] : str
+    str.end_with?("/") ? str[0..-2] : str
   end
 
   def active_child?(current_url, item_link)

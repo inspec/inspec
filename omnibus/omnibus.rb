@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # This file is used to configure the inspec project. It contains
 # some minimal configuration examples for working with Omnibus. For a full list
@@ -35,7 +34,7 @@ use_s3_caching true
 # s3_access_key  ENV['AWS_ACCESS_KEY_ID']
 # s3_secret_key  ENV['AWS_SECRET_ACCESS_KEY']
 # s3_bucket      ENV['AWS_S3_BUCKET']
-s3_bucket      'opscode-omnibus-cache'
+s3_bucket      "opscode-omnibus-cache"
 
 # Customize compiler bits
 # ------------------------------
@@ -46,13 +45,13 @@ s3_bucket      'opscode-omnibus-cache'
 
 # Load additional software
 # ------------------------------
-software_gems ['omnibus-software']
+software_gems ["omnibus-software"]
 # local_software_dirs ['/path/to/local/software']
 
 # Windows architecture defaults
 # ------------------------------
-arch = if %w{x86 x64}.include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase)
-         ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym
+arch = if %w{x86 x64}.include?((ENV["OMNIBUS_WINDOWS_ARCH"] || "").downcase)
+         ENV["OMNIBUS_WINDOWS_ARCH"].downcase.to_sym
        else
          :x86
        end

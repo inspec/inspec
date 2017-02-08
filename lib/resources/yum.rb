@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'resources/file'
+require "resources/file"
 
 # Usage:
 # describe yum do
@@ -32,8 +31,8 @@ require 'resources/file'
 
 module Inspec::Resources
   class Yum < Inspec.resource(1)
-    name 'yum'
-    desc 'Use the yum InSpec audit resource to test packages in the Yum repository.'
+    name "yum"
+    desc "Use the yum InSpec audit resource to test packages in the Yum repository."
     example "
       describe yum.repo('name') do
         it { should exist }
@@ -51,7 +50,7 @@ module Inspec::Resources
       return @cache if defined?(@cache)
       # parse the repository data from yum
       # we cannot use -C, because this is not reliable and may lead to errors
-      @command_result = inspec.command('yum -v repolist all')
+      @command_result = inspec.command("yum -v repolist all")
       @content = @command_result.stdout
       @cache = []
       repo = {}
@@ -75,7 +74,7 @@ module Inspec::Resources
     end
 
     def repos
-      repositories.map { |repo| repo['id'] }
+      repositories.map { |repo| repo["id"] }
     end
 
     def repo(repo)
@@ -88,7 +87,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Yum Repository'
+      "Yum Repository"
     end
 
     private
@@ -101,7 +100,7 @@ module Inspec::Resources
     # Optimize the key value
     def repo_key(key)
       return key if key.nil?
-      key.gsub('Repo-', '').downcase
+      key.gsub("Repo-", "").downcase
     end
   end
 
@@ -120,7 +119,7 @@ module Inspec::Resources
 
     def info
       return @cache if defined?(@cache)
-      selection = @yum.repositories.select { |e| e['id'] == @reponame || shortname(e['id']) == @reponame }
+      selection = @yum.repositories.select { |e| e["id"] == @reponame || shortname(e["id"]) == @reponame }
       @cache = selection[0] if !selection.nil? && selection.length == 1
       @cache
     end
@@ -132,7 +131,7 @@ module Inspec::Resources
     def enabled?
       repo = info
       return false if repo.nil?
-      info['status'] == 'enabled'
+      info["status"] == "enabled"
     end
 
     def to_s
@@ -143,7 +142,7 @@ module Inspec::Resources
   # for compatability with serverspec
   # this is deprecated syntax and will be removed in future versions
   class YumRepoLegacy < Yum
-    name 'yumrepo'
+    name "yumrepo"
 
     def initialize(name)
       super()
@@ -161,7 +160,7 @@ module Inspec::Resources
     end
 
     def deprecated
-      warn '[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead.'
+      warn "[DEPRECATION] `yumrepo(reponame)` is deprecated.  Please use `yum.repo(reponame)` instead."
     end
   end
 end

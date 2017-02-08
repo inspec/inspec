@@ -1,10 +1,9 @@
-# encoding: utf-8
 # author: Gary Bright @username-is-already-taken2
 # author: Chris Beard @cdbeard2016
 module Inspec::Resources
   class WindowsTasks < Inspec.resource(1)
-    name 'windows_task'
-    desc 'Use the windows_task InSpec audit resource to test task schedules on Microsoft Windows.'
+    name "windows_task"
+    desc "Use the windows_task InSpec audit resource to test task schedules on Microsoft Windows."
     example "
       describe windows_task('\\Microsoft\\Windows\\Time Synchronization\\SynchronizeTime') do
         it { should be_enabled }
@@ -31,7 +30,7 @@ module Inspec::Resources
       @cache = nil
 
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_task` resource is not supported on your OS.' unless inspec.os.windows?
+      return skip_resource "The `windows_task` resource is not supported on your OS." unless inspec.os.windows?
     end
 
     def exists?
@@ -42,12 +41,12 @@ module Inspec::Resources
     # rubocop:disable Style/WordArray
     def enabled?
       return false if info.nil? || info[:state].nil?
-      ['Ready', 'Running'].include?(info[:state])
+      ["Ready", "Running"].include?(info[:state])
     end
 
     def disabled?
       return false if info.nil? || info[:state].nil?
-      info[:scheduled_task_state] == 'Disabled' || info[:state] == 'Disabled'
+      info[:scheduled_task_state] == "Disabled" || info[:state] == "Disabled"
     end
 
     def logon_mode
@@ -88,14 +87,14 @@ module Inspec::Resources
       end
 
       @cache = {
-        uri: params['URI'],
-        state: params['State'],
-        logon_mode: params['Logon Mode'],
-        last_result: params['Last Result'],
-        task_to_run: params['Task To Run'],
-        run_as_user: params['Run As User'],
-        scheduled_task_state: params['Scheduled Task State'],
-        type: 'windows-task',
+        uri: params["URI"],
+        state: params["State"],
+        logon_mode: params["Logon Mode"],
+        last_result: params["Last Result"],
+        task_to_run: params["Task To Run"],
+        run_as_user: params["Run As User"],
+        scheduled_task_state: params["Scheduled Task State"],
+        type: "windows-task",
       }
     end
 

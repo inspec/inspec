@@ -1,9 +1,8 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # license: All rights reserved
 
-require 'json'
+require "json"
 
 # Three constructor methods are available:
 # 1. resistry_key(path'):
@@ -49,8 +48,8 @@ require 'json'
 
 module Inspec::Resources
   class RegistryKey < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
-    name 'registry_key'
-    desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
+    name "registry_key"
+    desc "Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry."
     example "
       describe registry_key('path\to\key') do
         its('name') { should eq 'value' }
@@ -72,7 +71,7 @@ module Inspec::Resources
         @options[:name] = name
         @options[:path] = reg_key
       end
-      return skip_resource 'The `registry_key` resource is not supported on your OS yet.' if !inspec.os.windows?
+      return skip_resource "The `registry_key` resource is not supported on your OS yet." if !inspec.os.windows?
     end
 
     def exists?
@@ -81,7 +80,7 @@ module Inspec::Resources
 
     def has_value?(value)
       val = registry_key(@options[:path])
-      !val.nil? && registry_property_value(val, '(default)') == value ? true : false
+      !val.nil? && registry_property_value(val, "(default)") == value ? true : false
     end
 
     def has_property?(property_name, property_type = nil)
@@ -132,13 +131,13 @@ module Inspec::Resources
     def registry_property_value(regkey, property)
       return nil if !registry_property_exists(regkey, property)
       # always ensure the key is lower case
-      regkey[prep_prop(property)]['value']
+      regkey[prep_prop(property)]["value"]
     end
 
     def registry_property_type(regkey, property)
       return nil if !registry_property_exists(regkey, property)
       # always ensure the key is lower case
-      regkey[prep_prop(property)]['type']
+      regkey[prep_prop(property)]["type"]
     end
 
     def registry_key(path)
@@ -188,7 +187,7 @@ module Inspec::Resources
       @registry_cache
     end
 
-    def children_keys(path, filter = '')
+    def children_keys(path, filter = "")
       return @children_cache if defined?(@children_cache)
       filter = filter.source if filter.is_a? ::Regexp
       script = <<-EOH
@@ -260,7 +259,7 @@ module Inspec::Resources
   # for compatability with serverspec
   # this is deprecated syntax and will be removed in future versions
   class WindowsRegistryKey < RegistryKey
-    name 'windows_registry_key'
+    name "windows_registry_key"
 
     def initialize(name)
       deprecated

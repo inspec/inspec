@@ -1,5 +1,3 @@
-# encoding:utf-8
-
 module Inspec
   class OrTest
     attr_reader :tests

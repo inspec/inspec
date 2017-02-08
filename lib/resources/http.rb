@@ -1,16 +1,15 @@
-# encoding: utf-8
 # copyright: 2017, Criteo
 # copyright: 2017, Chef Software Inc
 # author: Guilhem Lettron, Christoph Hartmann
 # license: Apache v2
 
-require 'faraday'
-require 'hashie'
+require "faraday"
+require "hashie"
 
 module Inspec::Resources
   class Http < Inspec.resource(1)
-    name 'http'
-    desc 'Use the http InSpec audit resource to test http call.'
+    name "http"
+    desc "Use the http InSpec audit resource to test http call."
     example "
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
         its('status') { should cmp 200 }
@@ -25,7 +24,7 @@ module Inspec::Resources
     "
 
     # rubocop:disable ParameterLists
-    def initialize(url, method: 'GET', params: nil, auth: {}, headers: {}, data: nil)
+    def initialize(url, method: "GET", params: nil, auth: {}, headers: {}, data: nil)
       @url = url
       @method = method
       @params = params

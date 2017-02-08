@@ -1,13 +1,12 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/object_traversal'
+require "utils/object_traversal"
 
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
-    name 'json'
-    desc 'Use the json InSpec audit resource to test data in a JSON file.'
+    name "json"
+    desc "Use the json InSpec audit resource to test data in a JSON file."
     example "
       describe json('policyfile.lock.json') do
         its(['cookbook_locks','omnibus','version']) { should eq('2.2.0') }
@@ -59,7 +58,7 @@ module Inspec::Resources
     end
 
     def parse(content)
-      require 'json'
+      require "json"
       JSON.parse(content)
     end
 
@@ -81,7 +80,7 @@ module Inspec::Resources
 
     def to_s
       if @opts.is_a?(Hash) && @opts.key?(:content)
-        'Json content'
+        "Json content"
       else
         "Json #{@path}"
       end

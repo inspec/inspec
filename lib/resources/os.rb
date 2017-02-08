@@ -1,11 +1,10 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
 module Inspec::Resources
   class OSResource < Inspec.resource(1)
-    name 'os'
-    desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
+    name "os"
+    desc "Use the os InSpec audit resource to test the platform on which the system is running."
     example "
       describe os[:family] do
         it { should eq 'redhat' }
@@ -52,7 +51,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Operating System Detection'
+      "Operating System Detection"
     end
   end
 end

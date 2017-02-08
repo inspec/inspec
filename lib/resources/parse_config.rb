@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
@@ -15,8 +14,8 @@
 
 module Inspec::Resources
   class PConfig < Inspec.resource(1)
-    name 'parse_config'
-    desc 'Use the parse_config InSpec audit resource to test arbitrary configuration files.'
+    name "parse_config"
+    desc "Use the parse_config InSpec audit resource to test arbitrary configuration files."
     example "
       output = command('some-command').stdout
       describe parse_config(output, { data_config_option: value } ) do
@@ -97,8 +96,8 @@ module Inspec::Resources
   end
 
   class PConfigFile < PConfig
-    name 'parse_config_file'
-    desc 'Use the parse_config_file InSpec audit resource to test arbitrary configuration files. It works identiacal to parse_config. Instead of using a command output, this resource works with files.'
+    name "parse_config_file"
+    desc "Use the parse_config_file InSpec audit resource to test arbitrary configuration files. It works identiacal to parse_config. Instead of using a command output, this resource works with files."
     example "
       describe parse_config_file('/path/to/file') do
         its('setting') { should eq 1 }

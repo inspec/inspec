@@ -1,6 +1,5 @@
-# encoding: utf-8
-require 'digest'
-require 'fileutils'
+require "digest"
+require "fileutils"
 
 module Inspec
   #
@@ -19,7 +18,7 @@ module Inspec
   class Cache
     attr_reader :path
     def initialize(path = nil)
-      @path = path || File.join(Dir.home, '.inspec', 'cache')
+      @path = path || File.join(Dir.home, ".inspec", "cache")
       FileUtils.mkdir_p(@path) unless File.directory?(@path)
     end
 

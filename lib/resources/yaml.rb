@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'yaml'
+require "yaml"
 
 # Parses a yaml document
 # Usage:
@@ -11,8 +10,8 @@ require 'yaml'
 # end
 module Inspec::Resources
   class YamlConfig < JsonConfig
-    name 'yaml'
-    desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
+    name "yaml"
+    desc "Use the yaml InSpec audit resource to test configuration data in a YAML file."
     example "
       describe yaml do
         its('name') { should eq 'foo' }

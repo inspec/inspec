@@ -1,14 +1,13 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/parser'
-require 'utils/filter'
+require "utils/parser"
+require "utils/filter"
 
 module Inspec::Resources
   class XinetdConf < Inspec.resource(1)
-    name 'xinetd_conf'
-    desc 'Xinetd services configuration.'
+    name "xinetd_conf"
+    desc "Xinetd services configuration."
     example "
       describe xinetd_conf.services('chargen') do
         its('socket_types') { should include 'dgram' }
@@ -21,7 +20,7 @@ module Inspec::Resources
 
     include XinetdParser
 
-    def initialize(conf_path = '/etc/xinetd.conf')
+    def initialize(conf_path = "/etc/xinetd.conf")
       @conf_path = conf_path
       @contents = {}
     end
@@ -37,14 +36,14 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:services,     field: 'service')
-          .add(:ids,          field: 'id')
-          .add(:socket_types, field: 'socket_type')
-          .add(:types,        field: 'type')
-          .add(:protocols,    field: 'protocol')
-          .add(:wait,         field: 'wait')
-          .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
-          .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
+          .add(:services,     field: "service")
+          .add(:ids,          field: "id")
+          .add(:socket_types, field: "socket_type")
+          .add(:types,        field: "type")
+          .add(:protocols,    field: "protocol")
+          .add(:wait,         field: "wait")
+          .add(:disabled?) { |x| x.where("disable" => "no").services.empty? }
+          .add(:enabled?) { |x| x.where("disable" => "yes").services.empty? }
           .connect(self, :service_lines)
 
     private
@@ -68,7 +67,7 @@ module Inspec::Resources
       return {} if read_content.nil?
       flat_params = parse_xinetd(read_content)
       # we need to map service data in order to use it with filtertable
-      params = { 'services' => {} }
+      params = { "services" => {} }
 
       # map services that were defined and map it to the service hash
       flat_params.each do |k, v|
@@ -79,13 +78,13 @@ module Inspec::Resources
         # handle service entries
         else
           # store service
-          params['services'][name] = v
+          params["services"][name] = v
 
           # add the service identifier to its parameters
           if v.is_a?(Array)
-            v.each { |service| service.params['service'] = name }
+            v.each { |service| service.params["service"] = name }
           else
-            v.params['service'] = name
+            v.params["service"] = name
           end
         end
       end
@@ -95,18 +94,18 @@ module Inspec::Resources
     # Method used to derive the default protocol used from the socket_type
     def default_protocol(type)
       case type
-      when 'stream'
-        'tcp'
-      when 'dgram'
-        'udp'
+      when "stream"
+        "tcp"
+      when "dgram"
+        "udp"
       else
-        'unknown'
+        "unknown"
       end
     end
 
     def service_lines
-      @services ||= params['services'].values.flatten.map { |service|
-        service.params['protocol'] ||= default_protocol(service.params['socket_type'])
+      @services ||= params["services"].values.flatten.map { |service|
+        service.params["protocol"] ||= default_protocol(service.params["socket_type"])
         service.params
       }
     end

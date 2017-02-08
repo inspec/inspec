@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -29,8 +28,8 @@
 # }
 module Inspec::Resources
   class WindowsFeature < Inspec.resource(1)
-    name 'windows_feature'
-    desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
+    name "windows_feature"
+    desc "Use the windows_feature InSpec audit resource to test features on Microsoft Windows."
     example "
       describe windows_feature('dhcp') do
         it { should be_installed }
@@ -42,7 +41,7 @@ module Inspec::Resources
       @cache = nil
 
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_feature` resource is not supported on your OS.' if !inspec.os.windows?
+      return skip_resource "The `windows_feature` resource is not supported on your OS." if !inspec.os.windows?
     end
 
     # returns true if the package is installed
@@ -58,7 +57,7 @@ module Inspec::Resources
 
       @cache = {
         name: @feature,
-        type: 'windows-feature',
+        type: "windows-feature",
       }
 
       # cannot rely on exit code for now, successful command returns exit code 1
@@ -71,10 +70,10 @@ module Inspec::Resources
       end
 
       @cache = {
-        name: params['Name'],
-        description: params['Description'],
-        installed: params['Installed'],
-        type: 'windows-feature',
+        name: params["Name"],
+        description: params["Description"],
+        installed: params["Installed"],
+        type: "windows-feature",
       }
     end
 

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
@@ -26,8 +25,8 @@
 
 module Inspec::Resources
   class AuditPolicy < Inspec.resource(1)
-    name 'audit_policy'
-    desc 'Use the audit_policy InSpec audit resource to test auditing policies on the Microsoft Windows platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each auditing category property that is enabled, the auditing level may be set to No Auditing, Not Specified, Success, Success and Failure, or Failure.'
+    name "audit_policy"
+    desc "Use the audit_policy InSpec audit resource to test auditing policies on the Microsoft Windows platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each auditing category property that is enabled, the auditing level may be set to No Auditing, Not Specified, Success, Success and Failure, or Failure."
     example "
       describe audit_policy do
         its('parameter') { should eq 'value' }
@@ -44,7 +43,7 @@ module Inspec::Resources
 
       # find line
       target = nil
-      result.each_line {|s|
+      result.each_line { |s|
         target = s.strip if s =~ /\b.*#{key}.*\b/
       }
 
@@ -52,14 +51,14 @@ module Inspec::Resources
       values = nil
       unless target.nil?
         # split csv values and return value
-        values = target.split(',')[4]
+        values = target.split(",")[4]
       end
 
       values
     end
 
     def to_s
-      'Audit Policy'
+      "Audit Policy"
     end
   end
 end

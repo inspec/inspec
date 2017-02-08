@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
-
 # This mocks all InSpec backends. To use it, run
 # `bundle install`
 # `bundle exec ruby bin/inspec`
@@ -12,16 +10,16 @@ Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
 # load InSpec
-require 'inspec'
-require 'inspec/cli'
+require "inspec"
+require "inspec/cli"
 
 # Load Train and monkey-patch the backends
-require 'train'
-require 'train/transports/local'
+require "train"
+require "train/transports/local"
 
 module Train::Transports
   class SSH < Local
-    name 'ssh'
+    name "ssh"
 
     def connection(_ = nil)
       @connection ||= MockConnection.new(@options)
@@ -35,7 +33,7 @@ module Train::Transports
   end
 
   class WinRM < Local
-    name 'winrm'
+    name "winrm"
 
     def connection(_ = nil)
       @connection ||= MockConnection.new(@options)
@@ -49,7 +47,7 @@ module Train::Transports
   end
 
   class Docker < Local
-    name 'docker'
+    name "docker"
 
     def connection(_ = nil)
       @connection ||= MockConnection.new(@options)

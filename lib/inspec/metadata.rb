@@ -1,11 +1,10 @@
-# encoding: utf-8
 # Copyright 2015 Dominik Richter. All rights reserved.
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'logger'
-require 'rubygems/version'
-require 'rubygems/requirement'
+require "logger"
+require "rubygems/version"
+require "rubygems/requirement"
 
 module Inspec
   # Extract metadata.rb information
@@ -58,15 +57,15 @@ module Inspec
 
       # os name is both saved in :family and :name, so check both
       name_ok = name.nil? ||
-                os[:name] == name || os[:family] == name
+        os[:name] == name || os[:family] == name
 
-      family_check = family.to_s + '?'
+      family_check = family.to_s + "?"
       family_ok = family.nil? || os[:family] == family ||
-                  (
-                    os.respond_to?(family_check) &&
-                    # this call will return true if the family matches
-                    os.method(family_check).call
-                  )
+        (
+          os.respond_to?(family_check) &&
+          # this call will return true if the family matches
+          os.method(family_check).call
+        )
 
       # ensure we do have a string if we have a non-nil value eg. 16.06
       release_ok = release.nil? || os[:release] == release
@@ -135,7 +134,7 @@ module Inspec
       return obj.map { |i| symbolize_keys(i) } if obj.is_a?(Array)
       return obj unless obj.is_a?(Hash)
 
-      obj.each_with_object({}) {|(k, v), h|
+      obj.each_with_object({}) { |(k, v), h|
         v = symbolize_keys(v) if v.is_a?(Hash)
         v = symbolize_keys(v) if v.is_a?(Array)
         h[k.to_sym] = v
@@ -149,8 +148,8 @@ module Inspec
         x
       when Array
         logger.warn(
-          'Failed to read supports entry that is an array. Please use '\
-          'the `supports: {os-family: xyz}` syntax.',
+          "Failed to read supports entry that is an array. Please use "\
+          "the `supports: {os-family: xyz}` syntax.",
         )
         nil
       when nil then nil
@@ -180,8 +179,8 @@ module Inspec
     def self.finalize(metadata, profile_id, logger = nil)
       return nil if metadata.nil?
       param = metadata.params || {}
-      param['name'] = profile_id.to_s unless profile_id.to_s.empty?
-      param['version'] = param['version'].to_s unless param['version'].nil?
+      param["name"] = profile_id.to_s unless profile_id.to_s.empty?
+      param["version"] = param["version"].to_s unless param["version"].nil?
       metadata.params = symbolize_keys(param)
       metadata.params[:supports] = finalize_supports(metadata.params[:supports], logger)
 
@@ -204,9 +203,9 @@ module Inspec
       # NOTE there doesn't have to exist an actual file, it may come from an
       # archive (i.e., contents)
       case File.basename(ref)
-      when 'inspec.yml'
+      when "inspec.yml"
         from_yaml(ref, contents, profile_id, logger)
-      when 'metadata.rb'
+      when "metadata.rb"
         from_ruby(ref, contents, profile_id, logger)
       else
         logger ||= Logger.new(nil)

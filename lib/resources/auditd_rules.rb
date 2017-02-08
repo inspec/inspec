@@ -1,11 +1,10 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
 # license: All rights reserved
 
-require 'forwardable'
-require 'utils/filter_array'
+require "forwardable"
+require "utils/filter_array"
 
 module Inspec::Resources
   class AuditdRulesLegacy
@@ -30,10 +29,10 @@ module Inspec::Resources
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       }
-      @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+      @status_content ||= inspec.command("/sbin/auditctl -s").stdout.chomp
       @status_params = SimpleConfig.new(@status_content, @status_opts).params
 
-      status = @status_params['AUDIT_STATUS']
+      status = @status_params["AUDIT_STATUS"]
       return nil if status.nil?
 
       items = Hash[status.scan(/([^=]+)=(\w*)\s*/)]
@@ -41,7 +40,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Audit Daemon Rules (for auditd version < 2.3)'
+      "Audit Daemon Rules (for auditd version < 2.3)"
     end
   end
 
@@ -50,8 +49,8 @@ module Inspec::Resources
     extend Forwardable
     attr_accessor :rules, :lines
 
-    name 'auditd_rules'
-    desc 'Use the auditd_rules InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files.'
+    name "auditd_rules"
+    desc "Use the auditd_rules InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files."
     example "
       # syntax for auditd < 2.3
       describe auditd_rules do
@@ -76,12 +75,12 @@ module Inspec::Resources
     "
 
     def initialize
-      @content = inspec.command('/sbin/auditctl -l').stdout.chomp
+      @content = inspec.command("/sbin/auditctl -l").stdout.chomp
 
       if @content =~ /^LIST_RULES:/
         # do not warn on centos 5
-        unless inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
-          warn '[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers.'
+        unless inspec.os[:name] == "centos" && inspec.os[:release].to_i == 5
+          warn "[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers."
         end
         @legacy = AuditdRulesLegacy.new(@content)
       else
@@ -93,13 +92,13 @@ module Inspec::Resources
     # rubocop:disable Style/MethodName
     def LIST_RULES
       return @legacy.LIST_RULES if @legacy
-      fail 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
+      raise "Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax."
     end
 
     def status(name = nil)
       return @legacy.status(name) if @legacy
 
-      @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+      @status_content ||= inspec.command("/sbin/auditctl -s").stdout.chomp
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
       return @status_params[name] if name
@@ -148,7 +147,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Audit Daemon Rules'
+      "Audit Daemon Rules"
     end
 
     private
@@ -168,7 +167,7 @@ module Inspec::Resources
     end
 
     def get_syscalls(line)
-      line.scan(/-S ([^ ]+) /).flatten.first.split(',')
+      line.scan(/-S ([^ ]+) /).flatten.first.split(",")
     end
 
     def get_action_list(line)
@@ -191,11 +190,11 @@ module Inspec::Resources
     end
 
     def get_fields(line)
-      fields = line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
+      fields = line.gsub(/-[aS] [^ ]+ /, "").split("-F ").map { |l| l.split(" ") }.flatten
 
       opts = {}
       fields.find_all { |x| x.match(/[a-z]+=.*/) }.each do |kv|
-        k, v = kv.split('=')
+        k, v = kv.split("=")
         opts[k.to_sym] = v
       end
 

@@ -1,10 +1,9 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/parser'
-require 'utils/convert'
-require 'utils/filter'
+require "utils/parser"
+require "utils/convert"
+require "utils/filter"
 
 module Inspec::Resources
   # This file contains two resources, the `user` and `users` resource.
@@ -19,15 +18,15 @@ module Inspec::Resources
         LinuxUser.new(inspec)
       elsif os.windows?
         WindowsUser.new(inspec)
-      elsif ['darwin'].include?(os[:family])
+      elsif ["darwin"].include?(os[:family])
         DarwinUser.new(inspec)
-      elsif ['freebsd'].include?(os[:family])
+      elsif ["freebsd"].include?(os[:family])
         FreeBSDUser.new(inspec)
-      elsif ['aix'].include?(os[:family])
+      elsif ["aix"].include?(os[:family])
         AixUser.new(inspec)
       elsif os.solaris?
         SolarisUser.new(inspec)
-      elsif ['hpux'].include?(os[:family])
+      elsif ["hpux"].include?(os[:family])
         HpuxUser.new(inspec)
       end
     end
@@ -54,8 +53,8 @@ module Inspec::Resources
   class Users < Inspec.resource(1)
     include UserManagementSelector
 
-    name 'users'
-    desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+    name "users"
+    desc "Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell."
     example "
       describe users.where(uid: 0).entries do
         it { should eq ['root'] }
@@ -66,7 +65,7 @@ module Inspec::Resources
     def initialize
       # select user provider
       @user_provider = select_user_manager(inspec.os)
-      return skip_resource 'The `users` resource is not supported on your OS yet.' if @user_provider.nil?
+      return skip_resource "The `users` resource is not supported on your OS yet." if @user_provider.nil?
     end
 
     filter = FilterTable.create
@@ -89,7 +88,7 @@ module Inspec::Resources
     filter.connect(self, :collect_user_details)
 
     def to_s
-      'Users'
+      "Users"
     end
 
     private
@@ -139,8 +138,8 @@ module Inspec::Resources
   # end
   class User < Inspec.resource(1)
     include UserManagementSelector
-    name 'user'
-    desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
+    name "user"
+    desc "Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell."
     example "
       describe user('root') do
         it { should exist }
@@ -152,7 +151,7 @@ module Inspec::Resources
       @username = username
       # select user provider
       @user_provider = select_user_manager(inspec.os)
-      return skip_resource 'The `user` resource is not supported on your OS yet.' if @user_provider.nil?
+      return skip_resource "The `user` resource is not supported on your OS yet." if @user_provider.nil?
     end
 
     def exists?
@@ -213,36 +212,36 @@ module Inspec::Resources
 
     # implement 'mindays' method to be compatible with serverspec
     def minimum_days_between_password_change
-      deprecated('minimum_days_between_password_change', "Please use: its('mindays')")
+      deprecated("minimum_days_between_password_change", "Please use: its('mindays')")
       mindays
     end
 
     # implement 'maxdays' method to be compatible with serverspec
     def maximum_days_between_password_change
-      deprecated('maximum_days_between_password_change', "Please use: its('maxdays')")
+      deprecated("maximum_days_between_password_change", "Please use: its('maxdays')")
       maxdays
     end
 
     # implements rspec has matcher, to be compatible with serverspec
     # @see: https://github.com/rspec/rspec-expectations/blob/master/lib/rspec/matchers/built_in/has.rb
     def has_uid?(compare_uid)
-      deprecated('has_uid?')
+      deprecated("has_uid?")
       uid == compare_uid
     end
 
     def has_home_directory?(compare_home)
-      deprecated('has_home_directory?', "Please use: its('home')")
+      deprecated("has_home_directory?", "Please use: its('home')")
       home == compare_home
     end
 
     def has_login_shell?(compare_shell)
-      deprecated('has_login_shell?', "Please use: its('shell')")
+      deprecated("has_login_shell?", "Please use: its('shell')")
       shell == compare_shell
     end
 
     def has_authorized_key?(_compare_key)
-      deprecated('has_authorized_key?')
-      fail NotImplementedError
+      deprecated("has_authorized_key?")
+      raise NotImplementedError
     end
 
     def deprecated(name, alternative = nil)
@@ -292,7 +291,7 @@ module Inspec::Resources
     #   groups: '',
     # }
     def identity(_username)
-      fail 'user provider must implement the `identity` method'
+      raise "user provider must implement the `identity` method"
     end
 
     # returns optional information about a user, eg shell
@@ -313,7 +312,7 @@ module Inspec::Resources
 
     # returns an array with users
     def list_users
-      fail 'user provider must implement the `list_users` method'
+      raise "user provider must implement the `list_users` method"
     end
 
     # retuns all aspects of the user as one hash
@@ -341,7 +340,7 @@ module Inspec::Resources
     attr_reader :inspec, :id_cmd, :list_users_cmd
     def initialize(inspec)
       @inspec = inspec
-      @id_cmd ||= 'id'
+      @id_cmd ||= "id"
       @list_users_cmd ||= 'cut -d: -f1 /etc/passwd | grep -v "^#"'
       super
     end
@@ -357,7 +356,7 @@ module Inspec::Resources
     def parse_value(line)
       SimpleConfig.new(
         line,
-        line_separator: ',',
+        line_separator: ",",
         assignment_re: /^\s*([^\(]*?)\s*\(\s*(.*?)\)*$/,
         group_re: nil,
         multiple_values: false,
@@ -378,11 +377,11 @@ module Inspec::Resources
       ).params
 
       {
-        uid: convert_to_i(parse_value(params['uid']).keys[0]),
-        username: parse_value(params['uid']).values[0],
-        gid: convert_to_i(parse_value(params['gid']).keys[0]),
-        groupname: parse_value(params['gid']).values[0],
-        groups: parse_value(params['groups']).values,
+        uid: convert_to_i(parse_value(params["uid"]).keys[0]),
+        username: parse_value(params["uid"]).values[0],
+        gid: convert_to_i(parse_value(params["gid"]).keys[0]),
+        groupname: parse_value(params["gid"]).values[0],
+        groups: parse_value(params["groups"]).values,
       }
     end
 
@@ -408,8 +407,8 @@ module Inspec::Resources
       # returns: root:x:0:0:root:/root:/bin/bash
       passwd = parse_passwd_line(cmd.stdout.chomp)
       {
-        home: passwd['home'],
-        shell: passwd['shell'],
+        home: passwd["home"],
+        shell: passwd["shell"],
       }
     end
 
@@ -425,9 +424,9 @@ module Inspec::Resources
       ).params
 
       {
-        mindays: convert_to_i(params['Minimum number of days between password change']),
-        maxdays: convert_to_i(params['Maximum number of days between password change']),
-        warndays: convert_to_i(params['Number of days of warning before password expires']),
+        mindays: convert_to_i(params["Minimum number of days between password change"]),
+        maxdays: convert_to_i(params["Maximum number of days between password change"]),
+        warndays: convert_to_i(params["Number of days of warning before password expires"]),
       }
     end
   end
@@ -435,7 +434,7 @@ module Inspec::Resources
   class SolarisUser < LinuxUser
     def initialize(inspec)
       @inspec = inspec
-      @id_cmd ||= 'id -a'
+      @id_cmd ||= "id -a"
       super
     end
   end
@@ -460,7 +459,7 @@ module Inspec::Resources
       lsuser = inspec.command("lsuser -C -a home shell #{username}")
       return nil if lsuser.exit_status != 0
 
-      user = lsuser.stdout.chomp.split("\n").last.split(':')
+      user = lsuser.stdout.chomp.split("\n").last.split(":")
       {
         home:  user[1],
         shell: user[2],
@@ -473,7 +472,7 @@ module Inspec::Resources
       )
       return nil if cmd.exit_status != 0
 
-      user_sec = cmd.stdout.chomp.split("\n").last.split(':')
+      user_sec = cmd.stdout.chomp.split("\n").last.split(":")
 
       {
         mindays:  user_sec[1].to_i * 7,
@@ -487,7 +486,7 @@ module Inspec::Resources
     def meta_info(username)
       hpuxuser = inspec.command("logins -x -l #{username}")
       return nil if hpuxuser.exit_status != 0
-      user = hpuxuser.stdout.chomp.split(' ')
+      user = hpuxuser.stdout.chomp.split(" ")
       {
         home: user[4],
         shell: user[5],
@@ -502,7 +501,7 @@ module Inspec::Resources
   # @see http://superuser.com/questions/592921/mac-osx-users-vs-dscl-command-to-list-user
   class DarwinUser < UnixUser
     def initialize(inspec)
-      @list_users_cmd ||= 'dscl . list /Users'
+      @list_users_cmd ||= "dscl . list /Users"
       super
     end
 
@@ -518,8 +517,8 @@ module Inspec::Resources
       ).params
 
       {
-        home: params['NFSHomeDirectory'],
-        shell: params['UserShell'],
+        home: params["NFSHomeDirectory"],
+        shell: params["UserShell"],
       }
     end
   end
@@ -541,8 +540,8 @@ module Inspec::Resources
       # returns: root:*:0:0:Charlie &:/root:/bin/csh
       passwd = parse_passwd_line(cmd.stdout.chomp)
       {
-        home: passwd['home'],
-        shell: passwd['shell'],
+        home: passwd["home"],
+        shell: passwd["shell"],
       }
     end
   end

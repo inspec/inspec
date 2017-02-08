@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
@@ -17,11 +16,11 @@ module Inspec
     def one(&block)
       return unless block_given?
       instance_eval(&block)
-      @action.call('describe.one', @checks, nil)
+      @action.call("describe.one", @checks, nil)
     end
 
     def describe(*args, &block)
-      @checks.push(['describe', args, block])
+      @checks.push(["describe", args, block])
     end
   end
 end

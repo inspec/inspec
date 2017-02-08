@@ -1,15 +1,13 @@
-# encoding: utf-8
-
-require 'yaml'
+require "yaml"
 
 module Secrets
   class YAML < Inspec.secrets(1)
-    name 'yaml'
+    name "yaml"
 
     attr_reader :attributes
 
     def self.resolve(target)
-      unless target.is_a?(String) && File.file?(target) && target.end_with?('.yml')
+      unless target.is_a?(String) && File.file?(target) && target.end_with?(".yml")
         return nil
       end
       new(target)

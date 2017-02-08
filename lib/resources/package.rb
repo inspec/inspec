@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -10,8 +9,8 @@
 # end
 module Inspec::Resources
   class Package < Inspec.resource(1)
-    name 'package'
-    desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
+    name "package"
+    desc "Use the package InSpec audit resource to test if the named package and/or package version is installed on the system."
     example "
       describe package('nginx') do
         it { should be_installed }
@@ -31,20 +30,20 @@ module Inspec::Resources
         @pkgman = Deb.new(inspec)
       elsif %w{redhat suse amazon fedora}.include?(os[:family])
         @pkgman = Rpm.new(inspec)
-      elsif ['arch'].include?(os[:family])
+      elsif ["arch"].include?(os[:family])
         @pkgman = Pacman.new(inspec)
-      elsif ['darwin'].include?(os[:family])
+      elsif ["darwin"].include?(os[:family])
         @pkgman = Brew.new(inspec)
       elsif inspec.os.windows?
         @pkgman = WindowsPkg.new(inspec)
-      elsif ['aix'].include?(os[:family])
+      elsif ["aix"].include?(os[:family])
         @pkgman = BffPkg.new(inspec)
       elsif os.solaris?
         @pkgman = SolarisPkg.new(inspec)
-      elsif ['hpux'].include?(os[:family])
+      elsif ["hpux"].include?(os[:family])
         @pkgman = HpuxPkg.new(inspec)
       else
-        return skip_resource 'The `package` resource is not supported on your OS yet.'
+        return skip_resource "The `package` resource is not supported on your OS yet."
       end
     end
 
@@ -94,10 +93,10 @@ module Inspec::Resources
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
       # If the package is purged cmd fails with non-zero exit status
       {
-        name: params['Package'],
-        installed: params['Status'].split(' ').first == 'install',
-        version: params['Version'],
-        type: 'deb',
+        name: params["Package"],
+        installed: params["Status"].split(" ").first == "install",
+        version: params["Version"],
+        type: "deb",
       }
     end
   end
@@ -115,22 +114,22 @@ module Inspec::Resources
         multiple_values: false,
       ).params
       # On some (all?) systems, the linebreak before the vendor line is missing
-      if params['Version'] =~ /\s*Vendor:/
-        v = params['Version'].split(' ')[0]
+      if params["Version"] =~ /\s*Vendor:/
+        v = params["Version"].split(" ")[0]
       else
-        v = params['Version']
+        v = params["Version"]
       end
       # On some (all?) systems, the linebreak before the build line is missing
-      if params['Release'] =~ /\s*Build Date:/
-        r = params['Release'].split(' ')[0]
+      if params["Release"] =~ /\s*Build Date:/
+        r = params["Release"].split(" ")[0]
       else
-        r = params['Release']
+        r = params["Release"]
       end
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
         version: "#{v}-#{r}",
-        type: 'rpm',
+        type: "rpm",
       }
     end
   end
@@ -143,10 +142,10 @@ module Inspec::Resources
       # parse data
       pkg = JSON.parse(cmd.stdout)[0]
       {
-        name: pkg['name'],
+        name: pkg["name"],
         installed: true,
-        version: pkg['installed'][0]['version'],
-        type: 'brew',
+        version: pkg["installed"][0]["version"],
+        type: "brew",
       }
     rescue JSON::ParserError => _e
       return nil
@@ -166,10 +165,10 @@ module Inspec::Resources
       ).params
 
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
-        version: params['Version'],
-        type: 'pacman',
+        version: params["Version"],
+        type: "pacman",
       }
     end
   end
@@ -178,12 +177,12 @@ module Inspec::Resources
     def info(package_name)
       cmd = inspec.command("swlist -l product | grep #{package_name}")
       return nil if cmd.exit_status.to_i != 0
-      pkg = cmd.stdout.strip.split(' ')
+      pkg = cmd.stdout.strip.split(" ")
       {
         name: pkg[0],
         installed: true,
         version: pkg[1],
-        type: 'pkg',
+        type: "pkg",
       }
     end
   end
@@ -198,13 +197,13 @@ module Inspec::Resources
       ]
 
       # add 64 bit search paths
-      if inspec.os.arch == 'x86_64'
+      if inspec.os.arch == "x86_64"
         search_paths << 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
         search_paths << 'HKCU:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
       end
 
       # Find the package
-      cmd = inspec.command <<-EOF.gsub(/^\s*/, '')
+      cmd = inspec.command <<-EOF.gsub(/^\s*/, "")
         Get-ItemProperty (@("#{search_paths.join('", "')}") | Where-Object { Test-Path $_ }) |
         Where-Object { $_.DisplayName -like "#{package_name}" -or $_.PSChildName -like "#{package_name}" } |
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
@@ -220,10 +219,10 @@ module Inspec::Resources
       package = package[0] if package.is_a?(Array)
 
       {
-        name: package['DisplayName'],
+        name: package["DisplayName"],
         installed: true,
-        version: package['DisplayVersion'],
-        type: 'windows',
+        version: package["DisplayVersion"],
+        type: "windows",
       }
     end
   end
@@ -234,12 +233,12 @@ module Inspec::Resources
       cmd = inspec.command("lslpp -cL #{package_name}")
       return nil if cmd.exit_status.to_i != 0
 
-      bff_pkg = cmd.stdout.split("\n").last.split(':')
+      bff_pkg = cmd.stdout.split("\n").last.split(":")
       {
         name:      bff_pkg[1],
         installed: true,
         version:   bff_pkg[2],
-        type:      'bff',
+        type:      "bff",
       }
     end
   end
@@ -266,12 +265,12 @@ module Inspec::Resources
       ).params
 
       # parse 11.10.0,REV=2006.05.18.01.46
-      v = params['VERSION'].split(',')
+      v = params["VERSION"].split(",")
       {
-        name: params['PKGINST'],
+        name: params["PKGINST"],
         installed: true,
-        version: v[0] + '-' + v[1].split('=')[1],
-        type: 'pkg',
+        version: v[0] + "-" + v[1].split("=")[1],
+        type: "pkg",
       }
     end
 
@@ -287,11 +286,11 @@ module Inspec::Resources
       ).params
 
       {
-        name: params['Name'],
+        name: params["Name"],
         installed: true,
         # 0.5.11-0.175.3.1.0.5.0
         version: "#{params['Version']}-#{params['Branch']}",
-        type: 'pkg',
+        type: "pkg",
       }
     end
   end

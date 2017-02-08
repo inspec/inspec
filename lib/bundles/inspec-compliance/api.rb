@@ -1,9 +1,8 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module Compliance
   # API Implementation does not hold any state by itself,
@@ -11,19 +10,19 @@ module Compliance
   class API # rubocop:disable Metrics/ClassLength
     # return all compliance profiles available for the user
     def self.profiles(config)
-      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
+      config["server_type"] == "automate" ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
       headers = get_headers(config)
-      response = Compliance::HTTP.get(url, headers, config['insecure'])
+      response = Compliance::HTTP.get(url, headers, config["insecure"])
       data = response.body
       response_code = response.code
       case response_code
-      when '200'
-        msg = 'success'
+      when "200"
+        msg = "success"
         profiles = JSON.parse(data)
         # iterate over profiles
-        if config['server_type'] == 'automate'
+        if config["server_type"] == "automate"
           mapped_profiles = profiles.map do |owner, ps|
-            { org: ps['owner_id'], name: owner }
+            { org: ps["owner_id"], name: owner }
           end.flatten
         else
           mapped_profiles = profiles.map do |owner, ps|
@@ -33,8 +32,8 @@ module Compliance
           end.flatten
         end
         return msg, mapped_profiles
-      when '401'
-        msg = '401 Unauthorized. Please check your token.'
+      when "401"
+        msg = "401 Unauthorized. Please check your token."
         return msg, []
       else
         msg = "An unexpected error occurred (HTTP #{response_code}): #{response.message}"
@@ -52,7 +51,7 @@ Server configuration information is missing.
 Please login using `inspec compliance login https://compliance.test --user admin --insecure --token 'PASTE TOKEN HERE' `
 "
       else
-        response = Compliance::HTTP.get(url+'/version', nil, insecure)
+        response = Compliance::HTTP.get(url+"/version", nil, insecure)
         data = response.body
       end
       if !data.nil?
@@ -75,9 +74,9 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.upload(config, owner, profile_name, archive_path)
       # upload the tar to Chef Compliance
-      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      config["server_type"] == "automate" ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
       headers = get_headers(config)
-      res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
+      res = Compliance::HTTP.post_file(url, headers, archive_path, config["insecure"])
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
@@ -89,11 +88,11 @@ Please login using `inspec compliance login https://compliance.test --user admin
       access_token = nil
       response = Compliance::HTTP.send_request(uri, req, insecure)
       data = response.body
-      if response.code == '200'
+      if response.code == "200"
         begin
           tokendata = JSON.parse(data)
-          access_token = tokendata['access_token']
-          msg = 'Successfully fetched API access token'
+          access_token = tokendata["access_token"]
+          msg = "Successfully fetched API access token"
           success = true
         rescue JSON::ParserError => e
           success = false
@@ -116,9 +115,9 @@ Please login using `inspec compliance login https://compliance.test --user admin
       access_token = nil
       response = Compliance::HTTP.send_request(uri, req, insecure)
       data = response.body
-      if response.code == '200'
+      if response.code == "200"
         access_token = data
-        msg = 'Successfully fetched an API access token valid for 12 hours'
+        msg = "Successfully fetched an API access token valid for 12 hours"
         success = true
       else
         success = false
@@ -131,31 +130,31 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.get_headers(config)
       token = get_token(config)
-      if config['server_type'] == 'automate'
-        headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
-        if config['automate']['token_type'] == 'dctoken'
-          headers['x-data-collector-token'] = token
+      if config["server_type"] == "automate"
+        headers = { "chef-delivery-enterprise" => config["automate"]["ent"] }
+        if config["automate"]["token_type"] == "dctoken"
+          headers["x-data-collector-token"] = token
         else
-          headers['chef-delivery-user'] = config['user']
-          headers['chef-delivery-token'] = token
+          headers["chef-delivery-user"] = config["user"]
+          headers["chef-delivery-token"] = token
         end
       else
-        headers = { 'Authorization' => "Bearer #{token}" }
+        headers = { "Authorization" => "Bearer #{token}" }
       end
       headers
     end
 
     def self.get_token(config)
-      return config['token'] unless config['refresh_token']
-      _success, _msg, token = get_token_via_refresh_token(config['server'], config['refresh_token'], config['insecure'])
+      return config["token"] unless config["refresh_token"]
+      _success, _msg, token = get_token_via_refresh_token(config["server"], config["refresh_token"], config["insecure"])
       token
     end
 
     def self.target_url(config, profile)
-      if config['server_type'] == 'automate'
+      if config["server_type"] == "automate"
         target = "#{config['server']}/#{profile}/tar"
       else
-        owner, id = profile.split('/')
+        owner, id = profile.split("/")
         target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
       end
       target

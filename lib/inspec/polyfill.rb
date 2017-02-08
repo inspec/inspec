@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2016, Chef Software Inc.
 # author: Dominik Richter
 # author: Christoph Hartmann
