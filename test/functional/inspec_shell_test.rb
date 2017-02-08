@@ -127,6 +127,11 @@ describe 'inspec shell tests' do
       out
     end
 
+    it 'displays the target device information for the user without requiring the help command' do
+      out = do_shell('1+1')
+      out.stdout.must_include 'You are currently running on:'
+    end
+
     it 'provides a help command' do
       out = do_shell('help')
       out.stdout.must_include 'Available commands:'
