@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Inspec
   #
   # Contains methods we would like in multiple DSL
@@ -10,7 +9,7 @@ module Inspec
       alias __ruby_require require
 
       def require(path)
-        rbpath = path + '.rb'
+        rbpath = path + ".rb"
         return __ruby_require(path) if !@require_loader.exists?(rbpath)
         return false if @require_loader.loaded?(rbpath)
 

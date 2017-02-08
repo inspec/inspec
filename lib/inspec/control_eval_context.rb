@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/dsl'
-require 'inspec/dsl_shared'
+require "inspec/dsl"
+require "inspec/dsl_shared"
 
 module Inspec
   #
@@ -20,7 +19,7 @@ module Inspec
     # @param [ResourcesDSL] resources_dsl which has all resources to attach
     # @return [RuleContext] the inner context of rules
     def self.rule_context(resources_dsl)
-      require 'rspec/core/dsl'
+      require "rspec/core/dsl"
       Class.new(Inspec::Rule) do
         include RSpec::Core::DSL
         with_resource_dsl resources_dsl
@@ -143,7 +142,7 @@ module Inspec
 
         def block_location(block, alternate_caller)
           if block.nil?
-            alternate_caller[/^(.+:\d+):in .+$/, 1] || 'unknown'
+            alternate_caller[/^(.+:\d+):in .+$/, 1] || "unknown"
           else
             path, line = block.source_location
             "#{File.basename(path)}:#{line}"

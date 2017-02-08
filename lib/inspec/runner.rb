@@ -1,17 +1,16 @@
-# encoding: utf-8
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'forwardable'
-require 'uri'
-require 'inspec/backend'
-require 'inspec/profile_context'
-require 'inspec/profile'
-require 'inspec/metadata'
-require 'inspec/secrets'
-require 'inspec/dependencies/cache'
+require "forwardable"
+require "uri"
+require "inspec/backend"
+require "inspec/profile_context"
+require "inspec/profile"
+require "inspec/metadata"
+require "inspec/secrets"
+require "inspec/dependencies/cache"
 # spec requirements
 
 module Inspec
@@ -45,7 +44,7 @@ module Inspec
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:cache])
       @test_collector = @conf.delete(:test_collector) || begin
-        require 'inspec/runner_rspec'
+        require "inspec/runner_rspec"
         RunnerRspec.new(@conf)
       end
 
@@ -166,7 +165,7 @@ module Inspec
                                            backend: @backend,
                                            controls: @controls,
                                            attributes: @conf[:attributes])
-      fail "Could not resolve #{target} to valid input." if profile.nil?
+      raise "Could not resolve #{target} to valid input." if profile.nil?
       @target_profiles << profile if supports_profile?(profile)
     end
 
@@ -174,13 +173,13 @@ module Inspec
       return true if @ignore_supports
 
       if !profile.supports_runtime?
-        fail 'This profile requires InSpec version '\
+        raise "This profile requires InSpec version "\
              "#{profile.metadata.inspec_requirement}. You are running "\
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
       if !profile.supports_os?
-        fail "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
+        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
       end
 
       true
@@ -204,8 +203,8 @@ module Inspec
     end
 
     def eval_with_virtual_profile(command)
-      require 'fetchers/mock'
-      add_target({ 'inspec.yml' => 'name: inspec-shell' })
+      require "fetchers/mock"
+      add_target({ "inspec.yml" => "name: inspec-shell" })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
       ctx.load(command)
@@ -217,8 +216,8 @@ module Inspec
       return {} if block.nil? || !block.respond_to?(:source_location)
       opts = {}
       file_path, line = block.source_location
-      opts['file_path'] = file_path
-      opts['line_number'] = line
+      opts["file_path"] = file_path
+      opts["line_number"] = line
       opts
     end
 
@@ -226,19 +225,19 @@ module Inspec
       opts = block_source_info(block)
 
       if !arg.empty? &&
-         arg[0].respond_to?(:resource_skipped) &&
-         !arg[0].resource_skipped.nil?
+          arg[0].respond_to?(:resource_skipped) &&
+          !arg[0].resource_skipped.nil?
         return @test_collector.example_group(*arg, opts) do
           it arg[0].resource_skipped
         end
       else
         # add the resource
         case method_name
-        when 'describe'
+        when "describe"
           return @test_collector.example_group(*arg, opts, &block)
-        when 'expect'
+        when "expect"
           return block.example_group
-        when 'describe.one'
+        when "describe.one"
           tests = arg.map do |x|
             @test_collector.example_group(x[1][0], block_source_info(x[2]), &x[2])
           end
@@ -249,7 +248,7 @@ module Inspec
           # otherwise return all working tests
           return ok_tests
         else
-          fail "A rule was registered with #{method_name.inspect}, "\
+          raise "A rule was registered with #{method_name.inspect}, "\
                "which isn't understood and cannot be processed."
         end
       end

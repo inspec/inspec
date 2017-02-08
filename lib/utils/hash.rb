@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
@@ -21,7 +20,7 @@ class ::Hash
     inject({}) do |acc, (key, value)|
       index = prefix.to_s + key.to_s
       if value.is_a?(Hash)
-        acc.merge(value.smash(index + '-'))
+        acc.merge(value.smash(index + "-"))
       else
         acc.merge(index => value)
       end

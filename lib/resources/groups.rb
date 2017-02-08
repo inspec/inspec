@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/filter'
+require "utils/filter"
 
 module Inspec::Resources
   # This file contains two resources, the `group` and `groups` resource.
@@ -24,8 +23,8 @@ module Inspec::Resources
   class Groups < Inspec.resource(1)
     include GroupManagementSelector
 
-    name 'groups'
-    desc 'Use the group InSpec audit resource to test groups on the system. Groups can be filtered.'
+    name "groups"
+    desc "Use the group InSpec audit resource to test groups on the system. Groups can be filtered."
     example "
       describe groups.where { name == 'root'} do
         its('names') { should eq ['root'] }
@@ -41,20 +40,20 @@ module Inspec::Resources
     def initialize
       # select group manager
       @group_provider = select_group_manager(inspec.os)
-      return skip_resource 'The `groups` resource is not supported on your OS yet.' if @group_provider.nil?
+      return skip_resource "The `groups` resource is not supported on your OS yet." if @group_provider.nil?
     end
 
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:names,     field: 'name')
-          .add(:gids,      field: 'gid')
-          .add(:domains,   field: 'domain')
+          .add(:names,     field: "name")
+          .add(:gids,      field: "gid")
+          .add(:domains,   field: "domain")
           .add(:exists?) { |x| !x.entries.empty? }
     filter.connect(self, :collect_group_details)
 
     def to_s
-      'Groups'
+      "Groups"
     end
 
     private
@@ -79,8 +78,8 @@ module Inspec::Resources
   class Group < Inspec.resource(1)
     include GroupManagementSelector
 
-    name 'group'
-    desc 'Use the group InSpec audit resource to test groups on the system.'
+    name "group"
+    desc "Use the group InSpec audit resource to test groups on the system."
     example "
       describe group('root') do
         it { should exist }
@@ -94,7 +93,7 @@ module Inspec::Resources
 
       # select group manager
       @group_provider = select_group_manager(inspec.os)
-      return skip_resource 'The `group` resource is not supported on your OS yet.' if @group_provider.nil?
+      return skip_resource "The `group` resource is not supported on your OS yet." if @group_provider.nil?
     end
 
     # verifies if a group exists
@@ -110,7 +109,7 @@ module Inspec::Resources
       elsif gids.size == 1
         gids.entries[0]
       else
-        fail 'found more than one group with the same name, please use `groups` resource'
+        raise "found more than one group with the same name, please use `groups` resource"
       end
     end
 
@@ -144,7 +143,7 @@ module Inspec::Resources
     end
 
     def groups
-      fail 'group provider must implement the `groups` method'
+      raise "group provider must implement the `groups` method"
     end
   end
 

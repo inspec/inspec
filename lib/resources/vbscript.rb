@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'securerandom'
+require "securerandom"
 
 module Inspec::Resources
   # This resource allows users to run vbscript on windows machines. We decided
@@ -22,8 +21,8 @@ module Inspec::Resources
   # after we executed it
   # @see https://msdn.microsoft.com/en-us/library/aa364991.aspx
   class VBScript < PowershellScript
-    name 'vbscript'
-    desc ''
+    name "vbscript"
+    desc ""
     example "
       script = <<-EOH
         # you vbscript
@@ -35,7 +34,7 @@ module Inspec::Resources
     "
 
     def initialize(vbscript)
-      return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
+      return skip_resource "The `vbscript` resource is not supported on your OS yet." unless inspec.os.windows?
       @seperator = SecureRandom.uuid
       cmd = <<-EOH
 $vbscript = @"
@@ -55,14 +54,14 @@ EOH
     end
 
     def to_s
-      'Windows VBScript'
+      "Windows VBScript"
     end
 
     private
 
     def parse_stdout
       res = inspec.backend.run_command(@command)
-      parsed_result = res.stdout.gsub(/#{@seperator}\r\n$/, '')
+      parsed_result = res.stdout.gsub(/#{@seperator}\r\n$/, "")
       res.stdout = parsed_result
       res
     end

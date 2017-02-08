@@ -1,13 +1,12 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/simpleconfig'
+require "utils/simpleconfig"
 
 module Inspec::Resources
   class Mount < Inspec.resource(1)
-    name 'mount'
-    desc 'Use the mount InSpec audit resource to test if mount points.'
+    name "mount"
+    desc "Use the mount InSpec audit resource to test if mount points."
     example "
       describe mount('/') do
         it { should be_mounted }
@@ -24,7 +23,7 @@ module Inspec::Resources
 
     def initialize(path)
       @path = path
-      return skip_resource 'The `mount` resource is not supported on your OS yet.' if !inspec.os.linux?
+      return skip_resource "The `mount` resource is not supported on your OS yet." if !inspec.os.linux?
       @file = inspec.backend.file(@path)
     end
 

@@ -1,9 +1,8 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'rspec/core/formatters/base_text_formatter'
-require 'pry'
+require "rspec/core/formatters/base_text_formatter"
+require "pry"
 
 module Inspec
   # A pry based shell for inspec. Given a runner (with a configured backend and
@@ -20,7 +19,7 @@ module Inspec
       # context creates to evaluate each individual test file. We want to
       # pretend like we are constantly appending to the same file and want
       # to capture the local variable context from inside said class.
-      @ctx_binding = @runner.eval_with_virtual_profile('binding')
+      @ctx_binding = @runner.eval_with_virtual_profile("binding")
       configure_pry
       @ctx_binding.pry
     end
@@ -31,27 +30,27 @@ module Inspec
       that = self
 
       # Add the help command
-      Pry::Commands.block_command 'help', 'Show examples' do |resource|
+      Pry::Commands.block_command "help", "Show examples" do |resource|
         that.help(resource)
       end
 
       # configure pry shell prompt
-      Pry.config.prompt_name = 'inspec'
+      Pry.config.prompt_name = "inspec"
       Pry.prompt = [proc { "#{readline_ignore("\e[0;32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
 
       # Add a help menu as the default intro
-      Pry.hooks.add_hook(:before_session, 'inspec_intro') do
+      Pry.hooks.add_hook(:before_session, "inspec_intro") do
         intro
       end
 
       # Track the rules currently registered and what their merge count is.
-      Pry.hooks.add_hook(:before_eval, 'inspec_before_eval') do
+      Pry.hooks.add_hook(:before_eval, "inspec_before_eval") do
         @runner.reset
       end
 
       # After pry has evaluated a commanding within the binding context of a
       # test file, register all the rules it discovered.
-      Pry.hooks.add_hook(:after_eval, 'inspec_after_eval') do
+      Pry.hooks.add_hook(:after_eval, "inspec_after_eval") do
         @runner.load
         @runner.run_tests if !@runner.all_rules.empty?
       end
@@ -89,7 +88,7 @@ module Inspec
     end
 
     def intro
-      puts 'Welcome to the interactive InSpec Shell'
+      puts "Welcome to the interactive InSpec Shell"
       puts "To find out how to use it, type: #{mark 'help'}"
       puts
     end
@@ -119,7 +118,7 @@ You are currently running on:
     OS release: #{mark ctx.os[:release] || 'unknown'}
 
 EOF
-      elsif resource == 'resources'
+      elsif resource == "resources"
         resources
       elsif !Inspec::Resource.registry[resource].nil?
         puts <<EOF
@@ -138,13 +137,13 @@ https://github.com/chef/inspec/blob/master/docs/resources.rst##{resource}
 
 EOF
       else
-        puts 'Only the following resources are available:'
+        puts "Only the following resources are available:"
         resources
       end
     end
 
     def resources
-      puts Inspec::Resource.registry.keys.join(' ')
+      puts Inspec::Resource.registry.keys.join(" ")
     end
   end
 end

@@ -1,12 +1,11 @@
-# encoding: utf-8
 # copyright: 2015, Dominik Richter
 # license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'method_source'
-require 'inspec/describe'
-require 'inspec/expect'
+require "method_source"
+require "inspec/describe"
+require "inspec/expect"
 
 module Inspec
   class Rule # rubocop:disable Metrics/ClassLength
@@ -124,13 +123,13 @@ module Inspec
           include dsl
         end.new(method(:__add_check))
       else
-        __add_check('describe', values, with_dsl(block))
+        __add_check("describe", values, with_dsl(block))
       end
     end
 
     def expect(value, &block)
       target = Inspec::Expect.new(value, &with_dsl(block))
-      __add_check('expect', [value], target)
+      __add_check("expect", [value], target)
       target
     end
 
@@ -165,13 +164,13 @@ module Inspec
     def self.prepare_checks(rule)
       msg = skip_status(rule)
       return checks(rule) unless msg
-      msg = 'Skipped control due to only_if condition.' if msg == true
+      msg = "Skipped control due to only_if condition." if msg == true
 
       # TODO: we use os as the carrier here, but should consider
       # a separate resource to do skipping
       resource = rule.os
       resource.skip_resource(msg)
-      [['describe', [resource], nil]]
+      [["describe", [resource], nil]]
     end
 
     def self.merge(dst, src)
@@ -237,18 +236,18 @@ module Inspec
     # @param [String] text string which needs to be unindented
     # @return [String] input with indentation removed
     def unindent(text)
-      return '' if text.nil?
+      return "" if text.nil?
       text.strip.split("\n").map(&:strip)
           .map { |x| x.empty? ? "\n" : x }
-          .join(' ')
+          .join(" ")
     end
 
     # get the rule's source code
     def __get_block_source(&block)
-      return '' unless block_given?
+      return "" unless block_given?
       block.source.to_s
     rescue MethodSource::SourceNotFoundError
-      ''
+      ""
     end
 
     # get the source location of the block

@@ -1,7 +1,6 @@
-# encoding: utf-8
-require 'inspec/cached_fetcher'
-require 'inspec/dependencies/dependency_set'
-require 'digest'
+require "inspec/cached_fetcher"
+require "inspec/dependencies/dependency_set"
+require "digest"
 
 module Inspec
   #
@@ -10,7 +9,7 @@ module Inspec
   #
   class Requirement
     def self.from_metadata(dep, cache, opts)
-      fail 'Cannot load empty dependency.' if dep.nil? || dep.empty?
+      raise "Cannot load empty dependency." if dep.nil? || dep.empty?
       new(dep[:name], dep[:version], cache, opts[:cwd], opts.merge(dep))
     end
 
@@ -65,13 +64,13 @@ module Inspec
 
     def to_hash
       h = {
-        'name' => name,
-        'resolved_source' => resolved_source,
-        'version_constraints' => required_version.to_s,
+        "name" => name,
+        "resolved_source" => resolved_source,
+        "version_constraints" => required_version.to_s,
       }
 
       if !dependencies.empty?
-        h['dependencies'] = dependencies.map(&:to_hash)
+        h["dependencies"] = dependencies.map(&:to_hash)
       end
 
       h

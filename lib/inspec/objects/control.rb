@@ -1,5 +1,3 @@
-# encoding:utf-8
-
 module Inspec
   class Control
     attr_accessor :id, :title, :desc, :impact, :tests
@@ -21,14 +19,14 @@ module Inspec
       res.push "  desc  #{desc.inspect}" unless desc.to_s.empty?
       res.push "  impact #{impact}" unless impact.nil?
       tests.each { |t| res.push(indent(t.to_ruby, 2)) }
-      res.push 'end'
+      res.push "end"
       res.join("\n")
     end
 
     private
 
     def indent(txt, d)
-      dt = ' '*d
+      dt = " "*d
       dt + txt.gsub("\n", "\n"+dt)
     end
   end

@@ -1,13 +1,12 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/convert'
+require "utils/convert"
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)
-    name 'interface'
-    desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).'
+    name "interface"
+    desc "Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec)."
     example "
       describe interface('eth0') do
         it { should exist }
@@ -24,7 +23,7 @@ module Inspec::Resources
       elsif inspec.os.windows?
         @interface_provider = WindowsInterface.new(inspec)
       else
-        return skip_resource 'The `interface` resource is not supported on your OS yet.'
+        return skip_resource "The `interface` resource is not supported on your OS yet."
       end
     end
 
@@ -75,15 +74,15 @@ module Inspec::Resources
 
       # parse state
       state = false
-      if params.key?('operstate')
-        operstate, _value = params['operstate'].first
-        state = operstate == 'up'
+      if params.key?("operstate")
+        operstate, _value = params["operstate"].first
+        state = operstate == "up"
       end
 
       # parse speed
       speed = nil
-      if params.key?('speed')
-        speed, _value = params['speed'].first
+      if params.key?("speed")
+        speed, _value = params["speed"].first
         speed = convert_to_i(speed)
       end
 
@@ -98,7 +97,7 @@ module Inspec::Resources
   class WindowsInterface < InterfaceInfo
     def interface_info(iface)
       # gather all network interfaces
-      cmd = inspec.command('Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json')
+      cmd = inspec.command("Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json")
 
       # filter network interface
       begin
@@ -114,9 +113,9 @@ module Inspec::Resources
       adapters = net_adapter.each_with_object([]) do |adapter, adapter_collection|
         # map object
         info = {
-          name: adapter['Name'],
-          up: adapter['State'] == 2,
-          speed: adapter['ReceiveLinkSpeed'] / 1000,
+          name: adapter["Name"],
+          up: adapter["State"] == 2,
+          speed: adapter["ReceiveLinkSpeed"] / 1000,
         }
         adapter_collection.push(info) if info[:name].casecmp(iface) == 0
       end

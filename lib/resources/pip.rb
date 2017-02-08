@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -9,8 +8,8 @@
 #
 module Inspec::Resources
   class PipPackage < Inspec.resource(1)
-    name 'pip'
-    desc 'Use the pip InSpec audit resource to test packages that are installed using the pip installer.'
+    name "pip"
+    desc "Use the pip InSpec audit resource to test packages that are installed using the pip installer."
     example "
       describe pip('Jinja2') do
         it { should be_installed }
@@ -25,7 +24,7 @@ module Inspec::Resources
       return @info if defined?(@info)
 
       @info = {}
-      @info[:type] = 'pip'
+      @info[:type] = "pip"
       cmd = inspec.command("#{pip_cmd} show #{@package_name}")
       return @info if cmd.exit_status != 0
 
@@ -34,8 +33,8 @@ module Inspec::Resources
         assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
-      @info[:name] = params['Name']
-      @info[:version] = params['Version']
+      @info[:name] = params["Name"]
+      @info[:version] = params["Version"]
       @info[:installed] = true
       @info
     end
@@ -59,23 +58,23 @@ module Inspec::Resources
       # to find the binary on Windows
       if inspec.os.windows?
         # we need to detect the pip command on Windows
-        cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+        cmd = inspec.command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json")
         begin
           paths = JSON.parse(cmd.stdout)
           # use pip if it on system path
-          pipcmd = paths['Pip']
+          pipcmd = paths["Pip"]
           # calculate path on windows
-          if defined?(paths['Python']) && pipcmd.nil?
-            pipdir = paths['Python'].split('\\')
+          if defined?(paths["Python"]) && pipcmd.nil?
+            pipdir = paths["Python"].split('\\')
             # remove python.exe
             pipdir.pop
-            pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
+            pipcmd = pipdir.push("Scripts").push("pip.exe").join("/")
           end
         rescue JSON::ParserError => _e
           return nil
         end
       end
-      pipcmd || 'pip'
+      pipcmd || "pip"
     end
   end
 end

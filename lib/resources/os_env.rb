@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
@@ -11,12 +10,12 @@
 #   its('split') { should_not include('.') }
 # end
 
-require 'utils/simpleconfig'
+require "utils/simpleconfig"
 
 module Inspec::Resources
   class OsEnv < Inspec.resource(1)
-    name 'os_env'
-    desc 'Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running.'
+    name "os_env"
+    desc "Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running."
     example "
       describe os_env('VARIABLE') do
         its('matcher') { should eq 1 }
@@ -33,7 +32,7 @@ module Inspec::Resources
     def split
       # we can't take advantage of `File::PATH_SEPARATOR` as code is
       # evaluated on the host machine
-      path_separator = inspec.os.windows? ? ';' : ':'
+      path_separator = inspec.os.windows? ? ";" : ":"
       # -1 is required to catch cases like dir1::dir2:
       # where we have a trailing :
       @content.nil? ? [] : @content.split(path_separator, -1)
@@ -41,7 +40,7 @@ module Inspec::Resources
 
     def to_s
       if @osenv.nil?
-        'Environment variables'
+        "Environment variables"
       else
         "Environment variable #{@osenv}"
       end
@@ -53,7 +52,7 @@ module Inspec::Resources
       command = if inspec.os.windows?
                   "${Env:#{env}}"
                 else
-                  'env'
+                  "env"
                 end
 
       out = inspec.command(command)

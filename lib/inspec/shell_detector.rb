@@ -1,6 +1,5 @@
-# encoding: utf-8
-require 'etc'
-require 'rbconfig'
+require "etc"
+require "rbconfig"
 
 module Inspec
   #
@@ -36,7 +35,7 @@ module Inspec
 
     def detect
       # Most of our detection code assumes a unix-like environment
-      return nil if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+      return nil if RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
 
       shellpath = detect_by_ppid
 
@@ -57,7 +56,7 @@ module Inspec
 
     def detect_by_ppid
       ppid = Process.ppid
-      if Dir.exist?('/proc')
+      if Dir.exist?("/proc")
         File.readlink("/proc/#{ppid}/exe")
       else
         `ps -cp #{ppid} -o command=`.chomp
@@ -65,7 +64,7 @@ module Inspec
     end
 
     def detect_by_env
-      ENV['SHELL']
+      ENV["SHELL"]
     end
 
     def detect_by_getpwuid
@@ -76,7 +75,7 @@ module Inspec
     # Strip any leading path elements
     #
     def shellname(shellpath)
-      shellpath.split('/').last
+      shellpath.split("/").last
     end
 
     #

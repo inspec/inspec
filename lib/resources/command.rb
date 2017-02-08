@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
@@ -6,8 +5,8 @@
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
-    name 'command'
-    desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
+    name "command"
+    desc "Use the command InSpec audit resource to test an arbitrary command that is run on the system."
     example "
       describe command('ls -al /') do
         its('stdout') { should match /bin/ }
@@ -45,7 +44,7 @@ module Inspec::Resources
 
     def exist?
       # silent for mock resources
-      return false if inspec.os[:name].to_s == 'unknown'
+      return false if inspec.os[:name].to_s == "unknown"
 
       if inspec.os.linux?
         res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")

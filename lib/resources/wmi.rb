@@ -1,8 +1,7 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'utils/object_traversal'
+require "utils/object_traversal"
 
 module Inspec::Resources
   # This resource simplifies the access to wmi
@@ -10,8 +9,8 @@ module Inspec::Resources
   # WMIC /NAMESPACE:\\root\rsop\computer PATH RSOP_SecuritySettingNumeric WHERE "KeyName = 'MinimumPasswordAge' And precedence=1" GET Setting
   # We use Get-WmiObject via Powershell to retrieve all values.
   class WMI < Inspec.resource(1)
-    name 'wmi'
-    desc 'request wmi information'
+    name "wmi"
+    desc "request wmi information"
     example "
       describe wmi({
         class: 'RSOP_SecuritySettingNumeric',
@@ -27,7 +26,7 @@ module Inspec::Resources
 
     def initialize(wmiclass = nil, opts = nil)
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_feature` resource is not supported on your OS.' unless inspec.os.windows?
+      return skip_resource "The `windows_feature` resource is not supported on your OS." unless inspec.os.windows?
 
       @options = opts || {}
       # if wmiclass is not a hash, we have to handle deprecation behavior
@@ -66,7 +65,7 @@ module Inspec::Resources
       args = @options.select { |key, _value| [:class, :namespace, :query, :filter].include?(key) }
 
       # convert to Get-WmiObject arguments
-      params = ''
+      params = ""
       args.each { |key, value| params += " -#{key} \"#{value}\"" }
 
       # run wmi command and filter empty wmi

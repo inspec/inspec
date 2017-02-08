@@ -1,7 +1,6 @@
-# encoding: utf-8
-require 'rubygems/package'
-require 'zlib'
-require 'zip'
+require "rubygems/package"
+require "zlib"
+require "zip"
 
 module Inspec
   class FileProvider
@@ -10,14 +9,14 @@ module Inspec
         MockProvider.new(path)
       elsif File.directory?(path)
         DirProvider.new(path)
-      elsif File.exist?(path) && path.end_with?('.tar.gz', 'tgz')
+      elsif File.exist?(path) && path.end_with?(".tar.gz", "tgz")
         TarProvider.new(path)
-      elsif File.exist?(path) && path.end_with?('.zip')
+      elsif File.exist?(path) && path.end_with?(".zip")
         ZipProvider.new(path)
       elsif File.exist?(path)
         DirProvider.new(path)
       else
-        fail "No file provider for the provided path: #{path}"
+        raise "No file provider for the provided path: #{path}"
       end
     end
 
@@ -25,11 +24,11 @@ module Inspec
     end
 
     def read(_file)
-      fail "#{self} does not implement `read(...)`. This is required."
+      raise "#{self} does not implement `read(...)`. This is required."
     end
 
     def files
-      fail "Fetcher #{self} does not implement `files()`. This is required."
+      raise "Fetcher #{self} does not implement `files()`. This is required."
     end
 
     def relative_provider
@@ -55,7 +54,7 @@ module Inspec
       @files = if File.file?(path)
                  [path]
                else
-                 Dir[File.join(path, '**', '*')]
+                 Dir[File.join(path, "**", "*")]
                end
       @path = path
     end
@@ -76,7 +75,7 @@ module Inspec
       @files = []
       ::Zip::InputStream.open(@path) do |io|
         while (entry = io.get_next_entry)
-          @files.push(entry.name.sub(%r{/+$}, ''))
+          @files.push(entry.name.sub(%r{/+$}, ""))
         end
       end
     end
@@ -136,8 +135,8 @@ module Inspec
 
   class RelativeFileProvider
     BLACKLIST_FILES = [
-      '/pax_global_header',
-      'pax_global_header',
+      "/pax_global_header",
+      "pax_global_header",
     ].freeze
 
     attr_reader :files
@@ -148,7 +147,7 @@ module Inspec
       @parent = parent_provider
       @prefix = get_prefix(parent.files)
       if @prefix.nil?
-        fail "Could not determine path prefix for #{parent}"
+        raise "Could not determine path prefix for #{parent}"
       end
       @files = parent.files.find_all { |x| x.start_with?(prefix) && x != prefix }
                      .map { |x| x[prefix.length..-1] }
@@ -166,7 +165,7 @@ module Inspec
     private
 
     def get_prefix(fs)
-      return '' if fs.empty?
+      return "" if fs.empty?
 
       # filter backlisted files
       fs -= BLACKLIST_FILES
@@ -195,12 +194,12 @@ module Inspec
     end
 
     def get_files_prefix(fs)
-      return '' if fs.empty?
+      return "" if fs.empty?
 
       file = fs[0]
       bn = File.basename(file)
       # no more prefixes
-      return '' if bn == file
+      return "" if bn == file
 
       i = file.rindex(bn)
       pre = file[0..i-1]
@@ -211,8 +210,8 @@ module Inspec
       new_pre = get_prefix(rest)
       return new_pre if pre.start_with? new_pre
       # edge case: completely different prefixes; retry prefix detection
-      a = File.dirname(pre + 'a')
-      b = File.dirname(new_pre + 'b')
+      a = File.dirname(pre + "a")
+      b = File.dirname(new_pre + "b")
       get_prefix([a, b])
     end
   end

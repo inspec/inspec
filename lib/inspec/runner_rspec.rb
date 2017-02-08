@@ -1,10 +1,9 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'rspec/core'
-require 'rspec/its'
-require 'inspec/rspec_json_formatter'
+require "rspec/core"
+require "rspec/its"
+require "inspec/rspec_json_formatter"
 
 # There be dragons!! Or borgs, or something...
 # This file and all its contents cannot be unit-tested. both test-suits
@@ -99,28 +98,28 @@ module Inspec
     private
 
     FORMATTERS = {
-      'json-min' => 'InspecRspecMiniJson',
-      'json' => 'InspecRspecJson',
-      'json-rspec' => 'InspecRspecVanilla',
-      'cli' => 'InspecRspecCli',
-      'junit' => 'InspecRspecJUnit',
+      "json-min" => "InspecRspecMiniJson",
+      "json" => "InspecRspecJson",
+      "json-rspec" => "InspecRspecVanilla",
+      "cli" => "InspecRspecCli",
+      "junit" => "InspecRspecJUnit",
     }.freeze
 
     # Configure the output formatter and stream to be used with RSpec.
     #
     # @return [nil]
     def configure_output
-      if !@conf['output'] || @conf['output'] == '-'
+      if !@conf["output"] || @conf["output"] == "-"
         RSpec.configuration.output_stream = $stdout
       else
-        RSpec.configuration.output_stream = @conf['output']
+        RSpec.configuration.output_stream = @conf["output"]
       end
 
-      format = FORMATTERS[@conf['format']] || @conf['format'] || FORMATTERS['cli']
+      format = FORMATTERS[@conf["format"]] || @conf["format"] || FORMATTERS["cli"]
       @formatter = RSpec.configuration.add_formatter(format)
-      RSpec.configuration.color = @conf['color']
+      RSpec.configuration.color = @conf["color"]
 
-      setup_reporting if @conf['report']
+      setup_reporting if @conf["report"]
     end
 
     def setup_reporting

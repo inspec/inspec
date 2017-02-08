@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Dominik Richter
 # author: Stephan Renatus
 # author: Christoph Hartmann
@@ -27,15 +26,15 @@ module FilterTable
 
     def self.to_ruby(trace)
       chain = trace.instance_variable_get(:@chain)
-      return '' if chain.empty?
-      ' ' + chain.map do |el|
+      return "" if chain.empty?
+      " " + chain.map do |el|
         m = el[0][0]
         args = el[0].drop(1)
         nxt = to_ruby(el[1])
         next m.to_s + nxt if args.empty?
-        next m.to_s + ' ' + args[0].inspect + nxt if args.length == 1
-        m.to_s + '(' + args.map(&:inspect).join(', ') + ')' + nxt
-      end.join(' ')
+        next m.to_s + " " + args[0].inspect + nxt if args.length == 1
+        m.to_s + "(" + args.map(&:inspect).join(", ") + ")" + nxt
+      end.join(" ")
     end
   end
 
@@ -52,7 +51,7 @@ module FilterTable
       return self if !conditions.is_a?(Hash)
       return self if conditions.empty? && !block_given?
 
-      filters = ''
+      filters = ""
       table = @params
       conditions.each do |field, condition|
         filters += " #{field} == #{condition.inspect}"
@@ -60,7 +59,7 @@ module FilterTable
       end
 
       if block_given?
-        table = table.find_all { |e| new_entry(e, '').instance_eval(&block) }
+        table = table.find_all { |e| new_entry(e, "").instance_eval(&block) }
         src = Trace.new
         src.instance_eval(&block)
         filters += Trace.to_ruby(src)
@@ -70,13 +69,13 @@ module FilterTable
     end
 
     def new_entry(*_)
-      fail "#{self.class} must not be used on its own. It must be inherited "\
-           'and the #new_entry method must be implemented. This is an internal '\
-           'error and should not happen.'
+      raise "#{self.class} must not be used on its own. It must be inherited "\
+           "and the #new_entry method must be implemented. This is an internal "\
+           "error and should not happen."
     end
 
     def entries
-      f = @resource.to_s + @filters.to_s + ' one entry'
+      f = @resource.to_s + @filters.to_s + " one entry"
       @params.map do |line|
         new_entry(line, f)
       end
@@ -162,7 +161,7 @@ module FilterTable
           define_method x[0], &x[1]
         end
 
-        define_method :new_entry do |hashmap, filter = ''|
+        define_method :new_entry do |hashmap, filter = ""|
           return entry_struct.new if hashmap.nil?
           res = entry_struct.new(*struct_fields.map { |x| hashmap[x] })
           res.__filter = filter
@@ -174,7 +173,7 @@ module FilterTable
       accessors = @accessors + @connectors.keys
       accessors.each do |method_name|
         resource.send(:define_method, method_name.to_sym) do |*args, &block|
-          filter = table.new(self, method(table_accessor).call, ' with')
+          filter = table.new(self, method(table_accessor).call, " with")
           filter.method(method_name.to_sym).call(*args, &block)
         end
       end

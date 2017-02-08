@@ -1,4 +1,3 @@
-# encoding: utf-8
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
@@ -28,7 +27,7 @@ end
 module Verify
   def self.file(path)
     return print("\033[32m.\033[0m") if File.file?(path)
-    fail "Failed to build this step. Looking for file in #{path} but it doesn't exist."
+    raise "Failed to build this step. Looking for file in #{path} but it doesn't exist."
   end
 
   def self.ok

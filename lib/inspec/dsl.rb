@@ -1,8 +1,7 @@
-# encoding: utf-8
 # copyright: 2015, Dominik Richter
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'inspec/log'
+require "inspec/log"
 
 module Inspec::DSL
   def require_controls(id, &block)
@@ -19,7 +18,7 @@ module Inspec::DSL
   alias include_rules include_controls
 
   def require_resource(options = {})
-    fail 'You must specify a specific resource name when calling require_resource()' if options[:resource].nil?
+    raise "You must specify a specific resource name when calling require_resource()" if options[:resource].nil?
 
     from_profile = options[:profile] || profile_name
     target_name = options[:as] || options[:resource]
@@ -33,7 +32,7 @@ module Inspec::DSL
 
     dep_entry = dependencies.list[profile_id]
     if dep_entry.nil?
-      fail <<EOF
+      raise <<EOF
 Cannot load #{profile_id} since it is not listed as a dependency
 of #{bind_context.profile_name}.
 
@@ -53,13 +52,13 @@ EOF
   end
 
   def self.filter_included_controls(context, profile, &block)
-    mock = Inspec::Backend.create({ backend: 'mock' })
+    mock = Inspec::Backend.create({ backend: "mock" })
     include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {})
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
     context.all_rules.each do |r|
       id = Inspec::Rule.rule_id(r)
-      fid = Inspec::Rule.profile_id(r) + '/' + id
+      fid = Inspec::Rule.profile_id(r) + "/" + id
       unless include_ctx.rules[id] || include_ctx.rules[fid]
         context.remove_rule(fid)
       end

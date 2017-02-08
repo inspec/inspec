@@ -1,16 +1,15 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
 # license: All rights reserved
 
-require 'utils/simpleconfig'
-require 'utils/find_files'
+require "utils/simpleconfig"
+require "utils/find_files"
 
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
-    name 'apache_conf'
-    desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
+    name "apache_conf"
+    desc "Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform."
     example "
       describe apache_conf do
         its('setting_name') { should eq 'value' }
@@ -50,7 +49,7 @@ module Inspec::Resources
     end
 
     def filter_comments(data)
-      content = ''
+      content = ""
       data.each_line do |line|
         if !line.match(/^\s*#/)
           content << line
@@ -60,7 +59,7 @@ module Inspec::Resources
     end
 
     def read_content
-      @content = ''
+      @content = ""
       @params = {}
 
       # skip if the main configuration file doesn't exist
@@ -100,13 +99,13 @@ module Inspec::Resources
 
     def include_files(params)
       # see if there is more config files to include
-      include_files = params['Include'] || []
-      include_files_optional = params['IncludeOptional'] || []
+      include_files = params["Include"] || []
+      include_files_optional = params["IncludeOptional"] || []
 
       includes = []
       (include_files + include_files_optional).each do |f|
         id    = Pathname.new(f).absolute? ? f : File.join(@conf_dir, f)
-        files = find_files(id, depth: 1, type: 'file')
+        files = find_files(id, depth: 1, type: "file")
 
         includes.push(files) if files
       end

@@ -1,20 +1,19 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'uri'
-require 'inspec/fetcher'
-require 'inspec/errors'
+require "uri"
+require "inspec/fetcher"
+require "inspec/errors"
 
 # InSpec Target Helper for Chef Compliance
 # reuses UrlHelper, but it knows the target server and the access token already
 # similar to `inspec exec http://localhost:2134/owners/%base%/compliance/%ssh%/tar --user %token%`
 module Compliance
   class Fetcher < Fetchers::Url
-    name 'compliance'
+    name "compliance"
     priority 500
     def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
+      uri = if target.is_a?(String) && URI(target).scheme == "compliance"
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
               URI("compliance://#{target[:compliance]}")
@@ -29,15 +28,15 @@ module Compliance
       else
         # check if we have a compliance token
         config = Compliance::Configuration.new
-        if config['token'].nil? && config['refresh_token'].nil?
-          if config['server_type'] == 'automate'
-            server = 'automate'
-            msg = 'inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
+        if config["token"].nil? && config["refresh_token"].nil?
+          if config["server_type"] == "automate"
+            server = "automate"
+            msg = "inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN"
           else
-            server = 'compliance'
+            server = "compliance"
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
-          fail Inspec::FetcherFailure, <<EOF
+          raise Inspec::FetcherFailure, <<EOF
 
 Cannot fetch #{uri} because your #{server} token has not been
 configured.
@@ -51,12 +50,12 @@ EOF
         # verifies that the target e.g base/ssh exists
         profile = uri.host + uri.path
         if !Compliance::API.exist?(config, profile)
-          fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+          raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end
       # We need to pass the token to the fetcher
-      config['token'] = Compliance::API.get_token(config)
+      config["token"] = Compliance::API.get_token(config)
 
       new(profile_fetch_url, config)
     rescue URI::Error => _e
@@ -74,7 +73,7 @@ EOF
     end
 
     def to_s
-      'Chef Compliance Profile Loader'
+      "Chef Compliance Profile Loader"
     end
 
     private

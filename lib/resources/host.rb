@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -26,8 +25,8 @@
 
 module Inspec::Resources
   class Host < Inspec.resource(1)
-    name 'host'
-    desc 'Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.'
+    name "host"
+    desc "Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available."
     example "
       describe host('example.com') do
         it { should be_reachable }
@@ -49,7 +48,7 @@ module Inspec::Resources
       elsif inspec.os.windows?
         @host_provider = WindowsHostProvider.new(inspec)
       else
-        return skip_resource 'The `host` resource is not supported on your OS yet.'
+        return skip_resource "The `host` resource is not supported on your OS yet."
       end
     end
 
@@ -60,7 +59,7 @@ module Inspec::Resources
     end
 
     def reachable?(port = nil, proto = nil, timeout = nil)
-      fail "Use `host` resource with host('#{@hostname}', port: #{port}, proto: '#{proto}') parameters." if !port.nil? || !proto.nil? || !timeout.nil?
+      raise "Use `host` resource with host('#{@hostname}', port: #{port}, proto: '#{proto}') parameters." if !port.nil? || !proto.nil? || !timeout.nil?
       ping.nil? ? false : ping
     end
 
@@ -120,13 +119,13 @@ module Inspec::Resources
   class WindowsHostProvider < HostProvider
     def ping(hostname, port = nil, proto = nil)
       # TODO: abort if we cannot run it via udp
-      return nil if proto == 'udp'
+      return nil if proto == "udp"
 
       # ICMP: Test-NetConnection www.microsoft.com
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname}"
       request += " -RemotePort #{port}" unless port.nil?
-      request += '| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json'
+      request += "| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json"
       cmd = inspec.command(request)
 
       begin
@@ -137,9 +136,9 @@ module Inspec::Resources
 
       # Logic being if you provided a port you wanted to check it was open
       if port.nil?
-        ping['PingSucceeded']
+        ping["PingSucceeded"]
       else
-        ping['TcpTestSucceeded']
+        ping["TcpTestSucceeded"]
       end
     end
 
@@ -152,7 +151,7 @@ module Inspec::Resources
       end
 
       resolv = [resolv] unless resolv.is_a?(Array)
-      resolv.map { |entry| entry['IPAddress'] }
+      resolv.map { |entry| entry["IPAddress"] }
     end
   end
 end

@@ -1,10 +1,9 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
 # license: All rights reserved
 
-require 'shellwords'
+require "shellwords"
 
 module Inspec::Resources
   module FilePermissionsSelector
@@ -21,8 +20,8 @@ module Inspec::Resources
     include FilePermissionsSelector
     include MountParser
 
-    name 'file'
-    desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
+    name "file"
+    desc "Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors."
     example "
       describe file('path') do
         it { should exist }
@@ -57,32 +56,32 @@ module Inspec::Resources
     def content
       res = file.content
       return nil if res.nil?
-      res.force_encoding('utf-8')
+      res.force_encoding("utf-8")
     end
 
     def contain(*_)
-      fail 'Contain is not supported. Please use standard RSpec matchers.'
+      raise "Contain is not supported. Please use standard RSpec matchers."
     end
 
     def readable?(by_usergroup, by_specific_user)
       return false unless exist?
-      return skip_resource '`readable?` is not supported on your OS yet.' if @perms_provider.nil?
+      return skip_resource "`readable?` is not supported on your OS yet." if @perms_provider.nil?
 
-      file_permission_granted?('read', by_usergroup, by_specific_user)
+      file_permission_granted?("read", by_usergroup, by_specific_user)
     end
 
     def writable?(by_usergroup, by_specific_user)
       return false unless exist?
-      return skip_resource '`writable?` is not supported on your OS yet.' if @perms_provider.nil?
+      return skip_resource "`writable?` is not supported on your OS yet." if @perms_provider.nil?
 
-      file_permission_granted?('write', by_usergroup, by_specific_user)
+      file_permission_granted?("write", by_usergroup, by_specific_user)
     end
 
     def executable?(by_usergroup, by_specific_user)
       return false unless exist?
-      return skip_resource '`executable?` is not supported on your OS yet.' if @perms_provider.nil?
+      return skip_resource "`executable?` is not supported on your OS yet." if @perms_provider.nil?
 
-      file_permission_granted?('execute', by_usergroup, by_specific_user)
+      file_permission_granted?("execute", by_usergroup, by_specific_user)
     end
 
     def mounted?(expected_options = nil, identical = false)
@@ -128,7 +127,7 @@ module Inspec::Resources
     private
 
     def file_permission_granted?(access_type, by_usergroup, by_specific_user)
-      fail '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
+      raise "`file_permission_granted?` is not supported on your OS" if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
         @perms_provider.check_file_permission_by_mask(file, access_type, by_usergroup, by_specific_user)
       else
@@ -147,22 +146,22 @@ module Inspec::Resources
   class UnixFilePermissions < FilePermissions
     def permission_flag(access_type)
       case access_type
-      when 'read'
-        'r'
-      when 'write'
-        'w'
-      when 'execute'
-        'x'
+      when "read"
+        "r"
+      when "write"
+        "w"
+      when "execute"
+        "x"
       else
-        fail 'Invalid access_type provided'
+        raise "Invalid access_type provided"
       end
     end
 
     def usergroup_for(usergroup, specific_user)
-      if usergroup == 'others'
-        'other'
+      if usergroup == "others"
+        "other"
       elsif (usergroup.nil? || usergroup.empty?) && specific_user.nil?
-        'all'
+        "all"
       else
         usergroup
       end
@@ -172,7 +171,7 @@ module Inspec::Resources
       usergroup = usergroup_for(usergroup, specific_user)
       flag = permission_flag(access_type)
       mask = file.unix_mode_mask(usergroup, flag)
-      fail 'Invalid usergroup/owner provided' if mask.nil?
+      raise "Invalid usergroup/owner provided" if mask.nil?
       (file.mode & mask) != 0
     end
 
@@ -187,7 +186,7 @@ module Inspec::Resources
       elsif inspec.os.hpux?
         perm_cmd = "su #{user} -c \"test -#{flag} #{path}\""
       else
-        return skip_resource 'The `file` resource does not support `by_user` on your OS.'
+        return skip_resource "The `file` resource does not support `by_user` on your OS."
       end
 
       cmd = inspec.command(perm_cmd)
@@ -197,22 +196,22 @@ module Inspec::Resources
 
   class WindowsFilePermissions < FilePermissions
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
-      fail '`check_file_permission_by_mask` is not supported on Windows'
+      raise "`check_file_permission_by_mask` is not supported on Windows"
     end
 
     def check_file_permission_by_user(access_type, user, path)
       access_rule = case access_type
-                    when 'read'
+                    when "read"
                       '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ListDirectory\')'
-                    when 'write'
+                    when "write"
                       '@(\'FullControl\', \'Modify\', \'Write\')'
-                    when 'execute'
+                    when "execute"
                       '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
                     else
-                      fail 'Invalid access_type provided'
+                      raise "Invalid access_type provided"
                     end
       cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
-      cmd.stdout.chomp == '0' ? false : true
+      cmd.stdout.chomp == "0" ? false : true
     end
   end
 end

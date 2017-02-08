@@ -1,11 +1,10 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 
-require 'pathname'
+require "pathname"
 
 module Init
   class CLI < Inspec::BaseCLI
-    namespace 'init'
+    namespace "init"
 
     # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed
     def self.banner(command, _namespace = nil, _subcommand = false)
@@ -17,14 +16,14 @@ module Init
     end
 
     # read template directoy
-    template_dir = File.join(File.dirname(__FILE__), 'templates')
-    Dir.glob(File.join(template_dir, '*')) do |template|
+    template_dir = File.join(File.dirname(__FILE__), "templates")
+    Dir.glob(File.join(template_dir, "*")) do |template|
       relative = Pathname.new(template).relative_path_from(Pathname.new(template_dir))
 
       # register command for the template
       desc "#{relative} NAME", "Create a new #{relative}"
       option :overwrite, type: :boolean, default: false,
-         desc: 'Overwrites existing directory'
+         desc: "Overwrites existing directory"
       define_method relative.to_s.to_sym do |name|
         generator(relative.to_s, { name: name }, options)
       end
@@ -39,15 +38,15 @@ module Init
       # path of this script
       dir = File.dirname(__FILE__)
       # look for template directory
-      base_dir = File.join(dir, 'templates', type)
+      base_dir = File.join(dir, "templates", type)
       # prepare glob for all subdirectories and files
-      template = File.join(base_dir, '**', '{*,.*}')
+      template = File.join(base_dir, "**", "{*,.*}")
       # generate target path
       target = Pathname.new(Dir.pwd).join(attributes[:name])
       puts "Create new #{type} at #{mark_text(target)}"
 
       # check that the directory does not exist
-      if File.exist?(target) && !options['overwrite']
+      if File.exist?(target) && !options["overwrite"]
         error "#{mark_text(target)} exists already, use --overwrite"
         exit 1
       end
@@ -93,5 +92,5 @@ module Init
   end
 
   # register the subcommand to Inspec CLI registry
-  Inspec::Plugins::CLI.add_subcommand(Init::CLI, 'init', 'init TEMPLATE ...', 'Scaffolds a new project', {})
+  Inspec::Plugins::CLI.add_subcommand(Init::CLI, "init", "init TEMPLATE ...", "Scaffolds a new project", {})
 end

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
 #
@@ -13,63 +12,63 @@
 # All local GPO parameters can be examined via Registry, but not all security
 # parameters. Therefore we need a combination of Registry and secedit output
 
-require 'hashie'
+require "hashie"
 
 module Inspec::Resources
   # known and supported MS privilege rights
   # @see https://technet.microsoft.com/en-us/library/dd277311.aspx
   # @see https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716(v=vs.85).aspx
   MS_PRIVILEGES_RIGHTS = [
-    'SeNetworkLogonRight',
-    'SeBackupPrivilege',
-    'SeChangeNotifyPrivilege',
-    'SeSystemtimePrivilege',
-    'SeCreatePagefilePrivilege',
-    'SeDebugPrivilege',
-    'SeRemoteShutdownPrivilege',
-    'SeAuditPrivilege',
-    'SeIncreaseQuotaPrivilege',
-    'SeIncreaseBasePriorityPrivilege',
-    'SeLoadDriverPrivilege',
-    'SeBatchLogonRight',
-    'SeServiceLogonRight',
-    'SeInteractiveLogonRight',
-    'SeSecurityPrivilege',
-    'SeSystemEnvironmentPrivilege',
-    'SeProfileSingleProcessPrivilege',
-    'SeSystemProfilePrivilege',
-    'SeAssignPrimaryTokenPrivilege',
-    'SeRestorePrivilege',
-    'SeShutdownPrivilege',
-    'SeTakeOwnershipPrivilege',
-    'SeUndockPrivilege',
-    'SeManageVolumePrivilege',
-    'SeRemoteInteractiveLogonRight',
-    'SeImpersonatePrivilege',
-    'SeCreateGlobalPrivilege',
-    'SeIncreaseWorking',
-    'SeTimeZonePrivilege',
-    'SeCreateSymbolicLinkPrivilege',
-    'SeDenyNetworkLogonRight', # Deny access to this computer from the network
-    'SeDenyInteractiveLogonRight', # Deny logon locally
-    'SeDenyBatchLogonRight', # Deny logon as a batch job
-    'SeDenyServiceLogonRight', # Deny logon as a service
-    'SeTcbPrivilege',
-    'SeMachineAccountPrivilege',
-    'SeCreateTokenPrivilege',
-    'SeCreatePermanentPrivilege',
-    'SeEnableDelegationPrivilege',
-    'SeLockMemoryPrivilege',
-    'SeSyncAgentPrivilege',
-    'SeUnsolicitedInputPrivilege',
-    'SeTrustedCredManAccessPrivilege',
-    'SeRelabelPrivilege', # the privilege to change a Windows integrity label (new to Windows Vista)
-    'SeDenyRemoteInteractiveLogonRight', # Deny logon through Terminal Services
+    "SeNetworkLogonRight",
+    "SeBackupPrivilege",
+    "SeChangeNotifyPrivilege",
+    "SeSystemtimePrivilege",
+    "SeCreatePagefilePrivilege",
+    "SeDebugPrivilege",
+    "SeRemoteShutdownPrivilege",
+    "SeAuditPrivilege",
+    "SeIncreaseQuotaPrivilege",
+    "SeIncreaseBasePriorityPrivilege",
+    "SeLoadDriverPrivilege",
+    "SeBatchLogonRight",
+    "SeServiceLogonRight",
+    "SeInteractiveLogonRight",
+    "SeSecurityPrivilege",
+    "SeSystemEnvironmentPrivilege",
+    "SeProfileSingleProcessPrivilege",
+    "SeSystemProfilePrivilege",
+    "SeAssignPrimaryTokenPrivilege",
+    "SeRestorePrivilege",
+    "SeShutdownPrivilege",
+    "SeTakeOwnershipPrivilege",
+    "SeUndockPrivilege",
+    "SeManageVolumePrivilege",
+    "SeRemoteInteractiveLogonRight",
+    "SeImpersonatePrivilege",
+    "SeCreateGlobalPrivilege",
+    "SeIncreaseWorking",
+    "SeTimeZonePrivilege",
+    "SeCreateSymbolicLinkPrivilege",
+    "SeDenyNetworkLogonRight", # Deny access to this computer from the network
+    "SeDenyInteractiveLogonRight", # Deny logon locally
+    "SeDenyBatchLogonRight", # Deny logon as a batch job
+    "SeDenyServiceLogonRight", # Deny logon as a service
+    "SeTcbPrivilege",
+    "SeMachineAccountPrivilege",
+    "SeCreateTokenPrivilege",
+    "SeCreatePermanentPrivilege",
+    "SeEnableDelegationPrivilege",
+    "SeLockMemoryPrivilege",
+    "SeSyncAgentPrivilege",
+    "SeUnsolicitedInputPrivilege",
+    "SeTrustedCredManAccessPrivilege",
+    "SeRelabelPrivilege", # the privilege to change a Windows integrity label (new to Windows Vista)
+    "SeDenyRemoteInteractiveLogonRight", # Deny logon through Terminal Services
   ].freeze
 
   class SecurityPolicy < Inspec.resource(1)
-    name 'security_policy'
-    desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
+    name "security_policy"
+    desc "Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform."
     example "
       describe security_policy do
         its('SeNetworkLogonRight') { should include 'S-1-5-11' }
@@ -100,7 +99,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Security Policy'
+      "Security Policy"
     end
 
     private
@@ -109,11 +108,11 @@ module Inspec::Resources
       return @content if defined?(@content)
 
       # export the security policy
-      cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
+      cmd = inspec.command("secedit /export /cfg win_secpol.cfg")
       return nil if cmd.exit_status.to_i != 0
 
       # store file content
-      cmd = inspec.command('Get-Content win_secpol.cfg')
+      cmd = inspec.command("Get-Content win_secpol.cfg")
       return skip_resource "Can't read security policy" if cmd.exit_status.to_i != 0
       @content = cmd.stdout
 
@@ -123,7 +122,7 @@ module Inspec::Resources
       @content
     ensure
       # delete temp file
-      inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
+      inspec.command("Remove-Item win_secpol.cfg").exit_status.to_i
     end
 
     def read_params
@@ -144,8 +143,8 @@ module Inspec::Resources
         val.to_i
       # special handling for SID array
       elsif val =~ /^\*\S/
-        val.split(',').map { |v|
-          v.sub('*S', 'S')
+        val.split(",").map { |v|
+          v.sub("*S", "S")
         }
       # special handling for string values with "
       elsif !(m = /^\"(.*)\"$/.match(val)).nil?

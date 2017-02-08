@@ -1,4 +1,3 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
@@ -18,7 +17,7 @@ RSpec::Matchers.define :be_readable do
   end
 
   description do
-    res = 'be readable'
+    res = "be readable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -39,7 +38,7 @@ RSpec::Matchers.define :be_writable do
   end
 
   description do
-    res = 'be writable'
+    res = "be writable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -60,7 +59,7 @@ RSpec::Matchers.define :be_executable do
   end
 
   description do
-    res = 'be executable'
+    res = "be executable"
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -78,7 +77,7 @@ end
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
-    warn '[DEPRECATION] `contain_match` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details'
+    warn "[DEPRECATION] `contain_match` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details"
     arr.inject { |result, i|
       result = i.match(regex)
       result || i.match(/$/)
@@ -88,7 +87,7 @@ end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    warn '[DEPRECATION] `contain_duplicates` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details'
+    warn "[DEPRECATION] `contain_duplicates` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details"
     dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end
@@ -105,7 +104,7 @@ RSpec::Matchers.define :be_installed do
   end
 
   chain :by do
-    fail "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
+    raise "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
   end
 
   chain :with_version do |version|
@@ -121,7 +120,7 @@ RSpec::Matchers.define :be_enabled do
   end
 
   chain :with_level do |_level|
-    fail '[UNSUPPORTED] with level is not supported'
+    raise "[UNSUPPORTED] with level is not supported"
   end
 
   failure_message do |service|
@@ -137,7 +136,7 @@ RSpec::Matchers.define :be_running do
   end
 
   chain :under do |_under|
-    fail '[UNSUPPORTED] under is not supported'
+    raise "[UNSUPPORTED] under is not supported"
   end
 
   failure_message do |service|
@@ -178,7 +177,7 @@ RSpec::Matchers.define :be_reachable do
   end
 
   chain :with do |_attr|
-    fail '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
+    raise "[UNSUPPORTED] `with` is not supported in combination with `be_reachable`"
   end
 
   failure_message do |host|
@@ -193,7 +192,7 @@ RSpec::Matchers.define :be_resolvable do
   end
 
   chain :by do |_type|
-    fail "[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`. Please use the following syntax `host('example.com', port: 53, proto: 'udp')`."
+    raise "[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`. Please use the following syntax `host('example.com', port: 53, proto: 'udp')`."
   end
 
   failure_message do |host|
@@ -208,11 +207,11 @@ RSpec::Matchers.define :have_rule do |rule|
   end
 
   chain :with_table do |_table|
-    fail "[UNSUPPORTED] `with_table` is not supported in combination with `have_rule`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
+    raise "[UNSUPPORTED] `with_table` is not supported in combination with `have_rule`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 
   chain :with_chain do |_chain|
-    fail "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
+    raise "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 end
 
@@ -261,7 +260,7 @@ RSpec::Matchers.define :cmp do |first_expected|
 
   # expects that the values have been checked with boolean?
   def to_boolean(value)
-    value.casecmp('true') == 0
+    value.casecmp("true") == 0
   end
 
   def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
@@ -309,18 +308,18 @@ RSpec::Matchers.define :cmp do |first_expected|
   end
 
   def format_expectation(negate)
-    return 'expected: '+@expected.inspect if @operation == :== && !negate
-    negate_str = negate ? 'not ' : ''
+    return "expected: "+@expected.inspect if @operation == :== && !negate
+    negate_str = negate ? "not " : ""
     "expected it #{negate_str}to be #{@operation} #{@expected.inspect}"
   end
 
   failure_message do |actual|
-    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
+    actual = ("0" + actual.to_s(8)).inspect if octal?(@expected)
     "\n" + format_expectation(false) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 
   failure_message_when_negated do |actual|
-    actual = ('0' + actual.to_s(8)).inspect if octal?(@expected)
+    actual = ("0" + actual.to_s(8)).inspect if octal?(@expected)
     "\n" + format_expectation(true) + "\n     got: #{actual}\n\n(compared using `cmp` matcher)\n"
   end
 

@@ -1,17 +1,16 @@
-# encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
 # license: All rights reserved
 
-require 'utils/simpleconfig'
-require 'utils/find_files'
-require 'resources/postgres'
+require "utils/simpleconfig"
+require "utils/find_files"
+require "resources/postgres"
 
 module Inspec::Resources
   class PostgresConf < Inspec.resource(1)
-    name 'postgres_conf'
-    desc 'Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform.'
+    name "postgres_conf"
+    desc "Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform."
     example "
       describe postgres_conf do
         its('max_connections') { should eq '5' }
@@ -51,13 +50,13 @@ module Inspec::Resources
     end
 
     def to_s
-      'PostgreSQL Configuration'
+      "PostgreSQL Configuration"
     end
 
     private
 
     def read_content
-      @content = ''
+      @content = ""
       @params = {}
 
       # skip if the main configuration file doesn't exist
@@ -91,12 +90,12 @@ module Inspec::Resources
     end
 
     def include_files(params)
-      include_files = params['include'] || []
-      include_files += params['include_if_exists'] || []
-      dirs = params['include_dir'] || []
+      include_files = params["include"] || []
+      include_files += params["include_if_exists"] || []
+      dirs = params["include_dir"] || []
       dirs.each do |dir|
-        dir = File.join(@conf_dir, dir) if dir[0] != '/'
-        include_files += find_files(dir, depth: 1, type: 'file')
+        dir = File.join(@conf_dir, dir) if dir[0] != "/"
+        include_files += find_files(dir, depth: 1, type: "file")
       end
       include_files
     end

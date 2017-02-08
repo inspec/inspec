@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
 # Copyright 2015 Dominik Richter. All rights reserved.
 # author: Dominik Richter
 # author: Christoph Hartmann
@@ -7,6 +6,6 @@
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
-require_relative '../lib/inspec'
-require_relative '../lib/inspec/cli'
+require_relative "../lib/inspec"
+require_relative "../lib/inspec/cli"
 Inspec::InspecCLI.start(ARGV)
