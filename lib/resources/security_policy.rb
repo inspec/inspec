@@ -117,7 +117,7 @@ module Inspec::Resources
       return skip_resource "Can't read security policy" if cmd.exit_status.to_i != 0
       @content = cmd.stdout
 
-      if @content.empty? && file.size > 0
+      if @content.empty? && !file.empty?
         return skip_resource "Can't read security policy"
       end
       @content

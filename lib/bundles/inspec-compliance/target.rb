@@ -37,7 +37,7 @@ module Compliance
             server = 'compliance'
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
-          fail Inspec::FetcherFailure, <<EOF
+          raise Inspec::FetcherFailure, <<EOF
 
 Cannot fetch #{uri} because your #{server} token has not been
 configured.
@@ -51,7 +51,7 @@ EOF
         # verifies that the target e.g base/ssh exists
         profile = uri.host + uri.path
         if !Compliance::API.exist?(config, profile)
-          fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+          raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end

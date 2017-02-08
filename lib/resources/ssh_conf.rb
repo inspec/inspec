@@ -62,7 +62,7 @@ module Inspec::Resources
       end
 
       @content = file.content
-      if @content.empty? && file.size > 0
+      if @content.empty? && !file.empty?
         return skip_resource "Can't read file \"#{@conf_path}\""
       end
 

@@ -39,7 +39,7 @@ class PluginRegistry
     #
     # @return [PluginRegistry] plugin registry for this plugin
     def self.plugin_registry
-      fail "Plugin #{self} does not implement `self.plugin_registry()`. This method is required"
+      raise "Plugin #{self} does not implement `self.plugin_registry()`. This method is required"
     end
 
     # Register a new plugin by name
@@ -47,7 +47,7 @@ class PluginRegistry
     # @param [String] the unique name of this plugin
     # @return [nil] disregard
     def self.name(name)
-      fail "Trying to register #{self} with name == nil" if name.nil?
+      raise "Trying to register #{self} with name == nil" if name.nil?
       @name = name
       plugin_registry.registry[name] = self
     end
@@ -72,7 +72,7 @@ class PluginRegistry
     # @param [String] target to try to resolve
     # @return [Plugin] instance if it can be resolved, nil otherwise
     def self.resolve(_target)
-      fail "Plugin #{self} does not implement `self.resolve(target)`. This method is required"
+      raise "Plugin #{self} does not implement `self.resolve(target)`. This method is required"
     end
 
     # When a plugin's resolve doesn't lead to the final state, it can

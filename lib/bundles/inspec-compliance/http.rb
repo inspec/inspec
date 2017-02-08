@@ -38,7 +38,7 @@ module Compliance
     # post a file
     def self.post_file(url, headers, file_path, insecure)
       uri = URI.parse(url)
-      fail "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
+      raise "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
       http = Net::HTTP.new(uri.host, uri.port)
 
       # set connection flags
@@ -67,7 +67,7 @@ module Compliance
       }
       opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if insecure
 
-      fail "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
+      raise "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
       res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
         http.request(req)
       }

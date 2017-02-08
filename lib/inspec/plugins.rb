@@ -51,7 +51,7 @@ module Inspec
     def load(name)
       path = @registry[name]
       if path.nil?
-        fail "Couldn't find plugin #{name}. Searching in #{@home}"
+        raise "Couldn't find plugin #{name}. Searching in #{@home}"
       end
       # puts "Loading plugin #{name} from #{path}"
       require path

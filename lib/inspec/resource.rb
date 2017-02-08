@@ -39,7 +39,7 @@ module Inspec
                             profile_context.subcontext_by_name(profile_name)
                           end
 
-          fail ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
+          raise ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
           inner_context.resource_registry[resource_name]
         end
 
@@ -64,7 +64,7 @@ module Inspec
 
   def self.validate_resource_dsl_version!(version)
     if version != 1
-      fail 'Only resource version 1 is supported!'
+      raise 'Only resource version 1 is supported!'
     end
   end
 end

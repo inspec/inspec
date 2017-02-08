@@ -35,7 +35,7 @@ module Inspec
 
       c3 = Class.new do
         include Inspec::DSL::RequireOverride
-        def initialize(require_loader) # rubocop:disable Lint/NestedMethodDefinition
+        def initialize(require_loader)
           @require_loader = require_loader
         end
       end

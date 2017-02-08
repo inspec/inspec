@@ -26,7 +26,7 @@ module Inspec
     def self.resolve(dependencies, cache, working_dir, backend)
       reqs = dependencies.map do |dep|
         req = Inspec::Requirement.from_metadata(dep, cache, cwd: working_dir, backend: backend)
-        req || fail("Cannot initialize dependency: #{req}")
+        req || raise("Cannot initialize dependency: #{req}")
       end
       new.resolve(reqs)
     end
@@ -40,7 +40,7 @@ module Inspec
                              else
                                "the dependency information for #{path_string.split(' ').last}"
                              end
-          fail Inspec::DuplicateDep, "The dependency #{dep.name} is listed twice in #{problem_cookbook}"
+          raise Inspec::DuplicateDep, "The dependency #{dep.name} is listed twice in #{problem_cookbook}"
         else
           seen_items_local << dep.name
         end
@@ -65,13 +65,13 @@ module Inspec
                           end
 
         if new_seen_items.key?(dep.resolved_source)
-          fail Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{new_path_string})"
+          raise Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{new_path_string})"
         else
           new_seen_items[dep.resolved_source] = true
         end
 
         if !dep.source_satisfies_spec?
-          fail Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.required_version}"
+          raise Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.required_version}"
         end
 
         Inspec::Log.debug("Adding dependency #{dep.name} (#{dep.resolved_source})")

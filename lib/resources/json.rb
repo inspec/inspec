@@ -49,7 +49,7 @@ module Inspec::Resources
         end
 
         # check if file is readable
-        if @file_content.nil? && @file.size > 0
+        if @file_content.nil? && !@file.empty?
           skip_resource "Can't read file \"#{@path}\""
           return @params = {}
         end

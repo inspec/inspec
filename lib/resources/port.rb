@@ -45,7 +45,7 @@ module Inspec::Resources
           .add(:protocols, field: 'protocol', style: :simple)
           .add(:processes, field: 'process', style: :simple)
           .add(:pids,      field: 'pid', style: :simple)
-          .add(:listening?) { |x| x.entries.length > 0 }
+          .add(:listening?) { |x| !x.entries.empty? }
     filter.connect(self, :info)
 
     def to_s
@@ -169,7 +169,7 @@ module Inspec::Resources
       ports = []
 
       # check that lsof is available, otherwise fail
-      fail 'Please ensure `lsof` is available on the machine.' if !inspec.command(@lsof.to_s).exist?
+      raise 'Please ensure `lsof` is available on the machine.' if !inspec.command(@lsof.to_s).exist?
 
       # -F p=pid, c=command, P=protocol name, t=type, n=internet addresses
       # see 'OUTPUT FOR OTHER PROGRAMS' in LSOF(8)

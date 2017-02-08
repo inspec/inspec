@@ -99,18 +99,18 @@ module Inspec::Resources
 
     # verifies if a group exists
     def exists?
-      group_info.entries.size > 0
+      !group_info.entries.empty?
     end
 
     def gid
       gids = group_info.gids
-      if gids.size == 0
+      if gids.empty?
         nil
       # the default case should be one group
       elsif gids.size == 1
         gids.entries[0]
       else
-        fail 'found more than one group with the same name, please use `groups` resource'
+        raise 'found more than one group with the same name, please use `groups` resource'
       end
     end
 
@@ -144,7 +144,7 @@ module Inspec::Resources
     end
 
     def groups
-      fail 'group provider must implement the `groups` method'
+      raise 'group provider must implement the `groups` method'
     end
   end
 

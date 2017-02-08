@@ -73,7 +73,7 @@ module Inspec::Resources
         return skip_resource "Can't find file \"#{@conf_path}\""
       end
       raw_conf = read_file(@conf_path)
-      if raw_conf.empty? && inspec.file(@conf_path).size > 0
+      if raw_conf.empty? && !inspec.file(@conf_path).empty?
         return skip_resource("Can't read file \"#{@conf_path}\"")
       end
 

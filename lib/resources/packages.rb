@@ -50,7 +50,7 @@ module Inspec::Resources
       elsif p.class == Regexp
         p
       else
-        fail 'invalid name argument to packages resource, please use a "string" or /regexp/'
+        raise 'invalid name argument to packages resource, please use a "string" or /regexp/'
       end
     end
 
@@ -64,7 +64,7 @@ module Inspec::Resources
       if os.debian?
         command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
       else
-        fail "packages resource is not yet supported on #{os.name}"
+        raise "packages resource is not yet supported on #{os.name}"
       end
       build_package_list(command)
     end

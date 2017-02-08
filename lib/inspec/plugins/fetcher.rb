@@ -36,7 +36,7 @@ module Inspec
       # profile.
       #
       def archive_path
-        fail "Fetcher #{self} does not implement `archive_path()`. This is required."
+        raise "Fetcher #{self} does not implement `archive_path()`. This is required."
       end
 
       #
@@ -49,7 +49,7 @@ module Inspec
       # /foo/bar/baz.zip
       #
       def fetch(_path)
-        fail "Fetcher #{self} does not implement `fetch()`. This is required."
+        raise "Fetcher #{self} does not implement `fetch()`. This is required."
       end
 
       #
@@ -59,14 +59,14 @@ module Inspec
       # tag will be resolved to an exact revision.
       #
       def resolved_source
-        fail "Fetcher #{self} does not implement `resolved_source()`. This is required for terminal fetchers."
+        raise "Fetcher #{self} does not implement `resolved_source()`. This is required for terminal fetchers."
       end
 
       #
       # The unique key based on the content of the remote archive.
       #
       def cache_key
-        fail "Fetcher #{self} does not implement `cache_key()`. This is required for terminal fetchers."
+        raise "Fetcher #{self} does not implement `cache_key()`. This is required for terminal fetchers."
       end
 
       #

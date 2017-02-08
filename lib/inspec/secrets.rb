@@ -10,7 +10,7 @@ module Inspec
 
   def self.secrets(version)
     if version != 1
-      fail 'Only secrets version 1 is supported!'
+      raise 'Only secrets version 1 is supported!'
     end
     Inspec::Plugins::Secret
   end

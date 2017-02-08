@@ -35,8 +35,6 @@ module Inspec
     # @param profile_context [Inspec::ProfileContext]
     # @param outer_dsl [OuterDSLClass]
     # @return [ProfileContextClass]
-    #
-    # rubocop:disable Lint/NestedMethodDefinition
     def self.create(profile_context, resources_dsl) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       rule_class = rule_context(resources_dsl)
       profile_context_owner = profile_context

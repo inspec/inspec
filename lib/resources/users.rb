@@ -242,7 +242,7 @@ module Inspec::Resources
 
     def has_authorized_key?(_compare_key)
       deprecated('has_authorized_key?')
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     def deprecated(name, alternative = nil)
@@ -292,7 +292,7 @@ module Inspec::Resources
     #   groups: '',
     # }
     def identity(_username)
-      fail 'user provider must implement the `identity` method'
+      raise 'user provider must implement the `identity` method'
     end
 
     # returns optional information about a user, eg shell
@@ -313,7 +313,7 @@ module Inspec::Resources
 
     # returns an array with users
     def list_users
-      fail 'user provider must implement the `list_users` method'
+      raise 'user provider must implement the `list_users` method'
     end
 
     # retuns all aspects of the user as one hash
@@ -556,7 +556,7 @@ module Inspec::Resources
     def parse_windows_account(username)
       account = username.split('\\')
       name = account.pop
-      domain = account.pop if account.size > 0
+      domain = account.pop if !account.empty?
       [name, domain]
     end
 
@@ -565,7 +565,7 @@ module Inspec::Resources
       name, _domain = parse_windows_account(username)
       return if collect_user_details.nil?
       res = collect_user_details.select { |user| user[:username] == name }
-      res[0] if res.length > 0
+      res[0] if !res.empty?
     end
 
     def list_users

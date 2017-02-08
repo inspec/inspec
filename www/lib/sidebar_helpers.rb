@@ -5,7 +5,7 @@ module SidebarHelpers
 
   def sidebar_data(sidebar_layout)
     unless SIDEBAR_LAYOUTS.include?(sidebar_layout)
-      fail "'#{sidebar_layout}' is not a valid sidebar layout type."
+      raise "'#{sidebar_layout}' is not a valid sidebar layout type."
     end
 
     data.public_send(:"#{sidebar_layout}_sidebar").sidebar_links.dup

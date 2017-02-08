@@ -38,11 +38,11 @@ class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
       @conf_path = path || '/boot/grub/grub.cfg'
       @defaults_path = '/etc/default/grub'
       @version = 'grub2'
-    elsif os[:name] == 'amazon' # rubocop:disable Style/GuardClause
+    elsif os[:name] == 'amazon'
       @conf_path = path || '/etc/grub.conf'
       @version = 'legacy'
     else
-      fail UnknownGrubConfig
+      raise UnknownGrubConfig
     end
   end
 
@@ -145,7 +145,7 @@ class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
 
     content = file.content
 
-    if content.empty? && file.size > 0
+    if content.empty? && !file.empty?
       skip_resource "Can't read file '#{@conf_path}'"
       return @params = {}
     end

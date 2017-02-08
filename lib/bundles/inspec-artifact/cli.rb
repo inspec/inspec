@@ -154,17 +154,17 @@ module Artifact
         p = Pathname.new(path_to_profile)
         p = p.join('inspec.yml')
         if not p.exist?
-          fail "#{path_to_profile} doesn't appear to be a valid Inspec profile"
+          raise "#{path_to_profile} doesn't appear to be a valid Inspec profile"
         end
         yaml = YAML.load_file(p.to_s)
         yaml = yaml.to_hash
 
         if not yaml.key? 'name'
-          fail 'Profile is invalid, name is not defined'
+          raise 'Profile is invalid, name is not defined'
         end
 
         if not yaml.key? 'version'
-          fail 'Profile is invalid, version is not defined'
+          raise 'Profile is invalid, version is not defined'
         end
       rescue => e
         # rewrap it and pass it up to the CLI
@@ -212,15 +212,15 @@ module Artifact
       public_keyfile = "#{file_keyname}.pem.pub"
       puts "Looking for #{public_keyfile} to verify artifact"
       if not File.exist? public_keyfile
-        fail "Can't find #{public_keyfile}"
+        raise "Can't find #{public_keyfile}"
       end
 
       if not VALID_PROFILE_DIGESTS.member? file_alg
-        fail 'Invalid artifact digest algorithm detected'
+        raise 'Invalid artifact digest algorithm detected'
       end
 
       if not VALID_PROFILE_VERSIONS.member? file_version
-        fail 'Invalid artifact version detected'
+        raise 'Invalid artifact version detected'
       end
     end
 

@@ -93,7 +93,7 @@ module Inspec::Resources
     # rubocop:disable Style/MethodName
     def LIST_RULES
       return @legacy.LIST_RULES if @legacy
-      fail 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
+      raise 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
     end
 
     def status(name = nil)

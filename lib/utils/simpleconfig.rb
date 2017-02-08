@@ -33,7 +33,7 @@ class SimpleConfig
       raw_data = raw_data.tr(options[:line_separator], "\n")
     end
     rest = raw_data
-    rest = parse_rest(rest, options) while rest.length > 0
+    rest = parse_rest(rest, options) until rest.empty?
   end
 
   private

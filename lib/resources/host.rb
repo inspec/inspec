@@ -60,7 +60,7 @@ module Inspec::Resources
     end
 
     def reachable?(port = nil, proto = nil, timeout = nil)
-      fail "Use `host` resource with host('#{@hostname}', port: #{port}, proto: '#{proto}') parameters." if !port.nil? || !proto.nil? || !timeout.nil?
+      raise "Use `host` resource with host('#{@hostname}', port: #{port}, proto: '#{proto}') parameters." if !port.nil? || !proto.nil? || !timeout.nil?
       ping.nil? ? false : ping
     end
 
