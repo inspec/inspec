@@ -1,7 +1,25 @@
 # Change Log
 
-## [1.13.0](https://github.com/chef/inspec/tree/1.13.0) (2017-02-07)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.12.0...1.13.0)
+## [1.14.0](https://github.com/chef/inspec/tree/1.14.0) (2017-02-09)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.13.0...1.14.0)
+
+**Fixed bugs:**
+
+- map url to https for compliance plugin [\#1471](https://github.com/chef/inspec/pull/1471) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Display meaningful error message when uploading profiles to a server with self-signed certs [\#1469](https://github.com/chef/inspec/issues/1469)
+
+**Merged pull requests:**
+
+- Use RuboCop 0.39.0 \(same as chefstyle\) [\#1478](https://github.com/chef/inspec/pull/1478) ([tduffield](https://github.com/tduffield))
+- bugfix: warn users about insecure login requirements [\#1472](https://github.com/chef/inspec/pull/1472) ([arlimus](https://github.com/arlimus))
+- Add support for "inspec -v" showing the version [\#1470](https://github.com/chef/inspec/pull/1470) ([adamleff](https://github.com/adamleff))
+- Replace slack invite form on Community, fix surprise code example [\#1468](https://github.com/chef/inspec/pull/1468) ([adamleff](https://github.com/adamleff))
+
+## [v1.13.0](https://github.com/chef/inspec/tree/v1.13.0) (2017-02-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.12.0...v1.13.0)
 
 **Implemented enhancements:**
 
