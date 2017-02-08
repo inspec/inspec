@@ -52,6 +52,16 @@ class AzureVmImage < Inspec.resource(1)
     end
   end
 
+  def has_data_disks?
+    vm = get_vm(@opts[:host], @opts[:resource_group])
+
+    if vm.instance_of?(String)
+      vm
+    else
+      vm.storage_profile.data_disks.length > 0
+    end
+  end
+
   # Retrieve the named virtual machine from Azure
   def get_vm(name, rg_name)
     # Azure connection
