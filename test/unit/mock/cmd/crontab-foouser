@@ -1,0 +1,5 @@
+#
+# This is a sample crontab file for unit testing, for user 'foouser'
+#
+
+* * * * * /path/to/script3
