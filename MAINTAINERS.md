@@ -28,3 +28,4 @@ To mention the team, use @chef/inspec-maintainers
 
 * [Christoph Hartmann](https://github.com/chris-rock)
 * [Jason Reed](https://github.com/jcreedcmu)
+* [Adam Leff](https://github.com/adamleff)
