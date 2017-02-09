@@ -25,7 +25,8 @@ project lead.
 
         maintainers = [
           "chris-rock",
-          "adamleff"
+          "adamleff",
+          "alexpop"
         ]
 
 [people]
@@ -40,3 +41,7 @@ project lead.
   [people.adamleff]
     Name = "Adam Leff"
     GitHub = "adamleff"
+
+  [people.alexpop]
+    Name = "Alex Pop"
+    GitHub = "alexpop"
