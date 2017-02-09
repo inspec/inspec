@@ -1,5 +1,5 @@
 # encoding: utf-8
-# author: Avi Israeli 
+# author: Avi Israeli
 
 # Verifies if crontab entry exists
 #
