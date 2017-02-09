@@ -44,7 +44,7 @@ class Ec2 < Inspec.resource(1)
   alias instance_id id
 
   def exists?
-    !id.nil?
+    instance.exists?
   end
 
   # returns the instance state
