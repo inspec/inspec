@@ -28,3 +28,4 @@ To mention the team, use @chef/inspec-maintainers
 
 * [Christoph Hartmann](https://github.com/chris-rock)
 * [Adam Leff](https://github.com/adamleff)
+* [Alex Pop](https://github.com/alexpop)
