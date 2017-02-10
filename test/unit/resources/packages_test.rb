@@ -43,11 +43,9 @@ describe 'Inspec::Resources::Packages' do
   end
 
 
-  it 'fails on non debian platforms' do
-    proc {
-      resource = MockLoader.new(:centos6).load_resource('packages', 'bash')
-      resource.send(:entries, nil)
-    }.must_raise(RuntimeError)
+  it 'skips on non debian platforms' do
+    resource = MockLoader.new(:centos6).load_resource('packages', [:a, :b])
+    _(resource.resource_skipped).must_equal 'The packages resource is not yet supported on OS centos'
   end
 
   it 'fails if the packages name is not a string or regexp' do
