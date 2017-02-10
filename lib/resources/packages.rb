@@ -23,10 +23,14 @@ module Inspec::Resources
     "
 
     def initialize(pattern)
+      @command = packages_command
+
+      return skip_resource "The packages resource is not yet supported on OS #{inspec.os.name}" unless @command
+
       @pattern = pattern_regexp(pattern)
-      all_pkgs = package_list
+      all_pkgs = build_package_list(@command)
       @list = all_pkgs.find_all do |hm|
-        hm[:name] =~ pattern_regexp(pattern)
+        hm[:name] =~ @pattern
       end
     end
 
@@ -44,29 +48,27 @@ module Inspec::Resources
 
     private
 
+    def packages_command
+      os = inspec.os
+      if os.debian?
+        command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
+      end
+      command
+    end
+
     def pattern_regexp(p)
       if p.class == String
         Regexp.new(Regexp.escape(p))
       elsif p.class == Regexp
         p
       else
-        raise 'invalid name argument to packages resource, please use a "string" or /regexp/'
+        raise 'Invalid name argument to packages resource, please use a "string" or /regexp/'
       end
     end
 
     def filtered_packages
+      warn "The packages resource is not yet supported on OS #{inspec.os.name}" unless @command
       @list
-    end
-
-    def package_list
-      os = inspec.os
-
-      if os.debian?
-        command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
-      else
-        raise "packages resource is not yet supported on #{os.name}"
-      end
-      build_package_list(command)
     end
 
     Package = Struct.new(:status, :name, :version)

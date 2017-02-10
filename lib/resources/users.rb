@@ -57,7 +57,7 @@ module Inspec::Resources
     name 'users'
     desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
-      describe users.where(uid: 0).entries do
+      describe users.where { uid == 0 }.entries do
         it { should eq ['root'] }
         its('uids') { should eq [1234] }
         its('gids') { should eq [1234] }
