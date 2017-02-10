@@ -1,7 +1,22 @@
 # Change Log
 
-## [1.14.0](https://github.com/chef/inspec/tree/1.14.0) (2017-02-09)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.13.0...1.14.0)
+## [1.14.1](https://github.com/chef/inspec/tree/1.14.1) (2017-02-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.14.0...1.14.1)
+
+**Closed issues:**
+
+- go /profiles service modifications [\#1483](https://github.com/chef/inspec/issues/1483)
+- inspec compliance login\* should support a hostname for the SERVER argument [\#1473](https://github.com/chef/inspec/issues/1473)
+
+**Merged pull requests:**
+
+- Skip packages resource for unsupported OS [\#1484](https://github.com/chef/inspec/pull/1484) ([alexpop](https://github.com/alexpop))
+- add Alex Pop to the list of maintainers [\#1481](https://github.com/chef/inspec/pull/1481) ([arlimus](https://github.com/arlimus))
+- remove Jason Reed from the list of maintainers [\#1480](https://github.com/chef/inspec/pull/1480) ([arlimus](https://github.com/arlimus))
+- Add Adam Leff as a maintainer [\#1479](https://github.com/chef/inspec/pull/1479) ([adamleff](https://github.com/adamleff))
+
+## [v1.14.0](https://github.com/chef/inspec/tree/v1.14.0) (2017-02-08)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.13.0...v1.14.0)
 
 **Fixed bugs:**
 
