@@ -274,7 +274,11 @@ class MockLoader
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
       # windows_task exist
       "schtasks /query /v /fo csv /tn 'WeLovePizza' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-success'),
-      'modinfo -F version dhcp' => cmd.call('modinfo-f-version-dhcp')
+      'modinfo -F version dhcp' => cmd.call('modinfo-f-version-dhcp'),
+      # crontab display for root / current user
+      'crontab -l' => cmd.call('crontab-root'),
+      # crontab display for non-current user
+      'crontab -l -u foouser' => cmd.call('crontab-foouser')
      }
 
     @backend
