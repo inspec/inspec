@@ -42,10 +42,30 @@ describe 'Inspec::Resources::Packages' do
     _(resource.entries.length).must_equal 3
   end
 
+  it 'all packages on Ubuntu' do
+    resource = MockLoader.new(:ubuntu1604).load_resource('packages', /.+/)
+    _(resource.entries.length).must_equal 12
+  end
+
+  it 'all packages on CentOS' do
+    resource = MockLoader.new(:centos6).load_resource('packages', /.+/)
+    _(resource.entries.length).must_equal 10
+  end
+
+  it 'packages on CentOS' do
+    resource = MockLoader.new(:centos6).load_resource('packages', /^chef\-.+/)
+    _(resource.entries.length).must_equal 1
+    _(resource.where { status == 'installed' }.names).must_equal(['chef-compliance'])
+    _(resource.entries[0].to_h).must_equal({
+      status: "installed",
+      name: "chef-compliance",
+      version: "1.3.1-1.el6",
+    })
+  end
 
   it 'skips on non debian platforms' do
-    resource = MockLoader.new(:centos6).load_resource('packages', [:a, :b])
-    _(resource.resource_skipped).must_equal 'The packages resource is not yet supported on OS centos'
+    resource = MockLoader.new(:hpux).load_resource('packages', 'bash')
+    _(resource.resource_skipped).must_equal 'The packages resource is not yet supported on OS hpux'
   end
 
   it 'fails if the packages name is not a string or regexp' do

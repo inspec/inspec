@@ -250,8 +250,10 @@ class MockLoader
       'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
       # solaris 11 package manager
       'pkg info system/file-system/zfs' => cmd.call('pkg-info-system-file-system-zfs'),
-      # dpkg-query package list
+      # dpkg-query all packages
       "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'" => cmd.call('dpkg-query-W'),
+      # rpm query all packages
+      "rpm -qa --queryformat '%{NAME}   %{VERSION}-%{RELEASE}\\n'" => cmd.call('rpm-qa-queryformat'),
       # port netstat on solaris 10 & 11
       'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
       # xinetd configuration

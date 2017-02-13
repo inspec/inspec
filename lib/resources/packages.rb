@@ -23,12 +23,17 @@ module Inspec::Resources
     "
 
     def initialize(pattern)
-      @command = packages_command
-
-      return skip_resource "The packages resource is not yet supported on OS #{inspec.os.name}" unless @command
+      os = inspec.os
+      if os.debian?
+        @pkgs = Debs.new(inspec)
+      elsif %w{redhat suse amazon fedora}.include?(os[:family])
+        @pkgs = Rpms.new(inspec)
+      else
+        return skip_resource "The packages resource is not yet supported on OS #{inspec.os.name}"
+      end
 
       @pattern = pattern_regexp(pattern)
-      all_pkgs = build_package_list(@command)
+      all_pkgs = @pkgs.build_package_list
       @list = all_pkgs.find_all do |hm|
         hm[:name] =~ @pattern
       end
@@ -48,14 +53,6 @@ module Inspec::Resources
 
     private
 
-    def packages_command
-      os = inspec.os
-      if os.debian?
-        command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
-      end
-      command
-    end
-
     def pattern_regexp(p)
       if p.class == String
         Regexp.new(Regexp.escape(p))
@@ -67,21 +64,46 @@ module Inspec::Resources
     end
 
     def filtered_packages
-      warn "The packages resource is not yet supported on OS #{inspec.os.name}" unless @command
+      warn "The packages resource is not yet supported on OS #{inspec.os.name}" if resource_skipped
       @list
     end
+  end
 
-    Package = Struct.new(:status, :name, :version)
+  class PkgsManagement
+    PackageStruct = Struct.new(:status, :name, :version)
+    attr_reader :inspec
+    def initialize(inspec)
+      @inspec = inspec
+    end
+  end
 
-    def build_package_list(command)
+  # Debian / Ubuntu
+  class Debs < PkgsManagement
+    def build_package_list
+      command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
       cmd = inspec.command(command)
-      all = cmd.stdout.split("\n")[1..-1]
+      all = cmd.stdout.split("\n")
       return [] if all.nil?
       all.map do |m|
         a = m.split
         a[0] = 'installed' if a[0] =~ /^.i/
         a[2] = a[2].split(':').last
-        Package.new(*a)
+        PackageStruct.new(*a)
+      end
+    end
+  end
+
+  # RedHat family
+  class Rpms < PkgsManagement
+    def build_package_list
+      command = "rpm -qa --queryformat '%{NAME}   %{VERSION}-%{RELEASE}\\n'"
+      cmd = inspec.command(command)
+      all = cmd.stdout.split("\n")
+      return [] if all.nil?
+      all.map do |m|
+        a = m.split('   ')
+        a.unshift('installed')
+        PackageStruct.new(*a)
       end
     end
   end
