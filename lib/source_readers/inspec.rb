@@ -27,7 +27,7 @@ module SourceReaders
 
     # This create a new instance of an InSpec profile source reader
     #
-    # @param [SourceReader] target
+    # @param [FileProvider] target An instance of a FileProvider object that can list files and read them
     # @param [String] metadata_source eg. inspec.yml or metadata.rb
     def initialize(target, metadata_source)
       @target = target
