@@ -217,7 +217,17 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   def profile_contains_example?(profile, example)
-    profile[:name] == example[:profile_id]
+    profile_name = profile[:name]
+    example_profile_id = example[:profile_id]
+
+    # if either the profile name is nil or the profile in the given example
+    # is nil, assume the profile doesn't contain the example and default
+    # to creating a new profile. Otherwise, for profiles that have no
+    # metadata, this may incorrectly match a profile that does not contain
+    # this example, leading to Ruby exceptions.
+    return false if profile_name.nil? || example_profile_id.nil?
+
+    profile_name == example_profile_id
   end
 
   def move_example_into_control(example, control)
@@ -458,7 +468,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       output.puts "Profile: #{profile[:title]} (#{profile[:name] || 'unknown'})"
     end
 
-    output.puts 'Version: ' + (profile[:version] || 'unknown')
+    output.puts 'Version: ' + (profile[:version] || '(not specified)')
     print_target
     profile[:already_printed] = true
   end
