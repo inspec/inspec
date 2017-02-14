@@ -44,6 +44,7 @@ namespace :www do
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
     sh('rsync -a --exclude=index.html www/tutorial/dist/* www/build/')
+    sh('cp www/tutorial/dist/index.html www/build/tutorial.html')
   end
 
   desc 'Builds the full site locally'
