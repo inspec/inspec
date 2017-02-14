@@ -26,7 +26,7 @@ module Inspec::Resources
       os = inspec.os
       if os.debian?
         @pkgs = Debs.new(inspec)
-      elsif %w{redhat suse amazon fedora}.include?(os[:family])
+      elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
         @pkgs = Rpms.new(inspec)
       else
         return skip_resource "The packages resource is not yet supported on OS #{inspec.os.name}"
@@ -80,12 +80,13 @@ module Inspec::Resources
   # Debian / Ubuntu
   class Debs < PkgsManagement
     def build_package_list
-      command = "dpkg-query -W -f='${db:Status-Abbrev} ${Package} ${Version}\\n'"
+      # use two spaces as delimiter in case any of the fields has a space in it
+      command = "dpkg-query -W -f='${db:Status-Abbrev}  ${Package}  ${Version}\\n'"
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?
       all.map do |m|
-        a = m.split
+        a = m.split(/ {2,}/)
         a[0] = 'installed' if a[0] =~ /^.i/
         a[2] = a[2].split(':').last
         PackageStruct.new(*a)
@@ -96,12 +97,13 @@ module Inspec::Resources
   # RedHat family
   class Rpms < PkgsManagement
     def build_package_list
-      command = "rpm -qa --queryformat '%{NAME}   %{VERSION}-%{RELEASE}\\n'"
+      # use two spaces as delimiter in case any of the fields has a space in it
+      command = "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}\\n'"
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?
       all.map do |m|
-        a = m.split('   ')
+        a = m.split('  ')
         a.unshift('installed')
         PackageStruct.new(*a)
       end
