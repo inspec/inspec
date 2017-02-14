@@ -10,12 +10,19 @@ task :rubocop do
   RuboCop::RakeTask.new
 end
 
+# Minitest
+Rake::TestTask.new do |t|
+  t.libs << 'libraries'
+  t.libs << 'test/unit'
+  t.pattern = "test/unit/**/*_test.rb"
+end
+
 # lint the project
 desc 'Run robocop linter'
 task lint: [:rubocop]
 
 # run tests
-task default: [:lint]
+task default: [:lint, :test]
 
 namespace :test do
   # run inspec check to verify that the profile is properly configured

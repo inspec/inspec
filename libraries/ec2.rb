@@ -16,10 +16,9 @@ class Ec2 < Inspec.resource(1)
     end
   "
 
-  def initialize(opts)
+  def initialize(opts, conn = AWSConnection.new)
     @opts = opts
     @opts.is_a?(Hash) ? @display_name = @opts[:name] : @display_name = opts
-    conn = AWSConnection.new
     @ec2_client = conn.ec2_client
     @ec2_resource = conn.ec2_resource
   end
