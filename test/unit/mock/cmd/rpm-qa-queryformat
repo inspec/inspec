@@ -1,0 +1,10 @@
+attr  2.4.44-7.el6
+perl-Pod-Escapes  1.04-141.el6_7.1
+perl-version  0.77-141.el6_7.1
+perl-Pod-Simple  3.13-141.el6_7.1
+vim-filesystem  7.4.629-5.el6
+gpm-libs  1.20.6-12.el6
+mlocate  0.22.2-6.el6
+ntpdate  4.2.6p5-10.el6.centos.1
+chef-compliance  1.3.1-1.el6
+nc  1.84-24.el6
