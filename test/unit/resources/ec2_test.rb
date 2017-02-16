@@ -50,13 +50,11 @@ class TestEc2 < Minitest::Test
     assert Ec2.new(Id, @mockConn).exists?
   end
 
-  # A test similar to this one should pass once issue #13 is fixed`
-  # def test_that_exists_returns_false_when_instance_does_not_exist
-    # @cut = Ec2.new(Id, @mockConn)
-    # mockInstance = Object.new
+  def test_that_exists_returns_false_when_instance_does_not_exist
+    mockInstance = Minitest::Mock.new
+    mockInstance.expect :exists?, false
+    @mockResource.expect :instance, mockInstance, [Id]
 
-    # @mockResource.expect :instance, nil, [Id] 
-
-    # assert_false @cut.exists?
-  # end
+    assert !Ec2.new(Id, @mockConn).exists?
+  end
 end
