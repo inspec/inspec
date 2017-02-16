@@ -23,7 +23,6 @@ class TestEc2 < Minitest::Test
 
     mockInstance.expect :nil?, false
     mockInstance.expect :id, Id
-
     @mockResource.expect :instances, [mockInstance], [Hash]
      
     assert_equal Id, Ec2.new({name: 'cut'}, @mockConn).id
@@ -44,8 +43,8 @@ class TestEc2 < Minitest::Test
   end
 
   def test_that_exists_returns_true_when_instance_exists
-    mockInstance = Object.new
-
+    mockInstance = Minitest::Mock.new
+    mockInstance.expect :exists?, true
     @mockResource.expect :instance, mockInstance, [Id] 
 
     assert Ec2.new(Id, @mockConn).exists?
