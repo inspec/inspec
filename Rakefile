@@ -31,7 +31,7 @@ namespace :test do
     sh("bundle exec inspec check #{dir}")
   end
 
-  task :integration do
+  task :integration_no_cleanup do
     integration_dir = "test/integration"
 
     puts "----> Build"
@@ -40,6 +40,12 @@ namespace :test do
 
     puts "----> Verify"
     sh("bundle exec inspec exec #{integration_dir}/verify")
+  end
+
+  task :integration do
+    Rake::Task["test:cleanup"].execute
+    Rake::Task["test:integration_no_cleanup"].execute
+    Rake::Task["test:cleanup"].execute
   end
 
   task :cleanup do
