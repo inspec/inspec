@@ -104,13 +104,17 @@ To run the integration tests, please make sure all required environment variable
 bundle exec rake test:integration
 ```
 
-Right now, instances are not destroyed automatically. Please use
+Instances are destroyed automatically. To persist instances please use
+
+```
+bundle exec rake test:integration_no_cleanup
+```
+
+To cleanup instances, please use
 
 ```
 bundle exec rake test:cleanup
 ```
-
-to remove the setup created by terraform.
 
 ## Kudos
 
