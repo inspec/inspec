@@ -34,6 +34,8 @@ class AzureVmDataDisks < Inspec.resource(1)
   filter = FilterTable.create
   filter.add_accessor(:where)
         .add_accessor(:entries)
+        .add_accessor(:count)
+        .add_accessor(:has_disks?)
         .add(:disk, field: 'disk')
         .add(:caching, field: 'caching')
         .add(:create_option, field: 'create_option')
@@ -44,6 +46,14 @@ class AzureVmDataDisks < Inspec.resource(1)
         .add(:storage_account, field: 'storage_account')
 
   filter.connect(self, :params)
+
+  def count
+    entries.length
+  end
+
+  def has_disks?
+    entries.length > 0
+  end
 
   private
 
