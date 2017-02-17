@@ -17,7 +17,7 @@ class AzureVm < Inspec.resource(1)
   # Load the configuration file on initialisation
   def initialize(opts)
     @opts = opts
-    @helpers = Helpers.new()
+    @helpers = Helpers.new
   end
 
   def sku
@@ -31,7 +31,6 @@ class AzureVm < Inspec.resource(1)
   end
 
   def publisher
-
     vm = @helpers.get_vm(@opts[:host], @opts[:resource_group])
 
     if vm.instance_of?(String)
@@ -50,5 +49,4 @@ class AzureVm < Inspec.resource(1)
       vm.storage_profile.image_reference.offer
     end
   end
-
 end

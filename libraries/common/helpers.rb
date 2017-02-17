@@ -5,10 +5,8 @@ require 'azure_mgmt_compute'
 require_relative 'resource_groups'
 
 class Helpers
-
   # Retrieve the named virtual machine from Azure
   def get_vm(name, rg_name)
-
     # Azure connection
     azure = AzureConnection.new
 
@@ -29,5 +27,4 @@ class Helpers
       e.error_message
     end
   end
-
 end

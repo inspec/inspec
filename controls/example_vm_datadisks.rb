@@ -13,7 +13,7 @@ control 'azure-vm-datadisks-1.0' do
     its('count') { should eq 1 }
   end
 
-  describe azure_vm_datadisks(host: hostname, resource_group: resource_group_name).where { disk == 0 and size > 10 } do
+  describe azure_vm_datadisks(host: hostname, resource_group: resource_group_name).where { disk.zero? and size > 10 } do
     its('entries') { should_not be_empty }
   end
 end

@@ -3,7 +3,6 @@ require_relative 'common/helpers'
 require 'uri'
 
 class AzureVmDataDisks < Inspec.resource(1)
-
   name 'azure_vm_datadisks'
 
   desc "
@@ -21,7 +20,7 @@ class AzureVmDataDisks < Inspec.resource(1)
   # Load the configuration on initialisation
   def initialize(opts)
     @opts = opts
-    @helpers = Helpers.new()
+    @helpers = Helpers.new
 
     # Get the VM that needs to be interrogated
     vm = @helpers.get_vm(@opts[:host], @opts[:resource_group])
@@ -52,21 +51,18 @@ class AzureVmDataDisks < Inspec.resource(1)
   end
 
   def has_disks?
-    entries.length > 0
+    entries.!empty?
   end
 
   private
 
   def parse_data_disks(data_disks)
-
     data_disks.each_with_index.map do |disk, index|
       parse_data_disk_item(disk, index)
     end.compact
-
   end
 
   def parse_data_disk_item(disk, index)
-
     # Parse the uri of the disk so that the storage account can be retrieved
     uri = URI.parse(disk.vhd.uri)
 
@@ -78,9 +74,7 @@ class AzureVmDataDisks < Inspec.resource(1)
       'lun' => disk.lun,
       'name' => disk.name,
       'uri' => disk.vhd.uri,
-      'storage_account' => uri.host.split('.').first
+      'storage_account' => uri.host.split('.').first,
     }
-
   end
-
 end
