@@ -107,14 +107,69 @@ end
 
 ### Available Resources
 
-- `azurevm_image` - This resource reads information about a virtual machine in the specified resource group
+- `azure_vm` - This resource reads information about a virtual machine in the specified resource group
+
+| Resource Name | Resources | Description |
+|---------------|-----------|-------------|
+| azure_vm | publisher | Publisher that provided the image in the marketplace |
+| | offer | The offer of the image |
+| | sku | The SKU being used |
+
+- `azure_vm_datadisks` - Resource to read the data disks for a machine and check that they are of the correct size etc
+
+| Resource Name | Resources | Description |
+|---------------|-----------|-------------|
+| azure_vm_datadisks | has_disks? | Boolean test to see if a machine has datadisks |
+| | count | Returns the number of data disks attached to the machine |
+| | where | Filter that allows for different tests to be performed, see examples below |
+
+When data disks are retrieved from a machine they are given as an array.  The `where` filter will interogate the array according the criteria it is given.  The followin attributes are available in the filter:
+
+ - `disk` - Disk number (0 index based)
+ - `caching` - What sort of caching is enabled on the data disk
+ - `create_option` - How the disk was created
+ - `size` - The size of the disk in GB
+ - `lun` - The LUN number
+ - `name` - Name of the disk
+ - `uri` - Full URI to the disk in Blob storage
+ - `storage_account` - The name of the storage account in which the Blob storage exists
+
+**Note:  This does not yet work with Managed Disks**
+
+## Examples
+
+### Test for 1 disk with a size greater than 10gb
+
+```ruby
+control 'azure-1' do
+  impact 1.0
+  title 'Checks that the machine has exactly one data disk and it is over 10gb in size'
+
+  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup') do
+    its('has_disks?') { should be true }
+    its('count') { should eq 1 }
+  end
+
+  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
+    its('entries') { should_not be_empty }
+  end
+end
+```
+
+### Using the example controls
+
+There a number of example controls that have been added to this resource.  They are driven by environment variables to make them easier to run.  For example the following would test a machine called `example-01` in the resource group `exmaple-rg`.
+
+```bash
+$> AZURE_VM_NAME='example-01' AZURE_RESOURCE_GROUP_NAME='example-rg' bundle exec inspec exec .
+```
 
 ## License
 
 |  |  |
 | ------ | --- |
 | **Author:** | Russell Seymour (<russell@chef.io>) |
-| **Copyright:** | Copyright (c) 2016 Chef Software Inc. |
+| **Copyright:** | Copyright (c) 2017 Chef Software Inc. |
 | **License:** | Apache License, Version 2.0 |
 
 Licensed under the Apache License, Version 2.0 (the "License");

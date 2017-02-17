@@ -9,6 +9,7 @@ group :development do
   gem 'rake'
   gem 'rubocop'
   gem 'github_changelog_generator'
+  gem 'pry-coolline'
 end
 
 group :inspec do
