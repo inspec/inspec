@@ -124,7 +124,6 @@ class AzureVm < Inspec.resource(1)
   # Boolean
   #
   def password_authentication?
-
     # if the vm has a linux configuration then interrogate that, otherwise return true
     if !vm.os_profile.linux_configuration.nil?
       !vm.os_profile.linux_configuration.disable_password_authentication
@@ -140,13 +139,11 @@ class AzureVm < Inspec.resource(1)
   # Integer
   #
   def ssh_key_count
-
     if !vm.os_profile.linux_configuration.nil?
       vm.os_profile.linux_configuration.ssh.public_keys.length
     else
       0
     end
-
   end
 
   # Determine the Operating system type using the os_disk object
@@ -157,5 +154,4 @@ class AzureVm < Inspec.resource(1)
   def os_type
     vm.storage_profile.os_disk.os_type
   end
-
 end

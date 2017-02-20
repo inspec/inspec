@@ -114,6 +114,16 @@ end
 | azure_vm | publisher | Publisher that provided the image in the marketplace |
 | | offer | The offer of the image |
 | | sku | The SKU being used |
+| | size | The size of the machine |
+| | location | Where the machine has been deployed |
+| | boot_diagnostics? | Whether boot diagnostics have been enabled or not |
+| | nic_count | How many network cards are attached to the machine |
+| | username | The admin username that has been assigned to the machine |
+| | computername | Computer name of the machine in the operating system.  This maybe different to the VM name as seen in Azure |
+| | hostname | Alias for computername |
+| | password_authentication? | If password authentication is enabled.  For Windows machines this is always true |
+| | ssh_key_count | How many SSH public keys have been added to the machine.  For Windows this is always 0 |
+| | os_type | Tyep type of operating system.  Linux or Windows |
 
 - `azure_vm_datadisks` - Resource to read the data disks for a machine and check that they are of the correct size etc
 
