@@ -1,9 +1,17 @@
 require 'ms_rest_azure'
 require 'inifile'
 
+# Class to manage the connection to Azure to retrieve the information required about the resources
+#
+# @author Russell Seymour
+#
+# @attr_reader [String] subscription_id ID of the subscription in which resources are to be tested
 class AzureConnection
-  attr_accessor :subscription_id
+  attr_reader :subscription_id
 
+  # Constructor which reads in the credentials file
+  #
+  # @author Russell Seymour
   def initialize
     # If an INSPEC_AZURE_CREDS environment has been specified set the
     # the credentials file to that, otherwise set the one in home
@@ -22,6 +30,9 @@ class AzureConnection
     end
   end
 
+  # Connect to Azure using the specified credentials
+  #
+  # @author Russell Seymour
   def connection
     # If a connection already exists then return it
     return @conn if defined?(@conn)

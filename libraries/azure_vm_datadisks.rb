@@ -2,6 +2,11 @@
 require_relative 'common/helpers'
 require 'uri'
 
+# Class to test the data disks that are attached to the specified VM
+#
+# @author Russell Seymour
+#
+# @attr_reader [Array<Hash>] params Array of hashes containing information about all the data disks attached to the machine
 class AzureVmDataDisks < Inspec.resource(1)
   name 'azure_vm_datadisks'
 
@@ -17,7 +22,13 @@ class AzureVmDataDisks < Inspec.resource(1)
 
   attr_reader :params
 
-  # Load the configuration on initialisation
+  # Constructor to retrieve all the data disks for the specified machines and populate the params property
+  #
+  # @author Russell Seymour
+  #
+  # @param [Hash] opts Hashtable of options
+  #     opts[:host] The name of the host in the resource group.  NOTE, this is the name as seen in Azure and not the name of the machine in the Operating System
+  #     opts[:resource_group] Name of the resource group in which the host will be found
   def initialize(opts)
     @opts = opts
     @helpers = Helpers.new
@@ -48,28 +59,38 @@ class AzureVmDataDisks < Inspec.resource(1)
 
   # Determine how many data disks have been applied to the machine
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of data disks attached to the machine
+  #
   def count
     entries.length
   end
 
   # Determine if any data disks are attached to the machine
   #
-  # == Returns:
-  # Boolean
+  # @return [Boolean] States if the VM has any disks attached
+  #
   def has_disks?
     !entries.empty?
   end
 
   private
 
+  # Parse the data disks and extract the necssary information
+  #
+  # @param [Array] data_disks Array of data disk objects
+  #
+  # @return [Array<Hash>] Array of hashes providing the information about the data disks attached to the machine
+  #
   def parse_data_disks(data_disks)
     data_disks.each_with_index.map do |disk, index|
       parse_data_disk_item(disk, index)
     end.compact
   end
 
+  # Parses each data disk item and extracts the information to be tested
+  #
+  # @return [Hash] Data disk information
+  #
   def parse_data_disk_item(disk, index)
     # Parse the uri of the disk so that the storage account can be retrieved
     uri = URI.parse(disk.vhd.uri)

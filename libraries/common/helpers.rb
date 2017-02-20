@@ -28,7 +28,6 @@ class Helpers
     @compute_mgmt = ComputeManagement.new(azure)
     @resource_mgmt = ResourceManagement.new(azure)
     @network_mgmt = NetworkManagement.new(azure)
-
   end
 
   # Retrieve the named virtual machine from Azure

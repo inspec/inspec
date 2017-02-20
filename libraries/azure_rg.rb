@@ -1,6 +1,13 @@
 
 require_relative 'common/helpers'
 
+# Class to test the resources in Resource Groups
+#
+# @author Russell Seymour
+#
+# @attr_reader [Hashtable] items List of items in the resource group
+# @attr_reader [Azure::ARM::Resources::Models::ResourceGroup] rg Resource group under interrogation
+# @attr_reader [Hashtable] counts Hashtable containing the counts of the different types in the resource group
 class AzureRg < Inspec.resource(1)
   name 'azure_rg'
 
@@ -17,17 +24,21 @@ class AzureRg < Inspec.resource(1)
 
   attr_reader :items, :rg, :counts
 
-  # Resource constructor
+  # Constructor which retrieves the named resource group and parses all of its items
   #
+  # @author Russell Seymour
+  #
+  # @param [Hash] opts Hashtable of options
+  #     opts[:name] The name of the resource group
   def initialize(opts)
     opts = opts
     helpers = Helpers.new
 
     # Get the named resource group
-    @rg = helpers.get_resource_group(opts[:name])
+    @rg = helpers.resource_mgmt.get_resource_group(opts[:name])
 
     # Retrieve the items within the resource group
-    rg_items = helpers.get_resources(opts[:name])
+    rg_items = helpers.resource_mgmt.get_resources(opts[:name])
 
     # Parse the resources
     @items = parse_rg_resources(rg_items.value)
@@ -47,8 +58,7 @@ class AzureRg < Inspec.resource(1)
 
   # Determine the location of the resource group
   #
-  # == Returns:
-  # String
+  # @return [String Location of the resource group
   #
   def location
     rg.location
@@ -56,8 +66,7 @@ class AzureRg < Inspec.resource(1)
 
   # Determime how many resources in total there are
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Total number of items in the resource group
   #
   def total
     counts['total']
@@ -65,8 +74,7 @@ class AzureRg < Inspec.resource(1)
 
   # Determine how many of a certain type there are
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of specific items in the FilterTable
   #
   def count
     entries.length
@@ -75,8 +83,11 @@ class AzureRg < Inspec.resource(1)
   # Allows tests to be performed on the resources
   # For example it is possible to check that a resource of a certain name exists
   #
-  # == Returns:
-  # Boolean
+  # @param [Hashtable] settings Hashtable of settings which will be used to perform the filter
+  #     settings[:parameter] Name of the parameter being interrogated [name, type, location]
+  #     settings[:value] The expected value of the specified paramater
+  #
+  # @return [Boolean] Whether or not the specified item exists in the resources
   #
   def contains(settings)
     result = false
@@ -93,8 +104,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of NICs in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of NICs in the resource group
   #
   def nic_count
     counts['Microsoft.Network/networkInterfaces']
@@ -102,8 +112,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of VMs in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of VMs in the resource group
   #
   def vm_count
     counts['Microsoft.Compute/virtualMachines']
@@ -111,8 +120,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of NSGs in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of NSGs in the resource group
   #
   def nsg_count
     counts['Microsoft.Network/networkSecurityGroups']
@@ -120,8 +128,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of Virtual Networks in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of VNETs in the resource group
   #
   def vnet_count
     counts['Microsoft.Network/virtualNetworks']
@@ -129,8 +136,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of Storage Accounts in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of SAs in the resource group
   #
   def sa_count
     counts['Microsoft.Storage/storageAccounts']
@@ -138,8 +144,7 @@ class AzureRg < Inspec.resource(1)
 
   # Helper method to determine the number of Public IP Addresses in the resource group
   #
-  # == Returns:
-  # Integer
+  # @return [Integer] Number of Public IP Addresses in the resource group
   #
   def public_ip_count
     counts['Microsoft.Network/publicIPAddresses']
@@ -147,6 +152,11 @@ class AzureRg < Inspec.resource(1)
 
   private
 
+  # Parse the Resource Group Resources
+  #
+  # @param [Array] resources Array of resources in the resource group
+  #
+  # @return [Array<Hash>] Array of hashes providing the information about the resources for the FilterTable
   def parse_rg_resources(resources)
     # Declare the hashtable of counts
     @counts = {
@@ -158,6 +168,10 @@ class AzureRg < Inspec.resource(1)
     end.compact
   end
 
+  # Parses each resource item and extracts the information to be tested
+  #
+  # @return [Hash] Resource information
+  #
   def parse_item(item)
     # Increment the count total
     counts['total'] += 1
@@ -169,7 +183,6 @@ class AzureRg < Inspec.resource(1)
       'location' => item.location,
       'name' => item.name,
       'type' => item.type,
-      'new' => 'me',
     }
   end
 end
