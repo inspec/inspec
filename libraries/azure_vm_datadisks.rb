@@ -59,7 +59,7 @@ class AzureVmDataDisks < Inspec.resource(1)
   # == Returns:
   # Boolean
   def has_disks?
-    entries.!empty?
+    !entries.empty?
   end
 
   private
