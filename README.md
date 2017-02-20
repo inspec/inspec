@@ -107,6 +107,47 @@ end
 
 ### Available Resources
 
+- `azure_rg` - This resource reads information about the resources in the specified resource group
+
+| Resource Name | Resources | Description |
+|---------------|-----------|-------------|
+| azure_rg | location | Where the item has been deployed |
+| | total | The total number of resources in the resource group |
+| | nic_count | Helper method to return the number of Network Interface Cards (NIC) that exist |
+| | vm_count | Helper method to return the number of Virtual Machines(VM) that exist | 
+| | vnet_count | Helper method to return the number of Virtual Networks (VNET) that exist |
+| | nsg_count | Helper method to return the number of Network Security Groups (NSG) that exist |
+| | sa_count | Helper method to return the number of Storage Accounts (SA) that exist |
+| | public_ip_count | Helper method to return the number of Public IP Addresses that exist |
+| | contains | Used to determine if a specific item exists |
+
+This resource also has a FilterTable which means that it is possible to check for items that do not yet have a helper method.
+
+#### Test for the number of storage accounts
+
+```ruby
+control 'azure-1' do
+  impact 1.0
+  title 'Checks that there is only one storage account in the resource group'
+
+  describe azure_rg(name: 'MyResourceGroup').where { type == 'Microsoft.Storage/storageAccounts' }.entries do
+    its('count') { should eq 1 }
+  end
+end
+```
+
+#### Ensure that a specific item exists
+
+```ruby
+control 'azure-1' do
+  impact 1.0
+  title 'Checks a resource with the name "example-VM" exists'
+
+  describe azure_rg(name: 'MyResourceGroup').contains(parameter: 'name', value: 'example-VM') do
+    it { should be true }
+  end
+end
+
 - `azure_vm` - This resource reads information about a virtual machine in the specified resource group
 
 | Resource Name | Resources | Description |
@@ -146,21 +187,19 @@ When data disks are retrieved from a machine they are given as an array.  The `w
 
 **Note:  This does not yet work with Managed Disks**
 
-## Examples
-
-### Test for 1 disk with a size greater than 10gb
+#### Test for 1 disk with a size greater than 10gb
 
 ```ruby
 control 'azure-1' do
   impact 1.0
   title 'Checks that the machine has exactly one data disk and it is over 10gb in size'
 
-  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup') do
+  describe azure_vm(host: 'example-01', resource_group: 'MyResourceGroup') do
     its('has_disks?') { should be true }
     its('count') { should eq 1 }
   end
 
-  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
+  describe azure_vm_datadisks(host: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
     its('entries') { should_not be_empty }
   end
 end

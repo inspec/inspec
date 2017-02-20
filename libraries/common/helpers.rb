@@ -5,19 +5,42 @@ require 'azure_mgmt_compute'
 require_relative 'resource_groups'
 
 class Helpers
-  # Retrieve the named virtual machine from Azure
-  def get_vm(name, rg_name)
-    # Azure connection
-    azure = AzureConnection.new
 
-    client = Azure::ARM::Compute::ComputeManagementClient.new(azure.connection)
+  attr_reader :azure, :client, :resource_group
+
+  def initialize
+    # Azure connection
+    @azure = AzureConnection.new
+
+    @client = Azure::ARM::Compute::ComputeManagementClient.new(azure.connection)
     client.subscription_id = azure.subscription_id
 
-    # Ensure that the resource group exists
-    rg = ResourceGroups.new(azure)
+    @resource_group = ResourceGroups.new(azure)
+  end
 
-    unless rg.exists(rg_name)
-      throw "The Resource group cannot be found: #{rg_name}"
+  # Retrive the specified resource group
+  #
+  # == Returns:
+  # Object representing the resource group
+  #
+  def get_resource_group(rg_name)
+    resource_group.get(rg_name)
+  end
+
+  def get_resources(rg_name)
+    resource_group.get_resources(rg_name)
+  end
+
+  # Retrieve the named virtual machine from Azure
+  #
+  # == Returns:
+  # Object representing the VM in Azure
+  #
+  def get_vm(name, rg_name)
+
+    # Ensure that the resource group exists
+    unless resource_group.exists(rg_name)
+      raise "The Resource group cannot be found: #{rg_name}"
     end
 
     # get a vm from the named resource group
