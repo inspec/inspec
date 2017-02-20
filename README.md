@@ -147,6 +147,7 @@ control 'azure-1' do
     it { should be true }
   end
 end
+```
 
 - `azure_vm` - This resource reads information about a virtual machine in the specified resource group
 
