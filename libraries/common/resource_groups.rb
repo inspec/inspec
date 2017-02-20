@@ -2,7 +2,6 @@
 require 'azure_mgmt_resources'
 
 class ResourceGroups
-
   attr_reader :client
 
   def initialize(azure)
@@ -15,16 +14,10 @@ class ResourceGroups
   end
 
   def get(name)
-
-    if exists(name)
-      client.resource_groups.get(name)
-    end
+    client.resource_groups.get(name) if exists(name)
   end
 
   def get_resources(name)
-
-    if exists(name)
-      client.resource_groups.list_resources_as_lazy(name)
-    end
+    client.resource_groups.list_resources_as_lazy(name) if exists(name)
   end
 end

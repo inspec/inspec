@@ -17,4 +17,3 @@ control 'azure-vm-datadisks-1.0' do
     its('entries') { should_not be_empty }
   end
 end
-

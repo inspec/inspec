@@ -5,7 +5,6 @@ require 'azure_mgmt_compute'
 require_relative 'resource_groups'
 
 class Helpers
-
   attr_reader :azure, :client, :resource_group
 
   def initialize
@@ -37,7 +36,6 @@ class Helpers
   # Object representing the VM in Azure
   #
   def get_vm(name, rg_name)
-
     # Ensure that the resource group exists
     unless resource_group.exists(rg_name)
       raise "The Resource group cannot be found: #{rg_name}"

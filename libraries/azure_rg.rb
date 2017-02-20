@@ -2,7 +2,6 @@
 require_relative 'common/helpers'
 
 class AzureRg < Inspec.resource(1)
-
   name 'azure_rg'
 
   desc "
@@ -32,7 +31,6 @@ class AzureRg < Inspec.resource(1)
 
     # Parse the resources
     @items = parse_rg_resources(rg_items.value)
-
   end
 
   # Create a FilterTable so that items can be selected
