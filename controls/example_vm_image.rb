@@ -12,5 +12,13 @@ control 'azure-vm-1.0' do
     its('sku') { should eq '16.04-LTS' }
     its('publisher') { should eq 'Canonical' }
     its('offer') { should eq 'UbuntuServer' }
+    its('size') { should eq 'Standard_DS1_v2' }
+    its('location') { should eq 'westeurope' }
+    its('boot_diagnostics?') { should be true }
+    its('nic_count') { should eq 1 }
+    its('username') { should eq 'azure' }
+    its('password_authentication?') { should be false }
+    its('ssh_key_count') { should eq 1 }
+    its('os_type') { should eq 'Linux' }
   end
 end

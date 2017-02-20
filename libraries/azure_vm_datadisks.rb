@@ -29,7 +29,7 @@ class AzureVmDataDisks < Inspec.resource(1)
     @params = parse_data_disks(vm.storage_profile.data_disks)
   end
 
-  # Create a filter table for testing
+  # Create a FilterTable which can be used by controls to interogate the data disks
   filter = FilterTable.create
   filter.add_accessor(:where)
         .add_accessor(:entries)
@@ -46,10 +46,18 @@ class AzureVmDataDisks < Inspec.resource(1)
 
   filter.connect(self, :params)
 
+  # Determine how many data disks have been applied to the machine
+  #
+  # == Returns:
+  # Integer
   def count
     entries.length
   end
 
+  # Determine if any data disks are attached to the machine
+  #
+  # == Returns:
+  # Boolean
   def has_disks?
     entries.!empty?
   end
