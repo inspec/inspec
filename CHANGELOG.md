@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.3.1](https://github.com/chef/inspec-azure/tree/0.3.1) (2017-02-21)
+[Full Changelog](https://github.com/chef/inspec-azure/compare/0.3.0...0.3.1)
+
+**Closed issues:**
+
+- Remove Azure resource class helpers [\#9](https://github.com/chef/inspec-azure/issues/9)
+
+**Merged pull requests:**
+
+- Reconfigured the way in which Helpers work [\#10](https://github.com/chef/inspec-azure/pull/10) ([russellseymour](https://github.com/russellseymour))
+
 ## [0.3.0](https://github.com/chef/inspec-azure/tree/0.3.0) (2017-02-20)
 **Closed issues:**
 
