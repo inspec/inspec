@@ -31,21 +31,33 @@ namespace :test do
     sh("bundle exec inspec check #{dir}")
   end
 
-  task :integration_no_cleanup do
+  task :setup_integration_tests do
     integration_dir = "test/integration"
 
-    puts "----> Build"
+    puts "----> Setup"
     sh("cd #{integration_dir}/build/ && terraform plan")
     sh("cd #{integration_dir}/build/ && terraform apply")
+  end
 
-    puts "----> Verify"
+  task :run_integration_tests do
+    integration_dir = "test/integration"
+
+    puts "----> Run"
     sh("bundle exec inspec exec #{integration_dir}/verify")
   end
 
+  task :cleanup_integration_tests do
+    integration_dir = "test/integration"
+
+    puts "----> Cleanup"
+    sh("cd #{integration_dir}/build/ && terraform destroy -force")
+  end
+
   task :integration do
-    Rake::Task["test:cleanup"].execute
-    Rake::Task["test:integration_no_cleanup"].execute
-    Rake::Task["test:cleanup"].execute
+    Rake::Task["test:cleanup_integration_tests"].execute
+    Rake::Task["test:setup_integration_tests"].execute
+    Rake::Task["test:run_integration_tests"].execute
+    Rake::Task["test:cleanup_integration_tests"].execute
   end
 
   task :cleanup do
