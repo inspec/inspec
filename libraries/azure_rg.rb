@@ -1,5 +1,5 @@
 
-require_relative 'common/helpers'
+require File.expand_path(File.dirname(__FILE__) + '/common/helpers')
 
 # Class to test the resources in Resource Groups
 #

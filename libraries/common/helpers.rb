@@ -1,9 +1,9 @@
 
-require_relative '../azure_conn'
+require File.expand_path(File.dirname(__FILE__) + '/../azure_conn')
 
-require_relative 'resource_management'
-require_relative 'compute_management'
-require_relative 'network_management'
+require File.expand_path(File.dirname(__FILE__) + '/resource_management')
+require File.expand_path(File.dirname(__FILE__) + '/compute_management')
+require File.expand_path(File.dirname(__FILE__) + '/network_management')
 
 # Helper class to configure and give access to the various management components of Azure
 # Also provides shortcuts for certain components, such as returing the VM object and performing
