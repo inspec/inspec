@@ -63,7 +63,7 @@ module CommentParser
   end
 end
 
-module MountParser
+module LinuxMountParser
   # this parses the output of mount command (only tested on linux)
   # this method expects only one line of the mount output
   def parse_mount_options(mount_line, compatibility = false)
@@ -91,6 +91,20 @@ module MountParser
     end
 
     mount_options
+  end
+end
+
+module BsdMountParser
+  # this parses the output of mount command (only tested on freebsd)
+  # this method expects only one line of the mount output
+  def parse_mount_options(mount_line, _compatibility = false)
+    return {} if mount_line.nil? || mount_line.empty?
+
+    mount = mount_line.chomp.split(' ', 4)
+    options = mount[3].tr('()', '').split(', ')
+
+    # parse device and type
+    { device: mount[0], type: options.shift, options: options }
   end
 end
 

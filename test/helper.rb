@@ -280,7 +280,11 @@ class MockLoader
       # crontab display for root / current user
       'crontab -l' => cmd.call('crontab-root'),
       # crontab display for non-current user
-      'crontab -l -u foouser' => cmd.call('crontab-foouser')
+      'crontab -l -u foouser' => cmd.call('crontab-foouser'),
+	  # zfs output for dataset tank/tmp
+	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
+	  # zfs output for pool tank
+	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
      }
 
     @backend

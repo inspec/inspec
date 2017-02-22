@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+# author: Joseph Benden
 
 require 'utils/simpleconfig'
 
@@ -18,13 +19,12 @@ module Inspec::Resources
         its('options') { should include 'nodev' }
       end
     "
-    include MountParser
-
     attr_reader :file
 
     def initialize(path)
       @path = path
-      return skip_resource 'The `mount` resource is not supported on your OS yet.' if !inspec.os.linux?
+      @mount_manager = mount_manager_for_os
+      return skip_resource 'The `mount` resource is not supported on your OS yet.' if @mount_manager.nil?
       @file = inspec.backend.file(@path)
     end
 
@@ -49,12 +49,42 @@ module Inspec::Resources
       line = mounted.stdout.lines.to_a.last if mounted.stdout.lines.count > 1
 
       # parse content if we are on linux
-      @mount_options ||= parse_mount_options(line)
+      @mount_options ||= @mount_manager.parse_mount_options(line)
       @mount_options[name]
     end
 
     def to_s
       "Mount #{@path}"
     end
+
+    private
+
+    def mount_manager_for_os
+      os = inspec.os
+      if os.linux?
+        LinuxMounts.new(inspec)
+      elsif ['freebsd'].include?(os[:family])
+        BsdMounts.new(inspec)
+      end
+    end
+  end
+
+  class MountsInfo
+    attr_reader :inspec
+    def initialize(inspec)
+      @inspec = inspec
+    end
+
+    def parse_mount_options(_mount_line, _compatibility = false)
+      raise NotImplementedError
+    end
+  end
+
+  class LinuxMounts < MountsInfo
+    include LinuxMountParser
+  end
+
+  class BsdMounts < MountsInfo
+    include BsdMountParser
   end
 end
