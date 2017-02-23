@@ -49,6 +49,12 @@ Note that this file format supports multiple subscription_ids.  By default `insp
 AZURE_SUBSCRIPTION_ID="2fbdbb02-df2e-11e6-bf01-fe55135034f3" inspec exec inspec-azure
 ```
 
+Alternatively, if you know that the subscription you want to use is the second one in you credentials file then you can use the following:
+
+```bash
+AZURE_SUBSCRIPTION_NUMBER=2 inspec exec inspec-azure
+```
+
 ### Environment variables
 
 It is possible to not have a credentials file at all and specify all of the required information as the following environment variables:

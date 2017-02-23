@@ -40,21 +40,49 @@ class AzureConnection
     # If a connection already exists then return it
     return @conn if defined?(@conn)
 
-    # Determine if more than one subscription is specified in the configuration file, if so use the first one
-    if @credentials.sections.length >= 1
-      @subscription_id = @credentials.sections[0]
-    else
-      @subscription_id = ENV['AZURE_SUBSCRIPTION_ID']
-    end
+    @subscription_id = azure_subscription_id
+
+    # Check that the credential exists
+    raise format('The specified Azure Subscription cannot be found in your credentials: %s', subscription_id) unless @credentials.sections.include?(subscription_id)
 
     # Determine the client_id, tenant_id and the client_secret
-    tenant_id = ENV['AZURE_TENANT_ID'] || @credentials[@subscription_id]['tenant_id']
-    client_id = ENV['AZURE_CLIENT_ID'] || @credentials[@subscription_id]['client_id']
-    client_secret = ENV['AZURE_CLIENT_SECRET'] || @credentials[@subscription_id]['client_secret']
+    tenant_id = ENV['AZURE_TENANT_ID'] || @credentials[subscription_id]['tenant_id']
+    client_id = ENV['AZURE_CLIENT_ID'] || @credentials[subscription_id]['client_id']
+    client_secret = ENV['AZURE_CLIENT_SECRET'] || @credentials[subscription_id]['client_secret']
 
     # Create a new connection
     token_provider = MsRestAzure::ApplicationTokenProvider.new(tenant_id, client_id, client_secret)
     @conn = MsRest::TokenCredentials.new(token_provider)
+  end
+
+  private
+
+  # Return the subscrtiption ID to use
+  #
+  # @author Russell Seymour
+  def azure_subscription_id
+    # If a subscription has been specified as an environment variable use that
+    # If an index has been specified with AZURE_SUBSCRIPTION_INDEX attempt to use that value
+    # Otherwise use the first entry in the file
+    if !ENV['AZURE_SUBSCRIPTION_ID'].nil?
+      id = ENV['AZURE_SUBSCRIPTION_ID']
+    elsif !ENV['AZURE_SUBSCRIPTION_NUMBER'].nil?
+
+      subscription_number = ENV['AZURE_SUBSCRIPTION_NUMBER'].to_i
+      subscription_index = subscription_number - 1
+
+      # Check that the specified index is not greater than the number of subscriptions
+      if subscription_number > @credentials.sections.length
+        raise format('Your credentials file only contains %s subscriptions.  You specified number %s.', @credentials.sections.length, subscription_number)
+      end
+
+      id = @credentials.sections[subscription_index]
+    else
+      id = @credentials.sections[0]
+    end
+
+    # Return the ID to the calling function
+    id
   end
 end
 
