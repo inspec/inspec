@@ -1,5 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/common/helpers')
+require 'azure_backend'
 
 # Class to retrieve information about the specified virtual machine
 #
