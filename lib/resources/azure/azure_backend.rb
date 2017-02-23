@@ -40,10 +40,22 @@ class AzureConnection
     # If a connection already exists then return it
     return @conn if defined?(@conn)
 
-    # If a subscription to be used has been specified as en environment variable use that
-    # otherwise use the first one in the credentials file
+    # If a subscription has been specified as an environment variable use that
+    # If an index has been specified with AZURE_SUBSCRIPTION_INDEX attempt to use that value
+    # Otherwise use the first entry in the file
     if !ENV['AZURE_SUBSCRIPTION_ID'].nil?
       @subscription_id = ENV['AZURE_SUBSCRIPTION_ID']
+    elsif !ENV['AZURE_SUBSCRIPTION_NUMBER'].nil?
+
+      subscription_number = ENV['AZURE_SUBSCRIPTION_NUMBER'].to_i
+      subscription_index = subscription_number - 1
+
+      # Check that the specified index is not greater than the number of subscriptions
+      if subscription_number > (@credentials.sections.length)
+        raise format('Your credentials file only contains %s subscriptions.  You specified number %s.', @credentials.sections.length, subscription_number)
+      end
+
+      @subscription_id = @credentials.sections[subscription_index]
     else
       @subscription_id = @credentials.sections[0]
     end
