@@ -40,12 +40,16 @@ class AzureConnection
     # If a connection already exists then return it
     return @conn if defined?(@conn)
 
-    # Determine if more than one subscription is specified in the configuration file, if so use the first one
-    if @credentials.sections.length >= 1
-      @subscription_id = @credentials.sections[0]
-    else
+    # If a subscription to be used has been specified as en environment variable use that
+    # otherwise use the first one in the credentials file
+    if !ENV['AZURE_SUBSCRIPTION_ID'].nil?
       @subscription_id = ENV['AZURE_SUBSCRIPTION_ID']
+    else
+      @subscription_id = @credentials.sections[0]
     end
+
+    # Check that the credential exists
+    raise format('The specified Azure Subscription cannot be found in your credentials: %s', @subscription_id) unless @credentials.sections.include?(@subscription_id)
 
     # Determine the client_id, tenant_id and the client_secret
     tenant_id = ENV['AZURE_TENANT_ID'] || @credentials[@subscription_id]['tenant_id']
