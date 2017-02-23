@@ -92,10 +92,14 @@ class Helpers
   # @return [] VM object
   #
   def get_vm(name, rg_name)
+
     # Ensure that the resource group exists
     unless resource_mgmt.client.resource_groups.check_existence(rg_name)
       raise "The Resource group cannot be found: #{rg_name}"
     end
+
+    # Return if no name has been specified
+    return if name.nil?
 
     # get a vm from the named resource group
     begin
