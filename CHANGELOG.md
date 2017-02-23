@@ -1,5 +1,24 @@
 # Change Log
 
+## [0.4.1](https://github.com/chef/inspec-azure/tree/0.4.1) (2017-02-23)
+[Full Changelog](https://github.com/chef/inspec-azure/compare/0.4.0...0.4.1)
+
+**Implemented enhancements:**
+
+- Specify the subscription to be used by index [\#15](https://github.com/chef/inspec-azure/issues/15)
+
+**Fixed bugs:**
+
+- Alternative subscriptions cannot be loaded from the credentials file [\#14](https://github.com/chef/inspec-azure/issues/14)
+
+**Closed issues:**
+
+- Fix how internal libraries are loaded [\#11](https://github.com/chef/inspec-azure/issues/11)
+
+**Merged pull requests:**
+
+- Using Credentials [\#16](https://github.com/chef/inspec-azure/pull/16) ([russellseymour](https://github.com/russellseymour))
+
 ## [0.4.0](https://github.com/chef/inspec-azure/tree/0.4.0) (2017-02-23)
 [Full Changelog](https://github.com/chef/inspec-azure/compare/0.3.1...0.4.0)
 
