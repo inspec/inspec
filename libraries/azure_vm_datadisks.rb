@@ -1,5 +1,5 @@
 
-require File.expand_path(File.dirname(__FILE__) + '/common/helpers')
+require 'azure_backend'
 require 'uri'
 
 # Class to test the data disks that are attached to the specified VM
