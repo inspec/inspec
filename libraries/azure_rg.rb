@@ -37,6 +37,9 @@ class AzureRg < Inspec.resource(1)
     # Get the named resource group
     @rg = helpers.resource_mgmt.get_resource_group(opts[:name])
 
+    # If the rg is nil raise error
+    raise format("Unable to find resource group '%s' in Azure subscription '%s'", opts[:name], helpers.azure.subscription_id) if rg.nil?
+
     # Retrieve the items within the resource group
     rg_items = helpers.resource_mgmt.get_resources(opts[:name])
 
