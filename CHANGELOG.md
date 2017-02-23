@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.4.0](https://github.com/chef/inspec-azure/tree/0.4.0) (2017-02-23)
+[Full Changelog](https://github.com/chef/inspec-azure/compare/0.3.1...0.4.0)
+
+**Merged pull requests:**
+
+- Fixed loading of internal classes [\#13](https://github.com/chef/inspec-azure/pull/13) ([russellseymour](https://github.com/russellseymour))
+- Updated how internal libraries are located [\#12](https://github.com/chef/inspec-azure/pull/12) ([russellseymour](https://github.com/russellseymour))
+
 ## [0.3.1](https://github.com/chef/inspec-azure/tree/0.3.1) (2017-02-21)
 [Full Changelog](https://github.com/chef/inspec-azure/compare/0.3.0...0.3.1)
 
