@@ -1,18 +1,97 @@
-pre {
-  padding: 10px;
-  margin-bottom: 1em;
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid rgba($inspec-blue, 0.3);
-  color: darken($inspec-blue, 25%);
-
-  & > code {
-    background: transparent;
-    border: none;
-  }
-}
+//default
 
 code {
-  background: rgba($inspec-blue, 0.15);
-  border: 1px solid transparent;
-  color: darken($inspec-blue, 25%);
+	color         : $color_link;
+	border-radius : 7px;
+	background    : $color_lt_blue;
+	border-color: $color_lt_blue;
+}
+
+pre {
+    padding: 10px;
+    margin-bottom: 1em;
+    background    : $color_lt_blue;
+    border: 1px solid rgba(65,151,181,0.3);
+    color: $color_link
+}
+
+// Container for code example
+
+.code-example {
+	padding       : $percent_sm;
+	border-radius : 7px;
+	background    : $color_heading;
+}
+
+// Container for pop-up code example
+
+.code-pop {
+	padding       : $percent_sm/1.5;
+	background    : $color_heading;
+	display:none; //Hide until click trigger
+}
+
+
+// Code Font Colors
+
+.code-demo {
+	color            : $color_white;
+	border           : 0;
+	background-color : initial;
+}
+
+.code-attribute {
+	color : $color_purple;
+}
+
+.code-token {
+	color : $color_code_token;
+}
+
+.code-comment {
+	opacity : 0.6;
+}
+
+// Indentation
+
+.indent {
+	padding-left : 1em;
+	word-wrap    : normal;
+}
+
+//Animation for type ahead animation
+
+.code-pop-animate { //Target
+	font-family: Consolas,Liberation Mono,Courier,monospace;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0 auto;
+	-webkit-animation-delay: 6s;
+	animation-delay: 6;
+	-moz-animation-delay: 6s;
+	animation: type 6s steps(41, end);
+	-moz-animation: type 6s steps(41, end);
+	-webkit-animation: type 6s steps(41, end);
+}
+
+//Click event trigger {
+.code-trigger{
+	cursor: pointer;
+}
+
+.code-animate { //typing animation for fode
+	animation: type 6s steps(41, end);
+	-moz-animation: type 6s steps(41, end);
+	-webkit-animation: type 6s steps(41, end);
+}
+
+
+@keyframes type {
+  from { width: 0; }
+	to {width:100%;}
+}
+
+@-webkit-keyframes type {
+  from { width: 0; }
+	to {width:100%;}
 }

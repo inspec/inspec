@@ -1,0 +1,97 @@
+---
+title: About the http Resource
+---
+
+# http
+
+Use the `http` InSpec audit resource to test an http endpoint.
+
+## Syntax
+
+An `http` resource block declares the configuration settings to be tested:
+
+    describe http('url', auth: {user: 'user', pass: 'test'}, params: {params}, method: 'method', headers: {headers}, body: body) do
+      its('status') { should eq number }
+      its('body') { should eq 'body' }
+      its('headers.name') { should eq 'header' }
+    end
+
+where
+
+* `('url')` is the url to test
+* `{user: 'user', pass: 'test'}` may be specified for basic auth request
+* `{params}` may be specified for http request parameters
+* `'method'` may be specified for http request method (default to 'GET')
+* `{headers}` may be specified for http request headers
+* `body` may be specified for http request body
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### body
+
+The `body` matcher tests body content of http response:
+
+   its('body') { should eq 'hello\n' }
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### headers
+
+The `headers` matcher returns an hash of all http headers:
+
+    its('headers') { should eq {} }
+
+Individual headers can be tested via:
+
+    its('headers.Content-Type') { should cmp 'text/html' }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### status
+
+The `status` matcher tests status of the http response:
+
+    its('status') { should eq 200 }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Simple http test
+
+For example, a service is listening on default http port can be tested like this:
+
+    describe http('http://localhost') do
+      its('status') { should cmp 200 }
+    end
+
+### Complex http test
+
+    describe http('http://localhost:8080/ping',
+                  auth: {user: 'user', pass: 'test'},
+                  params: {format: 'html'},
+                  method: 'POST',
+                  headers: {'Content-Type' => 'application/json'},
+                  data: '{"data":{"a":"1","b":"five"}}') do
+      its('status') { should cmp 200 }
+      its('body') { should cmp 'pong' }
+      its('headers.Content-Type') { should cmp 'text/html' }
+    end

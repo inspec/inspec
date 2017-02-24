@@ -2,7 +2,8 @@
 
 module Inspec
   class EachLoop < List
-    attr_reader :tests, :variables
+    attr_reader :variables
+    attr_accessor :tests
     def initialize
       super
       @tests = []

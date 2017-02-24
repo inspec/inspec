@@ -115,7 +115,7 @@ module Inspec::Resources
         adapter_collection.push(info) if info[:name].casecmp(bridge_name) == 0
       end
 
-      return nil if bridges.size == 0
+      return nil if bridges.empty?
       warn "[Possible Error] detected multiple bridges interfaces with the name #{bridge_name}" if bridges.size > 1
       bridges[0]
     end

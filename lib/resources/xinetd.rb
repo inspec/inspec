@@ -41,6 +41,7 @@ module Inspec::Resources
           .add(:ids,          field: 'id')
           .add(:socket_types, field: 'socket_type')
           .add(:types,        field: 'type')
+          .add(:protocols,    field: 'protocol')
           .add(:wait,         field: 'wait')
           .add(:disabled?) { |x| x.where('disable' => 'no').services.empty? }
           .add(:enabled?) { |x| x.where('disable' => 'yes').services.empty? }
@@ -56,7 +57,7 @@ module Inspec::Resources
       end
 
       @contents[path] = file.content
-      if @contents[path].empty? && file.size > 0
+      if @contents[path].empty? && !file.empty?
         return skip_resource "Can't read file \"#{path}\""
       end
 
@@ -91,8 +92,23 @@ module Inspec::Resources
       params
     end
 
+    # Method used to derive the default protocol used from the socket_type
+    def default_protocol(type)
+      case type
+      when 'stream'
+        'tcp'
+      when 'dgram'
+        'udp'
+      else
+        'unknown'
+      end
+    end
+
     def service_lines
-      @services ||= params['services'].values.flatten.map(&:params)
+      @services ||= params['services'].values.flatten.map { |service|
+        service.params['protocol'] ||= default_protocol(service.params['socket_type'])
+        service.params
+      }
     end
   end
 end

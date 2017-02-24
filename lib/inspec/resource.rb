@@ -39,7 +39,7 @@ module Inspec
                             profile_context.subcontext_by_name(profile_name)
                           end
 
-          fail ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
+          raise ProfileNotFound, "Cannot find profile named: #{profile_name}" if inner_context.nil?
           inner_context.resource_registry[resource_name]
         end
 
@@ -64,7 +64,7 @@ module Inspec
 
   def self.validate_resource_dsl_version!(version)
     if version != 1
-      fail 'Only resource version 1 is supported!'
+      raise 'Only resource version 1 is supported!'
     end
   end
 end
@@ -79,6 +79,7 @@ require 'resources/bash'
 require 'resources/bond'
 require 'resources/bridge'
 require 'resources/command'
+require 'resources/crontab'
 require 'resources/directory'
 require 'resources/etc_group'
 require 'resources/file'
@@ -86,6 +87,7 @@ require 'resources/gem'
 require 'resources/groups'
 require 'resources/grub_conf'
 require 'resources/host'
+require 'resources/http'
 require 'resources/iis_site'
 require 'resources/inetd_conf'
 require 'resources/interface'
@@ -106,6 +108,7 @@ require 'resources/oneget'
 require 'resources/os'
 require 'resources/os_env'
 require 'resources/package'
+require 'resources/packages'
 require 'resources/parse_config'
 require 'resources/passwd'
 require 'resources/pip'

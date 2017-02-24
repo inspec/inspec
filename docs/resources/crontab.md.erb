@@ -1,0 +1,62 @@
+---
+title: About the crontab Resource
+---
+
+# crontab
+
+Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system.
+
+## Syntax
+
+A `crontab` resource block declares a user (which defaults to the current user, if not specified), and then the details to be tested, such as the schedule elements for each crontab entry or the commands itself:
+
+    describe crontab do
+      its('commands') { should include '/some/scheduled/task.sh' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test that root's crontab has a particular command
+
+    describe crontab('root') do
+      its('commands') { should include '/path/to/some/script' }
+    end
+
+### Test that myuser's crontab entry for command '/home/myuser/build.sh' runs every minute
+
+    describe crontab('myuser').commands('/home/myuser/build.sh') do
+      its('hours') { should cmp '*' }
+      its('minutes') { should cmp '*' }
+    end
+
+### Test that the logged-in user's crontab has no tasks set to run on every hour and every minute
+
+    describe crontab.where({'hour' => '*', 'minute' => '*'}) do
+      its('entries.length') { should cmp '0' }
+    end

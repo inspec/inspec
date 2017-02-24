@@ -105,7 +105,7 @@ RSpec::Matchers.define :be_installed do
   end
 
   chain :by do
-    fail "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
+    raise "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
   end
 
   chain :with_version do |version|
@@ -121,7 +121,7 @@ RSpec::Matchers.define :be_enabled do
   end
 
   chain :with_level do |_level|
-    fail '[UNSUPPORTED] with level is not supported'
+    raise '[UNSUPPORTED] with level is not supported'
   end
 
   failure_message do |service|
@@ -137,7 +137,7 @@ RSpec::Matchers.define :be_running do
   end
 
   chain :under do |_under|
-    fail '[UNSUPPORTED] under is not supported'
+    raise '[UNSUPPORTED] under is not supported'
   end
 
   failure_message do |service|
@@ -178,7 +178,7 @@ RSpec::Matchers.define :be_reachable do
   end
 
   chain :with do |_attr|
-    fail '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
+    raise '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
   end
 
   failure_message do |host|
@@ -193,7 +193,7 @@ RSpec::Matchers.define :be_resolvable do
   end
 
   chain :by do |_type|
-    fail "[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`. Please use the following syntax `host('example.com', port: 53, proto: 'udp')`."
+    raise "[UNSUPPORTED] `by` is not supported in combination with `be_resolvable`. Please use the following syntax `host('example.com', port: 53, proto: 'udp')`."
   end
 
   failure_message do |host|
@@ -208,11 +208,11 @@ RSpec::Matchers.define :have_rule do |rule|
   end
 
   chain :with_table do |_table|
-    fail "[UNSUPPORTED] `with_table` is not supported in combination with `have_rule`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
+    raise "[UNSUPPORTED] `with_table` is not supported in combination with `have_rule`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 
   chain :with_chain do |_chain|
-    fail "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
+    raise "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 end
 

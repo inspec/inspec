@@ -121,7 +121,7 @@ module Inspec::Resources
         adapter_collection.push(info) if info[:name].casecmp(iface) == 0
       end
 
-      return nil if adapters.size == 0
+      return nil if adapters.empty?
       warn "[Possible Error] detected multiple network interfaces with the name #{iface}" if adapters.size > 1
       adapters[0]
     end

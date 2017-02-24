@@ -52,7 +52,7 @@ class SSL < Inspec.resource(1)
       elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
         @host = 'localhost'
       else
-        fail 'Cannot determine host for SSL test. Please specify it or use a different target.'
+        raise 'Cannot determine host for SSL test. Please specify it or use a different target.'
       end
     end
     @port = opts[:port] || 443

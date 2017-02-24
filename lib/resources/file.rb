@@ -61,7 +61,7 @@ module Inspec::Resources
     end
 
     def contain(*_)
-      fail 'Contain is not supported. Please use standard RSpec matchers.'
+      raise 'Contain is not supported. Please use standard RSpec matchers.'
     end
 
     def readable?(by_usergroup, by_specific_user)
@@ -128,7 +128,7 @@ module Inspec::Resources
     private
 
     def file_permission_granted?(access_type, by_usergroup, by_specific_user)
-      fail '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
+      raise '`file_permission_granted?` is not supported on your OS' if @perms_provider.nil?
       if by_specific_user.nil? || by_specific_user.empty?
         @perms_provider.check_file_permission_by_mask(file, access_type, by_usergroup, by_specific_user)
       else
@@ -154,7 +154,7 @@ module Inspec::Resources
       when 'execute'
         'x'
       else
-        fail 'Invalid access_type provided'
+        raise 'Invalid access_type provided'
       end
     end
 
@@ -172,7 +172,7 @@ module Inspec::Resources
       usergroup = usergroup_for(usergroup, specific_user)
       flag = permission_flag(access_type)
       mask = file.unix_mode_mask(usergroup, flag)
-      fail 'Invalid usergroup/owner provided' if mask.nil?
+      raise 'Invalid usergroup/owner provided' if mask.nil?
       (file.mode & mask) != 0
     end
 
@@ -197,7 +197,7 @@ module Inspec::Resources
 
   class WindowsFilePermissions < FilePermissions
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
-      fail '`check_file_permission_by_mask` is not supported on Windows'
+      raise '`check_file_permission_by_mask` is not supported on Windows'
     end
 
     def check_file_permission_by_user(access_type, user, path)
@@ -209,7 +209,7 @@ module Inspec::Resources
                     when 'execute'
                       '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
                     else
-                      fail 'Invalid access_type provided'
+                      raise 'Invalid access_type provided'
                     end
       cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
       cmd.stdout.chomp == '0' ? false : true

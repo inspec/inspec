@@ -10,6 +10,7 @@ module Compliance
   class HTTP
     # generic get requires
     def self.get(url, headers = nil, insecure)
+      url = "https://#{url}" if URI.parse(url).scheme.nil?
       uri = URI.parse(url)
       req = Net::HTTP::Get.new(uri.path)
       if !headers.nil?
@@ -38,7 +39,7 @@ module Compliance
     # post a file
     def self.post_file(url, headers, file_path, insecure)
       uri = URI.parse(url)
-      fail "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
+      raise "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
       http = Net::HTTP.new(uri.host, uri.port)
 
       # set connection flags
@@ -67,11 +68,18 @@ module Compliance
       }
       opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if insecure
 
-      fail "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
-      res = Net::HTTP.start(uri.host, uri.port, opts) {|http|
+      raise "Unable to parse URI: #{uri}" if uri.nil? || uri.host.nil?
+      res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
         http.request(req)
       }
       res
+
+    rescue OpenSSL::SSL::SSLError => e
+      raise e unless e.message.include? 'certificate verify failed'
+
+      puts "Error: Failed to connect to #{uri}."
+      puts 'If the server uses a self-signed certificate, please re-run the login command with the --insecure option.'
+      exit 1
     end
   end
 end

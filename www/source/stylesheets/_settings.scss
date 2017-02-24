@@ -1,13 +1,87 @@
-$inspec-blue: #4197b5;
-$inspec-green: #63ce99;
-$inspec-dark-blue: #5c6670;
-$inspec-grey: #606468;
-$inspec-light-grey: #c3c6c8;
-$off-white: #e6e6e6;
-$off-white-2: #f2f2f2;
-$white: #fff;
-$body-text: $inspec-dark-blue;
+$color_heading        : #2c2e30;
+$color_paragraph      : #69787f;
+$color_gray           : #b0bebf;
+$color_white          : white;
+$color_link           : #3ab3ce;
+$color_purple         : #8d66d8;
+$color_code_token     : #3bc5cc;
+$color_hr             : rgba(99,206,153,1);
+$color_shadow         : rgba(151,110,229,0.2);
+$color_triangle_block : #41ade5;
+$color_purple_shade   : rgba(151,110,229,0.4);
+$color_blue_shade     : rgba(91, 201, 163, 1);
+$color_blue_shade_2   : rgba(58, 142, 206, 1);
+$color_lt_blue				: #eaf8f9;
 
-$heading-accent-font: 'Jaapokki Alternate', 'Avenir', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$heading-font: 'Jaapokki', 'Avenir', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$main-font: 'Avenir', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+//fonts
+$heading-font         : 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+$main-font            : 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+
+//margins
+$percent_lg           : 12%;
+$percent_md           : 100px;
+$percent_sm           : 40px;
+
+//mixins
+
+$side-nav-width: 200px;
+$top-nav-height: 100px;
+$side-nav-padding-large: 10px;
+$side-nav-padding-small: 30px;
+$nav-breakpoint: 780px;
+
+
+@mixin nav-large {
+  @media (min-width: #{$nav-breakpoint}) {
+    @content;
+  }
+}
+
+@mixin nav-small {
+  @media (max-width: $nav-breakpoint - 1px) {
+    @content;
+  }
+}
+
+//shared styles
+%uppercase {
+	text-transform : uppercase;
+	font-weight    : bold;
+	letter-spacing : 0.1em;
+}
+
+%transition {
+	-moz-transition    : all .2s;
+	-webkit-transition : all .2s;
+	transition         : all .2s;
+}
+
+//Hide/show div on mobile
+
+.mobile-hide {
+	display: initial;
+	@include nav-small {
+	display: none;
+	}
+}
+
+.mobile-show {
+	display: none;
+	@include nav-small {
+	display: block;
+	}
+}
+
+.hide {
+  display: none;
+}
+
+.show  {
+  display: block;
+}
+
+//Hide Global Message
+
+#global-message {
+	display : none;
+}

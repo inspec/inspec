@@ -14,12 +14,13 @@ group :test do
   gem 'bundler', '~> 1.5'
   gem 'minitest', '~> 5.5'
   gem 'rake', '~> 10'
-  gem 'rubocop', '~> 0.36.0'
+  gem 'rubocop', '= 0.39.0'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
   gem 'nokogiri', '~> 1.6'
+  gem 'webmock', '~> 2.3.2'
 end
 
 group :integration do

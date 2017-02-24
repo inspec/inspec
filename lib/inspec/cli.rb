@@ -230,6 +230,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
       puts "\nYour version of InSpec is out of date! The latest version is #{latest}."
     end
   end
+  map %w{-v --version} => :version
 
   private
 

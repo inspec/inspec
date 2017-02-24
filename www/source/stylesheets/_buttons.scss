@@ -1,39 +1,73 @@
-.button {
-  font-family: $heading-font;
-  text-transform: uppercase;
-  border-radius: 0;
-  box-shadow: 3px 3px 0 0 $off-white;
-  transition: all 0.3s ease;
+// Normal Links
 
-  &.primary {
-    color: $inspec-grey;
-    background: $white;
-    border: 1px solid $inspec-blue;
-  }
+a {
+	@extend       %transition;
+	color       : $color_link;
+	font-family : $heading-font;
+}
 
-  &.primary:active,
-  &.secondary:active {
-    transform: translateX(2px) translateY(2px);
-    box-shadow: 0 0 0 0 $off-white;
-  }
+// All CTA's
 
-  &.transparent {
-    color: $inspec-grey;
-    background: transparent;
-    padding-left: 0;
-    padding-right: 0;
-    box-shadow: none;
+.btn {
+	@extend               %transition;
+	box-sizing          : border-box;
+	padding             : 0.6rem 1.25rem;
+	color               : $color_purple;
+	border              : 1px solid transparent;
+	border-right        : 1px solid $color_link;
+	border-left         : 1px solid $color_purple;
+	border-radius       : 4px;
+	background          : transparent;
+	background-image    : linear-gradient(
+	                      	to right,
+	                      	$color_purple 0,
+	                      	$color_link 100%
+	                      ),
+	                      linear-gradient(
+	                      	to right,
+	                      	$color_purple 0,
+	                      	$color_link 100%
+	                      );
+	background-repeat   : no-repeat;
+	background-position : 0 0,
+	                      0 100%;
+	background-size     : 100% 1px;
 
-    &:hover {
-      color: darken($inspec-grey, 20%);
-    }
-  }
+	&:hover {
+		color            : $color_white;
+		border-color     : $color_purple;
+		background-image : initial;
+		background-color : $color_purple;
+	}
 
-  &.block {
-    display: block;
-  }
+	&.btn-inverse {
+		color : $color_purple;
 
-  & + .button {
-    margin-left: 15px;
-  }
+		&:hover {
+			color            : $color_white;
+			background-color : $color_purple;
+		}
+	}
+	//mobile
+	@media only screen and (max-width: 40.063em) {
+	float: initial;
+	padding     : 0.8rem 1.6rem;
+	margin     : 0 auto;
+	text-align : center;
+	}
+}
+
+// Form Buttons
+
+button {
+	@extend         %transition;
+	padding       : 0.6rem 1.25rem;
+	color         : $color_white;
+	border        : 2px $color-purple;
+	border-radius : 4px;
+	background    : $color_purple;
+}
+
+button:hover {
+	opacity : 0.8;
 }

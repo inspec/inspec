@@ -18,7 +18,7 @@ module Inspec
     def self.from_content(content)
       parsed_content = YAML.load(content)
       version = parsed_content['lockfile_version']
-      fail "No lockfile_version set in #{path}!" if version.nil?
+      raise "No lockfile_version set in #{path}!" if version.nil?
       validate_lockfile_version!(version.to_i)
       new(parsed_content)
     end
@@ -28,9 +28,10 @@ module Inspec
       from_content(content)
     end
 
+    # rubocop:disable Style/GuardClause
     def self.validate_lockfile_version!(version)
       if version < MINIMUM_SUPPORTED_VERSION
-        fail <<EOF
+        raise <<EOF
 This lockfile specifies a lockfile_version of #{version} which is
 lower than the minimum supported version #{MINIMUM_SUPPORTED_VERSION}.
 
@@ -39,7 +40,7 @@ Please create a new lockfile for this project by running:
     inspec vendor
 EOF
       elsif version > CURRENT_LOCKFILE_VERSION
-        fail <<EOF
+        raise <<EOF
 This lockfile claims to be version #{version} which is greater than
 the most recent lockfile version(#{CURRENT_LOCKFILE_VERSION}).
 
@@ -48,6 +49,7 @@ used to create the lockfile.
 EOF
       end
     end
+    # rubocop:enable Style/GuardClause
 
     attr_reader :version, :deps
     def initialize(lockfile_content_hash)
@@ -80,7 +82,7 @@ EOF
       else
         # If we've gotten here, there is likely a mistake in the
         # lockfile version validation in the constructor.
-        fail "No lockfile parser for version #{version}"
+        raise "No lockfile parser for version #{version}"
       end
     end
 

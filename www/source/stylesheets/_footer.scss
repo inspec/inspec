@@ -1,78 +1,104 @@
 
-
 #main-footer {
-  padding: 30px 0;
-  margin-top: 40px;
-  background: $off-white-2;
+  padding-right : 40px; // Same margins as nav
+  padding-left  : 40px;
+  background    : $color_heading;
 }
 
-.footer--logos {
+
+footer > #dlmsg {
+  // Download Message
+  padding-top    : $percent_md;
+  padding-bottom : $percent_md;
+}
+
+footer a.btn:last-child {
+  margin-left : 1.6em;
+
+  //mobile
+  @include nav-small{
+  margin-left: initial;
+  }
+
+}
+
+footer span {
+  margin-left : 6px;// Icon
+}
+
+ul.footer--logos {
+  margin-left: 0!important;
   @include nav-small {
-    max-width: 230px;
-    width: 100%;
-    margin: 0 auto;
     text-align: center;
   }
 }
 
-.footer--logo {
+ul.footer--logos li {
   display: inline-block;
-  vertical-align: middle;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-left: 0!important;
+
+}
+
+.footer--logo  {
+  display        : inline-block;
+  filter         : brightness(0) invert(1);
+  vertical-align : middle;
 
   &.chef {
-    width: 27%;
-    padding-right: 5%;
-    border-right: 1px solid $inspec-grey;
+    width        : 80px;
+    padding-left : 1.6em; //same as default li margin
+    border-left  : 1px solid $color_white;
+
+    //mobile
+    @include nav-small{
+    border-left  : initial;
+    }
+
   }
 
   &.inspec {
-    width: 46%;
-    padding-left: 5%;
+    width         : 130px;
+    padding-right : 1.6em; //same as default li margin
   }
 }
 
-.footer--links {
-  @extend .no-bullet;
-  margin: 25px 0 0;
-  font-size: 14px;
-  line-height: 1.1;
-
-  & > li {
-    margin-bottom: 25px;
+ul.footer--links {
+  @extend       .no-bullet;
+  display     : inline-flex;
+  margin-left : auto;
+  //mobile
+  @include nav-small{
+  display:block;
   }
 
-  @media (min-width: 640px) {
-    margin: 10px 0 5px;
-
-    & > li {
-      display: inline-block;
-      margin: 0 25px 0 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  @media (min-width: 880px) {
-    display: inline-block;
-
-    &:first-child {
-      margin-right: 25px;
+  li {
+    //mobile
+    @include nav-small{
+    margin-left: initial;
+    margin-bottom: $percent_sm/2;
     }
   }
 }
 
-.footer--link {
-  color: $inspec-grey;
-  text-transform: uppercase;
-  font-family: $heading-font;
+li a.footer--link {
+  color       : $color_gray;
+  font-family : $heading-font;
+  font-weight: 400;
 
-  &:hover,
+  &:active,
   &:focus,
-  &:active {
-    color: darken($inspec-grey, 15%);
+  &:hover {
+    color : $color_purple;
   }
+
+}
+
+
+// Hex Animation
+
+img#hex {
+  width             : 25px;
+  -moz-animation    : spin 2s linear infinite both;
+  -webkit-animation : spin 2s linear infinite both;
+  animation         : spin 2s linear infinite both;
 }

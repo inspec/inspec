@@ -1,15 +1,120 @@
-h1,h2,h3,h4,h5,h6 {
-  font-family: $main-font;
+h1 {
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 2.25em;
+	font-weight : 300;
+  //mobile
+	@include nav-small{
+		font-size   : 1.8em;
+		}
 }
 
-.main-subhead {
-  @media (min-width: 640px) {
-    font-size: 30px;
-  }
+h2 {
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 1.75em;
+	font-weight : 300;
+  //mobile
+	@include nav-small{
+		font-size   : 1.4em;
+		}
 }
 
-p, ul {
-  @media (max-width: 400px) {
-    font-size: 14px;
-  }
+h3 {
+	color       : $color_heading;
+	font-family : $heading-font;
+	font-size   : 1.25em;
+	font-weight : 300;
+  //mobile
+	@include nav-small{
+		font-size   : 1.2em;
+		}
+}
+
+h4 {
+	color       : $color_paragraph;
+	font-family : $heading-font;
+	font-size   : 1.25em;
+	font-weight : 300;
+	line-height : 1.4em;
+  //mobile
+	@include nav-small{
+		font-size   : 1.2em;
+		line-height : 1.6em;
+		}
+
+}
+
+p {
+	//mobile
+	@include nav-small{
+		line-height : 1.6em;
+		}
+
+}
+
+li,
+ol,
+p,
+ul {
+	color       : $color_paragraph;
+	font-family : $main-font;
+	font-weight : 300;
+	list-style-type: none;
+}
+
+
+small {
+	@extend       %uppercase;
+	color       : $color_gray;
+	font-family : $main-font;
+	font-size   : 65%;
+}
+
+li {
+	// indent for li
+	margin-left : 1.6em;
+
+	@include nav-small {
+	margin-left : initial;
+	}
+}
+
+hr {
+	width            : 150px;
+	height           : 1px;
+	margin-top       : 6px;
+	margin-bottom    : 6px;
+	border           : 0;
+	background       : linear-gradient(
+
+	                   	to right,
+	                   	$color_hr 0,
+	                   	$color_link 100%
+
+	                   );
+	background-color : $color_hr;
+	filter           : progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
+}
+
+// Font Colors//
+
+.t-dk {
+	color : $color_heading;
+}
+
+.t-white {
+	color : $color_white;
+}
+
+.t-blue {
+	color : $color_link;
+}
+
+.t-transparent {
+	opacity : 0.6;
+}
+
+.t-purple {
+	color : $color_purple!important;
 }

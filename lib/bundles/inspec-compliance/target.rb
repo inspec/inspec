@@ -13,7 +13,7 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
+    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -29,7 +29,7 @@ module Compliance
       else
         # check if we have a compliance token
         config = Compliance::Configuration.new
-        if config['token'].nil?
+        if config['token'].nil? && config['refresh_token'].nil?
           if config['server_type'] == 'automate'
             server = 'automate'
             msg = 'inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
@@ -37,7 +37,7 @@ module Compliance
             server = 'compliance'
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
-          fail Inspec::FetcherFailure, <<EOF
+          raise Inspec::FetcherFailure, <<EOF
 
 Cannot fetch #{uri} because your #{server} token has not been
 configured.
@@ -51,10 +51,13 @@ EOF
         # verifies that the target e.g base/ssh exists
         profile = uri.host + uri.path
         if !Compliance::API.exist?(config, profile)
-          fail Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
+          raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         end
         profile_fetch_url = Compliance::API.target_url(config, profile)
       end
+      # We need to pass the token to the fetcher
+      config['token'] = Compliance::API.get_token(config)
+
       new(profile_fetch_url, config)
     rescue URI::Error => _e
       nil

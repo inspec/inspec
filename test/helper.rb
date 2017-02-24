@@ -11,6 +11,7 @@ end
 
 require 'minitest/autorun'
 require 'minitest/spec'
+require 'webmock/minitest'
 require 'mocha/setup'
 require 'fileutils'
 require 'pathname'
@@ -49,6 +50,7 @@ class MockLoader
     ubuntu1204: { name: 'ubuntu', family: 'debian', release: '12.04', arch: 'x86_64' },
     ubuntu1404: { name: 'ubuntu', family: 'debian', release: '14.04', arch: 'x86_64' },
     ubuntu1504: { name: 'ubuntu', family: 'debian', release: '15.04', arch: 'x86_64' },
+    ubuntu1604: { name: 'ubuntu', family: 'debian', release: '16.04', arch: 'x86_64' },
     mint17:     { name: 'linuxmint', family: 'debian', release: '17.3', arch: 'x86_64' },
     mint18:     { name: 'linuxmint', family: 'debian', release: '18', arch: 'x86_64' },
     windows:    { name: 'windows', family: 'windows', release: '6.2.9200', arch: 'x86_64' },
@@ -127,6 +129,7 @@ class MockLoader
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
       '/etc/xinetd.d/chargen-dgram' => mockfile.call('xinetd.d_chargen-dgram'),
+      '/etc/xinetd.d/echo' => mockfile.call('xinetd.d_echo'),
       '/etc/sysctl.conf' => mockfile.call('sysctl.conf'),
       '/etc/postgresql/9.4/main/postgresql.conf' => mockfile.call('postgresql.conf'),
     }
@@ -247,6 +250,10 @@ class MockLoader
       'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
       # solaris 11 package manager
       'pkg info system/file-system/zfs' => cmd.call('pkg-info-system-file-system-zfs'),
+      # dpkg-query all packages
+      "dpkg-query -W -f='${db:Status-Abbrev}  ${Package}  ${Version}\\n'" => cmd.call('dpkg-query-W'),
+      # rpm query all packages
+      "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}\\n'" => cmd.call('rpm-qa-queryformat'),
       # port netstat on solaris 10 & 11
       'netstat -an -f inet -f inet6' => cmd.call('s11-netstat-an-finet-finet6'),
       # xinetd configuration
@@ -269,6 +276,11 @@ class MockLoader
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
       # windows_task exist
       "schtasks /query /v /fo csv /tn 'WeLovePizza' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-success'),
+      'modinfo -F version dhcp' => cmd.call('modinfo-f-version-dhcp'),
+      # crontab display for root / current user
+      'crontab -l' => cmd.call('crontab-root'),
+      # crontab display for non-current user
+      'crontab -l -u foouser' => cmd.call('crontab-foouser')
      }
 
     @backend

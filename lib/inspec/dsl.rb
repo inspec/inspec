@@ -19,7 +19,7 @@ module Inspec::DSL
   alias include_rules include_controls
 
   def require_resource(options = {})
-    fail 'You must specify a specific resource name when calling require_resource()' if options[:resource].nil?
+    raise 'You must specify a specific resource name when calling require_resource()' if options[:resource].nil?
 
     from_profile = options[:profile] || profile_name
     target_name = options[:as] || options[:resource]
@@ -33,7 +33,7 @@ module Inspec::DSL
 
     dep_entry = dependencies.list[profile_id]
     if dep_entry.nil?
-      fail <<EOF
+      raise <<EOF
 Cannot load #{profile_id} since it is not listed as a dependency
 of #{bind_context.profile_name}.
 

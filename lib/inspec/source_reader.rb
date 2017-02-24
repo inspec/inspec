@@ -19,7 +19,7 @@ module Inspec
 
   def self.source_reader(version)
     if version != 1
-      fail 'Only source readers version 1 is supported!'
+      raise 'Only source readers version 1 is supported!'
     end
     Inspec::Plugins::SourceReader
   end

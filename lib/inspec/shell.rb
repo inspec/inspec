@@ -42,6 +42,8 @@ module Inspec
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, 'inspec_intro') do
         intro
+        print_target_info
+        puts
       end
 
       # Track the rules currently registered and what their merge count is.
@@ -79,7 +81,7 @@ module Inspec
       # determine min whitespace that can be removed
       min = nil
       example.lines.each do |line|
-        if line.strip.length > 0 # ignore empty lines
+        if !line.strip.empty? # ignore empty lines
           line_whitespace = line.length - line.lstrip.length
           min = line_whitespace if min.nil? || line_whitespace < min
         end
@@ -94,10 +96,20 @@ module Inspec
       puts
     end
 
+    def print_target_info
+      ctx = @runner.backend
+      puts <<EOF
+You are currently running on:
+
+    OS platform:  #{mark ctx.os[:name] || 'unknown'}
+    OS family:  #{mark ctx.os[:family] || 'unknown'}
+    OS release: #{mark ctx.os[:release] || 'unknown'}
+EOF
+    end
+
     def help(resource = nil)
       if resource.nil?
 
-        ctx = @runner.backend
         puts <<EOF
 
 Available commands:
@@ -110,14 +122,9 @@ Available commands:
 You can use resources in this environment to test the target machine. For example:
 
     command('uname -a').stdout
-    file('/proc/cpuinfo').content => "value",
+    file('/proc/cpuinfo').content => "value"
 
-You are currently running on:
-
-    OS platform:  #{mark ctx.os[:name] || 'unknown'}
-    OS family:  #{mark ctx.os[:family] || 'unknown'}
-    OS release: #{mark ctx.os[:release] || 'unknown'}
-
+#{print_target_info}
 EOF
       elsif resource == 'resources'
         resources

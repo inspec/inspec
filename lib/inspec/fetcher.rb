@@ -34,7 +34,7 @@ module Inspec
 
   def self.fetcher(version)
     if version != 1
-      fail 'Only fetcher version 1 is supported!'
+      raise 'Only fetcher version 1 is supported!'
     end
     Inspec::Plugins::Fetcher
   end
