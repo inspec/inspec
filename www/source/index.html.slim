@@ -14,28 +14,21 @@ header.blue-gradient.margin-top-offset
    canvas.particles-js-canvas-el /
   /! style for callout icons
   .row
-    .icon.shadow.code-trigger
-      img src="/images/open-close.svg" /
+    .icon.shadow.hide-for-small-only
+      img src="/images/circ-arrow.svg" /
       
 /! Surprise Code example
 .code-pop
   .strict-center
-    p.code.code-demo.code-pop-animate
-      span.code-attribute
-        | describe 
-      | code
-      span.code-attribute
-        |  do it
-      |  { should be_inspec }
-      span.code-attribute
-        |  end
-
-      
+    p.t-white
+      | Hartford Compliance Automation: InSpec + Chef Automate
+    a href="https://events.chef.io/events/hartford-compliance-automation-inspec-chef-automate/"  View the Event
+    
 /! Second Content
 .row.margin-both
   .large-9.medium-9.columns data-enllax-ratio=".1" data-enllax-type="foreground"
 
-    h2  Automated testing, codified
+    h2.txt-margin  Automated testing, codified
     p#icon-trigger
       | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
 
@@ -44,7 +37,7 @@ header.blue-gradient.margin-top-offset
   .large-12.columns
     hr.first/
     small FEATURES OF INSPEC
-    h2 InSpec is compliance by design
+    h2.txt-margin InSpec is compliance by design
     hr.first/
 /! images with text - grid of 4
 .row.strict-center.margin-under
@@ -90,21 +83,21 @@ header.blue-gradient.margin-top-offset
 
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Codify agreements
         p.t-white
           | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
 
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Add context to your tests
         p.t-white
           | Utilize many fields like descriptions, tags, and impact.
 
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Apply to all systems
         p.t-white
           | Analyze everything using the same codified profiles and controls.
@@ -141,7 +134,7 @@ header.blue-gradient.margin-top-offset
             br/
             span.code-attribute end
 
-          a.btn.strict-right.t-white.try-demo.mobile-hide Try the Demo     
+          a.btn.strict-right.t-white.try-demo.mobile-hide href="/tutorial" Try the Demo     
     /! Next row
     .row
       .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground" 
@@ -153,26 +146,26 @@ header.blue-gradient.margin-top-offset
       .large-5.medium-5.columns.margin-under-xs
 
         h3.t-white 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Test the desired state
         p.t-white Verify your infrastructure matches your expectations.
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Use simple and expressive code
         p.t-white
           | Reduce friction by writing tests that are easy to understand by anyone.
 
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Test any system anywhere
         p.t-white
           | Run tests locally or remotely on all major operating systems and configurations.
 
         h3.t-white 
 
-          i.fa.fa-angle-right.t-dk
+          i.focus.t-dk &GreaterGreater;
           |  Extensible
         p.t-white
           | Create custom resources with ease and share them.
@@ -213,6 +206,6 @@ header.blue-gradient.margin-top-offset
             |  { should be_listening }
             br/
             span.code-attribute   end
-          a.btn.strict-right.t-white.try-demo.mobile-hide Try the Demo
+          a.btn.strict-right.t-white.try-demo.mobile-hide href="/tutorial" Try the Demo
 
       

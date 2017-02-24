@@ -1,16 +1,16 @@
 //default
 
 code {
-	color         : $color_link;
-	border-radius : 7px;
-	background    : $color_lt_blue;
+	color: $color_link;
+	border-radius: 7px;
+	background: $color_lt_blue;
 	border-color: $color_lt_blue;
 }
 
 pre {
     padding: 10px;
     margin-bottom: 1em;
-    background    : $color_lt_blue;
+    background: $color_lt_blue;
     border: 1px solid rgba(65,151,181,0.3);
     color: $color_link
 }
@@ -18,45 +18,47 @@ pre {
 // Container for code example
 
 .code-example {
-	padding       : $percent_sm;
-	border-radius : 7px;
-	background    : $color_heading;
+	padding: $percent_sm;
+	border-radius: 7px;
+	background: $color_heading;
 }
 
 // Container for pop-up code example
 
 .code-pop {
-	padding       : $percent_sm/1.5;
-	background    : $color_heading;
-	display:none; //Hide until click trigger
+	padding: $percent_sm/2;
+	background: $color_heading;
+	//display:none; //Hide until click trigger is applied
+	p {
+		margin: 0;
+	}
 }
-
 
 // Code Font Colors
 
 .code-demo {
-	color            : $color_white;
-	border           : 0;
-	background-color : initial;
+	color: $color_white;
+	border: 0;
+	background: $color_heading;
 }
 
 .code-attribute {
-	color : $color_purple;
+	color: $color_purple;
 }
 
 .code-token {
-	color : $color_code_token;
+	color: $color_code_token;
 }
 
 .code-comment {
-	opacity : 0.6;
+	opacity: 0.6;
 }
 
 // Indentation
 
 .indent {
-	padding-left : 1em;
-	word-wrap    : normal;
+	padding-left: 1em;
+	word-wrap: normal;
 }
 
 //Animation for type ahead animation
@@ -85,13 +87,12 @@ pre {
 	-webkit-animation: type 6s steps(41, end);
 }
 
-
 @keyframes type {
   from { width: 0; }
-	to {width:100%;}
+	to { width:100%; }
 }
 
 @-webkit-keyframes type {
   from { width: 0; }
-	to {width:100%;}
+	to { width:100%; }
 }

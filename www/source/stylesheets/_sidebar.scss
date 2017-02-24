@@ -1,6 +1,5 @@
-
-
 //stickjs - subtract header height
+
 .is_stuck {
   margin-top: $percent_md;
 }
@@ -10,47 +9,79 @@
 ul.main-sidebar--links {
   list-style-type: none;
   margin-bottom: $percent_sm!important;
+
+  @media screen and (max-width: 640px) {
+  	text-align: center;
+	}
+}
+
+#sidebar {
+  @media screen and (max-width: 640px) {
+    margin-bottom: $percent_md;
+  }
 }
 
 ul.main-sidebar--links li {
   margin-left: 0em;
 }
+
 ul.main-sidebar--links li:last-child {
   margin-bottom: $percent_sm!important;
+
+  @include nav-small {
+  	margin-bottom: 0;
+	}
+}
+
+li > i.focus {
+  color: white;
+}
+
+li.t-purple > i.focus{
+  display: inline-flex;
+  color: $color_purple;
+
+  @include nav-small {
+    float: right;
+  }
+
+  @media screen and (max-width: 640px) {
+    color: white;
+  }
 }
 
 // THIS IS STILL OLD STUFF  - don't know what it is - hannah//
 
 .gcsc-branding,
 .gsc-adBlock {
-  display : none !important;
+  display: none !important;
 }
 
 .gsc-control-cse {
-  padding : 0 !important;
+  padding: 0 !important;
 
   tbody {
-    border     : none;
-    background : none;
+    border: none;
+    background: none;
   }
 
   .gsc-input-box {
-    height : 3rem;
+    height: 3rem;
 
     table {
-      margin-bottom : 0;
+      margin-bottom: 0;
     }
   }
 
   .gsc-input input {
-    box-shadow : none !important;
+    box-shadow: none !important;
   }
 
   .gsc-search-button {
-    min-width   : 54px;
-    height      : 27px;
-    padding     : 5px 18px;
-    font-family : inherit;
-    font-size   : 11px;
+    min-width: 54px;
+    height: 27px;
+    padding: 5px 18px;
+    font-family: inherit;
+    font-size: 11px;
   }
 }

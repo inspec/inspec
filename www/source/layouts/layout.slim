@@ -32,19 +32,20 @@ html
       = "Loading"
 
     == javascript_include_tag "all"
-
     
     javascript:
     
      //initiate sticky sidebar from jquery.sticky.js
-     
-      $('#sidebar').stick_in_parent();
+    
+      if (window.innerWidth > 640) { //don't fix on mobile
+        $('#sidebar').stick_in_parent();
+      }
     
     javascript:
     
       //Parallax Text
       
-      if (window.innerWidth > 760) { //don't parallax on tablet/mobile
+      if (window.innerWidth > 900) { //don't parallax on tablet/mobile
       $(window).enllax(); //initiate parallax on larger screens
       }
       
