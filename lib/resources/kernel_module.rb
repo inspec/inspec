@@ -21,7 +21,7 @@ module Inspec::Resources
     end
 
     def loaded?
-      if inspec.os[:family] == 'redhat'
+      if inspec.os.family == 'redhat'
         lsmod_cmd = '/sbin/lsmod'
       else
         lsmod_cmd = 'lsmod'
@@ -38,7 +38,7 @@ module Inspec::Resources
     end
 
     def version
-      if inspec.os[:family] == 'redhat'
+      if inspec.os.family == 'redhat'
         modinfo_cmd = "/sbin/modinfo -F version #{@module}"
       else
         modinfo_cmd = "modinfo -F version #{@module}"
