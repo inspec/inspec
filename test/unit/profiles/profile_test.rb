@@ -12,8 +12,8 @@ describe Inspec::Profile do
   describe 'with an empty profile' do
     let(:profile) { MockLoader.load_profile('empty-metadata') }
 
-    it 'has no metadata' do
-      profile.params[:name].must_be_nil
+    it 'has a default name containing the original target' do
+      profile.params[:name].must_match(/tests from .*empty-metadata/)
     end
 
     it 'has no controls' do
@@ -24,8 +24,8 @@ describe Inspec::Profile do
   describe 'with an empty profile (legacy mode)' do
     let(:profile) { MockLoader.load_profile('legacy-empty-metadata') }
 
-    it 'has no metadata' do
-      profile.params[:name].must_be_nil
+    it 'has a default name containing the original target' do
+      profile.params[:name].must_match(/tests from .*empty-metadata/)
     end
 
     it 'has no controls' do
@@ -70,7 +70,6 @@ describe Inspec::Profile do
 
       it 'prints loads of warnings' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :error, nil, ["Missing profile name in inspec.yml"]
         logger.expect :error, nil, ["Missing profile version in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile title in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
@@ -85,9 +84,9 @@ describe Inspec::Profile do
         # verify hash result
         result[:summary][:valid].must_equal false
         result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal nil
+        result[:summary][:profile].must_match(/tests from .*empty-metadata/)
         result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 2
+        result[:errors].length.must_equal 1
         result[:warnings].length.must_equal 5
       end
     end
@@ -97,7 +96,6 @@ describe Inspec::Profile do
 
       it 'prints loads of warnings' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
-        logger.expect :error, nil, ["Missing profile name in metadata.rb"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ["Missing profile version in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile title in metadata.rb"]
@@ -113,9 +111,9 @@ describe Inspec::Profile do
         # verify hash result
         result[:summary][:valid].must_equal false
         result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
-        result[:summary][:profile].must_equal nil
+        result[:summary][:profile].must_match(/tests from .*legacy-empty-metadata/)
         result[:summary][:controls].must_equal 0
-        result[:errors].length.must_equal 2
+        result[:errors].length.must_equal 1
         result[:warnings].length.must_equal 6
       end
     end

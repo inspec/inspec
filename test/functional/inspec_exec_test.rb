@@ -29,7 +29,7 @@ describe 'inspec exec' do
     out.stdout.must_equal "
 
 Profile: yumyum profile
-Version: unknown
+Version: (not specified)
 Target:  local://
 
      No tests executed.\e[0m
@@ -142,7 +142,9 @@ Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     let(:out) { inspec('exec ' + example_control + ' --no-create-lockfile') }
 
     it 'prints the control results, then the anonymous describe block results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_equal "
+      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*examples/profile/controls/example.rb})
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "
+Version: (not specified)
 Target:  local://
 
 \e[38;5;41m  \xE2\x9C\x94  tmp-1.0: Create /tmp directory\e[0m

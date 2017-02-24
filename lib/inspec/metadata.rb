@@ -177,13 +177,31 @@ module Inspec
       end
     end
 
-    def self.finalize(metadata, profile_id, logger = nil)
+    def self.finalize_name(metadata, profile_id, original_target)
+      # profile_id always overwrites whatever already exists as the name
+      unless profile_id.to_s.empty?
+        metadata.params[:name] = profile_id.to_s
+        return
+      end
+
+      # don't overwrite an existing name
+      return unless metadata.params[:name].nil?
+
+      # if there's a title, there is no need to set a name too
+      return unless metadata.params[:title].nil?
+
+      # create a new name based on the original target if it exists
+      metadata.params[:name] = "tests from #{original_target}" unless original_target.to_s.empty?
+    end
+
+    def self.finalize(metadata, profile_id, options, logger = nil)
       return nil if metadata.nil?
       param = metadata.params || {}
-      param['name'] = profile_id.to_s unless profile_id.to_s.empty?
+      options ||= {}
       param['version'] = param['version'].to_s unless param['version'].nil?
       metadata.params = symbolize_keys(param)
       metadata.params[:supports] = finalize_supports(metadata.params[:supports], logger)
+      finalize_name(metadata, profile_id, options[:target])
 
       metadata
     end
@@ -191,13 +209,13 @@ module Inspec
     def self.from_yaml(ref, contents, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
       res.params = YAML.load(contents)
-      finalize(res, profile_id, logger)
+      finalize(res, profile_id, {}, logger)
     end
 
     def self.from_ruby(ref, contents, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
       res.instance_eval(contents, ref, 1)
-      finalize(res, profile_id, logger)
+      finalize(res, profile_id, {}, logger)
     end
 
     def self.from_ref(ref, contents, profile_id, logger = nil)
