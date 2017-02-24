@@ -790,7 +790,7 @@ class InspecRspecJUnit < InspecRspecJson
   end
 
   def build_result_xml(xml, control, result)
-    test_class = control[:title].nil? ? 'Anonymnous' : control[:id]
+    test_class = control[:title].nil? ? 'Anonymous' : control[:id]
     xml.testcase(name: result[:code_desc], class: test_class, time: result[:run_time]) do
       if result[:status] == 'failed'
         xml.failure(message: result[:message])
