@@ -21,10 +21,11 @@ module Inspec::Resources
     end
 
     def loaded?
-      # default lsmod command
-      lsmod_cmd = 'lsmod'
-      # special care for CentOS 5 and sudo
-      lsmod_cmd = '/sbin/lsmod' if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
+      if inspec.os[:family] == 'redhat'
+        lsmod_cmd = '/sbin/lsmod'
+      else
+        lsmod_cmd = 'lsmod'
+      end
 
       # get list of all modules
       cmd = inspec.command(lsmod_cmd)
@@ -37,7 +38,7 @@ module Inspec::Resources
     end
 
     def version
-      if inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
+      if inspec.os[:family] == 'redhat'
         modinfo_cmd = "/sbin/modinfo -F version #{@module}"
       else
         modinfo_cmd = "modinfo -F version #{@module}"
