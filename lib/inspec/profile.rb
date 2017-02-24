@@ -318,8 +318,6 @@ module Inspec
 
       # display all files that will be part of the archive
       @logger.debug 'Add the following files to archive:'
-      root_path = @source_reader.target.prefix
-      files = @source_reader.target.files
       files.each { |f| @logger.debug '    ' + f }
 
       if opts[:zip]
@@ -348,6 +346,14 @@ module Inspec
 
     def lockfile_path
       File.join(cwd, 'inspec.lock')
+    end
+
+    def root_path
+      @source_reader.target.prefix
+    end
+
+    def files
+      @source_reader.target.files
     end
 
     #
