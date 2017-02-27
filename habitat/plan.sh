@@ -39,6 +39,7 @@ do_prepare() {
   cat > Gemfile <<GEMFILE
 source 'https://rubygems.org'
 gem '$pkg_name', '= $pkg_version'
+gem 'rake'
 GEMFILE
 }
 
