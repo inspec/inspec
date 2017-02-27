@@ -3,3 +3,4 @@
 .direnv
 Gemfile.lock
 inspec.lock
+.kitchen
