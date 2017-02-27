@@ -1,7 +1,43 @@
 # Change Log
 
-## [1.14.1](https://github.com/chef/inspec/tree/1.14.1) (2017-02-10)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.14.0...1.14.1)
+## [v1.15.0](https://github.com/chef/inspec/tree/v1.15.0) (2017-02-27)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.14.1...v1.15.0)
+
+**Implemented enhancements:**
+
+- Wrong rendering of InSpec.io header [\#1421](https://github.com/chef/inspec/issues/1421)
+
+**Fixed bugs:**
+
+- New Inspec.io is crashing on Edge if window is resized to a smaller window [\#1420](https://github.com/chef/inspec/issues/1420)
+
+**Closed issues:**
+
+- Colours and symbols broken on Windows [\#1508](https://github.com/chef/inspec/issues/1508)
+- be\_reacheable matcher for host resource should not always use ping on linux [\#1504](https://github.com/chef/inspec/issues/1504)
+- Inspec login fails [\#1503](https://github.com/chef/inspec/issues/1503)
+- Develop an inspec test for selinux [\#1496](https://github.com/chef/inspec/issues/1496)
+- Inspec.io: Add webinar/notifications bar in index.html [\#1495](https://github.com/chef/inspec/issues/1495)
+- Inspec.io: Try Demo Button Bug [\#1494](https://github.com/chef/inspec/issues/1494)
+- \[chef-compliance\]  Scan Report Calculations [\#1491](https://github.com/chef/inspec/issues/1491)
+- Create url for demo that can be pointed to from outbound campaigns [\#1485](https://github.com/chef/inspec/issues/1485)
+- After inspec update from 1.5 to 1.10 it breaks with \[undefined method `\[\]=' for nil:NilClass\] [\#1456](https://github.com/chef/inspec/issues/1456)
+- Inspec.io and IE11 [\#1437](https://github.com/chef/inspec/issues/1437)
+- Link to robert\_config.rb is broken on inspec.io [\#1226](https://github.com/chef/inspec/issues/1226)
+
+**Merged pull requests:**
+
+- Fix formatting and colors on Windows [\#1510](https://github.com/chef/inspec/pull/1510) ([trickyearlobe](https://github.com/trickyearlobe))
+- Adding a Habitat profile artifact creator [\#1505](https://github.com/chef/inspec/pull/1505) ([adamleff](https://github.com/adamleff))
+- create inspec.io/tutorial.html [\#1490](https://github.com/chef/inspec/pull/1490) ([arlimus](https://github.com/arlimus))
+- Doc fix for SourceReaders::InspecReader [\#1489](https://github.com/chef/inspec/pull/1489) ([adamleff](https://github.com/adamleff))
+- Generate default profile names, fix bug when using multiple flat profiles [\#1488](https://github.com/chef/inspec/pull/1488) ([adamleff](https://github.com/adamleff))
+- Packages resource support for RedHat [\#1487](https://github.com/chef/inspec/pull/1487) ([alexpop](https://github.com/alexpop))
+- Adding new crontab resource [\#1482](https://github.com/chef/inspec/pull/1482) ([adamleff](https://github.com/adamleff))
+- Provide target info on shell invocation [\#1475](https://github.com/chef/inspec/pull/1475) ([adamleff](https://github.com/adamleff))
+
+## [v1.14.1](https://github.com/chef/inspec/tree/v1.14.1) (2017-02-10)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.14.0...v1.14.1)
 
 **Closed issues:**
 
