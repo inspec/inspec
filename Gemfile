@@ -8,7 +8,7 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
 end
 
 gem 'ffi', '>= 1.9.14'
-gem 'rspec_junit_formatter', '~> 0.2.3'
+gem 'nokogiri', '~> 1.6'
 
 group :test do
   gem 'bundler', '~> 1.5'
@@ -19,7 +19,6 @@ group :test do
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'
   gem 'ruby-progressbar', '~> 1.8'
-  gem 'nokogiri', '~> 1.6'
   gem 'webmock', '~> 2.3.2'
 end
 
