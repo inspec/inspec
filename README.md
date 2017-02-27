@@ -104,13 +104,11 @@ To run the integration tests, please make sure all required environment variable
 bundle exec rake test:integration
 ```
 
-Right now, instances are not destroyed automatically. Please use
+This task sets up test AWS resources, runs the integration tests, and then cleans up the resources.  To perform these tasks independently, please call them individually:
 
-```
-bundle exec rake test:cleanup
-```
-
-to remove the setup created by terraform.
+* `bundle exec rake test:setup_integration_tests`
+* `bundle exec rake test:run_integration_tests`
+* `bundle exec rake test:cleanup_integration_tests`
 
 ## Kudos
 
