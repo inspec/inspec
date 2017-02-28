@@ -40,6 +40,19 @@ class AzureConnection
     # If a connection already exists then return it
     return @conn if defined?(@conn)
 
+    creds = spn
+
+    # Create a new connection
+    token_provider = MsRestAzure::ApplicationTokenProvider.new(creds[:tenant_id], creds[:client_id], creds[:client_secret])
+    @conn = MsRest::TokenCredentials.new(token_provider)
+  end
+
+  # Method to retrieve the SPN credentials
+  # This is also used by the Rakefile to get the necessary creds to run the tests on the environment
+  # that has been created
+  #
+  # @author Russell Seymour
+  def spn
     @subscription_id = azure_subscription_id
 
     # Check that the credential exists
@@ -50,9 +63,8 @@ class AzureConnection
     client_id = ENV['AZURE_CLIENT_ID'] || @credentials[subscription_id]['client_id']
     client_secret = ENV['AZURE_CLIENT_SECRET'] || @credentials[subscription_id]['client_secret']
 
-    # Create a new connection
-    token_provider = MsRestAzure::ApplicationTokenProvider.new(tenant_id, client_id, client_secret)
-    @conn = MsRest::TokenCredentials.new(token_provider)
+    # Return hash of the SPN information
+    { subscription_id: subscription_id, client_id: client_id, client_secret: client_secret, tenant_id: tenant_id }
   end
 
   private

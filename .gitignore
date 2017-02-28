@@ -4,3 +4,5 @@
 Gemfile.lock
 inspec.lock
 .kitchen
+*.plan
+*.tfstate*

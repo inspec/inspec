@@ -4,8 +4,8 @@ This resource pack provides resources for Azure Resources.  It will ship with th
 
 ```
 ├── README.md - this readme
-├── controls - contains example controls
 └── libraries - contains Azure resources
+└── test - contains integration tests
 ```
 
 ## Get Started
@@ -212,13 +212,20 @@ control 'azure-1' do
 end
 ```
 
-### Using the example controls
+## Testing
 
-There a number of example controls that have been added to this resource.  They are driven by environment variables to make them easier to run.  For example the following would test a machine called `example-01` in the resource group `exmaple-rg`.
+The `test/integration/verify/controls` directory contains all of the tests that are run during integration tests.  These can be used as examples of how to use this resource pack.
+
+Rake tasks have been configured to enable the running of the integration tests:
 
 ```bash
-$> AZURE_VM_NAME='example-01' AZURE_RESOURCE_GROUP_NAME='example-rg' bundle exec inspec exec .
+rake changelog         # Generate a Change log from GitHub
+rake lint              # Run robocop linter
+rake rubocop           # Run Rubocop lint checks
+rake test:integration  # Perform Integration Tests
 ```
+
+As with using the resources themselves the integration tests rely on a Service Principal Name being defined.  Please see the information at the start of this page on how to generate this.
 
 ## License
 
