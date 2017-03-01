@@ -11,6 +11,7 @@ group :development do
   gem 'rubocop'
   gem 'github_changelog_generator'
   gem 'pry-coolline'
+  gem 'passgen'
 end
 
 group :inspec do

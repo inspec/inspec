@@ -82,7 +82,11 @@ class AzureVm < Inspec.resource(1)
   # @return [Boolean]
   #
   def boot_diagnostics?
-    vm.diagnostics_profile.boot_diagnostics.enabled
+    if vm.diagnostics_profile
+      vm.diagnostics_profile.boot_diagnostics.enabled
+    else
+      false
+    end
   end
 
   # Determine how many network cards are connected to the machine
@@ -138,7 +142,7 @@ class AzureVm < Inspec.resource(1)
   # @return [Integer]
   #
   def ssh_key_count
-    if !vm.os_profile.linux_configuration.nil?
+    if !vm.os_profile.linux_configuration.nil? && !vm.os_profile.linux_configuration.ssh.nil?
       vm.os_profile.linux_configuration.ssh.public_keys.length
     else
       0
