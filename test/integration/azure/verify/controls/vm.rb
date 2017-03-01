@@ -7,7 +7,7 @@ control 'azure-vm-1.0' do
   title 'Ensure VM was built with the correct Image and has the correct properties'
 
   # Ensure that the virtual machine has been created with the correct attributes
-  describe azure_vm(host: 'Linux-Internal-VM', resource_group: 'Inspec-Azure') do
+  describe azure_virtual_machine(host: 'Linux-Internal-VM', resource_group: 'Inspec-Azure') do
     its('sku') { should eq '16.04.0-LTS' }
     its('publisher') { should eq 'Canonical' }
     its('offer') { should eq 'UbuntuServer' }

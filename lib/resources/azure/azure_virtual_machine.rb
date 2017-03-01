@@ -7,7 +7,7 @@ require 'azure_backend'
 #
 # @attr_reader [Azure::ARM::Compute::Models::VirtualMachine] vm VM object as retrieved from Azure
 class AzureVm < Inspec.resource(1)
-  name 'azure_vm'
+  name 'azure_virtual_machine'
 
   desc "
     This resource gathers information about which image the vm was created from
