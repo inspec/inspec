@@ -1,10 +1,11 @@
 # Change Log
 
-## [0.4.1](https://github.com/chef/inspec-azure/tree/0.4.1) (2017-02-23)
-[Full Changelog](https://github.com/chef/inspec-azure/compare/0.4.0...0.4.1)
+## [0.5.0](https://github.com/chef/inspec-azure/tree/0.5.0) (2017-03-01)
+[Full Changelog](https://github.com/chef/inspec-azure/compare/0.4.0...0.5.0)
 
 **Implemented enhancements:**
 
+- Add integration tests [\#19](https://github.com/chef/inspec-azure/issues/19)
 - Specify the subscription to be used by index [\#15](https://github.com/chef/inspec-azure/issues/15)
 
 **Fixed bugs:**
@@ -17,6 +18,9 @@
 
 **Merged pull requests:**
 
+- Added integration tests for current resources [\#20](https://github.com/chef/inspec-azure/pull/20) ([russellseymour](https://github.com/russellseymour))
+- add contribution guidelines and license [\#18](https://github.com/chef/inspec-azure/pull/18) ([chris-rock](https://github.com/chris-rock))
+- remove .kitchen logs [\#17](https://github.com/chef/inspec-azure/pull/17) ([chris-rock](https://github.com/chris-rock))
 - Using Credentials [\#16](https://github.com/chef/inspec-azure/pull/16) ([russellseymour](https://github.com/russellseymour))
 
 ## [0.4.0](https://github.com/chef/inspec-azure/tree/0.4.0) (2017-02-23)
