@@ -19,7 +19,7 @@ module Inspec::Resources
 
   class FileResource < Inspec.resource(1)
     include FilePermissionsSelector
-    include MountParser
+    include LinuxMountParser
 
     name 'file'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'

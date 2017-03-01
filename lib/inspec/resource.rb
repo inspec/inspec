@@ -132,6 +132,8 @@ require 'resources/windows_task'
 require 'resources/xinetd'
 require 'resources/wmi'
 require 'resources/yum'
+require 'resources/zfs_dataset'
+require 'resources/zfs_pool'
 
 # file formats, depend on json implementation
 require 'resources/json'

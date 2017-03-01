@@ -1,0 +1,57 @@
+---
+title: About the zfs_pool Resource
+---
+
+# zfs_pool
+
+Use the `zfs_pool` InSpec audit resource to test the ZFS pools on FreeBSD systems.
+
+## Syntax
+
+A `zfs_pool` resource block declares the ZFS pool properties that should be tested:
+
+    describe zfs_pool('pool') do
+      it { should MATCHER 'value' }
+    end
+
+where
+
+* `('pool')` is the name of the ZFS pool (eg: `'tank'`)
+* `MATCHER` is a valid matcher for this resource
+* `'value'` is the value to be tested
+
+
+## Matchers
+
+This InSpec audit resource has the matchers listed below, in addition to dynamically exposing all ZFS pool properties available (see: `man zpool` for the list of supported properties.)
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a pool of 'tank'
+
+    describe zfs_pool('tank') do
+      its('autoexpand') { should eq  'off' }
+      its('failmode') { should eq  'continue' }
+      its('feature@lz4_compress') { should eq  'active' }
+      its('health') { should eq  'ONLINE' }
+      its('listsnapshots') { should eq  'off' }
+      its('readonly') { should eq  'off' }
+    end
