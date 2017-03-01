@@ -103,7 +103,7 @@ control 'azure-1' do
   impact 1.0
   title 'Checks that the machine was built from the correct image'
 
-  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup') do
+  describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('sku') { should eq '16.04.0-LTS' }
     its('publisher') { should ieq 'Canonical' }
     its('offer') { should ieq 'UbuntuServer' }
@@ -201,12 +201,12 @@ control 'azure-1' do
   impact 1.0
   title 'Checks that the machine has exactly one data disk and it is over 10gb in size'
 
-  describe azure_vm(host: 'example-01', resource_group: 'MyResourceGroup') do
+  describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('has_disks?') { should be true }
     its('count') { should eq 1 }
   end
 
-  describe azure_vm_datadisks(host: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
+  describe azure_virtual_machine_datadisks(name: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
     its('entries') { should_not be_empty }
   end
 end

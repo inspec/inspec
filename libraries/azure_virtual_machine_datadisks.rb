@@ -34,7 +34,7 @@ class AzureVmDataDisks < Inspec.resource(1)
     @helpers = Helpers.new
 
     # Get the VM that needs to be interrogated
-    vm = @helpers.get_vm(@opts[:host], @opts[:resource_group])
+    vm = @helpers.get_vm(@opts[:name], @opts[:resource_group])
 
     # Parse the data disks
     @params = parse_data_disks(vm.storage_profile.data_disks)
