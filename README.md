@@ -1,6 +1,6 @@
 # InSpec Azure Resource Pack
 
-This resource pack provides resources for Azure Resources.  It will ship with the required resources to write your own compliance rules:
+This resource pack provides resources for Azure Resources. It will ship with the required resources to write your own compliance rules:
 
 ```
 ├── README.md - this readme
@@ -22,7 +22,7 @@ The information from the SPN can be specified either in a file `~/.azure/credent
 
 ### Credentials File
 
-The simplest way is to create the file `~/.azure/credentials` with the following format.  The profile is configured to look for this file by default do no settings are required.
+The simplest way is to create the file `~/.azure/credentials` with the following format. The profile is configured to look for this file by default do no settings are required.
 
 ```
 [<SUBSCRIPTION_ID>]
@@ -43,7 +43,7 @@ A different credentials file, with the same format, can be specified as an envir
 AZURE_CREDS_FILE="/path/to/another/file" inspec exec inspec-azure
 ```
 
-Note that this file format supports multiple subscription_ids.  By default `inspec-azure` will pick the first subscription in the file.  However if another subscription should be used then specify it in the environment variable `AZURE_SUBSCRIPTION_ID`.
+Note that this file format supports multiple subscription_ids. By default `inspec-azure` will pick the first subscription in the file. However if another subscription should be used then specify it in the environment variable `AZURE_SUBSCRIPTION_ID`.
 
 ```bash
 AZURE_SUBSCRIPTION_ID="2fbdbb02-df2e-11e6-bf01-fe55135034f3" inspec exec inspec-azure
@@ -75,7 +75,7 @@ AZURE_TENANT_ID="6ad89b58-df2e-11e6-bf01-fe55135034f3" inspec exec inspec-azure
 
 ## Use the resources
 
-Since this is an InSpec resource pack, it only defines InSpec resources.  It includes example tests only.  To easily use the Azure InSpec resources in your tests do the following:
+Since this is an InSpec resource pack, it only defines InSpec resources. It includes example tests only. To easily use the Azure InSpec resources in your tests do the following:
 
 ### Create a new profile
 
@@ -167,11 +167,11 @@ end
 | | boot_diagnostics? | Whether boot diagnostics have been enabled or not |
 | | nic_count | How many network cards are attached to the machine |
 | | username | The admin username that has been assigned to the machine |
-| | computername | Computer name of the machine in the operating system.  This maybe different to the VM name as seen in Azure |
+| | computername | Computer name of the machine in the operating system. This maybe different to the VM name as seen in Azure |
 | | hostname | Alias for computername |
-| | password_authentication? | If password authentication is enabled.  For Windows machines this is always true |
-| | ssh_key_count | How many SSH public keys have been added to the machine.  For Windows this is always 0 |
-| | os_type | Tyep type of operating system.  Linux or Windows |
+| | password_authentication? | If password authentication is enabled. For Windows machines this is always true |
+| | ssh_key_count | How many SSH public keys have been added to the machine. For Windows this is always 0 |
+| | os_type | Tyep type of operating system. Linux or Windows |
 
 - `azure_vm_datadisks` - Resource to read the data disks for a machine and check that they are of the correct size etc
 
@@ -181,7 +181,7 @@ end
 | | count | Returns the number of data disks attached to the machine |
 | | where | Filter that allows for different tests to be performed, see examples below |
 
-When data disks are retrieved from a machine they are given as an array.  The `where` filter will interogate the array according the criteria it is given.  The followin attributes are available in the filter:
+When data disks are retrieved from a machine they are given as an array. The `where` filter will interogate the array according the criteria it is given. The followin attributes are available in the filter:
 
  - `disk` - Disk number (0 index based)
  - `caching` - What sort of caching is enabled on the data disk
@@ -214,7 +214,7 @@ end
 
 ## Testing
 
-The `test/integration/verify/controls` directory contains all of the tests that are run during integration tests.  These can be used as examples of how to use this resource pack.
+The `test/integration/verify/controls` directory contains all of the tests that are run during integration tests. These can be used as examples of how to use this resource pack.
 
 Rake tasks have been configured to enable the running of the integration tests:
 
@@ -225,7 +225,7 @@ rake rubocop           # Run Rubocop lint checks
 rake test:integration  # Perform Integration Tests
 ```
 
-As with using the resources themselves the integration tests rely on a Service Principal Name being defined.  Please see the information at the start of this page on how to generate this.
+As with using the resources themselves the integration tests rely on a Service Principal Name being defined. Please see the information at the start of this page on how to generate this.
 
 ## License
 

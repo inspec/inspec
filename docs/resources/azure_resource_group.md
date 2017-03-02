@@ -6,6 +6,10 @@ title: About the azure_resource_group Resource
 
 Use the `azure_resource_group` InSpec audit resource to ensure that an Azure Resource group has the correct resources.
 
+## References
+
+- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+
 ## Syntax
 
 The name of the resource group is specified as an attribute on the resource:
@@ -46,7 +50,9 @@ This InSpec audit resource has the following matchers:
 
 ### eq
 
-<%= partial "/shared/matcher_eq" %>
+Use the `eq` matcher to test the equality of two values: `its('Port') { should eq '22' }`.
+
+Using `its('Port') { should eq 22 }` will fail because `22` is not a string value! Use the `cmp` matcher for less restrictive value comparisons.
 
 ### total
 
@@ -92,7 +98,7 @@ end
 
 The `count` filter allows testing for the number of resources that are not directly supported by the resource pack:
 
-As before it is best used in conjunction with a filter.  The following checks that there is at least 1 Managed Disk Image in the resource group.
+As before it is best used in conjunction with a filter. The following checks that there is at least 1 Managed Disk Image in the resource group.
 
 ```ruby
 describe azure_resource_group(name: 'MyResourceGroup').where { type: 'Microsoft.Compute/images' } do

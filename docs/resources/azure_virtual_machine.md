@@ -6,6 +6,10 @@ title: About the azure_virtual_machine Resource
 
 Use the `azure_virtual_machine` InSpec audit resource to ensure that a Virtual Machine has been provisionned correctly.
 
+## References
+
+- [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_compute)
+
 ## Syntax
 
 The name of the machine and the resourece group are required as attributes to the resource.
@@ -18,7 +22,7 @@ end
 
 where
 
-* `MyVm` is the name of the virtual machine as seen in Azure.  (It is **not** the hostname of the machine)
+* `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
 * `MyResourceGroup` is the name of the resouce group that the machine is in.
 * `matcher` is one of
   - `publisher`
@@ -51,7 +55,9 @@ This InSpec audit resource has the following matchers:
 
 ### eq
 
-<%= partial "/shared/matcher_eq" %>
+Use the `eq` matcher to test the equality of two values: `its('Port') { should eq '22' }`.
+
+Using `its('Port') { should eq 22 }` will fail because `22` is not a string value! Use the `cmp` matcher for less restrictive value comparisons.
 
 ### publisher
 
@@ -103,7 +109,7 @@ NOTE:  Azure does not allow the use of `Administrator` as the admin username on 
 
 ### computername
 
-The computername of the machine.  This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
+The computername of the machine. This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
 
 ### hostname
 
