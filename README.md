@@ -188,7 +188,7 @@ it { should have_boot_diagnostics }
 
 | Resource Name | Resources | Description |
 |---------------|-----------|-------------|
-| azure_vm_datadisks | has_disks? | Boolean test to see if a machine has datadisks |
+| azure_vm_datadisks | has_data_disks? | Boolean test to see if a machine has datadisks |
 | | count | Returns the number of data disks attached to the machine |
 | | where | Filter that allows for different tests to be performed, see examples below |
 
