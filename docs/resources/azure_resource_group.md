@@ -32,6 +32,8 @@ where
   - `sa_count`
   - `public_ip_count`
   - `contains`
+  - `managed_disk_image_count`
+  - `managed_disk_count`
 * `value` is the expected output from the matcher
 
 For example:
@@ -77,6 +79,18 @@ The number of storage accounts in the resource group
 ### public_ip_count
 
 The number of Public IP Addresses in the resource group
+
+### managed_disk_image_count
+
+The number of managed disk images that are in the resource group.
+
+These are the items from which managed disks are created which are attached to machines. Generally the images are created from a base image or a custom image (e.g. Packer)
+
+### managed_disk_count
+
+The number of managed disks in the resource group.
+
+If a resource group contains one virtual machine with an OS disk and 2 data disks that are all Managed Disks, then the count would be 3.
 
 ### contains
 

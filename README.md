@@ -125,6 +125,8 @@ end
 | | nsg_count | Helper method to return the number of Network Security Groups (NSG) that exist |
 | | sa_count | Helper method to return the number of Storage Accounts (SA) that exist |
 | | public_ip_count | Helper method to return the number of Public IP Addresses that exist |
+| | managed_disk_image_count | Helper method to return the number of Managed Disk Images that exist |
+| | managed_disk_count | Helper method to return the number of Managed Disks that exist |
 | | contains | Used to determine if a specific item exists |
 
 This resource also has a FilterTable which means that it is possible to check for items that do not yet have a helper method.
