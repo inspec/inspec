@@ -11,13 +11,13 @@ control 'azure-vm-datadisks-1.0' do
   resource_group_name = 'Inspec-Azure'
 
   # Ensure that the named machine has 1 data disk
-  describe azure_vm_datadisks(host: vm_internal, resource_group: resource_group_name) do
+  describe azure_virtual_machine_datadisks(name: vm_internal, resource_group: resource_group_name) do
     its('has_disks?') { should be true }
     its('count') { should eq 1 }
   end
 
   # Ensure that the first data disk on the same machine size is greater than 10gb
-  describe azure_vm_datadisks(host: vm_internal, resource_group: resource_group_name).where { disk.zero? and size > 10 } do
+  describe azure_virtual_machine_datadisks(name: vm_internal, resource_group: resource_group_name).where { disk.zero? and size > 10 } do
     its('entries') { should_not be_empty }
   end
 

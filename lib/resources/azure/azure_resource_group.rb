@@ -9,7 +9,7 @@ require 'azure_backend'
 # @attr_reader [Azure::ARM::Resources::Models::ResourceGroup] rg Resource group under interrogation
 # @attr_reader [Hashtable] counts Hashtable containing the counts of the different types in the resource group
 class AzureRg < Inspec.resource(1)
-  name 'azure_rg'
+  name 'azure_resource_group'
 
   desc "
     This resource returns information about the specified resource group

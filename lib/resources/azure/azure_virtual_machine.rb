@@ -7,14 +7,14 @@ require 'azure_backend'
 #
 # @attr_reader [Azure::ARM::Compute::Models::VirtualMachine] vm VM object as retrieved from Azure
 class AzureVm < Inspec.resource(1)
-  name 'azure_vm'
+  name 'azure_virtual_machine'
 
   desc "
     This resource gathers information about which image the vm was created from
   "
 
   example "
-    describe azure_vm(host: 'acme-test-01', resource_group: 'ACME') do
+    describe azure_vm(name: 'acme-test-01', resource_group: 'ACME') do
       its('sku') { should eq '16.04.0-LTS'}
     end
   "
@@ -31,7 +31,7 @@ class AzureVm < Inspec.resource(1)
   def initialize(opts)
     opts = opts
     helpers = Helpers.new
-    @vm = helpers.get_vm(opts[:host], opts[:resource_group])
+    @vm = helpers.get_vm(opts[:name], opts[:resource_group])
 
     # Ensure that the vm is an object
     raise format('An error has occured: %s', vm) if vm.instance_of?(String)

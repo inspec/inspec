@@ -103,7 +103,7 @@ control 'azure-1' do
   impact 1.0
   title 'Checks that the machine was built from the correct image'
 
-  describe azurevm_image(host: 'example-01', resource_group: 'MyResourceGroup') do
+  describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('sku') { should eq '16.04.0-LTS' }
     its('publisher') { should ieq 'Canonical' }
     its('offer') { should ieq 'UbuntuServer' }
@@ -113,7 +113,7 @@ end
 
 ### Available Resources
 
-- `azure_rg` - This resource reads information about the resources in the specified resource group
+- `azure_resource_group` - This resource reads information about the resources in the specified resource group
 
 | Resource Name | Resources | Description |
 |---------------|-----------|-------------|
@@ -136,7 +136,7 @@ control 'azure-1' do
   impact 1.0
   title 'Checks that there is only one storage account in the resource group'
 
-  describe azure_rg(name: 'MyResourceGroup').where { type == 'Microsoft.Storage/storageAccounts' }.entries do
+  describe azure_resource_group(name: 'MyResourceGroup').where { type == 'Microsoft.Storage/storageAccounts' }.entries do
     its('count') { should eq 1 }
   end
 end
@@ -149,7 +149,7 @@ control 'azure-1' do
   impact 1.0
   title 'Checks a resource with the name "example-VM" exists'
 
-  describe azure_rg(name: 'MyResourceGroup').contains(parameter: 'name', value: 'example-VM') do
+  describe azure_resource_group(name: 'MyResourceGroup').contains(parameter: 'name', value: 'example-VM') do
     it { should be true }
   end
 end
@@ -201,12 +201,12 @@ control 'azure-1' do
   impact 1.0
   title 'Checks that the machine has exactly one data disk and it is over 10gb in size'
 
-  describe azure_vm(host: 'example-01', resource_group: 'MyResourceGroup') do
+  describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('has_disks?') { should be true }
     its('count') { should eq 1 }
   end
 
-  describe azure_vm_datadisks(host: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
+  describe azure_virtual_machine_datadisks(name: 'example-01', resource_group: 'MyResourceGroup').where { disk == 0 and size > 10 } do
     its('entries') { should_not be_empty }
   end
 end
