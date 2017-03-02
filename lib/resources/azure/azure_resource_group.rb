@@ -153,6 +153,22 @@ class AzureRg < Inspec.resource(1)
     counts['Microsoft.Network/publicIPAddresses']
   end
 
+  # Helper method to determine the number of Managed Disk images in the resource group
+  #
+  # @return [Integer] Number of Managed Disk images
+  #
+  def managed_disk_image_count
+    counts['Microsoft.Compute/images']
+  end
+
+  # Helper method to determine the number of Managed Disks in the resource group
+  #
+  # @return [Integer] Number of Managed Disks
+  #
+  def managed_disk_count
+    counts['Microsoft.Compute/disks']
+  end
+
   private
 
   # Parse the Resource Group Resources

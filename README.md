@@ -125,6 +125,8 @@ end
 | | nsg_count | Helper method to return the number of Network Security Groups (NSG) that exist |
 | | sa_count | Helper method to return the number of Storage Accounts (SA) that exist |
 | | public_ip_count | Helper method to return the number of Public IP Addresses that exist |
+| | managed_disk_image_count | Helper method to return the number of Managed Disk Images that exist |
+| | managed_disk_count | Helper method to return the number of Managed Disks that exist |
 | | contains | Used to determine if a specific item exists |
 
 This resource also has a FilterTable which means that it is possible to check for items that do not yet have a helper method.
@@ -166,7 +168,7 @@ end
 | | location | Where the machine has been deployed |
 | | boot_diagnostics? | Whether boot diagnostics have been enabled or not |
 | | nic_count | How many network cards are attached to the machine |
-| | username | The admin username that has been assigned to the machine |
+| | admin_username | The admin username that has been assigned to the machine |
 | | computername | Computer name of the machine in the operating system. This maybe different to the VM name as seen in Azure |
 | | hostname | Alias for computername |
 | | password_authentication? | If password authentication is enabled. For Windows machines this is always true |
