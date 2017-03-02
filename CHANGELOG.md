@@ -1,4 +1,35 @@
+
+n.n.n / 2017-03-02
+==================
+
+  * Merge pull request #1520 from chef/adamleff/fix-habitat-build
+  * Add Rake to Habitat build Gemfile
+  * Merge pull request #1454 from jkerry/FunctionalJUnitReporter
+  * correcting a typo, anonymnous -> anonymous
+  * adding gitignore entries for the tar.gz files that result from the functional tests
+  * resolving old junit unit tests with the new format. Adding a skipped test node as a result
+  * Converting the junit reporter to use nokogiri on top of the json reporter output hash
 # Change Log
+
+## [1.16.0](https://github.com/chef/inspec/tree/1.16.0) (2017-03-02)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.15.0...v1.16.0)
+
+**Implemented enhancements:**
+
+- Functional JUnit reporter [\#1454](https://github.com/chef/inspec/pull/1454) ([jkerry](https://github.com/jkerry))
+
+**Closed issues:**
+
+- Small bug on the registry\_key docs page [\#1523](https://github.com/chef/inspec/issues/1523)
+
+**Merged pull requests:**
+
+- use -- for description of inspec login\_automate [\#1527](https://github.com/chef/inspec/pull/1527) ([chris-rock](https://github.com/chris-rock))
+- fix ident in cmp matcher docs [\#1524](https://github.com/chef/inspec/pull/1524) ([chris-rock](https://github.com/chris-rock))
+- Add Rake to Habitat build Gemfile [\#1520](https://github.com/chef/inspec/pull/1520) ([adamleff](https://github.com/adamleff))
+- Fix kernel\_module for centos/redhat [\#1513](https://github.com/chef/inspec/pull/1513) ([postgred](https://github.com/postgred))
+- Added oracle linux to rhel platform section of 'service' resource. [\#1511](https://github.com/chef/inspec/pull/1511) ([carldjohnston](https://github.com/carldjohnston))
+- Add FreeBSD support for ZFS datasets and pools [\#1501](https://github.com/chef/inspec/pull/1501) ([jbenden](https://github.com/jbenden))
 
 ## [v1.15.0](https://github.com/chef/inspec/tree/v1.15.0) (2017-02-27)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.14.1...v1.15.0)
@@ -27,6 +58,7 @@
 
 **Merged pull requests:**
 
+- 1.15.0 [\#1519](https://github.com/chef/inspec/pull/1519) ([adamleff](https://github.com/adamleff))
 - Fix formatting and colors on Windows [\#1510](https://github.com/chef/inspec/pull/1510) ([trickyearlobe](https://github.com/trickyearlobe))
 - Adding a Habitat profile artifact creator [\#1505](https://github.com/chef/inspec/pull/1505) ([adamleff](https://github.com/adamleff))
 - create inspec.io/tutorial.html [\#1490](https://github.com/chef/inspec/pull/1490) ([arlimus](https://github.com/arlimus))
