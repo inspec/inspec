@@ -19,7 +19,7 @@ class AzureVm < Inspec.resource(1)
     end
   "
 
-  attr_accessor :vm
+  attr_accessor :vm, :nics, :helpers
 
   # Constructor to retrieve the VM from Azure
   #
@@ -30,12 +30,27 @@ class AzureVm < Inspec.resource(1)
   #     opts[:resource_group] Name of the resource group in which the host will be found
   def initialize(opts)
     opts = opts
-    helpers = Helpers.new
+    @helpers = Helpers.new
     @vm = helpers.get_vm(opts[:name], opts[:resource_group])
 
     # Ensure that the vm is an object
     raise format('An error has occured: %s', vm) if vm.instance_of?(String)
+
+    # Parse the Network Interface Cards attached to the machine
+    @nics = parse_nics(vm.network_profile.network_interfaces)
   end
+
+  filter = FilterTable.create
+  filter.add_accessor(:where)
+        .add_accessor(:entries)
+        .add(:accelerated_networking, field: 'enable_accelerated_networking')
+        .add(:ip_forwarding, field: 'enable_ip_forwarding')
+        .add(:location, field: 'location')
+        .add(:name, field: 'name')
+        .add(:primary, field: 'primary')
+        .add(:ip_configurations, field: 'ip_configurations')
+
+  filter.connect(self, :nics)
 
   # Determine the SKU used to create the machine
   #
@@ -81,7 +96,7 @@ class AzureVm < Inspec.resource(1)
   #
   # @return [Boolean]
   #
-  def boot_diagnostics?
+  def has_boot_diagnostics?
     if vm.diagnostics_profile
       vm.diagnostics_profile.boot_diagnostics.enabled
     else
@@ -155,5 +170,150 @@ class AzureVm < Inspec.resource(1)
   #
   def os_type
     vm.storage_profile.os_disk.os_type
+  end
+
+  # Return an array of the private IP addresses so that it is possible
+  # to check if the machine has the correct assigned address
+  #
+  # @return [Array] Array of private ip addresses
+  #
+  def private_ipaddresses
+    # Create an array to hold the addresses
+    addresses = []
+
+    # Iterate around the filter that has been populated
+    entries.each do |entry|
+      entry.ip_configurations.each do |ip_config|
+        addresses << ip_config['private_ipaddress']
+      end
+    end
+
+    # return the array to the calling function
+    addresses
+  end
+
+  # Boolean test to check that the machine has a public IP address
+  #
+  # @return [boolean]
+  #
+  def has_public_ip_address?
+    # Define the test value
+    test = false
+
+    entries.each do |entry|
+      entry.ip_configurations.each do |ip_config|
+        if ip_config['public_ipaddress']['attached']
+          test = true
+          break
+        end
+      end
+    end
+
+    test
+  end
+
+  # Return the domain name label that has been assigned to the machine
+  #
+  # @return [String] The domain name label
+  #
+  def domain_name_label
+    label = nil
+    entries.each do |entry|
+      entry.ip_configurations.each do |ip_config|
+        if ip_config['public_ipaddress']['attached']
+          label = ip_config['public_ipaddress']['domain_name_label']
+        end
+      end
+    end
+
+    label
+  end
+
+  private
+
+  # Parse the array of NICs attached to the machine
+  #
+  # @return [Array] Array of all the NICs
+  #
+  def parse_nics(attached_nics)
+    # Iterate around the attached NICs
+    attached_nics.each.map do |attached_nic|
+
+      # Get the name of the resource group and the name of the NIC
+      # This is required as the card might be in a different resource group
+      nic_raw = attached_nic.id.split(%r{/})
+      nic_resource_group_name = nic_raw[4]
+      nic_name = nic_raw.last
+
+      # Interrogate Azure for the NIC details
+      nic = helpers.network_mgmt.client.network_interfaces.get(nic_resource_group_name, nic_name)
+
+      # Parse the NIC
+      parse_nic(nic)
+    end.compact
+  end
+
+  # Parse the indivdual NIC
+  #
+  # @return [Hash] Properties of the indvidual NIC
+  #
+  def parse_nic(nic)
+    # Create the hash table that contains all the information about the NIC
+    {
+      'enable_accelerated_networking' => nic.enable_accelerated_networking,
+      'enable_ip_forwarding' => nic.enable_ipforwarding,
+      'location' => nic.location,
+      'name' => nic.name,
+      'primary' => nic.primary,
+
+      # Parse all the IP configurations for the NIC
+      'ip_configurations' => parse_ip_configurations(nic.ip_configurations),
+    }
+  end
+
+  # Parse the array of IP configurations that are applied to the NIC
+  #
+  # @returns [Array] Array of all the IP configurations
+  #
+  def parse_ip_configurations(ip_configurations)
+    # Iterate around all of the IP configurations
+    ip_configurations.each.map do |ip_configuration|
+      parse_ip_configuration(ip_configuration)
+    end.compact
+  end
+
+  # Parse the IP configuration item
+  #
+  # @return [Hash] Hashtable of the ip_configuration attributes
+  #
+  def parse_ip_configuration(ip_configuration)
+    config = {
+      'name' => ip_configuration.name,
+      'primary' => ip_configuration.primary,
+      'private_ipaddress' => ip_configuration.private_ipaddress,
+      'public_ipaddress' => {
+        'attached' => !ip_configuration.public_ipaddress.nil?,
+      },
+    }
+
+    # if there is a public IP address attached get its details
+    if config['public_ipaddress']['attached']
+
+      # Get the name of the resource group and the name of the NIC
+      # This is required as the card might be in a different resource group
+      public_ip_raw = ip_configuration.public_ipaddress.id.split(%r{/})
+      public_ip_resource_group_name = public_ip_raw[4]
+      public_ip_name = public_ip_raw.last
+
+      # Interrogate Azure for the NIC details
+      public_ip = helpers.network_mgmt.client.public_ipaddresses.get(public_ip_resource_group_name, public_ip_name)
+
+      # update the config with the information about the public IP
+      config['public_ipaddress']['domain_name_label'] = public_ip.dns_settings.domain_name_label
+      config['public_ipaddress']['dns_fqdn'] = public_ip.dns_settings.fqdn
+    end
+
+    # return object
+    config
   end
 end
