@@ -1,0 +1,125 @@
+---
+title: About the azure_resource_group Resource
+---
+
+# azure_resource_group
+
+Use the `azure_resource_group` InSpec audit resource to ensure that an Azure Resource group has the correct resources.
+
+## Syntax
+
+The name of the resource group is specified as an attribute on the resource:
+
+```ruby
+describe azure_resource_group(name: 'MyResourceGroup') do
+  its('matcher') { should eq 'value' }
+end
+```
+
+where
+
+* `MyResourceGroup` is the name of the resource group being interrogated
+* `matcher` is one of 
+  - `total`
+  - `count`
+  - `nic_count`
+  - `vm_count`
+  - `vnet_count`
+  - `sa_count`
+  - `public_ip_count`
+  - `contains`
+* `value` is the expected output from the matcher
+
+For example:
+
+```ruby
+describe azure_resource_group(name: 'ChefAutomate') do
+  its('total') { should eq 7}
+  its('nic_count') { should eq 1 }
+  its('vm_count') { should eq 1 }
+end
+```
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### total
+
+The total number of resources in the resource group
+
+### nic_count
+
+The number of network interface cards in the resource group
+
+### vm_count
+
+The number of virtual machines in the resource group
+
+### vnet_count
+
+The number of virtual networks in the resource group
+
+### sa_count
+
+The number of storage accounts in the resource group
+
+### public_ip_count
+
+The number of Public IP Addresses in the resource group
+
+### contains
+
+The `contains` filter allows testing of resources that are not directly supported by the resource pack:
+
+```ruby
+its('contains') { should be true }
+```
+
+This matcher is best used in conjunction with filters, for example the following tests that a Managed Disk image exists in the resource group
+
+```ruby
+describe azure_resource_group(name: 'MyResourceGroup').where { type: 'Microsoft.Compute/images' } do
+  its('contains') { should be true }
+end
+```
+
+### count
+
+The `count` filter allows testing for the number of resources that are not directly supported by the resource pack:
+
+As before it is best used in conjunction with a filter.  The following checks that there is at least 1 Managed Disk Image in the resource group.
+
+```ruby
+describe azure_resource_group(name: 'MyResourceGroup').where { type: 'Microsoft.Compute/images' } do
+  its('count') { should > 1 }
+end
+```
+
+## Examples
+
+The following examples show how to use this InSpec audit resource
+
+### Test Resource Group has the correct number of resources
+
+```ruby
+describe azure_resource_group(name: 'ChefAutomate') do
+  its('total') { should eq 7}
+```
+
+### Ensure that the Resource Group contains the correct resources
+
+```ruby
+describe azure_resource_group(name: 'ChefAutomate') do
+  its('total') { should eq 7 }
+  its('vm_count') { should eq 2 }
+  its('nic_count') { should eq 2 }
+  its('public_ip_count') { should eq 1 }
+  its('sa_count') { should eq 1 }
+  its('vnet_count') { should eq 1 }
+end
+```
