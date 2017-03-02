@@ -15,7 +15,7 @@ control 'azure-vm-1.0' do
     its('location') { should eq 'westeurope' }
     its('boot_diagnostics?') { should be false }
     its('nic_count') { should eq 1 }
-    its('username') { should eq 'azure' }
+    its('admin_username') { should eq 'azure' }
     its('password_authentication?') { should be true }
     its('ssh_key_count') { should eq 0 }
     its('os_type') { should eq 'Linux' }  

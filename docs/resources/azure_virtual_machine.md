@@ -32,7 +32,7 @@ where
   - `location`
   - `boot_diagnostics?`
   - `nic_count`
-  - `username`
+  - `admin_username`
   - `computername`
   - `hostname`
   - `password_authentication?`
@@ -101,7 +101,7 @@ Boolean test to see if boot diagnostics have been enabled on the machine
 
 The number of network interface cards that have been attached to the machine
 
-### username
+### admin_username
 
 The admin username that was assigned to the machine
 

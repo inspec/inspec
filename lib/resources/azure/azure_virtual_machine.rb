@@ -101,7 +101,7 @@ class AzureVm < Inspec.resource(1)
   #
   # @return [String] Admin username when the machine was created, e.g. azure
   #
-  def username
+  def admin_username
     vm.os_profile.admin_username
   end
 

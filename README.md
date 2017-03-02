@@ -168,7 +168,7 @@ end
 | | location | Where the machine has been deployed |
 | | boot_diagnostics? | Whether boot diagnostics have been enabled or not |
 | | nic_count | How many network cards are attached to the machine |
-| | username | The admin username that has been assigned to the machine |
+| | admin_username | The admin username that has been assigned to the machine |
 | | computername | Computer name of the machine in the operating system. This maybe different to the VM name as seen in Azure |
 | | hostname | Alias for computername |
 | | password_authentication? | If password authentication is enabled. For Windows machines this is always true |
