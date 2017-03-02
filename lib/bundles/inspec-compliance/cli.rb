@@ -76,7 +76,7 @@ module Compliance
         if !options['dctoken'].nil? || !options['usertoken'].nil?
           msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
         else
-          puts "Please specify a token using --dctoken='DATA_COLLECTOR_TOKEN' or usertoken='AUTOMATE_TOKEN' "
+          puts "Please specify a token using --dctoken='DATA_COLLECTOR_TOKEN' or --usertoken='AUTOMATE_TOKEN' "
           exit 1
         end
       else
