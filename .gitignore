@@ -19,6 +19,9 @@ habitat/VERSION
 habitat/results
 /.ruby-gemset
 /.ruby-version
+/.direnv
+/.envrc
+results/
 
 www/source/index.html.slim
 
