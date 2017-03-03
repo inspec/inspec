@@ -79,7 +79,7 @@ module Habitat
     private
 
     def create_profile_object
-      @profile = Inspec::Profile.for_target(path, {})
+      @profile = Inspec::Profile.for_target(path, backend: Inspec::Backend.create(target: 'mock://'))
     end
 
     def verify_profile
@@ -307,22 +307,29 @@ do_install() {
 
 export PATH=${PATH}:$(hab pkg path core/ruby)/bin
 
+# InSpec will try to create a .cache directory in the user's home directory
+# so this needs to be someplace writeable by the hab user
+export HOME={{pkg.svc_var_path}}
+
 PROFILE_IDENT="#{habitat_origin}/#{package_name}"
 SLEEP_TIME={{cfg.sleep_time}}
+RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
+RESULTS_FILE="${RESULTS_DIR}/#{package_name}.json"
+ERROR_FILE="{{pkg.svc_var_path}}/inspec.err"
 
-# InSpec will try to create a .inspec directory, so this needs to be somewhere writable by the hab user
-cd {{pkg.svc_var_path}}
+# Create a directory for inspec formatter output
+mkdir -p {{pkg.svc_var_path}}/inspec_results
 
 while true; do
   echo "Executing InSpec for ${PROFILE_IDENT}"
-  hab pkg exec chef/inspec inspec exec $(hab pkg path ${PROFILE_IDENT})/dist --format=cli 2>&1
+  hab pkg exec chef/inspec inspec exec $(hab pkg path ${PROFILE_IDENT})/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
   RC=$?
 
-  echo ""
   if [ "x${RC}" == "x0" ]; then
     echo "InSpec run completed successfully."
   else
     echo "InSpec run did NOT complete successfully."
+    cat ${ERROR_FILE}
   fi
 
   echo "sleeping for ${SLEEP_TIME} seconds"
