@@ -20,8 +20,10 @@ require_relative '../../../lib/inspec/version.rb'
 name 'inspec'
 
 dependency 'ruby'
-dependency 'rb-readline'
+dependency 'rubygems'
 dependency 'bundler'
+dependency 'rb-readline'
+dependency 'nokogiri'
 dependency 'appbundler'
 
 license :project_license
