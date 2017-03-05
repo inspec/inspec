@@ -2,79 +2,73 @@
 
 header {
 	height : 360px;
+
 	@include nav-small {
-	height: 300px;
+		height: 300px;
 	}
 }
 
-#particles-js {
-	// Animated dot particles
-	z-index          : 20;
-	position         : absolute;
-	width            : 100%;
-	height           : 500px;
-	margin-top       : -500px;
-	overflow         : hidden;
-	background-color : transparent;
-
+#particles-js { // Animated dot particles
+	z-index: 20;
+	position: absolute;
+	width: 100%;
+	height: 500px;
+	margin-top: -500px;
+	overflow: hidden;
+	background-color: transparent;
 }
 
-#particles-second {
-	// Animated line particles
-	position         : absolute;
-	width            : 100%;
-	max-width        : 100%;
-	height           : 80%;
-	overflow         : hidden;
-	background-color : transparent;
+#particles-second { // Animated line particles
+	position: absolute;
+	width: 100%;
+	max-width: 100%;
+	height: 80%;
+	overflow: hidden;
+	background-color: transparent;
 
-	//mobile
-	@include nav-small{
-	height : 100%;
+	@include nav-small { //mobile
+		height: 100%;
 	}
-
 }
 
-.h-top {
-	// Container for homepage header art
+.h-top { // Container for homepage header art
 	height : 360px; //same as header height
+
 	@include nav-small {
-	height: 300px;
+		height: 300px;
 	}
 
 	img {
-		&:first-of-type {
-			// Grid Art
-			z-index  : 10;
-			position : absolute;
-			top      : 90px;
-			height   : 360px;
+		&:first-of-type {// Grid Art
+			z-index: 10;
+			position: absolute;
+			top: 90px;
+			height: 360px;
+
 			@include nav-small {
-			height: 300px;
-			top      : 50px;
+				height: 300px;
+				top: 50px;
 			}
 		}
 
-		&:nth-child(3) {
-			// Diamond
-			height     : 220px;
+		&:nth-child(3) { // Diamond
+			height: 220px;
 			margin-top : 55px;
-			//mobile
-			@include nav-small{
-			height     : 190px;
-			margin-top : 35px;
+
+			@include nav-small { //mobile
+				height: 190px;
+				margin-top: 35px;
 			}
 		}
 	}
 
-	h1 {
-		// Heading
-		z-index    : 10;
-		position   : absolute;
-		margin-top : 280px;
-		//mobile
-		@include nav-small{
-		margin-top : 210px;
+	h1 { // Heading
+		z-index: 10;
+		position: absolute;
+		margin-top: 270px;
+
+		@include nav-small { //mobile
+			margin-top: 210px;
 		}
 	}
 }
@@ -82,154 +76,127 @@ header {
 // Hero illustration for Community
 
 img.grid {
-	z-index    : -1;
-	margin-top : -80px;
+	z-index: -1;
+	margin-top: -80px;
 }
 
 img.ball {
-	position          : absolute;
-	width             : 35px;
-	margin-top        : 20px;
-	margin-left       : 240px;
-	-moz-animation    : spin 2s linear infinite both;
-	-webkit-animation : spin 2s linear infinite both;
-	animation         : spin 2s linear infinite both;
+	position: absolute;
+	width: 35px;
+	margin-top: 20px;
+	margin-left: 240px;
+	-moz-animation: spin 2s linear infinite both;
+	-webkit-animation: spin 2s linear infinite both;
+	animation: spin 2s linear infinite both;
 }
 
 img.ball:nth-child(2) {
-	width       : 55px;
-	margin-top  : 110px;
-	margin-left : 150px;
+	width: 55px;
+	margin-top: 110px;
+	margin-left: 150px;
 }
 
 img.ball:nth-child(3) {
-	width       : 75px;
-	margin-top  : 130px;
-	margin-left : 290px;
+	width: 75px;
+	margin-top: 130px;
+	margin-left: 290px;
 }
 
 // Children page Headers
 
 .child-h {
-	height     : 180px;
-	// plus header height
+	height: 180px; // plus header height
 }
 
 .child-h #particles-second,
 .child-h .purp-shade {
-	height : 180px;
+	height: 180px;
 }
 
 .child-h .row {
-	position          : relative;
-	top               : 50%;
-	-ms-transform     : translateY(-50%);
-	-webkit-transform : translateY(-50%);
-	transform         : translateY(-50%);
-	// vertically align content inside parent
-	// vertically align content inside parent
+	position: relative;
+	top: 50%;
+	-o-transform: translateY(-50%); // vertically align content inside parent
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 
 .child-h #particles-second {
-	z-index : 1;
+	z-index: 1;
 }
 
 // Animation for Home Page
 
-// Reflecting Diamond
-
-.bright-animate {
-	-moz-animation    : brightness 6s infinite;
-	-webkit-animation : brightness 6s infinite;
-	animation         : brightness 6s infinite;
-}
-
-@-webkit-keyframes brightness {
-	0%,
-	100% {}
-
-	50% {}
-}
-
-@keyframes brightness {
-	0%,
-	100% {}
-
-	50% {}
-}
-
-// Warping Grid Animation//
-
-.grid-animate {
-	-moz-animation    : g-animate 8s linear infinite both;
-	-webkit-animation : g-animate 8s linear infinite both;
-	animation         : g-animate 8s linear infinite both;
+.grid-animate { // Warping Grid Animation//
+	-moz-animation: g-animate 8s linear infinite both;
+	-webkit-animation: g-animate 8s linear infinite both;
+	animation: g-animate 8s linear infinite both;
 }
 
 @-webkit-keyframes g-animate {
 	25% {
-		-webkit-transform : rotateZ(10deg) scale3d(0.7, 1, 1.2);
-		transform         : rotateZ(10deg) scale3d(0.7, 1, 1.2);
+		-webkit-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+		transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
 	}
 
 	50% {
-		-webkit-transform : scale3d(1.2, 0.7, 1);
-		transform         : scale3d(1.2, 0.7, 1);
+		-webkit-transform: scale3d(1.2, 0.7, 1);
+		transform: scale3d(1.2, 0.7, 1);
 	}
 
 	75% {
-		-webkit-transform : rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-		transform         : rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+		-webkit-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+		transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
 	}
 }
 
 @keyframes g-animate {
 	25% {
-		-moz-transform : rotateZ(10deg) scale3d(0.7, 1, 1.2);
-		transform      : rotateZ(10deg) scale3d(0.7, 1, 1.2);
+		-moz-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+		transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
 	}
 
 	50% {
-		-moz-transform : scale3d(1.2, 0.7, 1);
-		transform      : scale3d(1.2, 0.7, 1);
+		-moz-transform: scale3d(1.2, 0.7, 1);
+		transform: scale3d(1.2, 0.7, 1);
 	}
 
 	75% {
-		-moz-transform : rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
-		transform      : rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+		-moz-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+		transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
 	}
 }
 
 // Growing HR
 
-hr.first {
-	width : 0px;
-	// Apply to animated HR, JS calls this
+hr.first { // Apply to animated HR, JS calls this
+	width: 0px;
 }
 
 .stretch {
-	-moz-animation    : grow 0.6s linear 1 both;
-	-webkit-animation : grow 0.6s linear 1 both;
-	animation         : grow 0.6s linear 1 both;
+	-moz-animation: grow 0.6s linear 1 both;
+	-webkit-animation: grow 0.6s linear 1 both;
+	animation: grow 0.6s linear 1 both;
 }
 
 @-webkit-keyframes grow {
 	from {
-		width : 0px;
+		width: 0px;
 	}
 
 	to {
-		width : 150px;
+		width: 150px;
 	}
 }
 
 @keyframes grow {
 	from {
-		width : 0px;
+		width: 0px;
 	}
 
 	to {
-		width : 150px;
+		width: 150px;
 	}
 }
 
@@ -237,31 +204,31 @@ hr.first {
 
 @-moz-keyframes spin {
 	from {
-		-moz-transform : rotate(0deg);
+		-moz-transform: rotate(0deg);
 	}
 
 	to {
-		-moz-transform : rotate(360deg);
+		-moz-transform: rotate(360deg);
 	}
 }
 
 @-webkit-keyframes spin {
 	from {
-		-webkit-transform : rotate(0deg);
+		-webkit-transform: rotate(0deg);
 	}
 
 	to {
-		-webkit-transform : rotate(360deg);
+		-webkit-transform: rotate(360deg);
 	}
 }
 
 @keyframes spin {
 	from {
-		transform : rotate(0deg);
+		transform: rotate(0deg);
 	}
 
 	to {
-		transform : rotate(360deg);
+		transform: rotate(360deg);
 	}
 }
 

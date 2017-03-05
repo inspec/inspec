@@ -7,6 +7,7 @@
   width: 100%;
   background: $color_white;
   transition: top 0.3s ease;
+  box-shadow: 0 0 10px rgba(151, 110, 229, 0.1);
 
   @include nav-large {
     position: fixed;
@@ -20,17 +21,15 @@
       position: absolute;
     }
 
-    @media (min-width: 640px) and (max-width: 879px) {
+    @media screen and (min-width: 640px) and (max-width: 879px) {
       bottom: 156px;
     }
 
-    @media (min-width: 880px) {
+    @media screen and (min-width: 880px) {
       bottom: 141px;
     }
   }
 }
-
-
 
 .main-nav--link-ctas {
   padding: 9px 0 9px $side-nav-padding-small;
@@ -39,7 +38,6 @@
   & > .button {
     margin-bottom: 0;
   }
-
 }
 
 .main-nav--logo {
@@ -65,8 +63,6 @@
   }
 }
 
-
-
 .main-nav--link-icon {
   position: absolute;
   top: 13px;
@@ -77,7 +73,6 @@
     left: $side-nav-padding-large;
   }
 
-
   @include nav-large {
     margin-left: 34px;
   }
@@ -85,10 +80,13 @@
 
 #main-nav-ctas {
   transition: top 0.3s ease;
+  -webkit-transition: top 0.3s ease;
+  -moz-transition: top 0.3s ease;
+  -o-transition: top 0.3s ease;
   background: $color_white;
   padding-left: 40px;
   padding-right: 40px;
-  box-shadow: 0 0 4px rgba(151, 110, 229, 0.1);
+  box-shadow: 0 0 10px rgba(151, 110, 229, 0.1);
 
   @include nav-small {
     padding-left: .9375rem;
@@ -99,8 +97,6 @@
   .main-nav--link-text {
     margin-left: 6px;
   }
-
-
 
   @include nav-large {
     position: fixed;
@@ -123,7 +119,6 @@
     color: $color_gray;
   }
 
-
   a:hover, a.btn, a:active {
     color: $color_purple;
   }
@@ -145,7 +140,6 @@ nav {
 
 nav ul {
   margin-bottom: 0;
-
 }
 
 nav li {
@@ -161,17 +155,17 @@ nav li {
     padding-top: $percent_sm/2;
     padding-bottom: $percent_sm/2;
     border-bottom: 1px solid $color_lt_blue;
+    text-align: center;
   }
-
 }
 
 nav li:first-child{
   @include nav-small {
-  padding-top: $percent_sm;
+    padding-top: $percent_sm;
   }
 }
 
-nav li:last-child {
+nav li.nav-cta {
   @include nav-small {
     padding-top: $percent_sm;
     padding-bottom: $percent_sm;
@@ -179,30 +173,30 @@ nav li:last-child {
 }
 
 #main-nav-ctas > i {
-  display:none;
-  color: $color_gray;
+  display: none;
+  color: $color_purple;
+  cursor: pointer;
 
   @include nav-small {
-  display: block;
-  font-size: 1.25em;
-  float: right;
-  margin-top: 1em;
+    display: block;
+    font-size: 1.5em;
+    float: right;
+    margin-top: 0.75em;
   }
 }
 
 span.toggle {
   font-size: 1.25em;
   float: right;
-
 }
 
 a.main-nav--logo {
   display: inline-block;
   width: 130px;
   float: left;
-  margin-left: initial!important;
+  margin-left: initial !important;
 
   @include nav-small {
-  margin-top: 0.8em;
+    margin-top: 0.8em;
   }
 }

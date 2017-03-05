@@ -1,3 +1,43 @@
 @import "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css";
-@import "https://fonts.googleapis.com/css?family=Roboto:300,400";
-@import "https://allfont.net/allfont.css?fonts=source-sans-pro";
+
+@font-face {
+  font-family: 'Muli';
+  font-weight: 200;
+  font-style: normal;
+  src: url('/fonts/Muli-200/Muli-200.eot');
+  src: url('/fonts/Muli-200/Muli-200.eot?#iefix') format('embedded-opentype'),
+       local('Muli ExtraLight'),
+       local('Muli-200'),
+       url('/fonts/Muli-200/Muli-200.woff2') format('woff2'),
+       url('/fonts/Muli-200/Muli-200.woff') format('woff'),
+       url('/fonts/Muli-200/Muli-200.ttf') format('truetype'),
+       url('/fonts/Muli-200/Muli-200.svg#Muli') format('svg');
+}
+
+@font-face {
+  font-family: 'Muli';
+  font-weight: 300;
+  font-style: normal;
+  src: url('/fonts/Muli-300/Muli-300.eot');
+  src: url('/fonts/Muli-300/Muli-300.eot?#iefix') format('embedded-opentype'),
+       local('Muli Light'),
+       local('Muli-300'),
+       url('/fonts/Muli-300/Muli-300.woff2') format('woff2'),
+       url('/fonts/Muli-300/Muli-300.woff') format('woff'),
+       url('/fonts/Muli-300/Muli-300.ttf') format('truetype'),
+       url('/fonts/Muli-300/Muli-300.svg#Muli') format('svg');
+}
+
+@font-face {
+  font-family: 'Muli';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/Muli-regular/Muli-regular.eot');
+  src: url('/fonts/Muli-regular/Muli-regular.eot?#iefix') format('embedded-opentype'),
+       local('Muli Regular'),
+       local('Muli-regular'),
+       url('/fonts/Muli-regular/Muli-regular.woff2') format('woff2'),
+       url('/fonts/Muli-regular/Muli-regular.woff') format('woff'),
+       url('/fonts/Muli-regular/Muli-regular.ttf') format('truetype'),
+       url('/fonts/Muli-regular/Muli-regular.svg#Muli') format('svg');
+}

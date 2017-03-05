@@ -1,120 +1,123 @@
 h1 {
-	color       : $color_heading;
-	font-family : $heading-font;
-	font-size   : 2.25em;
-	font-weight : 300;
-  //mobile
-	@include nav-small{
-		font-size   : 1.8em;
-		}
+	color: $color_heading;
+	font-family: $heading-font;
+	font-size: 2.25em;
+	font-weight: 300;
+
+	@include nav-small { //mobile
+		font-size: 1.8em;
+	}
 }
 
 h2 {
-	color       : $color_heading;
-	font-family : $heading-font;
-	font-size   : 1.75em;
-	font-weight : 300;
-  //mobile
-	@include nav-small{
-		font-size   : 1.4em;
-		}
+	color: $color_heading;
+	font-family: $heading-font;
+	font-size: 1.75em;
+	font-weight: 300;
+
+	@include nav-small { //mobile
+		font-size: 1.4em;
+	}
 }
 
 h3 {
-	color       : $color_heading;
-	font-family : $heading-font;
-	font-size   : 1.25em;
-	font-weight : 300;
-  //mobile
-	@include nav-small{
-		font-size   : 1.2em;
-		}
+	color: $color_heading;
+	font-family: $heading-font;
+	font-size: 1.25em;
+	font-weight: 300;
+
+	@include nav-small {   //mobile
+		font-size: 1.2em;
+	}
 }
 
 h4 {
-	color       : $color_paragraph;
-	font-family : $heading-font;
-	font-size   : 1.25em;
-	font-weight : 300;
-	line-height : 1.4em;
-  //mobile
-	@include nav-small{
-		font-size   : 1.2em;
-		line-height : 1.6em;
-		}
+	color: $color_paragraph;
+	font-family: $heading-font;
+	font-size: 1.25em;
+	font-weight: 300;
+	line-height: 1.4em;
 
+	@include nav-small {   //mobile
+		font-size: 1.2em;
+		line-height: 1.6em;
+	}
 }
 
 p {
-	//mobile
-	@include nav-small{
+	@include nav-small { //mobile
 		line-height : 1.6em;
-		}
-
+	}
 }
 
 li,
 ol,
 p,
 ul {
-	color       : $color_paragraph;
-	font-family : $main-font;
-	font-weight : 300;
+	color: $color_paragraph;
+	font-family: $main-font;
+	font-weight: 300;
 	list-style-type: none;
 }
 
-
 small {
-	@extend       %uppercase;
-	color       : $color_gray;
-	font-family : $main-font;
-	font-size   : 65%;
+	@extend %uppercase;
+	color: $color_gray;
+	font-family: $main-font;
+	font-size: 65%;
 }
 
 li {
-	// indent for li
-	margin-left : 1.6em;
+	margin-left: 1.6em; 	// indent for li
 
 	@include nav-small {
-	margin-left : initial;
+		margin-left: initial;
 	}
 }
 
 hr {
-	width            : 150px;
-	height           : 1px;
-	margin-top       : 6px;
-	margin-bottom    : 6px;
-	border           : 0;
-	background       : linear-gradient(
+	width: 150px;
+	height: 1px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	border: 0;
+	background: linear-gradient(
+            	 to right,
+               	$color_hr 0,
+               	$color_link 100%
+               );
+	background-color: $color_hr;
+	filter: progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
+}
 
-	                   	to right,
-	                   	$color_hr 0,
-	                   	$color_link 100%
+//Increase Text Margin
 
-	                   );
-	background-color : $color_hr;
-	filter           : progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
+.txt-margin {
+	margin-bottom: 1rem;
 }
 
 // Font Colors//
 
 .t-dk {
-	color : $color_heading;
+	color: $color_heading;
 }
 
 .t-white {
-	color : $color_white;
+	color: $color_white;
 }
 
 .t-blue {
-	color : $color_link;
+	color: $color_link;
 }
 
 .t-transparent {
-	opacity : 0.6;
+	opacity: 0.6;
 }
 
 .t-purple {
-	color : $color_purple!important;
+	color: $color_purple !important;
+}
+
+.t-purple > a { //trigger for side bar LI
+	color: $color_purple !important;
 }

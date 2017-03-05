@@ -1,20 +1,20 @@
 .tutorials--subhead {
-  color       : $color_link;
-  font-family : $heading-font;
+  color: $color_link;
+  font-family: $heading-font;
 }
 
 .tutorials--links {
   & > li {
-    margin-bottom : 4px;
+    margin-bottom: 4px;
   }
 }
 
 .tutorials--link {
-  font-family : $heading-font;
+  font-family: $main-font;
 
   & > span {
-    color          : $color_paragraph;
-    text-transform : none;
-    font-family    : $main-font;
+    color: $color_paragraph;
+    text-transform: none;
+    font-family: $main-font;
   }
 }
