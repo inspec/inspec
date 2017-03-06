@@ -1,17 +1,18 @@
-
-n.n.n / 2017-03-02
-==================
-
-  * Merge pull request #1520 from chef/adamleff/fix-habitat-build
-  * Add Rake to Habitat build Gemfile
-  * Merge pull request #1454 from jkerry/FunctionalJUnitReporter
-  * correcting a typo, anonymnous -> anonymous
-  * adding gitignore entries for the tar.gz files that result from the functional tests
-  * resolving old junit unit tests with the new format. Adding a skipped test node as a result
-  * Converting the junit reporter to use nokogiri on top of the json reporter output hash
 # Change Log
 
-## [1.16.0](https://github.com/chef/inspec/tree/1.16.0) (2017-03-02)
+## [1.16.1](https://github.com/chef/inspec/tree/v1.16.1) (2017-03-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.16.0...v1.16.1)
+
+**Fixed bugs:**
+
+- "inspec version" waits for connection timeout inside firewall [\#1537](https://github.com/chef/inspec/pull/1537) ([makotots](https://github.com/makotots))
+
+**Merged pull requests:**
+
+- Avoid connection timeout of "inspec version" [\#1538](https://github.com/chef/inspec/pull/1538) ([makotots](https://github.com/makotots))
+- Fix omnibus build after new JUnit formatter [\#1539](https://github.com/chef/inspec/pull/1539) ([adamleff](https://github.com/adamleff))
+
+## [1.16.0](https://github.com/chef/inspec/tree/v1.16.0) (2017-03-02)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.15.0...v1.16.0)
 
 **Implemented enhancements:**
