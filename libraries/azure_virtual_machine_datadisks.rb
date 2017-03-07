@@ -92,7 +92,6 @@ class AzureVmDataDisks < Inspec.resource(1)
   # @return [Hash] Data disk information
   #
   def parse_data_disk_item(disk, index)
-
     # Parse the uri of the disk so that the storage account can be retrieved
     uri = URI.parse(disk.vhd.uri)
 
