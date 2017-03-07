@@ -20,7 +20,7 @@ control 'azure-vm-internal-1.0' do
     its('ssh_key_count') { should eq 0 }
     its('os_type') { should eq 'Linux' }
     its('private_ipaddresses') { should include '10.1.1.10' }
-    it { should_not have_public_ip_address }
+    it { should_not have_public_ipaddress }
   end
 
 end
@@ -31,7 +31,7 @@ control 'azure-vm-external-1.0' do
   title 'Ensure External VM has external access'
 
   describe azure_virtual_machine(name: 'Linux-External-VM', resource_group: 'Inspec-Azure') do
-    it { should have_public_ip_address }
+    it { should have_public_ipaddress }
     its('domain_name_label') { should eq 'linux-external-1' }
   end
 end

@@ -196,7 +196,7 @@ class AzureVm < Inspec.resource(1)
   #
   # @return [boolean]
   #
-  def has_public_ip_address?
+  def has_public_ipaddress?
     # Define the test value
     test = false
 
