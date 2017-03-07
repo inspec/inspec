@@ -50,7 +50,15 @@ InSpec requires Ruby ( >1.9 ).
 
 ### Install as package
 
-The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec).
+The InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [InSpec Downloads](https://downloads.chef.io/inspec) or install InSpec via script:
+
+```
+# RedHat, Ubuntu, and macOS
+curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+
+# Windows
+. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
+```
 
 ### Install it via rubygems.org
 
