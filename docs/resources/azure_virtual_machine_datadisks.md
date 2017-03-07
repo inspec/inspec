@@ -26,7 +26,7 @@ where
 * `MyResourceGroup` is the name of the resouce group that the machine is in.
 * `matcher` is one of
    - `count` the number of data disks attached to the machine
-   - `has_disks?` boolean test denoting if data disks are attached
+   - `has_data_disks?` boolean test denoting if data disks are attached
    - `entries` used with the `where` filter to check the size of a disk
 * `value` is the expected output fdrom the matcher
 
@@ -48,12 +48,12 @@ Returns the number of data disks attached to the machine
 its('count') { should eq 1 }
 ```
 
-### has_disks?
+### has_data_disks?
 
 Returns a boolean denoting if any data disks are attached to the machine
 
 ```ruby
-its('has_disks?') { should be true }
+it { should have_data_disks }
 ```
 
 ### entries

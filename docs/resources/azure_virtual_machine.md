@@ -38,6 +38,9 @@ where
   - `password_authentication?`
   - `ssh_key_count`
   - `os_type`
+  - `private_ipaddresses`
+  - `has_public_ipaddress?`
+  - `domain_name_label`
 * `value` is the expected output from the matcher
 
 For example:
@@ -97,6 +100,10 @@ its('location') { should eq 'West Europe' }
 
 Boolean test to see if boot diagnostics have been enabled on the machine
 
+```ruby
+it { should have_boot_diagnostics }
+```
+
 ### nic_count
 
 The number of network interface cards that have been attached to the machine
@@ -134,6 +141,26 @@ This only applies to Linux machines and will always return `0` on Windows.
 ### os_type
 
 Generic test that returns either `Linux` or `Windows`.
+
+### private_ipaddresses
+
+Returns an array of all the private IP addresses that are assigned to the machine.  This is because a machine can multiple NICs and each NIC can have multiple IP Configurations.
+
+```ruby
+its('private_ipaddresses') { should include '10.1.1.10' }
+```
+
+### has_public_ipaddress?
+
+Returns boolean to state if the machine has been allocated a Public IP Address.
+
+```ruby
+it { should have_public_ip_address }
+```
+
+### domain_name_label
+
+If a machine has been allocated a Public IP Addresse test to see what domain name label has been set.
 
 ## Examples
 

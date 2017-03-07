@@ -69,7 +69,7 @@ class AzureVmDataDisks < Inspec.resource(1)
   #
   # @return [Boolean] States if the VM has any disks attached
   #
-  def has_disks?
+  def has_data_disks?
     !entries.empty?
   end
 

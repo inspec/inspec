@@ -12,7 +12,7 @@ control 'azure-vm-datadisks-1.0' do
 
   # Ensure that the named machine has 1 data disk
   describe azure_virtual_machine_datadisks(name: vm_internal, resource_group: resource_group_name) do
-    its('has_disks?') { should be true }
+    it { should have_data_disks }
     its('count') { should eq 1 }
   end
 

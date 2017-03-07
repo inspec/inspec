@@ -166,20 +166,29 @@ end
 | | sku | The SKU being used |
 | | size | The size of the machine |
 | | location | Where the machine has been deployed |
-| | boot_diagnostics? | Whether boot diagnostics have been enabled or not |
+| | has_boot_diagnostics? | Whether boot diagnostics have been enabled or not |
 | | nic_count | How many network cards are attached to the machine |
 | | admin_username | The admin username that has been assigned to the machine |
 | | computername | Computer name of the machine in the operating system. This maybe different to the VM name as seen in Azure |
 | | hostname | Alias for computername |
 | | password_authentication? | If password authentication is enabled. For Windows machines this is always true |
 | | ssh_key_count | How many SSH public keys have been added to the machine. For Windows this is always 0 |
-| | os_type | Tyep type of operating system. Linux or Windows |
+| | os_type | The type of operating system. Linux or Windows |
+| | private_ipaddresses | Returns an array of all the IP addresses for all the NICs on the machine |
+| | has_public_ipaddress? | Whether the machine has been allocated an IP address or not |
+| | domain_name_label | If the machine has a public IP address then return the domain name label it has been assigned |
+
+For the resources that start with `has_` the following construct can be used
+
+```ruby
+it { should have_boot_diagnostics }
+```
 
 - `azure_vm_datadisks` - Resource to read the data disks for a machine and check that they are of the correct size etc
 
 | Resource Name | Resources | Description |
 |---------------|-----------|-------------|
-| azure_vm_datadisks | has_disks? | Boolean test to see if a machine has datadisks |
+| azure_vm_datadisks | has_data_disks? | Boolean test to see if a machine has datadisks |
 | | count | Returns the number of data disks attached to the machine |
 | | where | Filter that allows for different tests to be performed, see examples below |
 
