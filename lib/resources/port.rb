@@ -4,6 +4,7 @@
 
 require 'utils/parser'
 require 'utils/filter'
+require 'ipaddr'
 
 # TODO: currently we return local ip only
 # TODO: improve handling of same port on multiple interfaces
@@ -286,10 +287,25 @@ module Inspec::Resources
         ip6 = /^(\S+):(\d+)$/.match(net_addr)
         ip6addr = ip6[1]
         ip6addr = '::' if ip6addr =~ /^:::$/
-        # build uri
-        ip_addr = URI("addr://[#{ip6addr}]:#{ip6[2]}")
-        # replace []
-        host = ip_addr.host[1..ip_addr.host.size-2]
+
+        # v6 addresses need to end in a double-colon when using
+        # shorthand notation. netstat ends with a single colon.
+        # IPAddr will fail to properly parse an address unless it
+        # uses a double-colon for short-hand notation.
+        ip6addr += ':' if ip6addr =~ /\w:$/
+
+        # Check to see if this is a IPv4 address in a tcp6/udp6 line.
+        # If so, don't put brackets around the IP or URI won't know how
+        # to properly handle it.
+        # example: tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN
+        if IPAddr.new(ip6addr).ipv4?
+          ip_addr = URI("addr://#{ip6addr}:#{ip6[2]}")
+          host = ip_addr.host
+        else
+          ip_addr = URI("addr://[#{ip6addr}]:#{ip6[2]}")
+          # strip []
+          host = ip_addr.host[1..ip_addr.host.size-2]
+        end
       else
         ip_addr = URI('addr://'+net_addr)
         host = ip_addr.host

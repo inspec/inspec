@@ -17,12 +17,12 @@ describe 'Inspec::Resources::Port' do
 
   it 'lists all ports' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port')
-    _(resource.entries.length).must_equal 4
+    _(resource.entries.length).must_equal 5
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp tcp6 udp }
-    _(resource.pids).must_equal [1, 2043, 545]
-    _(resource.processes).must_equal ['sshd', 'pidgin', 'rpcbind']
-    _(resource.addresses).must_equal ['0.0.0.0', '::']
+    _(resource.pids).must_equal [1, 2043, 545, 1234]
+    _(resource.processes).must_equal ['sshd', 'pidgin', 'rpcbind', 'java']
+    _(resource.addresses).must_equal ['0.0.0.0', '2601:1:ad80:1445::', '::', '192.168.1.123']
   end
 
   it 'filter ports by conditions' do
@@ -51,6 +51,12 @@ describe 'Inspec::Resources::Port' do
     _(resource.pids).must_equal [545]
     _(resource.processes).must_equal ['rpcbind']
     _(resource.addresses).must_equal ["0.0.0.0"]
+  end
+
+  it 'properly handles a IPv4 address in a v6 listing' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', 8005)
+    _(resource.protocols).must_equal %w{ tcp6 }
+    _(resource.addresses).must_equal ['192.168.1.123']
   end
 
   it 'verify port on MacOs x' do
