@@ -35,4 +35,15 @@ describe SourceReaders::InspecReader do
       _(res.libraries.values[0]).must_match(/^# Library resource$/)
     end
   end
+
+  describe 'with an invalid inspec.yml' do
+    let(:mock_file) { MockLoader.profile_tgz('profile-with-bad-metadata') }
+    let(:target) { Inspec::FileProvider.for_path(mock_file) }
+    let(:res) { Inspec::SourceReader.resolve(target) }
+
+    it 'raises an exception' do
+      err = proc { _(res.metadata) }.must_raise RuntimeError
+      err.message.must_match(/Unable to parse inspec\.yml: line \d+/)
+    end
+  end
 end

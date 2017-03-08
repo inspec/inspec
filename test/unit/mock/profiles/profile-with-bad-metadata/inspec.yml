@@ -1,0 +1,11 @@
+name: profile-with-bad-metadata
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: All Rights Reserved
+summary: An InSpec Compliance Profile
+and this is
+bad metadata because
+we didn't start a multi-line string
+version: 0.1.0
