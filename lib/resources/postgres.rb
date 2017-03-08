@@ -10,6 +10,8 @@ module Inspec::Resources
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path
     def initialize
+      @service = 'postgresql'
+
       os = inspec.os
       if os.debian?
         #
@@ -41,6 +43,7 @@ module Inspec::Resources
                   end
 
         @data_dir = File.join('/var/lib/pgsql/', version.to_s, 'data')
+        @service = 'postgresql-' + version if version == '9.4'
       elsif os[:name] == 'arch'
         #
         # https://wiki.archlinux.org/index.php/PostgreSQL
@@ -59,7 +62,6 @@ module Inspec::Resources
         @data_dir = '/var/lib/pgsql/data'
       end
 
-      @service = 'postgresql'
       @conf_dir ||= @data_dir
       verify_dirs
       @conf_path = File.join @conf_dir, 'postgresql.conf'
