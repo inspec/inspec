@@ -30,17 +30,24 @@ module SourceReaders
     # @param [FileProvider] target An instance of a FileProvider object that can list files and read them
     # @param [String] metadata_source eg. inspec.yml or metadata.rb
     def initialize(target, metadata_source)
-      @target = target
-      @metadata = Inspec::Metadata.from_ref(
-        metadata_source,
-        @target.read(metadata_source),
-        nil)
-
-      @tests = load_tests
+      @target    = target
+      @metadata  = load_metadata(metadata_source)
+      @tests     = load_tests
       @libraries = load_libs
     end
 
     private
+
+    def load_metadata(metadata_source)
+      Inspec::Metadata.from_ref(
+        metadata_source,
+        @target.read(metadata_source),
+        nil)
+    rescue Psych::SyntaxError => e
+      raise "Unable to parse inspec.yml: line #{e.line}, #{e.problem} #{e.context}"
+    rescue => e
+      raise "Unable to parse #{metadata_source}: #{e.class} -- #{e.message}"
+    end
 
     def load_tests
       tests = @target.files.find_all do |path|
