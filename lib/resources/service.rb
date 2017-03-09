@@ -336,7 +336,7 @@ module Inspec::Resources
       status = inspec.command("#{service_ctl} status #{service_name}")
 
       # fallback for systemv services, those are not handled via `initctl`
-      return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0
+      return SysV.new(inspec).info(service_name) if status.exit_status.to_i != 0 || status.stdout == ''
 
       # @see: http://upstart.ubuntu.com/cookbook/#job-states
       # grep for running to indicate the service is there
