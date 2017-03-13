@@ -192,18 +192,35 @@ it { should have_boot_diagnostics }
 | | count | Returns the number of data disks attached to the machine |
 | | where | Filter that allows for different tests to be performed, see examples below |
 
-When data disks are retrieved from a machine they are given as an array. The `where` filter will interogate the array according the criteria it is given. The followin attributes are available in the filter:
+The data disks resource now supports Managed Disks, however the data that is returned is different from that for a VHD.
+
+When data disks are retrieved from a machine they are given as an array. The `where` filter will interogate the array according the criteria it is given.
+
+For items that do not exist a `nil` value will be returned.
+
+###### VHD propertiies
+
+The followin attributes are available in the filter:
 
  - `disk` - Disk number (0 index based)
+ - `name` - Name of the disk
+ - `size` - The size of the disk in GB
  - `caching` - What sort of caching is enabled on the data disk
  - `create_option` - How the disk was created
- - `size` - The size of the disk in GB
  - `lun` - The LUN number
- - `name` - Name of the disk
  - `uri` - Full URI to the disk in Blob storage
  - `storage_account` - The name of the storage account in which the Blob storage exists
 
-**Note:  This does not yet work with Managed Disks**
+###### Managed Disk Properties
+
+The following attributes are available in the filter:
+
+ - `disk` - Disk number (0 index based)
+ - `name` - Name of the disk
+ - `size` - The size of the disk in GB
+ - `location` - Location of the disk
+ - `account_type` - The stoarge type. e.g. `Standard_LRS`
+
 
 #### Test for 1 disk with a size greater than 10gb
 
