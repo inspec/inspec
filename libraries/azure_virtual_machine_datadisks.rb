@@ -94,7 +94,6 @@ class AzureVmDataDisks < Inspec.resource(1)
   # @return [Hash] Data disk information
   #
   def parse_data_disk_item(disk, index)
-
     # determine if using managed disks or a VHD
     if !disk.vhd.nil?
 
