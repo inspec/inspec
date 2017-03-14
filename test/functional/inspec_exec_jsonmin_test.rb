@@ -3,22 +3,29 @@
 # author: Christoph Hartmann
 
 require 'functional/helper'
+require 'jsonschema'
 
 describe 'inspec exec' do
   include FunctionalHelper
 
-  it 'can execute the profile with the mini json formatter' do
+  it 'can execute a profile with the mini json formatter and validate its schema' do
     out = inspec('exec ' + example_profile + ' --format json-min --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    JSON.load(out.stdout).must_be_kind_of Hash
+    data = JSON.parse(out.stdout)
+    sout = inspec('schema exec-jsonmin')
+    schema = JSON.parse(sout.stdout)
+    JSON::Schema.validate(data, schema)
   end
 
-  it 'can execute a simple file with the mini json formatter' do
+  it 'can execute a simple file with the mini json formatter and validate its schema' do
     out = inspec('exec ' + example_control + ' --format json-min --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    JSON.load(out.stdout).must_be_kind_of Hash
+    data = JSON.parse(out.stdout)
+    sout = inspec('schema exec-jsonmin')
+    schema = JSON.parse(sout.stdout)
+    JSON::Schema.validate(data, schema)
   end
 
   describe 'execute a profile with mini json formatting' do
