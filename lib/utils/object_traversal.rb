@@ -6,11 +6,12 @@ module ObjectTraverser
     key = keys.shift
     return nil if key.nil? || value.nil?
 
-    # if value is an array, iterate over each child
     if value.is_a?(Array)
-      value = value.map { |i|
-        extract_value([key], i)
-      }
+      value = if key.is_a?(Fixnum)
+                value[key]
+              elsif value.respond_to?(key.to_sym)
+                value.send(key.to_sym)
+              end
     else
       value = value[key.to_s].nil? ? nil : value[key.to_s]
     end
