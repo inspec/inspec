@@ -17,7 +17,7 @@ describe 'Inspec::Resources::CSV' do
     end
 
     it 'gets all value lines' do
-      _(resource.params.length).must_equal 3
+      _(resource.params.length).must_equal 4
     end
 
     it 'captures a hashmap of entries of a line' do
@@ -25,11 +25,15 @@ describe 'Inspec::Resources::CSV' do
     end
 
     it 'gets params by header fields' do
-      _(resource.params[0]['addressable']).must_equal 'ast'
+      _(resource.params[0]['name']).must_equal 'addressable'
     end
 
     it 'retrieves nil if a param is missing' do
       _(resource.params[0]['missing']).must_be_nil
+    end
+
+    it 'returns an array of values by column name' do
+      _(resource.value(['name'])).must_equal([ 'addressable', 'ast', 'astrolabe', 'berkshelf' ])
     end
   end
 end
