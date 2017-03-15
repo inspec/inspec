@@ -1,0 +1,90 @@
+---
+title: About the docker Resource
+---
+
+# docker
+
+Use the `docker` InSpec audit resource to test configuration data for docker daemon.
+
+## Syntax
+
+A `docker` resource block declares the configuration data to be tested:
+
+    describe csv('file') do
+      its('name') { should eq 'foo' }
+    end
+
+where
+
+* `'file'` is the path to a CSV file
+* `name` is a configuration setting in a CSV file
+* `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests the value of `name` as read from a CSV file versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a CSV file
+
+    describe docker.inspect('e0825339329b') do
+      its(%w(HostConfig Privileged)) { should eq false }
+      its(%w(HostConfig Privileged)) { should_not eq true }
+    end
+
+### Test a CSV file
+
+    docker.ps.each do |id|
+      describe docker.inspect(id) do
+        its(%w(HostConfig Privileged)) { should eq false }
+        its(%w(HostConfig Privileged)) { should_not eq true }
+      end
+    end
+
+### Test a CSV file
+
+    describe file(docker.path) do
+      it { should exist }
+      it { should be_file }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+
+### Test a CSV file
+
+    describe file(docker.socket) do
+      it { should exist }
+      it { should be_file }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
