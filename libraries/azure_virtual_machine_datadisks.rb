@@ -54,6 +54,8 @@ class AzureVmDataDisks < Inspec.resource(1)
         .add(:name, field: 'name')
         .add(:uri, field: 'uri')
         .add(:storage_account, field: 'storage_account')
+        .add(:account_type, field: 'account_type')
+        .add(:location, filed: 'location')
 
   filter.connect(self, :params)
 
@@ -92,18 +94,44 @@ class AzureVmDataDisks < Inspec.resource(1)
   # @return [Hash] Data disk information
   #
   def parse_data_disk_item(disk, index)
-    # Parse the uri of the disk so that the storage account can be retrieved
-    uri = URI.parse(disk.vhd.uri)
+    # determine if using managed disks or a VHD
+    if !disk.vhd.nil?
 
-    {
-      'disk' => index,
-      'caching' => disk.caching,
-      'create_option' => disk.create_option,
-      'size' => disk.disk_size_gb,
-      'lun' => disk.lun,
-      'name' => disk.name,
-      'uri' => disk.vhd.uri,
-      'storage_account' => uri.host.split('.').first,
-    }
+      # Parse the uri of the disk so that the storage account can be retrieved
+      uri = URI.parse(disk.vhd.uri)
+
+      {
+        'disk' => index,
+        'name' => disk.name,
+        'size' => disk.disk_size_gb,
+
+        'caching' => disk.caching,
+        'create_option' => disk.create_option,
+        'lun' => disk.lun,
+        'uri' => disk.vhd.uri,
+        'storage_account' => uri.host.split('.').first,
+      }
+
+    elsif !disk.managed_disk.nil?
+
+      # Parse the ID so that the resource group and name are found
+      id_parts = disk.managed_disk.id.split(%r{/})
+      resource_group_name = id_parts[4]
+      disk_name = id_parts.last
+
+      # Use the compute client to get information about the disk
+      managed_disk = @helpers.compute_mgmt.client.disks.get(resource_group_name, disk_name)
+
+      # Build up the hash table to return
+      {
+        'disk' => index,
+        'size' => managed_disk.disk_size_gb,
+        'name' => managed_disk.name,
+
+        'account_type' => managed_disk.type,
+        'location' => managed_disk.location,
+      }
+
+    end
   end
 end
