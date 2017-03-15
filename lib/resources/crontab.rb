@@ -21,6 +21,10 @@ module Inspec::Resources
       describe crontab.where({'hour' => '*', 'minute' => '*'}) do
         its('entries.length') { should cmp '0' }
       end
+
+      describe crontab.where { command =~ /a partial command string/ } do
+        its('entries.length') { should cmp 1 }
+      end
     "
 
     attr_reader :params
