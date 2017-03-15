@@ -458,3 +458,25 @@ The following example shows how to use the `file` audit resource to verify if th
     describe command('pgrep ntp') do
        its('exit_status') { should eq 0 }
     end
+
+### Test parameters of symlinked file
+
+If you need to test the parameters of the target file for a symlink, you can use the `link_path` method for the `file` resource.
+
+For example, for the following symlink:
+
+    lrwxrwxrwx. 1 root root 11 03-10 17:56 /dev/virtio-ports/com.redhat.rhevm.vdsm -> ../vport2p1
+
+... you can write controls for both the link and the target.
+
+    describe file('/dev/virtio-ports/com.redhat.rhevm.vdsm') do
+      it { should be_symlink }
+    end
+
+    virito_port_vdsm = file('/dev/virtio-ports/com.redhat.rhevm.vdsm').link_path
+    describe file(virito_port_vdsm) do
+      it { should exist }
+      it { should be_character_device }
+      it { should be_owned_by 'ovirtagent' }
+      it { should be_grouped_into 'ovirtagent' }
+    end
