@@ -134,6 +134,10 @@ class MockLoader
       '/etc/xinetd.d/echo' => mockfile.call('xinetd.d_echo'),
       '/etc/sysctl.conf' => mockfile.call('sysctl.conf'),
       '/etc/postgresql/9.4/main/postgresql.conf' => mockfile.call('postgresql.conf'),
+      # Test certificate/key for x509_certificate using RSA keys in PEM format
+      'test_certificate.rsa.crt.pem' => mockfile.call('test_certificate.rsa.crt.pem'),
+      'test_certificate.rsa.key.pem' => mockfile.call('test_certificate.rsa.key.pem'),
+      'test_ca_public.key.pem' => mockfile.call('test_ca_public.key.pem'),
     }
 
     # create all mock commands
