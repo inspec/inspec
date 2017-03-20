@@ -9,7 +9,7 @@ module Secrets
     attr_reader :attributes
 
     def self.resolve(target)
-      unless target.is_a?(String) && File.file?(target) && ['.yml','.yaml'].include?(File.extname(target).downcase)
+      unless target.is_a?(String) && File.file?(target) && ['.yml', '.yaml'].include?(File.extname(target).downcase)
         return nil
       end
       new(target)
