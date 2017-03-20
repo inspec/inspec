@@ -2,13 +2,18 @@
 
 module Inspec
   class Control
-    attr_accessor :id, :title, :desc, :impact, :tests
+    attr_accessor :id, :title, :desc, :impact, :tests, :tags
     def initialize
       @tests = []
+      @tags = []
     end
 
     def add_test(t)
       @tests.push(t)
+    end
+
+    def add_tag(t)
+      @tags.push(t)
     end
 
     def to_hash
@@ -20,6 +25,7 @@ module Inspec
       res.push "  title #{title.inspect}" unless title.to_s.empty?
       res.push "  desc  #{desc.inspect}" unless desc.to_s.empty?
       res.push "  impact #{impact}" unless impact.nil?
+      tags.each { |t| res.push(indent(t.to_ruby, 2)) }
       tests.each { |t| res.push(indent(t.to_ruby, 2)) }
       res.push 'end'
       res.join("\n")

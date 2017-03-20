@@ -330,5 +330,26 @@ end
     end
   end
 
-
+  describe 'Inspec::Tag' do
+    it 'constructs a tag with key and value' do
+      control = Inspec::Control.new
+      tag1 = Inspec::Tag.new('key', 'value')
+      control.add_tag(tag1)
+      tag2 = Inspec::Tag.new("key2'", "value'")
+      control.add_tag(tag2)
+      tag3 = Inspec::Tag.new("key3\"", "value\"")
+      control.add_tag(tag3)
+      tag4 = Inspec::Tag.new('key4', ['a', 'b'])
+      control.add_tag(tag4)
+      control.id = 'tag.control.id'
+      control.to_ruby.must_equal '
+control "tag.control.id" do
+  tag "key": "value"
+  tag "key2\'": "value\'"
+  tag "key3\"": "value\""
+  tag "key4": ["a", "b"]
+end
+'.strip
+    end
+  end
 end
