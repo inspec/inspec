@@ -20,7 +20,6 @@ module Secrets
         @attributes = ::YAML.load_file(target)
       rescue => e
         raise "Error reading Inspec attributes: #{e}"
-      end
     end
   end
 end
