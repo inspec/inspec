@@ -17,55 +17,47 @@ certificates.
 An `x509_certificate` resource block declares a certificate `key file` to be tested.
 
     describe x509_certificate('mycertificate.pem') do
-      its('days_remaining') { should be > 30 }
-    end
-
-It can optionally specify a private key file and a ca public key file for key verification
-
-    describe x509_certificate('mycertificate.cert','mycertificate.key','ca_key.pub') do
-      its('private_key_matches?') { should be true }
-      its('ca_key_matches?') { should be true }
+      its('validity_in_days') { should be > 30 }
     end
 
 ## Supported Properties
 
-### subject (String)
+### subject.XX
 
-The `subject` string contains several fields seperated by forward slashes. The
-field identifiers are the same ones used by OpenSSL to generate CSR's and certs.
+`subject` property makes it easier to access individual subject elements.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('subject.CN') { should eq "www.mywebsite.com" }
+    end
+
+### subject_dn (String)
+
+The `subject_dn` string returns the distinguished name of the subject field. It contains several fields separated by forward slashes. The field identifiers are the same ones used by OpenSSL to generate CSR's and certs. Use `subject.XX` instead to access the parsed version.
 
 e.g. `/C=US/L=Seattle/O=Chef Software Inc/OU=Chefs/CN=Richard Nixon`
 
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('subject') { should match "CN=www.mywebsite.com" }
+      its('subject_dn') { should match "CN=www.mywebsite.com" }
     end
 
-### parsed_subject.XX
+### issuer.XX
 
-`parsed_subject` property makes it easier to access individual subject elements.
+`issuer` makes it easier to access individual issuer elements.
 
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('parsed_subject.CN') { should eq "www.mywebsite.com" }
+      its('issuer.CN') { should eq "Acme Trust CA" }
     end
 
-### issuer (String)
+### issuer_dn (String)
 
-The `issuer` string is copied from a CA (certificate authority) during the
+The `issuer_dn` is the distinguished name from a CA (certificate authority) during the
 certificate signing process. It describes which authority is guaranteeing the
 identity of our certificate.
 
 e.g. `/C=US/L=Seattle/CN=Acme Trust CA/emailAddress=support@acmetrust.org`
 
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('issuer') { should match "CN=Acme Trust CA" }
-    end
-
-### parsed_issuer.XX
-
-`parsed_issuer` makes it easier to access individual issuer elements.
-
-    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('parsed_issuer.CN') { should eq "Acme Trust CA" }
+      its('issuer_cn') { should match "CN=Acme Trust CA" }
     end
 
 ### public_key (String)
@@ -81,7 +73,7 @@ The `public_key` property returns a base64 encoded public key in PEM format.
 The `key_length` property calculates the number of bits in the public key.
 More bits increase security, but at the cost of speed and in extreme cases, compatibility.
 
-    describe x509_certificate('mycert.pem') do
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
       its('key_length') { should be 2048 }
     end
 
@@ -94,27 +86,14 @@ sign the certificate.
       its('signature_algorithm') { should be 'sha256WithRSAEncryption' }
     end
 
-### private_key_matches?  (Boolean)   ca_key_matches?  (Boolean)
 
-The `private_key_matches?` and `ca_key_matches?` methods check
+### validity_in_days (Float)
 
-* If the supplied private key matches the certificate
-* If the CA public key belongs to the CA that signed the certificate
-
-
-    describe x509_certificate('mycertificate.cert','mycertificate.key','ca_key.pub') do
-      its('private_key_matches?') { should be true }
-      its('ca_key_matches?') { should be true }
-    end
-
-
-### days_remaining (Float)
-
-The `days_remaining` property can be used to check that certificates are not in
+The `validity_in_days` property can be used to check that certificates are not in
 danger of expiring soon.
 
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('days_remaining') { should be > 30 }
+      its('validity_in_days') { should be > 30 }
     end
 
 ### not_before and not_after (Time)
@@ -131,31 +110,37 @@ validity. They are exposed as ruby Time class so that date arithmetic can be eas
 
 The `serial` property exposes the serial number of the certificate. The serial number is set by the CA during the signing process and should be unique within that CA.
 
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('serial') { should eq 9623283588743302433 }
+    end
+
 ### version (Integer)
 
 The `version` property exposes the certificate version.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('version') { should eq 2 }
+    end
 
 ### extensions (Hash)
 
 The `extensions` hash property is mainly used to determine what the certificate can be used for.
 
     describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
-      its('extensions').length) {should eq 3 }
-
       # Check what extension categories we have
-      its('extensions')) { should include 'keyUsage' }
-      its('extensions')) { should include 'extendedKeyUsage' }
-      its('extensions')) { should include 'subjectAltName' }
+      its('extensions') { should include 'keyUsage' }
+      its('extensions') { should include 'extendedKeyUsage' }
+      its('extensions') { should include 'subjectAltName' }
 
       # Check examples of basic 'keyUsage'
-      its('extensions')['keyUsage']) { should include "Digital Signature" }
-      its('extensions')['keyUsage']).must_include "Non Repudiation"
-      its('extensions')['keyUsage']).must_include "Data Encipherment"
+      its('extensions.keyUsage') { should include 'Digital Signature' }
+      its('extensions.keyUsage') { should include 'Non Repudiation' }
+      its('extensions.keyUsage') { should include 'Data Encipherment' }
 
       # Check examples of newer 'extendedKeyUsage'
-      its('extensions')['extendedKeyUsage']) { should include "TLS Web Server Authentication" }
-      its('extensions')['extendedKeyUsage']) { should include "Code Signing" }
+      its('extensions.extendedKeyUsage') { should include 'TLS Web Server Authentication' }
+      its('extensions.extendedKeyUsage') { should include 'Code Signing' }
 
       # Check examples of 'subjectAltName'
-      its('extensions')['subjectAltName']) { should include "email:support@chef.io" }
+      its('extensions.subjectAltName') { should include 'email:support@chef.io' }
     end

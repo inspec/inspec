@@ -8,39 +8,33 @@ describe 'Inspec::Resources::X509Certificate' do
   let (:resource_cert) {
     load_resource(
       'x509_certificate',
-      'test_certificate.rsa.crt.pem',
-      'test_certificate.rsa.key.pem',
-      'test_ca_public.key.pem'
+      'test_certificate.rsa.crt.pem'
     )
   }
 
-  it 'decodes the subject as a string' do
-    _(resource_cert.send('subject')).must_match 'Inspec Test Certificate'
+  it 'verify subject distingushed name' do
+    _(resource_cert.send('subject_dn')).must_match 'Inspec Test Certificate'
   end
 
   it 'parses the certificate subject' do
-    _(resource_cert.send('parsed_subject').CN).must_equal 'Inspec Test Certificate'
-    _(resource_cert.send('parsed_subject').emailAddress).must_equal 'support@chef.io'
+    _(resource_cert.send('subject').CN).must_equal 'Inspec Test Certificate'
+    _(resource_cert.send('subject').emailAddress).must_equal 'support@chef.io'
   end
 
-  it 'decodes the issuer as a string' do
-    _(resource_cert.send('issuer')).must_match 'Inspec Test CA'
+  it 'verify issue distingushed name' do
+    _(resource_cert.send('issuer_dn')).must_match 'Inspec Test CA'
   end
 
   it 'parses the issuer' do
-    _(resource_cert.send('parsed_issuer').CN).must_equal 'Inspec Test CA'
+    _(resource_cert.send('issuer').CN).must_equal 'Inspec Test CA'
   end
 
   it 'parses the public key' do
     _(resource_cert.send('public_key').to_s).must_match "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxi1Tp4dPQ+GU+RipsguU\nWT50a6fsBCpe+QT0YdW/7GG6kynRzR+fzQ0q1LDxpgqAH+eDIWEAFYoTPc8haAjZ\nvAYn7JlXUQpeoK7fc2BPgYA0lr33Ee0H9nqeZlnytQ+/EVUqqDx61cgeW3ARAK1I\nODwhuziuTi7XNu+HTx3feH4ohq/FppB26PYfJo1jCmt7YxHxl6AGrYrEX5zubQR0\nAtPAJzg0/aqDH5GJHJETjloIxh/KLnGlbG3DJylFU+vPxvns1TKM0dezg8UefXer\nRtxDAwSix7sNctXwa0xToc6O+e/StNPR0eLvILS8iR89fuML57Z4AGFWMNdqTYoj\nqwIDAQAB\n-----END PUBLIC KEY-----\n"
   end
 
-  it 'can check if the private key matches the certificate' do
-    _(resource_cert.send('private_key_matches?')).must_equal true
-  end
-
-  it 'can check if a CA key was used to sign this cert' do
-    _(resource_cert.send('ca_key_matches?')).must_equal true
+  it 'can determine fingerprint' do
+    _(resource_cert.send('fingerprint')).must_equal '62bb500b0190ae47fd593c29a0b92ddbeb6c1eb6'
   end
 
   it 'can determine the key length' do
@@ -82,11 +76,11 @@ describe 'Inspec::Resources::X509Certificate' do
   it 'calculates the remaining days of validity' do
     # Still valid
     Time.stub :now, Time.new(2018, 2, 1, 1, 28, 57, '+00:00') do
-      _(resource_cert.send('days_remaining')).must_equal 28
+      _(resource_cert.send('validity_in_days')).must_equal 28
     end
     # Expired
     Time.stub :now, Time.new(2018, 4, 1, 1, 28, 57, '+00:00') do
-      _(resource_cert.send('days_remaining')).must_equal (-31)
+      _(resource_cert.send('validity_in_days')).must_equal (-31)
     end
   end
 end
