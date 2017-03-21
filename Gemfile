@@ -31,12 +31,6 @@ group :integration do
   gem 'kitchen-dokken'
 end
 
-group :simulator do
-  gem 'github-markup'
-  gem 'redcarpet'
-  gem 'docker-api'
-end
-
 group :tools do
   gem 'pry', '~> 0.10'
   gem 'rb-readline'

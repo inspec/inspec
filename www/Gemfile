@@ -19,3 +19,9 @@ gem 'middleman-livereload'
 gem 'middleman-autoprefixer'
 gem 'middleman-syntax'
 gem 'redcarpet'
+
+group :simulator do
+  gem 'github-markup'
+  gem 'redcarpet'
+  gem 'docker-api'
+end
