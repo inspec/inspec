@@ -1,22 +1,59 @@
 # Change Log
 
-## [1.16.1](https://github.com/chef/inspec/tree/v1.16.1) (2017-03-06)
+## [1.17.0](https://github.com/chef/inspec/tree/v1.17.0) (2017-03-21)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.16.1...v1.17.0)
+
+**Implemented enhancements:**
+
+- Need better error message for improper inspec.yml formatting [\#1549](https://github.com/chef/inspec/issues/1549)
+
+**Fixed bugs:**
+
+- cannot load such file -- nokogiri [\#1562](https://github.com/chef/inspec/issues/1562)
+- Failure to parse tcp6 URI [\#1521](https://github.com/chef/inspec/issues/1521)
+- json resource array index access not working [\#1560](https://github.com/chef/inspec/issues/1560)
+
+**Closed issues:**
+
+- Crontab regex matching [\#1526](https://github.com/chef/inspec/issues/1526)
+
+**Merged pull requests:**
+
+- Fix omnibus configuration [\#1579](https://github.com/chef/inspec/pull/1579) ([adamleff](https://github.com/adamleff))
+- moving the nokogiri reference into the gemspec file [\#1576](https://github.com/chef/inspec/pull/1576) ([jkerry](https://github.com/jkerry))
+- Hide Event Feature on Homepage [\#1563](https://github.com/chef/inspec/pull/1563) ([hannah-radish](https://github.com/hannah-radish))
+- Fix ObjectTraverser when accessing array values [\#1561](https://github.com/chef/inspec/pull/1561) ([adamleff](https://github.com/adamleff))
+- Add additional example for matching crontab commands [\#1559](https://github.com/chef/inspec/pull/1559) ([adamleff](https://github.com/adamleff))
+- Update file.md with example how to test symlinked files [\#1555](https://github.com/chef/inspec/pull/1555) ([nvtkaszpir](https://github.com/nvtkaszpir))
+- Provide better error message when inspec.yml is invalid [\#1552](https://github.com/chef/inspec/pull/1552) ([adamleff](https://github.com/adamleff))
+- try to use sysv fallback if is not producing proper output [\#1550](https://github.com/chef/inspec/pull/1550) ([chris-rock](https://github.com/chris-rock))
+- update readme for install scripts [\#1548](https://github.com/chef/inspec/pull/1548) ([chris-rock](https://github.com/chris-rock))
+- Fixing port check with v4 IPs in a v6 netstat line [\#1547](https://github.com/chef/inspec/pull/1547) ([adamleff](https://github.com/adamleff))
+- Fixing a typo [\#1536](https://github.com/chef/inspec/pull/1536) ([tescalada](https://github.com/tescalada))
+- windows\_task docs: Correct syntax error and misspelled word [\#1525](https://github.com/chef/inspec/pull/1525) ([spiffytech](https://github.com/spiffytech))
+
+## [v1.16.1](https://github.com/chef/inspec/tree/v1.16.1) (2017-03-06)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.16.0...v1.16.1)
 
 **Fixed bugs:**
 
-- "inspec version" waits for connection timeout inside firewall [\#1537](https://github.com/chef/inspec/pull/1537) ([makotots](https://github.com/makotots))
+- "inspec version" waits for connection timeout inside firewall [\#1537](https://github.com/chef/inspec/issues/1537)
 
 **Merged pull requests:**
 
-- Avoid connection timeout of "inspec version" [\#1538](https://github.com/chef/inspec/pull/1538) ([makotots](https://github.com/makotots))
+- releasing 1.16.1 with a bug fix and omnibus fix [\#1540](https://github.com/chef/inspec/pull/1540) ([adamleff](https://github.com/adamleff))
 - Fix omnibus build after new JUnit formatter [\#1539](https://github.com/chef/inspec/pull/1539) ([adamleff](https://github.com/adamleff))
+- Avoid connection timeout of "inspec version" [\#1538](https://github.com/chef/inspec/pull/1538) ([makotots](https://github.com/makotots))
+- Write Habitat-driven InSpec output to svc\_var directory [\#1533](https://github.com/chef/inspec/pull/1533) ([adamleff](https://github.com/adamleff))
+- Updating .gitignore for Habitat and direnv [\#1531](https://github.com/chef/inspec/pull/1531) ([adamleff](https://github.com/adamleff))
+- Ready for review - inspec.io bug fixes, \#1440, \#1420, \#1465, \#1421, \#1437,\#1226, \#1494, \#1495 [\#1512](https://github.com/chef/inspec/pull/1512) ([hannah-radish](https://github.com/hannah-radish))
 
-## [1.16.0](https://github.com/chef/inspec/tree/v1.16.0) (2017-03-02)
+## [v1.16.0](https://github.com/chef/inspec/tree/v1.16.0) (2017-03-02)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.15.0...v1.16.0)
 
 **Implemented enhancements:**
 
+- jUnit reports are hard to read [\#1438](https://github.com/chef/inspec/issues/1438)
 - Functional JUnit reporter [\#1454](https://github.com/chef/inspec/pull/1454) ([jkerry](https://github.com/jkerry))
 
 **Closed issues:**
@@ -25,6 +62,7 @@
 
 **Merged pull requests:**
 
+- 1.16.0 [\#1530](https://github.com/chef/inspec/pull/1530) ([adamleff](https://github.com/adamleff))
 - use -- for description of inspec login\_automate [\#1527](https://github.com/chef/inspec/pull/1527) ([chris-rock](https://github.com/chris-rock))
 - fix ident in cmp matcher docs [\#1524](https://github.com/chef/inspec/pull/1524) ([chris-rock](https://github.com/chris-rock))
 - Add Rake to Habitat build Gemfile [\#1520](https://github.com/chef/inspec/pull/1520) ([adamleff](https://github.com/adamleff))
