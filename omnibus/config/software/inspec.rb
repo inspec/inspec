@@ -41,7 +41,7 @@ build do
 
   # We bundle install to ensure the versions of gems we are going to
   # appbundle-lock to are definitely installed
-  bundle 'install --without test integration tools maintenance', env: env
+  bundle 'install --without test integration tools maintenance simulator', env: env
 
   gem "build #{name}.gemspec", env: env
   gem "install #{name}-*.gem --no-document", env: env
