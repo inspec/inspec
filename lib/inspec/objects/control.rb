@@ -17,7 +17,7 @@ module Inspec
     end
 
     def to_hash
-      { id: id, title: title, desc: desc, impact: impact, tests: tests.map(&:to_hash) }
+      { id: id, title: title, desc: desc, impact: impact, tests: tests.map(&:to_hash), tags: tags.map(&:to_hash) }
     end
 
     def to_ruby

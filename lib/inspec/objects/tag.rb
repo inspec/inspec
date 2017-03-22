@@ -11,8 +11,8 @@ module Inspec
 
     def to_hash
       {
-        name: @name,
-        options: @opts,
+        name: key,
+        value: value,
       }
     end
 
@@ -21,7 +21,7 @@ module Inspec
     end
 
     def to_s
-      "Tag #{@key} with #{@value}"
+      "Tag #{key} with #{value}"
     end
   end
 end
