@@ -330,5 +330,62 @@ end
     end
   end
 
+  describe 'Inspec::Tag' do
+    it 'constructs a tag with key and value' do
+      control = Inspec::Control.new
 
+      res1 = { name: "key", value: "value" }
+      tag1 = Inspec::Tag.new(res1[:name], res1[:value])
+      tag1.to_hash.must_equal res1
+      control.add_tag(tag1)
+
+      res2 = { name: "key2'", value: "value'" }
+      tag2 = Inspec::Tag.new(res2[:name], res2[:value])
+      tag2.to_hash.must_equal res2
+      control.add_tag(tag2)
+
+      res3 = { name: "key3\"", value: "value\"" }
+      tag3 = Inspec::Tag.new(res3[:name], res3[:value])
+      tag3.to_hash.must_equal res3
+      control.add_tag(tag3)
+
+      res4 = { name: 'key4', value: ['a', 'b'] }
+      tag4 = Inspec::Tag.new(res4[:name], res4[:value])
+      tag4.to_hash.must_equal res4
+      control.add_tag(tag4)
+
+      control.id = 'tag.control.id'
+      control.to_ruby.must_equal '
+control "tag.control.id" do
+  tag "key": "value"
+  tag "key2\'": "value\'"
+  tag "key3\"": "value\""
+  tag "key4": ["a", "b"]
+end
+'.strip
+
+      control_hash = {
+        id:"tag.control.id",
+        title: nil,
+        desc: nil,
+        impact: nil,
+        tests: [],
+        tags:[{
+          name:"key",
+          value:"value"
+        }, {
+          name:"key2'",
+          value:"value'"
+        }, {
+          name:"key3\"",
+          value:"value\""
+        }, {
+          name:"key4",
+          value:["a", "b"]
+        }]
+      }
+      control.to_hash.must_equal control_hash
+
+    end
+  end
 end
