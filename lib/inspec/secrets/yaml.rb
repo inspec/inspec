@@ -9,7 +9,7 @@ module Secrets
     attr_reader :attributes
 
     def self.resolve(target)
-      unless target.is_a?(String) && File.file?(target)
+      unless target.is_a?(String) && File.file?(target) && ['.yml', '.yaml'].include?(File.extname(target).downcase)
         return nil
       end
       new(target)
@@ -17,11 +17,9 @@ module Secrets
 
     # array of yaml file paths
     def initialize(target)
-      begin
-        @attributes = ::YAML.load_file(target)
-      rescue => e
-        raise "Error reading Inspec attributes: #{e}"
-      end
+      @attributes = ::YAML.load_file(target)
+    rescue => e
+      raise "Error reading Inspec attributes: #{e}"
     end
   end
 end
