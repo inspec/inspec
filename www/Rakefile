@@ -1,3 +1,4 @@
+#!/usr/bin/env rake
 # encoding: utf-8
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
@@ -15,50 +16,59 @@
 # limitations under the License.
 #
 
-require_relative 'shared.rb'
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib'))
+
+require_relative '../tasks/docs.rb'
+require_relative '../tasks/shared.rb'
+
+task :default do
+  puts 'There is no default task - see `rake --tasks` for available www-related tasks.'
+  puts 'Run `rake www` to do a full website release.'
+  exit(1)
+end
 
 namespace :www do
   desc 'Builds the tutorial contents'
   task :tutorial do
-    Log.section 'Build the online tutorial in www/tutorial/'
-    sh('cd www/tutorial/ && npm install')
-    sh('cd www/tutorial/ && gulp build')
-    Verify.file('www/tutorial/dist/index.html')
-    Verify.file('www/tutorial/dist/css/inspec_tutorial.css')
-    Verify.file('www/tutorial/dist/scripts/inspec_tutorial.js')
-    Verify.file('www/tutorial/dist/dist/inspec_tutorial.js')
+    Log.section 'Build the online tutorial in tutorial/'
+    sh('cd tutorial/ && npm install')
+    sh('cd tutorial/ && gulp build')
+    Verify.file('tutorial/dist/index.html')
+    Verify.file('tutorial/dist/css/inspec_tutorial.css')
+    Verify.file('tutorial/dist/scripts/inspec_tutorial.js')
+    Verify.file('tutorial/dist/dist/inspec_tutorial.js')
   end
 
   desc 'Builds the middleman site'
   task :site do
-    Log.section 'Build middleman project in www/'
+    Log.section 'Build middleman project'
     Bundler.with_clean_env {
-      sh('cd www/ && bundle install && bundle exec middleman build')
+      sh('bundle install && bundle exec middleman build')
     }
-    Verify.file('www/build/index.html')
-    Verify.file('www/build/javascripts/all.js')
-    Verify.file('www/build/stylesheets/site.css')
+    Verify.file('build/index.html')
+    Verify.file('build/javascripts/all.js')
+    Verify.file('build/stylesheets/site.css')
   end
 
   desc 'Assemble the website site from middleman and the tutorial'
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
-    sh('rsync -a --exclude=index.html www/tutorial/dist/* www/build/')
-    sh('cp www/tutorial/dist/index.html www/build/tutorial.html')
+    sh('rsync -a --exclude=index.html tutorial/dist/* build/')
+    sh('cp tutorial/dist/index.html build/tutorial.html')
   end
 
   desc 'Builds the full site locally'
   task build: ['www:tutorial', 'www:site', 'www:assemble']
 
   task :clean do
-    dst = 'www/build'
+    dst = 'build'
     FileUtils.rm_rf(dst) if File.directory?(dst)
   end
 
   desc 'Releases the site to gh-pages'
   task :release do
     # This folder contains the built files
-    dst = 'www/build'
+    dst = 'build'
     unless File.directory?(dst) && File.file?(File.join(dst, 'index.html'))
       puts 'It looks like you have not built the site yet. Calling rake www:build'
       Rake::Task['www:build'].invoke
@@ -76,9 +86,9 @@ namespace :www do
       raise 'Please make sure you have no uncommitted changes in this repository.'
     end
 
-    File.write('www/build/CNAME', 'inspec.io')
-    file_count = Dir['www/build/*'].length
-    file_size = `du -hs www/build`.sub(/\s+.*$/m, '')
+    File.write('build/CNAME', 'inspec.io')
+    file_count = Dir['build/*'].length
+    file_size = `du -hs build`.sub(/\s+.*$/m, '')
 
     if system('git rev-parse --verify gh-pages')
       Log.info 'Remove local gh-pages branch'
@@ -121,6 +131,7 @@ namespace :www do
   end
 end
 
+desc 'Full website release: includes local clean, docs build, site build, and then release'
 task :www do
   Rake::Task['www:clean'].invoke
   Rake::Task['docs'].invoke

@@ -19,6 +19,10 @@ require 'erb'
 require 'ruby-progressbar'
 require 'fileutils'
 
+PROJECT_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..').freeze
+WWW_DIR     = File.join(PROJECT_DIR, 'www').freeze
+DOCS_DIR    = File.join(PROJECT_DIR, 'docs').freeze
+
 class Markdown
   class << self
     def h1(msg)
@@ -188,15 +192,15 @@ namespace :docs do
       res << "\n\n" if f == RST
     end
 
-    dst = 'docs/cli' + f.suffix
+    dst = File.join(DOCS_DIR, "cli#{f.suffix}")
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
 
   desc 'Create resources docs'
   task :resources, [:clean] do
-    src = 'docs'
-    dst = 'www/source/docs/reference/resources'
+    src = DOCS_DIR
+    dst = File.join(WWW_DIR, 'source', 'docs', 'reference', 'resources')
     FileUtils.mkdir_p(dst)
 
     docs = ResourceDocs.new(src)
@@ -232,7 +236,7 @@ namespace :docs do
 
   desc 'Clean all rendered docs from www/'
   task :clean do
-    dst = 'www/source/docs/reference'
+    dst = File.join(WWW_DIR, 'source', 'docs', 'reference')
     puts "Clean up #{dst}"
     FileUtils.rm_rf(dst) if File.exist?(dst)
     FileUtils.mkdir_p(dst)
@@ -240,8 +244,8 @@ namespace :docs do
 
   desc 'Copy fixed doc files'
   task copy: [:clean, :resources] do
-    src = 'docs'
-    dst = 'www/source/docs/reference'
+    src = DOCS_DIR
+    dst = File.join(WWW_DIR, 'source', 'docs', 'reference')
     files = Dir[File.join(src, '*.md')]
 
     progressbar = ProgressBar.create(total: files.length, title: 'Copying')
@@ -267,7 +271,7 @@ end
 desc 'Create all docs in docs/ from source code'
 task :docs do
   run_tasks_in_namespace :docs
-  Verify.file('www/source/docs/reference/README.html.md')
-  Verify.file('www/source/docs/reference/cli.html.md')
-  Verify.file('www/source/docs/reference/resources.html.md')
+  Verify.file(File.join(WWW_DIR, 'source', 'docs', 'reference', 'README.html.md'))
+  Verify.file(File.join(WWW_DIR, 'source', 'docs', 'reference', 'cli.html.md'))
+  Verify.file(File.join(WWW_DIR, 'source', 'docs', 'reference', 'resources.html.md'))
 end

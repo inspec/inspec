@@ -32,7 +32,7 @@ bundle exec rake www:build
 
 ## Releasing
 
-To build everything and push a new version of the website, be in the root folder of this repository and run:
+To build everything and push a new version of the website, be in the www folder of this repository and run:
 
 ```
 bundle install
