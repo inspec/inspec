@@ -7,7 +7,6 @@ require 'rake/testtask'
 require 'rubocop/rake_task'
 require_relative 'tasks/docs'
 require_relative 'tasks/maintainers'
-require_relative 'tasks/www'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
@@ -186,3 +185,20 @@ task :release_habitat do
     puts "--> #{cmd}"
     sh('sh', '-c', cmd)
 end
+
+desc 'Release the website [deprecated]'
+task :www do
+  puts 'The Rake tasks for releasing the website are now in the www/ directory.'
+  puts 'Run `cd www` and then `rake --tasks` for a list of the www-related tasks available.'
+  exit(1)
+end
+
+namespace :www do
+  desc 'Release the website [deprecated]'
+  task :release do
+    puts 'The Rake tasks for releasing the website are now in the www/ directory.'
+    puts 'Run `cd www` and then `rake --tasks` for a list of the www-related tasks available.'
+    exit(1)
+  end
+end
+

@@ -20,8 +20,12 @@ gem 'middleman-autoprefixer'
 gem 'middleman-syntax'
 gem 'redcarpet'
 
-group :simulator do
-  gem 'github-markup'
-  gem 'redcarpet'
-  gem 'docker-api'
-end
+# Tutorial Gems
+gem 'github-markup'
+gem 'docker-api'
+
+# Build process requirements
+gem 'inspec', path: File.join(File.expand_path(File.dirname(__FILE__)), '..')
+gem 'rake'
+gem 'ruby-progressbar'
+gem 'inquirer'
