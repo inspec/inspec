@@ -77,4 +77,11 @@ describe 'SimpleConfig Default Parser' do
     cur.params.must_equal(res)
     cur.groups.must_equal(['g', 'k'])
   end
+
+  it 'provides methods to access returned hashes' do
+    cur = SimpleConfig.new("[section1]\nkey1 = value1\n\n[section2]\nkey2 = value2\n")
+    cur.params['section1'].key1.must_equal('value1')
+    cur.params['section2'].key2.must_equal('value2')
+    cur.params['section2'].missing_key.must_be_nil
+  end
 end

@@ -73,7 +73,13 @@ class SimpleConfig
     m = opts[:group_re].match(line)
     return nil if m.nil?
     @groups.push(m[1])
-    @vals = @params[m[1]] = {}
+
+    # We use a Hashie::Mash to provide method syntax for retrieving
+    # values. For configs that have keys whose values may be hashes
+    # (such as a mysql config that has [sections]), providing
+    # a hash whose values are accessible via methods provide
+    # a better user experience with `its` blocks.
+    @vals = @params[m[1]] = Hashie::Mash.new
   end
 
   def parse_implicit_assignment_line(line, opts)
