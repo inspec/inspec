@@ -14,6 +14,7 @@ require 'inspec/base_cli'
 require 'inspec/plugins'
 require 'inspec/runner_mock'
 require 'inspec/env_printer'
+require 'inspec/schema'
 
 class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   class_option :log_level, aliases: :l, type: :string,
@@ -219,6 +220,14 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     p.print_and_exit!
   rescue StandardError => e
     pretty_handle_exception(e)
+  end
+
+  desc 'schema NAME', 'print the JSON schema', hide: true
+  def schema(name)
+    puts Inspec::Schema.json(name)
+  rescue StandardError => e
+    puts e
+    puts "Valid schemas are #{Inspec::Schema.names.join(', ')}"
   end
 
   desc 'version', 'prints the version of this tool'
