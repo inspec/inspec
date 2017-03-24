@@ -4,6 +4,7 @@
 # author: Dominik Richter
 
 require 'net/http'
+require 'addressable/uri'
 
 module Supermarket
   class API
@@ -26,9 +27,10 @@ module Supermarket
     end
 
     def self.profile_name(profile)
-      uri = URI(profile)
+      # We use Addressable::URI here because URI has a bug in Ruby 2.1.x where it doesn't allow underscore in host
+      uri = Addressable::URI.parse profile
       [uri.host, uri.path[1..-1]]
-    rescue URI::Error => _e
+    rescue
       nil
     end
 
