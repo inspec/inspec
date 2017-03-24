@@ -50,8 +50,8 @@ module Supermarket
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
-    def self.find(profile, supermarket_url)
-      profiles = Supermarket::API.profiles(supermarket_url=SUPERMARKET_URL)
+    def self.find(profile, supermarket_url = SUPERMARKET_URL)
+      profiles = Supermarket::API.profiles(supermarket_url)
       if !profiles.empty?
         index = profiles.index { |t| same?(profile, t, supermarket_url) }
         # return profile or nil
