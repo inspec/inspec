@@ -17,6 +17,73 @@ describe Habitat::Profile do
     Habitat::Log.level(:fatal)
   end
 
+  describe '#verify_profile' do
+    it 'exits if the profile is not valid' do
+      profile = mock
+      profile.stubs(:check).returns(summary: { valid: false })
+      subject.expects(:profile).returns(profile)
+      proc { subject.send(:verify_profile) }.must_raise SystemExit
+    end
+
+    it 'does not exist if the profile is valid' do
+      profile = mock
+      profile.stubs(:check).returns(summary: { valid: true })
+      subject.expects(:profile).returns(profile)
+      subject.send(:verify_profile)
+    end
+  end
+
+  describe '#vendor_profile_dependencies' do
+    let(:cache)    { '/path/to/cache' }
+    let(:lockfile) { '/path/to/lock' }
+    let(:profile) do
+      profile = mock
+      profile.stubs(:generate_lockfile).returns(foo: 'bar')
+      profile
+    end
+
+    before do
+      subject.expects(:cache_path).at_least_once.returns(cache)
+      subject.expects(:inspec_lockfile).at_least_once.returns(lockfile)
+    end
+
+    describe 'when lockfile exists and cache dir exists' do
+      it 'does not generate the lockfile' do
+        File.expects(:exist?).with(lockfile).returns(true)
+        Dir.expects(:exist?).with(cache).returns(true)
+        subject.expects(:profile).returns(profile).never
+        profile.expects(:generate_lockfile).never
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+
+    describe 'when the lockfile exists but the cache dir does not' do
+      it 'deletes the lockfile, generates the lockfile, and refreshes the profile object' do
+        File.expects(:exist?).with(lockfile).returns(true).at_least_once
+        Dir.expects(:exist?).with(cache).returns(false).at_least_once
+        FileUtils.expects(:rm_rf).with(cache)
+        File.expects(:delete).with(lockfile)
+        subject.expects(:profile).returns(profile)
+        File.expects(:write).with(lockfile, "---\n:foo: bar\n")
+        subject.expects(:create_profile_object)
+
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+
+    describe 'when the lockfile does not exist' do
+      it 'generates the lockfile, and refreshes the profile object' do
+        File.expects(:exist?).with(lockfile).returns(false).at_least_once
+        FileUtils.expects(:rm_rf).with(cache)
+        subject.expects(:profile).returns(profile)
+        File.expects(:write).with(lockfile, "---\n:foo: bar\n")
+        subject.expects(:create_profile_object)
+
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+  end
+
   describe '#validate_habitat_installed' do
     it 'exits if hab --version fails' do
       cmd = mock

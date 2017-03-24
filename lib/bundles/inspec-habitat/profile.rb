@@ -37,6 +37,8 @@ module Habitat
       validate_habitat_installed
       validate_habitat_origin
       create_profile_object
+      verify_profile
+      vendor_profile_dependencies
       copy_profile_to_work_dir
       create_plan
       create_run_hook
@@ -79,7 +81,19 @@ module Habitat
     private
 
     def create_profile_object
-      @profile = Inspec::Profile.for_target(path, backend: Inspec::Backend.create(target: 'mock://'))
+      @profile = Inspec::Profile.for_target(
+        path,
+        cache: Inspec::Cache.new(cache_path.to_s),
+        backend: Inspec::Backend.create(target: 'mock://'),
+      )
+    end
+
+    def cache_path
+      File.join(path, 'vendor')
+    end
+
+    def inspec_lockfile
+      File.join(path, 'inspec.lock')
     end
 
     def verify_profile
@@ -90,6 +104,20 @@ module Habitat
       end
 
       Habitat::Log.info('Profile is valid.')
+    end
+
+    def vendor_profile_dependencies
+      if File.exist?(inspec_lockfile) && Dir.exist?(cache_path)
+        Habitat::Log.info("Profile's dependencies are already vendored, skipping vendor process.")
+      else
+        Habitat::Log.info("Vendoring the profile's dependencies...")
+        FileUtils.rm_rf(cache_path)
+        File.delete(inspec_lockfile) if File.exist?(inspec_lockfile)
+        File.write(inspec_lockfile, profile.generate_lockfile.to_yaml)
+
+        # refresh the profile object since the profile now has new files
+        create_profile_object
+      end
     end
 
     def validate_habitat_installed
