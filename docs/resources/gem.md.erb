@@ -10,13 +10,14 @@ Use the `gem` InSpec audit resource to test if a global Gem package is installed
 
 A `gem` resource block declares a package and (optionally) a package version:
 
-    describe gem('gem_package_name') do
+    describe gem('gem_package_name', 'gem_binary') do
       it { should be_installed }
     end
 
 where
 
 * `('gem_package_name')` must specify a Gem package, such as `'rubocop'`
+* `('gem_binary')` can specify the path to a non-default gem binary, defaults to `'gem'`
 * `be_installed` is a valid matcher for this resource
 
 ## Matchers
@@ -70,4 +71,22 @@ The following examples show how to use this InSpec audit resource.
 
     describe gem('rubocop') do
       it { should_not be_installed }
+    end
+
+### Verify that a gem package is installed in an omnibus environment
+
+    describe gem('pry', '/opt/ruby-2.3.1/embedded/bin/gem') do
+      it { should be_installed }
+    end
+
+### Verify that a gem package is installed in a chef omnibus environment
+
+    describe gem('chef-sugar', :chef) do
+      it { should be_installed }
+    end
+
+### Verify that a gem package is installed in a chef-server omnibus environment
+
+    describe gem('knife-backup', :chef_server) do
+      it { should be_installed }
     end

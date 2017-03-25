@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+# author: Joe Nuspl
 
 module Inspec::Resources
   class GemPackage < Inspec.resource(1)
@@ -13,16 +14,32 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name)
+    attr_reader :gem_binary
+
+    def initialize(package_name, gem_binary = nil)
       @package_name = package_name
+      @gem_binary = case gem_binary
+                    when nil
+                      'gem'
+                    when :chef
+                      if inspec.os.windows?
+                        'c:\opscode\chef\embedded\bin\gem'
+                      else
+                        '/opt/chef/embedded/bin/gem'
+                      end
+                    when :chef_server
+                      '/opt/opscode/embedded/bin/gem'
+                    else
+                      gem_binary
+                    end
     end
 
     def info
       return @info if defined?(@info)
 
-      cmd = inspec.command("gem list --local -a -q \^#{@package_name}\$")
+      cmd = inspec.command("#{@gem_binary} list --local -a -q \^#{@package_name}\$")
       @info = {
-        installed: cmd.exit_status == 0,
+        installed: cmd.exit_status.zero?,
         type: 'gem',
       }
       return @info unless @info[:installed]
