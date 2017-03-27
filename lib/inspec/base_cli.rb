@@ -157,7 +157,7 @@ module Inspec
       end
 
       profile_vendor.vendor!
-      puts "Profile dependencies successfully vendored to #{profile_vendor.cache_path}"
+      puts "Dependencies for profile #{profile_path} successfully vendored to #{profile_vendor.cache_path}"
     rescue StandardError => e
       pretty_handle_exception(e)
     end
