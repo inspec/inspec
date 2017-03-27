@@ -4,6 +4,7 @@
 
 require 'thor'
 require 'inspec/log'
+require 'inspec/profile_vendor'
 
 module Inspec
   class BaseCLI < Thor # rubocop:disable Metrics/ClassLength
@@ -147,30 +148,16 @@ module Inspec
     end
 
     def vendor_deps(path, opts)
-      path.nil? ? path = Pathname.new(Dir.pwd) : path = Pathname.new(path)
-      cache_path = path.join('vendor')
-      inspec_lock = path.join('inspec.lock')
+      profile_path = path || Dir.pwd
+      profile_vendor = Inspec::ProfileVendor.new(profile_path)
 
-      if (cache_path.exist? || inspec_lock.exist?) && !opts[:overwrite]
+      if (profile_vendor.cache_path.exist? || profile_vendor.lockfile.exist?) && !opts[:overwrite]
         puts 'Profile is already vendored. Use --overwrite.'
         return false
       end
 
-      # remove existing
-      FileUtils.rm_rf(cache_path) if cache_path.exist?
-      File.delete(inspec_lock) if inspec_lock.exist?
-
-      puts "Vendor dependencies of #{path} into #{cache_path}"
-      opts[:logger] = Logger.new(STDOUT)
-      opts[:logger].level = get_log_level(opts.log_level)
-      opts[:cache] = Inspec::Cache.new(cache_path.to_s)
-      opts[:backend] = Inspec::Backend.create(target: 'mock://')
-      configure_logger(opts)
-
-      # vendor dependencies and generate lockfile
-      profile = Inspec::Profile.for_target(path.to_s, opts)
-      lockfile = profile.generate_lockfile
-      File.write(inspec_lock, lockfile.to_yaml)
+      profile_vendor.vendor!
+      puts "Profile dependencies successfully vendored to #{profile_vendor.cache_path}"
     rescue StandardError => e
       pretty_handle_exception(e)
     end

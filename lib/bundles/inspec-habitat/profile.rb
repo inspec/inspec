@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Adam Leff
 
+require 'inspec/profile_vendor'
 require 'mixlib/shellout'
 require 'toml'
 
@@ -83,17 +84,8 @@ module Habitat
     def create_profile_object
       @profile = Inspec::Profile.for_target(
         path,
-        cache: Inspec::Cache.new(cache_path.to_s),
         backend: Inspec::Backend.create(target: 'mock://'),
       )
-    end
-
-    def cache_path
-      File.join(path, 'vendor')
-    end
-
-    def inspec_lockfile
-      File.join(path, 'inspec.lock')
     end
 
     def verify_profile
@@ -107,13 +99,15 @@ module Habitat
     end
 
     def vendor_profile_dependencies
-      if File.exist?(inspec_lockfile) && Dir.exist?(cache_path)
+      profile_vendor = Inspec::ProfileVendor.new(path)
+      if profile_vendor.lockfile.exist? && profile_vendor.cache_path.exist?
         Habitat::Log.info("Profile's dependencies are already vendored, skipping vendor process.")
       else
         Habitat::Log.info("Vendoring the profile's dependencies...")
-        FileUtils.rm_rf(cache_path)
-        File.delete(inspec_lockfile) if File.exist?(inspec_lockfile)
-        File.write(inspec_lockfile, profile.generate_lockfile.to_yaml)
+        profile_vendor.vendor!
+
+        Habitat::Log.info('Ensuring all vendored content has read permissions...')
+        profile_vendor.make_readable
 
         # refresh the profile object since the profile now has new files
         create_profile_object
