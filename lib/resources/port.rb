@@ -294,11 +294,24 @@ module Inspec::Resources
         # uses a double-colon for short-hand notation.
         ip6addr += ':' if ip6addr =~ /\w:$/
 
+        begin
+          ip_parser = IPAddr.new(ip6addr)
+        rescue IPAddr::InvalidAddressError
+          # This IP is not parsable. There appears to be a bug in netstat
+          # output that truncates link-local IP addresses:
+          # example: udp6 0 0 fe80::42:acff:fe11::123 :::* 0 54550 3335/ntpd
+          # actual link address: inet6 fe80::42:acff:fe11:5/64 scope link
+          #
+          # in this example, the "5" is truncated making the netstat output
+          # an invalid IP address.
+          return [nil, nil]
+        end
+
         # Check to see if this is a IPv4 address in a tcp6/udp6 line.
         # If so, don't put brackets around the IP or URI won't know how
         # to properly handle it.
         # example: tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN
-        if IPAddr.new(ip6addr).ipv4?
+        if ip_parser.ipv4?
           ip_addr = URI("addr://#{ip6addr}:#{ip6[2]}")
           host = ip_addr.host
         else
@@ -333,6 +346,7 @@ module Inspec::Resources
 
       # extract host and port information
       host, port = parse_net_address(parsed[4], protocol)
+      return {} if host.nil?
 
       # extract PID
       process = parsed[9].split('/')
@@ -450,13 +464,17 @@ module Inspec::Resources
         # the last . to :
         local_addr[local_addr.rindex('.')] = ':'
         host, port = parse_net_address(local_addr, protocol)
-        {
-          'port'     => port,
-          'address'  => host,
-          'protocol' => protocol,
-        }
+        if host.nil?
+          nil
+        else
+          {
+            'port'     => port,
+            'address'  => host,
+            'protocol' => protocol,
+          }
+        end
       }
-      ports
+      ports.compact
     end
   end
 
@@ -492,6 +510,7 @@ module Inspec::Resources
       local_addr[local_addr.rindex('.')] = ':'
       # extract host and port information
       host, port = parse_net_address(local_addr, protocol)
+      return {} if host.nil?
       # map data
       {
         'port'     => port,
