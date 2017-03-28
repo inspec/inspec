@@ -11,7 +11,6 @@ module Habitat
     option :output_dir, type: :string, required: false,
       desc: 'Directory in which to save the generated Habitat artifact. Default: current directory'
     def create(path)
-      puts options
       Habitat::Profile.create(path, options)
     end
 
