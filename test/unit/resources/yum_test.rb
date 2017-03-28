@@ -63,6 +63,19 @@ describe 'Inspec::Resources::YumRepo' do
     _(extras.to_s).must_equal 'YumRepo base-debuginfo/x86_64'
   end
 
+  it 'provides methods for retrieving per-repo information' do
+    resource = MockLoader.new(:centos7).load_resource('yum')
+    repo = resource.repo('base/7/x86_64')
+    _(repo.baseurl).must_equal 'http://ftp.hosteurope.de/mirror/centos.org/7.1.1503/os/x86_64/ (9 more)'
+    _(repo.expire).must_equal '21600 second(s) (last: Sun Sep  6 10:20:46 2015)'
+    _(repo.filename).must_equal '/etc/yum.repos.d/CentOS-Base.repo'
+    _(repo.mirrors).must_equal 'http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os&infra=stock'
+    _(repo.pkgs).must_equal '8652'
+    _(repo.size).must_equal '6.3 G'
+    _(repo.status).must_equal 'enabled'
+    _(repo.updated).must_equal 'Tue Mar 31 22:50:46 2015'
+  end
+
   it 'test enabled extra repo (serverspec backwards comptability)' do
     serverspec = load_resource('yumrepo', 'extras')
     _(serverspec.exists?).must_equal true

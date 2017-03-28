@@ -133,8 +133,20 @@ module Inspec::Resources
       info['status'] == 'enabled'
     end
 
-    def method_missing(name)
-      info[name.to_s]
+    # provide a method for each of the repo metadata items we know about
+    [
+      :baseurl,
+      :expire,
+      :filename,
+      :mirrors,
+      :pkgs,
+      :size,
+      :status,
+      :updated,
+    ].each do |key|
+      define_method key do
+        info[key.to_s]
+      end
     end
 
     def to_s
