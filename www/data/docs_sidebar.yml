@@ -28,6 +28,8 @@ sidebar_links:
     link: "/docs/reference/plugin_kitchen_inspec.html"
   - title: inspec shell
     link: "/docs/reference/shell.html"
+  - title: Habitat Integration
+    link: "/docs/reference/habitat.html"
   - title: Ruby usage
     link: "/docs/reference/ruby_usage.html"
   - title: Migration from Serverspec
