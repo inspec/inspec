@@ -9,7 +9,7 @@ describe 'example inheritance profile' do
 
   it 'can vendor profile dependencies' do
     out = inspec('vendor ' + inheritance_path + ' --overwrite')
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Vendor dependencies of #{inheritance_path} into #{inheritance_path}/vendor"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
 
@@ -29,7 +29,7 @@ describe 'example inheritance profile' do
 
     # vendor all dependencies
     out = inspec('vendor --overwrite', "cd #{inheritance_path} &&")
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Vendor dependencies of #{inheritance_path} into #{inheritance_path}/vendor"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
 
@@ -110,7 +110,7 @@ describe 'example inheritance profile' do
 
   it 'can vendor profile dependencies from the profile path' do
     out = inspec('vendor --overwrite', "cd #{inheritance_path} &&")
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Vendor dependencies of #{inheritance_path} into #{inheritance_path}/vendor"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
 

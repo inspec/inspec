@@ -24,7 +24,7 @@ module Fetchers
   # you got to this file during debugging, you may want to look at the
   # omnibus source for hints.
   #
-  class Git < Inspec.fetcher(1)
+  class Git < Inspec.fetcher(1) # rubocop:disable ClassLength
     name 'git'
     priority 200
 
@@ -44,6 +44,8 @@ module Fetchers
 
     def fetch(dir)
       @repo_directory = dir
+      FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+
       if cloned?
         checkout
       else

@@ -153,6 +153,7 @@ module Fetchers
     def download_archive(path)
       download_archive_to_temp
       final_path = "#{path}#{@archive_type}"
+      FileUtils.mkdir_p(File.dirname(final_path))
       FileUtils.mv(temp_archive_path, final_path)
       Inspec::Log.debug("Fetched archive moved to: #{final_path}")
       @temp_archive_path = nil

@@ -17,6 +17,70 @@ describe Habitat::Profile do
     Habitat::Log.level(:fatal)
   end
 
+  describe '#verify_profile' do
+    it 'exits if the profile is not valid' do
+      profile = mock
+      profile.stubs(:check).returns(summary: { valid: false })
+      subject.expects(:profile).returns(profile)
+      proc { subject.send(:verify_profile) }.must_raise SystemExit
+    end
+
+    it 'does not exist if the profile is valid' do
+      profile = mock
+      profile.stubs(:check).returns(summary: { valid: true })
+      subject.expects(:profile).returns(profile)
+      subject.send(:verify_profile)
+    end
+  end
+
+  describe '#vendor_profile_dependencies' do
+    let(:profile_vendor) do
+      profile_vendor = mock
+      profile_vendor.stubs(:lockfile).returns(lockfile)
+      profile_vendor.stubs(:cache_path).returns(cache_path)
+      profile_vendor
+    end
+    let(:lockfile) { mock }
+    let(:cache_path) { mock }
+
+    before do
+      Inspec::ProfileVendor.expects(:new).returns(profile_vendor)
+    end
+
+    describe 'when lockfile exists and cache dir exists' do
+      it 'does not vendor the dependencies' do
+        lockfile.expects(:exist?).returns(true)
+        cache_path.expects(:exist?).returns(true)
+        profile_vendor.expects(:vendor!).never
+        profile_vendor.expects(:make_readable).never
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+
+    describe 'when the lockfile exists but the cache dir does not' do
+      it 'vendors the dependencies and refreshes the profile object' do
+        lockfile.expects(:exist?).returns(true)
+        cache_path.expects(:exist?).returns(false)
+        profile_vendor.expects(:vendor!)
+        profile_vendor.expects(:make_readable)
+        subject.expects(:create_profile_object)
+
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+
+    describe 'when the lockfile does not exist' do
+      it 'vendors the dependencies and refreshes the profile object' do
+        lockfile.expects(:exist?).returns(false)
+        profile_vendor.expects(:vendor!)
+        profile_vendor.expects(:make_readable)
+        subject.expects(:create_profile_object)
+
+        subject.send(:vendor_profile_dependencies)
+      end
+    end
+  end
+
   describe '#validate_habitat_installed' do
     it 'exits if hab --version fails' do
       cmd = mock
