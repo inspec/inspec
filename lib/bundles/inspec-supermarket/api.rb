@@ -4,6 +4,7 @@
 # author: Dominik Richter
 
 require 'net/http'
+require 'addressable/uri'
 
 module Supermarket
   class API
@@ -26,9 +27,10 @@ module Supermarket
     end
 
     def self.profile_name(profile)
-      uri = URI(profile)
+      # We use Addressable::URI here because URI has a bug in Ruby 2.1.x where it doesn't allow underscore in host
+      uri = Addressable::URI.parse profile
       [uri.host, uri.path[1..-1]]
-    rescue URI::Error => _e
+    rescue
       nil
     end
 
@@ -50,8 +52,8 @@ module Supermarket
       supermarket_tool['tool_owner'] == tool_owner && supermarket_tool['tool'] == tool
     end
 
-    def self.find(profile, supermarket_url)
-      profiles = Supermarket::API.profiles(supermarket_url=SUPERMARKET_URL)
+    def self.find(profile, supermarket_url = SUPERMARKET_URL)
+      profiles = Supermarket::API.profiles(supermarket_url)
       if !profiles.empty?
         index = profiles.index { |t| same?(profile, t, supermarket_url) }
         # return profile or nil
