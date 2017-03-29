@@ -35,6 +35,13 @@ describe 'Inspec::Resources::Port' do
     _(resource.addresses).must_equal ['0.0.0.0']
   end
 
+  it 'does not include an entry for a malformed IP address' do
+    # udp6 0 0 fe80::42:acff:fe11::123 :::* 0 54550 3335/ntpd
+    # the link-local IP is truncated and therefore invalid
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', 123)
+    _(resource.entries.length).must_equal 0
+  end
+
   it 'verify UDP port on Ubuntu 14.04' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', 111)
     _(resource.listening?).must_equal true
