@@ -101,3 +101,11 @@ The following examples show how to use this InSpec audit resource.
       it { should exist }
       it { should be_enabled }
     end
+
+### Test a particular repository configuration, such as its Base URL
+
+    describe yum.repo('mycompany-artifacts') do
+      it { should exist }
+      it { should be_enabled }
+      its('baseurl') { should include 'mycompany.biz' }
+    end

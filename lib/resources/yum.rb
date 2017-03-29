@@ -2,8 +2,6 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'resources/file'
-
 # Usage:
 # describe yum do
 #   its('repos') { should exist }
@@ -22,6 +20,7 @@ require 'resources/file'
 # describe yum.repo('epel') do
 #   it { should exist }
 #   it { should be_enabled }
+#   its('baseurl') { should include 'mycompany.biz' }
 # end
 #
 # deprecated:
@@ -33,7 +32,7 @@ require 'resources/file'
 module Inspec::Resources
   class Yum < Inspec.resource(1)
     name 'yum'
-    desc 'Use the yum InSpec audit resource to test packages in the Yum repository.'
+    desc 'Use the yum InSpec audit resource to test the configuration of Yum repositories.'
     example "
       describe yum.repo('name') do
         it { should exist }
@@ -121,22 +120,37 @@ module Inspec::Resources
     def info
       return @cache if defined?(@cache)
       selection = @yum.repositories.select { |e| e['id'] == @reponame || shortname(e['id']) == @reponame }
-      @cache = selection[0] if !selection.nil? && selection.length == 1
+      @cache = selection.empty? ? {} : selection.first
       @cache
     end
 
     def exist?
-      !info.nil?
+      !info.empty?
     end
 
     def enabled?
-      repo = info
-      return false if repo.nil?
+      return false unless exist?
       info['status'] == 'enabled'
     end
 
+    # provide a method for each of the repo metadata items we know about
+    [
+      :baseurl,
+      :expire,
+      :filename,
+      :mirrors,
+      :pkgs,
+      :size,
+      :status,
+      :updated,
+    ].each do |key|
+      define_method key do
+        info[key.to_s]
+      end
+    end
+
     def to_s
-      "YumRepo #{shortname(info['id'])}"
+      "YumRepo #{@reponame}"
     end
   end
 
