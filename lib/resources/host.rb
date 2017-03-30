@@ -48,6 +48,8 @@ module Inspec::Resources
         @host_provider = LinuxHostProvider.new(inspec)
       elsif inspec.os.windows?
         @host_provider = WindowsHostProvider.new(inspec)
+      elsif inspec.os.darwin?
+        @host_provider = DarwinHostProvider.new(inspec)
       else
         return skip_resource 'The `host` resource is not supported on your OS yet.'
       end
@@ -90,6 +92,30 @@ module Inspec::Resources
     attr_reader :inspec
     def initialize(inspec)
       @inspec = inspec
+    end
+  end
+
+  class DarwinHostProvider < HostProvider
+    def ping(hostname, _port = nil, _proto = nil)
+      return nil if _proto == 'udp' # Copying windows behaivor
+      if _proto == 'tcp'
+        resp = inspec.command("nc -vz -G 1 #{hostname} #{_port}")
+      else
+        resp = inspec.command("ping -W 1 -c 1 #{hostname}")
+      end
+      resp.exit_status.to_i != 0 ? false : true
+    end
+
+    def resolve(hostname)
+      # Resolve IPv6 address first, if that fails try IPv4 to match Linux behaivor
+      cmd = inspec.command("host -t AAAA #{hostname}")
+      if cmd.exit_status.to_i != 0
+        cmd = inspec.command("host -t A #{hostname}")
+      end
+      return nil if cmd.exit_status.to_i != 0
+
+      resolve = /^.* has IPv\d address\s+(?<ip>\S+)\s*$/.match(cmd.stdout.chomp)
+      [resolve[1]] if resolve
     end
   end
 
