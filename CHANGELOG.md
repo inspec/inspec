@@ -1,24 +1,65 @@
 # Change Log
 
-## [1.17.0](https://github.com/chef/inspec/tree/v1.17.0) (2017-03-21)
+## [v1.18.0](https://github.com/chef/inspec/tree/v1.18.0) (2017-03-30)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.17.0...v1.18.0)
+
+**Implemented enhancements:**
+
+- Requesting x509\_certificate and x509\_private\_key [\#1459](https://github.com/chef/inspec/issues/1459)
+- generate profile CLI command [\#410](https://github.com/chef/inspec/issues/410)
+
+**Fixed bugs:**
+
+- YAML file extensions support only \(.yml\) [\#1569](https://github.com/chef/inspec/issues/1569)
+- yum.repo with should\_not exist fails with NoMethodError: undefined method `\[\]' for nil:NilClass [\#1553](https://github.com/chef/inspec/issues/1553)
+
+**Closed issues:**
+
+- port should be\_listening busted in 1.17.0? [\#1602](https://github.com/chef/inspec/issues/1602)
+- inspec fails to install on centos 7 [\#1597](https://github.com/chef/inspec/issues/1597)
+- inspec outputs full hash when testing ini style file option with \[header\] [\#1541](https://github.com/chef/inspec/issues/1541)
+- Add JSON Schema validation [\#884](https://github.com/chef/inspec/issues/884)
+
+**Merged pull requests:**
+
+- Fix port resource for invalid IP address in netstat output [\#1603](https://github.com/chef/inspec/pull/1603) ([adamleff](https://github.com/adamleff))
+- Remove errant puts in inspec habitat CLI command [\#1601](https://github.com/chef/inspec/pull/1601) ([adamleff](https://github.com/adamleff))
+- Add docs for habitat CLI commands [\#1600](https://github.com/chef/inspec/pull/1600) ([adamleff](https://github.com/adamleff))
+- Require Ruby 2.1 [\#1599](https://github.com/chef/inspec/pull/1599) ([adamleff](https://github.com/adamleff))
+- Extend `gem` to take an optional `gem\_binary` [\#1596](https://github.com/chef/inspec/pull/1596) ([nvwls](https://github.com/nvwls))
+- Feature/fix ability to pass in supermarket url [\#1595](https://github.com/chef/inspec/pull/1595) ([rylarson](https://github.com/rylarson))
+- Support vendored profiles in Habitat-packaged profiles [\#1594](https://github.com/chef/inspec/pull/1594) ([adamleff](https://github.com/adamleff))
+- Yum resource fix for non-existent repos and repo info [\#1593](https://github.com/chef/inspec/pull/1593) ([adamleff](https://github.com/adamleff))
+- Fixing www/docs rake tasks [\#1591](https://github.com/chef/inspec/pull/1591) ([adamleff](https://github.com/adamleff))
+- add tag object [\#1590](https://github.com/chef/inspec/pull/1590) ([chris-rock](https://github.com/chris-rock))
+- Support YAML attributes files ending in .yaml [\#1589](https://github.com/chef/inspec/pull/1589) ([mr-exz](https://github.com/mr-exz))
+- Fix Habitat plan for nokogiri support [\#1587](https://github.com/chef/inspec/pull/1587) ([adamleff](https://github.com/adamleff))
+- x509\_certificate and key\_rsa resource [\#1567](https://github.com/chef/inspec/pull/1567) ([chris-rock](https://github.com/chris-rock))
+- implement JSON schema for `inspec exec` json outputs [\#1564](https://github.com/chef/inspec/pull/1564) ([arlimus](https://github.com/arlimus))
+- Provide a method-based accessor for SimpleConfig hashes [\#1544](https://github.com/chef/inspec/pull/1544) ([adamleff](https://github.com/adamleff))
+
+## [v1.17.0](https://github.com/chef/inspec/tree/v1.17.0) (2017-03-21)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.16.1...v1.17.0)
 
 **Implemented enhancements:**
 
+- Calendar for Line Chart [\#1558](https://github.com/chef/inspec/issues/1558)
 - Need better error message for improper inspec.yml formatting [\#1549](https://github.com/chef/inspec/issues/1549)
 
 **Fixed bugs:**
 
 - cannot load such file -- nokogiri [\#1562](https://github.com/chef/inspec/issues/1562)
 - Failure to parse tcp6 URI [\#1521](https://github.com/chef/inspec/issues/1521)
-- json resource array index access not working [\#1560](https://github.com/chef/inspec/issues/1560)
 
 **Closed issues:**
 
+- json resource array index access not working [\#1560](https://github.com/chef/inspec/issues/1560)
 - Crontab regex matching [\#1526](https://github.com/chef/inspec/issues/1526)
 
 **Merged pull requests:**
 
+- Move simulator gems to www [\#1585](https://github.com/chef/inspec/pull/1585) ([adamleff](https://github.com/adamleff))
+- release 1.17.0 [\#1583](https://github.com/chef/inspec/pull/1583) ([adamleff](https://github.com/adamleff))
 - Fix omnibus configuration [\#1579](https://github.com/chef/inspec/pull/1579) ([adamleff](https://github.com/adamleff))
 - moving the nokogiri reference into the gemspec file [\#1576](https://github.com/chef/inspec/pull/1576) ([jkerry](https://github.com/jkerry))
 - Hide Event Feature on Homepage [\#1563](https://github.com/chef/inspec/pull/1563) ([hannah-radish](https://github.com/hannah-radish))
