@@ -264,7 +264,7 @@ Which will provide you with:
 Remote Targets
 
 Platform | Versions | Architectures
- ---- | --- | --- | ---
+ --- | --- | ---
 AIX | 6.1, 7.1, 7.2 | ppc64
 CentOS | 5, 6, 7 | i386, x86_64
 Debian | 7, 8 | i386, x86_64
@@ -289,7 +289,7 @@ HP-UX | 11.31 | ia64
 In addition, runtime support is provided for:
 
 Platform | Versions
- ---- | --- | ---
+ ---- | ----
 Debian | 8
 RHEL | 6, 7
 Ubuntu | 12.04+
