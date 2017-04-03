@@ -23,7 +23,6 @@ dependency 'ruby'
 dependency 'rubygems'
 dependency 'bundler'
 dependency 'rb-readline'
-dependency 'nokogiri'
 dependency 'appbundler'
 
 license :project_license
