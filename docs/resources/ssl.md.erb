@@ -70,7 +70,7 @@ or:
 
 ### protocols
 
-The `protocols` matcher tests the number of times the named user appears in `/etc/shadow`:
+The `protocols` matcher tests what protocol versions (SSLv3, TLSv1.1, etc) are enabled:
 
     its('protocols') { should eq 'ssl2' }
 
