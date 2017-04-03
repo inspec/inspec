@@ -14,6 +14,7 @@ end
 describe apache_conf do
   its('LogLevel') { should cmp 'warn' }
   its('MaxKeepAliveRequests') { should cmp 100 }
+  its('ServerSignature') { should cmp 'Off' }
 end
 
 # only read one param
