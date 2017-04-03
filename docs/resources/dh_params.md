@@ -118,7 +118,7 @@ Example using multi-line string:
 
 Verify via `openssl dhparam` command:
 
-    $ openssl dhparam -in file.dh_pem
+    $ openssl dhparam -in /path/to/file.dh_pem
     -----BEGIN DH PARAMETERS-----
     MIIBCAKCAQEAkaAVieW8OJMSAvyRooX39yljLtNOeob37oT+QtBIvJyR1VT4eB3A
     QXiixKwaJIudiFWYC6ynI+vCqisuqfmv1I5OEbx/NaKs2jrv8CVsmqT9ACh2hixX
@@ -167,7 +167,7 @@ Example using multi-line string:
 
 Verify via `openssl dhparam` command:
 
-    $ openssl dhparam -in file.dh_pem -noout -text
+    $ openssl dhparam -in /path/to/file.dh_pem -noout -text
     PKCS#3 DH Parameters: (2048 bit)
         prime:
             00:91:a0:15:89:e5:bc:38:93:12:02:fc:91:a2:85:
