@@ -75,12 +75,10 @@ describe 'Inspec::Resources::DhParams' do
 
   it 'parses the generator used for the Diffie-Hellman operation' do
     _(resource_dh_params.send('generator')).must_equal 2
-    _(resource_dh_params.send('g')).must_equal 2
   end
 
   it 'parses the modulus used for the Diffie-Hellman operation' do
     _(resource_dh_params.send('modulus')).must_equal modulus
-    _(resource_dh_params.send('p')).must_equal modulus
   end
 
   it 'determines the prime length' do

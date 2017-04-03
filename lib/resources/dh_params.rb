@@ -48,17 +48,11 @@ class DhParams < Inspec.resource(1)
     @dh_params.g.to_i
   end
 
-  # its('g') { should eq 2 }
-  alias g generator
-
   # its('modulus') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
   def modulus
     return if @dh_params.nil?
     '00:' + @dh_params.p.to_s(16).downcase.scan(/.{2}/).join(':')
   end
-
-  # its('p') { should eq '00:91:a0:15:89:e5:bc:38:93:12:02:fc:...' }
-  alias p modulus
 
   # its('pem') { should eq '-----BEGIN DH PARAMETERS...' }
   def pem
