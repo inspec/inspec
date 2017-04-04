@@ -29,7 +29,7 @@ class AwsIamAccessKey < Inspec.resource(1)
     access_key_last_used.last_used_date
   end
 
-private
+  private
 
   def access_key_last_used
     @access_key_last_used ||= @iam_client.get_access_key_last_used({ access_key_id: access_key.access_key_id }).access_key_last_used
