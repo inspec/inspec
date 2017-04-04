@@ -7,6 +7,11 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Gem' do
+  it 'verify gem is not installed' do
+    resource = load_resource('gem', 'not-installed')
+    _(resource.installed?).must_equal false
+  end
+
   it 'verify gem package detail parsing' do
     resource = load_resource('gem', 'rubocop')
     pkg = {
