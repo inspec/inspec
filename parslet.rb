@@ -62,10 +62,12 @@ class ErlAx < Parslet::Parser
     ).repeat.as(:string) >> str('"') >> filler?
   }
 
+  rule(:binary_item) { (string | integer) >> filler? }
   rule(:binary) {
-    str('<<') >> (
-      str('>>').absent? >> any
-    ).repeat.as(:binary) >> str('>>') >> filler?
+    str('<<') >> filler? >> (
+      binary_item.repeat(1) >>
+      (comma >> binary_item).repeat
+    ).maybe.as(:binary) >> str('>>') >> filler?
   }
 end
 
@@ -116,8 +118,16 @@ describe ErlAx do
     _(parsestr('[\'st\\\'r\'].')).must_equal '{:array=>[{:string=>"st\\\\\'r"@2}]}'
   end
 
+  it 'parses a root array with an empty binary' do
+    _(parsestr('[<<>>].')).must_equal '{:array=>[{:binary=>nil}]}'
+  end
+
   it 'parses a root array with a binary' do
-    _(parsestr('[<<0, G, B>>].')).must_equal '{:array=>[{:binary=>"0, G, B"@3}]}'
+    _(parsestr('[<<0, 1, 2>>].')).must_equal '{:array=>[{:binary=>[{:integer=>"0"@3}, {:integer=>"1"@6}, {:integer=>"2"@9}]}]}'
+  end
+
+  it 'parses a root array with a binary string' do
+    _(parsestr('[<<"pwd">>].')).must_equal '{:array=>[{:binary=>[{:string=>"pwd"@4}]}]}'
   end
 
   it 'parses a root array with a boolean' do
@@ -168,15 +178,23 @@ end
 
 
 
-class ErlEr < Parslet::Transform
+class ErlOm < Parslet::Transform
   class Tuple < Array; end
   class Identifier < String; end
+
+  def self.assemble_binary(seq)
+    seq.map { |i|
+      i.is_a?(String) ? i :[i].pack('C')
+    }.join('')
+  end
+
   rule(string: simple(:x)) { x.to_s }
   rule(string: []) { '' }
   rule(integer: simple(:x)) { x.to_i }
   rule(float: { integer: simple(:a), e: simple(:b) }) { (a+b).to_f }
   rule(bool: 'true') { true }
   rule(bool: 'false') { false }
+  rule(binary: subtree(:x)) { x.nil? ? '' : ErlOm.assemble_binary(x) }
   rule(identifier: simple(:x)) { Identifier.new(x.to_s) }
   # TODO: binary!
   rule(array: subtree(:x)) { Array(x) }
@@ -185,9 +203,9 @@ class ErlEr < Parslet::Transform
   }
 end
 
-describe ErlEr do
+describe ErlOm do
   def parse(c)
-    ErlEr.new.apply(ErlAx.new.parse(c))
+    ErlOm.new.apply(ErlAx.new.parse(c))
   end
 
   it 'transforms and empty file' do
@@ -206,6 +224,18 @@ describe ErlEr do
     _(parse('[\'\'].')).must_equal ['']
   end
 
+  it 'transforms a simple array with an empty binary' do
+    _(parse('[<<>>].')).must_equal ['']
+  end
+
+  it 'transforms a simple array with a binary string' do
+    _(parse('[<<"pwd">>].')).must_equal ['pwd']
+  end
+
+  it 'transforms a simple array with a binary sequence' do
+    _(parse('[<<97, 98, 99>>].')).must_equal ['abc']
+  end
+
   it 'transforms a simple array with multiple values' do
     _(parse('[1, 1.1, true, false, "ok"].')).must_equal [1, 1.1, true, false, 'ok']
   end
@@ -215,23 +245,23 @@ describe ErlEr do
   end
 
   it 'transforms an empty tuple' do
-    _(parse('[{}].')).must_equal [ErlEr::Tuple.new]
+    _(parse('[{}].')).must_equal [ErlOm::Tuple.new]
   end
 
   it 'transforms a tuple with one element' do
-    _(parse('[{1}].')).must_equal [ErlEr::Tuple.new([1])]
+    _(parse('[{1}].')).must_equal [ErlOm::Tuple.new([1])]
   end
 
   it 'transforms a tuple with multiple elements' do
-    _(parse('[{id123, 1, 1.1}].')).must_equal [ErlEr::Tuple.new([ErlEr::Identifier.new('id123'), 1, 1.1])]
+    _(parse('[{id123, 1, 1.1}].')).must_equal [ErlOm::Tuple.new([ErlOm::Identifier.new('id123'), 1, 1.1])]
   end
 
   it 'transforms a deep tuple' do
-    _(parse('[{{{1}}}].')).must_equal [ErlEr::Tuple.new([ErlEr::Tuple.new([ErlEr::Tuple.new([1])])])]
+    _(parse('[{{{1}}}].')).must_equal [ErlOm::Tuple.new([ErlOm::Tuple.new([ErlOm::Tuple.new([1])])])]
   end
 
   it 'transforms a deep mix of tuple and array' do
-    _(parse('[{[{1}]}].')).must_equal [ErlEr::Tuple.new([[ErlEr::Tuple.new([1])]])]
+    _(parse('[{[{1}]}].')).must_equal [ErlOm::Tuple.new([[ErlOm::Tuple.new([1])]])]
   end
 end
 
@@ -245,7 +275,7 @@ describe 'complex use-case' do
     puts 'Wheeee, testing a real rabbitmq nasty config file'
     c = File.read(f)
     _(ErlAx.new.parse(c).to_s).must_be_instance_of String
-    res = ErlEr.new.apply(ErlAx.new.parse(c))
+    res = ErlOm.new.apply(ErlAx.new.parse(c))
     # require "pry"; binding.pry
   end
 end
