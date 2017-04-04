@@ -145,7 +145,7 @@ module Inspec::Resources
   # @see http://blogs.technet.com/b/josebda/archive/2015/04/18/windows-powershell-equivalents-for-common-networking-commands-ipconfig-ping-nslookup.aspx
   # @see http://blogs.technet.com/b/heyscriptingguy/archive/2014/03/19/creating-a-port-scanner-with-windows-powershell.aspx
   class WindowsHostProvider < HostProvider
-    def ping(hostname, port = nil, proto = nil)
+    def ping(hostname, port = nil, _proto = nil)
       # ICMP: Test-NetConnection www.microsoft.com
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname}"
