@@ -96,10 +96,10 @@ module Inspec::Resources
   end
 
   class DarwinHostProvider < HostProvider
-    def ping(hostname, _port = nil, _proto = nil)
-      return nil if _proto == 'udp' # Copying windows behaivor
-      if _proto == 'tcp'
-        resp = inspec.command("nc -vz -G 1 #{hostname} #{_port}")
+    def ping(hostname, port = nil, proto = nil)
+      return nil if proto == 'udp' # Copying windows behaivor
+      if proto == 'tcp'
+        resp = inspec.command("nc -vz -G 1 #{hostname} #{port}")
       else
         resp = inspec.command("ping -W 1 -c 1 #{hostname}")
       end
