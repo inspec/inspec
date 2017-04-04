@@ -140,7 +140,7 @@ end
 desc 'Generate the changelog'
 task :changelog do
   require_relative 'lib/inspec/version'
-  system "github_changelog_generator -u chef -p inspec --future-release #{Inspec::VERSION} --since-tag 0.7.0"
+  system "github_changelog_generator -u chef -p inspec --future-release v#{Inspec::VERSION} --since-tag 0.7.0"
 end
 
 # Update the version of this gem and create an updated
