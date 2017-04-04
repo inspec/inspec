@@ -43,6 +43,8 @@ module Inspec::Resources
       @port = params[:port]   || nil
       @proto = params[:proto] || nil
 
+      return skip_resource 'The UDP protocol for the `host` resource is not supported yet.' if @proto == 'udp'
+
       @host_provider = nil
       if inspec.os.linux?
         @host_provider = LinuxHostProvider.new(inspec)
@@ -97,7 +99,6 @@ module Inspec::Resources
 
   class DarwinHostProvider < HostProvider
     def ping(hostname, port = nil, proto = nil)
-      return nil if proto == 'udp' # Copying windows behaivor
       if proto == 'tcp'
         resp = inspec.command("nc -vz -G 1 #{hostname} #{port}")
       else
@@ -145,9 +146,6 @@ module Inspec::Resources
   # @see http://blogs.technet.com/b/heyscriptingguy/archive/2014/03/19/creating-a-port-scanner-with-windows-powershell.aspx
   class WindowsHostProvider < HostProvider
     def ping(hostname, port = nil, proto = nil)
-      # TODO: abort if we cannot run it via udp
-      return nil if proto == 'udp'
-
       # ICMP: Test-NetConnection www.microsoft.com
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname}"
