@@ -1,5 +1,19 @@
 # Change Log
 
+## [v1.19.0](https://github.com/chef/inspec/tree/v1.19.0) (2017-04-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.18.0...v1.19.0)
+
+**Implemented enhancements:**
+
+- dh\_params resource \(proposed\) [\#1617](https://github.com/chef/inspec/issues/1617)
+- Allow apache\_conf to include symlinked configuration files [\#1406](https://github.com/chef/inspec/pull/1406) ([carldjohnston](https://github.com/carldjohnston))
+
+**Merged pull requests:**
+
+- Fix protocols matcher text on ssl resource docs [\#1622](https://github.com/chef/inspec/pull/1622) ([adamleff](https://github.com/adamleff))
+- Replace Nokogiri with REXML in the JUnit formatter [\#1621](https://github.com/chef/inspec/pull/1621) ([adamleff](https://github.com/adamleff))
+- obvious fix in README.md [\#1619](https://github.com/chef/inspec/pull/1619) ([lucky-sideburn](https://github.com/lucky-sideburn))
+
 ## [v1.18.0](https://github.com/chef/inspec/tree/v1.18.0) (2017-03-30)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.17.0...v1.18.0)
 
