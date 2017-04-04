@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.19.1](https://github.com/chef/inspec/tree/v1.19.1) (2017-04-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.0...v1.19.1)
+
+**Merged pull requests:**
+
+- Loosen addressable version pin [\#1627](https://github.com/chef/inspec/pull/1627) ([adamleff](https://github.com/adamleff))
+
 ## [v1.19.0](https://github.com/chef/inspec/tree/v1.19.0) (2017-04-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.18.0...v1.19.0)
 
