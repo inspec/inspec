@@ -3,7 +3,7 @@ class AwsIamAccessKey < Inspec.resource(1)
   name 'aws_iam_access_key'
   desc 'Verifies settings for AWS IAM access keys'
   example "
-    describe aws_iam_access_key('access-key id') do
+    describe aws_iam_access_key(username: 'username', id: 'access-key id') do
       its('last_use') { should be > Time.now - 90 * 86400 }
     end
   "
