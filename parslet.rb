@@ -62,7 +62,13 @@ class ErlAx < Parslet::Parser
     ).repeat.as(:string) >> str('"') >> filler?
   }
 
-  rule(:binary_item) { (string | integer) >> filler? }
+  rule(:binary_item) {
+    (string | integer) >>
+      (str(':') >> integer).maybe.as(:size) >>
+      (str('/') >> identifier).maybe.as(:type) >>
+      filler?
+  }
+
   rule(:binary) {
     str('<<') >> filler? >> (
       binary_item.repeat(1) >>
@@ -122,12 +128,24 @@ describe ErlAx do
     _(parsestr('[<<>>].')).must_equal '{:array=>[{:binary=>nil}]}'
   end
 
-  it 'parses a root array with a binary' do
-    _(parsestr('[<<0, 1, 2>>].')).must_equal '{:array=>[{:binary=>[{:integer=>"0"@3}, {:integer=>"1"@6}, {:integer=>"2"@9}]}]}'
+  it 'parses a root array with a bit-stream with a string' do
+    _(parsestr('[<<"pwd">>].')).must_equal '{:array=>[{:binary=>[{:string=>"pwd"@4, :size=>nil, :type=>nil}]}]}'
   end
 
-  it 'parses a root array with a binary string' do
-    _(parsestr('[<<"pwd">>].')).must_equal '{:array=>[{:binary=>[{:string=>"pwd"@4}]}]}'
+  it 'parses a root array with a bit-stream with a string and type' do
+    _(parsestr('[<<"pwd"/utf8>>].')).must_equal '{:array=>[{:binary=>[{:string=>"pwd"@4, :size=>nil, :type=>{:identifier=>"utf8"@9}}]}]}'
+  end
+
+  it 'parses a root array with a bit-stream of numbers' do
+    _(parsestr('[<<0, 1, 2>>].')).must_equal '{:array=>[{:binary=>[{:integer=>"0"@3, :size=>nil, :type=>nil}, {:integer=>"1"@6, :size=>nil, :type=>nil}, {:integer=>"2"@9, :size=>nil, :type=>nil}]}]}'
+  end
+
+  it 'parses a root array with a mixed bit-stream of string+numbers' do
+    _(parsestr('[<<97, "b", 99>>].')).must_equal '{:array=>[{:binary=>[{:integer=>"97"@3, :size=>nil, :type=>nil}, {:string=>"b"@8, :size=>nil, :type=>nil}, {:integer=>"99"@12, :size=>nil, :type=>nil}]}]}'
+  end
+
+  it 'parses a root array with a bit-stream of value:size' do
+    _(parsestr('[<<0, 1:8, "2":16>>].')).must_equal '{:array=>[{:binary=>[{:integer=>"0"@3, :size=>nil, :type=>nil}, {:integer=>"1"@6, :size=>{:integer=>"8"@8}, :type=>nil}, {:string=>"2"@12, :size=>{:integer=>"16"@15}, :type=>nil}]}]}'
   end
 
   it 'parses a root array with a boolean' do
@@ -176,16 +194,84 @@ describe ErlAx do
   end
 end
 
+class ErlangBitstream
+  def initialize
+    @data = []     # a stream of 8-bit numbers
+    @cur_bits = '' # a string of binary bits 10010010...
+  end
 
+  TYPES = {
+    'integer' => 8,
+    'float'   => 8*8,
+    'utf8'    => 8,
+    'utf16'   => 8*2,
+    'utf32'   => 8*4,
+  }.freeze
+
+  def bit_size(size, type)
+    raise 'Cannot specify size and type at the same time.' if !type.nil? && !size.nil?
+    return (size || 8).to_i if type.nil?
+    TYPES[type] || raise("Cannot handle binary-stream type #{type}")
+  end
+
+  def add(i)
+    if i[:integer].nil? && i[:string].nil?
+      raise 'No data provided, internal error for binary-stream processing!'
+    end
+    s = bit_size(i[:size], i[:type])
+    unless i[:string].nil?
+      str2int(i[:string].to_s, i[:type]).map { |e| add_bits(int2bits(e, 8)) }
+    else
+      add_int(i[:integer], s)
+    end
+  rescue RuntimeError => e
+    raise 'Error processing Erlang bit string '\
+          "'#{i[:string] || i[:integer]}:#{i[:size]}/#{i[:type]}'. #{e.message}"
+  end
+
+  def str2int(s, type)
+    case type
+    when 'utf8' then s.encode('utf-8').unpack('C*')
+    when 'utf16' then s.encode('utf-16').unpack('C*').drop(2)
+    when 'utf32' then s.encode('utf-32').unpack('C*').drop(4)
+    when 'integer', 'float' then raise "Cannot handle bit string as type #{type}"
+    else s.split('').map { |x| x.ord & 0xff }
+    end
+  end
+
+  def int2bits(i, len)
+    format("%0#{len}b", i)
+  end
+
+  def add_int(v, size)
+    x = v.to_i & (2**size - 1) # only get the bits specified in size
+    add_bits(int2bits(x, size))
+  end
+
+  def add_bits(s)
+    b = (@cur_bits + s).scan(/.{1,8}/)
+    @data += b[0..-2].map { |x| x.to_i(2) }
+    @cur_bits = b.last
+  end
+
+  def value(encoding = 'utf-8')
+    # fill in the rest
+    rest = '0' * (8 - @cur_bits.length) + @cur_bits
+    arr = @data + [rest.to_i(2)]
+    s = arr.pack('C*')
+    s.force_encoding(encoding) unless encoding.nil?
+    s
+  end
+end
 
 class ErlOm < Parslet::Transform
   class Tuple < Array; end
   class Identifier < String; end
 
   def self.assemble_binary(seq)
-    seq.map { |i|
-      i.is_a?(String) ? i :[i].pack('C')
-    }.join('')
+    b = ErlangBitstream.new
+    seq.each { |i| b.add(i) }
+    b.value
   end
 
   rule(string: simple(:x)) { x.to_s }
@@ -196,7 +282,6 @@ class ErlOm < Parslet::Transform
   rule(bool: 'false') { false }
   rule(binary: subtree(:x)) { x.nil? ? '' : ErlOm.assemble_binary(x) }
   rule(identifier: simple(:x)) { Identifier.new(x.to_s) }
-  # TODO: binary!
   rule(array: subtree(:x)) { Array(x) }
   rule(tuple: subtree(:x)) {
     x.nil? ? Tuple.new : Tuple.new(x)
@@ -229,11 +314,35 @@ describe ErlOm do
   end
 
   it 'transforms a simple array with a binary string' do
-    _(parse('[<<"pwd">>].')).must_equal ['pwd']
+    _(parse('[<<"Hello world!">>].')).must_equal ['Hello world!']
   end
 
   it 'transforms a simple array with a binary sequence' do
-    _(parse('[<<97, 98, 99>>].')).must_equal ['abc']
+    _(parse('[<<97, "b", 99>>].')).must_equal ['abc']
+  end
+
+  it 'transforms a default ascii string' do
+    _(parse('[<<"Łぁ">>].')).must_equal ['AA']
+  end
+
+  it 'transforms a utf-8 string' do
+    _(parse('[<<"Łぁ"/utf8>>].')).must_equal ['Łぁ']
+  end
+
+  it 'transforms a utf-16 string' do
+    _(parse('[<<"Łぁ"/utf16>>].')).must_equal ["\u0001\u0041\u0030\u0041"]
+  end
+
+  it 'transforms a utf-32 string' do
+    _(parse('[<<"Łぁ"/utf32>>].')).must_equal ["\u0000\u0000\u0001\u0041\u0000\u0000\u0030\u0041"]
+  end
+
+  it 'transforms a partial bit number sequence' do
+    _(parse('[<<1:2,1:6>>].')).must_equal ['A']
+  end
+
+  it 'prevents mixing size and type for bit-streams' do
+    _(proc { parse('[<<1:8/utf8>>].') }).must_raise RuntimeError
   end
 
   it 'transforms a simple array with multiple values' do
