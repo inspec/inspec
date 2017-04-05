@@ -95,11 +95,11 @@ end
 # end
 
 
-require "pry"; binding.pry
-describe docker.inspect(docker.ps_ids[0]) do
-  its(%w(HostConfig Privileged)) { should cmp false }
-  its(%w(HostConfig Privileged)) { should_not cmp true }
-end
+# require "pry"; binding.pry
+# describe docker.inspect(docker.ps_ids[0]) do
+#   its(%w(HostConfig Privileged)) { should cmp false }
+#   its(%w(HostConfig Privileged)) { should_not cmp true }
+# end
 
 # test docker path output
 describe docker.path do

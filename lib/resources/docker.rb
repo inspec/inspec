@@ -3,13 +3,63 @@
 # Copyright 2017, Christoph Hartmann
 #
 # author: Christoph Hartmann
-# author: Dominik Richter
 # author: Patrick Muench
+# author: Dominik Richter
 
-require 'yaml'
+require 'utils/filter'
+require 'hashie/mash'
 
+class DockerContainerFilter
+  # use filtertable for containers
+  filter = FilterTable.create
+  filter.add_accessor(:where)
+        .add_accessor(:entries)
+        .add(:commands,       field: 'command')
+        .add(:ids,            field: 'id')
+        .add(:images,         field: 'image')
+        .add(:labels,         field: 'labels')
+        .add(:local_volumes,  field: 'localvolumes')
+        .add(:mounts,         field: 'mounts')
+        .add(:names,          field: 'names')
+        .add(:networks,       field: 'networks')
+        .add(:ports,          field: 'ports')
+        .add(:running_for,    field: 'runningfor')
+        .add(:sizes,          field: 'size')
+        .add(:status,         field: 'status')
+        .add(:exists?) { |x| !x.entries.empty? }
+  filter.connect(self, :containers)
+
+  attr_reader(:containers)
+  def initialize(containers)
+    @containers = containers
+  end
+end
+
+class DockerImageFilter
+  filter = FilterTable.create
+  filter.add_accessor(:where)
+        .add_accessor(:entries)
+        .add(:ids,              field: 'id')
+        .add(:repositories,     field: 'repository')
+        .add(:tags,             field: 'tag')
+        .add(:sizes,            field: 'size')
+        .add(:digests,          field: 'digest')
+        .add(:created,          field: 'createdat')
+        .add(:created_since,    field: 'createdsize')
+        .add(:exists?) { |x| !x.entries.empty? }
+  filter.connect(self, :images)
+
+  attr_reader(:images)
+  def initialize(images)
+    @images = images
+  end
+end
+
+# For compatability with Serverspec we also offer the following resouses:
+# - docker_container
+# - docker_image
 module Inspec::Resources
-  # This resource helps to parse information from the docker daemon
+  # This resource helps to parse information from the docker host
   class Docker < Inspec.resource(1)
     name 'docker'
 
@@ -19,7 +69,7 @@ module Inspec::Resources
 
     example "
       describe docker.version do
-        it { should cmp >= '1.12'}
+        its('Client.Version') { should cmp >= '1.12'}
       end
 
       describe docker.inspect('e0825339329b') do
@@ -27,7 +77,7 @@ module Inspec::Resources
         its(%w(HostConfig Privileged)) { should_not eq true }
       end
 
-      docker.ps.each do |id|
+      docker.containers.ids.each do |id|
         describe docker.inspect(id) do
           its(%w(HostConfig Privileged)) { should eq false }
           its(%w(HostConfig Privileged)) { should_not eq true }
@@ -49,53 +99,12 @@ module Inspec::Resources
       end
     "
 
-    # return a list on container ids
-    def ps_ids
-      inspec.command('docker ps --format "{{.ID}}"').stdout.split
-    end
-
-    def ps
-      raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
-      ps = []
-      # since docker is not outputting valid json, we need to parse each row
-      raw_containers.each_line { |entry|
-        ps.push(JSON.parse(entry))
-      }
-      ps
+    def containers
+      DockerContainerFilter.new(parse_containers)
     end
 
     def images
-      raw_images = inspec.command('docker images -a --no-trunc --format \'{ "id": {{json .ID}}, "repository": {{json .Repository}}, "tag": {{json .Tag}}, "size": {{json .Size}}, "digest": {{json .Digest}}, "createdat": {{json .CreatedAt}}, "createdsize": {{json .CreatedSince}} }\'').stdout
-      c_images = []
-      raw_images.each_line { |entry|
-        c_images.push(JSON.parse(entry))
-      }
-      c_images
-    end
-
-    # returns the json output of `docker inspect`
-    def inspect(id)
-      data = JSON.parse(inspec.command("docker inspect #{id}").stdout)
-      # we'll return the first value only
-      return data[0] if data.is_a?(Array)
-      data
-    end
-
-    # returns the json object of the info
-    def version
-      JSON.parse(inspec.command('docker version --format \'{{ json . }}\'').stdout)
-    end
-
-    # version returns the daemon version
-    def server_version
-      return if version.nil? || version['Server'].nil?
-      version['Server']['Version']
-    end
-
-    # client_version returns the version of the CLI client
-    def client_version
-      return if version.nil? || version['Server'].nil?
-      version['Client']['Version']
+      DockerImageFilter.new(parse_images)
     end
 
     # returns the path of the docker service
@@ -134,7 +143,48 @@ module Inspec::Resources
       'Docker Host'
     end
 
+    # returns the json output of `docker inspect`
+    def inspect(id)
+      return @inspect if defined?(@inspect)
+      data = JSON.parse(inspec.command("docker inspect #{id}").stdout)
+      # we'll return the first value only
+      data = data[0] if data.is_a?(Array)
+      @inspect = Hashie::Mash.new(data)
+    end
+
+    # returns the json object of the info
+    def version
+      return @version if defined?(@version)
+      data = JSON.parse(inspec.command('docker version --format \'{{ json . }}\'').stdout)
+      @version = Hashie::Mash.new(data)
+    end
+
     private
+
+    def parse_containers
+      raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
+      ps = []
+      # since docker is not outputting valid json, we need to parse each row
+      raw_containers.each_line { |entry|
+        j = JSON.parse(entry)
+        # convert all keys to lower_case to work well with ruby and filter table
+        j = j.map {|k, v|
+          [k.downcase, v]
+        }.to_h
+        ps.push(j)
+      }
+      ps
+    end
+
+    def parse_images
+      # docker does not support the `json .` function here, therefore we need to emulate that behavior.
+      raw_images = inspec.command('docker images -a --no-trunc --format \'{ "id": {{json .ID}}, "repository": {{json .Repository}}, "tag": {{json .Tag}}, "size": {{json .Size}}, "digest": {{json .Digest}}, "createdat": {{json .CreatedAt}}, "createdsize": {{json .CreatedSince}} }\'').stdout
+      c_images = []
+      raw_images.each_line { |entry|
+        c_images.push(JSON.parse(entry))
+      }
+      c_images
+    end
 
     # checks if the system is Debian 8+, Ubuntu 16.04+ and RHEL 7+
     def is_systemd_system
@@ -165,63 +215,67 @@ module Inspec::Resources
       end
     "
 
-    # attr_reader :name
+    # TODO: we need to define if a simple string is a ID or NAME
+    # TODO: handle short ids
     def initialize(opts = {})
       # fallback for simple strings
-      @opts = { name: opts } if opts.is_a?(String)
+      if opts.is_a?(String)
+        @opts = { name: opts }
+      else
+        @opts = opts
+      end
     end
 
     def exist?
-      !(info.nil? || info['ID'].nil?)
+      !id.nil?
     end
 
     def id
-      info['ID'] unless info.nil?
+      container_info.ids[0] if container_info.entries.length == 1
     end
 
     def running?
-      info['Status'].downcase.start_with?('up') unless info.nil?
+      status.downcase.start_with?('up') if container_info.entries.length == 1
+    end
+
+    def status
+      container_info.status[0] if container_info.entries.length == 1
     end
 
     def labels
-      [info['Labels']].flatten.reject(&:empty?) unless info.nil?
+      container_info.labels[0] if container_info.entries.length == 1
     end
 
     def ports
-      [info['Ports']].flatten.reject(&:empty?) unless info.nil?
+      container_info.ports[0] if container_info.entries.length == 1
     end
 
     def command
-      # remove quotes
-      info['Command'].slice(1, info['Command'].length - 2) unless info.nil?
+      container_info.commands[0] if container_info.entries.length == 1
     end
 
     def image
-      info['Image'] unless info.nil?
+      container_info.images[0] if container_info.entries.length == 1
     end
 
     def repo
-      info['Image'].split(':')[0] unless info.nil?
+      image.split(':')[0] unless image.nil?
     end
 
     def tag
-      info['Image'].split(':')[1] unless info.nil?
+      image.split(':')[1] unless image.nil?
     end
 
     def to_s
-      "Docker Container #{image}"
+      'Docker Container'
     end
 
     private
 
-    def info
+    def container_info
       return @info if defined?(@info)
-      # search for container
-      inspec.docker.ps.each { |container|
-        @info = container if [container['Names']].flatten.compact.include?(@opts[:name])
-        @info = container if !container['ID'].nil? && container['ID'] == @opts[:id]
-      }
-      @info
+      opts = @opts
+      @info = inspec.docker.containers.where { id == opts[:id] || names == opts[:name] }
     end
   end
 
@@ -234,7 +288,7 @@ module Inspec::Resources
       end
     "
 
-    # attr_reader :name
+    # TODO: handle short image ids
     def initialize(opts = {})
       @opts = opts
 
@@ -254,29 +308,22 @@ module Inspec::Resources
 
       @opts[:tag] ||= 'latest'
       @opts[:image] ||= "#{@opts[:repo]}:#{@opts[:tag]}" unless @opts[:repo].nil?
-
-      # if id or repo is not available, we need to fail
-      return skip_resource 'Id or repository is missing for docker_image' if @opts[:repo].nil? && @opts[:id].nil?
-    end
-
-    def exist?
-      !(info.nil? || info['id'].nil?)
     end
 
     def id
-      info['id'] unless info.nil?
+      image_info.ids[0] if image_info.entries.size == 1
     end
 
     def image
-      "#{info['repository']}:#{info['tag']}" unless info.nil?
+      "#{repo}:#{tag}" if image_info.entries.size == 1
     end
 
     def repo
-      info['repository'] unless info.nil?
+      image_info.repositories[0] if image_info.entries.size == 1
     end
 
     def tag
-      info['tag'] unless info.nil?
+      image_info.tags[0] if image_info.entries.size == 1
     end
 
     def to_s
@@ -285,17 +332,10 @@ module Inspec::Resources
 
     private
 
-    def info
+    def image_info
       return @info if defined?(@info)
-      # search for image
-      inspec.docker.images.each { |image|
-        if [image['repository']].flatten.compact.include?(@opts[:repo]) &&
-           [image['tag']].flatten.compact.include?(@opts[:tag])
-          @info = image
-        end
-        @info = image if !image['id'].nil? && image['id'] == @opts[:id]
-      }
-      @info
+      opts = @opts
+      @info = inspec.docker.images.where { repository == opts[:repo] && tag == opts[:tag] }
     end
   end
 end
