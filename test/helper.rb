@@ -115,6 +115,7 @@ class MockLoader
       '/etc/audit/auditd.conf' => mockfile.call('auditd.conf'),
       '/etc/mysql/my.cnf' => mockfile.call('mysql.conf'),
       '/etc/mysql/mysql2.conf' => mockfile.call('mysql2.conf'),
+      '/etc/rabbitmq/rabbitmq.config' => mockfile.call('rabbitmq.config'),
       'kitchen.yml' => mockfile.call('kitchen.yml'),
       'example.csv' => mockfile.call('example.csv'),
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
