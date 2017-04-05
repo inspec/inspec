@@ -9,20 +9,19 @@ class AwsIamAccessKey < Inspec.resource(1)
   "
   def initialize(opts, conn = AWSConnection.new)
     @opts = opts
-    @access_key = opts[:access_key]
     @iam_client = conn.iam_client
   end
 
   def id
-    access_key.access_key_id
+    access_key_metadata.access_key_id
   end
 
   def active?
-    'Active'.eql? access_key.status
+    'Active'.eql? access_key_metadata.status
   end
 
   def create_date
-    access_key.create_date
+    access_key_metadata.create_date
   end
 
   def last_used_date
@@ -32,19 +31,19 @@ class AwsIamAccessKey < Inspec.resource(1)
   private
 
   def access_key_last_used
-    @access_key_last_used ||= @iam_client.get_access_key_last_used({ access_key_id: access_key.access_key_id }).access_key_last_used
+    @access_key_last_used ||= @iam_client.get_access_key_last_used({ access_key_id: access_key_metadata.access_key_id }).access_key_last_used
   end
 
-  def access_key
-    if !@access_key
-      @iam_client.list_access_keys({ user_name: @opts[:username] }).access_key_metadata.each do |access_key|
-        if access_key.access_key_id.eql? @opts[:id]
-          @access_key = access_key
+  def access_key_metadata
+    if !(defined? @access_key_metadata) || !@access_key_metadata
+      @iam_client.list_access_keys({ user_name: @opts[:username] }).access_key_metadata.each do |access_key_metadata|
+        if access_key_metadata.access_key_id.eql? @opts[:id]
+          @access_key_metadata = access_key_metadata
           break
         end
       end
     end
 
-    @access_key
+    @access_key_metadata
   end
 end
