@@ -25,7 +25,6 @@ class AwsIamAccessKeyTest < Minitest::Test
     assert_equal AwsIamAccessKey.new({username: Username, id: Id}, @mockConn).id, Id
   end
 
-=begin
   def test_that_active_returns_true_when_access_key_status_is_active
     @mockAccessKey.expect :status, 'Active'
 
@@ -52,5 +51,4 @@ class AwsIamAccessKeyTest < Minitest::Test
 
     assert_equal AwsIamAccessKey.new({username: Username, id: Id}, @mockConn).last_used_date, Date
   end
-=end
 end
