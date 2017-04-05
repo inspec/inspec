@@ -121,3 +121,10 @@ hr {
 .t-purple > a { //trigger for side bar LI
 	color: $color_purple !important;
 }
+
+.warning {
+    padding: 10px;
+    margin-bottom: 1em;
+    background: $color_lt_yellow;
+    border: 1px solid rgba(255,147,0,0.3);
+}

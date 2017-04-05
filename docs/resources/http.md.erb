@@ -6,6 +6,10 @@ title: About the http Resource
 
 Use the `http` InSpec audit resource to test an http endpoint.
 
+<p class="warning">Currently, this resource always executes on the host on which <code>inspec exec</code> is run, even if you use the <code>--target</code> option to remotely scan a different host.<br>
+<br>
+This will be corrected in a future version of InSpec. New InSpec releases are posted in the <a href="https://discourse.chef.io/c/chef-release" target="_blank">Release Announcements Category in Discourse</a>.</p>
+
 ## Syntax
 
 An `http` resource block declares the configuration settings to be tested:
