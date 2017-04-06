@@ -168,7 +168,7 @@ module Inspec::Resources
         $properties
       }
       $path = '#{path}'
-      InSpec-GetRegistryKey($path) | ConvertTo-Json
+      InSpec-GetRegistryKey($path) | ConvertTo-Json -Compress
       EOH
 
       cmd = inspec.powershell(script)

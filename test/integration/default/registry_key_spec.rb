@@ -129,3 +129,14 @@ describe registry_key({
   it { should exist }
   it { should have_value('test') }
 end
+
+describe registry_key('HKLM\System\Test') do
+  it { should exist }
+  its('super\/escape') { should eq '\/value/\\' }
+
+  # its('key.with.dot') { should eq 'value.with.dot' }
+  # does not work due to the . inside the its block
+  # see https://github.com/chef/inspec/issues/1281
+  # use the following solution:
+  it { should have_property_value('key.with.dot', :string, 'value.with.dot') }
+end
