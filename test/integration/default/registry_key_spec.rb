@@ -111,3 +111,21 @@ control 'regex-test' do
     end
   }
 end
+
+# test key without leading slash
+describe registry_key({
+  hive: 'HKLM',
+  key:  'System\Test',
+}) do
+  it { should exist }
+  it { should have_value('test') }
+end
+
+# test key with leading slash
+describe registry_key({
+  hive: 'HKLM',
+  key:  '\System\Test',
+}) do
+  it { should exist }
+  it { should have_value('test') }
+end

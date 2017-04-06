@@ -66,7 +66,10 @@ module Inspec::Resources
         # generate registry_key if we do not have a regular expression
         @options[:path] = @options[:hive]
         # add optional key path
-        @options[:path] += '\\' + @options[:key] if @options[:key]
+        if @options[:key]
+          @options[:path] += '\\' if !@options[:key].start_with?('\\')
+          @options[:path] += @options[:key]
+        end
         @options[:name] ||= @options[:path]
       else
         @options[:name] = name
