@@ -28,7 +28,7 @@ include_recipe('os_prepare::json_yaml_csv_ini')
 include_recipe('os_prepare::apt')
 
 # application configuration
-if node['osprepare']['application']
+if node['osprepare']['application'] && node['platform_family'] != 'windows'
   include_recipe('os_prepare::postgres')
   include_recipe('os_prepare::auditctl') unless node['osprepare']['docker']
   include_recipe('os_prepare::apache')
