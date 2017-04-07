@@ -1,10 +1,27 @@
 # Change Log
 
+## [v1.19.2](https://github.com/chef/inspec/tree/v1.19.2) (2017-04-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.1...v1.19.2)
+
+**Fixed bugs:**
+
+- Bug or doc problem with `registry\_key` [\#1268](https://github.com/chef/inspec/issues/1268)
+
+**Closed issues:**
+
+- Strange `registry\_key` behavior \(Unable to get .NET Version\) [\#1131](https://github.com/chef/inspec/issues/1131)
+
+**Merged pull requests:**
+
+- Fix and document registry issues [\#1635](https://github.com/chef/inspec/pull/1635) ([chris-rock](https://github.com/chris-rock))
+- \[www\] Add warning to the http resource documentation [\#1623](https://github.com/chef/inspec/pull/1623) ([adamleff](https://github.com/adamleff))
+
 ## [v1.19.1](https://github.com/chef/inspec/tree/v1.19.1) (2017-04-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.19.0...v1.19.1)
 
 **Merged pull requests:**
 
+- Releasing v1.19.1 [\#1628](https://github.com/chef/inspec/pull/1628) ([adamleff](https://github.com/adamleff))
 - Loosen addressable version pin [\#1627](https://github.com/chef/inspec/pull/1627) ([adamleff](https://github.com/adamleff))
 
 ## [v1.19.0](https://github.com/chef/inspec/tree/v1.19.0) (2017-04-04)
@@ -13,13 +30,22 @@
 **Implemented enhancements:**
 
 - dh\_params resource \(proposed\) [\#1617](https://github.com/chef/inspec/issues/1617)
+- Fix \#1617 Add dh\_params resource [\#1618](https://github.com/chef/inspec/pull/1618) ([4-20ma](https://github.com/4-20ma))
 - Allow apache\_conf to include symlinked configuration files [\#1406](https://github.com/chef/inspec/pull/1406) ([carldjohnston](https://github.com/carldjohnston))
+
+**Closed issues:**
+
+- SSL Resource - Protocols Filter has wrong description [\#1620](https://github.com/chef/inspec/issues/1620)
+- Inspec multi-server queries [\#1616](https://github.com/chef/inspec/issues/1616)
 
 **Merged pull requests:**
 
+- Releasing v1.19.0 [\#1626](https://github.com/chef/inspec/pull/1626) ([adamleff](https://github.com/adamleff))
 - Fix protocols matcher text on ssl resource docs [\#1622](https://github.com/chef/inspec/pull/1622) ([adamleff](https://github.com/adamleff))
 - Replace Nokogiri with REXML in the JUnit formatter [\#1621](https://github.com/chef/inspec/pull/1621) ([adamleff](https://github.com/adamleff))
 - obvious fix in README.md [\#1619](https://github.com/chef/inspec/pull/1619) ([lucky-sideburn](https://github.com/lucky-sideburn))
+- \[www\] Fixing rake www:release task [\#1611](https://github.com/chef/inspec/pull/1611) ([adamleff](https://github.com/adamleff))
+- \[www\] Resurrect global message, promote ChefConf and NYC Meetup [\#1607](https://github.com/chef/inspec/pull/1607) ([adamleff](https://github.com/adamleff))
 
 ## [v1.18.0](https://github.com/chef/inspec/tree/v1.18.0) (2017-03-30)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.17.0...v1.18.0)
@@ -36,13 +62,18 @@
 
 **Closed issues:**
 
+- Cannot install on CentOS 7 [\#1609](https://github.com/chef/inspec/issues/1609)
 - port should be\_listening busted in 1.17.0? [\#1602](https://github.com/chef/inspec/issues/1602)
 - inspec fails to install on centos 7 [\#1597](https://github.com/chef/inspec/issues/1597)
+- Invalid name argument error after upgrading Inspec [\#1588](https://github.com/chef/inspec/issues/1588)
+- Fix-up www build processes due to Gemfile change [\#1586](https://github.com/chef/inspec/issues/1586)
 - inspec outputs full hash when testing ini style file option with \[header\] [\#1541](https://github.com/chef/inspec/issues/1541)
+- inspec compliance upload fails on automate server [\#1360](https://github.com/chef/inspec/issues/1360)
 - Add JSON Schema validation [\#884](https://github.com/chef/inspec/issues/884)
 
 **Merged pull requests:**
 
+- Release v1.18.0 [\#1610](https://github.com/chef/inspec/pull/1610) ([adamleff](https://github.com/adamleff))
 - Fix port resource for invalid IP address in netstat output [\#1603](https://github.com/chef/inspec/pull/1603) ([adamleff](https://github.com/adamleff))
 - Remove errant puts in inspec habitat CLI command [\#1601](https://github.com/chef/inspec/pull/1601) ([adamleff](https://github.com/adamleff))
 - Add docs for habitat CLI commands [\#1600](https://github.com/chef/inspec/pull/1600) ([adamleff](https://github.com/adamleff))
