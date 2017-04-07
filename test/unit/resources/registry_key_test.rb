@@ -15,4 +15,23 @@ describe 'Inspec::Resources::RegistryKey' do
     resource_without_name = MockLoader.new(:windows).load_resource('registry_key', 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule')
     _(resource_without_name.Start).must_equal 2
   end
+
+  it 'generates a proper path from options' do
+    resource = MockLoader.new(:windows).load_resource(
+      'registry_key',
+      'Test 1',
+      { hive: 'my_hive', key: '\\my_prefixed_key'},
+    )
+    _(resource.send(:generate_registry_key_path_from_options)).must_equal 'my_hive\\my_prefixed_key'
+  end
+
+  it 'generates a proper path from options when the key has no leading slash' do
+    resource = MockLoader.new(:windows).load_resource(
+      'registry_key',
+      'Test 1',
+      { hive: 'my_hive', key: 'key_with_no_slash'},
+    )
+    _(resource.send(:generate_registry_key_path_from_options)).must_equal 'my_hive\\key_with_no_slash'
+  end
+
 end
