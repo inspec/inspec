@@ -63,18 +63,15 @@ module Inspec::Resources
       @options = {}
       if reg_key && reg_key.is_a?(Hash)
         @options = @options.merge!(reg_key)
+
         # generate registry_key if we do not have a regular expression
-        @options[:path] = @options[:hive]
-        # add optional key path
-        if @options[:key]
-          @options[:path] += '\\' if !@options[:key].start_with?('\\')
-          @options[:path] += @options[:key]
-        end
+        @options[:path] = generate_registry_key_path_from_options
         @options[:name] ||= @options[:path]
       else
         @options[:name] = name
         @options[:path] = reg_key
       end
+
       return skip_resource 'The `registry_key` resource is not supported on your OS yet.' if !inspec.os.windows?
     end
 
@@ -257,6 +254,20 @@ module Inspec::Resources
       options[:type_expandstring] = 2
 
       options[symbol]
+    end
+
+    def generate_registry_key_path_from_options
+      path = @options[:hive]
+      path += format_key_from_options
+
+      path
+    end
+
+    def format_key_from_options
+      key = @options[:key]
+      return '' unless key
+
+      key.start_with?('\\') ? key : "\\#{key}"
     end
   end
 
