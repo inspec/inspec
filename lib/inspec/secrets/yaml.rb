@@ -11,7 +11,7 @@ module Secrets
     def self.resolve(target)
       unless target.is_a?(String) && File.file?(target) && ['.yml', '.yaml'].include?(File.extname(target).downcase)
         puts "Warning file: #{target} was ignored, please use to .yml or .yaml"
-        return nil
+        exit
       end
       new(target)
     end
