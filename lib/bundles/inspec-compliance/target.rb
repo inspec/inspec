@@ -80,7 +80,11 @@ EOF
     private
 
     def compliance_profile_name
-      m = %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}.match(@target)
+      m = if @config['server_type'] == 'automate'
+            %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
+          else
+            %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
+          end.match(@target)
       "#{m[:owner]}/#{m[:id]}"
     end
   end
