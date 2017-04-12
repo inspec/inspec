@@ -18,6 +18,9 @@
 
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib'))
 
+require 'uri'
+require 'net/http'
+
 require_relative '../tasks/docs.rb'
 require_relative '../tasks/shared.rb'
 
@@ -134,6 +137,41 @@ namespace :www do
     end
 
     sh("git checkout #{current_branch}")
+  end
+
+  desc 'Release the site to the Netlify acceptance environment'
+  task :acceptance do
+    raise 'NETLIFYKEY environment variable not set' unless ENV.key?('NETLIFYKEY')
+
+    Log.info 'Cleaning the existing build directory'
+    Rake::Task['www:clean'].invoke
+
+    Log.info 'Building the docs'
+    Rake::Task['docs'].invoke
+
+    Log.info 'Building the site'
+    Rake::Task['www:build'].invoke
+
+    Log.info 'Creating zip file of website contents'
+    Dir.chdir(File.join(Dir.pwd, 'build')) do
+      sh('zip -r inspec-acceptance.zip *')
+    end
+
+    Log.info 'Uploading to Netlify'
+    uri = URI.parse('https://api.netlify.com/api/v1/sites/inspec-acceptance.netlify.com/deploys')
+    request = Net::HTTP::Post.new(uri)
+    request['Content-Type'] = 'application/zip'
+    request['Authorization'] = "Bearer #{ENV['NETLIFYKEY']}"
+    request.body = File.read(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'), mode: 'rb')
+
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+
+    raise "Failed to upload to Netlify: #{response.code} -- #{response.body}" unless response.code == '200'
+
+    Log.info 'Removing zip file'
+    File.unlink(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'))
   end
 end
 
