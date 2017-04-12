@@ -42,4 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday', '>=0.9.0'
   spec.add_dependency 'toml', '~> 0.1'
   spec.add_dependency 'addressable', '~> 2.4'
+  spec.add_dependency 'parslet', '~> 1.5'
 end
