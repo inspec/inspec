@@ -71,7 +71,7 @@ class SSL < Inspec.resource(1)
           res = Parallel.map(groups, in_threads: 8) do |proto, e|
             [proto, SSLShake.hello(x.resource.host, port: x.resource.port,
               protocol: proto, ciphers: e.map(&:cipher),
-              timeout: x.resource.timeout, retries: x.resource.retries)]
+              timeout: x.resource.timeout, retries: x.resource.retries, servername: x.resource.host)]
           end
           Hash[res]
         }
