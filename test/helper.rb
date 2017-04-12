@@ -175,7 +175,7 @@ class MockLoader
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
-      'c:\opscode\chef\embedded\bin\gem list --local -a -q ^json$' => cmd.call('gem-list-local-a-q-json'),
+      'c:\opscode\chef\embedded\bin\gem.bat list --local -a -q ^json$' => cmd.call('gem-list-local-a-q-json'),
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),

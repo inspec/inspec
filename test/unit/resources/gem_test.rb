@@ -56,7 +56,7 @@ describe 'Inspec::Resources::Gem' do
     }
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
-    _(resource.gem_binary).must_equal 'c:\opscode\chef\embedded\bin\gem'
+    _(resource.gem_binary).must_equal 'c:\opscode\chef\embedded\bin\gem.bat'
   end
 
   it 'verify gem in :chef_server' do
