@@ -271,7 +271,7 @@ module Compliance
 
     # returns a parsed url for `admin/profile` or `compliance://admin/profile`
     def sanitize_profile_name(profile)
-      if profile.is_a?(String) && URI(profile).scheme == 'compliance'
+      if URI(profile).scheme == 'compliance'
         uri = URI(profile)
       else
         uri = URI("compliance://#{profile}")
