@@ -31,12 +31,19 @@ class AwsIamAccessKey < Inspec.resource(1)
   private
 
   def access_key_last_used
-    @access_key_last_used ||= @iam_client.get_access_key_last_used({ access_key_id: access_key_metadata.access_key_id }).access_key_last_used
+    @access_key_last_used ||=
+      @iam_client.get_access_key_last_used(
+        {
+          access_key_id: access_key_metadata.access_key_id,
+        },
+      ).access_key_last_used
   end
 
   def access_key_metadata
-    if !(defined? @access_key_metadata) || !@access_key_metadata
-      @iam_client.list_access_keys({ user_name: @opts[:username] }).access_key_metadata.each do |access_key_metadata|
+    unless (defined? @access_key_metadata) && @access_key_metadata
+      @iam_client.list_access_keys({ user_name: @opts[:username] })
+                 .access_key_metadata.each do |access_key_metadata|
+
         if access_key_metadata.access_key_id.eql? @opts[:id]
           @access_key_metadata = access_key_metadata
           break
