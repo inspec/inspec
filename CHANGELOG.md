@@ -1,5 +1,32 @@
 # Change Log
 
+## [v1.20.0](https://github.com/chef/inspec/tree/v1.20.0) (2017-04-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.2...v1.20.0)
+
+**Fixed bugs:**
+
+- gem resource :chef symbol isn't valid on Windows [\#1645](https://github.com/chef/inspec/issues/1645)
+
+**Closed issues:**
+
+- List on-tap hard to use [\#1644](https://github.com/chef/inspec/issues/1644)
+- inspec vendor meta profiles fails when dependency profile is in Automate asset store [\#1632](https://github.com/chef/inspec/issues/1632)
+- cannot upload meta profile to Automate [\#1631](https://github.com/chef/inspec/issues/1631)
+
+**Merged pull requests:**
+
+- Habitat packages should run as root [\#1656](https://github.com/chef/inspec/pull/1656) ([adamleff](https://github.com/adamleff))
+- harmonize compliance profiles view with supermarket views [\#1654](https://github.com/chef/inspec/pull/1654) ([chris-rock](https://github.com/chris-rock))
+- \[www\] Update community page [\#1651](https://github.com/chef/inspec/pull/1651) ([adamleff](https://github.com/adamleff))
+- Fix gem resource on Windows [\#1650](https://github.com/chef/inspec/pull/1650) ([adamleff](https://github.com/adamleff))
+- add support for hostname detection on macOS [\#1648](https://github.com/chef/inspec/pull/1648) ([chris-rock](https://github.com/chris-rock))
+- allow Automate profile dependencies [\#1647](https://github.com/chef/inspec/pull/1647) ([jeremymv2](https://github.com/jeremymv2))
+- pass options hash sans target key [\#1646](https://github.com/chef/inspec/pull/1646) ([jeremymv2](https://github.com/jeremymv2))
+- add `rabbitmq\_config` resource [\#1639](https://github.com/chef/inspec/pull/1639) ([arlimus](https://github.com/arlimus))
+- \[www\] Adding a website acceptance environment [\#1634](https://github.com/chef/inspec/pull/1634) ([adamleff](https://github.com/adamleff))
+- Adding SNI utilization to ssl resource [\#1624](https://github.com/chef/inspec/pull/1624) ([supergicko](https://github.com/supergicko))
+- Add OSX support for host resource [\#1608](https://github.com/chef/inspec/pull/1608) ([RyanJarv](https://github.com/RyanJarv))
+
 ## [v1.19.2](https://github.com/chef/inspec/tree/v1.19.2) (2017-04-07)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.19.1...v1.19.2)
 
@@ -13,6 +40,7 @@
 
 **Merged pull requests:**
 
+- Release 1.19.2 patch release [\#1638](https://github.com/chef/inspec/pull/1638) ([adamleff](https://github.com/adamleff))
 - Fix and document registry issues [\#1635](https://github.com/chef/inspec/pull/1635) ([chris-rock](https://github.com/chris-rock))
 - \[www\] Add warning to the http resource documentation [\#1623](https://github.com/chef/inspec/pull/1623) ([adamleff](https://github.com/adamleff))
 
@@ -438,7 +466,6 @@
 - do not load controls from test directory [\#1327](https://github.com/chef/inspec/pull/1327) ([chris-rock](https://github.com/chris-rock))
 - Replaced Colors for output [\#1320](https://github.com/chef/inspec/pull/1320) ([hannah-radish](https://github.com/hannah-radish))
 - Hannah vj/fix tests formatting [\#1319](https://github.com/chef/inspec/pull/1319) ([hannah-radish](https://github.com/hannah-radish))
-- revert style changes temporarily [\#1317](https://github.com/chef/inspec/pull/1317) ([vjeffrey](https://github.com/vjeffrey))
 - Updated color palettes, label colors and icons [\#1313](https://github.com/chef/inspec/pull/1313) ([hannah-radish](https://github.com/hannah-radish))
 - Remove extra `'` in registry key examples [\#1308](https://github.com/chef/inspec/pull/1308) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - also push docker latest tag with each release [\#1307](https://github.com/chef/inspec/pull/1307) ([chris-rock](https://github.com/chris-rock))
@@ -459,6 +486,7 @@
 
 **Merged pull requests:**
 
+- revert style changes temporarily [\#1317](https://github.com/chef/inspec/pull/1317) ([vjeffrey](https://github.com/vjeffrey))
 - ensure metadata release entry is a string [\#1305](https://github.com/chef/inspec/pull/1305) ([chris-rock](https://github.com/chris-rock))
 - Fixes resources in the docs [\#1303](https://github.com/chef/inspec/pull/1303) ([burtlo](https://github.com/burtlo))
 - copy vendored dependencies into cache [\#1291](https://github.com/chef/inspec/pull/1291) ([chris-rock](https://github.com/chris-rock))
