@@ -294,6 +294,7 @@ pkg_origin=#{habitat_origin}
 pkg_source="nosuchfile.tar.gz"
 pkg_deps=(chef/inspec)
 pkg_build_deps=()
+pkg_svc_user=root
 EOL
 
       plan += "pkg_license='#{profile.metadata.params[:license]}'\n\n" if profile.metadata.params[:license]
