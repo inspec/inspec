@@ -57,7 +57,14 @@ module Compliance
       puts '', msg
     end
 
-    desc "login_automate SERVER --user='USER' --ent='ENT' --dctoken or --usertoken='TOKEN'", 'Log in to an Automate SERVER'
+    desc "login_automate SERVER --insecure --user='USER' --ent='ENT' --usertoken='TOKEN'", 'Log in to an Automate SERVER'
+    long_desc <<-LONGDESC
+      `login_automate` allows you to use InSpec with Chef Automate
+
+      You need to a user-token for communication with Chef Automate. More
+      information about token retrieval for Automate is available at:
+      https://docs.chef.io/api_delivery.html
+    LONGDESC
     option :dctoken, type: :string,
       desc: 'Data Collector token'
     option :usertoken, type: :string,
@@ -72,31 +79,32 @@ module Compliance
       options['server'] = server
       url = options['server'] + '/compliance/profiles'
 
-      if url && !options['user'].nil? && !options['ent'].nil?
-        if !options['dctoken'].nil? || !options['usertoken'].nil?
-          msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
-        else
-          puts "Please specify a token using --dctoken='DATA_COLLECTOR_TOKEN' or --usertoken='AUTOMATE_TOKEN' "
-          exit 1
-        end
-      else
-        puts "Please login to your automate instance using 'inspec compliance login_automate SERVER --user AUTOMATE_USER --ent AUTOMATE_ENT --dctoken DC_TOKEN or --usertoken USER_TOKEN' "
-        exit 1
+      if url && !options['user'].nil? && !options['ent'].nil? && (!options['dctoken'].nil? || !options['usertoken'].nil?)
+        msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
+        puts '', msg
+        exit 0
       end
-      puts '', msg
+
+      # parameters are missing if we reach here
+      puts 'Please specify an user using `--user \'USER\'`' if options['user'].nil?
+      puts 'Please specify an enterprise using `--ent \'cd\'`' if options['ent'].nil?
+      puts 'Please specify a token using `--usertoken=\'AUTOMATE_TOKEN\'`' if options['usertoken'].nil? && options['dctoken'].nil?
+      exit 1
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
+
     def profiles
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
       msg, profiles = Compliance::API.profiles(config)
+      profiles.sort_by! { |hsh| hsh['title'] }
       if !profiles.empty?
         # iterate over profiles
         headline('Available profiles:')
         profiles.each { |profile|
-          li("#{profile[:org]}/#{profile[:name]}")
+          li("#{profile['title']} #{mark_text(profile['owner_id'] + '/' + profile['name'])}")
         }
       else
         puts msg, 'Could not find any profiles'
@@ -110,7 +118,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
       # iterate over tests and add compliance scheme
-      tests = tests.map { |t| 'compliance://' + t }
+      tests = tests.map { |t| 'compliance://' + sanitize_profile_name(t) }
       # execute profile from inspec exec implementation
       diagnose
       run_tests(tests, opts)
@@ -126,6 +134,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
+      profile_name = sanitize_profile_name(profile_name)
       if Compliance::API.exist?(config, profile_name)
         puts "Downloading `#{profile_name}`"
 
@@ -259,6 +268,16 @@ module Compliance
     end
 
     private
+
+    # returns a parsed url for `admin/profile` or `compliance://admin/profile`
+    def sanitize_profile_name(profile)
+      if URI(profile).scheme == 'compliance'
+        uri = URI(profile)
+      else
+        uri = URI("compliance://#{profile}")
+      end
+      uri.host + uri.path
+    end
 
     def login_automate_config(url, user, dctoken, usertoken, ent, insecure) # rubocop:disable Metrics/ParameterLists
       config = Compliance::Configuration.new

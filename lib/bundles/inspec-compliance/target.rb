@@ -79,6 +79,7 @@ EOF
 
     private
 
+    # determine the owner_id and the profile name from the url
     def compliance_profile_name
       m = if @config['server_type'] == 'automate'
             %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
