@@ -23,4 +23,19 @@ class IamPasswordPolicyTest < Minitest::Test
     @mockConn.expect :iam_resource, @mockResource
     assert_equal false, IamPasswordPolicy.new(@mockConn).exists?
   end
+
+  def test_throws_when_password_age_0
+    @mockResource = Minitest::Mock.new
+    @policyObject = Minitest::Mock.new
+    @policyObject.expect :expire_passwords, false
+
+    @mockResource.expect :account_password_policy, @policyObject
+    @mockConn.expect :iam_resource, @mockResource
+    begin
+      IamPasswordPolicy.new(@mockConn).max_password_age
+      flunk 'Should throw before getting here'
+    rescue Exception => e
+      assert_equal e.message, 'this policy does not expire passwords'
+    end
+  end
 end
