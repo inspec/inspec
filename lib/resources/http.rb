@@ -25,13 +25,14 @@ module Inspec::Resources
     "
 
     # rubocop:disable ParameterLists
-    def initialize(url, method: 'GET', params: nil, auth: {}, headers: {}, data: nil)
+    def initialize(url, method: 'GET', params: nil, auth: {}, headers: {}, data: nil, ssl_verify: true)
       @url = url
       @method = method
       @params = params
       @auth = auth
       @headers = headers
       @data = data
+      @ssl_verify = ssl_verify
     end
 
     def status
@@ -53,7 +54,7 @@ module Inspec::Resources
     private
 
     def response
-      conn = Faraday.new url: @url, headers: @headers, params: @params
+      conn = Faraday.new url: @url, headers: @headers, params: @params, ssl: { verify: @ssl_verify }
 
       # set basic authentication
       conn.basic_auth @auth[:user], @auth[:pass] unless @auth.empty?
