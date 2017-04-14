@@ -43,6 +43,7 @@ module Habitat
       copy_profile_to_work_dir
       create_plan
       create_run_hook
+      create_settings_file
       create_default_config
 
       # returns the path to the .hart file in the work directory
@@ -152,6 +153,7 @@ module Habitat
       @work_dir ||= Dir.mktmpdir('inspec-habitat-exporter')
       Dir.mkdir(File.join(@work_dir, 'src'))
       Dir.mkdir(File.join(@work_dir, 'habitat'))
+      Dir.mkdir(File.join(@work_dir, 'habitat', 'config'))
       Dir.mkdir(File.join(@work_dir, 'habitat', 'hooks'))
       Habitat::Log.debug("Generated work directory #{@work_dir}")
 
@@ -183,6 +185,12 @@ module Habitat
       run_hook_file = File.join(work_dir, 'habitat', 'hooks', 'run')
       Habitat::Log.info("Generating a Habitat run hook at #{run_hook_file}...")
       File.write(run_hook_file, run_hook_contents)
+    end
+
+    def create_settings_file
+      settings_file = File.join(work_dir, 'habitat', 'config', 'settings.sh')
+      Habitat::Log.info("Generating a settings file at #{settings_file}...")
+      File.write(settings_file, "SLEEP_TIME={{cfg.sleep_time}}\n")
     end
 
     def create_default_config
@@ -335,7 +343,6 @@ export PATH=${PATH}:$(hab pkg path core/ruby)/bin
 export HOME={{pkg.svc_var_path}}
 
 PROFILE_IDENT="#{habitat_origin}/#{package_name}"
-SLEEP_TIME={{cfg.sleep_time}}
 RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
 RESULTS_FILE="${RESULTS_DIR}/#{package_name}.json"
 ERROR_FILE="{{pkg.svc_var_path}}/inspec.err"
@@ -350,11 +357,15 @@ while true; do
 
   if [ "x${RC}" == "x0" ]; then
     echo "InSpec run completed successfully."
-  else
-    echo "InSpec run did NOT complete successfully."
+  elsif [ -s ${ERROR_FILE} ]
+    echo "InSpec run did NOT complete successfully. Error:"
     cat ${ERROR_FILE}
+  else
+    echo "InSpec run completed successfully, but there were control failures."
+    echo "Check the output at ${RESULTS_FILE} for details."
   fi
 
+  source {{pkg.svc_config_path}}/settings.sh
   echo "sleeping for ${SLEEP_TIME} seconds"
   sleep ${SLEEP_TIME}
 done
