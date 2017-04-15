@@ -23,3 +23,7 @@ resource "aws_iam_user_login_profile" "u" {
         user = "${aws_iam_user.console_password_enabled_user.name}"
         pgp_key = "${var.login_profile_pgp_key}"
 }
+
+resource "aws_iam_user" "access_key_user" {
+    name = "access_key_user"
+}
