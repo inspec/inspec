@@ -36,6 +36,9 @@ module Inspec::Resources
         version = if inspec.directory('/var/lib/pgsql/data').exist?
                     warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
                     nil
+                  elsif inspec.directory('/var/lib/postgresql/data').exist?
+                    warn 'Found /var/lib/postgresql/data. Assuming postgresql install uses un-versioned directories. (This path is used by their docker images)'
+                    nil
                   else
                     version_from_dir('/var/lib/pgsql/')
                   end
