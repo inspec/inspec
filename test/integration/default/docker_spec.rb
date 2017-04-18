@@ -49,6 +49,16 @@ describe docker_image(repo: 'alpine', tag: 'latest') do
   its('tag') { should eq 'latest' }
 end
 
+alpine_id = docker_image(image: 'alpine:latest').id
+short_alpine_id = alpine_id.split(':')[1][0..12]
+describe docker_image(id: short_alpine_id) do
+  it { should exist }
+end
+
+describe docker_image(id: alpine_id) do
+  it { should exist }
+end
+
 describe docker_container('an-echo-server') do
   it { should exist }
   it { should be_running }
@@ -56,8 +66,24 @@ describe docker_container('an-echo-server') do
   its('image') { should eq 'busybox:latest' }
   its('repo') { should eq 'busybox' }
   its('tag') { should eq 'latest' }
-  its('ports') { should eq ["0.0.0.0:1234->1234/tcp"] }
+  its('ports') { should eq "0.0.0.0:1234->1234/tcp" }
   its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+end
+
+describe docker_container(name: 'an-echo-server') do
+  it { should exist }
+  it { should be_running }
+  its('id') { should_not eq '' }
+  its('image') { should eq 'busybox:latest' }
+  its('repo') { should eq 'busybox' }
+  its('tag') { should eq 'latest' }
+  its('ports') { should eq "0.0.0.0:1234->1234/tcp" }
+  its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+end
+
+describe docker_container(id: docker_container(name: 'an-echo-server').id) do
+  it { should exist }
+  it { should be_running }
 end
 
 describe docker_container('an-echo-server-2') do
@@ -67,60 +93,25 @@ describe docker_container('an-echo-server-2') do
   its('image') { should eq 'busybox:latest' }
   its('repo') { should eq 'busybox' }
   its('tag') { should eq 'latest' }
-  its('ports') { should eq [] }
+  its('ports') { should eq "" }
   its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
 end
 
-# versions returns a hash with all possible details
-# describe docker.version do
-#   it { should eq {}}
-# end
+describe docker.version do
+  its('Server.Version') { should cmp >= '1.12'}
+  its('Client.Version') { should cmp >= '1.12'}
+end
 
-# describe docker do
-#   its('server_version') { should cmp >= '1.12'}
-# end
-#
-# describe docker do
-#   its('client_version') { should cmp >= '1.12'}
-# end
-
-# TODO: use filter table for images and container
 # iterate over all running container
-# docker.ps_ids.each do |id|
-#   # call docker inspect for a specific container id
-#   describe docker.inspect(id) do
-#     its(%w(HostConfig Privileged)) { should cmp false }
-#     its(%w(HostConfig Privileged)) { should_not cmp true }
-#   end
-# end
-
-
-# require "pry"; binding.pry
-# describe docker.inspect(docker.ps_ids[0]) do
-#   its(%w(HostConfig Privileged)) { should cmp false }
-#   its(%w(HostConfig Privileged)) { should_not cmp true }
-# end
-
-# test docker path output
-describe docker.path do
-  it { should_not eq '' }
+docker.containers.ids.each do |id|
+  # call docker inspect for a specific container id
+  describe docker.object(id) do
+    its(%w(HostConfig Privileged)) { should cmp false }
+    its(%w(HostConfig Privileged)) { should_not cmp true }
+  end
 end
 
-describe file(docker.path) do
-  it { should exist }
-  it { should be_file }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
-end
-
-# test docker socket output
-describe docker.socket do
-  it { should_not eq '' }
-end
-
-describe file(docker.socket) do
-  it { should exist }
-  it { should be_file }
-  it { should be_owned_by 'root' }
-  it { should be_grouped_into 'root' }
+describe docker.object(docker.containers.ids[0]) do
+  its(%w(HostConfig Privileged)) { should cmp false }
+  its(%w(HostConfig Privileged)) { should_not cmp true }
 end
