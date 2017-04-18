@@ -16,7 +16,7 @@ Encoding:
 HashSyntax:
   Enabled: true
 LineLength:
-  Enabled: false
+  Enabled: true
 EmptyLinesAroundBlockBody:
   Enabled: false
 MethodLength:

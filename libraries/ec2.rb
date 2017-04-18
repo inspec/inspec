@@ -74,7 +74,9 @@ class Ec2 < Inspec.resource(1)
   end
 
   def security_groups
-    @security_groups ||= instance.security_groups.map { |sg| { id: sg.group_id, name: sg.group_name } }
+    @security_groups ||= instance.security_groups.map { |sg|
+      { id: sg.group_id, name: sg.group_name }
+    }
   end
 
   def tags
