@@ -141,7 +141,7 @@ EOF
 
 #{mark 'Web Reference:'}
 
-https://github.com/chef/inspec/blob/master/docs/resources.rst##{resource}
+http://inspec.io/docs/reference/resources/#{resource}
 
 EOF
       else
