@@ -10,7 +10,7 @@ module Inspec::Resources
     desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
     example "
       script = <<-EOH
-        # you powershell script
+        # your powershell script
       EOH
 
       describe powershell(script) do
