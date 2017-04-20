@@ -103,7 +103,7 @@ describe 'Inspec::Resources::User' do
     _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
     _(resource.group).must_equal nil
-    _(resource.groups).must_equal nil
+    _(resource.groups).must_equal ['Administrators', 'Users']
     _(resource.home).must_equal nil
     _(resource.shell).must_equal nil
     _(resource.mindays).must_equal nil
