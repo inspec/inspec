@@ -91,7 +91,7 @@ if os.windows?
     it { should exist }
     # should return the SID of the user
     its('uid') { should_not eq nil}
-    its('groups') { should include 'Administrators' }
+    its('groups') { should include userinfo[:groups] }
   end
 
   # also support simple username for local users without domain
@@ -99,7 +99,7 @@ if os.windows?
     it { should exist }
     # should return the SID of the user
     its('uid') { should_not eq nil}
-    its('groups') { should include 'Administrators' }
+    its('groups') { should include userinfo[:groups] }
   end
 else
   # test single `user` resource
