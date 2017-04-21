@@ -576,42 +576,42 @@ module Inspec::Resources
     def collect_user_details # rubocop:disable Metrics/MethodLength
       return @users_cache if defined?(@users_cache)
       script = <<-EOH
-Function  ConvertTo-SID { Param([byte[]]$BinarySID)
-  (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
+Function ConvertTo-SID { Param([byte[]]$BinarySID)
+  (New-Object System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
 }
 
-Function  Convert-UserFlag { Param  ($UserFlag)
-  $List  = @()
-  Switch  ($UserFlag) {
-    ($UserFlag  -BOR 0x0001)  { $List += 'SCRIPT' }
-    ($UserFlag  -BOR 0x0002)  { $List += 'ACCOUNTDISABLE' }
-    ($UserFlag  -BOR 0x0008)  { $List += 'HOMEDIR_REQUIRED' }
-    ($UserFlag  -BOR 0x0010)  { $List += 'LOCKOUT' }
-    ($UserFlag  -BOR 0x0020)  { $List += 'PASSWD_NOTREQD' }
-    ($UserFlag  -BOR 0x0040)  { $List += 'PASSWD_CANT_CHANGE' }
-    ($UserFlag  -BOR 0x0080)  { $List += 'ENCRYPTED_TEXT_PWD_ALLOWED' }
-    ($UserFlag  -BOR 0x0100)  { $List += 'TEMP_DUPLICATE_ACCOUNT' }
-    ($UserFlag  -BOR 0x0200)  { $List += 'NORMAL_ACCOUNT' }
-    ($UserFlag  -BOR 0x0800)  { $List += 'INTERDOMAIN_TRUST_ACCOUNT' }
-    ($UserFlag  -BOR 0x1000)  { $List += 'WORKSTATION_TRUST_ACCOUNT' }
-    ($UserFlag  -BOR 0x2000)  { $List += 'SERVER_TRUST_ACCOUNT' }
-    ($UserFlag  -BOR 0x10000)  { $List += 'DONT_EXPIRE_PASSWORD' }
-    ($UserFlag  -BOR 0x20000)  { $List += 'MNS_LOGON_ACCOUNT' }
-    ($UserFlag  -BOR 0x40000)  { $List += 'SMARTCARD_REQUIRED' }
-    ($UserFlag  -BOR 0x80000)  { $List += 'TRUSTED_FOR_DELEGATION' }
-    ($UserFlag  -BOR 0x100000)  { $List += 'NOT_DELEGATED' }
-    ($UserFlag  -BOR 0x200000)  { $List += 'USE_DES_KEY_ONLY' }
-    ($UserFlag  -BOR 0x400000)  { $List += 'DONT_REQ_PREAUTH' }
-    ($UserFlag  -BOR 0x800000)  { $List += 'PASSWORD_EXPIRED' }
-    ($UserFlag  -BOR 0x1000000)  { $List += 'TRUSTED_TO_AUTH_FOR_DELEGATION' }
-    ($UserFlag  -BOR 0x04000000)  { $List += 'PARTIAL_SECRETS_ACCOUNT' }
+Function Convert-UserFlag { Param  ($UserFlag)
+  $List = @()
+  Switch ($UserFlag) {
+    ($UserFlag -BOR 0x0001) { $List += 'SCRIPT' }
+    ($UserFlag -BOR 0x0002) { $List += 'ACCOUNTDISABLE' }
+    ($UserFlag -BOR 0x0008) { $List += 'HOMEDIR_REQUIRED' }
+    ($UserFlag -BOR 0x0010) { $List += 'LOCKOUT' }
+    ($UserFlag -BOR 0x0020) { $List += 'PASSWD_NOTREQD' }
+    ($UserFlag -BOR 0x0040) { $List += 'PASSWD_CANT_CHANGE' }
+    ($UserFlag -BOR 0x0080) { $List += 'ENCRYPTED_TEXT_PWD_ALLOWED' }
+    ($UserFlag -BOR 0x0100) { $List += 'TEMP_DUPLICATE_ACCOUNT' }
+    ($UserFlag -BOR 0x0200) { $List += 'NORMAL_ACCOUNT' }
+    ($UserFlag -BOR 0x0800) { $List += 'INTERDOMAIN_TRUST_ACCOUNT' }
+    ($UserFlag -BOR 0x1000) { $List += 'WORKSTATION_TRUST_ACCOUNT' }
+    ($UserFlag -BOR 0x2000) { $List += 'SERVER_TRUST_ACCOUNT' }
+    ($UserFlag -BOR 0x10000) { $List += 'DONT_EXPIRE_PASSWORD' }
+    ($UserFlag -BOR 0x20000) { $List += 'MNS_LOGON_ACCOUNT' }
+    ($UserFlag -BOR 0x40000) { $List += 'SMARTCARD_REQUIRED' }
+    ($UserFlag -BOR 0x80000) { $List += 'TRUSTED_FOR_DELEGATION' }
+    ($UserFlag -BOR 0x100000) { $List += 'NOT_DELEGATED' }
+    ($UserFlag -BOR 0x200000) { $List += 'USE_DES_KEY_ONLY' }
+    ($UserFlag -BOR 0x400000) { $List += 'DONT_REQ_PREAUTH' }
+    ($UserFlag -BOR 0x800000) { $List += 'PASSWORD_EXPIRED' }
+    ($UserFlag -BOR 0x1000000) { $List += 'TRUSTED_TO_AUTH_FOR_DELEGATION' }
+    ($UserFlag -BOR 0x04000000) { $List += 'PARTIAL_SECRETS_ACCOUNT' }
   }
   $List
 }
 
-$Computername =  $Env:Computername
-$adsi  = [ADSI]"WinNT://$Computername"
-$adsi.Children | where {$_.SchemaClassName -eq  'user'} |  ForEach {
+$Computername = $Env:Computername
+$adsi = [ADSI]"WinNT://$Computername"
+$adsi.Children | where {$_.SchemaClassName -eq 'user'} | ForEach {
   New-Object PSObject -property @{
     uid = ConvertTo-SID -BinarySID $_.ObjectSID[0]
     username = $_.Name[0]
@@ -627,7 +627,7 @@ $adsi.Children | where {$_.SchemaClassName -eq  'user'} |  ForEach {
     maxbadpasswords = $_.MaxBadPasswordsAllowed[0]
     gid = $null
     group = $null
-    groups = $null
+    groups = @($_.Groups() | Foreach-Object { $_.GetType().InvokeMember('Name', 'GetProperty', $null, $_, $null) })
     home = $_.HomeDirectory[0]
     shell = $null
     domain = $Computername
