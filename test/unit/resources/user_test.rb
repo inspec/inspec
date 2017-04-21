@@ -98,7 +98,7 @@ describe 'Inspec::Resources::User' do
     _(resource.warndays).must_equal nil
   end
 
-  it 'read user on Windows' do
+  it 'read administrator user on Windows' do
     resource = MockLoader.new(:windows).load_resource('user', 'Administrator')
     _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
@@ -110,6 +110,20 @@ describe 'Inspec::Resources::User' do
     _(resource.maxdays).must_equal nil
     _(resource.warndays).must_equal nil
     _(resource.disabled?).must_equal false
+  end
+
+  it 'read guest user on Windows' do
+    resource = MockLoader.new(:windows).load_resource('user', 'Guest')
+    _(resource.uid).wont_be_nil
+    _(resource.exists?).must_equal true
+    _(resource.group).must_equal nil
+    _(resource.groups).must_equal ['Users']
+    _(resource.home).must_equal nil
+    _(resource.shell).must_equal nil
+    _(resource.mindays).must_equal nil
+    _(resource.maxdays).must_equal nil
+    _(resource.warndays).must_equal nil
+    _(resource.disabled?).must_equal true
   end
 
   it 'read disabled user on Windows' do
