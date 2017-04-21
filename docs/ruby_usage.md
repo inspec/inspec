@@ -159,6 +159,24 @@ When writing tests you can not use standard ruby methods to shellout as it tries
 However, the `command` resource has a `.stdout` method that will allow you to manipulate the results.
 Using the above example, you could check the writes on several subdirectories.
 
+### Example 1:
+```ruby
+inspec> output=command('echo test').stdout
+=> "test\n"
+inspec> describe command('echo test') do
+inspec>   its('stdout') { should eq output }
+inspec> end
+
+Profile: inspec-shell
+Version: (not specified)
+
+  Command echo
+     ✔  test stdout should eq "test\n"
+
+Test Summary: 1 successful, 0 failures, 0 skipped
+```
+
+### Example 2:
 ```ruby
 $ inspec shell
 Welcome to the interactive InSpec Shell
