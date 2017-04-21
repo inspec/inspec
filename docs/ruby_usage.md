@@ -161,6 +161,10 @@ Using the above example, you could check the writes on several subdirectories.
 
 ### Example 1:
 ```ruby
+$ inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
 inspec> output=command('echo test').stdout
 => "test\n"
 inspec> describe command('echo test') do
