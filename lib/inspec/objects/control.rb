@@ -23,7 +23,7 @@ module Inspec
     def to_ruby
       res = ["control #{id.inspect} do"]
       res.push "  title #{title.inspect}" unless title.to_s.empty?
-      res.push "  desc  #{desc.inspect}" unless desc.to_s.empty?
+      res.push "  desc  #{desc.inspect.gsub('\n', "\n")}" unless desc.to_s.empty?
       res.push "  impact #{impact}" unless impact.nil?
       tags.each { |t| res.push(indent(t.to_ruby, 2)) }
       tests.each { |t| res.push(indent(t.to_ruby, 2)) }
