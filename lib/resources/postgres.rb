@@ -7,10 +7,8 @@
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
-
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version
     def initialize
-      
       data_dir_command = inspec.command("ps aux | grep 'postgres *-D' | awk '{print $NF}'").stdout.strip
       if data_dir_command.empty?
         warn "postgres process not found - using filesystem to try and determine the pg 'data_dir'"
@@ -18,7 +16,6 @@ module Inspec::Resources
       if !data_dir_command.empty?
         version_command = inspec.command("cat `find #{data_dir_command} \\\( ! -path #{data_dir_command} -prune \\\) -type f -name \"PG_VERSION\"\`").stdout.strip
       end
-
       os = inspec.os
       if os.debian?
         # https://wiki.debian.org/PostgreSql
@@ -59,7 +56,6 @@ module Inspec::Resources
                        version_from_dir('/var/lib/pgsql/')
                      end
         end
-
         if !data_dir_command.empty?
           @data_dir = data_dir_command.to_s
         else
@@ -90,7 +86,6 @@ module Inspec::Resources
           @data_dir = '/var/lib/pgsql/data'
         end
       end
-
       @service = 'postgresql'
       @conf_dir ||= @data_dir
       verify_dirs
