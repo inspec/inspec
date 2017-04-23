@@ -8,20 +8,35 @@ module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
 
-    attr_reader :service, :data_dir, :conf_dir, :conf_path
+    attr_reader :service, :data_dir, :conf_dir, :conf_path, :version
     def initialize
+      data_dir_command = inspec.command("ps aux | grep 'postgres *-D' | awk '{print $NF}'").stdout.strip
+      if data_dir_command.empty?
+        warn "postgres process not found - using filesystem to try and determine the pg 'data_dir'"
+      end
+      if !data_dir_command.empty?
+        version_command = inspec.command("cat `find #{data_dir_command} \\\( ! -path #{data_dir_command} -prune \\\) -type f -name \"PG_VERSION\"\`").stdout.strip
+      end
+
       os = inspec.os
       if os.debian?
-        #
         # https://wiki.debian.org/PostgreSql
         #
         # Debian allows multiple versions of postgresql to be
         # installed as well as multiple "clusters" to be configured.
         #
-        version = version_from_dir('/etc/postgresql')
+        if !data_dir_command.empty?
+          @data_dir =  "#{data_dir_command}"
+        else
+          @data_dir = "/var/lib/postgresql/#{version}/#{cluster}"
+        end
+        if !version_command.empty?
+          @version =  "#{version_command}"
+        else
+          @version = version_from_dir('/etc/postgresql')
+        end
         cluster = cluster_from_dir("/etc/postgresql/#{version}")
         @conf_dir = "/etc/postgresql/#{version}/#{cluster}"
-        @data_dir = "/var/lib/postgresql/#{version}/#{cluster}"
       elsif os.redhat?
         #
         # /var/lib/pgsql/data is the default data directory on RHEL6
@@ -33,14 +48,22 @@ module Inspec::Resources
         # warning in version_from_dir. We should determine which case
         # is more common and only warn in the less common case.
         #
-        version = if inspec.directory('/var/lib/pgsql/data').exist?
-                    warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
-                    nil
-                  else
-                    version_from_dir('/var/lib/pgsql/')
-                  end
+        if !version_command.empty?
+          @version =  "#{version_command}"
+        else
+          @version = if inspec.directory('/var/lib/pgsql/data').exist?
+                      warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
+                      nil
+                    else
+                      version_from_dir('/var/lib/pgsql/')
+                    end
+        end
 
-        @data_dir = File.join('/var/lib/pgsql/', version.to_s, 'data')
+        if !data_dir_command.empty?
+          @data_dir =  "#{data_dir_command}"
+        else
+          @data_dir = File.join('/var/lib/pgsql/', version.to_s, 'data')
+        end
       elsif os[:name] == 'arch'
         #
         # https://wiki.archlinux.org/index.php/PostgreSQL
@@ -48,7 +71,11 @@ module Inspec::Resources
         # The archlinux wiki points to /var/lib/postgresql/data as the
         # main data directory.
         #
-        @data_dir = '/var/lib/postgres/data'
+        if !data_dir_command.empty?
+          @data_dir =  "#{data_dir_command}"
+        else
+          @data_dir = '/var/lib/postgres/data'
+        end
       else
         #
         # According to https://www.postgresql.org/docs/9.5/static/creating-cluster.html
@@ -56,7 +83,11 @@ module Inspec::Resources
         # > There is no default, although locations such as
         # > /usr/local/pgsql/data or /var/lib/pgsql/data are popular.
         #
-        @data_dir = '/var/lib/pgsql/data'
+        if !data_dir_command.empty?
+          @data_dir =  "#{data_dir_command}"
+        else
+          @data_dir = '/var/lib/pgsql/data'
+        end
       end
 
       @service = 'postgresql'
