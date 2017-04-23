@@ -26,12 +26,12 @@ module Inspec::Resources
         # installed as well as multiple "clusters" to be configured.
         #
         if !data_dir_command.empty?
-          @data_dir =  "#{data_dir_command}"
+          @data_dir = data_dir_command.to_s
         else
           @data_dir = "/var/lib/postgresql/#{version}/#{cluster}"
         end
         if !version_command.empty?
-          @version =  "#{version_command}"
+          @version = version_command.to_s
         else
           @version = version_from_dir('/etc/postgresql')
         end
@@ -49,18 +49,18 @@ module Inspec::Resources
         # is more common and only warn in the less common case.
         #
         if !version_command.empty?
-          @version =  "#{version_command}"
+          @version = version_command.to_s
         else
           @version = if inspec.directory('/var/lib/pgsql/data').exist?
-                      warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
-                      nil
-                    else
-                      version_from_dir('/var/lib/pgsql/')
-                    end
+                       warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
+                       nil
+                     else
+                       version_from_dir('/var/lib/pgsql/')
+                     end
         end
 
         if !data_dir_command.empty?
-          @data_dir =  "#{data_dir_command}"
+          @data_dir = data_dir_command.to_s
         else
           @data_dir = File.join('/var/lib/pgsql/', version.to_s, 'data')
         end
@@ -72,7 +72,7 @@ module Inspec::Resources
         # main data directory.
         #
         if !data_dir_command.empty?
-          @data_dir =  "#{data_dir_command}"
+          @data_dir = data_dir_command.to_s
         else
           @data_dir = '/var/lib/postgres/data'
         end
@@ -84,7 +84,7 @@ module Inspec::Resources
         # > /usr/local/pgsql/data or /var/lib/pgsql/data are popular.
         #
         if !data_dir_command.empty?
-          @data_dir =  "#{data_dir_command}"
+          @data_dir = data_dir_command.to_s
         else
           @data_dir = '/var/lib/pgsql/data'
         end
