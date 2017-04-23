@@ -122,14 +122,14 @@ module Inspec::Resources
 
   class LinuxHostProvider < HostProvider
     def ping(hostname, port = nil, proto = nil)
-      #assume tcp if port is given without corresponding protocol
+      # assume tcp if port is given without corresponding protocol
       if port && !proto
         proto = 'tcp'
       end
-      #use bash builtin capability for checking connectivity
-      #for those os's with timeout from coreutils packages
+      # use bash builtin capability for checking connectivity
+      # for those os's with timeout from coreutils packages
       # TODO: Verify whether this works on other linux versions
-      if port && ( inspec.os.redhat? || inspec.os.debian? )
+      if port && (inspec.os.redhat? || inspec.os.debian?)
         resp = inspec.command("timeout 1 bash -c 'cat </dev/null >/dev/#{proto}/#{hostname}/#{port}'")
       else
         resp = inspec.command("ping -W 1 -c 1 #{hostname}")
