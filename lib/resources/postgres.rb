@@ -6,11 +6,16 @@
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
-    name 'postgres'
-    attr_reader :service, :data_dir, :conf_dir, :conf_path, :version
+  name 'postgres'
+  attr_reader :service, :data_dir, :conf_dir, :conf_path, :version
     def initialize
-      data_dir_command = conf_dir_from_process
-      version_command = version_from_process(data_dir_command)
+      data_dir_command = inspec.command("ps aux | grep 'postgres *-D' | awk '{print $NF}'").stdout.strip
+      if data_dir_command.empty?
+        warn "postgres process not found - using filesystem to try and determine the pg 'data_dir'"
+      end
+      if !data_dir_command.empty?
+        version_command = inspec.command("cat `find #{data_dir_command} \\\( ! -path #{data_dir_command} -prune \\\) -type f -name \"PG_VERSION\"\`").stdout.strip
+      end
       os = inspec.os
       if os.debian?
         # https://wiki.debian.org/PostgreSql
@@ -18,8 +23,6 @@ module Inspec::Resources
         # Debian allows multiple versions of postgresql to be
         # installed as well as multiple "clusters" to be configured.
         #
-        # @todo is it more correct to put the to_s here rather than insside the
-        # fuction?
         if !data_dir_command.nil?
           @data_dir = data_dir_command.to_s
         else
