@@ -121,11 +121,7 @@ module Inspec::Resources
   end
 
   class LinuxHostProvider < HostProvider
-    def ping(hostname, port = nil, proto = nil)
-      # assume tcp if port is given without corresponding protocol
-      if port && !proto
-        proto = 'tcp'
-      end
+    def ping(hostname, port = nil, proto = 'tcp')
       # use bash builtin capability for checking connectivity
       # for those os's with timeout from coreutils packages
       # TODO: Verify whether this works on other linux versions
