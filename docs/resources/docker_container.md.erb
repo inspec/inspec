@@ -1,0 +1,89 @@
+---
+title: About the docker_container Resource
+---
+
+# docker_container
+
+Use the `docker_container` InSpec audit resource to test a docker container.
+
+## Syntax
+
+A `docker_container` resource block declares the configuration data to be tested:
+
+    describe docker_container('container') do
+      it { should exist }
+      it { should be_running }
+      its('id') { should_not eq '' }
+      its('image') { should eq 'busybox:latest' }
+      its('repo') { should eq 'busybox' }
+      its('tag') { should eq 'latest' }
+      its('ports') { should eq [] }
+      its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+    end
+
+The container name can also be passed with the `name` argument:
+
+    describe docker_container(name: 'an-echo-server') do
+      it { should exist }
+      it { should be_running }
+    end
+
+Alternatively, you can pass in the container id:
+
+    describe docker_container(id: '71b5df59442b') do
+      it { should exist }
+      it { should be_running }
+    end
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### id
+
+The `id` matcher tests the container id:
+
+    its('id') { should eq 'sha:71b5df59...442b' }
+
+### repo
+
+The `repo` matcher tests the value of the image repository:
+
+    its('repo') { should eq 'busybox' }
+
+### tag
+
+The `tag` matcher tests the value of the image tag:
+
+    its('tag') { should eq 'latest' }
+
+### ports
+
+The `ports` matcher tests the value the docker ports:
+
+    its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
+
+### command
+
+The `command` matcher tests the value of the container run command:
+
+    its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+
+
+## Examples
+
+The following examples show how to use this InSpec resource.
+
+### Verify an running container:
+
+    describe docker_container('an-echo-server') do
+      it { should exist }
+      it { should be_running }
+      its('id') { should_not eq '' }
+      its('image') { should eq 'busybox:latest' }
+      its('repo') { should eq 'busybox' }
+      its('tag') { should eq 'latest' }
+      its('ports') { should eq [] }
+      its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+    end

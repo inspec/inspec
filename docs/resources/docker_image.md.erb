@@ -1,0 +1,86 @@
+---
+title: About the docker_image Resource
+---
+
+# docker_image
+
+Use the `docker_image` InSpec audit resource to verify a docker image.
+
+## Syntax
+
+A `docker_image` resource block declares the image:
+
+    describe docker_image('alpine:latest') do
+      it { should exist }
+      its('id') { should eq 'sha256:4a415e...a526' }
+      its('repo') { should eq 'alpine' }
+      its('tag') { should eq 'latest' }
+    end
+
+The resource allows you to pass in an image id:
+
+    describe docker_image(id: alpine_id) do
+      ...
+    end
+
+If the tag is missing for an image, `latest` is assumed as default:
+
+    describe docker_image('alpine') do
+      ...
+    end
+
+You can also pass in repository and tag as separate values
+
+    describe docker_image(repo: 'alpine', tag: 'latest') do
+      ...
+    end
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### exist
+
+The `exist` matcher tests if the image is available on the node:
+
+    it { should exist }
+
+### id
+
+The `id` matcher returns the full image id:
+
+    its('id') { should eq 'sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526' }
+
+### image
+
+The `image` matcher tests the value of the image. It is a combination of `repository/tag`:
+
+    its('image') { should eq 'alpine:latest' }
+
+### repo
+
+The `repo` matcher tests the value of the repository name:
+
+    its('repo') { should eq 'alpine' }
+
+### tag
+
+The `tag` matcher tests the value of image tag:
+
+    its('tag') { should eq 'latest' }
+
+
+## Examples
+
+The following examples show how to use this InSpec `docker_image` resource.
+
+### Test a docker image
+
+    describe docker_image('alpine:latest') do
+      it { should exist }
+      its('id') { should eq 'sha256:4a415e...a526' }
+      its('image') { should eq 'alpine:latest' }
+      its('repo') { should eq 'alpine' }
+      its('tag') { should eq 'latest' }
+    end

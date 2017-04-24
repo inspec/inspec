@@ -1,0 +1,10 @@
+{
+    "ID": "HMKB:SOFR:Z3DM:J6ZY:WE6K:47EW:WVGV:C5C3:WNJC:TSG6:43YV:IOGU",
+    "Containers": 93,
+    "Runtimes": {
+        "runc": {
+            "path": "docker-runc"
+        }
+    },
+    "SecurityOptions": ["name=seccomp,profile=default"]
+}

@@ -33,3 +33,6 @@ if node['osprepare']['application'] && node['platform_family'] != 'windows'
   include_recipe('os_prepare::auditctl') unless node['osprepare']['docker']
   include_recipe('os_prepare::apache')
 end
+
+# docker host testing
+include_recipe('os_prepare::docker_host') unless node['osprepare']['docker']
