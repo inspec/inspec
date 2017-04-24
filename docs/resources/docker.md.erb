@@ -4,87 +4,157 @@ title: About the docker Resource
 
 # docker
 
-Use the `docker` InSpec audit resource to test configuration data for docker daemon.
+Use the `docker` InSpec audit resource to test configuration data for docker daemon. It is a very comprehensive resource. Please have a look at [docker_container](docker_container) and [docker_image](docker_image), too.
 
 ## Syntax
 
-A `docker` resource block declares the configuration data to be tested:
+A `docker` resource block declares allows you to write test for many containers:
 
-    describe csv('file') do
-      its('name') { should eq 'foo' }
+    describe docker.containers do
+      its('images') { should_not include 'u12:latest' }
+    end
+
+or:
+
+    describe docker.containers.where { name == 'flamboyant_colden' } do
+      it { should be_running }
     end
 
 where
 
-* `'file'` is the path to a CSV file
-* `name` is a configuration setting in a CSV file
-* `should eq 'foo'` tests a value of `name` as read from a CSV file versus the value declared in the test
+* `.where()` may specify a specific item and value, to which the matchers are compared
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid matchers for `containers`
+
+The `docker` resource block also declares allows you to write test for many images:
+
+    describe docker.images do
+      its('repositories') { should_not include 'inssecure_image' }
+    end
+
+or if you want to query specific images:
+
+    describe docker.images.where { repository == 'ubuntu' && tag == '12.04' } do
+      it { should_not exist }
+    end
+
+where
+
+* `.where()` may specify a specific item and value, to which the matchers are compared
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid matchers for `containers`
+
 
 
 ## Matchers
 
 This InSpec audit resource has the following matchers:
 
-### be
+### containers
 
-<%= partial "/shared/matcher_be" %>
+`containers` returns information about containers as returned by [docker ps -a](https://docs.docker.com/engine/reference/commandline/ps/). You can determine specific information about
 
-### cmp
+    describe docker.containers do
+      its('ids') { should include 'sha:71b5df59...442b' }
+      its('commands') { should_not include '/bin/sh' }
+      its('images') { should_not include 'u12:latest' }
+      its('ports') { should include '0.0.0.0:1234->1234/tcp' }
+      its('labels') { should include 'License=GPLv2,Vendor=CentOS' }
+    end
 
-<%= partial "/shared/matcher_cmp" %>
 
-### eq
+### images
 
-<%= partial "/shared/matcher_eq" %>
+`images` returns information about docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/). You can determine specific information about
 
-### include
+    describe docker.images do
+      its('ids') { should include 'sha:12b5df59...442b' }
+      its('repositories') { should_not include 'my_image' }
+      its('tags') { should_not include 'unwanted_tag' }
+      its('sizes') { should_not include "1.41 GB" }
+    end
 
-<%= partial "/shared/matcher_include" %>
+### version
 
-### match
+`info` returns the parsed result of [docker version](https://docs.docker.com/engine/reference/commandline/version/)
 
-<%= partial "/shared/matcher_match" %>
+    describe docker.version do
+      its('Server.Version') { should cmp >= '1.12'}
+      its('Client.Version') { should cmp >= '1.12'}
+    end
 
-### name
 
-The `name` matcher tests the value of `name` as read from a CSV file versus the value declared in the test:
+### info
 
-    its('name') { should eq 'foo' }
+`info` returns the parsed result of [docker info](https://docs.docker.com/engine/reference/commandline/info/)
+
+    describe docker.info do
+      its('Configuration.Path') { should eq 'value' }
+    end
+
+
+### object('id')
+
+`object` returns low-level information about docker objects. It is calling [docker inspect](https://docs.docker.com/engine/reference/commandline/info/) under the hood.
+
+    describe docker.object(id) do
+      its('Configuration.Path') { should eq 'value' }
+    end
+
 
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
 
-### Test a CSV file
+### Return all running containers
 
-    describe docker.inspect('e0825339329b') do
-      its(%w(HostConfig Privileged)) { should eq false }
-      its(%w(HostConfig Privileged)) { should_not eq true }
-    end
-
-### Test a CSV file
-
-    docker.ps.each do |id|
-      describe docker.inspect(id) do
-        its(%w(HostConfig Privileged)) { should eq false }
-        its(%w(HostConfig Privileged)) { should_not eq true }
+    docker.containers.running?.ids.each do |id|
+      describe docker.object(id) do
+        its('State.Health.Status') { should eq 'healthy' }
       end
     end
 
-### Test a CSV file
+### Verify a Docker Server and Client version
 
-    describe file(docker.path) do
-      it { should exist }
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
+    describe docker.version do
+      its('Server.Version') { should cmp >= '1.12'}
+      its('Client.Version') { should cmp >= '1.12'}
     end
 
-### Test a CSV file
+### Iterate over all containers to verify host coniguration
 
-    describe file(docker.socket) do
-      it { should exist }
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
+    docker.containers.ids.each do |id|
+      # call docker inspect for a specific container id
+      describe docker.object(id) do
+        its(%w(HostConfig Privileged)) { should cmp false }
+        its(%w(HostConfig Privileged)) { should_not cmp true }
+      end
     end
+
+### Iterate over all images to verify the container was built without ADD instruction
+
+    docker.images.ids.each do |id|
+      describe command("docker history #{id}| grep 'ADD'") do
+        its('stdout') { should eq '' }
+      end
+    end
+
+### Verify that health-checks are enabled for a container
+
+    describe docker.object('71b5df59442b') do
+      its(%w(Config Healthcheck)) { should_not eq nil }
+    end
+
+### Run the DevSec docker baseline  profile
+
+There are two ways to run the `docker-baseline` profile to test Docker via the `docker` resource.
+
+Clone the profile:
+
+    $ git clone https://github.com/dev-sec/cis-docker-benchmark.git
+
+and then run:
+
+    $ inspec exec cis-docker-benchmark
+
+Or execute the profile directly via URL:
+
+    $ inspec exec https://github.com/dev-sec/cis-docker-benchmark
