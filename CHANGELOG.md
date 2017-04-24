@@ -1,5 +1,42 @@
 # Change Log
 
+## [v1.21.0](https://github.com/chef/inspec/tree/v1.21.0) (2017-04-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.20.0...v1.21.0)
+
+**Implemented enhancements:**
+
+- user resource is not fetching groups for windows [\#1400](https://github.com/chef/inspec/issues/1400)
+- docker resources [\#71](https://github.com/chef/inspec/issues/71)
+
+**Fixed bugs:**
+
+- Web references in inspec shell help are wrong [\#1667](https://github.com/chef/inspec/issues/1667)
+- bugfix: solve warn on uninitialized [\#1694](https://github.com/chef/inspec/pull/1694) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Adding windows domain users to users resource [\#1688](https://github.com/chef/inspec/issues/1688)
+- stdout matcher has depreciation warnings [\#1685](https://github.com/chef/inspec/issues/1685)
+- profile upload with dependencies fails uploading to compliance server  [\#1670](https://github.com/chef/inspec/issues/1670)
+- Retrying Inspec Tests [\#1665](https://github.com/chef/inspec/issues/1665)
+- Add a way to retry a test if failing [\#1404](https://github.com/chef/inspec/issues/1404)
+- --sudo does not appear to elevate privileges when evaluating local systems. [\#1279](https://github.com/chef/inspec/issues/1279)
+
+**Merged pull requests:**
+
+- \[www\] Update www Gemfile.lock [\#1691](https://github.com/chef/inspec/pull/1691) ([adamleff](https://github.com/adamleff))
+- showing how to shellout in docs [\#1689](https://github.com/chef/inspec/pull/1689) ([rshade](https://github.com/rshade))
+- \[www\] Fix docs pages for x509\_certificate and key\_rsa [\#1683](https://github.com/chef/inspec/pull/1683) ([adamleff](https://github.com/adamleff))
+- fix spelling mistake in powershell resource documentation [\#1682](https://github.com/chef/inspec/pull/1682) ([Happycoil](https://github.com/Happycoil))
+- fetch user groups while building user object [\#1681](https://github.com/chef/inspec/pull/1681) ([Happycoil](https://github.com/Happycoil))
+- update sslshake to v1.2 [\#1680](https://github.com/chef/inspec/pull/1680) ([arlimus](https://github.com/arlimus))
+- Fix type-o in control code [\#1676](https://github.com/chef/inspec/pull/1676) ([hannah-radish](https://github.com/hannah-radish))
+- fix web reference url [\#1669](https://github.com/chef/inspec/pull/1669) ([chris-rock](https://github.com/chris-rock))
+- fix sshd config help [\#1668](https://github.com/chef/inspec/pull/1668) ([chris-rock](https://github.com/chris-rock))
+- ER-508 Extended http resource to support no ssl verification [\#1663](https://github.com/chef/inspec/pull/1663) ([ElizabethU](https://github.com/ElizabethU))
+- Move Habitat sleep time to config file [\#1662](https://github.com/chef/inspec/pull/1662) ([adamleff](https://github.com/adamleff))
+- Docker resource [\#1566](https://github.com/chef/inspec/pull/1566) ([chris-rock](https://github.com/chris-rock))
+
 ## [v1.20.0](https://github.com/chef/inspec/tree/v1.20.0) (2017-04-13)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.19.2...v1.20.0)
 
@@ -15,6 +52,7 @@
 
 **Merged pull requests:**
 
+- Release 1.20.0 [\#1657](https://github.com/chef/inspec/pull/1657) ([adamleff](https://github.com/adamleff))
 - Habitat packages should run as root [\#1656](https://github.com/chef/inspec/pull/1656) ([adamleff](https://github.com/adamleff))
 - harmonize compliance profiles view with supermarket views [\#1654](https://github.com/chef/inspec/pull/1654) ([chris-rock](https://github.com/chris-rock))
 - \[www\] Update community page [\#1651](https://github.com/chef/inspec/pull/1651) ([adamleff](https://github.com/adamleff))
@@ -466,6 +504,7 @@
 - do not load controls from test directory [\#1327](https://github.com/chef/inspec/pull/1327) ([chris-rock](https://github.com/chris-rock))
 - Replaced Colors for output [\#1320](https://github.com/chef/inspec/pull/1320) ([hannah-radish](https://github.com/hannah-radish))
 - Hannah vj/fix tests formatting [\#1319](https://github.com/chef/inspec/pull/1319) ([hannah-radish](https://github.com/hannah-radish))
+- revert style changes temporarily [\#1317](https://github.com/chef/inspec/pull/1317) ([vjeffrey](https://github.com/vjeffrey))
 - Updated color palettes, label colors and icons [\#1313](https://github.com/chef/inspec/pull/1313) ([hannah-radish](https://github.com/hannah-radish))
 - Remove extra `'` in registry key examples [\#1308](https://github.com/chef/inspec/pull/1308) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - also push docker latest tag with each release [\#1307](https://github.com/chef/inspec/pull/1307) ([chris-rock](https://github.com/chris-rock))
@@ -486,7 +525,6 @@
 
 **Merged pull requests:**
 
-- revert style changes temporarily [\#1317](https://github.com/chef/inspec/pull/1317) ([vjeffrey](https://github.com/vjeffrey))
 - ensure metadata release entry is a string [\#1305](https://github.com/chef/inspec/pull/1305) ([chris-rock](https://github.com/chris-rock))
 - Fixes resources in the docs [\#1303](https://github.com/chef/inspec/pull/1303) ([burtlo](https://github.com/burtlo))
 - copy vendored dependencies into cache [\#1291](https://github.com/chef/inspec/pull/1291) ([chris-rock](https://github.com/chris-rock))
