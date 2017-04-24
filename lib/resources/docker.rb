@@ -71,13 +71,29 @@ module Inspec::Resources
     "
 
     example "
+      describe docker.containers do
+        its('images') { should_not include 'u12:latest' }
+      end
+
+      describe docker.images do
+        its('repositories') { should_not include 'inssecure_image' }
+      end
+
       describe docker.version do
+        its('Server.Version') { should cmp >= '1.12'}
         its('Client.Version') { should cmp >= '1.12'}
       end
 
-      describe docker.info do
-        its('Containers') { should cmp <= 100 }
-        its('Containers.Running') { should cmp <= 20 }
+      describe docker.object(id) do
+        its('Configuration.Path') { should eq 'value' }
+      end
+
+      docker.containers.ids.each do |id|
+        # call docker inspect for a specific container id
+        describe docker.object(id) do
+          its(%w(HostConfig Privileged)) { should cmp false }
+          its(%w(HostConfig Privileged)) { should_not cmp true }
+        end
       end
     "
 
@@ -138,179 +154,6 @@ module Inspec::Resources
         c_images.push(JSON.parse(entry))
       }
       c_images
-    end
-  end
-
-  class DockerContainer < Inspec.resource(1)
-    name 'docker_container'
-    desc ''
-    example "
-      describe docker_container('an-echo-server') do
-        it { should exist }
-        it { should be_running }
-        its('id') { should_not eq '' }
-        its('image') { should eq 'busybox:latest' }
-        its('repo') { should eq 'busybox' }
-        its('tag') { should eq 'latest' }
-        its('ports') { should eq [] }
-        its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
-      end
-
-      describe docker_container(id: 'e2c52a183358') do
-        it { should exist }
-        it { should be_running }
-      end
-    "
-
-    def initialize(opts = {})
-      # if a string is provided, we expect it is the name
-      if opts.is_a?(String)
-        @opts = { name: opts }
-      else
-        @opts = opts
-      end
-    end
-
-    def exist?
-      container_info.exists?
-    end
-
-    # is allways returning the full id
-    def id
-      container_info.ids[0] if container_info.entries.length == 1
-    end
-
-    def running?
-      status.downcase.start_with?('up') if container_info.entries.length == 1
-    end
-
-    def status
-      container_info.status[0] if container_info.entries.length == 1
-    end
-
-    def labels
-      container_info.labels[0] if container_info.entries.length == 1
-    end
-
-    def ports
-      container_info.ports[0] if container_info.entries.length == 1
-    end
-
-    def command
-      if container_info.entries.length == 1
-        cmd = container_info.commands[0]
-        cmd.slice(1, cmd.length - 2)
-      end
-    end
-
-    def image
-      container_info.images[0] if container_info.entries.length == 1
-    end
-
-    def repo
-      image.split(':')[0] unless image.nil?
-    end
-
-    def tag
-      image.split(':')[1] unless image.nil?
-    end
-
-    def to_s
-      "Docker Container #{id}"
-    end
-
-    private
-
-    def container_info
-      return @info if defined?(@info)
-      opts = @opts
-      @info = inspec.docker.containers.where { names == opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))) }
-    end
-  end
-
-  class DockerImage < Inspec.resource(1)
-    name 'docker_image'
-    desc ''
-    example "
-      describe docker_image('alpine:latest') do
-        it { should exist }
-        its('id') { should_not eq '' }
-        its('image') { should eq 'alpine:latest' }
-        its('repo') { should eq 'alpine' }
-        its('tag') { should eq 'latest' }
-      end
-
-      describe docker_image('alpine:latest') do
-        it { should exist }
-      end
-
-      describe docker_image(id: '4a415e366388') do
-        it { should exist }
-      end
-    "
-
-    def initialize(opts = {})
-      # do sanitizion of input values
-      o = opts.dup
-      o = { image: opts } if opts.is_a?(String)
-      @opts = sanitize_options(o)
-    end
-
-    def exist?
-      image_info.exists?
-    end
-
-    def id
-      image_info.ids[0] if image_info.entries.size == 1
-    end
-
-    def image
-      "#{repo}:#{tag}" if image_info.entries.size == 1
-    end
-
-    def repo
-      image_info.repositories[0] if image_info.entries.size == 1
-    end
-
-    def tag
-      image_info.tags[0] if image_info.entries.size == 1
-    end
-
-    def to_s
-      "Docker Image #{id}"
-    end
-
-    private
-
-    def sanitize_options(opts)
-      if !opts[:image].nil?
-        if !opts[:image].index(':').nil?
-          repo, tag = opts[:image].split(':')
-        else
-          opts[:repo] = opts[:image]
-          opts[:image] = nil
-        end
-        opts[:repo] ||= repo
-        opts[:tag] ||= tag
-      end
-
-      if !opts[:id].nil?
-        if opts[:id].index(':').nil?
-          opts[:id] = 'sha256:' + opts[:id]
-        end
-      end
-
-      opts[:tag] ||= 'latest'
-      opts[:image] ||= "#{opts[:repo]}:#{opts[:tag]}" unless opts[:repo].nil?
-      opts
-    end
-
-    def image_info
-      return @info if defined?(@info)
-      opts = @opts
-      @info = inspec.docker.images.where {
-        (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
-      }
     end
   end
 end

@@ -1,0 +1,3 @@
+{ "id": "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526", "repository": "alpine", "tag": "latest", "size": "3.99 MB", "digest": "\u003cnone\u003e", "createdat": "2017-03-03 21:32:37 +0100 CET", "createdsize": "7 weeks" }
+{ "id": "sha256:978d85d02b87aea199e4ae8664f6abf32fdea331884818e46b8a01106b114cee", "repository": "debian", "tag": "8", "size": "123 MB", "digest": "\u003cnone\u003e", "createdat": "2017-02-27 21:34:37 +0100 CET", "createdsize": "7 weeks" }
+{ "id": "sha256:0ef2e08ed3fabfc44002ccb846c4f2416a2135affc3ce39538834059606f32dd", "repository": "ubuntu", "tag": "16.04", "size": "130 MB", "digest": "\u003cnone\u003e", "createdat": "2017-02-27 20:42:10 +0100 CET", "createdsize": "7 weeks" }
