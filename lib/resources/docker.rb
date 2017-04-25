@@ -109,12 +109,16 @@ module Inspec::Resources
       return @version if defined?(@version)
       data = JSON.parse(inspec.command('docker version --format \'{{ json . }}\'').stdout)
       @version = Hashie::Mash.new(data)
+    rescue JSON::ParserError => _e
+      return Hashie::Mash.new({})
     end
 
     def info
       return @info if defined?(@info)
       data = JSON.parse(inspec.command('docker info --format \'{{ json . }}\'').stdout)
       @info = Hashie::Mash.new(data)
+    rescue JSON::ParserError => _e
+      return Hashie::Mash.new({})
     end
 
     # returns information about docker objects
@@ -123,6 +127,8 @@ module Inspec::Resources
       data = JSON.parse(inspec.command("docker inspect #{id}").stdout)
       data = data[0] if data.is_a?(Array)
       @inspect = Hashie::Mash.new(data)
+    rescue JSON::ParserError => _e
+      return Hashie::Mash.new({})
     end
 
     def to_s
@@ -144,6 +150,9 @@ module Inspec::Resources
         ps.push(j)
       }
       ps
+    rescue JSON::ParserError => _e
+      warn 'Could not parse `docker ps` output'
+      []
     end
 
     def parse_images
@@ -154,6 +163,9 @@ module Inspec::Resources
         c_images.push(JSON.parse(entry))
       }
       c_images
+    rescue JSON::ParserError => _e
+      warn 'Could not parse `docker images` output'
+      []
     end
   end
 end
