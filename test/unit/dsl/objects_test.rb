@@ -253,6 +253,17 @@ control "sample.control.id" do
 end
 '.strip
     end
+
+    it 'constructs a multiline desc in a control' do
+      control = Inspec::Control.new
+      control.desc = "Multiline\ncontrol"
+      control.to_ruby.must_equal '
+control nil do
+  desc  "Multiline
+control"
+end
+'.strip
+    end
   end
 
   describe 'Inspec::Variable, take #1' do
