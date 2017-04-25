@@ -60,6 +60,8 @@ Lessons learned from Serverspec include:
 * Support for Windows is a first-class requirement.
 * A command line interface (CLI) is required for faster iteration of test code.
 
+You can also watch this [podcast](http://foodfightshow.org/2016/02/inspec.html) to find out more on the relationship of InSpec and Serverspec.
+
 ### How is InSpec different from Serverspec
 
 One of the key differences is that InSpec targets more user groups. It
