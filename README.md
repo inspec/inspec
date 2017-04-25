@@ -308,6 +308,10 @@ Tutorials/Blogs/Podcasts:
 
  * http://inspec.io/tutorials/
 
+Relationship to other tools (RSpec, Serverspec):
+
+ * http://inspec.io/docs/reference/inspec_and_friends/
+
 ## Share your Profiles
 
 You may share your InSpec Profiles in the [Tools &amp; Plugins section](https://supermarket.chef.io/tools-directory) of the [Chef Supermarket](https://supermarket.chef.io/).  [Sign in](https://supermarket.chef.io/sign-in) and [add the details of your profile](https://supermarket.chef.io/tools/new).
