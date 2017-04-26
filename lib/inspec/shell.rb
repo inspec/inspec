@@ -9,7 +9,7 @@ module Inspec
   # A pry based shell for inspec. Given a runner (with a configured backend and
   # all that jazz), this shell will produce a pry shell from which you can run
   # inspec/ruby commands that will be run within the context of the runner.
-  class Shell
+  class Shell # rubocop:disable Metrics/ClassLength
     def initialize(runner)
       @runner = runner
     end
@@ -107,8 +107,8 @@ You are currently running on:
 EOF
     end
 
-    def help(resource = nil)
-      if resource.nil?
+    def help(topic = nil)
+      if topic.nil?
 
         puts <<EOF
 
@@ -117,6 +117,7 @@ Available commands:
     `[resource]` - run resource on target machine
     `help resources` - show all available resources that can be used as commands
     `help [resource]` - information about a specific resource
+    `help matchers` - show information about common matchers
     `exit` - exit the InSpec shell
 
 You can use resources in this environment to test the target machine. For example:
@@ -126,32 +127,94 @@ You can use resources in this environment to test the target machine. For exampl
 
 #{print_target_info}
 EOF
-      elsif resource == 'resources'
-        resources
-      elsif !Inspec::Resource.registry[resource].nil?
+      elsif topic == 'resources'
+        resources.sort.each do |resource|
+          puts " - #{resource}"
+        end
+      elsif topic == 'matchers'
+        print_matchers_help
+      elsif !Inspec::Resource.registry[topic].nil?
         puts <<EOF
-#{mark 'Name:'} #{resource}
+#{mark 'Name:'} #{topic}
 
 #{mark 'Description:'}
 
-#{Inspec::Resource.registry[resource].desc}
+#{Inspec::Resource.registry[topic].desc}
 
 #{mark 'Example:'}
-#{print_example(Inspec::Resource.registry[resource].example)}
+#{print_example(Inspec::Resource.registry[topic].example)}
 
 #{mark 'Web Reference:'}
 
-http://inspec.io/docs/reference/resources/#{resource}
+http://inspec.io/docs/reference/resources/#{topic}
 
 EOF
       else
-        puts 'Only the following resources are available:'
-        resources
+        puts "The resource #{topic} does not exist. For a list of valid resources, type: help resources"
       end
     end
 
     def resources
-      puts Inspec::Resource.registry.keys.join(' ')
+      Inspec::Resource.registry.keys
+    end
+
+    def print_matchers_help
+      puts <<-EOL
+Matchers are used to compare resource values to expectations. While some
+resources implement their own custom matchers, the following matchers are
+common amongst all resources:
+
+#{mark 'be'}
+
+The #{mark 'be'} matcher can be used to compare numeric values.
+
+   its('size') { should be >= 10 }
+
+#{mark 'cmp'}
+
+The #{mark 'cmp'} matcher is like #{mark 'eq'} but less restrictive. It will try
+to fit the resource value to the expectation.
+
+"Protocol" likely returns a string, but cmp will ensure it's a number before
+comparing:
+
+  its('Protocol') { should cmp 2 }
+  its('Protocol') { should cmp '2' }
+
+"users" may return an array, but if it contains only one item, cmp will compare
+it as a string or number as needed:
+
+  its('users') { should cmp 'root' }
+
+cmp is not case-sensitive:
+
+  its('log_format') { should cmp 'raw' }
+  its('log_format') { should cmp 'RAW' }
+
+#{mark 'eq'}
+
+The #{mark 'eq'} matcher tests for exact equality of two values. Value type
+(string, number, etc.) is important and must be the same. For a less-restrictive
+comparison matcher, use the #{mark 'cmp'} matcher.
+
+  its('RSAAuthentication') { should_not eq 'no' }
+
+#{mark 'include'}
+
+The #{mark 'include'} matcher tests to see if a value is included in a list.
+
+  its('users') { should include 'my_user' }
+
+#{mark 'match'}
+
+The #{mark 'match'} matcher can be used to test a string for a match using a
+regular expression.
+
+  its('content') { should_not match /^MyKey:\\s+some value/ }
+
+For more examples, see: http://inspec.io/docs/reference/matchers/
+
+      EOL
     end
   end
 end
