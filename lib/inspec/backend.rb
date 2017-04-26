@@ -36,6 +36,13 @@ module Inspec
           "Inspec::Backend::Class @transport=#{backend.class}"
         end
 
+        # Provide a shorthand to retrieve the inspec version from within a profile
+        #
+        # @return [String] inspec version
+        def version
+          Inspec::VERSION
+        end
+
         define_method :backend do
           connection
         end
