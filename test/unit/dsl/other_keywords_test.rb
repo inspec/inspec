@@ -10,6 +10,10 @@ describe 'inspec keyword' do
     res = runner.eval_with_virtual_profile(content)
   end
 
+  def load_in_profile(cmd)
+    MockLoader.load_profile('complete-profile').runner_context.load(cmd)
+  end
+
   it 'is a vailable as a global keyword' do
     load('inspec') # wont raise anything
   end
@@ -34,5 +38,25 @@ describe 'inspec keyword' do
 
   it 'prints a nice inspect line' do
     load('inspec').inspect.must_equal 'Inspec::Backend::Class @transport=Train::Transports::Mock::Connection'
+  end
+
+  describe 'inspec.profile.files' do
+    it 'lists an empty array when calling #files without any files loaded' do
+      load('inspec.profile.files').must_equal([])
+    end
+
+    it 'lists all profile files when calling #files' do
+      load_in_profile('inspec.profile.files').must_equal %w{items.conf}
+    end
+  end
+
+  describe 'inspec.profile.file' do
+    it 'raises an error if a file was not found' do
+      proc { load('inspec.profile.file("test")') }.must_raise RuntimeError
+    end
+
+    it 'provides file contents when calling file(...)' do
+      load_in_profile('inspec.profile.file("items.conf")').must_equal "one\ntwo\nthree\n"
+    end
   end
 end

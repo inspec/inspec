@@ -32,6 +32,10 @@ describe SourceReaders::Flat do
     it 'has no libraries' do
       _(res.libraries).must_be_empty
     end
+
+    it 'has no files' do
+      _(res.data_files).must_be_empty
+    end
   end
 
   describe 'with a flat folder' do
