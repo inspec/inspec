@@ -48,6 +48,10 @@ module Inspec
             r.new(backend, id.to_s, *args)
           end
         end
+
+        define_method :inspec do
+          backend
+        end
       end
     end
   end
