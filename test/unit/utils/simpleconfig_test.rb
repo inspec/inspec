@@ -84,4 +84,38 @@ describe 'SimpleConfig Default Parser' do
     cur.params['section2'].key2.must_equal('value2')
     cur.params['section2'].missing_key.must_be_nil
   end
+
+  it 'supports :assignment_regex for specifying the assignment' do
+    cur = SimpleConfig.new("key:::val", assignment_regex: /^(.*):::(.*)$/)
+    cur.params.must_equal({'key' => 'val'})
+  end
+
+  it 'supports :assignment_re for specifying the assignment with a deprecation warning' do
+    assert_output(nil, /DEPRECATION/) do
+      cur = SimpleConfig.new("key:::val", assignment_re: /^(.*):::(.*)$/)
+      cur.params.must_equal({'key' => 'val'})
+    end
+  end
+
+  it 'only reads the first assignment match group by default' do
+    cur = SimpleConfig.new("1:2:3", assignment_regex: /^(.*):(.*):(.*)$/)
+    cur.params.must_equal({'1' => '2'})
+  end
+
+  it 'supports :key_values for specifying the number of values' do
+    cur = SimpleConfig.new("1:2:3", assignment_regex: /^(.*):(.*):(.*)$/, key_values: 2)
+    cur.params.must_equal({'1' => ['2', '3']})
+  end
+
+  it 'supports :key_values with more values than match groups' do
+    cur = SimpleConfig.new("1:2:3", assignment_regex: /^(.*):(.*):(.*)$/, key_values: 4)
+    cur.params.must_equal({'1' => ['2', '3', nil, nil]})
+  end
+
+  it 'supports :key_vals for specifying the assignment with a deprecation warning' do
+    assert_output(nil, /DEPRECATION/) do
+      cur = SimpleConfig.new("1:2:3", assignment_regex: /^(.*):(.*):(.*)$/, key_vals: 2)
+      cur.params.must_equal({'1' => ['2', '3']})
+    end
+  end
 end

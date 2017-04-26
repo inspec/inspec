@@ -20,7 +20,7 @@ or:
 
     audit = command('/sbin/auditctl -l').stdout
       options = {
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true
       }
 
@@ -39,15 +39,15 @@ where each test
 
 This InSpec audit resource has the following matchers:
 
-### assignment_re
+### assignment_regex
 
-Use `assignment_re` to test a key value using a regular expression:
+Use `assignment_regex` to test a key value using a regular expression:
 
     'key = value'
 
 may be tested using the following regular expression, which determines assignment from key to value:
 
-    assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
+    assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
 
 ### be
 
@@ -71,15 +71,15 @@ Use `comment_char` to test for comments in a configuration file:
 
 <%= partial "/shared/matcher_include" %>
 
-### key_vals
+### key_values
 
-Use `key_vals` to test how many values a key contains:
+Use `key_values` to test how many values a key contains:
 
     key = a b c
 
 contains three values. To test that value to ensure it only contains one, use:
 
-    key_vals: 1
+    key_values: 1
 
 ### match
 

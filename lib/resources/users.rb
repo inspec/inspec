@@ -358,7 +358,7 @@ module Inspec::Resources
       SimpleConfig.new(
         line,
         line_separator: ',',
-        assignment_re: /^\s*([^\(]*?)\s*\(\s*(.*?)\)*$/,
+        assignment_regex: /^\s*([^\(]*?)\s*\(\s*(.*?)\)*$/,
         group_re: nil,
         multiple_values: false,
       ).params
@@ -372,7 +372,7 @@ module Inspec::Resources
       # parse words
       params = SimpleConfig.new(
         parse_id_entries(cmd.stdout.chomp),
-        assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
         group_re: nil,
         multiple_values: false,
       ).params
@@ -419,7 +419,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         group_re: nil,
         multiple_values: false,
       ).params
@@ -512,7 +512,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         group_re: nil,
         multiple_values: false,
       ).params
