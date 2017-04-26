@@ -138,6 +138,28 @@ describe 'inspec shell tests' do
       out.stdout.must_include 'You are currently running on:'
     end
 
+    it 'provides resource help' do
+      out = do_shell('help file')
+      out.stdout.must_include 'Use the file InSpec audit resource'
+    end
+
+    it 'provides helpful feedback if an invalid resource is provided' do
+      out = do_shell('help not_a_valid_resource')
+      out.stdout.must_include 'The resource not_a_valid_resource does not exist.'
+    end
+
+    it 'provides a list of resources' do
+      out = do_shell('help resources')
+      out.stdout.must_include ' - command'
+      out.stdout.must_include ' - file'
+      out.stdout.must_include ' - sshd_config'
+    end
+
+    it 'provides matchers help' do
+      out = do_shell('help matchers')
+      out.stdout.must_include 'For more examples, see: http://inspec.io/docs/reference/matchers/'
+    end
+
     it 'exposes all resources' do
       out = do_shell('os')
       out.stdout.must_match(/\=> .*Operating.* .*System.* .*Detection/)
