@@ -18,6 +18,10 @@ describe 'inspec keyword' do
     load('control 1 do inspec end') # wont raise anything
   end
 
+  it 'provides version information' do
+    load('inspec.version').must_equal Inspec::VERSION
+  end
+
   it 'is associated with resources' do
     i = load('os.inspec')
     i.wont_be_nil
