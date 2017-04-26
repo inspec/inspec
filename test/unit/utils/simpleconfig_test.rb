@@ -84,4 +84,33 @@ describe 'SimpleConfig Default Parser' do
     cur.params['section2'].key2.must_equal('value2')
     cur.params['section2'].missing_key.must_be_nil
   end
+
+  it 'converts :decimal' do
+    cur = SimpleConfig.new("a = 1\nb = 2", conversion: { 'a' => :decimal })
+    cur.params.must_equal({ 'a' => 1, 'b' => '2' })
+  end
+
+  it 'converts :octal' do
+    cur = SimpleConfig.new("mode = 0644\numask = 022", conversion: { 'mode' => :octal })
+    cur.params.must_equal({ 'mode' => 420, 'umask' => '022' })
+  end
+
+  it 'converts :hex' do
+    cur = SimpleConfig.new("a = 10\nb = 20", conversion: { 'a' => :hex })
+    cur.params.must_equal({ 'a' => 16, 'b' => '20' })
+  end
+
+  %w{y yes t true 1}.each do |str|
+    it "converts #{str.inspect} to true" do
+      cur = SimpleConfig.new("s = #{str}\ny = yes\nn = no\n", conversion: { 's' => :boolean })
+      cur.params.must_equal({ 's' => true, 'y' => 'yes', 'n' => 'no' })
+    end
+  end
+
+  %w{n no f false 0}.each do |str|
+    it "converts #{str.inspect} to false" do
+      cur = SimpleConfig.new("s = #{str}\ny = yes\nn = no\n", conversion: { 's' => :boolean })
+      cur.params.must_equal({ 's' => false, 'y' => 'yes', 'n' => 'no' })
+    end
+  end
 end

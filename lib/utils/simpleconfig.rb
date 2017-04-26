@@ -6,11 +6,23 @@
 
 require 'utils/parser'
 
-class SimpleConfig
+class SimpleConfig # rubocop:disable Metrics/ClassLength
   include CommentParser
 
   attr_reader :params, :groups
   def initialize(raw_data, opts = {})
+    @conversion = {}
+    @conversion.default = method(:identity)
+
+    opts.fetch(:conversion, {}).each do |k, v|
+      case v
+      when :identity, :decimal, :octal, :hex, :boolean
+        @conversion[k] = method(v)
+      else
+        warn "unknown conversion: #{k} => #{v.inspect}"
+      end
+    end
+
     parse(raw_data, opts)
   end
 
@@ -38,16 +50,55 @@ class SimpleConfig
 
   private
 
+  def identity(s)
+    s
+  end
+
+  def boolean(s)
+    case s
+    when 'y', 'yes', 't', 'true', '1'
+      true
+    when 'n', 'no', 'f', 'false', '0'
+      false
+    else
+      warn "failed to convert #{s.inspect} to boolean"
+      s
+    end
+  end
+
+  def decimal(s)
+    s.to_i
+  rescue
+    warn "failed to convert #{s.inspect} to decimal"
+    s
+  end
+
+  def octal(s)
+    s.to_i(8)
+  rescue
+    warn "failed to convert #{s.inspect} to octal"
+    s
+  end
+
+  def hex(s)
+    s.to_i(16)
+  rescue
+    warn "failed to convert #{s.inspect} to hex"
+    s
+  end
+
   def parse_values(match, values)
+    convert = @conversion[match[1]]
+
     start_idx = 2
     i = 0
     count = values - 1
-    return match[start_idx] if values == 1
+    return convert.call(match[start_idx]) if values == 1
 
     # iterate over expected parameters
     values = []
     loop do
-      values.push(match[start_idx + i])
+      values.push(convert.call(match[start_idx + i]))
       i += 1
       break if i > count
     end
@@ -66,6 +117,7 @@ class SimpleConfig
     else
       @vals[m[1]] = parse_values(m, opts[:key_vals])
     end
+    true
   end
 
   def parse_group_line(line, opts)

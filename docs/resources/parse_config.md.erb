@@ -117,6 +117,29 @@ Use `standalone_comments: false`, to parse the following:
     'key = value # comment'
     params['key'] = 'value'
 
+### conversion
+
+Use `conversion` to specify a hash of type conversion routines.
+
+    config = <<EOF
+    uid = 636
+    gid = 389
+    EOF
+
+    options = {
+      conversion: {
+        'uid' => :decimal,
+        'gid' => :decimal,
+      }
+    }
+
+    describe parse_config(config, options) do
+      its('uid') { should be >= 500 }
+      its('gid') { should be < 500 }
+    end
+
+Supported conversion routines are `:identity`, `:decimal`, `:octal`, `:hex`, and `:boolean`
+
 ## Examples
 
 None.
