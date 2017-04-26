@@ -75,7 +75,7 @@ module Inspec::Resources
         @content += raw_conf
 
         opts = {
-          assignment_re: /^\s*([^=]*?)\s*=\s*[']?\s*(.*?)\s*[']?\s*$/,
+          assignment_regex: /^\s*([^=]*?)\s*=\s*[']?\s*(.*?)\s*[']?\s*$/,
         }
         params = SimpleConfig.new(raw_conf, opts).params
         @params.merge!(params)

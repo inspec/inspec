@@ -88,7 +88,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
@@ -111,7 +111,7 @@ module Inspec::Resources
       return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
       # On some (all?) systems, the linebreak before the vendor line is missing
@@ -161,7 +161,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
 
@@ -261,7 +261,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
 
@@ -282,7 +282,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
 

@@ -76,7 +76,7 @@ module Inspec::Resources
       return @params = {} if read_content.nil?
       conf = SimpleConfig.new(
         read_content,
-        assignment_re: /^\s*(\S+?)\s+(.*?)\s*$/,
+        assignment_regex: /^\s*(\S+?)\s+(.*?)\s*$/,
         multiple_values: true,
       )
       @params = convert_hash(conf.params)

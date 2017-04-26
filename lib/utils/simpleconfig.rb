@@ -55,16 +55,28 @@ class SimpleConfig
   end
 
   def parse_params_line(line, opts)
+    # Deprecation handling
+    if opts.key?(:assignment_re)
+      warn '[DEPRECATION] `:assignment_re` is deprecated in favor of `:assignment_regex` '\
+           'and will be removed in the next major version. See: https://github.com/chef/inspec/issues/1709'
+      opts[:assignment_regex] = opts[:assignment_re]
+    end
+    if opts.key?(:key_vals)
+      warn '[DEPRECATION] `:key_vals` is deprecated in favor of `:key_values` '\
+           'and will be removed in the next major version. See: https://github.com/chef/inspec/issues/1709'
+      opts[:key_values] = opts[:key_vals]
+    end
+
     # now line contains what we are interested in parsing
     # check if it is an assignment
-    m = opts[:assignment_re].match(line)
+    m = opts[:assignment_regex].match(line)
     return nil if m.nil?
 
     if opts[:multiple_values]
       @vals[m[1]] ||= []
-      @vals[m[1]].push(parse_values(m, opts[:key_vals]))
+      @vals[m[1]].push(parse_values(m, opts[:key_values]))
     else
-      @vals[m[1]] = parse_values(m, opts[:key_vals])
+      @vals[m[1]] = parse_values(m, opts[:key_values])
     end
   end
 
@@ -111,9 +123,9 @@ class SimpleConfig
       multiline: false,
       comment_char: '#',
       line_separator: nil, # uses this char to seperate lines before parsing
-      assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+      assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
       group_re: /\[([^\]]+)\]\s*$/,
-      key_vals: 1, # default for key=value, may require for 'key val1 val2 val3'
+      key_values: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
       multiple_values: false,
     }
