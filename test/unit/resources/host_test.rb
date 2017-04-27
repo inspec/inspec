@@ -21,7 +21,7 @@ describe 'Inspec::Resources::Host' do
   end
 
   it 'check host with port unreachable on ubuntu' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 80)
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 8080)
     _(resource.reachable?).must_equal false
   end
 
