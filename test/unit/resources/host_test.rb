@@ -14,11 +14,51 @@ describe 'Inspec::Resources::Host' do
     _(resource.ipaddress).must_equal ['2606:2800:220:1:248:1893:25c8:1946']
   end
 
+  it 'check host with port reachable on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', 80)
+    _(resource.reachable?).must_equal true
+  end
+
+  it 'check host with port unreachable on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', 8080)
+    _(resource.reachable?).must_equal false
+  end
+
+  it 'check host with port tcp protocol reachable on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', 80, 'tcp')
+    _(resource.reachable?).must_equal true
+  end
+
+  it 'check host with port tcp protocol unreachable on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', 8080, 'tcp')
+    _(resource.reachable?).must_equal false
+  end
+
   it 'check host on centos 7' do
     resource = MockLoader.new(:centos7).load_resource('host', 'example.com')
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ['2606:2800:220:1:248:1893:25c8:1946']
+  end
+
+  it 'check host with port reachable on centos 7' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', 80)
+    _(resource.reachable?).must_equal true
+  end
+
+  it 'check host with port unreachable on centos 7' do
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', 8080)
+    _(resource.reachable?).must_equal false
+  end
+
+  it 'check host with port tcp protocol reachable on centos 7' do
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', 80, 'tcp')
+    _(resource.reachable?).must_equal true
+  end
+
+  it 'check host with port tcp protocol unreachable on centos 7' do
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', 8080, 'tcp')
+    _(resource.reachable?).must_equal false
   end
 
   it 'check host on darwin' do
