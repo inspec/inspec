@@ -93,7 +93,7 @@ module Inspec::Resources
     def include_files(params)
       include_files = params['include'] || []
       include_files += params['include_if_exists'] || []
-      dirs = params['include_dir'] || []
+      dirs = Array(params['include_dir']) || []
       dirs.each do |dir|
         dir = File.join(@conf_dir, dir) if dir[0] != '/'
         include_files += find_files(dir, depth: 1, type: 'file')
