@@ -18,7 +18,7 @@ describe inetd_conf do
 end
 ```
 
-InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](http://inspec.io/docs/reference/cli/).
+InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://www.inspec.io/docs/reference/cli/).
 
 ```bash
 # run test locally
@@ -300,17 +300,17 @@ Windows | 2012+
 
 Documentation
 
- * http://inspec.io/docs/
- * http://inspec.io/docs/reference/resources/
+ * https://www.inspec.io/docs/
+ * https://www.inspec.io/docs/reference/resources/
  * https://github.com/chef/inspec/tree/master/docs
 
 Tutorials/Blogs/Podcasts:
 
- * http://inspec.io/tutorials/
+ * https://www.inspec.io/tutorials/
 
 Relationship to other tools (RSpec, Serverspec):
 
- * http://inspec.io/docs/reference/inspec_and_friends/
+ * https://www.inspec.io/docs/reference/inspec_and_friends/
 
 ## Share your Profiles
 

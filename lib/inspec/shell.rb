@@ -146,7 +146,7 @@ EOF
 
 #{mark 'Web Reference:'}
 
-http://inspec.io/docs/reference/resources/#{topic}
+https://www.inspec.io/docs/reference/resources/#{topic}
 
 EOF
       else
@@ -212,7 +212,7 @@ regular expression.
 
   its('content') { should_not match /^MyKey:\\s+some value/ }
 
-For more examples, see: http://inspec.io/docs/reference/matchers/
+For more examples, see: https://www.inspec.io/docs/reference/matchers/
 
       EOL
     end
