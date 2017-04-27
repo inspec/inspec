@@ -89,7 +89,7 @@ namespace :www do
       raise 'Please make sure you have no uncommitted changes in this repository.'
     end
 
-    File.write(File.join(dst, 'CNAME'), 'inspec.io')
+    File.write(File.join(dst, 'CNAME'), 'origin.inspec.io')
     file_count = Dir[File.join(dst, '*')].length
     file_size = `du -hs #{dst}`.sub(/\s+.*$/m, '')
 
