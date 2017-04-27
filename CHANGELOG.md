@@ -1,5 +1,57 @@
 # Change Log
 
+## [v1.22.0](https://github.com/chef/inspec/tree/v1.22.0) (2017-04-27)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.21.0...v1.22.0)
+
+**Implemented enhancements:**
+
+- rename `parse\_config` options for clarity [\#1709](https://github.com/chef/inspec/issues/1709)
+- Lackluster type coercion [\#445](https://github.com/chef/inspec/issues/445)
+- Update port documentation to use `cmp` matcher [\#438](https://github.com/chef/inspec/issues/438)
+- Simplify error output [\#437](https://github.com/chef/inspec/issues/437)
+- Follow Gnu Standards for Command Line Interfaces [\#436](https://github.com/chef/inspec/issues/436)
+- Clarify `impact` of controls [\#358](https://github.com/chef/inspec/issues/358)
+- make the default logger readable [\#335](https://github.com/chef/inspec/issues/335)
+- Resolve open points from \#252 [\#334](https://github.com/chef/inspec/issues/334)
+- document all custom RSpec matcher [\#317](https://github.com/chef/inspec/issues/317)
+- Readme: Point to sources of documentation [\#231](https://github.com/chef/inspec/issues/231)
+- Readme: differentiate from Serverspec [\#229](https://github.com/chef/inspec/issues/229)
+- support legacy backend configuration calls \(rspec/serverspec\) [\#187](https://github.com/chef/inspec/issues/187)
+- Some inconsistencies with naming across the resources [\#120](https://github.com/chef/inspec/issues/120)
+- ensure all resources do OS check [\#96](https://github.com/chef/inspec/issues/96)
+- run docker backend in one exec loop [\#81](https://github.com/chef/inspec/issues/81)
+- make all transport configurable and optional [\#65](https://github.com/chef/inspec/issues/65)
+- inspec control.to\_ruby to use newlines instead of `\n` [\#1705](https://github.com/chef/inspec/pull/1705) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: unindent description misbehaviors [\#1707](https://github.com/chef/inspec/pull/1707) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Test [\#1721](https://github.com/chef/inspec/issues/1721)
+- Inspec Shell Enhancement - Show universal matchers on HELP MATCHERS command [\#1684](https://github.com/chef/inspec/issues/1684)
+- detecting service enabled on Ubuntu 16.04 \(systemd\) [\#931](https://github.com/chef/inspec/issues/931)
+- Can't get sub key in YAML [\#554](https://github.com/chef/inspec/issues/554)
+- Sharing custom resources? [\#353](https://github.com/chef/inspec/issues/353)
+- Readme: What is being installed? [\#166](https://github.com/chef/inspec/issues/166)
+
+**Merged pull requests:**
+
+- Update GH Pages CNAME [\#1731](https://github.com/chef/inspec/pull/1731) ([adamleff](https://github.com/adamleff))
+- Rakefile updates to support appbundle-updater [\#1730](https://github.com/chef/inspec/pull/1730) ([adamleff](https://github.com/adamleff))
+- use cmp in port docs instead of eq [\#1726](https://github.com/chef/inspec/pull/1726) ([arlimus](https://github.com/arlimus))
+- \[www\] update event on main page [\#1724](https://github.com/chef/inspec/pull/1724) ([adamleff](https://github.com/adamleff))
+- rename SimpleConfig / parse\_config / parse\_config\_file options [\#1723](https://github.com/chef/inspec/pull/1723) ([arlimus](https://github.com/arlimus))
+- Add matchers help to shell, clean up help output [\#1722](https://github.com/chef/inspec/pull/1722) ([adamleff](https://github.com/adamleff))
+- provide `inspec.version` information [\#1719](https://github.com/chef/inspec/pull/1719) ([arlimus](https://github.com/arlimus))
+- provide the `inspec` keyword [\#1718](https://github.com/chef/inspec/pull/1718) ([arlimus](https://github.com/arlimus))
+- print and prettyprint the inspec backend class [\#1717](https://github.com/chef/inspec/pull/1717) ([arlimus](https://github.com/arlimus))
+- describe the value ranges of `impact` [\#1713](https://github.com/chef/inspec/pull/1713) ([arlimus](https://github.com/arlimus))
+- pretty-print multiline control descriptions [\#1711](https://github.com/chef/inspec/pull/1711) ([arlimus](https://github.com/arlimus))
+- document reference to other tools [\#1710](https://github.com/chef/inspec/pull/1710) ([arlimus](https://github.com/arlimus))
+- handle json parse errors in docker resource [\#1706](https://github.com/chef/inspec/pull/1706) ([chris-rock](https://github.com/chris-rock))
+
 ## [v1.21.0](https://github.com/chef/inspec/tree/v1.21.0) (2017-04-24)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.20.0...v1.21.0)
 
@@ -24,6 +76,7 @@
 
 **Merged pull requests:**
 
+- Release 1.21.0 [\#1703](https://github.com/chef/inspec/pull/1703) ([adamleff](https://github.com/adamleff))
 - \[www\] Update www Gemfile.lock [\#1691](https://github.com/chef/inspec/pull/1691) ([adamleff](https://github.com/adamleff))
 - showing how to shellout in docs [\#1689](https://github.com/chef/inspec/pull/1689) ([rshade](https://github.com/rshade))
 - \[www\] Fix docs pages for x509\_certificate and key\_rsa [\#1683](https://github.com/chef/inspec/pull/1683) ([adamleff](https://github.com/adamleff))
