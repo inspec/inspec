@@ -150,6 +150,6 @@ InSpec is made possible by a strong community of developers, system administrato
 
 Also here are some additional pointers to some awesome Chef content:
 
-- [InSpec Docs](http://inspec.io/docs/)
+- [InSpec Docs](https://www.inspec.io/docs/)
 - [Learn Chef](https://learn.chef.io/)
 - [Chef Website](https://www.chef.io/)

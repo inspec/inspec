@@ -157,7 +157,7 @@ describe 'inspec shell tests' do
 
     it 'provides matchers help' do
       out = do_shell('help matchers')
-      out.stdout.must_include 'For more examples, see: http://inspec.io/docs/reference/matchers/'
+      out.stdout.must_include 'For more examples, see: https://www.inspec.io/docs/reference/matchers/'
     end
 
     it 'exposes all resources' do
