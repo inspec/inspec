@@ -9,7 +9,6 @@ module Inspec::Resources
   name 'postgres'
   attr_reader :service, :data_dir, :conf_dir, :conf_path, :version
     def initialize
-      
       data_dir_command = inspec.command("ps aux | grep 'postgres *-D' | awk '{print $NF}'").stdout.strip
       if data_dir_command.empty?
         warn "postgres process not found - using filesystem to try and determine the pg 'data_dir'"
