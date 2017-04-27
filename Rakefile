@@ -4,19 +4,26 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
-require 'rubocop/rake_task'
-require_relative 'tasks/docs'
 require_relative 'tasks/maintainers'
 
-# Rubocop
-desc 'Run Rubocop lint checks'
-task :rubocop do
-  RuboCop::RakeTask.new
+# The docs tasks rely on ruby-progressbar. If we can't load it, then don't
+# load the docs tasks. This is necessary to allow this Rakefile to work
+# when the "tests" gem group in the Gemfile has been excluded, such as
+# during an appbundle-updater run.
+begin
+  require 'ruby-progressbar'
+  require_relative 'tasks/docs'
+rescue LoadError
+  puts 'docs tasks are unavailable because the ruby-progressbar gem is not available.'
 end
 
-# lint the project
-desc 'Run robocop linter'
-task lint: [:rubocop]
+# Rubocop
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new(:lint)
+rescue LoadError
+  puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
+end
 
 # update command output for demo
 desc 'Run inspec commands and save results to www/app/responses'
