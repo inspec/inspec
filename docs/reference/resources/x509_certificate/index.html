@@ -1,0 +1,221 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>The x509_certificate Resource</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_x509_certificate docs_reference_resources_x509_certificate_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>x509_certificate</h1>
+
+<p>Use the <code>x509_certificate</code> InSpec audit resource to test the fields and validity of an x.509 certificate.</p>
+
+<p>X.509 certificates use public/private key pairs to sign and encrypt documents
+or communications over a network. They may also be used for authentication.</p>
+
+<p>Examples include SSL certificates, S/MIME certificates and VPN authentication
+certificates.</p>
+
+<h2>Syntax</h2>
+
+<p>An <code>x509_certificate</code> resource block declares a certificate <code>key file</code> to be tested.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('mycertificate.pem') do
+  its('validity_in_days') { should be &gt; 30 }
+end
+</code></pre>
+<h2>Supported Properties</h2>
+
+<h3>subject.XX</h3>
+
+<p><code>subject</code> property makes it easier to access individual subject elements.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('subject.CN') { should eq "www.mywebsite.com" }
+end
+</code></pre>
+<h3>subject_dn (String)</h3>
+
+<p>The <code>subject_dn</code> string returns the distinguished name of the subject field. It contains several fields separated by forward slashes. The field identifiers are the same ones used by OpenSSL to generate CSR&rsquo;s and certs. Use <code>subject.XX</code> instead to access the parsed version.</p>
+
+<p>e.g. <code>/C=US/L=Seattle/O=Chef Software Inc/OU=Chefs/CN=Richard Nixon</code></p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('subject_dn') { should match "CN=www.mywebsite.com" }
+end
+</code></pre>
+<h3>issuer.XX</h3>
+
+<p><code>issuer</code> makes it easier to access individual issuer elements.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('issuer.CN') { should eq "Acme Trust CA" }
+end
+</code></pre>
+<h3>issuer_dn (String)</h3>
+
+<p>The <code>issuer_dn</code> is the distinguished name from a CA (certificate authority) during the
+certificate signing process. It describes which authority is guaranteeing the
+identity of our certificate.</p>
+
+<p>e.g. <code>/C=US/L=Seattle/CN=Acme Trust CA/emailAddress=support@acmetrust.org</code></p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('issuer_cn') { should match "CN=Acme Trust CA" }
+end
+</code></pre>
+<h3>public_key (String)</h3>
+
+<p>The <code>public_key</code> property returns a base64 encoded public key in PEM format.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('public_key') { should match "-----BEGIN PUBLIC KEY-----\nblah blah blah..." }
+end
+</code></pre>
+<h3>key_length (Integer)</h3>
+
+<p>The <code>key_length</code> property calculates the number of bits in the public key.
+More bits increase security, but at the cost of speed and in extreme cases, compatibility.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('key_length') { should be 2048 }
+end
+</code></pre>
+<h3>signature_algorithm (String)</h3>
+
+<p>The <code>signature_algorithm</code> property describes which hash function was used by the CA to
+sign the certificate.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('signature_algorithm') { should be 'sha256WithRSAEncryption' }
+end
+</code></pre>
+<h3>validity<em>in</em>days (Float)</h3>
+
+<p>The <code>validity_in_days</code> property can be used to check that certificates are not in
+danger of expiring soon.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('validity_in_days') { should be &gt; 30 }
+end
+</code></pre>
+<h3>not<em>before and not</em>after (Time)</h3>
+
+<p>The <code>not_before</code> and <code>not_after</code> properties expose the start and end dates of certificate
+validity. They are exposed as ruby Time class so that date arithmetic can be easily performed.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('not_before') { should be &lt;= Time.utc.now }
+  its('not_after')  { should be &gt;= Time.utc.now }
+end
+</code></pre>
+<h3>serial (Integer)</h3>
+
+<p>The <code>serial</code> property exposes the serial number of the certificate. The serial number is set by the CA during the signing process and should be unique within that CA.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('serial') { should eq 9623283588743302433 }
+end
+</code></pre>
+<h3>version (Integer)</h3>
+
+<p>The <code>version</code> property exposes the certificate version.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  its('version') { should eq 2 }
+end
+</code></pre>
+<h3>extensions (Hash)</h3>
+
+<p>The <code>extensions</code> hash property is mainly used to determine what the certificate can be used for.</p>
+<pre class="highlight plaintext"><code>describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+  # Check what extension categories we have
+  its('extensions') { should include 'keyUsage' }
+  its('extensions') { should include 'extendedKeyUsage' }
+  its('extensions') { should include 'subjectAltName' }
+
+  # Check examples of basic 'keyUsage'
+  its('extensions.keyUsage') { should include 'Digital Signature' }
+  its('extensions.keyUsage') { should include 'Non Repudiation' }
+  its('extensions.keyUsage') { should include 'Data Encipherment' }
+
+  # Check examples of newer 'extendedKeyUsage'
+  its('extensions.extendedKeyUsage') { should include 'TLS Web Server Authentication' }
+  its('extensions.extendedKeyUsage') { should include 'Code Signing' }
+
+  # Check examples of 'subjectAltName'
+  its('extensions.subjectAltName') { should include 'email:support@chef.io' }
+end
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

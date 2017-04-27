@@ -1,0 +1,437 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the InSpec CLI</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_cli docs_reference_cli_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>InSpec CLI</h1>
+
+<p>Use the InSpec CLI to run tests and audits against targets using local, SSH, WinRM, or Docker connections.</p>
+
+<h2>archive</h2>
+
+<p>Archive a profile to tar.gz (default) or zip</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec archive PATH
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>--ignore-errors</code>, <code>--no-ignore-errors</code><br>
+Ignore profile warnings.</li>
+<li><code>-o</code>, <code>--output=OUTPUT</code><br>
+Save the archive to a path</li>
+<li><code>--overwrite</code>, <code>--no-overwrite</code><br>
+Overwrite existing archive.</li>
+<li><code>--profiles-path=PROFILES_PATH</code><br>
+Folder which contains referenced profiles.</li>
+<li><code>--tar</code>, <code>--no-tar</code><br>
+Generates a tar.gz archive.</li>
+<li><code>--zip</code>, <code>--no-zip</code><br>
+Generates a zip archive.</li>
+</ul>
+
+<h2>artifact</h2>
+
+<p>Sign, verify and install artifacts</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec artifact SUBCOMMAND ...
+</code></pre>
+<h2>check</h2>
+
+<p>Verify all tests at the specified path</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec check PATH
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><p><code>--format=FORMAT</code>  </p></li>
+<li><p><code>--profiles-path=PROFILES_PATH</code><br>
+Folder which contains referenced profiles.</p></li>
+</ul>
+
+<h2>compliance</h2>
+
+<p>Chef compliance commands</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec compliance SUBCOMMAND ...
+</code></pre>
+<h2>detect</h2>
+
+<p>Detect the target os</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec detect
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>-b</code>, <code>--backend=BACKEND</code><br>
+Choose a backend: local, ssh, winrm, docker.</li>
+<li><p><code>--format=FORMAT</code>  </p></li>
+<li><p><code>--host=HOST</code><br>
+Specify a remote host which is tested.</p></li>
+<li><p><code>--json-config=JSON_CONFIG</code><br>
+Read configuration from JSON file (<code>-</code> reads from stdin).</p></li>
+<li><p><code>-i</code>, <code>--key-files=one two three</code><br>
+Login key or certificate file for a remote scan.</p></li>
+<li><p><code>--password=PASSWORD</code><br>
+Login password for a remote scan, if required.</p></li>
+<li><p><code>--path=PATH</code><br>
+Login path to use when connecting to the target (WinRM).</p></li>
+<li><p><code>-p</code>, <code>--port=N</code><br>
+Specify the login port for a remote scan.</p></li>
+<li><p><code>--self-signed</code>, <code>--no-self-signed</code><br>
+Allow remote scans with self-signed certificates (WinRM).</p></li>
+<li><p><code>--shell</code>, <code>--no-shell</code><br>
+Run scans in a subshell. Only activates on Unix.</p></li>
+<li><p><code>--shell-command=SHELL_COMMAND</code><br>
+Specify a particular shell to use.</p></li>
+<li><p><code>--shell-options=SHELL_OPTIONS</code><br>
+Additional shell options.</p></li>
+<li><p><code>--ssl</code>, <code>--no-ssl</code><br>
+Use SSL for transport layer encryption (WinRM).</p></li>
+<li><p><code>--sudo</code>, <code>--no-sudo</code><br>
+Run scans with sudo. Only activates on Unix and non-root user.</p></li>
+<li><p><code>--sudo-command=SUDO_COMMAND</code><br>
+Alternate command for sudo.</p></li>
+<li><p><code>--sudo-options=SUDO_OPTIONS</code><br>
+Additional sudo options for a remote scan.</p></li>
+<li><p><code>--sudo-password=SUDO_PASSWORD</code><br>
+Specify a sudo password, if it is required.</p></li>
+<li><p><code>-t</code>, <code>--target=TARGET</code><br>
+Simple targeting option using URIs, e.g. ssh://user:pass@host:port</p></li>
+<li><p><code>--user=USER</code><br>
+The login user for a remote scan.</p></li>
+</ul>
+
+<h2>env</h2>
+
+<p>Output shell-appropriate completion configuration</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec env
+</code></pre>
+<h2>exec</h2>
+
+<p>Run all test files at the specified path.</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec <span class="nb">exec </span>PATHS
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>--attrs=one two three</code><br>
+Load attributes file (experimental)</li>
+<li><code>-b</code>, <code>--backend=BACKEND</code><br>
+Choose a backend: local, ssh, winrm, docker.</li>
+<li><code>--cache=CACHE</code><br>
+Use the given path for caching dependencies. (default: ~/.inspec/cache)</li>
+<li><code>--color</code>, <code>--no-color</code><br>
+Use colors in output.</li>
+<li><code>--controls=one two three</code><br>
+A list of controls to run. Ignore all other tests.</li>
+<li><code>--create-lockfile</code>, <code>--no-create-lockfile</code><br>
+Write out a lockfile based on this execution (unless one already exists)</li>
+<li><code>--format=FORMAT</code><br>
+Which formatter to use: cli, progress, documentation, json, json-min, junit</li>
+<li><code>--host=HOST</code><br>
+Specify a remote host which is tested.</li>
+<li><code>--json-config=JSON_CONFIG</code><br>
+Read configuration from JSON file (<code>-</code> reads from stdin).</li>
+<li><code>-i</code>, <code>--key-files=one two three</code><br>
+Login key or certificate file for a remote scan.</li>
+<li><code>--password=PASSWORD</code><br>
+Login password for a remote scan, if required.</li>
+<li><code>--path=PATH</code><br>
+Login path to use when connecting to the target (WinRM).</li>
+<li><code>-p</code>, <code>--port=N</code><br>
+Specify the login port for a remote scan.</li>
+<li><code>--profiles-path=PROFILES_PATH</code><br>
+Folder which contains referenced profiles.</li>
+<li><code>--self-signed</code>, <code>--no-self-signed</code><br>
+Allow remote scans with self-signed certificates (WinRM).</li>
+<li><code>--shell</code>, <code>--no-shell</code><br>
+Run scans in a subshell. Only activates on Unix.</li>
+<li><code>--shell-command=SHELL_COMMAND</code><br>
+Specify a particular shell to use.</li>
+<li><code>--shell-options=SHELL_OPTIONS</code><br>
+Additional shell options.</li>
+<li><code>--ssl</code>, <code>--no-ssl</code><br>
+Use SSL for transport layer encryption (WinRM).</li>
+<li><code>--sudo</code>, <code>--no-sudo</code><br>
+Run scans with sudo. Only activates on Unix and non-root user.</li>
+<li><code>--sudo-command=SUDO_COMMAND</code><br>
+Alternate command for sudo.</li>
+<li><code>--sudo-options=SUDO_OPTIONS</code><br>
+Additional sudo options for a remote scan.</li>
+<li><code>--sudo-password=SUDO_PASSWORD</code><br>
+Specify a sudo password, if it is required.</li>
+<li><code>-t</code>, <code>--target=TARGET</code><br>
+Simple targeting option using URIs, e.g. ssh://user:pass@host:port</li>
+<li><code>--user=USER</code><br>
+The login user for a remote scan.</li>
+</ul>
+
+<h2>habitat</h2>
+
+<p>Commands for inspec + habitat integration</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec habitat SUBCOMMAND ...
+</code></pre>
+<h2>help</h2>
+
+<p>Describe available commands or one specific command</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec <span class="nb">help</span> <span class="o">[</span>COMMAND]
+</code></pre>
+<h2>init</h2>
+
+<p>Scaffolds a new project</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec init TEMPLATE ...
+</code></pre>
+<h2>json</h2>
+
+<p>Read all tests in path and generate a json summary</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec json PATH
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>--controls=one two three</code><br>
+A list of controls to include. Ignore all other tests.</li>
+<li><code>-o</code>, <code>--output=OUTPUT</code><br>
+Save the created profile to a path</li>
+<li><code>--profiles-path=PROFILES_PATH</code><br>
+Folder which contains referenced profiles.</li>
+</ul>
+
+<h2>schema</h2>
+
+<p>Print the json schema</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec schema NAME
+</code></pre>
+<h2>shell</h2>
+
+<p>Open an interactive debugging shell</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>-b</code>, <code>--backend=BACKEND</code><br>
+Choose a backend: local, ssh, winrm, docker.</li>
+<li><code>-c</code>, <code>--command=COMMAND</code><br>
+A single command string to run instead of launching the shell</li>
+<li><code>--host=HOST</code><br>
+Specify a remote host which is tested.</li>
+<li><code>--json-config=JSON_CONFIG</code><br>
+Read configuration from JSON file (<code>-</code> reads from stdin).</li>
+<li><code>-i</code>, <code>--key-files=one two three</code><br>
+Login key or certificate file for a remote scan.</li>
+<li><code>--password=PASSWORD</code><br>
+Login password for a remote scan, if required.</li>
+<li><code>--path=PATH</code><br>
+Login path to use when connecting to the target (WinRM).</li>
+<li><code>-p</code>, <code>--port=N</code><br>
+Specify the login port for a remote scan.</li>
+<li><code>--self-signed</code>, <code>--no-self-signed</code><br>
+Allow remote scans with self-signed certificates (WinRM).</li>
+<li><code>--shell</code>, <code>--no-shell</code><br>
+Run scans in a subshell. Only activates on Unix.</li>
+<li><code>--shell-command=SHELL_COMMAND</code><br>
+Specify a particular shell to use.</li>
+<li><code>--shell-options=SHELL_OPTIONS</code><br>
+Additional shell options.</li>
+<li><code>--ssl</code>, <code>--no-ssl</code><br>
+Use SSL for transport layer encryption (WinRM).</li>
+<li><code>--sudo</code>, <code>--no-sudo</code><br>
+Run scans with sudo. Only activates on Unix and non-root user.</li>
+<li><code>--sudo-command=SUDO_COMMAND</code><br>
+Alternate command for sudo.</li>
+<li><code>--sudo-options=SUDO_OPTIONS</code><br>
+Additional sudo options for a remote scan.</li>
+<li><code>--sudo-password=SUDO_PASSWORD</code><br>
+Specify a sudo password, if it is required.</li>
+<li><code>-t</code>, <code>--target=TARGET</code><br>
+Simple targeting option using URIs, e.g. ssh://user:pass@host:port</li>
+<li><code>--user=USER</code><br>
+The login user for a remote scan.</li>
+</ul>
+
+<h2>supermarket</h2>
+
+<p>Supermarket commands</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec supermarket SUBCOMMAND ...
+</code></pre>
+<h2>vendor</h2>
+
+<p>Download all dependencies and generate a lockfile in a <code>vendor</code> directory</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec vendor PATH
+</code></pre>
+<h3>Options</h3>
+
+<p>This subcommand has additional options:</p>
+
+<ul>
+<li><code>--overwrite</code>, <code>--no-overwrite</code><br>
+Overwrite existing vendored dependencies and lockfile.</li>
+</ul>
+
+<h2>version</h2>
+
+<p>Prints the version of this tool</p>
+
+<h3>Syntax</h3>
+
+<p>This subcommand has the following syntax:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec version
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

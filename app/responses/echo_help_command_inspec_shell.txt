@@ -1,0 +1,23 @@
+[0G[1mName:[0m command
+
+[1mDescription:[0m
+
+Use the command InSpec audit resource to test an arbitrary command that is run on the system.
+
+[1mExample:[0m
+
+describe command('ls -al /') do
+  its('stdout') { should match /bin/ }
+  its('stderr') { should eq '' }
+  its('exit_status') { should eq 0 }
+end
+ command('ls -al /').exist? will return false. Existence of command should be checked this way.
+describe command('ls') do
+  it { should exist }
+end
+    
+
+[1mWeb Reference:[0m
+
+https://github.com/chef/inspec/blob/master/docs/resources.rst#command
+

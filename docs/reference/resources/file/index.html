@@ -1,0 +1,545 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the file Resource</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_file docs_reference_resources_file_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>file</h1>
+
+<p>Use the <code>file</code> InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.</p>
+
+<h2>Syntax</h2>
+
+<p>A <code>file</code> resource block declares the location of the file type to be tested, what type that file should be (if required), and then one (or more) matchers:</p>
+<pre class="highlight plaintext"><code>describe file('path') do
+  it { should MATCHER 'value' }
+end
+</code></pre>
+<p>where</p>
+
+<ul>
+<li><code>(&#39;path&#39;)</code> is the name of the file and/or the path to the file</li>
+<li><code>MATCHER</code> is a valid matcher for this resource</li>
+<li><code>&#39;value&#39;</code> is the value to be tested</li>
+</ul>
+
+<h2>Matchers</h2>
+
+<p>This InSpec audit resource has the following matchers:</p>
+
+<h3>be</h3>
+
+<p>Use the <code>be</code> matcher to use a comparison operator&mdash;<code>=</code> (equal to), <code>&gt;</code> (greater than), <code>&lt;</code> (less than), <code>&gt;=</code> (greater than or equal to), and <code>&lt;=</code> (less than or equal to)&mdash;to compare two values: <code>its(&#39;value&#39;) { should be &gt;= value }</code>, <code>its(&#39;value&#39;) { should be &lt; value }</code>, and so on.</p>
+
+<h3>be_block_device</h3>
+
+<p>The <code>be_block_device</code> matcher tests if the file exists as a block device, such as <code>/dev/disk0</code> or <code>/dev/disk0s9</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_block_device }
+</code></pre>
+<h3>be_character_device</h3>
+
+<p>The <code>be_character_device</code> matcher tests if the file exists as a character device (that corresponds to a block device), such as <code>/dev/rdisk0</code> or <code>/dev/rdisk0s9</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_character_device }
+</code></pre>
+<h3>be_directory</h3>
+
+<p>The <code>be_directory</code> matcher tests if the file exists as a directory, such as <code>/etc/passwd</code>, <code>/etc/shadow</code>, or <code>/var/log/httpd</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_directory }
+</code></pre>
+<h3>be_executable</h3>
+
+<p>The <code>be_executable</code> matcher tests if the file exists as an executable:</p>
+<pre class="highlight plaintext"><code>it { should be_executable }
+</code></pre>
+<p>The <code>be_executable</code> matcher may also test if the file is executable by a specific owner, group, or user. For example, a group:</p>
+<pre class="highlight plaintext"><code>it { should be_executable.by('group') }
+</code></pre>
+<p>an owner:</p>
+<pre class="highlight plaintext"><code>it { should be_executable.by('owner') }
+</code></pre>
+<p>a user:</p>
+<pre class="highlight plaintext"><code>it { should be_executable.by_user('user') }
+</code></pre>
+<h3>be_file</h3>
+
+<p>The <code>be_file</code> matcher tests if the file exists as a file. This can be useful with configuration files like <code>/etc/passwd</code> where there typically is not an associated file extension&mdash;<code>passwd.txt</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_file }
+</code></pre>
+<h3>be_grouped_into</h3>
+
+<p>The <code>be_grouped_into</code> matcher tests if the file exists as part of the named group:</p>
+<pre class="highlight plaintext"><code>it { should be_grouped_into 'group' }
+</code></pre>
+<h3>be_immutable</h3>
+
+<p>The <code>be_immutable</code> matcher tests if the file is immutable, i.e. &ldquo;cannot be changed&rdquo;:</p>
+<pre class="highlight plaintext"><code>it { should be_immutable }
+</code></pre>
+<h3>be_linked_to</h3>
+
+<p>The <code>be_linked_to</code> matcher tests if the file is linked to the named target:</p>
+<pre class="highlight plaintext"><code>it { should be_linked_to '/etc/target-file' }
+</code></pre>
+<h3>be_mounted</h3>
+
+<p>The <code>be_mounted</code> matcher tests if the file is accessible from the file system:</p>
+<pre class="highlight plaintext"><code>it { should be_mounted }
+</code></pre>
+<h3>be_owned_by</h3>
+
+<p>The <code>be_owned_by</code> matcher tests if the file is owned by the named user, such as <code>root</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_owned_by 'root' }
+</code></pre>
+<h3>be_pipe</h3>
+
+<p>The <code>be_pipe</code> matcher tests if the file exists as first-in, first-out special file (<code>.fifo</code>) that is typically used to define a named pipe, such as <code>/var/log/nginx/access.log.fifo</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_pipe }
+</code></pre>
+<h3>be_readable</h3>
+
+<p>The <code>be_readable</code> matcher tests if the file is readable:</p>
+<pre class="highlight plaintext"><code>it { should be_readable }
+</code></pre>
+<p>The <code>be_readable</code> matcher may also test if the file is readable by a specific owner, group, or user. For example, a group:</p>
+<pre class="highlight plaintext"><code>it { should be_readable.by('group') }
+</code></pre>
+<p>an owner:</p>
+<pre class="highlight plaintext"><code>it { should be_readable.by('owner') }
+</code></pre>
+<p>a user:</p>
+<pre class="highlight plaintext"><code>it { should be_readable.by_user('user') }
+</code></pre>
+<h3>be_socket</h3>
+
+<p>The <code>be_socket</code> matcher tests if the file exists as socket (<code>.sock</code>), such as <code>/var/run/php-fpm.sock</code>:</p>
+<pre class="highlight plaintext"><code>it { should be_socket }
+</code></pre>
+<h3>be_symlink</h3>
+
+<p>The <code>be_symlink</code> matcher tests if the file exists as a symbolic, or soft link that contains an absolute or relative path reference to another file:</p>
+<pre class="highlight plaintext"><code>it { should be_symlink }
+</code></pre>
+<h3>be_version</h3>
+
+<p>The <code>be_version</code> matcher tests the version of the file:</p>
+<pre class="highlight plaintext"><code>it { should be_version '1.2.3' }
+</code></pre>
+<h3>be_writable</h3>
+
+<p>The <code>be_writable</code> matcher tests if the file is writable:</p>
+<pre class="highlight plaintext"><code>it { should be_writable }
+</code></pre>
+<p>The <code>be_writable</code> matcher may also test if the file is writable by a specific owner, group, or user. For example, a group:</p>
+<pre class="highlight plaintext"><code>it { should be_writable.by('group') }
+</code></pre>
+<p>an owner:</p>
+<pre class="highlight plaintext"><code>it { should be_writable.by('owner') }
+</code></pre>
+<p>a user:</p>
+<pre class="highlight plaintext"><code>it { should be_writable.by_user('user') }
+</code></pre>
+<h3>cmp</h3>
+
+<p>Use the <code>cmp</code> matcher compare two values, such as comparing strings to numbers, comparing a single value to an array of values, comparing an array of strings to a regular expression, improving the printing of octal values, and comparing while ignoring case sensitivity.</p>
+
+<p>Compare a single value to an array:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('users') { should cmp 'root' }
+  its('users') { should cmp ['root'] }
+end
+</code></pre>
+<p>Compare strings and regular expressions:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp /raw/i }
+end
+</code></pre>
+<p>Compare strings and numbers:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should eq '2' }
+end
+</code></pre>
+<p>vs:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp '2' }
+  its('setting') { should cmp 2 }
+end
+</code></pre>
+<p>Ignoring case sensitivity:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp 'raw' }
+  its('setting') { should cmp 'RAW' }
+end
+</code></pre>
+<p>Printing octal values:</p>
+<pre class="highlight plaintext"><code>describe some_resource('/proc/cpuinfo') do
+  its('mode') { should cmp '0345' }
+end
+
+expected: 0345
+got: 0444
+</code></pre>
+<h3>content</h3>
+
+<p>The <code>content</code> matcher tests if contents in the file match the value specified in a regular expression. The values of the <code>content</code> matcher are arbitrary and depend on the file type being tested and also the type of information that is expected to be in that file:</p>
+<pre class="highlight plaintext"><code>its('content') { should match REGEX }
+</code></pre>
+<p>The following complete example tests the <code>pg_hba.conf</code> file in PostgreSQL for MD5 requirements.  The tests look at all <code>host</code> and <code>local</code> settings in that file, and then compare the MD5 checksums against the values in the test:</p>
+<pre class="highlight plaintext"><code>describe file(hba_config_file) do
+  its('content') { should match(%r{local\s.*?all\s.*?all\s.*?md5}) }
+  its('content') { should match(%r{host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5}) }
+  its('content') { should match(%r{host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5})
+end
+</code></pre>
+<h3>eq</h3>
+
+<p>Use the <code>eq</code> matcher to test the equality of two values: <code>its(&#39;Port&#39;) { should eq &#39;22&#39; }</code>.</p>
+
+<p>Using <code>its(&#39;Port&#39;) { should eq 22 }</code> will fail because <code>22</code> is not a string value! Use the <code>cmp</code> matcher for less restrictive value comparisons.</p>
+
+<h3>exist</h3>
+
+<p>The <code>exist</code> matcher tests if the named file exists:</p>
+<pre class="highlight plaintext"><code>it { should exist }
+</code></pre>
+<h3>file_version</h3>
+
+<p>The <code>file_version</code> matcher tests if the file&rsquo;s version matches the specified value. The difference between a file&rsquo;s &ldquo;file version&rdquo; and &ldquo;product version&rdquo; is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:</p>
+<pre class="highlight plaintext"><code>its('file_version') { should eq '1.2.3' }
+</code></pre>
+<h3>group</h3>
+
+<p>The <code>group</code> matcher tests if the group to which a file belongs matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('group') { should eq 'admins' }
+</code></pre>
+<h3>have_mode</h3>
+
+<p>The <code>have_mode</code> matcher tests if a file has a mode assigned to it:</p>
+<pre class="highlight plaintext"><code>it { should have_mode }
+</code></pre>
+<h3>include</h3>
+
+<p>Use the <code>include</code> matcher to verify that a string value is included in a list: <code>its(&#39;list&#39;) { should include &#39;string&#39; }</code>.</p>
+
+<h3>link_path</h3>
+
+<p>The <code>link_path</code> matcher tests if the file exists at the specified path:</p>
+<pre class="highlight plaintext"><code>its('link_path') { should eq '/some/path/to/file' }
+</code></pre>
+<h3>link_target</h3>
+
+<p>The <code>link_target</code> matcher tests if a file that is linked to this file exists at the specified path:</p>
+<pre class="highlight plaintext"><code>its('link_target') { should eq '/some/path/to/file' }
+</code></pre>
+<h3>match</h3>
+
+<p>Use the <code>match</code> matcher to check if a string matches a regular expression: <code>its(&#39;string&#39;) { should_not match /regex/ }</code>.</p>
+
+<h3>md5sum</h3>
+
+<p>The <code>md5sum</code> matcher tests if the MD5 checksum for a file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('md5sum') { should eq '3329x3hf9130gjs9jlasf2305mx91s4j' }
+</code></pre>
+<h3>mode</h3>
+
+<p>The <code>mode</code> matcher tests if the mode assigned to the file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('mode') { should cmp '0644' }
+</code></pre>
+<h3>mtime</h3>
+
+<p>The <code>mtime</code> matcher tests if the file modification time for the file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('mtime') { should eq 'October 31 2015 12:10:45' }
+</code></pre>
+<p>or:</p>
+<pre class="highlight plaintext"><code>describe file('/').mtime.to_i do
+  it { should &lt;= Time.now.to_i }
+  it { should &gt;= Time.now.to_i - 1000}
+end
+</code></pre>
+<h3>owner</h3>
+
+<p>The <code>owner</code> matcher tests if the owner of the file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('owner') { should eq 'root' }
+</code></pre>
+<h3>product_version</h3>
+
+<p>The <code>product_version</code> matcher tests if the file&rsquo;s product version matches the specified value. The difference between a file&rsquo;s &ldquo;file version&rdquo; and &ldquo;product version&rdquo; is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:</p>
+<pre class="highlight plaintext"><code>its('product_version') { should eq 2.3.4 }
+</code></pre>
+<h3>selinux_label</h3>
+
+<p>The <code>selinux_label</code> matcher tests if the SELinux label for a file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('selinux_label') { should eq 'system_u:system_r:httpd_t:s0' }
+</code></pre>
+<h3>sha256sum</h3>
+
+<p>The <code>sha256sum</code> matcher tests if the SHA-256 checksum for a file matches the specified value:</p>
+<pre class="highlight plaintext"><code>its('sha256sum') { should eq 'b837ch38lh19bb8eaopl8jvxwd2e4g58jn9lkho1w3ed9jbkeicalplaad9k0pjn' }
+</code></pre>
+<h3>size</h3>
+
+<p>The <code>size</code> matcher tests if a file&rsquo;s size matches, is greater than, or is less than the specified value. For example, equal:</p>
+<pre class="highlight plaintext"><code>its('size') { should eq 32375 }
+</code></pre>
+<p>Greater than:</p>
+<pre class="highlight plaintext"><code>its('size') { should &gt; 64 }
+</code></pre>
+<p>Less than:</p>
+<pre class="highlight plaintext"><code>its('size') { should &lt; 10240 }
+</code></pre>
+<h3>type</h3>
+
+<p>The <code>type</code> matcher tests if the first letter of the file&rsquo;s mode string contains one of the following characters:</p>
+
+<ul>
+<li><code>-</code> or <code>f</code> (the file is a file); use <code>&#39;file</code> to test for this file type</li>
+<li><code>d</code> (the file is a directory); use <code>&#39;directory</code> to test for this file type</li>
+<li><code>l</code> (the file is a symbolic link); use <code>&#39;link</code> to test for this file type</li>
+<li><code>p</code> (the file is a named pipe); use <code>&#39;pipe</code> to test for this file type</li>
+<li><code>s</code> (the file is a socket); use <code>&#39;socket</code> to test for this file type</li>
+<li><code>c</code> (the file is a character device); use <code>&#39;character</code> to test for this file type</li>
+<li><code>b</code> (the file is a block device); use <code>&#39;block</code> to test for this file type</li>
+<li><code>D</code> (the file is a door); use <code>&#39;door</code> to test for this file type</li>
+</ul>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>its('type') { should eq 'file' }
+</code></pre>
+<p>or:</p>
+<pre class="highlight plaintext"><code>its('type') { should eq 'socket' }
+</code></pre>
+<h2>Examples</h2>
+
+<p>The following examples show how to use this InSpec audit resource.</p>
+
+<h3>Test the contents of a file for MD5 requirements</h3>
+<pre class="highlight plaintext"><code>describe file(hba_config_file) do
+  its('content') { should match /local\s.*?all\s.*?all\s.*?md5/ }
+  its('content') { should match %r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/} }
+  its('content') { should match %r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/} }
+end
+</code></pre>
+<h3>Test if a file exists</h3>
+<pre class="highlight plaintext"><code>describe file('/tmp') do
+ it { should exist }
+end
+</code></pre>
+<h3>Test that a file does not exist</h3>
+<pre class="highlight plaintext"><code>describe file('/tmpest') do
+ it { should_not exist }
+end
+</code></pre>
+<h3>Test if a path is a directory</h3>
+<pre class="highlight plaintext"><code>describe file('/tmp') do
+ its('type') { should eq :directory }
+ it { should be_directory }
+end
+</code></pre>
+<h3>Test if a path is a file and not a directory</h3>
+<pre class="highlight plaintext"><code>describe file('/proc/version') do
+  its('type') { should eq 'file' }
+  it { should be_file }
+  it { should_not be_directory }
+end
+</code></pre>
+<h3>Test if a file is a symbolic link</h3>
+<pre class="highlight plaintext"><code>describe file('/dev/stdout') do
+  its('type') { should eq 'symlink' }
+  it { should be_symlink }
+  it { should_not be_file }
+  it { should_not be_directory }
+end
+</code></pre>
+<h3>Test if a file is a character device</h3>
+<pre class="highlight plaintext"><code>describe file('/dev/zero') do
+  its('type') { should eq 'character' }
+  it { should be_character_device }
+  it { should_not be_file }
+  it { should_not be_directory }
+end
+</code></pre>
+<h3>Test if a file is a block device</h3>
+<pre class="highlight plaintext"><code>describe file('/dev/zero') do
+  its('type') { should eq 'block' }
+  it { should be_character_device }
+  it { should_not be_file }
+  it { should_not be_directory }
+end
+</code></pre>
+<h3>Test the mode for a file</h3>
+<pre class="highlight plaintext"><code>describe file('/dev') do
+ its('mode') { should cmp '00755' }
+end
+</code></pre>
+<h3>Test the owner of a file</h3>
+<pre class="highlight plaintext"><code>describe file('/root') do
+  its('owner') { should eq 'root' }
+end
+</code></pre>
+<h3>Test if a file is owned by the root user</h3>
+<pre class="highlight plaintext"><code>describe file('/dev') do
+  it { should be_owned_by 'root' }
+end
+</code></pre>
+<h3>Test the mtime for a file</h3>
+<pre class="highlight plaintext"><code>describe file('/').mtime.to_i do
+  it { should &lt;= Time.now.to_i }
+  it { should &gt;= Time.now.to_i - 1000}
+end
+</code></pre>
+<h3>Test that a file&rsquo;s size is between 64 and 10240</h3>
+<pre class="highlight plaintext"><code>describe file('/') do
+  its('size') { should be &gt; 64 }
+  its('size') { should be &lt; 10240 }
+end
+</code></pre>
+<h3>Test that a file&rsquo;s size is zero</h3>
+<pre class="highlight plaintext"><code>describe file('/proc/cpuinfo') do
+  its('size') { should be 0 }
+end
+</code></pre>
+<h3>Test that a file is not mounted</h3>
+<pre class="highlight plaintext"><code>describe file('/proc/cpuinfo') do
+  it { should_not be_mounted }
+end
+</code></pre>
+<h3>Test an MD5 checksum</h3>
+<pre class="highlight plaintext"><code>require 'digest'
+cpuinfo = file('/proc/cpuinfo').content
+
+md5sum = Digest::MD5.hexdigest(cpuinfo)
+
+describe file('/proc/cpuinfo') do
+  its('md5sum') { should eq md5sum }
+end
+</code></pre>
+<h3>Test an SHA-256 checksum</h3>
+<pre class="highlight plaintext"><code>require 'digest'
+cpuinfo = file('/proc/cpuinfo').content
+
+sha256sum = Digest::SHA256.hexdigest(cpuinfo)
+
+describe file('/proc/cpuinfo') do
+  its('sha256sum') { should eq sha256sum }
+end
+</code></pre>
+<h3>Verify NTP</h3>
+
+<p>The following example shows how to use the <code>file</code> audit resource to verify if the <code>ntp.conf</code> and <code>leap-seconds</code> files are present, and then the <code>command</code> resource to verify if NTP is installed and running:</p>
+<pre class="highlight plaintext"><code>describe file('/etc/ntp.conf') do
+   it { should be_file }
+end
+
+describe file('/etc/ntp.leapseconds') do
+  it { should be_file }
+end
+
+describe command('pgrep ntp') do
+   its('exit_status') { should eq 0 }
+end
+</code></pre>
+<h3>Test parameters of symlinked file</h3>
+
+<p>If you need to test the parameters of the target file for a symlink, you can use the <code>link_path</code> method for the <code>file</code> resource.</p>
+
+<p>For example, for the following symlink:</p>
+<pre class="highlight plaintext"><code>lrwxrwxrwx. 1 root root 11 03-10 17:56 /dev/virtio-ports/com.redhat.rhevm.vdsm -&gt; ../vport2p1
+</code></pre>
+<p>&hellip; you can write controls for both the link and the target.</p>
+<pre class="highlight plaintext"><code>describe file('/dev/virtio-ports/com.redhat.rhevm.vdsm') do
+  it { should be_symlink }
+end
+
+virito_port_vdsm = file('/dev/virtio-ports/com.redhat.rhevm.vdsm').link_path
+describe file(virito_port_vdsm) do
+  it { should exist }
+  it { should be_character_device }
+  it { should be_owned_by 'ovirtagent' }
+  it { should be_grouped_into 'ovirtagent' }
+end
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

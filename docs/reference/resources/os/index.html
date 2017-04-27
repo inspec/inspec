@@ -1,0 +1,277 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the os Resource</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_os docs_reference_resources_os_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>os</h1>
+
+<p>Use the <code>os</code> InSpec audit resource to test the platform on which the system is running.</p>
+
+<h2>Syntax</h2>
+
+<p>An <code>os</code> resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:</p>
+<pre class="highlight plaintext"><code>describe os[:family] do
+  it { should eq 'platform_name' }
+end
+</code></pre>
+<p>or using the block name:</p>
+<pre class="highlight plaintext"><code>describe os[:family_name] do
+  ...
+end
+</code></pre>
+<ul>
+<li><code>&#39;platform_name&#39;</code> (a string) or <code>:family_name</code> (a symbol) is one of <code>aix</code>, <code>bsd</code>, <code>darwin</code>, <code>debian</code>, <code>hpux</code>, <code>linux</code>, <code>redhat</code>, <code>solaris</code>, <code>suse</code>,  <code>unix</code>, or <code>windows</code></li>
+</ul>
+
+<h2>Matchers</h2>
+
+<p>This InSpec audit resource has the following matchers:</p>
+
+<h3>be</h3>
+
+<p>Use the <code>be</code> matcher to use a comparison operator&mdash;<code>=</code> (equal to), <code>&gt;</code> (greater than), <code>&lt;</code> (less than), <code>&gt;=</code> (greater than or equal to), and <code>&lt;=</code> (less than or equal to)&mdash;to compare two values: <code>its(&#39;value&#39;) { should be &gt;= value }</code>, <code>its(&#39;value&#39;) { should be &lt; value }</code>, and so on.</p>
+
+<h3>cmp</h3>
+
+<p>Use the <code>cmp</code> matcher compare two values, such as comparing strings to numbers, comparing a single value to an array of values, comparing an array of strings to a regular expression, improving the printing of octal values, and comparing while ignoring case sensitivity.</p>
+
+<p>Compare a single value to an array:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('users') { should cmp 'root' }
+  its('users') { should cmp ['root'] }
+end
+</code></pre>
+<p>Compare strings and regular expressions:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp /raw/i }
+end
+</code></pre>
+<p>Compare strings and numbers:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should eq '2' }
+end
+</code></pre>
+<p>vs:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp '2' }
+  its('setting') { should cmp 2 }
+end
+</code></pre>
+<p>Ignoring case sensitivity:</p>
+<pre class="highlight plaintext"><code>describe some_resource do
+  its('setting') { should cmp 'raw' }
+  its('setting') { should cmp 'RAW' }
+end
+</code></pre>
+<p>Printing octal values:</p>
+<pre class="highlight plaintext"><code>describe some_resource('/proc/cpuinfo') do
+  its('mode') { should cmp '0345' }
+end
+
+expected: 0345
+got: 0444
+</code></pre>
+<h3>eq</h3>
+
+<p>Use the <code>eq</code> matcher to test the equality of two values: <code>its(&#39;Port&#39;) { should eq &#39;22&#39; }</code>.</p>
+
+<p>Using <code>its(&#39;Port&#39;) { should eq 22 }</code> will fail because <code>22</code> is not a string value! Use the <code>cmp</code> matcher for less restrictive value comparisons.</p>
+
+<h3>include</h3>
+
+<p>Use the <code>include</code> matcher to verify that a string value is included in a list: <code>its(&#39;list&#39;) { should include &#39;string&#39; }</code>.</p>
+
+<h3>match</h3>
+
+<p>Use the <code>match</code> matcher to check if a string matches a regular expression: <code>its(&#39;string&#39;) { should_not match /regex/ }</code>.</p>
+
+<h2>os.family? Helpers</h2>
+
+<p>The <code>os</code> audit resource includes a collection of helpers that enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific helpers to test for specific platforms:</p>
+
+<ul>
+<li><code>aix?</code></li>
+<li><code>bsd?</code> (including Darwin, FreeBSD, NetBSD, and OpenBSD)</li>
+<li><code>darwin?</code></li>
+<li><code>debian?</code></li>
+<li><code>hpux?</code></li>
+<li><code>linux?</code> (including Alpine Linux, Amazon Linux, ArchLinux, CoreOS, Exherbo, Fedora, Gentoo, and Slackware)</li>
+<li><code>redhat?</code> (including CentOS)</li>
+<li><code>solaris?</code> (including Nexenta Core, OmniOS, Open Indiana, Solaris Open, and SmartOS)</li>
+<li><code>suse?</code></li>
+<li><code>unix?</code></li>
+<li><code>windows?</code></li>
+</ul>
+
+<p>For example, to test for Darwin use:</p>
+<pre class="highlight plaintext"><code>describe os.bsd? do
+   it { should eq true }
+end
+</code></pre>
+<p>To test for Windows use:</p>
+<pre class="highlight plaintext"><code>describe os.windows? do
+   it { should eq true }
+end
+</code></pre>
+<p>and to test for Redhat use:</p>
+<pre class="highlight plaintext"><code>describe os.redhat? do
+   it { should eq true }
+end
+</code></pre>
+<p>Use the following helpers to test for operating system names, releases, and architectures:</p>
+<pre class="highlight plaintext"><code>describe os.name do
+   it { should eq 'foo' }
+end
+
+describe os.release do
+   it { should eq 'foo' }
+end
+
+describe os.arch do
+   it { should eq 'foo' }
+end
+</code></pre>
+<h2>os[:family] Symbols</h2>
+
+<p>Use <code>os[:family]</code> to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific symbols to test for specific platforms:</p>
+
+<ul>
+<li><code>:aix</code></li>
+<li><code>:bsd</code> For platforms that are part of the Berkeley OS family: <code>:darwin</code>, <code>:freebsd</code>, <code>:netbsd</code>, and <code>:openbsd</code>.</li>
+<li><code>:debian</code></li>
+<li><code>:hpux</code></li>
+<li><code>:linux</code>. For platforms that are part of the Linux family: <code>:alpine</code>, <code>:amazon</code>, <code>:arch</code>, <code>:coreos</code>, <code>:exherbo</code>, <code>:fedora</code>, <code>:gentoo</code>, and <code>:slackware</code>.</li>
+<li><code>:redhat</code>. For platforms that are part of the Redhat family: <code>:centos</code>.</li>
+<li><code>:solaris</code>. For platforms that are part of the Solaris family: <code>:nexentacore</code>, <code>:omnios</code>, <code>:openindiana</code>, <code>:opensolaris</code>, and <code>:smartos</code>.</li>
+<li><code>:suse</code></li>
+<li><code>:unix</code></li>
+<li><code>:windows</code></li>
+</ul>
+
+<p>For example, both of the following tests should have the same result:</p>
+<pre class="highlight plaintext"><code>if os[:family] == 'debian'
+  describe port(69) do
+    its('processes') { should include 'in.tftpd' }
+  end
+elsif os[:family] == 'redhat'
+  describe port(69) do
+    its('processes') { should include 'xinetd' }
+  end
+end
+
+if os[:debian]
+  describe port(69) do
+    its('processes') { should include 'in.tftpd' }
+  end
+elsif os[:redhat]
+  describe port(69) do
+    its('processes') { should include 'xinetd' }
+  end
+end
+</code></pre>
+<h2>Examples</h2>
+
+<p>The following examples show how to use this InSpec audit resource.</p>
+
+<h3>Test for RedHat</h3>
+<pre class="highlight plaintext"><code>describe os[:family] do
+  it { should eq 'redhat' }
+end
+</code></pre>
+<h3>Test for Ubuntu</h3>
+<pre class="highlight plaintext"><code>describe os[:family] do
+  it { should eq 'debian' }
+end
+</code></pre>
+<h3>Test for Microsoft Windows</h3>
+<pre class="highlight plaintext"><code>describe os[:family] do
+  it { should eq 'windows' }
+end
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

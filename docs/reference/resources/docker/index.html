@@ -1,0 +1,230 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About the docker Resource</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_resources docs_reference_resources_docker docs_reference_resources_docker_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>docker</h1>
+
+<p>Use the <code>docker</code> InSpec audit resource to test configuration data for docker daemon. It is a very comprehensive resource. Please have a look at <a href="docker_container">docker_container</a> and <a href="docker_image">docker_image</a>, too.</p>
+
+<h2>Syntax</h2>
+
+<p>A <code>docker</code> resource block declares allows you to write test for many containers:</p>
+<pre class="highlight plaintext"><code>describe docker.containers do
+  its('images') { should_not include 'u12:latest' }
+end
+</code></pre>
+<p>or:</p>
+<pre class="highlight plaintext"><code>describe docker.containers.where { name == 'flamboyant_colden' } do
+  it { should be_running }
+end
+</code></pre>
+<p>where</p>
+
+<ul>
+<li><code>.where()</code> may specify a specific item and value, to which the matchers are compared</li>
+<li><code>commands</code>, <code>ids</code>, <code>images</code>, <code>labels</code>, <code>local_volumes</code>, <code>mounts</code>, <code>names</code>, <code>networks</code>, <code>ports</code>, <code>sizes</code>  and <code>&#39;status&#39;</code> are valid matchers for <code>containers</code></li>
+</ul>
+
+<p>The <code>docker</code> resource block also declares allows you to write test for many images:</p>
+<pre class="highlight plaintext"><code>describe docker.images do
+  its('repositories') { should_not include 'inssecure_image' }
+end
+</code></pre>
+<p>or if you want to query specific images:</p>
+<pre class="highlight plaintext"><code>describe docker.images.where { repository == 'ubuntu' &amp;&amp; tag == '12.04' } do
+  it { should_not exist }
+end
+</code></pre>
+<p>where</p>
+
+<ul>
+<li><code>.where()</code> may specify a specific item and value, to which the matchers are compared</li>
+<li><code>commands</code>, <code>ids</code>, <code>images</code>, <code>labels</code>, <code>local_volumes</code>, <code>mounts</code>, <code>names</code>, <code>networks</code>, <code>ports</code>, <code>sizes</code>  and <code>&#39;status&#39;</code> are valid matchers for <code>containers</code></li>
+</ul>
+
+<h2>Matchers</h2>
+
+<p>This InSpec audit resource has the following matchers:</p>
+
+<h3>containers</h3>
+
+<p><code>containers</code> returns information about containers as returned by <a href="https://docs.docker.com/engine/reference/commandline/ps/">docker ps -a</a>. You can determine specific information about</p>
+<pre class="highlight plaintext"><code>describe docker.containers do
+  its('ids') { should include 'sha:71b5df59...442b' }
+  its('commands') { should_not include '/bin/sh' }
+  its('images') { should_not include 'u12:latest' }
+  its('ports') { should include '0.0.0.0:1234-&gt;1234/tcp' }
+  its('labels') { should include 'License=GPLv2,Vendor=CentOS' }
+end
+</code></pre>
+<h3>images</h3>
+
+<p><code>images</code> returns information about docker image as returned by <a href="https://docs.docker.com/engine/reference/commandline/images/">docker images</a>. You can determine specific information about</p>
+<pre class="highlight plaintext"><code>describe docker.images do
+  its('ids') { should include 'sha:12b5df59...442b' }
+  its('repositories') { should_not include 'my_image' }
+  its('tags') { should_not include 'unwanted_tag' }
+  its('sizes') { should_not include "1.41 GB" }
+end
+</code></pre>
+<h3>version</h3>
+
+<p><code>info</code> returns the parsed result of <a href="https://docs.docker.com/engine/reference/commandline/version/">docker version</a></p>
+<pre class="highlight plaintext"><code>describe docker.version do
+  its('Server.Version') { should cmp &gt;= '1.12'}
+  its('Client.Version') { should cmp &gt;= '1.12'}
+end
+</code></pre>
+<h3>info</h3>
+
+<p><code>info</code> returns the parsed result of <a href="https://docs.docker.com/engine/reference/commandline/info/">docker info</a></p>
+<pre class="highlight plaintext"><code>describe docker.info do
+  its('Configuration.Path') { should eq 'value' }
+end
+</code></pre>
+<h3>object(&lsquo;id&rsquo;)</h3>
+
+<p><code>object</code> returns low-level information about docker objects. It is calling <a href="https://docs.docker.com/engine/reference/commandline/info/">docker inspect</a> under the hood.</p>
+<pre class="highlight plaintext"><code>describe docker.object(id) do
+  its('Configuration.Path') { should eq 'value' }
+end
+</code></pre>
+<h2>Examples</h2>
+
+<p>The following examples show how to use this InSpec audit resource.</p>
+
+<h3>Return all running containers</h3>
+<pre class="highlight plaintext"><code>docker.containers.running?.ids.each do |id|
+  describe docker.object(id) do
+    its('State.Health.Status') { should eq 'healthy' }
+  end
+end
+</code></pre>
+<h3>Verify a Docker Server and Client version</h3>
+<pre class="highlight plaintext"><code>describe docker.version do
+  its('Server.Version') { should cmp &gt;= '1.12'}
+  its('Client.Version') { should cmp &gt;= '1.12'}
+end
+</code></pre>
+<h3>Iterate over all containers to verify host coniguration</h3>
+<pre class="highlight plaintext"><code>docker.containers.ids.each do |id|
+  # call docker inspect for a specific container id
+  describe docker.object(id) do
+    its(%w(HostConfig Privileged)) { should cmp false }
+    its(%w(HostConfig Privileged)) { should_not cmp true }
+  end
+end
+</code></pre>
+<h3>Iterate over all images to verify the container was built without ADD instruction</h3>
+<pre class="highlight plaintext"><code>docker.images.ids.each do |id|
+  describe command("docker history #{id}| grep 'ADD'") do
+    its('stdout') { should eq '' }
+  end
+end
+</code></pre>
+<h3>Verify that health-checks are enabled for a container</h3>
+<pre class="highlight plaintext"><code>describe docker.object('71b5df59442b') do
+  its(%w(Config Healthcheck)) { should_not eq nil }
+end
+</code></pre>
+<h3>Run the DevSec docker baseline  profile</h3>
+
+<p>There are two ways to run the <code>docker-baseline</code> profile to test Docker via the <code>docker</code> resource.</p>
+
+<p>Clone the profile:</p>
+<pre class="highlight plaintext"><code>$ git clone https://github.com/dev-sec/cis-docker-benchmark.git
+</code></pre>
+<p>and then run:</p>
+<pre class="highlight plaintext"><code>$ inspec exec cis-docker-benchmark
+</code></pre>
+<p>Or execute the profile directly via URL:</p>
+<pre class="highlight plaintext"><code>$ inspec exec https://github.com/dev-sec/cis-docker-benchmark
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

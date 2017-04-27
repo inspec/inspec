@@ -1,0 +1,277 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_ruby_usage docs_reference_ruby_usage_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>Using Ruby in InSpec</h1>
+
+<p>The InSpec DSL is a Ruby based DSL for writing audit controls, which
+includes audit resources that you can invoke. Core and custom resources
+are written as regular Ruby classes which inherit from
+<code>Inspec.resource</code>.</p>
+
+<p>Assuming we have a JSON file like this on the node to be tested:</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"keys"</span><span class="p">:[</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"username"</span><span class="p">:</span><span class="s2">"john"</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/opt/keys/johnd.key"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"username"</span><span class="p">:</span><span class="s2">"jane"</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/opt/keys/janed.key"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"username"</span><span class="p">:</span><span class="s2">"sunny "</span><span class="p">,</span><span class="w"> </span><span class="s2">"key"</span><span class="p">:</span><span class="s2">"/opt/keys/sunnym.key"</span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The following example shows how you can use pure Ruby code(variables,
+loops, conditionals, regular expressions, etc) to run a few tests
+against the above JSON file:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'check-interns'</span> <span class="k">do</span>
+  <span class="c1"># use the json inspec resource to get the file</span>
+  <span class="n">json_obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">(</span><span class="s1">'/opt/keys/interns.json'</span><span class="p">)</span>
+  <span class="n">describe</span> <span class="n">json_obj</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'keys'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">eq</span> <span class="kp">nil</span> <span class="p">}</span>
+  <span class="k">end</span>
+  <span class="k">if</span> <span class="n">json_obj</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">]</span>
+    <span class="c1"># loop over the keys array</span>
+    <span class="n">json_obj</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">intern</span><span class="o">|</span>
+      <span class="n">username</span> <span class="o">=</span> <span class="n">intern</span><span class="p">[</span><span class="s1">'username'</span><span class="p">].</span><span class="nf">strip</span>
+      <span class="c1"># check for white spaces chars in usernames</span>
+      <span class="n">describe</span> <span class="n">username</span> <span class="k">do</span>
+        <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">match</span><span class="p">(</span><span class="sr">/\s/</span><span class="p">)</span> <span class="p">}</span>
+      <span class="k">end</span>
+      <span class="c1"># check key file owners and permissions</span>
+      <span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="n">intern</span><span class="p">[</span><span class="s1">'key'</span><span class="p">])</span> <span class="k">do</span>
+        <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_owned_by</span> <span class="n">username</span> <span class="p">}</span>
+        <span class="n">its</span><span class="p">(</span><span class="s1">'mode'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'0600'</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Execution</h2>
+
+<p>It&rsquo;s important to understand that Ruby code used in custom resources and
+controls DSL is executed on the system that runs InSpec. This allows
+InSpec to work without Ruby and rubygems being required on remote
+targets(servers or containers).</p>
+
+<p>For example, using <code>`ls</code>` or <code>system(&#39;ls&#39;)</code> will result in the <code>ls</code>
+command being run locally and not on the target(remote) system. In order
+to process the output of <code>ls</code> executed on the target system, use
+<code>inspec.command(&#39;ls&#39;)</code> or <code>inspec.powershell(&#39;ls&#39;)</code></p>
+
+<p>Similarly, use <code>inspec.file(PATH)</code> to access files or directories from
+remote systems in your tests or custom resources.</p>
+
+<h2>Using rubygems</h2>
+
+<p>Ruby gems are self-contained programs and libraries. If you create a custom
+resource please vendor gems into the library. This ensures that all resources
+are self-contained and complete and don&rsquo;t need any resolution at runtime. We
+vendor resources and requirements through dependency resolution, which is
+independent of programming languages and their resolver mechanisms.</p>
+
+<h2>Interactive Debugging with Pry</h2>
+
+<p>Here&rsquo;s a sample InSpec control that users Ruby variables to instantiate
+an InSpec resource once and use the content in multipLe tests.</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'check-perl'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">0</span><span class="o">.</span><span class="mi">3</span>
+  <span class="n">title</span> <span class="s1">'Check perl compiled options and permissions'</span>
+  <span class="n">perl_out</span> <span class="o">=</span> <span class="n">command</span><span class="p">(</span><span class="s1">'perl -V'</span><span class="p">)</span>
+  <span class="c1">#require 'pry'; binding.pry;</span>
+  <span class="n">describe</span> <span class="n">perl_out</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'exit_status'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="mi">0</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span> <span class="p">(</span><span class="sr">/USE_64_BIT_ALL/</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span> <span class="p">(</span><span class="sr">/useposix=true/</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span> <span class="p">(</span><span class="sr">/-fstack-protector/</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="c1"># extract an array of include directories</span>
+  <span class="n">perl_inc</span> <span class="o">=</span> <span class="n">perl_out</span><span class="p">.</span><span class="nf">stdout</span><span class="p">.</span><span class="nf">partition</span><span class="p">(</span><span class="s1">'@INC:'</span><span class="p">).</span><span class="nf">last</span><span class="p">.</span><span class="nf">strip</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="c1"># ensure include directories are only writable by 'owner'</span>
+  <span class="n">perl_inc</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="o">|</span>
+    <span class="n">describe</span> <span class="n">directory</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="nf">strip</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">be_writable</span><span class="p">.</span><span class="nf">by</span><span class="p">(</span><span class="s1">'group'</span><span class="p">)</span> <span class="p">}</span>
+      <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">be_writable</span><span class="p">.</span><span class="nf">by</span><span class="p">(</span><span class="s1">'other'</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>An <strong>advanced</strong> but very useful Ruby tip. In the previous example, I
+commented out the <code>require &#39;pry&#39;; binding.pry;</code> line. If you remove the
+<code>#</code> prefix and run the control, the execution will stop at that line and
+give you a <code>pry</code> shell. Use that to troubleshoot, print variables, see
+methods available, etc. For the above example:</p>
+<pre class="highlight ruby"><code><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">pry</span><span class="o">&gt;</span> <span class="n">perl_out</span><span class="p">.</span><span class="nf">exit_status</span>
+<span class="o">=&gt;</span> <span class="mi">0</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">pry</span><span class="o">&gt;</span> <span class="n">perl_out</span><span class="p">.</span><span class="nf">stderr</span>
+<span class="o">=&gt;</span> <span class="s2">""</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">pry</span><span class="o">&gt;</span> <span class="n">ls</span> <span class="n">perl_out</span>
+<span class="no">Inspec</span><span class="o">::</span><span class="no">Plugins</span><span class="o">::</span><span class="no">Resource</span><span class="c1">#methods: inspect</span>
+<span class="no">Inspec</span><span class="o">::</span><span class="no">Resources</span><span class="o">::</span><span class="no">Cmd</span><span class="c1">#methods: command  exist?  exit_status  result  stderr  stdout  to_s</span>
+<span class="no">Inspec</span><span class="o">::</span><span class="no">Plugins</span><span class="o">::</span><span class="no">ResourceCommon</span><span class="c1">#methods: resource_skipped  skip_resource</span>
+<span class="no">Inspec</span><span class="o">::</span><span class="no">Resource</span><span class="o">::</span><span class="no">Registry</span><span class="o">::</span><span class="no">Command</span><span class="c1">#methods: inspec</span>
+<span class="n">instance</span> <span class="ss">variables: </span><span class="vi">@__backend_runner__</span>  <span class="vi">@__resource_name__</span>  <span class="vi">@command</span>  <span class="vi">@result</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">pry</span><span class="o">&gt;</span> <span class="n">perl_out</span><span class="p">.</span><span class="nf">stdout</span><span class="p">.</span><span class="nf">partition</span><span class="p">(</span><span class="s1">'@INC:'</span><span class="p">).</span><span class="nf">last</span><span class="p">.</span><span class="nf">strip</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"/Library/Perl/5.18/darwin-thread-multi-2level"</span><span class="p">,</span>
+ <span class="s2">"    /Library/Perl/5.18"</span><span class="p">,</span>
+<span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="no">REDACTED</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">pry</span><span class="o">&gt;</span> <span class="nb">exit</span>    <span class="c1"># or abort</span>
+</code></pre>
+<p>You can use <code>pry</code> inside both the controls DSL and resources. Similarly,
+for dev and test, you can use <code>inspec shell</code> which is based on <code>pry</code>,
+for example:</p>
+<pre class="highlight ruby"><code><span class="err">$</span> <span class="n">inspec</span> <span class="n">shell</span>
+<span class="no">Welcome</span> <span class="n">to</span> <span class="n">the</span> <span class="n">interactive</span> <span class="no">InSpec</span> <span class="no">Shell</span>
+<span class="no">To</span> <span class="n">find</span> <span class="n">out</span> <span class="n">how</span> <span class="n">to</span> <span class="n">use</span> <span class="n">it</span><span class="p">,</span> <span class="ss">type: </span><span class="n">help</span>
+
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">command</span><span class="p">(</span><span class="s1">'ls /home/gordon/git/inspec/docs'</span><span class="p">).</span><span class="nf">stdout</span>
+<span class="o">=&gt;</span> <span class="s2">"ctl_inspec.rst</span><span class="se">\n</span><span class="s2">dsl_inspec.rst</span><span class="se">\n</span><span class="s2">dsl_resource.rst</span><span class="se">\n</span><span class="s2">"</span>
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">command</span><span class="p">(</span><span class="s1">'ls'</span><span class="p">).</span><span class="nf">stdout</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"ctl_inspec.rst"</span><span class="p">,</span> <span class="s2">"dsl_inspec.rst"</span><span class="p">,</span> <span class="s2">"dsl_resource.rst"</span><span class="p">]</span>
+
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">help</span> <span class="n">command</span>
+<span class="no">Name</span><span class="p">:</span> <span class="n">command</span>
+
+<span class="no">Description</span><span class="p">:</span>
+<span class="no">Use</span> <span class="n">the</span> <span class="n">command</span> <span class="no">InSpec</span> <span class="n">audit</span> <span class="n">resource</span> <span class="n">to</span> <span class="nb">test</span> <span class="n">an</span> <span class="n">arbitrary</span> <span class="n">command</span> <span class="n">that</span> <span class="n">is</span> <span class="n">run</span> <span class="n">on</span> <span class="n">the</span> <span class="nb">system</span><span class="o">.</span>
+
+<span class="no">Example</span><span class="p">:</span>
+<span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s1">'ls -al /'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">exist</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span> <span class="sr">/bin/</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'stderr'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">''</span> <span class="p">}</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'exit_status'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="mi">0</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Shelling out in tests</h2>
+
+<p>When writing tests you can not use standard ruby methods to shellout as it tries to execute those commands locally.
+However, the <code>command</code> resource has a <code>.stdout</code> method that will allow you to manipulate the results.
+Using the above example, you could check the writes on several subdirectories.</p>
+
+<h3>Example 1:</h3>
+<pre class="highlight ruby"><code><span class="err">$</span> <span class="n">inspec</span> <span class="n">shell</span>
+<span class="no">Welcome</span> <span class="n">to</span> <span class="n">the</span> <span class="n">interactive</span> <span class="no">InSpec</span> <span class="no">Shell</span>
+<span class="no">To</span> <span class="n">find</span> <span class="n">out</span> <span class="n">how</span> <span class="n">to</span> <span class="n">use</span> <span class="n">it</span><span class="p">,</span> <span class="ss">type: </span><span class="n">help</span>
+
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">output</span><span class="o">=</span><span class="n">command</span><span class="p">(</span><span class="s1">'echo test'</span><span class="p">).</span><span class="nf">stdout</span>
+<span class="o">=&gt;</span> <span class="s2">"test</span><span class="se">\n</span><span class="s2">"</span>
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s1">'echo test'</span><span class="p">)</span> <span class="k">do</span>
+<span class="n">inspec</span><span class="o">&gt;</span>   <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="n">output</span> <span class="p">}</span>
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="k">end</span>
+
+<span class="no">Profile</span><span class="p">:</span> <span class="n">inspec</span><span class="o">-</span><span class="n">shell</span>
+<span class="no">Version</span><span class="p">:</span> <span class="p">(</span><span class="n">not</span> <span class="n">specified</span><span class="p">)</span>
+
+  <span class="no">Command</span> <span class="n">echo</span>
+     <span class="err">✔</span>  <span class="nb">test</span> <span class="n">stdout</span> <span class="n">should</span> <span class="n">eq</span> <span class="s2">"test</span><span class="se">\n</span><span class="s2">"</span>
+
+<span class="no">Test</span> <span class="no">Summary</span><span class="p">:</span> <span class="mi">1</span> <span class="n">successful</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failures</span><span class="p">,</span> <span class="mi">0</span> <span class="n">skipped</span>
+</code></pre>
+<h3>Example 2:</h3>
+<pre class="highlight ruby"><code><span class="err">$</span> <span class="n">inspec</span> <span class="n">shell</span>
+<span class="no">Welcome</span> <span class="n">to</span> <span class="n">the</span> <span class="n">interactive</span> <span class="no">InSpec</span> <span class="no">Shell</span>
+<span class="no">To</span> <span class="n">find</span> <span class="n">out</span> <span class="n">how</span> <span class="n">to</span> <span class="n">use</span> <span class="n">it</span><span class="p">,</span> <span class="ss">type: </span><span class="n">help</span>
+
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">dirs</span> <span class="o">=</span> <span class="n">command</span><span class="p">(</span><span class="s1">'ls -d /home/gordon/git/inspec/docs'</span><span class="p">).</span><span class="nf">stdout</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"/home/gordon/git/inspec/docs"</span><span class="p">]</span>
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="n">dirs</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dir</span><span class="o">|</span>
+<span class="n">inspec</span><span class="o">&gt;</span>   <span class="n">describe</span> <span class="n">directory</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span> <span class="k">do</span>
+<span class="n">inspec</span><span class="o">&gt;</span>     <span class="n">its</span><span class="p">(</span><span class="s1">'mode'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="s1">'0775'</span> <span class="p">}</span>
+<span class="n">inspec</span><span class="o">&gt;</span>   <span class="k">end</span>
+<span class="n">inspec</span><span class="o">&gt;</span> <span class="k">end</span>
+
+<span class="no">Profile</span><span class="p">:</span> <span class="n">inspec</span><span class="o">-</span><span class="n">shell</span>
+<span class="no">Version</span><span class="p">:</span> <span class="p">(</span><span class="n">not</span> <span class="n">specified</span><span class="p">)</span>
+
+  <span class="no">File</span> <span class="sr">/home/</span><span class="n">gordon</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">inspec</span><span class="o">/</span><span class="n">docs</span><span class="o">/</span>
+     <span class="err">✔</span>  <span class="n">mode</span> <span class="n">should</span> <span class="n">cmp</span> <span class="o">==</span> <span class="s2">"0775"</span>
+
+<span class="no">Test</span> <span class="no">Summary</span><span class="p">:</span> <span class="mi">1</span> <span class="n">successful</span><span class="p">,</span> <span class="mi">0</span> <span class="n">failures</span><span class="p">,</span> <span class="mi">0</span> <span class="n">skipped</span>
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

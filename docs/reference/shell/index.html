@@ -1,0 +1,212 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec Shell</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_shell docs_reference_shell_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>InSpec Shell</h1>
+
+<p>The InSpec interactive shell is a pry based REPL that can be used to
+quickly run InSpec controls and tests without having to write it to a
+file. Its functionality is similar to <code>chef shell</code> - it provides a way
+to exercise the InSpec DSL, its resources, tests and plugins without
+having to create a profile or write a test file. See
+<a href="http://pryrepl.org/">http://pryrepl.org/</a> for an introduction to what pry is and what it can
+do.</p>
+
+<h2>Launching the shell</h2>
+
+<p>If you are using InSpec from a platform-specific package (rpm, msi,
+etc.) or from a chef prepared shell in ChefDK, you can directly launch
+InSpec shell against your local machine using the following. See
+<a href="https://docs.chef.io/install_dk.html#set-system-ruby">https://docs.chef.io/install_dk.html#set-system-ruby</a> for details.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell
+<span class="gp">$ </span>inspec <span class="nb">help </span>shell <span class="c"># This will describe inspec shell usage</span>
+</code></pre>
+<p>If you wish to connect to a remote machine (called a target within
+InSpec), you can use the <code>-t</code> flag. We support connecting using ssh,
+WinRm and docker. If no target is provided, we implicitly support the
+&ldquo;local&rdquo; target - i.e. tests running on the current machine running
+InSpec. For an ssh connection, use <code>-i</code> for specifying ssh key files,
+and the <code>--sudo*</code> commands for requesting a privelege escalation after
+logging in. For a WinRM connection, use <code>--path</code> to change the login
+path, <code>--ssl</code> to use SSL for transport layer encryption.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell -t ssh://root@192.168.64.2:11022  <span class="c"># Login to remote machine using ssh as root.</span>
+<span class="gp">$ </span>inspec shell -t ssh://user@hostname:1234 -i /path/to/user_key  <span class="c"># Login to hostname on port 1234 as user using given ssh key.</span>
+<span class="gp">$ </span>inspec shell -t winrm://UserName:Password@windowsmachine:1234  <span class="c"># Login to windowsmachine over WinRM as UserName.</span>
+<span class="gp">$ </span>inspec shell -t docker://container_id <span class="c"># Login to a docker container.</span>
+</code></pre>
+<h2>Using Ruby in InSpec shell</h2>
+
+<p>Since InSpec shell is pry based, you may treat the shell as an
+interactive Ruby session. You may write Ruby expressions and evaluate
+them. Source high-lighting, automatic indentation and command history
+(using the up and down arrow keys) are available to make your experience
+more delightful. You can exit the shell using <code>exit</code>.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, <span class="nb">type</span>: <span class="nb">help
+
+</span><span class="gp">inspec&gt; </span>1 + 2
+<span class="gp">=&gt; </span>3
+<span class="gp">inspec&gt; </span><span class="nb">exit</span>
+</code></pre>
+<h2>Using InSpec DSL in InSpec shell</h2>
+
+<p>InSpec shell will automatically evaluate the result of every command as
+if it were a test file. If you type in a Ruby command that is not an
+InSpec control or test, the shell will evaluate it as if it were a
+regular ruby command.</p>
+
+<p>Bare InSpec resources are instantiated and their help text is presented.
+You may also access the resource contents or other matchers that they
+define. Run <code>help &lt;resource&gt;</code> to get more help on using a particular
+resource or see the InSpec resources documentation online.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, <span class="nb">type</span>: <span class="nb">help
+
+</span><span class="gp">inspec&gt; </span>file<span class="o">(</span><span class="s1">'/Users/ksubramanian'</span><span class="o">)</span>.directory?
+<span class="gp">=&gt; </span><span class="nb">true
+</span><span class="gp">inspec&gt; </span>os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span>
+<span class="gp">=&gt; </span>Environment variable HOME
+<span class="gp">inspec&gt; </span>os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span>.content
+<span class="gp">=&gt; </span>/Users/ksubramanian
+<span class="gp">inspec&gt; </span><span class="nb">exit</span>
+</code></pre>
+<p>InSpec tests are immediately executed.</p>
+<pre class="highlight shell"><code><span class="gp">inspec&gt; </span>describe file<span class="o">(</span><span class="s1">'/Users'</span><span class="o">)</span>     <span class="c"># Empty test.</span>
+Summary: 0 successful, 0 failures, 0 skipped
+<span class="gp">inspec&gt; </span>describe file<span class="o">(</span><span class="s1">'/Users'</span><span class="o">)</span> <span class="k">do</span>  <span class="c"># Test with one check.</span>
+<span class="gp">inspec&gt;   </span>it <span class="o">{</span> should exist <span class="o">}</span>
+<span class="gp">inspec&gt; </span>end
+  ✔  File /Users should exist
+
+Summary: 1 successful, 0 failures, 0 skipped
+</code></pre>
+<p>All tests in a control are immediately executed as well. If a control is
+redefined in the shell, the old control&rsquo;s tests are destroyed and
+replaced with the redefinition and the control is re-run.</p>
+<pre class="highlight shell"><code><span class="gp">inspec&gt; </span>control <span class="s1">'my_control'</span> <span class="k">do
+</span><span class="gp">inspec&gt;   </span>describe os_env<span class="o">(</span><span class="s1">'HOME'</span><span class="o">)</span> <span class="k">do
+</span><span class="gp">inspec&gt;     </span>its<span class="o">(</span><span class="s1">'content'</span><span class="o">)</span> <span class="o">{</span> should eq <span class="s1">'/Users/ksubramanian'</span> <span class="o">}</span>
+<span class="gp">inspec&gt;   </span>end
+<span class="gp">inspec&gt; </span>end
+  ✔  my_control: Environment variable HOME content should eq <span class="s2">"/Users/ksubramanian"</span>
+
+  Summary: 1 successful, 0 failures, 0 skipped
+</code></pre>
+<p>Syntax errors are illegal tests are also detected and reported.</p>
+<pre class="highlight shell"><code><span class="gp">inspec&gt; </span>control <span class="s1">'foo'</span> <span class="k">do
+</span><span class="gp">inspec&gt;   </span>thisisnonsense
+<span class="gp">inspec&gt; </span>end
+NameError: undefined <span class="nb">local </span>variable or method <span class="sb">`</span>thisisnonsense<span class="s1">' for #&lt;#&lt;Class:0x007fd63b571f98&gt;:0x007fd639825cc8&gt;
+from /usr/local/lib/ruby/gems/2.3.0/gems/rspec-expectations-3.5.0/lib/rspec/matchers.rb:967:in `method_missing'</span>
+<span class="gp">inspec&gt; </span>control <span class="s1">'foo'</span> <span class="k">do
+</span><span class="gp">inspec&gt;   </span>describe file<span class="o">(</span><span class="s1">'wut'</span><span class="o">)</span> <span class="k">do
+</span><span class="gp">inspec&gt;     </span>its<span class="o">(</span><span class="s1">'thismakesnosense'</span><span class="o">)</span> <span class="o">{</span> should cmp <span class="s1">'fail'</span> <span class="o">}</span>
+<span class="gp">inspec&gt;   </span>end
+<span class="gp">inspec&gt; </span>end
+  ✖  foo: File wut thismakesnosense  <span class="o">(</span>undefined method <span class="sb">`</span>thismakesnosense<span class="s1">' for File wut:Inspec::Resource::Registry::File)
+
+  Summary: 0 successful, 1 failures, 0 skipped
+</span></code></pre>
+<h2>Running a single InSpec command</h2>
+
+<p>If you wish to run a single InSpec command and fetch its results, you
+may use the <code>-c</code> flag. This is similar to using <code>bash -c</code>.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>inspec shell -c <span class="s1">'describe file("/Users/ksubramanian") do it { should exist } end'</span><span class="o">}</span>
+Target:  <span class="nb">local</span>://
+
+  ✔  File /Users/ksubramanian should exist
+
+Summary: 1 successful, 0 failures, 0 skipped
+</code></pre><pre class="highlight shell"><code><span class="gp">$ </span>inspec shell --format json -c <span class="s1">'describe file("/Users/ksubramanian") do it { should exist } end'</span>
+<span class="o">{</span><span class="s2">"version"</span>:<span class="s2">"0.30.0"</span>,<span class="s2">"profiles"</span>:<span class="o">{</span><span class="s2">""</span>:<span class="o">{</span><span class="s2">"supports"</span>:[],<span class="s2">"controls"</span>:<span class="o">{</span><span class="s2">"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"</span>:<span class="o">{</span><span class="s2">"title"</span>:null,<span class="s2">"desc"</span>:null,<span class="s2">"impact"</span>:0.5,<span class="s2">"refs"</span>:[],<span class="s2">"tags"</span>:<span class="o">{}</span>,<span class="s2">"code"</span>:<span class="s2">"          rule = rule_class.new(id, profile_id, {}) do</span><span class="se">\n</span><span class="s2">            res = describe(*args, &amp;block)</span><span class="se">\n</span><span class="s2">          end</span><span class="se">\n</span><span class="s2">"</span>,<span class="s2">"source_location"</span>:<span class="o">{</span><span class="s2">"ref"</span>:<span class="s2">"/Users/ksubramanian/repo/chef/inspec/lib/inspec/profile_context.rb"</span>,<span class="s2">"line"</span>:184<span class="o">}</span>,<span class="s2">"results"</span>:[<span class="o">{</span><span class="s2">"status"</span>:<span class="s2">"passed"</span>,<span class="s2">"code_desc"</span>:<span class="s2">"File /Users/ksubramanian should exist"</span>,<span class="s2">"run_time"</span>:0.000747,<span class="s2">"start_time"</span>:<span class="s2">"2016-08-16 11:41:40 -0400"</span><span class="o">}]}}</span>,<span class="s2">"groups"</span>:<span class="o">{</span><span class="s2">"in_memory.rb"</span>:<span class="o">{</span><span class="s2">"title"</span>:null,<span class="s2">"controls"</span>:[<span class="s2">"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"</span><span class="o">]}}</span>,<span class="s2">"attributes"</span>:[]<span class="o">}}</span>,<span class="s2">"other_checks"</span>:[],<span class="s2">"summary"</span>:<span class="o">{</span><span class="s2">"duration"</span>:0.001078,<span class="s2">"example_count"</span>:1,<span class="s2">"failure_count"</span>:0,<span class="s2">"skip_count"</span>:0<span class="o">}}}</span>
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

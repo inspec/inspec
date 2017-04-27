@@ -1,0 +1,1 @@
+{:name=>"alpine", :family=>"alpine", :release=>"3.4.0", :arch=>"x86_64"}

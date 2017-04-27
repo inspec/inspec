@@ -1,0 +1,1 @@
+[0G[0;32minspec> [0m=> [31m[1;31m"[0m[31mLinux 8ab18f66b597 4.4.22-moby #1 SMP Sun Sep 25 22:54:41 UTC 2016 x86_64 Linux[1;35m\n[0m[31m[1;31m"[0m[31m[0m

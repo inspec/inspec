@@ -1,0 +1,376 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>About InSpec Profiles</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_profiles docs_reference_profiles_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>InSpec Profiles</h1>
+
+<p>InSpec supports the creation of complex test and compliance profiles, which organize controls to support dependency management and code reuse. Each profile is a standalone structure with its own distribution and execution flow.</p>
+
+<h1>Profile Structure</h1>
+
+<p>A profile should have the following structure::</p>
+<pre class="highlight plaintext"><code>examples/profile
+├── README.md
+├── controls
+│   ├── example.rb
+│   └── control_etc.rb
+├── libraries
+│   └── extension.rb
+└── inspec.yml
+</code></pre>
+<p>where:</p>
+
+<ul>
+<li><code>inspec.yml</code> includes the profile description (required)</li>
+<li><code>controls</code> is the directory in which all tests are located (required)</li>
+<li><code>libraries</code> is the directory in which all InSpec resource extensions are located (optional)</li>
+<li><code>README.md</code> should be used to explain the profile, its scope, and usage</li>
+</ul>
+
+<p>See a complete example profile in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile</p>
+
+<h2>inspec.yml</h2>
+
+<p>Each profile must have an <code>inspec.yml</code> file that defines the following information:</p>
+
+<ul>
+<li>Use <code>name</code> to specify a unique name for the profile. Required.</li>
+<li>Use <code>title</code> to specify a human-readable name for the profile.</li>
+<li>Use <code>maintainer</code> to specify the profile maintainer.</li>
+<li>Use <code>copyright</code> to specify the copyright holder.</li>
+<li>Use <code>copyright_email</code> to specify support contact information for the profile, typically an email address.</li>
+<li>Use <code>license</code> to specify the license for the profile.</li>
+<li>Use <code>summary</code> to specify a one line summary for the profile.</li>
+<li>Use <code>description</code> to specify a multiple line description of the profile.</li>
+<li>Use <code>version</code> to specify the profile version.</li>
+<li>Use <code>supports</code> to specify a list of supported platform targets.</li>
+<li>Use <code>depends</code> to define a list of profiles on which this profile depends.</li>
+</ul>
+
+<p><code>name</code> is required; all other profile settings are optional. For example:</p>
+<pre class="highlight plaintext"><code>name: ssh
+title: Basic SSH
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Proprietary, All rights reserved
+summary: Verify that SSH Server and SSH Client are configured securely
+version: 1.0.0
+supports:
+  - os-family: linux
+depends:
+  - name: profile
+    path: ../path/to/profile
+</code></pre>
+<h2>Verify Profiles</h2>
+
+<p>Use the <code>inspec check</code> command to verify the implementation of a profile:</p>
+<pre class="highlight plaintext"><code>$ inspec check examples/profile
+</code></pre>
+<h1>Platform Support</h1>
+
+<p>Use the <code>supports</code> setting in the <code>inspec.yml</code> file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain simple names, names and versions, or detailed flags, and may be combined arbitrarily. For example, to target anything running Debian Linux:</p>
+<pre class="highlight plaintext"><code>name: ssh
+supports:
+  - os-name: debian
+</code></pre>
+<p>and to target only Ubuntu version 14.04</p>
+<pre class="highlight plaintext"><code>name: ssh
+supports:
+  - os-name: ubuntu
+    release: 14.04
+</code></pre>
+<p>and to target the entire RedHat platform (including CentOS and Oracle Linux):</p>
+<pre class="highlight plaintext"><code>name: ssh
+supports:
+  - os-family: redhat
+</code></pre>
+<p>and to target anything running on Amazon AWS:</p>
+<pre class="highlight plaintext"><code>name: ssh
+supports:
+  - platform: aws
+</code></pre>
+<p>and to target all of these examples in a single <code>inspec.yml</code> file:</p>
+<pre class="highlight plaintext"><code>name: ssh
+supports:
+  - os-name: debian
+supports:
+  - os-name: ubuntu
+    release: 14.04
+supports:
+  - os-family: redhat
+supports:
+  - platform: aws
+</code></pre>
+<h1>Profile Dependencies</h1>
+
+<p>A profile dependency is needed when:</p>
+
+<ul>
+<li>using <code>include_controls</code> or <code>require_controls</code> in order to load controls defined in another profile</li>
+<li>using a custom InSpec resource defined in another profile</li>
+</ul>
+
+<p>Use the <code>depends</code> setting in the <code>inspec.yml</code> file to specify one (or more) profiles on which this profile depends. A profile dependency may be sourced from a path, URL, a git repo, a cookbook located on Chef Supermarket or on GitHub, or a profile located on the Chef Compliance server.</p>
+
+<h2>Path</h2>
+
+<p>The <code>path</code> setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles. This setting does not support version constraints. If the location of the profile does not exist, an error is returned.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+- name: my-profile
+  path: /absolute/path
+- name: another
+  path: ../relative/path
+</code></pre>
+<h2>URL</h2>
+
+<p>The <code>url</code> setting specifies a profile that is located at an HTTP- or HTTPS-based URL. The profile must be accessible via a HTTP GET operation and must be a valid profile archive (zip, tar, tar.gz format). If the download fails, the profile is inaccessible, or not in the correct format, an error is returned.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+- name: my-profile
+  url: https://my.domain/path/to/profile.tgz
+</code></pre>
+<h2>git</h2>
+
+<p>A <code>git</code> setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+- name: git-profile
+  git: http://url/to/repo
+  branch:  desired_branch
+  tag:     desired_version
+  commit:  pinned_commit
+  version: semver_via_tags
+</code></pre>
+<h2>Chef Supermarket</h2>
+
+<p>A <code>supermarket</code> setting specifies a profile that is located in a cookbook hosted on Chef Supermarket, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+- name: supermarket-profile
+  git: username/profile
+  branch:  desired_branch
+  tag:     desired_version
+  commit:  pinned_commit
+  version: semver_via_tags
+</code></pre>
+<h2>GitHub</h2>
+
+<p>A <code>github</code> setting specifies a profile that is located in a repository hosted on GitHub, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+- name: gh-profile
+  git: username/project
+  branch:  desired_branch
+  tag:     desired_version
+  commit:  pinned_commit
+  version: semver_via_tags
+</code></pre>
+<h2>Chef Compliance</h2>
+
+<p>A <code>compliance</code> setting specifies a profile that is located on the Chef Compliance server.</p>
+
+<p>For example:</p>
+<pre class="highlight plaintext"><code>depends:
+  - name: linux
+    compliance: base/linux
+</code></pre>
+<p>You need to <code>inspec vendor</code> the profile before uploading it to Chef Compliance version 1.7.7 or newer. The vendor subcommand fetches all dependent profiles and stores them in the <code>vendor</code> directory.</p>
+
+<h2>Define in inspec.yml</h2>
+
+<p>Use the <code>depends</code> setting in the <code>inspec.yml</code> file to define any combination of profile dependencies. For example:</p>
+<pre class="highlight plaintext"><code>depends:
+  - name: ssh-hardening
+    supermarket: hardening/ssh-hardening
+    version: '= 2.0.0'
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
+  - name: ssl-benchmark
+    git: https://github.com/dev-sec/ssl-benchmark.git
+    version: '&lt; 2.0'
+  - name: windows-patch-benchmark
+    git: https://github.com/chris-rock/windows-patch-benchmark.git
+    version: '~&gt; 0.6'
+  - name: linux
+    compliance: base/linux
+</code></pre>
+<h2>Vendoring Dependencies</h2>
+
+<p>When you execute a local profile, the <code>inspec.yml</code> file will be read in order to source any profile dependencies. It will then cache the dependencies locally and generate an <code>inspec.lock</code> file. If you add or update dependencies in <code>inspec.yml</code>, please refresh the lock file by either:</p>
+
+<ul>
+<li>running <code>inspec vendor</code> inside the profile directory; or</li>
+<li>deleting <code>inspec.lock</code> before running <code>inspec exec</code></li>
+</ul>
+
+<h1>Profile Inheritance</h1>
+
+<p>When a profile is run, it may include controls that are defined in other profiles. Controls may also be required.</p>
+
+<p>This requires an <code>inspec.yml</code> dependency to the profile you inherit from.</p>
+
+<h2>include_controls</h2>
+
+<p>The <code>include_controls</code> keyword may be used in a profile to import all rules from the named profile.</p>
+
+<p>For example, to include controls from the <code>cis-level-1</code> profile when running the <code>cis-fs-2.7</code> profile:</p>
+<pre class="highlight plaintext"><code>include_controls 'cis-level-1' do
+
+  control "cis-fs-2.7" do
+    impact 1.0
+  ...
+
+end
+</code></pre>
+<p>To include controls from the <code>cis-level-1</code> profile, but skipping two controls within that profile:</p>
+<pre class="highlight plaintext"><code>include_controls 'cis-level-1' do
+
+  skip_control "cis-fs-2.1"
+  skip_control "cis-fs-2.2"
+
+end
+</code></pre>
+<h2>require_controls</h2>
+
+<p>The <code>require_controls</code> keyword may be used to load only specific controls from the named profile.</p>
+
+<p>For example, to require that controls <code>cis-fs-2.1</code> and <code>cis-fs-2.2</code> be loaded from the <code>cis-level-1</code> profile:</p>
+<pre class="highlight plaintext"><code>require_controls 'cis-level-1' do
+
+  control "cis-fs-2.1"
+  control "cis-fs-2.2"
+
+end
+</code></pre>
+<h2>require_resource</h2>
+
+<p>By default, all of the resources from a listed dependency are available
+for use in your profile. If two of your dependencies provide a resource with
+the same name, you can use the <code>require_resource</code> DSL function to
+disambiguate the two:</p>
+<pre class="highlight plaintext"><code>require_resource(profile: 'my_dep', resource: 'my_res',
+                 as: 'my_res2')
+</code></pre>
+<p>This will allow you to reference the resource <code>my_res</code> from the
+profile <code>my_dep</code> using the name <code>my_res2</code>.</p>
+
+<h1>Profile Attributes</h1>
+
+<p>Attributes may be used in profiles to define secrets, such as user names and passwords, that should not otherwise be stored in plain-text in a cookbook. First specify a variable in the control for each secret, then add the secret to a Yaml file located on the local machine, and then run <code>inspec exec</code> and specify the path to that Yaml file using the <code>--attrs</code> attribute.</p>
+
+<p>For example, a control:</p>
+<pre class="highlight plaintext"><code>val_user = attribute('user', default: 'alice', description: 'An identification for the user')
+val_password = attribute('password', description: 'A value for the password')
+
+describe val_user do
+  it { should eq 'bob' }
+end
+
+describe val_password do
+  it { should eq 'secret' }
+end
+</code></pre>
+<p>And a Yaml file named <code>profile-attribute.yml</code>:</p>
+<pre class="highlight plaintext"><code>user: bob
+password: secret
+</code></pre>
+<p>The following command runs the tests and applies the secrets specified in <code>profile-attribute.yml</code>:</p>
+<pre class="highlight plaintext"><code>$ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
+</code></pre>
+<p>See the full example in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile-attribute</p>
+</column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

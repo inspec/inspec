@@ -1,0 +1,19 @@
+[0G
+Available commands:
+
+    `[resource]` - run resource on target machine
+    `help resources` - show all available resources that can be used as commands
+    `help [resource]` - information about a specific resource
+    `exit` - exit the InSpec shell
+
+You can use resources in this environment to test the target machine. For example:
+
+    command('uname -a').stdout
+    file('/proc/cpuinfo').content => "value",
+
+You are currently running on:
+
+    OS platform:  [1malpine[0m
+    OS family:  [1malpine[0m
+    OS release: [1m3.4.0[0m
+

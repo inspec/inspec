@@ -1,0 +1,304 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec DSL</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_dsl_inspec docs_reference_dsl_inspec_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>InSpec DSL</h1>
+
+<p>InSpec is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |inspec resource| framework is compatible with |chef compliance|.</p>
+
+<p>The InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.</p>
+
+<p>The following sections describe the syntax and show some simple examples of using the InSpec resources.</p>
+
+<h2>Syntax</h2>
+
+<p>The following resource tests |ssh| server configuration. For example, a simple control may described as:</p>
+<pre class="highlight ruby"><code><span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+  <span class="n">its</span><span class="p">(</span><span class="s1">'Port'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s1">'22'</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre>
+<p>In various use cases like implementing IT compliance across different departments, it becomes handy to extend the control with metadata. Each control may define an additional <code>impact</code>, <code>title</code> or <code>desc</code>. An example looks like:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'sshd-8'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">0</span><span class="o">.</span><span class="mi">6</span>
+  <span class="n">title</span> <span class="s1">'Server: Configure the service port'</span>
+  <span class="n">desc</span> <span class="s1">'
+   Always specify which port the SSH server should listen to.
+   Prevent unexpected settings.
+  '</span>
+  <span class="n">tag</span> <span class="s1">'ssh'</span><span class="p">,</span><span class="s1">'sshd'</span><span class="p">,</span><span class="s1">'openssh-server'</span>
+  <span class="n">tag</span> <span class="ss">cce: </span><span class="s1">'CCE-27072-8'</span>
+  <span class="n">ref</span> <span class="s1">'NSA-RH6-STIG - Section 3.5.2.1'</span><span class="p">,</span> <span class="ss">url: </span><span class="s1">'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'</span>
+
+  <span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+   <span class="n">its</span><span class="p">(</span><span class="s1">'Port'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s1">'22'</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>where</p>
+
+<ul>
+<li><code>&#39;sshd-8&#39;</code> is the name of the control</li>
+<li><code>impact</code>, <code>title</code>, and <code>desc</code> define metadata that fully describes the importance of the control, its purpose, with a succinct and complete description</li>
+<li><code>impact</code> is an float that measures the importance of the compliance results and must be a value between <code>0.0</code> and <code>1.0</code>. The value ranges are:
+
+<ul>
+<li><code>0.0 to &lt;0.4</code> these are controls with minor criticality</li>
+<li><code>0.4 to &lt;0.7</code> these are controls with major criticality</li>
+<li><code>0.7 to 1.0</code> these are critical controls</li>
+</ul></li>
+<li><code>tag</code> is optional meta-information with with key or key-value pairs</li>
+<li><code>ref</code> is a reference to an external document</li>
+<li><code>describe</code> is a block that contains at least one test. A <code>control</code> block must contain at least one <code>describe</code> block, but may contain as many as required</li>
+<li><code>sshd_config</code> is an InSpec resource. For the full list of InSpec resources, see InSpec resource documentation</li>
+<li><code>its(&#39;Port&#39;)</code> is the matcher; <code>{ should eq(&#39;22&#39;) }</code> is the test. A <code>describe</code> block must contain at least one matcher, but may contain as many as required</li>
+</ul>
+
+<h2>Advanced concepts</h2>
+
+<p>With inspec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via <code>describe.one</code>. It defines a block of tests with at least one valid check.</p>
+<pre class="highlight ruby"><code><span class="n">describe</span><span class="p">.</span><span class="nf">one</span> <span class="k">do</span>
+  <span class="n">describe</span> <span class="no">ConfigurationA</span> <span class="k">do</span>
+   <span class="n">its</span><span class="p">(</span><span class="s1">'setting_1'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="kp">true</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="no">ConfigurationB</span> <span class="k">do</span>
+   <span class="n">its</span><span class="p">(</span><span class="s1">'setting_2'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="kp">true</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Examples</h2>
+
+<p>The following examples show simple compliance tests using a single <code>control</code> block.</p>
+
+<h2>Test System Event Log</h2>
+
+<p>The following test shows how to audit machines running Windows 2012 R2 that password complexity is enabled:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'windows-account-102'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'Windows Password Complexity is Enabled'</span>
+  <span class="n">desc</span> <span class="s1">'Password must meet complexity requirement'</span>
+  <span class="n">describe</span> <span class="n">security_policy</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'PasswordComplexity'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="mi">1</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Are PosgtreSQL passwords empty?</h2>
+
+<p>The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'postgres-7'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'Don'</span><span class="n">t</span> <span class="n">allow</span> <span class="n">empty</span> <span class="n">passwords</span><span class="s1">'
+  describe postgres_session('</span><span class="n">user</span><span class="s1">', '</span><span class="n">pass</span><span class="s1">').query("SELECT * FROM pg_shadow WHERE passwd IS NULL;") do
+   its('</span><span class="n">output</span><span class="s1">') { should eq('</span><span class="err">'</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Are MySQL passwords in ENV?</h2>
+
+<p>The following test shows how to audit machines running MySQL to ensure that passwords are not stored in <code>ENV</code>:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'mysql-3'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'Do not store your MySQL password in your ENV'</span>
+  <span class="n">desc</span> <span class="s1">'
+   Storing credentials in your ENV may easily expose
+   them to an attacker. Prevent this at all costs.
+  '</span>
+  <span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s1">'env'</span><span class="p">)</span> <span class="k">do</span>
+   <span class="n">its</span><span class="p">(</span><span class="s1">'stdout'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">match</span><span class="p">(</span><span class="sr">/^MYSQL_PWD=/</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Is <code>/etc/ssh</code> a Directory?</h2>
+
+<p>The following test shows how to audit machines to ensure that <code>/etc/ssh</code> is a directory:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'basic-1'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'/etc/ssh should be a directory'</span>
+  <span class="n">desc</span> <span class="s1">'
+   In order for OpenSSH to function correctly, its
+   configuration path must be a folder.
+  '</span>
+  <span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">'/etc/ssh'</span><span class="p">)</span> <span class="k">do</span>
+   <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_directory</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Is Apache running?</h2>
+
+<p>The following test shows how to audit machines to ensure that Apache is enabled and running:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'apache-1'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">0</span><span class="o">.</span><span class="mi">3</span>
+  <span class="n">title</span> <span class="s1">'Apache2 should be configured and running'</span>
+  <span class="n">describe</span> <span class="n">service</span><span class="p">(</span><span class="n">apache</span><span class="p">.</span><span class="nf">service</span><span class="p">)</span> <span class="k">do</span>
+   <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_enabled</span> <span class="p">}</span>
+   <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_running</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Are insecure packages installed ?</h2>
+
+<p>The following test shows how to audit machines for insecure packages:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'cis-os-services-5.1.3'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">0</span><span class="o">.</span><span class="mi">7</span>
+  <span class="n">title</span> <span class="s1">'5.1.3 Ensure rsh client is not installed'</span>
+
+  <span class="n">describe</span> <span class="n">package</span><span class="p">(</span><span class="s1">'rsh'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">be_installed</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="n">package</span><span class="p">(</span><span class="s1">'rsh-redone-client'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">be_installed</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Test Windows Registry Keys</h2>
+
+<p>The following test shows how to audit machines to ensure Safe DLL Search Mode is enabled:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'windows-base-101'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'Safe DLL Search Mode is Enabled'</span>
+  <span class="n">desc</span> <span class="s1">'
+    @link: https://msdn.microsoft.com/en-us/library/ms682586(v=vs.85).aspx
+  '</span>
+  <span class="n">describe</span> <span class="n">registry_key</span><span class="p">(</span><span class="s1">'HKLM\\System\\CurrentControlSet\\Control\\Session Manager'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">exist</span> <span class="p">}</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">have_property_value</span><span class="p">(</span><span class="s1">'SafeDllSearchMode'</span><span class="p">,</span> <span class="ss">:type_dword</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Exclude specific test</h2>
+
+<p>This shows how to allow skipping certain tests if conditions are not met, by using <code>only_if</code>.
+In this example the test will not be performed if <code>redis-cli</code> command does not exist, because for example package on remote host was not installed.</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'nutcracker-connect-redis-001'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s1">'Check if nutcracker can pass commands to redis'</span>
+  <span class="n">desc</span> <span class="s1">'execute redis-cli set key command, to check connectivity of the service'</span>
+
+  <span class="n">only_if</span> <span class="k">do</span>
+    <span class="n">command</span><span class="p">(</span><span class="s1">'redis-cli'</span><span class="p">).</span><span class="nf">exist?</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s1">'redis-cli SET test_inspec "HELLO"'</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="ss">:stdout</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">match</span><span class="p">(</span><span class="sr">/OK/</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p>Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using inspec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.</p>
+
+<h2>Additional metadata for controls</h2>
+
+<p>The following example illustrates various ways to add tags and references to <code>control</code></p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s1">'ssh-1'</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+
+  <span class="n">title</span> <span class="s1">'Allow only SSH Protocol 2'</span>
+  <span class="n">desc</span> <span class="s1">'Only SSH protocol version 2 connections should be permitted.
+        The default setting in /etc/ssh/sshd_config is correct, and can be
+        verified by ensuring that the following line appears: Protocol 2'</span>
+
+  <span class="n">tag</span> <span class="s1">'production'</span><span class="p">,</span><span class="s1">'development'</span>
+  <span class="n">tag</span> <span class="s1">'ssh'</span><span class="p">,</span><span class="s1">'sshd'</span><span class="p">,</span><span class="s1">'openssh-server'</span>
+
+  <span class="n">tag</span> <span class="ss">cce: </span><span class="s1">'CCE-27072-8'</span>
+  <span class="n">tag</span> <span class="ss">disa: </span><span class="s1">'RHEL-06-000227'</span>
+
+  <span class="n">tag</span> <span class="ss">remediation: </span><span class="s1">'stig_rhel6/recipes/sshd-config.rb'</span>
+  <span class="n">tag</span> <span class="ss">remediation: </span><span class="s1">'https://supermarket.chef.io/cookbooks/ssh-hardening'</span>
+
+  <span class="n">ref</span> <span class="s1">'NSA-RH6-STIG - Section 3.5.2.1'</span><span class="p">,</span> <span class="ss">url: </span><span class="s1">'https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf'</span>
+  <span class="n">ref</span> <span class="s1">'http://people.redhat.com/swells/scap-security-guide/RHEL/6/output/ssg-centos6-guide-C2S.html'</span>
+
+  <span class="n">describe</span> <span class="n">ssh_config</span> <span class="k">do</span>
+    <span class="n">its</span> <span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">'2'</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

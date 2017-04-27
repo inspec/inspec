@@ -1,0 +1,7 @@
+
+== Operating System Details
+
+Name:      [0;36malpine[0m
+Family:    [0;36malpine[0m
+Release:   [0;36m3.4.0[0m
+Arch:      [0;36mx86_64[0m

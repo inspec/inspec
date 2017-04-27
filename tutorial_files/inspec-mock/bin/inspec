@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+# This mocks all InSpec backends. To use it, run
+# `bundle install`
+# `bundle exec ruby bin/inspec`
+# `bundle exec ruby bin/inspec exec path/to/profile -t docker://123456`
+# `bundle exec ruby bin/inspec exec path/to/profile -t winrm://user:password@host:22`
+# `bundle exec ruby bin/inspec exec path/to/profile -t ssh://user@host:22 -i testkey`\
+
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
+# load InSpec
+require 'inspec'
+require 'inspec/cli'
+
+# Load Train and monkey-patch the backends
+require 'train'
+require 'train/transports/local'
+
+module Train::Transports
+  class SSH < Local
+    name 'ssh'
+
+    def connection(_ = nil)
+      @connection ||= MockConnection.new(@options)
+    end
+
+    class MockConnection < Connection
+      def uri
+        "ssh://#{@options[:user]}@#{@options[:host]}:#{@options[:port]}"
+      end
+    end
+  end
+
+  class WinRM < Local
+    name 'winrm'
+
+    def connection(_ = nil)
+      @connection ||= MockConnection.new(@options)
+    end
+
+    class MockConnection < Connection
+      def uri
+        "winrm://#{@options[:user]}@#{@options[:host]}:#{@options[:port]}"
+      end
+    end
+  end
+
+  class Docker < Local
+    name 'docker'
+
+    def connection(_ = nil)
+      @connection ||= MockConnection.new(@options)
+    end
+
+    class MockConnection < Connection
+      def uri
+        "docker://#{@options[:host]}"
+      end
+    end
+  end
+end
+
+# Call InSpec CLI
+Inspec::InspecCLI.start(ARGV)

@@ -1,0 +1,192 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec and friends</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="docs docs_reference docs_reference_inspec_and_friends docs_reference_inspec_and_friends_index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="child-h blue-gradient margin-top-offset"><div id="particles-second"><canvas class="particles-js-canvas-el" /></div><div class="purp-shade"><div class="row relative-top searchbar"><div class="column columns"><form action="/docs/search/" class="main-sidebar--search" method="get"><input name="q" placeholder="Search Documentation" type="text" /><button action="/docs/search/" class="search shadow" method="get"><img src="/images/community/search.svg" /></button></form></div></div></div></header><div class="row margin-both"><column class="columns large-3 medium-3" id="sidebar"><ul class="main-sidebar--links"><li class="main-sidebar--link"><small>Getting Started</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs">Overview</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="https://downloads.chef.io/inspec">Get InSpec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/tutorials">Tutorials</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/inspec_and_friends">InSpec and friends</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li><li class="main-sidebar--link"><small>Reference</small><ul class="main-sidebar--list no-bullet"><li class="main-sidebar--list--item--a"><a href="/docs/reference/cli">inspec executable</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/profiles">Profiles</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/resources">Resources</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/matchers">Matchers</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_inspec">InSpec DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/dsl_resource">Resource DSL</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/plugin_kitchen_inspec.html">kitchen-inspec</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/shell">inspec shell</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/habitat">Habitat Integration</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/ruby_usage">Ruby usage</a><i class="focus strict-right">&GreaterGreater; </i></li><li class="main-sidebar--list--item--a"><a href="/docs/reference/migration">Migration from Serverspec</a><i class="focus strict-right">&GreaterGreater; </i></li></ul></li></ul></column><column class="columns large-9 medium-9"><h1>InSpec and friends</h1>
+
+<p>This page looks at projects that are similar to InSpec to explain how they
+relate to each other.</p>
+
+<h2>RSpec</h2>
+
+<p>RSpec is an awesome framework that is widely used to test Ruby code. It
+enables test-driven development (TDD) and helps developers to write
+better code every day.</p>
+
+<p>InSpec is built on top of RSpec and uses it as the underlying foundation
+to execute tests. It uses the key strengths of RSpec, easily execute
+tests and a DSL to write tests, but extends the functionality for use as
+compliance audits. InSpec ships with custom audit resources that make it
+easy to write audit checks and with the ability to run those checks on
+remote servers. These audit resources provided know the differences
+between operating systems and help you abstract from the local operating
+system, similar to other resources you might use in your Chef recipes.</p>
+
+<p>A complete InSpec rule looks like:</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s2">"sshd-11"</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s2">"Server: Set protocol version to SSHv2"</span>
+  <span class="n">desc</span> <span class="s2">"Set the SSH protocol version to 2. Don't use legacy
+        insecure SSHv1 connections anymore."</span>
+  <span class="n">tag</span> <span class="ss">security: </span><span class="s2">"level-1"</span>
+  <span class="n">tag</span> <span class="s2">"openssh-server"</span>
+  <span class="n">ref</span> <span class="s2">"Server Security Guide v.1.0"</span><span class="p">,</span> <span class="ss">url: </span><span class="s2">"http://..."</span>
+
+  <span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s1">'2'</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<h2>Serverspec</h2>
+
+<p>Serverspec is the first extension of RSpec that enabled
+users to run RSpec tests on servers to verify deployed artifacts. It was
+created in March 2013 by Gosuke Miyashita and has been widely adopted.
+It is also one of the core test frameworks within test-kitchen and has
+been widely used within the Chef ecosystem. InSpec takes lessons learned
+implementing and using Serverspec and builds on them to make auditing
+and compliance easier.</p>
+
+<p>Lessons learned from Serverspec include:</p>
+
+<ul>
+<li>IT, compliance, and security professional require metadata beyond what Serverspec offers, such as criticality, to fully describe controls.</li>
+<li>Setting up and running the same tests across multiple machines must be easy.</li>
+<li>It must be easy to locate, debug, and extend operating system-dependent code.</li>
+<li>It must be easy to extend the language and create custom resources.</li>
+<li>It must run multiple tests simultaneously.</li>
+<li>Support for Windows is a first-class requirement.</li>
+<li>A command line interface (CLI) is required for faster iteration of test code.</li>
+</ul>
+
+<p>You can also watch this <a href="http://foodfightshow.org/2016/02/inspec.html">podcast</a> to find out more on the relationship of InSpec and Serverspec.</p>
+
+<h3>How is InSpec different from Serverspec</h3>
+
+<p>One of the key differences is that InSpec targets more user groups. It
+is optimized for DevOps, Security, and Compliance professionals.
+Additional metadata, such as impact, title, and description, make it
+easier to fully describe the controls which makes it easier to share the
+controls with other departments. This enables Security departments to
+prioritize rules. DevOps teams use this information to focus on the most
+critical issues to remediate.</p>
+<pre class="highlight ruby"><code><span class="n">control</span> <span class="s2">"sshd-11"</span> <span class="k">do</span>
+  <span class="n">impact</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">title</span> <span class="s2">"Server: Set protocol version to SSHv2"</span>
+  <span class="n">desc</span> <span class="s2">"Set the SSH protocol version to 2. Don't use legacy
+        insecure SSHv1 connections anymore."</span>
+  <span class="n">tag</span> <span class="ss">security: </span><span class="s2">"level-1"</span>
+  <span class="n">tag</span> <span class="s2">"openssh-server"</span>
+  <span class="n">ref</span> <span class="s2">"Server Security Guide v.1.0"</span> <span class="ss">url: </span><span class="s2">"http://..."</span>
+
+  <span class="n">describe</span> <span class="n">sshd_config</span> <span class="k">do</span>
+    <span class="n">its</span><span class="p">(</span><span class="s1">'Protocol'</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">cmp</span> <span class="mi">2</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+<p><strong>Why not fork Serverspec?</strong></p>
+
+<p>InSpec started as an extension of Serverspec. As the extension grew, it
+became clear that a new library was required. Creating and maintaining a
+fork was not practical so a new project was born.</p>
+
+<p><strong>Will InSpec only work on machines managed by Chef?</strong></p>
+
+<p>No, InSpec can be used on any machine. It doesn’t matter if that machine
+was configured by Chef or configured lovingly by the hands of your local
+System Administrator.</p>
+
+<p><strong>Is InSpec a replacement of Serverspec?</strong></p>
+
+<p>InSpec is intended to be a drop-in replacement of Serverspec. Popular
+Serverspec resources have been ported to InSpec. It changed some
+behaviour as documented in our migration guide.</p>
+</column></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

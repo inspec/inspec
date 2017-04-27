@@ -1,0 +1,93 @@
+<!DOCTYPE html><html><head><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><meta charset="utf-8" /><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" /><link href="/favicon.png" rel="icon" type="image/png" /><link href="/favicon.ico" rel="icon" /><title>InSpec - Audit and Test Framework</title><link href="css/inspec_tutorial.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/site.css" rel="stylesheet" /></head><body class="index"><div class="blue-gradient" id="global-message"><div class="container"><div class="row"><div class="columns small-8 medium-8 medium-push-2 medium-text-center"><a href="https://chefconf.chef.io/2017/" target="_blank"><strong>Join us in May at ChefConf to learn more about compliance automation!</strong></a></div><div class="columns small-4 medium-2 text-right"><span class="dismiss-button"><i class="fa fa-times-circle-o"></i>Dismiss</span></div></div></div></div><script>gm_session_id = 'inspecGlobalMessage8';</script><div class="container"><nav id="main-nav"><progress value="0"></progress><div id="main-nav-ctas"><a class="main-nav--logo" href="/"><img onerror="this.src='/images/inspec-by-chef-logo.png'" src="/images/inspec-by-chef-logo.svg" /></a><i class="fa fa-bars main-nav--toggle strict-right mobile-show"></i><ul class="main-nav--links"><li class="main-nav--link"><a href="/tutorials" class="" <span class="main-nav--link-text">Tutorials</span></a></li><li class="main-nav--link"><a href="/docs" class="" <span class="main-nav--link-text">Docs</span></a></li><li class="main-nav--link"><a href="/community" class="" <span class="main-nav--link-text">Community</span></a></li><li class="main-nav--link"><a href="https://github.com/chef/inspec"><i class="fa fa-github-alt"></i><span class="main-nav--link-text">Github</span></a></li><li class="main-nav--link nav-cta hide-for-small-only"><a class="btn try-demo" href="/tutorial">Try the Demo</a></li><li class="main-nav--link nav-cta"><a class="btn" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span class="main-nav--link-text">Download</span></a></li></ul></div></nav><main id="main-content"><!--animated banner--><header class="blue-gradient margin-top-offset"><div class="h-top strict-center purp-shade"><h1 class="columns t-white strict-center" data-enllax-ratio=".1" data-enllax-type="foreground"> InSpec is compliance as code</h1><img class="grid-animate strict-center" src="/images/home/web.svg" style="opacity:0.8" /><!--diamond image--><img class="strict-center bright-animate 3d-animate" src="/images/home/diamond.png" /></div><!-- canvas elements--><div id="particles-js"><canvas class="particles-js-canvas-el" /></div><!--style for callout icons--><div class="row"><div class="icon shadow hide-for-small-only"><img src="/images/circ-arrow.svg" /></div></div></header><!--Event Details go here--><div class="code-pop"><div class="strict-center"><p class="t-white">Free Continous Compliance Workshop in NYC - Monday, May 8</p><a href="https://events.chef.io/events/continuous-compliance-workshop/" target="_blank"> Join us!</a></div></div><!--Second Content--><div class="row margin-both"><div class="large-9 medium-9 columns" data-enllax-ratio=".1" data-enllax-type="foreground"><h2 class="txt-margin"> Automated testing, codified</h2><p id="icon-trigger">InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.</p></div></div><!--Third Content--><div class="row strict-center margin-under-xs" id="icon-trigger"><div class="large-12 columns"><hr class="first" /><small>FEATURES OF INSPEC</small><h2 class="txt-margin">InSpec is compliance by design</h2><hr class="first" /></div></div><!--images with text - grid of 4--><div class="row strict-center margin-under"><div class="large-3 medium-3 columns strict-center"><img class="floating icon-art" src="/images/home/platform.svg" /><h3>Platform Agnostic</h3><p>InSpec supports all major operating systems and many applications out of the box.</p></div><div class="large-3 medium-3 columns strict-center"><img class="icon-art" src="/images/home/free.svg" /><h3>Free to run anywhere</h3><p>InSpec is a language that can easily express compliance as code, with the freedom to run anywhere.</p></div><div class="large-3 medium-3 columns strict-center"><img class="icon-art" src="/images/home/test.svg" /><h3>Test locally or remotely</h3><p>InSpec provides a local agent, as well as full remote testing support.</p></div><div class="large-3 medium-3 columns strict-center"><img class="icon-art" src="/images/home/language.svg" /><h3>Extensible language</h3><p>Easily extend the InSpec language to cover new operating systems, devices, or applications.</p></div></div><!--Fourth Content--><!--style for callout icons--><div class="row"><div class="icon shadow"><img src="/images/circ-arrow.svg" /></div></div><div class="block-angl blue-gradient"><div class="section purp-shade"><div class="row relative-top"><div class="large-7 medium-7 columns margin-top-xl margin-under-xs" data-enllax-ratio=".1" data-enllax-type="foreground"><small class="t-dk">Inspec for compliance</small><h2 class="t-white">Transform your compliance and security requirements into simple code</h2></div></div><div id="particles-second"><canvas class="particles-js-canvas-el"></canvas></div><div class="row"><div class="large-5 medium-5 columns margin-under-xs"><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Codify agreements</h3><p class="t-white">Combine profiles and customize them with overlays. Pick controls and define exceptions as code.</p><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Add context to your tests</h3><p class="t-white">Utilize many fields like descriptions, tags, and impact.</p><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Apply to all systems</h3><p class="t-white">Analyze everything using the same codified profiles and controls.</p></div><!--code--><div class="large-6 medium-6 columns"><div class="code-example shadow relative-top margin-under"><code class="code-demo"><span class="code-attribute">control</span> 'sshd-21'<span class="code-attribute"> do</span><br /><span class="code-token indent">  title</span> 'Set SSH Protocol to 2'<br /><span class="code-token indent"> desc</span> 'A detailed description'<br /><span class="code-token indent">  impact</span> 1.0 # This is critical<br /><span class="code-token indent">  ref</span> 'compliance guide, section 2.1'<br /><br /><span class="code-attribute indent">  describe</span> sshd_config <span class="code-attribute">do</span><br /><span class="code-attribute indent">&nbsp;&nbsp;its</span>('Protocol') { should cmp 2 }<br /><span class="code-attribute indent">end</span><br /><span class="code-attribute">end</span></code><a class="btn strict-right t-white try-demo mobile-hide" href="/tutorial">Try the Demo     </a></div></div></div><!--Next row--><div class="row"><div class="large-6 medium-6 columns margin-under-xs" data-enllax-ratio=".1" data-enllax-type="foreground"><small class="t-dk">Inspec for infrastructure</small><h2 class="t-white">Solve your infrastructure testing needs simply and efficiently</h2></div></div><div class="row"><div class="large-5 medium-5 columns margin-under-xs"><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Test the desired state</h3><p class="t-white">Verify your infrastructure matches your expectations.</p><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Use simple and expressive code</h3><p class="t-white">Reduce friction by writing tests that are easy to understand by anyone.</p><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Test any system anywhere</h3><p class="t-white">Run tests locally or remotely on all major operating systems and configurations.</p><h3 class="t-white"><i class="focus t-dk">&GreaterGreater;</i> Extensible</h3><p class="t-white">Create custom resources with ease and share them.</p><!--code--></div><div class="large-6 medium-6 columns"><div class="code-example shadow relative-top margin-under"><code class="code-demo"><span class="code-attribute">describe</span> file('/etc/myapp.conf')<span class="code-attribute"> do</span><br /><span class="code-attribute indent"> it</span> { should exist }<br /><span class="code-attribute indent"> its</span>('mode') { should cmp 0644 }<br /><span class="code-attribute">end</span><br /><br /><span class="code-attribute">describe</span> myapp.conf<span class="code-attribute"> do</span><br /><span class="code-attribute indent"> its</span>('port') { should cmp 8080 }<br /><span class="code-attribute">  end</span><br /><br /><span class="code-attribute"> describe</span> port(8080)<span class="code-attribute"> do</span><br /><span class="code-attribute indent"> it</span> { should be_listening }<br /><span class="code-attribute">  end</span></code><a class="btn strict-right t-white try-demo mobile-hide" href="/tutorial">Try the Demo</a></div></div></div></div></div></main></div><footer class="dark-bg" id="main-footer"><div class="strict-center" id="dlmsg"><img id="hex" src="/images/hexagon.svg" /><h3 class="t-white margin-top-xs txt-margin">See how it works in less than 10 minutes!</h3><div class="row margin-top-xs"><a class="btn t-white try-demo hide-for-small-only" href="/tutorial">Try the Demo</a><a class="btn t-white" href="https://downloads.chef.io/inspec"><i class="fa fa-cloud-download"></i><span>Download</span></a></div></div><div class="columns large-4 medium-4 mobile-hide"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div><div class="columns large-8 medium-8"><ul class="footer--links strict-right"><li><a class="footer--link" href="/legal/licensing">Licensing</a></li><li><a class="footer--link" href="/legal/terms-and-conditions">Terms &amp; Conditions</a></li><li><a class="footer--link" href="/legal/trademark-policy">Trademark Policy</a></li><li><a class="footer--link" href="/legal/privacy-policy">Privacy Policy</a></li></ul><div class="columns margin-both-xs mobile-show"><ul class="footer--logos"><li><a class="footer--logo inspec" href="/"><img src="/images/inspec-by-chef-logo.png" /></a></li><li><a class="footer--logo chef" href="http://www.chef.io"><img src="/images/chef-logo.png" /></a></li></ul></div></div><p class="strict-center clear"><small>&copy; Chef Software 2017</small></p></footer><script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script><script src="scripts/inspec_tutorial.js"></script><script src="dist/inspec_tutorial.js"></script><div class="inspec-tutorial" hidden="true" inspec-tutorial="true">Loading</div><script src="/javascripts/all.js"></script><script>//initiate sticky sidebar from jquery.sticky.js
+
+ if (window.innerWidth > 640) { //don't fix on mobile
+   $('#sidebar').stick_in_parent();
+ }</script><script>//Parallax Text
+
+if (window.innerWidth > 900) { //don't parallax on tablet/mobile
+$(window).enllax(); //initiate parallax on larger screens
+}</script><script>//Code pop-up animation on homepage
+
+$('.code-trigger').click(function() {
+  $(this).toggleClass('turn-angle');
+  $('.code-pop').slideToggle(500);
+});</script><script>//Animate HR on scroll
+
+$(window).scroll(function() {    
+
+var scroll = $(window).scrollTop();
+var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+var objectPosition = objectSelect.offset().top;
+if (scroll > objectPosition) {
+$('hr.first').addClass('stretch')  //add class animate class to HR
+
+} 
+});</script><script>//Animating progress bar for header
+
+$(document).ready(function(){
+
+var getMax = function(){
+    return $(document).height() - $(window).height();
+}
+
+var getValue = function(){
+    return $(window).scrollTop();
+}
+
+if('max' in document.createElement('progress')){
+    // Browser supports progress element
+    var progressBar = $('progress');
+
+    // Set the Max attr for the first time
+    progressBar.attr({ max: getMax() });
+
+    $(document).on('scroll', function(){
+        // On scroll only Value attr needs to be calculated
+        progressBar.attr({ value: getValue() });
+    });
+
+    $(window).resize(function(){
+        // On resize, both Max/Value attr needs to be calculated
+        progressBar.attr({ max: getMax(), value: getValue() });
+    });   
+}
+else {
+    var progressBar = $('.progress-bar'), 
+        max = getMax(), 
+        value, width;
+
+    var getWidth = function(){
+        // Calculate width in percentage
+        value = getValue();            
+        width = (value/max) * 100;
+        width = width + '%';
+        return width;
+    }
+
+    var setWidth = function(){
+        progressBar.css({ width: getWidth() });
+    }
+
+    $(document).on('scroll', setWidth);
+    $(window).on('resize', function(){
+        // Need to reset the Max attr
+        max = getMax();
+        setWidth();
+    });
+    }
+  });</script><script>$(document).foundation();
+$('.try-demo').click(function(event){
+  event.stopPropagation();
+  $('.inspec-tutorial').show()
+  window.dispatchEvent(new Event('resizeTerminal'));
+  $('.quit-inspec-tutorial').click(function(event){
+    event.stopPropagation();
+    $('.inspec-tutorial').hide()
+  })
+});
+
+javascript:
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+    analytics.load("2NpoxZS2fnBmOgGdnQOymLNm6wuij13X");
+    analytics.page()
+  }}();</script></body></html>

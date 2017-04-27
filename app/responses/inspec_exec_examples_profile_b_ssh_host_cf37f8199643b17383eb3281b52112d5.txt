@@ -1,0 +1,19 @@
+
+Profile: InSpec Example Profile (profile)
+Version: 1.0.0
+Target:  ssh://bob@host.node:
+
+
+[32m  ✔  tmp-1.0: Create /tmp directory[0m
+[32m     ✔  File /tmp should be directory[0m
+[37m  ○  gordon-1.0: Verify the version number of Gordon (1 skipped)[0m
+[37m     ○  Can't find file "/tmp/gordon/config.yaml"[0m
+[32m     ✔  File  content should match nil[0m
+[32m  ✔  ssh-1: Allow only SSH Protocol 2[0m
+[32m     ✔  File /bin/sh should be owned by "root"[0m
+
+  File /tmp
+[32m     ✔  should be directory[0m
+
+Profile Summary: [32m2 successful[0m, [31m0 failures[0m, [37m1 skipped[0m
+Test Summary: [32m4 successful[0m, [31m0 failures[0m, [37m1 skipped[0m
