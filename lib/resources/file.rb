@@ -208,16 +208,28 @@ module Inspec::Resources
     def check_file_permission_by_user(access_type, user, path)
       access_rule = case access_type
                     when 'read'
-                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ReadData\', \'ListDirectory\')'
+                      %w{FullControl Modify ReadAndExecute Read ReadData ListDirectory}
                     when 'write'
-                      '@(\'FullControl\', \'Modify\', \'Write\')'
+                      %w{FullControl Modify Write}
                     when 'execute'
-                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
+                      %w{FullControl Modify ReadAndExecute ExecuteFile}
                     else
                       raise 'Invalid access_type provided'
                     end
+      access_rule = convert_to_powershell_array(access_rule)
+
       cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
       cmd.stdout.chomp == '0' ? false : true
+    end
+
+    private
+
+    def convert_to_powershell_array(arr)
+      if arr.empty?
+        '@()'
+      else
+        %{@('#{arr.join("', '")}')}
+      end
     end
   end
 end
