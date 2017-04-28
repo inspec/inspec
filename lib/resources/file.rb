@@ -206,16 +206,7 @@ module Inspec::Resources
     end
 
     def check_file_permission_by_user(access_type, user, path)
-      access_rule = case access_type
-                    when 'read'
-                      %w{FullControl Modify ReadAndExecute Read ReadData ListDirectory}
-                    when 'write'
-                      %w{FullControl Modify Write}
-                    when 'execute'
-                      %w{FullControl Modify ReadAndExecute ExecuteFile}
-                    else
-                      raise 'Invalid access_type provided'
-                    end
+      access_rule = translate_perm_names(access_type)
       access_rule = convert_to_powershell_array(access_rule)
 
       cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
@@ -229,6 +220,24 @@ module Inspec::Resources
         '@()'
       else
         %{@('#{arr.join("', '")}')}
+      end
+    end
+
+    # Translates a developer-friendly string into a list of acceptable
+    # FileSystemRights that match it, because Windows has a fun heirarchy
+    # of permissions that are able to be noted in multiple ways.
+    #
+    # See also: https://www.codeproject.com/Reference/871338/AccessControl-FileSystemRights-Permissions-Table
+    def translate_perm_names(access_type)
+      case access_type
+      when 'read'
+        %w{FullControl Modify ReadAndExecute Read ReadData ListDirectory}
+      when 'write'
+        %w{FullControl Modify Write}
+      when 'execute'
+        %w{FullControl Modify ReadAndExecute ExecuteFile}
+      else
+        raise 'Invalid access_type provided'
       end
     end
   end
