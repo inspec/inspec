@@ -232,12 +232,14 @@ module Inspec::Resources
       case access_type
       when 'full-control'
         %w{FullControl}
+      when 'modify'
+        translate_perm_names('full-control') + %w{Modify}
       when 'read'
-        translate_perm_names('full-control') + %w{Modify ReadAndExecute Read ReadData ListDirectory}
+        translate_perm_names('modify') + %w{ReadAndExecute Read ReadData ListDirectory}
       when 'write'
-        translate_perm_names('full-control') + %w{Modify Write}
+        translate_perm_names('modify') + %w{Write}
       when 'execute'
-        translate_perm_names('full-control') + %w{Modify ReadAndExecute ExecuteFile}
+        translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile}
       else
         raise 'Invalid access_type provided'
       end
