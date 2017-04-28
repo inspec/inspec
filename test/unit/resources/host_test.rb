@@ -21,7 +21,7 @@ describe 'Inspec::Resources::Host' do
   end
 
   it 'check host with port unreachable on ubuntu' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 8080)
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 9080)
     _(resource.reachable?).must_equal false
   end
 
@@ -31,7 +31,7 @@ describe 'Inspec::Resources::Host' do
   end
 
   it 'check host with port tcp protocol unreachable on ubuntu' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 8080, proto: 'tcp')
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 9080, proto: 'tcp')
     _(resource.reachable?).must_equal false
   end
 
@@ -48,7 +48,7 @@ describe 'Inspec::Resources::Host' do
   end
 
   it 'check host with port unreachable on centos 7' do
-    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 8080 )
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 9080 )
     _(resource.reachable?).must_equal false
   end
 
@@ -58,7 +58,7 @@ describe 'Inspec::Resources::Host' do
   end
 
   it 'check host with port tcp protocol unreachable on centos 7' do
-    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 8080, proto: 'tcp')
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 9080, proto: 'tcp')
     _(resource.reachable?).must_equal false
   end
 
