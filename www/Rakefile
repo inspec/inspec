@@ -20,6 +20,7 @@ $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..', 'li
 
 require 'uri'
 require 'net/http'
+require 'fastly'
 
 require_relative '../tasks/docs.rb'
 require_relative '../tasks/shared.rb'
@@ -173,6 +174,38 @@ namespace :www do
     Log.info 'Removing zip file'
     File.unlink(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'))
   end
+
+  desc 'Flush the inspec.io cache at Fastly'
+  task :flush do
+    api_key    = ENV['FASTLY_API_KEY']
+    service_id = ENV['FASTLY_SERVICE_ID']
+
+    if api_key.nil? || service_id.nil?
+      puts ''
+      puts 'WARNING: could not flush the Fastly cache for inspec.io.'
+      puts 'Please set FASTLY_API_KEY and FASTLY_SERVICE_ID environment variables'
+      puts 'and run `rake www:flush`.'
+      puts ''
+      next
+    end
+
+    Log.info 'Flushing the Fastly cache'
+
+    begin
+      fastly_client  = Fastly.new(api_key: api_key)
+      fastly_service = Fastly::Service.new({ id: service_id }, fastly_client)
+      purge_result = fastly_service.purge_all
+    rescue => e
+      puts "ERROR: Fastly cache could not be purged: #{e.class} - #{e.message}"
+      next
+    end
+
+    if purge_result['status'] == 'ok'
+      puts 'Success! The Fastly cache is purged.'
+    else
+      puts "ERROR: Fastly cache could not be purged: #{purge_result}"
+    end
+  end
 end
 
 desc 'Full website release: includes local clean, docs build, site build, and then release'
@@ -181,4 +214,5 @@ task :www do
   Rake::Task['docs'].invoke
   Rake::Task['www:build'].invoke
   Rake::Task['www:release'].invoke
+  Rake::Task['www:flush'].invoke
 end

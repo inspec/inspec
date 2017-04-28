@@ -7,5 +7,5 @@ fi
 
 cd www
 npm install -g gulp
-bundle install
-bundle exec rake www:acceptance
+BUNDLE_GEMFILE="./Gemfile" bundle install
+BUNDLE_GEMFILE="./Gemfile" bundle exec rake www:acceptance
