@@ -85,14 +85,13 @@ class AwsIamAccessKeyTest < Minitest::Test
     def test_get_access_key_raises_when_no_access_keys_found
       validator = mock_validator
       
-      begin
+      e = assert_raises AwsIamAccessKey::AccessKeyNotFoundError do
         iam_client_decorator(validator).get_access_key(Username, Id)
-	flunk
-      rescue AwsIamAccessKey::AccessKeyNotFoundError => e
-        assert_match(/.*access key not found.*/, e.message)
-        assert_match(/.*#{Username}.*/, e.message)
-        assert_match(/.*#{Id}.*/, e.message)
       end
+
+      assert_match(/.*access key not found.*/, e.message)
+      assert_match(/.*#{Username}.*/, e.message)
+      assert_match(/.*#{Id}.*/, e.message)
 
       validator.verify
     end
@@ -100,15 +99,14 @@ class AwsIamAccessKeyTest < Minitest::Test
     def test_get_access_key_raises_when_matching_access_key_not_found
       validator = mock_validator
       
-      begin
+      e = assert_raises AwsIamAccessKey::AccessKeyNotFoundError do 
         iam_client_decorator(validator, [stub_access_key(id: 'Foo')])
           .get_access_key(Username, Id)
-	flunk
-      rescue AwsIamAccessKey::AccessKeyNotFoundError => e
-        assert_match(/.*access key not found.*/, e.message)
-        assert_match(/.*#{Username}.*/, e.message)
-        assert_match(/.*#{Id}.*/, e.message)
       end
+
+      assert_match(/.*access key not found.*/, e.message)
+      assert_match(/.*#{Username}.*/, e.message)
+      assert_match(/.*#{Id}.*/, e.message)
 
       validator.verify
     end

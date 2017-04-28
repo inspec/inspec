@@ -18,9 +18,7 @@ class AwsIamAccessKey < Inspec.resource(1)
 
   def exists?
     !access_key.nil?
-  rescue AccessKeyNotFoundError
-    false
-  rescue Aws::IAM::Errors::NoSuchEntity
+  rescue AccessKeyNotFoundError, Aws::IAM::Errors::NoSuchEntity
     false
   end
 
