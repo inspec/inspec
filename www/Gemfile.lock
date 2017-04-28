@@ -1,7 +1,7 @@
 PATH
   remote: /Users/aleff/projects/inspec
   specs:
-    inspec (1.20.0)
+    inspec (1.22.0)
       addressable (~> 2.4)
       faraday (>= 0.9.0)
       hashie (~> 3.4)
@@ -67,10 +67,11 @@ GEM
     eventmachine (1.2.3)
     excon (0.55.0)
     execjs (2.7.0)
-    faraday (0.12.0.1)
+    faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     fast_blank (1.0.0)
     fastimage (2.1.0)
+    fastly (1.10.0)
     ffi (1.9.18)
     github-markup (1.6.0)
     gssapi (1.2.0)
@@ -173,7 +174,8 @@ GEM
     rack (2.0.1)
     rack-livereload (0.3.16)
       rack
-    rainbow (2.2.1)
+    rainbow (2.2.2)
+      rake
     rake (12.0.0)
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
@@ -197,7 +199,7 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     ruby-progressbar (1.8.1)
-    rubyntlm (0.6.1)
+    rubyntlm (0.6.2)
     rubyzip (1.2.1)
     sass (3.4.23)
     servolux (0.13.0)
@@ -250,6 +252,7 @@ PLATFORMS
 
 DEPENDENCIES
   docker-api
+  fastly
   github-markup
   inquirer
   inspec!

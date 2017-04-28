@@ -29,3 +29,6 @@ gem 'inspec', path: File.join(File.expand_path(File.dirname(__FILE__)), '..')
 gem 'rake'
 gem 'ruby-progressbar'
 gem 'inquirer'
+
+# Ability to flush the cache during a deploy
+gem 'fastly'
