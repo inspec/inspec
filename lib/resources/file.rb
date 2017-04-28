@@ -208,7 +208,7 @@ module Inspec::Resources
     def check_file_permission_by_user(access_type, user, path)
       access_rule = case access_type
                     when 'read'
-                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ListDirectory\')'
+                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ReadData\', \'ListDirectory\')'
                     when 'write'
                       '@(\'FullControl\', \'Modify\', \'Write\')'
                     when 'execute'
