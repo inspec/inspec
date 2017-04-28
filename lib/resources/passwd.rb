@@ -62,17 +62,17 @@ module Inspec::Resources
           .add(:shells,    field: 'shell')
 
     filter.add(:count) { |t, _|
-      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in version 1.0.0.'
+      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in the next major version.'
       t.entries.length
     }
 
     filter.add(:usernames) { |t, x|
-      warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
+      warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
       t.users(x)
     }
 
     filter.add(:username) { |t, x|
-      warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in version 1.0.0.'
+      warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
       t.users(x)[0]
     }
 
@@ -84,7 +84,7 @@ module Inspec::Resources
     }
 
     def uid(x)
-      warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in version 1.0.0.'
+      warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in the next major version.'
       uids(x)
     end
 
