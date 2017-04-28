@@ -213,7 +213,7 @@ module Habitat
       # TODO: Would love to use Mixlib::ShellOut here, but it doesn't
       # seem to preserve the STDIN tty, and docker gets angry.
       Dir.chdir(work_dir) do
-        unless system(env, 'hab studio build .')
+        unless system(env, 'hab pkg build .')
           exit_with_error('Unable to build the Habitat artifact.')
         end
       end
@@ -299,33 +299,29 @@ module Habitat
 pkg_name=#{package_name}
 pkg_version=#{profile.version}
 pkg_origin=#{habitat_origin}
-pkg_source="nosuchfile.tar.gz"
-pkg_deps=(chef/inspec)
-pkg_build_deps=()
+pkg_deps=(chef/inspec core/ruby core/hab)
 pkg_svc_user=root
 EOL
 
       plan += "pkg_license='#{profile.metadata.params[:license]}'\n\n" if profile.metadata.params[:license]
 
       plan += <<-EOL
-do_download() {
-  return 0
-}
-
-do_verify() {
-  return 0
-}
-
-do_unpack() {
-  return 0
-}
 
 do_build() {
   cp -vr $PLAN_CONTEXT/../src/* $HAB_CACHE_SRC_PATH/$pkg_dirname
 }
 
 do_install() {
-  cp -R . ${pkg_prefix}/dist
+  local profile_contents
+  local excludes
+  profile_contents=($(ls))
+  excludes=(habitat results *.hart)
+
+  for item in ${excludes[@]}; do
+    profile_contents=(${profile_contents[@]/$item/})
+  done
+
+  cp -r ${profile_contents[@]} ${pkg_prefix}/dist/
 }
       EOL
 
@@ -336,15 +332,13 @@ do_install() {
       <<-EOL
 #!/bin/sh
 
-export PATH=${PATH}:$(hab pkg path core/ruby)/bin
-
 # InSpec will try to create a .cache directory in the user's home directory
 # so this needs to be someplace writeable by the hab user
 export HOME={{pkg.svc_var_path}}
 
-PROFILE_IDENT="#{habitat_origin}/#{package_name}"
+PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
 RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
-RESULTS_FILE="${RESULTS_DIR}/#{package_name}.json"
+RESULTS_FILE="${RESULTS_DIR}/{{pkg.name}}.json"
 ERROR_FILE="{{pkg.svc_var_path}}/inspec.err"
 
 # Create a directory for inspec formatter output
@@ -352,7 +346,7 @@ mkdir -p {{pkg.svc_var_path}}/inspec_results
 
 while true; do
   echo "Executing InSpec for ${PROFILE_IDENT}"
-  hab pkg exec chef/inspec inspec exec $(hab pkg path ${PROFILE_IDENT})/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
+  hab pkg exec chef/inspec inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
   RC=$?
 
   if [ "x${RC}" == "x0" ]; then
