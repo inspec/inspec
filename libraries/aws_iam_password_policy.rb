@@ -2,16 +2,16 @@
 
 require 'aws_conn'
 
-class IamPasswordPolicy < Inspec.resource(1)
-  name 'iam_password_policy'
+class AwsIamPasswordPolicy < Inspec.resource(1)
+  name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'
 
   example "
-    describe iam_password_policy do
+    describe aws_iam_password_policy do
       its('requires_lowercase_letters?') { should be true }
     end
 
-    describe iam_password_policy do
+    describe aws_iam_password_policy do
       its('requires_uppercase_letters?') { should be true }
     end
   "
