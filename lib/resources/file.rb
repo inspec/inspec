@@ -230,12 +230,14 @@ module Inspec::Resources
     # See also: https://www.codeproject.com/Reference/871338/AccessControl-FileSystemRights-Permissions-Table
     def translate_perm_names(access_type)
       case access_type
+      when 'full-control'
+        %w{FullControl}
       when 'read'
-        %w{FullControl Modify ReadAndExecute Read ReadData ListDirectory}
+        translate_perm_names('full-control') + %w{Modify ReadAndExecute Read ReadData ListDirectory}
       when 'write'
-        %w{FullControl Modify Write}
+        translate_perm_names('full-control') + %w{Modify Write}
       when 'execute'
-        %w{FullControl Modify ReadAndExecute ExecuteFile}
+        translate_perm_names('full-control') + %w{Modify ReadAndExecute ExecuteFile}
       else
         raise 'Invalid access_type provided'
       end
