@@ -236,6 +236,13 @@ module Inspec::Resources
     #
     # See also: https://www.codeproject.com/Reference/871338/AccessControl-FileSystemRights-Permissions-Table
     def translate_perm_names(access_type)
+      names = translate_common_perms(access_type)
+      names ||= translate_granular_perms(access_type)
+      names ||= translate_uncommon_perms(access_type)
+      raise 'Invalid access_type provided' unless names
+    end
+
+    def translate_common_perms(access_type)
       case access_type
       when 'full-control'
         %w{FullControl}
@@ -249,7 +256,22 @@ module Inspec::Resources
         translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile Traverse}
       when 'delete'
         translate_perm_names('modify') + %w{Delete}
+      end
+    end
 
+    def translate_uncommon_perms(access_type)
+      case access_type
+      when 'delete-subdirectories-and-files'
+        translate_perm_names('full-control') + %w{DeleteSubdirectoriesAndFiles}
+      when 'change-permissions'
+        translate_perm_names('full-control') + %w{ChangePermissions}
+      when 'take-ownership'
+        translate_perm_names('full-control') + %w{TakeOwnership}
+      end
+    end
+
+    def translate_granular_perms(access_type)
+      case access_type
       when 'write-data', 'create-files'
         translate_perm_names('write') + %w{WriteData CreateFiles}
       when 'append-data', 'create-directories'
@@ -266,15 +288,6 @@ module Inspec::Resources
         translate_perm_names('read') + %w{ReadExtendedAttributes}
       when 'read-permissions'
         translate_perm_names('read') + %w{ReadPermissions}
-
-      when 'delete-subdirectories-and-files'
-        translate_perm_names('full-control') + %w{DeleteSubdirectoriesAndFiles}
-      when 'change-permissions'
-        translate_perm_names('full-control') + %w{ChangePermissions}
-      when 'take-ownership'
-        translate_perm_names('full-control') + %w{TakeOwnership}
-      else
-        raise 'Invalid access_type provided'
       end
     end
   end
