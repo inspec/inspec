@@ -1,4 +1,20 @@
-describe aws_ec2(name: 'Example') do
+example_ec2_id = attribute(
+  'example_ec2_id',
+  default: 'default.example_ec2_id',
+  description: 'ID of example ec2 instance')
+
+example_ec2_name = attribute(
+  'example_ec2_name',
+  default: 'default.Example',
+  description: 'Name of exapmle ec2 instance')
+
+describe aws_ec2(name: example_ec2_name) do
+  it { should exist }
+  its('image_id') { should eq 'ami-0d729a60' }
+  its('instance_type') { should eq 't2.micro' }
+end
+
+describe aws_ec2(example_ec2_id) do
   it { should exist }
   its('image_id') { should eq 'ami-0d729a60' }
   its('instance_type') { should eq 't2.micro' }
