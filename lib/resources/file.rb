@@ -239,7 +239,7 @@ module Inspec::Resources
       when 'write'
         translate_perm_names('modify') + %w{Write}
       when 'execute'
-        translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile}
+        translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile Traverse}
       else
         raise 'Invalid access_type provided'
       end
