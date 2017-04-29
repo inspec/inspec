@@ -235,7 +235,7 @@ module Inspec::Resources
       when 'modify'
         translate_perm_names('full-control') + %w{Modify}
       when 'read'
-        translate_perm_names('modify') + %w{ReadAndExecute Read ReadData ListDirectory}
+        translate_perm_names('modify') + %w{ReadAndExecute Read}
       when 'write'
         translate_perm_names('modify') + %w{Write}
       when 'execute'
