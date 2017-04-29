@@ -249,6 +249,30 @@ module Inspec::Resources
         translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile Traverse}
       when 'delete'
         translate_perm_names('modify') + %w{Delete}
+
+      when 'write-data', 'create-files'
+        translate_perm_names('write') + %w{WriteData CreateFiles}
+      when 'append-data', 'create-directories'
+        translate_perm_names('write') + %w{CreateDirectories AppendData}
+      when 'write-extended-attributes'
+        translate_perm_names('write') + %w{WriteExtendedAttributes}
+      when 'write-attributes'
+        translate_perm_names('write') + %w{WriteAttributes}
+      when 'read-data', 'list-directory'
+        translate_perm_names('read') + %w{ReadData ListDirectory}
+      when 'read-attributes'
+        translate_perm_names('read') + %w{ReadAttributes}
+      when 'read-extended-attributes'
+        translate_perm_names('read') + %w{ReadExtendedAttributes}
+      when 'read-permissions'
+        translate_perm_names('read') + %w{ReadPermissions}
+
+      when 'delete-subdirectories-and-files'
+        translate_perm_names('full-control') + %w{DeleteSubdirectoriesAndFiles}
+      when 'change-permissions'
+        translate_perm_names('full-control') + %w{ChangePermissions}
+      when 'take-ownership'
+        translate_perm_names('full-control') + %w{TakeOwnership}
       else
         raise 'Invalid access_type provided'
       end
