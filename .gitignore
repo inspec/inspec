@@ -1,6 +1,7 @@
 Gemfile.lock
 coverage
 *.gem
+.idea
 .gallery
 .kitchen
 .delivery/cli.toml
