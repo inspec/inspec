@@ -14,7 +14,7 @@ module Inspec::Resources
     # returns the hostname of the local system
     def hostname
       os = inspec.os
-      if os.linux?
+      if os.linux? || os.darwin?
         inspec.command('hostname').stdout.chomp
       elsif os.windows?
         inspec.powershell('$env:computername').stdout.chomp

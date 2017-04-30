@@ -75,13 +75,13 @@ The `be_listening` matcher tests if the port is listening for traffic:
 
 The `pids` matcher tests the process identifiers (PIDs):
 
-    its('pids') { should eq ['27808'] }
+    its('pids') { should cmp 27808 }
 
 ### processes
 
 The `processes` matcher tests if the named process is running on the system:
 
-    its('processes') { should eq ['syslog'] }
+    its('processes') { should cmp 'syslog' }
 
 ### protocols
 
@@ -101,7 +101,7 @@ The following examples show how to use this InSpec audit resource.
 
     describe port(80) do
       it { should be_listening }
-      its('protocols') {should eq ['tcp']}
+      its('protocols') { should cmp 'tcp' }
     end
 
 ### Test port 80, on a specific address
@@ -123,7 +123,7 @@ or:
 
     describe port(80) do
       it { should be_listening }
-      its('protocols') {should eq ['tcp6']}
+      its('protocols') { should cmp 'tcp6' }
     end
 
 ### Test that only secure ports accept requests
@@ -134,7 +134,7 @@ or:
 
     describe port(443) do
       it { should be_listening }
-      its('protocols') {should eq ['tcp']}
+      its('protocols') { should cmp 'tcp' }
     end
 
 ### Verify port 65432 is not listening

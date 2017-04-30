@@ -39,7 +39,7 @@ describe 'inspec compliance' do
     out = inspec('compliance login_automate http://example.com')
     out.exit_status.must_equal 1
     #TODO: inspec should really use stderr for errors
-    out.stdout.must_include 'Please login to your automate instance using'
+    out.stdout.must_include 'Please specify'
   end
 
   it 'inspec compliance profiles without authentication' do

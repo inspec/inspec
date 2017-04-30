@@ -42,7 +42,7 @@ end
 
 ## Serverspec
 
-Serverspec can be credited as the first extension of RSpec that enabled
+Serverspec is the first extension of RSpec that enabled
 users to run RSpec tests on servers to verify deployed artifacts. It was
 created in March 2013 by Gosuke Miyashita and has been widely adopted.
 It is also one of the core test frameworks within test-kitchen and has
@@ -60,7 +60,9 @@ Lessons learned from Serverspec include:
 * Support for Windows is a first-class requirement.
 * A command line interface (CLI) is required for faster iteration of test code.
 
-### How is InSpec different than Serverspec
+You can also watch this [podcast](http://foodfightshow.org/2016/02/inspec.html) to find out more on the relationship of InSpec and Serverspec.
+
+### How is InSpec different from Serverspec
 
 One of the key differences is that InSpec targets more user groups. It
 is optimized for DevOps, Security, and Compliance professionals.

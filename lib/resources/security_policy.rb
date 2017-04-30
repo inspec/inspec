@@ -132,7 +132,7 @@ module Inspec::Resources
 
       conf = SimpleConfig.new(
         @content,
-        assignment_re: /^\s*(.*)=\s*(\S*)\s*$/,
+        assignment_regex: /^\s*(.*)=\s*(\S*)\s*$/,
       )
       @params = convert_hash(conf.params)
     end

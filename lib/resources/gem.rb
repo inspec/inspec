@@ -23,7 +23,7 @@ module Inspec::Resources
                       'gem'
                     when :chef
                       if inspec.os.windows?
-                        'c:\opscode\chef\embedded\bin\gem'
+                        'c:\opscode\chef\embedded\bin\gem.bat'
                       else
                         '/opt/chef/embedded/bin/gem'
                       end
@@ -32,6 +32,7 @@ module Inspec::Resources
                     else
                       gem_binary
                     end
+      skip_resource 'Unable to retrieve gem information' if info.empty?
     end
 
     def info
@@ -47,6 +48,8 @@ module Inspec::Resources
       # extract package name and version
       # parses data like winrm (1.3.4, 1.3.3)
       params = /^\s*([^\(]*?)\s*\((.*?)\)\s*$/.match(cmd.stdout.chomp)
+      return {} if params.nil?
+
       versions = params[2].split(',')
       @info[:name] = params[1]
       @info[:version] = versions[0]

@@ -70,7 +70,7 @@ end
 # matcher to check /etc/passwd, /etc/shadow and /etc/group
 RSpec::Matchers.define :contain_legacy_plus do
   match do |file|
-    warn '[DEPRECATION] `contain_legacy_plus` is deprecated and will be removed for InSpec 1.0. Please use `describe file(\'/etc/passwd\') do its(\'content\') { should_not match /^\+:/ } end`'
+    warn '[DEPRECATION] `contain_legacy_plus` is deprecated and will be removed in the next major version. Please use `describe file(\'/etc/passwd\') do its(\'content\') { should_not match /^\+:/ } end`'
     file.content =~ /^\+:/
   end
 end
@@ -78,7 +78,7 @@ end
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
-    warn '[DEPRECATION] `contain_match` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details'
+    warn '[DEPRECATION] `contain_match` is deprecated and will be removed in the next major version. See https://github.com/chef/inspec/issues/738 for more details'
     arr.inject { |result, i|
       result = i.match(regex)
       result || i.match(/$/)
@@ -88,7 +88,7 @@ end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    warn '[DEPRECATION] `contain_duplicates` is deprecated and will be removed for InSpec 1.0. See https://github.com/chef/inspec/issues/738 for more details'
+    warn '[DEPRECATION] `contain_duplicates` is deprecated and will be removed in the next major version. See https://github.com/chef/inspec/issues/738 for more details'
     dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end

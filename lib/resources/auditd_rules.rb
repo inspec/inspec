@@ -12,7 +12,7 @@ module Inspec::Resources
     def initialize(content)
       @content = content
       @opts = {
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true,
       }
     end
@@ -27,7 +27,7 @@ module Inspec::Resources
 
     def status(name)
       @status_opts = {
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       }
       @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp

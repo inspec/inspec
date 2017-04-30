@@ -9,8 +9,9 @@ This extensions offers the following features:
 To use the CLI, this InSpec add-on adds the following commands:
 
  * `$ inspec compliance login` - authentication of the API token against Chef Compliance
+ * `$ inspec compliance login_automate` - authentication of the API token against Chef Automate
  * `$ inspec compliance profiles` - list all available Chef Compliance profiles
- * `$ inspec compliance exec profile` - runs a Chef Compliance profile
+ * `$ inspec exec compliance://profile` - runs a Chef Compliance profile
  * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Compliance
  * `$ inspec compliance logout` - logout of Chef Compliance
 
@@ -19,7 +20,36 @@ Compliance profiles can be executed in two mays:
 - via compliance exec: `inspec compliance exec profile`
 - via compliance scheme: `inspec exec compliance://profile`
 
+
 ## Usage
+
+### Command options
+
+```
+$ inspec compliance
+Commands:
+  inspec compliance download PROFILE  # downloads a profile from Chef Compliance
+  inspec compliance exec PROFILE      # executes a Chef Compliance profile
+  inspec compliance help [COMMAND]    # Describe subcommands or one specific subcommand
+  inspec compliance login SERVER      # Log in to a Chef Compliance SERVER
+  inspec compliance login_automate SERVER   # Log in to an Automate SERVER
+  inspec compliance logout            # user logout from Chef Compliance
+  inspec compliance profiles          # list all available profiles in Chef Compliance
+  inspec compliance upload PATH       # uploads a local profile to Chef Compliance
+  inspec compliance version           # displays the version of the Chef Compliance server
+```
+
+### Login with Chef Automate
+
+You need a Chef Automate server up and running. Compliance features need to [be activated](https://docs.chef.io/install_chef_automate.html#compliance), too.
+
+Now, you need a user token. You can retrieve that via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).
+
+```
+inspec compliance login_automate https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --usertoken 'zuop..._KzE'
+```
+
+### Login with Chef Compliance
 
 Before you start using the compliance plugin, you need a running [Chef Compliance](https://www.chef.io/compliance/) server. Please login and gather the access token:
 
@@ -28,24 +58,17 @@ Before you start using the compliance plugin, you need a running [Chef Complianc
 You can choose the access token (`--token`) or the refresh token (`--refresh_token`)
 
 ```
-$ inspec compliance
-Commands:
-  inspec compliance exec PROFILE    # executes a Chef Compliance profile
-  inspec compliance help [COMMAND]  # Describe subcommands or one specific subcommand
-  inspec compliance login SERVER    # Log in to a Chef Compliance SERVER
-  inspec compliance logout          # user logout from Chef Compliance
-  inspec compliance profiles        # list all available profiles in Chef Compliance
-  inspec compliance upload PATH     # uploads a local profile to Chef Compliance
-  inspec compliance version         # displays the version of the Chef Compliance server
-
 # login to chef compliance server
 $ inspec compliance login https://compliance.test --user admin --insecure --token '...'
 
 # display the chef compliance server version
 $ inspec compliance version
 Chef Compliance version: 1.0.11
+```
 
-# list available profiles via Chef Compliance
+### List available profiles via Chef Compliance / Automate
+
+```
 $ inspec compliance profiles
 Available profiles:
 -------------------
@@ -65,8 +88,11 @@ Available profiles:
  * cis/cis-ubuntu12.04lts-level2
  * cis/cis-ubuntu14.04lts-level1
  * cis/cis-ubuntu14.04lts-level2
+```
 
-# upload a profile to chef Compliance
+### Upload a profile to Chef Compliance / Automate
+
+```
 $ inspec compliance version
 Chef Compliance version: 1.0.11
 ➜  inspec git:(chris-rock/cc-error-not-loggedin) ✗ b inspec compliance upload examples/profile
@@ -103,8 +129,11 @@ Available profiles:
  * cis/cis-ubuntu12.04lts-level2
  * cis/cis-ubuntu14.04lts-level1
  * cis/cis-ubuntu14.04lts-level2
+```
 
-# run a profile from Chef Compliance locally
+### Run a profile from Chef Compliance / Automate on Workstation
+
+```
 $ inspec exec compliance://admin/profile
 .*...
 
@@ -119,7 +148,7 @@ Finished in 0.02862 seconds (files took 0.62628 seconds to load)
 5 examples, 0 failures, 1 pending
 ```
 
-# Logout from Chef Compliance
+### To Logout from Chef Compliance
 
 ```
 $ inspec compliance logout

@@ -48,6 +48,10 @@ module Inspec
             r.new(backend, id.to_s, *args)
           end
         end
+
+        define_method :inspec do
+          backend
+        end
       end
     end
   end
@@ -80,7 +84,11 @@ require 'resources/bond'
 require 'resources/bridge'
 require 'resources/command'
 require 'resources/crontab'
+require 'resources/dh_params'
 require 'resources/directory'
+require 'resources/docker'
+require 'resources/docker_image'
+require 'resources/docker_container'
 require 'resources/etc_group'
 require 'resources/file'
 require 'resources/gem'
@@ -119,6 +127,7 @@ require 'resources/postgres_conf'
 require 'resources/postgres_session'
 require 'resources/powershell'
 require 'resources/processes'
+require 'resources/rabbitmq_conf'
 require 'resources/registry_key'
 require 'resources/security_policy'
 require 'resources/service'

@@ -34,4 +34,4 @@ include_controls 'linux'
 include_controls 'windows-patch-benchmark'
 ```
 
-Further details are described in our [InSpec Docs](http://inspec.io/docs/reference/profiles/)
+Further details are described in our [InSpec Docs](https://www.inspec.io/docs/reference/profiles/)

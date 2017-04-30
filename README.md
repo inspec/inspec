@@ -18,7 +18,7 @@ describe inetd_conf do
 end
 ```
 
-InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](http://inspec.io/docs/reference/cli/).
+InSpec makes it easy to run your tests wherever you need. More options are found in our [CLI docs](https://www.inspec.io/docs/reference/cli/).
 
 ```bash
 # run test locally
@@ -264,7 +264,7 @@ Which will provide you with:
 Remote Targets
 
 Platform | Versions | Architectures
- ---- | --- | --- | ---
+ --- | --- | ---
 AIX | 6.1, 7.1, 7.2 | ppc64
 CentOS | 5, 6, 7 | i386, x86_64
 Debian | 7, 8 | i386, x86_64
@@ -289,7 +289,7 @@ HP-UX | 11.31 | ia64
 In addition, runtime support is provided for:
 
 Platform | Versions
- ---- | --- | ---
+ ---- | ----
 Debian | 8
 RHEL | 6, 7
 Ubuntu | 12.04+
@@ -300,13 +300,17 @@ Windows | 2012+
 
 Documentation
 
- * http://inspec.io/docs/
- * http://inspec.io/docs/reference/resources/
+ * https://www.inspec.io/docs/
+ * https://www.inspec.io/docs/reference/resources/
  * https://github.com/chef/inspec/tree/master/docs
 
 Tutorials/Blogs/Podcasts:
 
- * http://inspec.io/tutorials/
+ * https://www.inspec.io/tutorials/
+
+Relationship to other tools (RSpec, Serverspec):
+
+ * https://www.inspec.io/docs/reference/inspec_and_friends/
 
 ## Share your Profiles
 

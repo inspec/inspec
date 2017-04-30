@@ -152,3 +152,53 @@ describe command('ls -al /') do
   its('exit_status') { should eq 0 }
 end
 ```
+
+## Shelling out in tests
+
+When writing tests you can not use standard ruby methods to shellout as it tries to execute those commands locally.
+However, the `command` resource has a `.stdout` method that will allow you to manipulate the results.
+Using the above example, you could check the writes on several subdirectories.
+
+### Example 1:
+```ruby
+$ inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+inspec> output=command('echo test').stdout
+=> "test\n"
+inspec> describe command('echo test') do
+inspec>   its('stdout') { should eq output }
+inspec> end
+
+Profile: inspec-shell
+Version: (not specified)
+
+  Command echo
+     ✔  test stdout should eq "test\n"
+
+Test Summary: 1 successful, 0 failures, 0 skipped
+```
+
+### Example 2:
+```ruby
+$ inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+inspec> dirs = command('ls -d /home/gordon/git/inspec/docs').stdout.split("\n")
+=> ["/home/gordon/git/inspec/docs"]
+inspec> dirs.each do |dir|
+inspec>   describe directory(dir) do
+inspec>     its('mode') { should cmp '0775' }
+inspec>   end
+inspec> end
+
+Profile: inspec-shell
+Version: (not specified)
+
+  File /home/gordon/git/inspec/docs/
+     ✔  mode should cmp == "0775"
+
+Test Summary: 1 successful, 0 failures, 0 skipped
+```

@@ -231,16 +231,22 @@ module Inspec
       end
     end
 
-    # Idio(ma)tic unindent
-    # TODO: replace this
+    # Idio(ma)tic unindent, behaves similar to Ruby2.3 curly heredocs.
+    # Find the shortest indentation of non-empty lines and strip that from every line
+    # See: https://bugs.ruby-lang.org/issues/9098
+    #
+    # It is implemented here to support pre-Ruby2.3 with this feature and
+    # to not force non-programmers to understand heredocs.
+    #
+    # Please note: tabs are not supported! (they will be removed but they are not
+    # treated the same as in Ruby2.3 heredocs)
     #
     # @param [String] text string which needs to be unindented
-    # @return [String] input with indentation removed
+    # @return [String] input with indentation removed; '' if input is nil
     def unindent(text)
       return '' if text.nil?
-      text.strip.split("\n").map(&:strip)
-          .map { |x| x.empty? ? "\n" : x }
-          .join(' ')
+      len = text.split("\n").reject { |l| l.strip.empty? }.map { |x| x.index(/[^\s]/) }.compact.min
+      text.gsub(/^[[:blank:]]{#{len}}/, '').strip
     end
 
     # get the rule's source code

@@ -1,24 +1,236 @@
 # Change Log
 
-## [1.17.0](https://github.com/chef/inspec/tree/v1.17.0) (2017-03-21)
+## [v1.22.0](https://github.com/chef/inspec/tree/v1.22.0) (2017-04-27)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.21.0...v1.22.0)
+
+**Implemented enhancements:**
+
+- rename `parse\_config` options for clarity [\#1709](https://github.com/chef/inspec/issues/1709)
+- Lackluster type coercion [\#445](https://github.com/chef/inspec/issues/445)
+- Update port documentation to use `cmp` matcher [\#438](https://github.com/chef/inspec/issues/438)
+- Simplify error output [\#437](https://github.com/chef/inspec/issues/437)
+- Follow Gnu Standards for Command Line Interfaces [\#436](https://github.com/chef/inspec/issues/436)
+- Clarify `impact` of controls [\#358](https://github.com/chef/inspec/issues/358)
+- make the default logger readable [\#335](https://github.com/chef/inspec/issues/335)
+- Resolve open points from \#252 [\#334](https://github.com/chef/inspec/issues/334)
+- document all custom RSpec matcher [\#317](https://github.com/chef/inspec/issues/317)
+- Readme: Point to sources of documentation [\#231](https://github.com/chef/inspec/issues/231)
+- Readme: differentiate from Serverspec [\#229](https://github.com/chef/inspec/issues/229)
+- support legacy backend configuration calls \(rspec/serverspec\) [\#187](https://github.com/chef/inspec/issues/187)
+- Some inconsistencies with naming across the resources [\#120](https://github.com/chef/inspec/issues/120)
+- ensure all resources do OS check [\#96](https://github.com/chef/inspec/issues/96)
+- run docker backend in one exec loop [\#81](https://github.com/chef/inspec/issues/81)
+- make all transport configurable and optional [\#65](https://github.com/chef/inspec/issues/65)
+- inspec control.to\_ruby to use newlines instead of `\n` [\#1705](https://github.com/chef/inspec/pull/1705) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- bugfix: unindent description misbehaviors [\#1707](https://github.com/chef/inspec/pull/1707) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Test [\#1721](https://github.com/chef/inspec/issues/1721)
+- Inspec Shell Enhancement - Show universal matchers on HELP MATCHERS command [\#1684](https://github.com/chef/inspec/issues/1684)
+- detecting service enabled on Ubuntu 16.04 \(systemd\) [\#931](https://github.com/chef/inspec/issues/931)
+- Can't get sub key in YAML [\#554](https://github.com/chef/inspec/issues/554)
+- Sharing custom resources? [\#353](https://github.com/chef/inspec/issues/353)
+- Readme: What is being installed? [\#166](https://github.com/chef/inspec/issues/166)
+
+**Merged pull requests:**
+
+- Update GH Pages CNAME [\#1731](https://github.com/chef/inspec/pull/1731) ([adamleff](https://github.com/adamleff))
+- Rakefile updates to support appbundle-updater [\#1730](https://github.com/chef/inspec/pull/1730) ([adamleff](https://github.com/adamleff))
+- use cmp in port docs instead of eq [\#1726](https://github.com/chef/inspec/pull/1726) ([arlimus](https://github.com/arlimus))
+- \[www\] update event on main page [\#1724](https://github.com/chef/inspec/pull/1724) ([adamleff](https://github.com/adamleff))
+- rename SimpleConfig / parse\_config / parse\_config\_file options [\#1723](https://github.com/chef/inspec/pull/1723) ([arlimus](https://github.com/arlimus))
+- Add matchers help to shell, clean up help output [\#1722](https://github.com/chef/inspec/pull/1722) ([adamleff](https://github.com/adamleff))
+- provide `inspec.version` information [\#1719](https://github.com/chef/inspec/pull/1719) ([arlimus](https://github.com/arlimus))
+- provide the `inspec` keyword [\#1718](https://github.com/chef/inspec/pull/1718) ([arlimus](https://github.com/arlimus))
+- print and prettyprint the inspec backend class [\#1717](https://github.com/chef/inspec/pull/1717) ([arlimus](https://github.com/arlimus))
+- describe the value ranges of `impact` [\#1713](https://github.com/chef/inspec/pull/1713) ([arlimus](https://github.com/arlimus))
+- pretty-print multiline control descriptions [\#1711](https://github.com/chef/inspec/pull/1711) ([arlimus](https://github.com/arlimus))
+- document reference to other tools [\#1710](https://github.com/chef/inspec/pull/1710) ([arlimus](https://github.com/arlimus))
+- handle json parse errors in docker resource [\#1706](https://github.com/chef/inspec/pull/1706) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.21.0](https://github.com/chef/inspec/tree/v1.21.0) (2017-04-24)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.20.0...v1.21.0)
+
+**Implemented enhancements:**
+
+- user resource is not fetching groups for windows [\#1400](https://github.com/chef/inspec/issues/1400)
+- docker resources [\#71](https://github.com/chef/inspec/issues/71)
+
+**Fixed bugs:**
+
+- Web references in inspec shell help are wrong [\#1667](https://github.com/chef/inspec/issues/1667)
+- bugfix: solve warn on uninitialized [\#1694](https://github.com/chef/inspec/pull/1694) ([arlimus](https://github.com/arlimus))
+
+**Closed issues:**
+
+- Adding windows domain users to users resource [\#1688](https://github.com/chef/inspec/issues/1688)
+- stdout matcher has depreciation warnings [\#1685](https://github.com/chef/inspec/issues/1685)
+- profile upload with dependencies fails uploading to compliance server  [\#1670](https://github.com/chef/inspec/issues/1670)
+- Retrying Inspec Tests [\#1665](https://github.com/chef/inspec/issues/1665)
+- Add a way to retry a test if failing [\#1404](https://github.com/chef/inspec/issues/1404)
+- --sudo does not appear to elevate privileges when evaluating local systems. [\#1279](https://github.com/chef/inspec/issues/1279)
+
+**Merged pull requests:**
+
+- Release 1.21.0 [\#1703](https://github.com/chef/inspec/pull/1703) ([adamleff](https://github.com/adamleff))
+- \[www\] Update www Gemfile.lock [\#1691](https://github.com/chef/inspec/pull/1691) ([adamleff](https://github.com/adamleff))
+- showing how to shellout in docs [\#1689](https://github.com/chef/inspec/pull/1689) ([rshade](https://github.com/rshade))
+- \[www\] Fix docs pages for x509\_certificate and key\_rsa [\#1683](https://github.com/chef/inspec/pull/1683) ([adamleff](https://github.com/adamleff))
+- fix spelling mistake in powershell resource documentation [\#1682](https://github.com/chef/inspec/pull/1682) ([Happycoil](https://github.com/Happycoil))
+- fetch user groups while building user object [\#1681](https://github.com/chef/inspec/pull/1681) ([Happycoil](https://github.com/Happycoil))
+- update sslshake to v1.2 [\#1680](https://github.com/chef/inspec/pull/1680) ([arlimus](https://github.com/arlimus))
+- Fix type-o in control code [\#1676](https://github.com/chef/inspec/pull/1676) ([hannah-radish](https://github.com/hannah-radish))
+- fix web reference url [\#1669](https://github.com/chef/inspec/pull/1669) ([chris-rock](https://github.com/chris-rock))
+- fix sshd config help [\#1668](https://github.com/chef/inspec/pull/1668) ([chris-rock](https://github.com/chris-rock))
+- ER-508 Extended http resource to support no ssl verification [\#1663](https://github.com/chef/inspec/pull/1663) ([ElizabethU](https://github.com/ElizabethU))
+- Move Habitat sleep time to config file [\#1662](https://github.com/chef/inspec/pull/1662) ([adamleff](https://github.com/adamleff))
+- Docker resource [\#1566](https://github.com/chef/inspec/pull/1566) ([chris-rock](https://github.com/chris-rock))
+
+## [v1.20.0](https://github.com/chef/inspec/tree/v1.20.0) (2017-04-13)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.2...v1.20.0)
+
+**Fixed bugs:**
+
+- gem resource :chef symbol isn't valid on Windows [\#1645](https://github.com/chef/inspec/issues/1645)
+
+**Closed issues:**
+
+- List on-tap hard to use [\#1644](https://github.com/chef/inspec/issues/1644)
+- inspec vendor meta profiles fails when dependency profile is in Automate asset store [\#1632](https://github.com/chef/inspec/issues/1632)
+- cannot upload meta profile to Automate [\#1631](https://github.com/chef/inspec/issues/1631)
+
+**Merged pull requests:**
+
+- Release 1.20.0 [\#1657](https://github.com/chef/inspec/pull/1657) ([adamleff](https://github.com/adamleff))
+- Habitat packages should run as root [\#1656](https://github.com/chef/inspec/pull/1656) ([adamleff](https://github.com/adamleff))
+- harmonize compliance profiles view with supermarket views [\#1654](https://github.com/chef/inspec/pull/1654) ([chris-rock](https://github.com/chris-rock))
+- \[www\] Update community page [\#1651](https://github.com/chef/inspec/pull/1651) ([adamleff](https://github.com/adamleff))
+- Fix gem resource on Windows [\#1650](https://github.com/chef/inspec/pull/1650) ([adamleff](https://github.com/adamleff))
+- add support for hostname detection on macOS [\#1648](https://github.com/chef/inspec/pull/1648) ([chris-rock](https://github.com/chris-rock))
+- allow Automate profile dependencies [\#1647](https://github.com/chef/inspec/pull/1647) ([jeremymv2](https://github.com/jeremymv2))
+- pass options hash sans target key [\#1646](https://github.com/chef/inspec/pull/1646) ([jeremymv2](https://github.com/jeremymv2))
+- add `rabbitmq\_config` resource [\#1639](https://github.com/chef/inspec/pull/1639) ([arlimus](https://github.com/arlimus))
+- \[www\] Adding a website acceptance environment [\#1634](https://github.com/chef/inspec/pull/1634) ([adamleff](https://github.com/adamleff))
+- Adding SNI utilization to ssl resource [\#1624](https://github.com/chef/inspec/pull/1624) ([supergicko](https://github.com/supergicko))
+- Add OSX support for host resource [\#1608](https://github.com/chef/inspec/pull/1608) ([RyanJarv](https://github.com/RyanJarv))
+
+## [v1.19.2](https://github.com/chef/inspec/tree/v1.19.2) (2017-04-07)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.1...v1.19.2)
+
+**Fixed bugs:**
+
+- Bug or doc problem with `registry\_key` [\#1268](https://github.com/chef/inspec/issues/1268)
+
+**Closed issues:**
+
+- Strange `registry\_key` behavior \(Unable to get .NET Version\) [\#1131](https://github.com/chef/inspec/issues/1131)
+
+**Merged pull requests:**
+
+- Release 1.19.2 patch release [\#1638](https://github.com/chef/inspec/pull/1638) ([adamleff](https://github.com/adamleff))
+- Fix and document registry issues [\#1635](https://github.com/chef/inspec/pull/1635) ([chris-rock](https://github.com/chris-rock))
+- \[www\] Add warning to the http resource documentation [\#1623](https://github.com/chef/inspec/pull/1623) ([adamleff](https://github.com/adamleff))
+
+## [v1.19.1](https://github.com/chef/inspec/tree/v1.19.1) (2017-04-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.19.0...v1.19.1)
+
+**Merged pull requests:**
+
+- Releasing v1.19.1 [\#1628](https://github.com/chef/inspec/pull/1628) ([adamleff](https://github.com/adamleff))
+- Loosen addressable version pin [\#1627](https://github.com/chef/inspec/pull/1627) ([adamleff](https://github.com/adamleff))
+
+## [v1.19.0](https://github.com/chef/inspec/tree/v1.19.0) (2017-04-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.18.0...v1.19.0)
+
+**Implemented enhancements:**
+
+- dh\_params resource \(proposed\) [\#1617](https://github.com/chef/inspec/issues/1617)
+- Fix \#1617 Add dh\_params resource [\#1618](https://github.com/chef/inspec/pull/1618) ([4-20ma](https://github.com/4-20ma))
+- Allow apache\_conf to include symlinked configuration files [\#1406](https://github.com/chef/inspec/pull/1406) ([carldjohnston](https://github.com/carldjohnston))
+
+**Closed issues:**
+
+- SSL Resource - Protocols Filter has wrong description [\#1620](https://github.com/chef/inspec/issues/1620)
+- Inspec multi-server queries [\#1616](https://github.com/chef/inspec/issues/1616)
+
+**Merged pull requests:**
+
+- Releasing v1.19.0 [\#1626](https://github.com/chef/inspec/pull/1626) ([adamleff](https://github.com/adamleff))
+- Fix protocols matcher text on ssl resource docs [\#1622](https://github.com/chef/inspec/pull/1622) ([adamleff](https://github.com/adamleff))
+- Replace Nokogiri with REXML in the JUnit formatter [\#1621](https://github.com/chef/inspec/pull/1621) ([adamleff](https://github.com/adamleff))
+- obvious fix in README.md [\#1619](https://github.com/chef/inspec/pull/1619) ([lucky-sideburn](https://github.com/lucky-sideburn))
+- \[www\] Fixing rake www:release task [\#1611](https://github.com/chef/inspec/pull/1611) ([adamleff](https://github.com/adamleff))
+- \[www\] Resurrect global message, promote ChefConf and NYC Meetup [\#1607](https://github.com/chef/inspec/pull/1607) ([adamleff](https://github.com/adamleff))
+
+## [v1.18.0](https://github.com/chef/inspec/tree/v1.18.0) (2017-03-30)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.17.0...v1.18.0)
+
+**Implemented enhancements:**
+
+- Requesting x509\_certificate and x509\_private\_key [\#1459](https://github.com/chef/inspec/issues/1459)
+- generate profile CLI command [\#410](https://github.com/chef/inspec/issues/410)
+
+**Fixed bugs:**
+
+- YAML file extensions support only \(.yml\) [\#1569](https://github.com/chef/inspec/issues/1569)
+- yum.repo with should\_not exist fails with NoMethodError: undefined method `\[\]' for nil:NilClass [\#1553](https://github.com/chef/inspec/issues/1553)
+
+**Closed issues:**
+
+- Cannot install on CentOS 7 [\#1609](https://github.com/chef/inspec/issues/1609)
+- port should be\_listening busted in 1.17.0? [\#1602](https://github.com/chef/inspec/issues/1602)
+- inspec fails to install on centos 7 [\#1597](https://github.com/chef/inspec/issues/1597)
+- Invalid name argument error after upgrading Inspec [\#1588](https://github.com/chef/inspec/issues/1588)
+- Fix-up www build processes due to Gemfile change [\#1586](https://github.com/chef/inspec/issues/1586)
+- inspec outputs full hash when testing ini style file option with \[header\] [\#1541](https://github.com/chef/inspec/issues/1541)
+- inspec compliance upload fails on automate server [\#1360](https://github.com/chef/inspec/issues/1360)
+- Add JSON Schema validation [\#884](https://github.com/chef/inspec/issues/884)
+
+**Merged pull requests:**
+
+- Release v1.18.0 [\#1610](https://github.com/chef/inspec/pull/1610) ([adamleff](https://github.com/adamleff))
+- Fix port resource for invalid IP address in netstat output [\#1603](https://github.com/chef/inspec/pull/1603) ([adamleff](https://github.com/adamleff))
+- Remove errant puts in inspec habitat CLI command [\#1601](https://github.com/chef/inspec/pull/1601) ([adamleff](https://github.com/adamleff))
+- Add docs for habitat CLI commands [\#1600](https://github.com/chef/inspec/pull/1600) ([adamleff](https://github.com/adamleff))
+- Require Ruby 2.1 [\#1599](https://github.com/chef/inspec/pull/1599) ([adamleff](https://github.com/adamleff))
+- Extend `gem` to take an optional `gem\_binary` [\#1596](https://github.com/chef/inspec/pull/1596) ([nvwls](https://github.com/nvwls))
+- Feature/fix ability to pass in supermarket url [\#1595](https://github.com/chef/inspec/pull/1595) ([rylarson](https://github.com/rylarson))
+- Support vendored profiles in Habitat-packaged profiles [\#1594](https://github.com/chef/inspec/pull/1594) ([adamleff](https://github.com/adamleff))
+- Yum resource fix for non-existent repos and repo info [\#1593](https://github.com/chef/inspec/pull/1593) ([adamleff](https://github.com/adamleff))
+- Fixing www/docs rake tasks [\#1591](https://github.com/chef/inspec/pull/1591) ([adamleff](https://github.com/adamleff))
+- add tag object [\#1590](https://github.com/chef/inspec/pull/1590) ([chris-rock](https://github.com/chris-rock))
+- Support YAML attributes files ending in .yaml [\#1589](https://github.com/chef/inspec/pull/1589) ([mr-exz](https://github.com/mr-exz))
+- Fix Habitat plan for nokogiri support [\#1587](https://github.com/chef/inspec/pull/1587) ([adamleff](https://github.com/adamleff))
+- x509\_certificate and key\_rsa resource [\#1567](https://github.com/chef/inspec/pull/1567) ([chris-rock](https://github.com/chris-rock))
+- implement JSON schema for `inspec exec` json outputs [\#1564](https://github.com/chef/inspec/pull/1564) ([arlimus](https://github.com/arlimus))
+- Provide a method-based accessor for SimpleConfig hashes [\#1544](https://github.com/chef/inspec/pull/1544) ([adamleff](https://github.com/adamleff))
+
+## [v1.17.0](https://github.com/chef/inspec/tree/v1.17.0) (2017-03-21)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.16.1...v1.17.0)
 
 **Implemented enhancements:**
 
+- Calendar for Line Chart [\#1558](https://github.com/chef/inspec/issues/1558)
 - Need better error message for improper inspec.yml formatting [\#1549](https://github.com/chef/inspec/issues/1549)
 
 **Fixed bugs:**
 
 - cannot load such file -- nokogiri [\#1562](https://github.com/chef/inspec/issues/1562)
 - Failure to parse tcp6 URI [\#1521](https://github.com/chef/inspec/issues/1521)
-- json resource array index access not working [\#1560](https://github.com/chef/inspec/issues/1560)
 
 **Closed issues:**
 
+- json resource array index access not working [\#1560](https://github.com/chef/inspec/issues/1560)
 - Crontab regex matching [\#1526](https://github.com/chef/inspec/issues/1526)
 
 **Merged pull requests:**
 
+- Move simulator gems to www [\#1585](https://github.com/chef/inspec/pull/1585) ([adamleff](https://github.com/adamleff))
+- release 1.17.0 [\#1583](https://github.com/chef/inspec/pull/1583) ([adamleff](https://github.com/adamleff))
 - Fix omnibus configuration [\#1579](https://github.com/chef/inspec/pull/1579) ([adamleff](https://github.com/adamleff))
 - moving the nokogiri reference into the gemspec file [\#1576](https://github.com/chef/inspec/pull/1576) ([jkerry](https://github.com/jkerry))
 - Hide Event Feature on Homepage [\#1563](https://github.com/chef/inspec/pull/1563) ([hannah-radish](https://github.com/hannah-radish))

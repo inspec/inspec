@@ -795,51 +795,61 @@ class InspecRspecJUnit < InspecRspecJson
 
   #
   # This is the last method is invoked through the formatter interface.
-  # Converts the junit formatter constructed output_hash into nokogiri generated
+  # Converts the junit formatter constructed output_hash into REXML generated
   # XML and writes it to output.
   #
   def close(_notification)
-    require 'nokogiri'
-    xml_output = Nokogiri::XML::Builder.new { |xml|
-      xml.testsuites do
-        @output_hash[:profiles].each do |profile|
-          build_profile_xml(xml, profile)
-        end
-      end
-    }.to_xml
-    output.puts xml_output
+    require 'rexml/document'
+    xml_output = REXML::Document.new
+    xml_output.add(REXML::XMLDecl.new)
+
+    testsuites = REXML::Element.new('testsuites')
+    xml_output.add(testsuites)
+
+    @output_hash[:profiles].each do |profile|
+      testsuites.add(build_profile_xml(profile))
+    end
+
+    formatter = REXML::Formatters::Pretty.new
+    formatter.compact = true
+    output.puts formatter.write(xml_output.xml_decl, '')
+    output.puts formatter.write(xml_output.root, '')
   end
 
   private
 
-  def build_profile_xml(xml, profile)
-    xml.testsuite(
-      name: profile[:name],
-      tests: count_profile_tests(profile),
-      failed: count_profile_failed_tests(profile),
-    ) do
-      profile[:controls].each do |control|
-        build_control_xml(xml, control)
+  def build_profile_xml(profile)
+    profile_xml = REXML::Element.new('testsuite')
+    profile_xml.add_attribute('name', profile[:name])
+    profile_xml.add_attribute('tests', count_profile_tests(profile))
+    profile_xml.add_attribute('failed', count_profile_failed_tests(profile))
+
+    profile[:controls].each do |control|
+      next if control[:results].nil?
+
+      control[:results].each do |result|
+        profile_xml.add(build_result_xml(control, result))
       end
     end
+
+    profile_xml
   end
 
-  def build_control_xml(xml, control)
-    return if control[:results].nil?
-    control[:results].each do |result|
-      build_result_xml(xml, control, result)
-    end
-  end
+  def build_result_xml(control, result)
+    result_xml = REXML::Element.new('testcase')
+    result_xml.add_attribute('name', result[:code_desc])
+    result_xml.add_attribute('class', control[:title].nil? ? 'Anonymous' : control[:id])
+    result_xml.add_attribute('time', result[:run_time])
 
-  def build_result_xml(xml, control, result)
-    test_class = control[:title].nil? ? 'Anonymous' : control[:id]
-    xml.testcase(name: result[:code_desc], class: test_class, time: result[:run_time]) do
-      if result[:status] == 'failed'
-        xml.failure(message: result[:message])
-      elsif result[:status] == 'skipped'
-        xml.skipped
-      end
+    if result[:status] == 'failed'
+      failure_element = REXML::Element.new('failure')
+      failure_element.add_attribute('message', result[:message])
+      result_xml.add(failure_element)
+    elsif result[:status] == 'skipped'
+      result_xml.add_element('skipped')
     end
+
+    result_xml
   end
 
   def count_profile_tests(profile)

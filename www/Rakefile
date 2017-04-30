@@ -18,6 +18,10 @@
 
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib'))
 
+require 'uri'
+require 'net/http'
+require 'fastly'
+
 require_relative '../tasks/docs.rb'
 require_relative '../tasks/shared.rb'
 
@@ -86,9 +90,9 @@ namespace :www do
       raise 'Please make sure you have no uncommitted changes in this repository.'
     end
 
-    File.write('build/CNAME', 'inspec.io')
-    file_count = Dir['build/*'].length
-    file_size = `du -hs build`.sub(/\s+.*$/m, '')
+    File.write(File.join(dst, 'CNAME'), 'origin.inspec.io')
+    file_count = Dir[File.join(dst, '*')].length
+    file_size = `du -hs #{dst}`.sub(/\s+.*$/m, '')
 
     if system('git rev-parse --verify gh-pages')
       Log.info 'Remove local gh-pages branch'
@@ -103,31 +107,104 @@ namespace :www do
     Log.info 'Create empty gh-pages branch'
     sh('git checkout --orphan gh-pages')
 
-    Log.info 'Clear out all local git files!'
-    sh('git rm -rf .')
+    # this rest of this task needs to be run from the root of the inspec repo
+    # so it can properly move and clean files in the gh-pages branch
+    Dir.chdir(File.join(Dir.pwd, '..')) do
+      dst_from_root = File.join('www', dst)
 
-    Log.info "Add the built files in #{dst}"
-    sh("git add #{dst}")
+      Log.info 'Clear out all local git files!'
+      sh('git rm -rf .')
 
-    Log.info 'Remove all other files in this empty branch'
-    sh('git clean -df')
+      Log.info "Add the built files in #{dst_from_root}"
+      sh("git add #{dst_from_root}")
 
-    Log.info 'Move the site to the root directory'
-    sh("git mv #{File.join(dst, '*')} .")
+      Log.info 'Remove all other files in this empty branch'
+      sh('git clean -df')
 
-    Log.info 'Commit to gh-pages'
-    sh("git commit -m 'website update'")
+      Log.info 'Move the site to the root directory'
+      sh("git mv #{File.join(dst_from_root, '*')} .")
 
-    require 'inquirer'
-    if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
-                   'Do you want to push this live?', default: false)
-      Log.info 'push to origin, this may take a moment'
-      sh('git push -u origin --force-with-lease gh-pages')
-    else
-      puts 'Aborted.'
+      Log.info 'Commit to gh-pages'
+      sh("git commit -m 'website update'")
+
+      require 'inquirer'
+      if Ask.confirm("Ready to go, I have #{file_count} files at #{file_size}. "\
+                     'Do you want to push this live?', default: false)
+        Log.info 'push to origin, this may take a moment'
+        sh('git push -u origin --force-with-lease gh-pages')
+      else
+        puts 'Aborted.'
+      end
     end
 
     sh("git checkout #{current_branch}")
+  end
+
+  desc 'Release the site to the Netlify acceptance environment'
+  task :acceptance do
+    raise 'NETLIFYKEY environment variable not set' unless ENV.key?('NETLIFYKEY')
+
+    Log.info 'Cleaning the existing build directory'
+    Rake::Task['www:clean'].invoke
+
+    Log.info 'Building the docs'
+    Rake::Task['docs'].invoke
+
+    Log.info 'Building the site'
+    Rake::Task['www:build'].invoke
+
+    Log.info 'Creating zip file of website contents'
+    Dir.chdir(File.join(Dir.pwd, 'build')) do
+      sh('zip -r inspec-acceptance.zip *')
+    end
+
+    Log.info 'Uploading to Netlify'
+    uri = URI.parse('https://api.netlify.com/api/v1/sites/inspec-acceptance.netlify.com/deploys')
+    request = Net::HTTP::Post.new(uri)
+    request['Content-Type'] = 'application/zip'
+    request['Authorization'] = "Bearer #{ENV['NETLIFYKEY']}"
+    request.body = File.read(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'), mode: 'rb')
+
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+
+    raise "Failed to upload to Netlify: #{response.code} -- #{response.body}" unless response.code == '200'
+
+    Log.info 'Removing zip file'
+    File.unlink(File.join(Dir.pwd, 'build', 'inspec-acceptance.zip'))
+  end
+
+  desc 'Flush the inspec.io cache at Fastly'
+  task :flush do
+    api_key    = ENV['FASTLY_API_KEY']
+    service_id = ENV['FASTLY_SERVICE_ID']
+
+    if api_key.nil? || service_id.nil?
+      puts ''
+      puts 'WARNING: could not flush the Fastly cache for inspec.io.'
+      puts 'Please set FASTLY_API_KEY and FASTLY_SERVICE_ID environment variables'
+      puts 'and run `rake www:flush`.'
+      puts ''
+      next
+    end
+
+    Log.info 'Flushing the Fastly cache'
+
+    begin
+      fastly_client  = Fastly.new(api_key: api_key)
+      fastly_service = Fastly::Service.new({ id: service_id }, fastly_client)
+      purge_result = fastly_service.purge_all
+    rescue => e
+      puts "ERROR: Fastly cache could not be purged: #{e.class} - #{e.message}"
+      next
+    end
+
+    if purge_result['status'] == 'ok'
+      puts 'Success! The Fastly cache is purged.'
+    else
+      puts "ERROR: Fastly cache could not be purged: #{purge_result}"
+    end
   end
 end
 
@@ -137,4 +214,5 @@ task :www do
   Rake::Task['docs'].invoke
   Rake::Task['www:build'].invoke
   Rake::Task['www:release'].invoke
+  Rake::Task['www:flush'].invoke
 end

@@ -115,6 +115,7 @@ class MockLoader
       '/etc/audit/auditd.conf' => mockfile.call('auditd.conf'),
       '/etc/mysql/my.cnf' => mockfile.call('mysql.conf'),
       '/etc/mysql/mysql2.conf' => mockfile.call('mysql2.conf'),
+      '/etc/rabbitmq/rabbitmq.config' => mockfile.call('rabbitmq.config'),
       'kitchen.yml' => mockfile.call('kitchen.yml'),
       'example.csv' => mockfile.call('example.csv'),
       'policyfile.lock.json' => mockfile.call('policyfile.lock.json'),
@@ -126,7 +127,9 @@ class MockLoader
       '/etc/httpd/conf/httpd.conf' => mockfile.call('httpd.conf'),
       '/etc/httpd/conf.d/ssl.conf' => mockfile.call('ssl.conf'),
       '/etc/httpd/mods-enabled/status.conf' => mockfile.call('status.conf'),
+      '/etc/httpd/conf-enabled/security.conf' => mockfile.call('security.conf'),
       '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
+      '/etc/apache2/conf-enabled/security.conf' => mockfile.call('security.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
@@ -138,6 +141,8 @@ class MockLoader
       'test_certificate.rsa.crt.pem' => mockfile.call('test_certificate.rsa.crt.pem'),
       'test_certificate.rsa.key.pem' => mockfile.call('test_certificate.rsa.key.pem'),
       'test_ca_public.key.pem' => mockfile.call('test_ca_public.key.pem'),
+      # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
+      'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
     }
 
     # create all mock commands
@@ -159,8 +164,7 @@ class MockLoader
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
-      '2376c7b3d81de9382303356e1efdea99385effb84788562c3e697032d51bf942' => cmd.call('reg_schedule'),
-      '89b48f91634e7efc40105fc082c5e12693b08c0a7c4a578b1f3a07e34f676c66' => cmd.call('reg_schedule'),
+      'bd15a11a4b07de0224c4d1ab16c49ad78dd6147650c6ef629152c7093a5ac95e' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
@@ -172,7 +176,7 @@ class MockLoader
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
-      'c:\opscode\chef\embedded\bin\gem list --local -a -q ^json$' => cmd.call('gem-list-local-a-q-json'),
+      'c:\opscode\chef\embedded\bin\gem.bat list --local -a -q ^json$' => cmd.call('gem-list-local-a-q-json'),
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
@@ -227,7 +231,7 @@ class MockLoader
       # user info for freebsd
       'pw usershow root -7' => cmd.call('pw-usershow-root-7'),
       # user info for windows (winrm 1.6.0, 1.6.1)
-      '21c8fabaade05b84ec979759a30814f04353722f173424921bddedc7b65cacbf' => cmd.call('adsiusers'),
+      '27c6cda89fa5d196506251c0ed0d20468b378c5689711981dc1e1e683c7b02c1' => cmd.call('adsiusers'),
       # group info for windows
       'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
       # network interface
@@ -244,6 +248,9 @@ class MockLoader
       # host for Linux
       'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
+      # host for Darwin
+      'host -t AAAA example.com' => cmd.call('host-AAAA-example.com'),
+      'ping -W 1 -c 1 example.com' => cmd.call('ping-example.com'),
       # apt
       "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
       # iptables
@@ -252,7 +259,9 @@ class MockLoader
       'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
       'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
       'find /etc/httpd/mods-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-status-conf'),
+      'find /etc/httpd/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-httpd-conf-enabled-link'),
       'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
+      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-apache2-conf-enabled-link'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -291,10 +300,17 @@ class MockLoader
       'crontab -l' => cmd.call('crontab-root'),
       # crontab display for non-current user
       'crontab -l -u foouser' => cmd.call('crontab-foouser'),
-	  # zfs output for dataset tank/tmp
-	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
-	  # zfs output for pool tank
-	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
+  	  # zfs output for dataset tank/tmp
+  	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
+  	  # zfs output for pool tank
+  	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
+      # docker
+      "docker ps -a --no-trunc --format '{{ json . }}'" => cmd.call('docker-ps-a'),
+      "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
+      "docker info --format '{{ json . }}'" => cmd.call('docker-info'),
+      "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
+      # docker images
+      "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
      }
 
     @backend

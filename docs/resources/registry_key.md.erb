@@ -48,6 +48,19 @@ or may be enclosed in a double-quoted string with an extra backslash as an escap
     "HKCU\\SOFTWARE\\path\\to\\key\\Themes"
 
 
+<p class="warning">
+Please make sure that you use backslashes instead of forward slashes. Forward slashes will not work for registry keys.
+</p>
+
+    # The following will not work:
+    # describe registry_key('HKLM/SOFTWARE/Microsoft/NET Framework Setup/NDP/v4/Full/1033') do
+    #   its('Release') { should eq 378675 }
+    # end
+    # You should use:
+    describe registry_key('HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\1033') do
+      its('Release') { should eq 378675 }
+    end
+
 ## Matchers
 
 This InSpec audit resource has the following matchers:
@@ -125,6 +138,17 @@ The `have_value` matcher tests if a value exists for a registry key:
 The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
+
+
+<p class="warning">
+Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. This issue is tracked in <a href="https://github.com/chef/inspec/issues/1281">https://github.com/chef/inspec/issues/1281</a>
+</p>
+
+    # instead of:
+    # its('explorer.exe') { should eq 'test' }
+    # use the following solution:
+    it { should have_property_value('explorer.exe', :string, 'test') }
+
 
 ## Examples
 

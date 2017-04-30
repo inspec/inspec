@@ -28,7 +28,7 @@ module Inspec::Resources
       @content = @file.content
       @params = SimpleConfig.new(
         @file.content,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true,
       ).params if @file.exist?
       @loaded = true

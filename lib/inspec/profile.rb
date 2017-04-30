@@ -89,7 +89,7 @@ module Inspec
       @writable = options[:writable] || false
       @profile_id = options[:id]
       @cache = options[:cache] || Cache.new
-      @backend = options[:backend] || Inspec::Backend.create(options)
+      @backend = options[:backend] || Inspec::Backend.create(options.select { |k, _| k != 'target' })
       @attr_values = options[:attributes]
       @source_reader = source_reader
       @tests_collected = false

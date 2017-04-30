@@ -37,10 +37,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'pry', '~> 0'
   spec.add_dependency 'hashie', '~> 3.4'
   spec.add_dependency 'mixlib-log'
-  spec.add_dependency 'sslshake', '~> 1'
+  spec.add_dependency 'sslshake', '~> 1.2'
   spec.add_dependency 'parallel', '~> 1.9'
-  spec.add_dependency 'nokogiri', '~> 1.6'
   spec.add_dependency 'faraday', '>=0.9.0'
   spec.add_dependency 'toml', '~> 0.1'
-  spec.add_dependency 'addressable', '~> 2.5'
+  spec.add_dependency 'addressable', '~> 2.4'
+  spec.add_dependency 'parslet', '~> 1.5'
 end

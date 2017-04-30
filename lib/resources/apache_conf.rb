@@ -82,7 +82,7 @@ module Inspec::Resources
         # parse include file parameters
         params = SimpleConfig.new(
           raw_conf,
-          assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
+          assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
           multiple_values: true,
         ).params
         @params.merge!(params)
@@ -107,6 +107,7 @@ module Inspec::Resources
       (include_files + include_files_optional).each do |f|
         id    = Pathname.new(f).absolute? ? f : File.join(@conf_dir, f)
         files = find_files(id, depth: 1, type: 'file')
+        files += find_files(id, depth: 1, type: 'link')
 
         includes.push(files) if files
       end

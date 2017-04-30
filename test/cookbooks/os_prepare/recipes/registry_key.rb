@@ -31,6 +31,14 @@ if node['platform_family'] == 'windows'
       :name => 'multistring value',
       :type => :multi_string,
       :data => ['test', 'multi','string','data']
+    },{
+      :name => 'super\/escape',
+      :type => :string,
+      :data => '\/value/\\'
+    },{
+      :name => 'key.with.dot',
+      :type => :string,
+      :data => 'value.with.dot'
     }]
     recursive true
     action :create

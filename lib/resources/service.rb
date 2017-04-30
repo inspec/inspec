@@ -262,7 +262,7 @@ module Inspec::Resources
       # parse data
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
 
@@ -637,7 +637,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^(\w+)\s*(.*)$/,
+        assignment_regex: /^(\w+)\s*(.*)$/,
         multiple_values: false,
       ).params
 

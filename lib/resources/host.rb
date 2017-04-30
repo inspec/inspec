@@ -43,11 +43,15 @@ module Inspec::Resources
       @port = params[:port]   || nil
       @proto = params[:proto] || nil
 
+      return skip_resource 'The UDP protocol for the `host` resource is not supported yet.' if @proto == 'udp'
+
       @host_provider = nil
       if inspec.os.linux?
         @host_provider = LinuxHostProvider.new(inspec)
       elsif inspec.os.windows?
         @host_provider = WindowsHostProvider.new(inspec)
+      elsif inspec.os.darwin?
+        @host_provider = DarwinHostProvider.new(inspec)
       else
         return skip_resource 'The `host` resource is not supported on your OS yet.'
       end
@@ -93,6 +97,29 @@ module Inspec::Resources
     end
   end
 
+  class DarwinHostProvider < HostProvider
+    def ping(hostname, port = nil, proto = nil)
+      if proto == 'tcp'
+        resp = inspec.command("nc -vz -G 1 #{hostname} #{port}")
+      else
+        resp = inspec.command("ping -W 1 -c 1 #{hostname}")
+      end
+      resp.exit_status.to_i != 0 ? false : true
+    end
+
+    def resolve(hostname)
+      # Resolve IPv6 address first, if that fails try IPv4 to match Linux behaivor
+      cmd = inspec.command("host -t AAAA #{hostname}")
+      if cmd.exit_status.to_i != 0
+        cmd = inspec.command("host -t A #{hostname}")
+      end
+      return nil if cmd.exit_status.to_i != 0
+
+      resolve = /^.* has IPv\d address\s+(?<ip>\S+)\s*$/.match(cmd.stdout.chomp)
+      [resolve[1]] if resolve
+    end
+  end
+
   class LinuxHostProvider < HostProvider
     # ping is difficult to achieve, since we are not sure
     def ping(hostname, _port = nil, _proto = nil)
@@ -118,10 +145,7 @@ module Inspec::Resources
   # @see http://blogs.technet.com/b/josebda/archive/2015/04/18/windows-powershell-equivalents-for-common-networking-commands-ipconfig-ping-nslookup.aspx
   # @see http://blogs.technet.com/b/heyscriptingguy/archive/2014/03/19/creating-a-port-scanner-with-windows-powershell.aspx
   class WindowsHostProvider < HostProvider
-    def ping(hostname, port = nil, proto = nil)
-      # TODO: abort if we cannot run it via udp
-      return nil if proto == 'udp'
-
+    def ping(hostname, port = nil, _proto = nil)
       # ICMP: Test-NetConnection www.microsoft.com
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
       request = "Test-NetConnection -ComputerName #{hostname}"

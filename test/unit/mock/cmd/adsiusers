@@ -18,7 +18,10 @@
                           "NORMAL_ACCOUNT",
                           "PASSWORD_EXPIRED"
                       ],
-        "groups":  null,
+        "groups":  [
+            "Administrators",
+            "Users"
+        ],
         "gid":  null,
         "maxdays":  42,
         "shell":  null
@@ -45,7 +48,9 @@
                           "NORMAL_ACCOUNT",
                           "DONT_EXPIRE_PASSWORD"
                       ],
-        "groups":  null,
+        "groups":  [
+            "Users"
+        ],
         "gid":  null,
         "maxdays":  42,
         "shell":  null

@@ -26,9 +26,27 @@ module Inspec
       end
 
       cls = Class.new do
+        # Ruby internal for printing a nice name for this class
+        def to_s
+          'Inspec::Backend::Class'
+        end
+
+        # Ruby internal for pretty-printing a summary for this class
+        def inspect
+          "Inspec::Backend::Class @transport=#{backend.class}"
+        end
+
+        # Provide a shorthand to retrieve the inspec version from within a profile
+        #
+        # @return [String] inspec version
+        def version
+          Inspec::VERSION
+        end
+
         define_method :backend do
           connection
         end
+
         Inspec::Resource.registry.each do |id, r|
           define_method id.to_sym do |*args|
             r.new(self, id.to_s, *args)
