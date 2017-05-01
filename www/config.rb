@@ -54,4 +54,4 @@ activate :directory_indexes
 activate :syntax
 set :trailing_slash, false
 set :markdown_engine, :redcarpet
-set :markdown, fenced_code_blocks: true, smartypants: true, coderay_line_numbers: :table
+set :markdown, fenced_code_blocks: true, smartypants: true, coderay_line_numbers: :table, tables: true
