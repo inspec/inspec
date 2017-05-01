@@ -32,7 +32,7 @@ Profile: yumyum profile
 Version: (not specified)
 Target:  local://
 
-     No tests executed.\e[0m
+     No tests executed.
 
 Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
 "
@@ -48,7 +48,7 @@ Profile: title (name)
 Version: 1.2.3
 Target:  local://
 
-     No tests executed.\e[0m
+     No tests executed.
 
 Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
 "
@@ -254,6 +254,14 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --sudo")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "--sudo is only valid when running against a remote host using --target"
       out.exit_status.must_equal 1
+    end
+  end
+
+  describe 'when --no-color is used' do
+    it 'does not output color control characters' do
+      out = inspec('exec ' + File.join(profile_path, 'simple-metadata') + ' --no-color')
+      out.exit_status.must_equal 0
+      out.stdout.wont_include "\e[38"
     end
   end
 end

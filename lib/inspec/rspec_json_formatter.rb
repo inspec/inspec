@@ -531,7 +531,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #
   def print_control(control)
     print_line(
-      color:      COLORS[control.summary_indicator] || '',
+      color:      control.summary_indicator,
       indicator:  INDICATORS[control.summary_indicator] || INDICATORS['unknown'],
       summary:    format_lines(control.summary, INDICATORS['empty']),
       id:         "#{control.id}: ",
@@ -541,7 +541,6 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
   def print_result(result)
     test_status = result[:status_type]
-    test_color = COLORS[test_status]
     indicator = INDICATORS[result[:status]]
     indicator = INDICATORS['empty'] if indicator.nil?
     if result[:message]
@@ -550,7 +549,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       msg = result[:skip_message] || result[:code_desc]
     end
     print_line(
-      color:      test_color,
+      color:      test_status,
       indicator:  INDICATORS['small'] + indicator,
       summary:    format_lines(msg, INDICATORS['empty']),
       id: nil, profile: nil
@@ -575,7 +574,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
       end
       status_indicator = test[:status_type]
       print_line(
-        color:      COLORS[status_indicator] || '',
+        color:      status_indicator,
         indicator:  INDICATORS['small'] + INDICATORS[status_indicator] || INDICATORS['unknown'],
         summary:    format_lines(test_result, INDICATORS['empty']),
         id:         control_id,
@@ -586,41 +585,52 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
 
   def print_profile_summary
     summary = profile_summary
+    return unless summary['total'] > 0
 
-    s = format('Profile Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], summary['passed'], COLORS['reset'],
-               COLORS['failed'], summary['failed']['total'], COLORS['reset'],
-               COLORS['skipped'], summary['skipped'], COLORS['reset'])
+    s = format('Profile Summary: %s, %s, %s',
+               format_with_color('passed', "#{summary['passed']} successful"),
+               format_with_color('failed', "#{summary['failed']['total']} failures"),
+               format_with_color('skipped', "#{summary['skipped']} skipped"),
+              )
     output.puts(s) if summary['total'] > 0
   end
 
   def print_tests_summary
     summary = tests_summary
 
-    s = format('Test Summary: %s%d successful%s, %s%d failures%s, %s%d skipped%s',
-               COLORS['passed'], summary['passed'], COLORS['reset'],
-               COLORS['failed'], summary['failed'], COLORS['reset'],
-               COLORS['skipped'], summary['skipped'], COLORS['reset'])
+    s = format('Test Summary: %s, %s, %s',
+               format_with_color('passed', "#{summary['passed']} successful"),
+               format_with_color('failed', "#{summary['failed']} failures"),
+               format_with_color('skipped', "#{summary['skipped']} skipped"),
+              )
+
     output.puts(s)
   end
 
   # Formats the line (called from print_line)
   def format_line(fields)
-    format = '%color%indicator%id%summary'
+    format = '%indicator%id%summary'
     format.gsub(/%\w+/) do |x|
       term = x[1..-1]
       fields.key?(term.to_sym) ? fields[term.to_sym].to_s : x
-    end + COLORS['reset']
+    end
   end
 
   # Prints line; used to print results
   def print_line(fields)
-    output.puts(format_line(fields))
+    output.puts(format_with_color(fields[:color], format_line(fields)))
   end
 
   # Helps formatting summary lines (called from within print_line arguments)
   def format_lines(lines, indentation)
     lines.gsub(/\n/, "\n" + indentation)
+  end
+
+  def format_with_color(color_name, text)
+    return text unless RSpec.configuration.color
+    return text unless COLORS.key?(color_name)
+
+    "#{COLORS[color_name]}#{text}#{COLORS['reset']}"
   end
 
   #

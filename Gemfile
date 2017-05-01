@@ -20,6 +20,7 @@ group :test do
   gem 'ruby-progressbar', '~> 1.8'
   gem 'webmock', '~> 2.3.2'
   gem 'jsonschema', '~> 2.0.2'
+  gem 'm'
 end
 
 group :integration do
