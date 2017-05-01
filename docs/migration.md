@@ -18,33 +18,33 @@ The following resources are available in InSpec:
 
 |                                         Serverspec                                         |                                        InSpec                                        |
 |:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
-| [bond](http://serverspec.org/resource_types.html#bond)                                     | [bond](https://www.inspec.io/docs/reference/resources/bond/)                         |
-| [bridge](http://serverspec.org/resource_types.html#bridge)                                 | [bridge](https://www.inspec.io/docs/reference/resources/bridge/)                     |
-| [command](http://serverspec.org/resource_types.html#command)                               | [command](https://www.inspec.io/docs/reference/resources/command/)                   |
-| [cron](http://serverspec.org/resource_types.html#cron)                                     | [crontab](https://www.inspec.io/docs/reference/resources/crontab/)                   |
-| [docker_container](http://serverspec.org/resource_types.html#docker_container)             | [docker_container](https://www.inspec.io/docs/reference/resources/docker_container/) |
-| [docker_image](http://serverspec.org/resource_types.html#docker_image)                     | [docker_image](https://www.inspec.io/docs/reference/resources/docker_image/)         |
-| [file](http://serverspec.org/resource_types.html#file)                                     | [file](https://www.inspec.io/docs/reference/resources/file/)                         |
-| [group](http://serverspec.org/resource_types.html#group)                                   | [group](https://www.inspec.io/docs/reference/resources/group/)                       |
-| [host](http://serverspec.org/resource_types.html#host)                                     | [host](https://www.inspec.io/docs/reference/resources/host/)                         |
-| [interface](http://serverspec.org/resource_types.html#interface)                           | [interface](https://www.inspec.io/docs/reference/resources/interface/)               |
-| [iis_website](http://serverspec.org/resource_types.html#iis_website)                       | [iis_website](https://www.inspec.io/docs/reference/resources/iis_website/)           |
-| [iis_app_pool](http://serverspec.org/resource_types.html#iis_app_pool)                     | [iis_website](https://www.inspec.io/docs/reference/resources/iis_website/)           |
-| [iptables](http://serverspec.org/resource_types.html#iptables)                             | [iptables](https://www.inspec.io/docs/reference/resources/iptables/)                 |
-| [kernel_module](http://serverspec.org/resource_types.html#kernel_module)                   | [kernel_module](https://www.inspec.io/docs/reference/resources/kernel_module/)       |
-| [linux_kernel_parameter](http://serverspec.org/resource_types.html#linux_kernel_parameter) | [kernel_parameter](https://www.inspec.io/docs/reference/resources/kernel_parameter/) |
-| [mysql_config](http://serverspec.org/resource_types.html#mysql_config)                     | [mysql_conf](https://www.inspec.io/docs/reference/resources/mysql_conf/)             |
-| [package](http://serverspec.org/resource_types.html#package)                               | [package](https://www.inspec.io/docs/reference/resources/package/)                   |
-| [port](http://serverspec.org/resource_types.html#port)                                     | [port](https://www.inspec.io/docs/reference/resources/port/)                         |
-| [ppa](http://serverspec.org/resource_types.html#ppa)                                       | [apt](https://www.inspec.io/docs/reference/resources/apt/)                           |
-| [process](http://serverspec.org/resource_types.html#process)                               | [processes](https://www.inspec.io/docs/reference/resources/processes/)               |
-| [service](http://serverspec.org/resource_types.html#service)                               | [service](https://www.inspec.io/docs/reference/resources/service/)                   |
-| [user](http://serverspec.org/resource_types.html#user)                                     | [user](https://www.inspec.io/docs/reference/resources/user/)                         |
-| [windows_feature](http://serverspec.org/resource_types.html#windows_feature)               | [windows_feature](https://www.inspec.io/docs/reference/resources/windows_feature/)   |
-| [windows_registry_key](http://serverspec.org/resource_types.html#windows_registry_key)     | [registry_key](https://www.inspec.io/docs/reference/resources/registry_key/)         |
-| [x509_certificate](http://serverspec.org/resource_types.html#x509_certificate)             | [x509_certificate](https://www.inspec.io/docs/reference/resources/x509_certificate/) |
-| [yumrepo](http://serverspec.org/resource_types.html#yumrepo)                               | [yum](https://www.inspec.io/docs/reference/resources/yum/)                           |
-| [zfs](http://serverspec.org/resource_types.html#zfs)                                       | [zfs_pool](https://www.inspec.io/docs/reference/resources/zfs_pool/)                 |
+| [`bond`](http://serverspec.org/resource_types.html#bond)                                     | [`bond`](https://www.inspec.io/docs/reference/resources/bond/)                         |
+| [`bridge`](http://serverspec.org/resource_types.html#bridge)                                 | [`bridge`](https://www.inspec.io/docs/reference/resources/bridge/)                     |
+| [`command`](http://serverspec.org/resource_types.html#command)                               | [`command`](https://www.inspec.io/docs/reference/resources/command/)                   |
+| [`cron`](http://serverspec.org/resource_types.html#cron)                                     | [`crontab`](https://www.inspec.io/docs/reference/resources/crontab/)                   |
+| [`docker_container`](http://serverspec.org/resource_types.html#docker_container)             | [`docker_container`](https://www.inspec.io/docs/reference/resources/docker_container/) |
+| [`docker_image`](http://serverspec.org/resource_types.html#docker_image)                     | [`docker_image`](https://www.inspec.io/docs/reference/resources/docker_image/)         |
+| [`file`](http://serverspec.org/resource_types.html#file)                                     | [`file`](https://www.inspec.io/docs/reference/resources/file/)                         |
+| [`group`](http://serverspec.org/resource_types.html#group)                                   | [`group`](https://www.inspec.io/docs/reference/resources/group/)                       |
+| [`host`](http://serverspec.org/resource_types.html#host)                                     | [`host`](https://www.inspec.io/docs/reference/resources/host/)                         |
+| [`interface`](http://serverspec.org/resource_types.html#interface)                           | [`interface`](https://www.inspec.io/docs/reference/resources/interface/)               |
+| [`iis_website`](http://serverspec.org/resource_types.html#iis_website)                       | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
+| [`iis_app_pool`](http://serverspec.org/resource_types.html#iis_app_pool)                     | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
+| [`iptables`](http://serverspec.org/resource_types.html#iptables)                             | [`iptables`](https://www.inspec.io/docs/reference/resources/iptables/)                 |
+| [`kernel_module`](http://serverspec.org/resource_types.html#kernel_module)                   | [`kernel_module`](https://www.inspec.io/docs/reference/resources/kernel_module/)       |
+| [`linux_kernel_parameter`](http://serverspec.org/resource_types.html#linux_kernel_parameter) | [`kernel_parameter`](https://www.inspec.io/docs/reference/resources/kernel_parameter/) |
+| [`mysql_config`](http://serverspec.org/resource_types.html#mysql_config)                     | [`mysql_conf`](https://www.inspec.io/docs/reference/resources/mysql_conf/)             |
+| [`package`](http://serverspec.org/resource_types.html#package)                               | [`package`](https://www.inspec.io/docs/reference/resources/package/)                   |
+| [`port`](http://serverspec.org/resource_types.html#port)                                     | [`port`](https://www.inspec.io/docs/reference/resources/port/)                         |
+| [`ppa`](http://serverspec.org/resource_types.html#ppa)                                       | [`apt`](https://www.inspec.io/docs/reference/resources/apt/)                           |
+| [`process`](http://serverspec.org/resource_types.html#process)                               | [`processes`](https://www.inspec.io/docs/reference/resources/processes/)               |
+| [`service`](http://serverspec.org/resource_types.html#service)                               | [`service`](https://www.inspec.io/docs/reference/resources/service/)                   |
+| [`user`](http://serverspec.org/resource_types.html#user)                                     | [`user`](https://www.inspec.io/docs/reference/resources/user/)                         |
+| [`windows_feature`](http://serverspec.org/resource_types.html#windows_feature)               | [`windows_feature`](https://www.inspec.io/docs/reference/resources/windows_feature/)   |
+| [`windows_registry_key`](http://serverspec.org/resource_types.html#windows_registry_key)     | [`registry_key`](https://www.inspec.io/docs/reference/resources/registry_key/)         |
+| [`x509_certificate`](http://serverspec.org/resource_types.html#x509_certificate)             | [`x509_certificate`](https://www.inspec.io/docs/reference/resources/x509_certificate/) |
+| [`yumrepo`](http://serverspec.org/resource_types.html#yumrepo)                               | [`yum`](https://www.inspec.io/docs/reference/resources/yum/)                           |
+| [`zfs`](http://serverspec.org/resource_types.html#zfs)                                       | [`zfs_pool`](https://www.inspec.io/docs/reference/resources/zfs_pool/)                 |
 
 Some Serverspec resources are not available yet. We implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
 
