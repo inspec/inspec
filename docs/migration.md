@@ -48,10 +48,43 @@ The following resources are available in InSpec:
 
 Some Serverspec resources are not available yet. We implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
 
-[`cgroup`](http://serverspec.org/resource_types.html#cgroup), [`default_gateway`](http://serverspec.org/resource_types.html#default_gateway), [`ip6tables`](http://serverspec.org/resource_types.html#ip6tables), [`ipfilter`](http://serverspec.org/resource_types.html#ipfilter), [`ipnat`](http://serverspec.org/resource_types.html#ipnat), [`linux_audit_system`](http://serverspec.org/resource_types.html#linux_audit_system), [`lxc`](http://serverspec.org/resource_types.html#lxc), [`mail_alias`](http://serverspec.org/resource_types.html#mail_alias), [`php_config`](http://serverspec.org/resource_types.html#php_config), [`routing_table`](http://serverspec.org/resource_types.html#routing_table), [`selinux`](http://serverspec.org/resource_types.html#selinux), [`selinux_module`](http://serverspec.org/resource_types.html#selinux_module), [`x509_private_key`](http://serverspec.org/resource_types.html#x509_private_key)
+* [`cgroup`](http://serverspec.org/resource_types.html#cgroup)
+* [`default_gateway`](http://serverspec.org/resource_types.html#default_gateway)
+* [`ip6tables`](http://serverspec.org/resource_types.html#ip6tables)
+* [`ipfilter`](http://serverspec.org/resource_types.html#ipfilter)
+* [`ipnat`](http://serverspec.org/resource_types.html#ipnat)
+* [`linux_audit_system`](http://serverspec.org/resource_types.html#linux_audit_system)
+* [`lxc`](http://serverspec.org/resource_types.html#lxc)
+* [`mail_alias`](http://serverspec.org/resource_types.html#mail_alias)
+* [`php_config`](http://serverspec.org/resource_types.html#php_config)
+* [`routing_table`](http://serverspec.org/resource_types.html#routing_table)
+* [`selinux`](http://serverspec.org/resource_types.html#selinux)
+* [`selinux_module`](http://serverspec.org/resource_types.html#selinux_module)
+* [`x509_private_key`](http://serverspec.org/resource_types.html#x509_private_key)
 
 In addition InSpec provides additional [resources](https://www.inspec.io/docs/reference/resources/) that are not available in Serverspec:
-[`apache_conf`](https://www.inspec.io/docs/reference/resources/apache_conf/), [`apt`](https://www.inspec.io/docs/reference/resources/apt/), [`audit_policy`](https://www.inspec.io/docs/reference/resources/audit_policy/), [`auditd_conf`](https://www.inspec.io/docs/reference/resources/auditd_conf/), [`bash`](https://www.inspec.io/docs/reference/resources/bash/), [`csv`](https://www.inspec.io/docs/reference/resources/csv/), [`etc_shadow`](https://www.inspec.io/docs/reference/resources/etc_shadow/), [`gem`](https://www.inspec.io/docs/reference/resources/gem/), [`grub_conf`](https://www.inspec.io/docs/reference/resources/grub_conf/), [`inetd_conf`](https://www.inspec.io/docs/reference/resources/inetd_conf/), [`ini`](https://www.inspec.io/docs/reference/resources/ini/), [`json`](https://www.inspec.io/docs/reference/resources/json/), [`npm`](https://www.inspec.io/docs/reference/resources/npm/), [`ntp_conf`](https://www.inspec.io/docs/reference/resources/ntp_conf/), [`oneget`](https://www.inspec.io/docs/reference/resources/oneget/), [`pip`](https://www.inspec.io/docs/reference/resources/pip/), [`powershell`](https://www.inspec.io/docs/reference/resources/powershell/), [`security_policy`](https://www.inspec.io/docs/reference/resources/security_policy/), [`ssh_config`](https://www.inspec.io/docs/reference/resources/ssh_config/), [`sshd_config`](https://www.inspec.io/docs/reference/resources/sshd_config/), [`sys_info`](https://www.inspec.io/docs/reference/resources/sys_info/)
+
+* [`apache_conf`](https://www.inspec.io/docs/reference/resources/apache_conf/)
+* [`apt`](https://www.inspec.io/docs/reference/resources/apt/)
+* [`audit_policy`](https://www.inspec.io/docs/reference/resources/audit_policy/)
+* [`auditd_conf`](https://www.inspec.io/docs/reference/resources/auditd_conf/)
+* [`bash`](https://www.inspec.io/docs/reference/resources/bash/)
+* [`csv`](https://www.inspec.io/docs/reference/resources/csv/)
+* [`etc_shadow`](https://www.inspec.io/docs/reference/resources/etc_shadow/)
+* [`gem`](https://www.inspec.io/docs/reference/resources/gem/)
+* [`grub_conf`](https://www.inspec.io/docs/reference/resources/grub_conf/)
+* [`inetd_conf`](https://www.inspec.io/docs/reference/resources/inetd_conf/)
+* [`ini`](https://www.inspec.io/docs/reference/resources/ini/)
+* [`json`](https://www.inspec.io/docs/reference/resources/json/)
+* [`npm`](https://www.inspec.io/docs/reference/resources/npm/)
+* [`ntp_conf`](https://www.inspec.io/docs/reference/resources/ntp_conf/)
+* [`oneget`](https://www.inspec.io/docs/reference/resources/oneget/)
+* [`pip`](https://www.inspec.io/docs/reference/resources/pip/)
+* [`powershell`](https://www.inspec.io/docs/reference/resources/powershell/)
+* [`security_policy`](https://www.inspec.io/docs/reference/resources/security_policy/)
+* [`ssh_config`](https://www.inspec.io/docs/reference/resources/ssh_config/)
+* [`sshd_config`](https://www.inspec.io/docs/reference/resources/sshd_config/)
+* [`sys_info`](https://www.inspec.io/docs/reference/resources/sys_info/)
 
 ## How do I migrate my Serverspec tests to InSpec
 
