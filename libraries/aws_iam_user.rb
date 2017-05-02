@@ -10,19 +10,16 @@ class AwsIamUser < Inspec.resource(1)
       its('has_console_password?') { should be true }
     end
   "
-  def initialize(name, conn = AWSConnection.new)
+  def initialize(name, aws_user_provider = AwsIam::UserProvider.new)
     @name = name
-    @iam_resource = conn.iam_resource
-    @user = @iam_resource.user(@name)
+    @user = aws_user_provider.get_user(name)
   end
 
   def has_mfa_enabled?
-    !@user.mfa_devices.first.nil?
+    @user[:has_mfa_enabled?]
   end
 
   def has_console_password?
-    return !@user.login_profile.create_date.nil?
-  rescue Aws::IAM::Errors::NoSuchEntity
-    return false
+    @user[:has_console_password?]
   end
 end
