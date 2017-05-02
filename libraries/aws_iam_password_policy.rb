@@ -2,16 +2,16 @@
 
 require 'aws_conn'
 
-class IamPasswordPolicy < Inspec.resource(1)
-  name 'iam_password_policy'
+class AwsIamPasswordPolicy < Inspec.resource(1)
+  name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'
 
   example "
-    describe iam_password_policy('i-123456') do
+    describe aws_iam_password_policy do
       its('requires_lowercase_letters?') { should be true }
     end
 
-    describe iam_password_policy('i-123456') do
+    describe aws_iam_password_policy do
       its('requires_uppercase_letters?') { should be true }
     end
   "
@@ -48,5 +48,14 @@ class IamPasswordPolicy < Inspec.resource(1)
 
   def allows_users_to_change_password?
     @policy.allow_users_to_change_password
+  end
+
+  def expires_passwords?
+    @policy.expire_passwords
+  end
+
+  def max_password_age
+    raise 'this policy does not expire passwords' unless expires_passwords?
+    @policy.max_password_age
   end
 end
