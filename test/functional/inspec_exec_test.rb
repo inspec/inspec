@@ -248,4 +248,12 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m2 skipped\e[0m\n"
     end
   end
+
+  describe 'when trying to use --sudo with a local target' do
+    it 'must print an error and exit' do
+      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --sudo")
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "--sudo is only valid when running against a remote host using --target"
+      out.exit_status.must_equal 1
+    end
+  end
 end

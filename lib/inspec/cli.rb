@@ -155,6 +155,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     configure_logger(opts)
     o = opts.dup
 
+    # print error if user passed --sudo but with no --target
+    if opts[:sudo] && opts[:target].nil?
+      Inspec::Log.error('--sudo is only valid when running against a remote host using --target')
+      Inspec::Log.error('To run InSpec locally with elevated privileges, run `sudo inspec exec ...`')
+      exit 1
+    end
+
     # run tests
     run_tests(targets, o)
   rescue StandardError => e
