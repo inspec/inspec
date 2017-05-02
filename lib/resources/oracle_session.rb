@@ -23,7 +23,7 @@ module Inspec::Resources
     def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
-      cmd = inspec.command("echo \"#{q}\" | sqlplus -s #{@user}/#{@pass}@localhost/#{@service}")
+      cmd = inspec.command("echo \"#{escaped_query}\" | sqlplus -s #{@user}/#{@pass}@localhost/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
         skip_resource("Can't connect to Oracle instance for SQL checks.")
