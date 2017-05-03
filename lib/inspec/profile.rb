@@ -13,6 +13,7 @@ require 'inspec/backend'
 require 'inspec/rule'
 require 'inspec/log'
 require 'inspec/profile_context'
+require 'inspec/runtime_profile'
 require 'inspec/dependencies/cache'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
@@ -82,6 +83,7 @@ module Inspec
 
     # rubocop:disable Metrics/AbcSize
     def initialize(source_reader, options = {})
+      @source_reader = source_reader
       @target = options[:target]
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
@@ -91,10 +93,13 @@ module Inspec
       @cache = options[:cache] || Cache.new
       @backend = options[:backend] || Inspec::Backend.create(options.select { |k, _| k != 'target' })
       @attr_values = options[:attributes]
-      @source_reader = source_reader
       @tests_collected = false
       @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
+
+      @runtime_profile = RuntimeProfile.new(self)
+      @backend.profile = @runtime_profile
+
       @runner_context =
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend, @attr_values)

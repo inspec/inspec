@@ -20,13 +20,14 @@ module SourceReaders
       new(target, files)
     end
 
-    attr_reader :metadata, :tests, :libraries
+    attr_reader :metadata, :tests, :libraries, :data_files
 
     def initialize(target, files)
       @target = target
       @metadata = ::Inspec::Metadata.new(nil)
       @tests = load_tests(files)
       @libraries = {}
+      @data_files = {}
     end
 
     private
