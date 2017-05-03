@@ -33,7 +33,7 @@ task :update_demo do
 end
 
 # run tests
-task default: [:test, :lint]
+task default: [:lint, :test]
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
