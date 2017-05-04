@@ -53,6 +53,9 @@ matrix:
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-fedora-24' DOCKER=true
+  allow_failures:
+  - env: SUITE="test:resources config=test/test.yaml" N=2
+  - env: SUITE="test:resources config=test/test-extra.yaml" N=2
   - rvm: 2.4.1
     sudo: false
     cache:
@@ -68,9 +71,6 @@ matrix:
       - secure: "jdzXUhP1o7RkfSikZLKgUcCIaKqLjqWa35dnxWnz7qAQ2draRKa7I7cXmUv76BZkW8HBUUH11dOi8YOVxPYPOzaqvcTCfqNqGVxsT9epgWa7rA8aXMXkECp548ry1rYJQpti9zpwsoe2GQyNPr9vNiWMiyj51CaABmZ6JzmFEEqlZc8vqpqWeqJvIqaibQGk7ByLKmi4R44fVwFKIG39RuxV+alc/G4nnQ2zmNTFuy8uFGs5EghQvRytzWY+s2AKtDiZ0YXYOII1Nl1unXNnNoQt9oI209ztlSm1+XOuTPelW6bEIx5i7OZFaSRPgJzWnkGN85C9nBE08L2az9Jz18/rYJF4fdVRttdGskueyYI21lh1FwlAg51ZG0RfLTYk2Pq+k4c+NO1cfmGcaXBwihfD5BWqrILU5HHkYszXCSmgl4hscC7/BS4Kgcq2z32JJwV8B+x4XngM0G4uzIn1Soia3lZXEKdnfVsxFDdMQ7FK60F3uQlq/44LRkZujRhqfAKOiz+0tsLexWzj7wK+DJY9Y00CUfh7xcxRxDxFNpOv1FWYFB9lUlaOt3HDHgUoksqbURiUzhOZZzTE/1MAtF2K6mbpME5CbN08J88L5JBlb+CX79XCzj30lNMeS0I/dCRQEmkygr2eJYxvRO2qsBNuphs4SWk8NZyS/llVZFI="
     before_install: ./support/ci/fast_pass.sh || exit 0
     script: ./support/ci/deploy_website_to_acceptance.sh
-  allow_failures:
-  - env: SUITE="test:resources config=test/test.yaml" N=2
-  - env: SUITE="test:resources config=test/test-extra.yaml" N=2
 
 deploy:
   provider: rubygems
