@@ -157,31 +157,33 @@ For example:
 
 ## Chef Supermarket
 
-A `supermarket` setting specifies a profile that is located in a cookbook hosted on Chef Supermarket, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.
+A `supermarket` setting specifies a profile that is located in a cookbook hosted on Chef Supermarket. The source location is translated into a URL upon resolution.
 
 For example:
 
     depends:
     - name: supermarket-profile
-      git: username/profile
-      branch:  desired_branch
-      tag:     desired_version
-      commit:  pinned_commit
-      version: semver_via_tags
+      supermarket: supermarket-username/supermarket-profile
+
+Available Supermarket profiles can be listed with `inspec supermarket profiles`.
 
 ## GitHub
 
-A `github` setting specifies a profile that is located in a repository hosted on GitHub, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.
+A `github` setting specifies a profile that is located in a repository hosted on GitHub. The source location is translated into a URL upon resolution.
 
 For example:
 
     depends:
     - name: gh-profile
-      git: username/project
-      branch:  desired_branch
-      tag:     desired_version
-      commit:  pinned_commit
-      version: semver_via_tags
+      github: username/project
+
+A path to a Git commit or tag on GitHub can also be used:
+
+    dev-sec/linux-baseline
+    dev-sec/linux-baseline/tree/2.0
+    dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876
+
+would all download profiles corresponding to the GitHub URL, https://github.com/dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876, for example.
 
 ## Chef Compliance
 
