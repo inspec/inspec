@@ -1,6 +1,6 @@
 # InSpec Tutorials
 
-The following tutorial provides step-by-step instructions on how easy it is to build, configure, deploy, and manage applications in Habitat. Huge thanks to Annie Hedgpeth for these fantastic guides!
+The following tutorial provides step-by-step instructions on how easy it is to get started with InSpec. Huge thanks to Annie Hedgpeth for these fantastic guides!
 
 * [Day 1 - Hello World](http://www.anniehedgie.com/inspec-basics-1)
 * [Day 2 - Command Resource Blog Logo](http://www.anniehedgie.com/inspec-basics-2)
