@@ -1,5 +1,26 @@
 # Change Log
 
+## [1.23.0](https://github.com/chef/inspec/tree/1.23.0) (2017-05-04)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.22.0...1.23.0)
+
+**Implemented enhancements:**
+
+- Warn when using --sudo locally [\#1690](https://github.com/chef/inspec/issues/1690)
+- Error and exit when using --sudo locally [\#1741](https://github.com/chef/inspec/pull/1741) ([adamleff](https://github.com/adamleff))
+
+**Fixed bugs:**
+
+- xinetd.rb `read\_content': undefined method `empty?' for nil:NilClass [\#1729](https://github.com/chef/inspec/issues/1729)
+- Make the --no-color flag work for inspec exec [\#1749](https://github.com/chef/inspec/pull/1749) ([adamleff](https://github.com/adamleff))
+- Fix xinetd resource failing when file cannot be read [\#1746](https://github.com/chef/inspec/pull/1746) ([adamleff](https://github.com/adamleff))
+- Habitat profile bug fixes and improvements [\#1735](https://github.com/chef/inspec/pull/1735) ([rhass](https://github.com/rhass))
+
+**Merged pull requests:**
+
+- rake: lint before test [\#1755](https://github.com/chef/inspec/pull/1755) ([arlimus](https://github.com/arlimus))
+- rename old deprecations that were meant for 1.0 [\#1737](https://github.com/chef/inspec/pull/1737) ([arlimus](https://github.com/arlimus))
+- add `inspec.profile.file\(...\)` for profile files [\#1720](https://github.com/chef/inspec/pull/1720) ([arlimus](https://github.com/arlimus))
+
 ## [v1.22.0](https://github.com/chef/inspec/tree/v1.22.0) (2017-04-27)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.21.0...v1.22.0)
 
