@@ -5,6 +5,14 @@ require 'shellwords'
 
 module Inspec
   class EnvPrinter
+    attr_reader :shell
+
+    EVAL_COMMANDS = {
+      'bash' => 'eval \"$(inspec env bash)\"',
+      'fish' => 'inspec env fish > ~/.config/fish/completions/inspec.fish',
+      'zsh' => 'eval \"$(inspec env zsh)\"',
+    }.freeze
+
     def initialize(command_class, shell = nil)
       if !shell
         @detected = true
@@ -56,7 +64,7 @@ module Inspec
       puts <<EOF
 # To use this, eval it in your shell
 #
-#    eval "$(inspec env #{@shell})"
+#    #{EVAL_COMMANDS[shell]}
 #
 #
 EOF
