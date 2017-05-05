@@ -23,14 +23,14 @@ module Inspec::Resources
     def initialize(opts = {})
       @user = opts[:user]
       @pass = opts[:pass]
-      @host = opts[:host] || "localhost"
+      @host = opts[:host] || 'localhost'
       @instance = opts[:instance]
     end
 
     def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
       cmd_string = "sqlcmd -Q \"#{escaped_query}\""
-      cmd_string +=  " -U #{@user} -P #{@pass}" unless @user.nil? or @pass.nil?
+      cmd_string += " -U #{@user} -P #{@pass}" unless @user.nil? or @pass.nil?
       if @instance.nil?
         cmd_string += " -S #{@host}"
       else
