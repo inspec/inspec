@@ -7,23 +7,26 @@ module Inspec::Resources
     name 'oracle_session'
     desc 'Use the oracle_session InSpec resource to test commands against an Oracle database'
     example "
-      sql = oracle_session('my_user','password')
+      sql = oracle_session(user: 'my_user', pass: 'password')
       describe sql.query('SELECT NAME FROM v$database;') do
         its('stdout') { should_not match(/test/) }
       end
     "
 
-    def initialize(user = nil, pass = nil, service = nil)
-      @user = user
-      @pass = pass
-      @service = service
-      return skip_resource("Can't run Oracle checks without authentication") if user.nil? or pass.nil?
+    attr_reader :user, :pass, :host, :sid, :sqlplus_bin
+
+    def initialize(opts = {})
+      @user = opts[:user]
+      @pass = opts[:pass]
+      @host = opts[:host] || "localhost"
+      @sid = opts[:sid]
+      @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
+      return skip_resource("Can't run Oracle checks without authentication") if @user.nil? or @pass.nil?
     end
 
     def query(q)
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
-
-      cmd = inspec.command("echo \"#{escaped_query}\" | sqlplus -s #{@user}/#{@pass}@localhost/#{@service}")
+      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
+      cmd = inspec.command("echo \"#{escaped_query}\" | #{@sqlplus_bin} -s #{@user}/#{@pass}@#{@host}/#{@sid}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
         skip_resource("Can't connect to Oracle instance for SQL checks.")

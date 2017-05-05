@@ -10,13 +10,13 @@ Use the `oracle_session` InSpec audit resource to test SQL commands run against 
 
 A `oracle_session` resource block declares the username and password to use for the session with an optional service to connect to, and then the command to be run:
 
-    describe oracle_session('username', 'password').query('QUERY') do
+    describe oracle_session(user: 'username', pass: 'password').query('QUERY') do
       its('output') { should eq('') }
     end
 
 where
 
-* `oracle_session` declares a username and password with permission to run the query, and an optional service name.  If none is specifed, it will use the default service on the instance.
+* `oracle_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).  
 * `query('QUERY')` contains the query to be run
 * `its('output') { should eq('') }` compares the results of the query against the expected result in the test
 
@@ -56,7 +56,15 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for matching databases
 
-    sql = oracle_session('my_user','password')
+    sql = oracle_session(user: 'my_user', pass: 'password')
+    
+    describe sql.query('SELECT NAME FROM v$database;') do
+      its('stdout') { should_not match(/test/) }
+    end
+
+### Test for matching databases with custom host, SID and sqlplus binary location
+
+    sql = oracle_session(user: 'my_user', pass: 'password', host: 'oraclehost', sid: 'mysid', sqlplus_bin: '/u01/app/oracle/product/12.1.0/dbhome_1/bin/sqlplus')
     
     describe sql.query('SELECT NAME FROM v$database;') do
       its('stdout') { should_not match(/test/) }
