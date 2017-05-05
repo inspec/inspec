@@ -36,7 +36,6 @@ module Inspec::Resources
       else
         cmd_string += " -S #{@host}\\#{@instance}"
       end
-      puts cmd_string
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
       if out =~ /Sqlcmd: Error/

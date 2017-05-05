@@ -76,3 +76,4 @@ The following examples show how to use this InSpec audit resource.
     describe sql.query('show databases like \'test\';') do
       its('stdout') { should_not match(/test/) }
     end
+
