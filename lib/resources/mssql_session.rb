@@ -7,7 +7,8 @@ module Inspec::Resources
     name 'mssql_session'
     desc 'Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database.'
     example "
-      sql = mssql_session('myuser','mypassword')
+      # Using SQL authentication
+      sql = mssql_session(user: 'myuser', pass: 'mypassword')
       describe sql.query('select * from sys.databases where name like \'*test*\') do
         its('stdout') {should_not match(/test/) }
       end
@@ -19,18 +20,23 @@ module Inspec::Resources
       end
     "
 
-    def initialize(user = nil, pass = nil)
-      @user = user
-      @pass = pass
+    def initialize(opts = {})
+      @user = opts[:user]
+      @pass = opts[:pass]
+      @host = opts[:host] || "localhost"
+      @instance = opts[:instance]
     end
 
     def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
-      cmd_string =  if @user.nil? or @pass.nil?
-                      "sqlcmd -Q \"#{escaped_query}\""
-                    else
-                      "sqlcmd -U #{@user} -P #{@pass} -Q \"#{escaped_query}\""
-                    end
+      cmd_string = "sqlcmd -Q \"#{escaped_query}\""
+      cmd_string +=  " -U #{@user} -P #{@pass}" unless @user.nil? or @pass.nil?
+      if @instance.nil?
+        cmd_string += " -S #{@host}"
+      else
+        cmd_string += " -S #{@host}\\#{@instance}"
+      end
+      puts cmd_string
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
       if out =~ /Sqlcmd: Error/
