@@ -3,9 +3,9 @@
 
 require 'helper'
 
-describe 'Inspec::Resources::OracleSession' do
-  it 'verify oracle_session configuration' do
-    resource = load_resource('oracle_session', user: 'myuser', pass: 'mypass', host: 'oraclehost', sid: 'mysid')
+describe 'Inspec::Resources::OracledbSession' do
+  it 'verify oracledb_session configuration' do
+    resource = load_resource('oracledb_session', user: 'myuser', pass: 'mypass', host: 'oraclehost', sid: 'mysid')
     _(resource.user).must_equal 'myuser'
     _(resource.pass).must_equal 'mypass'
     _(resource.host).must_equal 'oraclehost'

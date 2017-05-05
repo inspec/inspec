@@ -3,11 +3,11 @@
 # license: All rights reserved
 
 module Inspec::Resources
-  class OracleSession < Inspec.resource(1)
-    name 'oracle_session'
-    desc 'Use the oracle_session InSpec resource to test commands against an Oracle database'
+  class OracledbSession < Inspec.resource(1)
+    name 'oracledb_session'
+    desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
     example "
-      sql = oracle_session(user: 'my_user', pass: 'password')
+      sql = oracledb_session(user: 'my_user', pass: 'password')
       describe sql.query('SELECT NAME FROM v$database;') do
         its('stdout') { should_not match(/test/) }
       end
