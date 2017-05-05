@@ -18,9 +18,9 @@ module Inspec::Resources
     def initialize(opts = {})
       @user = opts[:user]
       @pass = opts[:pass]
-      @host = opts[:host] || "localhost"
+      @host = opts[:host] || 'localhost'
       @sid = opts[:sid]
-      @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
+      @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
       return skip_resource("Can't run Oracle checks without authentication") if @user.nil? or @pass.nil?
     end
 
