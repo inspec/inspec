@@ -21,6 +21,7 @@ require 'zip'
 
 require 'inspec/base_cli'
 require 'inspec/version'
+require 'inspec/exceptions'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/resource'
