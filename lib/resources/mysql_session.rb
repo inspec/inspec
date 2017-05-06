@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
+# author: Aaron Lippold
 # license: All rights reserved
 
 module Inspec::Resources
@@ -9,15 +10,16 @@ module Inspec::Resources
     name 'mysql_session'
     desc 'Use the mysql_session InSpec audit resource to test SQL commands run against a MySQL database.'
     example "
-      sql = mysql_session('my_user','password')
+      sql = mysql_session('my_user','password','host')
       describe sql.query('show databases like \'test\';') do
         its('stdout') { should_not match(/test/) }
       end
     "
 
-    def initialize(user = nil, pass = nil)
+    def initialize(user = nil, pass = nil, host = 'localhost')
       @user = user
       @pass = pass
+      @host = host
       init_fallback if user.nil? or pass.nil?
       skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
     end
@@ -28,7 +30,7 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
       # run the query
-      cmd = inspec.command("mysql -u#{@user} -p#{@pass} #{db} -s -e \"#{escaped_query}\"")
+      cmd = inspec.command("mysql -u#{@user} -p#{@pass} -h #{@host} #{db} -s -e \"#{escaped_query}\"")
       out = cmd.stdout + "\n" + cmd.stderr
       if out =~ /Can't connect to .* MySQL server/ or
          out.downcase =~ /^error/
