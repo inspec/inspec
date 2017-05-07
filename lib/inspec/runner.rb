@@ -125,6 +125,7 @@ module Inspec
       unless secrets_targets.nil?
         secrets_targets.each do |target|
           secrets = Inspec::SecretsBackend.resolve(target)
+          exit if secrets.nil?
           # merge hash values
           attributes = attributes.merge(secrets.attributes) unless secrets.nil? || secrets.attributes.nil?
         end
