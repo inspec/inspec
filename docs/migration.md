@@ -46,7 +46,7 @@ The following resources are available in InSpec:
 | [`yumrepo`](http://serverspec.org/resource_types.html#yumrepo)                               | [`yum`](https://www.inspec.io/docs/reference/resources/yum/)                           |
 | [`zfs`](http://serverspec.org/resource_types.html#zfs)                                       | [`zfs_pool`](https://www.inspec.io/docs/reference/resources/zfs_pool/)                 |
 
-Some Serverspec resources are not available yet. We implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
+Some Serverspec resources are not available yet. We will implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
 
 * [`cgroup`](http://serverspec.org/resource_types.html#cgroup)
 * [`default_gateway`](http://serverspec.org/resource_types.html#default_gateway)
