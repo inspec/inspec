@@ -4,6 +4,7 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
+require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
 
 # The docs tasks rely on ruby-progressbar. If we can't load it, then don't
@@ -128,26 +129,12 @@ end
 # Check the requirements for running an update of this repository.
 def check_update_requirements
   require_command 'git'
-  require_command 'github_changelog_generator', "\n"\
-    "For more information on how to install it see:\n"\
-    "  https://github.com/skywinder/github-changelog-generator\n"
-  require_env 'CHANGELOG_GITHUB_TOKEN', "\n"\
-    "Please configure this token to make sure you can run all commands\n"\
-    "against GitHub.\n\n"\
-    "See github_changelog_generator homepage for more information:\n"\
-    "  https://github.com/skywinder/github-changelog-generator\n"
 end
 
 # Show the current version of this gem.
 desc 'Show the version of this gem'
 task :version do
   inspec_version
-end
-
-desc 'Generate the changelog'
-task :changelog do
-  require_relative 'lib/inspec/version'
-  system "github_changelog_generator -u chef -p inspec --future-release v#{Inspec::VERSION} --since-tag 0.7.0"
 end
 
 # Update the version of this gem and create an updated
