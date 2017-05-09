@@ -16,7 +16,7 @@ A `processes` resource block declares the name of the process to be tested, and 
 
 where
 
-* `processes('process_name')` must specify the name of a process that is running on the system
+* `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly.
 * `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
 
@@ -70,4 +70,14 @@ The following examples show how to use this InSpec audit resource.
 
     describe processes('some_process') do
       its('states') { should eq ['R<'] }
+    end
+
+### Test for a process using a specific Regexp
+
+If the process name is too common for a string to uniquely find it,
+you may use a regexp. Inclusion of whitespace characters may be
+needed.
+
+    describe processes(Regexp.new("/usr/local/bin/swap -d")) do
+      its('list.length') { should eq 1 }
     end
