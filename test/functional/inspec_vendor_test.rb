@@ -59,7 +59,7 @@ describe 'example inheritance profile' do
 
     out = inspec('exec ' + meta_path + ' -l debug --no-create-lockfile')
     out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-benchmark/archive/master.tar.gz"'
+    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
     out.stdout.force_encoding(Encoding::UTF_8).index('Fetching URL:').must_be_nil
     out.stdout.force_encoding(Encoding::UTF_8).index('Fetched archive moved to:').must_be_nil
