@@ -15,6 +15,7 @@ pkg_deps=(
   core/ruby
   core/net-tools
   core/hab
+  core/lsof
 )
 pkg_build_deps=(
   core/bundler
