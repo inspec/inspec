@@ -11,6 +11,15 @@ module Inspec
       },
     }.freeze
 
+    PLATFORM = {
+      'type' => 'object',
+      'additionalProperties' => false,
+      'properties' => {
+        'name' => { 'type' => 'string' },
+        'release' => { 'type' => 'string' },
+      },
+    }.freeze
+
     # Tags are open right, with simple key-value associations and not restrictions
     TAGS = { 'type' => 'object' }.freeze
 
@@ -117,6 +126,7 @@ module Inspec
       'type' => 'object',
       'additionalProperties' => false,
       'properties' => {
+        'platform' => PLATFORM,
         'profiles' => {
           'type' => 'array',
           'items' => PROFILE,
