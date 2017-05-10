@@ -114,6 +114,10 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
 
     @output_hash[:other_checks] = examples_without_controls
     @output_hash[:profiles] = profiles_info
+    @output_hash[:platform] = {
+      name: os(:name),
+      release: os(:release),
+    }
 
     examples_with_controls.each do |example|
       control = example2control(example)
@@ -122,6 +126,11 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 
   private
+
+  def os(field)
+    return nil if @backend.nil?
+    @backend.os.params[field]
+  end
 
   def all_unique_controls
     Array(@all_controls).uniq
