@@ -10,14 +10,49 @@ Use the `kernel_module` InSpec audit resource to test kernel modules on Linux pl
 
 A `kernel_module` resource block declares a module name, and then tests if that module is a loadable kernel module:
 
-    describe kernel_module('module_name') do
-      it { should be_loaded }
-    end
+  describe kernel_module('video') do
+    it { should be_loaded }
+    it { should_not be_disabled }
+    it { should_not be_blacklisted }
+  end
+
+  describe kernel_module('video') do
+    it { should_not be_blacklisted }
+  end
+
+  describe kernel_module('sstfb') do
+    it { should_not be_loaded }
+    it { should be_disabled }
+    it { should be_disabled_via_bin_false }
+  end
+
+  describe kernel_module('nvidiafb') do
+    it { should_not be_loaded }
+    it { should be_disabled }
+    it { should be_disabled_via_bin_true }
+  end
+
+  describe kernel_module('floppy') do
+    it { should be_blacklisted }
+    it { should_not be_loaded }
+  end
+
+  describe kernel_module('bridge') do
+    it { should_not be_loaded }
+  end
+
+  describe kernel_module('dhcp') do
+    it { should_not be_loaded }
+  end
 
 where
 
 * `'module_name'` must specify a kernel module, such as `'bridge'`
 * `{ should be_loaded }` tests if the module is a loadable kernel module
+* `{ should be_disabled }` tests if the module is disabled via a fake install using /bin/false or /bin/true
+* `{ should be_disabled_via_bin_false }` tests if the module is disabled via a fake install using /bin/false
+* `{ should be_disabled_via_bin_true }` tests if the module is disabled via a fake install using /bin/true
+* `{ should be_blacklisted }` tests if the module is blacklisted
 
 ## Matchers
 
