@@ -346,7 +346,7 @@ mkdir -p {{pkg.svc_var_path}}/inspec_results
 
 while true; do
   echo "Executing InSpec for ${PROFILE_IDENT}"
-  hab pkg exec chef/inspec inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
+  inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
 
   if [ $? -eq 0 ]; then
     echo "InSpec run completed successfully."
