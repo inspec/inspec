@@ -14,7 +14,6 @@ pkg_deps=(
   core/libxslt
   core/ruby
   core/net-tools
-  core/hab
   core/lsof
 )
 pkg_build_deps=(
