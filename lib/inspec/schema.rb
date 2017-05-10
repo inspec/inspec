@@ -94,6 +94,7 @@ module Inspec
       'properties' => {
         'name' => { 'type' => 'string' },
         'version' => { 'type' => 'string', 'optional' => true },
+        'sha256' => { 'type' => 'string', 'optional' => false },
 
         'title' => { 'type' => 'string', 'optional' => true },
         'maintainer' => { 'type' => 'string', 'optional' => true },

@@ -64,6 +64,16 @@ describe Inspec::Profile do
     end
   end
 
+  describe 'SHA256 sums' do
+    it 'works on an empty profile' do
+      MockLoader.load_profile('empty-metadata').sha256.must_equal 'ee95f4cf4258402604d4cc581a672bbd2f73d212b09cd4bcf1c5984e97e68963'
+    end
+
+    it 'works on a complete profile' do
+      MockLoader.load_profile('complete-profile').sha256.must_equal '41ce15e61b7e02aad5dade183f68c547e062f1390762d266c5c8cf96d49134c7'
+    end
+  end
+
   describe 'when checking' do
     describe 'an empty profile' do
       let(:profile_id) { 'empty-metadata' }

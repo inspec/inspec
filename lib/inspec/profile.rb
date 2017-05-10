@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
+require 'digest'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
@@ -208,6 +209,7 @@ module Inspec
 
       # add information about the required attributes
       res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
+      res[:sha256] = sha256
       res
     end
 
@@ -393,6 +395,26 @@ module Inspec
 
     def load_dependencies
       Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, { attributes: @attr_values })
+    end
+
+    # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
+    # libraries, data files, and controls.
+    #
+    # @return [Type] description of returned object
+    def sha256
+      # get all dependency checksums
+      deps = Hash[locked_dependencies.list.map { |k, v| [k, v.profile.sha256] }]
+
+      res = Digest::SHA256.new
+      files = source_reader.tests.to_a + source_reader.libraries.to_a +
+              source_reader.data_files.to_a +
+              [['inspec.yml', source_reader.metadata.content]] +
+              [['inspec.lock.deps', YAML.dump(deps)]]
+
+      files.sort { |a, b| a[0] <=> b[0] }
+           .map { |f| res << f[0] << "\0" << f[1] << "\0" }
+
+      res.hexdigest
     end
 
     private
