@@ -25,7 +25,7 @@ begin
       # bump_version Rake task). If it doesn't exist, use Inspec::VERSION. We can't rely
       # on Inspec::VERSION because we may have already "require'd" Inspec by the time
       # we've gotten here and the version has been bumped with bump_version.
-      config.future_release = ENV.fetch('to', "v#{Inspec::VERSION}")
+      config.future_release = "v#{ENV.fetch('to', Inspec::VERSION)}"
 
       # only generate changelog records for pull requests merged since v1.20.0
       # which is the version we started tagging PRs for.
