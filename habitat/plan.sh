@@ -14,7 +14,7 @@ pkg_deps=(
   core/libxslt
   core/ruby
   core/net-tools
-  core/lsof
+  core/busybox-static
 )
 pkg_build_deps=(
   core/bundler
