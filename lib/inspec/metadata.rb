@@ -11,10 +11,11 @@ module Inspec
   # Extract metadata.rb information
   class Metadata # rubocop:disable Metrics/ClassLength
     attr_reader :ref
-    attr_accessor :params
+    attr_accessor :params, :content
     def initialize(ref, logger = nil)
       @ref = ref
       @logger = logger || Logger.new(nil)
+      @content = ''
       @params = {}
       @missing_methods = []
     end
@@ -206,26 +207,28 @@ module Inspec
       metadata
     end
 
-    def self.from_yaml(ref, contents, profile_id, logger = nil)
+    def self.from_yaml(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      res.params = YAML.load(contents)
+      res.params = YAML.load(content)
+      res.content = content
       finalize(res, profile_id, {}, logger)
     end
 
-    def self.from_ruby(ref, contents, profile_id, logger = nil)
+    def self.from_ruby(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      res.instance_eval(contents, ref, 1)
+      res.instance_eval(content, ref, 1)
+      res.content = content
       finalize(res, profile_id, {}, logger)
     end
 
-    def self.from_ref(ref, contents, profile_id, logger = nil)
+    def self.from_ref(ref, content, profile_id, logger = nil)
       # NOTE there doesn't have to exist an actual file, it may come from an
-      # archive (i.e., contents)
+      # archive (i.e., content)
       case File.basename(ref)
       when 'inspec.yml'
-        from_yaml(ref, contents, profile_id, logger)
+        from_yaml(ref, content, profile_id, logger)
       when 'metadata.rb'
-        from_ruby(ref, contents, profile_id, logger)
+        from_ruby(ref, content, profile_id, logger)
       else
         logger ||= Logger.new(nil)
         logger.error "Don't know how to handle metadata in #{ref}"
