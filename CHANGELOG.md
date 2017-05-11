@@ -1,7 +1,7 @@
 # Change Log
 
-## [1.24.0](https://github.com/chef/inspec/tree/1.24.0) (2017-05-11)
-[Full Changelog](https://github.com/chef/inspec/compare/v1.23.0...1.24.0)
+## [v1.24.0](https://github.com/chef/inspec/tree/v1.24.0) (2017-05-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.23.0...v1.24.0)
 
 **Implemented enhancements:**
 
