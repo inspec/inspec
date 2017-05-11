@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.24.0](https://github.com/chef/inspec/tree/1.24.0) (2017-05-11)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.23.0...1.24.0)
+
+**Implemented enhancements:**
+
+- minor ui fix [\#1807](https://github.com/chef/inspec/pull/1807) ([echohack](https://github.com/echohack))
+- Add busybox-static to habitat plan so netstat works for port resource on linux [\#1805](https://github.com/chef/inspec/pull/1805) ([elliott-davis](https://github.com/elliott-davis))
+- add sha256 checksum to json [\#1796](https://github.com/chef/inspec/pull/1796) ([arlimus](https://github.com/arlimus))
+- add platform info to json formatter [\#1792](https://github.com/chef/inspec/pull/1792) ([arlimus](https://github.com/arlimus))
+- Update hab exporter to use inspec in path over calling to hab sup [\#1791](https://github.com/chef/inspec/pull/1791) ([elliott-davis](https://github.com/elliott-davis))
+- Add support for Windows auth in mssql\_resourcet [\#1786](https://github.com/chef/inspec/pull/1786) ([arlimus](https://github.com/arlimus))
+- Allow mysql\_session to test databases on different hosts [\#1779](https://github.com/chef/inspec/pull/1779) ([aaronlippold](https://github.com/aaronlippold))
+- Handle parse errors for attrs/secrets [\#1775](https://github.com/chef/inspec/pull/1775) ([adamleff](https://github.com/adamleff))
+- Add an oracle\_session resource [\#1751](https://github.com/chef/inspec/pull/1751) ([nsdavidson](https://github.com/nsdavidson))
+
 ## [v1.23.0](https://github.com/chef/inspec/tree/v1.23.0) (2017-05-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.22.0...v1.23.0)
 
