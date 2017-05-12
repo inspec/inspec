@@ -123,6 +123,19 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
       control = example2control(example)
       move_example_into_control(example, control)
     end
+
+    # Until we revamp the reporting infrastructure and properly
+    # handle controls from inherited profiles correctly, we
+    # need to remove any controls without results from profiles
+    # to avoid the JSON reporter outputting duplicate controls.
+    # This will make it match the output shown in the CLI
+    # formatter.
+    #
+    # A longer-term fix will involve looking into profile run
+    # contexts and ensure we don't duplicate the tracking of
+    # controls between profiles when inheritance/dependencies
+    # are used.
+    delete_controls_without_results_from_profile
   end
 
   private
@@ -249,6 +262,12 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     super(example).tap do |res|
       res[:run_time]   = example.execution_result.run_time
       res[:start_time] = example.execution_result.started_at.to_s
+    end
+  end
+
+  def delete_controls_without_results_from_profile
+    @output_hash[:profiles].each do |profile|
+      profile[:controls].delete_if { |control| !control.key?(:results) || control[:results].empty? }
     end
   end
 end
