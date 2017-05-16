@@ -28,6 +28,10 @@ module Compliance
       @config[key] = value
     end
 
+    def clean
+      @config = {}
+    end
+
     # return the json data
     def get
       if File.exist?(@config_file)

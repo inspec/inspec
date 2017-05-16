@@ -13,7 +13,7 @@ module Compliance
   class Fetcher < Fetchers::Url
     name 'compliance'
     priority 500
-    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
+    def self.resolve(target) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity
       uri = if target.is_a?(String) && URI(target).scheme == 'compliance'
               URI(target)
             elsif target.respond_to?(:key?) && target.key?(:compliance)
@@ -49,7 +49,7 @@ EOF
         end
 
         # verifies that the target e.g base/ssh exists
-        profile = uri.host + uri.path
+        profile = Compliance::API.sanitize_profile_name(uri)
         if !Compliance::API.exist?(config, profile)
           raise Inspec::FetcherFailure, "The compliance profile #{profile} was not found on the configured compliance server"
         end
@@ -57,7 +57,6 @@ EOF
       end
       # We need to pass the token to the fetcher
       config['token'] = Compliance::API.get_token(config)
-
       new(profile_fetch_url, config)
     rescue URI::Error => _e
       nil
@@ -81,8 +80,10 @@ EOF
 
     # determine the owner_id and the profile name from the url
     def compliance_profile_name
-      m = if @config['server_type'] == 'automate'
+      m = if Compliance::API.is_automate_server_pre_080(@config)
             %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
+          elsif Compliance::API.is_automate_server_080_and_later
+            %r{^#{@config['server']}/profiles/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
           else
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
           end.match(@target)
