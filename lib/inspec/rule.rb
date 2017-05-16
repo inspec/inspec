@@ -39,7 +39,6 @@ module Inspec
 
       # not changeable by the user:
       @__block = block
-      @__code = __get_block_source(&block)
       @__source_location = __get_block_source_location(&block)
       @__rule_id = id
       @__profile_id = profile_id
@@ -247,14 +246,6 @@ module Inspec
       return '' if text.nil?
       len = text.split("\n").reject { |l| l.strip.empty? }.map { |x| x.index(/[^\s]/) }.compact.min
       text.gsub(/^[[:blank:]]{#{len}}/, '').strip
-    end
-
-    # get the rule's source code
-    def __get_block_source(&block)
-      return '' unless block_given?
-      block.source.to_s
-    rescue MethodSource::SourceNotFoundError
-      ''
     end
 
     # get the source location of the block

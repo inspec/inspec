@@ -341,7 +341,7 @@ class MockLoader
 
   def self.profile_path(name)
     dst = name
-    dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
+    dst = "#{home}/mock/profiles/#{name}" unless (Pathname.new name).absolute?
     dst
   end
 

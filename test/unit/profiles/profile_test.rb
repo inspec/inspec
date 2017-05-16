@@ -74,6 +74,33 @@ describe Inspec::Profile do
     end
   end
 
+  describe 'code info' do
+    let(:profile_id) { 'complete-profile' }
+    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc '\n    There should always be a /proc\n  '\n  describe file('/proc') do\n    it { should be_mounted }\n  end\nend\n" }
+    let(:loc) { {:ref=>"controls/filesystem_spec.rb", :line=>7} }
+
+    it 'gets code from an uncompressed profile' do
+      info = MockLoader.load_profile(profile_id).info
+      info[:controls][0][:code].must_equal code
+      loc[:ref] = File.join(MockLoader.profile_path(profile_id), loc[:ref])
+      info[:controls][0][:source_location].must_equal loc
+    end
+
+    it 'gets code on zip profiles' do
+      path = MockLoader.profile_zip(profile_id)
+      info = MockLoader.load_profile(path).info
+      info[:controls][0][:code].must_equal code
+      info[:controls][0][:source_location].must_equal loc
+    end
+
+    it 'gets code on tgz profiles' do
+      path = MockLoader.profile_tgz(profile_id)
+      info = MockLoader.load_profile(path).info
+      info[:controls][0][:code].must_equal code
+      info[:controls][0][:source_location].must_equal loc
+    end
+  end
+
   describe 'when checking' do
     describe 'an empty profile' do
       let(:profile_id) { 'empty-metadata' }
