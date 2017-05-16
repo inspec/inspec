@@ -15,6 +15,7 @@ require 'inspec/rule'
 require 'inspec/log'
 require 'inspec/profile_context'
 require 'inspec/runtime_profile'
+require 'inspec/method_source'
 require 'inspec/dependencies/cache'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
@@ -471,6 +472,7 @@ module Inspec
 
     def load_rule(rule, file, controls, groups)
       id = Inspec::Rule.rule_id(rule)
+      location = rule.instance_variable_get(:@__source_location)
       controls[id] = {
         title: rule.title,
         desc: rule.desc,
@@ -478,8 +480,8 @@ module Inspec
         refs: rule.ref,
         tags: rule.tag,
         checks: Inspec::Rule.checks(rule),
-        code: rule.instance_variable_get(:@__code),
-        source_location: rule.instance_variable_get(:@__source_location),
+        code: Inspec::MethodSource.code_at(location, source_reader),
+        source_location: location,
       }
 
       groups[file] ||= {
