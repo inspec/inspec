@@ -101,12 +101,9 @@ and to target all of these examples in a single `inspec.yml` file:
     name: ssh
     supports:
       - os-name: debian
-    supports:
       - os-name: ubuntu
         release: 14.04
-    supports:
       - os-family: redhat
-    supports:
       - platform: aws
 
 
