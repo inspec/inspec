@@ -41,6 +41,13 @@ describe 'command tests' do
       out.exit_status.must_equal 0
       out.stdout.must_equal Inspec::VERSION+"\n"
     end
+
+    it 'prints the version as JSON when the format is specified as JSON' do
+      out = inspec('version --format=json')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.must_equal %({"version":"#{Inspec::VERSION}"}\n)
+    end
   end
 
   describe 'check' do
