@@ -10,15 +10,35 @@ Use the `oracledb_session` InSpec audit resource to test SQL commands run agains
 
 A `oracledb_session` resource block declares the username and password to use for the session with an optional service to connect to, and then the command to be run:
 
-    describe oracledb_session(user: 'username', pass: 'password').query('QUERY') do
-      its('output') { should eq('') }
-    end
+describe oracledb_session(user: 'my_user',
+                          password: 'password',
+                          host: '192.168.0.10',
+                          service_name: 'TESTDB',
+                          query: 'SELECT NAME FROM v$database;') do
+  it { should be_successful }
+  its('output') { should_not match /test/ }
+end
+
+Required values:
+ - user
+ - pass
+ - sid or service_name
+ - query
+
+Optional values:
+ - host (default: localhost)
+ - port (default: 1526)
 
 where
 
-* `oracledb_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).  
-* `query('QUERY')` contains the query to be run
-* `its('output') { should eq('') }` compares the results of the query against the expected result in the test
+* `oracledb_session` declares a username and password with permission to run the
+query (required), the desired `query` and either the SID or the SERVICE_NAME (one or the other is required), and
+the optional parameters for host (default: `localhost`), port (default: `1526`) and
+path to the sqlplus binary (default: `sqlplus`).
+* `its('output') { should eq '' }` compares the results of the query against the
+expected result in the test
+* `it { should be_successful }` ensures that the query ran correctly and did not
+produce any error output.
 
 ## Matchers
 
@@ -56,16 +76,23 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for matching databases
 
-    sql = oracledb_session(user: 'my_user', pass: 'password')
-    
-    describe sql.query('SELECT NAME FROM v$database;') do
-      its('stdout') { should_not match(/test/) }
-    end
+describe oracledb_session(user: 'my_user',
+                          password: 'password',
+                          host: '192.168.0.10',
+                          service_name: 'TESTDB',
+                          query: 'SELECT NAME FROM v$database;') do
+  it { should be_successful }
+  its('output') { should_not match /test/ }
+end
 
 ### Test for matching databases with custom host, SID and sqlplus binary location
 
-    sql = oracledb_session(user: 'my_user', pass: 'password', host: 'oraclehost', sid: 'mysid', sqlplus_bin: '/u01/app/oracle/product/12.1.0/dbhome_1/bin/sqlplus')
-    
-    describe sql.query('SELECT NAME FROM v$database;') do
-      its('stdout') { should_not match(/test/) }
-    end
+describe oracledb_session(user: 'ora_dba',
+                          password: 'password',
+                          host: '192.168.0.10',
+                          port: '1511'
+                          sid: 'students',
+                          query: 'SELECT NAME FROM v$database;') do
+  it { should be_successful }
+  its('output') { should_not match /test/ }
+end
