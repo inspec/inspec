@@ -332,6 +332,12 @@ do_install() {
       <<-EOL
 #!/bin/sh
 
+# redirect stderr to stdout
+# ultimately, we'd like to log this somewhere useful, but due to
+# https://github.com/habitat-sh/habitat/issues/2395, we need to
+# avoid doing that for now.
+exec 2>&1
+
 # InSpec will try to create a .cache directory in the user's home directory
 # so this needs to be someplace writeable by the hab user
 export HOME={{pkg.svc_var_path}}
@@ -339,23 +345,21 @@ export HOME={{pkg.svc_var_path}}
 PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
 RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
 RESULTS_FILE="${RESULTS_DIR}/{{pkg.name}}.json"
-ERROR_FILE="{{pkg.svc_var_path}}/inspec.err"
 
 # Create a directory for inspec formatter output
 mkdir -p {{pkg.svc_var_path}}/inspec_results
 
 while true; do
   echo "Executing InSpec for ${PROFILE_IDENT}"
-  inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE} 2>${ERROR_FILE}
+  inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE}
 
   if [ $? -eq 0 ]; then
     echo "InSpec run completed successfully."
-  elsif [ -s ${ERROR_FILE} ]
-    echo "InSpec run did NOT complete successfully. Error:"
-    cat ${ERROR_FILE}
   else
-    echo "InSpec run completed successfully, but there were control failures."
-    echo "Check the output at ${RESULTS_FILE} for details."
+    echo "InSpec run did not complete successfully. If you do not see any errors above,"
+    echo "control failures were detected. Check the InSpec results here for details:"
+    echo ${RESULTS_FILE}
+    echo "Otherwise, troubleshoot any errors shown above."
   fi
 
   source {{pkg.svc_config_path}}/settings.sh
