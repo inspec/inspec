@@ -1,5 +1,18 @@
 # Change Log
 
+## [v1.25.0](https://github.com/chef/inspec/tree/v1.25.0) (2017-05-17)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.24.0...v1.25.0)
+
+**Implemented enhancements:**
+
+- return version as json [\#1822](https://github.com/chef/inspec/pull/1822) ([chris-rock](https://github.com/chris-rock))
+- support new automate compliance backend [\#1819](https://github.com/chef/inspec/pull/1819) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- read source code if profile is in tgz/zip [\#1816](https://github.com/chef/inspec/pull/1816) ([arlimus](https://github.com/arlimus))
+- Update postgresql conf resource to accept include\_dir as a string as well as an array [\#1727](https://github.com/chef/inspec/pull/1727) ([elliott-davis](https://github.com/elliott-davis))
+
 ## [v1.24.0](https://github.com/chef/inspec/tree/v1.24.0) (2017-05-11)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.23.0...v1.24.0)
 
@@ -13,7 +26,7 @@
 - Add support for Windows auth in mssql\_resourcet [\#1786](https://github.com/chef/inspec/pull/1786) ([arlimus](https://github.com/arlimus))
 - Allow mysql\_session to test databases on different hosts [\#1779](https://github.com/chef/inspec/pull/1779) ([aaronlippold](https://github.com/aaronlippold))
 - Handle parse errors for attrs/secrets [\#1775](https://github.com/chef/inspec/pull/1775) ([adamleff](https://github.com/adamleff))
-- Add an oracle\_session resource [\#1751](https://github.com/chef/inspec/pull/1751) ([nsdavidson](https://github.com/nsdavidson))
+- Add an oracledb\_session resource [\#1751](https://github.com/chef/inspec/pull/1751) ([nsdavidson](https://github.com/nsdavidson))
 
 ## [v1.23.0](https://github.com/chef/inspec/tree/v1.23.0) (2017-05-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.22.0...v1.23.0)
