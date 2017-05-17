@@ -77,7 +77,7 @@ module Compliance
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     def login_automate(server) # rubocop:disable Metrics/AbcSize
       options['server'] = server
-      url = options['server'] + '/compliance/profiles'
+      url = options['server'] + '/compliance'
 
       if url && !options['user'].nil? && !options['ent'].nil? && (!options['dctoken'].nil? || !options['usertoken'].nil?)
         msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
@@ -110,6 +110,9 @@ module Compliance
         puts msg, 'Could not find any profiles'
         exit 1
       end
+    rescue Compliance::ServerConfigurationMissing
+      puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+      exit 1
     end
 
     desc 'exec PROFILE', 'executes a Chef Compliance profile'
@@ -118,7 +121,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
       # iterate over tests and add compliance scheme
-      tests = tests.map { |t| 'compliance://' + sanitize_profile_name(t) }
+      tests = tests.map { |t| 'compliance://' + Compliance::API.sanitize_profile_name(t) }
       # execute profile from inspec exec implementation
       diagnose
       run_tests(tests, opts)
@@ -134,7 +137,7 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      profile_name = sanitize_profile_name(profile_name)
+      profile_name = Compliance::API.sanitize_profile_name(profile_name)
       if Compliance::API.exist?(config, profile_name)
         puts "Downloading `#{profile_name}`"
 
@@ -221,7 +224,7 @@ module Compliance
       puts "Start upload to #{owner}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      config['server_type'] == 'automate' ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
+      Compliance::API.is_automate_server?(config) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
       puts upload_msg
       success, msg = Compliance::API.upload(config, owner, pname, archive_path)
 
@@ -237,17 +240,17 @@ module Compliance
     desc 'version', 'displays the version of the Chef Compliance server'
     def version
       config = Compliance::Configuration.new
-      if config['server_type'] == 'automate'
-        puts 'Version not available when logged in with Automate.'
+      info = Compliance::API.version(config)
+      if !info.nil? && info['version']
+        puts "Name:    #{info['api']}"
+        puts "Version: #{info['version']}"
       else
-        info = Compliance::API.version(config['server'], config['insecure'])
-        if !info.nil? && info['version']
-          puts "Chef Compliance version: #{info['version']}"
-        else
-          puts 'Could not determine server version.'
-          exit 1
-        end
+        puts 'Could not determine server version.'
+        exit 1
       end
+    rescue Compliance::ServerConfigurationMissing
+      puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+      exit 1
     end
 
     desc 'logout', 'user logout from Chef Compliance'
@@ -269,18 +272,9 @@ module Compliance
 
     private
 
-    # returns a parsed url for `admin/profile` or `compliance://admin/profile`
-    def sanitize_profile_name(profile)
-      if URI(profile).scheme == 'compliance'
-        uri = URI(profile)
-      else
-        uri = URI("compliance://#{profile}")
-      end
-      uri.host + uri.path
-    end
-
     def login_automate_config(url, user, dctoken, usertoken, ent, insecure) # rubocop:disable Metrics/ParameterLists
       config = Compliance::Configuration.new
+      config.clean
       config['user'] = user
       config['server'] = url
       config['automate'] = {}
@@ -298,8 +292,8 @@ module Compliance
         token_type = 'usertoken'
         token_msg = 'automate user token'
       end
-
       config['automate']['token_type'] = token_type
+      config['version'] = Compliance::API.version(config)
       config.store
       msg = "Stored configuration for Chef Automate: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
       msg
@@ -309,10 +303,11 @@ module Compliance
       success, msg, _access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
       if success
         config = Compliance::Configuration.new
+        config.clean
         config['server'] = url
         config['insecure'] = options['insecure']
-        config['version'] = Compliance::API.version(url, options['insecure'])
         config['server_type'] = 'compliance'
+        config['version'] = Compliance::API.version(config)
         config.store
       end
 
@@ -321,14 +316,15 @@ module Compliance
 
     def login_username_password(url, username, password, insecure)
       config = Compliance::Configuration.new
+      config.clean
       success, msg, api_token = Compliance::API.get_token_via_password(url, username, password, insecure)
       if success
         config['server'] = url
         config['user'] = username
         config['token'] = api_token
         config['insecure'] = insecure
-        config['version'] = Compliance::API.version(url, insecure)
         config['server_type'] = 'compliance'
+        config['version'] = Compliance::API.version(config)
         config.store
         success = true
       end
@@ -338,11 +334,13 @@ module Compliance
     # saves a user access token (limited time)
     def store_access_token(url, user, token, insecure)
       config = Compliance::Configuration.new
+      config.clean
       config['server'] = url
       config['insecure'] = insecure
       config['user'] = user
       config['token'] = token
-      config['version'] = Compliance::API.version(url, insecure)
+      config['server_type'] = 'compliance'
+      config['version'] = Compliance::API.version(config)
       config.store
 
       [true, 'API access token stored']
@@ -351,10 +349,12 @@ module Compliance
     # saves a refresh token supplied by the user
     def store_refresh_token(url, refresh_token, verify, user, insecure)
       config = Compliance::Configuration.new
+      config.clean
       config['server'] = url
       config['refresh_token'] = refresh_token
       config['user'] = user
       config['insecure'] = insecure
+      config['server_type'] = 'compliance'
       config['version'] = Compliance::API.version(url, insecure)
 
       if !verify

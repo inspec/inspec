@@ -6,12 +6,24 @@ require 'net/http'
 require 'uri'
 
 module Compliance
+  class ServerConfigurationMissing < StandardError
+  end
+
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
   class API # rubocop:disable Metrics/ClassLength
     # return all compliance profiles available for the user
     def self.profiles(config)
-      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/user/compliance"
+      # Chef Compliance
+      if is_compliance_server?(config)
+        url = "#{config['server']}/user/compliance"
+      # Chef Automate
+      elsif is_automate_server?(config)
+        url = "#{config['server']}/profiles/#{config['user']}"
+      else
+        raise ServerConfigurationMissing
+      end
+
       headers = get_headers(config)
       response = Compliance::HTTP.get(url, headers, config['insecure'])
       data = response.body
@@ -21,15 +33,21 @@ module Compliance
         msg = 'success'
         profiles = JSON.parse(data)
         # iterate over profiles
-        if config['server_type'] == 'automate'
-          mapped_profiles = profiles.values.to_a.flatten
-        else
+        if is_compliance_server?(config)
           mapped_profiles = []
           profiles.values.each { |org|
             mapped_profiles += org.values
           }
+        # Chef Automate pre 0.8.0
+        elsif is_automate_server_pre_080?(config)
+          mapped_profiles = profiles.values.flatten
+        else
+          owner_id = config['user']
+          mapped_profiles = profiles.map { |e|
+            e['owner_id'] = owner_id
+            e
+          }
         end
-
         return msg, mapped_profiles
       when '401'
         msg = '401 Unauthorized. Please check your token.'
@@ -43,16 +61,17 @@ module Compliance
     # return the server api version
     # NB this method does not use Compliance::Configuration to allow for using
     # it before we know the version (e.g. oidc or not)
-    def self.version(url, insecure)
-      if url.nil?
-        puts "
-Server configuration information is missing.
-Please login using `inspec compliance login https://compliance.test --user admin --insecure --token 'PASTE TOKEN HERE' `
-"
-      else
-        response = Compliance::HTTP.get(url+'/version', nil, insecure)
-        data = response.body
-      end
+    def self.version(config)
+      url = config['server']
+      insecure = config['insecure']
+
+      raise ServerConfigurationMissing if url.nil?
+
+      headers = get_headers(config)
+      response = Compliance::HTTP.get(url+'/version', headers, insecure)
+      return {} if response.code == '404'
+      data = response.body
+
       if !data.nil?
         JSON.parse(data)
       else
@@ -72,8 +91,17 @@ Please login using `inspec compliance login https://compliance.test --user admin
     end
 
     def self.upload(config, owner, profile_name, archive_path)
-      # upload the tar to Chef Compliance
-      config['server_type'] == 'automate' ? url = "#{config['server']}/#{config['user']}" : url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      # Chef Compliance
+      if is_compliance_server?(config)
+        url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
+      # Chef Automate pre 0.8.0
+      elsif is_automate_server_pre_080?(config)
+        url = "#{config['server']}/#{config['user']}"
+      # Chef Automate
+      else
+        url = "#{config['server']}/profiles/#{config['user']}"
+      end
+
       headers = get_headers(config)
       res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
       [res.is_a?(Net::HTTPSuccess), res.body]
@@ -129,7 +157,7 @@ Please login using `inspec compliance login https://compliance.test --user admin
 
     def self.get_headers(config)
       token = get_token(config)
-      if config['server_type'] == 'automate'
+      if is_automate_server?(config)
         headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
         if config['automate']['token_type'] == 'dctoken'
           headers['x-data-collector-token'] = token
@@ -150,13 +178,40 @@ Please login using `inspec compliance login https://compliance.test --user admin
     end
 
     def self.target_url(config, profile)
-      if config['server_type'] == 'automate'
-        target = "#{config['server']}/#{profile}/tar"
+      if is_automate_server?(config)
+        owner, id = profile.split('/')
+        target = "#{config['server']}/profiles/#{owner}/#{id}/tar"
       else
         owner, id = profile.split('/')
         target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
       end
       target
+    end
+
+    # returns a parsed url for `admin/profile` or `compliance://admin/profile`
+    def self.sanitize_profile_name(profile)
+      if URI(profile).scheme == 'compliance'
+        uri = URI(profile)
+      else
+        uri = URI("compliance://#{profile}")
+      end
+      uri.to_s.sub(%r{^compliance:\/\/}, '')
+    end
+
+    def self.is_compliance_server?(config)
+      config['server_type'] == 'compliance'
+    end
+
+    def self.is_automate_server_pre_080?(config)
+      config['server_type'] == 'automate' && config['version'].empty?
+    end
+
+    def self.is_automate_server_080_and_later?(config)
+      config['server_type'] == 'automate' && !config['version'].empty?
+    end
+
+    def self.is_automate_server?(config)
+      config['server_type'] == 'automate'
     end
   end
 end
