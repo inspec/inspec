@@ -13,7 +13,7 @@ Use the `interface` InSpec audit resource to test basic network adapter properti
 
 An `interface` resource block declares network interface properties to be tested:
 
-    describe interface do
+    describe interface('eth0') do
       it { should be_up }
       its('speed') { should eq 1000 }
       its('name') { should eq eth0 }
