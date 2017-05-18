@@ -282,5 +282,56 @@ describe Inspec::Profile do
         result[:warnings].length.must_equal 0
       end
     end
+
+    describe 'a complete metadata profile with controls in zipfile' do
+      let(:profile_id) { 'complete-profile' }
+      let(:profile_path) { MockLoader.profile_zip(profile_id) }
+      let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
+
+      it 'prints ok messages and counts the controls' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :info, nil, ['Metadata OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+        logger.expect :info, nil, ['Control definitions OK.']
+
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
+        # verify logger output
+        logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'complete'
+        result[:summary][:controls].must_equal 1
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 0
+      end
+    end
+
+    describe 'shows error if version is invalid' do
+      let(:profile_id) { 'invalid-version' }
+      let(:profile_path) { MockLoader.profile_zip(profile_id) }
+      let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
+
+      it 'prints ok messages and counts the controls' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :warn, nil, ['No controls or tests were defined.']
+        logger.expect :error, nil, ['Version needs to be in SemVer format']
+
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
+
+        # verify logger output
+        logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal false
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'invalid-version'
+
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 1
+        result[:warnings].length.must_equal 1
+      end
+    end
   end
 end
