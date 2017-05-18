@@ -6,6 +6,7 @@
 require 'logger'
 require 'rubygems/version'
 require 'rubygems/requirement'
+require 'semverse'
 
 module Inspec
   # Extract metadata.rb information
@@ -109,6 +110,12 @@ module Inspec
         next unless params[field.to_sym].nil?
         errors.push("Missing profile #{field} in #{ref}")
       end
+
+      # if version is set, ensure it is correct
+      if !params[:version].nil? && !valid_version?(params[:version])
+        errors.push('Version needs to be in SemVer format')
+      end
+
       %w{ title summary maintainer copyright }.each do |field|
         next unless params[field.to_sym].nil?
         warnings.push("Missing profile #{field} in #{ref}")
@@ -121,6 +128,13 @@ module Inspec
     def valid?
       errors, _warnings = valid
       errors.empty? && unsupported.empty?
+    end
+
+    def valid_version?(value)
+      Semverse::Version.new(value)
+      true
+    rescue Semverse::InvalidVersionFormat
+      false
     end
 
     def method_missing(sth, *args)

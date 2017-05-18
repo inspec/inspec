@@ -39,6 +39,20 @@ describe 'metadata with supported operating systems' do
       res.params[:name].must_equal('mock')
     end
 
+    it 'reads the version from metadata' do
+      res = Inspec::Metadata.from_yaml('mock', "---\nversion: '1.1.0'", nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.params[:version].must_equal('1.1.0')
+      res.valid_version?(res.params[:version]).must_equal(true)
+    end
+
+    it 'does not accept invalid version from metadata' do
+      res = Inspec::Metadata.from_yaml('mock', "---\nversion: '1.1.0.1'", nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.params[:version].must_equal('1.1.0.1')
+      res.valid_version?(res.params[:version]).must_equal(false)
+    end
+
     it 'finalizes a loaded metadata by turning strings into symbols' do
       res = Inspec::Metadata.from_yaml('mock', "---\nauthor: world", nil)
       Inspec::Metadata.finalize(res, 'mock', empty_options)
