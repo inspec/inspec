@@ -8,8 +8,8 @@ module Inspec::Resources
     name 'virtualization'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "
-      describe virtualization.system do
-        it { should eq 'docker' }
+      describe virtualization do
+        its('system') { should eq 'docker' }
       end
 
       describe virtualization do
@@ -30,22 +30,16 @@ module Inspec::Resources
     def initialize
       unless inspec.os.linux?
         skip_resource 'The `virtualization` resource is not supported on your OS yet.'
+      else
+        collect_data_linux
       end
-    end
-
-    def [](name)
-      # convert string to symbol
-      name = name.to_sym if name.is_a? String
-      data = collect_data_linux
-      data[name]
     end
 
     # add helper methods for easy access of properties
     # allows users to use virtualization.role, virtualization.system, virtualization.systems
     %w{role system systems}.each do |property|
       define_method(property.to_sym) do
-        data = collect_data_linux
-        data[property.to_sym]
+        @virtualization_data[property.to_sym]
       end
     end
 
@@ -71,176 +65,211 @@ module Inspec::Resources
       inspec.command('nova').exist?
     end
 
-    def collect_data_linux # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      virtualization = Hashie::Mash.new unless virtualization
-      virtualization[:systems] = Hashie::Mash.new unless virtualization[:systems]
+    # Detect Xen
+    # /proc/xen is an empty dir for EL6 + Linode Guests + Paravirt EC2 instances
+    # Notes:
+    # - cpuid of guests, if we could get it, would also be a clue
+    # - may be able to determine if under paravirt from /dev/xen/evtchn (See OHAI-253)
+    # - Additional edge cases likely should not change the above assumptions
+    #   but rather be additive - btm
+    def detect_xen
+      return false unless inspec.file('/proc/xen').exist?
+      @virtualization_data[:system] = 'xen'
+      @virtualization_data[:role] = 'guest'
+      @virtualization_data[:systems][:xen] = 'guest'
 
-      ## Xen
-      # /proc/xen is an empty dir for EL6 + Linode Guests + Paravirt EC2 instances
-      if inspec.file('/proc/xen').exist?
-        virtualization[:system] = 'xen'
-        # Assume guest
-        virtualization[:role] = 'guest'
-        virtualization[:systems][:xen] = 'guest'
-
-        # This file should exist on most Xen systems, normally empty for guests
-        if inspec.file('/proc/xen/capabilities').exist?
-          if File.read('/proc/xen/capabilities') =~ /control_d/i
-            virtualization[:role] = 'host'
-            virtualization[:systems][:xen] = 'host'
-          end
-        end
+      # This file should exist on most Xen systems, normally empty for guests
+      if inspec.file('/proc/xen/capabilities').exist? &&
+          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Style/MultilineOperationIndentation
+        @virtualization_data[:role] = 'host'
+        @virtualization_data[:systems][:xen] = 'host'
       end
+      true
+    end
 
-      # Xen Notes:
-      # - cpuid of guests, if we could get it, would also be a clue
-      # - may be able to determine if under paravirt from /dev/xen/evtchn (See OHAI-253)
-      # - Additional edge cases likely should not change the above assumptions
-      #   but rather be additive - btm
-
-      # Detect Virtualbox from kernel module
-      file = inspec.file('/proc/modules')
-      if file.exist?
-        modules = file.content
-        if modules =~ /^vboxdrv/
-          Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxdrv. Detecting as vbox host')
-          virtualization[:system] = 'vbox'
-          virtualization[:role] = 'host'
-          virtualization[:systems][:vbox] = 'host'
-        elsif modules =~ /^vboxguest/
-          Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxguest. Detecting as vbox guest')
-          virtualization[:system] = 'vbox'
-          virtualization[:role] = 'guest'
-          virtualization[:systems][:vbox] = 'guest'
-        end
+    # Detect Virtualbox from kernel module
+    def detect_virtualbox
+      return false unless inspec.file('/proc/modules').exist?
+      modules = inspec.file('/proc/modules').content
+      if modules =~ /^vboxdrv/
+        Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxdrv. Detecting as vbox host')
+        @virtualization_data[:system] = 'vbox'
+        @virtualization_data[:role] = 'host'
+        @virtualization_data[:systems][:vbox] = 'host'
+      elsif modules =~ /^vboxguest/
+        Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxguest. Detecting as vbox guest')
+        @virtualization_data[:system] = 'vbox'
+        @virtualization_data[:role] = 'guest'
+        @virtualization_data[:systems][:vbox] = 'guest'
+      else
+        return false
       end
+      true
+    end
 
-      # if nova binary is present we're on an openstack host
-      if nova_exists?
-        virtualization[:system] = 'openstack'
-        virtualization[:role] = 'host'
-        virtualization[:systems][:openstack] = 'host'
+    # if nova binary is present we're on an openstack host
+    def detect_openstack
+      return false unless nova_exists?
+      @virtualization_data[:system] = 'openstack'
+      @virtualization_data[:role] = 'host'
+      @virtualization_data[:systems][:openstack] = 'host'
+      true
+    end
+
+    # Detect paravirt KVM/QEMU from cpuinfo, report as KVM
+    def detect_kvm_from_cpuinfo
+      return false unless inspec.file('/proc/cpuinfo').content =~ /QEMU Virtual CPU|Common KVM processor|Common 32-bit KVM processor/
+      @virtualization_data[:system] = 'kvm'
+      @virtualization_data[:role] = 'guest'
+      @virtualization_data[:systems][:kvm] = 'guest'
+      true
+    end
+
+    # Detect KVM systems via /sys
+    # guests will have the hypervisor cpu feature that hosts don't have
+    def detect_kvm_from_sys
+      return false unless inspec.file('/sys/devices/virtual/misc/kvm').exist?
+      if inspec.file('/proc/cpuinfo').content =~ /hypervisor/
+        @virtualization_data[:system] = 'kvm'
+        @virtualization_data[:role] = 'guest'
+        @virtualization_data[:systems][:kvm] = 'guest'
+      else
+        @virtualization_data[:system] = 'kvm'
+        @virtualization_data[:role] = 'host'
+        @virtualization_data[:systems][:kvm] = 'host'
       end
+      true
+    end
 
-      # Detect paravirt KVM/QEMU from cpuinfo, report as KVM
-      file = inspec.file('/proc/cpuinfo')
-      if file.exist?
-        if file.content =~ /QEMU Virtual CPU|Common KVM processor|Common 32-bit KVM processor/
-          virtualization[:system] = 'kvm'
-          virtualization[:role] = 'guest'
-          virtualization[:systems][:kvm] = 'guest'
-        end
-      end
-
-      # Detect KVM systems via /sys
-      # guests will have the hypervisor cpu feature that hosts don't have
-      if inspec.file('/sys/devices/virtual/misc/kvm').exist?
-        virtualization[:system] = 'kvm'
-        file = inspec.file('/proc/cpuinfo')
-        if file.content =~ /hypervisor/
-          virtualization[:role] = 'guest'
-          virtualization[:systems][:kvm] = 'guest'
-        else
-          virtualization[:role] = 'host'
-          virtualization[:systems][:kvm] = 'host'
-        end
-      end
-
-      # Detect OpenVZ / Virtuozzo.
-      # http://wiki.openvz.org/BC_proc_entries
+    # Detect OpenVZ / Virtuozzo.
+    # http://wiki.openvz.org/BC_proc_entries
+    def detect_openvz
       if inspec.file('/proc/bc/0').exist?
-        virtualization[:system] = 'openvz'
-        virtualization[:role] = 'host'
-        virtualization[:systems][:openvz] = 'host'
+        @virtualization_data[:system] = 'openvz'
+        @virtualization_data[:role] = 'host'
+        @virtualization_data[:systems][:openvz] = 'host'
       elsif inspec.file('/proc/vz').exist?
-        virtualization[:system] = 'openvz'
-        virtualization[:role] = 'guest'
-        virtualization[:systems][:openvz] = 'guest'
+        @virtualization_data[:system] = 'openvz'
+        @virtualization_data[:role] = 'guest'
+        @virtualization_data[:systems][:openvz] = 'guest'
+      else
+        return false
       end
+      true
+    end
 
-      # Detect Parallels virtual machine from pci devices
-      file = inspec.file('/proc/bus/pci/devices')
-      if file.exist?
-        if file.content =~ /1ab84000/
-          virtualization[:system] = 'parallels'
-          virtualization[:role] = 'guest'
-          virtualization[:systems][:parallels] = 'guest'
+    # Detect Parallels virtual machine from pci devices
+    def detect_parallels
+      return false unless inspec.file('/proc/bus/pci/devices').content =~ /1ab84000/
+      @virtualization_data[:system] = 'parallels'
+      @virtualization_data[:role] = 'guest'
+      @virtualization_data[:systems][:parallels] = 'guest'
+      true
+    end
+
+    # Detect Linux-VServer
+    def detect_linux_vserver
+      return false unless inspec.file('/proc/self/status').exist?
+      proc_self_status = inspec.file('/proc/self/status').content
+      vxid = proc_self_status.match(/^(s_context|VxID):\s*(\d+)$/)
+      return false unless vxid && vxid[2]
+      @virtualization_data[:system] = 'linux-vserver'
+      if vxid[2] == '0'
+        @virtualization_data[:role] = 'host'
+        @virtualization_data[:systems]['linux-vserver'] = 'host'
+      else
+        @virtualization_data[:role] = 'guest'
+        @virtualization_data[:systems]['linux-vserver'] = 'guest'
+      end
+      true
+    end
+
+    # Detect LXC/Docker
+    #
+    # /proc/self/cgroup will look like this inside a docker container:
+    # <index #>:<subsystem>:/lxc/<hexadecimal container id>
+    #
+    # /proc/self/cgroup could have a name including alpha/digit/dashes
+    # <index #>:<subsystem>:/lxc/<named container id>
+    #
+    # /proc/self/cgroup could have a non-lxc cgroup name indicating other uses
+    # of cgroups.  This is probably not LXC/Docker.
+    # <index #>:<subsystem>:/Charlie
+    #
+    # A host which supports cgroups, and has capacity to host lxc containers,
+    # will show the subsystems and root (/) namespace.
+    # <index #>:<subsystem>:/
+    #
+    # Full notes, https://tickets.opscode.com/browse/OHAI-551
+    # Kernel docs, https://www.kernel.org/doc/Documentation/cgroups
+    def detect_lxc_docker
+      return false unless inspec.file('/proc/self/cgroup').exist?
+      cgroup_content = inspec.file('/proc/self/cgroup').content
+      if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
+          cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Style/MultilineOperationIndentation
+        @virtualization_data[:system] = $1 # rubocop:disable Style/PerlBackrefs
+        @virtualization_data[:role] = 'guest'
+        @virtualization_data[:systems][$1.to_sym] = 'guest' # rubocop:disable Style/PerlBackrefs
+      elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
+        # lxc-version shouldn't be installed by default
+        # Even so, it is likely we are on an LXC capable host that is not being used as such
+        # So we're cautious here to not overwrite other existing values (OHAI-573)
+        unless @virtualization_data[:system] && @virtualization_data[:role]
+          @virtualization_data[:system] = 'lxc'
+          @virtualization_data[:role] = 'host'
         end
+        # In general, the 'systems' framework from OHAI-182 is less susceptible to conflicts
+        # But, this could overwrite virtualization[:systems][:lxc] = 'guest'
+        # If so, we may need to look further for a differentiator (OHAI-573)
+        @virtualization_data[:systems][:lxc] = 'host'
+      else
+        return false
       end
+      true
+    end
 
-      # Detect Linux-VServer
-      file = inspec.file('/proc/self/status')
-      if file.exist?
-        proc_self_status = file.content
-        vxid = proc_self_status.match(/^(s_context|VxID):\s*(\d+)$/)
-        if vxid && vxid[2]
-          virtualization[:system] = 'linux-vserver'
-          if vxid[2] == '0'
-            virtualization[:role] = 'host'
-            virtualization[:systems]['linux-vserver'] = 'host'
-          else
-            virtualization[:role] = 'guest'
-            virtualization[:systems]['linux-vserver'] = 'guest'
-          end
-        end
-      end
+    def detect_docker
+      return false unless inspec.file('/.dockerenv').exist? || inspec.file('/.dockerinit').exist?
+      @virtualization_data[:system] = 'docker'
+      @virtualization_data[:role] = 'guest'
+      @virtualization_data[:systems][:docker] = 'guest'
+      true
+    end
 
-      # Detect LXC/Docker
-      #
-      # /proc/self/cgroup will look like this inside a docker container:
-      # <index #>:<subsystem>:/lxc/<hexadecimal container id>
-      #
-      # /proc/self/cgroup could have a name including alpha/digit/dashes
-      # <index #>:<subsystem>:/lxc/<named container id>
-      #
-      # /proc/self/cgroup could have a non-lxc cgroup name indicating other uses
-      # of cgroups.  This is probably not LXC/Docker.
-      # <index #>:<subsystem>:/Charlie
-      #
-      # A host which supports cgroups, and has capacity to host lxc containers,
-      # will show the subsystems and root (/) namespace.
-      # <index #>:<subsystem>:/
-      #
-      # Full notes, https://tickets.opscode.com/browse/OHAI-551
-      # Kernel docs, https://www.kernel.org/doc/Documentation/cgroups
-      file = inspec.file('/proc/self/cgroup')
-      if file.exist?
-        cgroup_content = file.content
-        if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
-            cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Style/MultilineOperationIndentation
-          virtualization[:system] = $1 # rubocop:disable Style/PerlBackrefs
-          virtualization[:role] = 'guest'
-          virtualization[:systems][$1.to_sym] = 'guest' # rubocop:disable Style/PerlBackrefs
-        elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
-          # lxc-version shouldn't be installed by default
-          # Even so, it is likely we are on an LXC capable host that is not being used as such
-          # So we're cautious here to not overwrite other existing values (OHAI-573)
-          unless virtualization[:system] && virtualization[:role]
-            virtualization[:system] = 'lxc'
-            virtualization[:role] = 'host'
-          end
-          # In general, the 'systems' framework from OHAI-182 is less susceptible to conflicts
-          # But, this could overwrite virtualization[:systems][:lxc] = 'guest'
-          # If so, we may need to look further for a differentiator (OHAI-573)
-          virtualization[:systems][:lxc] = 'host'
-        end
-      elsif inspec.file('/.dockerenv').exist? || inspec.file('/.dockerinit').exist?
-        virtualization[:system] = 'docker'
-        virtualization[:role] = 'guest'
-        virtualization[:systems][:docker] = 'guest'
-      end
-
-      # Detect LXD
-      # See https://github.com/lxc/lxd/blob/master/doc/dev-lxd.md
+    # Detect LXD
+    # See https://github.com/lxc/lxd/blob/master/doc/dev-lxd.md
+    def detect_lxd
       if inspec.file('/dev/lxd/sock').exist?
-        virtualization[:system] = 'lxd'
-        virtualization[:role] = 'guest'
+        @virtualization_data[:system] = 'lxd'
+        @virtualization_data[:role] = 'guest'
       elsif inspec.file('/var/lib/lxd/devlxd').exist?
-        virtualization[:system] = 'lxd'
-        virtualization[:role] = 'host'
+        @virtualization_data[:system] = 'lxd'
+        @virtualization_data[:role] = 'host'
+      else
+        return false
       end
+      true
+    end
 
-      virtualization
+    def collect_data_linux # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+      # cache data in an instance var to avoid doing multiple detections for a single test
+      @virtualization_data ||= Hashie::Mash.new
+      return unless @virtualization_data.empty?
+      @virtualization_data[:systems] ||= Hashie::Mash.new
+
+      # each detect method will return true if it matched and was successfully
+      # able to populate @virtualization_data with stuff.
+      return if detect_xen
+      return if detect_virtualbox
+      return if detect_openstack
+      return if detect_kvm_from_cpuinfo
+      return if detect_kvm_from_sys
+      return if detect_openvz
+      return if detect_parallels
+      return if detect_linux_vserver
+      return if detect_lxc_docker
+      return if detect_docker
+      return if detect_lxd
     end
   end
 end
