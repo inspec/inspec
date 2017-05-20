@@ -80,9 +80,9 @@ EOF
 
     # determine the owner_id and the profile name from the url
     def compliance_profile_name
-      m = if Compliance::API.is_automate_server_pre_080(@config)
+      m = if Compliance::API.is_automate_server_pre_080?(@config)
             %r{^#{@config['server']}/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
-          elsif Compliance::API.is_automate_server_080_and_later
+          elsif Compliance::API.is_automate_server_080_and_later?(@config)
             %r{^#{@config['server']}/profiles/(?<owner>[^/]+)/(?<id>[^/]+)/tar$}
           else
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
