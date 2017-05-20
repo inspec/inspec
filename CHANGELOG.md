@@ -1,5 +1,16 @@
 # Change Log
 
+## [v1.25.1](https://github.com/chef/inspec/tree/v1.25.1) (2017-05-19)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.25.0...v1.25.1)
+
+**Implemented enhancements:**
+
+- throw an error during inspec check if the version is not correct [\#1832](https://github.com/chef/inspec/pull/1832) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Fixing typo on method name [\#1841](https://github.com/chef/inspec/pull/1841) ([cheeseplus](https://github.com/cheeseplus))
+
 ## [v1.25.0](https://github.com/chef/inspec/tree/v1.25.0) (2017-05-17)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.24.0...v1.25.0)
 
@@ -74,14 +85,12 @@
 
 - fetch user groups while building user object [\#1681](https://github.com/chef/inspec/pull/1681) ([Happycoil](https://github.com/Happycoil))
 - update sslshake to v1.2 [\#1680](https://github.com/chef/inspec/pull/1680) ([arlimus](https://github.com/arlimus))
-- ER-508 Extended http resource to support no ssl verification [\#1663](https://github.com/chef/inspec/pull/1663) ([ElizabethU](https://github.com/ElizabethU))
 
 **Fixed bugs:**
 
 - Web references in inspec shell help are wrong [\#1667](https://github.com/chef/inspec/issues/1667)
 - bugfix: solve warn on uninitialized [\#1694](https://github.com/chef/inspec/pull/1694) ([arlimus](https://github.com/arlimus))
 - fix web reference url [\#1669](https://github.com/chef/inspec/pull/1669) ([chris-rock](https://github.com/chris-rock))
-- Move Habitat sleep time to config file [\#1662](https://github.com/chef/inspec/pull/1662) ([adamleff](https://github.com/adamleff))
 
 
 
