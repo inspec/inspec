@@ -1,24 +1,15 @@
-# InSpec AWS Resource Pack
+# InSpec for AWS
 
-NOTE: This is early access and not suitable for production. We use this repository to prototype and verify our design goals.
+## Roadmap
 
-This resource pack provides resources for AWS. It will ship with the required resources to write your own AWS tests.
+This repository is the development repository for InSpec for AWS. Once [RFC Platforms](https://github.com/chef/inspec/issues/1661) is fully implemented in InSpec, this repository is going to be merged into core InSpec.
+
+As of now, AWS resources are implemented as an InSpec resource pack. It will ship with the required resources to write your own AWS tests.
 
 ```
 ├── README.md - this readme
 └── libraries - contains AWS resources
 ```
-
-## Design Goals
-
-Goals for this project are:
-
-- Find the right abstraction layer for AWS
-- InSpec AWS resources should be aware that they target AWS
-- No mixture of InSpec OS and InSpec AWS resource in one profile possible
-- AWS should become a native target for InSpec `inspec exec inspec-aws -t aws://accesskey:secret@region`
-
-This project will be merged into [InSpec](https://github.com/chef/inspec), once we reached all the goals.
 
 ## Get started
 
@@ -119,8 +110,8 @@ This project was inspired by [inspec-aws](https://github.com/arothian/inspec-aws
 
 |  |  |
 | ------ | --- |
-| **Author:** | Christoph Hartmann (<chartmann@chef.io>) |
-| **Copyright:** | Copyright (c) 2016 Chef Software Inc. |
+| **Author:** | Christoph Hartmann (<chris@lollyrock.com>) |
+| **Copyright:** | Copyright (c) 2017 Chef Software Inc. |
 | **License:** | Apache License, Version 2.0 |
 
 Licensed under the Apache License, Version 2.0 (the "License");
