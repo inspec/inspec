@@ -17,42 +17,53 @@ class AwsIamUserProviderTest < Minitest::Test
     @user_provider = AwsIam::UserProvider.new(@mock_aws_connection)
   end
 
-  def test_get_user
+  def test_user
     @mock_iam_resource.expect :user, create_mock_user, [Username]
-    assert !@user_provider.get_user(Username).nil?
+    assert !@user_provider.user(Username).nil?
+  end
+
+  def test_list_users
+    @mock_iam_resource.expect :users, [create_mock_user, create_mock_user, create_mock_user]
+    mock_user_output = {has_mfa_enabled?: true, has_console_password?: true}
+    assert @user_provider.list_users == [mock_user_output, mock_user_output, mock_user_output]
+  end
+
+  def test_list_users_no_users
+    @mock_iam_resource.expect :users, []
+    assert @user_provider.list_users == []
   end
 
   def test_has_mfa_enabled_returns_true
     @mock_iam_resource.expect :user, create_mock_user(has_mfa_enabled: true), [Username]
-    assert @user_provider.get_user(Username)[:has_mfa_enabled?]
+    assert @user_provider.user(Username)[:has_mfa_enabled?]
   end
 
   def test_has_mfa_enabled_returns_false
     @mock_iam_resource.expect :user, create_mock_user(has_mfa_enabled: false), [Username]
-    assert !@user_provider.get_user(Username)[:has_mfa_enabled?]
+    assert !@user_provider.user(Username)[:has_mfa_enabled?]
   end
   
   def test_has_console_password_returns_true
     @mock_iam_resource.expect :user, create_mock_user(has_console_password: true), [Username]
-    assert @user_provider.get_user(Username)[:has_console_password?]
+    assert @user_provider.user(Username)[:has_console_password?]
   end
 
   def test_has_console_password_returns_false
     @mock_iam_resource.expect :user, create_mock_user(has_console_password: false), [Username]
-    assert !@user_provider.get_user(Username)[:has_console_password?]
+    assert !@user_provider.user(Username)[:has_console_password?]
   end
   
   def test_has_console_password_returns_false_when_nosuchentity
     @mock_iam_resource.expect :user, create_mock_user_throw(Aws::IAM::Errors::NoSuchEntity.new(nil, nil)), [Username]
     
-    assert !@user_provider.get_user(Username)[:has_console_password?]
+    assert !@user_provider.user(Username)[:has_console_password?]
   end
   
   def test_has_console_password_throws
     @mock_iam_resource.expect :user, create_mock_user_throw(ArgumentError), [Username]
     
     assert_raises ArgumentError do
-      @user_provider.get_user(Username)
+      @user_provider.user(Username)
     end
   end
 

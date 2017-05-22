@@ -12,7 +12,7 @@ class AwsIamUser < Inspec.resource(1)
   "
   def initialize(name, aws_user_provider = AwsIam::UserProvider.new)
     @name = name
-    @user = aws_user_provider.get_user(name)
+    @user = aws_user_provider.user(name)
   end
 
   def has_mfa_enabled?
