@@ -1,4 +1,8 @@
+.attribute.yml
+.bundle/
+.terraform/
 inspec.lock
 Gemfile.lock
-terraform.tfstate
+terraform.tfstate*
 terraform.tfstate.backup
+

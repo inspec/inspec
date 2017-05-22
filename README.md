@@ -97,7 +97,7 @@ bundle exec rake test
 ### Integration tests
 
 To run the integration tests, please make sure all required environment variables like `AWS_ACCESS_KEY_ID`
-, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. (`AWS_DEFAULT_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. Integration tests can be executed via:
+, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. (`AWS_DEFAULT_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. If you want to use a specific terraform environment, set environment variable `INSPEC_TERRAFORM_ENV`. Integration tests can be executed via:
 
 ```
 bundle exec rake test:integration
@@ -105,9 +105,11 @@ bundle exec rake test:integration
 
 This task sets up test AWS resources, runs the integration tests, and then cleans up the resources.  To perform these tasks independently, please call them individually:
 
+* `bundle exec rake test:configure_test_environment`
 * `bundle exec rake test:setup_integration_tests`
 * `bundle exec rake test:run_integration_tests`
 * `bundle exec rake test:cleanup_integration_tests`
+* `bundle exec rake test:destroy_test_environment`
 
 ## Kudos
 
