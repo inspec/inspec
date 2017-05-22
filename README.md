@@ -1,6 +1,10 @@
-# InSpec Azure Resource Pack
+# InSpec for Azure
 
-This resource pack provides resources for Azure Resources. It will ship with the required resources to write your own compliance rules:
+## Roadmap
+
+This repository is the development repository for InSpec for VmWare. Once [RFC Platforms](https://github.com/chef/inspec/issues/1661) is fully implemented in InSpec, this repository is going to be merged into core InSpec.
+
+As of now, Azure resources are implemented as an InSpec resource pack. It will ship with the required resources to write your own Azure tests:
 
 ```
 ├── README.md - this readme
@@ -81,7 +85,7 @@ Since this is an InSpec resource pack, it only defines InSpec resources. It incl
 
 ```bash
 inspec init profile my-profile
-``` 
+```
 
 ### Adapt the `inspec.yml`
 
@@ -120,7 +124,7 @@ end
 | azure_rg | location | Where the item has been deployed |
 | | total | The total number of resources in the resource group |
 | | nic_count | Helper method to return the number of Network Interface Cards (NIC) that exist |
-| | vm_count | Helper method to return the number of Virtual Machines(VM) that exist | 
+| | vm_count | Helper method to return the number of Virtual Machines(VM) that exist |
 | | vnet_count | Helper method to return the number of Virtual Networks (VNET) that exist |
 | | nsg_count | Helper method to return the number of Network Security Groups (NSG) that exist |
 | | sa_count | Helper method to return the number of Storage Accounts (SA) that exist |
