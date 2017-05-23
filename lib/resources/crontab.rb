@@ -46,15 +46,30 @@ module Inspec::Resources
       data, = parse_comment_line(l, comment_char: '#', standalone_comments: false)
       return nil if data.nil? || data.empty?
 
-      elements = data.split(/\s+/, 6)
-      {
-        'minute'  => elements.at(0),
-        'hour'    => elements.at(1),
-        'day'     => elements.at(2),
-        'month'   => elements.at(3),
-        'weekday' => elements.at(4),
-        'command' => elements.at(5),
-      }
+      case data
+      when /@hourly .*/
+        { 'minute' => '0', 'hour' => '*', 'day' => '*', 'month' => '*', 'weekday' => '*', 'command' => data.split(/\s+/, 2).at(1) }
+      when /@(midnight|daily) .*/
+        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '*', 'command' => data.split(/\s+/, 2).at(1) }
+      when /@weekly .*/
+        { 'minute' => '0', 'hour' => '0', 'day' => '*', 'month' => '*', 'weekday' => '0', 'command' => data.split(/\s+/, 2).at(1) }
+      when /@monthly ./
+        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '*', 'weekday' => '*', 'command' => data.split(/\s+/, 2).at(1) }
+      when /@(annually|yearly) .*/
+        { 'minute' => '0', 'hour' => '0', 'day' => '1', 'month' => '1', 'weekday' => '*', 'command' => data.split(/\s+/, 2).at(1) }
+      when /@reboot .*/
+        { 'minute' => '-1', 'hour' => '-1', 'day' => '-1', 'month' => '-1', 'weekday' => '-1', 'command' => data.split(/\s+/, 2).at(1) }
+      else
+        elements = data.split(/\s+/, 6)
+        {
+          'minute'  => elements.at(0),
+          'hour'    => elements.at(1),
+          'day'     => elements.at(2),
+          'month'   => elements.at(3),
+          'weekday' => elements.at(4),
+          'command' => elements.at(5),
+        }
+      end
     end
 
     def crontab_cmd

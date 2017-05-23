@@ -75,4 +75,37 @@ describe 'Inspec::Resources::Crontab' do
       _(crontab.to_s).must_equal 'crontab for user foouser'
     end
   end
+
+  describe 'special strings' do
+    let(:crontab) { load_resource('crontab', 'special') }
+
+    it 'returns all params of the file' do
+      _(crontab.params).must_equal([
+        {
+          'minute'  => '*',
+          'hour'    => '*',
+          'day'     => '*',
+          'month'   => '*',
+          'weekday' => '*',
+          'command' => '/bin/custom_script.sh',
+        },
+        {
+          'minute'  => '0',
+          'hour'    => '0',
+          'day'     => '1',
+          'month'   => '1',
+          'weekday' => '*',
+          'command' => '/usr/local/bin/foo.sh bar'
+        },
+        {
+          'minute'  => '-1',
+          'hour'    => '-1',
+          'day'     => '-1',
+          'month'   => '-1',
+          'weekday' => '-1',
+          'command' => '/bin/echo "Rebooting" > /var/log/rebooting.log'
+        }
+      ])
+    end
+  end
 end

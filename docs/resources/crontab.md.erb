@@ -4,7 +4,7 @@ title: About the crontab Resource
 
 # crontab
 
-Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system.
+Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
 
 ## Syntax
 
@@ -65,4 +65,20 @@ The following examples show how to use this InSpec audit resource.
 
     describe crontab.where { command =~ /a partial command string/ } do
       its('entries.length') { should cmp 1 }
+    end
+
+### Test a special time string (i.e., @yearly /root/anual_report.sh)
+
+    describe crontab.commands('/root/anual_report.sh') do
+      its('hours') { should cmp '0' }
+      its('minutes') { should cmp '0' }
+      its('days') { should cmp '1' }
+      its('months') { should cmp '1' }
+    end
+
+### Test @reboot case
+
+    describe crontab.commands('/root/reboot.sh') do
+      its('hours') { should cmp '-1' }
+      its('minutes') { should cmp '-1' }
     end
