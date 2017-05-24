@@ -109,8 +109,8 @@ control 'azure-1' do
 
   describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('sku') { should eq '16.04.0-LTS' }
-    its('publisher') { should ieq 'Canonical' }
-    its('offer') { should ieq 'UbuntuServer' }
+    its('publisher') { should eq 'Canonical' }
+    its('offer') { should eq 'UbuntuServer' }
   end
 end
 ```
