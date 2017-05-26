@@ -31,6 +31,7 @@ require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'fetchers/mock'
 
+require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'

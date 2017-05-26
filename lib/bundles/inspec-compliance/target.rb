@@ -87,6 +87,12 @@ EOF
           else
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
           end.match(@target)
+
+      raise 'Unable to determine compliance profile name. This can be caused by ' \
+        'an incorrect server in your configuration. Try to login to compliance ' \
+        'via the `inspec compliance login` or `inspec compliance login_automate` ' \
+        'commands.' if m.nil?
+
       "#{m[:owner]}/#{m[:id]}"
     end
   end
