@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
+# author: Aaron Lippold
 
 require 'utils/convert'
 
@@ -64,7 +65,7 @@ module Inspec::Resources
   class LinuxInterface < InterfaceInfo
     def interface_info(iface)
       # will return "[mtu]\n1500\n[type]\n1"
-      cmd = inspec.command("find /sys/class/net/#{iface}/ -type f -maxdepth 1 -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
+      cmd = inspec.command("find /sys/class/net/#{iface}/ -maxdepth 1 -type f -exec sh -c 'echo \"[$(basename {})]\"; cat {} || echo -n' \\;")
       return nil if cmd.exit_status.to_i != 0
 
       # parse values, we only recieve values, therefore we threat them as keys
