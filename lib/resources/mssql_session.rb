@@ -3,66 +3,9 @@
 # author: Dominik Richter
 
 require 'hashie/mash'
+require 'utils/database_helpers'
 
 module Inspec::Resources
-
-  class SQLColumn
-    def initialize(row, name)
-      @row = row
-      @name = name
-    end
-
-    def value
-      @row[@name.downcase]
-    end
-
-    def to_s
-      'SQL Column'
-    end
-  end
-
-  class SQLRow
-    def initialize(query, row)
-      @query = query
-      @row = row
-    end
-
-    def column(column)
-      SQLColumn.new(@row, column)
-    end
-
-    def to_s
-      'SQL Row'
-    end
-  end
-
-  class SQLQueryResult
-    def initialize(cmd, results)
-      @cmd = cmd
-      @results = results
-    end
-
-    def empty?
-      @results.empty?
-    end
-
-    def stdout
-      @cmd.stdout
-    end
-
-    def stderr
-      @cmd.stderr
-    end
-
-    def row(id)
-      SQLRow.new(self, @results[id])
-    end
-
-    def to_s
-      'SQL ResultSet'
-    end
-  end
-
   # This requires the `mssql` tool available on platform
   # @see https://docs.microsoft.com/en-us/sql/relational-databases/scripting/sqlcmd-use-the-utility
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
@@ -96,9 +39,8 @@ module Inspec::Resources
     end
 
     def query(q)
-
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
-      # suppress “x rows affected” in SQLCMD with `set nocount on;`
+      # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U #{@user} -P '#{@pass}'" unless @user.nil? or @pass.nil?
       if @instance.nil?
@@ -120,9 +62,9 @@ module Inspec::Resources
 
     private
 
-    def parse_result(cmd)
+    def parse_csv_result(cmd)
       require 'csv'
-      table = CSV.parse(cmd.stdout, { headers: true})
+      table = CSV.parse(cmd.stdout, { headers: true })
 
       # remove first row, since it will be a seperator line
       table.delete(0)
@@ -139,6 +81,5 @@ module Inspec::Resources
       }
       results
     end
-
   end
 end

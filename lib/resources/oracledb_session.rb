@@ -1,69 +1,10 @@
 # encoding: utf-8
 # author: Nolan Davidson
 
+require 'hashie/mash'
+require 'utils/database_helpers'
+
 module Inspec::Resources
-
-  class OracleSQLColumn
-    def initialize(row, name)
-      @row = row
-      @name = name
-    end
-
-    def value
-      @row[@name.downcase]
-    end
-
-    def to_s
-      'Oracle SQL Column'
-    end
-  end
-
-  class OracleSQLRow
-    def initialize(query, row)
-      @query = query
-      @row = row
-    end
-
-    def column(column)
-      OracleSQLColumn.new(@row, column)
-    end
-
-    def to_s
-      'Oracle SQL Row'
-    end
-  end
-
-  class OracleSQLQueryResult
-    def initialize(cmd, results)
-      @cmd = cmd
-      @results = results
-    end
-
-    def empty?
-      @results.empty?
-    end
-
-    def stdout
-      @cmd.stdout
-    end
-
-    def stderr
-      @cmd.stderr
-    end
-
-    def row(id)
-      OracleSQLRow.new(self, @results[id])
-    end
-
-    def inspect
-      to_s
-    end
-
-    def to_s
-      'Oracle SQL ResultSet'
-    end
-  end
-
   class OracledbSession < Inspec.resource(1)
     name 'oracledb_session'
     desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
@@ -74,7 +15,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :pass, :host, :service, :sqlplus_bin
+    attr_reader :user, :pass, :host, :service
 
     def initialize(opts = {})
       @user = opts[:user]
@@ -82,8 +23,8 @@ module Inspec::Resources
       @host = opts[:host] || 'localhost'
       @port = opts[:port] || '1521'
       @service = opts[:service]
-      @sqlcl_bin = '/Users/chartmann/Development/oracle/sqlcl/bin/sql'
-      @sqlplus_bin = opts[:sqlplus_bin] || '/Users/chartmann/Development/oracle/sqlplus/sqlplus'
+      @sqlcl_bin = 'sql'
+      @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
       return skip_resource("Can't run Oracle checks without authentication") if @user.nil? or @pass.nil?
     end
 
@@ -97,14 +38,14 @@ module Inspec::Resources
       if inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
         opts = "set sqlformat csv\nSET FEEDBACK OFF"
-        p = 'parse_result_sqlcl'
+        p = 'parse_csv_result'
       elsif inspec.command(@sqlplus_bin).exist?
         bin = @sqlplus_bin
         opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
-        p = 'parse_result_sqlplus'
+        p = 'parse_html_result'
       end
 
-      return skip_resource("Can't find suitable Oracle CLI") if p == nil
+      return skip_resource("Can't find suitable Oracle CLI") if p.nil?
 
       cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@pass}@#{@host}:#{@port}/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
@@ -112,8 +53,7 @@ module Inspec::Resources
         return skip_resource("Can't connect to Oracle instance for SQL checks.")
       end
 
-      puts "Query"
-      OracleSQLQueryResult.new(cmd, send(p.to_sym, cmd.stdout.gsub(/\r/,'')))
+      SQLQueryResult.new(cmd, send(p.to_sym, cmd.stdout.gsub(/\r/,'')))
     end
 
     def to_s
@@ -122,12 +62,9 @@ module Inspec::Resources
 
     private
 
-    def parse_result_sqlcl(stdout)
+    def parse_csv_result(stdout)
       require 'csv'
-      table = CSV.parse(stdout, { headers: true})
-
-      # remove first row, since it will be a seperator line
-      table.delete(0)
+      table = CSV.parse(stdout, { headers: true })
 
       # convert to hash
       headers = table.headers
@@ -142,25 +79,25 @@ module Inspec::Resources
       results
     end
 
-    def parse_result_sqlplus(stdout)
+    def parse_html_result(stdout)
       result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
-      result = result.gsub("<p>","").gsub("</p>","").gsub("<br>","")
+      result = result.gsub('<p>', '').gsub('</p>', '').gsub('<br>', '')
 
-      require "rexml/document"
+      require 'rexml/document'
       doc = REXML::Document.new result
-      table = doc.elements["table"]
+      table = doc.elements['table']
 
       hash = {}
       if !table.nil?
         rows = table.elements.to_a
-        headers = rows[0].elements.to_a( "//th" ).map { |entry| entry.text.strip }
+        headers = rows[0].elements.to_a('/th').map { |entry| entry.text.strip }
         rows.delete(0)
 
         # iterate over each row, first row is header
         hash = rows.map { |row|
           res = {}
-          entries = row.elements.to_a( "//td" )
+          entries = row.elements.to_a('/td')
 
           headers.each_with_index { |header, index|
             # TODO: once nokogiri is back, we can remove html entities
