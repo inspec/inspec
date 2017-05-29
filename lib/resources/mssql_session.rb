@@ -133,7 +133,7 @@ module Inspec::Resources
       results = table.map { |row|
         res = {}
         headers.each { |header|
-          res[header] = row[header]
+          res[header.downcase] = row[header]
         }
         Hashie::Mash.new(res)
       }
