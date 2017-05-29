@@ -24,15 +24,16 @@ module Inspec::Resources
       end
     "
 
-    # rubocop:disable ParameterLists
-    def initialize(url, method: 'GET', params: nil, auth: {}, headers: {}, data: nil, ssl_verify: true)
+    def initialize(url, opts = {})
       @url = url
-      @method = method
-      @params = params
-      @auth = auth
-      @headers = headers
-      @data = data
-      @ssl_verify = ssl_verify
+      @method = opts.fetch(:method, 'GET')
+      @params = opts.fetch(:params, nil)
+      @auth = opts.fetch(:auth, {})
+      @headers = opts.fetch(:headers, {})
+      @data = opts.fetch(:data, nil)
+      @open_timeout = opts.fetch(:open_timeout, 60)
+      @read_timeout = opts.fetch(:read_timeout, 60)
+      @ssl_verify = opts.fetch(:ssl_verify, true)
     end
 
     def status
@@ -60,8 +61,8 @@ module Inspec::Resources
       conn.basic_auth @auth[:user], @auth[:pass] unless @auth.empty?
 
       # set default timeout
-      conn.options.timeout      = 5  # open/read timeout in seconds
-      conn.options.open_timeout = 3  # connection open timeout in seconds
+      conn.options.timeout      = @read_timeout  # open/read timeout in seconds
+      conn.options.open_timeout = @open_timeout  # connection open timeout in seconds
 
       @response = conn.send(@method.downcase) do |req|
         req.body = @data
