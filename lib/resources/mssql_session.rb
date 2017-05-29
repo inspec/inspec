@@ -30,7 +30,10 @@ module Inspec::Resources
 
     def initialize(opts = {})
       @user = opts[:user]
-      @pass = opts[:pass]
+      @password = opts[:password] || opts[:pass]
+      if opts[:pass]
+        warn '[DEPRECATED] use `password` option to supply password instead of `pass`'
+      end
       @host = opts[:host] || 'localhost'
       @instance = opts[:instance]
 
@@ -42,7 +45,7 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
-      cmd_string += " -U #{@user} -P '#{@pass}'" unless @user.nil? or @pass.nil?
+      cmd_string += " -U #{@user} -P '#{@password}'" unless @user.nil? or @password.nil?
       if @instance.nil?
         cmd_string += " -S #{@host}"
       else

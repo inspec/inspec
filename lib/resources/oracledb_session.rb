@@ -15,17 +15,25 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :pass, :host, :service
+    attr_reader :user, :password, :host, :service
 
     def initialize(opts = {})
       @user = opts[:user]
-      @pass = opts[:pass]
+      @password = opts[:password] || opts[:pass]
+      if opts[:pass]
+        warn '[DEPRECATED] use `password` option to supply password instead of `pass`'
+      end
+
       @host = opts[:host] || 'localhost'
       @port = opts[:port] || '1521'
       @service = opts[:service]
+
+      # we prefer sqlci although it is way slower than sqlplus, but it understands csv properly
       @sqlcl_bin = 'sql'
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
-      return skip_resource("Can't run Oracle checks without authentication") if @user.nil? or @pass.nil?
+
+      return skip_resource "Can't run Oracle checks without authentication" if @user.nil? or @password.nil?
+      return skip_resource 'You must provide at least an SID and/or a Service Name for the session' if @service.nil?
     end
 
     def query(q)
@@ -47,7 +55,7 @@ module Inspec::Resources
 
       return skip_resource("Can't find suitable Oracle CLI") if p.nil?
 
-      cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@pass}@#{@host}:#{@port}/#{@service}")
+      cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@password}@#{@host}:#{@port}/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
         return skip_resource("Can't connect to Oracle instance for SQL checks.")
