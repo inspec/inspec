@@ -341,3 +341,4 @@ LGPL-3.0+
 LGPL-2.0+
 StandardML-NJ
 WXwindows
+All Rights Reserved

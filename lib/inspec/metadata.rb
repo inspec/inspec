@@ -124,7 +124,7 @@ module Inspec
 
       # if version is set, ensure it is in SPDX format
       if !params[:license].nil? && !Spdx.valid_license?(params[:license])
-        errors.push("License '#{params[:license]}' needs to be in SPDX format. See https://spdx.org/licenses/.")
+        warnings.push("License '#{params[:license]}' needs to be in SPDX format. See https://spdx.org/licenses/.")
       end
 
       [errors, warnings]
