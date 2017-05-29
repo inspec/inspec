@@ -7,7 +7,7 @@ require 'utils/convert'
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)
     name 'interface'
-    desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).'
+    desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).'
     example "
       describe interface('eth0') do
         it { should exist }
