@@ -3,7 +3,7 @@ title: Meta Compliance Profile
 maintainer: InSpec Authors
 copyright: InSpec Authors
 copyright_email: support@chef.io
-license: Apache 2
+license: Apache-2.0
 summary: InSpec Profile that is only consuming dependencies
 version: 0.2.0
 depends:

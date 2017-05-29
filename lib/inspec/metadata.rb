@@ -7,6 +7,7 @@ require 'logger'
 require 'rubygems/version'
 require 'rubygems/requirement'
 require 'semverse'
+require 'utils/spdx'
 
 module Inspec
   # Extract metadata.rb information
@@ -102,7 +103,7 @@ module Inspec
     end
 
     # return all warn and errors
-    def valid
+    def valid # rubocop:disable Metrics/AbcSize
       errors = []
       warnings = []
 
@@ -116,9 +117,14 @@ module Inspec
         errors.push('Version needs to be in SemVer format')
       end
 
-      %w{ title summary maintainer copyright }.each do |field|
+      %w{ title summary maintainer copyright license }.each do |field|
         next unless params[field.to_sym].nil?
         warnings.push("Missing profile #{field} in #{ref}")
+      end
+
+      # if version is set, ensure it is in SPDX format
+      if !params[:license].nil? && !Spdx.valid_license?(params[:license])
+        errors.push("License '#{params[:license]}' needs to be in SPDX format. See https://spdx.org/licenses/.")
       end
 
       [errors, warnings]
