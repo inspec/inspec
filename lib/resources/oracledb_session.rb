@@ -82,7 +82,8 @@ module Inspec::Resources
       @host = opts[:host] || 'localhost'
       @port = opts[:port] || '1521'
       @service = opts[:service]
-      @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
+      @sqlcl_bin = '/Users/chartmann/Development/oracle/sqlcl/bin/sql'
+      @sqlplus_bin = opts[:sqlplus_bin] || '/Users/chartmann/Development/oracle/sqlplus/sqlplus'
       return skip_resource("Can't run Oracle checks without authentication") if @user.nil? or @pass.nil?
     end
 
@@ -90,14 +91,29 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
       # escape tables with $
       escaped_query = escaped_query.gsub('$', "\\$")
-      cmd = inspec.command("echo \"SET MARKUP HTML ON\nSET FEEDBACK OFF\n#{escaped_query};\nEXIT\" | #{@sqlplus_bin} -s #{@user}/#{@pass}@#{@host}:#{@port}/#{@service}")
 
+      p = nil
+      # check if sqlcl is available and prefer that
+      if inspec.command(@sqlcl_bin).exist?
+        bin = @sqlcl_bin
+        opts = "set sqlformat csv\nSET FEEDBACK OFF"
+        p = 'parse_result_sqlcl'
+      elsif inspec.command(@sqlplus_bin).exist?
+        bin = @sqlplus_bin
+        opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
+        p = 'parse_result_sqlplus'
+      end
+
+      return skip_resource("Can't find suitable Oracle CLI") if p == nil
+
+      cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@pass}@#{@host}:#{@port}/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
         return skip_resource("Can't connect to Oracle instance for SQL checks.")
       end
 
-      OracleSQLQueryResult.new(cmd, parse_result(cmd))
+      puts "Query"
+      OracleSQLQueryResult.new(cmd, send(p.to_sym, cmd.stdout.gsub(/\r/,'')))
     end
 
     def to_s
@@ -106,8 +122,28 @@ module Inspec::Resources
 
     private
 
-    def parse_result(cmd)
-      result = cmd.stdout
+    def parse_result_sqlcl(stdout)
+      require 'csv'
+      table = CSV.parse(stdout, { headers: true})
+
+      # remove first row, since it will be a seperator line
+      table.delete(0)
+
+      # convert to hash
+      headers = table.headers
+
+      results = table.map { |row|
+        res = {}
+        headers.each { |header|
+          res[header.downcase] = row[header]
+        }
+        Hashie::Mash.new(res)
+      }
+      results
+    end
+
+    def parse_result_sqlplus(stdout)
+      result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
       result = result.gsub("<p>","").gsub("</p>","").gsub("<br>","")
 
