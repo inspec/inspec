@@ -37,8 +37,8 @@ module Fetchers
       nil
     end
 
-    # Transforms a browser github url to github tar url
-    # We distinguish between three different Github URL types:
+    # Transforms a browser github/bitbucket url to github/bitbucket tar url
+    # We distinguish between three different Github/Bitbucket URL types:
     #  - Master URL
     #  - Branch URL
     #  - Commit URL
@@ -46,22 +46,39 @@ module Fetchers
     # master url:
     # https://github.com/nathenharvey/tmp_compliance_profile/ is transformed to
     # https://github.com/nathenharvey/tmp_compliance_profile/archive/master.tar.gz
+    # https://bitbucket.org/username/repo is transformed to
+    # https://bitbucket.org/username/repo/get/master.tar.gz
     #
-    # github branch:
+    # branch:
     # https://github.com/hardening-io/tests-os-hardening/tree/2.0 is transformed to
     # https://github.com/hardening-io/tests-os-hardening/archive/2.0.tar.gz
+    # https://bitbucket.org/username/repo/branch/branchname is transformed to
+    # https://bitbucket.org/username/repo/get/newbranch.tar.gz
     #
-    # github commit:
+    # commit:
     # https://github.com/hardening-io/tests-os-hardening/tree/48bd4388ddffde68badd83aefa654e7af3231876
     # is transformed to
     # https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz
+    # https://bitbucket.org/username/repo/commits/95ce1f83d5bbe9eec34c5973f6894617e8d6d8cc is transformed to
+    # https://bitbucket.org/username/repo/get/95ce1f83d5bbe9eec34c5973f6894617e8d6d8cc.tar.gz
+
     GITHUB_URL_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}
     GITHUB_URL_WITH_TREE_REGEX = %r{^https?://(www\.)?github\.com/(?<user>[\w-]+)/(?<repo>[\w-]+)/tree/(?<commit>[\w\.]+)(/)?$}
+    BITBUCKET_URL_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)(\.git)?(/)?$}
+    BITBUCKET_URL_BRANCH_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/branch/(?<branch>[\w\.]+)(/)?$}
+    BITBUCKET_URL_COMMIT_REGEX = %r{^https?://(www\.)?bitbucket\.org/(?<user>[\w-]+)/(?<repo>[\w-]+)/commits/(?<commit>[\w\.]+)(/)?$}
+
     def self.transform(target)
       transformed_target = if m = GITHUB_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://github.com/#{m[:user]}/#{m[:repo]}/archive/master.tar.gz"
                            elsif m = GITHUB_URL_WITH_TREE_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
                              "https://github.com/#{m[:user]}/#{m[:repo]}/archive/#{m[:commit]}.tar.gz"
+                           elsif m = BITBUCKET_URL_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
+                             "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/master.tar.gz"
+                           elsif m = BITBUCKET_URL_BRANCH_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
+                             "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{m[:branch]}.tar.gz"
+                           elsif m = BITBUCKET_URL_COMMIT_REGEX.match(target) # rubocop:disable Lint/AssignmentInCondition
+                             "https://bitbucket.org/#{m[:user]}/#{m[:repo]}/get/#{m[:commit]}.tar.gz"
                            end
 
       if transformed_target

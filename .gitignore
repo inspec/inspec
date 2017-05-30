@@ -22,7 +22,9 @@ habitat/results
 /.direnv
 /.envrc
 results/
-
+.vagrant/
+Vagrantfile
+.gitignore
 www/source/index.html.slim
 
 www/source/index.html.slim
