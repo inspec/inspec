@@ -1,6 +1,25 @@
 # Change Log
 
-## [v1.25.1](https://github.com/chef/inspec/tree/v1.25.1) (2017-05-19)
+## [v1.26.0](https://github.com/chef/inspec/tree/v1.26.0) (2017-05-30)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.25.1...v1.26.0)
+
+**Implemented enhancements:**
+
+- Improvements to Habitat plan [\#1820](https://github.com/chef/inspec/pull/1820) ([smith](https://github.com/smith))
+
+**Fixed bugs:**
+
+- bugfix: adjust localhost+sudo test output to train update [\#1873](https://github.com/chef/inspec/pull/1873) ([arlimus](https://github.com/arlimus))
+- bugfix: do not send nil to command on unsupported OS [\#1865](https://github.com/chef/inspec/pull/1865) ([arlimus](https://github.com/arlimus))
+- bugfix: non-url servers with compliance login [\#1861](https://github.com/chef/inspec/pull/1861) ([arlimus](https://github.com/arlimus))
+- Habitat Profiles: redirect stderr to stdout [\#1826](https://github.com/chef/inspec/pull/1826) ([adamleff](https://github.com/adamleff))
+
+**Closed issues:**
+
+- Using Automate - `compliance\_profile\_name': undefined method `\[\]' for nil:NilClass \(NoMethodError\) seeing 1.25.1 Inspec  [\#1848](https://github.com/chef/inspec/issues/1848)
+- Missing filesystem size check for InSpec [\#1843](https://github.com/chef/inspec/issues/1843)
+
+## [v1.25.1](https://github.com/chef/inspec/tree/v1.25.1) (2017-05-20)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.25.0...v1.25.1)
 
 **Implemented enhancements:**
@@ -70,27 +89,14 @@
 - provide `inspec.version` information [\#1719](https://github.com/chef/inspec/pull/1719) ([arlimus](https://github.com/arlimus))
 - provide the `inspec` keyword [\#1718](https://github.com/chef/inspec/pull/1718) ([arlimus](https://github.com/arlimus))
 - print and prettyprint the inspec backend class [\#1717](https://github.com/chef/inspec/pull/1717) ([arlimus](https://github.com/arlimus))
-- inspec control.to\_ruby to use newlines instead of `\n` [\#1705](https://github.com/chef/inspec/pull/1705) ([arlimus](https://github.com/arlimus))
 
 **Fixed bugs:**
 
 - pretty-print multiline control descriptions [\#1711](https://github.com/chef/inspec/pull/1711) ([arlimus](https://github.com/arlimus))
 - bugfix: unindent description misbehaviors [\#1707](https://github.com/chef/inspec/pull/1707) ([arlimus](https://github.com/arlimus))
-- handle json parse errors in docker resource [\#1706](https://github.com/chef/inspec/pull/1706) ([chris-rock](https://github.com/chris-rock))
 
 ## [v1.21.0](https://github.com/chef/inspec/tree/v1.21.0) (2017-04-24)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.20.0...v1.21.0)
-
-**Implemented enhancements:**
-
-- fetch user groups while building user object [\#1681](https://github.com/chef/inspec/pull/1681) ([Happycoil](https://github.com/Happycoil))
-- update sslshake to v1.2 [\#1680](https://github.com/chef/inspec/pull/1680) ([arlimus](https://github.com/arlimus))
-
-**Fixed bugs:**
-
-- Web references in inspec shell help are wrong [\#1667](https://github.com/chef/inspec/issues/1667)
-- bugfix: solve warn on uninitialized [\#1694](https://github.com/chef/inspec/pull/1694) ([arlimus](https://github.com/arlimus))
-- fix web reference url [\#1669](https://github.com/chef/inspec/pull/1669) ([chris-rock](https://github.com/chris-rock))
 
 
 
