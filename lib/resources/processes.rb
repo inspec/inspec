@@ -32,6 +32,8 @@ module Inspec::Resources
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep
       end
+
+      return skip_resource 'The `processes` resource is not supported on your OS yet.' if inspec.os.windows?
     end
 
     def to_s

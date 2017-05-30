@@ -31,6 +31,7 @@ require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'fetchers/mock'
 
+require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'
@@ -174,6 +175,7 @@ class MockLoader
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
