@@ -120,6 +120,11 @@ module Inspec
       @formatter = RSpec.configuration.add_formatter(format)
       RSpec.configuration.color = @conf['color']
 
+      if @conf['junit']
+        junit_path = @conf['junit'].is_a?(String) ? @conf['junit'] : 'junit.xml'
+        RSpec.configuration.add_formatter('InspecRspecJUnit', junit_path)
+      end
+
       setup_reporting if @conf['report']
     end
 
