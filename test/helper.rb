@@ -238,7 +238,7 @@ class MockLoader
       # group info for windows
       'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
       # network interface
-      '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
+      'fddd70e8b8510f5fcc0413cfdc41598c55d6922bb2a0a4075e2118633a0bf422' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
       # bridge on linux
@@ -259,12 +259,12 @@ class MockLoader
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
-      'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
-      'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
-      'find /etc/httpd/mods-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-status-conf'),
-      'find /etc/httpd/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-httpd-conf-enabled-link'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-apache2-conf-enabled-link'),
+      'find /etc/apache2/ports.conf -type f -maxdepth 1' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-ssl-conf'),
+      'find /etc/httpd/mods-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-status-conf'),
+      'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-httpd-conf-enabled-link'),
+      'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-apache2-conf-enabled'),
+      'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-apache2-conf-enabled-link'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
