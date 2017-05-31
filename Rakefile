@@ -175,7 +175,7 @@ task :release_habitat do
         raise "Please set the HAB_AUTH_TOKEN environment variable"
     end
     cmd = "echo #{version} > ./habitat/VERSION && "\
-          "hab studio build ./habitat && " \
+          "hab pkg build . && " \
           "hab pkg upload ./results/*.hart"
     puts "--> #{cmd}"
     sh('sh', '-c', cmd)
