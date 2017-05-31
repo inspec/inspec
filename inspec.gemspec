@@ -44,4 +44,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'addressable', '~> 2.4'
   spec.add_dependency 'parslet', '~> 1.5'
   spec.add_dependency 'semverse'
+  spec.add_dependency 'htmlentities'
 end

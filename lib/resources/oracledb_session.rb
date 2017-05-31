@@ -1,8 +1,11 @@
 # encoding: utf-8
 # author: Nolan Davidson
+# author: Christoph Hartmann
+# author: Dominik Richter
 
 require 'hashie/mash'
 require 'utils/database_helpers'
+require 'htmlentities'
 
 module Inspec::Resources
   class OracledbSession < Inspec.resource(1)
@@ -32,7 +35,7 @@ module Inspec::Resources
       @sqlcl_bin = 'sql'
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
-      return skip_resource "Can't run Oracle checks without authentication" if @user.nil? or @password.nil?
+      return skip_resource "Can't run Oracle checks without authentication" if @user.nil? || @password.nil?
       return skip_resource 'You must provide at least an SID and/or a Service Name for the session' if @service.nil?
     end
 
@@ -46,11 +49,11 @@ module Inspec::Resources
       if inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
         opts = "set sqlformat csv\nSET FEEDBACK OFF"
-        p = 'parse_csv_result'
+        p = :parse_csv_result
       elsif inspec.command(@sqlplus_bin).exist?
         bin = @sqlplus_bin
         opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
-        p = 'parse_html_result'
+        p = :parse_html_result
       end
 
       return skip_resource("Can't find suitable Oracle CLI") if p.nil?
@@ -58,10 +61,13 @@ module Inspec::Resources
       cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@password}@#{@host}:#{@port}/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
-        return skip_resource("Can't connect to Oracle instance for SQL checks.")
+        # TODO: we need to throw an exception here
+        # change once https://github.com/chef/inspec/issues/1205 is in
+        warn "Could not execute the sql query #{out}"
+        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
       end
 
-      SQLQueryResult.new(cmd, send(p.to_sym, cmd.stdout.gsub(/\r/,'')))
+      DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout.gsub(/\r/,'')))
     end
 
     def to_s
@@ -108,8 +114,7 @@ module Inspec::Resources
           entries = row.elements.to_a('/td')
 
           headers.each_with_index { |header, index|
-            # TODO: once nokogiri is back, we can remove html entities
-            require 'htmlentities'
+            # we need htmlentities since we do not have nokogiri
             coder = HTMLEntities.new
             val = coder.decode(entries[index].text).strip
             res[header.downcase] = val

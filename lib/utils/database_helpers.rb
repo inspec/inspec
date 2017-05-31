@@ -34,6 +34,8 @@ module DatabaseHelper
   end
 
   class SQLQueryResult
+
+    attr_reader :error
     def initialize(cmd, results)
       @cmd = cmd
       @results = results
@@ -43,12 +45,8 @@ module DatabaseHelper
       @results.empty?
     end
 
-    def stdout
-      @cmd.stdout
-    end
-
-    def stderr
-      @cmd.stderr
+    def successful?
+      cmd.exit_status == 0 && @error.nil?
     end
 
     def row(id)

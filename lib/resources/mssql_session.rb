@@ -1,4 +1,5 @@
 # encoding: utf-8
+# author: Nolan Davidson
 # author: Christoph Hartmann
 # author: Dominik Richter
 
@@ -6,7 +7,7 @@ require 'hashie/mash'
 require 'utils/database_helpers'
 
 module Inspec::Resources
-  # This requires the `mssql` tool available on platform
+  # This requires the `sqlcmd` tool available on platform
   # @see https://docs.microsoft.com/en-us/sql/relational-databases/scripting/sqlcmd-use-the-utility
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
   class MssqlSession < Inspec.resource(1)
@@ -38,14 +39,16 @@ module Inspec::Resources
       @instance = opts[:instance]
 
       # check if sqlcmd is available
-      skip_resource('sqlcmd is missing') if !inspec.command('sqlcmd').exist?
+      return skip_resource('sqlcmd is missing') if !inspec.command('sqlcmd').exist?
+      # check that database is reachable
+      return skip_resource("Can't connect to the MS SQL Server.") if !test_connection
     end
 
     def query(q)
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$').gsub(/\@/, '`@')
+      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
-      cmd_string += " -U #{@user} -P '#{@password}'" unless @user.nil? or @password.nil?
+      cmd_string += " -U #{@user} -P '#{@password}'" unless @user.nil? || @password.nil?
       if @instance.nil?
         cmd_string += " -S #{@host}"
       else
@@ -53,10 +56,15 @@ module Inspec::Resources
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
-      if out =~ /Sqlcmd: Error/
-        return skip_resource("Can't connect to the MS SQL Server.")
+      if cmd.exit_status != 0 || out =~ /Sqlcmd: Error/
+        # TODO: we need to throw an exception here
+        # change once https://github.com/chef/inspec/issues/1205 is in
+        # require "pry"; binding.pry
+        warn "Could not execute the sql query #{out}"
+        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
+      else
+        DatabaseHelper::SQLQueryResult.new(cmd, parse_csv_result(cmd))
       end
-      SQLQueryResult.new(cmd, parse_result(cmd))
     end
 
     def to_s
@@ -64,6 +72,10 @@ module Inspec::Resources
     end
 
     private
+
+    def test_connection
+      !query('select getdate()').empty?
+    end
 
     def parse_csv_result(cmd)
       require 'csv'
