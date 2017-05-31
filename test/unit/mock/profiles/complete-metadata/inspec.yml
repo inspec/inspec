@@ -4,6 +4,7 @@ maintainer: bob
 title: title
 copyright: left
 summary: nothing
+license: Apache-2.0
 supports:
   - linux
   - darwin

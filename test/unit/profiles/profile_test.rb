@@ -70,7 +70,7 @@ describe Inspec::Profile do
     end
 
     it 'works on a complete profile' do
-      MockLoader.load_profile('complete-profile').sha256.must_equal '41ce15e61b7e02aad5dade183f68c547e062f1390762d266c5c8cf96d49134c7'
+      MockLoader.load_profile('complete-profile').sha256.must_equal 'f9dbfad594ff9eff2209c8a791a1a88a0330f3d3800395e56acf981e4cc5e236'
     end
   end
 
@@ -112,6 +112,7 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile maintainer in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile copyright in inspec.yml"]
+        logger.expect :warn, nil, ["Missing profile license in inspec.yml"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
@@ -124,7 +125,7 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 5
+        result[:warnings].length.must_equal 6
       end
     end
 
@@ -139,6 +140,7 @@ describe Inspec::Profile do
         logger.expect :warn, nil, ["Missing profile summary in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile maintainer in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile copyright in metadata.rb"]
+        logger.expect :warn, nil, ["Missing profile license in metadata.rb"]
         logger.expect :warn, nil, ['No controls or tests were defined.']
 
         result = MockLoader.load_profile(profile_id, {logger: logger}).check
@@ -151,7 +153,7 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*legacy-empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 6
+        result[:warnings].length.must_equal 7
       end
     end
 
@@ -331,6 +333,85 @@ describe Inspec::Profile do
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
         result[:warnings].length.must_equal 1
+      end
+    end
+
+    describe 'shows warning if license is invalid' do
+      let(:profile_id) { 'license-invalid' }
+      let(:profile_path) { MockLoader.profile_zip(profile_id) }
+      let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
+
+      it 'prints ok messages and counts the controls' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+        logger.expect :warn, nil, ["License 'Invalid License Name' needs to be in SPDX format. See https://spdx.org/licenses/."]
+        logger.expect :warn, nil, ['No controls or tests were defined.']
+        logger.expect :info, nil, ["Metadata OK."]
+
+        result = MockLoader.load_profile(profile_id, {logger: logger}).check
+
+        # verify logger output
+        logger.verify
+
+        # verify hash result
+        result[:summary][:valid].must_equal true
+        result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+        result[:summary][:profile].must_equal 'license-invalid'
+
+        result[:summary][:controls].must_equal 0
+        result[:errors].length.must_equal 0
+        result[:warnings].length.must_equal 2
+      end
+
+      describe 'shows no warning if license is spdx' do
+        let(:profile_id) { 'license-spdx' }
+        let(:profile_path) { MockLoader.profile_zip(profile_id) }
+        let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
+
+        it 'prints ok messages and counts the controls' do
+          logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+          logger.expect :warn, nil, ['No controls or tests were defined.']
+          logger.expect :info, nil, ["Metadata OK."]
+
+          result = MockLoader.load_profile(profile_id, {logger: logger}).check
+
+          # verify logger output
+          logger.verify
+
+          # verify hash result
+          result[:summary][:valid].must_equal true
+          result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+          result[:summary][:profile].must_equal 'license-spdx'
+
+          result[:summary][:controls].must_equal 0
+          result[:errors].length.must_equal 0
+          result[:warnings].length.must_equal 1
+        end
+      end
+
+      describe 'accepts proprietary license' do
+        let(:profile_id) { 'license-proprietary' }
+        let(:profile_path) { MockLoader.profile_zip(profile_id) }
+        let(:profile) { MockLoader.load_profile(profile_path, {logger: logger}) }
+
+        it 'prints ok messages and counts the controls' do
+          logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
+          logger.expect :warn, nil, ['No controls or tests were defined.']
+          logger.expect :info, nil, ["Metadata OK."]
+
+          result = MockLoader.load_profile(profile_id, {logger: logger}).check
+
+          # verify logger output
+          logger.verify
+
+          # verify hash result
+          result[:summary][:valid].must_equal true
+          result[:summary][:location].must_equal "#{home}/mock/profiles/#{profile_id}"
+          result[:summary][:profile].must_equal 'license-proprietary'
+
+          result[:summary][:controls].must_equal 0
+          result[:errors].length.must_equal 0
+          result[:warnings].length.must_equal 1
+        end
       end
     end
   end

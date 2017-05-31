@@ -6,6 +6,7 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
+require_relative 'tasks/spdx'
 
 # The docs tasks rely on ruby-progressbar. If we can't load it, then don't
 # load the docs tasks. This is necessary to allow this Rakefile to work
@@ -195,4 +196,3 @@ namespace :www do
     exit(1)
   end
 end
-
