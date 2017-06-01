@@ -45,7 +45,7 @@ do_prepare() {
   # Instead, we build a minimal Gemfile in the $CACHE_PATH and bundle using that.
   cat > "$CACHE_PATH/Gemfile" <<GEMFILE
 source 'https://rubygems.org'
-gem '$pkg_name', path: '$SRC_PATH'
+gem '$pkg_name', '= $pkg_version'
 GEMFILE
 
   export BUNDLE_SILENCE_ROOT_WARNING GEM_HOME GEM_PATH
