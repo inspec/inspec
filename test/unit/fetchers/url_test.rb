@@ -112,7 +112,7 @@ describe Fetchers::Url do
     end
 
     it "resolves a bitbucket commit url" do
-      bitbucket = 'https://bitbucket.org/chefsta/inspec/commits/48bd4388ddffde68badd83aefa654e7af3231876'
+      bitbucket = 'https://bitbucket.org/chef/inspec/commits/48bd4388ddffde68badd83aefa654e7af3231876'
       res = fetcher.resolve(bitbucket)
       res.expects(:open).returns(mock_open)
       _(res).wont_be_nil
