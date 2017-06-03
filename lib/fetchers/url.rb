@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 
 require 'uri'
-require 'digest'
+require 'openssl'
 require 'tempfile'
 require 'open-uri'
 
@@ -101,7 +101,7 @@ module Fetchers
 
     def sha256
       file = @archive_path || temp_archive_path
-      Digest::SHA256.hexdigest File.read(file)
+      OpenSSL::Digest::SHA256.digest(File.read(file)).unpack('H*')[0]
     end
 
     def file_type_from_remote(remote)

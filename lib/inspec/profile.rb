@@ -4,7 +4,7 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
-require 'digest'
+require 'openssl'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
@@ -406,7 +406,7 @@ module Inspec
       # get all dependency checksums
       deps = Hash[locked_dependencies.list.map { |k, v| [k, v.profile.sha256] }]
 
-      res = Digest::SHA256.new
+      res = OpenSSL::Digest::SHA256.new
       files = source_reader.tests.to_a + source_reader.libraries.to_a +
               source_reader.data_files.to_a +
               [['inspec.yml', source_reader.metadata.content]] +
@@ -415,7 +415,7 @@ module Inspec
       files.sort { |a, b| a[0] <=> b[0] }
            .map { |f| res << f[0] << "\0" << f[1] << "\0" }
 
-      res.hexdigest
+      res.digest.unpack('H*')[0]
     end
 
     private
