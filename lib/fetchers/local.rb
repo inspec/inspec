@@ -2,6 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'openssl'
+
 module Fetchers
   class Local < Inspec.fetcher(1)
     name 'local'
@@ -65,7 +67,8 @@ module Fetchers
 
     def sha256
       return nil if File.directory?(@target)
-      @archive_shasum ||= Digest::SHA256.hexdigest File.read(@target)
+      @archive_shasum ||=
+        OpenSSL::Digest::SHA256.digest(File.read(@target)).unpack('H*')[0]
     end
 
     def resolved_source
