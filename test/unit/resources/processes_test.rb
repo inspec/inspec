@@ -109,6 +109,7 @@ describe 'Inspec::Resources::Processes' do
     resource = MockLoader.new(:centos6).load_resource('processes', 'postgres: bifrost bifrost')
     _(resource.users.sort).must_equal ['opscode-pgsql']
     _(resource.states.sort).must_equal ['Ss']
+    _(resource.exists?).must_equal true
   end
 
   it 'command name matches with output (string)' do
@@ -119,5 +120,25 @@ describe 'Inspec::Resources::Processes' do
   it 'command name matches with output (regex)' do
     resource = MockLoader.new(:centos6).load_resource('processes', /mysqld/)
     _(resource.to_s).must_equal 'Processes /mysqld/'
+  end
+
+  it 'command name matches with output (string)' do
+    resource = MockLoader.new(:windows).load_resource('processes', 'winlogon.exe')
+    _(resource.to_s).must_equal 'Processes winlogon.exe'
+  end
+
+  it 'retrieves the users and states as arrays on windows os' do
+    resource = MockLoader.new(:windows).load_resource('processes', 'winlogon.exe')
+    _(resource.users.sort).must_equal ['NT AUTHORITY\\SYSTEM']
+  end
+
+  it 'process should exist' do
+    resource = MockLoader.new(:windows).load_resource('processes', 'winlogon.exe')
+    _(resource.exists?).must_equal true
+  end
+
+  it 'process should_not exist' do
+    resource = MockLoader.new(:windows).load_resource('processes', 'unicorn.exe')
+    _(resource.exists?).must_equal false
   end
 end

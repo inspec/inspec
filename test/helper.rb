@@ -303,10 +303,10 @@ class MockLoader
       'crontab -l' => cmd.call('crontab-root'),
       # crontab display for non-current user
       'crontab -l -u foouser' => cmd.call('crontab-foouser'),
-  	  # zfs output for dataset tank/tmp
-  	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
-  	  # zfs output for pool tank
-  	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
+      # zfs output for dataset tank/tmp
+      '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
+      # zfs output for pool tank
+      '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
       # docker
       "docker ps -a --no-trunc --format '{{ json . }}'" => cmd.call('docker-ps-a'),
       "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
@@ -314,8 +314,9 @@ class MockLoader
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
-     }
-
+      # get-process cmdlet for processes resource
+      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes')
+    }
     @backend
   end
 

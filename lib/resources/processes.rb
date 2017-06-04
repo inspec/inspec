@@ -25,15 +25,24 @@ module Inspec::Resources
       @grep = grep
       # turn into a regexp if it isn't one yet
       if grep.class == String
-        grep = '(/[^/]*)*' + grep if grep[0] != '/'
-        grep = Regexp.new('^' + grep + '(\s|$)')
+        # if windows ignore case as we can't make up our minds
+        if inspec.os.windows?
+          grep = '(?i)' + grep
+        else
+          grep = '(/[^/]*)*' + grep unless grep[0] == '/'
+          grep = '^' + grep + '(\s|$)'
+        end
+        grep = Regexp.new(grep)
       end
+
       all_cmds = ps_axo
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep
       end
+    end
 
-      return skip_resource 'The `processes` resource is not supported on your OS yet.' if inspec.os.windows?
+    def exists?
+      !@list.empty?
     end
 
     def to_s
@@ -74,6 +83,10 @@ module Inspec::Resources
       if os.linux?
         command = 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
         regex = /^([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(\w{3} \d{2}|\d{2}:\d{2}:\d{2})\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
+      elsif os.windows?
+        command = '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")'
+        # Wanted to use /(?:^|,)([^,]*)/; works on rubular.com not sure why here?
+        regex = /^(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+)$/
       else
         command = 'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command'
         regex = /^\s*([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+(.*)$/
@@ -95,7 +108,7 @@ module Inspec::Resources
       end.compact
       lines.map do |m|
         a = m.to_a[1..-1] # grab all matching groups
-        a.unshift(nil) unless os.linux?
+        a.unshift(nil) unless os.linux? || os.windows?
         a[1] = a[1].to_i
         a[4] = a[4].to_i
         a[5] = a[5].to_i
