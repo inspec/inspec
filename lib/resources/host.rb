@@ -121,13 +121,22 @@ module Inspec::Resources
   end
 
   class LinuxHostProvider < HostProvider
-    # ping is difficult to achieve, since we are not sure
-    def ping(hostname, _port = nil, _proto = nil)
-      # fall back to ping, but we can only test ICMP packages with ping
-      # therefore we have to skip the test, if we do not have everything on the node to run the test
-      ping = inspec.command("ping -w 1 -c 1 #{hostname}")
-      ping.exit_status.to_i != 0 ? false : true
+    def ping(hostname, port = nil, proto = nil)
+     #assume tcp if port is given without corresponding protocol
+     if port && !proto
+       proto = 'tcp'
+     end
+      #use bash builtin capability for checking connectivity
+      #for those os's with timeout from coreutils packages
+      # TODO: Verify whether this works on other linux versions
+      if port && ( inspec.os.redhat? || inspec.os.debian? )
+        resp = inspec.command("timeout 1 bash -c 'cat </dev/null >/dev/#{proto}/#{hostname}/#{port}'")
+      else
+        resp = inspec.command("ping -W 1 -c 1 #{hostname}")
+      end
+      resp.exit_status.to_i != 0 ? false : true
     end
+
 
     def resolve(hostname)
       # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
