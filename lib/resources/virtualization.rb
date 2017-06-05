@@ -16,14 +16,11 @@ module Inspec::Resources
         its('role') { should eq 'guest' }
       end
 
-      describe virtualization.systems[:docker] do
-        it { should eq 'guest' }
-      end
-
-      if virtualization.system == 'docker'
+      control 'test' do
         describe file('/var/tmp/foo') do
           it { should be_file }
         end
+        only_if { virtualization.system == 'docker' }
       end
     "
 
@@ -36,8 +33,8 @@ module Inspec::Resources
     end
 
     # add helper methods for easy access of properties
-    # allows users to use virtualization.role, virtualization.system, virtualization.systems
-    %w{role system systems}.each do |property|
+    # allows users to use virtualization.role, virtualization.system
+    %w{role system}.each do |property|
       define_method(property.to_sym) do
         @virtualization_data[property.to_sym]
       end
@@ -76,13 +73,11 @@ module Inspec::Resources
       return false unless inspec.file('/proc/xen').exist?
       @virtualization_data[:system] = 'xen'
       @virtualization_data[:role] = 'guest'
-      @virtualization_data[:systems][:xen] = 'guest'
 
       # This file should exist on most Xen systems, normally empty for guests
       if inspec.file('/proc/xen/capabilities').exist? &&
           inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Style/MultilineOperationIndentation
         @virtualization_data[:role] = 'host'
-        @virtualization_data[:systems][:xen] = 'host'
       end
       true
     end
@@ -95,12 +90,10 @@ module Inspec::Resources
         Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxdrv. Detecting as vbox host')
         @virtualization_data[:system] = 'vbox'
         @virtualization_data[:role] = 'host'
-        @virtualization_data[:systems][:vbox] = 'host'
       elsif modules =~ /^vboxguest/
         Inspec::Log.debug('Plugin Virtualization: /proc/modules contains vboxguest. Detecting as vbox guest')
         @virtualization_data[:system] = 'vbox'
         @virtualization_data[:role] = 'guest'
-        @virtualization_data[:systems][:vbox] = 'guest'
       else
         return false
       end
@@ -112,7 +105,6 @@ module Inspec::Resources
       return false unless nova_exists?
       @virtualization_data[:system] = 'openstack'
       @virtualization_data[:role] = 'host'
-      @virtualization_data[:systems][:openstack] = 'host'
       true
     end
 
@@ -121,7 +113,6 @@ module Inspec::Resources
       return false unless inspec.file('/proc/cpuinfo').content =~ /QEMU Virtual CPU|Common KVM processor|Common 32-bit KVM processor/
       @virtualization_data[:system] = 'kvm'
       @virtualization_data[:role] = 'guest'
-      @virtualization_data[:systems][:kvm] = 'guest'
       true
     end
 
@@ -132,11 +123,9 @@ module Inspec::Resources
       if inspec.file('/proc/cpuinfo').content =~ /hypervisor/
         @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'guest'
-        @virtualization_data[:systems][:kvm] = 'guest'
       else
         @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'host'
-        @virtualization_data[:systems][:kvm] = 'host'
       end
       true
     end
@@ -147,11 +136,9 @@ module Inspec::Resources
       if inspec.file('/proc/bc/0').exist?
         @virtualization_data[:system] = 'openvz'
         @virtualization_data[:role] = 'host'
-        @virtualization_data[:systems][:openvz] = 'host'
       elsif inspec.file('/proc/vz').exist?
         @virtualization_data[:system] = 'openvz'
         @virtualization_data[:role] = 'guest'
-        @virtualization_data[:systems][:openvz] = 'guest'
       else
         return false
       end
@@ -163,7 +150,6 @@ module Inspec::Resources
       return false unless inspec.file('/proc/bus/pci/devices').content =~ /1ab84000/
       @virtualization_data[:system] = 'parallels'
       @virtualization_data[:role] = 'guest'
-      @virtualization_data[:systems][:parallels] = 'guest'
       true
     end
 
@@ -176,10 +162,8 @@ module Inspec::Resources
       @virtualization_data[:system] = 'linux-vserver'
       if vxid[2] == '0'
         @virtualization_data[:role] = 'host'
-        @virtualization_data[:systems]['linux-vserver'] = 'host'
       else
         @virtualization_data[:role] = 'guest'
-        @virtualization_data[:systems]['linux-vserver'] = 'guest'
       end
       true
     end
@@ -209,7 +193,6 @@ module Inspec::Resources
           cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Style/MultilineOperationIndentation
         @virtualization_data[:system] = $1 # rubocop:disable Style/PerlBackrefs
         @virtualization_data[:role] = 'guest'
-        @virtualization_data[:systems][$1.to_sym] = 'guest' # rubocop:disable Style/PerlBackrefs
       elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
         # lxc-version shouldn't be installed by default
         # Even so, it is likely we are on an LXC capable host that is not being used as such
@@ -218,10 +201,6 @@ module Inspec::Resources
           @virtualization_data[:system] = 'lxc'
           @virtualization_data[:role] = 'host'
         end
-        # In general, the 'systems' framework from OHAI-182 is less susceptible to conflicts
-        # But, this could overwrite virtualization[:systems][:lxc] = 'guest'
-        # If so, we may need to look further for a differentiator (OHAI-573)
-        @virtualization_data[:systems][:lxc] = 'host'
       else
         return false
       end
@@ -232,7 +211,6 @@ module Inspec::Resources
       return false unless inspec.file('/.dockerenv').exist? || inspec.file('/.dockerinit').exist?
       @virtualization_data[:system] = 'docker'
       @virtualization_data[:role] = 'guest'
-      @virtualization_data[:systems][:docker] = 'guest'
       true
     end
 
@@ -255,7 +233,6 @@ module Inspec::Resources
       # cache data in an instance var to avoid doing multiple detections for a single test
       @virtualization_data ||= Hashie::Mash.new
       return unless @virtualization_data.empty?
-      @virtualization_data[:systems] ||= Hashie::Mash.new
 
       # each detect method will return true if it matched and was successfully
       # able to populate @virtualization_data with stuff.
