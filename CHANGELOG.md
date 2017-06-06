@@ -1,23 +1,47 @@
 # Change Log
 
-## [v1.26.0](https://github.com/chef/inspec/tree/v1.26.0) (2017-05-30)
+## [v1.27.0](https://github.com/chef/inspec/tree/v1.27.0) (2017-06-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.26.0...v1.27.0)
+
+**Implemented enhancements:**
+
+- Support special cases for crontab resource [\#1893](https://github.com/chef/inspec/pull/1893) ([arlimus](https://github.com/arlimus))
+- add the Nginx parser [\#1888](https://github.com/chef/inspec/pull/1888) ([arlimus](https://github.com/arlimus))
+- support FIPS 140-2 compliant digest calls [\#1887](https://github.com/chef/inspec/pull/1887) ([arlimus](https://github.com/arlimus))
+- Add windows support to the `processes` resource [\#1878](https://github.com/chef/inspec/pull/1878) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- add bitbucket repo url handling [\#1866](https://github.com/chef/inspec/pull/1866) ([stubblyhead](https://github.com/stubblyhead))
+- Commenting the `contain\_duplicates` deprecation until we have a good alternative [\#1860](https://github.com/chef/inspec/pull/1860) ([alexpop](https://github.com/alexpop))
+- verifies that inspec.yml uses licenses in SPDX format [\#1858](https://github.com/chef/inspec/pull/1858) ([chris-rock](https://github.com/chris-rock))
+- funtion to get pgsql version, exposed version, cluster and fixed session [\#1758](https://github.com/chef/inspec/pull/1758) ([aaronlippold](https://github.com/aaronlippold))
+
+**Fixed bugs:**
+
+- Use RubyGems version for habitat plan [\#1883](https://github.com/chef/inspec/pull/1883) ([smith](https://github.com/smith))
+- Fix version method call for refresh token [\#1875](https://github.com/chef/inspec/pull/1875) ([ndobson](https://github.com/ndobson))
+- Add warningaction to test-netconnection [\#1869](https://github.com/chef/inspec/pull/1869) ([seththoenen](https://github.com/seththoenen))
+- Fix parameters to `find` commands [\#1856](https://github.com/chef/inspec/pull/1856) ([chris-rock](https://github.com/chris-rock))
+- Fix command exists check on Windows with full paths [\#1850](https://github.com/chef/inspec/pull/1850) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Fix compliance uploads when version is not present [\#1849](https://github.com/chef/inspec/pull/1849) ([adamleff](https://github.com/adamleff))
+
+## [v1.26.0](https://github.com/chef/inspec/tree/v1.26.0) (2017-05-31)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.25.1...v1.26.0)
 
 **Implemented enhancements:**
 
+- Bump default timeouts for `http` resource [\#1835](https://github.com/chef/inspec/pull/1835) ([schisamo](https://github.com/schisamo))
 - Improvements to Habitat plan [\#1820](https://github.com/chef/inspec/pull/1820) ([smith](https://github.com/smith))
 
 **Fixed bugs:**
 
-- bugfix: adjust localhost+sudo test output to train update [\#1873](https://github.com/chef/inspec/pull/1873) ([arlimus](https://github.com/arlimus))
+- adjust localhost+sudo test output to train update [\#1873](https://github.com/chef/inspec/pull/1873) ([arlimus](https://github.com/arlimus))
+- sudo-detection for target execution [\#1870](https://github.com/chef/inspec/pull/1870) ([arlimus](https://github.com/arlimus))
 - bugfix: do not send nil to command on unsupported OS [\#1865](https://github.com/chef/inspec/pull/1865) ([arlimus](https://github.com/arlimus))
 - bugfix: non-url servers with compliance login [\#1861](https://github.com/chef/inspec/pull/1861) ([arlimus](https://github.com/arlimus))
+- Raise exception if profile target URL cannot be parsed [\#1853](https://github.com/chef/inspec/pull/1853) ([adamleff](https://github.com/adamleff))
+- postgres relative path includes [\#1852](https://github.com/chef/inspec/pull/1852) ([aaronlippold](https://github.com/aaronlippold))
+- Amended the processes resource to skip on windows [\#1851](https://github.com/chef/inspec/pull/1851) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Fix assert that a gem is not installed [\#1844](https://github.com/chef/inspec/pull/1844) ([cattywampus](https://github.com/cattywampus))
 - Habitat Profiles: redirect stderr to stdout [\#1826](https://github.com/chef/inspec/pull/1826) ([adamleff](https://github.com/adamleff))
-
-**Closed issues:**
-
-- Using Automate - `compliance\_profile\_name': undefined method `\[\]' for nil:NilClass \(NoMethodError\) seeing 1.25.1 Inspec  [\#1848](https://github.com/chef/inspec/issues/1848)
-- Missing filesystem size check for InSpec [\#1843](https://github.com/chef/inspec/issues/1843)
 
 ## [v1.25.1](https://github.com/chef/inspec/tree/v1.25.1) (2017-05-20)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.25.0...v1.25.1)
@@ -41,7 +65,6 @@
 **Fixed bugs:**
 
 - read source code if profile is in tgz/zip [\#1816](https://github.com/chef/inspec/pull/1816) ([arlimus](https://github.com/arlimus))
-- Update postgresql conf resource to accept include\_dir as a string as well as an array [\#1727](https://github.com/chef/inspec/pull/1727) ([elliott-davis](https://github.com/elliott-davis))
 
 ## [v1.24.0](https://github.com/chef/inspec/tree/v1.24.0) (2017-05-11)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.23.0...v1.24.0)
@@ -56,7 +79,6 @@
 - Add support for Windows auth in mssql\_resourcet [\#1786](https://github.com/chef/inspec/pull/1786) ([arlimus](https://github.com/arlimus))
 - Allow mysql\_session to test databases on different hosts [\#1779](https://github.com/chef/inspec/pull/1779) ([aaronlippold](https://github.com/aaronlippold))
 - Handle parse errors for attrs/secrets [\#1775](https://github.com/chef/inspec/pull/1775) ([adamleff](https://github.com/adamleff))
-- Add an oracledb\_session resource [\#1751](https://github.com/chef/inspec/pull/1751) ([nsdavidson](https://github.com/nsdavidson))
 
 ## [v1.23.0](https://github.com/chef/inspec/tree/v1.23.0) (2017-05-04)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.22.0...v1.23.0)
@@ -64,36 +86,13 @@
 **Implemented enhancements:**
 
 - Add command-line completions for fish shell [\#1760](https://github.com/chef/inspec/pull/1760) ([smith](https://github.com/smith))
-- Error and exit when using --sudo locally [\#1741](https://github.com/chef/inspec/pull/1741) ([adamleff](https://github.com/adamleff))
-
-**Fixed bugs:**
-
-- Make the --no-color flag work for inspec exec [\#1749](https://github.com/chef/inspec/pull/1749) ([adamleff](https://github.com/adamleff))
-- Fix xinetd resource failing when file cannot be read [\#1746](https://github.com/chef/inspec/pull/1746) ([adamleff](https://github.com/adamleff))
-- Habitat profile bug fixes and improvements [\#1735](https://github.com/chef/inspec/pull/1735) ([rhass](https://github.com/rhass))
 
 **Merged pull requests:**
 
 - rake: lint before test [\#1755](https://github.com/chef/inspec/pull/1755) ([arlimus](https://github.com/arlimus))
-- rename old deprecations that were meant for 1.0 [\#1737](https://github.com/chef/inspec/pull/1737) ([arlimus](https://github.com/arlimus))
-- add `inspec.profile.file\(...\)` for profile files [\#1720](https://github.com/chef/inspec/pull/1720) ([arlimus](https://github.com/arlimus))
 
 ## [v1.22.0](https://github.com/chef/inspec/tree/v1.22.0) (2017-04-27)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.21.0...v1.22.0)
-
-**Implemented enhancements:**
-
-- rename `parse\_config` options for clarity [\#1709](https://github.com/chef/inspec/issues/1709)
-- rename SimpleConfig / parse\_config / parse\_config\_file options [\#1723](https://github.com/chef/inspec/pull/1723) ([arlimus](https://github.com/arlimus))
-- Add matchers help to shell, clean up help output [\#1722](https://github.com/chef/inspec/pull/1722) ([adamleff](https://github.com/adamleff))
-- provide `inspec.version` information [\#1719](https://github.com/chef/inspec/pull/1719) ([arlimus](https://github.com/arlimus))
-- provide the `inspec` keyword [\#1718](https://github.com/chef/inspec/pull/1718) ([arlimus](https://github.com/arlimus))
-- print and prettyprint the inspec backend class [\#1717](https://github.com/chef/inspec/pull/1717) ([arlimus](https://github.com/arlimus))
-
-**Fixed bugs:**
-
-- pretty-print multiline control descriptions [\#1711](https://github.com/chef/inspec/pull/1711) ([arlimus](https://github.com/arlimus))
-- bugfix: unindent description misbehaviors [\#1707](https://github.com/chef/inspec/pull/1707) ([arlimus](https://github.com/arlimus))
 
 ## [v1.21.0](https://github.com/chef/inspec/tree/v1.21.0) (2017-04-24)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.20.0...v1.21.0)
