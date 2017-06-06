@@ -88,7 +88,6 @@ end
 
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
-    # warn '[DEPRECATION] `contain_duplicates` is deprecated and will be removed in the next major version. See https://github.com/chef/inspec/issues/738 for more details'
     dup = arr.select { |element| arr.count(element) > 1 }
     !dup.uniq.empty?
   end
