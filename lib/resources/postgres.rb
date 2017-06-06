@@ -2,13 +2,14 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
+# author: Aaron Lippold
 # license: All rights reserved
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
 
-    attr_reader :service, :data_dir, :conf_dir, :conf_path
+    attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
       os = inspec.os
       if os.debian?
@@ -18,48 +19,26 @@ module Inspec::Resources
         # Debian allows multiple versions of postgresql to be
         # installed as well as multiple "clusters" to be configured.
         #
-        version = version_from_dir('/etc/postgresql')
-        cluster = cluster_from_dir("/etc/postgresql/#{version}")
-        @conf_dir = "/etc/postgresql/#{version}/#{cluster}"
-        @data_dir = "/var/lib/postgresql/#{version}/#{cluster}"
-      elsif os.redhat?
-        #
-        # /var/lib/pgsql/data is the default data directory on RHEL6
-        # and RHEL7. However, PR #824 explicitly added version-based
-        # directories. Thus, we call #version_from_dir unless it looks
-        # like we are using unversioned directories.
-        #
-        # TODO(ssd): This has the potential to be noisy because of the
-        # warning in version_from_dir. We should determine which case
-        # is more common and only warn in the less common case.
-        #
-        version = if inspec.directory('/var/lib/pgsql/data').exist?
-                    warn 'Found /var/lib/pgsql/data. Assuming postgresql install uses un-versioned directories.'
-                    nil
-                  else
-                    version_from_dir('/var/lib/pgsql/')
-                  end
-
-        @data_dir = File.join('/var/lib/pgsql/', version.to_s, 'data')
-      elsif os[:name] == 'arch'
-        #
-        # https://wiki.archlinux.org/index.php/PostgreSQL
-        #
-        # The archlinux wiki points to /var/lib/postgresql/data as the
-        # main data directory.
-        #
-        @data_dir = '/var/lib/postgres/data'
+        @version = version_from_psql || version_from_dir('/etc/postgresql')
+        @cluster = cluster_from_dir("/etc/postgresql/#{@version}")
+        @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
+        @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
       else
-        #
-        # According to https://www.postgresql.org/docs/9.5/static/creating-cluster.html
-        #
-        # > There is no default, although locations such as
-        # > /usr/local/pgsql/data or /var/lib/pgsql/data are popular.
-        #
-        @data_dir = '/var/lib/pgsql/data'
+        @version = version_from_psql
+        if @version.nil?
+          if inspec.directory('/var/lib/pgsql/data').exist?
+            warn 'Unable to determine PostgreSQL version: psql did not return
+             a version number and unversioned data directories were found.'
+            nil
+          else
+            @version = version_from_dir('/var/lib/pgsql/')
+          end
+        end
+        @data_dir = locate_data_dir_location_by_version(@version)
       end
 
       @service = 'postgresql'
+      @service += "-#{@version}" if @version.to_f >= 9.4
       @conf_dir ||= @data_dir
       verify_dirs
       @conf_path = File.join @conf_dir, 'postgresql.conf'
@@ -79,6 +58,33 @@ module Inspec::Resources
       if !inspec.directory(@data_dir).exist?
         warn "Default postgresql data directory: #{@data_dir} does not exist. Postgresql may not be installed or we've misidentified the data directory."
       end
+    end
+
+    def version_from_psql
+      return unless inspec.command('psql').exist?
+      inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
+    end
+
+    def locate_data_dir_location_by_version(ver = @version)
+      data_dir_loc = nil
+      dir_list = [
+        "/var/lib/pgsql/#{ver}/data",
+        '/var/lib/pgsql/data',
+        '/var/lib/postgres/data',
+        '/var/lib/postgresql/data',
+      ]
+
+      dir_list.each do |dir|
+        data_dir_loc if inspec.directory(dir).exists?
+        break
+      end
+
+      if data_dir_loc.nil?
+        warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
+        execute "psql -t -A -p <port> -h <host> -c "show hba_file";" as the PostgreSQL
+        DBA to find the non-starndard data_dir location.'
+      end
+      data_dir_loc
     end
 
     def version_from_dir(dir)
