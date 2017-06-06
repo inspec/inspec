@@ -355,7 +355,7 @@ module Compliance
       config['user'] = user
       config['insecure'] = insecure
       config['server_type'] = 'compliance'
-      config['version'] = Compliance::API.version(url, insecure)
+      config['version'] = Compliance::API.version(config)
 
       if !verify
         config.store

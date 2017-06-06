@@ -4,7 +4,7 @@ title: About the interface Resource
 
 # interface
 
-Use the `interface` InSpec audit resource to test basic network adapter properties, such as name, status, state, address, and link speed (in MB/sec).
+Use the `interface` InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).
 
 * On Linux platforms, `/sys/class/net/#{iface}` is used as source
 * On the Windows platform, the `Get-NetAdapter` cmdlet is used as source
@@ -13,7 +13,7 @@ Use the `interface` InSpec audit resource to test basic network adapter properti
 
 An `interface` resource block declares network interface properties to be tested:
 
-    describe interface do
+    describe interface('eth0') do
       it { should be_up }
       its('speed') { should eq 1000 }
       its('name') { should eq eth0 }

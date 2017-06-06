@@ -6,6 +6,7 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
+require_relative 'tasks/spdx'
 
 # The docs tasks rely on ruby-progressbar. If we can't load it, then don't
 # load the docs tasks. This is necessary to allow this Rakefile to work
@@ -174,7 +175,7 @@ task :release_habitat do
         raise "Please set the HAB_AUTH_TOKEN environment variable"
     end
     cmd = "echo #{version} > ./habitat/VERSION && "\
-          "hab studio build ./habitat && " \
+          "hab pkg build . && " \
           "hab pkg upload ./results/*.hart"
     puts "--> #{cmd}"
     sh('sh', '-c', cmd)
@@ -195,4 +196,3 @@ namespace :www do
     exit(1)
   end
 end
-

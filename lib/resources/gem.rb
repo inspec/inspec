@@ -39,16 +39,16 @@ module Inspec::Resources
       return @info if defined?(@info)
 
       cmd = inspec.command("#{@gem_binary} list --local -a -q \^#{@package_name}\$")
-      @info = {
-        installed: cmd.exit_status.zero?,
-        type: 'gem',
-      }
-      return @info unless @info[:installed]
+      return {} unless cmd.exit_status.zero?
 
       # extract package name and version
       # parses data like winrm (1.3.4, 1.3.3)
       params = /^\s*([^\(]*?)\s*\((.*?)\)\s*$/.match(cmd.stdout.chomp)
-      return {} if params.nil?
+      @info = {
+        installed: !params.nil?,
+        type: 'gem',
+      }
+      return @info unless @info[:installed]
 
       versions = params[2].split(',')
       @info[:name] = params[1]

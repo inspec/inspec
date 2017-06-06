@@ -51,4 +51,12 @@ describe 'Inspec::Resources::Http' do
     _(resource.status).must_equal 200
     _(resource.body).must_equal 'params ok'
   end
+
+  it 'verify http with timeouts' do
+    stub_request(:get, "www.example.com").to_return(status: 200, body: 'params ok')
+
+    resource = load_resource('http', 'http://www.example.com', open_timeout: 10, read_timeout: 10)
+    _(resource.instance_variable_get(:@open_timeout)).must_equal 10
+    _(resource.instance_variable_get(:@read_timeout)).must_equal 10
+  end
 end

@@ -31,6 +31,7 @@ require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'fetchers/mock'
 
+require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'
@@ -174,6 +175,7 @@ class MockLoader
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
@@ -236,7 +238,7 @@ class MockLoader
       # group info for windows
       'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
       # network interface
-      '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
+      'fddd70e8b8510f5fcc0413cfdc41598c55d6922bb2a0a4075e2118633a0bf422' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
       # bridge on linux
@@ -257,12 +259,12 @@ class MockLoader
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
-      'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
-      'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
-      'find /etc/httpd/mods-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-status-conf'),
-      'find /etc/httpd/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-httpd-conf-enabled-link'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-apache2-conf-enabled-link'),
+      'find /etc/apache2/ports.conf -type f -maxdepth 1' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-ssl-conf'),
+      'find /etc/httpd/mods-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-status-conf'),
+      'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-httpd-conf-enabled-link'),
+      'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-apache2-conf-enabled'),
+      'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-apache2-conf-enabled-link'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -303,10 +305,10 @@ class MockLoader
       'crontab -l -u foouser' => cmd.call('crontab-foouser'),
       # crontab display for special time strings
       'crontab -l -u special' => cmd.call('crontab-special'),
-  	  # zfs output for dataset tank/tmp
-  	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
-  	  # zfs output for pool tank
-  	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
+      # zfs output for dataset tank/tmp
+      '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
+      # zfs output for pool tank
+      '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
       # docker
       "docker ps -a --no-trunc --format '{{ json . }}'" => cmd.call('docker-ps-a'),
       "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
@@ -314,8 +316,9 @@ class MockLoader
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
-     }
-
+      # get-process cmdlet for processes resource
+      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes')
+    }
     @backend
   end
 

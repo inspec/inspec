@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'digest'
 require 'fileutils'
 
 module Inspec

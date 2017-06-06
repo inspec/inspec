@@ -60,16 +60,31 @@ The following examples show how to use this InSpec audit resource.
       its('list.length') { should eq 1 }
     end
 
-### Test if the init process is owned by the root user
+### Test if the process is owned by a specifc user
 
     describe processes('init') do
       its('users') { should eq ['root'] }
     end
 
+    describe processes('winlogon') do
+      its('users') { should cmp "NT AUTHORITY\\SYSTEM" }
+    end
+
+
 ### Test if a high-priority process is running
 
-    describe processes('some_process') do
+    describe processes('linux_process') do
       its('states') { should eq ['R<'] }
+    end
+
+    describe processes('windows_process') do
+      its('labels') { should cmp "High" }
+    end
+
+### Test if a process exists on the system
+
+    describe processes('some_process') do
+      it { should exist }
     end
 
 ### Test for a process using a specific Regexp
@@ -81,3 +96,28 @@ needed.
     describe processes(Regexp.new("/usr/local/bin/swap -d")) do
       its('list.length') { should eq 1 }
     end
+
+### Notes for auditing Windows systems
+
+Sometimes with system properties there isn't a direct comparison between different operating systems.
+Most of the `property_name`'s do align between the different OS's.  
+
+There are however some exception's, for example, within linux `states` offers multiple properties. 
+Windows doesn't have direct comparison that is a single property so instead `states` is mapped to the property of `Responding`, This is a boolean true/false flag to help determine if the process is hung.
+
+Below is a mapping table to help you understand what property the unix field maps to the windows `Get-Process` Property
+
+| *unix ps field* | *windows PowerShell Property* |
+|:---------------:|:-----------------------------:|
+|labels           |PriorityClass|
+|pids             |Id|
+|cpus             |CPU|
+|mem              |PM|
+|vsz              |VirtualMemorySize|
+|rss              |NPM|
+|tty              |SessionId|
+|states           |Responding|
+|start            |StartTime|
+|time             |TotalProcessorTime|
+|users            |UserName|
+|commands         |Path|

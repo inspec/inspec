@@ -148,7 +148,7 @@ module Inspec::Resources
     def ping(hostname, port = nil, _proto = nil)
       # ICMP: Test-NetConnection www.microsoft.com
       # TCP and port: Test-NetConnection -ComputerName www.microsoft.com -RemotePort 80
-      request = "Test-NetConnection -ComputerName #{hostname}"
+      request = "Test-NetConnection -ComputerName #{hostname} -WarningAction SilentlyContinue"
       request += " -RemotePort #{port}" unless port.nil?
       request += '| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json'
       cmd = inspec.command(request)

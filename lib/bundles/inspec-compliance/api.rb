@@ -70,13 +70,14 @@ module Compliance
       headers = get_headers(config)
       response = Compliance::HTTP.get(url+'/version', headers, insecure)
       return {} if response.code == '404'
-      data = response.body
 
-      if !data.nil?
-        JSON.parse(data)
-      else
-        {}
-      end
+      data = response.body
+      return {} if data.nil? || data.empty?
+
+      parsed = JSON.parse(data)
+      return {} unless parsed.key?('version') && !parsed['version'].empty?
+
+      parsed
     end
 
     # verifies that a profile
@@ -203,11 +204,11 @@ module Compliance
     end
 
     def self.is_automate_server_pre_080?(config)
-      config['server_type'] == 'automate' && config['version'].empty?
+      config['server_type'] == 'automate' && config['version'].nil?
     end
 
     def self.is_automate_server_080_and_later?(config)
-      config['server_type'] == 'automate' && !config['version'].empty?
+      config['server_type'] == 'automate' && !config['version'].nil?
     end
 
     def self.is_automate_server?(config)

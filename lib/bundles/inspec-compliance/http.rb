@@ -10,8 +10,7 @@ module Compliance
   class HTTP
     # generic get requires
     def self.get(url, headers = nil, insecure)
-      url = "https://#{url}" if URI.parse(url).scheme.nil?
-      uri = URI.parse(url)
+      uri = _parse_url(url)
       req = Net::HTTP::Get.new(uri.path)
       if !headers.nil?
         headers.each do |key, value|
@@ -24,7 +23,7 @@ module Compliance
     # generic post request
     def self.post(url, token, insecure, basic_auth = false)
       # form request
-      uri = URI.parse(url)
+      uri = _parse_url(url)
       req = Net::HTTP::Post.new(uri.path)
       if basic_auth
         req.basic_auth token, ''
@@ -38,7 +37,7 @@ module Compliance
 
     # post a file
     def self.post_file(url, headers, file_path, insecure)
-      uri = URI.parse(url)
+      uri = _parse_url(url)
       raise "Unable to parse URL: #{url}" if uri.nil? || uri.host.nil?
       http = Net::HTTP.new(uri.host, uri.port)
 
@@ -80,6 +79,11 @@ module Compliance
       puts "Error: Failed to connect to #{uri}."
       puts 'If the server uses a self-signed certificate, please re-run the login command with the --insecure option.'
       exit 1
+    end
+
+    def self._parse_url(url)
+      url = "https://#{url}" if URI.parse(url).scheme.nil?
+      URI.parse(url)
     end
   end
 end

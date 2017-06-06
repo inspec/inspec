@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.1'
 
-  spec.add_dependency 'train', '>=0.22.0', '<1.0'
+  spec.add_dependency 'train', '>=0.24.0', '<1.0'
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
   spec.add_dependency 'rainbow', '~> 2'

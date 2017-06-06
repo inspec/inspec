@@ -88,6 +88,37 @@ describe Fetchers::Url do
       _(res.resolved_source).must_equal({url: 'https://github.com/hardening-io/tests-os-hardening/archive/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz',
                                          sha256: expected_shasum})
     end
+
+    %w{https://bitbucket.org/chef/inspec
+       https://bitbucket.org/chef/inspec.git
+       https://www.bitbucket.org/chef/inspec.git
+       http://bitbucket.org/chef/inspec
+       http://bitbucket.org/chef/inspec.git
+       http://www.bitbucket.org/chef/inspec.git}.each do |bitbucket|
+      it "resolves a bitbucket url #{bitbucket}" do
+        res = fetcher.resolve(bitbucket)
+        res.expects(:open).returns(mock_open)
+        _(res).wont_be_nil
+        _(res.resolved_source).must_equal({url: 'https://bitbucket.org/chef/inspec/get/master.tar.gz', sha256: expected_shasum})
+      end
+    end
+
+    it "resolves a bitbucket branch url" do
+      bitbucket = 'https://bitbucket.org/chef/inspec/branch/newbranch'
+      res = fetcher.resolve(bitbucket)
+      res.expects(:open).returns(mock_open)
+      _(res).wont_be_nil
+      _(res.resolved_source).must_equal({url: 'https://bitbucket.org/chef/inspec/get/newbranch.tar.gz', sha256: expected_shasum})
+    end
+
+    it "resolves a bitbucket commit url" do
+      bitbucket = 'https://bitbucket.org/chef/inspec/commits/48bd4388ddffde68badd83aefa654e7af3231876'
+      res = fetcher.resolve(bitbucket)
+      res.expects(:open).returns(mock_open)
+      _(res).wont_be_nil
+      _(res.resolved_source).must_equal({url: 'https://bitbucket.org/chef/inspec/get/48bd4388ddffde68badd83aefa654e7af3231876.tar.gz', sha256: expected_shasum})
+    end
+
   end
 
   describe 'applied to a valid url (mocked tar.gz)' do

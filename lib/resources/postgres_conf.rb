@@ -71,6 +71,7 @@ module Inspec::Resources
 
       to_read = [@conf_path]
       until to_read.empty?
+        base_dir = File.dirname(to_read[0])
         raw_conf = read_file(to_read[0])
         @content += raw_conf
 
@@ -83,19 +84,23 @@ module Inspec::Resources
         to_read = to_read.drop(1)
         # see if there is more config files to include
 
-        to_read += include_files(params).find_all do |fp|
+        to_read += include_files(params, base_dir).find_all do |fp|
           not @files_contents.key? fp
         end
       end
       @content
     end
 
-    def include_files(params)
-      include_files = params['include'] || []
-      include_files += params['include_if_exists'] || []
+    def include_files(params, base_dir)
+      include_files = Array(params['include']) || []
+      include_files += Array(params['include_if_exists']) || []
+      include_files.map! do |f|
+        Pathname.new(f).absolute? ? f : File.join(base_dir, f)
+      end
+
       dirs = Array(params['include_dir']) || []
       dirs.each do |dir|
-        dir = File.join(@conf_dir, dir) if dir[0] != '/'
+        dir = File.join(base_dir, dir) if dir[0] != '/'
         include_files += find_files(dir, depth: 1, type: 'file')
       end
       include_files
