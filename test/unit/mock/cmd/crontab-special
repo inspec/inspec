@@ -1,0 +1,7 @@
+#
+# This is a sample crontab file for unit testing, for user 'special'
+#
+
+* * * * * /bin/custom_script.sh
+@yearly /usr/local/bin/foo.sh bar
+@reboot /bin/echo "Rebooting" > /var/log/rebooting.log

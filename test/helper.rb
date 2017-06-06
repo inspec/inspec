@@ -303,6 +303,8 @@ class MockLoader
       'crontab -l' => cmd.call('crontab-root'),
       # crontab display for non-current user
       'crontab -l -u foouser' => cmd.call('crontab-foouser'),
+      # crontab display for special time strings
+      'crontab -l -u special' => cmd.call('crontab-special'),
       # zfs output for dataset tank/tmp
       '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
       # zfs output for pool tank
