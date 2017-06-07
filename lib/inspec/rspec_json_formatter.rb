@@ -52,7 +52,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
       format_example(example).tap do |hash|
         e = example.exception
         next unless e
-        hash[:message] = e.message
+        hash[:message] = exception_message(e)
 
         next if e.is_a? RSpec::Expectations::ExpectationNotMetError
         hash[:exception] = e.class.name
@@ -62,6 +62,14 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   end
 
   private
+
+  def exception_message(exception)
+    if exception.is_a?(RSpec::Core::MultipleExceptionError)
+      exception.all_exceptions.map(&:message).uniq.join("\n\n")
+    else
+      exception.message
+    end
+  end
 
   def format_example(example)
     if !example.metadata[:description_args].empty? && example.metadata[:skip]

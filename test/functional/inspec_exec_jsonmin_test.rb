@@ -28,6 +28,14 @@ describe 'inspec exec' do
     JSON::Schema.validate(data, schema)
   end
 
+  it 'does not contain any dupilcate results with describe.one' do
+    out = inspec("shell -c 'describe.one do describe 1 do it { should cmp 2 } end end' --format=json-min")
+    out.stderr.must_equal ''
+    data = JSON.parse(out.stdout)
+    data['controls'].length.must_equal 1
+    data['controls'][0]['message'].must_equal "\nexpected: 2\n     got: 1\n\n(compared using `cmp` matcher)\n"
+  end
+
   describe 'execute a profile with mini json formatting' do
     let(:json) { JSON.load(inspec('exec ' + example_profile + ' --format json-min --no-create-lockfile').stdout) }
     let(:controls) { json['controls'] }
