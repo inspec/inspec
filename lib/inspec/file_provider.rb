@@ -24,9 +24,20 @@ module Inspec
     def initialize(_path)
     end
 
+    # Read the contents of a file. This will typically refer to a text
+    # file reading a string.
+    #
+    # @param _file [String] path of the file to be read
+    # @return [String] contents of the file described
     def read(_file)
       raise "#{self} does not implement `read(...)`. This is required."
     end
+
+    # Provide a method for reading binary contents from a file.
+    # It will default to #read if not defined. For most streams that implement
+    # it, it will be the same. For some special cases, it will add change the
+    # way in which encoding of the returned data structure is handled.
+    alias binread read
 
     def files
       raise "Fetcher #{self} does not implement `files()`. This is required."
@@ -64,6 +75,12 @@ module Inspec
       return nil unless files.include?(file)
       return nil unless File.file?(file)
       File.read(file)
+    end
+
+    def binread(file)
+      return nil unless files.include?(file)
+      return nil unless File.file?(file)
+      File.binread(file)
     end
   end
 
@@ -161,6 +178,10 @@ module Inspec
 
     def read(file)
       parent.read(abs_path(file))
+    end
+
+    def binread(file)
+      parent.binread(abs_path(file))
     end
 
     private
