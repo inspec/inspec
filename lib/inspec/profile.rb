@@ -37,7 +37,7 @@ module Inspec
       cache = file_provider.files.find_all do |entry|
         entry.start_with?('vendor')
       end
-      content = Hash[cache.map { |x| [x, file_provider.read(x)] }]
+      content = Hash[cache.map { |x| [x, file_provider.binread(x)] }]
       keys = content.keys
       keys.each do |key|
         next if content[key].nil?
@@ -47,7 +47,7 @@ module Inspec
 
         FileUtils.mkdir_p tar.dirname.to_s
         Inspec::Log.debug "Copy #{tar} to cache directory"
-        File.write(tar.to_s, content[key].force_encoding('UTF-8'))
+        File.binwrite(tar.to_s, content[key])
       end
     end
 
