@@ -17,7 +17,7 @@ module Inspec::Archive
                 tar.mkdir(input_filename, stat.mode)
               else
                 tar.add_file_simple(input_filename, stat.mode, stat.size) do |io|
-                  io.write(File.read(path))
+                  io.write(File.binread(path))
                 end
               end
             end
