@@ -29,7 +29,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
     _(resource.name).must_equal 'ssh'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -41,12 +41,12 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
     _(resource.name).must_equal 'ssh'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
-    _(resource.params.UnitFileState).must_equal nil
+    _(resource.params.UnitFileState).must_be_nil
   end
 
   # ubuntu 15.04 with systemd
@@ -81,7 +81,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
     _(resource.name).must_equal 'ssh'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -93,12 +93,12 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
     _(resource.name).must_equal 'ssh'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
-    _(resource.params.UnitFileState).must_equal nil
+    _(resource.params.UnitFileState).must_be_nil
   end
 
   # mint 18 with systemd
@@ -133,12 +133,12 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
     _(resource.name).must_equal 'sshd'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
-    _(resource.params.SubState).must_equal nil
+    _(resource.params.SubState).must_be_nil
   end
 
   it 'verify centos 6 package parsing with default sysv_service' do
@@ -146,7 +146,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
     _(resource.name).must_equal 'sshd'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -197,7 +197,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'bsd-init'
     _(resource.name).must_equal 'sendmail'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -209,7 +209,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'bsd-init'
     _(resource.name).must_equal 'sendmail'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -235,7 +235,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
     _(resource.name).must_equal 'sshd'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -261,7 +261,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
     _(resource.name).must_equal 'org.openbsd.ssh-agent'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -273,7 +273,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
     _(resource.name).must_equal 'com.apple.FilesystemUI'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal false
@@ -285,7 +285,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
     _(resource.name).must_equal 'org.openbsd.ssh-agent'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -298,7 +298,7 @@ describe 'Inspec::Resources::Service' do
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
     _(resource.name).must_equal 'sshd'
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
@@ -311,7 +311,7 @@ describe 'Inspec::Resources::Service' do
     resource = MockLoader.new(:undefined).load_resource('service', 'dhcp')
     params = Hashie::Mash.new({})
     _(resource.installed?).must_equal false
-    _(resource.description).must_equal nil
+    _(resource.description).must_be_nil
     _(resource.params).must_equal params
   end
 

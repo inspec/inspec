@@ -25,18 +25,18 @@ describe 'Inspec::Resources::WMI' do
   # ubuntu 14.04 with upstart
   it 'fail wmi on ubuntu' do
     resource = MockLoader.new(:ubuntu1404).load_resource('wmi', {class: 'win32_service', filter: "name like '%winrm%'" })
-    _(resource.send('DisplayName')).must_equal nil
+    _(resource.send('DisplayName')).must_be_nil
   end
 
   # centos 7 with systemd
   it 'fail wmi on centos' do
     resource = MockLoader.new(:centos7).load_resource('wmi', {class: 'win32_service', filter: "name like '%winrm%'" })
-    _(resource.send('DisplayName')).must_equal nil
+    _(resource.send('DisplayName')).must_be_nil
   end
 
   # unknown OS
   it 'fail wmi on unknown os' do
     resource = MockLoader.new(:undefined).load_resource('wmi', {class: 'win32_service', filter: "name like '%winrm%'" })
-    _(resource.send('DisplayName')).must_equal nil
+    _(resource.send('DisplayName')).must_be_nil
   end
 end

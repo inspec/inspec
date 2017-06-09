@@ -39,7 +39,7 @@ describe 'Inspec::Resources::Host' do
     resource = MockLoader.new(:undefined).load_resource('host', 'example.com')
     _(resource.resolvable?).must_equal false
     _(resource.reachable?).must_equal false
-    _(resource.ipaddress).must_equal nil
+    _(resource.ipaddress).must_be_nil
   end
 
 end

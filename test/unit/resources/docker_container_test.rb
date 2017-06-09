@@ -11,7 +11,7 @@ describe 'Inspec::Resources::DockerContainer' do
       _(resource.id).must_equal 'd94f854370d2b02912e8fc636502bc72b74fbd567a7eba3fc6a52045bb28904e'
       _(resource.image).must_equal 'alpine'
       _(resource.repo).must_equal 'alpine'
-      _(resource.tag).must_equal nil
+      _(resource.tag).must_be_nil
       _(resource.command).must_equal '/bin/sh'
       _(resource.ports).must_equal ''
     end

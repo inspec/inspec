@@ -19,7 +19,7 @@ describe 'Inspec::Resources::Interface' do
     resource = MockLoader.new(:ubuntu1404).load_resource('interface', 'eth1')
     _(resource.exists?).must_equal false
     _(resource.up?).must_equal false
-    _(resource.speed).must_equal nil
+    _(resource.speed).must_be_nil
   end
 
   it 'verify interface on windows' do
@@ -40,7 +40,7 @@ describe 'Inspec::Resources::Interface' do
     resource = MockLoader.new(:windows).load_resource('interface', 'eth1')
     _(resource.exists?).must_equal false
     _(resource.up?).must_equal false
-    _(resource.speed).must_equal nil
+    _(resource.speed).must_be_nil
   end
 
   # undefined
@@ -48,7 +48,7 @@ describe 'Inspec::Resources::Interface' do
     resource = MockLoader.new(:undefined).load_resource('interface', 'eth0')
     _(resource.exists?).must_equal false
     _(resource.up?).must_equal false
-    _(resource.speed).must_equal nil
+    _(resource.speed).must_be_nil
   end
 
 end
