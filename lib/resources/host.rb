@@ -10,7 +10,7 @@
 # end
 #
 # To verify a hostname with protocol and port
-# describe host('example.com', port: 53, proto: 'udp') do
+# describe host('example.com', port: 443, protocol: 'tcp') do
 #   it { should be_reachable }
 # end
 #
@@ -33,7 +33,7 @@ module Inspec::Resources
         it { should be_reachable }
       end
 
-      describe host('example.com', port: '80') do
+      describe host('example.com', port: '80', protocol: 'tcp') do
         it { should be_reachable }
       end
     "

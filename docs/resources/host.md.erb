@@ -12,7 +12,7 @@ A `host` resource block declares a host name, and then (depending on what is to 
 
 .. code-block:: ruby
 
-   describe host('example.com', port: 80, proto: 'tcp') do
+   describe host('example.com', port: 80, protocol: 'tcp') do
      it { should be_reachable }
    end
 
@@ -21,7 +21,7 @@ where
 * `host()` must specify a host name and may specify a port number and/or a protocol
 * `'example.com'` is the host name
 * `port:` is the port number
-* `proto: 'name'` is the Internet protocol: TCP (`proto: 'tcp'`), UDP (`proto: 'udp'` or  ICMP (`proto: 'icmp'`))
+* `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or  ICMP (`protocol: 'icmp'`))
 * `be_reachable` is a valid matcher for this resource
 
 
@@ -73,13 +73,13 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify host name is reachable over a specific protocol and port number
 
-    describe host('example.com', port: 53, proto: 'udp') do
+    describe host('example.com', port: 80, protocol: 'tcp') do
       it { should be_reachable }
     end
 
 ### Verify that a specific IP address can be resolved
 
-    describe host('example.com', port: 80, proto: 'tcp') do
+    describe host('example.com') do
       it { should be_resolvable }
       its('ipaddress') { should include '192.168.1.1' }
     end
