@@ -12,17 +12,6 @@ describe Fetchers::Url do
   end
 
   describe 'testing different urls' do
-
-    let(:fetcher) {
-      Class.new(Fetchers::Url) do
-        attr_reader :target, :archive
-        def initialize(target, opts)
-          @target = target
-          @archive = File.new(__FILE__)
-        end
-      end
-    }
-
     # We don't use the MockLoader here becuase it produces tarballs
     # with different sha's on each run
     let(:expected_shasum) { "98b1ae45059b004178a8eee0c1f6179dcea139c0fd8a69ee47a6f02d97af1f17" }
