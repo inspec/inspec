@@ -10,7 +10,7 @@
 # end
 #
 # To verify a hostname with protocol and port
-# describe host('example.com', port: 53, proto: 'udp') do
+# describe host('example.com', port: 443, protocol: 'tcp') do
 #   it { should be_reachable }
 # end
 #
@@ -33,17 +33,26 @@ module Inspec::Resources
         it { should be_reachable }
       end
 
-      describe host('example.com', port: '80') do
+      describe host('example.com', port: '80', protocol: 'tcp') do
         it { should be_reachable }
       end
     "
 
+    attr_reader :hostname, :port, :protocol
+
     def initialize(hostname, params = {})
       @hostname = hostname
-      @port = params[:port]   || nil
-      @proto = params[:proto] || nil
+      @port = params[:port]
 
-      return skip_resource 'The UDP protocol for the `host` resource is not supported yet.' if @proto == 'udp'
+      if params[:proto]
+        warn '[DEPRECATION] The `proto` parameter is deprecated. Use `protocol` instead.'
+        @protocol = params[:proto]
+      else
+        @protocol = params.fetch(:protocol, 'icmp')
+      end
+
+      return skip_resource 'Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource.' unless
+        %w{icmp tcp}.include?(@protocol)
 
       @host_provider = nil
       if inspec.os.linux?
@@ -55,6 +64,16 @@ module Inspec::Resources
       else
         return skip_resource 'The `host` resource is not supported on your OS yet.'
       end
+
+      missing_requirements = @host_provider.missing_requirements(protocol)
+      unless missing_requirements.empty?
+        return skip_resource "The following requirements are not met for this resource: #{missing_requirements.join(', ')}"
+      end
+    end
+
+    def proto
+      warn '[DEPRECATION] The `proto` method is deprecated. Use `protocol` instead.'
+      protocol
     end
 
     # if we get the IP address, the host is resolvable
@@ -63,9 +82,21 @@ module Inspec::Resources
       resolve.nil? || resolve.empty? ? false : true
     end
 
-    def reachable?(port = nil, proto = nil, timeout = nil)
-      raise "Use `host` resource with host('#{@hostname}', port: #{port}, proto: '#{proto}') parameters." if !port.nil? || !proto.nil? || !timeout.nil?
-      ping.nil? ? false : ping
+    def reachable?
+      # ping checks do not require port or protocol
+      return ping.fetch(:success, false) if protocol == 'icmp'
+
+      # if either port or protocol are specified but not both, we cannot proceed.
+      if port.nil? || protocol.nil?
+        raise "Protocol required with port. Use `host` resource with host('#{hostname}', port: 1234, proto: 'tcp') parameters." if port.nil? || protocol.nil?
+      end
+
+      # perform the protocol-specific reachability test
+      ping.fetch(:success, false)
+    end
+
+    def output
+      ping[:output]
     end
 
     # returns all A records of the IP address, will return an array
@@ -74,19 +105,21 @@ module Inspec::Resources
     end
 
     def to_s
-      "Host #{@hostname}"
+      "Host #{hostname}"
     end
 
     private
 
     def ping
       return @ping_cache if defined?(@ping_cache)
-      @ping_cache = @host_provider.ping(@hostname, @port, @proto) if !@host_provider.nil?
+      return {} if @host_provider.nil?
+
+      @ping_cache = @host_provider.ping(hostname, port, protocol)
     end
 
     def resolve
       return @ip_cache if defined?(@ip_cache)
-      @ip_cache = @host_provider.resolve(@hostname) if !@host_provider.nil?
+      @ip_cache = @host_provider.resolve(hostname) if !@host_provider.nil?
     end
   end
 
@@ -95,16 +128,36 @@ module Inspec::Resources
     def initialize(inspec)
       @inspec = inspec
     end
+
+    def missing_requirements(_protocol)
+      # each provider can return an array of missing requirements that can
+      # be enumerated in a skip_resource message
+      []
+    end
   end
 
   class DarwinHostProvider < HostProvider
-    def ping(hostname, port = nil, proto = nil)
-      if proto == 'tcp'
+    def missing_requirements(protocol)
+      missing = []
+
+      if protocol == 'tcp'
+        missing << 'netcat must be installed' unless inspec.command('nc').exist?
+      end
+
+      missing
+    end
+
+    def ping(hostname, port, protocol)
+      if protocol == 'tcp'
         resp = inspec.command("nc -vz -G 1 #{hostname} #{port}")
       else
         resp = inspec.command("ping -W 1 -c 1 #{hostname}")
       end
-      resp.exit_status.to_i != 0 ? false : true
+
+      {
+        success: resp.exit_status.to_i.zero?,
+        output: resp.stderr,
+      }
     end
 
     def resolve(hostname)
@@ -121,12 +174,28 @@ module Inspec::Resources
   end
 
   class LinuxHostProvider < HostProvider
-    # ping is difficult to achieve, since we are not sure
-    def ping(hostname, _port = nil, _proto = nil)
-      # fall back to ping, but we can only test ICMP packages with ping
-      # therefore we have to skip the test, if we do not have everything on the node to run the test
-      ping = inspec.command("ping -w 1 -c 1 #{hostname}")
-      ping.exit_status.to_i != 0 ? false : true
+    def missing_requirements(protocol)
+      missing = []
+
+      if protocol == 'tcp'
+        missing << 'netcat must be installed' unless inspec.command('nc').exist?
+      end
+
+      missing
+    end
+
+    def ping(hostname, port, protocol)
+      if protocol == 'tcp'
+        resp = inspec.command("echo | nc -v -w 1 #{hostname} #{port}")
+      else
+        # fall back to ping, but we can only test ICMP packages with ping
+        resp = inspec.command("ping -w 1 -c 1 #{hostname}")
+      end
+
+      {
+        success: resp.exit_status.to_i.zero?,
+        output: resp.stderr,
+      }
     end
 
     def resolve(hostname)
@@ -156,15 +225,10 @@ module Inspec::Resources
       begin
         ping = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => _e
-        return nil
+        return {}
       end
 
-      # Logic being if you provided a port you wanted to check it was open
-      if port.nil?
-        ping['PingSucceeded']
-      else
-        ping['TcpTestSucceeded']
-      end
+      { success: port.nil? ? ping['PingSucceeded'] : ping['TcpTestSucceeded'] }
     end
 
     def resolve(hostname)

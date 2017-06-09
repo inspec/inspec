@@ -1,4 +1,5 @@
 {
     "ComputerName":  "microsoft.com",
-    "PingSucceeded":  false
+    "PingSucceeded":  false,
+    "TcpTestSucceeded":   true
 }
