@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/aleff/projects/inspec
+  remote: ..
   specs:
     inspec (1.27.0)
       addressable (~> 2.4)
