@@ -38,6 +38,8 @@ require 'train'
 CMD = Train.create('local').connection
 TMP_CACHE = {}
 
+Inspec::Log.logger = Logger.new(nil)
+
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {
