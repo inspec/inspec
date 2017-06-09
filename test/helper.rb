@@ -247,7 +247,7 @@ class MockLoader
       'Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json' => cmd.call('get-netadapter-binding-bridge'),
       # host for Windows
       'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
-      'Test-NetConnection -ComputerName microsoft.com | Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # host for Linux
       'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
@@ -317,7 +317,16 @@ class MockLoader
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
       # get-process cmdlet for processes resource
-      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes')
+      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes'),
+      # host resource: check to see if netcat is installed
+      %{bash -c 'type "nc"'} => cmd.call('type-nc'),
+      'type "nc"' => cmd.call('type-nc'),
+      # host resource: netcat for TCP reachability check on linux
+      'echo | nc -v -w 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: netcat for TCP reachability check on darwin
+      'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: test-netconnection for reachability check on windows
+      'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
     }
     @backend
   end
