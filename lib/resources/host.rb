@@ -52,7 +52,7 @@ module Inspec::Resources
       end
 
       return skip_resource 'Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource.' unless
-        %w(icmp tcp).include?(@protocol)
+        %w{icmp tcp}.include?(@protocol)
 
       @host_provider = nil
       if inspec.os.linux?
