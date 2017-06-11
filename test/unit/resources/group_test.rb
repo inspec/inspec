@@ -52,6 +52,8 @@ describe 'Inspec::Resources::Group' do
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 'S-1-5-32-544'
     _(resource.has_gid?(0)).must_equal false
+    _(resource.local).must_equal true
+    _(resource.to_s).must_equal 'Group Administrators'
   end
 
   # windows non-existent group
@@ -69,5 +71,4 @@ describe 'Inspec::Resources::Group' do
     _(resource.gid).must_be_nil
     _(resource.has_gid?(0)).must_equal false
   end
-
 end
