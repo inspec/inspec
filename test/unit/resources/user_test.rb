@@ -81,9 +81,9 @@ describe 'Inspec::Resources::User' do
     _(resource.groups).must_equal ['root']
     _(resource.home).must_equal '/root'
     _(resource.shell).must_equal '/bin/csh'
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.mindays).must_be_nil
+    _(resource.maxdays).must_be_nil
+    _(resource.warndays).must_be_nil
   end
 
   it 'read user on OSX' do
@@ -93,22 +93,22 @@ describe 'Inspec::Resources::User' do
     _(resource.groups).must_equal ['staff', 'com.apple.sharepoint.group.1', 'everyone']
     _(resource.home).must_equal '/Users/chartmann'
     _(resource.shell).must_equal '/bin/zsh'
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.mindays).must_be_nil
+    _(resource.maxdays).must_be_nil
+    _(resource.warndays).must_be_nil
   end
 
   it 'read administrator user on Windows' do
     resource = MockLoader.new(:windows).load_resource('user', 'Administrator')
     _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
-    _(resource.group).must_equal nil
+    _(resource.group).must_be_nil
     _(resource.groups).must_equal ['Administrators', 'Users']
-    _(resource.home).must_equal nil
-    _(resource.shell).must_equal nil
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.home).must_be_nil
+    _(resource.shell).must_be_nil
+    _(resource.mindays).must_be_nil
+    _(resource.maxdays).must_be_nil
+    _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal false
   end
 
@@ -116,13 +116,13 @@ describe 'Inspec::Resources::User' do
     resource = MockLoader.new(:windows).load_resource('user', 'Guest')
     _(resource.uid).wont_be_nil
     _(resource.exists?).must_equal true
-    _(resource.group).must_equal nil
+    _(resource.group).must_be_nil
     _(resource.groups).must_equal ['Users']
-    _(resource.home).must_equal nil
-    _(resource.shell).must_equal nil
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.home).must_be_nil
+    _(resource.shell).must_be_nil
+    _(resource.mindays).must_be_nil
+    _(resource.maxdays).must_be_nil
+    _(resource.warndays).must_be_nil
     _(resource.disabled?).must_equal true
   end
 
@@ -136,12 +136,12 @@ describe 'Inspec::Resources::User' do
   it 'read user on undefined os' do
     resource = MockLoader.new(:undefined).load_resource('user', 'root')
     _(resource.exists?).must_equal false
-    _(resource.group).must_equal nil
-    _(resource.groups).must_equal nil
-    _(resource.home).must_equal nil
-    _(resource.shell).must_equal nil
-    _(resource.mindays).must_equal nil
-    _(resource.maxdays).must_equal nil
-    _(resource.warndays).must_equal nil
+    _(resource.group).must_be_nil
+    _(resource.groups).must_be_nil
+    _(resource.home).must_be_nil
+    _(resource.shell).must_be_nil
+    _(resource.mindays).must_be_nil
+    _(resource.maxdays).must_be_nil
+    _(resource.warndays).must_be_nil
   end
 end

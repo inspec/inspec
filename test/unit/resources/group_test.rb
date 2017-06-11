@@ -26,7 +26,7 @@ describe 'Inspec::Resources::Group' do
   it 'verify group on ubuntu' do
     resource = MockLoader.new(:ubuntu1404).load_resource('group', 'nogroup')
     _(resource.exists?).must_equal false
-    _(resource.gid).must_equal nil
+    _(resource.gid).must_be_nil
     _(resource.has_gid?(0)).must_equal false
   end
 
@@ -58,7 +58,7 @@ describe 'Inspec::Resources::Group' do
   it 'verify non-existing group on windows' do
     resource = MockLoader.new(:windows).load_resource('group', 'dhcp')
     _(resource.exists?).must_equal false
-    _(resource.gid).must_equal nil
+    _(resource.gid).must_be_nil
     _(resource.has_gid?(0)).must_equal false
   end
 
@@ -66,7 +66,7 @@ describe 'Inspec::Resources::Group' do
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('group', 'root')
     _(resource.exists?).must_equal false
-    _(resource.gid).must_equal nil
+    _(resource.gid).must_be_nil
     _(resource.has_gid?(0)).must_equal false
   end
 

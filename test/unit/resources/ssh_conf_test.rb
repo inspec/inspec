@@ -11,7 +11,7 @@ describe 'Inspec::Resources::SshConf' do
     it 'check ssh config parsing' do
       resource = load_resource('ssh_config')
       _(resource.Host).must_equal '*'
-      _(resource.Tunnel).must_equal nil
+      _(resource.Tunnel).must_be_nil
       _(resource.SendEnv).must_equal 'LANG LC_*'
       _(resource.HashKnownHosts).must_equal 'yes'
     end
@@ -28,7 +28,7 @@ describe 'Inspec::Resources::SshConf' do
       resource = load_resource('sshd_config')
       _(resource.Port).must_equal '22'
       _(resource.UsePAM).must_equal 'yes'
-      _(resource.ListenAddress).must_equal nil
+      _(resource.ListenAddress).must_be_nil
       _(resource.HostKey).must_equal [
         '/etc/ssh/ssh_host_rsa_key',
         '/etc/ssh/ssh_host_dsa_key',

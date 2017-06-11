@@ -39,7 +39,7 @@ describe 'Inspec::Resources::OneGet' do
     resource = MockLoader.new(:centos7).load_resource('oneget', 'Not available')
     pkg = { type: 'oneget', installed: false }
     _(resource.installed?).must_equal false
-    _(resource.version).must_equal nil
+    _(resource.version).must_be_nil
     _(resource.info).must_equal pkg
   end
 end

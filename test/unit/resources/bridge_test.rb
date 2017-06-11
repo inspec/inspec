@@ -38,7 +38,7 @@ describe 'Inspec::Resources::Bridge' do
     _(resource.exists?).must_equal true
 
     # get associated interfaces is not supported on windows
-    _(resource.interfaces).must_equal nil
+    _(resource.interfaces).must_be_nil
   end
 
   it 'check bridge on unsupported os' do
@@ -51,6 +51,6 @@ describe 'Inspec::Resources::Bridge' do
     _(resource.has_interface?('eth2')).must_equal false
 
     # get associated interfaces
-    _(resource.interfaces).must_equal nil
+    _(resource.interfaces).must_be_nil
   end
 end
