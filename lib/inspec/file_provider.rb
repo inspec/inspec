@@ -24,6 +24,13 @@ module Inspec
     def initialize(_path)
     end
 
+    # List all files that are offered.
+    #
+    # @return [Array[String]] list of file paths that are included
+    def files
+      raise "Fetcher #{self} does not implement `files()`. This is required."
+    end
+
     # Read the contents of a file. This will typically refer to a text
     # file reading a string.
     #
@@ -37,10 +44,9 @@ module Inspec
     # It will default to #read if not defined. For most streams that implement
     # it, it will be the same. For some special cases, it will add change the
     # way in which encoding of the returned data structure is handled.
-    alias binread read
-
-    def files
-      raise "Fetcher #{self} does not implement `files()`. This is required."
+    # Does not work with alias nor alias_method.
+    def binread(file)
+      read(file)
     end
 
     def relative_provider
