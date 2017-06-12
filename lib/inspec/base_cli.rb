@@ -19,7 +19,7 @@ module Inspec
         desc: 'Specify the login port for a remote scan.'
       option :user, type: :string,
         desc: 'The login user for a remote scan.'
-      option :password, type: :string,
+      option :password, type: :string, lazy_default: -1,
         desc: 'Login password for a remote scan, if required.'
       option :key_files, aliases: :i, type: :array,
         desc: 'Login key or certificate file for a remote scan.'
@@ -27,7 +27,7 @@ module Inspec
         desc: 'Login path to use when connecting to the target (WinRM).'
       option :sudo, type: :boolean,
         desc: 'Run scans with sudo. Only activates on Unix and non-root user.'
-      option :sudo_password, type: :string,
+      option :sudo_password, type: :string, lazy_default: -1,
         desc: 'Specify a sudo password, if it is required.'
       option :sudo_options, type: :string,
         desc: 'Additional sudo options for a remote scan.'
@@ -100,6 +100,23 @@ module Inspec
     end
 
     def opts
+      o = merged_opts
+
+      # Due to limitations in Thor it is not possible to set an argument to be
+      # both optional and its value to be mandatory. E.g. the user supplying
+      # the --password argument is optional and not always required, but
+      # whenever it is used, it requires a value. Handle options that were
+      # defined above and require a value here:
+      %w{password sudo-password}.each do |v|
+        id = v.tr('-', '_').to_sym
+        next unless o[id] == -1
+        raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
+      end
+
+      o
+    end
+
+    def merged_opts
       # argv overrides json
       Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
     end

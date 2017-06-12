@@ -265,4 +265,20 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out.stdout.wont_include "\e[38"
     end
   end
+
+  describe 'when --password is used' do
+    it 'raises an exception if no password is provided' do
+      out = inspec('exec ' + example_profile + ' --password')
+      out.exit_status.must_equal 1
+      out.stderr.must_include 'Please provide a value for --password. For example: --password=hello.'
+    end
+  end
+
+  describe 'when --sudo-password is used' do
+    it 'raises an exception if no sudo password is provided' do
+      out = inspec('exec ' + example_profile + ' --sudo-password')
+      out.exit_status.must_equal 1
+      out.stderr.must_include 'Please provide a value for --sudo-password. For example: --sudo-password=hello.'
+    end
+  end
 end
