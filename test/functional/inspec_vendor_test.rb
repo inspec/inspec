@@ -8,14 +8,6 @@ describe 'example inheritance profile' do
   let(:inheritance_path) { File.join(examples_path, 'inheritance') }
   let(:meta_path) { File.join(examples_path, 'meta-profile') }
 
-  def prepare_examples(dir, &block)
-    Dir.mktmpdir do |tmpdir|
-      FileUtils.cp_r(examples_path, tmpdir)
-      bn = File.basename(examples_path)
-      block.call(File.join(tmpdir, bn, dir))
-    end
-  end
-
   it 'can vendor profile dependencies' do
     prepare_examples('inheritance') do |dir|
       out = inspec('vendor ' + dir + ' --overwrite')
