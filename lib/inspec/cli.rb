@@ -155,6 +155,20 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     configure_logger(opts)
     o = opts.dup
 
+    # Thor is silly. If you supply a flag like --password but don't provide a value,
+    # it uses a value matching the name of the options key. In this case: {'password' => 'password'}
+    # But some users may pass in --password expecting it to prompt for a password or
+    # otherwise. This means there's really no way for us to detect if a user is
+    # trying to login with a password of "password" or if they supplied --password
+    # without a value.
+    #
+    # This is a helpful warning that perhaps InSpec is going to try and log in with a
+    # password they didn't mean to.
+    if opts[:password] == 'password'
+      Inspec::Log.warn('Attempting to log in using a password of "password"')
+      Inspec::Log.warn('If this is intended, you can ignore this warning. If this is not intended, it is likely because you supplied --password without providing a password.')
+    end
+
     # run tests
     run_tests(targets, o)
   rescue StandardError => e
