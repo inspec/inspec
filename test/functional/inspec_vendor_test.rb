@@ -1,6 +1,7 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 require 'functional/helper'
+require 'tmpdir'
 
 describe 'example inheritance profile' do
   include FunctionalHelper
@@ -8,130 +9,89 @@ describe 'example inheritance profile' do
   let(:meta_path) { File.join(examples_path, 'meta-profile') }
 
   it 'can vendor profile dependencies' do
-    out = inspec('vendor ' + inheritance_path + ' --overwrite')
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
-    out.stderr.must_equal ''
-    out.exit_status.must_equal 0
+    prepare_examples('inheritance') do |dir|
+      out = inspec('vendor ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.stdout.must_include "Dependencies for profile #{dir} successfully vendored to #{dir}/vendor"
+      out.exit_status.must_equal 0
 
-    vendor_dir = File.join(inheritance_path, 'vendor')
-    File.exist?(vendor_dir).must_equal true
-
-    lockfile = File.join(inheritance_path, 'inspec.lock')
-    File.exist?(lockfile).must_equal true
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+    end
   end
 
   it 'can vendor profile dependencies from the profile path' do
-    # clean existing vendor directory
-    begin
-      FileUtils.rm_r ("#{inheritance_path}/vendor")
-    rescue Errno::ENOENT => e
+    prepare_examples('inheritance') do |dir|
+      out = inspec('vendor --overwrite', "cd #{dir} &&")
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+      out.stdout.must_include "Dependencies for profile #{dir} successfully vendored to #{dir}/vendor"
+
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
     end
-
-    # vendor all dependencies
-    out = inspec('vendor --overwrite', "cd #{inheritance_path} &&")
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
-    out.stderr.must_equal ''
-    out.exit_status.must_equal 0
-
-    vendor_dir = File.join(inheritance_path, 'vendor')
-    File.exist?(vendor_dir).must_equal true
-
-    lockfile = File.join(inheritance_path, 'inspec.lock')
-    File.exist?(lockfile).must_equal true
   end
 
   it 'ensure nothing is loaded from external source if vendored profile is used' do
-    # clean existing vendor directory
-    begin
-      FileUtils.rm_r ("#{meta_path}/vendor")
-    rescue Errno::ENOENT => e
+    prepare_examples('meta-profile') do |dir|
+      out = inspec('vendor ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      File.exist?(File.join(dir, 'vendor')).must_equal true
+      File.exist?(File.join(dir, 'inspec.lock')).must_equal true
+
+      out = inspec('exec ' + dir + ' -l debug --no-create-lockfile')
+      out.stderr.must_equal ''
+      out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
+      out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
+      out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
+      out.stdout.wont_include 'Fetching URL:'
+      out.stdout.wont_include 'Fetched archive moved to:'
     end
-
-    # vendor all dependencies
-    out = inspec('vendor ' + meta_path + ' --overwrite')
-    out.exit_status.must_equal 0
-
-    vendor_dir = File.join(meta_path, 'vendor')
-    File.exist?(vendor_dir).must_equal true
-
-    lockfile = File.join(meta_path, 'inspec.lock')
-    File.exist?(lockfile).must_equal true
-
-    out = inspec('exec ' + meta_path + ' -l debug --no-create-lockfile')
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
-    out.stdout.force_encoding(Encoding::UTF_8).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
-    out.stdout.force_encoding(Encoding::UTF_8).index('Fetching URL:').must_be_nil
-    out.stdout.force_encoding(Encoding::UTF_8).index('Fetched archive moved to:').must_be_nil
-
-    out.stderr.must_equal ''
   end
 
   it 'ensure json/check command do not fetch remote profiles if vendored' do
-    # clean cache directory
-    begin
-      FileUtils.rm_rf "#{Dir.home}/.inspec/cache"
-    rescue Errno::ENOENT => e
+    prepare_examples('meta-profile') do |dir|
+      out = inspec('vendor ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      out = inspec('json ' + dir + ' --output ' + dst.path)
+      out.exit_status.must_equal 0
+
+      hm = JSON.load(File.read(dst.path))
+      hm['name'].must_equal 'meta-profile'
+      hm['controls'].length.must_be :>=, 78
+
+      # out.stdout.scan(/Copy .* to cache directory/).length.must_equal 3
+      # out.stdout.scan(/Dependency does not exist in the cache/).length.must_equal 1
+      out.stdout.scan(/Fetching URL:/).length.must_equal 0
+
+      # execute check command
+      out = inspec('check ' + dir + ' -l debug')
+      # stderr may have warnings included; only test if something went wrong
+      out.stderr.must_equal('') if out.exit_status != 0
+      out.exit_status.must_equal 0
+
+      out.stdout.scan(/Fetching URL:/).length.must_equal 0
     end
-
-    # ensure the profile is vendored
-    out = inspec('vendor ' + meta_path + ' --overwrite')
-
-    # execute json command
-    # we need to activate the logger with `-l debug`, but that needs to redirect its output to STDERR
-    out = inspec('json ' + meta_path + ' --output ' + dst.path)
-    out.exit_status.must_equal 0
-    hm = JSON.load(File.read(dst.path))
-    hm['name'].must_equal 'meta-profile'
-    hm['controls'].length.must_be :>=, 78
-
-    # copies = out.stdout.scan(/Copy .* to cache directory/).length
-    # copies.must_equal 3
-    #
-    # length = out.stdout.scan(/Dependency does not exist in the cache/).length
-    # length.must_equal 1
-    #
-    # length = out.stdout.scan(/Fetching URL:/).length
-    # length.must_equal 0
-
-    # execute check command
-    out = inspec('check ' + meta_path + ' -l debug')
-    out.exit_status.must_equal 0
-
-    # copies = out.stdout.scan(/Copy .* to cache directory/).length
-    # copies.must_equal 3
-    #
-    # length = out.stdout.scan(/Dependency does not exist in the cache/).length
-    # length.must_equal 1
-    #
-    # length = out.stdout.scan(/Fetching URL:/).length
-    # length.must_equal 0
-  end
-
-  it 'can vendor profile dependencies from the profile path' do
-    out = inspec('vendor --overwrite', "cd #{inheritance_path} &&")
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Dependencies for profile #{inheritance_path} successfully vendored to #{inheritance_path}/vendor"
-    out.stderr.must_equal ''
-    out.exit_status.must_equal 0
-
-    vendor_dir = File.join(inheritance_path, 'vendor')
-    File.exist?(vendor_dir).must_equal true
-
-    lockfile = File.join(inheritance_path, 'inspec.lock')
-    File.exist?(lockfile).must_equal true
   end
 
   it 'use lockfile in tarball' do
-    # ensure the profile is vendored and packaged as tar
-    out = inspec('vendor ' + meta_path + ' --overwrite')
-    out = inspec('archive ' + meta_path + ' --overwrite')
-    out.exit_status.must_equal 0
+    prepare_examples('meta-profile') do |dir|
+      # ensure the profile is vendored and packaged as tar
+      out = inspec('vendor ' + dir + ' --overwrite')
+      out = inspec('archive ' + dir + ' --overwrite')
+      out.exit_status.must_equal 0
 
-    # execute json command
-    out = inspec(' meta-profile-1.0.0.tar.gz -l debug')
-    out.exit_status.must_equal 0
+      # execute json command
+      out = inspec('json meta-profile-0.2.0.tar.gz -l debug')
+      # stderr may have warnings included; only test if something went wrong
+      out.stderr.must_equal('') if out.exit_status != 0
+      out.exit_status.must_equal 0
 
-    length = out.stdout.scan(/Fetching URL:/).length
-    length.must_equal 0
+      out.stdout.scan(/Fetching URL:/).length.must_equal 0
+    end
   end
 end
