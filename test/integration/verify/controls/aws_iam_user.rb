@@ -8,11 +8,22 @@ console_password_enabled_user = attribute(
   default: 'default.console_password_enabled_user',
   description: 'Name of IAM user console_password_enabled_user')
 
+access_key_user = attribute(
+  'access_key_user',
+  default: 'default.access_key_user',
+  description: 'Name of IAM user access_key_user')
+
 describe aws_iam_user(mfa_not_enabled_user) do
-  its('has_mfa_enabled?') { should be false }
-  its('has_console_password?') { should be false }
+  it { should_not have_mfa_enabled }
+  it { should_not have_console_password }
 end
 
 describe aws_iam_user(console_password_enabled_user) do
-  its('has_console_password?') { should be true }
+  it { should have_console_password }
 end
+
+aws_iam_user(access_key_user).access_keys.each { |access_key|
+  describe access_key do
+   it { should be_active }
+  end
+}

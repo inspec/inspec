@@ -32,6 +32,32 @@ class AwsIamAccessKeyTest < Minitest::Test
 
   include AccessKeyFactory
 
+  def test_initialize_accepts_fields
+    assert_equal(
+      Id,
+      AwsIamAccessKey.new({id: Id, username: Username}, nil)
+        .instance_variable_get('@id')
+    );
+  end
+
+  def test_initialize_accepts_access_key
+    assert_equal(
+      Id,
+      AwsIamAccessKey.new({access_key: OpenStruct.new(access_key_id: Id)}, nil)
+        .instance_variable_get('@id')
+    );
+  end
+
+  def test_initialize_prefers_access_key
+    assert_equal(
+      Id,
+      AwsIamAccessKey.new({
+        id: 'foo',
+        access_key: OpenStruct.new(access_key_id: Id)
+      }, nil).instance_variable_get('@id')
+    );
+  end
+
   def test_exists_returns_true_when_access_key_exists
     assert aws_iam_access_key.exists?
   end

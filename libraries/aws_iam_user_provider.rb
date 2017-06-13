@@ -30,10 +30,15 @@ module AwsIam
         return false
       end
 
+      def access_keys(aws_user)
+        aws_user.access_keys
+      end
+
       def convert(aws_user)
         {
           has_mfa_enabled?: has_mfa_enabled?(aws_user),
           has_console_password?: has_console_password?(aws_user),
+          access_keys: access_keys(aws_user),
         }
       end
     end

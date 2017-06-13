@@ -24,7 +24,7 @@ class AwsIamUserProviderTest < Minitest::Test
 
   def test_list_users
     @mock_iam_resource.expect :users, [create_mock_user, create_mock_user, create_mock_user]
-    mock_user_output = {has_mfa_enabled?: true, has_console_password?: true}
+    mock_user_output = {has_mfa_enabled?: true, has_console_password?: true, access_keys: []}
     assert @user_provider.list_users == [mock_user_output, mock_user_output, mock_user_output]
   end
 
@@ -67,27 +67,35 @@ class AwsIamUserProviderTest < Minitest::Test
     end
   end
 
+  def test_access_keys_returns_access_keys
+    access_key = Object.new
+
+    @mock_iam_resource.expect :user, create_mock_user(access_keys: [access_key]), [Username]
+
+    assert_equal [access_key], @user_provider.user(Username)[:access_keys]
+  end
+
   private
 
-  def create_mock_user(has_console_password: true, has_mfa_enabled: true)
-    mock_user = Minitest::Mock.new
+  def create_mock_user(has_console_password: true, has_mfa_enabled: true, access_keys: [])
     mock_login_profile = Minitest::Mock.new
-    
-    mock_user.expect :mfa_devices, has_mfa_enabled ? ['device'] : []
-    
     mock_login_profile.expect :create_date, has_console_password ? 'date' : nil
+    
+    mock_user = Minitest::Mock.new
+    mock_user.expect :mfa_devices, has_mfa_enabled ? ['device'] : []
     mock_user.expect :login_profile, mock_login_profile
+    mock_user.expect :access_keys, access_keys
   end
   
   def create_mock_user_throw(exception)
-    mock_user = Minitest::Mock.new
     mock_login_profile = Minitest::Mock.new
-    
-    mock_user.expect :mfa_devices, []
-    
     mock_login_profile.expect :create_date, nil do |args|
       raise exception
     end
+    
+    mock_user = Minitest::Mock.new
+    mock_user.expect :mfa_devices, []
     mock_user.expect :login_profile, mock_login_profile
+    mock_user.expect :access_keys, []
   end
 end

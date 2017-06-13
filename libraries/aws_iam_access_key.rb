@@ -12,7 +12,10 @@ class AwsIamAccessKey < Inspec.resource(1)
   "
 
   def initialize(opts, decorator = IamClientDecorator.new)
-    @opts = opts
+    @access_key = opts[:access_key]
+    @username = opts[:username]
+    @id = @access_key ? @access_key.access_key_id : opts[:id]
+
     @decorator = decorator
   end
 
@@ -39,7 +42,7 @@ class AwsIamAccessKey < Inspec.resource(1)
   end
 
   def to_s
-    "IAM Access-Key #{@opts[:id]}"
+    "IAM Access-Key #{@id}"
   end
 
   class AccessKeyNotFoundError < StandardError
@@ -92,10 +95,10 @@ class AwsIamAccessKey < Inspec.resource(1)
   private
 
   def access_key
-    @access_key ||= @decorator.get_access_key(@opts[:username], @opts[:id])
+    @access_key ||= @decorator.get_access_key(@username, @id)
   end
 
   def access_key_last_used
-    @access_key_last_used ||= @decorator.get_access_key_last_used(@opts[:id])
+    @access_key_last_used ||= @decorator.get_access_key_last_used(@id)
   end
 end
