@@ -4,9 +4,6 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
-
-PROJECT_DIR = File.expand_path(".")
-
 require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
