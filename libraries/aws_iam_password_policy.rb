@@ -58,4 +58,14 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     raise 'this policy does not expire passwords' unless expires_passwords?
     @policy.max_password_age
   end
+
+  def prevents_password_reuse?
+    !@policy.password_reuse_prevention.nil?
+  end
+
+  def number_of_passwords_to_remember
+    raise 'this policy does not prevent password reuse' \
+      unless prevents_password_reuse?
+    @policy.password_reuse_prevention
+  end
 end
