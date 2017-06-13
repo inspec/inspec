@@ -73,4 +73,69 @@ describe Compliance::API do
       end
     end
   end
+
+  describe 'automate/compliance is? checks' do
+    describe 'when the config has a compliance server_type' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'compliance'
+        Compliance::API.is_compliance_server?(config).must_equal true
+        Compliance::API.is_automate_server?(config).must_equal false
+        Compliance::API.is_automate_server_pre_080?(config).must_equal false
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+      end
+    end
+
+    describe 'when the config has an automate server_type and no version key' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'automate'
+        Compliance::API.is_compliance_server?(config).must_equal false
+        Compliance::API.is_automate_server?(config).must_equal true
+        Compliance::API.is_automate_server_pre_080?(config).must_equal true
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+      end
+    end
+
+    describe 'when the config has an automate server_type and a version key that is not a hash' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'automate'
+        config['version'] = '1.2.3'
+        Compliance::API.is_compliance_server?(config).must_equal false
+        Compliance::API.is_automate_server?(config).must_equal true
+        Compliance::API.is_automate_server_pre_080?(config).must_equal true
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+      end
+    end
+
+    describe 'when the config has an automate server_type and a version hash with no version' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'automate'
+        config['version'] = {}
+        Compliance::API.is_compliance_server?(config).must_equal false
+        Compliance::API.is_automate_server?(config).must_equal true
+        Compliance::API.is_automate_server_pre_080?(config).must_equal true
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal false
+      end
+    end
+
+    describe 'when the config has an automate server_type and a version hash with a version' do
+      it 'automate/compliance server is? methods return correctly' do
+        config = Compliance::Configuration.new
+        config.clean
+        config['server_type'] = 'automate'
+        config['version'] = { 'version' => '0.8.1' }
+        Compliance::API.is_compliance_server?(config).must_equal false
+        Compliance::API.is_automate_server?(config).must_equal true
+        Compliance::API.is_automate_server_pre_080?(config).must_equal false
+        Compliance::API.is_automate_server_080_and_later?(config).must_equal true
+      end
+    end
+  end
 end
