@@ -156,7 +156,7 @@ module Inspec::Resources
 
       {
         success: resp.exit_status.to_i.zero?,
-        output: resp.stderr,
+        output: resp.stdout,
       }
     end
 
@@ -194,7 +194,7 @@ module Inspec::Resources
 
       {
         success: resp.exit_status.to_i.zero?,
-        output: resp.stderr,
+        output: resp.stdout,
       }
     end
 
