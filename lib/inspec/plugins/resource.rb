@@ -58,7 +58,7 @@ module Inspec
         end
 
         def resource_skipped
-          @resource_skipped
+          @resource_skipped if defined?(@resource_skipped)
         end
 
         def skip_resource(message)

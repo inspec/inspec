@@ -86,6 +86,7 @@ module Inspec::Resources
         @legacy = AuditdRulesLegacy.new(@content)
       else
         parse_content
+        @legacy = nil
       end
     end
 

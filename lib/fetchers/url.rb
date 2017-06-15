@@ -96,6 +96,8 @@ module Fetchers
       @insecure = opts['insecure']
       @token = opts['token']
       @config = opts
+      @archive_path = nil
+      @temp_archive_path = nil
     end
 
     def fetch(path)

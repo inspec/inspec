@@ -20,9 +20,8 @@ require 'ruby-progressbar'
 require 'fileutils'
 require_relative './shared'
 
-PROJECT_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..').freeze
-WWW_DIR     = File.join(PROJECT_DIR, 'www').freeze
-DOCS_DIR    = File.join(PROJECT_DIR, 'docs').freeze
+WWW_DIR     = File.expand_path(File.join(__dir__, '..', 'www')).freeze
+DOCS_DIR    = File.expand_path(File.join(__dir__, '..', 'docs')).freeze
 
 class Markdown
   class << self

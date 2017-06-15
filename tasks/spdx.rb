@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-PROJECT_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..').freeze
-UTILS_DIR     = File.join(PROJECT_DIR, 'lib/utils').freeze
+UTILS_DIR = File.expand_path(File.join(__dir__, '..', 'lib/utils')).freeze
 
 desc 'Updates the list of the spdx valid licenses'
 task :spdx do
