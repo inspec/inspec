@@ -1,5 +1,30 @@
 # Change Log
 
+## [v1.28.0](https://github.com/chef/inspec/tree/v1.28.0) (2017-06-15)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.27.0...v1.28.0)
+
+**Implemented enhancements:**
+
+- Add support for CoreOS to the service resource [\#1928](https://github.com/chef/inspec/pull/1928) ([rarenerd](https://github.com/rarenerd))
+- Host resource ping method should return stdout [\#1927](https://github.com/chef/inspec/pull/1927) ([justincmoy](https://github.com/justincmoy))
+- Add TCP reachability support on Linux for host resource [\#1915](https://github.com/chef/inspec/pull/1915) ([adamleff](https://github.com/adamleff))
+- Adds support for iis\_app InSpec testing [\#1905](https://github.com/chef/inspec/pull/1905) ([EasyAsABC123](https://github.com/EasyAsABC123))
+- Add support for virtualization resource [\#1803](https://github.com/chef/inspec/pull/1803) ([tkak](https://github.com/tkak))
+
+**Fixed bugs:**
+
+- Error when listing compliance profiles against Automate pre 0.8 [\#1921](https://github.com/chef/inspec/issues/1921)
+- Unexpected `nil` authentication with `inspec exec -t` and WinRM [\#1901](https://github.com/chef/inspec/issues/1901)
+- inspec exec with --json-config option having multiple node information [\#1897](https://github.com/chef/inspec/issues/1897)
+- describe package failing in newer version [\#1797](https://github.com/chef/inspec/issues/1797)
+- Fix detection of Automate pre-0.8.x in Compliance::API [\#1922](https://github.com/chef/inspec/pull/1922) ([adamleff](https://github.com/adamleff))
+- bugfix: reading tgz files with binread [\#1920](https://github.com/chef/inspec/pull/1920) ([arlimus](https://github.com/arlimus))
+- fix intermitten functional vendor test failures [\#1919](https://github.com/chef/inspec/pull/1919) ([arlimus](https://github.com/arlimus))
+- enforce option values where needed [\#1918](https://github.com/chef/inspec/pull/1918) ([arlimus](https://github.com/arlimus))
+- inspec archive for tgz files on windows [\#1907](https://github.com/chef/inspec/pull/1907) ([arlimus](https://github.com/arlimus))
+- reading binary profile data on windows [\#1906](https://github.com/chef/inspec/pull/1906) ([arlimus](https://github.com/arlimus))
+- remove duplicate message in describe.one blocks [\#1896](https://github.com/chef/inspec/pull/1896) ([arlimus](https://github.com/arlimus))
+
 ## [v1.27.0](https://github.com/chef/inspec/tree/v1.27.0) (2017-06-06)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.26.0...v1.27.0)
 
