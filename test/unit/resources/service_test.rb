@@ -229,6 +229,19 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
+  # coreos linux with systemd
+  it 'verify coreos linux service parsing' do
+    resource = MockLoader.new(:coreos).load_resource('service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # debian 7 with systemv
   it 'verify debian 7 service parsing' do
     resource = MockLoader.new(:debian7).load_resource('service', 'sshd')
