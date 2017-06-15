@@ -95,8 +95,12 @@ module Inspec::Resources
       ping.fetch(:success, false)
     end
 
-    def output
-      ping[:output]
+    def connection
+      ping[:connection]
+    end
+
+    def socket
+      ping[:socket]
     end
 
     # returns all A records of the IP address, will return an array
@@ -156,7 +160,8 @@ module Inspec::Resources
 
       {
         success: resp.exit_status.to_i.zero?,
-        output: resp.stderr,
+        connection: resp.stderr,
+        socket: resp.stdout,
       }
     end
 
@@ -194,7 +199,8 @@ module Inspec::Resources
 
       {
         success: resp.exit_status.to_i.zero?,
-        output: resp.stderr,
+        connection: resp.stderr,
+        socket: resp.stdout,
       }
     end
 
