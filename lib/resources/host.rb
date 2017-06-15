@@ -161,7 +161,7 @@ module Inspec::Resources
       {
         success: resp.exit_status.to_i.zero?,
         connection_output: resp.stderr,
-        socket_output: resp.stdout
+        socket_output: resp.stdout,
       }
     end
 
@@ -200,7 +200,7 @@ module Inspec::Resources
       {
         success: resp.exit_status.to_i.zero?,
         connection_output: resp.stderr,
-        socket_output: resp.stdout
+        socket_output: resp.stdout,
       }
     end
 
