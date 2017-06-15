@@ -27,7 +27,16 @@ end
 
 # test compatability with Serverspec
 describe iis_website('Default Web Site') do
-  it{ should exist }
-  it{ should be_running }
-  it{ should be_in_app_pool('DefaultAppPool') }
+  it { should exist }
+  it { should be_running }
+  it { should be_in_app_pool('DefaultAppPool') }
+end
+
+describe iis_app('/TestApp', 'Default Web Site') do
+  it { sould exist }
+  it { should have_application_pool('DefaultAppPool') }
+  it { should have_protocols('http') }
+  it { should have_site_name('Default Web Site') }
+  it { should have_physical_path('C:\\inetpub\\wwwroot\\Test') }
+  it { should have_path('\\TestApp') }
 end
