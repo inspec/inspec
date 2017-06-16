@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.28.1](https://github.com/chef/inspec/tree/v1.28.1) (2017-06-16)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.28.0...v1.28.1)
+
+**Fixed bugs:**
+
+- Update zlib to 1.2.11 to address known CVEs [\#1934](https://github.com/chef/inspec/issues/1934)
+
 ## [v1.28.0](https://github.com/chef/inspec/tree/v1.28.0) (2017-06-15)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.27.0...v1.28.0)
 
