@@ -16,10 +16,11 @@ module Inspec::Resources
       end
     "
 
-    def initialize(user = nil, pass = nil, host = 'localhost')
+    def initialize(user = nil, pass = nil, host = 'localhost', socket = '/var/lib/mysql/mysql.sock')
       @user = user
       @pass = pass
       @host = host
+      @socket = socket
       init_fallback if user.nil? or pass.nil?
       skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
     end
@@ -30,7 +31,7 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
       # run the query
-      cmd = inspec.command("mysql -u#{@user} -p#{@pass} -h #{@host} #{db} -s -e \"#{escaped_query}\"")
+      cmd = inspec.command("mysql -u#{@user} -p#{@pass} -h #{@host} #{db} -s -S #{@socket} -e \"#{escaped_query}\"")
       out = cmd.stdout + "\n" + cmd.stderr
       if out =~ /Can't connect to .* MySQL server/ or
          out.downcase =~ /^error/
