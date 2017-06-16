@@ -15,6 +15,31 @@ describe 'controls' do
                    .params[:controls]['1']
   end
 
+  let(:rand_string) { rand.to_s }
+
+  it 'adds a title' do
+    load("title #{rand_string.inspect}")[:title].must_equal rand_string
+  end
+
+  it 'adds a description' do
+    load("desc #{rand_string.inspect}")[:desc].must_equal rand_string
+  end
+
+  it 'adds a multiline description' do
+    t = rand_string + "\n" + rand_string
+    load("desc #{t.inspect}")[:desc].must_equal t
+  end
+
+  it 'strips empty lines and spaces in description at start and end' do
+    t = "   \n" + rand_string + "\n   "
+    load("desc #{t.inspect}")[:desc].must_equal rand_string
+  end
+
+  it 'unindents properly' do
+    t = "\n    #{rand_string}\n  \n\t\t    #{rand_string}\n "
+    load("desc #{t.inspect}")[:desc].must_equal "#{rand_string}\n  \n  #{rand_string}"
+  end
+
   it 'works with empty refs' do
     load('ref')[:refs].must_be :empty?
   end

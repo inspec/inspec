@@ -11,6 +11,15 @@ module Inspec
       },
     }.freeze
 
+    PLATFORM = {
+      'type' => 'object',
+      'additionalProperties' => false,
+      'properties' => {
+        'name' => { 'type' => 'string' },
+        'release' => { 'type' => 'string' },
+      },
+    }.freeze
+
     # Tags are open right, with simple key-value associations and not restrictions
     TAGS = { 'type' => 'object' }.freeze
 
@@ -85,6 +94,7 @@ module Inspec
       'properties' => {
         'name' => { 'type' => 'string' },
         'version' => { 'type' => 'string', 'optional' => true },
+        'sha256' => { 'type' => 'string', 'optional' => false },
 
         'title' => { 'type' => 'string', 'optional' => true },
         'maintainer' => { 'type' => 'string', 'optional' => true },
@@ -117,6 +127,7 @@ module Inspec
       'type' => 'object',
       'additionalProperties' => false,
       'properties' => {
+        'platform' => PLATFORM,
         'profiles' => {
           'type' => 'array',
           'items' => PROFILE,

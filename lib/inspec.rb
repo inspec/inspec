@@ -8,6 +8,7 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require 'inspec/version'
+require 'inspec/exceptions'
 require 'inspec/profile'
 require 'inspec/rspec_json_formatter'
 require 'inspec/rule'

@@ -15,7 +15,7 @@ depends:
   - name: os-hardening
     url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
   # git
-  - git: https://github.com/dev-sec/ssl-benchmark.git
+  - git: https://github.com/dev-sec/ssl-baseline.git
   - name: windows-patch-benchmark
     git: https://github.com/chris-rock/windows-patch-benchmark.git
   # Chef Compliance
@@ -29,9 +29,9 @@ You could use those dependencies in your `exmaple.rb`:
 
 include_controls 'hardening/ssh-hardening'
 include_controls 'os-hardening'
-include_controls 'ssl-benchmark'
+include_controls 'ssl-baseline'
 include_controls 'linux'
 include_controls 'windows-patch-benchmark'
 ```
 
-Further details are described in our [InSpec Docs](http://inspec.io/docs/reference/profiles/)
+Further details are described in our [InSpec Docs](https://www.inspec.io/docs/reference/profiles/)

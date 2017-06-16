@@ -8,7 +8,7 @@
 #
 #  audit = command('/sbin/auditctl -l').stdout
 #  options = {
-#    assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+#    assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
 #    multiple_values: true
 #  }
 #  describe parse_config(audit, options ) do
@@ -26,7 +26,7 @@ module Inspec::Resources
       output2 = command('curl http://127.0.0.1/php_status').stdout
       # php status is in format 'key : value', and we do not allow for multiple values
       options2 = {
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false
       }
 

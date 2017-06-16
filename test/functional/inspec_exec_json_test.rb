@@ -55,9 +55,10 @@ describe 'inspec exec with json formatter' do
         "maintainer" => "Chef Software, Inc.",
         "copyright" => "Chef Software, Inc.",
         "copyright_email" => "support@chef.io",
-        "license" => "Apache 2 license",
+        "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
+        "sha256" => "821f866e407a91cfadb44af5d4570b92ac7f7a272025da7aa9a92aa635cc4440",
         "supports" => [{"os-family" => "unix"}],
         "attributes" => []
       })

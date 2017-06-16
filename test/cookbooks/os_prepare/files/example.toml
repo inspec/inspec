@@ -1,0 +1,6 @@
+key = "value"
+arr = [1, 2, 3]
+
+[mytable]
+key1 = "value1"
+key2 = "value2"

@@ -32,7 +32,7 @@ Profile: yumyum profile
 Version: (not specified)
 Target:  local://
 
-     No tests executed.\e[0m
+     No tests executed.
 
 Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
 "
@@ -48,7 +48,7 @@ Profile: title (name)
 Version: 1.2.3
 Target:  local://
 
-     No tests executed.\e[0m
+     No tests executed.
 
 Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
 "
@@ -246,6 +246,39 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     it 'skips the controls from that profile' do
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+    end
+  end
+
+  describe 'when trying to use --sudo with a local target' do
+    it 'must print an error and exit' do
+      out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --sudo")
+      str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`.\n"
+      out.stderr.force_encoding(Encoding::UTF_8).must_include str
+      out.exit_status.must_equal 1
+    end
+  end
+
+  describe 'when --no-color is used' do
+    it 'does not output color control characters' do
+      out = inspec('exec ' + File.join(profile_path, 'simple-metadata') + ' --no-color')
+      out.exit_status.must_equal 0
+      out.stdout.wont_include "\e[38"
+    end
+  end
+
+  describe 'when --password is used' do
+    it 'raises an exception if no password is provided' do
+      out = inspec('exec ' + example_profile + ' --password')
+      out.exit_status.must_equal 1
+      out.stderr.must_include 'Please provide a value for --password. For example: --password=hello.'
+    end
+  end
+
+  describe 'when --sudo-password is used' do
+    it 'raises an exception if no sudo password is provided' do
+      out = inspec('exec ' + example_profile + ' --sudo-password')
+      out.exit_status.must_equal 1
+      out.stderr.must_include 'Please provide a value for --sudo-password. For example: --sudo-password=hello.'
     end
   end
 end

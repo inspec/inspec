@@ -4,6 +4,7 @@
 # author: Christoph Hartmann
 
 require 'forwardable'
+require 'openssl'
 require 'inspec/polyfill'
 require 'inspec/cached_fetcher'
 require 'inspec/file_provider'
@@ -13,6 +14,8 @@ require 'inspec/backend'
 require 'inspec/rule'
 require 'inspec/log'
 require 'inspec/profile_context'
+require 'inspec/runtime_profile'
+require 'inspec/method_source'
 require 'inspec/dependencies/cache'
 require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
@@ -34,7 +37,7 @@ module Inspec
       cache = file_provider.files.find_all do |entry|
         entry.start_with?('vendor')
       end
-      content = Hash[cache.map { |x| [x, file_provider.read(x)] }]
+      content = Hash[cache.map { |x| [x, file_provider.binread(x)] }]
       keys = content.keys
       keys.each do |key|
         next if content[key].nil?
@@ -44,7 +47,7 @@ module Inspec
 
         FileUtils.mkdir_p tar.dirname.to_s
         Inspec::Log.debug "Copy #{tar} to cache directory"
-        File.write(tar.to_s, content[key].force_encoding('UTF-8'))
+        File.binwrite(tar.to_s, content[key])
       end
     end
 
@@ -82,6 +85,7 @@ module Inspec
 
     # rubocop:disable Metrics/AbcSize
     def initialize(source_reader, options = {})
+      @source_reader = source_reader
       @target = options[:target]
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
@@ -91,10 +95,13 @@ module Inspec
       @cache = options[:cache] || Cache.new
       @backend = options[:backend] || Inspec::Backend.create(options.select { |k, _| k != 'target' })
       @attr_values = options[:attributes]
-      @source_reader = source_reader
       @tests_collected = false
       @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
+
+      @runtime_profile = RuntimeProfile.new(self)
+      @backend.profile = @runtime_profile
+
       @runner_context =
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
@@ -203,6 +210,7 @@ module Inspec
 
       # add information about the required attributes
       res[:attributes] = res[:attributes].map(&:to_hash) unless res[:attributes].nil? || res[:attributes].empty?
+      res[:sha256] = sha256
       res
     end
 
@@ -390,6 +398,26 @@ module Inspec
       Inspec::DependencySet.from_lockfile(lockfile, cwd, @cache, @backend, { attributes: @attr_values })
     end
 
+    # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
+    # libraries, data files, and controls.
+    #
+    # @return [Type] description of returned object
+    def sha256
+      # get all dependency checksums
+      deps = Hash[locked_dependencies.list.map { |k, v| [k, v.profile.sha256] }]
+
+      res = OpenSSL::Digest::SHA256.new
+      files = source_reader.tests.to_a + source_reader.libraries.to_a +
+              source_reader.data_files.to_a +
+              [['inspec.yml', source_reader.metadata.content]] +
+              [['inspec.lock.deps', YAML.dump(deps)]]
+
+      files.sort { |a, b| a[0] <=> b[0] }
+           .map { |f| res << f[0] << "\0" << f[1] << "\0" }
+
+      res.digest.unpack('H*')[0]
+    end
+
     private
 
     # Create an archive name for this profile and an additional options
@@ -444,6 +472,7 @@ module Inspec
 
     def load_rule(rule, file, controls, groups)
       id = Inspec::Rule.rule_id(rule)
+      location = rule.instance_variable_get(:@__source_location)
       controls[id] = {
         title: rule.title,
         desc: rule.desc,
@@ -451,8 +480,8 @@ module Inspec
         refs: rule.ref,
         tags: rule.tag,
         checks: Inspec::Rule.checks(rule),
-        code: rule.instance_variable_get(:@__code),
-        source_location: rule.instance_variable_get(:@__source_location),
+        code: Inspec::MethodSource.code_at(location, source_reader),
+        source_location: location,
       }
 
       groups[file] ||= {

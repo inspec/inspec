@@ -1,0 +1,71 @@
+---
+title: About the virtualization Resource
+---
+
+# virtualization
+
+Use the `virtualization` InSpec audit resource to test the virtualization platform on which the system is running.
+
+## Syntax
+
+An `virtualization` resource block declares the virtualization platform that should be tested:
+
+    describe virtualization do
+      its('system') { should MATCHER 'value' }
+    end
+
+where
+
+* `('system')` is the name of the system information of the virtualization platform (e.g. docker, lxc, vbox, kvm, etc)
+* `MATCHER` is a valid matcher for this resource
+* `'value'` is the value to be tested
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for Docker
+
+    describe virtualization do
+      its('system') { should eq 'docker' }
+    end
+
+### Test for VirtualBox
+
+    describe virtualization do
+      its('system') { should eq 'vbox' }
+      its('role') { should eq 'guest' }
+    end
+
+### Detect the virtualization platform
+
+    if virtualization.system == 'vbox'
+      describe package('name') do
+        it { should be_installed }
+      end
+    end
+

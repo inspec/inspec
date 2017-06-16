@@ -4,7 +4,6 @@ driver:
 
 provisioner:
   name: chef_solo
-  require_chef_omnibus:  12.12.15
 
 verifier:
   name: inspec

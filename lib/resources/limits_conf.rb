@@ -43,8 +43,8 @@ module Inspec::Resources
       # parse the file
       conf = SimpleConfig.new(
         content,
-        assignment_re: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
-        key_vals: 3,
+        assignment_regex: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
+        key_values: 3,
         multiple_values: true,
       )
       @params = conf.params

@@ -1,7 +1,7 @@
 PATH
-  remote: /Users/aleff/projects/inspec
+  remote: ..
   specs:
-    inspec (1.19.1)
+    inspec (1.27.0)
       addressable (~> 2.4)
       faraday (>= 0.9.0)
       hashie (~> 3.4)
@@ -9,15 +9,17 @@ PATH
       method_source (~> 0.8)
       mixlib-log
       parallel (~> 1.9)
+      parslet (~> 1.5)
       pry (~> 0)
       rainbow (~> 2)
       rspec (~> 3)
       rspec-its (~> 1.2)
       rubyzip (~> 1.1)
-      sslshake (~> 1)
+      semverse
+      sslshake (~> 1.2)
       thor (~> 0.19)
       toml (~> 0.1)
-      train (>= 0.22.0, < 1.0)
+      train (>= 0.24.0, < 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -66,10 +68,11 @@ GEM
     eventmachine (1.2.3)
     excon (0.55.0)
     execjs (2.7.0)
-    faraday (0.12.0.1)
+    faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     fast_blank (1.0.0)
     fastimage (2.1.0)
+    fastly (1.10.0)
     ffi (1.9.18)
     github-markup (1.6.0)
     gssapi (1.2.0)
@@ -92,7 +95,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     little-plugger (1.1.4)
-    logging (2.2.0)
+    logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
     memoist (0.15.0)
@@ -172,33 +175,35 @@ GEM
     rack (2.0.1)
     rack-livereload (0.3.16)
       rack
-    rainbow (2.2.1)
+    rainbow (2.2.2)
+      rake
     rake (12.0.0)
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
     redcarpet (3.4.0)
     rouge (2.0.7)
-    rspec (3.5.0)
-      rspec-core (~> 3.5.0)
-      rspec-expectations (~> 3.5.0)
-      rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.4)
-      rspec-support (~> 3.5.0)
-    rspec-expectations (3.5.0)
+    rspec (3.6.0)
+      rspec-core (~> 3.6.0)
+      rspec-expectations (~> 3.6.0)
+      rspec-mocks (~> 3.6.0)
+    rspec-core (3.6.0)
+      rspec-support (~> 3.6.0)
+    rspec-expectations (3.6.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
+      rspec-support (~> 3.6.0)
     rspec-its (1.2.0)
       rspec-core (>= 3.0.0)
       rspec-expectations (>= 3.0.0)
-    rspec-mocks (3.5.0)
+    rspec-mocks (3.6.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
-    rspec-support (3.5.0)
+      rspec-support (~> 3.6.0)
+    rspec-support (3.6.0)
     ruby-progressbar (1.8.1)
-    rubyntlm (0.6.1)
+    rubyntlm (0.6.2)
     rubyzip (1.2.1)
     sass (3.4.23)
+    semverse (2.0.0)
     servolux (0.13.0)
     slim (3.0.7)
       temple (~> 0.7.6)
@@ -207,7 +212,7 @@ GEM
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sslshake (1.1.0)
+    sslshake (1.2.0)
     temple (0.7.7)
     term-ansicolor (1.5.0)
       tins (~> 1.0)
@@ -217,7 +222,7 @@ GEM
     tins (1.13.2)
     toml (0.1.2)
       parslet (~> 1.5.0)
-    train (0.23.0)
+    train (0.24.0)
       docker-api (~> 1.26)
       json (>= 1.8, < 3.0)
       mixlib-shellout (~> 2.0)
@@ -229,7 +234,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.1.13)
       execjs (>= 0.3.0, < 3)
-    winrm (2.1.3)
+    winrm (2.2.3)
       builder (>= 2.1.2)
       erubis (~> 2.7)
       gssapi (~> 1.2)
@@ -249,6 +254,7 @@ PLATFORMS
 
 DEPENDENCIES
   docker-api
+  fastly
   github-markup
   inquirer
   inspec!

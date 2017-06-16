@@ -36,4 +36,19 @@ module FunctionalHelper
   def inspec(commandline, prefix = nil)
     CMD.run_command("#{prefix} #{exec_inspec} #{commandline}")
   end
+
+  # Copy all examples to a temporary directory for functional tests.
+  # You can provide an optional directory which will be handed to your
+  # test block with its absolute path. If nothing is provided you will
+  # get the path of the examples directory in the tmp environment.
+  #
+  # @param dir = nil [String] optional directory you want to test
+  # @param &block [Type] actual test block
+  def prepare_examples(dir = nil, &block)
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(examples_path, tmpdir)
+      bn = File.basename(examples_path)
+      block.call(File.join(tmpdir, bn, dir.to_s))
+    end
+  end
 end

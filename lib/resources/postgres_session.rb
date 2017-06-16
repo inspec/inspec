@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
+# author: Aaron Lippold
 # license: All rights reserved
 
 module Inspec::Resources
@@ -26,16 +27,23 @@ module Inspec::Resources
     name 'postgres_session'
     desc 'Use the postgres_session InSpec audit resource to test SQL commands run against a PostgreSQL database.'
     example "
-      sql = postgres_session('username', 'password')
+      sql = postgres_session('username', 'password', 'host')
+      query('sql_query', ['database_name'])` contains the query and (optional) database to execute
+
+      # default values:
+      # username: 'postgres'
+      # host: 'localhost'
+      # db: databse == db_user running the sql query
 
       describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
         its('output') { should eq('') }
       end
     "
 
-    def initialize(user, pass)
+    def initialize(user, pass, host = nil)
       @user = user || 'postgres'
       @pass = pass
+      @host = host || 'localhost'
     end
 
     def query(query, db = [])
@@ -44,7 +52,7 @@ module Inspec::Resources
       # that does this securely
       escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
       # run the query
-      cmd = inspec.command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h localhost -c \"#{escaped_query}\"")
+      cmd = inspec.command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c \"#{escaped_query}\"")
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 or
          out =~ /could not connect to .*/ or
@@ -52,12 +60,7 @@ module Inspec::Resources
         # skip this test if the server can't run the query
         skip_resource "Can't read run query #{query.inspect} on postgres_session: #{out}"
       else
-        # remove the whole header (i.e. up to the first ^-----+------+------$)
-        # remove the tail
-        lines = cmd.stdout
-                   .sub(/(.*\n)+([-]+[+])*[-]+\n/, '')
-                   .sub(/\n[^\n]*\n\n$/, '')
-        Lines.new(lines.strip, "PostgreSQL query: #{query}")
+        Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end
     end
   end

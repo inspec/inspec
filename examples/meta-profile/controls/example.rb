@@ -6,7 +6,7 @@
 include_controls 'dev-sec/ssh-baseline'
 
 # select only individual controls
-include_controls 'ssl-benchmark' do
+include_controls 'ssl-baseline' do
   control "tls1.2"
 end
 

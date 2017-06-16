@@ -4,19 +4,28 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
-require 'rubocop/rake_task'
-require_relative 'tasks/docs'
+require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
+require_relative 'tasks/spdx'
 
-# Rubocop
-desc 'Run Rubocop lint checks'
-task :rubocop do
-  RuboCop::RakeTask.new
+# The docs tasks rely on ruby-progressbar. If we can't load it, then don't
+# load the docs tasks. This is necessary to allow this Rakefile to work
+# when the "tests" gem group in the Gemfile has been excluded, such as
+# during an appbundle-updater run.
+begin
+  require 'ruby-progressbar'
+  require_relative 'tasks/docs'
+rescue LoadError
+  puts 'docs tasks are unavailable because the ruby-progressbar gem is not available.'
 end
 
-# lint the project
-desc 'Run robocop linter'
-task lint: [:rubocop]
+# Rubocop
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new(:lint)
+rescue LoadError
+  puts 'rubocop is not available. Install the rubocop gem to run the lint tests.'
+end
 
 # update command output for demo
 desc 'Run inspec commands and save results to www/app/responses'
@@ -26,7 +35,7 @@ task :update_demo do
 end
 
 # run tests
-task default: [:test, :lint]
+task default: [:lint, :test]
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
@@ -121,26 +130,12 @@ end
 # Check the requirements for running an update of this repository.
 def check_update_requirements
   require_command 'git'
-  require_command 'github_changelog_generator', "\n"\
-    "For more information on how to install it see:\n"\
-    "  https://github.com/skywinder/github-changelog-generator\n"
-  require_env 'CHANGELOG_GITHUB_TOKEN', "\n"\
-    "Please configure this token to make sure you can run all commands\n"\
-    "against GitHub.\n\n"\
-    "See github_changelog_generator homepage for more information:\n"\
-    "  https://github.com/skywinder/github-changelog-generator\n"
 end
 
 # Show the current version of this gem.
 desc 'Show the version of this gem'
 task :version do
   inspec_version
-end
-
-desc 'Generate the changelog'
-task :changelog do
-  require_relative 'lib/inspec/version'
-  system "github_changelog_generator -u chef -p inspec --future-release v#{Inspec::VERSION} --since-tag 0.7.0"
 end
 
 # Update the version of this gem and create an updated
@@ -180,7 +175,7 @@ task :release_habitat do
         raise "Please set the HAB_AUTH_TOKEN environment variable"
     end
     cmd = "echo #{version} > ./habitat/VERSION && "\
-          "hab studio build ./habitat && " \
+          "hab pkg build . && " \
           "hab pkg upload ./results/*.hart"
     puts "--> #{cmd}"
     sh('sh', '-c', cmd)
@@ -201,4 +196,3 @@ namespace :www do
     exit(1)
   end
 end
-

@@ -31,7 +31,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout,
-        assignment_re: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
       @info[:name] = params['Name']

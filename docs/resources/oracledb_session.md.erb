@@ -1,0 +1,71 @@
+---
+title: About the oracledb_session Resource
+---
+
+# oracledb_session
+
+Use the `oracledb_session` InSpec audit resource to test SQL commands run against a Oracle database.
+
+## Syntax
+
+A `oracledb_session` resource block declares the username and password to use for the session with an optional service to connect to, and then the command to be run:
+
+    describe oracledb_session(user: 'username', pass: 'password').query('QUERY') do
+      its('output') { should eq('') }
+    end
+
+where
+
+* `oracledb_session` declares a username and password with permission to run the query (required), and an optional parameters for host (default: `localhost`), SID (default: `nil`, which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).  
+* `query('QUERY')` contains the query to be run
+* `its('output') { should eq('') }` compares the results of the query against the expected result in the test
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### output
+
+The `output` matcher tests the results of the query:
+
+    its('output') { should eq(/^0/) }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for matching databases
+
+    sql = oracledb_session(user: 'my_user', pass: 'password')
+    
+    describe sql.query('SELECT NAME FROM v$database;') do
+      its('stdout') { should_not match(/test/) }
+    end
+
+### Test for matching databases with custom host, SID and sqlplus binary location
+
+    sql = oracledb_session(user: 'my_user', pass: 'password', host: 'oraclehost', sid: 'mysid', sqlplus_bin: '/u01/app/oracle/product/12.1.0/dbhome_1/bin/sqlplus')
+    
+    describe sql.query('SELECT NAME FROM v$database;') do
+      its('stdout') { should_not match(/test/) }
+    end

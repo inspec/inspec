@@ -82,7 +82,7 @@ module Inspec::Resources
         # parse include file parameters
         params = SimpleConfig.new(
           raw_conf,
-          assignment_re: /^\s*(\S+)\s+(.*)\s*$/,
+          assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
           multiple_values: true,
         ).params
         @params.merge!(params)

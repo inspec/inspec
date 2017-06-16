@@ -16,14 +16,75 @@ InSpec is a framework that allows you to run infrastructure testing as well as c
 
 The following resources are available in InSpec:
 
-[`bond`](http://inspec.io/docs/reference/resources/bond/), [`bridge`](http://inspec.io/docs/reference/resources/bridge/), [`command`](http://inspec.io/docs/reference/resources/command/), [`file`](http://inspec.io/docs/reference/resources/file/), [`group`](http://inspec.io/docs/reference/resources/group/), [`host`](http://inspec.io/docs/reference/resources/host/), [`interface`](http://inspec.io/docs/reference/resources/interface/), [`iis_website`](http://inspec.io/docs/reference/resources/iis_site/), [`iptables`](http://inspec.io/docs/reference/resources/iptables/), [`kernel_module`](http://inspec.io/docs/reference/resources/kernel_module/), [`linux_kernel_parameter`](http://inspec.io/docs/reference/resources/kernel_parameter/), [`mysql_config`](http://inspec.io/docs/reference/resources/mysql_config/), [`package`](http://inspec.io/docs/reference/resources/package/), [`port`](http://inspec.io/docs/reference/resources/port/), [`ppa`](http://inspec.io/docs/reference/resources/ppa/), [`process`](http://inspec.io/docs/reference/resources/process/), [`service`](http://inspec.io/docs/reference/resources/service/), [`user`](http://inspec.io/docs/reference/resources/user/), [`windows_feature`](http://inspec.io/docs/reference/resources/windows_feature/), [`windows_registry_key`](http://inspec.io/docs/reference/resources/windows_registry_key/), [`yumrepo`](http://inspec.io/docs/reference/resources/yum/)
+|                                         Serverspec                                         |                                        InSpec                                        |
+|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
+| [`bond`](http://serverspec.org/resource_types.html#bond)                                     | [`bond`](https://www.inspec.io/docs/reference/resources/bond/)                         |
+| [`bridge`](http://serverspec.org/resource_types.html#bridge)                                 | [`bridge`](https://www.inspec.io/docs/reference/resources/bridge/)                     |
+| [`command`](http://serverspec.org/resource_types.html#command)                               | [`command`](https://www.inspec.io/docs/reference/resources/command/)                   |
+| [`cron`](http://serverspec.org/resource_types.html#cron)                                     | [`crontab`](https://www.inspec.io/docs/reference/resources/crontab/)                   |
+| [`docker_container`](http://serverspec.org/resource_types.html#docker_container)             | [`docker_container`](https://www.inspec.io/docs/reference/resources/docker_container/) |
+| [`docker_image`](http://serverspec.org/resource_types.html#docker_image)                     | [`docker_image`](https://www.inspec.io/docs/reference/resources/docker_image/)         |
+| [`file`](http://serverspec.org/resource_types.html#file)                                     | [`file`](https://www.inspec.io/docs/reference/resources/file/)                         |
+| [`group`](http://serverspec.org/resource_types.html#group)                                   | [`group`](https://www.inspec.io/docs/reference/resources/group/)                       |
+| [`host`](http://serverspec.org/resource_types.html#host)                                     | [`host`](https://www.inspec.io/docs/reference/resources/host/)                         |
+| [`interface`](http://serverspec.org/resource_types.html#interface)                           | [`interface`](https://www.inspec.io/docs/reference/resources/interface/)               |
+| [`iis_website`](http://serverspec.org/resource_types.html#iis_website)                       | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
+| [`iis_app_pool`](http://serverspec.org/resource_types.html#iis_app_pool)                     | [`iis_website`](https://www.inspec.io/docs/reference/resources/iis_website/)           |
+| [`iptables`](http://serverspec.org/resource_types.html#iptables)                             | [`iptables`](https://www.inspec.io/docs/reference/resources/iptables/)                 |
+| [`kernel_module`](http://serverspec.org/resource_types.html#kernel_module)                   | [`kernel_module`](https://www.inspec.io/docs/reference/resources/kernel_module/)       |
+| [`linux_kernel_parameter`](http://serverspec.org/resource_types.html#linux_kernel_parameter) | [`kernel_parameter`](https://www.inspec.io/docs/reference/resources/kernel_parameter/) |
+| [`mysql_config`](http://serverspec.org/resource_types.html#mysql_config)                     | [`mysql_conf`](https://www.inspec.io/docs/reference/resources/mysql_conf/)             |
+| [`package`](http://serverspec.org/resource_types.html#package)                               | [`package`](https://www.inspec.io/docs/reference/resources/package/)                   |
+| [`port`](http://serverspec.org/resource_types.html#port)                                     | [`port`](https://www.inspec.io/docs/reference/resources/port/)                         |
+| [`ppa`](http://serverspec.org/resource_types.html#ppa)                                       | [`apt`](https://www.inspec.io/docs/reference/resources/apt/)                           |
+| [`process`](http://serverspec.org/resource_types.html#process)                               | [`processes`](https://www.inspec.io/docs/reference/resources/processes/)               |
+| [`service`](http://serverspec.org/resource_types.html#service)                               | [`service`](https://www.inspec.io/docs/reference/resources/service/)                   |
+| [`user`](http://serverspec.org/resource_types.html#user)                                     | [`user`](https://www.inspec.io/docs/reference/resources/user/)                         |
+| [`windows_feature`](http://serverspec.org/resource_types.html#windows_feature)               | [`windows_feature`](https://www.inspec.io/docs/reference/resources/windows_feature/)   |
+| [`windows_registry_key`](http://serverspec.org/resource_types.html#windows_registry_key)     | [`registry_key`](https://www.inspec.io/docs/reference/resources/registry_key/)         |
+| [`x509_certificate`](http://serverspec.org/resource_types.html#x509_certificate)             | [`x509_certificate`](https://www.inspec.io/docs/reference/resources/x509_certificate/) |
+| [`yumrepo`](http://serverspec.org/resource_types.html#yumrepo)                               | [`yum`](https://www.inspec.io/docs/reference/resources/yum/)                           |
+| [`zfs`](http://serverspec.org/resource_types.html#zfs)                                       | [`zfs_pool`](https://www.inspec.io/docs/reference/resources/zfs_pool/)                 |
 
-Some Serverspec resources are not available yet. We implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
+Some Serverspec resources are not available yet. We will implement those resources based on user feedback. If you need a resource that is not available in InSpec, please open an [Github issue](https://github.com/chef/inspec/issues). The list of resources that are not available in InSpec:
 
-`cgroup`, `cron`, `default_gateway`, `docker_container`, `docker_image`, `iis_app_pool`, `ip6tables`, `ipfilter`, `ipnat`, `linux_audit_system`, `lxc`, `mail_alias`, `php_config`, `routing_table`, `selinux`, `selinux_module`, `x509_certificate`, `x509_private_key`, `zfs`
+* [`cgroup`](http://serverspec.org/resource_types.html#cgroup)
+* [`default_gateway`](http://serverspec.org/resource_types.html#default_gateway)
+* [`ip6tables`](http://serverspec.org/resource_types.html#ip6tables)
+* [`ipfilter`](http://serverspec.org/resource_types.html#ipfilter)
+* [`ipnat`](http://serverspec.org/resource_types.html#ipnat)
+* [`linux_audit_system`](http://serverspec.org/resource_types.html#linux_audit_system)
+* [`lxc`](http://serverspec.org/resource_types.html#lxc)
+* [`mail_alias`](http://serverspec.org/resource_types.html#mail_alias)
+* [`php_config`](http://serverspec.org/resource_types.html#php_config)
+* [`routing_table`](http://serverspec.org/resource_types.html#routing_table)
+* [`selinux`](http://serverspec.org/resource_types.html#selinux)
+* [`selinux_module`](http://serverspec.org/resource_types.html#selinux_module)
+* [`x509_private_key`](http://serverspec.org/resource_types.html#x509_private_key)
 
-In addition InSpec provides additional [resources](http://inspec.io/docs/reference/resources/) that are not available in Serverspec:
-[`apache_conf`](http://inspec.io/docs/reference/resources/apache_conf/), [`apt`](http://inspec.io/docs/reference/resources/apt/), [`audit_policy`](http://inspec.io/docs/reference/resources/audit_policy/), [`auditd_conf`](http://inspec.io/docs/reference/resources/auditd_conf/), [`bash`](http://inspec.io/docs/reference/resources/bash/), [`csv`](http://inspec.io/docs/reference/resources/csv/), [`etc_shadow`](http://inspec.io/docs/reference/resources/etc_shadow/), [`gem`](http://inspec.io/docs/reference/resources/gem/), [`grub_conf`](http://inspec.io/docs/reference/resources/grub_conf/), [`inetd_conf`](http://inspec.io/docs/reference/resources/inetd_conf/), [`ini`](http://inspec.io/docs/reference/resources/ini/), [`json`](http://inspec.io/docs/reference/resources/json/), [`npm`](http://inspec.io/docs/reference/resources/npm/), [`ntp_conf`](http://inspec.io/docs/reference/resources/ntp_conf/), [`oneget`](http://inspec.io/docs/reference/resources/oneget/), [`pip`](http://inspec.io/docs/reference/resources/pip/), [`powershell`](http://inspec.io/docs/reference/resources/powershell/), [`security_policy`](http://inspec.io/docs/reference/resources/security_policy/), [`ssh_config`](http://inspec.io/docs/reference/resources/ssh_config/), [`sshd_config`](http://inspec.io/docs/reference/resources/sshd_config/), [`sys_info`](http://inspec.io/docs/reference/resources/sys_info/)
+In addition InSpec provides additional [resources](https://www.inspec.io/docs/reference/resources/) that are not available in Serverspec:
+
+* [`apache_conf`](https://www.inspec.io/docs/reference/resources/apache_conf/)
+* [`apt`](https://www.inspec.io/docs/reference/resources/apt/)
+* [`audit_policy`](https://www.inspec.io/docs/reference/resources/audit_policy/)
+* [`auditd_conf`](https://www.inspec.io/docs/reference/resources/auditd_conf/)
+* [`bash`](https://www.inspec.io/docs/reference/resources/bash/)
+* [`csv`](https://www.inspec.io/docs/reference/resources/csv/)
+* [`etc_shadow`](https://www.inspec.io/docs/reference/resources/etc_shadow/)
+* [`gem`](https://www.inspec.io/docs/reference/resources/gem/)
+* [`grub_conf`](https://www.inspec.io/docs/reference/resources/grub_conf/)
+* [`inetd_conf`](https://www.inspec.io/docs/reference/resources/inetd_conf/)
+* [`ini`](https://www.inspec.io/docs/reference/resources/ini/)
+* [`json`](https://www.inspec.io/docs/reference/resources/json/)
+* [`npm`](https://www.inspec.io/docs/reference/resources/npm/)
+* [`ntp_conf`](https://www.inspec.io/docs/reference/resources/ntp_conf/)
+* [`oneget`](https://www.inspec.io/docs/reference/resources/oneget/)
+* [`pip`](https://www.inspec.io/docs/reference/resources/pip/)
+* [`powershell`](https://www.inspec.io/docs/reference/resources/powershell/)
+* [`security_policy`](https://www.inspec.io/docs/reference/resources/security_policy/)
+* [`ssh_config`](https://www.inspec.io/docs/reference/resources/ssh_config/)
+* [`sshd_config`](https://www.inspec.io/docs/reference/resources/sshd_config/)
+* [`sys_info`](https://www.inspec.io/docs/reference/resources/sys_info/)
 
 ## How do I migrate my Serverspec tests to InSpec
 
@@ -53,7 +114,7 @@ kitchen verify package-install-centos-72
 -----> Starting Kitchen (v1.14.2)
 -----> Verifying <package-install-centos-72>...
        Detected alternative framework tests for `inspec`
-       Loaded  
+       Loaded
 
 Target:  ssh://vagrant@127.0.0.1:2200
 

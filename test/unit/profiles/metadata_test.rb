@@ -20,6 +20,13 @@ describe 'metadata with supported operating systems' do
   describe 'running on ubuntu 14.04' do
     let (:backend) { MockLoader.new(:ubuntu1404).backend }
 
+    it 'provides all metadata content' do
+      s = "---\nname: hello #{rand}"
+      res = Inspec::Metadata.from_yaml('mock', s, nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.content.must_equal(s)
+    end
+
     it 'finalizes a loaded metadata via Profile ID' do
       res = Inspec::Metadata.from_yaml('mock', '---', nil)
       Inspec::Metadata.finalize(res, 'mock', empty_options)
@@ -30,6 +37,20 @@ describe 'metadata with supported operating systems' do
       res = Inspec::Metadata.from_yaml('mock', "---\nname: hello", nil)
       Inspec::Metadata.finalize(res, 'mock', empty_options)
       res.params[:name].must_equal('mock')
+    end
+
+    it 'reads the version from metadata' do
+      res = Inspec::Metadata.from_yaml('mock', "---\nversion: '1.1.0'", nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.params[:version].must_equal('1.1.0')
+      res.valid_version?(res.params[:version]).must_equal(true)
+    end
+
+    it 'does not accept invalid version from metadata' do
+      res = Inspec::Metadata.from_yaml('mock', "---\nversion: '1.1.0.1'", nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.params[:version].must_equal('1.1.0.1')
+      res.valid_version?(res.params[:version]).must_equal(false)
     end
 
     it 'finalizes a loaded metadata by turning strings into symbols' do

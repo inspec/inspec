@@ -151,6 +151,8 @@ module Inspec::Resources
         BSDInit.new(inspec, service_ctl)
       elsif %w{arch}.include?(platform)
         Systemd.new(inspec, service_ctl)
+      elsif %w{coreos}.include?(platform)
+        Systemd.new(inspec, service_ctl)
       elsif %w{suse opensuse}.include?(platform)
         if os[:release].to_i >= 12
           Systemd.new(inspec, service_ctl)
@@ -262,7 +264,7 @@ module Inspec::Resources
       # parse data
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
+        assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
 
@@ -637,7 +639,7 @@ module Inspec::Resources
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
-        assignment_re: /^(\w+)\s*(.*)$/,
+        assignment_regex: /^(\w+)\s*(.*)$/,
         multiple_values: false,
       ).params
 

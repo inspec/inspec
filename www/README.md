@@ -51,3 +51,12 @@ ruby -run -e httpd . -p 8000
 Open your browser to [localhost:8000](http://localhost:8000).
 
 If you are happy, you can confirm the site and let the release task push it live.
+
+### Flushing the Fastly Cache
+
+The `www` Rake task will flush the cache at Fastly if you have the following environment variables set:
+
+ * `FASTLY_API_KEY`
+ * `FASTLY_SERVICE_ID`
+
+These can be found in Chef's shared password manager. If these aren't set, the cache will not be flushed and will expire on its own. The cache can be flushed without doing a full website release by running `rake www:flush`

@@ -15,7 +15,7 @@ gid = case node['platform_family']
         'root'
       end
 
-['yml', 'json', 'csv', 'ini'].each { |filetype|
+['yml', 'json', 'csv', 'ini', 'toml'].each { |filetype|
 
   if node['platform_family'] != 'windows'
     cookbook_file "/tmp/example.#{filetype}" do

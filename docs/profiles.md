@@ -17,6 +17,8 @@ A profile should have the following structure::
     │   └── control_etc.rb
     ├── libraries
     │   └── extension.rb
+    |── files
+    │   └── extras.conf
     └── inspec.yml
 
 where:
@@ -24,6 +26,7 @@ where:
 * `inspec.yml` includes the profile description (required)
 * `controls` is the directory in which all tests are located (required)
 * `libraries` is the directory in which all InSpec resource extensions are located (optional)
+* `files` is the directory with additional files that a profile can access (optional)
 * `README.md` should be used to explain the profile, its scope, and usage
 
 See a complete example profile in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile
@@ -98,12 +101,9 @@ and to target all of these examples in a single `inspec.yml` file:
     name: ssh
     supports:
       - os-name: debian
-    supports:
       - os-name: ubuntu
         release: 14.04
-    supports:
       - os-family: redhat
-    supports:
       - platform: aws
 
 
@@ -154,31 +154,33 @@ For example:
 
 ## Chef Supermarket
 
-A `supermarket` setting specifies a profile that is located in a cookbook hosted on Chef Supermarket, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.
+A `supermarket` setting specifies a profile that is located in a cookbook hosted on Chef Supermarket. The source location is translated into a URL upon resolution.
 
 For example:
 
     depends:
     - name: supermarket-profile
-      git: username/profile
-      branch:  desired_branch
-      tag:     desired_version
-      commit:  pinned_commit
-      version: semver_via_tags
+      supermarket: supermarket-username/supermarket-profile
+
+Available Supermarket profiles can be listed with `inspec supermarket profiles`.
 
 ## GitHub
 
-A `github` setting specifies a profile that is located in a repository hosted on GitHub, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.
+A `github` setting specifies a profile that is located in a repository hosted on GitHub. The source location is translated into a URL upon resolution.
 
 For example:
 
     depends:
     - name: gh-profile
-      git: username/project
-      branch:  desired_branch
-      tag:     desired_version
-      commit:  pinned_commit
-      version: semver_via_tags
+      github: username/project
+
+A path to a Git commit or tag on GitHub can also be used:
+
+    dev-sec/linux-baseline
+    dev-sec/linux-baseline/tree/2.0
+    dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876
+
+would all download profiles corresponding to the GitHub URL, https://github.com/dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876, for example.
 
 ## Chef Compliance
 
@@ -301,3 +303,39 @@ The following command runs the tests and applies the secrets specified in `profi
     $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
 
 See the full example in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile-attribute
+
+# Profile files
+
+An InSpec profile may contain additional files that can be accessed during tests. This covers use-cases where e.g. a list of ports is provided to be tested.
+
+To access these files, they must be stored in the `files` directory at the root of a profile. They are accessed by their name relative to this folder with `inspec.profile.file(...)`.
+
+Here is an example for reading and testing a list of ports. The folder structure is:
+
+    examples/profile
+    ├── controls
+    │   ├── example.rb
+    |── files
+    │   └── services.yml
+    └── inspec.yml
+
+With `services.yml` containing:
+
+    - service_name: httpd-alpha
+      port: 80
+    - service_name: httpd-beta
+      port: 8080
+
+The tests in `example.rb` can now access this file:
+
+    my_services = yaml(content: inspec.profile.file('services.yml')).params
+
+    my_services.each do |s|
+      describe service(s['name']) do
+        it { should be_running }
+      end
+
+      describe port(s['port']) do
+        it { should be_listening }
+      end
+    end

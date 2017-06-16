@@ -23,17 +23,18 @@ module SourceReaders
       nil
     end
 
-    attr_reader :metadata, :tests, :libraries
+    attr_reader :metadata, :tests, :libraries, :data_files
 
     # This create a new instance of an InSpec profile source reader
     #
     # @param [FileProvider] target An instance of a FileProvider object that can list files and read them
     # @param [String] metadata_source eg. inspec.yml or metadata.rb
     def initialize(target, metadata_source)
-      @target    = target
-      @metadata  = load_metadata(metadata_source)
-      @tests     = load_tests
-      @libraries = load_libs
+      @target     = target
+      @metadata   = load_metadata(metadata_source)
+      @tests      = load_tests
+      @libraries  = load_libs
+      @data_files = load_data_files
     end
 
     private
@@ -61,6 +62,13 @@ module SourceReaders
         path.start_with?('libraries') && path.end_with?('.rb')
       end
       Hash[tests.map { |x| [x, @target.read(x)] }]
+    end
+
+    def load_data_files
+      files = @target.files.find_all do |path|
+        path.start_with?('files' + File::SEPARATOR)
+      end
+      Hash[files.map { |x| [x, @target.read(x)] }]
     end
   end
 end

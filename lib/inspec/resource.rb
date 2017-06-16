@@ -48,6 +48,10 @@ module Inspec
             r.new(backend, id.to_s, *args)
           end
         end
+
+        define_method :inspec do
+          backend
+        end
       end
     end
   end
@@ -82,6 +86,9 @@ require 'resources/command'
 require 'resources/crontab'
 require 'resources/dh_params'
 require 'resources/directory'
+require 'resources/docker'
+require 'resources/docker_image'
+require 'resources/docker_container'
 require 'resources/etc_group'
 require 'resources/file'
 require 'resources/gem'
@@ -89,6 +96,7 @@ require 'resources/groups'
 require 'resources/grub_conf'
 require 'resources/host'
 require 'resources/http'
+require 'resources/iis_app'
 require 'resources/iis_site'
 require 'resources/inetd_conf'
 require 'resources/interface'
@@ -107,6 +115,7 @@ require 'resources/mysql_session'
 require 'resources/npm'
 require 'resources/ntp_conf'
 require 'resources/oneget'
+require 'resources/oracledb_session'
 require 'resources/os'
 require 'resources/os_env'
 require 'resources/package'
@@ -128,8 +137,10 @@ require 'resources/shadow'
 require 'resources/ssl'
 require 'resources/ssh_conf'
 require 'resources/sys_info'
+require 'resources/toml'
 require 'resources/users'
 require 'resources/vbscript'
+require 'resources/virtualization'
 require 'resources/windows_feature'
 require 'resources/windows_task'
 require 'resources/xinetd'

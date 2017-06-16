@@ -34,11 +34,9 @@ module Inspec::DSL
     dep_entry = dependencies.list[profile_id]
     if dep_entry.nil?
       raise <<EOF
-Cannot load #{profile_id} since it is not listed as a dependency
-of #{bind_context.profile_name}.
+Cannot load #{profile_id} since it is not listed as a dependency of #{bind_context.profile_name}.
 
 Dependencies available from this context are:
-
     #{dependencies.list.keys.join("\n    ")}
 EOF
     end

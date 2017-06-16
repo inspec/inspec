@@ -18,6 +18,11 @@ module Secrets
     # array of yaml file paths
     def initialize(target)
       @attributes = ::YAML.load_file(target)
+
+      if @attributes == false || !@attributes.is_a?(Hash)
+        Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
+        @attributes = nil
+      end
     rescue => e
       raise "Error reading Inspec attributes: #{e}"
     end

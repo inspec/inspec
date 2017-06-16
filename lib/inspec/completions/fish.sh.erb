@@ -1,0 +1,34 @@
+function __fish_inspec_no_command --description 'Test if inspec has yet to be given the main command'
+  set -l cmd (commandline -opc)
+  test (count $cmd) -eq 1
+end
+
+function __fish_inspec_using_command
+  set -l cmd (commandline -opc)
+  set -q cmd[2]; and test "$argv[1]" = $cmd[2]
+end
+
+function __fish_inspec_using_command_and_no_subcommand
+  set -l cmd (commandline -opc)
+  test (count $cmd) -eq 2; and test "$argv[1]" = "$cmd[2]"
+end
+
+function __fish_inspec_using_subcommand --argument-names cmd_main cmd_sub
+    set -l cmd (commandline -opc)
+    set -q cmd[3]; and test "$cmd_main" = $cmd[2] -a "$cmd_sub" = $cmd[3]
+end
+
+<% top_level_commands_with_descriptions.each do |command_and_description| %>
+  <% command, description = command_and_description.split(':') %>
+  <% description.gsub!(/\\/, '') %>
+  # <%= command %> commands
+  complete -c inspec -f -n '__fish_inspec_no_command' -a <%= command %> -d "<%= description %>"
+  # <%= command %> help
+  complete -c inspec -f -n '__fish_inspec_using_command help' -a <%= command %> -d "<%= description %>"
+
+  <% (subcommands_with_commands_and_descriptions[command] || []).each do |command_and_description| %>
+    <% subcommand, description = command_and_description.split(':') %>
+    <% description.gsub!(/\\/, '') %>
+    complete -c inspec -f -n '__fish_inspec_using_command_and_no_subcommand <%= command %>' -a <%= subcommand %> -d "<%= description %>"
+  <% end %>
+<% end %>

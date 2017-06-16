@@ -23,4 +23,10 @@ describe 'Inspec::Resources::Powershell' do
     # string should be the same
     _(resource.command.to_s).must_equal ps1_script
   end
+
+  it 'will return an empty array when called on a non-supported OS with children' do
+    resource = MockLoader.new.load_resource('powershell', '...')
+    # string should be the same
+    _(resource.stdout).must_equal ''
+  end
 end

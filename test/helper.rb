@@ -21,6 +21,7 @@ require 'zip'
 
 require 'inspec/base_cli'
 require 'inspec/version'
+require 'inspec/exceptions'
 require 'inspec/fetcher'
 require 'inspec/source_reader'
 require 'inspec/resource'
@@ -30,11 +31,14 @@ require 'inspec/runner'
 require 'inspec/runner_mock'
 require 'fetchers/mock'
 
+require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'
 CMD = Train.create('local').connection
 TMP_CACHE = {}
+
+Inspec::Log.logger = Logger.new(nil)
 
 class MockLoader
   # collects emulation operating systems
@@ -43,6 +47,7 @@ class MockLoader
     centos5:    { name: 'centos', family: 'redhat', release: '5.11', arch: 'x86_64' },
     centos6:    { name: 'centos', family: 'redhat', release: '6.6', arch: 'x86_64' },
     centos7:    { name: 'centos', family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
+    coreos:     { name: 'coreos', family: 'coreos', release: '1437.0.0', arch: 'x86_64' },
     debian6:    { name: 'debian', family: 'debian', release: '6', arch: 'x86_64' },
     debian7:    { name: 'debian', family: 'debian', release: '7', arch: 'x86_64' },
     debian8:    { name: 'debian', family: 'debian', release: '8', arch: 'x86_64' },
@@ -143,6 +148,7 @@ class MockLoader
       'test_ca_public.key.pem' => mockfile.call('test_ca_public.key.pem'),
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
+      'default.toml' => mockfile.call('default.toml'),
     }
 
     # create all mock commands
@@ -173,6 +179,7 @@ class MockLoader
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
       '/opt/chef/embedded/bin/gem list --local -a -q ^chef-sugar$' => cmd.call('gem-list-local-a-q-chef-sugar'),
@@ -235,7 +242,7 @@ class MockLoader
       # group info for windows
       'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
       # network interface
-      '9e80f048a1af5a0f6ab8a465e46ea5ed5ba6587e9b5e54a7a0c0a1a02bb6f663' => cmd.call('find-net-interface'),
+      'fddd70e8b8510f5fcc0413cfdc41598c55d6922bb2a0a4075e2118633a0bf422' => cmd.call('find-net-interface'),
       'c33821dece09c8b334e03a5bb9daefdf622007f73af4932605e758506584ec3f' => empty.call,
       'Get-NetAdapter | Select-Object -Property Name, InterfaceDescription, Status, State, MacAddress, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed, Virtual | ConvertTo-Json' => cmd.call('Get-NetAdapter'),
       # bridge on linux
@@ -244,7 +251,7 @@ class MockLoader
       'Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json' => cmd.call('get-netadapter-binding-bridge'),
       # host for Windows
       'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
-      'Test-NetConnection -ComputerName microsoft.com | Select-Object -Property ComputerName, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # host for Linux
       'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
@@ -256,12 +263,12 @@ class MockLoader
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
-      'find /etc/apache2/ports.conf -maxdepth 1 -type f' => cmd.call('find-apache2-ports-conf'),
-      'find /etc/httpd/conf.d/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-ssl-conf'),
-      'find /etc/httpd/mods-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-httpd-status-conf'),
-      'find /etc/httpd/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-httpd-conf-enabled-link'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type f' => cmd.call('find-apache2-conf-enabled'),
-      'find /etc/apache2/conf-enabled/*.conf -maxdepth 1 -type l' => cmd.call('find-apache2-conf-enabled-link'),
+      'find /etc/apache2/ports.conf -type f -maxdepth 1' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-ssl-conf'),
+      'find /etc/httpd/mods-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-status-conf'),
+      'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-httpd-conf-enabled-link'),
+      'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-apache2-conf-enabled'),
+      'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-apache2-conf-enabled-link'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -300,12 +307,31 @@ class MockLoader
       'crontab -l' => cmd.call('crontab-root'),
       # crontab display for non-current user
       'crontab -l -u foouser' => cmd.call('crontab-foouser'),
-	  # zfs output for dataset tank/tmp
-	  '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
-	  # zfs output for pool tank
-	  '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
-     }
-
+      # crontab display for special time strings
+      'crontab -l -u special' => cmd.call('crontab-special'),
+      # zfs output for dataset tank/tmp
+      '/sbin/zfs get -Hp all tank/tmp' => cmd.call('zfs-get-all-tank-tmp'),
+      # zfs output for pool tank
+      '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
+      # docker
+      "docker ps -a --no-trunc --format '{{ json . }}'" => cmd.call('docker-ps-a'),
+      "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
+      "docker info --format '{{ json . }}'" => cmd.call('docker-info'),
+      "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
+      # docker images
+      "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
+      # get-process cmdlet for processes resource
+      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes'),
+      # host resource: check to see if netcat is installed
+      %{bash -c 'type "nc"'} => cmd.call('type-nc'),
+      'type "nc"' => cmd.call('type-nc'),
+      # host resource: netcat for TCP reachability check on linux
+      'echo | nc -v -w 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: netcat for TCP reachability check on darwin
+      'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: test-netconnection for reachability check on windows
+      'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+    }
     @backend
   end
 
@@ -333,7 +359,7 @@ class MockLoader
 
   def self.profile_path(name)
     dst = name
-    dst = "#{home}/mock/profiles/#{name}" unless name.start_with?(home)
+    dst = "#{home}/mock/profiles/#{name}" unless (Pathname.new name).absolute?
     dst
   end
 

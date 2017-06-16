@@ -119,18 +119,23 @@ module Inspec
 
     # determine all attributes before the execution, fetch data from secrets backend
     def load_attributes(options)
-      attributes = {}
-      # read endpoints for secrets eg. yml file
+      options[:attributes] ||= {}
+
       secrets_targets = options[:attrs]
-      unless secrets_targets.nil?
-        secrets_targets.each do |target|
-          secrets = Inspec::SecretsBackend.resolve(target)
-          # merge hash values
-          attributes = attributes.merge(secrets.attributes) unless secrets.nil? || secrets.attributes.nil?
+      return options[:attributes] if secrets_targets.nil?
+
+      secrets_targets.each do |target|
+        secrets = Inspec::SecretsBackend.resolve(target)
+        if secrets.nil?
+          raise Inspec::Exceptions::SecretsBackendNotFound,
+                "Unable to find a parser for attributes file #{target}. " \
+                'Check to make sure the file exists and has the appropriate extension.'
         end
+
+        next if secrets.attributes.nil?
+        options[:attributes].merge!(secrets.attributes)
       end
-      options[:attributes] = options[:attributes] || {}
-      options[:attributes] = options[:attributes].merge(attributes)
+
       options[:attributes]
     end
 

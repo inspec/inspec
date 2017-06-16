@@ -3,7 +3,6 @@
 # author: Christoph Hartmann
 require 'utils/plugin_registry'
 require 'inspec/file_provider'
-require 'digest'
 
 module Inspec
   module Plugins

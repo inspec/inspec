@@ -6,15 +6,18 @@
 require 'logger'
 require 'rubygems/version'
 require 'rubygems/requirement'
+require 'semverse'
+require 'utils/spdx'
 
 module Inspec
   # Extract metadata.rb information
   class Metadata # rubocop:disable Metrics/ClassLength
     attr_reader :ref
-    attr_accessor :params
+    attr_accessor :params, :content
     def initialize(ref, logger = nil)
       @ref = ref
       @logger = logger || Logger.new(nil)
+      @content = ''
       @params = {}
       @missing_methods = []
     end
@@ -100,7 +103,7 @@ module Inspec
     end
 
     # return all warn and errors
-    def valid
+    def valid # rubocop:disable Metrics/AbcSize
       errors = []
       warnings = []
 
@@ -108,9 +111,20 @@ module Inspec
         next unless params[field.to_sym].nil?
         errors.push("Missing profile #{field} in #{ref}")
       end
-      %w{ title summary maintainer copyright }.each do |field|
+
+      # if version is set, ensure it is correct
+      if !params[:version].nil? && !valid_version?(params[:version])
+        errors.push('Version needs to be in SemVer format')
+      end
+
+      %w{ title summary maintainer copyright license }.each do |field|
         next unless params[field.to_sym].nil?
         warnings.push("Missing profile #{field} in #{ref}")
+      end
+
+      # if version is set, ensure it is in SPDX format
+      if !params[:license].nil? && !Spdx.valid_license?(params[:license])
+        warnings.push("License '#{params[:license]}' needs to be in SPDX format. See https://spdx.org/licenses/.")
       end
 
       [errors, warnings]
@@ -120,6 +134,13 @@ module Inspec
     def valid?
       errors, _warnings = valid
       errors.empty? && unsupported.empty?
+    end
+
+    def valid_version?(value)
+      Semverse::Version.new(value)
+      true
+    rescue Semverse::InvalidVersionFormat
+      false
     end
 
     def method_missing(sth, *args)
@@ -206,26 +227,28 @@ module Inspec
       metadata
     end
 
-    def self.from_yaml(ref, contents, profile_id, logger = nil)
+    def self.from_yaml(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      res.params = YAML.load(contents)
+      res.params = YAML.load(content)
+      res.content = content
       finalize(res, profile_id, {}, logger)
     end
 
-    def self.from_ruby(ref, contents, profile_id, logger = nil)
+    def self.from_ruby(ref, content, profile_id, logger = nil)
       res = Metadata.new(ref, logger)
-      res.instance_eval(contents, ref, 1)
+      res.instance_eval(content, ref, 1)
+      res.content = content
       finalize(res, profile_id, {}, logger)
     end
 
-    def self.from_ref(ref, contents, profile_id, logger = nil)
+    def self.from_ref(ref, content, profile_id, logger = nil)
       # NOTE there doesn't have to exist an actual file, it may come from an
-      # archive (i.e., contents)
+      # archive (i.e., content)
       case File.basename(ref)
       when 'inspec.yml'
-        from_yaml(ref, contents, profile_id, logger)
+        from_yaml(ref, content, profile_id, logger)
       when 'metadata.rb'
-        from_ruby(ref, contents, profile_id, logger)
+        from_ruby(ref, content, profile_id, logger)
       else
         logger ||= Logger.new(nil)
         logger.error "Don't know how to handle metadata in #{ref}"

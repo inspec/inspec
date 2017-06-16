@@ -100,6 +100,6 @@ describe 'Inspec::Resources::Package' do
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('package', 'curl')
     _(resource.installed?).must_equal false
-    _(resource.info).must_equal nil
+    _(resource.info).must_be_nil
   end
 end

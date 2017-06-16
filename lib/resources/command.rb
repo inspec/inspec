@@ -50,7 +50,7 @@ module Inspec::Resources
       if inspec.os.linux?
         res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
       elsif inspec.os.windows?
-        res = inspec.backend.run_command("where.exe \"#{@command}\"")
+        res = inspec.backend.run_command("Get-Command \"#{@command}\"")
       elsif inspec.os.unix?
         res = inspec.backend.run_command("type \"#{@command}\"")
       else

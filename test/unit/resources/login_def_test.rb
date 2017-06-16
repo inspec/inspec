@@ -11,6 +11,6 @@ describe 'Inspec::Resources::LoginDef' do
     _(resource.UMASK).must_equal '022'
     _(resource.PASS_MIN_DAYS).must_equal '0'
     _(resource.PASS_WARN_AGE).must_equal '7'
-    _(resource.USERDEL_CMD).must_equal nil
+    _(resource.USERDEL_CMD).must_be_nil
   end
 end

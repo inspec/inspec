@@ -34,6 +34,11 @@ describe SourceReaders::InspecReader do
       _(res.libraries.keys).must_equal %w{libraries/testlib.rb}
       _(res.libraries.values[0]).must_match(/^# Library resource$/)
     end
+
+    it 'retrieves all extra files' do
+      _(res.data_files.keys).must_equal %w{files/items.conf}
+      _(res.data_files.values[0]).must_equal "one\ntwo\nthree\n"
+    end
   end
 
   describe 'with an invalid inspec.yml' do

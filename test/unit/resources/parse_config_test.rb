@@ -5,7 +5,7 @@ describe 'Inspec::Resources::ParseConfig' do
 
   it 'verify parse_config resource' do
     options = {
-      assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
+      assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
     }
     resource = MockLoader.new(:centos6).load_resource('parse_config', 'kernel.domainname = example.com', options)
     result = {"kernel.domainname"=>"example.com"}
@@ -16,7 +16,7 @@ describe 'Inspec::Resources::ParseConfig' do
 
   it 'verify parse_config_file resource' do
     options = {
-      assignment_re: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
+      assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
     }
     resource = MockLoader.new(:centos6).load_resource('parse_config_file', '/etc/sysctl.conf', options)
     result = {"kernel.domainname"=>"example.com"}

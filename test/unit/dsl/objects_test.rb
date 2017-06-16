@@ -253,6 +253,43 @@ control "sample.control.id" do
 end
 '.strip
     end
+
+    it 'constructs a multiline desc in a control with indentation' do
+      control = Inspec::Control.new
+      control.desc = "Multiline\n  control"
+      control.to_ruby.must_equal '
+control nil do
+  desc  "
+    Multiline
+      control
+  "
+end
+'.strip
+    end
+
+    it 'ignores empty control descriptions' do
+      control = Inspec::Control.new
+      x = '
+control nil do
+end
+'.strip
+
+      control.desc = ''
+      control.to_ruby.must_equal x
+
+      control.desc = nil
+      control.to_ruby.must_equal x
+    end
+
+    it 'handles non-string descriptions' do
+      control = Inspec::Control.new
+      control.desc = 123
+      control.to_ruby.must_equal '
+control nil do
+  desc  "123"
+end
+'.strip
+    end
   end
 
   describe 'Inspec::Variable, take #1' do

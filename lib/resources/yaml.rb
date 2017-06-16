@@ -14,8 +14,16 @@ module Inspec::Resources
     name 'yaml'
     desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
     example "
-      describe yaml do
-        its('name') { should eq 'foo' }
+      describe yaml('config.yaml') do
+        its(['driver', 'name']) { should eq 'vagrant' }
+      end
+
+      describe yaml({ command: 'retrieve_data.py --yaml' }) do
+        its('state') { should eq 'open' }
+      end
+
+      describe yaml({ content: \"key1: value1\nkey2: value2\" }) do
+        its('key2') { should cmp 'value2' }
       end
     "
 
