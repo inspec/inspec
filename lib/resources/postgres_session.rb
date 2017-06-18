@@ -4,6 +4,8 @@
 # author: Christoph Hartmann
 # author: Aaron Lippold
 
+require 'shellwords'
+
 module Inspec::Resources
   class Lines
     attr_reader :output
@@ -38,6 +40,7 @@ module Inspec::Resources
         its('output') { should eq('') }
       end
     "
+    attr_reader :user, :pass, :host, :db, :escaped_query, :psql_cmd
 
     def initialize(user, pass, host = nil)
       @user = user || 'postgres'
@@ -45,18 +48,24 @@ module Inspec::Resources
       @host = host || 'localhost'
     end
 
-    def query(query, db = [])
+    def escaped_query(query)
+      return warn 'no query specificed' if query.empty? || query.nil?
+      Shellwords.escape(query)
+    end
+
+    def create_psql_cmd(query, db = [])
+      @db = db
       dbs = db.map { |x| "-d #{x}" }.join(' ')
-      # TODO: simple escape, must be handled by a library
-      # that does this securely
-      escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
-      # run the query
-      cmd = inspec.command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c \"#{escaped_query}\"")
+      @escaped_query = escaped_query(query)
+      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c #{@escaped_query}"
+    end
+
+    def query(query, db = [])
+      @db = db
+      @psql_cmd = create_psql_cmd(query, @db)
+      cmd = inspec.command(@psql_cmd)
       out = cmd.stdout + "\n" + cmd.stderr
-      if cmd.exit_status != 0 or
-         out =~ /could not connect to .*/ or
-         out.downcase =~ /^error/
-        # skip this test if the server can't run the query
+      if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
         skip_resource "Can't read run query #{query.inspect} on postgres_session: #{out}"
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
