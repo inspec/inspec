@@ -24,6 +24,9 @@ module Inspec::Resources
     attr_reader :command
 
     def initialize(cmd)
+      if cmd.nil?
+        raise 'InSpec `command` was called with `nil` as the argument. This is not supported. Please provide a valid command instead.'
+      end
       @command = cmd
     end
 
