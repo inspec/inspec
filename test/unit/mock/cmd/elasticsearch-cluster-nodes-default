@@ -1,0 +1,755 @@
+{
+  "_nodes": {
+    "total": 2,
+    "successful": 2,
+    "failed": 0
+  },
+  "cluster_name": "foo",
+  "nodes": {
+    "_L4HxbLvQuWJdD5ejUgt8A": {
+      "name": "_L4HxbL",
+      "transport_address": "172.19.0.2:9300",
+      "host": "node1.mycompany.biz",
+      "ip": "172.19.0.2",
+      "version": "5.5.2",
+      "build_hash": "b2f0c09",
+      "total_indexing_buffer": 213005107,
+      "roles": [
+        "master",
+        "data",
+        "ingest"
+      ],
+      "settings": {
+        "cluster": {
+          "name": "foo"
+        },
+        "node": {
+          "name": "_L4HxbL"
+        },
+        "path": {
+          "logs": "/usr/share/elasticsearch/logs",
+          "home": "/usr/share/elasticsearch"
+        },
+        "client": {
+          "type": "node"
+        },
+        "http": {
+          "host": "0.0.0.0",
+          "type": {
+            "default": "netty4"
+          }
+        },
+        "transport": {
+          "type": {
+            "default": "netty4"
+          }
+        },
+        "network": {
+          "host": "_site_"
+        }
+      },
+      "os": {
+        "refresh_interval_in_millis": 1000,
+        "name": "Linux",
+        "arch": "amd64",
+        "version": "4.9.49-moby",
+        "available_processors": 2,
+        "allocated_processors": 2
+      },
+      "process": {
+        "refresh_interval_in_millis": 1000,
+        "id": 1,
+        "mlockall": false
+      },
+      "jvm": {
+        "pid": 1,
+        "version": "1.8.0_141",
+        "vm_name": "OpenJDK 64-Bit Server VM",
+        "vm_version": "25.141-b15",
+        "vm_vendor": "Oracle Corporation",
+        "start_time_in_millis": 1508498683925,
+        "mem": {
+          "heap_init_in_bytes": 2147483648,
+          "heap_max_in_bytes": 2130051072,
+          "non_heap_init_in_bytes": 2555904,
+          "non_heap_max_in_bytes": 0,
+          "direct_max_in_bytes": 2130051072
+        },
+        "gc_collectors": [
+          "ParNew",
+          "ConcurrentMarkSweep"
+        ],
+        "memory_pools": [
+          "Code Cache",
+          "Metaspace",
+          "Compressed Class Space",
+          "Par Eden Space",
+          "Par Survivor Space",
+          "CMS Old Gen"
+        ],
+        "using_compressed_ordinary_object_pointers": "true",
+        "input_arguments": [
+          "-Xms2g",
+          "-Xmx2g",
+          "-XX:+UseConcMarkSweepGC",
+          "-XX:CMSInitiatingOccupancyFraction=75",
+          "-XX:+UseCMSInitiatingOccupancyOnly",
+          "-XX:+AlwaysPreTouch",
+          "-Xss1m",
+          "-Djava.awt.headless=true",
+          "-Dfile.encoding=UTF-8",
+          "-Djna.nosys=true",
+          "-Djdk.io.permissionsUseCanonicalPath=true",
+          "-Dio.netty.noUnsafe=true",
+          "-Dio.netty.noKeySetOptimization=true",
+          "-Dio.netty.recycler.maxCapacityPerThread=0",
+          "-Dlog4j.shutdownHookEnabled=false",
+          "-Dlog4j2.disable.jmx=true",
+          "-Dlog4j.skipJansi=true",
+          "-XX:+HeapDumpOnOutOfMemoryError",
+          "-Des.path.home=/usr/share/elasticsearch"
+        ]
+      },
+      "thread_pool": {
+        "force_merge": {
+          "type": "fixed",
+          "min": 1,
+          "max": 1,
+          "queue_size": -1
+        },
+        "fetch_shard_started": {
+          "type": "scaling",
+          "min": 1,
+          "max": 4,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "listener": {
+          "type": "fixed",
+          "min": 1,
+          "max": 1,
+          "queue_size": -1
+        },
+        "index": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 200
+        },
+        "refresh": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "generic": {
+          "type": "scaling",
+          "min": 4,
+          "max": 128,
+          "keep_alive": "30s",
+          "queue_size": -1
+        },
+        "warmer": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "search": {
+          "type": "fixed",
+          "min": 4,
+          "max": 4,
+          "queue_size": 1000
+        },
+        "flush": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "fetch_shard_store": {
+          "type": "scaling",
+          "min": 1,
+          "max": 4,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "management": {
+          "type": "scaling",
+          "min": 1,
+          "max": 5,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "get": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 1000
+        },
+        "bulk": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 200
+        },
+        "snapshot": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        }
+      },
+      "transport": {
+        "bound_address": [
+          "172.19.0.2:9300"
+        ],
+        "publish_address": "172.19.0.2:9300",
+        "profiles": {}
+      },
+      "http": {
+        "bound_address": [
+          "0.0.0.0:9200"
+        ],
+        "publish_address": "172.19.0.2:9200",
+        "max_content_length_in_bytes": 104857600
+      },
+      "plugins" : [
+        {
+          "name" : "ingest-user-agent",
+          "version" : "5.5.2",
+          "description" : "Ingest processor that extracts information from a user agent",
+          "classname" : "org.elasticsearch.ingest.useragent.IngestUserAgentPlugin",
+          "has_native_controller" : false
+        }
+      ],
+      "modules": [
+        {
+          "name": "aggs-matrix-stats",
+          "version": "5.5.2",
+          "description": "Adds aggregations whose input are a list of numeric fields and output includes a matrix.",
+          "classname": "org.elasticsearch.search.aggregations.matrix.MatrixAggregationPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "ingest-common",
+          "version": "5.5.2",
+          "description": "Module for ingest processors that do not require additional security permissions or have large dependencies and resources",
+          "classname": "org.elasticsearch.ingest.common.IngestCommonPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-expression",
+          "version": "5.5.2",
+          "description": "Lucene expressions integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.expression.ExpressionPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-groovy",
+          "version": "5.5.2",
+          "description": "Groovy scripting integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.groovy.GroovyPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-mustache",
+          "version": "5.5.2",
+          "description": "Mustache scripting integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.mustache.MustachePlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-painless",
+          "version": "5.5.2",
+          "description": "An easy, safe and fast scripting language for Elasticsearch",
+          "classname": "org.elasticsearch.painless.PainlessPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "parent-join",
+          "version": "5.5.2",
+          "description": "This module adds the support parent-child queries and aggregations",
+          "classname": "org.elasticsearch.join.ParentJoinPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "percolator",
+          "version": "5.5.2",
+          "description": "Percolator module adds capability to index queries and query these queries by specifying documents",
+          "classname": "org.elasticsearch.percolator.PercolatorPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "reindex",
+          "version": "5.5.2",
+          "description": "The Reindex module adds APIs to reindex from one index to another or update documents in place.",
+          "classname": "org.elasticsearch.index.reindex.ReindexPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "transport-netty3",
+          "version": "5.5.2",
+          "description": "Netty 3 based transport implementation",
+          "classname": "org.elasticsearch.transport.Netty3Plugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "transport-netty4",
+          "version": "5.5.2",
+          "description": "Netty 4 based transport implementation",
+          "classname": "org.elasticsearch.transport.Netty4Plugin",
+          "has_native_controller": false
+        }
+      ],
+      "ingest": {
+        "processors": [
+          {
+            "type": "append"
+          },
+          {
+            "type": "convert"
+          },
+          {
+            "type": "date"
+          },
+          {
+            "type": "date_index_name"
+          },
+          {
+            "type": "dot_expander"
+          },
+          {
+            "type": "fail"
+          },
+          {
+            "type": "foreach"
+          },
+          {
+            "type": "grok"
+          },
+          {
+            "type": "gsub"
+          },
+          {
+            "type": "join"
+          },
+          {
+            "type": "json"
+          },
+          {
+            "type": "kv"
+          },
+          {
+            "type": "lowercase"
+          },
+          {
+            "type": "remove"
+          },
+          {
+            "type": "rename"
+          },
+          {
+            "type": "script"
+          },
+          {
+            "type": "set"
+          },
+          {
+            "type": "sort"
+          },
+          {
+            "type": "split"
+          },
+          {
+            "type": "trim"
+          },
+          {
+            "type": "uppercase"
+          }
+        ]
+      }
+    },
+    "N1XoIhE6RWGAMTS1fSdsLg": {
+      "name": "N1XoIhE",
+      "transport_address": "172.19.0.3:9300",
+      "host": "node2.mycompany.biz",
+      "ip": "172.19.0.3",
+      "version": "5.5.2",
+      "build_hash": "b2f0c09",
+      "total_indexing_buffer": 213005107,
+      "roles": [
+        "master",
+        "data",
+        "ingest"
+      ],
+      "settings": {
+        "cluster": {
+          "name": "foo"
+        },
+        "node": {
+          "name": "N1XoIhE"
+        },
+        "path": {
+          "logs": "/usr/share/elasticsearch/logs",
+          "home": "/usr/share/elasticsearch"
+        },
+        "discovery": {
+          "zen": {
+            "ping": {
+              "unicast": {
+                "hosts": "node1"
+              }
+            }
+          }
+        },
+        "client": {
+          "type": "node"
+        },
+        "http": {
+          "host": "0.0.0.0",
+          "type": {
+            "default": "netty4"
+          }
+        },
+        "transport": {
+          "type": {
+            "default": "netty4"
+          }
+        },
+        "network": {
+          "host": "_site_"
+        }
+      },
+      "os": {
+        "refresh_interval_in_millis": 1000,
+        "name": "Linux",
+        "arch": "amd64",
+        "version": "4.9.49-moby",
+        "available_processors": 2,
+        "allocated_processors": 2
+      },
+      "process": {
+        "refresh_interval_in_millis": 1000,
+        "id": 1,
+        "mlockall": false
+      },
+      "jvm": {
+        "pid": 1,
+        "version": "1.8.0_141",
+        "vm_name": "OpenJDK 64-Bit Server VM",
+        "vm_version": "25.141-b15",
+        "vm_vendor": "Oracle Corporation",
+        "start_time_in_millis": 1508498726171,
+        "mem": {
+          "heap_init_in_bytes": 2147483648,
+          "heap_max_in_bytes": 2130051072,
+          "non_heap_init_in_bytes": 2555904,
+          "non_heap_max_in_bytes": 0,
+          "direct_max_in_bytes": 2130051072
+        },
+        "gc_collectors": [
+          "ParNew",
+          "ConcurrentMarkSweep"
+        ],
+        "memory_pools": [
+          "Code Cache",
+          "Metaspace",
+          "Compressed Class Space",
+          "Par Eden Space",
+          "Par Survivor Space",
+          "CMS Old Gen"
+        ],
+        "using_compressed_ordinary_object_pointers": "true",
+        "input_arguments": [
+          "-Xms2g",
+          "-Xmx2g",
+          "-XX:+UseConcMarkSweepGC",
+          "-XX:CMSInitiatingOccupancyFraction=75",
+          "-XX:+UseCMSInitiatingOccupancyOnly",
+          "-XX:+AlwaysPreTouch",
+          "-Xss1m",
+          "-Djava.awt.headless=true",
+          "-Dfile.encoding=UTF-8",
+          "-Djna.nosys=true",
+          "-Djdk.io.permissionsUseCanonicalPath=true",
+          "-Dio.netty.noUnsafe=true",
+          "-Dio.netty.noKeySetOptimization=true",
+          "-Dio.netty.recycler.maxCapacityPerThread=0",
+          "-Dlog4j.shutdownHookEnabled=false",
+          "-Dlog4j2.disable.jmx=true",
+          "-Dlog4j.skipJansi=true",
+          "-XX:+HeapDumpOnOutOfMemoryError",
+          "-Des.path.home=/usr/share/elasticsearch"
+        ]
+      },
+      "thread_pool": {
+        "force_merge": {
+          "type": "fixed",
+          "min": 1,
+          "max": 1,
+          "queue_size": -1
+        },
+        "fetch_shard_started": {
+          "type": "scaling",
+          "min": 1,
+          "max": 4,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "listener": {
+          "type": "fixed",
+          "min": 1,
+          "max": 1,
+          "queue_size": -1
+        },
+        "index": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 200
+        },
+        "refresh": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "generic": {
+          "type": "scaling",
+          "min": 4,
+          "max": 128,
+          "keep_alive": "30s",
+          "queue_size": -1
+        },
+        "warmer": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "search": {
+          "type": "fixed",
+          "min": 4,
+          "max": 4,
+          "queue_size": 1000
+        },
+        "flush": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "fetch_shard_store": {
+          "type": "scaling",
+          "min": 1,
+          "max": 4,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "management": {
+          "type": "scaling",
+          "min": 1,
+          "max": 5,
+          "keep_alive": "5m",
+          "queue_size": -1
+        },
+        "get": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 1000
+        },
+        "bulk": {
+          "type": "fixed",
+          "min": 2,
+          "max": 2,
+          "queue_size": 200
+        },
+        "snapshot": {
+          "type": "scaling",
+          "min": 1,
+          "max": 1,
+          "keep_alive": "5m",
+          "queue_size": -1
+        }
+      },
+      "transport": {
+        "bound_address": [
+          "172.19.0.3:9300"
+        ],
+        "publish_address": "172.19.0.3:9300",
+        "profiles": {}
+      },
+      "http": {
+        "bound_address": [
+          "0.0.0.0:9200"
+        ],
+        "publish_address": "172.19.0.3:9200",
+        "max_content_length_in_bytes": 104857600
+      },
+      "plugins" : [
+        {
+          "name" : "ingest-user-agent",
+          "version" : "5.5.2",
+          "description" : "Ingest processor that extracts information from a user agent",
+          "classname" : "org.elasticsearch.ingest.useragent.IngestUserAgentPlugin",
+          "has_native_controller" : false
+        }
+      ],
+      "modules": [
+        {
+          "name": "aggs-matrix-stats",
+          "version": "5.5.2",
+          "description": "Adds aggregations whose input are a list of numeric fields and output includes a matrix.",
+          "classname": "org.elasticsearch.search.aggregations.matrix.MatrixAggregationPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "ingest-common",
+          "version": "5.5.2",
+          "description": "Module for ingest processors that do not require additional security permissions or have large dependencies and resources",
+          "classname": "org.elasticsearch.ingest.common.IngestCommonPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-expression",
+          "version": "5.5.2",
+          "description": "Lucene expressions integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.expression.ExpressionPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-groovy",
+          "version": "5.5.2",
+          "description": "Groovy scripting integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.groovy.GroovyPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-mustache",
+          "version": "5.5.2",
+          "description": "Mustache scripting integration for Elasticsearch",
+          "classname": "org.elasticsearch.script.mustache.MustachePlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "lang-painless",
+          "version": "5.5.2",
+          "description": "An easy, safe and fast scripting language for Elasticsearch",
+          "classname": "org.elasticsearch.painless.PainlessPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "parent-join",
+          "version": "5.5.2",
+          "description": "This module adds the support parent-child queries and aggregations",
+          "classname": "org.elasticsearch.join.ParentJoinPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "percolator",
+          "version": "5.5.2",
+          "description": "Percolator module adds capability to index queries and query these queries by specifying documents",
+          "classname": "org.elasticsearch.percolator.PercolatorPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "reindex",
+          "version": "5.5.2",
+          "description": "The Reindex module adds APIs to reindex from one index to another or update documents in place.",
+          "classname": "org.elasticsearch.index.reindex.ReindexPlugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "transport-netty3",
+          "version": "5.5.2",
+          "description": "Netty 3 based transport implementation",
+          "classname": "org.elasticsearch.transport.Netty3Plugin",
+          "has_native_controller": false
+        },
+        {
+          "name": "transport-netty4",
+          "version": "5.5.2",
+          "description": "Netty 4 based transport implementation",
+          "classname": "org.elasticsearch.transport.Netty4Plugin",
+          "has_native_controller": false
+        }
+      ],
+      "ingest": {
+        "processors": [
+          {
+            "type": "append"
+          },
+          {
+            "type": "convert"
+          },
+          {
+            "type": "date"
+          },
+          {
+            "type": "date_index_name"
+          },
+          {
+            "type": "dot_expander"
+          },
+          {
+            "type": "fail"
+          },
+          {
+            "type": "foreach"
+          },
+          {
+            "type": "grok"
+          },
+          {
+            "type": "gsub"
+          },
+          {
+            "type": "join"
+          },
+          {
+            "type": "json"
+          },
+          {
+            "type": "kv"
+          },
+          {
+            "type": "lowercase"
+          },
+          {
+            "type": "remove"
+          },
+          {
+            "type": "rename"
+          },
+          {
+            "type": "script"
+          },
+          {
+            "type": "set"
+          },
+          {
+            "type": "sort"
+          },
+          {
+            "type": "split"
+          },
+          {
+            "type": "trim"
+          },
+          {
+            "type": "uppercase"
+          }
+        ]
+      }
+    }
+  }
+}
