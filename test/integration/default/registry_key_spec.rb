@@ -19,6 +19,7 @@ describe registry_key('HKLM\System\Test') do
   it { should have_property_value('Qword value', :qword, 0) }
   it { should have_property_value('binary value', :binary, 'dfa0f066') }
   it { should have_property_value('Binary value', :binary, 'dfa0f066') }
+  its(:acl) { should_not be_empty }
 end
 
 describe registry_key('HKLM\Missing\In\Action') do

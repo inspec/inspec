@@ -149,6 +149,13 @@ Any name with a dot will not work as expected: <code>its('explorer.exe') { shoul
     # use the following solution:
     it { should have_property_value('explorer.exe', :string, 'test') }
 
+### acls
+
+List the access control list for the given registry key:
+
+   its('acls') { should include 'BUILTIN\Administrators Allow  FullControl' }
+
+It returns a list of all the ACL strings which can then be used to test.
 
 ## Examples
 

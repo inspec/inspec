@@ -101,6 +101,10 @@ module Inspec::Resources
       !val.nil? && registry_property_value(val, property_name) == value && (property_type.nil? || registry_property_type(val, property_name) == map2type(property_type)) ? true : false
     end
 
+    def acls
+      @acls ||= read_acls(@options[:path])
+    end
+
     # returns an arrray of child nodes
     def children(filter = nil)
       children_keys(@options[:path], filter)
@@ -139,6 +143,14 @@ module Inspec::Resources
       return nil if !registry_property_exists(regkey, property)
       # always ensure the key is lower case
       regkey[prep_prop(property)]['type']
+    end
+
+    def read_acls(path)
+      fullpath = 'Registry::' + path
+      script = "(Get-Acl \"#{fullpath}\" | select -ExpandProperty Accesstostring)"
+      cmd = inspec.powershell(script)
+      return nil if cmd.stderr.include?('Cannot find path ')
+      cmd.stdout.strip.split("\n")
     end
 
     def registry_key(path)
