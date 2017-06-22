@@ -38,7 +38,7 @@ begin
       # Group PRs by section accordingly
       config.enhancement_labels = ['enhancement', 'feature request', 'new feature']
       config.bug_labels = ['bug']
-      config.exclude_labels = ['docs', 'duplicate', 'invalid', 'question', 'wontfix', 'www', 'Exclude From Changelog']
+      config.exclude_labels = ['docs', 'duplicate', 'invalid', 'question', 'wontfix', 'www', 'Exclude From Changelog', '2.0 Release']
     end
   end
 
