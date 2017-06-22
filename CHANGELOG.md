@@ -1,7 +1,20 @@
 # Change Log
 
+## [v1.29.0](https://github.com/chef/inspec/tree/v1.29.0) (2017-06-22)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.28.1...v1.29.0)
+
+**Fixed bugs:**
+
+- Don't send HTTP headers that have nil values [\#1948](https://github.com/chef/inspec/pull/1948) ([adamleff](https://github.com/adamleff))
+- small typo in the postgres resource with exist? function and assignment of data\_dir\_loc. [\#1937](https://github.com/chef/inspec/pull/1937) ([aaronlippold](https://github.com/aaronlippold))
+- reject `nil` as a command input [\#1863](https://github.com/chef/inspec/pull/1863) ([arlimus](https://github.com/arlimus))
+
 ## [v1.28.1](https://github.com/chef/inspec/tree/v1.28.1) (2017-06-16)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.28.0...v1.28.1)
+
+**Implemented enhancements:**
+
+- Adding toml resource [\#1924](https://github.com/chef/inspec/pull/1924) ([nsdavidson](https://github.com/nsdavidson))
 
 **Fixed bugs:**
 

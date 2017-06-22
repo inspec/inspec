@@ -143,21 +143,6 @@ module Fetchers
     def download_archive_to_temp
       return @temp_archive_path if ! @temp_archive_path.nil?
       Inspec::Log.debug("Fetching URL: #{@target}")
-      http_opts = {}
-      http_opts['ssl_verify_mode'.to_sym] = OpenSSL::SSL::VERIFY_NONE if @insecure
-      if @config
-        if @config['server_type'] == 'automate'
-          http_opts['chef-delivery-enterprise'] = @config['automate']['ent']
-          if @config['automate']['token_type'] == 'dctoken'
-            http_opts['x-data-collector-token'] = @config['token']
-          else
-            http_opts['chef-delivery-user'] = @config['user']
-            http_opts['chef-delivery-token'] = @config['token']
-          end
-        elsif @token
-          http_opts['Authorization'] = "Bearer #{@token}"
-        end
-      end
       remote = open(@target, http_opts)
       @archive_type = file_type_from_remote(remote) # side effect :(
       archive = Tempfile.new(['inspec-dl-', @archive_type])
@@ -177,6 +162,43 @@ module Fetchers
       Inspec::Log.debug("Fetched archive moved to: #{final_path}")
       @temp_archive_path = nil
       final_path
+    end
+
+    def http_opts
+      opts = {}
+      opts[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE if @insecure
+
+      if @config['server_type'] == 'automate'
+        opts['chef-delivery-enterprise'] = @config['automate']['ent']
+        if @config['automate']['token_type'] == 'dctoken'
+          opts['x-data-collector-token'] = @config['token']
+        else
+          opts['chef-delivery-user'] = @config['user']
+          opts['chef-delivery-token'] = @config['token']
+        end
+      elsif @token
+        opts['Authorization'] = "Bearer #{@token}"
+      end
+
+      # Do not send any headers that have nil values.
+      # Net::HTTP does not gracefully handle this situation.
+      check_for_missing_values!(opts)
+
+      opts
+    end
+
+    def check_for_missing_values!(opts)
+      keys_missing_values = opts.keys.delete_if do |k|
+        if opts[k].nil?
+          false
+        elsif opts[k].respond_to?(:empty?) && opts[k].empty?
+          false
+        else
+          true
+        end
+      end
+      raise 'Unable to fetch profile - the following HTTP headers have no value: ' \
+        "#{keys_missing_values.join(', ')}" unless keys_missing_values.empty?
     end
   end
 end
