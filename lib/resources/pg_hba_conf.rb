@@ -1,3 +1,4 @@
+
 # encoding: utf-8
 # copyright: 2017
 # author: Rony Xavier, rx294@nyu.edu
@@ -13,8 +14,8 @@ module Inspec::Resources
       end
     "
 
-    def initialize(pg_hba_conf = nil)
-      @pg_hba_conf = pg_hba_conf || '/var/lib/pgsql/9.5/data/pg_hba.conf'
+    def initialize(pg_hba_conf_path = nil)
+      @pg_hba_conf_path = pg_hba_conf_path || '/var/lib/pgsql/9.5/data/pg_hba.conf'
       @files_contents = {}
       @content = nil
       @params = nil
@@ -24,6 +25,8 @@ module Inspec::Resources
     def content
       @content ||= read_content
     end
+
+    attr_reader :params
 
     filter = FilterTable.create
     filter.add_accessor(:where)
@@ -35,12 +38,6 @@ module Inspec::Resources
           .add(:_method,  field: '_method')
 
     filter.connect(self, :params)
-
-    def method_missing(name)
-      # ensure params are loaded
-      @params || read_content
-      @params[name.to_s] unless @params.nil?
-    end
 
     def filter_comments(data)
       content = []
@@ -55,7 +52,7 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-      @content = read_file(@pg_hba_conf)
+      @content = read_file(@pg_hba_conf_path)
       @content = filter_comments(@content)
       @params = parse_conf(@content)
       # special condtition for local type entry
