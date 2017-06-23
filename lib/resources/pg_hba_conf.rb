@@ -1,21 +1,28 @@
-
 # encoding: utf-8
 # copyright: 2017
 # author: Rony Xavier,rx294@nyu.edu
+# author: Aaron Lippold, lippold@gmail.com
 # license: All rights reserved
+
+require 'resources/postgres'
 
 module Inspec::Resources
   class PGHbaConf < Inspec.resource(1)
     name 'pg_hba_conf'
-    desc 'Use the apache_conf InSpec audit resource to test the client authentication data is controlled by a pg_hba.conf file. '
+    desc 'Use the `pg_hba_conf` InSpec audit resource to test the client
+          authentication data defined in the pg_hba.conf file.'
     example "
       describe pg_hba_conf.where { type == 'local' } do
-        its('_method') { should eq ['peer']}
+        its('auth_method') { should eq ['peer']}
       end
     "
 
-    def initialize(pg_hba_conf_path = nil)
-      @pg_hba_conf_path = pg_hba_conf_path || '/var/lib/pgsql/9.5/data/pg_hba.conf'
+    attr_reader :conf_dir, :conf_path, :params
+
+    # @todo add checks to ensure that we have data in our file
+    def initialize(hba_conf_path = nil)
+      @conf_dir = inspec.postgres.conf_dir
+      @conf_path = hba_conf_path || File.expand_path('pg_hba.conf', inspec.postgres.conf_dir)
       @files_contents = {}
       @content = nil
       @params = nil
@@ -26,8 +33,6 @@ module Inspec::Resources
       @content ||= read_content
     end
 
-    attr_reader :params
-
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
@@ -35,11 +40,19 @@ module Inspec::Resources
           .add(:database, field: 'database')
           .add(:user,     field: 'user')
           .add(:address,  field: 'address')
-          .add(:_method,  field: '_method')
+          .add(:auth_method, field: 'auth_method')
+          .add(:auth_params, field: 'auth_params')
 
     filter.connect(self, :params)
 
-    def filter_comments(data)
+    def to_s
+      "PG HBA Config #{@conf_path}"
+    end
+
+    private
+
+    def clean_conf_file(conf_file = @conf_path)
+      data = inspec.file(conf_file).content.to_s.lines
       content = []
       data.each do |line|
         if !line.match(/^\s*#/)
@@ -49,16 +62,21 @@ module Inspec::Resources
       content
     end
 
-    def read_content
-      @content = ''
+    def read_content(config_file = @conf_path)
+      file = inspec.file(config_file)
+      if !file.file?
+        return skip_resource "Can't find file \"#{@conf_path}\""
+      end
+      raw_conf = file.content
+      if raw_conf.empty? && !file.empty?
+        return skip_resource("Can't read the contents of \"#{@conf_path}\"")
+      end
       @params = {}
-      @content = read_file(@pg_hba_conf_path)
-      @content = filter_comments(@content)
+      @content = clean_conf_file(@conf_path)
       @params = parse_conf(@content)
-      # special condtition for local type entry
       @params.each do |line|
         if line['type'] == 'local'
-          line['_method'] = line['address']
+          line['auth_method'] = line['address']
           line['address'] = ''
         end
       end
@@ -72,21 +90,25 @@ module Inspec::Resources
 
     def parse_line(line)
       x = line.split(' ')
-      {
-        'type' => x[0],
-        'database' => x[1],
-        'user' => x[2],
-        'address' => x[3],
-        '_method' => x[4..-1].join(' '),
-      }
-    end
-
-    def read_file(conf_path)
-      @files_contents = inspec.command("sudo cat #{conf_path}").stdout.to_s.lines
-    end
-
-    def to_s
-      "PG HBA Config #{@conf_path}"
+      if x.length == 4
+        {
+          'type' => x[0],
+          'database' => x[1],
+          'user' => x[2],
+          'address' => x[3],
+          'auth_method' => x[4],
+          'auth_params' => '',
+        }
+      else
+        {
+          'type' => x[0],
+          'database' => x[1],
+          'user' => x[2],
+          'address' => x[3],
+          'auth_method' => x[4],
+          'auth_params' => x[5..-1].join(' '),
+        }
+      end
     end
   end
 end
