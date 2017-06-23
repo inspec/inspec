@@ -24,6 +24,9 @@ module Inspec::Resources
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.postgres.conf_path
+      if @conf_path.nil?
+        return skip_resource 'PostgreSQL conf path is not set'
+      end
       @conf_dir = File.expand_path(File.dirname(@conf_path))
       @files_contents = {}
       @content = nil
