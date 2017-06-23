@@ -14,6 +14,10 @@ module Inspec::Resources
       end
     "
 
+    def exist?
+      file.exist? && file.directory?
+    end
+
     def to_s
       "Directory #{source_path}"
     end
