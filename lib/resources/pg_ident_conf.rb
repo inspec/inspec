@@ -1,7 +1,10 @@
 # encoding: utf-8
 # copyright: 2017
 # author: Rony Xavier,  rx294@nyu.edu
+# author: Aaron Lippold, lippold@gmail.com
 # license: All rights reserved
+
+require 'resources/postgres'
 
 module Inspec::Resources
   class PGIdentConf < Inspec.resource(1)
@@ -13,8 +16,11 @@ module Inspec::Resources
       end
     "
 
-    def initialize(pg_ident_conf_path = nil)
-      @pg_ident_conf = pg_ident_conf_path || '/var/lib/pgsql/9.5/data/pg_ident.conf'
+    attr_reader :params, :conf_dir, :conf_path
+
+    def initialize(ident_conf_path = nil)
+      @conf_dir = inspec.postgres.conf_dir
+      @conf_path = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
       @files_contents = {}
       @content = nil
       @params = nil
@@ -25,8 +31,6 @@ module Inspec::Resources
       @content ||= read_content
     end
 
-    attr_reader :params
-
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
@@ -35,6 +39,12 @@ module Inspec::Resources
           .add(:pg_username,     field: 'pg_username')
 
     filter.connect(self, :params)
+
+    def to_s
+      "PG Ident Config #{@conf_path}"
+    end
+
+    private
 
     def filter_comments(data)
       content = []
@@ -49,7 +59,7 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-      @content = read_file(@pg_ident_conf)
+      @content = read_file(@conf_path)
       @content = filter_comments(@content)
       @params = parse_conf(@content)
     end
@@ -69,12 +79,8 @@ module Inspec::Resources
       }
     end
 
-    def read_file(conf_path)
-      @files_contents = inspec.command("sudo cat #{conf_path}").stdout.to_s.lines
-    end
-
-    def to_s
-      "PG Ident Config #{@conf_path}"
+    def read_file(conf_file = @conf_path)
+      @files_contents = inspec.file(conf_file).content.lines
     end
   end
 end
