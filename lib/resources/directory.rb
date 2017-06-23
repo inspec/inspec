@@ -13,9 +13,13 @@ module Inspec::Resources
         it { should be_directory }
       end
     "
-  end
 
-  def to_s
-    "Directory #{@path}"
+    def exist?
+      file.exist? && file.directory?
+    end
+
+    def to_s
+      "Directory #{source_path}"
+    end
   end
 end
