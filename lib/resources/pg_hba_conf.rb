@@ -86,7 +86,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "Apache Config #{@conf_path}"
+      "PG HBA Config #{@conf_path}"
     end
   end
 end
