@@ -1,7 +1,7 @@
 
 # encoding: utf-8
 # copyright: 2017
-# author: Rony Xavier, rx294@nyu.edu
+# author: Rony Xavier,rx294@nyu.edu
 # license: All rights reserved
 
 module Inspec::Resources
