@@ -14,6 +14,7 @@ A `postgres_conf` resource block declares one (or more) settings in the `postgre
       its('setting') { should eq 'value' }
     end
 
+
 where
 
 * `'setting'` specifies a setting in the `postgresql.conf` file
@@ -71,6 +72,7 @@ The following examples show how to use this InSpec audit resource.
       its('log_duration') { should eq 'on' }
       its('log_hostname') { should eq 'on' }
       its('log_line_prefix') { should eq '%t %u %d %h' }
+      its(['pgaudit.log_parameter']) { should cmp 'on' }
     end
 
 ### Test the port on which PostgreSQL listens
