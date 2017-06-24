@@ -90,25 +90,14 @@ module Inspec::Resources
 
     def parse_line(line)
       x = line.split(' ')
-      if x.length == 4
-        {
-          'type' => x[0],
-          'database' => x[1],
-          'user' => x[2],
-          'address' => x[3],
-          'auth_method' => x[4],
-          'auth_params' => '',
-        }
-      else
-        {
-          'type' => x[0],
-          'database' => x[1],
-          'user' => x[2],
-          'address' => x[3],
-          'auth_method' => x[4],
-          'auth_params' => x[5..-1].join(' '),
-        }
-      end
+      {
+        'type' => x[0],
+        'database' => x[1],
+        'user' => x[2],
+        'address' => x[3],
+        'auth_method' => x[4],
+        'auth_params' =>  ('' if x.length == 4) || x[5..-1].join(' '),
+      }
     end
   end
 end

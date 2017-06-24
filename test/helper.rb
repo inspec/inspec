@@ -149,6 +149,7 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      'pg_hba.conf' => mockfile.call('pg_hba.conf'),
     }
 
     # create all mock commands

@@ -1,0 +1,103 @@
+---
+title: About the pg_hba_conf Resource
+---
+
+# pg_hba_conf
+
+Use the `pg_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+## Syntax
+
+An `pg_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
+
+    describe pg_hba_conf.where { type == 'type' } do
+      its('auth_method') { should eq ['value'] }
+    end
+
+where
+
+* `'auth_method'` is a authentication setting defined in the HBA configuration file
+* `('path')` is the non-default path to the pg hba configuration file
+* `{ should eq 'value' }` is the value that is expected
+
+## Matchers
+
+This InSpec audit resource matches any service that is listed in the HBA configuration file:
+
+    its('auth_method') { should_not eq ['peer'] }
+
+or:
+
+    its('auth_method') { should eq ['peer'] }
+
+For example:
+
+    describe pg_hba_conf.where { type == 'type' } do
+      its('auth_method') { should eq ['value'] }
+      its('user') { should eq ['value'] }
+    end
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+
+## Supported Properties
+
+    `'address'`, `'auth_method'`, `'auth_params'`, `'database'`, `'type'`, `'user'`
+
+## Property Examples and Return Types
+
+### address([String])
+
+`address` returns a an array of strings that matches the where condition of the filter table
+
+    describe pg_hba_conf.where { type == 'local' } do
+      its('address') { should eq ['value'] }
+    end
+### auth_method([String])
+
+`auth_method` returns a an array of strings that matches the where condition of the filter table
+
+    describe pg_hba_conf.where { type == 'local' } do
+      its('auth_method') { should eq ['value'] }
+    end
+
+### database([String])
+
+`database` returns a an array of strings that matches the where condition of the filter table
+
+    describe pg_hba_conf.where { type == 'local' } do
+      its('database') { should eq ['value'] }
+    end
+
+### type([String])
+
+`type` returns a an array of strings that matches the where condition of the filter table
+
+    describe pg_hba_conf.where { database == 'stig_test_db' } do
+      its('type') { should eq ['value'] }
+    end
+
+### user([String])
+
+`user` returns a an array of strings that matches the where condition of the filter table
+
+    describe pg_hba_conf.where { database == 'stig_test_db' } do
+      its('user') { should eq ['value'] }
+    end
