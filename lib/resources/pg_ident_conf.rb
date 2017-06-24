@@ -9,18 +9,19 @@ require 'resources/postgres'
 module Inspec::Resources
   class PGIdentConf < Inspec.resource(1)
     name 'pg_ident_conf'
-    desc 'Use the pg_ident_conf InSpec audit resource to test the client authentication data is controlled by a pg_ident.conf file. '
+    desc 'Use the pg_ident_conf InSpec audit resource to test the client
+          authentication data is controlled by a pg_ident.conf file.'
     example "
       describe pg_ident_conf.where { pg_username == 'stig_user' } do
-        its('map_name') { should eq ['ssl-test']}
+        its('map_name') { should eq ['ssl-test'] }
       end
     "
 
-    attr_reader :params, :conf_dir, :conf_path
+    attr_reader :params, :conf_dir, :conf_file
 
     def initialize(ident_conf_path = nil)
       @conf_dir = inspec.postgres.conf_dir
-      @conf_path = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
+      @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
       @files_contents = {}
       @content = nil
       @params = nil
@@ -41,7 +42,7 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      "PG Ident Config #{@conf_path}"
+      "PG Ident Config #{@conf_file}"
     end
 
     private
@@ -59,8 +60,8 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-      @content = read_file(@conf_path)
-      @content = filter_comments(@content)
+      raw_file = read_file(@conf_file)
+      @content = filter_comments(raw_file)
       @params = parse_conf(@content)
     end
 
@@ -79,7 +80,7 @@ module Inspec::Resources
       }
     end
 
-    def read_file(conf_file = @conf_path)
+    def read_file(conf_file = @conf_file)
       @files_contents = inspec.file(conf_file).content.lines
     end
   end
