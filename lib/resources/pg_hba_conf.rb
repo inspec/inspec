@@ -13,16 +13,16 @@ module Inspec::Resources
           authentication data defined in the pg_hba.conf file.'
     example "
       describe pg_hba_conf.where { type == 'local' } do
-        its('auth_method') { should eq ['peer']}
+        its('auth_method') { should eq ['peer'] }
       end
     "
 
-    attr_reader :conf_dir, :conf_path, :params
+    attr_reader :conf_dir, :conf_file, :params
 
     # @todo add checks to ensure that we have data in our file
     def initialize(hba_conf_path = nil)
       @conf_dir = inspec.postgres.conf_dir
-      @conf_path = hba_conf_path || File.expand_path('pg_hba.conf', inspec.postgres.conf_dir)
+      @conf_file = hba_conf_path || File.expand_path('pg_hba.conf', inspec.postgres.conf_dir)
       @files_contents = {}
       @content = nil
       @params = nil
@@ -46,12 +46,12 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      "PG HBA Config #{@conf_path}"
+      "PG HBA Config #{@conf_file}"
     end
 
     private
 
-    def clean_conf_file(conf_file = @conf_path)
+    def clean_conf_file(conf_file = @conf_file)
       data = inspec.file(conf_file).content.to_s.lines
       content = []
       data.each do |line|
@@ -62,17 +62,17 @@ module Inspec::Resources
       content
     end
 
-    def read_content(config_file = @conf_path)
+    def read_content(config_file = @conf_file)
       file = inspec.file(config_file)
       if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
+        return skip_resource "Can't find file \"#{@conf_file}\""
       end
       raw_conf = file.content
       if raw_conf.empty? && !file.empty?
-        return skip_resource("Can't read the contents of \"#{@conf_path}\"")
+        return skip_resource("Can't read the contents of \"#{@conf_file}\"")
       end
       @params = {}
-      @content = clean_conf_file(@conf_path)
+      @content = clean_conf_file(@conf_file)
       @params = parse_conf(@content)
       @params.each do |line|
         if line['type'] == 'local'
