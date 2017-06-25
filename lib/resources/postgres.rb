@@ -11,11 +11,7 @@ module Inspec::Resources
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
-      @conf_dir = ''
-      @data_dir = ''
-
-      os = inspec.os
-      if os.debian?
+      if inspec.os.debian?
         #
         # https://wiki.debian.org/PostgreSql
         #
@@ -37,16 +33,18 @@ module Inspec::Resources
             @version = version_from_dir('/var/lib/pgsql/')
           end
         end
-        @data_dir = locate_data_dir_location_by_version(@version) || ''
+        @data_dir = locate_data_dir_location_by_version(@version)
       end
 
       @service = 'postgresql'
       @service += "-#{@version}" if @version.to_f >= 9.4
       @conf_dir ||= @data_dir
+
       verify_dirs
       if !@version.nil? && !@conf_dir.empty?
         @conf_path = File.join @conf_dir, 'postgresql.conf'
       else
+        @conf_path = nil
         return skip_resource 'Seems like PostgreSQL is not installed on your system'
       end
     end
