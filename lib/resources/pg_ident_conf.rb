@@ -12,7 +12,7 @@ module Inspec::Resources
     desc 'Use the pg_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example "
-      describe pg_ident_conf.where { pg_username == 'stig_user' } do
+      describe pg_ident_conf.where { pg_username == 'acme_user' } do
         its('map_name') { should eq ['ssl-test'] }
       end
     "
@@ -50,7 +50,7 @@ module Inspec::Resources
     def filter_comments(data)
       content = []
       data.each do |line|
-        if !line.match(/^\s*#/)
+        if !line.match(/^\s*#/) && !line.chomp.empty?
           content << line
         end
       end

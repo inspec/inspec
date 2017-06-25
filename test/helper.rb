@@ -149,6 +149,10 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
+      '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
+      '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
+
     }
 
     # create all mock commands
@@ -331,6 +335,8 @@ class MockLoader
       'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      %q(bash -c 'type "psql"') => cmd.call('bash -c type psql'),
+      %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
     }
     @backend
   end
