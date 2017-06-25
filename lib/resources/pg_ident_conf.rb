@@ -26,6 +26,7 @@ module Inspec::Resources
       @content = nil
       @params = nil
       read_content
+      return skip_resource '`pg_ident_conf` is not yet supported on your OS' if inspec.os.windows?
     end
 
     def content
