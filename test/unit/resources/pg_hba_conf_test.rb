@@ -36,7 +36,7 @@ describe 'Inspec::Resources::PGHbaConf' do
 
     it 'Verify pg_hba_conf parsing `auth_params.last` - "clientcert=1 map=ssl-test"' do
       resource = load_resource('pg_hba_conf')
-      _(resource.auth_method.first).must_match "clientcert=1 map=ssl-test"
+      _(resource.auth_params.last).must_match "clientcert=1 map=ssl-test"
     end
   end
 end

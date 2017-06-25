@@ -55,7 +55,7 @@ module Inspec::Resources
       data = inspec.file(conf_file).content.to_s.lines
       content = []
       data.each do |line|
-        if !line.match(/^\s*#/)
+        if !line.chomp.match(/^\s*#/) && !line.chomp.empty?
           content << line
         end
       end
