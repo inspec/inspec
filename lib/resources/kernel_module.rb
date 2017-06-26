@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Richter
-# license: All rights reserved
 
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)

@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2016, Chef Software, Inc.
-# license: All rights reserved
 
 # manipulate controls of `profile`
 include_controls 'profile' do

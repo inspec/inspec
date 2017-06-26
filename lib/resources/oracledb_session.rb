@@ -1,6 +1,5 @@
 # encoding: utf-8
 # author: Nolan Davidson
-# license: All rights reserved
 
 module Inspec::Resources
   class OracledbSession < Inspec.resource(1)

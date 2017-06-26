@@ -3,7 +3,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 # author: Aaron Lippold
-# license: All rights reserved
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)

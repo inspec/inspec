@@ -2,7 +2,6 @@
 # copyright: 2016, Chef Software Inc.
 # author: Dominik Richter
 # author: Christoph Hartmann
-# license: All rights reserved
 
 class Struct
   unless instance_methods.include? :to_h
