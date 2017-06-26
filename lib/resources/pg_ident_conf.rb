@@ -20,13 +20,17 @@ module Inspec::Resources
     attr_reader :params, :conf_dir, :conf_file
 
     def initialize(ident_conf_path = nil)
-      @conf_dir = inspec.postgres.conf_dir
-      @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
-      @files_contents = {}
-      @content = nil
-      @params = nil
-      read_content
-      return skip_resource '`pg_ident_conf` is not yet supported on your OS' if inspec.os.windows?
+      return skip_resource 'The `windows_feature` resource is not supported on your OS.' if inspec.os.windows?
+      if inspec.os.linux?
+        @conf_dir = inspec.postgres.conf_dir
+        @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
+        @files_contents = {}
+        @content = nil
+        @params = nil
+        read_content
+      else
+        return skip_resource '`pg_ident_conf` is not yet supported on your OS'
+      end
     end
 
     def content
