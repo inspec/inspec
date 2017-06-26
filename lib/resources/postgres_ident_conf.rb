@@ -2,35 +2,29 @@
 # copyright: 2017
 # author: Rony Xavier,  rx294@nyu.edu
 # author: Aaron Lippold, lippold@gmail.com
-# license: All rights reserved
 
 require 'resources/postgres'
 
 module Inspec::Resources
-  class PGIdentConf < Inspec.resource(1)
-    name 'pg_ident_conf'
-    desc 'Use the pg_ident_conf InSpec audit resource to test the client
+  class PostgresIdentConf < Inspec.resource(1)
+    name 'postgres_ident_conf'
+    desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example "
-      describe pg_ident_conf.where { pg_username == 'acme_user' } do
+      describe postgres_ident_conf.where { pg_username == 'acme_user' } do
         its('map_name') { should eq ['ssl-test'] }
       end
     "
 
-    attr_reader :params, :conf_dir, :conf_file
+    attr_reader :params, :conf_file
 
     def initialize(ident_conf_path = nil)
-      @conf_dir = inspec.postgres.conf_dir
+      return skip_resource 'The `postgres_ident_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
-      @files_contents = {}
       @content = nil
       @params = nil
       read_content
       return skip_resource '`pg_ident_conf` is not yet supported on your OS' if inspec.os.windows?
-    end
-
-    def content
-      @content ||= read_content
     end
 
     filter = FilterTable.create
@@ -43,7 +37,7 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      "PG Ident Config #{@conf_file}"
+      "PostgreSQL Ident Config #{@conf_file}"
     end
 
     private
@@ -51,9 +45,8 @@ module Inspec::Resources
     def filter_comments(data)
       content = []
       data.each do |line|
-        if !line.match(/^\s*#/) && !line.chomp.empty?
-          content << line
-        end
+        line.chomp!
+        content << line unless line.match(/^\s*#/) || line.empty?
       end
       content
     end
@@ -61,8 +54,7 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-      raw_file = read_file(@conf_file)
-      @content = filter_comments(raw_file)
+      @content = filter_comments(read_file(@conf_file))
       @params = parse_conf(@content)
     end
 
@@ -73,7 +65,7 @@ module Inspec::Resources
     end
 
     def parse_line(line)
-      x = line.split(' ')
+      x = line.split(/\s+/)
       {
         'map_name' => x[0],
         'system_username' => x[1],
@@ -82,7 +74,7 @@ module Inspec::Resources
     end
 
     def read_file(conf_file = @conf_file)
-      @files_contents = inspec.file(conf_file).content.lines
+      inspec.file(conf_file).content.lines
     end
   end
 end
