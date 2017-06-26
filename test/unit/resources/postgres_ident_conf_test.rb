@@ -2,26 +2,27 @@
 # copyright: 2017
 # author: Aaron Lippold, lippold@gmail.com
 # author: Rony Xavier, rx294@nyu.edu
-# license: All rights reserved
 
 require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::PGIdentConf' do
   describe 'PGIdentConf Paramaters' do
-    it 'Verify postgres_ident_conf parsing `map_name.first` - "ssl-test"' do
-      resource = load_resource('postgres_ident_conf')
-      _(resource.map_name.first).must_match 'ssl-test'
+    resource = load_resource('postgres_ident_conf')
+    it 'Verify postgres_ident_conf filtering by `system_username`'  do
+      entries = resource.where { system_username == 'bryanh' }
+      _(entries.map_name).must_equal ['omicron']
+      _(entries.pg_username).must_equal ['bryanh']
     end
-
-    it 'Verify postgres_ident_conf parsing `system_username.first` - "acme_user@inventory_hostname"' do
-      resource = load_resource('postgres_ident_conf')
-      _(resource.system_username.first).must_match 'acme_user@inventory_hostname'
+    it 'Verify postgres_ident_conf filtering by `map_name`'  do
+      entries = resource.where { map_name == 'ssl-test' }
+      _(entries.system_username).must_equal ['ann']
+      _(entries.pg_username).must_equal ['ann']
     end
-
-    it 'Verify postgres_ident_conf parsing `pg_username.first` - "acme_user"' do
-      resource = load_resource('postgres_ident_conf')
-      _(resource.pg_username.first).must_match 'acme_user'
+    it 'Verify postgres_ident_conf filtering by `pg_username`'  do
+      entries = resource.where { pg_username == 'bob' }
+      _(entries.map_name).must_equal ['pki-users']
+      _(entries.system_username).must_equal ['robert']
     end
   end
 end
