@@ -30,7 +30,7 @@ module Inspec::Resources
              a version number and unversioned data directories were found.'
             nil
           else
-            @version = version_from_dir('/var/lib/pgsql/')
+            @version = version_from_dir('/var/lib/pgsql')
           end
         end
         @data_dir = locate_data_dir_location_by_version(@version)
