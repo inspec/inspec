@@ -2,17 +2,16 @@
 # copyright: 2017
 # author: Rony Xavier,  rx294@nyu.edu
 # author: Aaron Lippold, lippold@gmail.com
-# license: All rights reserved
 
 require 'resources/postgres'
 
 module Inspec::Resources
-  class PGIdentConf < Inspec.resource(1)
-    name 'pg_ident_conf'
-    desc 'Use the pg_ident_conf InSpec audit resource to test the client
+  class PostgresIdentConf < Inspec.resource(1)
+    name 'postgres_ident_conf'
+    desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example "
-      describe pg_ident_conf.where { pg_username == 'acme_user' } do
+      describe postgres_ident_conf.where { pg_username == 'acme_user' } do
         its('map_name') { should eq ['ssl-test'] }
       end
     "
@@ -29,7 +28,7 @@ module Inspec::Resources
         @params = nil
         read_content
       else
-        return skip_resource '`pg_ident_conf` is not yet supported on your OS'
+        return skip_resource '`postgres_ident_conf` is not yet supported on your OS'
       end
     end
 

@@ -1,15 +1,15 @@
 ---
-title: About the pg_ident_conf Resource
+title: About the postgres_ident_conf Resource
 ---
 
-# pg_ident_conf
+# postgres_ident_conf
 
-Use the `pg_ident_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+Use the `postgres_ident_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
 ## Syntax
 
-An `pg_ident_conf` InSpec audit resource block declares client authentication data that should be tested:
+An `postgres_ident_conf` InSpec audit resource block declares client authentication data that should be tested:
 
-    describe pg_ident_conf.where { pg_username == 'filter_value' } do
+    describe postgres_ident_conf.where { pg_username == 'filter_value' } do
       its('attribute') { should eq ['value'] }
     end
 
@@ -31,7 +31,7 @@ or:
 
 For example:
 
-    describe pg_ident_conf.where { pg_username == 'name' } do
+    describe postgres_ident_conf.where { pg_username == 'name' } do
       its('system_username') { should eq ['value'] }
       its('map_name') { should eq ['value'] }
     end
