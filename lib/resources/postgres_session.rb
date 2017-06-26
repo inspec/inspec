@@ -66,7 +66,6 @@ module Inspec::Resources
 
     def create_psql_cmd(query, db = [])
       dbs = db.map { |x| "-d #{x}" }.join(' ')
-      @escaped_query = escaped_query(query)
       "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c #{escaped_query(query)}"
     end
   end
