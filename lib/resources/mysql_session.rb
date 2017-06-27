@@ -33,7 +33,7 @@ module Inspec::Resources
 
       # run the query
       command = "mysql -u#{@user} -p#{@pass}"
-      if !socket.nil?
+      if !@socket.nil?
         command += " -S #{@socket}"
       else
         command += " -h #{@host}"
@@ -43,10 +43,9 @@ module Inspec::Resources
 
       cmd = inspec.command(command)
       out = cmd.stdout + "\n" + cmd.stderr
-      if out =~ /Can't connect to .* MySQL server/ or
-         out.downcase =~ /^error/
+      if out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error/
         # skip this test if the server can't run the query
-        skip_resource("Can't connect to MySQL instance for SQL checks.")
+        warn("Can't connect to MySQL instance for SQL checks.")
       end
 
       # return the raw command output
