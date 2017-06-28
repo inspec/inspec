@@ -1,0 +1,39 @@
+---
+title: The NginxModule Resource
+---
+
+# nginx_module
+
+Use the `nginx_module` InSpec audit resource to test nginx modules on Linux platforms.
+Nginx resource extracts and exposes data reported by the command 'nginx -V'
+
+## Syntax
+
+A `nginx_module` resource block declares a module name, and then tests if that module is loaded:
+
+    describe nginx_module('module_name') do
+      it { should be_loaded }
+    end
+
+where
+
+* `'module_name'` is the nginx module, such as `'http_ssl'`
+* `{ should be_loaded }` tests if the module is loaded and or compiled into nginx
+
+## Supported Properties
+
+### loaded? (bool)
+
+`loaded?` returns `true` if the module is loaded on nginx instance
+
+    describe nginx_module('http_ssl').loaded? do
+      it { should be true }
+    end
+
+### loaded_modules ([String])
+
+`loaded_modules ` returns an array of loaded modules for the nginx instance
+
+    describe nginx_module.loaded_modules do
+      it { should include 'http_ssl' }
+    end

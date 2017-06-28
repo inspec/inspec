@@ -112,7 +112,11 @@ require 'resources/mssql_session'
 require 'resources/mysql'
 require 'resources/mysql_conf'
 require 'resources/mysql_session'
+<<<<<<< HEAD
 require 'resources/nginx_conf'
+=======
+require 'resources/nginx_module'
+>>>>>>> e8f8e165e1be7f3e294b68a5427a2d07254ad68a
 require 'resources/npm'
 require 'resources/ntp_conf'
 require 'resources/oneget'
