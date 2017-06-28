@@ -1,6 +1,5 @@
 # encoding: utf-8
 # author: Thomas Cate
-# license: All rights reserved
 
 require 'utils/simpleconfig'
 

@@ -3,7 +3,7 @@ title: InSpec Profile
 maintainer: The Authors
 copyright: The Authors
 copyright_email: you@example.com
-license: All Rights Reserved
+license: Apache-2.0
 summary: An InSpec Compliance Profile
 and this is
 bad metadata because
