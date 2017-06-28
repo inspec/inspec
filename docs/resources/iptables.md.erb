@@ -20,8 +20,7 @@ where
 * `rule:'name'` is the name of a rule that matches a set of packets
 * `table:'name'` is the packet matching table against which the test is run
 * `chain: 'name'` is the name of a user-defined chain or one of `ACCEPT`, `DROP`, `QUEUE`, or `RETURN`
-* `have_rule('RULE')` tests that rule in the iptables file
-
+* `have_rule('RULE')` tests that rule in the iptables list. This must match the entire line taken from `iptables -S CHAIN`.
 
 ## Matchers
 
@@ -57,14 +56,22 @@ The `have_rule` matcher tests the named rule against the information in the `ipt
 
 The following examples show how to use this InSpec audit resource.
 
-### Test if the IP table allows a packet through
+### Test if the INPUT chain is in default ACCEPT mode
 
     describe iptables do
       it { should have_rule('-P INPUT ACCEPT') }
     end
 
-### Test if the IP table allows a packet through, for a specific table and chain
+### Test if the INPUT chain from the mangle table is in ACCEPT mode
 
-    describe iptables(table:'mangle', chain: 'input') do
+    describe iptables(table:'mangle', chain: 'INPUT') do
       it { should have_rule('-P INPUT ACCEPT') }
     end
+
+### Test if there is a rule allowing Postgres (5432/TCP) traffic
+
+    describe iptables do
+      it { should have_rule('-A INPUT -p tcp -m tcp -m multiport --dports 5432 -m comment --comment "postgres" -j ACCEPT') }
+    end
+
+Note that the rule specification must exactly match what's in the output of `iptables -S INPUT`, which will depend on how you've built your rules.
