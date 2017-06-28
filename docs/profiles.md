@@ -282,15 +282,24 @@ Attributes may be used in profiles to define secrets, such as user names and pas
 
 For example, a control:
 
+    # define these attributes on the top-level of your file and re-use them across all tests!
     val_user = attribute('user', default: 'alice', description: 'An identification for the user')
     val_password = attribute('password', description: 'A value for the password')
 
-    describe val_user do
-      it { should eq 'bob' }
-    end
+    control 'system-users' do
+      impact 0.8
+      desc '
+        This test assures that the user "Bob" has a user installed on the system, along with a
+        specified password.
+      '
 
-    describe val_password do
-      it { should eq 'secret' }
+      describe val_user do
+        it { should eq 'bob' }
+      end
+
+      describe val_password do
+        it { should eq 'secret' }
+      end
     end
 
 And a Yaml file named `profile-attribute.yml`:
