@@ -5,6 +5,11 @@ require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'securerandom'
 
+def prompt(message)
+  print(message)
+  STDIN.gets.chomp
+end
+
 # Rubocop
 desc 'Run Rubocop lint checks'
 task :rubocop do
@@ -26,7 +31,6 @@ task lint: [:rubocop]
 task default: [:lint, :test]
 
 namespace :test do
-  terraform_env = ENV['INSPEC_TERRAFORM_ENV'] || SecureRandom.urlsafe_base64(5)
   project_dir = File.dirname(__FILE__)
   attribute_file = File.join(project_dir, ".attribute.yml")
   integration_dir = File.join(project_dir, "test/integration")
@@ -36,9 +40,9 @@ namespace :test do
     sh("bundle exec inspec check #{project_dir}")
   end
 
-  task :configure_test_environment do
+  task :configure_test_environment, :namespace do |t, args|
     puts "----> Creating terraform environment"
-    sh("cd #{integration_dir}/build/ && terraform env new #{terraform_env}")
+    sh("cd #{integration_dir}/build/ && terraform env new #{args[:namespace]}")
   end
 
   task :setup_integration_tests do
@@ -63,18 +67,19 @@ namespace :test do
     sh("cd #{integration_dir}/build/ && terraform destroy -force")
   end
 
-  task :destroy_test_environment do
+  task :destroy_test_environment, :namespace do |t, args|
     puts "----> Destroying terraform environment"
     sh("cd #{integration_dir}/build/ && terraform env select default")
-    sh("cd #{integration_dir}/build && terraform env delete #{terraform_env}")
+    sh("cd #{integration_dir}/build && terraform env delete #{args[:namespace]}")
   end
 
   task :integration do
-    Rake::Task["test:configure_test_environment"].execute
+    namespace = ENV['INSPEC_TERRAFORM_ENV'] || prompt("Please enter a namespace for your integration tests to run in: ")
+    Rake::Task["test:configure_test_environment"].execute({:namespace => namespace})
     Rake::Task["test:cleanup_integration_tests"].execute
     Rake::Task["test:setup_integration_tests"].execute
     Rake::Task["test:run_integration_tests"].execute
     Rake::Task["test:cleanup_integration_tests"].execute
-    Rake::Task["test:destroy_test_environment"].execute
+    Rake::Task["test:destroy_test_environment"].execute({:namespace => namespace})
   end
 end
