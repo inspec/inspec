@@ -34,6 +34,10 @@ class AwsIamUser < Inspec.resource(1)
     }
   end
 
+  def to_s
+    "IAM User #{@name}"
+  end
+
   class AwsIamAccessKeyFactory
     def create_access_key(access_key)
       AwsIamAccessKey.new({ access_key: access_key })

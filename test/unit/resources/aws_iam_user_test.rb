@@ -44,4 +44,11 @@ class AwsIamUserTest < Minitest::Test
 
     mock_access_key_factory.verify
   end
+
+  def test_to_s
+    @mock_user_provider.expect :user, {has_mfa_enabled?: true}, [Username]
+    expected = "IAM User test"
+    test = AwsIamUser.new(Username, @mock_user_provider).to_s
+    assert_equal expected, test
+  end
 end
