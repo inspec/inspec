@@ -84,6 +84,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
       id: example.metadata[:id],
       profile_id: example.metadata[:profile_id],
       status: example.execution_result.status.to_s,
+      impact: example.metadata[:impact].to_s,
       code_desc: code_description,
     }
 

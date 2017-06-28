@@ -148,6 +148,7 @@ module Inspec
         'id' => { 'type' => 'string' },
         'profile_id' => { 'type' => %w{string null} },
         'status' => { 'type' => 'string' },
+        'impact' => { 'type' => 'string' },
         'code_desc' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },
         'resource' => { 'type' => 'string', 'optional' => true },
