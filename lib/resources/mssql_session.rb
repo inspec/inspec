@@ -7,6 +7,9 @@ require 'hashie/mash'
 require 'utils/database_helpers'
 
 module Inspec::Resources
+  # STABILITY: Experimental
+  # This resouce needs further testing and refinement
+  #
   # This requires the `sqlcmd` tool available on platform
   # @see https://docs.microsoft.com/en-us/sql/relational-databases/scripting/sqlcmd-use-the-utility
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
@@ -16,14 +19,15 @@ module Inspec::Resources
     example "
       # Using SQL authentication
       sql = mssql_session(user: 'myuser', pass: 'mypassword')
-      describe sql.query('select * from sys.databases where name like \'*test*\') do
-        its('stdout') { should_not match(/test/) }
+      describe sql.query('SELECT * FROM table').row(0).column('columnname') do
+        its('value') { should cmp == 1 }
       end
 
       # Passing no credentials to mssql_session forces it to use Windows authentication
       sql_windows_auth = mssql_session
-      describe sql_window_auth.query('select * from sys.databases where name like \'*test*\') do
-        its('stdout') { should_not match(/test/) }
+      describe sql.query(\"SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') as \\\"login_mode\\\";\").row(0).column('login_mode') do
+        its('value') { should_not be_empty }
+        its('value') { should cmp == 1 }
       end
     "
 

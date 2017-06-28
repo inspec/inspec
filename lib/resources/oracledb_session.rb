@@ -8,13 +8,16 @@ require 'utils/database_helpers'
 require 'htmlentities'
 
 module Inspec::Resources
+  # STABILITY: Experimental
+  # This resouce needs further testing and refinement
+  #
   class OracledbSession < Inspec.resource(1)
     name 'oracledb_session'
     desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
     example "
       sql = oracledb_session(user: 'my_user', pass: 'password')
-      describe sql.query('SELECT NAME FROM v$database;') do
-        its('stdout') { should_not match(/test/) }
+      describe sql.query(\"SELECT UPPER(VALUE) AS VALUE FROM V$PARAMETER WHERE UPPER(NAME)='AUDIT_SYS_OPERATIONS'\").row(0).column('value') do
+        its('value') { should eq 'TRUE' }
       end
     "
 
@@ -42,7 +45,7 @@ module Inspec::Resources
     def query(q)
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"')
       # escape tables with $
-      escaped_query = escaped_query.gsub('$', "\\$")
+      escaped_query = escaped_query.gsub('$', '\\$')
 
       p = nil
       # check if sqlcl is available and prefer that
@@ -66,7 +69,6 @@ module Inspec::Resources
         warn "Could not execute the sql query #{out}"
         DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
       end
-
       DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout.gsub(/\r/,'')))
     end
 

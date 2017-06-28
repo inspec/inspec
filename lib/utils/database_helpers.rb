@@ -34,7 +34,6 @@ module DatabaseHelper
   end
 
   class SQLQueryResult
-
     attr_reader :error
     def initialize(cmd, results)
       @cmd = cmd
