@@ -1,15 +1,15 @@
 ---
-title: About the pg_hba_conf Resource
+title: About the postgres_hba_conf Resource
 ---
 
-# pg_hba_conf
+# postgres_hba_conf
 
-Use the `pg_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+Use the `postgres_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
 ## Syntax
 
-An `pg_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
+An `postgres_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
 
-    describe pg_hba_conf.where { pg_username == 'filter_value' } do
+    describe postgres_hba_conf.where { pg_username == 'filter_value' } do
       its('attribute') { should eq ['value'] }
     end
 
@@ -31,7 +31,7 @@ or:
 
 For example:
 
-    describe pg_hba_conf.where { type == 'type' } do
+    describe postgres_hba_conf.where { type == 'type' } do
       its('auth_method') { should eq ['value'] }
       its('user') { should eq ['value'] }
     end
@@ -67,14 +67,14 @@ For example:
 
 `address` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_hba_conf.where { type == 'local' } do
+    describe postgres_hba_conf.where { type == 'local' } do
       its('address') { should eq ['value'] }
     end
 ### auth_method([String])
 
 `auth_method` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_hba_conf.where { type == 'local' } do
+    describe postgres_hba_conf.where { type == 'local' } do
       its('auth_method') { should eq ['value'] }
     end
 
@@ -82,7 +82,7 @@ For example:
 
 `database` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_hba_conf.where { type == 'local' } do
+    describe postgres_hba_conf.where { type == 'local' } do
       its('database') { should eq ['value'] }
     end
 
@@ -90,7 +90,7 @@ For example:
 
 `type` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_hba_conf.where { database == 'acme_test_db' } do
+    describe postgres_hba_conf.where { database == 'acme_test_db' } do
       its('type') { should eq ['value'] }
     end
 
@@ -98,6 +98,6 @@ For example:
 
 `user` returns a an array of strings that matches the where condition of the filter table
 
-    describe pg_hba_conf.where { database == 'acme_test_db' } do
+    describe postgres_hba_conf.where { database == 'acme_test_db' } do
       its('user') { should eq ['value'] }
     end
