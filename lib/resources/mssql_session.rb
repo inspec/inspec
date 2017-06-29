@@ -8,7 +8,7 @@ require 'utils/database_helpers'
 
 module Inspec::Resources
   # STABILITY: Experimental
-  # This resouce needs further testing and refinement
+  # This resource needs further testing and refinement
   #
   # This requires the `sqlcmd` tool available on platform
   # @see https://docs.microsoft.com/en-us/sql/relational-databases/scripting/sqlcmd-use-the-utility
@@ -31,8 +31,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :pass, :host
-
+    attr_reader :user, :password, :host
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -63,7 +62,6 @@ module Inspec::Resources
       if cmd.exit_status != 0 || out =~ /Sqlcmd: Error/
         # TODO: we need to throw an exception here
         # change once https://github.com/chef/inspec/issues/1205 is in
-        # require "pry"; binding.pry
         warn "Could not execute the sql query #{out}"
         DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
       else

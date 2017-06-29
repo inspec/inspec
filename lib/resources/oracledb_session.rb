@@ -6,10 +6,12 @@
 require 'hashie/mash'
 require 'utils/database_helpers'
 require 'htmlentities'
+require 'rexml/document'
+require 'csv'
 
 module Inspec::Resources
   # STABILITY: Experimental
-  # This resouce needs further testing and refinement
+  # This resource needs further testing and refinement
   #
   class OracledbSession < Inspec.resource(1)
     name 'oracledb_session'
@@ -22,7 +24,6 @@ module Inspec::Resources
     "
 
     attr_reader :user, :password, :host, :service
-
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -39,7 +40,7 @@ module Inspec::Resources
       @sqlplus_bin = opts[:sqlplus_bin] || 'sqlplus'
 
       return skip_resource "Can't run Oracle checks without authentication" if @user.nil? || @password.nil?
-      return skip_resource 'You must provide at least an SID and/or a Service Name for the session' if @service.nil?
+      return skip_resource 'You must provide a service name for the session' if @service.nil?
     end
 
     def query(q)
@@ -48,20 +49,21 @@ module Inspec::Resources
       escaped_query = escaped_query.gsub('$', '\\$')
 
       p = nil
-      # check if sqlcl is available and prefer that
-      if inspec.command(@sqlcl_bin).exist?
-        bin = @sqlcl_bin
-        opts = "set sqlformat csv\nSET FEEDBACK OFF"
-        p = :parse_csv_result
-      elsif inspec.command(@sqlplus_bin).exist?
+      # check if sqlplus is available and prefer that
+      if inspec.command(@sqlplus_bin).exist?
         bin = @sqlplus_bin
         opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
         p = :parse_html_result
+      elsif inspec.command(@sqlcl_bin).exist?
+        bin = @sqlcl_bin
+        opts = "set sqlformat csv\nSET FEEDBACK OFF"
+        p = :parse_csv_result
       end
 
       return skip_resource("Can't find suitable Oracle CLI") if p.nil?
+      command = "echo \"#{opts}\n#{verify_query(escaped_query)}\nEXIT\" | #{bin} -s #{@user}/#{@password}@//#{@host}:#{@port}/#{@service}"
+      cmd = inspec.command(command)
 
-      cmd = inspec.command("echo \"#{opts}\n#{escaped_query};\nEXIT\" | #{bin} -s #{@user}/#{@password}@#{@host}:#{@port}/#{@service}")
       out = cmd.stdout + "\n" + cmd.stderr
       if out.downcase =~ /^error/
         # TODO: we need to throw an exception here
@@ -69,7 +71,7 @@ module Inspec::Resources
         warn "Could not execute the sql query #{out}"
         DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
       end
-      DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout.gsub(/\r/,'')))
+      DatabaseHelper::SQLQueryResult.new(cmd, send(p, cmd.stdout))
     end
 
     def to_s
@@ -78,9 +80,15 @@ module Inspec::Resources
 
     private
 
+    def verify_query(query)
+      # ensure we have a ; at the end
+      query + ';' if !query.strip.end_with?(';')
+      query
+    end
+
     def parse_csv_result(stdout)
-      require 'csv'
-      table = CSV.parse(stdout, { headers: true })
+      output = stdout.delete(/\r/)
+      table = CSV.parse(output, { headers: true })
 
       # convert to hash
       headers = table.headers
@@ -95,35 +103,35 @@ module Inspec::Resources
       results
     end
 
-    def parse_html_result(stdout)
+    def parse_html_result(stdout) # rubocop:disable Metrics/AbcSize
       result = stdout
       # make oracle html valid html by removing the p tag, it does not include a closing tag
       result = result.gsub('<p>', '').gsub('</p>', '').gsub('<br>', '')
-
-      require 'rexml/document'
       doc = REXML::Document.new result
       table = doc.elements['table']
-
-      hash = {}
+      hash = []
       if !table.nil?
         rows = table.elements.to_a
-        headers = rows[0].elements.to_a('/th').map { |entry| entry.text.strip }
-        rows.delete(0)
+        headers = rows[0].elements.to_a('th').map { |entry| entry.text.strip }
+        rows.delete_at(0)
 
         # iterate over each row, first row is header
-        hash = rows.map { |row|
-          res = {}
-          entries = row.elements.to_a('/td')
-
-          headers.each_with_index { |header, index|
-            # we need htmlentities since we do not have nokogiri
-            coder = HTMLEntities.new
-            val = coder.decode(entries[index].text).strip
-            res[header.downcase] = val
-          }
-
-          Hashie::Mash.new(res)
-        }
+        hash = []
+        if !rows.nil? && !rows.empty?
+          hash = rows.map { |row|
+            res = {}
+            entries = row.elements.to_a('td')
+            # ignore if we have empty entries, oracle is adding th rows in between
+            return nil if entries.empty?
+            headers.each_with_index { |header, index|
+              # we need htmlentities since we do not have nokogiri
+              coder = HTMLEntities.new
+              val = coder.decode(entries[index].text).strip
+              res[header.downcase] = val
+            }
+            Hashie::Mash.new(res)
+          }.compact
+        end
       end
       hash
     end

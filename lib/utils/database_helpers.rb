@@ -45,11 +45,15 @@ module DatabaseHelper
     end
 
     def successful?
-      cmd.exit_status == 0 && @error.nil?
+      @cmd.exit_status == 0 && @error.nil?
     end
 
     def row(id)
       SQLRow.new(self, @results[id])
+    end
+
+    def size
+      @results.size
     end
 
     def stdout
