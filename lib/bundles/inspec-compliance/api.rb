@@ -204,26 +204,28 @@ module Compliance
     end
 
     def self.is_automate_server_pre_080?(config)
-      # Automate versions before 0.8.x may have a "version" key in the config.
-      # Unless it's a hash that also contains a "version" key, it came from
-      # an Automate server that is pre-0.8.x.
+      # Automate versions before 0.8.x do not have a valid version in the config
       return false unless config['server_type'] == 'automate'
-      return true unless config.key?('version')
-      return true unless config['version'].is_a?(Hash)
-      config['version']['version'].nil?
+      server_version_from_config(config).nil?
     end
 
     def self.is_automate_server_080_and_later?(config)
       # Automate versions 0.8.x and later will have a "version" key in the config
-      # that looks like: "version":{"api":"compliance","version":"0.8.24"}
+      # that is properly parsed out via server_version_from_config below
       return false unless config['server_type'] == 'automate'
-      return false unless config.key?('version')
-      return false unless config['version'].is_a?(Hash)
-      !config['version']['version'].nil?
+      !server_version_from_config(config).nil?
     end
 
     def self.is_automate_server?(config)
       config['server_type'] == 'automate'
+    end
+
+    def self.server_version_from_config(config)
+      # Automate versions 0.8.x and later will have a "version" key in the config
+      # that looks like: "version":{"api":"compliance","version":"0.8.24"}
+      return nil unless config.key?('version')
+      return nil unless config['version'].is_a?(Hash)
+      config['version']['version']
     end
   end
 end

@@ -61,3 +61,15 @@ The following examples show how to use this InSpec audit resource.
     describe sql.query('show databases like \'test\';') do
       its('stdout') { should_not match(/test/) }
     end
+
+### Alternate Connection: Different Host
+
+  sql = mysql_session('my_user','password','db.example.com')
+
+### Alternate Connection: Different Port
+
+  sql = mysql_seesion('my_user','password','localhost',3307)
+
+### Alternate Connection: Using a socket
+
+  sql = mysql_session('my_user','password', nil, nil, '/var/lib/mysql-default/mysqld.sock')

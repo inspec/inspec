@@ -19,7 +19,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name = nil) # rubocop:disable Metrics/AbcSize
+    def initialize(package_name = nil, opts = {}) # rubocop:disable Metrics/AbcSize
       @package_name = package_name
       @name = @package_name
       @cache = nil
@@ -30,7 +30,7 @@ module Inspec::Resources
       if os.debian?
         @pkgman = Deb.new(inspec)
       elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
-        @pkgman = Rpm.new(inspec)
+        @pkgman = Rpm.new(inspec, opts)
       elsif ['arch'].include?(os[:family])
         @pkgman = Pacman.new(inspec)
       elsif ['darwin'].include?(os[:family])
@@ -46,6 +46,8 @@ module Inspec::Resources
       else
         return skip_resource 'The `package` resource is not supported on your OS yet.'
       end
+
+      evaluate_missing_requirements
     end
 
     # returns true if the package is installed
@@ -71,12 +73,26 @@ module Inspec::Resources
     def to_s
       "System Package #{@package_name}"
     end
+
+    private
+
+    def evaluate_missing_requirements
+      missing_requirements_string = @pkgman.missing_requirements.uniq.join(', ')
+      return if missing_requirements_string.empty?
+      skip_resource "The following requirements are not met for this resource: #{missing_requirements_string}"
+    end
   end
 
   class PkgManagement
     attr_reader :inspec
     def initialize(inspec)
       @inspec = inspec
+    end
+
+    def missing_requirements
+      # Each provider can provide an Array of missing requirements that will be
+      # combined into a `skip_resource` message
+      []
     end
   end
 
@@ -104,8 +120,25 @@ module Inspec::Resources
 
   # RHEL family
   class Rpm < PkgManagement
+    def initialize(inspec, opts)
+      super(inspec)
+
+      @dbpath = opts.fetch(:rpm_dbpath, nil)
+    end
+
+    def missing_requirements
+      missing_requirements = []
+
+      unless @dbpath.nil? || inspec.directory(@dbpath).directory?
+        missing_requirements << "RPMDB #{@dbpath} does not exist"
+      end
+
+      missing_requirements
+    end
+
     def info(package_name)
-      cmd = inspec.command("rpm -qia #{package_name}")
+      rpm_cmd = rpm_command(package_name)
+      cmd = inspec.command(rpm_cmd)
       # CentOS does not return an error code if the package is not installed,
       # therefore we need to check for emptyness
       return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
@@ -132,6 +165,17 @@ module Inspec::Resources
         version: "#{v}-#{r}",
         type: 'rpm',
       }
+    end
+
+    private
+
+    def rpm_command(package_name)
+      cmd = ''
+      cmd += 'rpm -qia'
+      cmd += " --dbpath #{@dbpath}" if @dbpath
+      cmd += ' ' + package_name
+
+      cmd
     end
   end
 

@@ -34,12 +34,42 @@ describe 'Inspec::Resources::Package' do
   end
 
   # centos
-  it 'verify centos package parsing' do
-    resource = MockLoader.new(:centos7).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.29.0-19.el7', type: 'rpm' }
-    _(resource.installed?).must_equal true
-    _(resource.version).must_equal '7.29.0-19.el7'
-    _(resource.info).must_equal pkg
+  describe 'Rpm' do # rubocop:disable BlockLength
+    let(:pkg) do
+      {
+        name: 'curl',
+        installed: true,
+        version: '7.29.0-19.el7',
+        type: 'rpm',
+      }
+    end
+
+    it 'can parse RPM package info' do
+      resource = MockLoader.new(:centos7).load_resource('package', 'curl')
+      _(resource.installed?).must_equal true
+      _(resource.version).must_equal '7.29.0-19.el7'
+      _(resource.info).must_equal pkg
+    end
+
+    it 'can build an `rpm` command containing `--dbpath`' do
+      resource = MockLoader.new(:centos7).load_resource(
+        'package',
+        'curl',
+        rpm_dbpath: '/var/lib/fake_rpmdb',
+      )
+      _(resource.installed?).must_equal true
+      _(resource.version).must_equal '7.29.0-19.el7'
+      _(resource.info).must_equal pkg
+    end
+
+    it 'can add to `resource_skipped` when `--rpmdb` path does not exist' do
+      resource = MockLoader.new(:centos7).load_resource(
+        'package',
+        'curl',
+        rpm_dbpath: '/var/lib/rpmdb_does_not_exist',
+      )
+      _(resource.resource_skipped).wont_equal nil
+    end
   end
 
   # hpux

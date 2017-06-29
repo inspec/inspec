@@ -1,7 +1,6 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
-# license: All rights reserved
 
 require 'utils/simpleconfig'
 require 'utils/find_files'

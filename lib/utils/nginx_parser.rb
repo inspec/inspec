@@ -22,7 +22,7 @@ class NginxParser < Parslet::Parser
   }
 
   rule(:identifier) {
-    (match('[a-zA-Z]') >> match('[a-zA-Z0-9_]').repeat).as(:identifier) >> space >> space.repeat
+    (match('[a-zA-Z]') >> match('\S').repeat).as(:identifier) >> space >> space.repeat
   }
 
   rule(:value) {
@@ -60,6 +60,8 @@ class NginxConfig
     tree = NginxTransform.new.apply(lex)
     gtree = NginxTransform::Group.new(nil, '', tree)
     read_nginx_group(gtree)
+  rescue Parslet::ParseFailed => err
+    raise "Failed to parse NginX config: #{err}"
   end
 
   def self.read_nginx_group(t)
@@ -67,7 +69,7 @@ class NginxConfig
     agg_conf['_'] = t.args unless t.args == ''
 
     groups, conf = t.body.partition { |i| i.is_a? NginxTransform::Group }
-    conf.each { |x| agg_conf[x.key] += [x.vals.join(' ')] }
+    conf.each { |x| agg_conf[x.key] += [x.vals] }
     groups.each { |x| agg_conf[x.id] += [read_nginx_group(x)] }
     agg_conf
   end
