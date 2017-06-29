@@ -331,7 +331,9 @@ class MockLoader
       'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
-      'nginx -V 2>&1' => cmd.call('nginx-v')
+      'nginx -V 2>&1' => cmd.call('nginx-v'),
+      '/usr/sbin/nginx -V 2>&1' => cmd.call('nginx-v'),
+      "ps aux | grep 'nginx *-c' | awk '{ print $NF }'" => cmd.call('nginx_conf'),
     }
     @backend
   end
