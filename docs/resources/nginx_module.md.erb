@@ -26,14 +26,26 @@ where
 
 `loaded?` returns `true` if the module is loaded on nginx instance
 
-    describe nginx_module('http_ssl').loaded? do
-      it { should be true }
+    describe nginx_module('http_ssl') do
+      it { should be_loaded }
+    end
+
+    describe nginx_module('fake_module') do
+      it { should_not be_loaded }
+    end
+
+    describe nginx_module('http_ssl','user path to nginx') do
+      it { should be_loaded }
     end
 
 ### loaded_modules ([String])
 
 `loaded_modules ` returns an array of loaded modules for the nginx instance
 
-    describe nginx_module.loaded_modules do
-      it { should include 'http_ssl' }
+    describe nginx_module do
+      its('loaded_modules') { should include 'http_ssl' }
+    end
+
+    describe nginx_module(nil,'user path to nginx') do
+      its('loaded_modules') { should include 'http_ssl' }
     end
