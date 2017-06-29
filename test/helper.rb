@@ -341,6 +341,13 @@ class MockLoader
       'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      # mssql tests
+      "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
+      "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
+      "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
+      # oracle
+      "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
+      "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
     }
     @backend
   end
