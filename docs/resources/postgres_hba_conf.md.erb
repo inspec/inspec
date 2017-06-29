@@ -10,7 +10,7 @@ Use the `postgres_hba_conf` InSpec audit resource to test the client authenticat
 An `postgres_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
 
     describe postgres_hba_conf.where { pg_username == 'filter_value' } do
-      its('attribute') { should eq ['value'] }
+      its('attribute') { should cmp 'value' }
     end
 
 where
@@ -23,17 +23,17 @@ where
 
 This InSpec audit resource matches any service that is listed in the HBA configuration file:
 
-    its('auth_method') { should_not eq ['peer'] }
+    its('auth_method') { should_not cmp 'peer' }
 
 or:
 
-    its('auth_method') { should eq ['peer'] }
+    its('auth_method') { should cmp 'peer' }
 
 For example:
 
     describe postgres_hba_conf.where { type == 'type' } do
-      its('auth_method') { should eq ['value'] }
-      its('user') { should eq ['value'] }
+      its('auth_method') { should cmp 'value' }
+      its('user') { should cmp 'value' }
     end
 
 ### be
@@ -68,14 +68,14 @@ For example:
 `address` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { type == 'local' } do
-      its('address') { should eq ['value'] }
+      its('address') { should cmp 'value' }
     end
 ### auth_method([String])
 
 `auth_method` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { type == 'local' } do
-      its('auth_method') { should eq ['value'] }
+      its('auth_method') { should cmp 'value' }
     end
 
 ### database([String])
@@ -83,7 +83,7 @@ For example:
 `database` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { type == 'local' } do
-      its('database') { should eq ['value'] }
+      its('database') { should cmp 'value' }
     end
 
 ### type([String])
@@ -91,7 +91,7 @@ For example:
 `type` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { database == 'acme_test_db' } do
-      its('type') { should eq ['value'] }
+      its('type') { should cmp 'value' }
     end
 
 ### user([String])
@@ -99,5 +99,5 @@ For example:
 `user` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { database == 'acme_test_db' } do
-      its('user') { should eq ['value'] }
+      its('user') { should cmp 'value' }
     end
