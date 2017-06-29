@@ -68,4 +68,8 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
       unless prevents_password_reuse?
     @policy.password_reuse_prevention
   end
+
+  def to_s
+    'IAM Password-Policy'
+  end
 end
