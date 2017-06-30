@@ -186,7 +186,7 @@ module Inspec
       end
 
       if !profile.supports_os?
-        raise "This OS/platform (#{@backend.os[:new_name]}) is not supported by this profile."
+        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
       end
 
       true
@@ -211,7 +211,7 @@ module Inspec
 
     def eval_with_virtual_profile(command)
       require 'fetchers/mock'
-      add_target({ 'inspec.yml' => 'new_name: inspec-shell' })
+      add_target({ 'inspec.yml' => 'name: inspec-shell' })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
       ctx.load(command)
@@ -228,7 +228,7 @@ module Inspec
       opts
     end
 
-    def get_check_example(method_new_name, arg, block)
+    def get_check_example(method_name, arg, block)
       opts = block_source_info(block)
 
       if !arg.empty? &&
@@ -239,7 +239,7 @@ module Inspec
         end
       else
         # add the resource
-        case method_new_name
+        case method_name
         when 'describe'
           return @test_collector.example_group(*arg, opts, &block)
         when 'expect'
@@ -255,7 +255,7 @@ module Inspec
           # otherwise return all working tests
           return ok_tests
         else
-          raise "A rule was registered with #{method_new_name.inspect}, "\
+          raise "A rule was registered with #{method_name.inspect}, "\
                "which isn't understood and cannot be processed."
         end
       end
