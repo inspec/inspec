@@ -1,5 +1,6 @@
 # encoding: utf-8
 # copyright: 2015, Dominik Richter
+# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 
@@ -11,6 +12,7 @@ require 'inspec/profile'
 require 'inspec/metadata'
 require 'inspec/secrets'
 require 'inspec/dependencies/cache'
+require 'nokogiri'
 # spec requirements
 
 module Inspec
@@ -184,7 +186,7 @@ module Inspec
       end
 
       if !profile.supports_os?
-        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
+        raise "This OS/platform (#{@backend.os[:new_name]}) is not supported by this profile."
       end
 
       true
@@ -209,7 +211,7 @@ module Inspec
 
     def eval_with_virtual_profile(command)
       require 'fetchers/mock'
-      add_target({ 'inspec.yml' => 'name: inspec-shell' })
+      add_target({ 'inspec.yml' => 'new_name: inspec-shell' })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
       ctx.load(command)
@@ -226,7 +228,7 @@ module Inspec
       opts
     end
 
-    def get_check_example(method_name, arg, block)
+    def get_check_example(method_new_name, arg, block)
       opts = block_source_info(block)
 
       if !arg.empty? &&
@@ -237,7 +239,7 @@ module Inspec
         end
       else
         # add the resource
-        case method_name
+        case method_new_name
         when 'describe'
           return @test_collector.example_group(*arg, opts, &block)
         when 'expect'
@@ -253,7 +255,7 @@ module Inspec
           # otherwise return all working tests
           return ok_tests
         else
-          raise "A rule was registered with #{method_name.inspect}, "\
+          raise "A rule was registered with #{method_new_name.inspect}, "\
                "which isn't understood and cannot be processed."
         end
       end
@@ -261,7 +263,64 @@ module Inspec
     end
 
     def register_rule(rule)
+      id = false
+      source = false
       Inspec::Log.debug "Registering rule #{rule}"
+     
+      #get the tags from the rule 
+      tags = rule.tag
+      #check if the tags have an xccdf id and source
+      if tags.key?(:xccdf_id) && tags.key?(:xccdf_source)
+        #this code get the information from the file specified
+        #This code is based on aaronlippold's xccdf2inspec
+        benchmark_xpath = '//Benchmark/Group'
+        #opens up the xccdf file
+        xccdf_path = tags[:xccdf_source].to_s
+        xccdf_file = Nokogiri::XML(File.open(xccdf_path))
+        xccdf_file.remove_namespaces!
+        xccdf_file.xpath(benchmark_xpath).each do |node|
+          if node["id"] == tags[:xccdf_id].to_s
+            if !tags.key?(:severity)
+              tags[:severity] =  node.xpath('./Rule/@severity').text
+            end
+
+            if !tags.key?(:title)
+              tags[:title] =  node.xpath('./title').text
+            end
+
+            if !tags.key?(:gid)
+              tags[:gid] =  node.xpath('./@id').text
+            end
+
+            if !tags.key?(:ruleid)
+              tags[:ruleid] =  node.xpath('./Rule/@id').text
+            end
+
+            if !tags.key?(:stig)
+              tags[:stig] =  node.xpath('./Rule/version').text
+            end
+            
+            if rule.title == nil
+              rule.title(node.xpath('./Rule/title').text)
+            end
+            
+            if rule.desc == nil
+              rule.desc(node.xpath('./Rule/description').text.gsub(/\<.*?\>/, '').gsub(/.false/, '.'))
+            end
+            
+            if !tags.key?(:checktext)
+              tags[:checktext] =  node.xpath('./Rule/check/check-content').text
+            end
+
+            if !tags.key?(:fixtext)
+              tags[:fixtext] =  node.xpath('./Rule/fixtext').text
+            end
+            break
+          end
+        end
+      end
+
+      rule.tag(tags) 
       @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
       examples = checks.flat_map do |m, a, b|
