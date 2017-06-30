@@ -263,8 +263,6 @@ module Inspec
     end
 
     def register_rule(rule)
-      id = false
-      source = false
       Inspec::Log.debug "Registering rule #{rule}"
      
       #get the tags from the rule 
