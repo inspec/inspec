@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Dominik Richter
-# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 
@@ -264,8 +263,6 @@ module Inspec
 
     def register_rule(rule)
       Inspec::Log.debug "Registering rule #{rule}"
-     
-      #get the tags from the rule 
       tags = rule.tag
       #check if the tags have an xccdf id and source
       if tags.key?(:xccdf_id) && tags.key?(:xccdf_source)
