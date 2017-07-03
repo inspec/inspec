@@ -4,8 +4,6 @@
 # author: Aaron Lippold
 # author: Adam Leff
 
-require 'awesome_print'
-
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)
     name 'kernel_module'
@@ -85,11 +83,7 @@ module Inspec::Resources
     end
 
     def blacklisted?
-      results = []
-      results.push(!modprobe_output.match(/^blacklist\s+#{@module}/).nil?)
-      results.push(disabled_via_bin_true?)
-      results.push(disabled_via_bin_false?)
-      results.uniq!.include?(true) ? true : false
+      !modprobe_output.match(/^blacklist\s+#{@module}/).nil? || disabled_via_bin_true? || disabled_via_bin_false?
     end
 
     def version
