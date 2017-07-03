@@ -2,7 +2,6 @@
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
 # author: Joshua Timberman
 # author: Alex Pop
-# license: All rights reserved
 
 require 'utils/filter'
 

@@ -134,4 +134,136 @@ describe Fetchers::Url do
       subject.resolved_source[:url].must_equal(target)
     end
   end
+
+  describe '#http_opts' do
+    let(:subject) { Fetchers::Url.new('fake_url', config) }
+
+    describe 'when insecure is specified' do
+      let(:config) { { 'insecure' => true } }
+      it 'returns a hash containing an ssl_verify_mode setting' do
+        subject.send(:http_opts)[:ssl_verify_mode].must_equal OpenSSL::SSL::VERIFY_NONE
+      end
+    end
+
+    describe 'when insecure is not specific' do
+      let(:config) { {} }
+      it 'returns a hash that does not contain an ssl_verify_mode setting' do
+        subject.send(:http_opts).key?(:ssl_verify_mode).must_equal false
+      end
+    end
+
+    describe 'when the server is an automate server using dctoken' do
+      describe 'when the config is properly populated' do
+        let(:config) do
+          {
+            'server_type' => 'automate',
+            'automate' => {
+              'ent' => 'my_ent',
+              'token_type' => 'dctoken',
+            },
+            'token' => 'my_token',
+          }
+        end
+
+        it 'returns a properly formatted headers hash' do
+          headers = subject.send(:http_opts)
+          headers['chef-delivery-enterprise'].must_equal 'my_ent'
+          headers['x-data-collector-token'].must_equal 'my_token'
+        end
+      end
+
+      describe 'when the enterprise is not supplied' do
+        it 'raises an exception' do
+          proc {
+            config = {
+              'server_type' => 'automate',
+              'automate' => { 'token_type' => 'dctoken' },
+              'token' => 'my_token',
+            }
+
+            Fetchers::Url.new('fake_url', config).send(:http_opts)
+          }.must_raise RuntimeError
+        end
+      end
+
+      describe 'when the token is not supplied' do
+        it 'raises an exception' do
+          proc {
+            config = {
+              'server_type' => 'automate',
+              'automate' => {
+                'ent' => 'my_ent',
+                'token_type' => 'dctoken',
+              },
+            }
+
+            Fetchers::Url.new('fake_url', config).send(:http_opts)
+          }.must_raise RuntimeError
+        end
+      end
+    end
+
+    describe 'when the server is an automate server not using dctoken' do
+      describe 'when the config is properly populated' do
+        let(:config) do
+          {
+            'server_type' => 'automate',
+            'automate' => {
+              'ent' => 'my_ent',
+              'token_type' => 'usertoken',
+            },
+            'user' => 'my_user',
+            'token' => 'my_token',
+          }
+        end
+        it 'returns a properly formatted headers hash' do
+          headers = subject.send(:http_opts)
+          headers['chef-delivery-enterprise'].must_equal 'my_ent'
+          headers['chef-delivery-user'].must_equal 'my_user'
+          headers['chef-delivery-token'].must_equal 'my_token'
+        end
+      end
+
+      describe 'when the user is not supplied' do
+        it 'raises an exception' do
+          proc {
+            config = {
+              'server_type' => 'automate',
+              'automate' => {
+                'ent' => 'my_ent',
+                'token_type' => 'usertoken',
+              },
+              'token' => 'my_token',
+            }
+
+            Fetchers::Url.new('fake_url', config).send(:http_opts)
+          }.must_raise RuntimeError
+        end
+      end
+
+      describe 'when the token is not supplied' do
+        it 'raises an exception' do
+          proc {
+            config = {
+              'server_type' => 'automate',
+              'automate' => {
+                'ent' => 'my_ent',
+                'token_type' => 'usertoken',
+              },
+              'user' => 'my_user',
+            }
+
+            Fetchers::Url.new('fake_url', config).send(:http_opts)
+          }.must_raise RuntimeError
+        end
+      end
+    end
+
+    describe 'when only a token is supplied' do
+      let(:config) { { 'token' => 'my_token' } }
+      it 'returns a hash containing an Authorization header' do
+        subject.send(:http_opts)['Authorization'].must_equal "Bearer my_token"
+      end
+    end
+  end
 end

@@ -3,7 +3,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 # author: Aaron Lippold
-# license: All rights reserved
 
 module Inspec::Resources
   class MysqlSession < Inspec.resource(1)
@@ -16,10 +15,12 @@ module Inspec::Resources
       end
     "
 
-    def initialize(user = nil, pass = nil, host = 'localhost')
+    def initialize(user = nil, pass = nil, host = 'localhost', port = nil, socket = nil)
       @user = user
       @pass = pass
       @host = host
+      @port = port
+      @socket = socket
       init_fallback if user.nil? or pass.nil?
       skip_resource("Can't run MySQL SQL checks without authentication") if @user.nil? or @pass.nil?
     end
@@ -30,12 +31,20 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
       # run the query
-      cmd = inspec.command("mysql -u#{@user} -p#{@pass} -h #{@host} #{db} -s -e \"#{escaped_query}\"")
+      command = "mysql -u#{@user} -p#{@pass}"
+      if !@socket.nil?
+        command += " -S #{@socket}"
+      else
+        command += " -h #{@host}"
+      end
+      command += " --port #{@port}" unless @port.nil?
+      command += " #{db} -s -S #{@socket} -e \"#{escaped_query}\""
+
+      cmd = inspec.command(command)
       out = cmd.stdout + "\n" + cmd.stderr
-      if out =~ /Can't connect to .* MySQL server/ or
-         out.downcase =~ /^error/
+      if out =~ /Can't connect to .* MySQL server/ || out.downcase =~ /^error/
         # skip this test if the server can't run the query
-        skip_resource("Can't connect to MySQL instance for SQL checks.")
+        warn("Can't connect to MySQL instance for SQL checks.")
       end
 
       # return the raw command output

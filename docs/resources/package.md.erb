@@ -96,6 +96,12 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_running }
     end
 
+### Verify if some_package is installed according to my_rpmdb
+
+   describe package('some_package', rpm_dbpath: '/var/lib/my_rpmdb') do
+     it { should be_installed }
+   end
+
 ### Verify if Memcached is installed, enabled, and running
 
 Memcached is an in-memory key-value store that helps improve the performance of database-driven websites and can be installed, maintained, and tested using the `memcached` cookbook (maintained by Chef). The following example is from the `memcached` cookbook and shows how to use a combination of the `package`, `service`, and `port` InSpec audit resources to test if Memcached is installed, enabled, and running:

@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2016, Chef Software, Inc.
-# license: All rights reserved
 
 title 'Gordon Config Checks'
 
