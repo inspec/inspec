@@ -10,23 +10,19 @@ Use the `mssql_session` InSpec audit resource to test SQL commands run against a
 
 A `mssql_session` resource block declares the username and password to use for the session, and then the command to be run:
 
-    describe mssql_session(user: 'username', pass: 'password').query('QUERY') do
-      its('output') { should eq('') }
+    describe mssql_session(user: 'username', password: 'password').query('QUERY').row(0).column('result') do
+      its('value') { should eq('') }
     end
 
 where
 
 * `mssql_session` declares a username and password with permission to run the query.  Omitting the username or password parameters results in the use of Windows authentication as the user InSpec is executing as.  You may also optionally pass a host and instance name.  If omitted, they will default to host: localhost and the default instance.
 * `query('QUERY')` contains the query to be run
-* `its('output') { should eq('') }` compares the results of the query against the expected result in the test
+* `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
 ## Matchers
 
 This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
 
 ### cmp
 
@@ -36,19 +32,6 @@ This InSpec audit resource has the following matchers:
 
 <%= partial "/shared/matcher_eq" %>
 
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### output
-
-The `output` matcher tests the results of the query:
-
-    its('output') { should eq(/^0/) }
 
 ## Examples
 
@@ -56,24 +39,24 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for matching databases
 
-    sql = mssql_session(user: 'my_user', pass: 'password')
+    sql = mssql_session(user: 'my_user', password: 'password')
 
-    describe sql.query('show databases like \'test\';') do
-      its('stdout') { should_not match(/test/) }
+    describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
+      its("value") { should cmp > '12.00.4457' }
     end
 
 ### Test using Windows authentication
 
     sql = mssql_session
 
-    describe sql.query('show databases like \'test\';') do
-      its('stdout') { should_not match(/test/) }
+    describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
+      its("value") { should cmp > '12.00.4457' }
     end
 
 ### Test a specific host and instance
 
-    sql = mssql_session(user: 'my_user', pass: 'password', host: 'mssqlserver', instance: 'foo')
+    sql = mssql_session(user: 'my_user', password: 'password', host: 'mssqlserver', instance: 'foo')
 
-    describe sql.query('show databases like \'test\';') do
-      its('stdout') { should_not match(/test/) }
+    describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
+      its("value") { should cmp > '12.00.4457' }
     end

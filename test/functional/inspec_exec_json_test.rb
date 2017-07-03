@@ -58,7 +58,7 @@ describe 'inspec exec with json formatter' do
         "license" => "Apache-2.0",
         "summary" => "Demonstrates the use of InSpec Compliance Profile",
         "version" => "1.0.0",
-        "sha256" => "821f866e407a91cfadb44af5d4570b92ac7f7a272025da7aa9a92aa635cc4440",
+        "sha256" => "8eed5154c9fa0174067ab475c0ad4a053f772590d129eb324101fe43ef30794d",
         "supports" => [{"os-family" => "unix"}],
         "attributes" => []
       })
@@ -93,7 +93,7 @@ describe 'inspec exec with json formatter' do
 
       src = actual.delete('source_location')
       src['ref'].must_match %r{examples/profile/controls/example.rb$}
-      src['line'].must_equal 8
+      src['line'].must_equal 7
 
       result = actual.delete('results')[0]
       result.wont_be :nil?
