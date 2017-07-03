@@ -1,5 +1,4 @@
 # encoding: utf-8
-# copyright: 2017
 # author: Rony Xavier,  rx294@nyu.edu
 # author: Aaron Lippold, lippold@gmail.com
 
