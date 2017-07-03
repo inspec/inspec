@@ -204,15 +204,28 @@ module Compliance
     end
 
     def self.is_automate_server_pre_080?(config)
-      config['server_type'] == 'automate' && config['version'].nil?
+      # Automate versions before 0.8.x do not have a valid version in the config
+      return false unless config['server_type'] == 'automate'
+      server_version_from_config(config).nil?
     end
 
     def self.is_automate_server_080_and_later?(config)
-      config['server_type'] == 'automate' && !config['version'].nil?
+      # Automate versions 0.8.x and later will have a "version" key in the config
+      # that is properly parsed out via server_version_from_config below
+      return false unless config['server_type'] == 'automate'
+      !server_version_from_config(config).nil?
     end
 
     def self.is_automate_server?(config)
       config['server_type'] == 'automate'
+    end
+
+    def self.server_version_from_config(config)
+      # Automate versions 0.8.x and later will have a "version" key in the config
+      # that looks like: "version":{"api":"compliance","version":"0.8.24"}
+      return nil unless config.key?('version')
+      return nil unless config['version'].is_a?(Hash)
+      config['version']['version']
     end
   end
 end

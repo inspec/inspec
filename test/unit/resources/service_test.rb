@@ -24,7 +24,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # ubuntu 14.04 with upstart
-  it 'verify ubuntu package parsing' do
+  it 'verify ubuntu service parsing' do
     resource = MockLoader.new(:ubuntu1404).load_resource('service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
@@ -36,7 +36,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify ubuntu package parsing with default upstart_service' do
+  it 'verify ubuntu service parsing with default upstart_service' do
     resource = MockLoader.new(:ubuntu1404).load_resource('upstart_service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
@@ -50,7 +50,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # ubuntu 15.04 with systemd
-  it 'verify ubuntu package parsing' do
+  it 'verify ubuntu service parsing' do
     resource = MockLoader.new(:ubuntu1504).load_resource('service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -63,7 +63,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params.SubState).must_equal 'running'
   end
 
-  it 'verify ubuntu package parsing with default systemd_service' do
+  it 'verify ubuntu service parsing with default systemd_service' do
     resource = MockLoader.new(:ubuntu1504).load_resource('systemd_service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -76,7 +76,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # linux mint 17 with upstart
-  it 'verify mint package parsing' do
+  it 'verify mint service parsing' do
     resource = MockLoader.new(:mint17).load_resource('service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
@@ -88,7 +88,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify mint package parsing with default upstart_service' do
+  it 'verify mint service parsing with default upstart_service' do
     resource = MockLoader.new(:mint17).load_resource('upstart_service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'upstart'
@@ -102,7 +102,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # mint 18 with systemd
-  it 'verify mint package parsing' do
+  it 'verify mint service parsing' do
     resource = MockLoader.new(:mint18).load_resource('service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -115,7 +115,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params.SubState).must_equal 'running'
   end
 
-  it 'verify mint package parsing with default systemd_service' do
+  it 'verify mint service parsing with default systemd_service' do
     resource = MockLoader.new(:mint18).load_resource('systemd_service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -128,7 +128,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # centos 6 with sysv
-  it 'verify centos 6 package parsing' do
+  it 'verify centos 6 service parsing' do
     resource = MockLoader.new(:centos6).load_resource('service', 'sshd')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
@@ -141,7 +141,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params.SubState).must_be_nil
   end
 
-  it 'verify centos 6 package parsing with default sysv_service' do
+  it 'verify centos 6 service parsing with default sysv_service' do
     resource = MockLoader.new(:centos6).load_resource('sysv_service', 'sshd')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
@@ -154,7 +154,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # centos 7 with systemd
-  it 'verify centos 7 package parsing' do
+  it 'verify centos 7 service parsing' do
     resource = MockLoader.new(:centos7).load_resource('service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -166,7 +166,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify centos 7 package parsing with systemd_service and service_ctl override' do
+  it 'verify centos 7 service parsing with systemd_service and service_ctl override' do
     resource = MockLoader.new(:centos7).load_resource('systemd_service', 'sshd', '/path/to/systemctl')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'UnitFileState' => 'enabled', 'SubState' => 'running' })
     _(resource.type).must_equal 'systemd'
@@ -178,7 +178,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify centos 7 package parsing with static loaded service' do
+  it 'verify centos 7 service parsing with static loaded service' do
     resource = MockLoader.new(:centos7).load_resource('service', 'dbus')
     params = Hashie::Mash.new({ 'Description' => 'D-Bus System Message Bus', 'Id' => 'dbus.service', 'LoadState' => 'loaded', 'Names' => 'messagebus.service dbus.service', 'SubState' => 'running', 'UnitFileState' => 'static' })
     _(resource.type).must_equal 'systemd'
@@ -192,7 +192,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # freebsd
-  it 'verify freebsd10 package parsing' do
+  it 'verify freebsd10 service parsing' do
     resource = MockLoader.new(:freebsd10).load_resource('service', 'sendmail')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'bsd-init'
@@ -204,7 +204,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify freebsd10 package parsing with default bsd_service' do
+  it 'verify freebsd10 service parsing with default bsd_service' do
     resource = MockLoader.new(:freebsd10).load_resource('bsd_service', 'sendmail')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'bsd-init'
@@ -217,7 +217,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # arch linux with systemd
-  it 'verify arch linux package parsing' do
+  it 'verify arch linux service parsing' do
     resource = MockLoader.new(:arch).load_resource('service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -229,8 +229,21 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
+  # coreos linux with systemd
+  it 'verify coreos linux service parsing' do
+    resource = MockLoader.new(:coreos).load_resource('service', 'sshd')
+    params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'sshd.service'
+    _(resource.description).must_equal 'OpenSSH server daemon'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # debian 7 with systemv
-  it 'verify debian 7 package parsing' do
+  it 'verify debian 7 service parsing' do
     resource = MockLoader.new(:debian7).load_resource('service', 'sshd')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
@@ -243,7 +256,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # debian 8 with systemd
-  it 'verify debian 8 package parsing' do
+  it 'verify debian 8 service parsing' do
     resource = MockLoader.new(:debian8).load_resource('service', 'sshd')
     params = Hashie::Mash.new({ 'ActiveState' => 'active', 'Description' => 'OpenSSH server daemon', 'Id' => 'sshd.service', 'LoadState' => 'loaded', 'Names' => 'sshd.service', 'SubState' => 'running', 'UnitFileState' => 'enabled' })
     _(resource.type).must_equal 'systemd'
@@ -256,7 +269,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # macos test
-  it 'verify mac osx package parsing' do
+  it 'verify mac osx service parsing' do
     resource = MockLoader.new(:osx104).load_resource('service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
@@ -268,7 +281,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify mac osx package parsing with not-running service' do
+  it 'verify mac osx service parsing with not-running service' do
     resource = MockLoader.new(:osx104).load_resource('service', 'FilesystemUI')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
@@ -280,7 +293,7 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
-  it 'verify mac osx package parsing with default launchd_service' do
+  it 'verify mac osx service parsing with default launchd_service' do
     resource = MockLoader.new(:osx104).load_resource('launchd_service', 'ssh')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'darwin'
@@ -293,7 +306,7 @@ describe 'Inspec::Resources::Service' do
   end
 
   # wrlinux
-  it 'verify wrlinux package parsing' do
+  it 'verify wrlinux service parsing' do
     resource = MockLoader.new(:wrlinux).load_resource('service', 'sshd')
     params = Hashie::Mash.new({})
     _(resource.type).must_equal 'sysv'
@@ -307,7 +320,7 @@ describe 'Inspec::Resources::Service' do
 
 
   # unknown OS
-  it 'verify package handling on unsupported os' do
+  it 'verify service handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('service', 'dhcp')
     params = Hashie::Mash.new({})
     _(resource.installed?).must_equal false

@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Chef Software, Inc.
-# license: All rights reserved
 # author: Stephan Renatus
 
 class FilterArray

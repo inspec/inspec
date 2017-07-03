@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 require 'inspec/plugins'
@@ -96,6 +95,7 @@ require 'resources/groups'
 require 'resources/grub_conf'
 require 'resources/host'
 require 'resources/http'
+require 'resources/iis_app'
 require 'resources/iis_site'
 require 'resources/inetd_conf'
 require 'resources/interface'
@@ -111,6 +111,7 @@ require 'resources/mssql_session'
 require 'resources/mysql'
 require 'resources/mysql_conf'
 require 'resources/mysql_session'
+require 'resources/nginx_conf'
 require 'resources/npm'
 require 'resources/ntp_conf'
 require 'resources/oneget'
@@ -136,6 +137,7 @@ require 'resources/shadow'
 require 'resources/ssl'
 require 'resources/ssh_conf'
 require 'resources/sys_info'
+require 'resources/toml'
 require 'resources/users'
 require 'resources/vbscript'
 require 'resources/virtualization'

@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 # author: Stephan Renatus
-# license: All rights reserved
+
 require 'hashie'
 
 module Inspec::Resources
@@ -150,6 +150,8 @@ module Inspec::Resources
       elsif %w{freebsd}.include?(platform)
         BSDInit.new(inspec, service_ctl)
       elsif %w{arch}.include?(platform)
+        Systemd.new(inspec, service_ctl)
+      elsif %w{coreos}.include?(platform)
         Systemd.new(inspec, service_ctl)
       elsif %w{suse opensuse}.include?(platform)
         if os[:release].to_i >= 12

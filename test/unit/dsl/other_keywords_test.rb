@@ -7,7 +7,7 @@ require 'helper'
 describe 'inspec keyword' do
   def load(content)
     runner = Inspec::Runner.new({backend: 'mock'})
-    res = runner.eval_with_virtual_profile(content)
+    runner.eval_with_virtual_profile(content)
   end
 
   def load_in_profile(cmd)

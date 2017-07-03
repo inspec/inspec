@@ -2,7 +2,6 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
-# license: All rights reserved
 
 require 'forwardable'
 require 'utils/filter_array'
@@ -86,6 +85,7 @@ module Inspec::Resources
         @legacy = AuditdRulesLegacy.new(@content)
       else
         parse_content
+        @legacy = nil
       end
     end
 

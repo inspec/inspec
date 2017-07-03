@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-PROJECT_DIR = File.join(File.expand_path(File.dirname(__FILE__)), '..').freeze
-UTILS_DIR     = File.join(PROJECT_DIR, 'lib/utils').freeze
+UTILS_DIR = File.expand_path(File.join(__dir__, '..', 'lib/utils')).freeze
 
 desc 'Updates the list of the spdx valid licenses'
 task :spdx do
@@ -27,7 +26,7 @@ task :spdx do
   require 'net/http'
   json_data = JSON.parse(Net::HTTP.get(URI('https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json')))
   licenses = json_data['licenses'].map { |l| l['licenseId'] }
-  # "All Rights Reserved" is non-standard extra value to cover proriatary license
+  # "All Rights Reserved" is non-standard extra value to cover proprietary license
   licenses.push('All Rights Reserved')
   File.write(File.join(UTILS_DIR, 'spdx.txt'), licenses.join("\n"))
 end

@@ -2,7 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
-# license: All rights reserved
+# author: Aaron Lippold
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
@@ -19,9 +19,13 @@ module Inspec::Resources
     "
 
     include FindFiles
+    include ObjectTraverser
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.postgres.conf_path
+      if @conf_path.nil?
+        return skip_resource 'PostgreSQL conf path is not set'
+      end
       @conf_dir = File.expand_path(File.dirname(@conf_path))
       @files_contents = {}
       @content = nil
@@ -42,8 +46,13 @@ module Inspec::Resources
       res
     end
 
-    def method_missing(name)
-      param = params[name.to_s]
+    def value(key)
+      extract_value(key, @params)
+    end
+
+    def method_missing(*keys)
+      keys.shift if keys.is_a?(Array) && keys[0] == :[]
+      param = value(keys)
       return nil if param.nil?
       # extract first value if we have only one value in array
       return param[0] if param.length == 1

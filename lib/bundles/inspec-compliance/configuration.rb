@@ -28,6 +28,10 @@ module Compliance
       @config[key] = value
     end
 
+    def key?(key)
+      @config.key?(key)
+    end
+
     def clean
       @config = {}
     end

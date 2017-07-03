@@ -3,7 +3,6 @@
 # author: Dominik Richter
 # author: Aaron Lippold
 # author: Adam Leff
-# license: All rights reserved
 
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)

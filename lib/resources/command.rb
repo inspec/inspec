@@ -2,7 +2,6 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Dominik Richter
 # author: Christoph Hartmann
-# license: All rights reserved
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
@@ -24,6 +23,9 @@ module Inspec::Resources
     attr_reader :command
 
     def initialize(cmd)
+      if cmd.nil?
+        raise 'InSpec `command` was called with `nil` as the argument. This is not supported. Please provide a valid command instead.'
+      end
       @command = cmd
     end
 

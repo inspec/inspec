@@ -3,7 +3,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 # author: Aaron Lippold
-# license: All rights reserved
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
@@ -11,8 +10,7 @@ module Inspec::Resources
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
-      os = inspec.os
-      if os.debian?
+      if inspec.os.debian?
         #
         # https://wiki.debian.org/PostgreSql
         #
@@ -31,7 +29,7 @@ module Inspec::Resources
              a version number and unversioned data directories were found.'
             nil
           else
-            @version = version_from_dir('/var/lib/pgsql/')
+            @version = version_from_dir('/var/lib/pgsql')
           end
         end
         @data_dir = locate_data_dir_location_by_version(@version)
@@ -40,8 +38,14 @@ module Inspec::Resources
       @service = 'postgresql'
       @service += "-#{@version}" if @version.to_f >= 9.4
       @conf_dir ||= @data_dir
+
       verify_dirs
-      @conf_path = File.join @conf_dir, 'postgresql.conf'
+      if !@version.nil? && !@conf_dir.empty?
+        @conf_path = File.join @conf_dir, 'postgresql.conf'
+      else
+        @conf_path = nil
+        return skip_resource 'Seems like PostgreSQL is not installed on your system'
+      end
     end
 
     def to_s
@@ -75,7 +79,7 @@ module Inspec::Resources
       ]
 
       dir_list.each do |dir|
-        data_dir_loc if inspec.directory(dir).exists?
+        data_dir_loc = dir if inspec.directory(dir).exist?
         break
       end
 

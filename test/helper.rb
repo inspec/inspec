@@ -38,6 +38,8 @@ require 'train'
 CMD = Train.create('local').connection
 TMP_CACHE = {}
 
+Inspec::Log.logger = Logger.new(nil)
+
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {
@@ -45,6 +47,7 @@ class MockLoader
     centos5:    { name: 'centos', family: 'redhat', release: '5.11', arch: 'x86_64' },
     centos6:    { name: 'centos', family: 'redhat', release: '6.6', arch: 'x86_64' },
     centos7:    { name: 'centos', family: 'redhat', release: '7.1.1503', arch: 'x86_64' },
+    coreos:     { name: 'coreos', family: 'coreos', release: '1437.0.0', arch: 'x86_64' },
     debian6:    { name: 'debian', family: 'debian', release: '6', arch: 'x86_64' },
     debian7:    { name: 'debian', family: 'debian', release: '7', arch: 'x86_64' },
     debian8:    { name: 'debian', family: 'debian', release: '8', arch: 'x86_64' },
@@ -132,6 +135,10 @@ class MockLoader
       '/etc/httpd/conf-enabled/security.conf' => mockfile.call('security.conf'),
       '/etc/apache2/conf-enabled/serve-cgi-bin.conf' => mockfile.call('serve-cgi-bin.conf'),
       '/etc/apache2/conf-enabled/security.conf' => mockfile.call('security.conf'),
+      '/etc/nginx/failed.conf' => mockfile.call('nginx_failed.conf'),
+      '/etc/nginx/nginx.conf' => mockfile.call('nginx.conf'),
+      '/etc/nginx/proxy.conf' => mockfile.call('nginx_proxy.conf'),
+      '/etc/nginx/conf/mime.types' => mockfile.call('nginx_mime.types'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
@@ -145,6 +152,9 @@ class MockLoader
       'test_ca_public.key.pem' => mockfile.call('test_ca_public.key.pem'),
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
+      'default.toml' => mockfile.call('default.toml'),
+      '/var/lib/fake_rpmdb' => mockdir.call(true),
+      '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
 
     # create all mock commands
@@ -156,6 +166,8 @@ class MockLoader
     empty = lambda {
       mock.mock_command('', '', '', 0)
     }
+
+    cmd_exit_1 = mock.mock_command('', '', '', 1)
 
     mock.commands = {
       'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
@@ -173,6 +185,8 @@ class MockLoader
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
+      'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
+      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
@@ -310,7 +324,7 @@ class MockLoader
       # zfs output for pool tank
       '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
       # docker
-      "docker ps -a --no-trunc --format '{{ json . }}'" => cmd.call('docker-ps-a'),
+      "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call('docker-ps-a'),
       "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
       "docker info --format '{{ json . }}'" => cmd.call('docker-info'),
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
@@ -329,6 +343,13 @@ class MockLoader
       'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
+      # mssql tests
+      "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
+      "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
+      "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
+      # oracle
+      "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
+      "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
     }
     @backend
   end
