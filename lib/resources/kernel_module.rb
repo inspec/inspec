@@ -23,31 +23,13 @@ module Inspec::Resources
       it { should_not be_blacklisted }
     end
 
-    describe kernel_module('video') do
-      it { should_not be_blacklisted }
-      it { should be_loaded }
-    end
-
-    # via 'bin_false'
     describe kernel_module('sstfb') do
       it { should_not be_loaded }
       it { should be_disabled }
-      it { should be_blacklisted }
-    end
-
-    # via 'bin_true'
-    describe kernel_module('nvidiafb') do
-      it { should_not be_loaded }
-      it { should be_disabled }
-      it { should be_blacklisted }
     end
 
     describe kernel_module('floppy') do
       it { should be_blacklisted }
-    end
-
-    describe kernel_module('bridge') do
-      it { should_not be_loaded }
     end
 
     describe kernel_module('dhcp') do

@@ -15,7 +15,8 @@ method.
 ## Syntax
 
 A `kernel_module` resource block declares a module name, and then tests if that
-module is a loadable kernel module:
+module is a loadable kernel module, if it is enabled, disabled or if it is
+blacklisted:
 
     describe kernel_module('video') do
       it { should be_loaded }
@@ -23,31 +24,13 @@ module is a loadable kernel module:
       it { should_not be_blacklisted }
     end
 
-    describe kernel_module('video') do
-      it { should_not be_blacklisted }
-      it { should be_loaded }
-    end
-
-    # via 'bin_false'
     describe kernel_module('sstfb') do
       it { should_not be_loaded }
       it { should be_disabled }
-      it { should be_blacklisted }
-    end
-
-    # via 'bin_true'
-    describe kernel_module('nvidiafb') do
-      it { should_not be_loaded }
-      it { should be_disabled }
-      it { should be_blacklisted }
     end
 
     describe kernel_module('floppy') do
       it { should be_blacklisted }
-    end
-
-    describe kernel_module('bridge') do
-      it { should_not be_loaded }
     end
 
     describe kernel_module('dhcp') do
@@ -101,9 +84,50 @@ The `version` matcher tests if the named module version is on the system:
 
 The following examples show how to use this InSpec audit resource.
 
-### Test if a module is loaded
+    ### Test a modules 'version'
 
     describe kernel_module('bridge') do
       it { should be_loaded }
       its(:version) { should cmp >= '2.2.2' }
+    end
+
+    ### Test if a module is loaded, not disabled and not blacklisted
+
+    describe kernel_module('video') do
+      it { should be_loaded }
+      it { should_not be_disabled }
+      it { should_not be_blacklisted }
+    end
+
+    ### Check if a module is blacklisted
+
+    describe kernel_module('floppy') do
+      it { should be_blacklisted }
+    end
+
+    ### Ensure a module is *not* blacklisted and it is loaded
+
+    describe kernel_module('video') do
+      it { should_not be_blacklisted }
+      it { should be_loaded }
+    end
+
+    ### Ensure a module is disabled via 'bin_false'
+
+    describe kernel_module('sstfb') do
+      it { should_not be_loaded }
+      it { should be_disabled }
+    end
+
+    ### Ensure a module is 'blacklisted'/'disabled' via 'bin_true'
+
+    describe kernel_module('nvidiafb') do
+      it { should_not be_loaded }
+      it { should be_blacklisted }
+    end
+
+    ### Ensure a module is not loaded
+
+    describe kernel_module('dhcp') do
+      it { should_not be_loaded }
     end
