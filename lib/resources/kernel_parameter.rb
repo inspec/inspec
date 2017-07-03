@@ -1,6 +1,5 @@
 # encoding: utf-8
 # author: Christoph Hartmann
-# license: All rights reserved
 
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)

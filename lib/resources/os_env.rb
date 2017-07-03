@@ -2,7 +2,6 @@
 # copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
-# license: All rights reserved
 
 # Usage:
 #

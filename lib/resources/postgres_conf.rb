@@ -3,7 +3,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 # author: Aaron Lippold
-# license: All rights reserved
 
 require 'utils/simpleconfig'
 require 'utils/find_files'

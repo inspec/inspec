@@ -153,6 +153,8 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      '/var/lib/fake_rpmdb' => mockdir.call(true),
+      '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
 
     # create all mock commands
@@ -164,6 +166,8 @@ class MockLoader
     empty = lambda {
       mock.mock_command('', '', '', 0)
     }
+
+    cmd_exit_1 = mock.mock_command('', '', '', 1)
 
     mock.commands = {
       'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
@@ -181,6 +185,8 @@ class MockLoader
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
+      'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
+      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
@@ -337,6 +343,13 @@ class MockLoader
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       'nginx -V 2>&1' => cmd.call('nginx-v'),
       '/usr/sbin/nginx -V 2>&1' => cmd.call('nginx-v'),
+      # mssql tests
+      "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
+      "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
+      "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
+      # oracle
+      "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
+      "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
     }
     @backend
   end

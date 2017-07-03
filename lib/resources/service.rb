@@ -2,7 +2,7 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 # author: Stephan Renatus
-# license: All rights reserved
+
 require 'hashie'
 
 module Inspec::Resources
