@@ -1,5 +1,4 @@
 # encoding: utf-8
-# copyright: 2017
 # author: Rony Xavier,rx294@nyu.edu
 # author: Aaron Lippold, lippold@gmail.com
 
@@ -22,8 +21,8 @@ module Inspec::Resources
     def initialize(hba_conf_path = nil)
       return skip_resource 'The `postgres_hba_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_file = hba_conf_path || File.expand_path('pg_hba.conf', inspec.postgres.conf_dir)
-      @content = nil
-      @params = nil
+      @content = ''
+      @params = {}
       read_content
     end
 
@@ -57,13 +56,20 @@ module Inspec::Resources
 
     def read_content(config_file = @conf_file)
       file = inspec.file(config_file)
+
       if !file.file?
         return skip_resource "Can't find file \"#{@conf_file}\""
       end
+
       raw_conf = file.content
+
       if raw_conf.empty? && !file.empty?
         return skip_resource("Can't read the contents of \"#{@conf_file}\"")
       end
+
+      # @todo use SimpleConfig here if we can
+      # ^\s*(\S+)\s+(\S+)\s+(\S+)\s(?:(\d*.\d*.\d*.\d*\/\d*)|(::\/\d+))\s+(\S+)\s*(.*)?\s*$
+
       @content = clean_conf_file(@conf_file)
       @params = parse_conf(@content)
       @params.each do |line|

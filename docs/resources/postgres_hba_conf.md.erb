@@ -9,8 +9,8 @@ Use the `postgres_hba_conf` InSpec audit resource to test the client authenticat
 
 An `postgres_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
 
-    describe postgres_hba_conf.where { pg_username == 'filter_value' } do
-      its('attribute') { should cmp 'value' }
+    describe postgres_hba_conf.where { type == 'local' } do
+     its('auth_method') { should eq ['peer'] }
     end
 
 where
@@ -70,6 +70,7 @@ For example:
     describe postgres_hba_conf.where { type == 'local' } do
       its('address') { should cmp 'value' }
     end
+    
 ### auth_method([String])
 
 `auth_method` returns a an array of strings that matches the where condition of the filter table
