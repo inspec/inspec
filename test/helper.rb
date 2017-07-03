@@ -153,6 +153,11 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      '/test/path/to/postgres/pg_hba.conf' => mockfile.call('pg_hba.conf'),
+      '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
+      'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
+      '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
+      '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
@@ -343,6 +348,9 @@ class MockLoader
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       'nginx -V 2>&1' => cmd.call('nginx-v'),
       '/usr/sbin/nginx -V 2>&1' => cmd.call('nginx-v'),
+      # postgres tests
+      %q(bash -c 'type "psql"') => cmd.call('bash -c type psql'),
+      %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
       "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
