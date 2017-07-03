@@ -19,6 +19,7 @@ module Inspec::Resources
     end
 
     def loaded?
+      raise "No module name supplied - cannot check if nginx module is loaded" if @module_name.nil?
       loaded_modules.include?(@module)
     end
 
