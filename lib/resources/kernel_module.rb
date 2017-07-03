@@ -4,11 +4,21 @@
 # author: Aaron Lippold
 # author: Adam Leff
 
+require 'awesome_print'
+
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)
     name 'kernel_module'
-    desc 'Use the kernel_module InSpec audit resource to test kernel modules on Linux platforms. These parameters are located under /lib/modules. Any submodule may be tested using this resource.'
+    desc 'Use the kernel_module InSpec audit resource to test kernel modules on
+    Linux platforms. These parameters are located under /lib/modules. Any submodule
+    may be tested using this resource.
+
+    The `kernel_module` resource can also verify if a kernel module is `blacklisted`
+    or if a module is disabled via a fake install using the `bin_true` or `bin_false`
+    method.'
+
     example "
+
     describe kernel_module('video') do
       it { should be_loaded }
       it { should_not be_disabled }
@@ -20,16 +30,18 @@ module Inspec::Resources
       it { should be_loaded }
     end
 
+    # via 'bin_false'
     describe kernel_module('sstfb') do
       it { should_not be_loaded }
       it { should be_disabled }
-      it { should be_disabled_via_bin_false }
+      it { should be_blacklisted }
     end
 
+    # via 'bin_true'
     describe kernel_module('nvidiafb') do
       it { should_not be_loaded }
       it { should be_disabled }
-      it { should be_disabled_via_bin_true }
+      it { should be_blacklisted }
     end
 
     describe kernel_module('floppy') do
@@ -72,16 +84,12 @@ module Inspec::Resources
       !modprobe_output.match(%r{^install\s+#{@module}\s+/(s?)bin/(true|false)}).nil?
     end
 
-    def disabled_via_bin_true?
-      !modprobe_output.match(%r{^install\s+#{@module}\s+/(s?)bin/true}).nil?
-    end
-
-    def disabled_via_bin_false?
-      !modprobe_output.match(%r{^install\s+#{@module}\s+/(s?)bin/false}).nil?
-    end
-
     def blacklisted?
-      !modprobe_output.match(/^blacklist\s+#{@module}/).nil?
+      results = []
+      results.push(!modprobe_output.match(/^blacklist\s+#{@module}/).nil?)
+      results.push(disabled_via_bin_true?)
+      results.push(disabled_via_bin_false?)
+      results.uniq!.include?(true) ? true : false
     end
 
     def version
@@ -113,6 +121,14 @@ module Inspec::Resources
       else
         'modprobe'
       end
+    end
+
+    def disabled_via_bin_true?
+      !modprobe_output.match(%r{^install\s+#{@module}\s+/(s?)bin/true}).nil?
+    end
+
+    def disabled_via_bin_false?
+      !modprobe_output.match(%r{^install\s+#{@module}\s+/(s?)bin/false}).nil?
     end
   end
 end
