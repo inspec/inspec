@@ -22,11 +22,9 @@ module Inspec::Resources
 
     def initialize(nginx_bin_dir = nil)
       return skip_resource 'The `nginx` resource is not yet available on your OS.' if inspec.os.windows?
-      bin_dir = nginx_bin_dir || bin_dir_from_command || locate_bin_dir_by_path
+      bin_dir = nginx_bin_dir || bin_dir_from_command || locate_by_path('bin')
       if bin_dir.nil? || !inspec.command("#{bin_dir}/nginx").exist?
-        return skip_resource 'Error fining the NGINX binary, plese review the
-                              provided `PATH` is only the `base_dir` and or ensure
-                              the `nginx` binary is in the system `PATH`.'
+        return skip_resource 'Error fining the NGINX binary, plese review the provided `PATH` is only the `base_dir` and or ensure the `nginx` binary is in the system `PATH`.'
       end
       cmd = inspec.command("#{bin_dir}/nginx -V 2>&1")
       if !cmd.exit_status.zero?
@@ -67,31 +65,25 @@ module Inspec::Resources
     def bin_dir_from_command
       return unless inspec.command('nginx').exist?
       inspec.command('which nginx | cut -d/ -f1,2,3').stdout.strip
-      false
     end
 
-    def locate_bin_dir_by_path
-      bin_dir_loc = nil
-      bin_list = [
-        '/usr/sbin/nginx',
-        '/usr/bin/nginx',
-        '/usr/local/sbin/nginx',
-        '/usr/local/bin/nginx',
-        '/opt/sbin/nginx',
-        '/opt/bin/nginx',
-      ]
-
-      bin_list.each do |dir|
-        bin_dir_loc = Pathname.new(dir).dirname if inspec.command(dir).exist?
+    def locate_by_path(type = nil)
+      bin_list = ['/usr/sbin/nginx', '/usr/bin/nginx', '/usr/local/sbin/nginx', '/usr/local/bin/nginx', '/opt/sbin/nginx', '/opt/bin/nginx']
+      dir_list = ['/etc/nginx', '/etc/conf/nginx', '/usr/local/nginx/conf', '/usr/local/etc/nginx', '/opt/nginx/conf', '/opt/etc/nginx']
+      list = bin_list if type == 'bin'
+      list = dir_list if type == 'path'
+      loc = 'nil'
+      list.each do |elm|
+        loc = Pathname.new(elm).dirname if inspec.command(elm).exist? && type == 'bin'
+        loc = elm if inspec.directory(elm).exist? && type == 'path'
         break
       end
-
-      if bin_dir_loc.nil?
-        warn 'Unable to find the NGINX bin_dir in the expected location(s), please
-        execute "nginx -V" as the `root` user to find the non-starndard bin_dir
-        location.'
+      element = type == 'bin' ? 'bin_dir' : 'conf_dir'
+      if loc.nil?
+        warn "Unable to find the NGINX #{element} expected location(s), please
+        execute `nginx -V` as the `root` user to find the non-starndard location."
       end
-      bin_dir_loc
+      loc
     end
 
     def read_content
@@ -105,30 +97,6 @@ module Inspec::Resources
       cmd.exit_status.zero? ? cmd.stdout.chomp : nil
     end
 
-    def locate_conf_dir_by_path
-      conf_dir_loc = nil
-      dir_list = [
-        '/etc/nginx',
-        '/etc/conf/nginx',
-        '/usr/local/nginx/conf',
-        '/usr/local/etc/nginx',
-        '/opt/nginx/conf',
-        '/opt/etc/nginx',
-      ]
-
-      dir_list.each do |dir|
-        conf_dir_loc = dir if inspec.directory(dir).exist?
-        break
-      end
-
-      if conf_dir_loc.nil?
-        warn 'Unable to find the NGINX conf_dir in the expected location(s), please
-        execute "nginx -V" as the `root` user to find the non-starndard conf_dir
-        location.'
-      end
-      conf_dir_loc
-    end
-
     def parse_config
       @params[:prefix] = @data.scan(/--prefix=(\S+)\s/).flatten.first
       @params[:service] = 'nginx'
@@ -136,7 +104,7 @@ module Inspec::Resources
     end
 
     def parse_path
-      @params[:conf_path] = nginx_conf_from_command || "#{locate_conf_dir_by_path}/nginx.conf"
+      @params[:conf_path] = nginx_conf_from_command || "#{locate_by_path('path')}/nginx.conf"
       @params[:conf_dir] = Pathname.new(@params[:conf_path]).dirname.to_s
       @params[:sbin_path] = @data.scan(/--sbin-path=(\S+)\s/).flatten.first
       @params[:modules_path] = @data.scan(/--modules-path=(\S+)\s/).flatten.first
