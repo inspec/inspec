@@ -78,7 +78,7 @@ module Inspec::Resources
         '/usr/local/sbin/nginx',
         '/usr/local/bin/nginx',
         '/opt/sbin/nginx',
-        '/opt/bin/nginx'
+        '/opt/bin/nginx',
       ]
 
       bin_list.each do |dir|

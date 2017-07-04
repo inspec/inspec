@@ -1,10 +1,11 @@
 PATH
   remote: ..
   specs:
-    inspec (1.29.0)
+    inspec (1.30.0)
       addressable (~> 2.4)
       faraday (>= 0.9.0)
       hashie (~> 3.4)
+      htmlentities
       json (>= 1.8, < 3.0)
       method_source (~> 0.8)
       mixlib-log
@@ -84,6 +85,7 @@ GEM
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashie (3.5.5)
+    htmlentities (4.3.4)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
     i18n (0.7.0)
@@ -222,7 +224,7 @@ GEM
     tins (1.13.2)
     toml (0.1.2)
       parslet (~> 1.5.0)
-    train (0.24.0)
+    train (0.25.0)
       docker-api (~> 1.26)
       json (>= 1.8, < 3.0)
       mixlib-shellout (~> 2.0)

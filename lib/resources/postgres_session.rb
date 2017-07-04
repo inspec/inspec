@@ -4,6 +4,8 @@
 # author: Christoph Hartmann
 # author: Aaron Lippold
 
+require 'shellwords'
+
 module Inspec::Resources
   class Lines
     attr_reader :output
@@ -35,7 +37,7 @@ module Inspec::Resources
       # db: databse == db_user running the sql query
 
       describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
-        its('output') { should eq('') }
+        its('output') { should eq '' }
       end
     "
 
@@ -46,21 +48,25 @@ module Inspec::Resources
     end
 
     def query(query, db = [])
-      dbs = db.map { |x| "-d #{x}" }.join(' ')
-      # TODO: simple escape, must be handled by a library
-      # that does this securely
-      escaped_query = query.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
-      # run the query
-      cmd = inspec.command("PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c \"#{escaped_query}\"")
+      psql_cmd = create_psql_cmd(query, db)
+      cmd = inspec.command(psql_cmd)
       out = cmd.stdout + "\n" + cmd.stderr
-      if cmd.exit_status != 0 or
-         out =~ /could not connect to .*/ or
-         out.downcase =~ /^error/
-        # skip this test if the server can't run the query
+      if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
         skip_resource "Can't read run query #{query.inspect} on postgres_session: #{out}"
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end
+    end
+
+    private
+
+    def escaped_query(query)
+      Shellwords.escape(query)
+    end
+
+    def create_psql_cmd(query, db = [])
+      dbs = db.map { |x| "-d #{x}" }.join(' ')
+      "PGPASSWORD='#{@pass}' psql -U #{@user} #{dbs} -h #{@host} -A -t -c #{escaped_query(query)}"
     end
   end
 end
