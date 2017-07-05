@@ -24,6 +24,8 @@
 #   it { should be_resolvable.by('dns') }
 # end
 
+require 'resolv'
+
 module Inspec::Resources
   class Host < Inspec.resource(1)
     name 'host'
@@ -138,6 +140,26 @@ module Inspec::Resources
       # be enumerated in a skip_resource message
       []
     end
+
+    def resolve_with_dig(hostname)
+      addresses = []
+
+      # look for IPv6 addresses
+      cmd = inspec.command("dig +short AAAA #{hostname}")
+      cmd.stdout.lines.each do |line|
+        matched = line.chomp.match(Resolv::IPv6::Regex)
+        addresses << matched.to_s unless matched.nil?
+      end
+
+      # look for IPv4 addresses
+      cmd = inspec.command("dig +short A #{hostname}")
+      cmd.stdout.lines.each do |line|
+        matched = line.chomp.match(Resolv::IPv4::Regex)
+        addresses << matched.to_s unless matched.nil?
+      end
+
+      addresses.empty? ? nil : addresses
+    end
   end
 
   class DarwinHostProvider < HostProvider
@@ -166,15 +188,7 @@ module Inspec::Resources
     end
 
     def resolve(hostname)
-      # Resolve IPv6 address first, if that fails try IPv4 to match Linux behaivor
-      cmd = inspec.command("host -t AAAA #{hostname}")
-      if cmd.exit_status.to_i != 0
-        cmd = inspec.command("host -t A #{hostname}")
-      end
-      return nil if cmd.exit_status.to_i != 0
-
-      resolve = /^.* has IPv\d address\s+(?<ip>\S+)\s*$/.match(cmd.stdout.chomp)
-      [resolve[1]] if resolve
+      resolve_with_dig(hostname)
     end
   end
 
@@ -205,6 +219,10 @@ module Inspec::Resources
     end
 
     def resolve(hostname)
+      inspec.command('dig').exist? ? resolve_with_dig(hostname) : resolve_with_getent(hostname)
+    end
+
+    def resolve_with_getent(hostname)
       # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
       cmd = inspec.command("getent hosts #{hostname}")
       return nil if cmd.exit_status.to_i != 0
