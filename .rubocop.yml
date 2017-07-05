@@ -3,7 +3,7 @@ AllCops:
   Exclude:
   - Gemfile
   - Rakefile
-  - 'test/**/*'
+  - 'test/integration/**/*'
   - 'examples/**/*'
   - 'vendor/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'

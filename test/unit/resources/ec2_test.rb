@@ -1,60 +1,53 @@
 require 'helper'
-
 require 'ec2'
 
 class TestEc2 < Minitest::Test
-  Id = "instance-id"
+  Id = 'instance-id'.freeze
 
   def setup
-    @mockConn = Minitest::Mock.new
-    @mockClient = Minitest::Mock.new
-    @mockResource = Minitest::Mock.new
+    @mock_conn = Minitest::Mock.new
+    @mock_client = Minitest::Mock.new
+    @mock_resource = Minitest::Mock.new
 
-    @mockConn.expect :ec2_client, @mockClient
-    @mockConn.expect :ec2_resource, @mockResource
+    @mock_conn.expect :ec2_client, @mock_client
+    @mock_conn.expect :ec2_resource, @mock_resource
   end
 
   def test_that_id_returns_id_directly_when_constructed_with_an_id
-    assert_equal Id, Ec2.new(Id, @mockConn).id
+    assert_equal Id, Ec2.new(Id, @mock_conn).id
   end
 
   def test_that_id_returns_fetched_id_when_constructed_with_a_name
-    mockInstance = Minitest::Mock.new
-
-    mockInstance.expect :nil?, false
-    mockInstance.expect :id, Id
-    @mockResource.expect :instances, [mockInstance], [Hash]
-     
-    assert_equal Id, Ec2.new({name: 'cut'}, @mockConn).id
+    mock_instance = Minitest::Mock.new
+    mock_instance.expect :nil?, false
+    mock_instance.expect :id, Id
+    @mock_resource.expect :instances, [mock_instance], [Hash]
+    assert_equal Id, Ec2.new({ name: 'cut' }, @mock_conn).id
   end
 
   def test_that_instance_returns_instance_when_instance_exists
-    mockInstance = Object.new
+    mock_instance = Object.new
 
-    @mockResource.expect :instance, mockInstance, [Id] 
-
-    assert_same mockInstance, Ec2.new(Id, @mockConn).send(:instance)
+    @mock_resource.expect :instance, mock_instance, [Id]
+    assert_same mock_instance, Ec2.new(Id, @mock_conn).send(:instance)
   end
 
   def test_that_instance_returns_nil_when_instance_does_not_exist
-    @mockResource.expect :instance, nil, [Id] 
-
-    assert Ec2.new(Id, @mockConn).send(:instance).nil?
+    @mock_resource.expect :instance, nil, [Id]
+    assert Ec2.new(Id, @mock_conn).send(:instance).nil?
   end
 
   def test_that_exists_returns_true_when_instance_exists
-    mockInstance = Minitest::Mock.new
-    mockInstance.expect :exists?, true
-    @mockResource.expect :instance, mockInstance, [Id] 
-
-    assert Ec2.new(Id, @mockConn).exists?
+    mock_instance = Minitest::Mock.new
+    mock_instance.expect :exists?, true
+    @mock_resource.expect :instance, mock_instance, [Id]
+    assert Ec2.new(Id, @mock_conn).exists?
   end
 
   def test_that_exists_returns_false_when_instance_does_not_exist
-    mockInstance = Minitest::Mock.new
-    mockInstance.expect :exists?, false
-    @mockResource.expect :instance, mockInstance, [Id]
-
-    assert !Ec2.new(Id, @mockConn).exists?
+    mock_instance = Minitest::Mock.new
+    mock_instance.expect :exists?, false
+    @mock_resource.expect :instance, mock_instance, [Id]
+    assert !Ec2.new(Id, @mock_conn).exists?
   end
 end
