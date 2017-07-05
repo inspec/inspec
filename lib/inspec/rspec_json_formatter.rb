@@ -243,7 +243,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     # this example, leading to Ruby exceptions.
     return false if profile_name.nil? || example_profile_id.nil?
 
-    profile_name == example_profile_id
+    profile_name == example_profile_id && profile[:controls].any? { |control| control[:id] == example[:id] }
   end
 
   def move_example_into_control(example, control)
