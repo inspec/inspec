@@ -14,6 +14,8 @@ A `host` resource block declares a host name, and then (depending on what is to 
 
    describe host('example.com', port: 80, protocol: 'tcp') do
      it { should be_reachable }
+     it { should be_resolvable }
+     its('ipaddress') { should include '12.34.56.78' }
    end
 
 where
@@ -22,7 +24,6 @@ where
 * `'example.com'` is the host name
 * `port:` is the port number
 * `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or  ICMP (`protocol: 'icmp'`))
-* `be_reachable` is a valid matcher for this resource
 
 
 ## Matchers
@@ -82,4 +83,12 @@ The following examples show how to use this InSpec audit resource.
     describe host('example.com') do
       it { should be_resolvable }
       its('ipaddress') { should include '192.168.1.1' }
+    end
+
+### Review the connection setup and socket contents when checking reachability
+
+    describe host('example.com', port: 12345, protocol: 'tcp') do
+      it { should be_reachable }
+      its('connection') { should_not match /connection refused/ }
+      its('socket') { should match /STATUS_OK/ }
     end
