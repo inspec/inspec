@@ -1,0 +1,3 @@
+blacklist floppy
+install nvidiafb /bin/true
+install sstfb /sbin/false

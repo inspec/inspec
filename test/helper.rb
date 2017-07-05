@@ -335,6 +335,8 @@ class MockLoader
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
+      # modprobe for kernel_module
+      "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource
       '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes'),
       # host resource: check to see if netcat is installed
