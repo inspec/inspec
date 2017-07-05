@@ -18,23 +18,11 @@ A `kernel_module` resource block declares a module name, and then tests if that
 module is a loadable kernel module, if it is enabled, disabled or if it is
 blacklisted:
 
-    describe kernel_module('video') do
+    describe kernel_module('module_name') do
       it { should be_loaded }
       it { should_not be_disabled }
       it { should_not be_blacklisted }
     end
-
-    describe kernel_module('sstfb') do
-      it { should_not be_loaded }
-      it { should be_disabled }
-    end
-
-    describe kernel_module('floppy') do
-      it { should be_blacklisted }
-    end
-
-    describe kernel_module('dhcp') do
-      it { should_not be_loaded }
     end
 
 where
