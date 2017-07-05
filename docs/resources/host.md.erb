@@ -15,7 +15,7 @@ A `host` resource block declares a host name, and then (depending on what is to 
    describe host('example.com', port: 80, protocol: 'tcp') do
      it { should be_reachable }
      it { should be_resolvable }
-     its('ipaddress') { should eq '12.34.56.78' }
+     its('ipaddress') { should include '12.34.56.78' }
    end
 
 where
