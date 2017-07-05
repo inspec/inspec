@@ -75,11 +75,16 @@ namespace :test do
 
   task :integration do
     namespace = ENV['INSPEC_TERRAFORM_ENV'] || prompt("Please enter a namespace for your integration tests to run in: ")
-    Rake::Task["test:configure_test_environment"].execute({:namespace => namespace})
-    Rake::Task["test:cleanup_integration_tests"].execute
-    Rake::Task["test:setup_integration_tests"].execute
-    Rake::Task["test:run_integration_tests"].execute
-    Rake::Task["test:cleanup_integration_tests"].execute
-    Rake::Task["test:destroy_test_environment"].execute({:namespace => namespace})
+    begin
+      Rake::Task["test:configure_test_environment"].execute({:namespace => namespace})
+      Rake::Task["test:cleanup_integration_tests"].execute
+      Rake::Task["test:setup_integration_tests"].execute
+      Rake::Task["test:run_integration_tests"].execute
+    rescue
+      abort("Integration testing has failed")
+    ensure
+      Rake::Task["test:cleanup_integration_tests"].execute
+      Rake::Task["test:destroy_test_environment"].execute({:namespace => namespace})
+    end
   end
 end
