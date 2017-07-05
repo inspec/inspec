@@ -1,7 +1,7 @@
 # encoding: utf-8
 # copyright: 2017
 # author: Aaron Lippold, lippold@gmail.com
-# author: Rony Xavier, rx294@nyu.edu 
+# author: Rony Xavier, rx294@nyu.edu
 
 require 'helper'
 require 'inspec/resource'
@@ -31,6 +31,10 @@ describe 'Inspec::Resources::Nginx' do
       _(resource.version).must_match '1.12.0'
     end
     it 'Verify nginx_module parsing with custom path`version` - 1.12.0' do
+      resource = load_resource('nginx','/usr/sbin')
+      _(resource.version).must_match '1.12.0'
+    end
+    it 'Verify nginx_module parsing with a broken custom path`version` - 1.12.0' do
       resource = load_resource('nginx','/usr/sbin/')
       _(resource.version).must_match '1.12.0'
     end

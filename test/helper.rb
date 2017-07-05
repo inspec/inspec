@@ -346,9 +346,6 @@ class MockLoader
       'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
-      'nginx -V 2>&1' => cmd.call('nginx-v'),
-      '/usr/sbin/nginx -V 2>&1' => cmd.call('nginx-v'),
-      "ps aux | grep 'nginx *-c' | awk '{ print $NF }'" => cmd.call('nginx_conf'),
       # postgres tests
       %q(bash -c 'type "psql"') => cmd.call('bash -c type psql'),
       %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
@@ -359,6 +356,14 @@ class MockLoader
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
+      # nginx tests
+      %{which nginx | cut -d/ -f1,2,3} => cmd.call('which-nginx-cut-d-123'),
+      %{nginx -V 2>&1} => cmd.call('nginx-v'),
+      %{/usr/sbin/nginx -V 2>&1} => cmd.call('nginx-v'),
+      # needed for two differnt inspec.command call formats
+      %{bash -c 'type "nginx"'} => cmd.call('bash-c-type-nginx'),
+      %{bash -c 'type "/usr/sbin/nginx"'} => cmd.call('bash-c-type-nginx'),
+      %{ps aux | grep 'nginx *-c' | awk '{ print $NF }'} => cmd.call('ps-aux-nginx-awk')
     }
     @backend
   end

@@ -18,13 +18,14 @@ module Inspec::Resources
         its('version') { should be >= '1.0.0' }
       end
     "
-    attr_reader :params
+    attr_reader :params, :bin_dir
 
     def initialize(nginx_bin_dir = nil)
       return skip_resource 'The `nginx` resource is not yet available on your OS.' if inspec.os.windows?
       bin_dir = nginx_bin_dir || bin_dir_from_command || locate_by_path('bin')
+      bin_dir.chop! if bin_dir.end_with? '/'
       if bin_dir.nil? || !inspec.command("#{bin_dir}/nginx").exist?
-        return skip_resource 'Error fining the NGINX binary, plese review the provided `PATH` is only the `base_dir` and or ensure the `nginx` binary is in the system `PATH`.'
+        return skip_resource 'Error fining the NGINX binary or `bin_dir`, plese review the provided `PATH` is only the `base_dir` and or ensure the `nginx` binary is in the system `PATH`.'
       end
       cmd = inspec.command("#{bin_dir}/nginx -V 2>&1")
       if !cmd.exit_status.zero?
@@ -35,14 +36,10 @@ module Inspec::Resources
       read_content
     end
 
-    %w{compiler_info conf_dir error_log_path http_client_body_temp_path http_fastcgi_temp_path http_log_path http_proxy_temp_path http_scgi_temp_path http_uwsgi_temp_path lock_path modules_path openssl_version prefix sbin_path service support_info version}.each do |property|
+    %w{compiler_info conf_path conf_dir error_log_path http_client_body_temp_path http_fastcgi_temp_path http_log_path http_proxy_temp_path http_scgi_temp_path http_uwsgi_temp_path lock_path modules_path openssl_version prefix sbin_path service support_info version}.each do |property|
       define_method(property.to_sym) do
         @params[property.to_sym]
       end
-    end
-
-    def to_s
-      'Nginx Environment'
     end
 
     def openssl_version
@@ -60,6 +57,10 @@ module Inspec::Resources
       support_info.empty? ? nil : support_info.join(' ')
     end
 
+    def to_s
+      'Nginx Environment'
+    end
+
     private
 
     def bin_dir_from_command
@@ -67,14 +68,20 @@ module Inspec::Resources
       inspec.command('which nginx | cut -d/ -f1,2,3').stdout.strip
     end
 
+    def nginx_conf_from_command
+      cmd = inspec.command("ps aux | grep 'nginx *-c' | awk '{ print $NF }'")
+      cmd.exit_status.zero? ? cmd.stdout.chomp : nil
+    end
+
     def locate_by_path(type = nil)
+      return warn 'invalid type passed to `locate_by_path`' if !%w{bin path}.include?(type)
       bin_list = ['/usr/sbin/nginx', '/usr/bin/nginx', '/usr/local/sbin/nginx', '/usr/local/bin/nginx', '/opt/sbin/nginx', '/opt/bin/nginx']
       dir_list = ['/etc/nginx', '/etc/conf/nginx', '/usr/local/nginx/conf', '/usr/local/etc/nginx', '/opt/nginx/conf', '/opt/etc/nginx']
       list = bin_list if type == 'bin'
       list = dir_list if type == 'path'
       loc = 'nil'
       list.each do |elm|
-        loc = Pathname.new(elm).dirname if inspec.command(elm).exist? && type == 'bin'
+        loc = Pathname.new(elm).dirname.to_s if inspec.command(elm).exist? && type == 'bin'
         loc = elm if inspec.directory(elm).exist? && type == 'path'
         break
       end
@@ -90,11 +97,6 @@ module Inspec::Resources
       parse_config
       parse_path
       parse_http_path
-    end
-
-    def nginx_conf_from_command
-      cmd = inspec.command("ps aux | grep 'nginx *-c' | awk '{ print $NF }'")
-      cmd.exit_status.zero? ? cmd.stdout.chomp : nil
     end
 
     def parse_config
