@@ -12,19 +12,22 @@ module Inspec::Resources
       end
       "
 
-    def initialize(modulename = nil, nginx_path = nil)
-      @module = modulename
-      @nginx_path = nginx_path
+    def initialize(opts = {})
       return skip_resource 'The `nginx_module` resource is not yet available on your OS.' if !inspec.os.linux?
+      @module = opts[:module_name]
+      raise 'No module name supplied - cannot check if nginx module is loaded' if @module.nil?
+      @path = opts[:nginx_path] || "#{inspec.nginx.bin_dir}/nginx" || '/usr/sbin' #bad
+      return skip_resource 'Cannot find the NGINX binary' if @nginx_path.nil?
+      return skip_resource 'NGINX does not seem to be installed on your system' if !inspec.command(@nginx_path.to_s).exist?
     end
 
     def loaded?
-      raise "No module name supplied - cannot check if nginx module is loaded" if @module_name.nil?
+      raise 'No module name supplied - cannot check if nginx module is loaded' if @module.nil?
       loaded_modules.include?(@module)
     end
 
     def loaded_modules
-      cmd = inspec.command("#{@nginx_path}nginx -V 2>&1")
+      cmd = inspec.command("#{@path} -V 2>&1")
       modules_list = cmd.stdout.to_s.scan(/--with-(\S+)_module/).flatten
       cmd.exit_status.zero? ? modules_list : []
     end
