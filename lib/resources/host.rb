@@ -33,6 +33,8 @@ module Inspec::Resources
     example "
       describe host('example.com') do
         it { should be_reachable }
+        it { should be_resolvable }
+        its('ipaddress') { should include '12.34.56.78' }
       end
 
       describe host('example.com', port: '80', protocol: 'tcp') do
@@ -140,7 +142,9 @@ module Inspec::Resources
       # be enumerated in a skip_resource message
       []
     end
+  end
 
+  class UnixHostProvider < HostProvider
     def resolve_with_dig(hostname)
       addresses = []
 
@@ -160,9 +164,19 @@ module Inspec::Resources
 
       addresses.empty? ? nil : addresses
     end
+
+    def resolve_with_getent(hostname)
+      # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
+      cmd = inspec.command("getent hosts #{hostname}")
+      return nil if cmd.exit_status.to_i != 0
+
+      # extract ip adress
+      resolve = /^\s*(?<ip>\S+)\s+(.*)\s*$/.match(cmd.stdout.chomp)
+      [resolve[1]] if resolve
+    end
   end
 
-  class DarwinHostProvider < HostProvider
+  class DarwinHostProvider < UnixHostProvider
     def missing_requirements(protocol)
       missing = []
 
@@ -192,7 +206,7 @@ module Inspec::Resources
     end
   end
 
-  class LinuxHostProvider < HostProvider
+  class LinuxHostProvider < UnixHostProvider
     def missing_requirements(protocol)
       missing = []
 
@@ -220,16 +234,6 @@ module Inspec::Resources
 
     def resolve(hostname)
       inspec.command('dig').exist? ? resolve_with_dig(hostname) : resolve_with_getent(hostname)
-    end
-
-    def resolve_with_getent(hostname)
-      # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
-      cmd = inspec.command("getent hosts #{hostname}")
-      return nil if cmd.exit_status.to_i != 0
-
-      # extract ip adress
-      resolve = /^\s*(?<ip>\S+)\s+(.*)\s*$/.match(cmd.stdout.chomp)
-      [resolve[1]] if resolve
     end
   end
 

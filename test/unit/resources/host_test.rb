@@ -78,9 +78,9 @@ describe 'Inspec::Resources::Host' do
   end
 end
 
-describe Inspec::Resources::HostProvider do
+describe Inspec::Resources::UnixHostProvider do
   describe '#resolve_with_dig' do
-    let(:provider) { Inspec::Resources::HostProvider.new(inspec) }
+    let(:provider) { Inspec::Resources::UnixHostProvider.new(inspec) }
     let(:inspec)   { mock('inspec-backend') }
     let(:v4_command) { mock('v4_command') }
     let(:v6_command) { mock('v6_command') }
@@ -157,9 +157,7 @@ EOL
       provider.resolve_with_dig('testdomain.com').must_be_nil
     end
   end
-end
 
-describe Inspec::Resources::LinuxHostProvider do
   describe '#resolve_with_getent' do
     it 'returns an array of IP addresses when successful' do
       command_output = "2607:f8b0:4004:805::200e testdomain.com\n"
