@@ -357,7 +357,7 @@ class MockLoader
       "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
-      # nginx tests
+      # nginx mock cmd
       %{which nginx | cut -d/ -f1,2,3} => cmd.call('which-nginx-cut-d-123'),
       %{nginx -V 2>&1} => cmd.call('nginx-v'),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call('nginx-v'),
