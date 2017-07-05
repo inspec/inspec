@@ -168,7 +168,7 @@ EOL
       inspec = mock('inspec')
       inspec.stubs(:command).with('getent hosts testdomain.com').returns(command)
 
-      provider = Inspec::Resources::LinuxHostProvider.new(inspec)
+      provider = Inspec::Resources::UnixHostProvider.new(inspec)
       provider.resolve_with_getent('testdomain.com').must_equal(['2607:f8b0:4004:805::200e'])
     end
 
@@ -179,8 +179,43 @@ EOL
       inspec = mock('inspec')
       inspec.stubs(:command).with('getent hosts testdomain.com').returns(command)
 
-      provider = Inspec::Resources::LinuxHostProvider.new(inspec)
+      provider = Inspec::Resources::UnixHostProvider.new(inspec)
       provider.resolve_with_getent('testdomain.com').must_be_nil
+    end
+  end
+end
+
+describe Inspec::Resources::LinuxHostProvider do
+  let(:provider)     { Inspec::Resources::LinuxHostProvider.new(inspec) }
+  let(:inspec)       { mock('inspec-backend') }
+  let(:nc_command)   { mock('nc-command') }
+  let(:ncat_command) { mock('ncat-command') }
+
+  before do
+    provider.stubs(:inspec).returns(inspec)
+  end
+
+  describe '#tcp_check_command' do
+    it 'returns an nc command when nc exists' do
+      inspec.expects(:command).with('nc').returns(nc_command)
+      nc_command.expects(:exist?).returns(true)
+      provider.tcp_check_command('foo', 1234).must_equal 'echo | nc -v -w 1 foo 1234'
+    end
+
+    it 'returns an ncat command when nc does not exist but ncat exists' do
+      inspec.expects(:command).with('nc').returns(nc_command)
+      inspec.expects(:command).with('ncat').returns(ncat_command)
+      nc_command.expects(:exist?).returns(false)
+      ncat_command.expects(:exist?).returns(true)
+      provider.tcp_check_command('foo', 1234).must_equal 'echo | ncat -v -w 1 foo 1234'
+    end
+
+    it 'returns nil if neither nc or ncat exist' do
+      inspec.expects(:command).with('nc').returns(nc_command)
+      inspec.expects(:command).with('ncat').returns(ncat_command)
+      nc_command.expects(:exist?).returns(false)
+      ncat_command.expects(:exist?).returns(false)
+      provider.tcp_check_command('foo', 1234).must_be_nil
     end
   end
 end
