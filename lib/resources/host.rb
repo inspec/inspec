@@ -210,8 +210,8 @@ module Inspec::Resources
     def missing_requirements(protocol)
       missing = []
 
-      if protocol == 'tcp'
-        missing << 'netcat must be installed' unless inspec.command('nc').exist?
+      if protocol == 'tcp' && (!inspec.command('nc').exist? || !inspec.command('ncat').exist?)
+        missing << 'netcat must be installed'
       end
 
       missing
@@ -219,7 +219,7 @@ module Inspec::Resources
 
     def ping(hostname, port, protocol)
       if protocol == 'tcp'
-        resp = inspec.command("echo | nc -v -w 1 #{hostname} #{port}")
+        resp = inspec.command(tcp_check_command(hostname, port))
       else
         # fall back to ping, but we can only test ICMP packages with ping
         resp = inspec.command("ping -w 1 -c 1 #{hostname}")
@@ -230,6 +230,18 @@ module Inspec::Resources
         connection: resp.stderr,
         socket: resp.stdout,
       }
+    end
+
+    def tcp_check_command(hostname, port)
+      if inspec.command('nc').exist?
+        base_cmd = 'nc'
+      elsif inspec.command('ncat').exist?
+        base_cmd = 'ncat'
+      else
+        return
+      end
+
+      "echo | #{base_cmd} -v -w 1 #{hostname} #{port}"
     end
 
     def resolve(hostname)
