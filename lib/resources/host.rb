@@ -210,7 +210,7 @@ module Inspec::Resources
     def missing_requirements(protocol)
       missing = []
 
-      if protocol == 'tcp' && (!inspec.command('nc').exist? || !inspec.command('ncat').exist?)
+      if protocol == 'tcp' && (!inspec.command('nc').exist? && !inspec.command('ncat').exist?)
         missing << 'netcat must be installed'
       end
 
