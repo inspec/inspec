@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    inspec (1.30.0)
+    inspec (1.31.0)
       addressable (~> 2.4)
       faraday (>= 0.9.0)
       hashie (~> 3.4)
