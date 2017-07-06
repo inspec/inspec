@@ -195,6 +195,43 @@ describe Inspec::Resources::LinuxHostProvider do
     provider.stubs(:inspec).returns(inspec)
   end
 
+  describe '#missing_requirements' do
+    it "returns an empty array if nc is installed but ncat is not installed" do
+      inspec.stubs(:command).with('nc').returns(nc_command)
+      nc_command.stubs(:exist?).returns(true)
+      inspec.stubs(:command).with('ncat').returns(ncat_command)
+      ncat_command.stubs(:exist?).returns(false)
+
+      provider.missing_requirements('tcp').must_equal([])
+    end
+
+    it "returns an empty array if nc is not installed but ncat is installed" do
+      inspec.stubs(:command).with('nc').returns(nc_command)
+      nc_command.stubs(:exist?).returns(false)
+      inspec.stubs(:command).with('ncat').returns(ncat_command)
+      ncat_command.stubs(:exist?).returns(true)
+
+      provider.missing_requirements('tcp').must_equal([])
+    end
+
+    it "returns an empty array if both nc and ncat are installed" do
+      inspec.stubs(:command).with('nc').returns(nc_command)
+      nc_command.stubs(:exist?).returns(true)
+      inspec.stubs(:command).with('ncat').returns(ncat_command)
+      ncat_command.stubs(:exist?).returns(true)
+
+      provider.missing_requirements('tcp').must_equal([])
+    end
+
+    it "returns a missing requirement when neither nc nor ncat are installed" do
+      inspec.stubs(:command).with('nc').returns(nc_command)
+      nc_command.stubs(:exist?).returns(false)
+      inspec.stubs(:command).with('ncat').returns(ncat_command)
+      ncat_command.stubs(:exist?).returns(false)
+
+      provider.missing_requirements('tcp').must_equal(['netcat must be installed'])
+    end
+  end
   describe '#tcp_check_command' do
     it 'returns an nc command when nc exists' do
       inspec.expects(:command).with('nc').returns(nc_command)
