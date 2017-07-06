@@ -284,7 +284,7 @@ Gentoo Linux | | x86_64
 Arch Linux | | x86_64
 HP-UX | 11.31 | ia64
 
-*For Windows 2008 and 2008 R2 an updated Powershell (Windows Management Framework 5.0) is required.*
+*For Windows, PowerShell 3.0 or above is required.*
 
 In addition, runtime support is provided for:
 
