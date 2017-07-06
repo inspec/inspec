@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.31.1](https://github.com/chef/inspec/tree/v1.31.1) (2017-07-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.31.0...v1.31.1)
+
+**Fixed bugs:**
+
+- host resource: fix netcat detection [\#1995](https://github.com/chef/inspec/pull/1995) ([adamleff](https://github.com/adamleff))
+
 ## [v1.31.0](https://github.com/chef/inspec/tree/v1.31.0) (2017-07-06)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.30.0...v1.31.0)
 
