@@ -11,13 +11,14 @@ Nginx resource extracts and exposes data reported by the command 'nginx -V'
 
 A `nginx_module` resource block declares a module name, and then tests if that module is loaded:
 
-    describe nginx_module('module_name') do
+    describe nginx_module(nginx_path:'path_to_nginx', module_name:'my_module') do
       it { should be_loaded }
     end
 
 where
 
-* `'module_name'` is the nginx module, such as `'http_ssl'`
+* `'nginx_path:'` is assigned to the path to nginx binary or ommited to use default path`
+* `'module_name:'` is the nginx module to be tested, such as `'http_ssl'`
 * `{ should be_loaded }` tests if the module is loaded and or compiled into nginx
 
 ## Supported Properties
@@ -26,15 +27,15 @@ where
 
 `loaded?` returns `true` if the module is loaded on nginx instance
 
-    describe nginx_module('http_ssl') do
+    describe nginx_module(module_name: 'my_module') do
       it { should be_loaded }
     end
 
-    describe nginx_module('fake_module') do
+    describe nginx_module(module_name: 'fake_module') do
       it { should_not be_loaded }
     end
 
-    describe nginx_module('http_ssl','user path to nginx') do
+    describe nginx_module(nginx_path:'path_to_nginx', module_name:'my_module') do
       it { should be_loaded }
     end
 
@@ -43,9 +44,13 @@ where
 `loaded_modules ` returns an array of loaded modules for the nginx instance
 
     describe nginx_module do
+      its('loaded_modules.length') { should cmp > 1 }
+    end
+
+    describe nginx_module do
       its('loaded_modules') { should include 'http_ssl' }
     end
 
-    describe nginx_module(nil,'user path to nginx') do
+    describe nginx_module(nginx_path: 'path_to_nginx') do
       its('loaded_modules') { should include 'http_ssl' }
     end

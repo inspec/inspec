@@ -348,6 +348,7 @@ class MockLoader
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       'nginx -V 2>&1' => cmd.call('nginx-v'),
       '/usr/sbin/nginx -V 2>&1' => cmd.call('nginx-v'),
+      %q(bash -c 'type "/usr/sbin/nginx"') => cmd.call('nginx-bash'),
       # postgres tests
       %q(bash -c 'type "psql"') => cmd.call('bash -c type psql'),
       %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
