@@ -160,7 +160,7 @@ EOL
 
   describe '#resolve_with_getent' do
     it 'returns an array of IP addresses when successful' do
-      command_output = "2607:f8b0:4004:805::200e testdomain.com\n"
+      command_output = "123.123.123.123 STREAM testdomain.com\n2607:f8b0:4004:805::200e     STREAM\n"
       command = mock('getent_command')
       command.stubs(:stdout).returns(command_output)
       command.stubs(:exit_status).returns(0)
@@ -169,7 +169,7 @@ EOL
       inspec.stubs(:command).with('getent ahosts testdomain.com').returns(command)
 
       provider = Inspec::Resources::UnixHostProvider.new(inspec)
-      provider.resolve_with_getent('testdomain.com').must_equal(['2607:f8b0:4004:805::200e'])
+      provider.resolve_with_getent('testdomain.com').must_equal(['123.123.123.123', '2607:f8b0:4004:805::200e'])
     end
 
     it 'returns nil if command is not successful' do
