@@ -26,7 +26,7 @@ task :spdx do
   require 'net/http'
   json_data = JSON.parse(Net::HTTP.get(URI('https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json')))
   licenses = json_data['licenses'].map { |l| l['licenseId'] }
-  # "All Rights Reserved" is non-standard extra value to cover proriatary license
+  # "All Rights Reserved" is non-standard extra value to cover proprietary license
   licenses.push('All Rights Reserved')
   File.write(File.join(UTILS_DIR, 'spdx.txt'), licenses.join("\n"))
 end

@@ -1,5 +1,46 @@
 # Change Log
 
+## [v1.31.1](https://github.com/chef/inspec/tree/v1.31.1) (2017-07-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.31.0...v1.31.1)
+
+**Fixed bugs:**
+
+- host resource: fix netcat detection [\#1995](https://github.com/chef/inspec/pull/1995) ([adamleff](https://github.com/adamleff))
+
+## [v1.31.0](https://github.com/chef/inspec/tree/v1.31.0) (2017-07-06)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.30.0...v1.31.0)
+
+**Implemented enhancements:**
+
+- Add support for ncat in host resource for CoreOS [\#1993](https://github.com/chef/inspec/pull/1993) ([adamleff](https://github.com/adamleff))
+- New postgres\_hba\_conf resource [\#1964](https://github.com/chef/inspec/pull/1964) ([aaronlippold](https://github.com/aaronlippold))
+- New postgres\_ident\_conf resource [\#1963](https://github.com/chef/inspec/pull/1963) ([aaronlippold](https://github.com/aaronlippold))
+
+**Fixed bugs:**
+
+- Fix formatter when two profiles have the same name [\#1991](https://github.com/chef/inspec/pull/1991) ([adamleff](https://github.com/adamleff))
+- Fix host resolution on Darwin, use dig wherever possible [\#1986](https://github.com/chef/inspec/pull/1986) ([adamleff](https://github.com/adamleff))
+- updated postgres\_session resource properly escape queries [\#1939](https://github.com/chef/inspec/pull/1939) ([aaronlippold](https://github.com/aaronlippold))
+
+## [v1.30.0](https://github.com/chef/inspec/tree/v1.30.0) (2017-06-29)
+[Full Changelog](https://github.com/chef/inspec/compare/v1.29.0...v1.30.0)
+
+**Implemented enhancements:**
+
+- Ensure docker resource works with docker 1.13+ [\#1966](https://github.com/chef/inspec/pull/1966) ([chris-rock](https://github.com/chris-rock))
+- Add `rpm\_dbpath` support to the package resource [\#1960](https://github.com/chef/inspec/pull/1960) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Allow mysql resource to accept socket path [\#1933](https://github.com/chef/inspec/pull/1933) ([rshade](https://github.com/rshade))
+- add nginx\_conf resource [\#1889](https://github.com/chef/inspec/pull/1889) ([arlimus](https://github.com/arlimus))
+- oracle\_session and mssql\_session improvement [\#1857](https://github.com/chef/inspec/pull/1857) ([chris-rock](https://github.com/chris-rock))
+
+**Fixed bugs:**
+
+- Fix socket handling in mysql resource [\#1971](https://github.com/chef/inspec/pull/1971) ([chris-rock](https://github.com/chris-rock))
+- Fix typo in the version\_from\_dir method in postgres\_session resource [\#1962](https://github.com/chef/inspec/pull/1962) ([aaronlippold](https://github.com/aaronlippold))
+- make postgres resource working in mock runner \(for inspec check\) [\#1961](https://github.com/chef/inspec/pull/1961) ([chris-rock](https://github.com/chris-rock))
+- Fix directory resource output and exists check [\#1950](https://github.com/chef/inspec/pull/1950) ([adamleff](https://github.com/adamleff))
+- Fix postgres\_conf ability to test parameters that have a dot in them [\#1938](https://github.com/chef/inspec/pull/1938) ([aaronlippold](https://github.com/aaronlippold))
+
 ## [v1.29.0](https://github.com/chef/inspec/tree/v1.29.0) (2017-06-22)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.28.1...v1.29.0)
 

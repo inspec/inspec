@@ -107,7 +107,9 @@ module Inspec::Resources
 
     def version
       return @version if defined?(@version)
-      data = JSON.parse(inspec.command('docker version --format \'{{ json . }}\'').stdout)
+      data = {}
+      cmd = inspec.command('docker version --format \'{{ json . }}\'')
+      data = JSON.parse(cmd.stdout) if cmd.exit_status == 0
       @version = Hashie::Mash.new(data)
     rescue JSON::ParserError => _e
       return Hashie::Mash.new({})
@@ -115,7 +117,10 @@ module Inspec::Resources
 
     def info
       return @info if defined?(@info)
-      data = JSON.parse(inspec.command('docker info --format \'{{ json . }}\'').stdout)
+      data = {}
+      # docke info format is only supported for Docker 17.03+
+      cmd = inspec.command('docker info --format \'{{ json . }}\'')
+      data = JSON.parse(cmd.stdout) if cmd.exit_status == 0
       @info = Hashie::Mash.new(data)
     rescue JSON::ParserError => _e
       return Hashie::Mash.new({})
@@ -138,7 +143,19 @@ module Inspec::Resources
     private
 
     def parse_containers
-      raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
+      # @see https://github.com/moby/moby/issues/20625, works for docker 1.13+
+      # raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
+      # therefore we stick with older approach
+      labels = %w{Command CreatedAt ID Image Labels  Mounts Names Ports RunningFor Size Status}
+
+      # Networks LocalVolumes work with 1.13+ only
+      if !version.empty? && Gem::Version.new(version['Client']['Version']) >= Gem::Version.new('1.13')
+        labels.push('Networks')
+        labels.push('LocalVolumes')
+      end
+      # build command
+      format = labels.map { |label| "\"#{label}\": {{json .#{label}}}" }
+      raw_containers = inspec.command("docker ps -a --no-trunc --format '{#{format.join(', ')}}'").stdout
       ps = []
       # since docker is not outputting valid json, we need to parse each row
       raw_containers.each_line { |entry|
@@ -147,12 +164,22 @@ module Inspec::Resources
         j = j.map { |k, v|
           [k.downcase, v]
         }.to_h
+
+        # ensure all keys are there
+        j = ensure_container_keys(j)
         ps.push(j)
       }
       ps
     rescue JSON::ParserError => _e
       warn 'Could not parse `docker ps` output'
       []
+    end
+
+    def ensure_container_keys(entry)
+      %w{Command CreatedAt ID Image Labels  Mounts Names Ports RunningFor Size Status Networks LocalVolumes}.each { |key|
+        entry[key.downcase] = nil if !entry.key?(key.downcase)
+      }
+      entry
     end
 
     def parse_images

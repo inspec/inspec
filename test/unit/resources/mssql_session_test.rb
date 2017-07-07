@@ -1,13 +1,21 @@
 # encoding: utf-8
 # author: Nolan Davidson
+# author: Christoph Hartmann
 
 require 'helper'
 
 describe 'Inspec::Resources::MssqlSession' do
   it 'verify mssql_session configuration' do
-    resource = load_resource('mssql_session', user: 'myuser', pass: 'mypass', host: 'windowshost')
-    _(resource.user).must_equal 'myuser'
-    _(resource.pass).must_equal 'mypass'
-    _(resource.host).must_equal 'windowshost'
+    resource = load_resource('mssql_session', user: 'sa', password: 'yourStrong(!)Password', host: 'localhost')
+    _(resource.user).must_equal 'sa'
+    _(resource.password).must_equal 'yourStrong(!)Password'
+    _(resource.host).must_equal 'localhost'
+  end
+
+  it 'run a SQL query' do
+    resource = load_resource('mssql_session', user: 'sa', password: 'yourStrong(!)Password', host: 'localhost')
+    query = resource.query("SELECT SERVERPROPERTY('ProductVersion') as result")
+    _(query.size).must_equal 1
+    _(query.row(0).column('result').value).must_equal '14.0.600.250'
   end
 end

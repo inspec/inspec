@@ -24,6 +24,8 @@
 #   it { should be_resolvable.by('dns') }
 # end
 
+require 'resolv'
+
 module Inspec::Resources
   class Host < Inspec.resource(1)
     name 'host'
@@ -31,6 +33,8 @@ module Inspec::Resources
     example "
       describe host('example.com') do
         it { should be_reachable }
+        it { should be_resolvable }
+        its('ipaddress') { should include '12.34.56.78' }
       end
 
       describe host('example.com', port: '80', protocol: 'tcp') do
@@ -140,7 +144,39 @@ module Inspec::Resources
     end
   end
 
-  class DarwinHostProvider < HostProvider
+  class UnixHostProvider < HostProvider
+    def resolve_with_dig(hostname)
+      addresses = []
+
+      # look for IPv6 addresses
+      cmd = inspec.command("dig +short AAAA #{hostname}")
+      cmd.stdout.lines.each do |line|
+        matched = line.chomp.match(Resolv::IPv6::Regex)
+        addresses << matched.to_s unless matched.nil?
+      end
+
+      # look for IPv4 addresses
+      cmd = inspec.command("dig +short A #{hostname}")
+      cmd.stdout.lines.each do |line|
+        matched = line.chomp.match(Resolv::IPv4::Regex)
+        addresses << matched.to_s unless matched.nil?
+      end
+
+      addresses.empty? ? nil : addresses
+    end
+
+    def resolve_with_getent(hostname)
+      # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
+      cmd = inspec.command("getent hosts #{hostname}")
+      return nil if cmd.exit_status.to_i != 0
+
+      # extract ip adress
+      resolve = /^\s*(?<ip>\S+)\s+(.*)\s*$/.match(cmd.stdout.chomp)
+      [resolve[1]] if resolve
+    end
+  end
+
+  class DarwinHostProvider < UnixHostProvider
     def missing_requirements(protocol)
       missing = []
 
@@ -166,24 +202,16 @@ module Inspec::Resources
     end
 
     def resolve(hostname)
-      # Resolve IPv6 address first, if that fails try IPv4 to match Linux behaivor
-      cmd = inspec.command("host -t AAAA #{hostname}")
-      if cmd.exit_status.to_i != 0
-        cmd = inspec.command("host -t A #{hostname}")
-      end
-      return nil if cmd.exit_status.to_i != 0
-
-      resolve = /^.* has IPv\d address\s+(?<ip>\S+)\s*$/.match(cmd.stdout.chomp)
-      [resolve[1]] if resolve
+      resolve_with_dig(hostname)
     end
   end
 
-  class LinuxHostProvider < HostProvider
+  class LinuxHostProvider < UnixHostProvider
     def missing_requirements(protocol)
       missing = []
 
-      if protocol == 'tcp'
-        missing << 'netcat must be installed' unless inspec.command('nc').exist?
+      if protocol == 'tcp' && (!inspec.command('nc').exist? && !inspec.command('ncat').exist?)
+        missing << 'netcat must be installed'
       end
 
       missing
@@ -191,7 +219,7 @@ module Inspec::Resources
 
     def ping(hostname, port, protocol)
       if protocol == 'tcp'
-        resp = inspec.command("echo | nc -v -w 1 #{hostname} #{port}")
+        resp = inspec.command(tcp_check_command(hostname, port))
       else
         # fall back to ping, but we can only test ICMP packages with ping
         resp = inspec.command("ping -w 1 -c 1 #{hostname}")
@@ -204,14 +232,20 @@ module Inspec::Resources
       }
     end
 
-    def resolve(hostname)
-      # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
-      cmd = inspec.command("getent hosts #{hostname}")
-      return nil if cmd.exit_status.to_i != 0
+    def tcp_check_command(hostname, port)
+      if inspec.command('nc').exist?
+        base_cmd = 'nc'
+      elsif inspec.command('ncat').exist?
+        base_cmd = 'ncat'
+      else
+        return
+      end
 
-      # extract ip adress
-      resolve = /^\s*(?<ip>\S+)\s+(.*)\s*$/.match(cmd.stdout.chomp)
-      [resolve[1]] if resolve
+      "echo | #{base_cmd} -v -w 1 #{hostname} #{port}"
+    end
+
+    def resolve(hostname)
+      inspec.command('dig').exist? ? resolve_with_dig(hostname) : resolve_with_getent(hostname)
     end
   end
 

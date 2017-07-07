@@ -1,0 +1,3 @@
+types {
+  text/html                             html htm shtml;
+}

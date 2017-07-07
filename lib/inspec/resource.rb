@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# license: All rights reserved
 # author: Dominik Richter
 # author: Christoph Hartmann
 require 'inspec/plugins'
@@ -113,6 +112,7 @@ require 'resources/mssql_session'
 require 'resources/mysql'
 require 'resources/mysql_conf'
 require 'resources/mysql_session'
+require 'resources/nginx_conf'
 require 'resources/npm'
 require 'resources/ntp_conf'
 require 'resources/oneget'
@@ -123,6 +123,8 @@ require 'resources/package'
 require 'resources/packages'
 require 'resources/parse_config'
 require 'resources/passwd'
+require 'resources/postgres_hba_conf'
+require 'resources/postgres_ident_conf'
 require 'resources/pip'
 require 'resources/port'
 require 'resources/postgres'
