@@ -107,11 +107,13 @@ module Inspec::Resources
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
+      # If the package is installed, Status is "install ok installed"
+      # If the package is installed and marked hold, Status is "held ok installed"
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
       # If the package is purged cmd fails with non-zero exit status
       {
         name: params['Package'],
-        installed: params['Status'].split(' ').first == 'install',
+        installed: params['Status'].split(' ')[2] == 'installed',
         version: params['Version'],
         type: 'deb',
       }
