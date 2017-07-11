@@ -361,6 +361,7 @@ class MockLoader
       # host resource: dig commands,
       "dig +short A example.com" => cmd.call('dig-A-example.com'),
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      "curl http://localhost:9200/_nodes/" => cmd.call('elasticsearch-config'),
     }
     @backend
   end

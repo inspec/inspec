@@ -6,41 +6,46 @@ title: The Elasticsearch Resource
 
 Use the Elasticsearch InSpec audit resource to test the Elasticsearch configuration
 settings. The data is extracted from the live elasticsearch cluster using the curl
-command `curl 'ES_IP':'ES_PORT'/_nodes/`. The resource makes uses of FilterTable and
+command and default url `http://localhost:9200/_nodes/`. The resource can be called
+with a custom url that includes auth data. The resource makes uses of FilterTable and
 its functionality can be used.
 
 ## Syntax
 
-An `elasticsearch` resource is called with the elasticsearch IP and port;
-Default IP:localhost; Port:9200
+An `elasticsearch` resource is called with the elasticsearch url;
+Default url: `http://localhost:9200/_nodes/`
 
-    describe elasticsearch(ES_IP,ES_PORT) do
-      its('property') { should eq value }
+    describe elasticsearch.nodes do
+      its('property') { should include 'value' }
     end
 
 where
 
 * `.where()` filter may specify a specific item and value, to which the matchers are compared
 * `.entries()` filter will return the entries that satisfy the where() condition
-* `'cluster_name'`, `'node_id'`, and `'node_name'` etc. are valid filters for this resource
+* `'name'`, `'cluster'`, `'version'` etc. are valid filters for this resource
 * `'property'` is a configuration setting to be tested
-* `{ should eq 'value' }` is the value that is expected
+* `{ should include 'value' }` is the value that is expected
 
 ## Supported Properties
-    * `'cluster_name'`, `'node_id'`, `'node_name'`,`'host'`, `'ip'`, `'version'`, `'build_hash'`
-    * `'total_indexing_buffer'`, roles'`, `'conf_path'`, `'data_path'`, `'log_path'`, `'home_path'`
-    * `'client_type'`, `'http_type'`, `'transport_type'`, `'os'`, `'process'`, `'mlockall'`
-    * `'transport'`, `'http'`, `'pidfile'`, `'transport_address'`, `'pid'`, `'jvm_version'`,
-    * `'vm_name'`, `'vm_version'`, `'vm_vendor'`, `'start_time_in_millis'`, `'mem'`
-    * `'gc_collectors'`, `'memory_pools'`, `'input_arguments'`, `'module_list'`,
-    * `'using_compressed_ordinary_object_pointers'`
+
+    'build_hash', 'cluster', 'host', 'http', 'ingest', 'ip', 'jvm', 'module_list', 'modules', 'name', 'node_id', 'os', 'plugin_list', 'plugins', 'process', 'roles', 'settings', 'total_indexing_buffer', 'transport', 'transport_address', 'version'
 
 ## Property Examples and Return Types
 
-### cluster_name ([String])
+### exist (bool)
+This `'exist'` checks if the nodes data is collected by the resource.
 
-    describe elasticsearch.where { node_name == 'package-centos-72' } do
-      its('cluster_name.first') { should match 'elasticsearch' }
+    describe elasticsearch.nodes do
+      it { should exist }
+    end
+
+### cluster ([String])
+The `'cluster'` returns and array of strings that contain the cluster names of the
+nodes in the cluster or the nodes that match the where condition
+
+    describe elasticsearch.nodes do
+      its('cluster') { should cmp 'elasticsearch' }
     end
 
 ### node_id ([String])
@@ -48,41 +53,30 @@ where
 The `'node_id'` returns and array of strings that contain the node ids of the
 nodes in the cluster or the nodes that match the where condition
 
-    describe elasticsearch.where { node_name == 'package-centos-72' } do
-      its('node_id') { should match ['my_node'] }
+    describe elasticsearch.nodes do
+      its('node_id') { should include 'my_node_id' }
     end
 
-### node_count (Int)
+### count (Int)
 
 The return the count of nodes in the cluster or the count of nodes that match
-the where condition
+the `where` condition
 
     # Verify the count of nodes in the cluster
 
-    describe elasticsearch do
-      its('node_count') { should eq 3 }
+    describe elasticsearch.nodes do
+      its('count') { should eq 3 }
     end
 
 ### roles ([[String]])
 
 The return the array of string that lists the roles of nodes in the cluster or
-the nodes that match the where condition
+the nodes that match the `where` condition
 
     # Verify the roles of a node in the cluster
-    describe elasticsearch.where { node_name == 'package-centos-72' } do
-      its('roles.flatten') { should match ["master", "data", "ingest"] }
-    end
-
-### transport_address ([{Sting}])
-
-The returns an array of hash that contain the transport_address information of nodes in the cluster or
-the nodes that match the where condition
-
-    # Verify the port number of transport_address of each node in the cluster
-
-    elasticsearch.transport_address.each do |node_transport_address|
-      describe node_transport_address['port'] do
-        it { should match "9300" }
+    elasticsearch.nodes.where{name == 'my_node' }.roles.each do |node_roles|
+      describe node_roles do
+        it { should include 'master' }
       end
     end
 
@@ -90,34 +84,38 @@ the nodes that match the where condition
 
     # Verify that for all nodes in cluster `elastisearch` has `mlockall` as true
 
-    elasticsearch.where{ cluster_name == 'elasticsearch' }.mlockall.each do |node_mlockall|
-      describe node_mlockall do
-        it { should be true }
+    elasticsearch.nodes.where{ cluster == 'elasticsearch' }.process.each do |node_process|
+      describe node_process do
+        its('mlockall') { should be false }
       end
     end
 
-    # Verify the data_path of the node that matches the name package-centos-72
+    # Verify the conf path of the node that matches the name package-centos-72
 
-    describe elasticsearch.where { node_name == 'package-centos-72' }  do
-      its('data_path.flatten') { should include '/var/lib/elasticsearch' }
+    elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
+      describe node_settings do
+        its('path.conf') {should cmp '/etc/elasticsearch'}
+      end
     end
 
-    # Verify the version of the node that matches the name node2
+    # Verify the version of the node all the nodes
 
-    describe elasticsearch.where { node_name == 'package-centos-72' } do
-      its('version.first') { should match '5.4.1' }
+    elasticsearch.nodes.version.each do |node_version|
+      describe node_version do
+        it{ should be > '1.2.0' }
+      end
     end
 
     #Verify that the count of nodes with mlockall set as false is 0
 
-    describe elasticsearch.where{ mlockall == false } do
-      its('node_count') { should eq 0 }
+    describe elasticsearch.nodes.where{ process.mlockall == false }.count do
+      it{ should eq 0 }
     end
 
-    #Verify the version of all the nodes in a cluster
+    #Verify the host OS of the node
 
-    elasticsearch.where{ cluster_name == 'elasticsearch' }.version.each do |node_version|
-      describe node_version do
-        it { should match '5.4.1' }
+    elasticsearch.nodes.os.each do |node_os|
+      describe node_os do
+        its('name'){ should_not cmp 'MacOS' }
       end
     end

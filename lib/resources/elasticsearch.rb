@@ -1,140 +1,141 @@
 # encoding: utf-8
-# copyright: 2017
 # author: Rony Xavier, rx294@nyu.edu
 # author: Aaron Lippold, lippold@gmail.com
-# license: All rights reserved
 
 require 'utils/filter'
+require 'hashie/mash'
+require 'resources/package'
 
 module Inspec::Resources
-  class Elasticsearch < Inspec.resource(1)
-    name 'elasticsearch'
-    desc 'See Description below'
-    # Use the Elasticsearch InSpec audit resource to test the Elasticsearch
-    # configuration settings. The data is extract from the live elastic search
-    # cluster using the curl command `curl localhost:9200/_nodes/`. The resource
-    # makes uses of FilterTable and its functionality can be used
-
-    example 'See example below'
-    # elasticsearch.where{ cluster_name == 'elasticsearch' }.version.each do |node_version|
-    #   describe node_version do
-    #     it {should eq '5.4.1'}
-    #   end
-    # end
-
-    attr_reader :params, :content
-
-    def initialize(es_ip = 'localhost', es_port = 9200)
-      @es_ip   = es_ip
-      @es_port = es_port
-
-      # skip if connection refused
-      @content = inspec.command("curl http://#{es_ip}:#{es_port}/_nodes/").stdout
-
-      if content =~ /Connection refused/
-        return skip_resource 'Connection refused please check ip and port provided'
-      end
-
-      # skip if node provided is not found
-      @content = JSON.parse(@content)
-      if content['_nodes']['successful'].zero?
-        return skip_resource 'Invalid node provided'
-      end
-
-      @params = parse_cluster(@content)
-    end
-
-    param_keys = %w{cluster_name node_id node_name host ip version build_hash total_indexing_b roles conf_path data_path log_path home_path client_type http_type transport_type os process mlockall transport http pidfile transport_addres pid jvm_version vm_name vm_version vm_vendor start_time_in_mi mem gc_collectors memory_pools input_arguments module_list using_compressed_ordinary_object_pointers}
+  class ElasticsearchNodeFilter
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-    param_keys.each do |param|
-      filter.add(param.to_sym, field: param)
+          .add(:cluster,                field: 'cluster')
+          .add(:name,                   field: 'name')
+          .add(:transport_address,      field: 'transport_address')
+          .add(:host,                   field: 'host')
+          .add(:ip,                     field: 'ip')
+          .add(:version,                field: 'version')
+          .add(:build_hash,             field: 'build_hash')
+          .add(:total_indexing_buffer,  field: 'total_indexing_buffer')
+          .add(:roles,                  field: 'roles')
+          .add(:settings,               field: 'settings')
+          .add(:os,                     field: 'os')
+          .add(:process,                field: 'process')
+          .add(:jvm,                    field: 'jvm')
+          .add(:transport,              field: 'transport')
+          .add(:http,                   field: 'http')
+          .add(:plugins,                field: 'plugins')
+          .add(:plugin_list,            field: 'plugin_list')
+          .add(:modules,                field: 'modules')
+          .add(:module_list,            field: 'module_list')
+          .add(:node_id,                field: 'node_id')
+          .add(:ingest,                 field: 'ingest')
+          .add(:exists?) { |x| !x.entries.empty? }
+          .add(:count) { |t, _|
+            t.entries.length
+          }
+
+    filter.connect(self, :nodes)
+
+    attr_reader :nodes
+    def initialize(nodes)
+      @nodes = nodes
     end
+  end
 
-    filter.add(:node_count) { |t, _|
-      t.entries.length
-    }
-    filter.connect(self, :params)
+  class Elasticsearch < Inspec.resource(1)
+    name 'elasticsearch'
+    desc "Use the Elasticsearch InSpec audit resource to test the Elasticsearch
+    configuration settings. The data is extract from the live elastic search
+    cluster using the curl command `curl localhost:9200/_nodes/`. The resource
+    makes uses of FilterTable and its functionality can be used "
 
-    def parse_cluster(content)
-      content['nodes'].map do |node|
-        params_hash = {}
-        params_hash.merge!(parse_node_config(node))
-        params_hash.merge!(parse_node_process(node[1]['process']))
-        params_hash.merge!(parse_node_settings(node[1]['settings']))
-        params_hash.merge!(parse_node_jvm(node[1]['jvm']))
-        params_hash.merge!(parse_node_module_list(node[1]['modules']))
+    example "
+      describe elasticsearch.nodes do
+        it { should exist }
       end
-    end
-
-    def parse_node_config(node)
-      {
-        'cluster_name'          => content['cluster_name'],
-        'node_id'               => node.first,
-        'node_name'             => node[1]['name'],
-        'host'                  => node[1]['host'],
-        'ip'                    => node[1]['ip'],
-        'version'               => node[1]['version'],
-        'build_hash'            => node[1]['build_hash'],
-        'total_indexing_buffer' => node[1]['total_indexing_buffer'],
-        'roles'                 => node[1]['roles'],
-        'os'                    => node[1]['os'],
-        'transport'             => node[1]['transport'],
-        'http'                  => node[1]['http'],
-        'transport_address'     => { 'ip_addr' => node[1]['transport_address'].split(':')[0], 'port' => node[1]['transport_address'].split(':')[1] },
-      }
-    end
-
-    def parse_node_process(node)
-      {
-        'process'               => node,
-        'mlockall'              => node['mlockall'],
-      }
-    end
-
-    def parse_node_settings(node)
-      {
-        'conf_path'             => node['path']['conf'],
-        'data_path'             => node['path']['data'],
-        'log_path'              => node['path']['logs'],
-        'home_path'             => node['path']['home'],
-        'client_type'           => node['client']['type'],
-        'http_type'             => node['http']['type'],
-        'transport_type'        => node['transport']['type'],
-        'pidfile'               => node['pidfile'],
-      }
-    end
-
-    def parse_node_jvm(node)
-      {
-        'pid'                   => node['pid'],
-        'jvm_version'           => node['version'],
-        'vm_name'               => node['vm_name'],
-        'vm_version'            => node['vm_version'],
-        'vm_vendor'             => node['vm_vendor'],
-        'start_time_in_millis'  => node['start_time_in_millis'],
-        'mem'                   => node['mem'],
-        'gc_collectors'         => node['gc_collectors'],
-        'memory_pools'          => node['memory_pools'],
-        'input_arguments'       => node['input_arguments'],
-        'using_compressed_ordinary_object_pointers' => node['using_compressed_ordinary_object_pointers'],
-
-      }
-    end
-
-    def parse_node_module_list(node)
-      modules_list = {}
-      node.each do |mod|
-        modules_list[mod['name']] = mod
+      describe elasticsearch.nodes do
+        its('name') { should include 'my_node' }
       end
-      {
-        'module_list' => modules_list.keys,
-      }
+      describe elasticsearch.nodes do
+          its('name') { should_not include 'node_name' }
+      end
+      elasticsearch.nodes.os.each do |nodeos|
+      	describe nodeos do
+      		its('name'){ should_not cmp 'MacOS' }
+      	end
+      end
+      elasticsearch.nodes.version.each do |node_version|
+      	describe node_version do
+      		it{ should be > '1.2.0' }
+      	end
+      end
+      elasticsearch.nodes.where{os.name == 'Linux' }.settings.each do |node_settings|
+        describe node_settings do
+          its('path.conf') {should cmp '/etc/elasticsearch'}
+        end
+      end
+		  elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
+        describe node_settings do
+          its('path.conf') {should cmp '/etc/elasticsearch'}
+        end
+      end
+        "
+
+    def initialize(url = 'http://localhost:9200/_nodes/')
+      return skip_resource 'Package `curl` not avaiable on the host' unless inspec.package('curl').installed?
+      command = inspec.command("curl #{url}")
+      if command.stderr =~ /Failed to connect/
+        return skip_resource 'Connection refused please check ip and port provided'
+      end
+      @content = JSON.parse(command.stdout)
+      return skip_resource 'Invalid node provided' unless !@content['_nodes']['successful'].zero?
+      @nodes = []
+      parse_cluster
+    end
+
+    def nodes
+      ElasticsearchNodeFilter.new(@nodes)
+    end
+
+    def parse_cluster
+      @content['nodes'].each do |node_id, node_data|
+        # resolve Hashie Mash Conflicts
+        node_data.delete('thread_pool')
+        node_data['settings']['http']['type']['default_http_type'] = node_data['settings']['http']['type'].delete('default')
+        node_data['settings']['transport']['type']['default_transport_type'] = node_data['settings']['transport']['type'].delete('default')
+        node_data['settings']['default_path'] = node_data['settings'].delete('default')
+        node = Hashie::Mash.new(node_data)
+        node.node_id = node_id
+        node.plugin_list = plugin_list(node)
+        node.module_list = module_list(node)
+        node.cluster = node.settings.cluster.name
+        @nodes.push(node)
+      end
+    rescue JSON::ParserError => _e
+      return Hashie::Mash.new({})
+    end
+
+    def plugin_list(node)
+      plugins_list = []
+      node.plugins.each do |plugins|
+        plugins_list.push(plugins.name)
+      end
+      plugins_list
+    end
+
+    def module_list(node)
+      module_list = []
+      node.modules.each do |modules|
+        module_list.push(modules.name)
+      end
+      module_list
     end
 
     def to_s
-      'Elasticsearch Environment'
+      'Elasticsearch ClusterInfo'
     end
   end
 end

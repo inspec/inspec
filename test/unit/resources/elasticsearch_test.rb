@@ -1,36 +1,42 @@
 # encoding: utf-8
-# copyright: 2017
 # author: Rony Xavier, rx294@nyu.edu
-# license: All rights reserved
 
 require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Elasticsearch' do
-  describe 'elasticsearch' do
-    it 'Verify Elasticsearch node version' do
-      resource = load_resource('elasticsearch')
-      _(resource.version).must_equal ["5.4.1"]
+
+  describe 'Elasticsearch Methods' do
+    resource = load_resource('elasticsearch')
+    it 'Verify Elasticsearch nodes exist' do
+      _(resource.nodes.exists?).must_equal true
     end
-
-      it 'Verify elasticsearch node mlockall state' do
-        resource = load_resource('elasticsearch')
-        _(resource.mlockall).must_equal [false]
+    it 'Verify Elasticsearch node version' do
+      _(resource.nodes.version).must_include '5.4.1'
+    end
+    it 'Verify elasticsearch node mlockall state' do
+      resource.nodes.process.each do |node_process|
+        _(node_process.mlockall).must_equal false
       end
-
-      it 'Verify elasticsearch node count' do
-        resource = load_resource('elasticsearch')
-        _(resource.node_count).must_equal 1
+    end
+    it 'Verify elasticsearch node count' do
+      _(resource.nodes.count).must_equal 3
+    end
+    it 'Verify elasticsearch conf path' do
+      resource.nodes.settings.each do |node_settings|
+        _(node_settings.path.conf).must_equal '/etc/elasticsearch'
       end
-
-      it 'Verify elasticsearch conf path' do
-        resource = load_resource('elasticsearch')
-        _(resource.conf_path).must_equal  ["/etc/elasticsearch"]
+    end
+    it 'Verify elasticsearch node roles' do
+      resource.nodes.roles.each do |node_roles|
+        _(node_roles).must_include 'master'
       end
-
-      it 'Verify elasticsearch node roles' do
-        resource = load_resource('elasticsearch')
-        _(resource.roles).must_equal [["master", "data", "ingest"]]
+    end
+    resource_with_url = load_resource('elasticsearch','http://localhost:9200/_nodes/')
+    it 'Verify elasticsearch with custom url' do
+      resource.nodes.roles.each do |node_roles|
+        _(node_roles).must_include 'master'
       end
-   end
+    end
+  end
 end
