@@ -82,10 +82,13 @@ module Inspec::Resources
       # Any call to `include` gets its data read, parsed, and merged back
       # into the current data structure
       if data.key?('include')
-        data.delete('include').flatten
-            .map { |x| File.expand_path(x, rel_path) }
-            .map { |path| parse_nginx(path) }
-            .map { |e| data.merge!(e) }
+        include_paths = data.delete('include').flatten.map do |path|
+          paths = inspec.command("ls #{File.expand_path(path, rel_path)}").stdout.split
+          paths unless paths.empty?
+        end.compact
+        include_paths.flatten
+                     .map { |path| parse_nginx(path) }
+                     .map { |e| data.merge!(e) }
       end
 
       # Walk through the remaining hash fields to find more references
