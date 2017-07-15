@@ -281,4 +281,19 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out.stderr.must_include 'Please provide a value for --sudo-password. For example: --sudo-password=hello.'
     end
   end
+
+  describe 'with sensitive resources' do
+    it 'hides sensitive output' do
+      out = inspec('exec ' + sensitive_profile  + ' --no-create-lockfile')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 1
+      stdout = out.stdout.force_encoding(Encoding::UTF_8)
+      stdout.must_include '∅  eq "billy"'
+      stdout.must_include 'expected: "billy"'
+      stdout.must_include 'got: "bob"'
+      stdout.must_include '∅  eq "secret"'
+      stdout.must_include '*** sensitive ***'
+      stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+    end
+  end
 end
