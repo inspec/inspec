@@ -16,6 +16,7 @@ describe 'Inspec::Resources::NginxConf' do
     _(resource.params).must_be_kind_of Hash
     _(resource.contents).must_be_kind_of Hash
     _(resource.contents.keys).must_equal ["/etc/nginx/nginx.conf", "/etc/nginx/conf/mime.types", "/etc/nginx/proxy.conf"]
+    _(resource.conf_files).must_equal ["/etc/nginx/nginx.conf", "/etc/nginx/conf/mime.types", "/etc/nginx/proxy.conf"]
 
     # global entries
     _(resource.params['user']).must_equal [["www", "www"]] # multiple

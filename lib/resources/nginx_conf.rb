@@ -37,6 +37,13 @@ module Inspec::Resources
       @params = {}
     end
 
+    def conf_files
+      @params ||= parse_nginx(@conf_path)
+      @contents.keys
+    rescue StandardError => e
+      skip_resource e.message
+    end
+
     def to_s
       "nginx_conf #{@conf_path}"
     end
