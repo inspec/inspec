@@ -128,11 +128,11 @@ end
 
 ## be_in
 
-Verifies if a item is included in a list.
+Verifies that an item is included in a list.
 
 ```ruby
 describe resource do
-  its('item') { should be_in APPROVED_ITEM_LIST }
+  its('item') { should be_in LIST }
 end
 ```
 

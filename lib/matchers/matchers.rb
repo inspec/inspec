@@ -235,7 +235,7 @@ RSpec::Matchers.define :be_in do |list|
   end
 
   failure_message do |item|
-    "expected that `#{item}` to be in `#{list}`"
+    "expected that `#{item}` to be in the list: `#{list}`"
   end
 end
 
