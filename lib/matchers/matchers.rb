@@ -222,6 +222,23 @@ RSpec::Matchers.define :contain do |rule|
   end
 end
 
+# `be_in` matcher
+# You can use it in the following cases:
+# - check if an item is included in a given list
+# eg:
+# describe nginx do
+#   its('user') { should be_in AUTHORIZED_USER_LIST }
+# end
+RSpec::Matchers.define :be_in do |list|
+  match do |item|
+    list.include?(item)
+  end
+
+  failure_message do |item|
+    "expected that `#{item}` to be in `#{list}`"
+  end
+end
+
 # This matcher implements a compare feature that cannot be covered by the default
 # `eq` matcher
 # You can use it in the following cases:
