@@ -224,18 +224,26 @@ end
 
 # `be_in` matcher
 # You can use it in the following cases:
-# - check if an item is included in a given list
+# - check if an item or array is included in a given array
 # eg:
 # describe nginx do
 #   its('user') { should be_in AUTHORIZED_USER_LIST }
 # end
+# describe nginx do
+#   its('module_list') { should be_in AUTHORIZED_MODULE_LIST }
+# end
 RSpec::Matchers.define :be_in do |list|
   match do |item|
-    list.include?(item)
+    # Handle both single item and array
+    item.is_a?(Array) ? (item-list).empty? : list.include?(item)
   end
 
   failure_message do |item|
-    "expected that `#{item}` to be in the list: `#{list}`"
+    if item.is_a?(Array)
+      "expected `#{item}` to be in the list: `#{list}` \nDiff: #{(item - list)}"
+    else
+      "expected `#{item}` to be in the list: `#{list}`"
+    end
   end
 end
 
