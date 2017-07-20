@@ -361,8 +361,8 @@ class MockLoader
       # host resource: dig commands,
       "dig +short A example.com" => cmd.call('dig-A-example.com'),
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
-      "ls /etc/nginx/conf/mime.types" => cmd.call('lsmime.types'),
-      "ls /etc/nginx/proxy.conf" => cmd.call('lsproxy.conf'),
+      "find /etc/nginx/conf/mime.types -type f -maxdepth 1" => cmd.call('findmime.types'),
+      "find /etc/nginx/proxy.conf -type f -maxdepth 1" => cmd.call('findproxy.conf'),
     }
     @backend
   end

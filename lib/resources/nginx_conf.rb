@@ -22,6 +22,7 @@ module Inspec::Resources
       describe nginx_conf('/path/to/my/nginx.conf').params ...
     "
 
+    include FindFiles
     attr_reader :contents
 
     def initialize(conf_path = nil)
@@ -35,6 +36,14 @@ module Inspec::Resources
     rescue StandardError => e
       skip_resource e.message
       @params = {}
+    end
+
+    def method_missing(name)
+      # ensure params are loaded
+      @params ||= parse_nginx(@conf_path)
+
+      # extract values
+      @params[name.to_s].flatten unless @params.nil?
     end
 
     def conf_files
@@ -68,6 +77,18 @@ module Inspec::Resources
       raise "Cannot parse NginX config in #{path}."
     end
 
+    def include_files(include_paths, rel_path)
+      # see if there is more config files to include
+      includes = []
+      include_paths.each do |f|
+        id    = Pathname.new(f).absolute? ? f : File.join(rel_path, f)
+        files = find_files(id, depth: 1, type: 'file')
+        includes.push(files) if files
+      end
+      # [].flatten! == nil
+      includes.flatten! || []
+    end
+
     # Cycle through the complete parsed data structure and try to find any
     # calls to `include`. In NginX, this is used to embed data from other
     # files into the current data structure.
@@ -89,13 +110,9 @@ module Inspec::Resources
       # Any call to `include` gets its data read, parsed, and merged back
       # into the current data structure
       if data.key?('include')
-        include_paths = data.delete('include').flatten.map do |path|
-          paths = inspec.command("ls #{File.expand_path(path, rel_path)}").stdout.split
-          paths unless paths.empty?
-        end.compact
-        include_paths.flatten
-                     .map { |path| parse_nginx(path) }
-                     .map { |e| data.merge!(e) }
+        include_paths = data.delete('include').flatten
+        include_files(include_paths, rel_path).map { |path| parse_nginx(path) }
+                                              .map { |e| data.merge!(e) }
       end
 
       # Walk through the remaining hash fields to find more references
