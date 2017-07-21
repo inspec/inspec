@@ -43,7 +43,7 @@ module Inspec::Resources
       @params ||= parse_nginx(@conf_path)
 
       # extract values
-      @params[name.to_s].flatten unless @params.nil?
+      @params[name.to_s] unless @params.nil?
     end
 
     def conf_files

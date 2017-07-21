@@ -39,9 +39,9 @@ describe 'Inspec::Resources::NginxConf' do
 
   it 'tests missing_method method' do
     resource = MockLoader.new(:ubuntu1404).load_resource('nginx_conf')
-    _(resource.user).must_equal(["www", "www"])
+    _(resource.user).must_equal([["www", "www"]])
     _(resource.events).must_equal([{"worker_connections"=>[["4096"]]}])
-    _(resource.error_log).must_equal(["logs/error.log"])
+    _(resource.error_log).must_equal([["logs/error.log"]])
   end
 
   it 'skips the resource if it cannot parse the config' do
