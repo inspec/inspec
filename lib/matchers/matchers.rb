@@ -238,11 +238,24 @@ RSpec::Matchers.define :be_in do |list|
     item.is_a?(Array) ? (item-list).empty? : list.include?(item)
   end
 
+  match_when_negated do |item|
+    # Handle both single item and array
+    item.is_a?(Array) ? (item&list).empty? : !list.include?(item)
+  end
+
   failure_message do |item|
     if item.is_a?(Array)
-      "expected `#{item}` to be in the list: `#{list}` \nDiff: #{(item - list)}"
+      "expected `#{item}` to be in the list: `#{list}` \nDiff:\n #{(item - list)}"
     else
       "expected `#{item}` to be in the list: `#{list}`"
+    end
+  end
+
+  failure_message_when_negated do |item|
+    if item.is_a?(Array)
+      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{(item&list)}"
+    else
+      "expected `#{item}` not to be in the list: `#{list}`"
     end
   end
 end
