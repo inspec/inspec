@@ -1,9 +1,17 @@
 # Change Log
 
 <!-- latest_release -->
+## [v1.31.2](https://github.com/chef/inspec/tree/v1.31.2) (2017-07-24)
+
+#### Merged Pull Requests
+- [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.31.1 -->
+### Changes since 1.31.1 release
+
+#### Merged Pull Requests
+- [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo)) <!-- 1.31.2 -->
 <!-- release_rollup -->
 
 ## [v1.31.1](https://github.com/chef/inspec/tree/v1.31.1) (2017-07-06)
