@@ -110,7 +110,7 @@ module Inspec
     end
 
     private
-   
+
     def walk_zip(path, &callback)
       ::Zip::InputStream.open(path, &callback)
     end
