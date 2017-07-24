@@ -1,16 +1,17 @@
 # Change Log
 
 <!-- latest_release -->
-## [v1.31.2](https://github.com/chef/inspec/tree/v1.31.2) (2017-07-24)
+## [v1.31.3](https://github.com/chef/inspec/tree/v1.31.3) (2017-07-24)
 
 #### Merged Pull Requests
-- [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo))
+- bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.31.1 -->
 ### Changes since 1.31.1 release
 
 #### Merged Pull Requests
+- bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus)) <!-- 1.31.3 -->
 - [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo)) <!-- 1.31.2 -->
 <!-- release_rollup -->
 
