@@ -97,9 +97,10 @@ module Inspec
       @path = path
       @contents = {}
       @files = []
-      ::Zip::InputStream.open(@path) do |io|
+      walk_zip(@path) do |io|
         while (entry = io.get_next_entry)
-          @files.push(entry.name.sub(%r{/+$}, ''))
+          name = entry.name.sub(%r{/+$}, '')
+          @files.push(name) unless name.empty?
         end
       end
     end
@@ -110,10 +111,14 @@ module Inspec
 
     private
 
+    def walk_zip(path, &callback)
+      ::Zip::InputStream.open(path, &callback)
+    end
+
     def read_from_zip(file)
       return nil unless @files.include?(file)
       res = nil
-      ::Zip::InputStream.open(@path) do |io|
+      walk_zip(@path) do |io|
         while (entry = io.get_next_entry)
           next unless file == entry.name
           res = io.read
@@ -131,8 +136,8 @@ module Inspec
       @path = path
       @contents = {}
       @files = []
-      Gem::Package::TarReader.new(Zlib::GzipReader.open(@path)) do |tar|
-        @files = tar.map(&:full_name)
+      walk_tar(@path) do |tar|
+        @files = tar.map(&:full_name).find_all { |x| !x.empty? }
       end
     end
 
@@ -142,11 +147,15 @@ module Inspec
 
     private
 
+    def walk_tar(path, &callback)
+      Gem::Package::TarReader.new(Zlib::GzipReader.open(path), &callback)
+    end
+
     def read_from_tar(file)
       return nil unless @files.include?(file)
       res = nil
       # NB `TarReader` includes `Enumerable` beginning with Ruby 2.x
-      Gem::Package::TarReader.new(Zlib::GzipReader.open(@path)) do |tar|
+      walk_tar(@path) do |tar|
         tar.each do |entry|
           next unless entry.file? && file == entry.full_name
           res = entry.read
