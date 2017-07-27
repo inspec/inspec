@@ -1,16 +1,17 @@
 # Change Log
 
 <!-- latest_release -->
-## [v1.31.4](https://github.com/chef/inspec/tree/v1.31.4) (2017-07-24)
+## [v1.31.5](https://github.com/chef/inspec/tree/v1.31.5) (2017-07-27)
 
 #### Merged Pull Requests
-- Update SHA1 fingerprint for MSI signing cert [#2031](https://github.com/chef/inspec/pull/2031) ([schisamo](https://github.com/schisamo))
+- Add changelog rollover on stable promotion [#2033](https://github.com/chef/inspec/pull/2033) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.31.1 -->
 ### Changes since 1.31.1 release
 
 #### Merged Pull Requests
+- Add changelog rollover on stable promotion [#2033](https://github.com/chef/inspec/pull/2033) ([adamleff](https://github.com/adamleff)) <!-- 1.31.5 -->
 - Update SHA1 fingerprint for MSI signing cert [#2031](https://github.com/chef/inspec/pull/2031) ([schisamo](https://github.com/schisamo)) <!-- 1.31.4 -->
 - bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus)) <!-- 1.31.3 -->
 - [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo)) <!-- 1.31.2 -->
