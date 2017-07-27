@@ -70,7 +70,7 @@ describe Inspec::Profile do
     end
 
     it 'works on a complete profile' do
-      MockLoader.load_profile('complete-profile').sha256.must_equal 'b3dc0ec4603499ca9613e34da4a9476266875b8361b16be9284b39d1beacddd3'
+      MockLoader.load_profile('complete-profile').sha256.must_equal '5a129bd0a06f3d27589871a8dc8c65361d3730e802b926755191b610b7f99d3a'
     end
   end
 

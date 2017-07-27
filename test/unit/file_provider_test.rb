@@ -86,7 +86,8 @@ describe Inspec::ZipProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb files files/items.conf}.sort
+        controls controls/filesystem_spec.rb files files/a_sub_dir
+        files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
     it 'must not read if the file isnt included' do
@@ -95,6 +96,28 @@ describe Inspec::ZipProvider do
 
     it 'must read the contents of the file' do
       subject.read('inspec.yml').must_match(/^name: complete$/)
+    end
+  end
+
+  describe 'applied to a zip with an empty filename' do
+    # Just a placeholder, it will be ignored anyway:
+    let(:cls) {
+      class MockZipProvider < Inspec::ZipProvider
+        Entry = Struct.new(:name)
+        class List < Array
+          alias :get_next_entry :pop
+        end
+        private
+        def walk_zip(path, &callback)
+          list = List.new([Entry.new(''), Entry.new('zipzip'), Entry.new('')])
+          callback.call(list)
+        end
+      end
+      MockZipProvider
+    }
+
+    it 'must contain all files' do
+      cls.new(rand.to_s).files.must_equal %w{zipzip}
     end
   end
 end
@@ -108,7 +131,8 @@ describe Inspec::ZipProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb files files/items.conf}.sort
+        controls controls/filesystem_spec.rb files files/a_sub_dir
+        files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
     it 'must not read if the file isnt included' do
@@ -129,7 +153,8 @@ describe Inspec::TarProvider do
 
     it 'must contain all files' do
       subject.files.sort.must_equal %w{inspec.yml libraries libraries/testlib.rb
-        controls controls/filesystem_spec.rb files files/items.conf}.sort
+        controls controls/filesystem_spec.rb files files/a_sub_dir
+        files/a_sub_dir/sub_items.conf files/items.conf}.sort
     end
 
     it 'must not read if the file isnt included' do
@@ -138,6 +163,24 @@ describe Inspec::TarProvider do
 
     it 'must read the contents of the file' do
       subject.read('inspec.yml').must_match(/^name: complete$/)
+    end
+  end
+
+  describe 'applied to a tar with an empty filename' do
+    # Just a placeholder, it will be ignored anyway:
+    let(:cls) {
+      class MockTarProvider < Inspec::TarProvider
+        Entry = Struct.new(:full_name)
+        private
+        def walk_tar(path, &callback)
+          callback.call([Entry.new(''), Entry.new('tartar'), Entry.new('')])
+        end
+      end
+      MockTarProvider
+    }
+
+    it 'must contain all files' do
+      cls.new(rand.to_s).files.must_equal %w{tartar}
     end
   end
 end
