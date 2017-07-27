@@ -18,3 +18,7 @@ merge_actions:
   built_in:trigger_omnibus_release_build:
     ignore_labels: "Omnibus: Skip Build"
     only_if: built_in:bump_version
+
+artifact_actions:
+  promoted_to_stable:
+    built_in:rollover_changelog:
