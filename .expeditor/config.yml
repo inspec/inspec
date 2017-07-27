@@ -1,0 +1,20 @@
+product_key: inspec
+
+# Slack channel in Chef Software slack to send notifications about build failures, etc
+slack:
+  notify_channel: inspec-notify
+
+github:
+  maintainer_group: chef/inspec-maintainers
+  version_tag_format: v{{version}}
+
+merge_actions:
+  built_in:bump_version:
+    ignore_labels: "Version: Skip Bump"
+  bash:.expeditor/update_version.sh:
+    only_if: built_in:bump_version
+  built_in:update_changelog:
+    ignore_labels: "Changelog: Skip Update"
+  built_in:trigger_omnibus_release_build:
+    ignore_labels: "Omnibus: Skip Build"
+    only_if: built_in:bump_version

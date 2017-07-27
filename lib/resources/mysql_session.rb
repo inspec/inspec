@@ -38,7 +38,7 @@ module Inspec::Resources
         command += " -h #{@host}"
       end
       command += " --port #{@port}" unless @port.nil?
-      command += " #{db} -s -S #{@socket} -e \"#{escaped_query}\""
+      command += " #{db} -s -e \"#{escaped_query}\""
 
       cmd = inspec.command(command)
       out = cmd.stdout + "\n" + cmd.stderr

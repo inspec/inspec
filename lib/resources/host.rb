@@ -148,13 +148,6 @@ module Inspec::Resources
     def resolve_with_dig(hostname)
       addresses = []
 
-      # look for IPv6 addresses
-      cmd = inspec.command("dig +short AAAA #{hostname}")
-      cmd.stdout.lines.each do |line|
-        matched = line.chomp.match(Resolv::IPv6::Regex)
-        addresses << matched.to_s unless matched.nil?
-      end
-
       # look for IPv4 addresses
       cmd = inspec.command("dig +short A #{hostname}")
       cmd.stdout.lines.each do |line|
@@ -162,17 +155,36 @@ module Inspec::Resources
         addresses << matched.to_s unless matched.nil?
       end
 
+      # look for IPv6 addresses
+      cmd = inspec.command("dig +short AAAA #{hostname}")
+      cmd.stdout.lines.each do |line|
+        matched = line.chomp.match(Resolv::IPv6::Regex)
+        addresses << matched.to_s unless matched.nil?
+      end
+
       addresses.empty? ? nil : addresses
     end
 
     def resolve_with_getent(hostname)
-      # TODO: we rely on getent hosts for now, but it prefers to return IPv6, only then IPv4
-      cmd = inspec.command("getent hosts #{hostname}")
-      return nil if cmd.exit_status.to_i != 0
+      cmd = inspec.command("getent ahosts #{hostname}")
+      return nil unless cmd.exit_status.to_i.zero?
 
-      # extract ip adress
-      resolve = /^\s*(?<ip>\S+)\s+(.*)\s*$/.match(cmd.stdout.chomp)
-      [resolve[1]] if resolve
+      # getent ahosts output is formatted like so:
+      # $ getent ahosts www.google.com
+      # 172.217.8.4     STREAM www.google.com
+      # 172.217.8.4     DGRAM
+      # 172.217.8.4     RAW
+      # 2607:f8b0:4004:803::2004 STREAM
+      # 2607:f8b0:4004:803::2004 DGRAM
+      # 2607:f8b0:4004:803::2004 RAW
+      addresses = []
+      cmd.stdout.lines.each do |line|
+        ip, = line.split(/\s+/, 2)
+        next unless ip.match(Resolv::IPv4::Regex) || ip.match(Resolv::IPv6::Regex)
+        addresses << ip unless addresses.include?(ip)
+      end
+
+      addresses
     end
   end
 
@@ -245,7 +257,7 @@ module Inspec::Resources
     end
 
     def resolve(hostname)
-      inspec.command('dig').exist? ? resolve_with_dig(hostname) : resolve_with_getent(hostname)
+      resolve_with_getent(hostname)
     end
   end
 
