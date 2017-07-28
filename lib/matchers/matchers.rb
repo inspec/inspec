@@ -235,12 +235,12 @@ end
 RSpec::Matchers.define :be_in do |list|
   match do |item|
     # Handle both single item and array
-    item.is_a?(Array) ? (item-list).empty? : list.include?(item)
+    item.is_a?(Array) ? (item - list).empty? : list.include?(item)
   end
 
   match_when_negated do |item|
     # Handle both single item and array
-    item.is_a?(Array) ? (item&list).empty? : !list.include?(item)
+    item.is_a?(Array) ? (item & list).empty? : !list.include?(item)
   end
 
   failure_message do |item|
@@ -253,7 +253,7 @@ RSpec::Matchers.define :be_in do |list|
 
   failure_message_when_negated do |item|
     if item.is_a?(Array)
-      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{(item&list)}"
+      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{(item & list)}"
     else
       "expected `#{item}` not to be in the list: `#{list}`"
     end
