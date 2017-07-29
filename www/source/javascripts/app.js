@@ -4,6 +4,8 @@
 
 /* To load a config file (particles.json) you need to host this demo (MAMP/WAMP/local)... */
 
+var animate = !window.matchMedia('(prefers-reduced-motion)').matches;
+
 particlesJS.load('particles-js',  'particles-second' ,  'particles.json', function() {
   console.log('particles.js loaded - callback');
 });
@@ -68,7 +70,7 @@ particlesJS('particles-second',
       "width": 1
     },
     "move": {
-      "enable": true,
+      "enable": animate,
       "speed": 4,
       "direction": "none",
       "random": true,
