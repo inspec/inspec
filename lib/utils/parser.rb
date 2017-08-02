@@ -211,7 +211,7 @@ module XinetdParser
     res = {}
     cur_group = nil
     simple_conf = []
-    rest = raw
+    rest = raw + "\n"
     until rest.empty?
       # extract content line
       nl = rest.index("\n") || (rest.length-1)
