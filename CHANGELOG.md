@@ -1,16 +1,17 @@
 # Change Log
 
 <!-- latest_release -->
-## [v1.31.6](https://github.com/chef/inspec/tree/v1.31.6) (2017-07-29)
+## [v1.31.7](https://github.com/chef/inspec/tree/v1.31.7) (2017-08-02)
 
 #### Merged Pull Requests
-- Website: Disable particle animation if users prefer reduced motion [#2023](https://github.com/chef/inspec/pull/2023) ([k-nut](https://github.com/k-nut))
+- Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.31.1 -->
 ### Changes since 1.31.1 release
 
 #### Merged Pull Requests
+- Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva)) <!-- 1.31.7 -->
 - Website: Disable particle animation if users prefer reduced motion [#2023](https://github.com/chef/inspec/pull/2023) ([k-nut](https://github.com/k-nut)) <!-- 1.31.6 -->
 - Add changelog rollover on stable promotion [#2033](https://github.com/chef/inspec/pull/2033) ([adamleff](https://github.com/adamleff)) <!-- 1.31.5 -->
 - Update SHA1 fingerprint for MSI signing cert [#2031](https://github.com/chef/inspec/pull/2031) ([schisamo](https://github.com/schisamo)) <!-- 1.31.4 -->
