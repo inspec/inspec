@@ -7,18 +7,24 @@
 - Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.31.1 -->
-### Changes since 1.31.1 release
+<!-- release_rollup since=1.32.1 -->
+### Changes since 1.32.1 release
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
+## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
 
 #### Merged Pull Requests
-- Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff)) <!-- 1.32.1 -->
-- catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus)) <!-- 1.31.8 -->
-- Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva)) <!-- 1.31.7 -->
-- bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus)) <!-- 1.31.3 -->
-- host resource now properly handles localhost lookup <!-- 1.31.2 -->
-- bug fix: fix mysql_session resource to not use socket for host target <!-- 1.31.2 -->
-- bug fix: properly support profile files that are more than one directory deep <!-- 1.31.2 -->
-<!-- release_rollup -->
+- bug fix: properly support profile files that are more than one directory deep
+- bug fix: fix mysql_session resource to not use socket for host target
+- host resource now properly handles localhost lookup
+- bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus))
+- Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
+- catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus))
+- Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
+
 
 ## [v1.31.1](https://github.com/chef/inspec/tree/v1.31.1) (2017-07-06)
 [Full Changelog](https://github.com/chef/inspec/compare/v1.31.0...v1.31.1)
