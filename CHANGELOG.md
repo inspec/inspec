@@ -13,11 +13,11 @@
 #### Merged Pull Requests
 - catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus)) <!-- 1.31.8 -->
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva)) <!-- 1.31.7 -->
-- Website: Disable particle animation if users prefer reduced motion [#2023](https://github.com/chef/inspec/pull/2023) ([k-nut](https://github.com/k-nut)) <!-- 1.31.6 -->
-- Add changelog rollover on stable promotion [#2033](https://github.com/chef/inspec/pull/2033) ([adamleff](https://github.com/adamleff)) <!-- 1.31.5 -->
-- Update SHA1 fingerprint for MSI signing cert [#2031](https://github.com/chef/inspec/pull/2031) ([schisamo](https://github.com/schisamo)) <!-- 1.31.4 -->
 - bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus)) <!-- 1.31.3 -->
-- [JEX-608] Use Expeditor to bump version and trigger release build [#2015](https://github.com/chef/inspec/pull/2015) ([schisamo](https://github.com/schisamo)) <!-- 1.31.2 -->
+- host resource now properly handles localhost lookup <!-- 1.31.2 -->
+- bug fix: fix mysql_session resource to not use socket for host target <!-- 1.31.2 -->
+- bug fix: properly support profile files that are more than one directory deep <!-- 1.31.2 -->
+
 <!-- release_rollup -->
 
 ## [v1.31.1](https://github.com/chef/inspec/tree/v1.31.1) (2017-07-06)
