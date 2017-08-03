@@ -26,6 +26,18 @@ describe 'Inspec::Resources::DockerContainer' do
       _(resource.ports).must_equal ''
     end
 
+    it 'check image containing repo with port and tag gives correct tag' do
+      resource = load_resource('docker_container', 'heuristic_almeida')
+      _(resource.image).must_equal 'repo.example.com:5000/ubuntu:14.04'
+      _(resource.tag).must_equal '14.04'
+    end
+
+    it 'check image containing repo with port and no tag gives correct tag' do
+      resource = load_resource('docker_container', 'laughing_lamport')
+      _(resource.image).must_equal 'repo.example.com:5000/ubuntu'
+      _(resource.tag).must_be_nil
+    end
+
     it 'prints as a docker resource' do
       resource = load_resource('docker_container', 'laughing_austin')
       resource.to_s.must_equal 'Docker Container laughing_austin'
