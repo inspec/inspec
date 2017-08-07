@@ -78,6 +78,40 @@ end
     end
 
     it 'constructs a simple resource+argument with method calls' do
+      obj.qualifier = [['resource'], ['hello', 'world']]
+      obj.matcher = 'be_in'
+      obj.expectation = ['mytest','mytest2','mytest3']
+      obj.to_ruby.must_equal '
+describe resource.hello("world") do
+  it { should be_in ["mytest", "mytest2", "mytest3"] }
+end
+'.strip
+    end
+
+    it 'constructs a simple resource+argument with method calls' do
+      obj.qualifier = [['resource'], ['hello', 'world']]
+      obj.matcher = 'be_in'
+      obj.negate!
+      obj.expectation = ['mytest2','mytest3','mytest4']
+      obj.to_ruby.must_equal '
+describe resource.hello("world") do
+  it { should_not be_in ["mytest2", "mytest3", "mytest4"] }
+end
+'.strip
+    end
+
+    it 'constructs a simple resource+argument with method calls' do
+      obj.qualifier = [['["item1","item2","item3"]']]
+      obj.matcher = 'be_in'
+      obj.expectation = ["item1","item2","item3","item4","item5"]
+      obj.to_ruby.must_equal '
+describe ["item1","item2","item3"] do
+  it { should be_in ["item1", "item2", "item3", "item4", "item5"] }
+end
+'.strip
+    end
+
+    it 'constructs a simple resource+argument with method calls' do
       obj.qualifier = [['resource'], [:mode]]
       obj.matcher = 'cmp'
       obj.expectation = '0755'

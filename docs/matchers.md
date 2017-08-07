@@ -8,6 +8,7 @@ Inspec uses matchers to help compare resource values to expectations.
 The following matchers are available:
 
 * `be`
+* `be_in`
 * `cmp`
 * `eq`
 * `include`
@@ -122,6 +123,16 @@ Verifies if a value is included in a list.
 ```ruby
 describe passwd do
   its('users') { should include 'my_user' }
+end
+```
+
+## be_in
+
+Verifies that an item is included in a list.
+
+```ruby
+describe resource do
+  its('item') { should be_in LIST }
 end
 ```
 
