@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release -->
-## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
+<!-- latest_release 1.32.2 -->
+## [v1.32.2](https://github.com/chef/inspec/tree/v1.32.2) (2017-08-07)
 
-#### Merged Pull Requests
-- Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
+#### Features & Enhancements
+- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.32.1 -->
 ### Changes since 1.32.1 release
+
+#### Features & Enhancements
+- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294)) <!-- 1.32.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
@@ -2569,4 +2572,3 @@
 - Improve unit tests [\#106](https://github.com/chef/inspec/pull/106) ([chris-rock](https://github.com/chris-rock))
 - add to\_s methods to resources, fixes \#98 [\#105](https://github.com/chef/inspec/pull/105) ([chris-rock](https://github.com/chris-rock))
 - 0.7.0 release [\#104](https://github.com/chef/inspec/pull/104) ([chris-rock](https://github.com/chris-rock))
-
