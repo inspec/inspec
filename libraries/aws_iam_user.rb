@@ -7,16 +7,18 @@ class AwsIamUser < Inspec.resource(1)
   name 'aws_iam_user'
   desc 'Verifies settings for AWS IAM user'
   example "
-    describe aws_iam_user('test_user_name') do
+    describe aws_iam_user(name: 'test_user_name') do
       its('has_mfa_enabled?') { should be false }
       its('has_console_password?') { should be true }
     end
   "
-  def initialize(name, aws_user_provider = AwsIam::UserProvider.new,
-                 access_key_factory = AwsIamAccessKeyFactory.new)
-
-    @name = name
-    @user = aws_user_provider.user(name)
+  def initialize(
+    opts,
+    aws_user_provider = AwsIam::UserProvider.new,
+    access_key_factory = AwsIamAccessKeyFactory.new
+  )
+    @user = opts[:user]
+    @user = aws_user_provider.user(opts[:name]) if @user.nil?
     @access_key_factory = access_key_factory
   end
 
@@ -34,8 +36,12 @@ class AwsIamUser < Inspec.resource(1)
     }
   end
 
+  def name
+    @user[:name]
+  end
+
   def to_s
-    "IAM User #{@name}"
+    "IAM User #{name}"
   end
 
   class AwsIamAccessKeyFactory
