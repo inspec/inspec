@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.32.3 -->
-## [v1.32.3](https://github.com/chef/inspec/tree/v1.32.3) (2017-08-10)
+<!-- latest_release 1.33.1 -->
+## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
 
 #### Merged Pull Requests
-- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
+- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.32.1 -->
 ### Changes since 1.32.1 release
 
 #### Merged Pull Requests
+- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff)) <!-- 1.33.1 -->
 - Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx)) <!-- 1.32.3 -->
 
 #### Features & Enhancements
