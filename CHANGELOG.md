@@ -1,24 +1,22 @@
 # Change Log
 
-<!-- latest_release 1.33.1 -->
-## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
-
-#### Merged Pull Requests
-- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.32.1 -->
-### Changes since 1.32.1 release
-
-#### Merged Pull Requests
-- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff)) <!-- 1.33.1 -->
-- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx)) <!-- 1.32.3 -->
-
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294)) <!-- 1.32.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
+
+#### Features & Enhancements
+- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+
+#### Merged Pull Requests
+- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
+- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
 
 #### Merged Pull Requests
@@ -29,7 +27,6 @@
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
 - catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus))
 - Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 
 
