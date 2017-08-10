@@ -159,6 +159,7 @@ class MockLoader
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
       '/etc/hosts.allow' => mockfile.call('hosts.allow'),
+      '/etc/hosts.deny' => mockfile.call('hosts.deny'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
