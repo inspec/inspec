@@ -11,6 +11,7 @@ require 'inspec/profile'
 require 'inspec/metadata'
 require 'inspec/secrets'
 require 'inspec/dependencies/cache'
+require 'rexml/document'
 # spec requirements
 
 module Inspec
@@ -260,8 +261,69 @@ module Inspec
       nil
     end
 
+    def get_xccdf(rule)
+      # opens up the xccdf file
+      tags = rule.tag
+      xccdf_file = REXML::Document.new File.open(tags[:xccdf_source].to_s).read
+      node = get_node(xccdf_file, tags[:xccdf_id].to_s)
+      tags[:severity] = get_severity(node, tags)
+      tags[:title] = get_title(node, tags)
+      tags[:gid] = get_gid(node, tags)
+      tags[:ruleid] = get_ruleid(node, tags)
+      tags[:stig] = get_stig(node, tags)
+      tags[:checktext] = get_checktext(node, tags)
+      tags[:fixtext] = get_fixtext(node, tags)
+      rule.title(node.get_text('./Rule/itle').to_s) if rule.title.nil?
+      rule.desc(REXML::XPath.first(node, './Rule/description').text) if rule.desc.nil?
+      tags
+    end
+
+    # Getter methods
+    def get_severity(node, tags)
+      REXML::XPath.first(node, './Rule/@severity').value unless tags.key?(:severity)
+    end
+
+    def get_title(node, tags)
+      node.get_text('./title') unless tags.key?(:title)
+    end
+
+    def get_gid(node, tags)
+      REXML::XPath.first(node, './@id').value unless tags.key?(:gid)
+    end
+
+    def get_ruleid(node, tags)
+      REXML::XPath.first(node, './Rule/@id').value unless tags.key?(:ruleid)
+    end
+
+    def get_stig(node, tags)
+      node.get_text('./Rule/version') unless tags.key?(:stig)
+    end
+
+    def get_checktext(node, tags)
+      node.get_text('./Rule/check/check-content') unless tags.key?(:checktext)
+    end
+
+    def get_fixtext(node, tags)
+      node.get_text('./Rule/fixtext') unless tags.key?(:fixtext)
+    end
+
+    def get_node(xccdf_file, id)
+      # loop through nodes to find the proper id
+      xccdf_file.get_elements('//Benchmark/Group').each do |node|
+        return node if node['id'] == id
+      end
+    end
+
     def register_rule(rule)
       Inspec::Log.debug "Registering rule #{rule}"
+      # check if the tags have an xccdf id and source
+      tags = rule.tag
+      if tags.key?(:xccdf_id) && tags.key?(:xccdf_source)
+        # Call get_xccdf method that returns the new tags
+        tags = get_xccdf(rule)
+        rule.tag(tags)
+      end
+
       @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)
       examples = checks.flat_map do |m, a, b|
