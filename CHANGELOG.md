@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.32.2 -->
-## [v1.32.2](https://github.com/chef/inspec/tree/v1.32.2) (2017-08-07)
+<!-- latest_release 1.32.3 -->
+## [v1.32.3](https://github.com/chef/inspec/tree/v1.32.3) (2017-08-10)
 
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+#### Merged Pull Requests
+- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.32.1 -->
 ### Changes since 1.32.1 release
+
+#### Merged Pull Requests
+- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx)) <!-- 1.32.3 -->
 
 #### Features & Enhancements
 - New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294)) <!-- 1.32.2 -->
