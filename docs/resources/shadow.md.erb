@@ -1,0 +1,149 @@
+---
+title: About the shadow Resource
+---
+
+# shadow
+
+Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, which contains password details that are only readable by the `root` user. The format for `/etc/shadow` includes:
+
+* A username
+* The password for that user (on newer systems passwords should be stored in `/etc/shadow` )
+* The last time a password was changed
+* The minimum number of days a password must exist, before it may be changed
+* The maximum number of days after which a password must be changed
+* The number of days a user is warned about an expiring password
+* The number of days a user must be inactive before the user account is disabled
+* The number of days a user account has been disabled
+
+These entries are defined as a colon-delimited row in the file, one row per user:
+
+    dannos:Gb7crrO5CDF.:10063:0:99999:7:::
+
+## Syntax
+
+A `shadow` resource block declares one (or more) users and associated user information to be tested:
+
+    describe shadow do
+      its('users') { should_not include 'forbidden_user' }
+    end
+
+or with a filter:
+
+    describe shadow.uid(filter) do
+      its('users') { should cmp 'root' }
+      its('count') { should eq 1 }
+    end
+
+where
+
+* `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
+* `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering; `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### count
+
+The `count` matcher tests the number of times the named user appears in `/etc/shadow`:
+
+    its('count') { should eq 1 }
+
+TThis matcher is best used in conjunction with filters. For example:
+
+    describe shadow.users('dannos') do
+       its('count') { should eq 1 }
+    end
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### expiry_dates
+
+The `expiry_dates` matcher tests the number of days a user account has been disabled:
+
+    its('expiry_dates') { should eq '' }
+
+### inactive_days
+
+The `inactive_days` matcher tests the number of days a user must be inactive before the user account is disabled:
+
+    its('inactive_days') { should eq '' }
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### last_changes
+
+The `last_changes` matcher tests the last time a password was changed:
+
+    its('last_changes') { should eq '' }
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### max_days
+
+The `max_days` matcher tests the maximum number of days after which a password must be changed:
+
+    its('max_days') { should eq 90 }
+
+### min_days
+
+The `min_days` matcher tests the minimum number of days a password must exist, before it may be changed:
+
+    its('min_days') { should eq 0 }
+
+### passwords
+
+The `passwords` matcher tests if passwords are
+
+* Encrypted
+* Have direct logins disabled, as indicated by an asterisk (`*`)
+* In the `/etc/shadow` file, as indicated by the letter x (`x`)
+
+For example:
+
+    its('passwords') { should eq ['x'] }
+    its('passwords') { should cmp '*' }
+
+### users
+
+The `users` matcher tests if the user name exists `/etc/shadow`:
+
+    its('users') { should eq 'root' }
+
+### warn_days
+
+The `warn_days` matcher tests the number of days a user is warned about an expiring password:
+
+    its('warn_days') { should eq 7 }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for a forbidden user
+
+    describe shadow do
+      its('users') { should_not include 'forbidden_user' }
+    end
+
+### Test that a user appears one time
+
+    describe shadow.users('bin') do
+      its('passwords') { should cmp 'x' }
+      its('count') { should eq 1 }
+    end
