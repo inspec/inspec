@@ -98,7 +98,7 @@ module Inspec::Resources
         parse_rule_line(line)
       end
       # Case when line is a selection line
-      if line.start_with?('/')
+      if line.start_with?('/', '!', '=')
         line_and_rules = parse_selection_line(line)
       end
       line_and_rules
