@@ -22,9 +22,6 @@ describe 'Inspec::Resources::Nginx' do
       _(resource.compiler_info.version).must_match '4.8.5'
       _(resource.compiler_info.date).must_match '20150623'
     end
-  end
-
-  describe 'NGINX Paramaters' do
     it 'Verify nginx parsing `version` - 1.12.0' do
       resource = load_resource('nginx')
       _(resource.version).must_match '1.12.0'
@@ -41,13 +38,9 @@ describe 'Inspec::Resources::Nginx' do
       resource = load_resource('nginx')
       _(resource.service).must_match 'nginx'
     end
-    it 'Verify nginx parsing `conf_path` - `/etc/nginx`' do
+    it 'Verify nginx parsing `modules` - `nginx`' do
       resource = load_resource('nginx')
-      _(resource.conf_path).must_match '/etc/nginx/nginx.conf'
-    end
-    it 'Verify nginx parsing `conf_dir` - `/etc/nginx`' do
-      resource = load_resource('nginx')
-      _(resource.conf_dir).must_match '/etc/nginx'
+      _(resource.modules).must_include 'http_addition'
     end
     it 'Verify nginx parsing `prefix` - `/etc/nginx`' do
       resource = load_resource('nginx')

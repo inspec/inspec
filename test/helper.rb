@@ -359,13 +359,10 @@ class MockLoader
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
       # nginx mock cmd
-      %{which nginx | cut -d/ -f1,2,3} => cmd.call('which-nginx-cut-d-123'),
       %{nginx -V 2>&1} => cmd.call('nginx-v'),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call('nginx-v'),
-      # needed for two differnt inspec.command call formats
-      %{bash -c 'type "nginx"'} => cmd.call('bash-c-type-nginx'),
       %{bash -c 'type "/usr/sbin/nginx"'} => cmd.call('bash-c-type-nginx'),
-      %{ps aux | grep 'nginx *-c' | awk '{ print $NF }'} => cmd.call('ps-aux-nginx-awk'),
+      # needed for two differnt inspec.command call formats
       # host resource: dig commands
       "dig +short A example.com" => cmd.call('dig-A-example.com'),
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
