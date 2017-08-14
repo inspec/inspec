@@ -16,6 +16,7 @@ describe 'Inspec::Resources::NginxConf' do
     _(resource.params).must_be_kind_of Hash
     _(resource.contents).must_be_kind_of Hash
     _(resource.contents.keys).must_equal ["/etc/nginx/nginx.conf", "/etc/nginx/conf/mime.types", "/etc/nginx/proxy.conf"]
+    _(resource.conf_files).must_equal ["/etc/nginx/nginx.conf", "/etc/nginx/conf/mime.types", "/etc/nginx/proxy.conf"]
 
     # global entries
     _(resource.params['user']).must_equal [["www", "www"]] # multiple
@@ -34,6 +35,13 @@ describe 'Inspec::Resources::NginxConf' do
 
     # verify multiline
     _(resource.params['http'][0]['log_format']).must_equal [['main', 'multi', 'line']]
+  end
+
+  it 'tests missing_method method' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('nginx_conf')
+    _(resource.user).must_equal([["www", "www"]])
+    _(resource.events).must_equal([{"worker_connections"=>[["4096"]]}])
+    _(resource.error_log).must_equal([["logs/error.log"]])
   end
 
   it 'skips the resource if it cannot parse the config' do
