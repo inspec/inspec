@@ -15,4 +15,5 @@ UUID=ebffcd01-0695-4d4a-91a4-3a53c6f88d06 /boot                   xfs     defaul
 /dev/mapper/vg1-lv_swap swap                    swap    defaults,x-systemd.device-timeout=0 0 0
 /dev/sr0                /mnt/sr0                iso9660 defaults,ro,noexec,noauto       0 0
 /dev/cdrom              /mnt/cdrom              iso9660 defaults,ro,noexec,noauto       0 0
-tmpfs                   /dev/shm                tmpfs   noexec,nosuid,nodev             0 0                           
+tmpfs                   /dev/shm                tmpfs   noexec,nosuid,nodev             0 0
+server:/usr/local/pub   /pub                    nfs     rsize=8192,wsize=8192,timeo=14,intr   0 0                     

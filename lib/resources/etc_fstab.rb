@@ -4,7 +4,7 @@
 
 require 'utils/parser'
 require 'pry'
-class EtcFstab < Inspec::resource(1)
+class EtcFstab < Inspec.resource(1)
   name 'etc_fstab'
   desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
   example "
@@ -58,25 +58,20 @@ class EtcFstab < Inspec::resource(1)
   filter.connect(self, :params)
 
   def removable_media_file_systems
-    non_removable_media_types = ['xfs', 'ext4', 'swap', 'tmpfs']
-    removable_media = where { !non_removable_media_types.include?(file_system_type) }.entries
+    where { !%w{xfs ext4 swap tmpfs}.include?(file_system_type) }
   end
 
   def nfs_file_systems
-    where { file_system_type.match(/nfs/) }.entries
+    where { file_system_type.match(/nfs/) }
   end
 
   def home_mount_options
-    return "home directory not mounted" unless mounted?("/home")
-    where { mount_point == "/home" }.entries[0].mount_options
+    return 'home directory not mounted' unless mounted?('/home')
+    where { mount_point == '/home' }.entries[0].mount_options
   end
 
   def mounted?(point)
     where { mount_point == point }.entries[0] != nil
-  end
-
-  def non_priv_users_mounted_dir
-    inspec.passwd.where { uids >= 1000 }.homes
   end
 
   private
@@ -96,15 +91,12 @@ class EtcFstab < Inspec::resource(1)
   end
 
   def parse_line(line)
-    device_name, mount_point, file_system_type, mount_options = ''
-    dump_options, file_system_check_options = ''
-
     attributes = line.split
     {
       'device_name'         => attributes[0],
       'mount_point'         => attributes[1],
       'file_system_type'    => attributes[2],
-      'mount_options'       => attributes[3].split(","),
+      'mount_options'       => attributes[3].split(','),
       'dump_options'        => attributes[4].to_i,
       'file_system_options' => attributes[5].to_i,
     }
