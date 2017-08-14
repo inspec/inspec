@@ -2,6 +2,7 @@
 # author: Jen Burns, burnsjennifere@gmail.com
 
 require 'utils/filter'
+require 'utils/parser'
 
 # rubocop:disable Metrics/ClassLength
 module Inspec::Resources
@@ -24,6 +25,8 @@ module Inspec::Resources
     "
 
     attr_reader :params
+
+    include CommentParser
 
     def initialize(aide_conf_path = nil)
       return skip_resource 'The `aide_conf` resource is not supported on your OS.' unless inspec.os.linux?
@@ -74,8 +77,8 @@ module Inspec::Resources
     def filter_comments(data)
       content = []
       data.each do |line|
-        line.chomp!
-        content << line unless line.match(/^\s*#/) || line.empty?
+        content_line, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
+        content.push(content_line)
       end
       content
     end
