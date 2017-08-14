@@ -2,7 +2,7 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
-
+require 'pry'
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
   desc 'Use the etc_hosts InSpec audit resource to find an
@@ -11,7 +11,7 @@ class EtcHosts < Inspec.resource(1)
   describe etc_hosts.where { ip_address == '127.0.0.1' } do
     its ( 'ip_address' ) { should eq ['127.0.0.1'] }
     its ( 'canonical_hostname' ) { should eq ['localhost'] }
-    its ( 'aliases_list' ) { should eq [['localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
+    its ( 'all_host_names' ) { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
   end
   "
 
@@ -32,14 +32,14 @@ class EtcHosts < Inspec.resource(1)
         .add_accessor(:entries)
         .add(:ip_address,         field: 'ip_address')
         .add(:canonical_hostname, field: 'canonical_hostname')
-        .add(:aliases_list,       field: 'aliases_list')
+        .add(:all_host_names,     field: 'all_host_names')
 
   filter.connect(self, :params)
 
   private
 
   def get_hosts_path_by_os(hosts_path)
-    return hosts_path unless !hosts_path.nil?
+    return hosts_path unless hosts_path.nil?
     return hosts_path || '/etc/hosts' unless inspec.os.linux?
     return hosts_path || 'C:\windows\system32\drivers\etc\hosts' unless inspec.os.windows?
   end
@@ -63,7 +63,7 @@ class EtcHosts < Inspec.resource(1)
     {
       'ip_address'         => line_parts[0],
       'canonical_hostname' => line_parts[1],
-      'aliases_list'       => line_parts[2..-1] || '',
+      'all_host_names'     => line_parts[1..-1] || '',
     }
   end
 

@@ -15,25 +15,25 @@ Use the where clause to match a property to one or more rules in the hosts file.
 
     describe etc_hosts.where { ip_address == 'value' } do
       its ( 'canonical_hostname' ) { should eq ['hostname'] }
-      its ( 'aliases_list' ) { should eq [['list']] }
+      its ( 'all_host_names' ) { should eq [['list']] }
     end
 
 Use the optional constructor parameter to give an alternative path to hosts file
 
     describe etc_hosts.where { ip_address == 'value' } do
       its ( 'canonical_hostname' ) { should eq ['hostname'] }
-      its ( 'aliases_list' ) { should eq [['list']] }
+      its ( 'all_host_names' ) { should eq [['list']] }
     end
 
 where
 
 * `ip_address` is the ip address of the hostname in either ipv4 or ipv6 format.
 * `canonical_hostname` is the name associated with the ip address.
-* `aliases_list` is an optional list of other names that can be associated with the ip and host name.
+* `all_host_names` is a list including the canonical_hostname as the first entry followed by any aliase names the host has.
 
 ## Supported Properties
 
-    'ip_address', 'canonical_hostname', 'aliases_list'
+    'ip_address', 'canonical_hostname', 'all_host_names'
 
 ## Property Examples and Return Types
 
@@ -53,10 +53,10 @@ where
       its('canonical_hostname') { should eq ['localhost'] }
     end
 
-### aliases_list([String])
+### all_host_names([String])
 
-`aliases_list` returns a two dimensional array of strings that matches the where condition of the filter table.
+`all_host_names` returns a two dimensional array of strings that matches the where condition of the filter table.
 
     describe etc_hosts.where { ip_address == '127.0.1.154' } do
-      its('canonical_hostname') { should eq [['localhost.localdomain', 'localhost4', 'localhost4.localdomain4'],  ['localhost.localdomain', 'localhost6', 'localhost6.localdomain6']] }
+      its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4'],  ['localhost', 'localhost.localdomain', 'localhost6', 'localhost6.localdomain6']] }
     end
