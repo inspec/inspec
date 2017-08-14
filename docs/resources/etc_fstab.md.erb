@@ -1,0 +1,92 @@
+---
+title: About the etc_fstab Resource
+---
+
+# etc_fstab
+
+Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a system.
+## Syntax
+
+An etc_fstab rule specifies a device name, its mount point, its mount type, the options its mounted with,
+its dump options, and the order the files system should be checked.
+
+## Syntax
+
+Use the where clause to match a property to one or more rules in the fstab file.
+
+    describe etc_fstab.where { device_name == 'value' } do
+      its ( 'mount_point' ) { should eq ['hostname'] }
+      its ( 'file_system_type' ) { should eq [['list']] }
+      its ( 'mount_options' ) { should eq [['list']] }
+      its ( 'dump_options' ) { should eq [['list']] }
+      its ( 'file_system_options' ) { should eq [['list']] }
+    end
+
+Use the optional constructor parameter to give an alternative path to fstab file
+
+    describe etc_fstab(hosts_path).where { device_name == 'value' } do
+      its ( 'mount_point' ) { should eq ['hostname'] }
+      its ( 'file_system_type' ) { should eq [['list']] }
+      its ( 'mount_options' ) { should eq [['list']] }
+      its ( 'dump_options' ) { should eq [['list']] }
+      its ( 'file_system_options' ) { should eq [['list ']] }
+    end
+
+where
+
+* `device_name` is the name associated with the device.
+* `mount_point` is the default directory the device will be mounted if one is not specified in the mount command.
+* `file_system_type` is the type of file system of the device or partition.
+* `mount_options` is the options for the device or partition.
+* `dump_options` is a number used by dump to decide if a file system should be backed up.
+* `file_system_options` is a number that specifies the order the file system should be checked.
+
+## Property Examples and Return Types
+
+### device_name(String)
+
+`device_name` returns an array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { mount_point == '/mnt/sr0' } do
+      its ( 'device_name' ) { should eq ['/dev/sr0'] }
+    end
+
+### mount_point(String)
+
+`mount_point` returns an array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { device_name == '/dev/sr0' } do
+      its('mount_point') { should eq ['/mnt/sr0'] }
+    end
+
+### file_system_type(String)
+
+`file_system_type` returns an array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { device_name == '/dev/sr0' } do
+      its('file_system_type') { should eq ['iso9660'] }
+    end
+
+### mount_options([String])
+
+`mount_options` returns a two dimensional array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { mount_point == '/' } do
+      its('mount_options') { should eq [['defaults', 'x-systemd.device-timeout=0']] }
+    end
+
+### dump_options(int)
+
+`dump_options` returns an array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { device_name == '/dev/sr0' } do
+      its('dump_options') { should eq [0] }
+    end
+
+### file_system_type(int)
+
+`file_system_options` returns an array of strings that matches the where condition of the filter table.
+
+    describe etc_fstab.where { device_name == '/dev/sr0' } do
+      its('file_system_options') { should eq [0] }
+    end
