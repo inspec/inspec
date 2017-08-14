@@ -362,6 +362,8 @@ class MockLoader
       "dig +short A example.com" => cmd.call('dig-A-example.com'),
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
       "curl http://localhost:9200/_nodes/" => cmd.call('elasticsearch-config'),
+      %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
+
     }
     @backend
   end

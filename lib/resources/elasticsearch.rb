@@ -11,7 +11,7 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:cluster,                field: 'cluster')
+          .add(:cluster_name,           field: 'cluster_name')
           .add(:name,                   field: 'name')
           .add(:transport_address,      field: 'transport_address')
           .add(:host,                   field: 'host')
@@ -48,9 +48,9 @@ module Inspec::Resources
   class Elasticsearch < Inspec.resource(1)
     name 'elasticsearch'
     desc "Use the Elasticsearch InSpec audit resource to test the Elasticsearch
-    configuration settings. The data is extract from the live elastic search
-    cluster using the curl command `curl localhost:9200/_nodes/`. The resource
-    makes uses of FilterTable and its functionality can be used "
+      configuration settings. The data is extract from the live elastic search
+      cluster using the curl command `curl localhost:9200/_nodes/`. The resource
+      makes uses of FilterTable and its functionality can be used "
 
     example "
       describe elasticsearch.nodes do
@@ -60,24 +60,24 @@ module Inspec::Resources
         its('name') { should include 'my_node' }
       end
       describe elasticsearch.nodes do
-          its('name') { should_not include 'node_name' }
+        its('name') { should_not include 'node_name' }
       end
       elasticsearch.nodes.os.each do |nodeos|
-      	describe nodeos do
-      		its('name'){ should_not cmp 'MacOS' }
-      	end
+        describe nodeos do
+          its('name'){ should_not cmp 'MacOS' }
+        end
       end
       elasticsearch.nodes.version.each do |node_version|
-      	describe node_version do
-      		it{ should be > '1.2.0' }
-      	end
+        describe node_version do
+          it{ should be > '1.2.0' }
+        end
       end
       elasticsearch.nodes.where{os.name == 'Linux' }.settings.each do |node_settings|
         describe node_settings do
           its('path.conf') {should cmp '/etc/elasticsearch'}
         end
       end
-		  elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
+      elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
         describe node_settings do
           its('path.conf') {should cmp '/etc/elasticsearch'}
         end
@@ -85,15 +85,24 @@ module Inspec::Resources
         "
 
     def initialize(url = 'http://localhost:9200/_nodes/')
-      return skip_resource 'Package `curl` not avaiable on the host' unless inspec.package('curl').installed?
-      command = inspec.command("curl #{url}")
-      if command.stderr =~ /Failed to connect/
-        return skip_resource 'Connection refused please check ip and port provided'
-      end
-      @content = JSON.parse(command.stdout)
+      return skip_resource 'Package `curl` not avaiable on the host' unless inspec.command('curl').exist?
+      @content = read_es_data(url)
       return skip_resource 'Invalid node provided' unless !@content['_nodes']['successful'].zero?
       @nodes = []
       parse_cluster
+    end
+
+    def read_es_data(url)
+      cmd = inspec.command("curl #{url}")
+      if !cmd.exit_status.zero?
+        return skip_resource "Error using the curl #{url}"
+      end
+      if cmd.stderr =~ /Failed to connect/
+        return skip_resource 'Connection refused please check ip and port provided'
+      end
+      JSON.parse(cmd.stdout)
+    rescue JSON::ParserError => e
+      skip_resource "Couldn't parse ES data: #{e.message}"
     end
 
     def nodes
@@ -111,17 +120,17 @@ module Inspec::Resources
         node.node_id = node_id
         node.plugin_list = plugin_list(node)
         node.module_list = module_list(node)
-        node.cluster = node.settings.cluster.name
+        node.cluster_name = node.settings.cluster.name
         @nodes.push(node)
       end
-    rescue JSON::ParserError => _e
-      return Hashie::Mash.new({})
+    rescue JSON::ParserError
+      return Hashie::Mash.new
     end
 
     def plugin_list(node)
       plugins_list = []
       node.plugins.each do |plugins|
-        plugins_list.push(plugins.name)
+        plugins_list << plugins.name
       end
       plugins_list
     end
@@ -129,7 +138,7 @@ module Inspec::Resources
     def module_list(node)
       module_list = []
       node.modules.each do |modules|
-        module_list.push(modules.name)
+        module_list << modules.name
       end
       module_list
     end

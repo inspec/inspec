@@ -23,13 +23,13 @@ where
 
 * `.where()` filter may specify a specific item and value, to which the matchers are compared
 * `.entries()` filter will return the entries that satisfy the where() condition
-* `'name'`, `'cluster'`, `'version'` etc. are valid filters for this resource
+* `'name'`, `'cluster_name'`, `'version'` etc. are valid filters for this resource
 * `'property'` is a configuration setting to be tested
 * `{ should include 'value' }` is the value that is expected
 
 ## Supported Properties
 
-    'build_hash', 'cluster', 'host', 'http', 'ingest', 'ip', 'jvm', 'module_list', 'modules', 'name', 'node_id', 'os', 'plugin_list', 'plugins', 'process', 'roles', 'settings', 'total_indexing_buffer', 'transport', 'transport_address', 'version'
+    'build_hash', 'cluster_name', 'host', 'http', 'ingest', 'ip', 'jvm', 'module_list', 'modules', 'name', 'node_id', 'os', 'plugin_list', 'plugins', 'process', 'roles', 'settings', 'total_indexing_buffer', 'transport', 'transport_address', 'version'
 
 ## Property Examples and Return Types
 
@@ -40,12 +40,12 @@ This `'exist'` checks if the nodes data is collected by the resource.
       it { should exist }
     end
 
-### cluster ([String])
-The `'cluster'` returns and array of strings that contain the cluster names of the
+### cluster_name ([String])
+The `'cluster_name'` returns and array of strings that contain the cluster names of the
 nodes in the cluster or the nodes that match the where condition
 
     describe elasticsearch.nodes do
-      its('cluster') { should cmp 'elasticsearch' }
+      its('cluster_name') { should cmp 'elasticsearch' }
     end
 
 ### node_id ([String])
@@ -84,7 +84,7 @@ the nodes that match the `where` condition
 
     # Verify that for all nodes in cluster `elastisearch` has `mlockall` as true
 
-    elasticsearch.nodes.where{ cluster == 'elasticsearch' }.process.each do |node_process|
+    elasticsearch.nodes.where{ cluster_name == 'elasticsearch' }.process.each do |node_process|
       describe node_process do
         its('mlockall') { should be false }
       end
