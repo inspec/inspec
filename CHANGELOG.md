@@ -1,9 +1,17 @@
 # Change Log
 
-<!-- latest_release -->
+<!-- latest_release 1.33.2 -->
+## [v1.33.2](https://github.com/chef/inspec/tree/v1.33.2) (2017-08-14)
+
+#### Merged Pull Requests
+- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.33.1 -->
+### Changes since 1.33.1 release
+
+#### Merged Pull Requests
+- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
