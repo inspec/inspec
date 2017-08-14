@@ -121,6 +121,6 @@ The following examples show how to use this InSpec resource.
 
 ### Check if a partition is mounted at a point.
 
-    describe etc_fstab.mounted?('/home') <!DOCTYPE html>
+    describe etc_fstab.mounted?('/home') do
       it { should eq true }
     end
