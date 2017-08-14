@@ -14,42 +14,42 @@ before_install:
 - gem --version
 matrix:
   include:
-  - rvm: 2.1.10
   - rvm: 2.2.6
-  - rvm: 2.3.3
+  - rvm: 2.3.4
+  - rvm: 2.4.1
     script: bundle exec rake $SUITE
     env: SUITE="lint test test:functional"
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     script: bundle exec rake $SUITE
     env: SUITE="test:resources config=test/test.yaml" N=2
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     script: bundle exec rake $SUITE
     env: SUITE="test:resources config=test/test-extra.yaml" N=2
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS=default-ubuntu-1204 DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-ubuntu-1604' DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-centos-68' DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-centos-7' DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-debian-8' DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-oracle-72' DOCKER=true
-  - rvm: 2.3.3
+  - rvm: 2.4.1
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
     env: SUITE=test:integration OS='default-fedora-24' DOCKER=true

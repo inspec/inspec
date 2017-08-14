@@ -268,7 +268,7 @@ class MockLoader
       'Resolve-DnsName –Type A microsoft.com | ConvertTo-Json' => cmd.call('Resolve-DnsName'),
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # host for Linux
-      'getent hosts example.com' => cmd.call('getent-hosts-example.com'),
+      'getent ahosts example.com' => cmd.call('getent-ahosts-example.com'),
       'ping -w 1 -c 1 example.com' => cmd.call('ping-example.com'),
       # host for Darwin
       'host -t AAAA example.com' => cmd.call('host-AAAA-example.com'),

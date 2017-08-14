@@ -176,7 +176,7 @@ task :release_habitat do
     end
     cmd = "echo #{version} > ./habitat/VERSION && "\
           "hab pkg build . && " \
-          "hab pkg upload ./results/*.hart"
+          "hab pkg upload ./results/*.hart --channel stable"
     puts "--> #{cmd}"
     sh('sh', '-c', cmd)
 end

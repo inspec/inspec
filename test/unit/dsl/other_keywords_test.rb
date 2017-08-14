@@ -46,7 +46,7 @@ describe 'inspec keyword' do
     end
 
     it 'lists all profile files when calling #files' do
-      load_in_profile('inspec.profile.files').must_equal %w{items.conf}
+      load_in_profile('inspec.profile.files').must_equal %w{a_sub_dir/sub_items.conf items.conf}
     end
   end
 
