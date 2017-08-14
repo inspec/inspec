@@ -1,0 +1,76 @@
+---
+title: About the firewalld Resource
+---
+
+# firewalld
+
+Use the `firewalld` InSpec audit resource to test rules set to match IP address's with hostnames.
+## Syntax
+
+An firewalld rule specifies an IP address and what it's hostname is along with an aliase names it can have.
+
+## Syntax
+
+Use the where clause to match a property to one or more rules in the hosts file.
+
+    describe firewalld do
+      it { should be_running }
+      its ( 'default_zone' ) { should eq 'public' }
+      it { should have_service_enabled_in_zone('public', 'ssh') }
+      it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept') }
+    end
+
+## Supported Properties
+
+### default_zone(String)
+
+The `default_zone` property displays the default active zone to be used.
+
+    its ( 'default_zone' ) { should eq 'public' }
+
+### default_zone(String)
+
+The `active_zones` property ddisplays the open zone and all its open interfaces
+
+    its ( 'actrive_zones' ) { should eq "public\n  interfaces: enp0s3\n" }
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### `be_installed`
+
+The `be_installed` matcher tests if the firewalld service is installed:
+
+    it { should be_installed }
+
+### `be_running`
+
+The `be_running` matcher tests if the firewalld service is running:
+
+    it { should be_running }
+
+### have_zone(String)
+
+`have_zone` returns true or false if the zone is set on firewalld. It does not mean the zone is active.
+
+    it { should have_zone('public') }
+
+### `have_service_enabled_in_zone`
+
+`have_service_enabled_in_zone` returns true or false if the service is allowed in the specified zone.
+
+    it { should have_service_enabled_in_zone('public', 'ssh') }
+
+### `have_port_enabled_in_zone`
+
+`have_port_enabled_in_zone` returns true or false if the port is allowed in the specified zone.
+
+    it { should have_port_enabled_in_zone('public', '22/tcp') }
+
+
+### `have_rule_enabled`
+
+`have_rule_enabled` returns true or false if the rich-rule has been specified in the zone.
+
+    it { should have_rule_enabled('public', 'rule family=ipv4 source address=192.168.0.14 accept') }

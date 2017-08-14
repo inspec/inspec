@@ -361,6 +361,17 @@ class MockLoader
       # host resource: dig commands,
       "dig +short A example.com" => cmd.call('dig-A-example.com'),
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      'firewall-cmd --get-zones' => cmd.call('firewall-cmd--get-zones'),
+      'firewall-cmd --get-default-zone' => cmd.call('firewall-cmd--get-default-zone'),
+      'firewall-cmd --get-active-zones' => cmd.call('firewall-cmd--get-active-zones'),
+      'firewall-cmd --state' => cmd.call('firewall-cmd--state'),
+      'firewall-cmd --zone=public --query-service=ssh' => cmd.call('firewall-cmd--service-enabled-in-zone'),
+      'firewall-cmd --zone=public --query-port=22/tcp' => cmd.call('firewall-cmd-has-port-enabled-in-zone'),
+      "firewall-cmd --zone=public --query-rich-rule='rule family=ipv4 source address=192.168.0.14 accept'" => cmd.call('firewall-cmd-has-rule-enabled'),
+      'firewall-cmd --zone=public --service=ssh --get-ports --permanent' => cmd.call('firewall-cmd-service-ports-enabled-in-zone'),
+      'firewall-cmd --zone=public --service=ssh --get-protocols --permanent' => cmd.call('firewall-cmd-service-protocols-enabled-in-zone'),
+      'firewall-cmd --zone=public --list-services' => cmd.call('firewall-cmd-services-bound'),
+      'firewall-cmd --zone=public --list-sources' => cmd.call('firewall-cmd-sources-bound'),
     }
     @backend
   end
