@@ -359,8 +359,17 @@ class MockLoader
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
       # host resource: dig commands,
-      "dig +short A example.com" => cmd.call('dig-A-example.com'),
-      "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      'dig +short A example.com' => cmd.call('dig-A-example.com'),
+      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
+      'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-active dbus --quiet' => empty.call,
+      'systemctl is-enabled dbus --quiet' => empty.call,
+      '/path/to/systemctl is-active sshd --quiet' => empty.call,
+      '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
+      '/usr/sbin/service sshd status' => empty.call,
+      '/sbin/service sshd status' => empty.call,
+      'type "lsof"' => empty.call,
     }
     @backend
   end
