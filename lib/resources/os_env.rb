@@ -49,6 +49,9 @@ module Inspec::Resources
     private
 
     def value_for(env)
+      # do mock handling
+      return nil if inspec.os.name.nil?
+
       command = if inspec.os.windows?
                   "${Env:#{env}}"
                 else

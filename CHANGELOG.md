@@ -1,20 +1,33 @@
 # Change Log
 
-<!-- latest_release 1.32.2 -->
-## [v1.32.2](https://github.com/chef/inspec/tree/v1.32.2) (2017-08-07)
+<!-- latest_release 1.33.5 -->
+## [v1.33.5](https://github.com/chef/inspec/tree/v1.33.5) (2017-08-15)
 
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+#### Merged Pull Requests
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.32.1 -->
-### Changes since 1.32.1 release
+<!-- release_rollup since=1.33.1 -->
+### Changes since 1.33.1 release
 
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294)) <!-- 1.32.2 -->
+#### Merged Pull Requests
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.5 -->
+- Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.4 -->
+- Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff)) <!-- 1.33.3 -->
+- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
+
+#### Features & Enhancements
+- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+
+#### Merged Pull Requests
+- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
+- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
 
 #### Merged Pull Requests
@@ -25,7 +38,6 @@
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
 - catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus))
 - Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 
 
