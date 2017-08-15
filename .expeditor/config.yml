@@ -8,6 +8,13 @@ github:
   maintainer_group: chef/inspec-maintainers
   version_tag_format: v{{version}}
 
+changelog:
+  categories:
+    - "Type: New Resource": "New Resources"
+    - "Type: New Feature": "New Features"
+    - "Type: Enhancement": "Enhancements"
+    - "Type: Bug": "Bug Fixes"
+
 merge_actions:
   built_in:bump_version:
     ignore_labels:
