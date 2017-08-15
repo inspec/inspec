@@ -1,0 +1,41 @@
+---
+title: The pam_pwquality Resource
+---
+
+# pam_pwquality
+
+Use the `pam_pwquality` InSpec audit resource to test whether or not pam_pwquality.so is enabled in a file and verify that it is given the correct arguments as well as options in the /etc/security/pwquality.conf.
+
+## Syntax
+
+An `pam_pwquality` resource block takes in a file path used to verify pam_pwquality.so and its arguments. If no argument is given, the file path is set to its default value of '/etc/pam.d/passwd'.
+
+    describe pam_pwquality('/etc/pam.d/password-auth') do
+      its('arguments') { should include 'try_first_pass' }
+    end
+
+## Supported Properties
+
+### enabled?
+
+`enabled?` property returns true or false whether or not pam_pwquality.so is declared in the /etc/pam.d/passwd file.
+
+    describe sec_pwquality_conf() do
+      it { should be_enabled }
+    end
+
+### options
+
+`options` property returns a hashmap of properties and values set in /etc/security/pwquality.conf.
+
+    describe sec_pwquality_conf() do
+      its('options') { should include difok => 15 }
+    end
+
+### arguments
+
+`arguments` property returns a string list of arguments given in the declaration of the pam_pwquality.so module.
+
+    describe sec_pwquality_conf() do
+      its('arguments') { should eq ['try_first_pass', 'local_users_only', 'retry=3', 'authtok_type='] }
+    end
