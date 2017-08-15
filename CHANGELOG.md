@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.4 -->
-## [v1.33.4](https://github.com/chef/inspec/tree/v1.33.4) (2017-08-14)
+<!-- latest_release 1.33.5 -->
+## [v1.33.5](https://github.com/chef/inspec/tree/v1.33.5) (2017-08-15)
 
 #### Merged Pull Requests
-- Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock))
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.1 -->
 ### Changes since 1.33.1 release
 
 #### Merged Pull Requests
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.5 -->
 - Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.4 -->
 - Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff)) <!-- 1.33.3 -->
 - fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
