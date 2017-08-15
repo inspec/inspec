@@ -25,8 +25,6 @@ module Inspec::Resources
     attr_reader :content
     def initialize(env = nil)
       @osenv = env
-      @content = nil
-      @content = value_for(env) unless env.nil?
     end
 
     def split
@@ -35,7 +33,12 @@ module Inspec::Resources
       path_separator = inspec.os.windows? ? ';' : ':'
       # -1 is required to catch cases like dir1::dir2:
       # where we have a trailing :
-      @content.nil? ? [] : @content.split(path_separator, -1)
+      content.nil? ? [] : content.split(path_separator, -1)
+    end
+
+    def content
+      return @content if defined?(@content)
+      @content = value_for(@osenv) unless @osenv.nil?
     end
 
     def to_s
@@ -49,9 +52,6 @@ module Inspec::Resources
     private
 
     def value_for(env)
-      # do mock handling
-      return nil if inspec.os.name.nil?
-
       command = if inspec.os.windows?
                   "${Env:#{env}}"
                 else
