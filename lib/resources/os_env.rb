@@ -61,7 +61,7 @@ module Inspec::Resources
       out = inspec.command(command)
 
       unless out.exit_status == 0
-        skip_resource "Can't read environment variables on #{os[:name]}. "\
+        skip_resource "Can't read environment variables on #{inspec.os.name}. "\
           "Tried `#{command}` which returned #{out.exit_status}"
       end
 
