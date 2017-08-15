@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.6 -->
-## [v1.33.6](https://github.com/chef/inspec/tree/v1.33.6) (2017-08-15)
+<!-- latest_release 1.33.7 -->
+## [v1.33.7](https://github.com/chef/inspec/tree/v1.33.7) (2017-08-15)
 
 #### Merged Pull Requests
-- Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock))
+- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.1 -->
 ### Changes since 1.33.1 release
 
 #### Merged Pull Requests
+- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
 - Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.6 -->
 - add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.5 -->
 - Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.4 -->
