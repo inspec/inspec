@@ -164,24 +164,6 @@ For example:
 
 Available Supermarket profiles can be listed with `inspec supermarket profiles`.
 
-## GitHub
-
-A `github` setting specifies a profile that is located in a repository hosted on GitHub. The source location is translated into a URL upon resolution.
-
-For example:
-
-    depends:
-    - name: gh-profile
-      github: username/project
-
-A path to a Git commit or tag on GitHub can also be used:
-
-    dev-sec/linux-baseline
-    dev-sec/linux-baseline/tree/2.0
-    dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876
-
-would all download profiles corresponding to the GitHub URL, https://github.com/dev-sec/linux-baseline/tree/48bd4388ddffde68badd83aefa654e7af3231876, for example.
-
 ## Chef Compliance
 
 A `compliance` setting specifies a profile that is located on the Chef Compliance server.
