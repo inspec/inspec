@@ -374,9 +374,7 @@ class MockLoader
       'firewall-cmd --zone=public --list-services' => cmd.call('firewall-cmd-services-bound'),
       'firewall-cmd --zone=public --list-sources' => cmd.call('firewall-cmd-sources-bound'),
       'firewall-cmd --zone=public --query-rich-rule=rule family=ipv4 source address=192.168.0.14 accept' => cmd.call('firewall-cmd-has-rule-enabled'),
-      'dpkg -s firewalld' => cmd.call('pkg-info-firewalld'),
       'rpm -qia firewalld' => cmd.call('pkg-info-firewalld'),
-      'pacman -Qi firewalld' => cmd.call('pkg-info-firewalld'),
     }
     @backend
   end

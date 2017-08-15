@@ -16,8 +16,8 @@ Use the where clause to match a property to one or more rules in the hosts file.
     describe firewalld do
       it { should be_running }
       its ( 'default_zone' ) { should eq 'public' }
-      it { should have_service_enabled_in_zone('public', 'ssh') }
-      it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept') }
+      it { should have_service_enabled_in_zone('ssh', 'public') }
+      it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
     end
 
 ## Supported Properties
@@ -32,7 +32,7 @@ The `default_zone` property displays the default active zone to be used.
 
 The `active_zones` property ddisplays the open zone and all its open interfaces
 
-    its ( 'actrive_zones' ) { should eq "public\n  interfaces: enp0s3\n" }
+    its ( 'active_zones' ) { should eq "public\n  interfaces: enp0s3\n" }
 
 ## Matchers
 
@@ -60,19 +60,19 @@ The `be_running` matcher tests if the firewalld service is running:
 
 `have_service_enabled_in_zone` returns true or false if the service is allowed in the specified zone.
 
-    it { should have_service_enabled_in_zone('public', 'ssh') }
+    it { should have_service_enabled_in_zone('ssh', 'public') }
 
 ### `have_port_enabled_in_zone`
 
 `have_port_enabled_in_zone` returns true or false if the port is allowed in the specified zone.
 
-    it { should have_port_enabled_in_zone('public', '22/tcp') }
+    it { should have_port_enabled_in_zone('22/tcp', 'public') }
 
 ### `have_rule_enabled`
 
 `have_rule_enabled` returns true or false if the rich-rule has been specified in the zone.
 
-    it { should have_rule_enabled('public', 'rule family=ipv4 source address=192.168.0.14 accept') }
+    it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
 
 ## Examples
 

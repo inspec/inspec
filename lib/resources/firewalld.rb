@@ -11,25 +11,21 @@ module Inspec::Resources
     name 'firewalld'
     desc 'Use the firewalld resource to check and see if firewalld is configured to grand or deny access to specific hosts or services'
     example "
-      describe firewalld.service_enabled_in_zone?('public','ssh') do
-        it { should eq true }
+      describe firewalld do
+        it { should be_running }
+        its ( 'default_zone' ) { should eq 'public' }
+        it { should have_service_enabled_in_zone('ssh', 'public') }
+        it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
       end
 
       describe firewalld do
-        it { should be_running }
+        its ( services_bound )  { should eq ['ssh', 'icmp'] }
       end
 
-      describe firewalld.port_enabled_in_zone('home', '22/tcp') do
-        it { should eq false }
+      describe firewalld do
+        its ( sources_bound )  { should eq ['192.168.1.0/24', '192.168.1.2'] }
       end
-
-      describe firewalld.default_zone do
-        it { should eq 'public' }
-      end
-
-      describe firewalld.rule_enabled('rule family=ipv4 source address=192.168.0.14 accept') do
-        it { should eq true }
-      end"
+      "
 
     def initialize
       return skip_resource 'The `etc_hosts_deny` resource is not supported on your OS.' unless inspec.os.linux?
@@ -54,7 +50,7 @@ module Inspec::Resources
 
     def default_zone
       # return: word associated with the name of the default zone
-      # example: public
+      # example: 'public'
       firewalld_command('firewall-cmd --get-default-zone')[0..-2]
     end
 
@@ -74,14 +70,14 @@ module Inspec::Resources
     end
 
     def service_ports_enabled_in_zone(query_service, query_zone = default_zone)
-      # return: String of ports open, seperated by a space
-      # example: 22/tcp 4722/tcp
+      # return: String of ports open
+      # example: ['22/tcp', '4722/tcp']
       firewalld_command("firewall-cmd --zone=#{query_zone} --service=#{query_service} --get-ports --permanent").split(' ')
     end
 
     def service_protocols_enabled_in_zone(query_service, query_zone = default_zone)
-      # return: String of protocoals open, seperated by a space
-      # example: icmp ipv4 igmp
+      # return: String of protocoals open
+      # example: ['icmp', 'ipv4', 'igmp']
       firewalld_command("firewall-cmd --zone=#{query_zone} --service=#{query_service} --get-protocols --permanent").split(' ')
     end
 
@@ -91,13 +87,13 @@ module Inspec::Resources
 
     def sources_bound(query_zone = default_zone)
       # result: a list containing either an ip address or ip address with a mask, or a ipset or an ipset with the ipset prefix.
-      # example: 192.168.0.4 192.168.0.0/16 2111:DB28:ABC:12:: 2111:db89:ab3d:0112::0/64
+      # example: ['192.168.0.4', '192.168.0.0/16', '2111:DB28:ABC:12::', '2111:db89:ab3d:0112::0/64']
       firewalld_command("firewall-cmd --zone=#{query_zone} --list-sources").split(' ')
     end
 
     def services_bound(query_zone = default_zone)
-      # result: a list of services bound to a zone, each seperated by a space
-      # example: ssh dhcpv6-client
+      # result: a list of services bound to a zone.
+      # example: ['ssh', 'dhcpv6-client']
       firewalld_command("firewall-cmd --zone=#{query_zone} --list-services").split(' ')
     end
 
