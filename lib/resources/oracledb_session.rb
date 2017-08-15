@@ -49,18 +49,17 @@ module Inspec::Resources
       escaped_query = escaped_query.gsub('$', '\\$')
 
       p = nil
-      # check if sqlplus is available and prefer that
-      if inspec.command(@sqlplus_bin).exist?
-        bin = @sqlplus_bin
-        opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
-        p = :parse_html_result
-      elsif inspec.command(@sqlcl_bin).exist?
+      # use sqlplus if sqlcl is not available
+      if inspec.command(@sqlcl_bin).exist?
         bin = @sqlcl_bin
         opts = "set sqlformat csv\nSET FEEDBACK OFF"
         p = :parse_csv_result
+      else
+        bin = @sqlplus_bin
+        opts = "SET MARKUP HTML ON\nSET FEEDBACK OFF"
+        p = :parse_html_result
       end
 
-      return skip_resource("Can't find suitable Oracle CLI") if p.nil?
       command = "echo \"#{opts}\n#{verify_query(escaped_query)}\nEXIT\" | #{bin} -s #{@user}/#{@password}@//#{@host}:#{@port}/#{@service}"
       cmd = inspec.command(command)
 
