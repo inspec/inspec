@@ -1,0 +1,51 @@
+---
+title: The authconfig Resource
+---
+
+# authconfig
+
+Use the `authconfig` InSpec audit resource to test the properties set in an authconfig file. The `authconfig` defines values that are used to track whether or not authentication mechanisms are enabled.
+
+## Syntax
+
+An `authconfig` resource block declares a authconfig file to be tested.  If no argument is given, the default file is set to '/etc/sysconfig/authconfig'.
+
+    describe authconfig do
+      its('USESSSD') { should eq 'yes' }
+    end
+
+## Supported Properties
+
+### installed>
+
+`installed` property returns true or false whether the authconfig package is installed.
+
+    describe authconfig do
+      it { should be_installed }
+    end
+
+### smartcard_authen_enabled?
+
+The `smartcard_authen_enabled` returns true or false whether smartcard authentication is enabled on the machine.
+
+    describe authconfig do
+      it { should be_smartcard_authen_enabled }
+    end
+
+### smartcard_removal_action returns a string that corresponds to the response the system takes if a smark card is removed during a session.
+
+The `smartcard_removal_action` returns a string
+
+    describe authconfig do
+      its ( 'smartcard_removal_action' ) { should eq 'Ignore' }
+    end
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Make sure authconfig is configured to use USELDAPAUTH.
+
+    describe authconfig do
+      its('USELDAPAUTH') { should eq 'yes' }
+    end
