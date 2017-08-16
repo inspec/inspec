@@ -16,6 +16,10 @@ class AwsIamRootUser < Inspec.resource(1)
     summary_account['AccountAccessKeysPresent']
   end
 
+  def has_mfa_enabled?
+    summary_account['AccountMFAEnabled'] == 1
+  end
+
   def to_s
     'AWS Root-User'
   end

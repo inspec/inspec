@@ -19,4 +19,22 @@ class AwsIamRootUserTest < Minitest::Test
 
     assert_equal expected_keys, AwsIamRootUser.new(@mock_conn).access_key_count
   end
+
+  def test_has_mfa_enabled_returns_true_when_account_mfa_devices_is_one
+    test_summary_map = OpenStruct.new(
+      summary_map: { 'AccountMFAEnabled' => 1 },
+    )
+    @mock_client.expect :get_account_summary, test_summary_map
+
+    assert_equal true, AwsIamRootUser.new(@mock_conn).has_mfa_enabled?
+  end
+
+  def test_has_mfa_enabled_returns_false_when_account_mfa_devices_is_zero
+    test_summary_map = OpenStruct.new(
+      summary_map: { 'AccountMFAEnabled' => 0 },
+    )
+    @mock_client.expect :get_account_summary, test_summary_map
+
+    assert_equal false, AwsIamRootUser.new(@mock_conn).has_mfa_enabled?
+  end
 end
