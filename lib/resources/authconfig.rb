@@ -11,7 +11,7 @@ module Inspec::Resources
           The `authconfig` defines values that are used to track whether or not authentication mechanisms are enabled.'
     example "
     describe authconfig do
-      its('USESSSD') { should eq 'yes' }
+      its ('USESSSD') { should eq 'yes' }
     end
 
     describe authconfig do
