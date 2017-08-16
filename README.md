@@ -62,6 +62,11 @@ end
 ### Available Resources
 
  * `aws_ec2` - This resource reads information about an ec2 instance
+ * `aws_iam_access_key` - Verifies settings for AWS IAM access keys
+ * `aws_iam_password_policy` - Verifies iam password policy
+ * `aws_iam_root_user` - Verifies settings for AWS root account
+ * `aws_iam_user` - Verifies settings for a specific AWS IAM user
+ * `aws_iam_users` - Verifies settings for AWS IAM users
 
 ### Roadmap
 
@@ -71,7 +76,6 @@ end
  * `aws_iam_group`
  * `aws_iam_policy`
  * `aws_iam_role`
- * `aws_iam_user`
  ...
 
 
