@@ -44,7 +44,7 @@ module Inspec::Resources
     def smartcard_authen_enabled?
       return 'The `authconfig` resource is not installed on your machine.' unless installed?
       result = authconfig_command("authconfig --test | grep -i \"smartcard for login is\" | awk '{ print $NF }'")
-      return result unless result.match?(/^Error.+/)
+      return result unless !result.match?(/^Error.+/)
       result == 'enabled'
     end
 
