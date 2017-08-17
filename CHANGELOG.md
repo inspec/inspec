@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.8 -->
-## [v1.33.8](https://github.com/chef/inspec/tree/v1.33.8) (2017-08-15)
+<!-- latest_release 1.33.10 -->
+## [v1.33.10](https://github.com/chef/inspec/tree/v1.33.10) (2017-08-17)
 
 #### Merged Pull Requests
-- fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock))
+- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.1 -->
 ### Changes since 1.33.1 release
 
 #### Merged Pull Requests
+- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus)) <!-- 1.33.10 -->
 - fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.8 -->
 - add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
 - Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.6 -->
