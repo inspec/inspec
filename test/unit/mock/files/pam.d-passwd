@@ -1,0 +1,10 @@
+#%PAM-1.0
+#
+# These lines allow a md5 systems to support passwords of at least 14
+# bytes with extra credit of 2 for digits and 2 for others the new
+# password must have at least three bytes that are not present in the
+# old password
+#
+password  required pam_pwquality.so \
+               difok=3 minlen=15 dcredit= 2 ocredit=2
+password  required pam_unix.so use_authtok nullok md5
