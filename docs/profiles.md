@@ -109,18 +109,23 @@ and to target all of these examples in a single `inspec.yml` file:
 
 # Profile Dependencies
 
-A profile dependency is needed when:
+An InSpec profile can bring in the controls and custom resources from another InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
 
- * using `include_controls` or `require_controls` in order to load controls defined in another profile
- * using a custom InSpec resource defined in another profile
+## Defining the Dependencies
 
-Use the `depends` setting in the `inspec.yml` file to specify one (or more) profiles on which this profile depends. A profile dependency may be sourced from a path, URL, a git repo, a cookbook located on Chef Supermarket or on GitHub, or a profile located on the Chef Compliance server.
+Before a profile can use controls from another profile, the to-be-included profile needs to be specified in the including profile’s `inspec.yml` file in the `depends` section. For each profile to be included, a location for the profile from where to be fetched and a name for the profile should be included. For example:
 
-## Path
+    depends:
+    - name: linux-baseline
+      url: https://github.com/dev-sec/linux-baseline/archive/master.tar.gz
+    - name: ssh-baseline
+      url: https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz
 
-The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles. This setting does not support version constraints. If the location of the profile does not exist, an error is returned.
+InSpec supports a number of dependency sources.
 
-For example:
+### path
+
+The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles. 
 
     depends:
     - name: my-profile
@@ -128,19 +133,19 @@ For example:
     - name: another
       path: ../relative/path
 
-## URL
+### url
 
-The `url` setting specifies a profile that is located at an HTTP- or HTTPS-based URL. The profile must be accessible via a HTTP GET operation and must be a valid profile archive (zip, tar, tar.gz format). If the download fails, the profile is inaccessible, or not in the correct format, an error is returned.
-
-For example:
+The `url` setting specifies a profile that is located at an HTTP- or HTTPS-based URL. The profile must be accessible via a HTTP GET operation and must be a valid profile archive (zip, tar, or tar.gz format).
 
     depends:
     - name: my-profile
       url: https://my.domain/path/to/profile.tgz
+    - name: profile-via-git
+      url: https://github.com/myusername/myprofile-repo/archive/master.tar.gz
 
-## git
+### git
 
-A `git` setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version indexing via semantic versioning as git tags.
+A `git` setting specifies a profile that is located in a git repository, with optional settings for branch, tag, commit, and version. The source location is translated into a URL upon resolution. This type of dependency supports version constraints via semantic versioning as git tags.
 
 For example:
 
@@ -152,7 +157,7 @@ For example:
       commit:  pinned_commit
       version: semver_via_tags
 
-## Chef Supermarket
+### supermarket
 
 A `supermarket` setting specifies a profile that is located in a cookbook hosted on Chef Supermarket. The source location is translated into a URL upon resolution.
 
@@ -164,9 +169,9 @@ For example:
 
 Available Supermarket profiles can be listed with `inspec supermarket profiles`.
 
-## Chef Compliance
+### compliance
 
-A `compliance` setting specifies a profile that is located on the Chef Compliance server.
+A `compliance` setting specifies a profile that is located on the Chef Automate or Chef Compliance server.
 
 For example:
 
@@ -174,80 +179,76 @@ For example:
       - name: linux
         compliance: base/linux
 
-You need to `inspec vendor` the profile before uploading it to Chef Compliance version 1.7.7 or newer. The vendor subcommand fetches all dependent profiles and stores them in the `vendor` directory.
-
-## Define in inspec.yml
-
-Use the `depends` setting in the `inspec.yml` file to define any combination of profile dependencies. For example:
-
-    depends:
-      - name: ssh-hardening
-        supermarket: hardening/ssh-hardening
-        version: '= 2.0.0'
-      - name: os-hardening
-        url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
-      - name: ssl-benchmark
-        git: https://github.com/dev-sec/ssl-benchmark.git
-        version: '< 2.0'
-      - name: windows-patch-benchmark
-        git: https://github.com/chris-rock/windows-patch-benchmark.git
-        version: '~> 0.6'
-      - name: linux
-        compliance: base/linux
-
 ## Vendoring Dependencies
 
-When you execute a local profile, the `inspec.yml` file will be read in order to source any profile dependencies. It will then cache the dependencies locally and generate an `inspec.lock` file. If you add or update dependencies in `inspec.yml`, please refresh the lock file by either:
+When you execute a local profile, the `inspec.yml` file will be read in order to source any profile dependencies. It will then cache the dependencies locally and generate an `inspec.lock` file.
 
- * running `inspec vendor` inside the profile directory; or
- * deleting `inspec.lock` before running `inspec exec`
+If you add or update dependencies in `inspec.yml`, dependencies may be re-vendored and the lockfile updated with `inspec vendor --overwrite`
 
-# Profile Inheritance
+## Using Controls from an Included Profile
 
-When a profile is run, it may include controls that are defined in other profiles. Controls may also be required.
+Once defined in the `inspec.yml`, controls from the included profiles can be used! Let’s look at some examples.
 
-This requires an `inspec.yml` dependency to the profile you inherit from.
+### Including All Controls from a Profile
 
-## include_controls
+With the `include_controls` command in a profile, all controls from the named profile will be executed every time the including profile is executed.
 
-The `include_controls` keyword may be used in a profile to import all rules from the named profile.
+![Include Controls](/images/profile_inheritance/include_controls.png)
 
-For example, to include controls from the `cis-level-1` profile when running the `cis-fs-2.7` profile:
+In the example above, every time `my-app-profile` is executed, all the controls from `my-baseline` are also executed. Therefore, the following controls would be executed:
 
-    include_controls 'cis-level-1' do
+ * myapp-1
+ * myapp-2
+ * myapp-3
+ * baseline-1
+ * baseline-2
 
-      control "cis-fs-2.7" do
-        impact 1.0
-      ...
+This is a great reminder that having a good naming convention for your controls is helpful to avoid confusion when 
+including controls from other profiles!
 
-    end
+### Skipping a Control from a Profile
 
-To include controls from the `cis-level-1` profile, but skipping two controls within that profile:
+What if one of the controls from the included profile does not apply to your environment? Luckily, it is not necessary to maintain a slightly-modified copy of the included profile just to delete a control. The `skip_control` command tells InSpec to not run a particular control.
 
-    include_controls 'cis-level-1' do
+![Include Controls with Skip](/images/profile_inheritance/include_controls_with_skip.png)
 
-      skip_control "cis-fs-2.1"
-      skip_control "cis-fs-2.2"
+In the above example, all controls from `my-app-profile` and `my-baseline` profile will be executed every time `my-app-profile` is executed **except** for control `baseline-2` from the `my-baseline` profile.
 
-    end
+### Modifying a Control
 
-## require_controls
+Let's say a particular control from an included profile should still be run, but the impact isn't appropriate? Perhaps the test should still run, but if it fails, it should be treated as low severity instead of high severity?
 
-The `require_controls` keyword may be used to load only specific controls from the named profile.
+When a control is included, it can also be modified!
 
-For example, to require that controls `cis-fs-2.1` and `cis-fs-2.2` be loaded from the `cis-level-1` profile:
+![Include Controls with Modification](/images/profile_inheritance/include_controls_with_mod.png)
 
-    require_controls 'cis-level-1' do
+In the above example, all controls from `my-baseline` are executed along with all the controls from the including profile, `my-app-profile`. However, should control `baseline-1` fail, it will be raised with an impact of `0.5` instead of the originally-intended impact of `1.0`.
 
-      control "cis-fs-2.1"
-      control "cis-fs-2.2"
+### Selectively Including Controls from a Profile
 
-    end
+If there are only a handful of controls that should be executed from an included profile, it's not necessarily to skip all the unneeded controls, or worse, copy/paste those controls bit-for-bit into your profile. Instead, use the `require_controls` command.
 
+![Require Controls](/images/profile_inheritance/require_controls.png)
 
-## require_resource
+Whenever `my-app-profile` is executed, in addition to its own controls, it will run only the controls specified in the `require_controls` block. In the case, the following controls would be executed:
 
-By default, all of the resources from a listed dependency are available
+ * myapp-1
+ * myapp-2
+ * myapp-3
+ * baseline-2
+ * baseline-4
+
+Controls `baseline-1`, `baseline-3`, and `baseline-5` would not be run, just as if they were manually skipped. This method of including specific controls ensures only the controls specified are executed; if new controls are added to a later version of `my-baseline`, they would not be run.
+
+And, just the way its possible to modify controls when using `include_controls`, controls can be modified as well.
+
+![Require Controls with Modification](/images/profile_inheritance/require_controls_with_mod.png)
+
+As with the prior example, only `baseline-2` and `baseline-4` are executed, but if `baseline-2` fails, it will report with an impact of `0.5` instead of the originally-intended `1.0` impact.
+
+## Using Resources from an Included Profile
+
+By default, all of the custom resources from a listed dependency are available
 for use in your profile. If two of your dependencies provide a resource with
 the same name, you can use the `require_resource` DSL function to
 disambiguate the two:
