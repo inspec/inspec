@@ -906,3 +906,164 @@ class InspecRspecJUnit < InspecRspecJson
     }
   end
 end
+class InspecRspecOval < InspecRspecJson
+  RSpec::Core::Formatters.register self, :close
+
+  #
+  # This is the last method is invoked through the formatter interface.
+  # Converts the junit formatter constructed output_hash into REXML generated
+  # XML and writes it to output.
+  #
+  def close(_notification)
+    require 'rexml/document'
+    xml_output = REXML::Document.new
+    xml_output.add(REXML::XMLDecl.new)
+
+    oval_results = REXML::Element.new('oval_results')
+    xml_output.add(oval_results)
+    
+    # information for oval results
+    xsi = "http://www.w3.org/2001/XMLSchema-instance"
+    oval = "http://oval.mitre.org/XMLSchema/oval-common-5"
+    xmlns_res = "http://oval.mitre.org/XMLSchema/oval-results-5"
+    schema_loc = "http://oval.mitre.org/XMLSchema/oval-results-5 oval-results-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd"
+    schema_version_num = "5.10.1"
+    
+    oval_results.add_namespace("xsi", xsi)
+    oval_results.add_namespace("oval", oval)
+    oval_results.add_namespace( xmlns_res )
+    oval_results.add_namespace('xsi:schemaLocation', schema_loc)
+
+    # create generator and add the time and schema version
+    generator = REXML::Element.new('generator')
+    schema_version = REXML::Element.new('oval:schema_version')
+    schema_version.text = schema_version_num
+    timestamp = REXML::Element.new('oval:timestamp')
+    timestamp.text = Time.new.inspect
+    generator.add(schema_version)
+    generator.add(timestamp)
+    oval_results.add(generator)
+
+    # create directives and report all with thin content
+    # Inspec currently only supports true, false, and not_evaluated
+    directives = REXML::Element.new('directives')
+    def_true = REXML::Element.new('definition_true')
+    def_true.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    def_false = REXML::Element.new('definition_false')
+    def_false.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    def_unk = REXML::Element.new('definition_unknown')
+    def_unk.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    def_err = REXML::Element.new('definition_error')
+    def_err.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    def_not_e = REXML::Element.new('definition_not_evaluated')
+    def_not_e.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    def_not_a = REXML::Element.new('definition_not_applicable')
+    def_not_a.add_attributes( {'reported'=>'true', 'content'=>'thin'} )
+    directives.add(def_true)
+    directives.add(def_false)
+    directives.add(def_unk)
+    directives.add(def_err)
+    directives.add(def_not_e)
+    directives.add(def_not_a)
+    oval_results.add(directives)
+
+    results = REXML::Element.new('results')
+    system = REXML::Element.new('system')
+    tests = REXML::Element.new('tests')
+    system.add(tests)
+    results.add(system)
+    counter = 1
+    check = 'at least one'
+    @output_hash[:profiles].each do |profile|
+      next if @output_hash[:profiles].nil?
+
+      profile[:controls].each do |control|
+        next if control[:results].nil?
+
+        control[:results].each do |result|
+          # reformat result
+          puts result
+          if result[:status] == 'passed'
+            status = 'true'
+          elsif result[:status] == 'failed'
+            status = 'false'
+          else
+            status = 'skipped'
+          end
+          # always display a test then display item id if t/f
+          id = "oval:" + control[:id] + ":tst:" + counter.to_s
+          counter += 1
+          test = REXML::Element.new('test')
+          tests.add(test)
+          test.add_attributes( {'test_id'=>id, 'version'=>'1', 'check'=>check, 'result'=>status} )
+        end
+      end
+    end
+
+    # system characteristics info
+    unix_sys = 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#unix'
+    ind_sys = 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#independent'
+    lin_sys = 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#linux'
+    xmlns_char = 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5'
+    schema_location = 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5 oval-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#indpendent independent-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#unix unix-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#linux linux-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd'
+    
+    sys_char = REXML::Element.new('oval_system_characteristics')
+    sys_char.add_namespace('oval', oval)
+    sys_char.add_namespace('unix-sys', unix_sys)
+    sys_char.add_namespace('ind-sys', ind_sys)
+    sys_char.add_namespace('lin-sys', lin_sys)
+    sys_char.add_namespace(xmlns_char)
+    sys_char.add_namespace('xsi:shemaLocation', schema_location)
+
+    timestamp.text = Time.new.inspect
+    # create generator and add the time and schema version
+    generator2 = REXML::Element.new('generator')
+    schema_version2 = REXML::Element.new('oval:schema_version')
+    schema_version2.text = schema_version_num
+    timestamp2 = REXML::Element.new('oval:timestamp')
+    timestamp2.text = Time.new.inspect
+    generator2.add(schema_version2)
+    generator2.add(timestamp2)
+    sys_char.add(generator2)
+
+    # system info
+    system_info = REXML::Element.new('system_info')
+    os_name = REXML::Element.new('os_name')
+    os_version = REXML::Element.new('os_version')
+    architecture = REXML::Element.new('architecture')
+    primary_host = REXML::Element.new('primary_host_name')
+    
+    system_info.add(os_name)
+    system_info.add(os_version)
+    system_info.add(architecture)
+    system_info.add(primary_host)
+    
+    # interfaces info using socket
+    interfaces = REXML::Element.new('interfaces')
+    require 'socket' 
+    Socket.getifaddrs.each do |if_addr|
+      # require 'pry'; binding.pry
+      interface = REXML::Element.new('interface')
+      interface_name = REXML::Element.new('interface_name')
+      interface_name.text = if_addr.name
+      ip_address = REXML::Element.new('ip_address')
+      ip_address.text = if_addr.addr.ip_address.to_s if if_addr.addr.ipv4?
+      mac_address = REXML::Element.new('mac_address')
+      #mac_address.text = if_addr.addr.getnameinfo
+      interface.add(interface_name)
+      interface.add(ip_address)
+      interface.add(mac_address)
+      interfaces.add(interface)
+    end
+    system_info.add(interfaces)
+
+    sys_char.add(system_info) 
+    system.add(sys_char)
+    oval_results.add(results)
+    formatter = REXML::Formatters::Pretty.new
+    formatter.compact = true
+  #  require 'pry'; binding.pry
+    output.puts formatter.write(xml_output.xml_decl, '')
+    output.puts formatter.write(xml_output.root, '')
+  end
+end
