@@ -74,8 +74,13 @@ module Inspec::Resources
     end
 
     def repo
-      return if image_name_from_image.nil?
-      image_name_from_image.split(':')[0]
+      return if image.nil? || image_name_from_image.nil?
+      if image.include?('/')                       # host:port/ubuntu:latest
+        repo_part, image_part = image.split('/')   # host:port, ubuntu:latest
+        repo_part + '/' + image_part.split(':')[0] # host:port + / + ubuntu
+      else
+        image_name_from_image.split(':')[0]
+      end
     end
 
     def tag
