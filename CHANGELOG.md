@@ -12,16 +12,16 @@
 
 #### Bug Fixes
 - Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff)) <!-- 1.33.11 -->
-
-#### Merged Pull Requests
 - [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus)) <!-- 1.33.10 -->
 - fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.8 -->
-- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
 - Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.6 -->
 - add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.5 -->
 - Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.4 -->
 - Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff)) <!-- 1.33.3 -->
 - fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
+
+#### Merged Pull Requests
+- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
