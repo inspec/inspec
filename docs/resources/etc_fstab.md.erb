@@ -104,15 +104,6 @@ The following examples show how to use this InSpec resource.
       end
     end
 
-### Check all partitions that are removable file systems.
-
-    removable_media = etc_fstab.removable_media_file_systems
-    removable_media.each do |media|
-      describe media do
-        its ('mount_options') { should include 'nosuid' }
-      end
-    end
-
 ### Check the partition mounted at /home contains 'nosuid' in its mount_options.
 
     describe etc_fstab do
