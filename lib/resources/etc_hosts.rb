@@ -8,11 +8,11 @@ class EtcHosts < Inspec.resource(1)
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "
-  describe etc_hosts.where { ip_address == '127.0.0.1' } do
-    its ( 'ip_address' ) { should eq ['127.0.0.1'] }
-    its ( 'canonical_hostname' ) { should eq ['localhost'] }
-    its ( 'all_host_names' ) { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
-  end
+    describe etc_hosts.where { ip_address == '127.0.0.1' } do
+      its ( 'ip_address' ) { should cmp '127.0.0.1' }
+      its ( 'primary_name' ) { should cmp 'localhost' }
+      its ( 'all_host_names' ) { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
+    end
   "
 
   attr_reader :params
@@ -21,7 +21,7 @@ class EtcHosts < Inspec.resource(1)
 
   def initialize(hosts_path = nil)
     return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.linux? || inspec.os.windows?
-    @conf_path      = get_hosts_path_by_os(hosts_path)
+    @conf_path      = hosts_path || default_hosts_file_path(hosts_path)
     @content        = nil
     @params         = nil
     read_content
@@ -31,15 +31,14 @@ class EtcHosts < Inspec.resource(1)
   filter.add_accessor(:where)
         .add_accessor(:entries)
         .add(:ip_address,         field: 'ip_address')
-        .add(:canonical_hostname, field: 'canonical_hostname')
+        .add(:primary_name, field: 'primary_name')
         .add(:all_host_names,     field: 'all_host_names')
 
   filter.connect(self, :params)
 
   private
 
-  def get_hosts_path_by_os(hosts_path)
-    return hosts_path unless hosts_path.nil?
+  def default_hosts_file_path(hosts_path)
     return hosts_path || '/etc/hosts' unless inspec.os.linux?
     return hosts_path || 'C:\windows\system32\drivers\etc\hosts' unless inspec.os.windows?
   end
@@ -60,10 +59,11 @@ class EtcHosts < Inspec.resource(1)
 
   def parse_line(line)
     line_parts = line.split
+    return nil unless line_parts.length >= 2
     {
       'ip_address'         => line_parts[0],
-      'canonical_hostname' => line_parts[1],
-      'all_host_names'     => line_parts[1..-1] || '',
+      'primary_name' => line_parts[1],
+      'all_host_names'     => line_parts[1..-1],
     }
   end
 
@@ -75,8 +75,8 @@ class EtcHosts < Inspec.resource(1)
 
     raw_conf = file.content
     if raw_conf.empty? && !file.empty?
-      return skip_resource("File is empty.\"#{@conf_path}\"")
+      return skip_resource("Could not read file contents\"#{@conf_path}\"")
     end
-    inspec.file(conf_path).content.lines
+    raw_conf.lines
   end
 end
