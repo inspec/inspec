@@ -3,32 +3,30 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
-require 'pry'
+
 class EtcFstab < Inspec.resource(1)
   name 'etc_fstab'
   desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
   example "
-  removable_media = etc_fstab.removable_media_file_systems
-  removable_media.each do |media|
-    describe media do
-      its ( 'mount_options' ) { should include 'nosuid' }
-    end
-  end
-
-  nfs_systems = etc_fstab.nfs_file_systems
-  if removable_media != []
-    nfs_systems.each do |file_system|
-      describe file_system do
-        its ( 'mount_options' ) { should include 'nosuid' }
-        its ( 'mount_options' ) { should include 'noexec' }
-        its ( 'mount_options' ) { should include '\'sec=krb5:krb5i:krb5p\'' }
+    removable_media = etc_fstab.removable_media_file_systems
+    removable_media.each do |media|
+      describe media do
+        its ('mount_options') { should include 'nosuid' }
       end
     end
-  end
 
-  describe etc_fstab do
-    its ('home_mount_options') { should include 'nosuid' }
-  end
+    nfs_systems = etc_fstab.nfs_file_systems
+    nfs_systems.each do |file_system|
+      describe file_system do
+        its ('mount_options') { should include 'nosuid' }
+        its ('mount_options') { should include 'noexec' }
+        its ('mount_options') { should include '\'sec=krb5:krb5i:krb5p\'' }
+      end
+    end
+
+    describe etc_fstab do
+      its ('home_mount_options') { should include 'nosuid' }
+    end
   "
 
   attr_reader :params
@@ -42,7 +40,6 @@ class EtcFstab < Inspec.resource(1)
     @content        = nil
     @params         = nil
     read_content
-    return skip_resource '`etc_fstab` is not supported on your OS' if inspec.os.windows?
   end
 
   filter = FilterTable.create
@@ -54,24 +51,17 @@ class EtcFstab < Inspec.resource(1)
         .add(:mount_options,         field: 'mount_options')
         .add(:dump_options,          field: 'dump_options')
         .add(:file_system_options,   field: 'file_system_options')
+        .add(:configured?) { |x| x.entries.any? }
 
   filter.connect(self, :params)
-
-  def removable_media_file_systems
-    where { !%w{xfs ext4 swap tmpfs}.include?(file_system_type) }
-  end
 
   def nfs_file_systems
     where { file_system_type.match(/nfs/) }
   end
 
   def home_mount_options
-    return 'home directory not mounted' unless mounted?('/home')
+    return nil unless where { mount_point == '/home' }.configured?
     where { mount_point == '/home' }.entries[0].mount_options
-  end
-
-  def mounted?(point)
-    where { mount_point == point }.entries[0] != nil
   end
 
   private
@@ -105,14 +95,12 @@ class EtcFstab < Inspec.resource(1)
   def read_file(conf_path = @conf_path)
     file = inspec.file(conf_path)
     if !file.file?
-      return skip_resource "Can't find file. If this is the correct path,
-        access control is turned off.\"#{@conf_path}\""
+      return skip_resource "Can't find \"#{@conf_path}\""
     end
 
     raw_conf = file.content
     if raw_conf.empty? && !file.empty?
-      return skip_resource("File is empty. If this is the correct file,
-        access control is turned off. Path:\"#{@conf_path}\"")
+      return skip_resource("File is empty or unable to read file at path:\"#{@conf_path}\"")
     end
     inspec.file(conf_path).content.lines
   end

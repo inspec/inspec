@@ -24,60 +24,30 @@ describe 'Inspec::Resources::Fstab' do
     _(entries.file_system_options).must_equal [0]
   end
 
-  it 'Verify etc_hosts filtering by `file_system_type`'  do
-    entries = resource.where { file_system_type == 'tmpfs' }
-    _(entries.mount_point).must_equal ['/dev/shm']
-    _(entries.device_name).must_equal ['tmpfs']
-    _(entries.mount_options).must_equal [['noexec', 'nosuid' , 'nodev']]
-    _(entries.dump_options).must_equal [0]
-    _(entries.file_system_options).must_equal [0]
+  it 'Verify parsing an entry where mount_options is a single item' do
+    resourceOneMount = load_resource('etc_fstab', 'fstab_one_mount')
+    entries = resourceOneMount.where { file_system_options == 0 }
+    _(entries.mount_options).must_equal [['defaults', 'x-systemd.device-timeout=0']]
   end
 
-  it 'Verify etc_hosts filtering by `mount_options`'  do
-    entries = resource.where { mount_options == ['noexec', 'nosuid' , 'nodev'] }
-    _(entries.mount_point).must_equal ['/dev/shm']
-    _(entries.file_system_type).must_equal ['tmpfs']
-    _(entries.device_name).must_equal ['tmpfs']
-    _(entries.dump_options).must_equal [0]
-    _(entries.file_system_options).must_equal [0]
-  end
-
-  it 'Verify etc_hosts filtering by `dump_options`'  do
-    entries = resource.where { dump_options == 0 }
-    _(entries.mount_point).must_equal ['/', '/boot', '/home', '/tmp', '/var', '/var/log', '/var/log/audit', 'swap', '/mnt/sr0', '/mnt/cdrom', '/dev/shm', '/pub']
-    _(entries.file_system_type).must_equal ['xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'swap', 'iso9660', 'iso9660', 'tmpfs', 'nfs']
-    _(entries.mount_options).must_equal [['defaults', 'x-systemd.device-timeout=0'] , ['defaults', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'noexec', 'nosuid'],
-     ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid', 'nodev', 'noexec', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0'],
-     ['defaults', 'ro', 'noexec', 'noauto'], ['defaults', 'ro', 'noexec', 'noauto'], ['noexec', 'nosuid', 'nodev'], ['rsize=8192', 'wsize=8192', 'timeo=14', 'intr'] ]
-    _(entries.device_name).must_equal ['/dev/mapper/vg1-lv_root', 'UUID=ebffcd01-0695-4d4a-91a4-3a53c6f88d06', '/dev/mapper/vg1-lv_home', '/dev/mapper/vg1-lv_tmp', '/dev/mapper/vg1-lv_var', '/dev/mapper/vg1-lv_log', '/dev/mapper/vg1-lv_audit', '/dev/mapper/vg1-lv_swap',
-     '/dev/sr0', '/dev/cdrom', 'tmpfs', 'server:/usr/local/pub']
-    _(entries.file_system_options).must_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  end
-
-  it 'Verify etc_hosts filtering by `file_system_options`'  do
+  it 'Verify parsing an entry where mount_options is multiple items' do
     entries = resource.where { file_system_options == 0 }
-    _(entries.mount_point).must_equal ['/', '/boot', '/home', '/tmp', '/var', '/var/log', '/var/log/audit', 'swap', '/mnt/sr0', '/mnt/cdrom', '/dev/shm', '/pub']
-    _(entries.file_system_type).must_equal ['xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'xfs', 'swap', 'iso9660', 'iso9660', 'tmpfs', 'nfs']
     _(entries.mount_options).must_equal [['defaults', 'x-systemd.device-timeout=0'] , ['defaults', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'noexec', 'nosuid'],
      ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid', 'nodev', 'noexec', 'nosuid'], ['defaults', 'x-systemd.device-timeout=0'],
      ['defaults', 'ro', 'noexec', 'noauto'], ['defaults', 'ro', 'noexec', 'noauto'], ['noexec', 'nosuid', 'nodev'], ['rsize=8192', 'wsize=8192', 'timeo=14', 'intr'] ]
-    _(entries.device_name).must_equal ['/dev/mapper/vg1-lv_root', 'UUID=ebffcd01-0695-4d4a-91a4-3a53c6f88d06', '/dev/mapper/vg1-lv_home', '/dev/mapper/vg1-lv_tmp', '/dev/mapper/vg1-lv_var', '/dev/mapper/vg1-lv_log', '/dev/mapper/vg1-lv_audit', '/dev/mapper/vg1-lv_swap',
-     '/dev/sr0', '/dev/cdrom', 'tmpfs', 'server:/usr/local/pub']
-    _(entries.dump_options).must_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   end
 
-  it 'verify etc_fstab can detect if a partition is mounted' do
-    resource.stubs(:mounted?).with('/home').returns(true)
+  it 'verify home_mount_options returns something when /home is configured' do
+    entries = resource.where { mount_point == '/home' }
+    _(entries.configured?).must_equal true
+    _(resource.home_mount_options).must_equal [ 'defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid']
   end
 
-  it 'verify etc_fstab can detect all removable media file systems' do
-    entries = resource.removable_media_file_systems
-    _(entries.device_name).must_equal ['/dev/sr0', '/dev/cdrom', 'server:/usr/local/pub']
-    _(entries.mount_point).must_equal ['/mnt/sr0', '/mnt/cdrom', '/pub']
-    _(entries.file_system_type).must_equal ['iso9660', 'iso9660', 'nfs']
-    _(entries.mount_options).must_equal [['defaults', 'ro', 'noexec', 'noauto'], ['defaults', 'ro', 'noexec', 'noauto'], ['rsize=8192', 'wsize=8192', 'timeo=14', 'intr']]
-    _(entries.dump_options).must_equal [0, 0, 0]
-    _(entries.file_system_options).must_equal [0, 0, 0]
+  it 'verify home_mount_options returns something when /home is not configured' do
+    resourceNoHome = load_resource('etc_fstab', 'fstab_no_home')
+    entries = resourceNoHome.where { mount_point == '/home' }
+    _(entries.configured?).must_equal false
+    _(resourceNoHome.home_mount_options).must_be_nil
   end
 
   it 'verify etc_fstab can detect all nfs file systems' do
@@ -88,9 +58,5 @@ describe 'Inspec::Resources::Fstab' do
     _(entries.mount_options).must_equal [['rsize=8192', 'wsize=8192', 'timeo=14', 'intr']]
     _(entries.dump_options).must_equal [0]
     _(entries.file_system_options).must_equal [0]
-  end
-
-  it 'verity etc_fstab can get home directory mount options' do
-    _(resource.home_mount_options).must_equal [ 'defaults', 'x-systemd.device-timeout=0', 'nodev', 'nosuid']
   end
 end
