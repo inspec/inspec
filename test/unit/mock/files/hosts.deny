@@ -14,4 +14,4 @@ ALL: 127.0.0.1, [::1]
 sshd: ALL
 # Added for testing
 LOCAL : [fe80::]/10 : deny
-UNKNOWN, sshd : 127.0.1.154, [:fff:fAb0::] : deny : /etc/bin/
+vsftpd , sshd : 127.0.1.154, [:fff:fAb0::] : deny : /etc/bin/

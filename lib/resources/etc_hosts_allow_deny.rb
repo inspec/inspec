@@ -2,6 +2,7 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
+require 'pry'
 
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)
@@ -9,9 +10,9 @@ module Inspec::Resources
     desc 'Use the etc_hosts_allow InSpec audit resource to test the connections
           the client will allow. Controlled by the /etc/hosts.allow file.'
     example "
-      describe etc_hosts_allow.where { daemon_list == 'ALL' } do
-        its('daemon_list') { should eq [['ALL']] }
+      describe etc_hosts_allow.where { daemon == 'ALL' } do
         its('client_list') { should eq [['127.0.0.1', '[::1]']] }
+        its('options') { should eq nil }
       end
     "
 
@@ -31,7 +32,7 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:daemon_list, field: 'daemon_list')
+          .add(:daemon,      field: 'daemon')
           .add(:client_list, field: 'client_list')
           .add(:options,     field: 'options')
 
@@ -42,14 +43,25 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params  = {}
-      @content = read_file(@conf_path)
+      @content = split_daemons(read_file(@conf_path))
       @params  = parse_conf(@content)
+    end
+
+    def split_daemons(content)
+      split_daemons_list = []
+      content.each do |line|
+        data, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
+        next unless data != ''
+        data.split(':')[0].split(',').each do |daemon|
+          split_daemons_list.push("#{daemon} : " + line.split(':', 2)[1])
+        end
+      end
+      split_daemons_list
     end
 
     def parse_conf(content)
       content.map do |line|
-        data, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
-        parse_line(data) unless data == ''
+        parse_line(line) unless line == ''
       end.compact
     end
 
@@ -57,7 +69,7 @@ module Inspec::Resources
       client_list = ''
       options = ''
 
-      daemon_list = line.split(':')[0].split(',').collect { |x| x.strip || x }
+      daemon = line.split(':')[0].strip
 
       # If the line contains an ipv6 address, parse using a different
       # algorithm. ipv6 addresses will containt a '['
@@ -75,7 +87,7 @@ module Inspec::Resources
         client_list, options = parse_attributes(line, 4)
       end
       {
-        'daemon_list' => daemon_list,
+        'daemon'      => daemon,
         'client_list' => client_list,
         'options'     => options,
       }
