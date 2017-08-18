@@ -2,17 +2,18 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
-require 'pry'
+
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)
     name 'etc_hosts_allow'
     desc 'Use the etc_hosts_allow InSpec audit resource to test the connections
           the client will allow. Controlled by the /etc/hosts.allow file.'
     example "
-    describe etc_hosts_allow.where { daemon_list == 'ALL' } do
-      its('daemon_list') { should eq [['ALL']] }
-      its('client_list') { should eq [['127.0.0.1', '[::1]']] }
-    end"
+      describe etc_hosts_allow.where { daemon_list == 'ALL' } do
+        its('daemon_list') { should eq [['ALL']] }
+        its('client_list') { should eq [['127.0.0.1', '[::1]']] }
+      end
+    "
 
     attr_reader :params
 
@@ -25,7 +26,6 @@ module Inspec::Resources
       @content        = nil
       @params         = nil
       read_content
-      return skip_resource '`etc_hosts_allow` is not supported on your OS' if inspec.os.windows?
     end
 
     filter = FilterTable.create
@@ -116,17 +116,15 @@ module Inspec::Resources
       # then access control is turned off.
       file = inspec.file(conf_path)
       if !file.file?
-        return skip_resource "Can't find file. If this is the correct path,
-          access control is turned off.\"#{@conf_path}\""
+        return skip_resource "Can't find file at \"#{@conf_path}\""
       end
       raw_conf = file.content
       if raw_conf.empty? && !file.empty?
-        return skip_resource("File is empty. If this is the correct file,
-          access control is turned off. Path:\"#{@conf_path}\"")
+        return skip_resource("Unable to read file \"#{@conf_path}\"")
       end
 
       # If there is a file and it contains content, continue
-      inspec.file(conf_path).content.lines
+      raw_conf.lines
     end
   end
 
@@ -135,14 +133,14 @@ module Inspec::Resources
     desc 'Use the etc_hosts_deny InSpec audit resource to test the connections
           the client will deny. Controlled by the /etc/hosts.deny file.'
     example "
-    describe etc_hosts_deny.where { daemon_list == 'ALL' } do
-      its('client_list') { should eq [['127.0.0.1', '[::1]']] }
-      its('options') { should eq [] }
-    end"
+      describe etc_hosts_deny.where { daemon_list == 'ALL' } do
+        its('client_list') { should eq [['127.0.0.1', '[::1]']] }
+        its('options') { should eq [] }
+      end
+    "
 
     def initialize(path = nil)
       return skip_resource '`etc_hosts_deny` is not supported on your OS' unless inspec.os.linux?
-      return skip_resource '`etc_hosts_deny` is not supported on your OS' if inspec.os.windows?
       super(path || '/etc/hosts.deny')
     end
 

@@ -38,25 +38,25 @@ where
 
 ## Property Examples and Return Types
 
-### daemon_list([String])
+### daemon_list
 
-`daemon_list` returns a 2d array of strings that matches the where condition of the filter table.
+`daemon_list` returns a 2d string array where each entry contains the daemons specified for the rule.
 
     describe etc_hosts_allow.where { client_list == ['127.0.1.154',  '[:fff:fAb0::]'] } do
       its('daemon_list') { should eq [['UNKNOWN', 'sshd']] }
     end
 
-### client_list([String])
+### client_list
 
-`client_list` returns a 2d array of strings that matches the where condition of the filter table.
+`client_list` returns a 2d string array where each entry contains the clients specified for the rule.
 
     describe etc_hosts_allow.where { daemon_list == ['UNKNOWN', 'sshd'] } do
       its('client_list') { should eq [['192.168.0.0/16', '[abcd::0000:1234]']] }
     end
 
-### options([String])
+### options
 
-`options` returns a 2d array of strings that matches the where condition of the filter table.
+`options` returns a 2d string array where each entry contains any options specified for the rule.
 
     describe etc_hosts_allow.where { daemon_list == ['UNKNOWN', 'sshd'] } do
       its('options') { should eq [['deny', 'echo "REJECTED"']] }
