@@ -375,6 +375,7 @@ class MockLoader
       "authconfig --test | grep -i \"smartcard for login is\" | awk '{ print $NF }'" => cmd.call('smartcard-login'),
       "authconfig --test | grep -i 'smartcard removal action' | awk \'{ print $NF }\'" => cmd.call('smartcard-removal-action'),
       'rpm -qia authconfig' =>cmd.call('rpm-qia-authconfig'),
+      'authconfig --test' => cmd.call('authconfig--test'),
     }
     @backend
   end

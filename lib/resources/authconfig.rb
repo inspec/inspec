@@ -3,6 +3,8 @@
 
 require 'utils/SimpleConfig'
 require 'utils/parser'
+require 'pry'
+require 'parslet'
 
 module Inspec::Resources
   class AuthConfig < Inspec.resource(1)
@@ -30,6 +32,7 @@ module Inspec::Resources
       @conf_path = host_path || '/etc/sysconfig/authconfig'
       @content = nil
       @params = nil
+      @modules = nil
       read_content
     end
 
@@ -58,7 +61,9 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
+      @modules = {}
       @content = read_file(@conf_path)
+      @modules = read_modules(authconfig_command('authconfig --test'))
       @params = read_params(@content)
     end
 
@@ -67,7 +72,17 @@ module Inspec::Resources
       conf = SimpleConfig.new(
         content,
       )
-      @params = conf.params
+      conf.params
+    end
+
+    def read_modules(content)
+      binding.pry
+      # parse the file
+      conf = SimpleConfig.new(
+        content,
+        assignment_regex: /^\S([^=]*?)\s*is\s*(.*?)\s*$/,
+      )
+      conf.params
     end
 
     def read_file(conf_path = @conf_path)
@@ -90,5 +105,16 @@ module Inspec::Resources
       end
       result.stdout
     end
+  end
+  class Mini < Parslet::Parser
+    rule(:nonSpace) { match('\S').repeat(1) }
+    rule(:space) { match('\s').repeat(1) }
+
+    rule(:wordAndSpace ) { nonSpace || space }
+    rule(:is) { match('\s') >> str('is') >> match('\s') }
+    rule(:equals) { match('\s') >> str('=') >> match('\s') }
+    rule(:is_expression) { wordAndSpace.as(:left) >> is.as(:is) >> wordAndSpace.as(:right) }
+    rule(:equals_expression) { wordAndSpace.as(:left) >> is.as(:is) >> wordAndSpace.as(:right) }
+    root :expression
   end
 end
