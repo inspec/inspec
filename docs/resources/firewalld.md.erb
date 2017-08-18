@@ -15,24 +15,24 @@ Use the where clause to match a property to one or more rules in the hosts file.
 
     describe firewalld do
       it { should be_running }
-      its ( 'default_zone' ) { should eq 'public' }
+      its ('default_zone') { should eq 'public' }
       it { should have_service_enabled_in_zone('ssh', 'public') }
       it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
     end
 
 ## Supported Properties
 
-### default_zone(String)
+### default_zone
 
 The `default_zone` property displays the default active zone to be used.
 
-    its ( 'default_zone' ) { should eq 'public' }
+    its ('default_zone') { should eq 'public' }
 
-### default_zone(String)
+### default_zone
 
-The `active_zones` property ddisplays the open zone and all its open interfaces
+The `active_zones` property displays the open zone and all its open interfaces
 
-    its ( 'active_zones' ) { should eq "public\n  interfaces: enp0s3\n" }
+    its ('active_zones') { should eq "public\n  interfaces: enp0s3\n" }
 
 ## Matchers
 
@@ -50,7 +50,7 @@ The `be_running` matcher tests if the firewalld service is running:
 
     it { should be_running }
 
-### have_zone(String)
+### have_zone
 
 `have_zone` returns true or false if the zone is set on firewalld. It does not mean the zone is active.
 
@@ -79,11 +79,11 @@ The `be_running` matcher tests if the firewalld service is running:
 ### Check the services allowed in a zone. `services_bound` returns a string list of services allowed through the zone.
 
     describe firewalld do
-      its ( 'services_bound' )  { should eq ['ssh', 'icmp'] }
+      its ('services_bound')  { should eq ['ssh', 'icmp'] }
     end
 
 ### Check the sources allowed in a zone. `sources_bound` returns a string list of sources allowed through the zone.
 
     describe firewalld do
-      its ( 'sources_bound' )  { should eq ['192.168.1.0/24', '192.168.1.2'] }
+      its ('sources_bound')  { should eq ['192.168.1.0/24', '192.168.1.2'] }
     end

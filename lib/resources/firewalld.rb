@@ -13,19 +13,19 @@ module Inspec::Resources
     example "
       describe firewalld do
         it { should be_running }
-        its ( 'default_zone' ) { should eq 'public' }
+        its ('default_zone') { should eq 'public' }
         it { should have_service_enabled_in_zone('ssh', 'public') }
         it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
       end
 
       describe firewalld do
-        its ( services_bound )  { should eq ['ssh', 'icmp'] }
+        its ('services_bound')  { should eq ['ssh', 'icmp'] }
       end
 
       describe firewalld do
-        its ( sources_bound )  { should eq ['192.168.1.0/24', '192.168.1.2'] }
+        its ('sources_bound')  { should eq ['192.168.1.0/24', '192.168.1.2'] }
       end
-      "
+    "
 
     def initialize
       return skip_resource 'The `etc_hosts_deny` resource is not supported on your OS.' unless inspec.os.linux?
