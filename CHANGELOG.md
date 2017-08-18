@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.10 -->
-## [v1.33.10](https://github.com/chef/inspec/tree/v1.33.10) (2017-08-17)
+<!-- latest_release 1.33.11 -->
+## [v1.33.11](https://github.com/chef/inspec/tree/v1.33.11) (2017-08-18)
 
-#### Merged Pull Requests
-- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus))
+#### Bug Fixes
+- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.1 -->
 ### Changes since 1.33.1 release
+
+#### Bug Fixes
+- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff)) <!-- 1.33.11 -->
 
 #### Merged Pull Requests
 - [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus)) <!-- 1.33.10 -->
