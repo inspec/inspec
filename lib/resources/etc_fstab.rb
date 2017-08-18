@@ -102,6 +102,6 @@ class EtcFstab < Inspec.resource(1)
     if raw_conf.empty? && !file.empty?
       return skip_resource("File is empty or unable to read file at path:\"#{@conf_path}\"")
     end
-    inspec.file(conf_path).content.lines
+    raw_conf.lines
   end
 end
