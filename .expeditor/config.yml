@@ -1,5 +1,8 @@
 product_key: inspec
 
+rubygems:
+ - inspec
+
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: inspec-notify
