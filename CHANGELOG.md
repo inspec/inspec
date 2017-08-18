@@ -1,31 +1,29 @@
 # Change Log
 
-<!-- latest_release 1.33.12 -->
-## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
-
-#### Merged Pull Requests
-- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.33.1 -->
-### Changes since 1.33.1 release
-
-#### Bug Fixes
-- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff)) <!-- 1.33.11 -->
-- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus)) <!-- 1.33.10 -->
-- fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.8 -->
-- Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.6 -->
-- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.5 -->
-- Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.4 -->
-- Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff)) <!-- 1.33.3 -->
-- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
-
-#### Merged Pull Requests
-- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff)) <!-- 1.33.12 -->
-- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
+
+#### Bug Fixes
+- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock))
+- Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff))
+- Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock))
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock))
+- Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock))
+- fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock))
+- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus))
+- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock))
+- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
 
 #### Features & Enhancements
@@ -34,7 +32,6 @@
 #### Merged Pull Requests
 - Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
 - Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
 
