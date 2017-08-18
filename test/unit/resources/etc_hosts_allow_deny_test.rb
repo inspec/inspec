@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author: Matthew Dromazos
 
-require 'pry'
 require 'helper'
 require 'inspec/resource'
 

@@ -2,7 +2,6 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
-require 'pry'
 
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)
