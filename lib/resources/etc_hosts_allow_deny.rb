@@ -10,8 +10,8 @@ module Inspec::Resources
           the client will allow. Controlled by the /etc/hosts.allow file.'
     example "
       describe etc_hosts_allow.where { daemon == 'ALL' } do
-        its('client_list') { should eq [['127.0.0.1', '[::1]']] }
-        its('options') { should eq nil }
+        its('client_list') { should include ['127.0.0.1', '[::1]'] }
+        its('options') { should eq [[]] }
       end
     "
 
