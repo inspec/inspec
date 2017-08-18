@@ -1,10 +1,10 @@
 # Change Log
 
-<!-- latest_release 1.33.11 -->
-## [v1.33.11](https://github.com/chef/inspec/tree/v1.33.11) (2017-08-18)
+<!-- latest_release 1.33.12 -->
+## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
 
-#### Bug Fixes
-- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.1 -->
@@ -21,6 +21,7 @@
 - fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.2 -->
 
 #### Merged Pull Requests
+- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff)) <!-- 1.33.12 -->
 - add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock)) <!-- 1.33.7 -->
 <!-- release_rollup -->
 
