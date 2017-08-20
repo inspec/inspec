@@ -8,14 +8,14 @@ describe 'Inspec::Resources::Docker' do
   describe 'docker' do
     it 'check docker container parsing' do
       resource = load_resource('docker')
-      _(resource.containers.ids).must_equal ['3def9aa450f8bd772c3d5b07e27ec934e5f58575e955367a0aca2d93e0687536', 'd94f854370d2b02912e8fc636502bc72b74fbd567a7eba3fc6a52045bb28904e']
-      _(resource.containers.names).must_equal ['sleepy_khorana', 'laughing_austin']
+      _(resource.containers.ids).must_equal ['3def9aa450f8bd772c3d5b07e27ec934e5f58575e955367a0aca2d93e0687536', 'd94f854370d2b02912e8fc636502bc72b74fbd567a7eba3fc6a52045bb28904e', '5a83c301f30ccd48579a74a84af6fdd0c0e0d66aacc7bb52abfa2ba2544c6c0c', '5a83c301f30ccd48579a74a84af6fdd0c0e0d66aacc7bb52abfa2ba2544c6c0c']
+      _(resource.containers.names).must_equal ['sleepy_khorana', 'laughing_austin', 'heuristic_almeida', 'laughing_lamport']
     end
 
     it 'check docker image parsing' do
       resource = load_resource('docker')
-      _(resource.images.ids).must_equal ['sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526', 'sha256:978d85d02b87aea199e4ae8664f6abf32fdea331884818e46b8a01106b114cee', 'sha256:0ef2e08ed3fabfc44002ccb846c4f2416a2135affc3ce39538834059606f32dd']
-      _(resource.images.repositories).must_equal ["alpine", "debian", "ubuntu"]
+      _(resource.images.ids).must_equal ['sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526', 'sha256:978d85d02b87aea199e4ae8664f6abf32fdea331884818e46b8a01106b114cee', 'sha256:0ef2e08ed3fabfc44002ccb846c4f2416a2135affc3ce39538834059606f32dd', 'sha256:c4e5744dbe11a4f1970ba36d0aa3944c347ab232bb58fb86b240f1bb18a360c2']
+      _(resource.images.repositories).must_equal ["alpine", "debian", "ubuntu", "repo.example.com:5000/ubuntu"]
     end
 
     it 'check docker version parsing' do

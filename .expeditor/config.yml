@@ -1,5 +1,8 @@
 product_key: inspec
 
+rubygems:
+ - inspec
+
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: inspec-notify
@@ -8,13 +11,31 @@ github:
   maintainer_group: chef/inspec-maintainers
   version_tag_format: v{{version}}
 
+changelog:
+  categories:
+    - "Type: New Resource": "New Resources"
+    - "Type: New Feature": "New Features"
+    - "Type: Enhancement": "Enhancements"
+    - "Type: Bug": "Bug Fixes"
+
 merge_actions:
   built_in:bump_version:
-    ignore_labels: "Version: Skip Bump"
+    ignore_labels:
+      - "Version: Skip Bump"
+      - "Expeditor: Skip All"
   bash:.expeditor/update_version.sh:
     only_if: built_in:bump_version
   built_in:update_changelog:
-    ignore_labels: "Changelog: Skip Update"
+    ignore_labels:
+      - "Changelog: Skip Update"
+      - "Expeditor: Skip All"
   built_in:trigger_omnibus_release_build:
-    ignore_labels: "Omnibus: Skip Build"
+    ignore_labels:
+      - "Omnibus: Skip Build"
+      - "Expeditor: Skip All"
     only_if: built_in:bump_version
+
+artifact_actions:
+  promoted_to_stable:
+    - built_in:publish_rubygems
+    - built_in:rollover_changelog

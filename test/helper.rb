@@ -189,6 +189,7 @@ class MockLoader
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
+      'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
@@ -363,7 +364,17 @@ class MockLoader
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
       "curl http://localhost:9200/_nodes/" => cmd.call('elasticsearch-config'),
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
-
+      'dig +short A example.com' => cmd.call('dig-A-example.com'),
+      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
+      'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-active dbus --quiet' => empty.call,
+      'systemctl is-enabled dbus --quiet' => empty.call,
+      '/path/to/systemctl is-active sshd --quiet' => empty.call,
+      '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
+      '/usr/sbin/service sshd status' => empty.call,
+      '/sbin/service sshd status' => empty.call,
+      'type "lsof"' => empty.call,
     }
     @backend
   end

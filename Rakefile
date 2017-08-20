@@ -4,7 +4,6 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
-require_relative 'tasks/changelog'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
 
@@ -136,19 +135,6 @@ end
 desc 'Show the version of this gem'
 task :version do
   inspec_version
-end
-
-# Update the version of this gem and create an updated
-# changelog. It covers everything short of actually releasing
-# the gem.
-desc 'Bump the version of this gem'
-task :bump_version, [:version] do |_, args|
-  v = args[:version] || ENV['to']
-  fail "You must specify a target version!  rake bump_version to=1.2.3" if v.empty?
-  check_update_requirements
-  inspec_version(v)
-  Rake::Task['changelog'].invoke
-  Rake::Task['docs:cli'].invoke
 end
 
 desc 'Release a new docker image'

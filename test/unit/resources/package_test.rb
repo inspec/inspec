@@ -18,16 +18,26 @@ describe 'Inspec::Resources::Package' do
   # ubuntu
   it 'verify ubuntu package parsing' do
     resource = MockLoader.new(:ubuntu1404).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.35.0-1ubuntu2', type: 'deb' }
+    pkg = { name: 'curl', installed: true, held: false, version: '7.35.0-1ubuntu2', type: 'deb' }
     _(resource.installed?).must_equal true
+    _(resource.held?).must_equal false
     _(resource.version).must_equal '7.35.0-1ubuntu2'
+    _(resource.info).must_equal pkg
+  end
+
+  it 'verify ubuntu package which is held' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('package', 'held-package')
+    pkg = { name: 'held-package', installed: true, held: true, version: '1.2.3-1', type: 'deb' }
+    _(resource.installed?).must_equal true
+    _(resource.held?).must_equal true
+    _(resource.version).must_equal '1.2.3-1'
     _(resource.info).must_equal pkg
   end
 
   # mint
   it 'verify mint package parsing' do
     resource = MockLoader.new(:mint17).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.35.0-1ubuntu2', type: 'deb' }
+    pkg = { name: 'curl', installed: true, held: false, version: '7.35.0-1ubuntu2', type: 'deb' }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.35.0-1ubuntu2'
     _(resource.info).must_equal pkg
