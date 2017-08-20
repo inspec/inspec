@@ -94,12 +94,13 @@ module Inspec::Resources
 
     def read_es_data(url)
       cmd = inspec.command("curl #{url}")
-      if !cmd.exit_status.zero?
-        return skip_resource "Error using the curl #{url}"
-      end
       if cmd.stderr =~ /Failed to connect/
         return skip_resource 'Connection refused please check ip and port provided'
       end
+      if !cmd.exit_status.zero?
+        return skip_resource "Error fetching Elastcsearch data from #{url}: #{cmd.stderr}"
+      end
+
       JSON.parse(cmd.stdout)
     rescue JSON::ParserError => e
       skip_resource "Couldn't parse ES data: #{e.message}"
