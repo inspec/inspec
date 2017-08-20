@@ -5,16 +5,6 @@ title: Search InSpec Docs
 .row
   h2.margin-under-xs- Search the InSpec Documentation
 
-  javascript:
-    // TODO: add the inspec search here
-    (function() {
-      var cx = '014746884379529974319:rvxyzhpu2us';
-      var gcse = document.createElement('script');
-      gcse.type = 'text/javascript';
-      gcse.async = true;
-      gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(gcse, s);
-    })();
+  input.st-default-search-input type="text" placeholder="Search" id="docs-search" name="q"
 
-  <gcse:search webSearchResultSetSize="20"></gcse:search>
+  .st-search-container

@@ -1,8 +1,0 @@
-puts "-----------------------------------"
-puts "        TEST ENVIRONMENT           "
-puts "-----------------------------------"
-puts "    Docker: #{!ENV['DOCKER'].nil?}"
-puts "   OS name: #{os[:name] || 'unknown' }"
-puts "OS release: #{os[:release] || 'unknown'}"
-puts " OS family: #{os[:family] || 'unknown'}"
-puts "-----------------------------------"

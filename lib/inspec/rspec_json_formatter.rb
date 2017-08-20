@@ -243,7 +243,16 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
     # this example, leading to Ruby exceptions.
     return false if profile_name.nil? || example_profile_id.nil?
 
-    profile_name == example_profile_id
+    # The correct profile is one where the name of the profile, and the profile
+    # name in the example match. Additionally, the list of controls in the
+    # profile must contain the example in question (which we match by ID).
+    #
+    # While the profile name match is usually good enough, we must also match by
+    # the control ID in the case where an InSpec runner has multiple profiles of
+    # the same name (i.e. when Test Kitchen is running concurrently using a
+    # single test suite that uses the Flat source reader, in which case InSpec
+    # creates a fake profile with a name like "tests from /path/to/tests")
+    profile_name == example_profile_id && profile[:controls].any? { |control| control[:id] == example[:id] }
   end
 
   def move_example_into_control(example, control)

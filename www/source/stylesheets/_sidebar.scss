@@ -49,39 +49,3 @@ li.t-purple > i.focus{
     color: white;
   }
 }
-
-// THIS IS STILL OLD STUFF  - don't know what it is - hannah//
-
-.gcsc-branding,
-.gsc-adBlock {
-  display: none !important;
-}
-
-.gsc-control-cse {
-  padding: 0 !important;
-
-  tbody {
-    border: none;
-    background: none;
-  }
-
-  .gsc-input-box {
-    height: 3rem;
-
-    table {
-      margin-bottom: 0;
-    }
-  }
-
-  .gsc-input input {
-    box-shadow: none !important;
-  }
-
-  .gsc-search-button {
-    min-width: 54px;
-    height: 27px;
-    padding: 5px 18px;
-    font-family: inherit;
-    font-size: 11px;
-  }
-}

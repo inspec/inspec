@@ -406,6 +406,12 @@ form.main-sidebar--search input[type="text"] {
 	width: 90%;
 	display: inline;
 	margin-top: 1.2em;
+  // overriding some of Swiftype's styles
+  height: 2.4375rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  background: $color_white;
+  font-size: 1rem;
 
 	@include nav-small {
 		width:100%;
