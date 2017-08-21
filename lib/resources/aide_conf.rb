@@ -11,17 +11,17 @@ module Inspec::Resources
     desc 'Use the aide_conf InSpec audit resource to test the rules established for
       the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.'
     example "
-    describe aide_conf do
-      its('selection_lines') { should include '/sbin' }
-    end
+      describe aide_conf do
+        its('selection_lines') { should include '/sbin' }
+      end
 
-    describe aide_conf.where { selection_line == '/bin' } do
-      its('rules.flatten') { should include 'r' }
-    end
+      describe aide_conf.where { selection_line == '/bin' } do
+        its('rules.flatten') { should include 'r' }
+      end
 
-    describe aide_conf.all_have_rule('sha512') do
-      it { should eq true }
-    end
+      describe aide_conf.all_have_rule('sha512') do
+        it { should eq true }
+      end
     "
 
     attr_reader :params
@@ -38,18 +38,10 @@ module Inspec::Resources
 
     def all_have_rule(rule)
       # Case when file didn't exist or perms didn't allow an open
-      if @content.instance_of?(String)
-        return false
-      end
-      in_all_lines = true
-      all_lines = parse_conf(@content)
-      all_lines.each do |line|
-        if !line['rules'].include? rule
-          in_all_lines = false
-          break
-        end
-      end
-      in_all_lines
+      return false if @content.nil?
+
+      lines = @params.reject { |line| line['rules'].include? rule }
+      lines.empty?
     end
 
     filter = FilterTable.create
@@ -63,14 +55,23 @@ module Inspec::Resources
     private
 
     def read_content
-      @content = ''
+      return @content unless @content.nil?
       @rules = {}
-      @content = read_file(@conf_path)
-      # Return if @content consists of skip_resource message
-      if @content.instance_of?(String)
-        return @content
+
+      file = inspec.file(@conf_path)
+      if !file.file?
+        return skip_resource "Can't find file \"#{@conf_path}\""
       end
-      @content = filter_comments(@content)
+      raw_conf = file.content
+      if raw_conf.nil?
+        return skip_resource "File can't be opened or is empty \"#{@conf_path}\""
+      end
+      if raw_conf.empty? && !file.empty?
+        return skip_resource "Can't read file \"#{@conf_path}\""
+      end
+
+      # If there is a file and it contains content, continue
+      @content = filter_comments(inspec.file(@conf_path).content.lines)
       @params = parse_conf(@content)
     end
 
@@ -97,11 +98,10 @@ module Inspec::Resources
     def parse_line(line)
       line_and_rules = {}
       # Case when line is a rule line
-      if line.include? ' = '
+      if line.include?(' = ')
         parse_rule_line(line)
-      end
       # Case when line is a selection line
-      if line.start_with?('/', '!', '=')
+      elsif line.start_with?('/', '!', '=')
         line_and_rules = parse_selection_line(line)
       end
       line_and_rules
@@ -117,19 +117,15 @@ module Inspec::Resources
         if @rules.key?(rules_list[i])
           rules_list[i] = @rules[rules_list[i]]
         end
-        check_multi_rule(rules_list, i)
+        rules_list[i] = handle_multi_rule(rules_list, i)
       end
       @rules[rule_name] = rules_list.flatten
-    end
-
-    def normalize_dir(dir)
-      return dir.chop! if dir.end_with? '/'
     end
 
     def parse_selection_line(line)
       selec_line_arr = line.split(' ')
       selection_line = selec_line_arr.first
-      normalize_dir(selection_line)
+      selection_line.chop! if selection_line.end_with?('/')
       rule_list = selec_line_arr.last.split('+')
       rule_list.each_index do |i|
         hash_list = @rules[rule_list[i]]
@@ -137,7 +133,7 @@ module Inspec::Resources
         if !hash_list.nil?
           rule_list[i] = hash_list
         end
-        check_multi_rule(rule_list, i)
+        rule_list[i] = handle_multi_rule(rule_list, i)
       end
       rule_list.flatten!
       {
@@ -146,7 +142,7 @@ module Inspec::Resources
       }
     end
 
-    def check_multi_rule(rule_list, i)
+    def handle_multi_rule(rule_list, i)
       # Rules that represent multiple rules (R,L,>)
       r_rules = %w{p i l n u g s m c md5}
       l_rules = %w{p i l n u g}
@@ -154,29 +150,13 @@ module Inspec::Resources
 
       case rule_list[i]
       when 'R'
-        rule_list[i] = r_rules
+        return r_rules
       when 'L'
-        rule_list[i] = l_rules
+        return l_rules
       when '>'
-        rule_list[i] = grow_log_rules
+        return grow_log_rules
       end
-    end
-
-    def read_file(conf_path = @conf_path)
-      file = inspec.file(conf_path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-      raw_conf = file.content
-      if raw_conf.nil?
-        return skip_resource "File can't be opened or is empty \"#{@conf_path}\""
-      end
-      if raw_conf.empty? && !file.empty?
-        return skip_resource "Can't read file \"#{@conf_path}\""
-      end
-
-      # If there is a file and it contains content, continue
-      inspec.file(conf_path).content.lines
+      rule_list[i]
     end
   end
 end
