@@ -37,7 +37,7 @@
 
 #### Merged Pull Requests
 - bug fix: properly support profile files that are more than one directory deep
-- bug fix: fix mysql_session resource to not use socket for host target
+- bug fix: fix mysql_session resource to not use socket for host target [#2020](https://github.com/chef/inspec/pull/2020) ([n-rodriguez](https://github.com/n-rodriguez))
 - host resource now properly handles localhost lookup
 - bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus))
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
