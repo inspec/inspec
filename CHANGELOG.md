@@ -1,9 +1,17 @@
 # Change Log
 
-<!-- latest_release -->
+<!-- latest_release 1.33.13 -->
+## [v1.33.13](https://github.com/chef/inspec/tree/v1.33.13) (2017-08-21)
+
+#### Merged Pull Requests
+- Update CHANGELOG (add fix author) [#2091](https://github.com/chef/inspec/pull/2091) ([n-rodriguez](https://github.com/n-rodriguez))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.33.12 -->
+### Changes since 1.33.12 release
+
+#### Merged Pull Requests
+- Update CHANGELOG (add fix author) [#2091](https://github.com/chef/inspec/pull/2091) ([n-rodriguez](https://github.com/n-rodriguez)) <!-- 1.33.13 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
