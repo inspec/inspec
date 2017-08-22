@@ -44,7 +44,7 @@ module Inspec::Resources
     %w{
       type exist? file? block_device? character_device? socket? directory?
       symlink? pipe? mode mode? owner owned_by? group grouped_into?
-      link_path linked_to? mtime size selinux_label immutable?
+      link_path linked_to? mtime size size_lines selinux_label immutable?
       product_version file_version version? md5sum sha256sum
       path basename source source_path uid gid
     }.each do |m|
@@ -122,6 +122,10 @@ module Inspec::Resources
 
     def to_s
       "File #{source_path}"
+    end
+
+    def size_lines
+      @file.content ? @file.content.lines.count : 0
     end
 
     private
