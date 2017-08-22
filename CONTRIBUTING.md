@@ -6,7 +6,7 @@ We are glad you want to contribute to InSpec! This document will help answer com
 
 We utilize **Github Issues** for issue tracking and contributions. You can contribute in two ways:
 
-1. Reporting an issue or making a feature request [here](#issues).
+1. Reporting an issue or making a feature request [here](https://github.com/chef/inspec/issues/new).
 2. Adding features or fixing bugs yourself and contributing your code to InSpec.
 
 We ask you not to submit security concerns via Github. For details on submitting potential security issues please see <https://www.chef.io/security/>

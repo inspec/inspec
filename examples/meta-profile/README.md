@@ -23,7 +23,7 @@ depends:
     compliance: base/linux
 ```
 
-You could use those dependencies in your `exmaple.rb`:
+You could use those dependencies in your `example.rb`:
 
 ```
 
