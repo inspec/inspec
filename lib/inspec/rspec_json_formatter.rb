@@ -613,10 +613,18 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     summary = profile_summary
     return unless summary['total'] > 0
 
+    success_str = summary['passed'] == 1 ? '1 successful control' : "#{summary['passed']} successful controls"
+    failed_str  = summary['failed']['total'] == 1 ? '1 control failure' : "#{summary['failed']['total']} control failures"
+    skipped_str = summary['skipped'] == 1 ? '1 control skipped' : "#{summary['skipped']} controls skipped"
+
+    success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
+    failed_color = summary['failed']['total'] > 0 ? 'failed' : 'no_color'
+    skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+
     s = format('Profile Summary: %s, %s, %s',
-               format_with_color('passed', "#{summary['passed']} successful"),
-               format_with_color('failed', "#{summary['failed']['total']} failures"),
-               format_with_color('skipped', "#{summary['skipped']} skipped"),
+               format_with_color(success_color, success_str),
+               format_with_color(failed_color, failed_str),
+               format_with_color(skipped_color, skipped_str),
               )
     output.puts(s) if summary['total'] > 0
   end
@@ -624,10 +632,16 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def print_tests_summary
     summary = tests_summary
 
+    failed_str = summary['failed'] == 1 ? '1 failure' : "#{summary['failed']} failures"
+
+    success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
+    failed_color = summary['failed'] > 0 ? 'failed' : 'no_color'
+    skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+
     s = format('Test Summary: %s, %s, %s',
-               format_with_color('passed', "#{summary['passed']} successful"),
-               format_with_color('failed', "#{summary['failed']} failures"),
-               format_with_color('skipped', "#{summary['skipped']} skipped"),
+               format_with_color(success_color, "#{summary['passed']} successful"),
+               format_with_color(failed_color, failed_str),
+               format_with_color(skipped_color, "#{summary['skipped']} skipped"),
               )
 
     output.puts(s)
