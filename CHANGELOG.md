@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.14 -->
-## [v1.33.14](https://github.com/chef/inspec/tree/v1.33.14) (2017-08-21)
+<!-- latest_release 1.33.15 -->
+## [v1.33.15](https://github.com/chef/inspec/tree/v1.33.15) (2017-08-23)
 
-#### Merged Pull Requests
-- Add slack notifications for Travis CI builds to master [#2092](https://github.com/chef/inspec/pull/2092) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.33.12 -->
 ### Changes since 1.33.12 release
+
+#### Enhancements
+- Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff)) <!-- 1.33.15 -->
 
 #### Merged Pull Requests
 - Add slack notifications for Travis CI builds to master [#2092](https://github.com/chef/inspec/pull/2092) ([adamleff](https://github.com/adamleff)) <!-- 1.33.14 -->
