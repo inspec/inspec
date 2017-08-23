@@ -4,5 +4,5 @@
 # author: Christoph Hartmann
 
 module Inspec
-  VERSION = '1.33.15'.freeze
+  VERSION = '1.34.1'.freeze
 end
