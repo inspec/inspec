@@ -18,8 +18,8 @@ describe 'inspec exec' do
 \e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
 \e[38;5;247m     ↺  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
 "
-    stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m1 skipped\e[0m"
-    stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m1 skipped\e[0m\n"
+    stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
+    stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
   end
 
   it 'executes a minimum metadata-only profile' do
@@ -34,7 +34,7 @@ Target:  local://
 
      No tests executed.
 
-Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
+Test Summary: 0 successful, 0 failures, 0 skipped
 "
   end
 
@@ -50,7 +50,7 @@ Target:  local://
 
      No tests executed.
 
-Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
+Test Summary: 0 successful, 0 failures, 0 skipped
 "
   end
 
@@ -58,7 +58,7 @@ Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     out = inspec("exec #{File.join(examples_path, 'profile-attribute')} --no-create-lockfile --attrs #{File.join(examples_path, "profile-attribute.yml")}")
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped"
   end
 
   it 'executes a specs-only profile' do
@@ -72,22 +72,22 @@ Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     out.stdout.force_encoding(Encoding::UTF_8).must_include "↺  This will be skipped intentionally"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  eq \"as intended\""
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failures\e[0m, \e[38;5;247m1 skipped\e[0m"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
   end
 
   it 'executes only specified controls' do
     out = inspec('exec ' + example_profile + ' --no-create-lockfile --controls tmp-1.0')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
   end
 
   it 'can execute a simple file with the default formatter' do
     out = inspec('exec ' + example_control  + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
-    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
-    out.stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m"
+    out.stdout.must_include "\nProfile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
+    out.stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   end
 
   describe 'with a profile that is not supported on this OS/platform' do
@@ -107,7 +107,7 @@ Test Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
     it 'exits with an error' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m2 skipped\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
       out.exit_status.must_equal 0
     end
   end
@@ -153,9 +153,8 @@ Target:  local://
   File /tmp
 \e[38;5;41m     \xE2\x9C\x94  should be directory\e[0m
 
-Profile Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
-Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m
-"
+Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped
+Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     end
   end
 
@@ -208,7 +207,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out = inspec('exec ' + File.join(profile_path, 'dependencies', 'resource-namespace') + ' --no-create-lockfile')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m5 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
     end
   end
 
@@ -217,7 +216,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out = inspec('exec ' + File.join(profile_path, 'dependencies', 'require_controls_test') + ' --no-create-lockfile')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m1 successful control\e[0m, 0 control failures, 0 controls skipped\n"
     end
   end
 
@@ -226,26 +225,26 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       out = inspec('exec ' + File.join(profile_path, 'dependencies', 'inheritance') + ' --no-create-lockfile')
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m6 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m6 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
     end
   end
 
   describe 'when using profiles on the supermarket' do
     it 'can run supermarket profiles directly from the command line' do
       out = inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
     end
 
     it 'can run supermarket profiles from inspec.yml' do
       out = inspec("exec #{File.join(profile_path, 'supermarket-dep')} --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, 0 controls skipped\n"
     end
   end
 
   describe 'when a dependency does not support our backend platform' do
     it 'skips the controls from that profile' do
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "Summary: \e[38;5;41m0 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;247m2 skipped\e[0m\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
     end
   end
 
