@@ -118,6 +118,37 @@ describe file('/proc/cpuinfo') do
   its('size') { should be 0 }
 end
 
+describe file('/proc/cpuinfo') do
+  its('size_lines') { should be 0 }
+end
+
+describe file('/proc/version') do
+  its('size_lines') { should be > 0 }
+  its('size_lines') { should be < 100 }
+end
+
+# @TODO selinux_label
+
+# @TODO skip as the mount command is not reliably present on all test containers
+# describe file('/proc') do
+#   it { should be_mounted }
+# end
+
+describe file('/proc/version') do
+  its('size_lines') { should be 0 }
+end
+
+# @TODO selinux_label
+
+# @TODO skip as the mount command is not reliably present on all test containers
+# describe file('/proc') do
+#   it { should be_mounted }
+# end
+
+describe file('/proc/cpuinfo') do
+  it { should_not be_mounted }
+end
+
 # @TODO selinux_label
 
 # @TODO skip as the mount command is not reliably present on all test containers
