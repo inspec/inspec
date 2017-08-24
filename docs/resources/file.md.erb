@@ -127,9 +127,9 @@ a user:
 
 ### be_sgid
 
-The `be_sgid` matcher tests if the 'setgid' permission is set on the file or directory.  On executable files, this causes the process to be started owned by the group that owns the file, rather than the primary group of the invocating user.  This can result in escalation of privilege.  On Linux, when setgid is set on directories, setgid causes newly created files and directories to be owned by the group that owns the setgid parent directory; additionally, newly created subdirectories will have the setgid bit set.  To use this matcher:
+The `be_sgid` matcher tests if the 'setgid' permission is set on the file or directory.  When applied to executable files, the group that owns the file owns any process started on that file, including processes invoked by users from other primary groups. This can result in an escalation of privileges.  On Linux, if 'setgid' is applied on directories, the group that owns the parent directory also owns any files and directories created within the parent directory; additionally, newly subdirectories will also have the setgid bit applied.  To use this matcher:
 
-    it { should be_sgid } 
+    it { should be_sgid }
 
 ### be_socket
 
@@ -139,15 +139,15 @@ The `be_socket` matcher tests if the file exists as socket (`.sock`), such as `/
 
 ### be_sticky
 
-The `be_sticky` matcher tests if the 'sticky bit' permission is set on the directory.  On directories, this restricts file deletion to the owner of the file, even if the permission of the parent directory would normally permit deletion by others.  This is commonly used on /tmp filesystems.  To use this matcher:
+The `be_sticky` matcher tests if the 'sticky bit' permission is set on the directory.  When applied to directories, this restricts file deletion to the owner of the file, including cases where permissions set in the parent directory would normally permit deletion by others.  This is commonly used on /tmp filesystems.  To use this matcher:
 
-    it { should be_sticky } 
+    it { should be_sticky }
 
 ### be_suid
 
-The `be_suid` matcher tests if the 'setuid' permission is set on the file.  On executable files, this causes the process to be started owned by the user that owns the file, rather than invocating user.  This can result in escalation of privilege.  To use this matcher:
+The `be_suid` matcher tests if the 'setuid' permission is set on the file.  When applied to executable files, the owner of the file owns any processes started on the file, includingcs those invoked by a different user. This can result in an escalation of privileges.  To use this matcher:
 
-    it { should be_suid } 
+    it { should be_suid }
 
 ### be_symlink
 
