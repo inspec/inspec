@@ -145,7 +145,7 @@ The `be_sticky` matcher tests if the 'sticky bit' permission is set on the direc
 
 ### be_suid
 
-The `be_suid` matcher tests if the 'setuid' permission is set on the file.  When applied to executable files, the owner of the file owns any processes started on the file, includingcs those invoked by a different user. This can result in an escalation of privileges.  To use this matcher:
+The `be_suid` matcher tests if the 'setuid' permission is set on the file.  When applied to executable files, the owner of the file owns any processes started on the file, includings those invoked by a different user. This can result in an escalation of privileges.  To use this matcher:
 
     it { should be_suid }
 
