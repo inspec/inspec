@@ -15,10 +15,16 @@ module Inspec::Resources
       describe pip('Jinja2') do
         it { should be_installed }
       end
+
+      describe pip('django', '/path/to/virtualenv/bin/pip') do
+        it { should be_installed }
+        its('version') { should eq('1.11.4')}
+      end
     "
 
-    def initialize(package_name)
+    def initialize(package_name, virtualenv_path = nil)
       @package_name = package_name
+      @virtualenv_path = virtualenv_path
     end
 
     def info
@@ -57,7 +63,7 @@ module Inspec::Resources
     def pip_cmd
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
-      if inspec.os.windows?
+      if inspec.os.windows? && @virtualenv_path.nil?
         # we need to detect the pip command on Windows
         cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
         begin
@@ -75,7 +81,7 @@ module Inspec::Resources
           return nil
         end
       end
-      pipcmd || 'pip'
+      @virtualenv_path.nil? ? pipcmd || 'pip' : @virtualenv_path
     end
   end
 end
