@@ -158,6 +158,7 @@ class MockLoader
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
+      '/etc/sysconfig/authconfig' => mockfile.call('authconfig'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
@@ -371,6 +372,11 @@ class MockLoader
       '/usr/sbin/service sshd status' => empty.call,
       '/sbin/service sshd status' => empty.call,
       'type "lsof"' => empty.call,
+      # authconfig resource
+      "authconfig --test | grep -i \"smartcard for login is\" | awk '{ print $NF }'" => cmd.call('smartcard-login'),
+      "authconfig --test | grep -i 'smartcard removal action' | awk \'{ print $NF }\'" => cmd.call('smartcard-removal-action'),
+      'rpm -qia authconfig' =>cmd.call('rpm-qia-authconfig'),
+      'authconfig --test' => cmd.call('authconfig--test'),
     }
     @backend
   end
