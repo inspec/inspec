@@ -7,6 +7,7 @@
 #   it { should be_installed }
 # end
 #
+
 module Inspec::Resources
   class PipPackage < Inspec.resource(1)
     name 'pip'
@@ -63,6 +64,13 @@ module Inspec::Resources
     def pip_cmd
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
+      if !@virtualenv_path.nil?
+        if File.directory?(@virtualenv_path)
+          pipcmd = File.join(@virtualenv_path, 'bin', 'pip')
+        else
+          pipcmd = @virtualenv_path
+        end
+      end
       if inspec.os.windows? && @virtualenv_path.nil?
         # we need to detect the pip command on Windows
         cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
@@ -81,7 +89,7 @@ module Inspec::Resources
           return nil
         end
       end
-      @virtualenv_path.nil? ? pipcmd || 'pip' : @virtualenv_path
+      pipcmd || 'pip'
     end
   end
 end
