@@ -12,10 +12,6 @@
 
 #### Enhancements
 - Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff)) <!-- 1.33.15 -->
-
-#### Merged Pull Requests
-- Add slack notifications for Travis CI builds to master [#2092](https://github.com/chef/inspec/pull/2092) ([adamleff](https://github.com/adamleff)) <!-- 1.33.14 -->
-- Update CHANGELOG (add fix author) [#2091](https://github.com/chef/inspec/pull/2091) ([n-rodriguez](https://github.com/n-rodriguez)) <!-- 1.33.13 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
