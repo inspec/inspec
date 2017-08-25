@@ -292,7 +292,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m0 failures\e[0m, \e[38;5;2
       stdout.must_include 'expected: "billy"'
       stdout.must_include 'got: "bob"'
       stdout.must_include '∅  eq "secret"'
-      stdout.must_include '*** sensitive ***'
+      stdout.must_include '*** sensitive output suppressed ***'
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, \e[38;5;247m0 skipped\e[0m\n"
     end
   end

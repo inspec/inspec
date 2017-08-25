@@ -18,7 +18,7 @@ $ inspec exec examples/profile-sensitive
 
   sensitivepassword should
      ∅  eq "secret"
-     *** sensitive ***
+     *** sensitive output suppressed ***
   bob should
      ✔  eq "bob"
   sensitivepassword should

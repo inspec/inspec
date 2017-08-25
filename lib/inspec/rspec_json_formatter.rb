@@ -54,7 +54,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
         next unless e
 
         if example.metadata[:sensitive]
-          hash[:message] = '*** sensitive ***'
+          hash[:message] = '*** sensitive output suppressed ***'
         else
           hash[:message] = exception_message(e)
         end
