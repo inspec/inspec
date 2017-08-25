@@ -52,7 +52,12 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
       format_example(example).tap do |hash|
         e = example.exception
         next unless e
-        hash[:message] = exception_message(e)
+
+        if example.metadata[:sensitive]
+          hash[:message] = '*** sensitive output suppressed ***'
+        else
+          hash[:message] = exception_message(e)
+        end
 
         next if e.is_a? RSpec::Expectations::ExpectationNotMetError
         hash[:exception] = e.class.name
@@ -341,7 +346,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # This method is called through the RSpec Formatter interface for every
   # example found in the test suite.
   #
-  # Within #format_example we are getting and example and:
+  # Within #format_example we are getting an example and:
   #    * if this is an example, within a control, within a profile then we want
   #      to display the profile header, display the control, and then display
   #      the example.
