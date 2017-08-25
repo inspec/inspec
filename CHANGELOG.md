@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.33.15 -->
-## [v1.33.15](https://github.com/chef/inspec/tree/v1.33.15) (2017-08-23)
+<!-- latest_release 1.34.2 -->
+## [v1.34.2](https://github.com/chef/inspec/tree/v1.34.2) (2017-08-25)
 
-#### Enhancements
-- Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff))
+#### New Resources
+- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
+
+#### New Resources
+- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12)) <!-- 1.34.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
