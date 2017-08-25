@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.2 -->
-## [v1.34.2](https://github.com/chef/inspec/tree/v1.34.2) (2017-08-25)
+<!-- latest_release 1.34.3 -->
+## [v1.34.3](https://github.com/chef/inspec/tree/v1.34.3) (2017-08-25)
 
-#### New Resources
-- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12))
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
+
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian)) <!-- 1.34.3 -->
 
 #### New Resources
 - aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12)) <!-- 1.34.2 -->
