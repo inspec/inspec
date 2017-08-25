@@ -90,7 +90,6 @@ module Inspec::Resources
 
     def initialize(groupname)
       @group = groupname
-      @group = @group.downcase unless inspec.os.windows?
 
       # select group manager
       @group_provider = select_group_manager(inspec.os)
