@@ -34,7 +34,7 @@ module Inspec::Resources
 
       @info = {}
       @info[:type] = 'pip'
-      cmd = inspec.command("#{pip_cmd} show #{@package_name}")
+      cmd = inspec.command("#{@pip_cmd} show #{@package_name}")
       return @info if cmd.exit_status != 0
 
       params = SimpleConfig.new(
@@ -66,7 +66,8 @@ module Inspec::Resources
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
       if !pip_path.nil?
-        return pip_path unless !File.exist?(pip_path)
+        return pip_path if File.exist?(pip_path)
+        return nil
       end
       if inspec.os.windows?
         # we need to detect the pip command on Windows
@@ -87,7 +88,7 @@ module Inspec::Resources
         end
         return pipcmd
       end
-      'pip' unless !command('pip').exist?
+      'pip' unless !inspec.command('pip').exist?
     end
   end
 end
