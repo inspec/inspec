@@ -146,3 +146,15 @@ sha256sum = Digest::SHA256.hexdigest(cpuinfo)
 describe file('/proc/cpuinfo') do
   its('sha256sum') { should eq sha256sum }
 end
+
+describe file('/root/i-am-setuid') do
+  it { should be_setuid }
+end
+
+describe file('/root/i-am-setgid') do
+  it { should be_setgid }
+end
+
+describe file('/root/i-am-sticky') do
+  it { should be_sticky }
+end
