@@ -1,0 +1,33 @@
+---
+Metadata-Version: 2.0
+Name: Django
+Version: 1.10.5
+Summary: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+Home-page: http://www.djangoproject.com/
+Author: Django Software Foundation
+Author-email: foundation@djangoproject.com
+Installer: pip
+License: BSD
+Location: /usr/lib/python3.5/site-packages
+Requires:
+Classifiers:
+  Development Status :: 5 - Production/Stable
+  Environment :: Web Environment
+  Framework :: Django
+  Intended Audience :: Developers
+  License :: OSI Approved :: BSD License
+  Operating System :: OS Independent
+  Programming Language :: Python
+  Programming Language :: Python :: 2
+  Programming Language :: Python :: 2.7
+  Programming Language :: Python :: 3
+  Programming Language :: Python :: 3.4
+  Programming Language :: Python :: 3.5
+  Topic :: Internet :: WWW/HTTP
+  Topic :: Internet :: WWW/HTTP :: Dynamic Content
+  Topic :: Internet :: WWW/HTTP :: WSGI
+  Topic :: Software Development :: Libraries :: Application Frameworks
+  Topic :: Software Development :: Libraries :: Python Modules
+Entry-points:
+  [console_scripts]
+  django-admin = django.core.management:execute_from_command_line
