@@ -66,8 +66,7 @@ module Inspec::Resources
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
       if !pip_path.nil?
-        return nil if !File.exist?(pip_path)
-        pip_path
+        return pip_path unless !File.exist?(pip_path)
       end
       if inspec.os.windows?
         # we need to detect the pip command on Windows
@@ -88,8 +87,7 @@ module Inspec::Resources
         end
         return pipcmd
       end
-      return nil if !command('pip').exist?
-      'pip'
+      'pip' unless !command('pip').exist?
     end
   end
 end
