@@ -26,7 +26,7 @@ module Inspec::Resources
     def initialize(package_name, pip_path = nil)
       @package_name = package_name
       @pip_cmd = resolve_pip_path(pip_path)
-      return skip_resource "pip not found" if @pip_cmd.nil?
+      return skip_resource 'pip not found' if @pip_cmd.nil?
     end
 
     def info
@@ -66,13 +66,10 @@ module Inspec::Resources
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
       if !pip_path.nil?
-        if File.exists?(pip_path)
-          return pip_path
-        else
-          return nil
-        end
+        return nil if !File.exist?(pip_path)
+        pip_path
       end
-      if inspec.os.windows? && pip_path.nil?
+      if inspec.os.windows?
         # we need to detect the pip command on Windows
         cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
         begin
@@ -89,8 +86,10 @@ module Inspec::Resources
         rescue JSON::ParserError => _e
           return nil
         end
+        return pipcmd
       end
-      pipcmd || 'pip'
+      return nil if !command('pip').exist?
+      'pip'
     end
   end
 end
