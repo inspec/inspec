@@ -9,3 +9,7 @@ images:
 - ubuntu:12.04
 - ubuntu:14.04
 - ubuntu:15.04
+
+
+provision:
+- setgid-setuid-sticky.sh
