@@ -32,7 +32,7 @@ describe 'Inspec::Resources::Elasticsearch' do
         _(node_roles).must_include 'master'
       end
     end
-    resource_with_url = load_resource('elasticsearch','http://localhost:9200/_nodes/')
+    resource_with_url = load_resource('elasticsearch','http://localhost:9200/_nodes/ -u es_admin:password')
     it 'Verify elasticsearch with custom url' do
       resource.nodes.roles.each do |node_roles|
         _(node_roles).must_include 'master'

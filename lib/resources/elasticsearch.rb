@@ -56,30 +56,36 @@ module Inspec::Resources
       describe elasticsearch.nodes do
         it { should exist }
       end
+
       describe elasticsearch.nodes do
         its('name') { should include 'my_node' }
       end
+
       describe elasticsearch.nodes do
         its('name') { should_not include 'node_name' }
       end
+
       elasticsearch.nodes.os.each do |nodeos|
         describe nodeos do
-          its('name'){ should_not cmp 'MacOS' }
+          its('name') { should_not cmp 'MacOS' }
         end
       end
+
       elasticsearch.nodes.version.each do |node_version|
         describe node_version do
-          it{ should be > '1.2.0' }
+          it { should be > '1.2.0' }
         end
       end
-      elasticsearch.nodes.where{os.name == 'Linux' }.settings.each do |node_settings|
+
+      elasticsearch.nodes.where {os.name == 'Linux' }.settings.each do |node_settings|
         describe node_settings do
-          its('path.conf') {should cmp '/etc/elasticsearch'}
+          its('path.conf') { should cmp '/etc/elasticsearch' }
         end
       end
-      elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
+
+      elasticsearch.nodes.where {name == 'package-centos-72' }.settings.each do |node_settings|
         describe node_settings do
-          its('path.conf') {should cmp '/etc/elasticsearch'}
+          its('path.conf') { should cmp '/etc/elasticsearch' }
         end
       end
         "
