@@ -112,14 +112,20 @@ module Inspec::Resources
       (mode & 04000) > 0
     end
 
+    alias_method :setuid?, :suid
+    
     def sgid
       (mode & 02000) > 0
     end
 
+    alias_method :setgid?, :sgid
+    
     def sticky
       (mode & 01000) > 0
     end
 
+    alias_method :sticky?, :sticky
+    
     def to_s
       "File #{source_path}"
     end
