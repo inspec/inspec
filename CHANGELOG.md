@@ -1,12 +1,29 @@
 # Change Log
 
-<!-- latest_release -->
+<!-- latest_release 1.34.3 -->
+## [v1.34.3](https://github.com/chef/inspec/tree/v1.34.3) (2017-08-25)
+
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.34.1 -->
+### Changes since 1.34.1 release
+
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian)) <!-- 1.34.3 -->
+
+#### New Resources
+- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12)) <!-- 1.34.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.34.1](https://github.com/chef/inspec/tree/v1.34.1) (2017-08-24)
+
+#### Enhancements
+- Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
 
 #### Bug Fixes
@@ -22,7 +39,6 @@
 #### Merged Pull Requests
 - add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock))
 - Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
 
@@ -37,7 +53,7 @@
 
 #### Merged Pull Requests
 - bug fix: properly support profile files that are more than one directory deep
-- bug fix: fix mysql_session resource to not use socket for host target
+- bug fix: fix mysql_session resource to not use socket for host target [#2020](https://github.com/chef/inspec/pull/2020) ([n-rodriguez](https://github.com/n-rodriguez))
 - host resource now properly handles localhost lookup
 - bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus))
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
