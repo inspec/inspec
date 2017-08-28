@@ -2,16 +2,16 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
-require 'pry'
+
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "
     describe etc_hosts.where { ip_address == '127.0.0.1' } do
-      its ( 'ip_address' ) { should cmp '127.0.0.1' }
-      its ( 'primary_name' ) { should cmp 'localhost' }
-      its ( 'all_host_names' ) { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
+      its('ip_address') { should cmp '127.0.0.1' }
+      its('primary_name') { should cmp 'localhost' }
+      its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4']] }
     end
   "
 
@@ -21,7 +21,7 @@ class EtcHosts < Inspec.resource(1)
 
   def initialize(hosts_path = nil)
     return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.linux? || inspec.os.windows?
-    @conf_path      = hosts_path || default_hosts_file_path(hosts_path)
+    @conf_path      = hosts_path || default_hosts_file_path
     @content        = nil
     @params         = nil
     read_content
@@ -30,17 +30,16 @@ class EtcHosts < Inspec.resource(1)
   filter = FilterTable.create
   filter.add_accessor(:where)
         .add_accessor(:entries)
-        .add(:ip_address,         field: 'ip_address')
-        .add(:primary_name, field: 'primary_name')
-        .add(:all_host_names,     field: 'all_host_names')
+        .add(:ip_address,     field: 'ip_address')
+        .add(:primary_name,   field: 'primary_name')
+        .add(:all_host_names, field: 'all_host_names')
 
   filter.connect(self, :params)
 
   private
 
-  def default_hosts_file_path(hosts_path)
-    return hosts_path || '/etc/hosts' unless inspec.os.linux?
-    return hosts_path || 'C:\windows\system32\drivers\etc\hosts' unless inspec.os.windows?
+  def default_hosts_file_path
+    inspec.os.windows? ? 'C:\windows\system32\drivers\etc\hosts' : '/etc/hosts'
   end
 
   def read_content
@@ -61,9 +60,9 @@ class EtcHosts < Inspec.resource(1)
     line_parts = line.split
     return nil unless line_parts.length >= 2
     {
-      'ip_address'         => line_parts[0],
-      'primary_name' => line_parts[1],
-      'all_host_names'     => line_parts[1..-1],
+      'ip_address'     => line_parts[0],
+      'primary_name'   => line_parts[1],
+      'all_host_names' => line_parts[1..-1],
     }
   end
 
@@ -75,7 +74,7 @@ class EtcHosts < Inspec.resource(1)
 
     raw_conf = file.content
     if raw_conf.empty? && !file.empty?
-      return skip_resource("Could not read file contents\"#{@conf_path}\"")
+      return skip_resource("Could not read file contents\" #{@conf_path}\"")
     end
     raw_conf.lines
   end

@@ -14,15 +14,15 @@ An etc/hosts rule specifies an IP address and what its hostname is along with op
 Use the where clause to match a property to one or more rules in the hosts file.
 
     describe etc_hosts.where { ip_address == 'value' } do
-      its ('primary_name') { should cmp 'hostname' }
-      its ('all_host_names') { should cmp 'list' }
+      its('primary_name') { should cmp 'hostname' }
+      its('all_host_names') { should cmp 'list' }
     end
 
 Use the optional constructor parameter to give an alternative path to hosts file
 
     describe etc_hosts('path/to/hosts').where { ip_address == 'value' } do
-      its ('primary_name') { should cmp 'hostname' }
-      its ('all_host_names') { should cmp 'list' }
+      its('primary_name') { should cmp 'hostname' }
+      its('all_host_names') { should cmp 'list' }
     end
 
 where
@@ -42,7 +42,7 @@ where
 `ip_address` returns a string array of ip addresses specified in the etc/hosts file.
 
     describe etc_hosts.where { primary_name == 'localhost' } do
-      its ('ip_address') { should cmp '127.0.1.154' }
+      its('ip_address') { should cmp '127.0.1.154' }
     end
 
 ### primary_name
