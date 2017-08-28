@@ -52,7 +52,12 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
       format_example(example).tap do |hash|
         e = example.exception
         next unless e
-        hash[:message] = exception_message(e)
+
+        if example.metadata[:sensitive]
+          hash[:message] = '*** sensitive output suppressed ***'
+        else
+          hash[:message] = exception_message(e)
+        end
 
         next if e.is_a? RSpec::Expectations::ExpectationNotMetError
         hash[:exception] = e.class.name
@@ -341,7 +346,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # This method is called through the RSpec Formatter interface for every
   # example found in the test suite.
   #
-  # Within #format_example we are getting and example and:
+  # Within #format_example we are getting an example and:
   #    * if this is an example, within a control, within a profile then we want
   #      to display the profile header, display the control, and then display
   #      the example.
@@ -613,10 +618,18 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     summary = profile_summary
     return unless summary['total'] > 0
 
+    success_str = summary['passed'] == 1 ? '1 successful control' : "#{summary['passed']} successful controls"
+    failed_str  = summary['failed']['total'] == 1 ? '1 control failure' : "#{summary['failed']['total']} control failures"
+    skipped_str = summary['skipped'] == 1 ? '1 control skipped' : "#{summary['skipped']} controls skipped"
+
+    success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
+    failed_color = summary['failed']['total'] > 0 ? 'failed' : 'no_color'
+    skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+
     s = format('Profile Summary: %s, %s, %s',
-               format_with_color('passed', "#{summary['passed']} successful"),
-               format_with_color('failed', "#{summary['failed']['total']} failures"),
-               format_with_color('skipped', "#{summary['skipped']} skipped"),
+               format_with_color(success_color, success_str),
+               format_with_color(failed_color, failed_str),
+               format_with_color(skipped_color, skipped_str),
               )
     output.puts(s) if summary['total'] > 0
   end
@@ -624,10 +637,16 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   def print_tests_summary
     summary = tests_summary
 
+    failed_str = summary['failed'] == 1 ? '1 failure' : "#{summary['failed']} failures"
+
+    success_color = summary['passed'] > 0 ? 'passed' : 'no_color'
+    failed_color = summary['failed'] > 0 ? 'failed' : 'no_color'
+    skipped_color = summary['skipped'] > 0 ? 'skipped' : 'no_color'
+
     s = format('Test Summary: %s, %s, %s',
-               format_with_color('passed', "#{summary['passed']} successful"),
-               format_with_color('failed', "#{summary['failed']} failures"),
-               format_with_color('skipped', "#{summary['skipped']} skipped"),
+               format_with_color(success_color, "#{summary['passed']} successful"),
+               format_with_color(failed_color, failed_str),
+               format_with_color(skipped_color, "#{summary['skipped']} skipped"),
               )
 
     output.puts(s)
