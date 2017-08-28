@@ -22,10 +22,8 @@ module Inspec::Resources
     "
     attr_reader :params, :bin_dir
 
-    def initialize(path = nil)
+    def initialize(nginx_path = '/usr/sbin/nginx')
       return skip_resource 'The `nginx` resource is not yet available on your OS.' if inspec.os.windows?
-      path ||= '/usr/sbin/'
-      nginx_path = File.join(path, 'nginx')
       return skip_resource 'The `nginx` binary not found in the path provided.' unless inspec.command(nginx_path).exist?
 
       cmd = inspec.command("#{nginx_path} -V 2>&1")

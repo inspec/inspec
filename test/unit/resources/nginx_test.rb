@@ -27,11 +27,11 @@ describe 'Inspec::Resources::Nginx' do
       _(resource.version).must_match '1.12.0'
     end
     it 'Verify nginx_module parsing with custom path`version` - 1.12.0' do
-      resource = load_resource('nginx','/usr/sbin')
+      resource = load_resource('nginx','/usr/sbin/nginx')
       _(resource.version).must_match '1.12.0'
     end
     it 'Verify nginx_module parsing with a broken custom path`version` - 1.12.0' do
-      resource = load_resource('nginx','/usr/sbin/')
+      resource = load_resource('nginx','/usr/sbin/nginx')
       _(resource.version).must_match '1.12.0'
     end
     it 'Verify nginx parsing `service` - `nginx`' do
