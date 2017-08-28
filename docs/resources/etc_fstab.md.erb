@@ -15,21 +15,21 @@ its dump options, and the order the files system should be checked.
 Use the where clause to match a property to one or more rules in the fstab file.
 
     describe etc_fstab.where { device_name == 'value' } do
-      its ( 'mount_point' ) { should cmp 'hostname' }
-      its ( 'file_system_type' ) { should cmp 'list' }
-      its ( 'mount_options' ) { should cmp 'list' }
-      its ( 'dump_options' ) { should cmp 'list' }
-      its ( 'file_system_options' ) { should cmp 'list' }
+      its('mount_point') { should cmp 'hostname' }
+      its('file_system_type') { should cmp 'list' }
+      its('mount_options') { should cmp 'list' }
+      its('dump_options') { should cmp 'list' }
+      its('file_system_options') { should cmp 'list' }
     end
 
 Use the optional constructor parameter to give an alternative path to fstab file
 
     describe etc_fstab(hosts_path).where { device_name == 'value' } do
-      its ( 'mount_point' ) { should cmp 'hostname' }
-      its ( 'file_system_type' ) { should cmp 'list' }
-      its ( 'mount_options' ) { should cmp 'list' }
-      its ( 'dump_options' ) { should cmp 'list' }
-      its ( 'file_system_options' ) { should cmp 'list ' }
+      its('mount_point') { should cmp 'hostname' }
+      its('file_system_type') { should cmp 'list' }
+      its('mount_options') { should cmp 'list' }
+      its('dump_options') { should cmp 'list' }
+      its('file_system_options') { should cmp 'list ' }
     end
 
 where
@@ -48,7 +48,7 @@ where
 `device_name` returns a string array of device names mounted on the system.
 
     describe etc_fstab.where { mount_point == '/mnt/sr0' } do
-      its ( 'device_name' ) { should cmp '/dev/sr0' }
+      its('device_name') { should cmp '/dev/sr0' }
     end
 
 ### mount_point
@@ -100,18 +100,18 @@ The following examples show how to use this InSpec resource.
     nfs_systems = etc_fstab.nfs_file_systems
     nfs_systems.each do |partition|
       describe partition do
-        its ('mount_options') { should include 'nosuid' }
+        its('mount_options') { should include 'nosuid' }
       end
     end
 
 ### Check the partition mounted at /home contains 'nosuid' in its mount_options.
 
     describe etc_fstab do
-      its ('home_mount_options') { should include 'nosuid' }
+      its('home_mount_options') { should include 'nosuid' }
     end
 
 ### Check if a partition is mounted at a point.
 
     describe etc_fstab.where { mount_point == '/home' } do
-      it { should be_mounted }
+      it { should be_configured }
     end
