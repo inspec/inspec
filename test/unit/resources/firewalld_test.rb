@@ -21,8 +21,11 @@ describe 'Inspec::Resources::FirewallD' do
     _(resource.default_zone).must_equal 'public'
   end
 
-  it 'verify firewalld detects a active_zones' do
-    _(resource.active_zones).must_equal "public\n  interfaces: enp0s3\n"
+  it 'verify firewalld detects attributes for active zones' do
+    entries = resource.where { zone == 'public' }
+    _(entries.interfaces).must_equal [['enp0s3', 'eno2']]
+    _(entries.services).must_equal [['ssh', 'icmp']]
+    _(entries.sources).must_equal [['192.168.1.0/24', '192.168.1.2']]
   end
 
   it 'verify firewalld detects a whether or not a service is allowed in a zone' do
@@ -43,13 +46,5 @@ describe 'Inspec::Resources::FirewallD' do
 
   it 'verify firewalld detects a whether or not a rule is enabled in a zone' do
     resource.stubs(:has_rule_enabled?).with('public', 'rule family=ipv4 source address=192.168.0.14 accept').returns(true)
-  end
-
-  it 'verify firewalld can return all the services bound to a zone.' do
-    _(resource.services_bound).must_equal ['ssh', 'icmp']
-  end
-
-  it 'verify firewalld can return all the sources bound to a zone.' do
-    _(resource.sources_bound).must_equal ['192.168.1.0/24', '192.168.1.2']
   end
 end

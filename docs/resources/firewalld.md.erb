@@ -4,34 +4,64 @@ title: About the firewalld Resource
 
 # firewalld
 
-Use the `firewalld` InSpec audit resource to test rules set to match IP address's with hostnames.
+Use the `firewalld` InSpec audit resource to test that firewalld is configured to allow and deny access to specific hosts, services and ports on a system.
 
-An firewalld rule specifies an IP address and what it's hostname is along with an aliase names it can have.
+A firewalld has a number of zones that can be configured to allow and deny access to specific hosts, services, and ports.
 
 ## Syntax
 
-Use the where clause to match a property to one or more rules in the hosts file.
-
     describe firewalld do
       it { should be_running }
-      its ('default_zone') { should eq 'public' }
+      its('default_zone') { should eq 'public' }
       it { should have_service_enabled_in_zone('ssh', 'public') }
-      it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
+      it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }
+    end
+
+Use the where clause to test open interfaces, sources, and services in active zones.
+
+    describe firewalld.where { zone == 'public' } do
+      its('interfaces') { should cmp ['enp0s3', 'eno2'] }
+      its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
+      its('services') { should cmp ['ssh', 'icmp'] }
     end
 
 ## Supported Properties
+
+### interfaces
+
+The `interfaces` property is used in conjunction with the where class to display open interfaces in an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('interfaces') { should cmp ['enp0s3', 'eno2'] }
+    end
+
+### sources
+
+The `sources` property is used in conjunction with the where class to display open sources in an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('souces') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
+    end
+
+### services
+
+The `services` property is used in conjunction with the where class to display open services in an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('services') { should cmp ['ssh', 'icmp'] }
+    end
 
 ### default_zone
 
 The `default_zone` property displays the default active zone to be used.
 
-    its ('default_zone') { should eq 'public' }
+    its('default_zone') { should eq 'public' }
 
 ### default_zone
 
 The `active_zones` property displays the open zone and all its open interfaces
 
-    its ('active_zones') { should eq "public\n  interfaces: enp0s3\n" }
+    its('active_zones') { should eq "public\n  interfaces: enp0s3\n" }
 
 ## Matchers
 
@@ -71,18 +101,4 @@ The `be_running` matcher tests if the firewalld service is running:
 
 `have_rule_enabled` returns true or false if the rich-rule has been specified in the zone.
 
-    it { should have_rule_enabled('rule family=ipv4 source address=192.168.0.14 accept', 'public') }
-
-## Examples
-
-### Check the services allowed in a zone. `services_bound` returns a string list of services allowed through the zone.
-
-    describe firewalld do
-      its ('services_bound')  { should eq ['ssh', 'icmp'] }
-    end
-
-### Check the sources allowed in a zone. `sources_bound` returns a string list of sources allowed through the zone.
-
-    describe firewalld do
-      its ('sources_bound')  { should eq ['192.168.1.0/24', '192.168.1.2'] }
-    end
+    it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }

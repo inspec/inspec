@@ -375,8 +375,6 @@ class MockLoader
       'firewall-cmd --zone=public --list-sources' => cmd.call('firewall-cmd-sources-bound'),
       'firewall-cmd --zone=public --query-rich-rule=rule family=ipv4 source address=192.168.0.14 accept' => cmd.call('firewall-cmd-has-rule-enabled'),
       'rpm -qia firewalld' => cmd.call('pkg-info-firewalld'),
-      'dig +short A example.com' => cmd.call('dig-A-example.com'),
-      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
       'systemctl is-active sshd --quiet' => empty.call,
       'systemctl is-enabled sshd --quiet' => empty.call,
       'systemctl is-active dbus --quiet' => empty.call,
