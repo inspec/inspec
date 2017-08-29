@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.3 -->
-## [v1.34.3](https://github.com/chef/inspec/tree/v1.34.3) (2017-08-25)
+<!-- latest_release 1.34.4 -->
+## [v1.34.4](https://github.com/chef/inspec/tree/v1.34.4) (2017-08-29)
 
-#### Merged Pull Requests
-- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
+#### Bug Fixes
+- auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
+
+#### Bug Fixes
+- auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12)) <!-- 1.34.4 -->
 
 #### Merged Pull Requests
 - Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian)) <!-- 1.34.3 -->
