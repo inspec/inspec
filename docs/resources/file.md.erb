@@ -125,11 +125,11 @@ a user:
 
     it { should be_readable.by_user('user') }
 
-### be_sgid
+### be_setgid
 
-The `be_sgid` matcher tests if the 'setgid' permission is set on the file or directory.  On executable files, this causes the process to be started owned by the group that owns the file, rather than the primary group of the invocating user.  This can result in escalation of privilege.  On Linux, when setgid is set on directories, setgid causes newly created files and directories to be owned by the group that owns the setgid parent directory; additionally, newly created subdirectories will have the setgid bit set.  To use this matcher:
+The `be_setgid` matcher tests if the 'setgid' permission is set on the file or directory.  On executable files, this causes the process to be started owned by the group that owns the file, rather than the primary group of the invocating user.  This can result in escalation of privilege.  On Linux, when setgid is set on directories, setgid causes newly created files and directories to be owned by the group that owns the setgid parent directory; additionally, newly created subdirectories will have the setgid bit set.  To use this matcher:
 
-    it { should be_sgid } 
+    it { should be_setgid } 
 
 ### be_socket
 
@@ -143,11 +143,11 @@ The `be_sticky` matcher tests if the 'sticky bit' permission is set on the direc
 
     it { should be_sticky } 
 
-### be_suid
+### be_setuid
 
-The `be_suid` matcher tests if the 'setuid' permission is set on the file.  On executable files, this causes the process to be started owned by the user that owns the file, rather than invocating user.  This can result in escalation of privilege.  To use this matcher:
+The `be_setuid` matcher tests if the 'setuid' permission is set on the file.  On executable files, this causes the process to be started owned by the user that owns the file, rather than invocating user.  This can result in escalation of privilege.  To use this matcher:
 
-    it { should be_suid } 
+    it { should be_setuid } 
 
 ### be_symlink
 
