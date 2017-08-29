@@ -25,8 +25,8 @@ module Inspec::Resources
 
     def initialize(package_name, pip_path = nil)
       @package_name = package_name
-      @pip_cmd = resolve_pip_path(pip_path)
-      return skip_resource 'pip not found' if @pip_cmd.nil?
+      @pip_cmd = pip_path || default_pip_path
+      return skip_resource 'pip not found' unless inspec.command(@pip_cmd).exist?
     end
 
     def info
@@ -62,33 +62,28 @@ module Inspec::Resources
 
     private
 
-    def resolve_pip_path(pip_path)
+    def default_pip_path
+      return 'pip' unless inspec.os.windows?
+
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
-      if !pip_path.nil?
-        return pip_path if File.exist?(pip_path)
+      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+      begin
+        paths = JSON.parse(cmd.stdout)
+        # use pip if it on system path
+        pipcmd = paths['Pip']
+        # calculate path on windows
+        if defined?(paths['Python']) && pipcmd.nil?
+          pipdir = paths['Python'].split('\\')
+          # remove python.exe
+          pipdir.pop
+          pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
+        end
+      rescue JSON::ParserError => _e
         return nil
       end
-      if inspec.os.windows?
-        # we need to detect the pip command on Windows
-        cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
-        begin
-          paths = JSON.parse(cmd.stdout)
-          # use pip if it on system path
-          pipcmd = paths['Pip']
-          # calculate path on windows
-          if defined?(paths['Python']) && pipcmd.nil?
-            pipdir = paths['Python'].split('\\')
-            # remove python.exe
-            pipdir.pop
-            pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
-          end
-        rescue JSON::ParserError => _e
-          return nil
-        end
-        return pipcmd
-      end
-      'pip' unless !inspec.command('pip').exist?
+
+      pipcmd
     end
   end
 end
