@@ -45,4 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'parslet', '~> 1.5'
   spec.add_dependency 'semverse'
   spec.add_dependency 'htmlentities'
+  spec.add_dependency 'nokogiri', '~> 1.8'
 end

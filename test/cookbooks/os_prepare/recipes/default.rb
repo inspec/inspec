@@ -22,7 +22,7 @@ include_recipe('os_prepare::x509')
 include_recipe('os_prepare::dh_params')
 
 # config file parsing
-include_recipe('os_prepare::json_yaml_csv_ini')
+include_recipe('os_prepare::json_yaml_csv_ini_xml')
 
 # configure repos, eg. nginx
 include_recipe('os_prepare::apt')
