@@ -71,6 +71,16 @@ describe.one do
 end
 ```
 
+#### Sensitive resources
+
+In some scenarios, you may be writing checks involving resources with sensitive content (e.g. a file resource). In the case of failures, it may be desired to suppress output. This can be done by adding the `:sensitive` flag to the resource definition
+
+```ruby
+describe file('/tmp/mysecretfile'), :sensitive do
+  its('content') { should contain 'secret_info' }
+end
+```
+
 ## Examples
 
 The following examples show simple compliance tests using a single `control` block.

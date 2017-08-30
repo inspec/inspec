@@ -161,6 +161,7 @@ class MockLoader
       '/etc/fstab' => mockfile.call('fstab'),
       'fstab_no_home' => mockfile.call('fstab_no_home'),
       'fstab_one_mount' => mockfile.call('fstab_one_mount'),
+      '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
     }
@@ -192,6 +193,7 @@ class MockLoader
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
+      'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
@@ -362,8 +364,17 @@ class MockLoader
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
       # host resource: dig commands,
-      "dig +short A example.com" => cmd.call('dig-A-example.com'),
-      "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      'dig +short A example.com' => cmd.call('dig-A-example.com'),
+      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
+      'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-active dbus --quiet' => empty.call,
+      'systemctl is-enabled dbus --quiet' => empty.call,
+      '/path/to/systemctl is-active sshd --quiet' => empty.call,
+      '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
+      '/usr/sbin/service sshd status' => empty.call,
+      '/sbin/service sshd status' => empty.call,
+      'type "lsof"' => empty.call,
     }
     @backend
   end

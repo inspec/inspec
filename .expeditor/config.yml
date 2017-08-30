@@ -1,5 +1,8 @@
 product_key: inspec
 
+rubygems:
+ - inspec
+
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: inspec-notify
@@ -7,6 +10,13 @@ slack:
 github:
   maintainer_group: chef/inspec-maintainers
   version_tag_format: v{{version}}
+
+changelog:
+  categories:
+    - "Type: New Resource": "New Resources"
+    - "Type: New Feature": "New Features"
+    - "Type: Enhancement": "Enhancements"
+    - "Type: Bug": "Bug Fixes"
 
 merge_actions:
   built_in:bump_version:
@@ -27,4 +37,5 @@ merge_actions:
 
 artifact_actions:
   promoted_to_stable:
-    built_in:rollover_changelog:
+    - built_in:publish_rubygems
+    - built_in:rollover_changelog

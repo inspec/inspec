@@ -177,7 +177,7 @@ module Inspec::Resources
 
     # NB only in file lines
     def get_key(line)
-      line.match(/-k ([^ ]+)/)[1]
+      line.match(/-k ([^ ]+)/)[1] if line.include?('-k ')
     end
 
     # NOTE there are NO precautions wrt. filenames containing spaces in auditctl

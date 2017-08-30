@@ -1,0 +1,14 @@
+Package: held-package
+Status: hold ok installed
+Priority: optional
+Section: web
+Installed-Size: 306
+Maintainer: Fake User <fake@user.biz)
+Architecture: amd64
+Multi-Arch: foreign
+Version: 1.2.3-1
+Depends: libc6 (>= 2.17), libcurl3 (= 7.35.0-1ubuntu2), zlib1g (>= 1:1.1.4)
+Description: Totally a fake package
+ Can you believe this is fake?
+ I can.
+Homepage: http://chef.io
