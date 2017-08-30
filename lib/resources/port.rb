@@ -264,7 +264,7 @@ module Inspec::Resources
   end
 
   # extract port information from netstat
-  class LinuxPorts < PortsInfo
+  class LinuxPorts < PortsInfo # rubocop:disable Metrics/ClassLength
     ALLOWED_PROTOCOLS = %w{tcp tcp6 udp udp6}.freeze
 
     def info
