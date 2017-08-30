@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.4 -->
-## [v1.34.4](https://github.com/chef/inspec/tree/v1.34.4) (2017-08-29)
+<!-- latest_release 1.34.5 -->
+## [v1.34.5](https://github.com/chef/inspec/tree/v1.34.5) (2017-08-30)
 
 #### Bug Fixes
-- auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12))
+- http resource: prevent repeat calls during a control with multiple tests [#2108](https://github.com/chef/inspec/pull/2108) ([mivok](https://github.com/mivok))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
 
 #### Bug Fixes
+- http resource: prevent repeat calls during a control with multiple tests [#2108](https://github.com/chef/inspec/pull/2108) ([mivok](https://github.com/mivok)) <!-- 1.34.5 -->
 - auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12)) <!-- 1.34.4 -->
 
 #### Merged Pull Requests
