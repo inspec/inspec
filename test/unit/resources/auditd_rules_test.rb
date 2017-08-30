@@ -12,6 +12,8 @@ describe 'Inspec::Resources::AuditDaemonRules' do
        '-a always,exit -F arch=b64 -S open,openat -F exit=-EACCES -F key=access',
        '-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=500 f24!=0 -F key=perm_mod',
        '-w /etc/ssh/sshd_config -p rwxa -k CFG_sshd_config',
+       '-w /etc/sudoers -p wa',
+       '-w /etc/private-keys -p x',
     ]
   end
 
@@ -53,6 +55,13 @@ describe 'Inspec::Resources::AuditDaemonRules' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('key', 'CFG_sshd_config').send('rules')).must_equal [
       { file: '/etc/ssh/sshd_config', key: 'CFG_sshd_config', permissions: 'rwxa'},
+    ]
+  end
+
+  it 'check auditd_rules file interface with no keys' do
+    resource = MockLoader.new(:centos7).load_resource('auditd_rules')
+    _(resource.send('file', '/etc/private-keys').send('rules')).must_equal [
+      { file: '/etc/private-keys', key: nil, permissions: 'x'},
     ]
   end
 

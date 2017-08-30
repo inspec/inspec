@@ -84,7 +84,7 @@ describe 'inspec shell tests' do
     it 'runs anonymous tests that fail' do
       out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1)
       out.stdout.must_include '0 successful'
-      out.stdout.must_include '1 failures'
+      out.stdout.must_include '1 failure'
     end
 
     it 'runs controls with tests (json output)' do
@@ -114,7 +114,7 @@ describe 'inspec shell tests' do
     it 'runs controls with multiple tests' do
       out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1)
       out.stdout.must_include '0 successful'
-      out.stdout.must_include '1 failures'
+      out.stdout.must_include '1 failure'
     end
   end
 
@@ -186,7 +186,7 @@ describe 'inspec shell tests' do
     it 'runs anonymous tests that fail' do
       out = do_shell("describe file(\"foo/bar/baz\") do it { should exist } end")
       out.stdout.must_include '0 successful'
-      out.stdout.must_include '1 failures'
+      out.stdout.must_include '1 failure'
     end
 
     it 'runs controls with tests' do
@@ -198,13 +198,13 @@ describe 'inspec shell tests' do
     it 'runs controls with multiple tests' do
       out = do_shell("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end")
       out.stdout.must_include '0 successful'
-      out.stdout.must_include '1 failures'
+      out.stdout.must_include '1 failure'
     end
 
     it 'reruns controls when redefined' do
       out = do_shell("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end\ncontrol \"test\" do describe file(\"foo/bar/baz\") do it { should exist } end end")
       out.stdout.must_include '1 successful'
-      out.stdout.must_include '1 failures'
+      out.stdout.must_include '1 failure'
     end
   end
 end

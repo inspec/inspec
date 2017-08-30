@@ -15,6 +15,7 @@ module Inspec::Resources
     example "
       describe package('nginx') do
         it { should be_installed }
+        it { should_not be_held } # for dpkg platforms that support holding a version from being upgraded
         its('version') { should eq 1.9.5 }
       end
     "
@@ -54,6 +55,13 @@ module Inspec::Resources
     def installed?(_provider = nil, _version = nil)
       return false if info.nil?
       info[:installed] == true
+    end
+
+    # returns true it the package is held (if the OS supports it)
+    def held?(_provider = nil, _version = nil)
+      return false if info.nil?
+      return false unless info.key?(:held)
+      info[:held] == true
     end
 
     # returns the package description
@@ -107,11 +115,14 @@ module Inspec::Resources
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
+      # If the package is installed, Status is "install ok installed"
+      # If the package is installed and marked hold, Status is "hold ok installed"
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
       # If the package is purged cmd fails with non-zero exit status
       {
         name: params['Package'],
-        installed: params['Status'].split(' ').first == 'install',
+        installed: params['Status'].split(' ')[2] == 'installed',
+        held: params['Status'].split(' ')[0] == 'hold',
         version: params['Version'],
         type: 'deb',
       }
