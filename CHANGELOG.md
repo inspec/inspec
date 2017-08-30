@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.6 -->
-## [v1.34.6](https://github.com/chef/inspec/tree/v1.34.6) (2017-08-30)
+<!-- latest_release 1.34.7 -->
+## [v1.34.7](https://github.com/chef/inspec/tree/v1.34.7) (2017-08-30)
 
-#### Bug Fixes
-- Support mixed-case group entries [#2101](https://github.com/chef/inspec/pull/2101) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
+
+#### Enhancements
+- pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney)) <!-- 1.34.7 -->
 
 #### Bug Fixes
 - Support mixed-case group entries [#2101](https://github.com/chef/inspec/pull/2101) ([adamleff](https://github.com/adamleff)) <!-- 1.34.6 -->
