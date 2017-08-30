@@ -2,14 +2,14 @@
 
 require 'helper'
 require 'inspec/resource'
-require 'nokogiri'
+require 'rexml/document'
 
 describe 'Inspec::Resources::XML' do
   describe 'when loading valid XML' do
     let (:resource) { load_resource('xml', 'default.xml') }
 
     it 'gets params as a document' do
-      _(resource.params).must_be_kind_of Nokogiri::XML::Document
+      _(resource.params).must_be_kind_of REXML::Document
     end
 
     it 'retrieves empty array if xpath cannot be found' do

@@ -12,12 +12,12 @@ module Inspec::Resources
     "
 
     def parse(content)
-      require 'nokogiri'
-      Nokogiri::XML(content)
+      require 'rexml/document'
+      REXML::Document.new(content)
     end
 
     def value(key)
-      @params.xpath(key.first.to_s).map(&:text)
+      REXML::XPath.each(@params, key.first.to_s).map(&:text)
     end
 
     def to_s
