@@ -159,6 +159,8 @@ class MockLoader
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
+      '/etc/hosts' => mockfile.call('hosts'),
+      'C:\windows\system32\drivers\etc\hosts' => mockfile.call('hosts'),
       '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
