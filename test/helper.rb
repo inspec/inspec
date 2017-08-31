@@ -218,7 +218,9 @@ class MockLoader
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux
+      %{bash -c 'type "ss"'} => empty.call(), # allow the ss command to exist so the later mock is called
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      'ss -tulpen' => cmd.call('ss-tulpen'),
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
