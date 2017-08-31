@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.7 -->
-## [v1.34.7](https://github.com/chef/inspec/tree/v1.34.7) (2017-08-30)
+<!-- latest_release 1.34.8 -->
+## [v1.34.8](https://github.com/chef/inspec/tree/v1.34.8) (2017-08-31)
 
 #### Enhancements
-- pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney))
+- port resource: support ss instead of netstat [#2110](https://github.com/chef/inspec/pull/2110) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
 ### Changes since 1.34.1 release
 
 #### Enhancements
+- port resource: support ss instead of netstat [#2110](https://github.com/chef/inspec/pull/2110) ([adamleff](https://github.com/adamleff)) <!-- 1.34.8 -->
 - pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney)) <!-- 1.34.7 -->
 
 #### Bug Fixes
