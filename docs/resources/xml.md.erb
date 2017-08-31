@@ -1,0 +1,75 @@
+---
+title: About the xml Resource
+---
+
+# xml
+
+Use the `xml` InSpec audit resource to test data in an XML file.
+
+## Syntax
+
+An `xml` resource block declares the data to be tested. Assume the following XML file:
+
+    <root>
+      <name>hello</name>
+      <meta>
+        <creator>John Doe</creator>
+      </meta>
+      <array>
+        <element>one</element>
+        <element>two</element>
+      </array>
+    </root>
+
+This file can be queried using:
+
+    describe xml('/path/to/name.xml') do
+      its('root/name') { should eq ['hello'] }
+      its('root/meta/creator') { should eq ['John Doe'] }
+      its('root/array[2]/element]) { should eq ['two'] }
+    end
+
+where
+
+* `root/name` is an XPath expression
+* `should eq ['foo']` tests a value of `root/name` as read from an XML file versus the value declared in the test
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be
+
+<%= partial "/shared/matcher_be" %>
+
+### cmp
+
+<%= partial "/shared/matcher_cmp" %>
+
+### eq
+
+<%= partial "/shared/matcher_eq" %>
+
+### include
+
+<%= partial "/shared/matcher_include" %>
+
+### match
+
+<%= partial "/shared/matcher_match" %>
+
+### name
+
+The `name` matcher tests the value of `name` as read from a JSON file versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test an AppPool's presence in an applicationHost.config file
+
+    describe xml('applicationHost.config') do
+      its('configuration/system.applicationHost/applicationPools/add@name') { should contain('my_pool') }
+    end
