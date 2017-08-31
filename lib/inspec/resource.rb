@@ -72,6 +72,7 @@ module Inspec
   end
 end
 
+require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
 require 'resources/apt'
@@ -158,3 +159,4 @@ require 'resources/json'
 require 'resources/yaml'
 require 'resources/csv'
 require 'resources/ini'
+require 'resources/xml'

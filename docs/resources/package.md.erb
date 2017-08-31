@@ -28,6 +28,13 @@ This InSpec audit resource has the following matchers:
 
 <%= partial "/shared/matcher_be" %>
 
+### be_held
+
+The `be_held` matcher tests if the named package is "held". On dpkg platforms, a "held" package
+will not be upgraded to a later version.
+
+    it { should be_held }
+
 ### be_installed
 
 The `be_installed` matcher tests if the named package is installed on the system:

@@ -74,11 +74,18 @@ module Inspec::Resources
     end
 
     def repo
-      image.split(':')[0] unless image.nil?
+      return if image.nil? || image_name_from_image.nil?
+      if image.include?('/')                       # host:port/ubuntu:latest
+        repo_part, image_part = image.split('/')   # host:port, ubuntu:latest
+        repo_part + '/' + image_part.split(':')[0] # host:port + / + ubuntu
+      else
+        image_name_from_image.split(':')[0]
+      end
     end
 
     def tag
-      image.split(':')[1] unless image.nil?
+      return if image_name_from_image.nil?
+      image_name_from_image.split(':')[1]
     end
 
     def to_s
@@ -87,6 +94,16 @@ module Inspec::Resources
     end
 
     private
+
+    def image_name_from_image
+      return if image.nil?
+      # possible image names include:
+      #   alpine
+      #   ubuntu:14.04
+      #   repo.example.com:5000/ubuntu
+      #   repo.example.com:5000/ubuntu:1404
+      image.include?('/') ? image.split('/')[1] : image
+    end
 
     def container_info
       return @info if defined?(@info)

@@ -9,8 +9,8 @@ describe 'Inspec::Resources::EtcGroup' do
   let(:resource) { load_resource('etc_group') }
 
   it 'verify /etc/group config parsing' do
-    _(resource.gids).must_equal [0, 33]
-    _(resource.groups).must_equal %w{ root www-data }
+    _(resource.gids).must_equal [0, 33, 999]
+    _(resource.groups).must_equal %w{ root www-data GroupWithCaps }
     _(resource.users).must_equal %w{ www-data root }
   end
 
