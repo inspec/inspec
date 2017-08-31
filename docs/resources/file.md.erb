@@ -213,15 +213,10 @@ The `have_mode` matcher tests if a file has a mode assigned to it:
 
 ### link_path
 
-The `link_path` matcher tests if the file exists at the specified path:
+The `link_path` matcher tests if the file exists at the specified path. If the file is a symlink,
+InSpec will resolve the symlink and return the ultimate linked file:
 
     its('link_path') { should eq '/some/path/to/file' }
-
-### link_target
-
-The `link_target` matcher tests if a file that is linked to this file exists at the specified path:
-
-    its('link_target') { should eq '/some/path/to/file' }
 
 ### match
 
