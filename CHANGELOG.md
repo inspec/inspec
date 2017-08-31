@@ -1,10 +1,10 @@
 # Change Log
 
-<!-- latest_release 1.34.8 -->
-## [v1.34.8](https://github.com/chef/inspec/tree/v1.34.8) (2017-08-31)
+<!-- latest_release 1.34.9 -->
+## [v1.34.9](https://github.com/chef/inspec/tree/v1.34.9) (2017-08-31)
 
-#### Enhancements
-- port resource: support ss instead of netstat [#2110](https://github.com/chef/inspec/pull/2110) ([adamleff](https://github.com/adamleff))
+#### New Resources
+- Add support for XML files [#2107](https://github.com/chef/inspec/pull/2107) ([jonathanmorley](https://github.com/jonathanmorley))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.34.1 -->
@@ -23,6 +23,7 @@
 - Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian)) <!-- 1.34.3 -->
 
 #### New Resources
+- Add support for XML files [#2107](https://github.com/chef/inspec/pull/2107) ([jonathanmorley](https://github.com/jonathanmorley)) <!-- 1.34.9 -->
 - aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12)) <!-- 1.34.2 -->
 <!-- release_rollup -->
 
