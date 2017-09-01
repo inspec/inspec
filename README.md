@@ -378,7 +378,7 @@ These tests download various virtual machines, to ensure InSpec is working as ex
 
 You will require:
 
-* vagrant with virtualbox
+* vagrant with virtualbox - OR - an AWS account
 * test-kitchen
 
 **Run `integration` tests with vagrant:**
@@ -390,9 +390,12 @@ KITCHEN_YAML=.kitchen.vagrant.yml bundle exec kitchen test
 **Run `integration` tests with AWS EC2:**
 
 ```bash
+# The usual two API keys you have for AWS
 export AWS_ACCESS_KEY_ID=enteryouryourkey
 export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
-export AWS_KEYPAIR_NAME=enteryoursshkeyid
+# The name of a keypair you have in eu-central-1
+export AWS_SSH_KEY_NAME=enteryourkeypairname
+# Filename of the private key half of the keypair
 export EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
 KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen test
 ```
