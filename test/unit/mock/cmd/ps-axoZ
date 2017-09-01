@@ -6,3 +6,4 @@ system_u:system_r:init_t:s0      5169  0.0  0.0   4084   536 ?        S    10:54
 -                               11662  0.0  0.0  70992  1460 ?        S      Nov 28 00:00:13 httpd                            /usr/local/apache2/bin/httpd -k start
 -                               11663  0.0  0.1 874196  4792 ?        Sl     Nov 28 00:00:12 httpd                            /usr/local/apache2/bin/httpd -k start
 -                               11664  0.0  0.1 874156  4468 ?        Sl     Nov 28 00:00:11 httpd                            /usr/local/apache2/bin/httpd -k start
+/usr/sbin/ntpd (enforce)        14415  0.0  0.5 110032  5164 ?        Ssl  22:39:25 00:00:00 ntp                              /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 112:117
