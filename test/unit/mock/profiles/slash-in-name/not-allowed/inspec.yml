@@ -1,0 +1,10 @@
+name: slash-in-name/not-allowed
+version: 1.2.3
+maintainer: bob
+title: title
+copyright: left
+summary: nothing
+license: Apache-2.0
+supports:
+  - linux
+  - darwin

@@ -128,7 +128,7 @@ describe Inspec::Profile do
         result[:warnings].length.must_equal 6
       end
     end
-
+    
     describe 'an empty profile (legacy mode)' do
       let(:profile_id) { 'legacy-empty-metadata' }
 
@@ -336,6 +336,21 @@ describe Inspec::Profile do
       end
     end
 
+    describe 'a profile with a slash in the name' do
+      let(:profile_path) { 'slash-in-name/not-allowed' } # Slashes allowed here
+      let(:profile_name) { 'slash-in-name/not-allowed' }   # But not here
+      it 'issues a deprecation warning' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_path}"]
+        logger.expect :warn, nil, ["Profile names containing slashes (#{profile_name}) are deprecated."]
+        logger.expect :info, nil, ['Metadata OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+
+        result = MockLoader.load_profile(profile_path, {logger: logger}).check
+        logger.verify
+        result[:warnings].length.must_equal 1
+      end
+    end
+    
     describe 'shows warning if license is invalid' do
       let(:profile_id) { 'license-invalid' }
       let(:profile_path) { MockLoader.profile_zip(profile_id) }
