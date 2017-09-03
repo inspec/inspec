@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.34.10 -->
-## [v1.34.10](https://github.com/chef/inspec/tree/v1.34.10) (2017-08-31)
+<!-- latest_release 1.35.2 -->
+## [v1.35.2](https://github.com/chef/inspec/tree/v1.35.2) (2017-09-03)
 
-#### New Resources
-- etc_hosts resource: test the contents of the /etc/hosts file [#2065](https://github.com/chef/inspec/pull/2065) ([dromazmj](https://github.com/dromazmj))
+#### Enhancements
+- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.35.1 -->
 ### Changes since 1.35.1 release
+
+#### Enhancements
+- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.35.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
