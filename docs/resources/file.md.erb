@@ -125,11 +125,29 @@ a user:
 
     it { should be_readable.by_user('user') }
 
+### be_setgid
+
+The `be_setgid` matcher tests if the 'setgid' permission is set on the file or directory.  On executable files, this causes the process to be started owned by the group that owns the file, rather than the primary group of the invocating user.  This can result in escalation of privilege.  On Linux, when setgid is set on directories, setgid causes newly created files and directories to be owned by the group that owns the setgid parent directory; additionally, newly created subdirectories will have the setgid bit set.  To use this matcher:
+
+    it { should be_setgid } 
+
 ### be_socket
 
 The `be_socket` matcher tests if the file exists as socket (`.sock`), such as `/var/run/php-fpm.sock`:
 
     it { should be_socket }
+
+### be_sticky
+
+The `be_sticky` matcher tests if the 'sticky bit' permission is set on the directory.  On directories, this restricts file deletion to the owner of the file, even if the permission of the parent directory would normally permit deletion by others.  This is commonly used on /tmp filesystems.  To use this matcher:
+
+    it { should be_sticky } 
+
+### be_setuid
+
+The `be_setuid` matcher tests if the 'setuid' permission is set on the file.  On executable files, this causes the process to be started owned by the user that owns the file, rather than invocating user.  This can result in escalation of privilege.  To use this matcher:
+
+    it { should be_setuid } 
 
 ### be_symlink
 
