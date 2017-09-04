@@ -120,6 +120,7 @@ module Inspec::Resources
     def to_s
       @parent.to_s + ', http entries'
     end
+    alias inspect to_s
   end
 
   class NginxConfHttpEntry
@@ -163,7 +164,8 @@ module Inspec::Resources
           .connect(self, :location_table)
 
     def to_s
-      @parent.to_s + ', server entry'
+      # go two levels up: 1. to the http entry and 2. to the root nginx conf
+      @parent.parent.to_s + ', server entry'
     end
     alias inspect to_s
 
@@ -182,7 +184,8 @@ module Inspec::Resources
     end
 
     def to_s
-      @parent.to_s + ', location entry'
+      # go three levels up: 1. to the server entry, 2. http entry and 3. to the root nginx conf
+      @parent.parent.parent.to_s + ', location entry'
     end
     alias inspect to_s
   end
