@@ -40,7 +40,7 @@ The `interfaces` property is used in conjunction with the where class to display
 The `sources` property is used in conjunction with the where class to display open sources in an active zone.
 
     describe firewalld.where { zone == 'public' } do
-      its('souces') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
+      its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
     end
 
 ### services
@@ -56,12 +56,6 @@ The `services` property is used in conjunction with the where class to display o
 The `default_zone` property displays the default active zone to be used.
 
     its('default_zone') { should eq 'public' }
-
-### default_zone
-
-The `active_zones` property displays the open zone and all its open interfaces
-
-    its('active_zones') { should eq "public\n  interfaces: enp0s3\n" }
 
 ## Matchers
 
