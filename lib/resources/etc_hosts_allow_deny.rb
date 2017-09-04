@@ -65,61 +65,25 @@ module Inspec::Resources
     end
 
     def parse_line(line)
-      client_list = ''
-      options = ''
+      daemons, clients_and_options = line.split(/\s+:\s+/, 2)
+      daemon_list = daemons.split(',').map(&:strip)
 
-      daemon = line.split(':')[0].strip
+      clients_and_options ||= ''
+      clients, options = clients_and_options.split(' : ', 2)
+      client_list = clients.split(',').map(&:strip)
 
-      # If the line contains an ipv6 address, parse using a different
-      # algorithm. ipv6 addresses will containt a '['
-      if !line.index('[').nil?
+      options ||= ''
+      options_list = options.split(': ').map(&:strip)
 
-        # Determines if there contains any options in the line
-        if line.rindex(':') > line.rindex(']')
-          client_list, options = parse_attributes(line, 1)
-        else
-          client_list, options = parse_attributes(line, 2)
-        end
-      elsif !line.index(':', line.index(':')+1).nil?
-        client_list, options = parse_attributes(line, 3)
-      else
-        client_list, options = parse_attributes(line, 4)
-      end
+      puts "Daemons: #{daemon_list.inspect}"
+      puts "Clients: #{client_list.inspect}"
+      puts "Options: #{options_list.inspect}"
+
       {
-        'daemon'      => daemon,
+        'daemon'      => daemons.strip,
         'client_list' => client_list,
-        'options'     => options,
+        'options'     => options_list,
       }
-    end
-
-    def parse_attributes(line, method)
-      case method
-      # Line contains ipv6 and options
-      when 1
-        # First get a substring starting at the beginning and going to the
-        # end of the client_list. Then get a substring containing only the client_list
-        # Getting the client_list needs to be seperated into two assignments
-        # because of how rubys index method works.
-        client_list = line[line.index(':') + 1, line.index(':', line.rindex(']'))-line.index(':')-1]
-        # Substring starting after the client_address and goes till the end of the string.
-        options = line[line.index(':', line.rindex(']'))+1, line.length]
-      # Line contains ipv6 and no options
-      when 2
-        # Substring starting after the first ':' till the end of the string.
-        client_list = line[line.index(':')+1, line.length]
-        options = ''
-      # Line doesnt contain ipv6 and contains options
-      when 3
-        client_list = line.split(':')[1]
-        options = line.split(':')[2..-1]
-      # Line doesnt contain ipv6 and doesnt contain options
-      when 4
-        client_list = line.split(':')[1]
-        options = ''
-      else
-        raise 'No correct method given to parse client_list and options of a line.'
-      end
-      [client_list.split(',').collect { |x| x.strip || x }, options.split(':').collect { |x| x.strip || x }]
     end
 
     def read_file(conf_path = @conf_path)

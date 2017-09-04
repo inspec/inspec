@@ -10,8 +10,6 @@
 #
 # LOCALHOST (ALL TRAFFIC ALLOWED) DO NOT REMOVE FOLLOWING LINE
 ALL: 127.0.0.1, [::1]
-# Allow SSH (you can limit this further using IP addresses - e.g. 192.168.0.*)
-sshd: ALL
 # Added for testing
 LOCAL : [fe80::]/10 : deny
 vsftpd, sshd : 127.0.1.154, [:fff:fAb0::] : deny : /etc/bin/
