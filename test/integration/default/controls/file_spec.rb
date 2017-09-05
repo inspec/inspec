@@ -120,6 +120,11 @@ if os.unix?
   # end
 
   describe file('/tmp/sfile') do
+    it { should be_setgid }
+    it { should be_setuid }
+    it { should be_sticky }
+
+    # These may eventually be deprecated
     its('suid') { should eq true }
     its('sgid') { should eq true }
     its('sticky') { should eq true }

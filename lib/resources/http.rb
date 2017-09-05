@@ -55,6 +55,7 @@ module Inspec::Resources
     private
 
     def response
+      return @response if @response
       conn = Faraday.new url: @url, headers: @headers, params: @params, ssl: { verify: @ssl_verify }
 
       # set basic authentication
