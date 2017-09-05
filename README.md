@@ -378,7 +378,7 @@ These tests download various virtual machines, to ensure InSpec is working as ex
 
 You will require:
 
-* vagrant with virtualbox
+* vagrant with virtualbox - OR - an AWS account
 * test-kitchen
 
 **Run `integration` tests with vagrant:**
@@ -390,19 +390,27 @@ KITCHEN_YAML=.kitchen.vagrant.yml bundle exec kitchen test
 **Run `integration` tests with AWS EC2:**
 
 ```bash
+# The usual two API keys you have for AWS
 export AWS_ACCESS_KEY_ID=enteryouryourkey
 export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
-export AWS_KEYPAIR_NAME=enteryoursshkeyid
+# The name of a keypair you have in eu-central-1
+export AWS_SSH_KEY_NAME=enteryourkeypairname
+# Filename of the private key half of the keypair
 export EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
 KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen test
 ```
 
-In addition you may need to add your ssh key to `.kitchen.ec2.yml`
+In addition, you'll need a security group that you can access via SSH and winRM.  By default, `.kitchen.ec2.yml` assumes this security group is named `travis-ci`.
+
+You can setup that security group manually through the console, or you can use these commands - which rely on the `jq` json parser.
 
 ```
-transport:
-  ssh_key: /Users/chartmann/aws/aws_chartmann.pem
-  username: ec2-user
+MY_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+# This assumes the first VPC is OK
+MY_VPC=$(aws ec2 describe-vpcs | jq '.Vpcs[0].VpcId' | sed -e 's/"//g')
+MY_GROUP=$(aws ec2 create-security-group --group-name travis-ci --vpc-id $MYVPC --description "Allow  inbound management connections for inspec test-kitchen testing" | jq '.GroupId' | sed -e 's/"//g')
+aws ec2 authorize-security-group-ingress --group-id $MY_GROUP --protocol tcp --port 22 --cidr $MY_IP/32
+aws ec2 authorize-security-group-ingress --group-id $MY_GROUP --protocol tcp --port 5986 --cidr $MY_IP/32
 ```
 
 
