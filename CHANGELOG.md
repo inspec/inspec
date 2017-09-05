@@ -1,14 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.35.2 -->
-## [v1.35.2](https://github.com/chef/inspec/tree/v1.35.2) (2017-09-03)
+<!-- latest_release 1.35.3 -->
+## [v1.35.3](https://github.com/chef/inspec/tree/v1.35.3) (2017-09-05)
 
-#### Enhancements
-- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.35.1 -->
 ### Changes since 1.35.1 release
+
+#### Bug Fixes
+- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott)) <!-- 1.35.3 -->
 
 #### Enhancements
 - File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.35.2 -->
