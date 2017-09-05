@@ -53,7 +53,7 @@ control "aws-1" do
   impact 0.7
   title 'Checks the machine is running'
 
-  describe ec2('my-ec2-machine') do
+  describe aws_ec2('my-ec2-machine') do
     it { should be_running }
   end
 end
