@@ -4,13 +4,13 @@ title: About the nginx_conf Resource
 
 # nginx_conf
 
-Use the `nginx_conf` InSpec resource to test configuration data for the NginX server located at `/etc/nginx/nginx.conf` on Linux and Unix platforms.
+Use the `nginx_conf` InSpec resource to test configuration data for the NGINX server located at `/etc/nginx/nginx.conf` on Linux and Unix platforms.
 
 **Stability: Experimental**
 
 ## Syntax
 
-An `nginx_conf` resource block declares the client NginX configuration data to be tested:
+An `nginx_conf` resource block declares the client NGINX configuration data to be tested:
 
     describe nginx_conf.params['pid'] do
       it { should cmp 'logs/nginx.pid' }
@@ -18,9 +18,9 @@ An `nginx_conf` resource block declares the client NginX configuration data to b
 
 where
 
-* `nginx_conf` is the resource to reference your NginX configuration
+* `nginx_conf` is the resource to reference your NGINX configuration
 * `params` accesses all its parameters
-* `params['pid']` selects the `pid` entry from the global NginX configuration
+* `params['pid']` selects the `pid` entry from the global NGINX configuration
 * `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
 
 
