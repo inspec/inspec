@@ -136,7 +136,7 @@ describe 'Inspec::Resources::NginxConf' do
     let(:entry) { nginx_conf.servers[0] }
 
     it 'pretty-prints in CLI' do
-      _(entry.inspect).must_equal 'nginx_conf /etc/nginx/nginx.conf, server entry'
+      _(entry.inspect).must_equal 'nginx_conf /etc/nginx/nginx.conf, server domain1.com:85'
     end
 
     it 'provides access to all its parameters' do

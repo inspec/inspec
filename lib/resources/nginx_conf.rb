@@ -164,8 +164,16 @@ module Inspec::Resources
           .connect(self, :location_table)
 
     def to_s
+      server = ''
+      name = Array(params['server_name']).flatten.first
+      unless name.nil?
+        server += name
+        listen = Array(params['listen']).flatten.first
+        server += ":#{listen}" unless listen.nil?
+      end
+
       # go two levels up: 1. to the http entry and 2. to the root nginx conf
-      @parent.parent.to_s + ', server entry'
+      @parent.parent.to_s + ", server #{server}"
     end
     alias inspect to_s
 
