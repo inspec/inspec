@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 1.35.3 -->
-## [v1.35.3](https://github.com/chef/inspec/tree/v1.35.3) (2017-09-05)
+<!-- latest_release 1.35.4 -->
+## [v1.35.4](https://github.com/chef/inspec/tree/v1.35.4) (2017-09-06)
 
 #### Bug Fixes
-- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
+- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.35.1 -->
 ### Changes since 1.35.1 release
 
 #### Bug Fixes
+- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan)) <!-- 1.35.4 -->
 - Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott)) <!-- 1.35.3 -->
 
 #### Enhancements
