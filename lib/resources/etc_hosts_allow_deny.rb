@@ -2,6 +2,7 @@
 # author: Matthew Dromazos
 
 require 'utils/parser'
+require 'pry'
 
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)
@@ -60,13 +61,14 @@ module Inspec::Resources
 
     def parse_conf(content)
       content.map do |line|
-        parse_line(line) unless line == ''
+        data, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
+        parse_line(data) unless data == ''
       end.compact
     end
 
     def parse_line(line)
-      daemons, clients_and_options = line.split(/\s+:\s+/, 2)
-      daemon_list = daemons.split(',').map(&:strip)
+      daemon, clients_and_options = line.split(/:/, 2)
+      daemon = daemon.strip
 
       clients_and_options ||= ''
       clients, options = clients_and_options.split(' : ', 2)
@@ -75,12 +77,8 @@ module Inspec::Resources
       options ||= ''
       options_list = options.split(': ').map(&:strip)
 
-      puts "Daemons: #{daemon_list.inspect}"
-      puts "Clients: #{client_list.inspect}"
-      puts "Options: #{options_list.inspect}"
-
       {
-        'daemon'      => daemons.strip,
+        'daemon'      => daemon,
         'client_list' => client_list,
         'options'     => options_list,
       }

@@ -27,26 +27,23 @@ describe 'Inspec::Resources::EtcHostsAllow' do
   describe '#parse_line' do
     resource = load_resource('etc_hosts_allow')
     it 'parses a line with multiple clients' do
-      entries = resource.where { daemon == 'ALL' }
-      _(entries.client_list).must_include ['127.0.0.1', '[::1]']
-    end
-
-    it 'parses a line with multiple daemons' do
-      entries = resource.where { daemon == 'vsftpd' }
-      _(entries.client_list).must_include ['127.0.1.154', '[:fff:fAb0::]']
-      entries = resource.where { daemon == 'sshd' }
-      _(entries.client_list).must_include ['127.0.1.154', '[:fff:fAb0::]']
+      line = 'foo: client1, client2 : some_option'
+      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
+      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
     end
 
     it 'parses a line with one option' do
-      entries = resource.where { daemon == 'LOCAL' }
-      _(entries.client_list).must_include ['[fe80::]/10']
-      _(entries.options).must_include ['deny']
+      line = 'foo: client1, client2 : some_option'
+      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
+      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
+      _(resource.send(:parse_line, line)['options']).must_equal ['some_option']
     end
 
     it 'parses a line with multiple options' do
-      entries = resource.where { daemon == 'vsftpd' }
-      _(entries.options).must_include ['deny', '/etc/bin/']
+      line = 'foo: client1, client2 : some_option : other_option'
+      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
+      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
+      _(resource.send(:parse_line, line)['options']).must_equal ['some_option', 'other_option']
     end
   end
 end
