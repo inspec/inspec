@@ -106,7 +106,7 @@ module Inspec::Resources
     attr_reader :entries
     def initialize(params, parent)
       @parent = parent
-      @entries = params.map { |x| NginxConfHttpEntry.new(x, parent) }
+      @entries = (params || []).map { |x| NginxConfHttpEntry.new(x, parent) }
     end
 
     def servers
@@ -126,7 +126,7 @@ module Inspec::Resources
   class NginxConfHttpEntry
     attr_reader :params, :parent
     def initialize(params, parent)
-      @params = params
+      @params = params || {}
       @parent = parent
     end
 
@@ -155,7 +155,7 @@ module Inspec::Resources
     attr_reader :params, :parent
     def initialize(params, parent)
       @parent = parent
-      @params = params
+      @params = params || {}
     end
 
     filter = FilterTable.create
@@ -180,7 +180,7 @@ module Inspec::Resources
     attr_reader :params, :parent
     def initialize(params, parent)
       @parent = parent
-      @params = params
+      @params = params || {}
     end
 
     def to_s

@@ -12,6 +12,16 @@ describe 'Inspec::Resources::NginxConf' do
 
   let(:nginx_conf) { MockLoader.new(:ubuntu1404).load_resource('nginx_conf') }
 
+  it 'doesnt fail with a missing file' do
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource('nginx_conf', '/....missing_file')
+    _(nginx_conf.params).must_equal({})
+  end
+
+  it 'doesnt fail with an incorrect file' do
+    nginx_conf = MockLoader.new(:ubuntu1404).load_resource('nginx_conf', '/etc/passwd')
+    _(nginx_conf.params).must_equal({})
+  end
+
   it 'reads the nginx_conf with all referenced include calls' do
     _(nginx_conf.params).must_be_kind_of Hash
     _(nginx_conf.contents).must_be_kind_of Hash
@@ -70,6 +80,13 @@ describe 'Inspec::Resources::NginxConf' do
       _(http.locations.length).must_equal 3
       _(http.locations[0]).must_be_kind_of Inspec::Resources::NginxConfLocation
     end
+
+    it 'doesnt fail on params == nil' do
+      entry = Inspec::Resources::NginxConfHttp.new(nil, nil)
+      _(entry.entries).must_equal([])
+      _(entry.servers).must_equal([])
+      _(entry.locations).must_equal([])
+    end
   end
 
   describe 'NginxConfHttpEntry' do
@@ -89,6 +106,13 @@ describe 'Inspec::Resources::NginxConf' do
       _(entry.locations).must_be_kind_of Array
       _(entry.locations.length).must_equal 3
       _(entry.locations[0]).must_be_kind_of Inspec::Resources::NginxConfLocation
+    end
+
+    it 'doesnt fail on params == nil' do
+      entry = Inspec::Resources::NginxConfHttpEntry.new(nil, nil)
+      _(entry.params).must_equal({})
+      _(entry.servers).must_equal([])
+      _(entry.locations).must_equal([])
     end
   end
 
@@ -128,6 +152,12 @@ describe 'Inspec::Resources::NginxConf' do
       _(entry.locations.length).must_equal 1
       _(entry.locations[0]).must_be_kind_of Inspec::Resources::NginxConfLocation
     end
+
+    it 'doesnt fail on params == nil' do
+      entry = Inspec::Resources::NginxConfServer.new(nil, nil)
+      _(entry.params).must_equal({})
+      _(entry.locations).must_equal([])
+    end
   end
 
   describe 'NginxConfLocation' do
@@ -143,6 +173,11 @@ describe 'Inspec::Resources::NginxConf' do
 
     it 'provides access to its parent' do
       _(entry.parent.params).must_equal nginx_conf.servers[0].params
+    end
+
+    it 'doesnt fail on params == nil' do
+      entry = Inspec::Resources::NginxConfLocation.new(nil, nil)
+      _(entry.params).must_equal({})
     end
   end
 end
