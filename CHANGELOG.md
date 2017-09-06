@@ -1,5 +1,5 @@
 # Change Log
-
+<!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 <!-- latest_release 1.35.5 -->
 ## [v1.35.5](https://github.com/chef/inspec/tree/v1.35.5) (2017-09-06)
 

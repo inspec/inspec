@@ -1,3 +1,5 @@
+# Documentation available at http://http://expeditor-docs.es.chef.io/
+
 product_key: inspec
 
 rubygems:
@@ -39,3 +41,4 @@ artifact_actions:
   promoted_to_stable:
     - built_in:publish_rubygems
     - built_in:rollover_changelog
+    - built_in:notify_chefio_slack_channels
