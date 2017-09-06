@@ -164,7 +164,7 @@ describe 'Inspec::Resources::NginxConf' do
     let(:entry) { nginx_conf.locations[0] }
 
     it 'pretty-prints in CLI' do
-      _(entry.inspect).must_equal 'nginx_conf /etc/nginx/nginx.conf, location entry'
+      _(entry.inspect).must_equal 'nginx_conf /etc/nginx/nginx.conf, location "~ \\\\.php$"'
     end
 
     it 'provides access to all its parameters' do

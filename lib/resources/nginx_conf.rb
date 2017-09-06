@@ -192,8 +192,9 @@ module Inspec::Resources
     end
 
     def to_s
+      location = Array(params['_']).join(' ')
       # go three levels up: 1. to the server entry, 2. http entry and 3. to the root nginx conf
-      @parent.parent.parent.to_s + ', location entry'
+      @parent.parent.parent.to_s + ", location #{location.inspect}"
     end
     alias inspect to_s
   end
