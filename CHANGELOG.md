@@ -7,19 +7,22 @@
 - add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.35.1 -->
-### Changes since 1.35.1 release
-
-#### Bug Fixes
-- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan)) <!-- 1.35.4 -->
-- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott)) <!-- 1.35.3 -->
-
-#### Enhancements
-- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus)) <!-- 1.35.5 -->
-- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.35.2 -->
+<!-- release_rollup since=1.36.1 -->
+### Changes since 1.36.1 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
+
+#### Enhancements
+- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
+
+#### Bug Fixes
+- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
+- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
+<!-- latest_stable_release -->
+
 ## [v1.35.1](https://github.com/chef/inspec/tree/v1.35.1) (2017-08-31)
 
 #### New Resources
@@ -38,7 +41,6 @@
 
 #### Merged Pull Requests
 - Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
-<!-- latest_stable_release -->
 
 ## [v1.34.1](https://github.com/chef/inspec/tree/v1.34.1) (2017-08-24)
 
