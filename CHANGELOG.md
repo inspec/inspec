@@ -1,28 +1,51 @@
 # Change Log
+<!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
+<!-- latest_release 1.35.5 -->
+## [v1.35.5](https://github.com/chef/inspec/tree/v1.35.5) (2017-09-06)
 
-<!-- latest_release 1.34.3 -->
-## [v1.34.3](https://github.com/chef/inspec/tree/v1.34.3) (2017-08-25)
-
-#### Merged Pull Requests
-- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
+#### Enhancements
+- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.34.1 -->
-### Changes since 1.34.1 release
-
-#### Merged Pull Requests
-- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian)) <!-- 1.34.3 -->
-
-#### New Resources
-- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12)) <!-- 1.34.2 -->
+<!-- release_rollup since=1.36.1 -->
+### Changes since 1.36.1 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
+
+#### Enhancements
+- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
+
+#### Bug Fixes
+- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
+- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
+<!-- latest_stable_release -->
+
+## [v1.35.1](https://github.com/chef/inspec/tree/v1.35.1) (2017-08-31)
+
+#### New Resources
+- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12))
+- Add support for XML files [#2107](https://github.com/chef/inspec/pull/2107) ([jonathanmorley](https://github.com/jonathanmorley))
+- etc_hosts resource: test the contents of the /etc/hosts file [#2065](https://github.com/chef/inspec/pull/2065) ([dromazmj](https://github.com/dromazmj))
+
+#### Enhancements
+- pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney))
+- port resource: support ss instead of netstat [#2110](https://github.com/chef/inspec/pull/2110) ([adamleff](https://github.com/adamleff))
+
+#### Bug Fixes
+- auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12))
+- http resource: prevent repeat calls during a control with multiple tests [#2108](https://github.com/chef/inspec/pull/2108) ([mivok](https://github.com/mivok))
+- Support mixed-case group entries [#2101](https://github.com/chef/inspec/pull/2101) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
+
 ## [v1.34.1](https://github.com/chef/inspec/tree/v1.34.1) (2017-08-24)
 
 #### Enhancements
 - Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
 

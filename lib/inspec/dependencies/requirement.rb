@@ -10,7 +10,18 @@ module Inspec
   class Requirement
     def self.from_metadata(dep, cache, opts)
       raise 'Cannot load empty dependency.' if dep.nil? || dep.empty?
-      new(dep[:name], dep[:version], cache, opts[:cwd], opts.merge(dep))
+
+      req_path = opts[:cwd]
+
+      if dep[:path]
+        req_path = File.expand_path(dep[:path], req_path)
+      end
+
+      new(dep[:name],
+          dep[:version],
+          cache,
+          req_path,
+          opts.merge(dep))
     end
 
     def self.from_lock_entry(entry, cwd, cache, backend, opts = {})

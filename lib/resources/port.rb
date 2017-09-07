@@ -264,10 +264,34 @@ module Inspec::Resources
   end
 
   # extract port information from netstat
-  class LinuxPorts < PortsInfo
+  class LinuxPorts < PortsInfo # rubocop:disable Metrics/ClassLength
+    ALLOWED_PROTOCOLS = %w{tcp tcp6 udp udp6}.freeze
+
     def info
+      ports_via_ss || ports_via_netstat
+    end
+
+    def ports_via_ss
+      return nil unless inspec.command('ss').exist?
+
+      cmd = inspec.command('ss -tulpen')
+      return nil unless cmd.exit_status.to_i.zero?
+
+      ports = []
+
+      cmd.stdout.each_line do |line|
+        parsed_line = parse_ss_line(line)
+        ports << parsed_line unless parsed_line.nil?
+      end
+
+      ports
+    end
+
+    def ports_via_netstat
+      return nil unless inspec.command('netstat').exist?
+
       cmd = inspec.command('netstat -tulpen')
-      return nil if cmd.exit_status.to_i != 0
+      return nil unless cmd.exit_status.to_i.zero?
 
       ports = []
       # parse all lines
@@ -353,6 +377,66 @@ module Inspec::Resources
       pid = process[0]
       pid = pid.to_i if pid =~ /^\d+$/
       process = process[1]
+
+      {
+        'port'     => port,
+        'address'  => host,
+        'protocol' => protocol,
+        'process'  => process,
+        'pid'      => pid,
+      }
+    end
+
+    def parse_ss_line(line)
+      parsed = line.split(/\s+/, 7)
+
+      # ss only returns "tcp" and "udp" as the protocol. However, netstat would return
+      # "tcp6" and "udp6" as necessary. In order to maintain backward compatibility, we
+      # will manually modify the protocol value if the line we're parsing is an IPv6
+      # entry.
+      process_info = parsed[6]
+      protocol = parsed[0]
+      protocol += '6' if process_info.include?('v6only:1')
+      return nil unless ALLOWED_PROTOCOLS.include?(protocol)
+
+      # parse the Local Address:Port
+      # examples:
+      #   *:22
+      #   :::22
+      #   10.0.2.15:1234
+      #   ::ffff:10.0.2.15:9300
+      #   fe80::a00:27ff:fe32:ed09%enp0s3:9200
+      parsed_net_address = parsed[4].match(/(\S+):(\*|\d+)$/)
+      return nil if parsed_net_address.nil?
+      host = parsed_net_address[1]
+      port = parsed_net_address[2]
+      return nil if host.nil? && port.nil?
+
+      # For backward compatibility with the netstat output, ensure the
+      # port is stored as an integer
+      port = port.to_i
+
+      # for those "v4-but-listed-in-v6" entries, strip off the
+      # leading IPv6 value at the beginning
+      # example: ::ffff:10.0.2.15:9200
+      host.delete!('::ffff:') if host.start_with?('::ffff:')
+
+      # if there's an interface name in the local address, which is common for
+      # IPv6 listeners, strip that out too.
+      # example: fe80::a00:27ff:fe32:ed09%enp0s3
+      host = host.split('%').first
+
+      # if host is "*", replace with "0.0.0.0" to maintain backward compatibility with
+      # the netstat-provided data
+      host = '0.0.0.0' if host == '*'
+
+      # parse the process name from the processes information
+      process_match = parsed[6].match(/users:\(\(\"(\S+)\"/)
+      process = process_match.nil? ? nil : process_match[1]
+
+      # parse the PID from the processes information
+      pid_match = parsed[6].match(/pid=(\d+)/)
+      pid = pid_match.nil? ? nil : pid_match[1].to_i
 
       {
         'port'     => port,

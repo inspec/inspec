@@ -153,11 +153,14 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      'default.xml' => mockfile.call('default.xml'),
       '/test/path/to/postgres/pg_hba.conf' => mockfile.call('pg_hba.conf'),
       '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
+      '/etc/hosts' => mockfile.call('hosts'),
+      'C:\windows\system32\drivers\etc\hosts' => mockfile.call('hosts'),
       '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
@@ -204,6 +207,8 @@ class MockLoader
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
+      'pip show django' => cmd.call('pip-show-django'),
+      '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call('get-package-firefox'),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call('get-package-ruby'),
       "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name 'dhcp'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json" => cmd.call('get-service-dhcp'),
@@ -216,7 +221,9 @@ class MockLoader
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux
+      %{bash -c 'type "ss"'} => empty.call(), # allow the ss command to exist so the later mock is called
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      'ss -tulpen' => cmd.call('ss-tulpen'),
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
