@@ -7,6 +7,10 @@ describe Inspec::Runner do
   describe '#load_attributes' do
     let(:runner) { Inspec::Runner.new }
 
+    before do
+      Inspec::Runner.any_instance.stubs(:validate_attributes_file_readability!)
+    end
+
     describe 'when no attrs are specified' do
       it 'returns an empty hash' do
         options = {}
