@@ -274,17 +274,19 @@ module Inspec
     end
 
     def validate_attributes_file_readability!(target)
-      return if File.readable?(target)
-
       unless File.exist?(target)
         raise Inspec::Exceptions::AttributesFileDoesNotExist,
               "Cannot find attributes file '#{target}'. " \
               'Check to make sure file exists.'
       end
 
-      raise Inspec::Exceptions::AttributesFileNotReadable,
-            "Cannot read attributes file '#{target}'. " \
-            'Check to make sure file is readable.'
+      unless File.readable?(target)
+        raise Inspec::Exceptions::AttributesFileNotReadable,
+              "Cannot read attributes file '#{target}'. " \
+              'Check to make sure file is readable.'
+      end
+
+      true
     end
   end
 end
