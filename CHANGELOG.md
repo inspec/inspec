@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.35.5 -->
-## [v1.35.5](https://github.com/chef/inspec/tree/v1.35.5) (2017-09-06)
+<!-- latest_release 1.37.0 -->
+## [v1.37.0](https://github.com/chef/inspec/tree/v1.37.0) (2017-09-11)
 
-#### Enhancements
-- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
+#### New Resources
+- etc_fstab resource: test contents of the /etc/fstab file [#2131](https://github.com/chef/inspec/pull/2131) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.36.1 -->
 ### Changes since 1.36.1 release
+
+#### New Resources
+- etc_fstab resource: test contents of the /etc/fstab file [#2131](https://github.com/chef/inspec/pull/2131) ([adamleff](https://github.com/adamleff)) <!-- 1.37.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
