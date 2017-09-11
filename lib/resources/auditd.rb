@@ -10,7 +10,7 @@ require 'utils/filter'
 require 'utils/parser'
 
 module Inspec::Resources
-  class AuditdRulesLegacy
+  class AuditdLegacy
     def initialize(content)
       @content = content
       @opts = {
@@ -48,7 +48,7 @@ module Inspec::Resources
   end
 
   # rubocop:disable Metrics/ClassLength
-  class AuditDaemonRules < Inspec.resource(1)
+  class AuditDaemon < Inspec.resource(1)
     extend Forwardable
     attr_accessor :lines
     attr_reader :params
@@ -67,7 +67,7 @@ module Inspec::Resources
       # syntax for auditd >= 2.3
       describe auditd.syscall('chown').where {arch == 'b32'} do
         its('action') { should eq ['always'] }
-        its('filter') { should eq ['exit'] }
+        its('list') { should eq ['exit'] }
       end
 
       describe auditd.where {key == 'privileged'} do
@@ -88,7 +88,7 @@ module Inspec::Resources
         unless inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
           warn '[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers.'
         end
-        @legacy = AuditdRulesLegacy.new(@content)
+        @legacy = AuditdLegacy.new(@content)
       else
         parse_content
         @legacy = nil
@@ -99,7 +99,7 @@ module Inspec::Resources
     filter.add_accessor(:where)
           .add_accessor(:entries)
           .add(:file,         field: 'file')
-          .add(:filter,       field: 'filter')
+          .add(:list,         field: 'list')
           .add(:action,       field: 'action')
           .add(:fields,       field: 'fields')
           .add(:fields_nokey, field: 'fields_nokey')
@@ -149,7 +149,7 @@ module Inspec::Resources
     def get_file_syscall_syntax_rules(line)
       file = get_file_syscall_syntax(line)
       action, list = get_action_list line
-      fields, opts = get_fields line
+      fields = get_fields line
       key_field, fields_nokey = remove_key fields
       key = get_key_from_field key_field.join('')
       perms = get_perms fields
@@ -157,19 +157,19 @@ module Inspec::Resources
       @params.push(
         {
           'file' => file,
-          'filter' => list,
+          'list' => list,
           'action' => action,
           'fields' => fields,
           'permissions' => perms,
           'key' => key,
           'fields_nokey' => fields_nokey,
-        }.merge(opts))
+        },)
     end
 
     def get_syscall_rules(line)
       syscalls = get_syscalls line
       action, list = get_action_list line
-      fields, opts = get_fields line
+      fields = get_fields line
       key_field, fields_nokey = remove_key fields
       key = get_key_from_field key_field.join('')
       arch = get_arch fields
@@ -181,7 +181,7 @@ module Inspec::Resources
         @params.push(
           {
             'syscall' => s,
-            'filter' => list,
+            'list' => list,
             'action' => action,
             'fields' => fields,
             'key' => key,
@@ -190,7 +190,7 @@ module Inspec::Resources
             'permissions' => perms,
             'exit' => exit_field,
             'fields_nokey' => fields_nokey,
-          }.merge(opts))
+          },)
       end
     end
 
@@ -252,13 +252,7 @@ module Inspec::Resources
     end
 
     def get_fields(line)
-      fields = line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
-      opts = {}
-      fields.find_all { |x| x.match(/[a-z]+=.*/) }.each do |kv|
-        k, v = kv.split('=')
-        opts[k.to_sym] = v
-      end
-      [fields, opts]
+      line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
     end
 
     def get_arch(fields)

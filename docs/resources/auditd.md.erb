@@ -102,7 +102,7 @@ For `audit` < 2.3:
       its('permissions') { should include ['x'] }
     end
 
-Filters may be chained. For example:
+The where accessor can be used to filter on fields. For example:
 
     describe auditd.syscall('chown').where { arch == "b32" } do
       its('action') { should eq ['always'] }
@@ -111,7 +111,7 @@ Filters may be chained. For example:
       its('exit') { should include ['-EPERM'] }
     end
 
-The key filter may also be useful in evaluating rules with particular key values:
+The key filter may be useful in evaluating rules with particular key values:
 
   describe auditd.where { key == "privileged" } do
     its('permissions') { should include ['x'] }
