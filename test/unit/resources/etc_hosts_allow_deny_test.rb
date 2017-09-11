@@ -28,22 +28,25 @@ describe 'Inspec::Resources::EtcHostsAllow' do
     resource = load_resource('etc_hosts_allow')
     it 'parses a line with multiple clients' do
       line = 'foo: client1, client2 : some_option'
-      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
-      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
+      attributes = resource.send(:parse_line, line)
+      _(attributes['daemon']).must_equal 'foo'
+      _(attributes['client_list']).must_equal ['client1', 'client2']
     end
 
     it 'parses a line with one option' do
       line = 'foo: client1, client2 : some_option'
-      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
-      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
-      _(resource.send(:parse_line, line)['options']).must_equal ['some_option']
+      attributes = resource.send(:parse_line, line)
+      _(attributes['daemon']).must_equal 'foo'
+      _(attributes['client_list']).must_equal ['client1', 'client2']
+      _(attributes['options']).must_equal ['some_option']
     end
 
     it 'parses a line with multiple options' do
       line = 'foo: client1, client2 : some_option : other_option'
-      _(resource.send(:parse_line, line)['daemon']).must_equal 'foo'
-      _(resource.send(:parse_line, line)['client_list']).must_equal ['client1', 'client2']
-      _(resource.send(:parse_line, line)['options']).must_equal ['some_option', 'other_option']
+      attributes = resource.send(:parse_line, line)
+      _(attributes['daemon']).must_equal 'foo'
+      _(attributes['client_list']).must_equal ['client1', 'client2']
+      _(attributes['options']).must_equal ['some_option', 'other_option']
     end
   end
 end

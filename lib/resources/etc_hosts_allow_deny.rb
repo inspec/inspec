@@ -66,15 +66,15 @@ module Inspec::Resources
     end
 
     def parse_line(line)
-      daemon, clients_and_options = line.split(/:/, 2)
+      daemon, clients_and_options = line.split(/:\s+/, 2)
       daemon = daemon.strip
 
       clients_and_options ||= ''
-      clients, options = clients_and_options.split(' : ', 2)
-      client_list = clients.split(',').map(&:strip)
+      clients, options = clients_and_options.split(/\s+:\s+/, 2)
+      client_list = clients.split(/,/).map(&:strip)
 
       options ||= ''
-      options_list = options.split(': ').map(&:strip)
+      options_list = options.split(/:\s+/).map(&:strip)
 
       {
         'daemon'      => daemon,
