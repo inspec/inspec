@@ -63,7 +63,7 @@ module Inspec::Resources
   # For compatability with Serverspec we also offer the following resouses:
   # - docker_container
   # - docker_image
-  class Docker < Inspec.resource(1)
+  class Docker < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'docker'
 
     desc "
@@ -167,6 +167,10 @@ module Inspec::Resources
 
         # ensure all keys are there
         j = ensure_container_keys(j)
+
+        # strip off any linked container names
+        j['names'] = j['names'].split(',').first
+
         ps.push(j)
       }
       ps
