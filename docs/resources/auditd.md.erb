@@ -4,39 +4,21 @@ title: About the auditd Resource
 
 # auditd
 
-Use the `auditd` InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.
+Use the `auditd` InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command. This resource supports versions of `audit` >= 2.3.
 
 ## Syntax
 
-An `auditd` resource block declares one (or more) rules to be tested, and then what that rule should do. The syntax depends on the version of `audit`:
-
-For `audit` >= 2.3:
+An `auditd` resource block declares one (or more) rules to be tested, and then what that rule should do:
 
     describe auditd do
-      its('lines') { should include %r(-w /etc/ssh/sshd_config/) }
+      its('lines') { should include %r(-w /etc/ssh/sshd_config) }
     end
 
-For `audit` < 2.3:
+or test that multiple individual rules are defined:
 
     describe auditd do
-      its('LIST_RULES') { should eq [
-        'exit,always syscall=rmdir,unlink',
-        'exit,always auid=1001 (0x3e9) syscall=open',
-        'exit,always watch=/etc/group perm=wa',
-        'exit,always watch=/etc/passwd perm=wa',
-        'exit,always watch=/etc/shadow perm=wa',
-        'exit,always watch=/etc/sudoers perm=wa',
-        'exit,always watch=/etc/secret_directory perm=r',
-      ] }
-    end
-
-or test that individual rules are defined:
-
-    describe auditd do
-      its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday) }
-      its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex) }
-      its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=clock_settime) }
-      its('LIST_RULES') { should include %r(^exit,always watch=\/etc\/localtime perm=wa key=time-change) }
+      its('lines') { should include %r(-a always,exit -F arch=.* -S init_module,delete_module -F key=modules) }
+      its('lines') { should include %r(-a always,exit -F arch=.* -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=-1 -F key=.+) }
     end
 
 where each test must declare one (or more) rules to be tested.
@@ -78,13 +60,6 @@ For `audit` >= 2.3:
       its('lines') { should include %r(-a always,exit -F arch=.* -S chown.* -F auid>=1000 -F auid!=-1 -F key=perm_mod) }
     end
 
-For `audit` < 2.3:
-
-    describe audit_daemon_rules do
-      its("LIST_RULES") { should include %r(^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday) }
-    end
-
-
 ### Query the audit daemon status
 
     describe auditd.status('backlog') do
@@ -95,7 +70,7 @@ For `audit` < 2.3:
 
     describe auditd.syscall('open') do
       its('action.uniq') { should eq ['always'] }
-      its('filter.uniq') { should eq ['exit'] }
+      its('list.uniq') { should eq ['exit'] }
     end
 
     describe auditd.file('/etc/sudoers') do
@@ -106,7 +81,7 @@ The where accessor can be used to filter on fields. For example:
 
     describe auditd.syscall('chown').where { arch == "b32" } do
       its('action') { should eq ['always'] }
-      its('filter') { should eq ['exit'] }
+      its('list') { should eq ['exit'] }
       its('exit') { should include ['-EACCES'] }
       its('exit') { should include ['-EPERM'] }
     end

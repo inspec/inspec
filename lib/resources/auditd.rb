@@ -10,43 +10,6 @@ require 'utils/filter'
 require 'utils/parser'
 
 module Inspec::Resources
-  class AuditdLegacy
-    def initialize(content)
-      @content = content
-      @opts = {
-        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: true,
-      }
-    end
-
-    def params
-      @params ||= SimpleConfig.new(@content, @opts).params
-    end
-
-    def method_missing(name)
-      params[name.to_s]
-    end
-
-    def status(name)
-      @status_opts = {
-        assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
-        multiple_values: false,
-      }
-      @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
-      @status_params = SimpleConfig.new(@status_content, @status_opts).params
-
-      status = @status_params['AUDIT_STATUS']
-      return nil if status.nil?
-
-      items = Hash[status.scan(/([^=]+)=(\w*)\s*/)]
-      items[name]
-    end
-
-    def to_s
-      'Audit Daemon Rules (for auditd version < 2.3)'
-    end
-  end
-
   # rubocop:disable Metrics/ClassLength
   class AuditDaemon < Inspec.resource(1)
     extend Forwardable
@@ -56,15 +19,6 @@ module Inspec::Resources
     name 'auditd'
     desc 'Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.'
     example "
-      # syntax for auditd < 2.3
-      describe auditd do
-        its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=adjtimex,settimeofday) }
-        its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=stime,settimeofday,adjtimex) }
-        its('LIST_RULES') { should include %r(^exit,always arch=.* key=time-change syscall=clock_settime) }
-        its('LIST_RULES') { should include %r(^exit,always watch=\/etc\/localtime perm=wa key=time-change) }
-      end
-
-      # syntax for auditd >= 2.3
       describe auditd.syscall('chown').where {arch == 'b32'} do
         its('action') { should eq ['always'] }
         its('list') { should eq ['exit'] }
@@ -75,7 +29,7 @@ module Inspec::Resources
       end
 
       describe auditd do
-        its('lines') { should include (%r{-w /etc/ssh/sshd_config/}) }
+        its('lines') { should include %r(-w /etc/ssh/sshd_config) }
       end
     "
 
@@ -84,11 +38,7 @@ module Inspec::Resources
       @params = []
 
       if @content =~ /^LIST_RULES:/
-        # do not warn on centos 5
-        unless inspec.os[:name] == 'centos' && inspec.os[:release].to_i == 5
-          warn '[WARN] this version of auditd is outdated. Updating it allows for using more precise matchers.'
-        end
-        @legacy = AuditdLegacy.new(@content)
+        return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.'
       else
         parse_content
         @legacy = nil
@@ -111,13 +61,6 @@ module Inspec::Resources
           .add(:exit,         field: 'exit')
 
     filter.connect(self, :params)
-
-    # non-legacy instances are not asked for `its('LIST_RULES')`
-    # rubocop:disable Style/MethodName
-    def LIST_RULES
-      return @legacy.LIST_RULES if @legacy
-      raise 'Using legacy auditd_rules LIST_RULES interface with non-legacy audit package. Please use the new syntax.'
-    end
 
     def status(name = nil)
       return @legacy.status(name) if @legacy
@@ -147,7 +90,7 @@ module Inspec::Resources
     end
 
     def get_file_syscall_syntax_rules(line)
-      file = get_file_syscall_syntax(line)
+      file = get_file_syscall_syntax line
       action, list = get_action_list line
       fields = get_fields line
       key_field, fields_nokey = remove_key fields
@@ -237,8 +180,6 @@ module Inspec::Resources
       line.match(/-k ([^ ]+)\s?/)[1] if line.include?('-k ')
     end
 
-    # NOTE there are NO precautions wrt. filenames containing spaces in auditctl
-    # `auditctl -w /foo\ bar` gives the following line: `-w /foo bar -p rwxa`
     def get_file(line)
       line.match(/-w ([^ ]+)\s?/)[1]
     end
