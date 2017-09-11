@@ -365,9 +365,6 @@ class MockLoader
       %{/usr/sbin/nginx -V 2>&1} => cmd.call('nginx-v'),
       %{bash -c 'type "/usr/sbin/nginx"'} => cmd.call('bash-c-type-nginx'),
       # needed for two differnt inspec.command call formats
-      # host resource: dig commands
-      "dig +short A example.com" => cmd.call('dig-A-example.com'),
-      "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
       # host resource: dig commands,
       'dig +short A example.com' => cmd.call('dig-A-example.com'),
       'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),

@@ -13,7 +13,7 @@ Nginx resource extracts and exposes data reported by the command 'nginx -V'
 An `nginx` InSpec audit resource block extracts configuration settings that should be tested:
 
     describe nginx do
-      its('attribute'){ should eq 'value' }
+      its('attribute') { should eq 'value' }
     end
 
     describe nginx('path to nginx') do

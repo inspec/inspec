@@ -42,7 +42,7 @@ module Inspec::Resources
     end
 
     def openssl_version
-      result = @data.scan(/built with OpenSSL\s(\S+)\s(\d\d\s\S+\s\d\d\d\d)/).flatten
+      result = @data.scan(/built with OpenSSL\s(\S+)\s(\d+\s\S+\s\d{4})/).flatten
       Hashie::Mash.new({ 'version' => result[0], 'date' => result[1] })
     end
 
