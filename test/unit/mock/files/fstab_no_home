@@ -1,0 +1,18 @@
+#
+# /etc/fstab
+# Created by anaconda on Fri Jul 21 21:25:41 2017
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/vg1-lv_root /                       xfs     defaults,x-systemd.device-timeout=0 0 0
+UUID=ebffcd01-0695-4d4a-91a4-3a53c6f88d06 /boot                   xfs     defaults,nodev,nosuid        0 0
+/dev/mapper/vg1-lv_tmp  /tmp                    xfs     defaults,x-systemd.device-timeout=0,nodev,noexec,nosuid 0 0
+/dev/mapper/vg1-lv_var  /var                    xfs     defaults,x-systemd.device-timeout=0,nodev,nosuid 0 0
+/dev/mapper/vg1-lv_log  /var/log                xfs     defaults,x-systemd.device-timeout=0,nodev,nosuid 0 0
+/dev/mapper/vg1-lv_audit /var/log/audit          xfs     defaults,x-systemd.device-timeout=0,nodev,nosuid,nodev,noexec,nosuid 0 0
+/dev/mapper/vg1-lv_swap swap                    swap    defaults,x-systemd.device-timeout=0 0 0
+/dev/sr0                /mnt/sr0                iso9660 defaults,ro,noexec,noauto       0 0
+/dev/cdrom              /mnt/cdrom              iso9660 defaults,ro,noexec,noauto       0 0
+tmpfs                   /dev/shm                tmpfs   noexec,nosuid,nodev             0 0
+server:/usr/local/pub   /pub                    nfs     rsize=8192,wsize=8192,timeo=14,intr   0 0
