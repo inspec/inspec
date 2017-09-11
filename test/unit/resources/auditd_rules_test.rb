@@ -64,6 +64,13 @@ describe 'Inspec::Resources::AuditDaemonRules' do
     ]
   end
 
+  it 'check auditd_rules file interface with no keys' do
+    resource = MockLoader.new(:centos7).load_resource('auditd_rules')
+    _(resource.send('file', '/etc/private-keys').send('rules')).must_equal [
+      { file: '/etc/private-keys', key: nil, permissions: 'x'},
+    ]
+  end
+
   it 'check auditd_rules status interface' do
     resource = MockLoader.new(:centos7).load_resource('auditd_rules')
     _(resource.send('status')).must_equal({

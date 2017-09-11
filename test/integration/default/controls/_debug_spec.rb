@@ -1,0 +1,8 @@
+STDERR.puts "-----------------------------------"
+STDERR.puts "        TEST ENVIRONMENT           "
+STDERR.puts "-----------------------------------"
+STDERR.puts "    Docker: #{!ENV['DOCKER'].nil?}"
+STDERR.puts "   OS name: #{os[:name] || 'unknown' }"
+STDERR.puts "OS release: #{os[:release] || 'unknown'}"
+STDERR.puts " OS family: #{os[:family] || 'unknown'}"
+STDERR.puts "-----------------------------------"

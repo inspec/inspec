@@ -72,6 +72,7 @@ module Inspec
   end
 end
 
+require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
 require 'resources/apt'
@@ -89,7 +90,9 @@ require 'resources/directory'
 require 'resources/docker'
 require 'resources/docker_image'
 require 'resources/docker_container'
+require 'resources/etc_fstab'
 require 'resources/etc_group'
+require 'resources/etc_hosts'
 require 'resources/file'
 require 'resources/gem'
 require 'resources/groups'
@@ -158,3 +161,4 @@ require 'resources/json'
 require 'resources/yaml'
 require 'resources/csv'
 require 'resources/ini'
+require 'resources/xml'

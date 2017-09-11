@@ -10,19 +10,19 @@ describe 'Inspec::Resources::Port' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', 22)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp tcp6 }
-    _(resource.pids).must_equal [1]
+    _(resource.pids).must_equal [1222]
     _(resource.processes).must_equal ['sshd']
     _(resource.addresses).must_equal ["0.0.0.0", "::"]
   end
 
   it 'lists all ports' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port')
-    _(resource.entries.length).must_equal 5
+    _(resource.entries.length).must_equal 7
     _(resource.listening?).must_equal true
-    _(resource.protocols).must_equal %w{ tcp tcp6 udp }
-    _(resource.pids).must_equal [1, 2043, 545, 1234]
-    _(resource.processes).must_equal ['sshd', 'pidgin', 'rpcbind', 'java']
-    _(resource.addresses).must_equal ['0.0.0.0', '2601:1:ad80:1445::', '::', '192.168.1.123']
+    _(resource.protocols).must_equal %w{ udp tcp tcp6 }
+    _(resource.pids).must_equal [1146, 1222, 1722]
+    _(resource.processes).must_equal ['dhclient', 'sshd', 'java']
+    _(resource.addresses).must_equal ['0.0.0.0', '10.0.2.15', 'fe80::a00:27ff:fe32:ed09', '::']
   end
 
   it 'filter ports by conditions' do
@@ -30,40 +30,35 @@ describe 'Inspec::Resources::Port' do
     _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal ['udp']
-    _(resource.pids).must_equal [545]
-    _(resource.processes).must_equal ['rpcbind']
+    _(resource.pids).must_equal [1146]
+    _(resource.processes).must_equal ['dhclient']
     _(resource.addresses).must_equal ['0.0.0.0']
   end
 
-  it 'does not include an entry for a malformed IP address' do
-    # udp6 0 0 fe80::42:acff:fe11::123 :::* 0 54550 3335/ntpd
-    # the link-local IP is truncated and therefore invalid
-    resource = MockLoader.new(:ubuntu1404).load_resource('port', 123)
-    _(resource.entries.length).must_equal 0
-  end
-
   it 'verify UDP port on Ubuntu 14.04' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('port', 111)
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', 68)
+    _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
-    _(resource.protocols).must_equal %w{ udp }
-    _(resource.pids).must_equal [545]
-    _(resource.processes).must_equal ['rpcbind']
-    _(resource.addresses).must_equal ["0.0.0.0"]
+    _(resource.protocols).must_equal ['udp']
+    _(resource.pids).must_equal [1146]
+    _(resource.processes).must_equal ['dhclient']
+    _(resource.addresses).must_equal ['0.0.0.0']
   end
 
   it 'accepts the port as a string' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('port', '111')
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', '68')
+    _(resource.entries.length).must_equal 1
     _(resource.listening?).must_equal true
-    _(resource.protocols).must_equal %w{ udp }
-    _(resource.pids).must_equal [545]
-    _(resource.processes).must_equal ['rpcbind']
-    _(resource.addresses).must_equal ["0.0.0.0"]
+    _(resource.protocols).must_equal ['udp']
+    _(resource.pids).must_equal [1146]
+    _(resource.processes).must_equal ['dhclient']
+    _(resource.addresses).must_equal ['0.0.0.0']
   end
 
   it 'properly handles a IPv4 address in a v6 listing' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('port', 8005)
-    _(resource.protocols).must_equal %w{ tcp6 }
-    _(resource.addresses).must_equal ['192.168.1.123']
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', 9200)
+    _(resource.protocols).must_equal %w{ tcp tcp6 }
+    _(resource.addresses).must_equal ['10.0.2.15', 'fe80::a00:27ff:fe32:ed09']
   end
 
   it 'verify port on MacOs x' do
@@ -158,7 +153,7 @@ describe 'Inspec::Resources::Port' do
   it 'verify port on wrlinux' do
     resource = MockLoader.new(:wrlinux).load_resource('port', 22)
     _(resource.listening?).must_equal true
-    _(resource.pids).must_equal [1]
+    _(resource.pids).must_equal [1222]
     _(resource.protocols).must_equal %w{ tcp tcp6 }
     _(resource.processes).must_equal ['sshd']
     _(resource.addresses).must_equal ["0.0.0.0", "::"]
@@ -177,7 +172,7 @@ describe 'Inspec::Resources::Port' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port', '0.0.0.0', 22)
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ tcp }
-    _(resource.pids).must_equal [1]
+    _(resource.pids).must_equal [1222]
     _(resource.processes).must_equal ['sshd']
     _(resource.addresses).must_equal ["0.0.0.0"]
   end

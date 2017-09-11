@@ -47,7 +47,7 @@ module Inspec::Resources
 
     def exist?
       # silent for mock resources
-      return false if inspec.os[:name].to_s == 'unknown'
+      return false if inspec.os.name.nil?
 
       if inspec.os.linux?
         res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
