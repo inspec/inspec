@@ -1,5 +1,4 @@
 # encoding: utf-8
-# copyright: 2015, Vulcano Security GmbH
 # author: Christoph Hartmann
 # author: Dominik Richter
 # author: Jen Burns
@@ -39,10 +38,8 @@ module Inspec::Resources
 
       if @content =~ /^LIST_RULES:/
         return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.'
-      else
-        parse_content
-        @legacy = nil
       end
+      parse_content
     end
 
     filter = FilterTable.create
@@ -63,8 +60,6 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def status(name = nil)
-      return @legacy.status(name) if @legacy
-
       @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
@@ -77,25 +72,25 @@ module Inspec::Resources
 
       lines.each do |line|
         if is_file_syscall_syntax?(line)
-          get_file_syscall_syntax_rules(line)
+          file_syscall_syntax_rules_for(line)
         end
 
         if is_syscall?(line)
-          get_syscall_rules(line)
+          syscall_rules_for(line)
 
         elsif is_file?(line)
-          get_file_rules(line)
+          file_rules_for(line)
         end
       end
     end
 
-    def get_file_syscall_syntax_rules(line)
-      file = get_file_syscall_syntax line
-      action, list = get_action_list line
-      fields = get_fields line
-      key_field, fields_nokey = remove_key fields
-      key = get_key_from_field key_field.join('')
-      perms = get_perms fields
+    def file_syscall_syntax_rules_for(line)
+      file = file_syscall_syntax_for(line)
+      action, list = action_list_for(line)
+      fields = rule_fields_for(line)
+      key_field, fields_nokey = remove_key_from(fields)
+      key = key_in(key_field.join(''))
+      perms = perms_in(fields)
 
       @params.push(
         {
@@ -109,16 +104,16 @@ module Inspec::Resources
         },)
     end
 
-    def get_syscall_rules(line)
-      syscalls = get_syscalls line
-      action, list = get_action_list line
-      fields = get_fields line
-      key_field, fields_nokey = remove_key fields
-      key = get_key_from_field key_field.join('')
-      arch = get_arch fields
-      path = get_path fields
-      perms = get_perms fields
-      exit_field = get_exit fields
+    def syscall_rules_for(line)
+      syscalls = syscalls_for(line)
+      action, list = action_list_for(line)
+      fields = rule_fields_for(line)
+      key_field, fields_nokey = remove_key_from(fields)
+      key = key_in(key_field.join(''))
+      arch = arch_in(fields)
+      path = path_in(fields)
+      perms = perms_in(fields)
+      exit_field = exit_in(fields)
 
       syscalls.each do |s|
         @params.push(
@@ -137,10 +132,10 @@ module Inspec::Resources
       end
     end
 
-    def get_file_rules(line)
-      file = get_file line
-      perms = get_permissions line
-      key = get_key line
+    def file_rules_for(line)
+      file = file_for(line)
+      perms = permissions_for(line)
+      key = key_for(line)
 
       @params.push(
         {
@@ -151,7 +146,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Audit Daemon Rules'
+      'Auditd Rules'
     end
 
     private
@@ -168,68 +163,68 @@ module Inspec::Resources
       line.match(/-F path=/)
     end
 
-    def get_syscalls(line)
+    def syscalls_for(line)
       line.scan(/-S ([^ ]+)\s?/).flatten.first.split(',')
     end
 
-    def get_action_list(line)
+    def action_list_for(line)
       line.scan(/-a ([^,]+),([^ ]+)\s?/).flatten
     end
 
-    def get_key(line)
+    def key_for(line)
       line.match(/-k ([^ ]+)\s?/)[1] if line.include?('-k ')
     end
 
-    def get_file(line)
+    def file_for(line)
       line.match(/-w ([^ ]+)\s?/)[1]
     end
 
-    def get_file_syscall_syntax(line)
+    def file_syscall_syntax_for(line)
       line.match(/-F path=(\S+)\s?/)[1]
     end
 
-    def get_permissions(line)
+    def permissions_for(line)
       line.match(/-p ([^ ]+)/)[1].scan(/\w/)
     end
 
-    def get_fields(line)
+    def rule_fields_for(line)
       line.gsub(/-[aS] [^ ]+ /, '').split('-F ').map { |l| l.split(' ') }.flatten
     end
 
-    def get_arch(fields)
+    def arch_in(fields)
       fields.each do |field|
         return field.match(/arch=(\S+)\s?/)[1] if field.start_with?('arch=')
       end
       nil
     end
 
-    def get_perms(fields)
+    def perms_in(fields)
       fields.each do |field|
         return field.match(/perm=(\S+)\s?/)[1].scan(/\w/) if field.start_with?('perm=')
       end
       nil
     end
 
-    def get_path(fields)
+    def path_in(fields)
       fields.each do |field|
         return field.match(/path=(\S+)\s?/)[1] if field.start_with?('path=')
       end
       nil
     end
 
-    def get_exit(fields)
+    def exit_in(fields)
       fields.each do |field|
         return field.match(/exit=(\S+)\s?/)[1] if field.start_with?('exit=')
       end
       nil
     end
 
-    def get_key_from_field(field)
+    def key_in(field)
       _, v = field.split('=')
       v
     end
 
-    def remove_key(fields)
+    def remove_key_from(fields)
       fields.partition { |x| x.start_with? 'key' }
     end
   end
