@@ -193,7 +193,8 @@ module Inspec::Resources
   # MacOS / Darwin implementation
   class Brew < PkgManagement
     def info(package_name)
-      cmd = inspec.command("brew info --json=v1 #{package_name}")
+      brew_path = inspec.command('brew').exist? ? 'brew' : '/usr/local/bin/brew'
+      cmd = inspec.command("#{brew_path} info --json=v1 #{package_name}")
       return nil if cmd.exit_status.to_i != 0
       # parse data
       pkg = JSON.parse(cmd.stdout)[0]
