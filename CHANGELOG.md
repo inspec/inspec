@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.1 -->
-## [v1.37.1](https://github.com/chef/inspec/tree/v1.37.1) (2017-09-13)
+<!-- latest_release 1.37.2 -->
+## [v1.37.2](https://github.com/chef/inspec/tree/v1.37.2) (2017-09-13)
 
-#### New Resources
-- nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294))
+#### Bug Fixes
+- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.36.1 -->
 ### Changes since 1.36.1 release
+
+#### Bug Fixes
+- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff)) <!-- 1.37.2 -->
 
 #### New Resources
 - nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294)) <!-- 1.37.1 -->
