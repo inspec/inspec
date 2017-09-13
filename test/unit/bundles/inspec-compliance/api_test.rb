@@ -238,13 +238,11 @@ describe Compliance::API do
       config['server_type'] = 'automate'
       config['server'] = 'https://myautomate'
       config['version'] = '1.6.99'
-      profile = mock
-      profile.stubs(:profiles).returns(profiles_response)
+      Compliance::API.stubs(:profiles).returns([nil, profiles_response])
       Compliance::API.exist?(config, 'admin/apache-baseline').must_equal true
       Compliance::API.exist?(config, 'admin/apache-baseline#2.0.1').must_equal true
       Compliance::API.exist?(config, 'admin/apache-baseline#2.0.999').must_equal false
       Compliance::API.exist?(config, 'admin/missing-in-action').must_equal false
     end
-
   end
 end

@@ -88,7 +88,7 @@ module Compliance
         profiles.any? do |p|
           p['owner_id'] == owner &&
             p['name'] == id &&
-            (ver == nil || p['version'] == ver)
+            (ver.nil? || p['version'] == ver)
         end
       else
         false
@@ -183,24 +183,21 @@ module Compliance
     end
 
     def self.target_url(config, profile)
-      if is_automate_server?(config)
-        owner, id, ver = profile_split(profile)
-        if ver.nil?
-          target = "#{config['server']}/profiles/#{owner}/#{id}/tar"
-        else
-          target = "#{config['server']}/profiles/#{owner}/#{id}/version/#{ver}/tar"
-        end
+      owner, id, ver = profile_split(profile)
+
+      return "#{config['server']}/owners/#{owner}/compliance/#{id}/tar" unless is_automate_server?(config)
+
+      if ver.nil?
+        "#{config['server']}/profiles/#{owner}/#{id}/tar"
       else
-        owner, id, ver = profile_split(profile)
-        target = "#{config['server']}/owners/#{owner}/compliance/#{id}/tar"
+        "#{config['server']}/profiles/#{owner}/#{id}/version/#{ver}/tar"
       end
-      target
     end
 
     def self.profile_split(profile)
       owner, id = profile.split('/')
       id, version = id.split('#')
-      return owner, id, version
+      [owner, id, version]
     end
 
     # returns a parsed url for `admin/profile` or `compliance://admin/profile`
