@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'utils/nginx_parser'
+require 'utils/find_files'
 require 'forwardable'
 
 # STABILITY: Experimental
@@ -24,6 +25,8 @@ module Inspec::Resources
     "
 
     extend Forwardable
+
+    include FindFiles
 
     attr_reader :contents
 
@@ -93,8 +96,9 @@ module Inspec::Resources
       if data.key?('include')
         data.delete('include').flatten
             .map { |x| File.expand_path(x, rel_path) }
+            .map { |x| find_files(x) }.flatten
             .map { |path| parse_nginx(path) }
-            .map { |e| data.merge!(e) }
+            .map { |e| data.merge!(e) { |_, v1, v2| v1 + v2 } }
       end
 
       # Walk through the remaining hash fields to find more references
