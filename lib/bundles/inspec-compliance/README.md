@@ -148,6 +148,17 @@ Finished in 0.02862 seconds (files took 0.62628 seconds to load)
 5 examples, 0 failures, 1 pending
 ```
 
+Exec a specific version(2.0.1) of a profile when logged in with Automate:
+
+```
+$ inspec exec compliance://admin/apache-baseline#2.0.1
+```
+
+Download a specific version(2.0.2) of a profile when logged in with Automate:
+```
+$ inspec compliance download compliance://admin/apache-baseline#2.0.2
+```
+
 ### To Logout from Chef Compliance
 
 ```

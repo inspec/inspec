@@ -1,6 +1,44 @@
 require 'helper'
 
 describe Compliance::API do
+  let(:profiles_response) do
+    [{"name"=>"apache-baseline",
+      "title"=>"DevSec Apache Baseline",
+      "maintainer"=>"DevSec Hardening Framework Team",
+      "copyright"=>"DevSec Hardening Framework Team",
+      "copyright_email"=>"hello@dev-sec.io",
+      "license"=>"Apache 2 license",
+      "summary"=>"Test-suite for best-practice apache hardening",
+      "version"=>"2.0.2",
+      "supports"=>[{"os-family"=>"unix"}],
+      "depends"=>nil,
+      "owner_id"=>"admin"},
+     {"name"=>"apache-baseline",
+      "title"=>"DevSec Apache Baseline",
+      "maintainer"=>"Hardening Framework Team",
+      "copyright"=>"Hardening Framework Team",
+      "copyright_email"=>"hello@dev-sec.io",
+      "license"=>"Apache 2 license",
+      "summary"=>"Test-suite for best-practice apache hardening",
+      "version"=>"2.0.1",
+      "supports"=>[{"os-family"=>"unix"}],
+      "depends"=>nil,
+      "latest_version"=>"2.0.2",
+      "owner_id"=>"admin"},
+     {"name"=>"cis-aix-5.3-6.1-level1",
+      "title"=>"CIS AIX 5.3 and AIX 6.1 Benchmark Level 1",
+      "maintainer"=>"Chef Software, Inc.",
+      "copyright"=>"Chef Software, Inc.",
+      "copyright_email"=>"support@chef.io",
+      "license"=>"Proprietary, All rights reserved",
+      "summary"=>"CIS AIX 5.3 and AIX 6.1 Benchmark Level 1 translated from SCAP",
+      "version"=>"1.1.0",
+      "supports"=>nil,
+      "depends"=>nil,
+      "latest_version"=>"1.1.0-3",
+      "owner_id"=>"admin"}]
+  end
+
   describe '.version' do
     let(:headers) { 'test-headers' }
     let(:config) do
@@ -159,5 +197,54 @@ describe Compliance::API do
       config = { 'version' => { 'version' => '1.2.3' } }
       Compliance::API.server_version_from_config(config).must_equal '1.2.3'
     end
+  end
+
+  describe 'profile_split' do
+    it 'handles a profile without version' do
+      Compliance::API.profile_split('admin/apache-baseline').must_equal ['admin', 'apache-baseline', nil]
+    end
+
+    it 'handles a profile with a version' do
+      Compliance::API.profile_split('admin/apache-baseline#2.0.1').must_equal ['admin', 'apache-baseline', '2.0.1']
+    end
+  end
+
+  describe 'target_url' do
+    it 'handles a automate profile with and without version' do
+      config = Compliance::Configuration.new
+      config.clean
+      config['server_type'] = 'automate'
+      config['server'] = 'https://myautomate'
+      config['version'] = '1.6.99'
+      Compliance::API.target_url(config, 'admin/apache-baseline').must_equal       'https://myautomate/profiles/admin/apache-baseline/tar'
+      Compliance::API.target_url(config, 'admin/apache-baseline#2.0.2').must_equal 'https://myautomate/profiles/admin/apache-baseline/version/2.0.2/tar'
+    end
+
+    it 'handles a chef-compliance profile with and without version' do
+      config = Compliance::Configuration.new
+      config.clean
+      config['server_type'] = 'compliance'
+      config['server'] = 'https://mychefcompliance'
+      config['version'] = '1.1.2'
+      Compliance::API.target_url(config, 'admin/apache-baseline').must_equal       'https://mychefcompliance/owners/admin/compliance/apache-baseline/tar'
+      Compliance::API.target_url(config, 'admin/apache-baseline#2.0.2').must_equal 'https://mychefcompliance/owners/admin/compliance/apache-baseline/tar'
+    end
+  end
+
+  describe 'exist?' do
+    it 'works with profiles returned by Automate' do
+      config = Compliance::Configuration.new
+      config.clean
+      config['server_type'] = 'automate'
+      config['server'] = 'https://myautomate'
+      config['version'] = '1.6.99'
+      profile = mock
+      profile.stubs(:profiles).returns(profiles_response)
+      Compliance::API.exist?(config, 'admin/apache-baseline').must_equal true
+      Compliance::API.exist?(config, 'admin/apache-baseline#2.0.1').must_equal true
+      Compliance::API.exist?(config, 'admin/apache-baseline#2.0.999').must_equal false
+      Compliance::API.exist?(config, 'admin/missing-in-action').must_equal false
+    end
+
   end
 end

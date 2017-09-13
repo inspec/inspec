@@ -85,12 +85,11 @@ module Compliance
       _msg, profiles = Compliance::API.profiles(config)
       owner, id, ver = profile_split(profile)
       if !profiles.empty?
-        index = profiles.index { |p|
+        profiles.any? do |p|
           p['owner_id'] == owner &&
             p['name'] == id &&
             (ver == nil || p['version'] == ver)
-        }
-        !index.nil? && index >= 0
+        end
       else
         false
       end
