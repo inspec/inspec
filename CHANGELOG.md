@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.4 -->
-## [v1.37.4](https://github.com/chef/inspec/tree/v1.37.4) (2017-09-13)
+<!-- latest_release 1.37.5 -->
+## [v1.37.5](https://github.com/chef/inspec/tree/v1.37.5) (2017-09-13)
 
 #### Enhancements
-- Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop))
+- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.36.1 -->
 ### Changes since 1.36.1 release
 
 #### Enhancements
+- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop)) <!-- 1.37.5 -->
 - Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop)) <!-- 1.37.4 -->
 
 #### Bug Fixes
