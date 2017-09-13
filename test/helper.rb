@@ -202,6 +202,7 @@ class MockLoader
       'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      '/usr/local/bin/brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
