@@ -20,7 +20,7 @@
 
 #### New Resources
 - nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294)) <!-- 1.37.1 -->
-- etc_fstab resource: test contents of the /etc/fstab file [#2131](https://github.com/chef/inspec/pull/2131) ([adamleff](https://github.com/adamleff)) <!-- 1.37.0 -->
+- etc_fstab resource: test contents of the /etc/fstab file [#2064](https://github.com/chef/inspec/pull/2064) ([dromazmj](https://github.com/dromazmj)) <!-- 1.37.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
