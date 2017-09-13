@@ -104,7 +104,7 @@ module Compliance
         # iterate over profiles
         headline('Available profiles:')
         profiles.each { |profile|
-          li("#{profile['title']} #{mark_text(profile['owner_id'] + '/' + profile['name'])}")
+          li("#{profile['title']} v#{profile['version']} (#{mark_text(profile['owner_id'] + '/' + profile['name'])})")
         }
       else
         puts msg, 'Could not find any profiles'
