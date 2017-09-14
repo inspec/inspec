@@ -139,7 +139,8 @@ class MockLoader
       '/etc/nginx/nginx.conf' => mockfile.call('nginx.conf'),
       '/etc/nginx/proxy.conf' => mockfile.call('nginx_proxy.conf'),
       '/etc/nginx/conf/mime.types' => mockfile.call('nginx_mime.types'),
-      '/etc/nginx/conf.d/example.conf' => mockfile.call('nginx_confd_example.conf'),
+      '/etc/nginx/conf.d/foobar.conf' => mockfile.call('nginx_confd_foobar.conf'),
+      '/etc/nginx/conf.d/multiple.conf' => mockfile.call('nginx_confd_multiple.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
@@ -300,7 +301,7 @@ class MockLoader
       'find /etc/nginx/nginx.conf' => cmd.call('find-nginx-conf'),
       'find /etc/nginx/conf/mime.types' => cmd.call('find-nginx-mime-types'),
       'find /etc/nginx/proxy.conf' => cmd.call('find-nginx-proxy-conf'),
-      'find /etc/nginx/conf.d/*.conf' => cmd.call('find-nginx-confd-example-conf'),
+      'find /etc/nginx/conf.d/*.conf' => cmd.call('find-nginx-confd-multiple-conf'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),

@@ -29,7 +29,8 @@ describe 'Inspec::Resources::NginxConf' do
       /etc/nginx/nginx.conf
       /etc/nginx/conf/mime.types
       /etc/nginx/proxy.conf
-      /etc/nginx/conf.d/example.conf
+      /etc/nginx/conf.d/foobar.conf
+      /etc/nginx/conf.d/multiple.conf
     )
 
     # global entries
@@ -39,7 +40,7 @@ describe 'Inspec::Resources::NginxConf' do
     # verify http, events, and servers
     _(nginx_conf.params['events']).must_equal [{"worker_connections"=>[["4096"]]}]
     _(nginx_conf.params['http'].length).must_equal 1
-    _(nginx_conf.params['http'][0]['server'].length).must_equal 3
+    _(nginx_conf.params['http'][0]['server'].length).must_equal 5
     _(nginx_conf.params['http'][0]['default_type']).must_equal [['application/octet-stream']]
 
     # verify relative include
@@ -76,13 +77,13 @@ describe 'Inspec::Resources::NginxConf' do
 
     it 'provides aggregated access to all servers' do
       _(http.servers).must_be_kind_of Array
-      _(http.servers.length).must_equal 3
+      _(http.servers.length).must_equal 5
       _(http.servers[0]).must_be_kind_of Inspec::Resources::NginxConfServer
     end
 
     it 'provides aggregated access to all locations' do
       _(http.locations).must_be_kind_of Array
-      _(http.locations.length).must_equal 4
+      _(http.locations.length).must_equal 6
       _(http.locations[0]).must_be_kind_of Inspec::Resources::NginxConfLocation
     end
 
@@ -103,13 +104,13 @@ describe 'Inspec::Resources::NginxConf' do
 
     it 'provides aggregated access to all servers' do
       _(entry.servers).must_be_kind_of Array
-      _(entry.servers.length).must_equal 3
+      _(entry.servers.length).must_equal 5
       _(entry.servers[0]).must_be_kind_of Inspec::Resources::NginxConfServer
     end
 
     it 'provides aggregated access to all locations' do
       _(entry.locations).must_be_kind_of Array
-      _(entry.locations.length).must_equal 4
+      _(entry.locations.length).must_equal 6
       _(entry.locations[0]).must_be_kind_of Inspec::Resources::NginxConfLocation
     end
 

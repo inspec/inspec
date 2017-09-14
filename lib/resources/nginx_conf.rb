@@ -105,13 +105,13 @@ module Inspec::Resources
       Hash[data.map { |k, v| [k, resolve_references(v, rel_path)] }]
     end
 
-    # Merge conf into data list of parameters.
+    # Merge conf into data without overwriting data.
     def merge_config!(data, conf)
       # Catch edge-cases
       return if data.nil? || conf.nil?
       # Step through all conf items and create combined return value
       data.merge!(conf) do |_, v1, v2|
-        # If both the data field and the conf field are arrays, combine them
+        # If both the data field and the conf field are arrays, then combine them
         next v1 + v2 if v1.is_a?(Array) && v2.is_a?(Array)
         # If both the data field and the conf field are maps, then merge them
         next merge_config!(v1, v2) if v1.is_a?(Hash) && v2.is_a?(Hash)
