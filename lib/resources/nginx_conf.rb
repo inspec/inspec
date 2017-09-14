@@ -98,11 +98,26 @@ module Inspec::Resources
             .map { |x| File.expand_path(x, rel_path) }
             .map { |x| find_files(x) }.flatten
             .map { |path| parse_nginx(path) }
-            .map { |e| data.merge!(e) { |_, v1, v2| v1 + v2 } }
+            .each { |conf| merge_config!(data, conf) }
       end
 
       # Walk through the remaining hash fields to find more references
       Hash[data.map { |k, v| [k, resolve_references(v, rel_path)] }]
+    end
+
+    # Merge conf into data list of parameters.
+    def merge_config!(data, conf)
+      # Catch edge-cases
+      return if data.nil? || conf.nil?
+      # Step through all conf items and create combined return value
+      data.merge!(conf) do |_, v1, v2|
+        # If both the data field and the conf field are arrays, combine them
+        next v1 + v2 if v1.is_a?(Array) && v2.is_a?(Array)
+        # If both the data field and the conf field are maps, then merge them
+        next merge_config!(v1, v2) if v1.is_a?(Hash) && v2.is_a?(Hash)
+        # All other cases, just use the new value
+        v2
+      end
     end
   end
 
