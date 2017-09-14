@@ -105,7 +105,11 @@ module Inspec::Resources
       Hash[data.map { |k, v| [k, resolve_references(v, rel_path)] }]
     end
 
-    # Merge conf into data without overwriting data.
+    # Deep merge fields from NginxConfig.parse.
+    # A regular merge would overwrite values so a deep merge is needed.
+    # @param data [Hash] data structure from NginxConfig.parse
+    # @param conf [Hash] data structure to be deep merged into data
+    # @return [Hash] data structure with conf and data deep merged
     def merge_config!(data, conf)
       # Catch edge-cases
       return if data.nil? || conf.nil?
@@ -113,9 +117,9 @@ module Inspec::Resources
       data.merge!(conf) do |_, v1, v2|
         # If both the data field and the conf field are arrays, then combine them
         next v1 + v2 if v1.is_a?(Array) && v2.is_a?(Array)
-        # If both the data field and the conf field are maps, then merge them
+        # If both the data field and the conf field are maps, then deep merge them
         next merge_config!(v1, v2) if v1.is_a?(Hash) && v2.is_a?(Hash)
-        # All other cases, just use the new value
+        # All other cases, just use the new value (regular merge behavior)
         v2
       end
     end
