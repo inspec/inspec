@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.5 -->
-## [v1.37.5](https://github.com/chef/inspec/tree/v1.37.5) (2017-09-13)
+<!-- latest_release 1.37.6 -->
+## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
 
-#### Enhancements
-- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop))
+#### Merged Pull Requests
+- Bump Ruby to 2.3.5 [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.36.1 -->
 ### Changes since 1.36.1 release
+
+#### Merged Pull Requests
+- Bump Ruby to 2.3.5 [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff)) <!-- 1.37.6 -->
 
 #### Enhancements
 - Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop)) <!-- 1.37.5 -->
