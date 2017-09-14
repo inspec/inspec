@@ -1,8 +1,12 @@
 FROM ruby:alpine
+MAINTAINER Chef Software, Inc. <docker@chef.io>
+
+ARG VERSION=1.36.1
+ARG GEM_SOURCE=https://rubygems.org
+
 RUN mkdir /share
-COPY inspec.gem /
 RUN apk add --update build-base libxml2-dev libffi-dev && \
-    gem install /inspec.gem --no-document && \
+    gem install --no-document --source ${GEM_SOURCE} --version ${VERSION} inspec && \
     apk del build-base
 ENTRYPOINT ["inspec"]
 CMD ["help"]
