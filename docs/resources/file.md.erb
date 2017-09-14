@@ -61,6 +61,10 @@ an owner:
 
     it { should be_executable.by('owner') }
 
+any user:
+
+    it { should be_executable.by('others') }
+
 a user:
 
     it { should be_executable.by_user('user') }
@@ -121,6 +125,10 @@ an owner:
 
     it { should be_readable.by('owner') }
 
+any user:
+
+    it { should be_readable.by('others') }
+
 a user:
 
     it { should be_readable.by_user('user') }
@@ -174,6 +182,10 @@ The `be_writable` matcher may also test if the file is writable by a specific ow
 an owner:
 
     it { should be_writable.by('owner') }
+
+any user:
+
+    it { should be_writable.by('others') }
 
 a user:
 
