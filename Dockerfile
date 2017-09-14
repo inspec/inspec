@@ -1,7 +1,6 @@
 FROM ruby:alpine
 MAINTAINER Chef Software, Inc. <docker@chef.io>
 
-ARG CHANNEL=stable
 ARG VERSION=1.36.1
 ARG GEM_SOURCE=https://rubygems.org
 
