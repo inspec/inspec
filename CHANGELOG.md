@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.6 -->
-## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
-
-#### Merged Pull Requests
-- Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.36.1 -->
-### Changes since 1.36.1 release
-
-#### Merged Pull Requests
-- Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff)) <!-- 1.37.6 -->
-
-#### Enhancements
-- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop)) <!-- 1.37.5 -->
-- Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop)) <!-- 1.37.4 -->
-
-#### Bug Fixes
-- package resource: assume a default Homebrew path [#2140](https://github.com/chef/inspec/pull/2140) ([adamleff](https://github.com/adamleff)) <!-- 1.37.3 -->
-- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff)) <!-- 1.37.2 -->
-
-#### New Resources
-- nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294)) <!-- 1.37.1 -->
-- etc_fstab resource: test contents of the /etc/fstab file [#2064](https://github.com/chef/inspec/pull/2064) ([dromazmj](https://github.com/dromazmj)) <!-- 1.37.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
+
+#### New Resources
+- etc_fstab resource: test contents of the /etc/fstab file [#2064](https://github.com/chef/inspec/pull/2064) ([dromazmj](https://github.com/dromazmj))
+- nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294))
+
+#### Enhancements
+- Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop))
+- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop))
+
+#### Bug Fixes
+- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff))
+- package resource: assume a default Homebrew path [#2140](https://github.com/chef/inspec/pull/2140) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
 
 #### Enhancements
@@ -36,7 +34,6 @@
 #### Bug Fixes
 - Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
 - Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
-<!-- latest_stable_release -->
 
 ## [v1.35.1](https://github.com/chef/inspec/tree/v1.35.1) (2017-08-31)
 
