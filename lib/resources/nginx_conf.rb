@@ -115,12 +115,16 @@ module Inspec::Resources
       return if data.nil? || conf.nil?
       # Step through all conf items and create combined return value
       data.merge!(conf) do |_, v1, v2|
-        # If both the data field and the conf field are arrays, then combine them
-        next v1 + v2 if v1.is_a?(Array) && v2.is_a?(Array)
-        # If both the data field and the conf field are maps, then deep merge them
-        next merge_config!(v1, v2) if v1.is_a?(Hash) && v2.is_a?(Hash)
-        # All other cases, just use the new value (regular merge behavior)
-        v2
+        if v1.is_a?(Array) && v2.is_a?(Array)
+          # If both the data field and the conf field are arrays, then combine them
+          v1 + v2
+        elsif v1.is_a?(Hash) && v2.is_a?(Hash)
+          # If both the data field and the conf field are maps, then deep merge them
+          merge_config!(v1, v2)
+        else
+          # All other cases, just use the new value (regular merge behavior)
+          v2
+        end
       end
     end
   end
