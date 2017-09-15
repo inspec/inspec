@@ -87,6 +87,8 @@ module Inspec::Resources
         parse_content
         @legacy = nil
       end
+
+      warn '[DEPRECATION] The `auditd_rules` resource is deprecated and will be removed in InSpec 2.0. Use the `auditd` resource instead.'
     end
 
     # non-legacy instances are not asked for `its('LIST_RULES')`
