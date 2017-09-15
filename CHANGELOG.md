@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.37.8 -->
+## [v1.37.8](https://github.com/chef/inspec/tree/v1.37.8) (2017-09-15)
+
+#### Merged Pull Requests
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.37.6 -->
+### Changes since 1.37.6 release
+
+#### Merged Pull Requests
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
