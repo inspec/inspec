@@ -141,7 +141,9 @@ module Inspec::Resources
     end
 
     def registry_key(path)
-      return @registry_cache if defined?(@registry_cache)
+      return @@registry_cache[path] if defined?(@@registry_cache) && @@registry_cache.has_key?(path)
+      @@registry_cache ||= Hash.new
+
       # load registry key and all properties
       script = <<-EOH
       Function InSpec-GetRegistryKey($path) {
@@ -173,18 +175,18 @@ module Inspec::Resources
       begin
         if cmd.exit_status == 1001 && cmd.stderr =~ /InSpec: Failed to find registry key/
           # TODO: provide the stderr output
-          @registry_cache = nil
+          @@registry_cache[path] = nil
         else
-          @registry_cache = JSON.parse(cmd.stdout)
+          path_cache = JSON.parse(cmd.stdout)
           # convert keys to lower case
-          @registry_cache = Hash[@registry_cache.map do |key, value|
-            [key.downcase, value]
-          end]
+          @@registry_cache[path] = Hash[path_cache.map do |key, value|
+                                          [key.downcase, value]
+                                        end]
         end
       rescue JSON::ParserError => _e
-        @registry_cache = nil
+        @@registry_cache[path] = nil
       end
-      @registry_cache
+      @@registry_cache[path]
     end
 
     def children_keys(path, filter = '')
