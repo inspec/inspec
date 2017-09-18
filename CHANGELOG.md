@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.10 -->
-## [v1.37.10](https://github.com/chef/inspec/tree/v1.37.10) (2017-09-18)
+<!-- latest_release 1.37.11 -->
+## [v1.37.11](https://github.com/chef/inspec/tree/v1.37.11) (2017-09-18)
 
 #### Merged Pull Requests
-- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff))
+- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
@@ -14,6 +14,7 @@
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
 
 #### Merged Pull Requests
+- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 <!-- release_rollup -->
