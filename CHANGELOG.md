@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.8 -->
-## [v1.37.8](https://github.com/chef/inspec/tree/v1.37.8) (2017-09-15)
+<!-- latest_release 1.37.9 -->
+## [v1.37.9](https://github.com/chef/inspec/tree/v1.37.9) (2017-09-18)
 
-#### Merged Pull Requests
-- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Resources
+- auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
 ### Changes since 1.37.6 release
+
+#### New Resources
+- auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
 
 #### Merged Pull Requests
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
