@@ -372,8 +372,9 @@ class MockLoader
       %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
-      "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
-      "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
+      "4b550bb227058ac5851aa0bc946be794ee46489610f17842700136cf8bb5a0e9" => cmd.call('mssql-getdate'),
+      "aeb859a4ae4288df230916075c0de28781a2b215f41d64ed1ea9c3fd633140fa" => cmd.call('mssql-result'),
+      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
