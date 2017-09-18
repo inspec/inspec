@@ -1,31 +1,107 @@
 # Change Log
+<!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
+<!-- latest_release 1.37.8 -->
+## [v1.37.8](https://github.com/chef/inspec/tree/v1.37.8) (2017-09-15)
 
-<!-- latest_release 1.32.2 -->
-## [v1.32.2](https://github.com/chef/inspec/tree/v1.32.2) (2017-08-07)
-
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+#### Merged Pull Requests
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.32.1 -->
-### Changes since 1.32.1 release
+<!-- release_rollup since=1.37.6 -->
+### Changes since 1.37.6 release
 
-#### Features & Enhancements
-- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294)) <!-- 1.32.2 -->
+#### Merged Pull Requests
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
+
+#### New Resources
+- etc_fstab resource: test contents of the /etc/fstab file [#2064](https://github.com/chef/inspec/pull/2064) ([dromazmj](https://github.com/dromazmj))
+- nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294))
+
+#### Enhancements
+- Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop))
+- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop))
+
+#### Bug Fixes
+- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff))
+- package resource: assume a default Homebrew path [#2140](https://github.com/chef/inspec/pull/2140) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
+## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
+
+#### Enhancements
+- File Resource: add be_setgid, be_setuid, be_sticky matchers [#2104](https://github.com/chef/inspec/pull/2104) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
+
+#### Bug Fixes
+- Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
+- Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
+
+## [v1.35.1](https://github.com/chef/inspec/tree/v1.35.1) (2017-08-31)
+
+#### New Resources
+- aide_conf resource: test configuration of the AIDE file integrity tool [#2063](https://github.com/chef/inspec/pull/2063) ([jburns12](https://github.com/jburns12))
+- Add support for XML files [#2107](https://github.com/chef/inspec/pull/2107) ([jonathanmorley](https://github.com/jonathanmorley))
+- etc_hosts resource: test the contents of the /etc/hosts file [#2065](https://github.com/chef/inspec/pull/2065) ([dromazmj](https://github.com/dromazmj))
+
+#### Enhancements
+- pip resource: support non-default pip locations, such as virtualenvs [#2097](https://github.com/chef/inspec/pull/2097) ([tonybaloney](https://github.com/tonybaloney))
+- port resource: support ss instead of netstat [#2110](https://github.com/chef/inspec/pull/2110) ([adamleff](https://github.com/adamleff))
+
+#### Bug Fixes
+- auditd_rules resource: fix get_keys error on lines that have no keys [#2103](https://github.com/chef/inspec/pull/2103) ([jburns12](https://github.com/jburns12))
+- http resource: prevent repeat calls during a control with multiple tests [#2108](https://github.com/chef/inspec/pull/2108) ([mivok](https://github.com/mivok))
+- Support mixed-case group entries [#2101](https://github.com/chef/inspec/pull/2101) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Add sensitive flag to resources to restrict logging output [#2017](https://github.com/chef/inspec/pull/2017) ([arothian](https://github.com/arothian))
+
+## [v1.34.1](https://github.com/chef/inspec/tree/v1.34.1) (2017-08-24)
+
+#### Enhancements
+- Refine the profile/test summary output of the CLI formatter [#2094](https://github.com/chef/inspec/pull/2094) ([adamleff](https://github.com/adamleff))
+
+## [v1.33.12](https://github.com/chef/inspec/tree/v1.33.12) (2017-08-18)
+
+#### Bug Fixes
+- fix command.exists for mock environments [#2056](https://github.com/chef/inspec/pull/2056) ([chris-rock](https://github.com/chris-rock))
+- Add missing command mocks to fix tests after train 0.26.1 upgrade [#2069](https://github.com/chef/inspec/pull/2069) ([adamleff](https://github.com/adamleff))
+- Assume sqlplus as oracle_session as default for mock environments  [#2057](https://github.com/chef/inspec/pull/2057) ([chris-rock](https://github.com/chris-rock))
+- add mock support for os_env resource [#2070](https://github.com/chef/inspec/pull/2070) ([chris-rock](https://github.com/chris-rock))
+- Moves logic from os_env from initialize phase to runtime phase [#2072](https://github.com/chef/inspec/pull/2072) ([chris-rock](https://github.com/chris-rock))
+- fix case where skip is called for os_env [#2078](https://github.com/chef/inspec/pull/2078) ([chris-rock](https://github.com/chris-rock))
+- [docker_container] fix repo property [#2083](https://github.com/chef/inspec/pull/2083) ([srenatus](https://github.com/srenatus))
+- Properly handle held packages on dpkg-flavored OS [#2087](https://github.com/chef/inspec/pull/2087) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- add functional tests for inspec check [#2077](https://github.com/chef/inspec/pull/2077) ([chris-rock](https://github.com/chris-rock))
+- Move bug fixes in CHANGELOG to correct header [#2089](https://github.com/chef/inspec/pull/2089) ([adamleff](https://github.com/adamleff))
+
+## [v1.33.1](https://github.com/chef/inspec/tree/v1.33.1) (2017-08-10)
+
+#### Features & Enhancements
+- New &#39;be_in&#39; matcher for matching against values in a list [#2022](https://github.com/chef/inspec/pull/2022) ([rx294](https://github.com/rx294))
+
+#### Merged Pull Requests
+- Fix docker_container.tag to use last element of image [#2052](https://github.com/chef/inspec/pull/2052) ([mattlqx](https://github.com/mattlqx))
+- Bump project minor version, bump train dependency version [#2058](https://github.com/chef/inspec/pull/2058) ([adamleff](https://github.com/adamleff))
+
 ## [v1.32.1](https://github.com/chef/inspec/tree/v1.32.1) (2017-08-03)
 
 #### Merged Pull Requests
 - bug fix: properly support profile files that are more than one directory deep
-- bug fix: fix mysql_session resource to not use socket for host target
+- bug fix: fix mysql_session resource to not use socket for host target [#2020](https://github.com/chef/inspec/pull/2020) ([n-rodriguez](https://github.com/n-rodriguez))
 - host resource now properly handles localhost lookup
 - bugfix: empty file strings from archive readers [#2027](https://github.com/chef/inspec/pull/2027) ([arlimus](https://github.com/arlimus))
 - Fix issue when xinetd.conf does not end in newline [#2040](https://github.com/chef/inspec/pull/2040) ([kareiva](https://github.com/kareiva))
 - catch newline issues in xinet.d [#2043](https://github.com/chef/inspec/pull/2043) ([arlimus](https://github.com/arlimus))
 - Prep for 1.32.0 release [#2046](https://github.com/chef/inspec/pull/2046) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 
 

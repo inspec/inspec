@@ -33,6 +33,16 @@ module Inspec::Resources
       describe mysql_conf('path') do
         its('setting') { should eq 'value' }
       end
+
+      # Test a parameter set within the [mysqld] section
+      describe mysql_conf do
+        its('mysqld.port') { should cmp 3306 }
+      end
+
+      # Test a parameter set within the [mariadb] section using array notation
+      describe mysql_conf do
+        its(['mariadb', 'max-connections']) { should_not be_nil }
+      end
     "
 
     include FindFiles

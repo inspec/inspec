@@ -139,6 +139,8 @@ class MockLoader
       '/etc/nginx/nginx.conf' => mockfile.call('nginx.conf'),
       '/etc/nginx/proxy.conf' => mockfile.call('nginx_proxy.conf'),
       '/etc/nginx/conf/mime.types' => mockfile.call('nginx_mime.types'),
+      '/etc/nginx/conf.d/foobar.conf' => mockfile.call('nginx_confd_foobar.conf'),
+      '/etc/nginx/conf.d/multiple.conf' => mockfile.call('nginx_confd_multiple.conf'),
       '/etc/xinetd.conf' => mockfile.call('xinetd.conf'),
       '/etc/xinetd.d' => mockfile.call('xinetd.d'),
       '/etc/xinetd.d/chargen-stream' => mockfile.call('xinetd.d_chargen-stream'),
@@ -153,13 +155,12 @@ class MockLoader
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
+      'default.xml' => mockfile.call('default.xml'),
       '/test/path/to/postgres/pg_hba.conf' => mockfile.call('pg_hba.conf'),
       '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
-      '/etc/hosts.allow' => mockfile.call('hosts.allow'),
-      '/etc/hosts.deny' => mockfile.call('hosts.deny'),
       '/etc/hosts' => mockfile.call('hosts'),
       'C:\windows\system32\drivers\etc\hosts' => mockfile.call('hosts'),
       '/etc/fstab' => mockfile.call('fstab'),
@@ -168,6 +169,8 @@ class MockLoader
       '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
+      '/etc/hosts.allow' => mockfile.call('hosts.allow'),
+      '/etc/hosts.deny' => mockfile.call('hosts.deny'),
     }
 
     # create all mock commands
@@ -197,11 +200,13 @@ class MockLoader
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
+      'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
+      '/usr/local/bin/brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'gem list --local -a -q ^not-installed$' => cmd.call('gem-list-local-a-q-not-installed'),
       'gem list --local -a -q ^rubocop$' => cmd.call('gem-list-local-a-q-rubocop'),
       '/opt/ruby-2.3.1/embedded/bin/gem list --local -a -q ^pry$' => cmd.call('gem-list-local-a-q-pry'),
@@ -210,6 +215,8 @@ class MockLoader
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
+      'pip show django' => cmd.call('pip-show-django'),
+      '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call('get-package-firefox'),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call('get-package-ruby'),
       "New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Service -Value (Get-Service -Name 'dhcp'| Select-Object -Property Name, DisplayName, Status) -PassThru | Add-Member -MemberType NoteProperty -Name WMI -Value (Get-WmiObject -Class Win32_Service | Where-Object {$_.Name -eq 'dhcp' -or $_.DisplayName -eq 'dhcp'} | Select-Object -Property StartMode) -PassThru | ConvertTo-Json" => cmd.call('get-service-dhcp'),
@@ -222,7 +229,9 @@ class MockLoader
       # lsof formatted list of ports (should be quite cross platform)
       'lsof -nP -i -FpctPn' => cmd.call('lsof-nP-i-FpctPn'),
       # ports on linux
+      %{bash -c 'type "ss"'} => empty.call(), # allow the ss command to exist so the later mock is called
       'netstat -tulpen' => cmd.call('netstat-tulpen'),
+      'ss -tulpen' => cmd.call('ss-tulpen'),
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
       # packages on windows
@@ -292,6 +301,10 @@ class MockLoader
       'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-httpd-conf-enabled-link'),
       'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-apache2-conf-enabled'),
       'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-apache2-conf-enabled-link'),
+      'find /etc/nginx/nginx.conf' => cmd.call('find-nginx-conf'),
+      'find /etc/nginx/conf/mime.types' => cmd.call('find-nginx-mime-types'),
+      'find /etc/nginx/proxy.conf' => cmd.call('find-nginx-proxy-conf'),
+      'find /etc/nginx/conf.d/*.conf' => cmd.call('find-nginx-confd-multiple-conf'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -366,9 +379,23 @@ class MockLoader
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),
+      # nginx mock cmd
+      %{nginx -V 2>&1} => cmd.call('nginx-v'),
+      %{/usr/sbin/nginx -V 2>&1} => cmd.call('nginx-v'),
+      %{bash -c 'type "/usr/sbin/nginx"'} => cmd.call('bash-c-type-nginx'),
+      # needed for two differnt inspec.command call formats
       # host resource: dig commands,
-      "dig +short A example.com" => cmd.call('dig-A-example.com'),
-      "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      'dig +short A example.com' => cmd.call('dig-A-example.com'),
+      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
+      'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-active dbus --quiet' => empty.call,
+      'systemctl is-enabled dbus --quiet' => empty.call,
+      '/path/to/systemctl is-active sshd --quiet' => empty.call,
+      '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
+      '/usr/sbin/service sshd status' => empty.call,
+      '/sbin/service sshd status' => empty.call,
+      'type "lsof"' => empty.call,
     }
     @backend
   end

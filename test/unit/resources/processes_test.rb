@@ -52,7 +52,7 @@ describe 'Inspec::Resources::Processes' do
 
   it 'verify processes resource using where filters on linux os. String match regex' do
     resource = MockLoader.new(:centos6).load_resource('processes', '.+')
-    _(resource.entries.length).must_equal 7
+    _(resource.entries.length).must_equal 8
     _(resource.where { pid < 11663 && cpu == '0.0' }.users).must_equal(["opscode-pgsql", "opscode", "root", "httpd"])
     _(resource.where { user =~ /opscode-.*/ }.entries[0].to_h).must_equal({
       label: 'system_u:system_r:init_t:s0',
@@ -120,6 +120,25 @@ describe 'Inspec::Resources::Processes' do
   it 'command name matches with output (regex)' do
     resource = MockLoader.new(:centos6).load_resource('processes', /mysqld/)
     _(resource.to_s).must_equal 'Processes /mysqld/'
+  end
+
+  it 'handles labels with spaces' do
+    resource = MockLoader.new(:centos6).load_resource('processes', 'ntpd')
+    _(resource.entries.length).must_equal 1
+    _(resource.entries[0].to_h).must_equal({
+      label: '/usr/sbin/ntpd (enforce)',
+      pid: 14415,
+      cpu: '0.0',
+      mem: '0.5',
+      vsz: 110032,
+      rss: 5164,
+      tty: '?',
+      stat: 'Ssl',
+      start: '22:39:25',
+      time: '00:00:00',
+      user: 'ntp',
+      command: '/usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 112:117',
+    })
   end
 
   it 'command name matches with output (string)' do

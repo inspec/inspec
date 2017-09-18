@@ -24,8 +24,7 @@ habitat/results
 results/
 
 www/source/index.html.slim
-
-www/source/index.html.slim
+www/Gemfile.lock
 
 meta-profile-0.2.0.tar.gz
 profile-1.0.0.tar.gz
