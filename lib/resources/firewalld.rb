@@ -48,13 +48,13 @@ module Inspec::Resources
 
     def has_zone?(query_zone)
       return false unless installed?
-      result = firewalld_command('firewall-cmd --get-zones').split(' ')
+      result = firewalld_command('--get-zones').split(' ')
       result.include?(query_zone)
     end
 
     def running?
       return false unless installed?
-      result = firewalld_command('firewall-cmd --state')
+      result = firewalld_command('--state')
       return result unless result == "running\n" || result == "not running\n"
       result[0, result.length-1] == 'running'
     end
@@ -62,32 +62,32 @@ module Inspec::Resources
     def default_zone
       # return: word associated with the name of the default zone
       # example: 'public'
-      firewalld_command('firewall-cmd --get-default-zone')[0..-2]
+      firewalld_command('--get-default-zone')[0..-2]
     end
 
     def has_service_enabled_in_zone?(query_service, query_zone = default_zone)
-      firewalld_command("firewall-cmd --zone=#{query_zone} --query-service=#{query_service}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-service=#{query_service}")[0..-2] == 'yes'
     end
 
     def service_ports_enabled_in_zone(query_service, query_zone = default_zone)
       # return: String of ports open
       # example: ['22/tcp', '4722/tcp']
-      firewalld_command("firewall-cmd --zone=#{query_zone} --service=#{query_service} --get-ports --permanent").split(' ')
+      firewalld_command("--zone=#{query_zone} --service=#{query_service} --get-ports --permanent").split(' ')
     end
 
     def service_protocols_enabled_in_zone(query_service, query_zone = default_zone)
       # return: String of protocoals open
       # example: ['icmp', 'ipv4', 'igmp']
-      firewalld_command("firewall-cmd --zone=#{query_zone} --service=#{query_service} --get-protocols --permanent").split(' ')
+      firewalld_command("--zone=#{query_zone} --service=#{query_service} --get-protocols --permanent").split(' ')
     end
 
     def has_port_enabled_in_zone?(query_port, query_zone = default_zone)
-      firewalld_command("firewall-cmd --zone=#{query_zone} --query-port=#{query_port}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-port=#{query_port}")[0..-2] == 'yes'
     end
 
     def has_rule_enabled?(rule, query_zone = default_zone)
       rule = 'rule ' + rule
-      firewalld_command("firewall-cmd --zone=#{query_zone} --query-rich-rule=#{rule}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-rich-rule=#{rule}")[0..-2] == 'yes'
     end
 
     private
@@ -100,7 +100,7 @@ module Inspec::Resources
       # example:
       #   public
       #       interfaces: enp0s3
-      firewalld_command('firewall-cmd --get-active-zones')
+      firewalld_command('--get-active-zones')
     end
 
     def parse_active_zones(content)
@@ -124,16 +124,17 @@ module Inspec::Resources
     def sources_bound(query_zone)
       # result: a list containing either an ip address or ip address with a mask, or a ipset or an ipset with the ipset prefix.
       # example: ['192.168.0.4', '192.168.0.0/16', '2111:DB28:ABC:12::', '2111:db89:ab3d:0112::0/64']
-      firewalld_command("firewall-cmd --zone=#{query_zone} --list-sources").split(' ')
+      firewalld_command("--zone=#{query_zone} --list-sources").split(' ')
     end
 
     def services_bound(query_zone)
       # result: a list of services bound to a zone.
       # example: ['ssh', 'dhcpv6-client']
-      firewalld_command("firewall-cmd --zone=#{query_zone} --list-services").split(' ')
+      firewalld_command("--zone=#{query_zone} --list-services").split(' ')
     end
 
     def firewalld_command(command)
+      command = "firewall-cmd #{command}"
       result = inspec.command(command)
       if result.stderr != ''
         return "Error on command #{command}: #{result.stderr}"
