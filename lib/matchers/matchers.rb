@@ -306,8 +306,10 @@ RSpec::Matchers.define :cmp do |first_expected|
       return actual.casecmp(expected) == 0 if op == :==
       return Gem::Version.new(actual).method(op).call(Gem::Version.new(expected)) if
         version?(expected) && version?(actual)
-    elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))
+    elsif expected.is_a?(Regexp) && actual.is_a?(String)
       return !actual.to_s.match(expected).nil?
+    elsif expected.is_a?(Regexp) && actual.is_a?(Integer)
+      return !actual.to_s(8).match(expected).nil?
     elsif expected.is_a?(String) && integer?(expected) && actual.is_a?(Integer)
       return actual.method(op).call(expected.to_i)
     elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
