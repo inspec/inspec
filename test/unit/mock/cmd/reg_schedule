@@ -2,5 +2,9 @@
     "Start":  {
                   "value":  2,
                   "type":  4
+              },
+    "key.with.period":  {
+                  "value":  12345,
+                  "type":  4
               }
 }
