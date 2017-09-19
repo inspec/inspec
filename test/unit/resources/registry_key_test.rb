@@ -16,6 +16,11 @@ describe 'Inspec::Resources::RegistryKey' do
     _(resource_without_name.Start).must_equal 2
   end
 
+  it 'supports array syntax for keys with periods in them' do
+    resource = MockLoader.new(:windows).load_resource('registry_key', 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule')
+    _(resource.send(:[], "key.with.period")).must_equal 12345
+  end
+
   it 'generates a proper path from options' do
     resource = MockLoader.new(:windows).load_resource(
       'registry_key',
