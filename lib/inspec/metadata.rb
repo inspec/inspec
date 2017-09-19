@@ -11,6 +11,9 @@ require 'utils/spdx'
 
 module Inspec
   # Extract metadata.rb information
+  # A Metadata object may be created and finalized with invalid data.  
+  # This allows the check CLI command to analyse the issues.
+  # Use valid? to determine if the metadata is coherent.
   class Metadata # rubocop:disable Metrics/ClassLength
     attr_reader :ref
     attr_accessor :params, :content
@@ -112,6 +115,10 @@ module Inspec
         errors.push("Missing profile #{field} in #{ref}")
       end
 
+      if params[:name] =~ /[\/\\]/
+        warnings.push("Profile names containing slashes (#{params[:name]}) are deprecated.")
+      end
+      
       # if version is set, ensure it is correct
       if !params[:version].nil? && !valid_version?(params[:version])
         errors.push('Version needs to be in SemVer format')
