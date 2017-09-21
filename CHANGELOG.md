@@ -4,13 +4,14 @@
 ## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
 
 #### Bug Fixes
-- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff))
+- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
 ### Changes since 1.37.6 release
 
 #### Bug Fixes
+- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.13 -->
 - Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 
 #### New Resources
