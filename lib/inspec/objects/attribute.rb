@@ -3,6 +3,8 @@
 module Inspec
   class Attribute
     attr_accessor :name
+    attr_writer :value
+
     def initialize(name, options)
       @name = name
       @opts = options
@@ -10,11 +12,8 @@ module Inspec
     end
 
     # implicit call is done by inspec to determine the value of an attribute
-    def value(newvalue = nil)
-      unless newvalue.nil?
-        @value = newvalue
-      end
-      @value || default
+    def value
+      @value.nil? ? default : @value
     end
 
     def default
