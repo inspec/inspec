@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.38.2 -->
-## [v1.38.2](https://github.com/chef/inspec/tree/v1.38.2) (2017-09-21)
+<!-- latest_release 1.37.13 -->
+## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
 
-#### Bug Fixes
-- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
@@ -24,6 +24,7 @@
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 
 #### Merged Pull Requests
+- Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 <!-- release_rollup -->
 
