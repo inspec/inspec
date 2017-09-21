@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.12 -->
-## [v1.37.12](https://github.com/chef/inspec/tree/v1.37.12) (2017-09-19)
+<!-- latest_release 1.37.13 -->
+## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
 
 #### Merged Pull Requests
-- Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff))
+- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
@@ -14,6 +14,7 @@
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
 
 #### Merged Pull Requests
+- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 - Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff)) <!-- 1.37.12 -->
 - quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
