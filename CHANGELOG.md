@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.13 -->
-## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
+<!-- latest_release 1.38.2 -->
+## [v1.38.2](https://github.com/chef/inspec/tree/v1.38.2) (2017-09-21)
 
 #### Bug Fixes
 - Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
@@ -11,18 +11,20 @@
 ### Changes since 1.37.6 release
 
 #### Bug Fixes
-- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.13 -->
-- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
+- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.2 -->
+- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.38.1 -->
+- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
+- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 
 #### New Resources
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
 
-#### Merged Pull Requests
-- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
+#### Enhancements
 - Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff)) <!-- 1.37.12 -->
-- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
-- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
+
+#### Merged Pull Requests
+- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
