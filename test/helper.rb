@@ -169,6 +169,7 @@ class MockLoader
       '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
+      '/etc/init/ssh.conf' => mockfile.call('upstart_ssh_enabled.conf'),
     }
 
     # create all mock commands
@@ -236,8 +237,6 @@ class MockLoader
       '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
-      # service config for upstart on ubuntu
-      'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
       # upstart version on ubuntu
       'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
