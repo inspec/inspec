@@ -3,12 +3,15 @@
 <!-- latest_release 1.37.13 -->
 ## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
 
-#### Merged Pull Requests
-- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff))
+#### Bug Fixes
+- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
 ### Changes since 1.37.6 release
+
+#### Bug Fixes
+- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 
 #### New Resources
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
