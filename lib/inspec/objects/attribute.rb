@@ -5,7 +5,17 @@ module Inspec
     attr_accessor :name
     attr_writer :value
 
-    def initialize(name, options)
+    DEFAULT_ATTRIBUTE = Class.new do
+      def method_missing(*_)
+        self
+      end
+
+      def respond_to_missing?(_, _)
+        true
+      end
+    end
+
+    def initialize(name, options = {})
       @name = name
       @opts = options
       @value = nil
@@ -17,7 +27,7 @@ module Inspec
     end
 
     def default
-      @opts[:default]
+      @opts[:default] || DEFAULT_ATTRIBUTE.new
     end
 
     def title
