@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.37.13 -->
-## [v1.37.13](https://github.com/chef/inspec/tree/v1.37.13) (2017-09-21)
+<!-- latest_release 1.38.4 -->
+## [v1.38.4](https://github.com/chef/inspec/tree/v1.38.4) (2017-09-22)
 
-#### Merged Pull Requests
-- Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
@@ -20,6 +20,7 @@
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
 
 #### Enhancements
+- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus)) <!-- 1.38.4 -->
 - Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff)) <!-- 1.37.12 -->
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 
