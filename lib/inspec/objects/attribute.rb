@@ -6,7 +6,7 @@ module Inspec
     attr_writer :value
 
     DEFAULT_ATTRIBUTE = Class.new do
-      def method_missing(*_) # rubocop:disable Style/MethodMissing
+      def method_missing(*_)
         self
       end
 
