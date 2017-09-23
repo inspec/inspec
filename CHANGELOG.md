@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.38.4 -->
-## [v1.38.4](https://github.com/chef/inspec/tree/v1.38.4) (2017-09-22)
+<!-- latest_release 1.38.5 -->
+## [v1.38.5](https://github.com/chef/inspec/tree/v1.38.5) (2017-09-23)
 
-#### Enhancements
-- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus))
+#### Merged Pull Requests
+- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.37.6 -->
@@ -25,6 +25,7 @@
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
 
 #### Merged Pull Requests
+- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.5 -->
 - Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 <!-- release_rollup -->
