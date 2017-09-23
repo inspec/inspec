@@ -72,7 +72,7 @@ module Inspec
       @files = if File.file?(path)
                  [path]
                else
-                 Dir[File.join(path, '**', '*')]
+                 Dir[File.join(Shellwords.shellescape(path), '**', '*')]
                end
       @path = path
     end
