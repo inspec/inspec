@@ -66,27 +66,6 @@ RSpec::Matchers.define :be_executable do
   end
 end
 
-RSpec::Matchers.define :allow do |perm|
-  match do |file|
-    file.allowed?(perm, @by, @by_user)
-  end
-
-  chain :by do |by|
-    @by = by
-  end
-
-  chain :by_user do |by_user|
-    @by_user = by_user
-  end
-
-  description do
-    res = "allows #{perm} permission"
-    res += " by #{@by}" unless @by.nil?
-    res += " by user #{@by_user}" unless @by_user.nil?
-    res
-  end
-end
-
 # matcher to check /etc/passwd, /etc/shadow and /etc/group
 RSpec::Matchers.define :contain_legacy_plus do
   match do |file|

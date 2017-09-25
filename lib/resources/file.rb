@@ -84,11 +84,11 @@ module Inspec::Resources
       file_permission_granted?('execute', by_usergroup, by_specific_user)
     end
 
-    def allowed?(permission, by_usergroup, by_specific_user)
+    def allowed?(permission, opts = {})
       return false unless exist?
       return skip_resource '`allowed?` is not supported on your OS yet.' if @perms_provider.nil?
 
-      file_permission_granted?(permission, by_usergroup, by_specific_user)
+      file_permission_granted?(permission, opts[:by], opts[:by_user])
     end
 
     def mounted?(expected_options = nil, identical = false)
