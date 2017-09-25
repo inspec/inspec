@@ -43,7 +43,7 @@ module Inspec::Resources
     end
 
     def installed?
-      inspec.package('firewalld').installed?
+      inspec.command('firewall-cmd').exist?
     end
 
     def has_zone?(query_zone)
@@ -55,18 +55,17 @@ module Inspec::Resources
     def running?
       return false unless installed?
       result = firewalld_command('--state')
-      return result unless result == "running\n" || result == "not running\n"
-      result[0, result.length-1] == 'running'
+      !!result.match(/^running/)
     end
 
     def default_zone
       # return: word associated with the name of the default zone
       # example: 'public'
-      firewalld_command('--get-default-zone')[0..-2]
+      firewalld_command('--get-default-zone')
     end
 
     def has_service_enabled_in_zone?(query_service, query_zone = default_zone)
-      firewalld_command("--zone=#{query_zone} --query-service=#{query_service}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-service=#{query_service}") == 'yes'
     end
 
     def service_ports_enabled_in_zone(query_service, query_zone = default_zone)
@@ -82,12 +81,12 @@ module Inspec::Resources
     end
 
     def has_port_enabled_in_zone?(query_port, query_zone = default_zone)
-      firewalld_command("--zone=#{query_zone} --query-port=#{query_port}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-port=#{query_port}") == 'yes'
     end
 
     def has_rule_enabled?(rule, query_zone = default_zone)
       rule = 'rule ' + rule
-      firewalld_command("--zone=#{query_zone} --query-rich-rule=#{rule}")[0..-2] == 'yes'
+      firewalld_command("--zone=#{query_zone} --query-rich-rule=#{rule}") == 'yes'
     end
 
     private
@@ -139,7 +138,7 @@ module Inspec::Resources
       if result.stderr != ''
         return "Error on command #{command}: #{result.stderr}"
       end
-      result.stdout
+      result.stdout.strip
     end
   end
 end

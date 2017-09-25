@@ -30,6 +30,13 @@ describe 'Inspec::Resources::FirewallD' do
     _(entries.services).must_equal [['ssh', 'icmp']]
   end
 
+  it 'detects multiple active zones' do
+    entries = centResource.where { zone == 'public' }
+    _(entries.interfaces).must_equal [['enp0s3', 'eno2']]
+    entries = centResource.where { zone == 'default' }
+    _(entries.interfaces).must_equal [['enp0s3']]
+  end
+
   it 'detects sources in an active zone' do
     entries = centResource.where { zone == 'public' }
     _(entries.sources).must_equal [['192.168.1.0/24', '192.168.1.2']]
