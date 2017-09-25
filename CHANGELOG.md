@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.38.9 -->
-## [v1.38.5](https://github.com/chef/inspec/tree/v1.38.5) (2017-09-23)
+<!-- latest_release 1.39.0 -->
+## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
 
 #### New Resources
-- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray))
+- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.38.8 -->
 ### Changes since 1.37.6 release
 
 #### New Resources
+- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj)) <!-- 1.39.0 -->
 - windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray)) <!-- 1.38.9 -->
 <!-- release_rollup -->
 
