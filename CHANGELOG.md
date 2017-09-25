@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.39.0 -->
+<!-- latest_release 1.39.1 -->
 ## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
 
-#### New Resources
-- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj))
+#### Merged Pull Requests
+- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.38.8 -->
 ### Changes since 1.37.6 release
+
+#### Merged Pull Requests
+- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff)) <!-- 1.39.1 -->
 
 #### New Resources
 - etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj)) <!-- 1.39.0 -->
