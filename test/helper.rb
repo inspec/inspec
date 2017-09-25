@@ -331,6 +331,10 @@ class MockLoader
       'hostname' => cmd.call('hostname'),
       # hostname windows
       '$env:computername' => cmd.call('$env-computername'),
+      # windows_hotfix windows
+      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB4019215'\"" => cmd.call('kb4019215'),
+      # windows_hotfix windows doesn't exist
+      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB9999999'\"" => empty.call(),
       # windows_task doesnt exist
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
       # windows_task exist
