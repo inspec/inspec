@@ -1,7 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 <!-- latest_release 1.39.1 -->
-## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
+## [v1.39.1](https://github.com/chef/inspec/tree/v1.39.1) (2017-09-25)
 
 #### Merged Pull Requests
 - Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
