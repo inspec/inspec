@@ -170,6 +170,8 @@ class MockLoader
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
       '/etc/init/ssh.conf' => mockfile.call('upstart_ssh_enabled.conf'),
+      '/etc/hosts.allow' => mockfile.call('hosts.allow'),
+      '/etc/hosts.deny' => mockfile.call('hosts.deny'),
     }
 
     # create all mock commands
