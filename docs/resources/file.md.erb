@@ -61,7 +61,7 @@ an owner:
 
     it { should be_executable.by('owner') }
 
-any user:
+any user other than the owner or members of the file's group:
 
     it { should be_executable.by('others') }
 
@@ -125,7 +125,7 @@ an owner:
 
     it { should be_readable.by('owner') }
 
-any user:
+any user other than the owner or members of the file's group:
 
     it { should be_readable.by('others') }
 
@@ -183,7 +183,7 @@ an owner:
 
     it { should be_writable.by('owner') }
 
-any user:
+any user other than the owner or members of the file's group:
 
     it { should be_writable.by('others') }
 
