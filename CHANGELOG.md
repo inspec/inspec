@@ -1,24 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.39.1 -->
-## [v1.39.1](https://github.com/chef/inspec/tree/v1.39.1) (2017-09-25)
-
-#### Merged Pull Requests
-- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.38.8 -->
-### Changes since 1.37.6 release
-
-#### Merged Pull Requests
-- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff)) <!-- 1.39.1 -->
-
-#### New Resources
-- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj)) <!-- 1.39.0 -->
-- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray)) <!-- 1.38.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
+
+#### New Resources
+- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray))
+- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj))
+
+#### Merged Pull Requests
+- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.38.8](https://github.com/chef/inspec/tree/v1.38.8) (2017-09-23)
 
 #### New Resources
@@ -41,7 +39,6 @@
 #### Merged Pull Requests
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff))
 - Bump train to 0.27 [#2180](https://github.com/chef/inspec/pull/2180) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
 
