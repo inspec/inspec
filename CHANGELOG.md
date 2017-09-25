@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.38.9 -->
+## [v1.38.5](https://github.com/chef/inspec/tree/v1.38.5) (2017-09-23)
+
+#### New Resources
+- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.38.8 -->
+### Changes since 1.37.6 release
+
+#### New Resources
+- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray)) <!-- 1.38.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
