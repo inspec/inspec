@@ -86,7 +86,7 @@ module Inspec::Resources
       if data_dir_loc.nil?
         warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
         execute "psql -t -A -p <port> -h <host> -c "show hba_file";" as the PostgreSQL
-        DBA to find the non-starndard data_dir location.'
+        DBA to find the non-standard data_dir location.'
       end
       data_dir_loc
     end
