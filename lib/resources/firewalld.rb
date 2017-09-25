@@ -55,7 +55,7 @@ module Inspec::Resources
     def running?
       return false unless installed?
       result = firewalld_command('--state')
-      !!result.match(/^running/)
+      result.match?(/^running/)
     end
 
     def default_zone
