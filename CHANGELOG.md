@@ -7,7 +7,7 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
-## [v1.38.5](https://github.com/chef/inspec/tree/v1.38.5) (2017-09-23)
+## [v1.38.8](https://github.com/chef/inspec/tree/v1.38.8) (2017-09-23)
 
 #### New Resources
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12))
