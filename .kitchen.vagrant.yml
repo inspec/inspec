@@ -35,3 +35,11 @@ suites:
       - recipe[yum]
       - recipe[os_prepare]
     attributes:
+  - name: find_files
+    run_list:
+      - recipe[os_prepare::find_files]
+    verifier:
+      inspec_tests:
+        - test/integration/find_files
+    excludes:
+      - freebsd-10.2

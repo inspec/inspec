@@ -169,7 +169,6 @@ class MockLoader
       '/etc/aide.conf' => mockfile.call('aide.conf'),
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
-      '/etc/init/ssh.conf' => mockfile.call('upstart_ssh_enabled.conf'),
     }
 
     # create all mock commands
@@ -237,6 +236,8 @@ class MockLoader
       '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
       'initctl status ssh' => cmd.call('initctl-status-ssh'),
+      # service config for upstart on ubuntu
+      'initctl show-config ssh' => cmd.call('initctl-show-config-ssh'),
       # upstart version on ubuntu
       'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
@@ -292,16 +293,16 @@ class MockLoader
       # iptables
       'iptables  -S' => cmd.call('iptables-s'),
       # apache_conf
-      "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call('find-apache2-ports-conf'),
-      "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call('find-httpd-ssl-conf'),
-      "sh -c 'find /etc/httpd/mods-enabled/*.conf -type f -maxdepth 1'" => cmd.call('find-httpd-status-conf'),
-      "sh -c 'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1'" => cmd.call('find-httpd-conf-enabled-link'),
-      "sh -c 'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1'" => cmd.call('find-apache2-conf-enabled'),
-      "sh -c 'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1'" => cmd.call('find-apache2-conf-enabled-link'),
-      "sh -c 'find /etc/nginx/nginx.conf'" => cmd.call('find-nginx-conf'),
-      "sh -c 'find /etc/nginx/conf/mime.types'" => cmd.call('find-nginx-mime-types'),
-      "sh -c 'find /etc/nginx/proxy.conf'" => cmd.call('find-nginx-proxy-conf'),
-      "sh -c 'find /etc/nginx/conf.d/*.conf'" => cmd.call('find-nginx-confd-multiple-conf'),
+      'find /etc/apache2/ports.conf -type f -maxdepth 1' => cmd.call('find-apache2-ports-conf'),
+      'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-ssl-conf'),
+      'find /etc/httpd/mods-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-httpd-status-conf'),
+      'find /etc/httpd/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-httpd-conf-enabled-link'),
+      'find /etc/apache2/conf-enabled/*.conf -type f -maxdepth 1' => cmd.call('find-apache2-conf-enabled'),
+      'find /etc/apache2/conf-enabled/*.conf -type l -maxdepth 1' => cmd.call('find-apache2-conf-enabled-link'),
+      'find /etc/nginx/nginx.conf' => cmd.call('find-nginx-conf'),
+      'find /etc/nginx/conf/mime.types' => cmd.call('find-nginx-mime-types'),
+      'find /etc/nginx/proxy.conf' => cmd.call('find-nginx-proxy-conf'),
+      'find /etc/nginx/conf.d/*.conf' => cmd.call('find-nginx-confd-multiple-conf'),
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
@@ -371,9 +372,8 @@ class MockLoader
       %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
-      "4b550bb227058ac5851aa0bc946be794ee46489610f17842700136cf8bb5a0e9" => cmd.call('mssql-getdate'),
-      "aeb859a4ae4288df230916075c0de28781a2b215f41d64ed1ea9c3fd633140fa" => cmd.call('mssql-result'),
-      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
+      "cf33896c4bb500abc23dda5b5eddb03cd35a9c46a7358a2c0a0abe41e08a73ae" => cmd.call('mssql-getdate'),
+      "cd283a171cbd65698a2ea6a15524cb4b8566ff1caff430a51091bd5065dcbdf7" => cmd.call('mssql-result'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "ef04e5199abee80e662cc0dd1dd3bf3e0aaae9b4498217d241db00b413820911" => cmd.call('oracle-result'),

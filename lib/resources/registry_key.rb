@@ -106,10 +106,19 @@ module Inspec::Resources
     end
 
     # returns nil, if not existant or value
-    def method_missing(meth)
+    def method_missing(*keys)
+      # allow the use of array syntax in an `its` block so that users
+      # can use it to query for keys with . characters in them
+      if keys.is_a?(Array)
+        keys.shift if keys[0] == :[]
+        key = keys.first
+      else
+        key = keys
+      end
+
       # get data
       val = registry_key(@options[:path])
-      registry_property_value(val, meth)
+      registry_property_value(val, key)
     end
 
     def to_s

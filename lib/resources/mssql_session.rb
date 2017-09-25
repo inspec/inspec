@@ -51,11 +51,11 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
-      cmd_string += " -U #{@user} -P '#{@password}'" unless @user.nil? || @password.nil?
+      cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
       if @instance.nil?
-        cmd_string += " -S #{@host}"
+        cmd_string += " -S '#{@host}'"
       else
-        cmd_string += " -S #{@host}\\#{@instance}"
+        cmd_string += " -S '#{@host}\\#{@instance}'"
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
