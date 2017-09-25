@@ -15,6 +15,8 @@
 - Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.38.1 -->
 - quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
 - Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
+- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff)) <!-- 1.38.7 -->
+- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.5 -->
 
 #### New Resources
 - auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
@@ -23,13 +25,10 @@
 - forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus)) <!-- 1.38.4 -->
 - Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff)) <!-- 1.37.12 -->
 - Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
+- Add wildcard support to `Utils::FindFiles` [#2159](https://github.com/chef/inspec/pull/2159) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.6 -->
 
 #### Merged Pull Requests
 - Bump train to 0.27 [#2180](https://github.com/chef/inspec/pull/2180) ([adamleff](https://github.com/adamleff)) <!-- 1.38.8 -->
-- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff)) <!-- 1.38.7 -->
-- Add wildcard support to `Utils::FindFiles` [#2159](https://github.com/chef/inspec/pull/2159) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.6 -->
-- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.5 -->
-- Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
 - Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
 <!-- release_rollup -->
 
