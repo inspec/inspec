@@ -26,8 +26,13 @@ module Inspec
     end
 
     def configure_pry # rubocop:disable Metrics/AbcSize
-      # Remove all hooks and checks
-      Pry.hooks.clear_all
+      # Delete any before_session, before_eval, and after_eval hooks so we can
+      # replace them with our own. Pry 0.10 used to have a single method to clear
+      # all hooks, but this was removed in Pry 0.11.
+      [:before_session, :before_eval, :after_eval].each do |event|
+        Pry.hooks.get_hooks(event).keys.map { |hook| Pry.hooks.delete_hook(event, hook) }
+      end
+
       that = self
 
       # Add the help command

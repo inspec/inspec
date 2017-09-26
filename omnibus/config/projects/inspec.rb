@@ -37,7 +37,7 @@ end
 build_version Inspec::VERSION
 build_iteration 1
 
-override 'ruby', version: '2.3.1'
+override 'ruby', version: '2.3.5'
 
 dependency 'preparation'
 

@@ -24,9 +24,10 @@ module FindFiles
     depth = opts[:depth]
     type = TYPES[opts[:type].to_sym] if opts[:type]
 
-    cmd = "find #{path}"
+    cmd = "sh -c \'find #{path}"
     cmd += " -type #{type}" unless type.nil?
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
+    cmd += "\'"
 
     result = inspec.command(cmd)
     exit_status = result.exit_status

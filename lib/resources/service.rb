@@ -349,40 +349,21 @@ module Inspec::Resources
         description: nil,
         installed: true,
         running: running,
-        enabled: info_enabled(status, service_name),
+        enabled: info_enabled(service_name),
         type: 'upstart',
       }
     end
 
     private
 
-    def info_enabled(status, service_name)
+    def info_enabled(service_name)
       # check if a service is enabled
-      # http://upstart.ubuntu.com/cookbook/#determine-if-a-job-is-disabled
-      # $ initctl show-config $job | grep -q "^  start on" && echo enabled || echo disabled
-      # Ubuntu 10.04 show-config is not supported
-      # @see http://manpages.ubuntu.com/manpages/maverick/man8/initctl.8.html
-      support_for_show_config = Gem::Version.new('1.3')
-
-      if version >= support_for_show_config
-        config = inspec.command("#{service_ctl} show-config #{service_name}").stdout
-      else # use config file as fallback
-        config = inspec.file("/etc/init/#{service_name}.conf").content
-      end
+      config = inspec.file("/etc/init/#{service_name}.conf").content
 
       # disregard if the config does not exist
       return nil if config.nil?
-      enabled = !config[/^\s*start on/].nil?
 
-      # implement fallback for Ubuntu 10.04
-      if inspec.os[:name] == 'ubuntu' &&
-         inspec.os[:release].to_f >= 10.04 &&
-         inspec.os[:release].to_f < 12.04 &&
-         status.exit_status == 0
-        enabled = true
-      end
-
-      enabled
+      !config.match(/^\s*start on/).nil?
     end
 
     def version

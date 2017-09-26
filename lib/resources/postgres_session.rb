@@ -52,7 +52,7 @@ module Inspec::Resources
       cmd = inspec.command(psql_cmd)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
-        skip_resource "Can't read run query #{query.inspect} on postgres_session: #{out}"
+        Lines.new(out, "PostgreSQL query with errors: #{query}")
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end

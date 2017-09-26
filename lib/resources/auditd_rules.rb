@@ -87,6 +87,8 @@ module Inspec::Resources
         parse_content
         @legacy = nil
       end
+
+      warn '[DEPRECATION] The `auditd_rules` resource is deprecated and will be removed in InSpec 2.0. Use the `auditd` resource instead.'
     end
 
     # non-legacy instances are not asked for `its('LIST_RULES')`
@@ -177,7 +179,7 @@ module Inspec::Resources
 
     # NB only in file lines
     def get_key(line)
-      line.match(/-k ([^ ]+)/)[1]
+      line.match(/-k ([^ ]+)/)[1] if line.include?('-k ')
     end
 
     # NOTE there are NO precautions wrt. filenames containing spaces in auditctl

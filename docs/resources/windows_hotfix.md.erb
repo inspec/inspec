@@ -1,0 +1,44 @@
+---
+title: About the windows_hotfix Resource
+---
+
+Use the `windows_hotfix` InSpec audit resource to test if the hotfix has been installed on a Windows system.
+
+## Syntax
+
+A `windows_hotfix` resource block declares a hotfix to validate:
+
+    describe windows_hotfix('name') do
+      it { should be_installed }
+    end
+
+where
+
+* `('name')` must specify the name of a hotfix, such as `'KB4012213'`
+* `be_installed` is a valid matcher for this resource
+
+## Matcher
+
+This InSpec audit resource has the following matcher:
+
+### be_installed
+
+The `be_installed` matcher tests if the named hotfix is installed on the system:
+
+    it { should be_installed }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if KB4012213 is installed
+
+    describe windows_hotfix('KB4012213') do
+      it { should be_installed }
+    end
+
+### Test that a hotfix is not installed
+
+    describe windows_hotfix('KB9999999') do
+      it { should_not be_installed }
+    end
