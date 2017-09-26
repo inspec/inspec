@@ -177,7 +177,7 @@ module Inspec
       # we need to return an attribute object, to allow dermination of default values
       attr = Attribute.new(name, options)
       # read value from given gived values
-      attr.value(@conf['attributes'][attr.name]) unless @conf['attributes'].nil?
+      attr.value = @conf['attributes'][attr.name] unless @conf['attributes'].nil?
       @attributes.push(attr)
       attr.value
     end

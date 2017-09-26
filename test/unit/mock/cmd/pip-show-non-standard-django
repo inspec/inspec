@@ -1,0 +1,9 @@
+Name: Django
+Version: 1.11.4
+Summary: A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+Home-page: https://www.djangoproject.com/
+Author: Django Software Foundation
+Author-email: foundation@djangoproject.com
+License: BSD
+Location: /path/to/site-packages
+Requires: pytz

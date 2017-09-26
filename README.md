@@ -339,11 +339,10 @@ The InSpec community and maintainers are very active and helpful. This project b
 
 ## Testing InSpec
 
-We perform `unit`, `resource` and `integration` tests.
+We perform `unit` and `integration` tests.
 
-* `unit` tests ensure the intended behaviour of the implementation
-* `resource` tests run against docker containers
-* `integration` tests run against VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
+- `unit` tests ensure the intended behaviour of the implementation
+- `integration` tests run against Docker-based VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
 
 ### Unit tests
 
@@ -351,60 +350,51 @@ We perform `unit`, `resource` and `integration` tests.
 bundle exec rake test
 ```
 
-If you like to run only one test, use
+If you like to run only one test file:
 
 ```bash
-bundle exec ruby -W -Ilib:test test/unit/resources/user_test.rb
+bundle exec m test/unit/resources/user_test.rb
 ```
 
-### Resource tests
-
-Resource tests make sure the backend execution layer behaves as expected. These tests will take a while, as a lot of different operating systems and configurations are being tested.
-
-You will require:
-
-* docker
-
-Run `resource` tests with
+You may also run a single test within a file by line number:
 
 ```bash
-bundle exec rake test:resources config=test/test.yaml
-bundle exec rake test:resources config=test/test-extra.yaml
+bundle exec m test/unit/resources/user_test.rb -l 123
 ```
 
 ### Integration tests
 
 These tests download various virtual machines, to ensure InSpec is working as expected across different operating systems.
 
-You will require:
+These tests require the following gems:
 
-* vagrant with virtualbox
-* test-kitchen
+- test-kitchen
+- kitchen-dokken
+- kitchen-inspec
 
-**Run `integration` tests with vagrant:**
+These gems are provided via the `integration` group in the project's Gemfile.
+
+In addition, these test require Docker to be available on your machine or a remote Docker machine configured via the standard Docker environment variables.
+
+#### Running Integration tests
+
+List the various test instances available:
 
 ```bash
-KITCHEN_YAML=.kitchen.vagrant.yml bundle exec kitchen test
+bundle exec kitchen list`
 ```
 
-**Run `integration` tests with AWS EC2:**
+The platforms and test suites are configured in the `.kitchen.yml` file. Once you know which instance you wish to test, test that instance:
 
 ```bash
-export AWS_ACCESS_KEY_ID=enteryouryourkey
-export AWS_SECRET_ACCESS_KEY=enteryoursecreykey
-export AWS_KEYPAIR_NAME=enteryoursshkeyid
-export EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
-KITCHEN_YAML=.kitchen.ec2.yml bundle exec kitchen test
+bundle exec kitchen test <INSTANCE_NAME>
 ```
 
-In addition you may need to add your ssh key to `.kitchen.ec2.yml`
+You may test all instances in parallel with:
 
+```bash
+bundle exec kitchen test -c
 ```
-transport:
-  ssh_key: /Users/chartmann/aws/aws_chartmann.pem
-  username: ec2-user
-```
-
 
 ## License
 

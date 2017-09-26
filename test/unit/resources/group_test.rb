@@ -15,11 +15,11 @@ describe 'Inspec::Resources::Group' do
     _(resource.has_gid?(0)).must_equal true
   end
 
-  it 'verify group on ubuntu with UPPER CASE' do
-    resource = MockLoader.new(:ubuntu1404).load_resource('group', 'ROOT')
+  it 'verify group on ubuntu with mixed case' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('group', 'GroupWithCaps')
     _(resource.exists?).must_equal true
-    _(resource.gid).must_equal 0
-    _(resource.has_gid?(0)).must_equal true
+    _(resource.gid).must_equal 999
+    _(resource.has_gid?(999)).must_equal true
   end
 
   # ubuntu with non-existent group

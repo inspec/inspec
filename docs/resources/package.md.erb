@@ -28,6 +28,13 @@ This InSpec audit resource has the following matchers:
 
 <%= partial "/shared/matcher_be" %>
 
+### be_held
+
+The `be_held` matcher tests if the named package is "held". On dpkg platforms, a "held" package
+will not be upgraded to a later version.
+
+    it { should be_held }
+
 ### be_installed
 
 The `be_installed` matcher tests if the named package is installed on the system:
@@ -60,7 +67,7 @@ The `version` matcher tests if the named package version is on the system:
 
 The following examples show how to use this InSpec audit resource.
 
-### Test if nginx version 1.9.5 is installed
+### Test if NGINX version 1.9.5 is installed
 
     describe package('nginx') do
       it { should be_installed }
