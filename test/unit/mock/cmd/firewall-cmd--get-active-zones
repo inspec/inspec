@@ -1,0 +1,4 @@
+public
+  interfaces: enp0s3 eno2
+default
+  interfaces: enp0s3
