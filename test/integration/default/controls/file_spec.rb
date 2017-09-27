@@ -67,50 +67,50 @@ if os.unix?
     its('sticky') { should eq false }
 
     it { should be_readable }
-    it { should allow('read') }
+    it { should be_allowed('read') }
     it { should be_readable.by('owner') }
-    it { should allow('read').by('owner') }
+    it { should be_allowed('read', by: 'owner') }
     it { should be_readable.by('group') }
-    it { should allow('read').by('group') }
+    it { should be_allowed('read', by: 'group') }
     it { should be_readable.by('other') }
-    it { should allow('read').by('other') }
+    it { should be_allowed('read', by: 'other') }
     it { should be_readable.by_user(filedata[:user]) }
-    it { should allow('read').by_user(filedata[:user]) }
+    it { should be_allowed('read', by_user: filedata[:user]) }
     it { should_not be_readable.by_user('noroot') }
-    it { should_not allow('read').by_user('noroot') }
+    it { should_not be_allowed('read', by_user: 'noroot') }
     # for server spec compatibility
     it { should be_readable.by('others') }
-    it { should allow('read').by('others') }
+    it { should be_allowed('read', by: 'others') }
 
     it { should be_writable }
-    it { should allow('write') }
+    it { should be_allowed('write') }
     it { should be_writable.by('owner') }
-    it { should allow('write').by('owner') }
+    it { should be_allowed('write', by: 'owner') }
     it { should be_writable.by('group') }
-    it { should allow('write').by('group') }
+    it { should be_allowed('write', by: 'group') }
     it { should_not be_writable.by('other') }
-    it { should_not allow('write').by('other') }
+    it { should_not be_allowed('write', by: 'other') }
     it { should be_writable.by_user(filedata[:user]) }
-    it { should allow('write').by_user(filedata[:user]) }
+    it { should be_allowed('write', by_user: filedata[:user]) }
     # it { should_not be_writable.by_user('noroot') }
     # for server spec compatibility
     it { should_not be_writable.by('others') }
-    it { should_not allow('write').by('others') }
+    it { should_not be_allowed('write', by: 'others') }
 
     it { should be_executable }
-    it { should allow('execute') }
+    it { should be_allowed('execute') }
     it { should be_executable.by('owner') }
-    it { should allow('execute').by('owner') }
+    it { should be_allowed('execute', by: 'owner') }
     it { should_not be_executable.by('group') }
-    it { should_not allow('execute').by('group') }
+    it { should_not be_allowed('execute', by: 'group') }
     it { should be_executable.by('other') }
-    it { should allow('execute').by('other') }
+    it { should be_allowed('execute', by: 'other') }
     it { should be_executable.by_user(filedata[:user]) }
-    it { should allow('execute').by_user(filedata[:user]) }
+    it { should be_allowed('execute', by_user: filedata[:user]) }
     # it { should_not be_executable.by_user('noroot') }
     # for server spec compatibility
     it { should be_executable.by('others') }
-    it { should allow('execute').by('others') }
+    it { should be_allowed('execute', by: 'others') }
 
     # test extended linux attributes
     # it { should be_immutable }
@@ -186,34 +186,34 @@ if os.windows?
     it { should exist }
     it { should be_file }
     it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('read').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('read', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('write').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('write', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('execute').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('execute', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should_not be_readable.by_user(filedata[:user]) }
-    it { should_not allow('read').by_user(filedata[:user]) }
+    it { should_not be_allowed('read', by_user: filedata[:user]) }
     it { should_not be_writable.by_user(filedata[:user]) }
-    it { should_not allow('write').by_user(filedata[:user]) }
+    it { should_not be_allowed('write', by_user: filedata[:user]) }
     it { should_not be_executable.by_user(filedata[:user]) }
-    it { should_not allow('execute').by_user(filedata[:user]) }
+    it { should_not be_allowed('execute', by_user: filedata[:user]) }
   end
 
   describe file('C:/Test Directory') do
     it { should exist }
     it { should be_directory }
     it { should be_readable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('read').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('read', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should be_writable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('write').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('write', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should be_executable.by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('execute').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('execute', by_user: 'NT AUTHORITY\SYSTEM') }
     it { should_not be_readable.by_user(filedata[:user]) }
-    it { should_not allow('read').by_user(filedata[:user]) }
+    it { should_not be_allowed('read', by_user: filedata[:user]) }
     it { should_not be_writable.by_user(filedata[:user]) }
-    it { should_not allow('write').by_user(filedata[:user]) }
+    it { should_not be_allowed('write', by_user: filedata[:user]) }
     it { should_not be_executable.by_user(filedata[:user]) }
-    it { should_not allow('execute').by_user(filedata[:user]) }
+    it { should_not be_allowed('execute', by_user: filedata[:user]) }
   end
 
   describe file("C:/Program Files (x86)/Windows NT/Accessories/wordpad.exe") do
@@ -226,7 +226,7 @@ if os.windows?
   describe directory('C:/opscode/chef') do
     its('owner') { should cmp 'NT AUTHORITY\SYSTEM' }
     it { should be_owned_by 'NT AUTHORITY\SYSTEM' }
-    it { should allow('full-control').by_user('NT AUTHORITY\SYSTEM') }
-    it { should allow('modify').by_user('NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('full-control', by_user: 'NT AUTHORITY\SYSTEM') }
+    it { should be_allowed('modify', by_user: 'NT AUTHORITY\SYSTEM') }
   end
 end
