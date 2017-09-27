@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.40.0 -->
+## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-27)
+
+#### New Resources
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.39.1 -->
+### Changes since 1.39.1 release
+
+#### New Resources
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj)) <!-- 1.40.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
