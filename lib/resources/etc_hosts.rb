@@ -20,7 +20,7 @@ class EtcHosts < Inspec.resource(1)
   include CommentParser
 
   def initialize(hosts_path = nil)
-    return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.linux? || inspec.os.windows?
+    return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.bsd? || inspec.os.linux? || inspec.os.windows?
     @conf_path      = hosts_path || default_hosts_file_path
     @content        = nil
     @params         = nil
