@@ -1,38 +1,53 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.38.7 -->
-## [v1.38.5](https://github.com/chef/inspec/tree/v1.38.5) (2017-09-23)
-
-#### Merged Pull Requests
-- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.37.6 -->
-### Changes since 1.37.6 release
-
-#### Bug Fixes
-- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.2 -->
-- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff)) <!-- 1.38.1 -->
-- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim)) <!-- 1.37.11 -->
-- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
+<!-- latest_release 1.40.0 -->
+## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-27)
 
 #### New Resources
-- auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12)) <!-- 1.37.9 -->
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
+<!-- latest_release -->
 
-#### Enhancements
-- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus)) <!-- 1.38.4 -->
-- Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff)) <!-- 1.37.12 -->
-- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.37.8 -->
+<!-- release_rollup since=1.39.1 -->
+### Changes since 1.39.1 release
 
-#### Merged Pull Requests
-- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff)) <!-- 1.38.7 -->
-- Add wildcard support to `Utils::FindFiles` [#2159](https://github.com/chef/inspec/pull/2159) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.6 -->
-- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.38.5 -->
-- Update changelog for v1.38.2 release [#2173](https://github.com/chef/inspec/pull/2173) ([adamleff](https://github.com/adamleff)) <!-- 1.37.13 -->
-- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff)) <!-- 1.37.10 -->
+#### New Resources
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj)) <!-- 1.40.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
+
+#### New Resources
+- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray))
+- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj))
+
+#### Merged Pull Requests
+- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
+## [v1.38.8](https://github.com/chef/inspec/tree/v1.38.8) (2017-09-23)
+
+#### New Resources
+- auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12))
+
+#### Enhancements
+- Add wildcard support to `Utils::FindFiles` [#2159](https://github.com/chef/inspec/pull/2159) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff))
+- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus))
+
+#### Bug Fixes
+- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff))
+- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff))
+- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim))
+- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff))
+- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff))
+- Bump train to 0.27 [#2180](https://github.com/chef/inspec/pull/2180) ([adamleff](https://github.com/adamleff))
+
 ## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
 
 #### New Resources
@@ -49,7 +64,6 @@
 
 #### Merged Pull Requests
 - Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
 

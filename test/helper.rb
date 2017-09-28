@@ -170,6 +170,8 @@ class MockLoader
       '/var/lib/fake_rpmdb' => mockdir.call(true),
       '/var/lib/rpmdb_does_not_exist' => mockdir.call(false),
       '/etc/init/ssh.conf' => mockfile.call('upstart_ssh_enabled.conf'),
+      '/etc/hosts.allow' => mockfile.call('hosts.allow'),
+      '/etc/hosts.deny' => mockfile.call('hosts.deny'),
     }
 
     # create all mock commands
@@ -331,6 +333,10 @@ class MockLoader
       'hostname' => cmd.call('hostname'),
       # hostname windows
       '$env:computername' => cmd.call('$env-computername'),
+      # windows_hotfix windows
+      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB4019215'\"" => cmd.call('kb4019215'),
+      # windows_hotfix windows doesn't exist
+      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB9999999'\"" => empty.call(),
       # windows_task doesnt exist
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
       # windows_task exist
@@ -383,8 +389,25 @@ class MockLoader
       %{bash -c 'type "/usr/sbin/nginx"'} => cmd.call('bash-c-type-nginx'),
       # needed for two differnt inspec.command call formats
       # host resource: dig commands,
-      'dig +short A example.com' => cmd.call('dig-A-example.com'),
-      'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),
+      "dig +short A example.com" => cmd.call('dig-A-example.com'),
+      "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
+      # firewalld resource
+      'firewall-cmd --get-zones' => cmd.call('firewall-cmd--get-zones'),
+      'firewall-cmd --get-default-zone' => cmd.call('firewall-cmd--get-default-zone'),
+      'firewall-cmd --get-active-zones' => cmd.call('firewall-cmd--get-active-zones'),
+      'firewall-cmd --state' => cmd.call('firewall-cmd--state'),
+      'firewall-cmd --zone=public --query-service=ssh' => cmd.call('firewall-cmd--service-enabled-in-zone'),
+      'firewall-cmd --zone=public --query-port=22/udp' => cmd.call('firewall-cmd-has-port-enabled-in-zone'),
+      "firewall-cmd --zone=public --query-rich-rule='rule family=ipv4 source address=192.168.0.14 accept'" => cmd.call('firewall-cmd-has-rule-enabled'),
+      'firewall-cmd --zone=public --service=ssh --get-ports --permanent' => cmd.call('firewall-cmd-service-ports-enabled-in-zone'),
+      'firewall-cmd --zone=public --service=ssh --get-protocols --permanent' => cmd.call('firewall-cmd-service-protocols-enabled-in-zone'),
+      'firewall-cmd --zone=public --list-services' => cmd.call('firewall-cmd-services-bound'),
+      'firewall-cmd --zone=default --list-services' => cmd.call('firewall-cmd-services-bound'),
+      'firewall-cmd --zone=public --list-sources' => cmd.call('firewall-cmd-sources-bound'),
+      'firewall-cmd --zone=default --list-sources' => cmd.call('firewall-cmd-sources-bound'),
+      'firewall-cmd --zone=public --query-rich-rule=rule family=ipv4 source address=192.168.0.14 accept' => cmd.call('firewall-cmd-has-rule-enabled'),
+      "bash -c 'type \"firewall-cmd\"'" => cmd.call('firewall-cmd'),
+      'rpm -qia firewalld' => cmd.call('pkg-info-firewalld'),
       'systemctl is-active sshd --quiet' => empty.call,
       'systemctl is-enabled sshd --quiet' => empty.call,
       'systemctl is-active dbus --quiet' => empty.call,
