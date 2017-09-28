@@ -103,7 +103,7 @@ RSpec::Matchers.define :be_installed do
   end
 
   chain :by do
-    raise "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
+    raise "[UNSUPPORTED] Please use the new resources 'cpan', 'gem', 'npm' or 'pip'."
   end
 
   chain :with_version do |version|
