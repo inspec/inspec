@@ -8,13 +8,6 @@ class EtcFstab < Inspec.resource(1)
   name 'etc_fstab'
   desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
   example "
-    removable_media = etc_fstab.removable_media_file_systems
-    removable_media.each do |media|
-      describe media do
-        its ('mount_options') { should include 'nosuid' }
-      end
-    end
-
     nfs_systems = etc_fstab.nfs_file_systems
     nfs_systems.each do |file_system|
       describe file_system do
@@ -56,7 +49,7 @@ class EtcFstab < Inspec.resource(1)
   filter.connect(self, :params)
 
   def nfs_file_systems
-    where { file_system_type.match(/nfs/) }
+    where { file_system_type.match(/nfs/) }.entries
   end
 
   def home_mount_options
