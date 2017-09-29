@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.0 -->
-## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-27)
-
-#### New Resources
-- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.39.1 -->
-### Changes since 1.39.1 release
-
-#### New Resources
-- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj)) <!-- 1.40.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-28)
+
+#### New Resources
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
+<!-- latest_stable_release -->
+
 ## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
 
 #### New Resources
@@ -23,7 +21,6 @@
 
 #### Merged Pull Requests
 - Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.38.8](https://github.com/chef/inspec/tree/v1.38.8) (2017-09-23)
 
