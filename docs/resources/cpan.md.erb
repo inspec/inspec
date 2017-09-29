@@ -68,7 +68,15 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test if DBD::Pg 3.7.0 is installed on the system
 
-    describe cpan('Jinja2') do
+    describe cpan('DBD::Pg') do
       it { should be_installed }
       its('version') { should eq '3.7.0' }
+    end
+    
+### Test if Config::YAML is installed within a custom PERL5LIB path on the system 
+
+Hint: You can pass multiple path's separated by colon `/path/to/perl5/lib:/usr/share/perl5/vendor_perl/lib/perl5`
+
+    describe cpan('Config::YAML', '/home/jdoe/perl5/lib/perl5') do
+      it { should be_installed }
     end
