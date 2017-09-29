@@ -52,11 +52,11 @@ describe 'Inspec::Resources::Fstab' do
 
   it 'verify etc_fstab can detect all nfs file systems' do
     entries = resource.nfs_file_systems
-    _(entries.device_name).must_equal ['server:/usr/local/pub']
-    _(entries.mount_point).must_equal ['/pub']
-    _(entries.file_system_type).must_equal ['nfs']
-    _(entries.mount_options).must_equal [['rsize=8192', 'wsize=8192', 'timeo=14', 'intr']]
-    _(entries.dump_options).must_equal [0]
-    _(entries.file_system_options).must_equal [0]
+    _(entries[0].device_name).must_equal 'server:/usr/local/pub'
+    _(entries[0].mount_point).must_equal '/pub'
+    _(entries[0].file_system_type).must_equal 'nfs'
+    _(entries[0].mount_options).must_equal ['rsize=8192', 'wsize=8192', 'timeo=14', 'intr']
+    _(entries[0].dump_options).must_equal 0
+    _(entries[0].file_system_options).must_equal 0
   end
 end
