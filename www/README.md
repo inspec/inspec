@@ -8,6 +8,12 @@ Get all dependencies:
 bundle install
 ```
 
+To build the `docs/` child pages run:
+
+```bash
+bundle exec rake docs
+```
+
 To run it live run:
 
 ```bash
