@@ -55,6 +55,5 @@ module Inspec::Resources
     def to_s
       "Perl Module #{@package_name}"
     end
-
   end
 end
