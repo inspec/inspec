@@ -23,23 +23,11 @@ describe 'inspec compliance' do
 
   it 'login server url missing' do
     out = inspec('compliance login')
-    #TODO: we need to convince thor that this is an error
+    # TODO: We need to convince Thor that this is an error
+    # This will be fixed in the 1.0 release of Thor
+    # See: https://github.com/erikhuda/thor/issues/244
     out.exit_status.must_equal 0
     out.stderr.must_include 'ERROR: "inspec login" was called with no arguments'
-  end
-
-  it 'login server with missing parameters' do
-    out = inspec('compliance login http://example.com')
-    out.exit_status.must_equal 1
-    #TODO: inspec should really use stderr for errors
-    out.stdout.must_include 'Please run `inspec compliance login SERVER` with options'
-  end
-
-  it 'automate with missing parameters' do
-    out = inspec('compliance login_automate http://example.com')
-    out.exit_status.must_equal 1
-    #TODO: inspec should really use stderr for errors
-    out.stdout.must_include 'Please specify'
   end
 
   it 'inspec compliance profiles without authentication' do
