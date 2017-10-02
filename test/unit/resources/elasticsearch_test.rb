@@ -12,7 +12,7 @@ describe 'Inspec::Resources::Elasticsearch' do
       _(resource.nodes.exists?).must_equal true
     end
     it 'Verify Elasticsearch node version' do
-      _(resource.nodes.version).must_include '5.4.1'
+      _(resource.nodes.version).must_include '5.5.1'
     end
     it 'Verify elasticsearch node mlockall state' do
       resource.nodes.process.each do |node_process|
@@ -32,7 +32,7 @@ describe 'Inspec::Resources::Elasticsearch' do
         _(node_roles).must_include 'master'
       end
     end
-    resource_with_url = load_resource('elasticsearch','http://localhost:9200/_nodes/ -u es_admin:password')
+    resource_with_url = load_resource('elasticsearch',es_user:'es_admin',es_pass:'password')
     it 'Verify elasticsearch with custom url' do
       resource.nodes.roles.each do |node_roles|
         _(node_roles).must_include 'master'

@@ -90,26 +90,38 @@ module Inspec::Resources
       end
         "
 
-    def initialize(url = 'http://localhost:9200/_nodes/')
+    def initialize(opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       return skip_resource 'Package `curl` not avaiable on the host' unless inspec.command('curl').exist?
-      @content = read_es_data(url)
+
+      es_ip            = opts.fetch(:es_ip, '0.0.0.0')
+      es_port          = opts.fetch(:es_port, '9200')
+      es_user          = opts.fetch(:es_user, nil)
+      es_pass          = opts.fetch(:es_pass, nil)
+      https            = opts.fetch(:https, true)
+      self_signed_cert = opts.fetch(:self_signed_cert, false)
+
+      url = "-H 'Content-Type: application/json' "
+      url += https ? 'https' : 'http'
+      url += "://#{es_ip}:#{es_port}/_nodes/"
+      url += " -u #{es_user}:#{es_pass}" unless es_user.nil? || es_pass.nil?
+      url += ' -k' if self_signed_cert.eql?(true)
+
+      cmd = inspec.command("curl #{url}")
+      return skip_resource 'Connection refused please check ip and port provided' if cmd.stderr =~ /Failed to connect/
+      return skip_resource "Connection refused Peer's Certificate issuer is not recognized" if cmd.stderr =~ /Peer's Certificate issuer is not recognized/
+      return skip_resource "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status.zero?
+
+      begin
+        @content = JSON.parse(cmd.stdout)
+      rescue JSON::ParserError => e
+        return skip_resource "Couldn't parse ES data: #{e.message}"
+      end
+
+      return skip_resource "Security Exception: #{@content['error']}" unless @content['error'].nil?
       return skip_resource 'Invalid node provided' unless !@content['_nodes']['successful'].zero?
+
       @nodes = []
       parse_cluster
-    end
-
-    def read_es_data(url)
-      cmd = inspec.command("curl #{url}")
-      if cmd.stderr =~ /Failed to connect/
-        return skip_resource 'Connection refused please check ip and port provided'
-      end
-      if !cmd.exit_status.zero?
-        return skip_resource "Error fetching Elastcsearch data from #{url}: #{cmd.stderr}"
-      end
-
-      JSON.parse(cmd.stdout)
-    rescue JSON::ParserError => e
-      skip_resource "Couldn't parse ES data: #{e.message}"
     end
 
     def nodes
@@ -120,9 +132,8 @@ module Inspec::Resources
       @content['nodes'].each do |node_id, node_data|
         # resolve Hashie Mash Conflicts
         node_data.delete('thread_pool')
-        node_data['settings']['http']['type']['default_http_type'] = node_data['settings']['http']['type'].delete('default')
-        node_data['settings']['transport']['type']['default_transport_type'] = node_data['settings']['transport']['type'].delete('default')
         node_data['settings']['default_path'] = node_data['settings'].delete('default')
+
         node = Hashie::Mash.new(node_data)
         node.node_id = node_id
         node.plugin_list = plugin_list(node)
