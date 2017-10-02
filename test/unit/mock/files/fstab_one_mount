@@ -1,0 +1,8 @@
+#
+# /etc/fstab
+# Created by anaconda on Fri Jul 21 21:25:41 2017
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/vg1-lv_root /                       xfs     defaults,x-systemd.device-timeout=0 0 0

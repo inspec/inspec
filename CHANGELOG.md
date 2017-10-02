@@ -1,17 +1,67 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.35.5 -->
-## [v1.35.5](https://github.com/chef/inspec/tree/v1.35.5) (2017-09-06)
-
-#### Enhancements
-- add nginx_conf accessors for http, servers, and locations [#2119](https://github.com/chef/inspec/pull/2119) ([arlimus](https://github.com/arlimus))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.36.1 -->
-### Changes since 1.36.1 release
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-28)
+
+#### New Resources
+- firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
+<!-- latest_stable_release -->
+
+## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
+
+#### New Resources
+- windows_hotfix resource: test whether a Windows HotFix is installed [#2178](https://github.com/chef/inspec/pull/2178) ([mattray](https://github.com/mattray))
+- etc_hosts_allow and etc_hosts_deny resources: test the content of the tcpwrappers configuration files [#2073](https://github.com/chef/inspec/pull/2073) ([dromazmj](https://github.com/dromazmj))
+
+#### Merged Pull Requests
+- Bump train to 0.28 to allow for more net-ssh versions [#2185](https://github.com/chef/inspec/pull/2185) ([adamleff](https://github.com/adamleff))
+
+## [v1.38.8](https://github.com/chef/inspec/tree/v1.38.8) (2017-09-23)
+
+#### New Resources
+- auditd resource: test active auditd configuration against the audit daemon [#2133](https://github.com/chef/inspec/pull/2133) ([jburns12](https://github.com/jburns12))
+
+#### Enhancements
+- Add wildcard support to `Utils::FindFiles` [#2159](https://github.com/chef/inspec/pull/2159) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add wildcard/multiple server support to nginx_conf resource [#2141](https://github.com/chef/inspec/pull/2141) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Support array syntax for registry_key resource [#2160](https://github.com/chef/inspec/pull/2160) ([adamleff](https://github.com/adamleff))
+- forgiving default attributes [#2177](https://github.com/chef/inspec/pull/2177) ([arlimus](https://github.com/arlimus))
+
+#### Bug Fixes
+- Modify `DirProvider` to allow special characters [#2174](https://github.com/chef/inspec/pull/2174) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Properly return postgres query errors on failure [#2179](https://github.com/chef/inspec/pull/2179) ([adamleff](https://github.com/adamleff))
+- Update method in which Pry hooks are removed [#2170](https://github.com/chef/inspec/pull/2170) ([adamleff](https://github.com/adamleff))
+- quote username and hostname in mssql_session.rb [#2151](https://github.com/chef/inspec/pull/2151) ([bratdim](https://github.com/bratdim))
+- Support `false` for attribute value [#2168](https://github.com/chef/inspec/pull/2168) ([adamleff](https://github.com/adamleff))
+- Modify Upstart enabled check to use config file [#2163](https://github.com/chef/inspec/pull/2163) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Add deprecation warning to auditd_rules resource [#2156](https://github.com/chef/inspec/pull/2156) ([adamleff](https://github.com/adamleff))
+- Bump train to 0.27 [#2180](https://github.com/chef/inspec/pull/2180) ([adamleff](https://github.com/adamleff))
+
+## [v1.37.6](https://github.com/chef/inspec/tree/v1.37.6) (2017-09-14)
+
+#### New Resources
+- etc_fstab resource: test contents of the /etc/fstab file [#2064](https://github.com/chef/inspec/pull/2064) ([dromazmj](https://github.com/dromazmj))
+- nginx resource: audit the nginx binary and how it was compiled [#1958](https://github.com/chef/inspec/pull/1958) ([rx294](https://github.com/rx294))
+
+#### Enhancements
+- Support profile versions for automate profiles storage [#2128](https://github.com/chef/inspec/pull/2128) ([alexpop](https://github.com/alexpop))
+- Show versions for inspec compliance profiles [#2143](https://github.com/chef/inspec/pull/2143) ([alexpop](https://github.com/alexpop))
+
+#### Bug Fixes
+- Ignore linked container names when parsing docker containers [#2134](https://github.com/chef/inspec/pull/2134) ([adamleff](https://github.com/adamleff))
+- package resource: assume a default Homebrew path [#2140](https://github.com/chef/inspec/pull/2140) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Bump Ruby to 2.3.5 for Omnibus build [#2149](https://github.com/chef/inspec/pull/2149) ([adamleff](https://github.com/adamleff))
+
 ## [v1.36.1](https://github.com/chef/inspec/tree/v1.36.1) (2017-09-07)
 
 #### Enhancements
@@ -21,7 +71,6 @@
 #### Bug Fixes
 - Modify linux regular expression to handle process names with spaces [#2117](https://github.com/chef/inspec/pull/2117) ([ChadScott](https://github.com/ChadScott))
 - Fix alternate path profile chaining [#2121](https://github.com/chef/inspec/pull/2121) ([trevor-vaughan](https://github.com/trevor-vaughan))
-<!-- latest_stable_release -->
 
 ## [v1.35.1](https://github.com/chef/inspec/tree/v1.35.1) (2017-08-31)
 

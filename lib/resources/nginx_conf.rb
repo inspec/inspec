@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'utils/nginx_parser'
+require 'utils/find_files'
 require 'forwardable'
 
 # STABILITY: Experimental
@@ -24,6 +25,8 @@ module Inspec::Resources
     "
 
     extend Forwardable
+
+    include FindFiles
 
     attr_reader :contents
 
@@ -93,12 +96,36 @@ module Inspec::Resources
       if data.key?('include')
         data.delete('include').flatten
             .map { |x| File.expand_path(x, rel_path) }
+            .map { |x| find_files(x) }.flatten
             .map { |path| parse_nginx(path) }
-            .map { |e| data.merge!(e) }
+            .each { |conf| merge_config!(data, conf) }
       end
 
       # Walk through the remaining hash fields to find more references
       Hash[data.map { |k, v| [k, resolve_references(v, rel_path)] }]
+    end
+
+    # Deep merge fields from NginxConfig.parse.
+    # A regular merge would overwrite values so a deep merge is needed.
+    # @param data [Hash] data structure from NginxConfig.parse
+    # @param conf [Hash] data structure to be deep merged into data
+    # @return [Hash] data structure with conf and data deep merged
+    def merge_config!(data, conf)
+      # Catch edge-cases
+      return if data.nil? || conf.nil?
+      # Step through all conf items and create combined return value
+      data.merge!(conf) do |_, v1, v2|
+        if v1.is_a?(Array) && v2.is_a?(Array)
+          # If both the data field and the conf field are arrays, then combine them
+          v1 + v2
+        elsif v1.is_a?(Hash) && v2.is_a?(Hash)
+          # If both the data field and the conf field are maps, then deep merge them
+          merge_config!(v1, v2)
+        else
+          # All other cases, just use the new value (regular merge behavior)
+          v2
+        end
+      end
     end
   end
 
