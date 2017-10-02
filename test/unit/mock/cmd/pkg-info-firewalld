@@ -1,0 +1,19 @@
+Name        : firewalld
+Version     : 0.4.3.2
+Release     : 8.el7
+Architecture: noarch
+Install Date: Fri 21 Jul 2017 05:28:20 PM EDT
+Group       : Unspecified
+Size        : 1756823
+License     : GPLv2+
+Signature   : RSA/SHA256, Thu 22 Sep 2016 01:32:58 PM EDT, Key ID 199e2f91fd431d51
+Source RPM  : firewalld-0.4.3.2-8.el7.src.rpm
+Build Date  : Tue 13 Sep 2016 10:09:13 AM EDT
+Build Host  : ppc-045.build.eng.bos.redhat.com
+Relocations : (not relocatable)
+Packager    : Red Hat, Inc. <http://bugzilla.redhat.com/bugzilla>
+Vendor      : Red Hat, Inc.
+URL         : http://www.firewalld.org
+Summary     : A firewall daemon with D-Bus interface providing a dynamic firewall
+Description : firewalld is a firewall service daemon that provides a dynamic customizable
+firewall with a D-Bus interface.

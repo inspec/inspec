@@ -124,11 +124,13 @@ module Inspec
       return options[:attributes] if secrets_targets.nil?
 
       secrets_targets.each do |target|
+        validate_attributes_file_readability!(target)
+
         secrets = Inspec::SecretsBackend.resolve(target)
         if secrets.nil?
           raise Inspec::Exceptions::SecretsBackendNotFound,
-                "Unable to find a parser for attributes file #{target}. " \
-                'Check to make sure the file exists and has the appropriate extension.'
+                "Cannot find parser for attributes file '#{target}'. " \
+                'Check to make sure file has the appropriate extension.'
         end
 
         next if secrets.attributes.nil?
@@ -269,6 +271,22 @@ module Inspec
       end.compact
 
       examples.each { |e| @test_collector.add_test(e, rule) }
+    end
+
+    def validate_attributes_file_readability!(target)
+      unless File.exist?(target)
+        raise Inspec::Exceptions::AttributesFileDoesNotExist,
+              "Cannot find attributes file '#{target}'. " \
+              'Check to make sure file exists.'
+      end
+
+      unless File.readable?(target)
+        raise Inspec::Exceptions::AttributesFileNotReadable,
+              "Cannot read attributes file '#{target}'. " \
+              'Check to make sure file is readable.'
+      end
+
+      true
     end
   end
 end

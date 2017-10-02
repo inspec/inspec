@@ -3,22 +3,31 @@
 module Inspec
   class Attribute
     attr_accessor :name
-    def initialize(name, options)
+    attr_writer :value
+
+    DEFAULT_ATTRIBUTE = Class.new do
+      def method_missing(*_)
+        self
+      end
+
+      def respond_to_missing?(_, _)
+        true
+      end
+    end
+
+    def initialize(name, options = {})
       @name = name
       @opts = options
       @value = nil
     end
 
     # implicit call is done by inspec to determine the value of an attribute
-    def value(newvalue = nil)
-      unless newvalue.nil?
-        @value = newvalue
-      end
-      @value || default
+    def value
+      @value.nil? ? default : @value
     end
 
     def default
-      @opts[:default]
+      @opts[:default] || DEFAULT_ATTRIBUTE.new
     end
 
     def title
