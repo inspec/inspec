@@ -393,6 +393,7 @@ class MockLoader
       "dig +short AAAA example.com" => cmd.call('dig-AAAA-example.com'),
       "curl -H 'Content-Type: application/json' https://0.0.0.0:9200/_nodes/" => cmd.call('elasticsearch-config'),
       "curl -H 'Content-Type: application/json' https://0.0.0.0:9200/_nodes/ -u es_admin:password" => cmd.call('elasticsearch-custom_url'),
+      "curl -H 'Content-Type: application/json' http://0.0.0.0:9200/_nodes/ -u es_admin:password -k" => cmd.call('elasticsearch-custom_http_self_signed'),
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
       'dig +short A example.com' => cmd.call('dig-A-example.com'),
       'dig +short AAAA example.com' => cmd.call('dig-AAAA-example.com'),

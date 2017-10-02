@@ -32,7 +32,13 @@ describe 'Inspec::Resources::Elasticsearch' do
         _(node_roles).must_include 'master'
       end
     end
-    resource_with_url = load_resource('elasticsearch',es_user:'es_admin',es_pass:'password')
+    resource = load_resource('elasticsearch', es_user:'es_admin', es_pass:'password')
+    it 'Verify elasticsearch with custom url' do
+      resource.nodes.roles.each do |node_roles|
+        _(node_roles).must_include 'master'
+      end
+    end
+    resource = load_resource('elasticsearch',es_user:'es_admin', es_pass:'password', https:false, self_signed_cert:true)
     it 'Verify elasticsearch with custom url' do
       resource.nodes.roles.each do |node_roles|
         _(node_roles).must_include 'master'
