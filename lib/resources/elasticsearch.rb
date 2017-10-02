@@ -53,7 +53,7 @@ module Inspec::Resources
       makes uses of FilterTable and its functionality can be used "
 
     example "
-      describe elasticsearch.nodes do
+      describe elasticsearch(es_ip:'0.0.0.0', es_port:'9200', es_user:'elastic', es_pass:'changeme', https:true, self_signed_cert:true).nodes do
         it { should exist }
       end
 
