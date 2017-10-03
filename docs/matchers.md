@@ -14,6 +14,8 @@ The following matchers are available:
 * `include`
 * `match`
 
+<br>
+
 ## be
 
 This matcher can be followed by many different comparison operators.
@@ -25,6 +27,8 @@ describe file('/proc/cpuinfo') do
   its('size') { should be < 1000 }
 end
 ```
+
+<br>
 
 ## cmp
 
@@ -92,6 +96,7 @@ end
     expected: 0345
     got: 0444
     ```
+<br>
 
 ## eq
 
@@ -116,6 +121,8 @@ its('Port') { should eq 22 }
 
 For less restrictive comparisons, please use `cmp`.
 
+<br>
+
 ## include
 
 Verifies if a value is included in a list.
@@ -126,6 +133,8 @@ describe passwd do
 end
 ```
 
+<br>
+
 ## be_in
 
 Verifies that an item is included in a list.
@@ -135,6 +144,8 @@ describe resource do
   its('item') { should be_in LIST }
 end
 ```
+
+<br>
 
 ## match
 

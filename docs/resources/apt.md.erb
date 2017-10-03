@@ -6,6 +6,8 @@ title: About the apt Resource
 
 Use the `apt` InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.
 
+<br>
+
 ## Syntax
 
 An `apt` resource block tests the contents of Apt and PPA repositories:
@@ -21,42 +23,7 @@ where
 * `('path')` may be an `http://` address, a `ppa:` address, or a short `repo-name/ppa` address
 * `exist` and `be_enabled` are a valid matchers for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_enabled
-
-The `be_enabled` matcher tests if a package exists in the repository:
-
-    it { should be_enabled }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### exist
-
-The `exist` matcher tests if a package exists on the system:
-
-    it { should exist }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -82,3 +49,22 @@ The following examples show how to use this InSpec audit resource.
       it { should_not exist }
       it { should_not be_enabled }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+
+### be_enabled
+
+The `be_enabled` matcher tests if a package exists in the repository:
+
+    it { should be_enabled }
+
+### exist
+
+The `exist` matcher tests if a package exists on the system:
+
+    it { should exist }

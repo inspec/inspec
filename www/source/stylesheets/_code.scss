@@ -1,10 +1,10 @@
 //default
 
 code {
-	color: $color_link;
-	border-radius: 7px;
-	background: $color_lt_blue;
-	border-color: $color_lt_blue;
+	color: white;
+	border-radius: 4px;
+	background: $color_paragraph;
+	border-color: $color_paragraph;
 }
 
 .highlight code {
@@ -12,11 +12,12 @@ code {
 }
 
 pre {
+		border-radius: 7px;
     padding: 10px;
     margin-bottom: 1em;
-    background: $color_lt_blue;
-    border: 1px solid rgba(65,151,181,0.3);
-    color: $color_link
+    background: $color_paragraph;
+    border: $color_paragraph;
+    color: white
 }
 
 // Container for code example

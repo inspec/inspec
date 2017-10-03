@@ -9,6 +9,8 @@ Use the `bridge` InSpec audit resource to test basic network bridge properties, 
 * On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
 * On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
 
+<br>
+
 ## Syntax
 
 A `bridge` resource block declares the bridge to be tested and what interface it should be associated with:
@@ -18,21 +20,11 @@ A `bridge` resource block declares the bridge to be tested and what interface it
       it { should have_interface 'eth0' }
     end
 
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -46,10 +38,6 @@ The `have_interface` matcher tests if the named interface is defined for the net
 
     it { should have_interface 'eth0' }
 
-### include
-
-<%= partial "/shared/matcher_include" %>
-
 ### interfaces
 
 The `interfaces` matcher tests if the named interface is present:
@@ -57,11 +45,3 @@ The `interfaces` matcher tests if the named interface is present:
     its('interfaces') { should eq 'foo' }
     its('interfaces') { should eq 'bar' }
     its('interfaces') { should include('foo') }
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-## Examples
-
-None.

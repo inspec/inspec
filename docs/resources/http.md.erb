@@ -10,6 +10,8 @@ Use the `http` InSpec audit resource to test an http endpoint.
 <br>
 This will be corrected in a future version of InSpec. New InSpec releases are posted in the <a href="https://discourse.chef.io/c/chef-release" target="_blank">Release Announcements Category in Discourse</a>.</p>
 
+<br>
+
 ## Syntax
 
 An `http` resource block declares the configuration settings to be tested:
@@ -32,51 +34,7 @@ where
 * `read_timeout` may be specified for a timeout for reading connections (default to 60)
 * `ssl_verify` may be specified to enable or disable verification of SSL certificates (default to `true`)
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### body
-
-The `body` matcher tests body content of http response:
-
-   its('body') { should eq 'hello\n' }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### headers
-
-The `headers` matcher returns an hash of all http headers:
-
-    its('headers') { should eq {} }
-
-Individual headers can be tested via:
-
-    its('headers.Content-Type') { should cmp 'text/html' }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### status
-
-The `status` matcher tests status of the http response:
-
-    its('status') { should eq 200 }
+<br>
 
 ## Examples
 
@@ -102,3 +60,31 @@ For example, a service is listening on default http port can be tested like this
       its('body') { should cmp 'pong' }
       its('headers.Content-Type') { should cmp 'text/html' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### body
+
+The `body` matcher tests body content of http response:
+
+   its('body') { should eq 'hello\n' }
+
+### headers
+
+The `headers` matcher returns an hash of all http headers:
+
+    its('headers') { should eq {} }
+
+Individual headers can be tested via:
+
+    its('headers.Content-Type') { should cmp 'text/html' }
+
+### status
+
+The `status` matcher tests status of the http response:
+
+    its('status') { should eq 200 }

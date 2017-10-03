@@ -6,6 +6,8 @@ title: About the oracledb_session Resource
 
 Use the `oracledb_session` InSpec audit resource to test SQL commands run against a Oracle database.
 
+<br>
+
 ## Syntax
 
 A `oracledb_session` resource block declares the username and password to use for the session with an optional service to connect to, and then the command to be run:
@@ -20,17 +22,7 @@ where
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
+<br>
 
 ## Examples
 
@@ -51,3 +43,9 @@ The following examples show how to use this InSpec audit resource.
     describe sql.query('SELECT NAME FROM v$database;').row(0).column('name') do
       its('value') { should cmp 'ORCL' }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

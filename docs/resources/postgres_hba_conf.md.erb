@@ -5,6 +5,9 @@ title: About the postgres_hba_conf Resource
 # postgres_hba_conf
 
 Use the `postgres_hba_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+
+<br>
+
 ## Syntax
 
 An `postgres_hba_conf` InSpec audit resource block declares client authentication data that should be tested:
@@ -19,47 +22,13 @@ where
 * `'filter_value'` is the value that is to be filtered for
 * `'value'` is the value that is to be matched expected
 
-## Matchers
-
-This InSpec audit resource matches any service that is listed in the HBA configuration file:
-
-    its('auth_method') { should_not cmp 'peer' }
-
-or:
-
-    its('auth_method') { should cmp 'peer' }
-
-For example:
-
-    describe postgres_hba_conf.where { type == 'type' } do
-      its('auth_method') { should cmp 'value' }
-      its('user') { should cmp 'value' }
-    end
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
+<br>
 
 ## Supported Properties
 
     'address', 'auth_method', 'auth_params', 'conf_dir' , 'conf_file' , 'database', 'params' ,'type', 'user'
+
+<br>
 
 ## Property Examples and Return Types
 
@@ -70,7 +39,7 @@ For example:
     describe postgres_hba_conf.where { type == 'local' } do
       its('address') { should cmp 'value' }
     end
-    
+
 ### auth_method([String])
 
 `auth_method` returns a an array of strings that matches the where condition of the filter table
@@ -100,5 +69,24 @@ For example:
 `user` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_hba_conf.where { database == 'acme_test_db' } do
+      its('user') { should cmp 'value' }
+    end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource matches any service that is listed in the HBA configuration file. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+    its('auth_method') { should_not cmp 'peer' }
+
+or:
+
+    its('auth_method') { should cmp 'peer' }
+
+For example:
+
+    describe postgres_hba_conf.where { type == 'type' } do
+      its('auth_method') { should cmp 'value' }
       its('user') { should cmp 'value' }
     end

@@ -6,6 +6,8 @@ title: About the virtualization Resource
 
 Use the `virtualization` InSpec audit resource to test the virtualization platform on which the system is running.
 
+<br>
+
 ## Syntax
 
 An `virtualization` resource block declares the virtualization platform that should be tested:
@@ -20,29 +22,7 @@ where
 * `MATCHER` is a valid matcher for this resource
 * `'value'` is the value to be tested
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -69,3 +49,8 @@ The following examples show how to use this InSpec audit resource.
       end
     end
 
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

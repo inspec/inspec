@@ -6,6 +6,8 @@ title: About the xml Resource
 
 Use the `xml` InSpec audit resource to test data in an XML file.
 
+<br>
+
 ## Syntax
 
 An `xml` resource block declares the data to be tested. Assume the following XML file:
@@ -34,35 +36,7 @@ where
 * `root/name` is an XPath expression
 * `should eq ['foo']` tests a value of `root/name` as read from an XML file versus the value declared in the test
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### name
-
-The `name` matcher tests the value of `name` as read from a JSON file versus the value declared in the test:
-
-    its('name') { should eq 'foo' }
+<br>
 
 ## Examples
 
@@ -73,3 +47,15 @@ The following examples show how to use this InSpec audit resource.
     describe xml('applicationHost.config') do
       its('configuration/system.applicationHost/applicationPools/add@name') { should contain('my_pool') }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### name
+
+The `name` matcher tests the value of `name` as read from a JSON file versus the value declared in the test:
+
+    its('name') { should eq 'foo' }

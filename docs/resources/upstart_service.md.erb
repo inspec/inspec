@@ -6,6 +6,8 @@ title: About the upstart_service Resource
 
 Use the `upstart_service` InSpec audit resource to test a service using Upstart.
 
+<br>
+
 ## Syntax
 
 An `upstart_service` resource block declares the name of a service and then one (or more) matchers to test the state of the service:
@@ -29,13 +31,11 @@ The path to the service manager's control may be specified for situations where 
       it { should be_running }
     end
 
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_enabled
 
@@ -54,23 +54,3 @@ The `be_installed` matcher tests if the named service is installed:
 The `be_running` matcher tests if the named service is running:
 
     it { should be_running }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-## Examples
-
-None.

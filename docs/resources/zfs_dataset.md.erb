@@ -6,6 +6,8 @@ title: About the zfs_dataset Resource
 
 Use the `zfs_dataset` InSpec audit resource to test the ZFS datasets on FreeBSD systems.
 
+<br>
+
 ## Syntax
 
 A `zfs_dataset` resource block declares the ZFS dataset properties that should be tested:
@@ -20,32 +22,7 @@ where
 * `MATCHER` is a valid matcher for this resource
 * `'value'` is the value to be tested
 
-
-## Matchers
-
-This InSpec audit resource has the matchers listed below, in addition to dynamically exposing all ZFS dataset properties available (see: `man zfs` for the list of supported properties.)
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_mounted
-
-The `be_mounted` matcher tests if the dataset is accessible from the file system:
-
-    it { should be_mounted }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -61,3 +38,15 @@ The following examples show how to use this InSpec audit resource.
       its('readonly') { should eq  'off' }
       its('setuid') { should eq  'off' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the matchers listed below, in addition to dynamically exposing all ZFS dataset properties available (see: `man zfs` for the list of supported properties). For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_mounted
+
+The `be_mounted` matcher tests if the dataset is accessible from the file system:
+
+    it { should be_mounted }

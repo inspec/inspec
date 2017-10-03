@@ -6,6 +6,8 @@ title: About the auditd Resource
 
 Use the `auditd` InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command. This resource supports versions of `audit` >= 2.3.
 
+<br>
+
 ## Syntax
 
 An `auditd` resource block declares one (or more) rules to be tested, and then what that rule should do:
@@ -23,30 +25,7 @@ or test that multiple individual rules are defined:
 
 where each test must declare one (or more) rules to be tested.
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -91,3 +70,9 @@ The key filter may be useful in evaluating rules with particular key values:
   describe auditd.where { key == "privileged" } do
     its('permissions') { should include ['x'] }
   end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

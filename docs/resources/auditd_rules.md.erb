@@ -6,6 +6,7 @@ title: About the auditd_rules Resource
 
 Use the `auditd_rules` InSpec audit resource to test the rules for logging that exist on the system. The `audit.rules` file is typically located under `/etc/audit/` and contains the list of rules that define what is captured in log files. This resource uses `auditctl` to query the run-time `auditd` rules setup, which may be different from `audit.rules`.
 
+<br>
 
 ## Syntax
 
@@ -61,30 +62,7 @@ or test that individual rules are defined:
 
 where each test must declare one (or more) rules to be tested.
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -130,3 +108,9 @@ Filters may be chained. For example:
     describe auditd_rules.syscall('open').action('always').list do
       it { should eq(['exit']) }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

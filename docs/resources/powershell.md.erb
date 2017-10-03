@@ -6,6 +6,8 @@ title: About the powershell Resource
 
 Use the `powershell` InSpec audit resource to test a Powershell script on the Windows platform.
 
+<br>
+
 ## Syntax
 
 A `powershell` resource block declares a Powershell script to be tested, and then compares the output of that command to the matcher in the test:
@@ -24,48 +26,7 @@ where
 * `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### exit_status
-
-The `exit_status` matcher tests the exit status for the command:
-
-    its('exit_status') { should eq 123 }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### stderr
-
-The `stderr` matcher tests results of the command as returned in standard error (stderr):
-
-    its('stderr') { should eq 'error' }
-
-### stdout
-
-The `stdout` matcher tests results of the command as returned in standard output (stdout):
-
-    its('stdout') { should eq '/^1$/' }
+<br>
 
 ## Examples
 
@@ -114,3 +75,27 @@ No newline:
       its('stdout') { should eq 'hello' }
       its('stderr') { should eq '' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exit_status
+
+The `exit_status` matcher tests the exit status for the command:
+
+    its('exit_status') { should eq 123 }
+
+### stderr
+
+The `stderr` matcher tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq 'error' }
+
+### stdout
+
+The `stdout` matcher tests results of the command as returned in standard output (stdout):
+
+    its('stdout') { should eq '/^1$/' }

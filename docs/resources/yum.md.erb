@@ -6,6 +6,8 @@ title: About the yum Resource
 
 Use the `yum` InSpec audit resource to test packages in the Yum repository.
 
+<br>
+
 ## Syntax
 
 A `yum` resource block declares a package repo, tests if the package repository is present, and if it that package repository is a valid package source (i.e. "is enabled"):
@@ -19,63 +21,7 @@ where
 
 * `repo('name')` is the (optional) name of a package repo, using either a full identifier (`'updates/7/x86_64'`) or a short identifier (`'updates'`)
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_enabled
-
-The `be_enabled` matcher tests if the package repository is a valid package source:
-
-    it { should be_enabled }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### exist
-
-The `exist` matcher tests if the package repository exists:
-
-    it { should exist }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### repo('name')
-
-The `repo('name')` matcher names a specific package repository:
-
-    describe yum.repo('epel') do
-      ...
-    end
-
-### repos
-
-The `repos` matcher tests if a named repo, using either a full identifier (`'updates/7/x86_64'`) or a short identifier (`'updates'`), is included in the Yum repo:
-
-    its('repos') { should include 'some_repo' }
-
-### shortname
-
-The `shortname` matcher names a specific package repository's group identifier. For example, if a repository's group name is "Directory Server", the corresponding group idenfier is typically "directory-server":
-
-    describe yum.repo('Directory Server') do
-      its('shortname') { should eq 'directory-server' }
-    end
+<br>
 
 ## Examples
 
@@ -108,4 +54,44 @@ The following examples show how to use this InSpec audit resource.
       it { should exist }
       it { should be_enabled }
       its('baseurl') { should include 'mycompany.biz' }
+    end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_enabled
+
+The `be_enabled` matcher tests if the package repository is a valid package source:
+
+    it { should be_enabled }
+
+### exist
+
+The `exist` matcher tests if the package repository exists:
+
+    it { should exist }
+
+### repo('name')
+
+The `repo('name')` matcher names a specific package repository:
+
+    describe yum.repo('epel') do
+      ...
+    end
+
+### repos
+
+The `repos` matcher tests if a named repo, using either a full identifier (`'updates/7/x86_64'`) or a short identifier (`'updates'`), is included in the Yum repo:
+
+    its('repos') { should include 'some_repo' }
+
+### shortname
+
+The `shortname` matcher names a specific package repository's group identifier. For example, if a repository's group name is "Directory Server", the corresponding group idenfier is typically "directory-server":
+
+    describe yum.repo('Directory Server') do
+      its('shortname') { should eq 'directory-server' }
     end
