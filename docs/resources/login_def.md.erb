@@ -6,6 +6,8 @@ title: About the login_defs Resource
 
 Use the `login_defs` InSpec audit resource to test configuration settings in the `/etc/login.defs` file. The `logins.defs` file defines site-specific configuration for the shadow password suite on Linux and Unix platforms, such as password expiration ranges, minimum/maximum values for automatic selection of user and group identifiers, or the method with which passwords are encrypted.
 
+<br>
+
 ## Syntax
 
 A `login_defs` resource block declares the `login.defs` configuration data to be tested:
@@ -19,36 +21,7 @@ where
 * `name` is a configuration setting in `login.defs`
 * `{ should include('foo') }` tests the value of `name` as read from `login.defs` versus the value declared in the test
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### name
-
-The `name` matcher tests the value of `name` as read from `login.defs` versus the value declared in the test:
-
-    its('name') { should eq 'foo' }
+<br>
 
 ## Examples
 
@@ -75,3 +48,15 @@ The following examples show how to use this InSpec audit resource.
       its('UMASK') { should eq '077' }
       its('PASS_MAX_DAYS') { should eq '90' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### name
+
+The `name` matcher tests the value of `name` as read from `login.defs` versus the value declared in the test:
+
+    its('name') { should eq 'foo' }

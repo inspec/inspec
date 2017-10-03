@@ -6,6 +6,7 @@ title: About the ntp_conf Resource
 
 Use the `ntp_conf` InSpec audit resource to test the synchronization settings defined in the `ntp.conf` file. This file is typically located at `/etc/ntp.conf`.
 
+<br>
 
 ## Syntax
 
@@ -21,44 +22,7 @@ where
 * `('path')` is the non-default path to the `ntp.conf` file
 * `{ should eq 'value' }` is the value that is expected
 
-
-## Matchers
-
-This resource matches any service that is listed in the `ntp.conf` file:
-
-    its('server') { should_not eq nil }
-
-or:
-
-    its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-
-For example:
-
-    describe ntp_conf do
-      its('server') { should_not eq nil }
-      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-    end
-
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -73,4 +37,23 @@ The following examples show how to use this InSpec audit resource.
         1.ubuntu.pool.ntp.org,
         2.ubuntu.pool.ntp.org
       ] }
+    end
+
+<br>
+
+## Matchers
+
+This resource matches any service that is listed in the `ntp.conf` file. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+    its('server') { should_not eq nil }
+
+or:
+
+    its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+
+For example:
+
+    describe ntp_conf do
+      its('server') { should_not eq nil }
+      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
     end

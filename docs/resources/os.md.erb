@@ -6,6 +6,8 @@ title: About the os Resource
 
 Use the `os` InSpec audit resource to test the platform on which the system is running.
 
+<br>
+
 ## Syntax
 
 An `os` resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:
@@ -22,29 +24,35 @@ or using the block name:
 
 * `'platform_name'` (a string) or `:family_name` (a symbol) is one of `aix`, `bsd`, `darwin`, `debian`, `hpux`, `linux`, `redhat`, `solaris`, `suse`,  `unix`, or `windows`
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for RedHat
+
+    describe os[:family] do
+      it { should eq 'redhat' }
+    end
+
+### Test for Ubuntu
+
+    describe os[:family] do
+      it { should eq 'debian' }
+    end
+
+### Test for Microsoft Windows
+
+    describe os[:family] do
+      it { should eq 'windows' }
+    end
+
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ## os.family? Helpers
 
@@ -129,26 +137,4 @@ For example, both of the following tests should have the same result:
       describe port(69) do
         its('processes') { should include 'xinetd' }
       end
-    end
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test for RedHat
-
-    describe os[:family] do
-      it { should eq 'redhat' }
-    end
-
-### Test for Ubuntu
-
-    describe os[:family] do
-      it { should eq 'debian' }
-    end
-
-### Test for Microsoft Windows
-
-    describe os[:family] do
-      it { should eq 'windows' }
     end

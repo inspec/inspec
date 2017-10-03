@@ -8,6 +8,8 @@ Use the `firewalld` InSpec audit resource to test that firewalld is configured t
 
 A firewalld has a number of zones that can be configured to allow and deny access to specific hosts, services, and ports.
 
+<br>
+
 ## Syntax
 
     describe firewalld do
@@ -24,6 +26,8 @@ Use the where clause to test open interfaces, sources, and services in active zo
       its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
       its('services') { should cmp ['ssh', 'icmp'] }
     end
+    
+<br>
 
 ## Supported Properties
 
@@ -57,9 +61,11 @@ The `default_zone` property displays the default active zone to be used.
 
     its('default_zone') { should eq 'public' }
 
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### `be_installed`
 

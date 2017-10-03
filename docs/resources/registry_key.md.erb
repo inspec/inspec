@@ -6,6 +6,8 @@ title: About the registry_key Resource
 
 Use the `registry_key` InSpec audit resource to test key values in the Windows registry.
 
+<br>
+
 ## Syntax
 
 A `registry_key` resource block declares the item in the Windows registry, the path to a setting under that item, and then one (or more) name/value pairs to be tested.
@@ -61,13 +63,34 @@ Please make sure that you use backslashes instead of forward slashes. Forward sl
       its('Release') { should eq 378675 }
     end
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test the start time for the Schedule service
+
+    describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\...\Schedule') do
+      its('Start') { should eq 2 }
+    end
+
+where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the full path to the setting.
+
+### Use a regular expression in responses
+
+    describe registry_key({
+      hive: 'HKEY_LOCAL_MACHINE',
+      key: 'SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+    }) do
+      its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
+    end
+
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### children
 
@@ -93,14 +116,6 @@ The following example shows how find a property that may exist against multiple 
         end
       }
 
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
 ### exist
 
 The `exist` matcher tests if the registry key is present:
@@ -125,14 +140,6 @@ The `have_value` matcher tests if a value exists for a registry key:
 
     it { should have_value 'value' }
 
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
 ### name
 
 The `name` matcher tests the value for the specified registry setting:
@@ -148,25 +155,3 @@ Any name with a dot will not work as expected: <code>its('explorer.exe') { shoul
     # its('explorer.exe') { should eq 'test' }
     # use the following solution:
     it { should have_property_value('explorer.exe', :string, 'test') }
-
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test the start time for the Schedule service
-
-    describe registry_key('Task Scheduler','HKEY_LOCAL_MACHINE\...\Schedule') do
-      its('Start') { should eq 2 }
-    end
-
-where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the full path to the setting.
-
-### Use a regular expression in responses
-
-    describe registry_key({
-      hive: 'HKEY_LOCAL_MACHINE',
-      key: 'SOFTWARE\Microsoft\Windows NT\CurrentVersion'
-    }) do
-      its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
-    end

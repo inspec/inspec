@@ -6,6 +6,8 @@ title: About the postgres_session Resource
 
 Use the `postgres_session` InSpec audit resource to test SQL commands run against a PostgreSQL database.
 
+<br>
+
 ## Syntax
 
 A `postgres_session` resource block declares the username and password to use for the session, and then the command to be run:
@@ -29,35 +31,7 @@ A full example is:
 
 where `its('output') { should eq '' }` compares the results of the query against the expected result in the test
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### output
-
-The `output` matcher tests the results of the query:
-
-    its('output') { should eq(/^0/) }
+<br>
 
 ## Examples
 
@@ -80,3 +54,15 @@ The following examples show how to use this InSpec audit resource.
                   AND lanname!=\'c\';', ['postgres']) do
       its('output') { should eq '0' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### output
+
+The `output` matcher tests the results of the query:
+
+    its('output') { should eq(/^0/) }

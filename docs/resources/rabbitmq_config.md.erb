@@ -6,6 +6,8 @@ title: About the rabbitmq_config Resource
 
 Use the `rabbitmq_config` InSpec audit resource to test configuration data for the RabbitMQ daemon located at `/etc/rabbitmq/rabbitmq.config` on Linux and Unix platforms.
 
+<br>
+
 ## Syntax
 
 A `rabbitmq_config` resource block declares the RabbitMQ configuration data to be tested:
@@ -19,30 +21,7 @@ where
 * `params` is the list of parameters configured in the RabbitMQ config file
 * `{ should cmp 5671 }` tests the value of `rabbit.ssl_listeners` as read from `rabbitmq.config` versus the value declared in the test
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -53,3 +32,9 @@ The following examples show how to use this InSpec audit resource.
     describe rabbitmq_config.params('rabbit', 'tcp_listeners') do
       it { should eq [5672] }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

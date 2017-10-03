@@ -6,6 +6,8 @@ title: About the pip Resource
 
 Use the `pip` InSpec audit resource to test packages that are installed using the Python PIP installer.
 
+<br>
+
 ## Syntax
 
 A `pip` resource block declares a package and (optionally) a package version:
@@ -19,42 +21,7 @@ where
 * `'package_name'` is the name of the package, such as `'Jinja2'`
 * `be_installed` tests to see if the package described above is installed
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_installed
-
-The `be_installed` matcher tests if the named package is installed on the system:
-
-    it { should be_installed }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
+<br>
 
 ## Examples
 
@@ -72,3 +39,21 @@ The following examples show how to use this InSpec audit resource.
       it { should be_installed }
       its('version') { should eq '2.8' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }

@@ -6,6 +6,8 @@ title: About the mysql_conf Resource
 
 Use the `mysql_conf` InSpec audit resource to test the contents of the configuration file for MySQL, typically located at `/etc/mysql/my.cnf` or `/etc/my.cnf`.
 
+<br>
+
 ## Syntax
 
 A `mysql_conf` resource block declares one (or more) settings in the `my.cnf` file, and then compares the setting in the configuration file to the value stated in the test:
@@ -31,38 +33,7 @@ where
 * `('path')` is the non-default path to the `my.cnf` file
 * `should eq 'value'` is the value that is expected
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### setting
-
-The `setting` matcher tests specific, named settings in the `my.cnf` file:
-
-    its('setting') { should eq 'value' }
-
-Use a `setting` matcher for each setting to be tested.
+<br>
 
 ## Examples
 
@@ -111,3 +82,17 @@ The following examples show how to use this InSpec audit resource.
     describe mysql_conf.params('mysqld') do
       its('safe-user-create') { should eq('1') }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### setting
+
+The `setting` matcher tests specific, named settings in the `my.cnf` file:
+
+    its('setting') { should eq 'value' }
+
+Use a `setting` matcher for each setting to be tested.

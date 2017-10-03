@@ -4,8 +4,10 @@ title: About the windows_task Resource
 
 # windows_task
 
-Use the `windows_task` Inspec audit resource to test a scheduled tasks configuration on a Windows platform. 
+Use the `windows_task` Inspec audit resource to test a scheduled tasks configuration on a Windows platform.
 Microsoft and application vendors use scheduled tasks to perform a variety of system maintaince tasks but system administrators can schedule their own.
+
+<br>
 
 ## Syntax
 
@@ -18,33 +20,11 @@ A `windows_task` resource block declares the name of the task (as its full path)
 
 where
 
-* `'parameter'` must be a valid parameter defined within this resource  ie `logon_mode`, `last_result`, `task_to_run`, `run_as_user` 
+* `'parameter'` must be a valid parameter defined within this resource  ie `logon_mode`, `last_result`, `task_to_run`, `run_as_user`
 * `'value'` will be used to compare the value gather from your chosen parameter
-* `'be_enabled'` is an example of a valid matcher that checks the state of a task, other examples are `exist` or `be_disabled` 
+* `'be_enabled'` is an example of a valid matcher that checks the state of a task, other examples are `exist` or `be_disabled`
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -101,3 +81,9 @@ Status:        Ready
 Logon Mode:    Interactive/Background
 ...
 ```
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

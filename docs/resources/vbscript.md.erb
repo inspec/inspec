@@ -6,6 +6,8 @@ title: About the vbscript Resource
 
 Use the `vbscript` InSpec audit resource to test a VBScript on the Windows platform.
 
+<br>
+
 ## Syntax
 
 A `vbscript` resource block tests the output of a VBScript on the Windows platform:
@@ -19,30 +21,7 @@ where
 * `'script_name'` is the name of the VBScript to test
 * `('output')` is the expected output of the VBScript
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -67,3 +46,9 @@ and tested for whitespace removal from standard output:
     describe vbscript(script) do
       its('strip') { should eq "hello" }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

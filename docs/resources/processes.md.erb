@@ -6,6 +6,8 @@ title: About the processes Resource
 
 Use the `processes` InSpec audit resource to test properties for programs that are running on the system.
 
+<br>
+
 ## Syntax
 
 A `processes` resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs:
@@ -19,36 +21,7 @@ where
 * `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly.
 * `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### property_name
-
-The `property_name` matcher tests the named property for the specified value:
-
-    its('property_name') { should eq ['property_value'] }
+<br>
 
 ## Examples
 
@@ -100,9 +73,9 @@ needed.
 ### Notes for auditing Windows systems
 
 Sometimes with system properties there isn't a direct comparison between different operating systems.
-Most of the `property_name`'s do align between the different OS's.  
+Most of the `property_name`'s do align between the different OS's.
 
-There are however some exception's, for example, within linux `states` offers multiple properties. 
+There are however some exception's, for example, within linux `states` offers multiple properties.
 Windows doesn't have direct comparison that is a single property so instead `states` is mapped to the property of `Responding`, This is a boolean true/false flag to help determine if the process is hung.
 
 Below is a mapping table to help you understand what property the unix field maps to the windows `Get-Process` Property
@@ -121,3 +94,14 @@ Below is a mapping table to help you understand what property the unix field map
 |time             |TotalProcessorTime|
 |users            |UserName|
 |commands         |Path|
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### property_name
+
+The `property_name` matcher tests the named property for the specified value:
+
+    its('property_name') { should eq ['property_value'] }
