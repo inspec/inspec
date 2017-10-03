@@ -50,8 +50,6 @@ class SSL < Inspec.resource(1)
         @host = inspec.backend.hostname
       elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
         @host = 'localhost'
-      else
-        raise 'Cannot determine host for SSL test. Please specify it or use a different target.'
       end
     end
     @port = opts[:port] || 443
@@ -60,11 +58,14 @@ class SSL < Inspec.resource(1)
   end
 
   filter = FilterTable.create
+  filter.add(:enabled?) do |x|
+    raise 'Cannot determine host for SSL test. Please specify it or use a different target.' if x.resource.host.nil?
+    x.handshake.values.any? { |i| i['success'] }
+  end
   filter.add_accessor(:where)
         .add_accessor(:entries)
         .add(:ciphers, field: 'cipher')
         .add(:protocols, field: 'protocol')
-        .add(:enabled?) { |x| x.handshake.values.any? { |i| i['success'] } }
         .add(:handshake) { |x|
           groups = x.entries.group_by(&:protocol)
           res = Parallel.map(groups, in_threads: 8) do |proto, e|
