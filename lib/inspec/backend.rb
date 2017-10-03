@@ -17,6 +17,14 @@ module Inspec
         Inspec::VERSION
       end
 
+      # Determine whether the connection/transport is a local connection
+      # Useful for resources to modify behavior as necessary, such as using
+      # the Ruby stdlib for a better experience.
+      def local_transport?
+        return false unless defined?(Train::Transports::Local)
+        backend.is_a?(Train::Transports::Local::Connection)
+      end
+
       # Ruby internal for printing a nice name for this class
       def to_s
         'Inspec::Backend::Class'
