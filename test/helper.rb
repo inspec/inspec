@@ -66,6 +66,7 @@ class MockLoader
     solaris11:  { name: "solaris", family: 'solaris', release: '11', arch: 'i386'},
     solaris10:  { name: "solaris", family: 'solaris', release: '10', arch: 'i386'},
     hpux:       { name: 'hpux', family: 'hpux', release: 'B.11.31', arch: 'ia64'},
+    aix:        { name: 'aix', family: 'aix', release: '7.2', arch: 'powerpc' },
     undefined:  { name: nil, family: nil, release: nil, arch: nil },
   }
 
@@ -243,6 +244,10 @@ class MockLoader
       'ss -tulpen' => cmd.call('ss-tulpen'),
       # ports on freebsd
       'sockstat -46l' => cmd.call('sockstat'),
+      # ports on aix
+      'netstat -Aan | grep LISTEN' => cmd.call('netstat-aan'),
+      'rmsock f0000000000000001 tcpcb' => cmd.call('rmsock-f0001'),
+      'rmsock f0000000000000002 tcpcb' => cmd.call('rmsock-f0002'),
       # packages on windows
       '6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282' => cmd.call('get-item-property-package'),
       # service status upstart on ubuntu
