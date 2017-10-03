@@ -6,6 +6,7 @@ title: The dh_params Resource
 
 Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH) parameters.
 
+<br>
 
 ## Syntax
 

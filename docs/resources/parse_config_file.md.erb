@@ -6,6 +6,8 @@ title: About the parse_config_file Resource
 
 Use the `parse_config_file` InSpec audit resource to test arbitrary configuration files. It works in the same way as `parse_config`. Instead of using a command output, this resource works with files.
 
+<br>
+
 ## Syntax
 
 A `parse_config_file` InSpec audit resource block declares the location of the configuration file to be tested, and then which settings in that file are to be tested.
@@ -32,6 +34,8 @@ where each test
 * May run a command to `stdout`, and then run the test against that output
 * May use options to define how configuration data is to be parsed
 
+<br>
+
 ## Options
 
 This resource supports the following options for parsing configuration data. Use them in an `options` block stated outside of (and immediately before) the actual test:
@@ -44,9 +48,35 @@ This resource supports the following options for parsing configuration data. Use
       its('setting') { should eq 1 }
     end
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test a configuration setting
+
+    describe parse_config_file('/path/to/file.conf') do
+     its('PARAM_X') { should eq 'Y' }
+    end
+
+### Use options, and then test a configuration setting
+
+    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
+     its('PARAM_X') { should include 'Y' }
+    end
+
+## Test a file with an ini-like structure (such as a yum.conf)
+
+    describe parse_config_file('/path/to/yum.conf') do
+     its('main') { should include('gpgcheck' => '1') }
+    end
+
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### assignment_regex
 
@@ -58,27 +88,11 @@ may be tested using the following regular expression, which determines assignmen
 
     assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
 
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
 ### comment_char
 
 Use `comment_char` to test for comments in a configuration file:
 
     comment_char: '#'
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
 
 ### key_values
 
@@ -89,10 +103,6 @@ Use `key_values` to test how many values a key contains:
 contains three values. To test that value to ensure it only contains one, use:
 
     key_values: 1
-
-### match
-
-<%= partial "/shared/matcher_match" %>
 
 ### multiple_values
 
@@ -125,25 +135,3 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf') do
-     its('PARAM_X') { should eq 'Y' }
-    end
-
-### Use options, and then test a configuration setting
-
-    describe parse_config_file('/path/to/file.conf', { multiple_values: true }) do
-     its('PARAM_X') { should include 'Y' }
-    end
-
-## Test a file with an ini-like structure (such as a yum.conf)
-
-    describe parse_config_file('/path/to/yum.conf') do
-     its('main') { should include('gpgcheck' => '1') }
-    end

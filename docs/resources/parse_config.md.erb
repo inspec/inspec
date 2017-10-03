@@ -6,6 +6,8 @@ title: About the parse_config Resource
 
 Use the `parse_config` InSpec audit resource to test arbitrary configuration files.
 
+<br>
+
 ## Syntax
 
 A `parse_config` resource block declares the location of the configuration setting to be tested, and then what value is to be tested. Because this resource relies on arbitrary configuration files, the test itself is often arbitrary and relies on custom Ruby code:
@@ -35,9 +37,11 @@ where each test
 * May run a command to `stdout`, and then run the test against that output
 * May use options to define how configuration data is to be parsed
 
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers:
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### assignment_regex
 
@@ -49,27 +53,11 @@ may be tested using the following regular expression, which determines assignmen
 
     assignment_regex: /^\s*([^=]*?)\s*=\s*(.*?)\s*$/
 
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
 ### comment_char
 
 Use `comment_char` to test for comments in a configuration file:
 
     comment_char: '#'
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
 
 ### key_values
 
@@ -80,10 +68,6 @@ Use `key_values` to test how many values a key contains:
 contains three values. To test that value to ensure it only contains one, use:
 
     key_values: 1
-
-### match
-
-<%= partial "/shared/matcher_match" %>
 
 ### multiple_values
 
@@ -116,7 +100,3 @@ Use `standalone_comments: false`, to parse the following:
 
     'key = value # comment'
     params['key'] = 'value'
-
-## Examples
-
-None.

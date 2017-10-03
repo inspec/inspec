@@ -6,6 +6,8 @@ title: About the windows_feature Resource
 
 Use the `windows_feature` InSpec audit resource to test features on Windows via the `Get-WindowsFeature` cmdlet.
 
+<br>
+
 ## Syntax
 
 A `windows_feature` resource block declares the name of the Windows feature, tests if that feature is installed, and then returns information about that feature:
@@ -19,36 +21,7 @@ where
 * `('feature_name')` must specify a Windows feature name, such as `DHCP Server` or `IIS-Webserver`
 * `be_installed` is a valid matcher for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_installed
-
-The `be_installed` matcher tests if the named Windows feature is installed:
-
-    it { should be_installed }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -59,3 +32,15 @@ The following examples show how to use this InSpec audit resource.
     describe windows_feature('DHCP Server') do
       it{ should be_installed }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_installed
+
+The `be_installed` matcher tests if the named Windows feature is installed:
+
+    it { should be_installed }

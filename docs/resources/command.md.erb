@@ -6,6 +6,8 @@ title: About the command Resource
 
 Use the `command` InSpec audit resource to test an arbitrary command that is run on the system.
 
+<br>
+
 ## Syntax
 
 A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
@@ -21,56 +23,7 @@ where
 * `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### exist
-
-The `exist` matcher tests if a command may be run on the system:
-
-    it { should exist }
-
-### exit_status
-
-The `exit_status` matcher tests the exit status for the command:
-
-    its('exit_status') { should eq 123 }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### stderr
-
-The `stderr` matcher tests results of the command as returned in standard error (stderr):
-
-    its('stderr') { should eq 'error' }
-
-### stdout
-
-The `stdout` matcher tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
-
-    describe command('echo 1') do
-       its('stdout') { should match (/[0-9]/) }
-    end
+<br>
 
 ## Examples
 
@@ -148,4 +101,36 @@ Wix includes serveral tools -- such as `candle` (preprocesses and compiles sourc
       describe file("C:/wix/##{utility}") do
         it { should be_file }
       end
+    end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exist
+
+The `exist` matcher tests if a command may be run on the system:
+
+    it { should exist }
+
+### exit_status
+
+The `exit_status` matcher tests the exit status for the command:
+
+    its('exit_status') { should eq 123 }
+
+### stderr
+
+The `stderr` matcher tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq 'error' }
+
+### stdout
+
+The `stdout` matcher tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
+
+    describe command('echo 1') do
+       its('stdout') { should match (/[0-9]/) }
     end

@@ -8,6 +8,8 @@ Use the `service` InSpec audit resource to test if the named service is installe
 
 Under some circumstances, it may be necessary to specify the service manager by using one of the following service manager-specific resources: `bsd_service`, `launchd_service`, `runit_service`, `systemd_service`, `sysv_service`, or `upstart_service`. These resources are based on the `service` resource.
 
+<br>
+
 ## Syntax
 
 A `service` resource block declares the name of a service and then one (or more) matchers to test the state of the service:
@@ -23,48 +25,7 @@ where
 * `('service_name')` must specify a service name
 * `be_installed`, `be_enabled`, and `be_running` are valid matchers for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_enabled
-
-The `be_enabled` matcher tests if the named service is enabled:
-
-    it { should be_enabled }
-
-### be_installed
-
-The `be_installed` matcher tests if the named service is installed:
-
-    it { should be_installed }
-
-### be_running
-
-The `be_running` matcher tests if the named service is running:
-
-    it { should be_running }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -133,3 +94,27 @@ This is also possible with `systemd_service`, `runit_service`, `sysv_service`, `
       it { should be_installed }
       it { should be_running }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_enabled
+
+The `be_enabled` matcher tests if the named service is enabled:
+
+    it { should be_enabled }
+
+### be_installed
+
+The `be_installed` matcher tests if the named service is installed:
+
+    it { should be_installed }
+
+### be_running
+
+The `be_running` matcher tests if the named service is running:
+
+    it { should be_running }

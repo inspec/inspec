@@ -6,6 +6,8 @@ title: About the os_env Resource
 
 Use the `os_env` InSpec audit resource to test the environment variables for the platform on which the system is running.
 
+<br>
+
 ## Syntax
 
 A `os_env` resource block declares an environment variable, and then declares its value:
@@ -19,50 +21,7 @@ where
 * `('VARIABLE')` must specify an environment variable, such as `PATH`
 * `matcher` is a valid matcher for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### content
-
-The `content` matcher return the value of the environment variable:
-
-    its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### split
-
-The `split` splits the content with the `:` deliminator:
-
-    its('split') { should include (':') }
-
-or:
-
-    its('split') { should_not include ('.') }
-
-Use `-1` to test for cases where there is a trailing colon (`:`), such as `dir1::dir2:`:
-
-    its('split') { should include ('-1') }
+<br>
 
 ## Examples
 
@@ -96,3 +55,29 @@ Habitat uses the `os_env` resource to test environment variables. The environmen
         its('content') { should eq nil }
       end
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### content
+
+The `content` matcher return the value of the environment variable:
+
+    its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
+
+### split
+
+The `split` splits the content with the `:` deliminator:
+
+    its('split') { should include (':') }
+
+or:
+
+    its('split') { should_not include ('.') }
+
+Use `-1` to test for cases where there is a trailing colon (`:`), such as `dir1::dir2:`:
+
+    its('split') { should include ('-1') }

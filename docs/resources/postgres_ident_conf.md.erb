@@ -5,6 +5,9 @@ title: About the postgres_ident_conf Resource
 # postgres_ident_conf
 
 Use the `postgres_ident_conf` InSpec audit resource to test the client authentication data defined in the pg_hba.conf file.
+
+<br>
+
 ## Syntax
 
 An `postgres_ident_conf` InSpec audit resource block declares client authentication data that should be tested:
@@ -19,47 +22,13 @@ where
 * `'filter_value'` is the value that is to be filtered for
 * `'value'` is the value that is to be matched expected
 
-## Matchers
-
-This InSpec audit resource matches any service that is listed in the pg ident  configuration file:
-
-    its('pg_username') { should_not eq ['peer'] }
-
-or:
-
-    its('map_name') { should eq ['value'] }
-
-For example:
-
-    describe postgres_ident_conf.where { pg_username == 'name' } do
-      its('system_username') { should eq ['value'] }
-      its('map_name') { should eq ['value'] }
-    end
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
+<br>
 
 ## Supported Properties
 
     'conf_file', 'map_name', 'params', 'pg_username', 'system_username'
+
+<br>
 
 ## Property Examples and Return Types
 
@@ -84,4 +53,23 @@ For example:
 
     describe pg_hba_conf.where { pg_username == 'name' } do
       its('system_username') { should eq ['value'] }
+    end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource matches any service that is listed in the pg ident configuration file. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+    its('pg_username') { should_not eq ['peer'] }
+
+or:
+
+    its('map_name') { should eq ['value'] }
+
+For example:
+
+    describe postgres_ident_conf.where { pg_username == 'name' } do
+      its('system_username') { should eq ['value'] }
+      its('map_name') { should eq ['value'] }
     end

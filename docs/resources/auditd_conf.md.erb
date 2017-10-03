@@ -6,6 +6,8 @@ title: About the auditd_conf Resource
 
 Use the `auditd_conf` InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under `/etc/audit/auditd.conf'` on Unix and Linux platforms.
 
+<br>
+
 ## Syntax
 
 A `auditd_conf` resource block declares configuration settings that should be tested:
@@ -20,40 +22,7 @@ where
 * `('path')` is the non-default path to the `auditd.conf` configuration file
 * `{ should cmp 'value' }` is the value that is expected
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### keyword
-
-This matcher will matche any keyword that is listed in the `auditd.conf` configuration file. Option names and values are case-insensitive:
-
-    its('log_format') { should cmp 'raw' }
-
-or:
-
-    its('max_log_file') { should cmp 6 }
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -77,3 +46,20 @@ The following examples show how to use this InSpec audit resource.
       its('disk_full_action') { should cmp 'halt' }
       its('disk_error_action') { should cmp 'halt' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+
+### keyword
+
+This matcher will matche any keyword that is listed in the `auditd.conf` configuration file. Option names and values are case-insensitive:
+
+    its('log_format') { should cmp 'raw' }
+
+or:
+
+    its('max_log_file') { should cmp 6 }

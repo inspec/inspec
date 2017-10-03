@@ -8,6 +8,8 @@ Use the `nginx_conf` InSpec resource to test configuration data for the NGINX se
 
 **Stability: Experimental**
 
+<br>
+
 ## Syntax
 
 An `nginx_conf` resource block declares the client NGINX configuration data to be tested:
@@ -23,10 +25,32 @@ where
 * `params['pid']` selects the `pid` entry from the global NGINX configuration
 * `{ should cmp 'logs/nginx.pid' }` tests if the PID is set to `logs/nginx.pid` (via `cmp` matcher)
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Find a specific server
+
+    servers = nginx_conf.servers
+    domain2 = servers.find { |s| s.params['server_name'].flatten.include? 'domain2.com' }
+    describe 'No server serves domain2' do
+      subject { domain2 }
+      it { should be_nil }
+    end
+
+### Test a raw parameter
+
+    describe nginx_conf.params['worker_processes'].flatten do
+      it { should cmp 5 }
+    end
+
+<br>
 
 ## Matchers
 
-This InSpec audit resource has the following matchers:
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### http
 
@@ -101,22 +125,3 @@ Locations provide access to their parent server entry and raw parameters:
 
     location.params
     => {"_"=>["~", "\\.php$"], "fastcgi_pass"=>[["127.0.0.1:1025"]]}
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Find a specific server
-
-    servers = nginx_conf.servers
-    domain2 = servers.find { |s| s.params['server_name'].flatten.include? 'domain2.com' }
-    describe 'No server serves domain2' do
-      subject { domain2 }
-      it { should be_nil }
-    end
-
-### Test a raw parameter
-
-    describe nginx_conf.params['worker_processes'].flatten do
-      it { should cmp 5 }
-    end

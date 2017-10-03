@@ -6,6 +6,8 @@ title: About the ssh_config Resource
 
 Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.
 
+<br>
+
 ## Syntax
 
 An `ssh_config` resource block declares the client OpenSSH configuration data to be tested:
@@ -20,40 +22,7 @@ where
 * `('path')` is the non-default `/path/to/ssh_config`
 * `{ should include('foo') }` tests the value of `name` as read from `ssh_config` versus the value declared in the test
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### name
-
-The `name` matcher tests the value of `name` as read from `ssh_config` versus the value declared in the test:
-
-    its('name') { should eq 'foo' }
-
-or:
-
-    its('name') { should include('bar') }
+<br>
 
 ## Examples
 
@@ -92,3 +61,19 @@ The following examples show how to use this InSpec audit resource.
       its('SendEnv') { should eq 'LANG LC_*' }
       its('HashKnownHosts') { should eq 'yes' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### name
+
+The `name` matcher tests the value of `name` as read from `ssh_config` versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
+
+or:
+
+    its('name') { should include('bar') }

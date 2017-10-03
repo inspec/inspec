@@ -6,6 +6,7 @@ title: About the package Resource
 
 Use the `package` InSpec audit resource to test if the named package and/or package version is installed on the system.
 
+<br>
 
 ## Syntax
 
@@ -20,48 +21,7 @@ where
 * `('name')` must specify the name of a package, such as `'nginx'`
 * `be_installed` is a valid matcher for this resource
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_held
-
-The `be_held` matcher tests if the named package is "held". On dpkg platforms, a "held" package
-will not be upgraded to a later version.
-
-    it { should be_held }
-
-### be_installed
-
-The `be_installed` matcher tests if the named package is installed on the system:
-
-    it { should be_installed }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
+<br>
 
 ## Examples
 
@@ -126,3 +86,28 @@ Memcached is an in-memory key-value store that helps improve the performance of 
     describe port(11_211) do
       it { should be_listening }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_held
+
+The `be_held` matcher tests if the named package is "held". On dpkg platforms, a "held" package
+will not be upgraded to a later version.
+
+    it { should be_held }
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
