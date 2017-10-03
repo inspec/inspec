@@ -18,8 +18,11 @@ module Login
   private
 
   def store_access_token(options, token)
-    token_info = { type: 'dctoken', msg: 'data colletor token' } if options['dctoken']
-    token_info = { type: 'usertoken', msg: 'automate user token' } if options['token']
+    token_info = if options['token']
+                   { type: 'usertoken', msg: 'automate user token' }
+                 else
+                   { type: 'dctoken', msg: 'data colletor token' }
+                 end
 
     config = Compliance::Configuration.new
 
