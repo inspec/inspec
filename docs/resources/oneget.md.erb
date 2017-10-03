@@ -6,6 +6,8 @@ title: About the oneget Resource
 
 Use the `oneget` InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses Oneget, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`__. This resource uses the `Get-Package` cmdlet to return all of the package names in the Oneget repository.
 
+<br>
+
 ## Syntax
 
 A `oneget` resource block declares a package and (optionally) a package version:
@@ -19,42 +21,7 @@ where
 * `('name')` must specify the name of a package, such as `'VLC'`
 * `be_installed` is a valid matcher for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_installed
-
-The `be_installed` matcher tests if the named package is installed on the system:
-
-    it { should be_installed }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
+<br>
 
 ## Examples
 
@@ -65,3 +32,21 @@ The following examples show how to use this InSpec audit resource.
     describe oneget('VLC') do
       it { should be_installed }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }

@@ -6,6 +6,8 @@ title: About the bond Resource
 
 Use the `bond` InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the `/proc/net/bonding` directory may be tested.
 
+<br>
+
 ## Syntax
 
 A `bond` resource block declares a bonded network interface, and then specifies the properties of that bonded network interface to be tested:
@@ -19,60 +21,7 @@ where
 * `'name'` is the name of the bonded network interface
 * `{ should exist }` is a valid matcher for this resource
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### content
-
-The `content` matcher tests if contents in the file that defines the bonded network interface match the value specified in the test. The values of the `content` matcher are arbitrary:
-
-    its('content') { should match('value') }
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### exist
-
-The `exist` matcher tests if the bonded network interface is available:
-
-    it { should exist }
-
-### have_interface
-
-The `have_interface` matcher tests if the bonded network interface has one (or more) secondary interfaces:
-
-    it { should have_interface }
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### interfaces
-
-The `interfaces` matcher tests if the named secondary interfaces are available:
-
-    its('interfaces') { should eq ['eth0', 'eth1', ...] }
-
-### match
-
-<%= partial "/shared/matcher_match" %>
-
-### params
-
-The `params` matcher tests arbitrary parameters for the bonded network interface:
-
-    its('params') { should eq 'value' }
+<br>
 
 ## Examples
 
@@ -95,3 +44,39 @@ The following examples show how to use this InSpec audit resource.
       its('Up Delay (ms)') { should eq '0' }
       its('Down Delay (ms)') { should eq '0' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### content
+
+The `content` matcher tests if contents in the file that defines the bonded network interface match the value specified in the test. The values of the `content` matcher are arbitrary:
+
+    its('content') { should match('value') }
+
+### exist
+
+The `exist` matcher tests if the bonded network interface is available:
+
+    it { should exist }
+
+### have_interface
+
+The `have_interface` matcher tests if the bonded network interface has one (or more) secondary interfaces:
+
+    it { should have_interface }
+
+### interfaces
+
+The `interfaces` matcher tests if the named secondary interfaces are available:
+
+    its('interfaces') { should eq ['eth0', 'eth1', ...] }
+
+### params
+
+The `params` matcher tests arbitrary parameters for the bonded network interface:
+
+    its('params') { should eq 'value' }

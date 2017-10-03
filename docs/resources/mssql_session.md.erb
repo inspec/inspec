@@ -6,6 +6,8 @@ title: About the mssql_session Resource
 
 Use the `mssql_session` InSpec audit resource to test SQL commands run against a Microsoft SQL database.
 
+<br>
+
 ## Syntax
 
 A `mssql_session` resource block declares the username and password to use for the session, and then the command to be run:
@@ -20,18 +22,7 @@ where
 * `query('QUERY')` contains the query to be run
 * `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
+<br>
 
 ## Examples
 
@@ -60,3 +51,9 @@ The following examples show how to use this InSpec audit resource.
     describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
       its("value") { should cmp > '12.00.4457' }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

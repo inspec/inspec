@@ -8,6 +8,7 @@ Use the `key_rsa` InSpec audit resource to test RSA public/private keypairs.
 
 This resource is mainly useful when used in conjunction with the x509_certificate resource but it can also be used for checking SSH keys.
 
+<br>
 
 ## Syntax
 
@@ -25,6 +26,8 @@ You can use an optional passphrase with `key_rsa`
     describe key_rsa('mycertificate.key', 'passphrase') do
       it { should be_private }
     end
+
+<br>
 
 ## Supported Properties
 

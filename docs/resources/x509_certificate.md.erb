@@ -12,6 +12,8 @@ or communications over a network. They may also be used for authentication.
 Examples include SSL certificates, S/MIME certificates and VPN authentication
 certificates.
 
+<br>
+
 ## Syntax
 
 An `x509_certificate` resource block declares a certificate `key file` to be tested.
@@ -19,6 +21,8 @@ An `x509_certificate` resource block declares a certificate `key file` to be tes
     describe x509_certificate('mycertificate.pem') do
       its('validity_in_days') { should be > 30 }
     end
+
+<br>
 
 ## Supported Properties
 

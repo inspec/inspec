@@ -6,6 +6,8 @@ title: About the docker_image Resource
 
 Use the `docker_image` InSpec audit resource to verify a docker image.
 
+<br>
+
 ## Syntax
 
 A `docker_image` resource block declares the image:
@@ -35,10 +37,27 @@ You can also pass in repository and tag as separate values
       ...
     end
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec `docker_image` resource.
+
+### Test a docker image
+
+    describe docker_image('alpine:latest') do
+      it { should exist }
+      its('id') { should eq 'sha256:4a415e...a526' }
+      its('image') { should eq 'alpine:latest' }
+      its('repo') { should eq 'alpine' }
+      its('tag') { should eq 'latest' }
+    end
+
+<br>
 
 ## Matchers
 
-This InSpec audit resource has the following matchers:
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -69,18 +88,3 @@ The `repo` matcher tests the value of the repository name:
 The `tag` matcher tests the value of image tag:
 
     its('tag') { should eq 'latest' }
-
-
-## Examples
-
-The following examples show how to use this InSpec `docker_image` resource.
-
-### Test a docker image
-
-    describe docker_image('alpine:latest') do
-      it { should exist }
-      its('id') { should eq 'sha256:4a415e...a526' }
-      its('image') { should eq 'alpine:latest' }
-      its('repo') { should eq 'alpine' }
-      its('tag') { should eq 'latest' }
-    end

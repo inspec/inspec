@@ -6,6 +6,8 @@ title: About the apache_conf Resource
 
 Use the `apache_conf` InSpec audit resource to test the configuration settings for Apache. This file is typically located under `/etc/apache2` on the Debian and Ubuntu platforms and under `/etc/httpd` on the Fedora, CentOS, RedHat Enterprise Linux, and ArchLinux platforms. The configuration settings may vary significantly from platform to platform.
 
+<br>
+
 ## Syntax
 
 An `apache_conf` InSpec audit resource block declares configuration settings that should be tested:
@@ -20,43 +22,7 @@ where
 * `('path')` is the non-default path to the Apache configuration file
 * `{ should eq 'value' }` is the value that is expected
 
-## Matchers
-
-This InSpec audit resource matches any service that is listed in the Apache configuration file:
-
-    its('PidFile') { should_not eq '/var/run/httpd.pid' }
-
-or:
-
-    its('Timeout') { should eq 300 }
-
-For example:
-
-    describe apache_conf do
-      its('MaxClients') { should eq 100 }
-      its('Listen') { should eq '443'}
-    end
-
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -71,5 +37,25 @@ The following examples show how to use this InSpec audit resource.
 ### Test ports for SSL
 
     describe apache_conf do
+      its('Listen') { should eq '443'}
+    end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource matches any service that is listed in the Apache configuration file:
+
+    its('PidFile') { should_not eq '/var/run/httpd.pid' }
+
+or:
+
+    its('Timeout') { should eq 300 }
+
+For example:
+
+    describe apache_conf do
+      its('MaxClients') { should eq 100 }
       its('Listen') { should eq '443'}
     end

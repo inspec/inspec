@@ -6,6 +6,8 @@ title: About the crontab Resource
 
 Use the `crontab` InSpec audit resource to test the crontab entries for a particular user on the system. It recognizes special time strings (@yearly, @weekly, etc).
 
+<br>
+
 ## Syntax
 
 A `crontab` resource block declares a user (which defaults to the current user, if not specified), and then the details to be tested, such as the schedule elements for each crontab entry or the commands itself:
@@ -14,29 +16,7 @@ A `crontab` resource block declares a user (which defaults to the current user, 
       its('commands') { should include '/some/scheduled/task.sh' }
     end
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -82,3 +62,9 @@ The following examples show how to use this InSpec audit resource.
       its('hours') { should cmp '-1' }
       its('minutes') { should cmp '-1' }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

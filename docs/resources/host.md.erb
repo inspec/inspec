@@ -6,6 +6,8 @@ title: About the host Resource
 
 Use the `host` InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.
 
+<br>
+
 ## Syntax
 
 A `host` resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol:
@@ -25,48 +27,7 @@ where
 * `port:` is the port number
 * `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or  ICMP (`protocol: 'icmp'`))
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### be_reachable
-
-The `be_reachable` matcher tests if the host name is available:
-
-    it { should be_reachable }
-
-### be_resolvable
-
-The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
-
-    it { should be_resolvable }
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### ipaddress
-
-The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
-
-    its('ipaddress') { should include '93.184.216.34' }
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -92,3 +53,27 @@ The following examples show how to use this InSpec audit resource.
       its('connection') { should_not match /connection refused/ }
       its('socket') { should match /STATUS_OK/ }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_reachable
+
+The `be_reachable` matcher tests if the host name is available:
+
+    it { should be_reachable }
+
+### be_resolvable
+
+The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
+
+    it { should be_resolvable }
+
+### ipaddress
+
+The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
+
+    its('ipaddress') { should include '93.184.216.34' }

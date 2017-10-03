@@ -19,6 +19,8 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
     dannos:Gb7crrO5CDF.:10063:0:99999:7:::
 
+<br>
+
 ## Syntax
 
 A `shadow` resource block declares one (or more) users and associated user information to be tested:
@@ -39,18 +41,30 @@ where
 * `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
 * `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering; `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test for a forbidden user
+
+    describe shadow do
+      its('users') { should_not include 'forbidden_user' }
+    end
+
+### Test that a user appears one time
+
+    describe shadow.users('bin') do
+      its('passwords') { should cmp 'x' }
+      its('count') { should eq 1 }
+    end
+
+<br>
 
 ## Matchers
 
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
+This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### count
 
@@ -64,10 +78,6 @@ TThis matcher is best used in conjunction with filters. For example:
        its('count') { should eq 1 }
     end
 
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
 ### expiry_dates
 
 The `expiry_dates` matcher tests the number of days a user account has been disabled:
@@ -80,19 +90,11 @@ The `inactive_days` matcher tests the number of days a user must be inactive bef
 
     its('inactive_days') { should eq '' }
 
-### include
-
-<%= partial "/shared/matcher_include" %>
-
 ### last_changes
 
 The `last_changes` matcher tests the last time a password was changed:
 
     its('last_changes') { should eq '' }
-
-### match
-
-<%= partial "/shared/matcher_match" %>
 
 ### max_days
 
@@ -130,20 +132,3 @@ The `users` matcher tests if the user name exists `/etc/shadow`:
 The `warn_days` matcher tests the number of days a user is warned about an expiring password:
 
     its('warn_days') { should eq 7 }
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test for a forbidden user
-
-    describe shadow do
-      its('users') { should_not include 'forbidden_user' }
-    end
-
-### Test that a user appears one time
-
-    describe shadow.users('bin') do
-      its('passwords') { should cmp 'x' }
-      its('count') { should eq 1 }
-    end

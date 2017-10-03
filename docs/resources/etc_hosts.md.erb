@@ -9,6 +9,8 @@ Use the `etc_hosts` InSpec audit resource to test rules set to match IP addresse
 
 An etc/hosts rule specifies an IP address and what its hostname is along with optional aliases it can have.
 
+<br>
+
 ## Syntax
 
 Use the where clause to match a property to one or more rules in the hosts file.
@@ -31,9 +33,13 @@ where
 * `primary_name` is the name associated with the ip address.
 * `all_host_names` is a list including the primary_name as the first entry followed by any aliase names the host has.
 
+<br>
+
 ## Supported Properties
 
     'ip_address', 'primary_name', 'all_host_names'
+
+<br>
 
 ## Property Examples and Return Types
 

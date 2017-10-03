@@ -6,6 +6,8 @@ title: About the grub_conf Resource
 
 Grub is a boot loader on the Linux platform used to load and then transfer control to an operating system kernel, after which that kernel initializes the rest of the operating system. Use the `grub_conf` InSpec audit resource to test boot loader configuration settings that are defined in the `grub.conf` configuration file.
 
+<br>
+
 ## Syntax
 
 A `grub_conf` resource block declares a list of settings in a `grub.conf` file:
@@ -28,30 +30,7 @@ where
 * `'kernel'` specifies the default kernel (by using `'default'`) or a specific kernel; `'default'` defines the position in the list of kernels at which the default kernel is defined, i.e. `should eq '0'` for the first kernel listed or `'path', 'default'` to use the default kernel as specified in the `grub.conf` file
 * `'value'` is the value that is expected
 
-
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be
-
-<%= partial "/shared/matcher_be" %>
-
-### cmp
-
-<%= partial "/shared/matcher_cmp" %>
-
-### eq
-
-<%= partial "/shared/matcher_eq" %>
-
-### include
-
-<%= partial "/shared/matcher_include" %>
-
-### match
-
-<%= partial "/shared/matcher_match" %>
+<br>
 
 ## Examples
 
@@ -113,3 +92,9 @@ The following test verifies the `ramdisk_size` for the non-deault kernel:
     grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
       its('kernel') { should include 'audit=1' }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
