@@ -246,7 +246,7 @@ module Compliance
     def self.determine_server_type(url, insecure)
       return 'automate' if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
       return 'compliance' if Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
-      raise CannotDetermineServerType
+      raise CannotDetermineServerType, "Unable to determine if #{url} is a Chef Automate or Chef Compliance server"
     end
   end
 end
