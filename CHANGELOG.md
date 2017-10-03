@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.40.1 -->
+## [v1.40.1](https://github.com/chef/inspec/tree/v1.40.1) (2017-10-03)
+
+#### Merged Pull Requests
+- Clean-up kitchen-inspec reference doc [#2208](https://github.com/chef/inspec/pull/2208) ([nathenharvey](https://github.com/nathenharvey))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.40.0 -->
+### Changes since 1.40.0 release
+
+#### Merged Pull Requests
+- Clean-up kitchen-inspec reference doc [#2208](https://github.com/chef/inspec/pull/2208) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.40.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
