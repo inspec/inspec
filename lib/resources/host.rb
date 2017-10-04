@@ -113,7 +113,10 @@ module Inspec::Resources
     end
 
     def to_s
-      "Host #{hostname}"
+      resource_name = "Host #{hostname}"
+      resource_name += " port #{port} proto #{protocol}" if port
+
+      resource_name
     end
 
     private

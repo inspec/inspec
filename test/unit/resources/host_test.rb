@@ -12,6 +12,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com'
   end
 
   it 'check host ping on centos 7' do
@@ -19,6 +20,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com'
   end
 
   it 'check host ping on darwin' do
@@ -26,6 +28,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com'
   end
 
   it 'check host ping on windows' do
@@ -33,6 +36,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal false
     _(resource.ipaddress).must_equal ['134.170.185.46', '134.170.188.221']
+    _(resource.to_s).must_equal 'Host microsoft.com'
   end
 
   it 'check host ping on unsupported os' do
@@ -40,6 +44,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal false
     _(resource.reachable?).must_equal false
     _(resource.ipaddress).must_be_nil
+    _(resource.to_s).must_equal 'Host example.com'
   end
 
   it 'check host tcp on ubuntu' do
@@ -47,6 +52,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 
   it 'check host tcp on centos 7' do
@@ -54,6 +60,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 
   it 'check host tcp on darwin' do
@@ -61,6 +68,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 
   it 'check host tcp on windows' do
@@ -68,6 +76,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ['134.170.185.46', '134.170.188.221']
+    _(resource.to_s).must_equal 'Host microsoft.com port 1234 proto tcp'
   end
 
   it 'check host tcp on unsupported os' do
@@ -75,6 +84,7 @@ describe 'Inspec::Resources::Host' do
     _(resource.resolvable?).must_equal false
     _(resource.reachable?).must_equal false
     _(resource.ipaddress).must_be_nil
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 end
 
