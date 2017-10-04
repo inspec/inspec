@@ -125,7 +125,7 @@ InSpec supports a number of dependency sources.
 
 ### path
 
-The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles. 
+The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles.
 
     depends:
     - name: my-profile
@@ -203,7 +203,7 @@ In the example above, every time `my-app-profile` is executed, all the controls 
  * baseline-1
  * baseline-2
 
-This is a great reminder that having a good naming convention for your controls is helpful to avoid confusion when 
+This is a great reminder that having a good naming convention for your controls is helpful to avoid confusion when
 including controls from other profiles!
 
 ### Skipping a Control from a Profile
@@ -331,3 +331,40 @@ The tests in `example.rb` can now access this file:
         it { should be_listening }
       end
     end
+
+# "should" vs. "expect" syntax
+
+Users familiar with the RSpec testing framework may know that there are two ways to write test statements: `should` and `expect`. The RSpec community decided that `expect` is the preferred syntax. However, InSpec recommends the `should` syntax as it tends to read more easily to those users who are not as technical.
+
+InSpec will continue to support both methods of writing tests. Consider this `file` test:
+
+    describe file('/tmp/test.txt') do
+      it { should be_file }
+    end
+
+This can be re-written with `expect` syntax
+
+    describe file('/tmp/test.txt') do
+      it 'should be a file' do
+        expect(subject).to(be_file)
+      end
+    end
+
+The output of both of the above examples looks like this:
+
+    File /tmp/test.txt
+       ✔  should be a file
+
+In addition, you can make use of the `subject` keyword to further control your output if you choose:
+
+    describe 'test file' do
+      subject { file('/tmp/test.txt') }
+      it 'should be a file' do
+        expect(subject).to(be_file)
+      end
+    end
+
+... which will render the following output:
+
+    test file
+      ✔  should be a file
