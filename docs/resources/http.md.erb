@@ -6,9 +6,12 @@ title: About the http Resource
 
 Use the `http` InSpec audit resource to test an http endpoint.
 
-<p class="warning">Currently, this resource always executes on the host on which <code>inspec exec</code> is run, even if you use the <code>--target</code> option to remotely scan a different host.<br>
+<p class="warning">In InSpec 1.40 and earlier, this resource always executes on the host on which <code>inspec exec</code> is run, even if you use the <code>--target</code> option to remotely scan a different host.<br>
 <br>
-This will be corrected in a future version of InSpec. New InSpec releases are posted in the <a href="https://discourse.chef.io/c/chef-release" target="_blank">Release Announcements Category in Discourse</a>.</p>
+Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target, provided <code>curl</code> is available. See the "Local vs. Remote" section below.<br>
+<br>
+Executing the HTTP test on the remote target will be the default behavior in InSpec 2.0.
+</p>
 
 <br>
 
@@ -35,6 +38,15 @@ where
 * `ssl_verify` may be specified to enable or disable verification of SSL certificates (default to `true`)
 
 <br>
+## Local vs. Remote
+
+Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
+
+    describe http('http://www.example.com', enable_remote_worker: true) do
+      its('body') { should cmp 'awesome' }
+    end
+
+In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec is testing a remote node.
 
 ## Examples
 
@@ -62,10 +74,6 @@ For example, a service is listening on default http port can be tested like this
     end
 
 <br>
-
-## Matchers
-
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### body
 
