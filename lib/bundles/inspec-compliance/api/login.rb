@@ -1,4 +1,4 @@
-# encodeing: utf-8
+# encoding: utf-8
 # author: Christoph Hartmann
 # author: Dominik Ricter
 # author: Jerry Aldrich
