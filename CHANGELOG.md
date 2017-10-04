@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.2 -->
-## [v1.40.2](https://github.com/chef/inspec/tree/v1.40.2) (2017-10-04)
+<!-- latest_release 1.40.3 -->
+## [v1.40.3](https://github.com/chef/inspec/tree/v1.40.3) (2017-10-04)
 
-#### Merged Pull Requests
-- Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett))
+#### Enhancements
+- Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.40.0 -->
 ### Changes since 1.40.0 release
+
+#### Enhancements
+- Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
 
 #### Merged Pull Requests
 - Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett)) <!-- 1.40.2 -->
