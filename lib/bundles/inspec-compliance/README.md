@@ -2,18 +2,17 @@
 
 This extensions offers the following features:
 
- - list available profiles in Chef Compliance
- - execute profiles directly from Chef Compliance locally
- - upload a local profile to Chef Compliance
+ - list available profiles in Chef Automate/Chef Compliance
+ - execute profiles directly from Chef Automate/Chef Compliance locally
+ - upload a local profile to Chef Automate/Chef Compliance
 
 To use the CLI, this InSpec add-on adds the following commands:
 
- * `$ inspec compliance login` - authentication of the API token against Chef Compliance
- * `$ inspec compliance login_automate` - authentication of the API token against Chef Automate
- * `$ inspec compliance profiles` - list all available Chef Compliance profiles
- * `$ inspec exec compliance://profile` - runs a Chef Compliance profile
- * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Compliance
- * `$ inspec compliance logout` - logout of Chef Compliance
+ * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance
+ * `$ inspec compliance profiles` - list all available Compliance profiles
+ * `$ inspec exec compliance://profile` - runs a Compliance profile
+ * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
+ * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
 
 Compliance profiles can be executed in two mays:
 
@@ -31,8 +30,7 @@ Commands:
   inspec compliance download PROFILE  # downloads a profile from Chef Compliance
   inspec compliance exec PROFILE      # executes a Chef Compliance profile
   inspec compliance help [COMMAND]    # Describe subcommands or one specific subcommand
-  inspec compliance login SERVER      # Log in to a Chef Compliance SERVER
-  inspec compliance login_automate SERVER   # Log in to an Automate SERVER
+  inspec compliance login SERVER      # Log in to a Chef Automate/Chef Compliance SERVER
   inspec compliance logout            # user logout from Chef Compliance
   inspec compliance profiles          # list all available profiles in Chef Compliance
   inspec compliance upload PATH       # uploads a local profile to Chef Compliance
@@ -41,29 +39,22 @@ Commands:
 
 ### Login with Chef Automate
 
-You need a Chef Automate server up and running. Compliance features need to [be activated](https://docs.chef.io/install_chef_automate.html#compliance), too.
-
-Now, you need a user token. You can retrieve that via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).
+You will need an access token for authentication. You can retrieve one via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).
 
 ```
-inspec compliance login_automate https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --usertoken 'zuop..._KzE'
+$ inspec compliance login https://automate.compliance.test --insecure --user 'admin' --ent 'brewinc' --token 'zuop..._KzE'
 ```
 
 ### Login with Chef Compliance
 
-Before you start using the compliance plugin, you need a running [Chef Compliance](https://www.chef.io/compliance/) server. Please login and gather the access token:
+You will need an access token for authentication. You can retrieve one via:
 
 ![Chef Compliance Token](images/cc-token.png)
 
 You can choose the access token (`--token`) or the refresh token (`--refresh_token`)
 
 ```
-# login to chef compliance server
 $ inspec compliance login https://compliance.test --user admin --insecure --token '...'
-
-# display the chef compliance server version
-$ inspec compliance version
-Chef Compliance version: 1.0.11
 ```
 
 ### List available profiles via Chef Compliance / Automate
@@ -131,7 +122,7 @@ Available profiles:
  * cis/cis-ubuntu14.04lts-level2
 ```
 
-### Run a profile from Chef Compliance / Automate on Workstation
+### Run a profile from Chef Compliance / Chef Automate on Workstation
 
 ```
 $ inspec exec compliance://admin/profile
