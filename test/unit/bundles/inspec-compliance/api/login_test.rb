@@ -49,7 +49,7 @@ describe Compliance::API do
   describe '.login' do
     describe 'when target is a Chef Automate server' do
       before do
-        Compliance::API.expects(:determine_server_type).returns('automate')
+        Compliance::API.expects(:determine_server_type).returns(:automate)
       end
 
       it 'raises an error if `https://SERVER` is missing' do
@@ -103,7 +103,7 @@ describe Compliance::API do
 
     describe 'when target is a Chef Compliance server' do
       before do
-        Compliance::API.expects(:determine_server_type).returns('compliance')
+        Compliance::API.expects(:determine_server_type).returns(:compliance)
       end
 
       it 'raises an error if `https://SERVER` is missing' do

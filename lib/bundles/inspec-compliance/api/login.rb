@@ -7,7 +7,7 @@ module Compliance
   class API
     module Login
       def login(options)
-        options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure'])
+        options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure']).to_s
 
         return Login::ComplianceServer.login(options) if options['server_type'] == 'compliance'
         Login::AutomateServer.login(options)

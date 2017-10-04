@@ -252,7 +252,7 @@ describe Compliance::API do
       good_response.stubs(:code).returns('401')
       url = 'https://automate.example.com'
       Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(good_response)
-      Compliance::API.determine_server_type(url, true).must_equal('automate')
+      Compliance::API.determine_server_type(url, true).must_equal(:automate)
     end
 
     it 'returns `compliance` when a 200 is received from `https://compliance.example.com/api/version`' do
@@ -263,7 +263,7 @@ describe Compliance::API do
       url = 'https://compliance.example.com'
       Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
       Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(good_response)
-      Compliance::API.determine_server_type(url, true).must_equal('compliance')
+      Compliance::API.determine_server_type(url, true).must_equal(:compliance)
     end
 
     it 'raises a `Compliance::CannotDetermineServerType` error if no response returns favorably' do
