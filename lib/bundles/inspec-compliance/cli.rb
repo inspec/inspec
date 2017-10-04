@@ -41,7 +41,7 @@ module Compliance
       desc: 'Data Collector token'
     option :ent, type: :string, required: false,
       desc: 'Enterprise for Chef Automate reporting'
-    def login(server) # rubocop:disable Metrics/AbcSize
+    def login(server)
       options['server'] = server
       Compliance::API.login(options)
     end
