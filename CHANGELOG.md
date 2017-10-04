@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.1 -->
-## [v1.40.1](https://github.com/chef/inspec/tree/v1.40.1) (2017-10-03)
+<!-- latest_release 1.40.2 -->
+## [v1.40.2](https://github.com/chef/inspec/tree/v1.40.2) (2017-10-04)
 
 #### Merged Pull Requests
-- Clean-up kitchen-inspec reference doc [#2208](https://github.com/chef/inspec/pull/2208) ([nathenharvey](https://github.com/nathenharvey))
+- Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.40.0 -->
 ### Changes since 1.40.0 release
 
 #### Merged Pull Requests
+- Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett)) <!-- 1.40.2 -->
 - Clean-up kitchen-inspec reference doc [#2208](https://github.com/chef/inspec/pull/2208) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.40.1 -->
 <!-- release_rollup -->
 
