@@ -68,6 +68,13 @@ end
       its('log_format') { should cmp 'RAW' }
     end
     ```
+* Recognize versions embedded in strings
+
+    ```ruby
+    describe package(curl) do
+      its('version') { should cmp > '7.35.0-1ubuntu2.10' }
+    end
+    ```
 
 * Compare arrays with only one entry to a value
 
