@@ -121,7 +121,8 @@ describe Inspec::ProfileContext do
       let(:if_true) { "only_if { true }\n" }
       let(:if_false) { "only_if { false }\n" }
       let(:describe) { "describe nil do its(:to_i) { should eq rand } end\n" }
-      let(:control) { "control 1 do\n#{describe}end" }
+      let(:control) { "control 1 do\n#{describe}\nend\n" }
+      let(:control_2) { "control 2 do\n#{describe}\nend\n" }
 
       it 'provides the keyword' do
         profile.load(if_true)
@@ -172,6 +173,15 @@ describe Inspec::ProfileContext do
         profile.load(if_true + if_false + control)
         get_checks.length.must_equal 1
         get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'doesnt extend into other control files' do
+        profile.load_control_file(if_false + control)
+        profile.load_control_file(control_2)
+        check_1 = get_checks
+        check_2 = Inspec::Rule.prepare_checks(profile.rules.values[1])
+        check_1[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        check_2[0][1][0].must_be_nil
       end
     end
 

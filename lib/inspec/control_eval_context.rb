@@ -45,12 +45,14 @@ module Inspec
         include Inspec::DSL::RequireOverride
         include resources_dsl
 
+        attr_writer :skip_file
+
         def initialize(backend, conf, dependencies, require_loader)
           @backend = backend
           @conf = conf
           @dependencies = dependencies
           @require_loader = require_loader
-          @skip_profile = false
+          @skip_file = false
         end
 
         define_method :title do |arg|
@@ -113,7 +115,7 @@ module Inspec
         end
 
         define_method :register_control do |control, &block|
-          if @skip_profile || !profile_context_owner.profile_supports_os?
+          if @skip_file || !profile_context_owner.profile_supports_os?
             ::Inspec::Rule.set_skip_rule(control, true)
           end
 
@@ -131,7 +133,7 @@ module Inspec
 
         def only_if
           return unless block_given?
-          @skip_profile ||= !yield
+          @skip_file ||= !yield
         end
 
         alias_method :rule, :control
