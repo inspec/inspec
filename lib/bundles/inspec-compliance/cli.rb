@@ -32,17 +32,52 @@ module Compliance
     option :user, type: :string, required: false,
       desc: 'Username'
     option :password, type: :string, required: false,
-      desc: 'Password'
+      desc: 'Password (Chef Compliance Only)'
     option :token, type: :string, required: false,
       desc: 'Access token'
     option :refresh_token, type: :string, required: false,
-      desc: 'Chef Compliance refresh token'
+      desc: 'Chef Compliance refresh token (Chef Compliance Only)'
     option :dctoken, type: :string, required: false,
-      desc: 'Data Collector token'
+      desc: 'Data Collector token (Chef Automate Only)'
     option :ent, type: :string, required: false,
-      desc: 'Enterprise for Chef Automate reporting'
+      desc: 'Enterprise for Chef Automate reporting (Chef Automate Only)'
     def login(server)
       options['server'] = server
+      Compliance::API.login(options)
+    end
+
+    desc "login_automate https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --usertoken='TOKEN'", 'Log in to a Chef Automate SERVER (DEPRECATED: Please use `login`)'
+    long_desc <<-LONGDESC
+      This commmand is deprecated and will be removed, please use `--login`.
+
+      `login_automate` allows you to use InSpec with Chef Automate.
+
+      You need to a token for communication. More information about token retrieval
+      is available at:
+        https://docs.chef.io/api_automate.html#authentication-methods
+        https://docs.chef.io/api_compliance.html#obtaining-an-api-token
+    LONGDESC
+    option :insecure, aliases: :k, type: :boolean,
+      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
+    option :user, type: :string, required: true,
+      desc: 'Username'
+    option :usertoken, type: :string, required: false,
+      desc: 'Access token (DEPRECATED: Please use `--token`)'
+    option :token, type: :string, required: false,
+      desc: 'Access token'
+    option :dctoken, type: :string, required: false,
+      desc: 'Data Collector token'
+    option :ent, type: :string, required: true,
+      desc: 'Enterprise for Chef Automate reporting'
+    def login_automate(server)
+      warn '[DEPRECATION] `inspec compliance login_automate` is deprecated. Please use `inspec compliance login`'
+      options['server'] = server
+
+      if options['usertoken']
+        warn '[DEPRECATION] `--usertoken` is deprecated. Please use `--token`.'
+        options['token'] = options['usertoken']
+      end
+
       Compliance::API.login(options)
     end
 
