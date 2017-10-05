@@ -160,6 +160,14 @@ describe 'inspec shell tests' do
       out.stdout.must_include 'For more examples, see: https://www.inspec.io/docs/reference/matchers/'
     end
 
+    it 'provides empty example help' do
+      out = do_shell('help file')
+      out.stdout.must_include 'Name'
+      out.stdout.must_include 'Description'
+      out.stdout.must_include 'Example'
+      out.stdout.must_include 'Web Reference'
+    end
+
     it 'exposes all resources' do
       out = do_shell('os')
       out.stdout.must_match(/\=> .*Operating.* .*System.* .*Detection/)
