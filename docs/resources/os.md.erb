@@ -13,17 +13,17 @@ Use the `os` InSpec audit resource to test the platform on which the system is r
 An `os` resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:
 
     describe os[:family] do
-      it { should eq 'platform_name' }
+      it { should eq 'platform_family_name' }
     end
 
-or using the block name:
+* `'platform_family_name'` (a string) is one of `aix`, `bsd`, `darwin`, `debian`, `hpux`, `linux`, `redhat`, `solaris`, `suse`,  `unix`, or `windows`
 
-    describe os[:family_name] do
-      ...
-    end
+The parameters available to `os` are:
 
-* `'platform_name'` (a string) or `:family_name` (a symbol) is one of `aix`, `bsd`, `darwin`, `debian`, `hpux`, `linux`, `redhat`, `solaris`, `suse`,  `unix`, or `windows`
-
+* `:name` - the operating system name, such as `centos`
+* `:family` - the operating system family, such as `redhat`
+* `:release` - the version of the operating system, such as `7.3.1611`
+* `:arch` - the architecture of the operating system, such as `x86_64`
 <br>
 
 ## Examples
@@ -129,11 +129,11 @@ For example, both of the following tests should have the same result:
       end
     end
 
-    if os[:debian]
+    if os.debian?
       describe port(69) do
         its('processes') { should include 'in.tftpd' }
       end
-    elsif os[:redhat]
+    elsif os.redhat?
       describe port(69) do
         its('processes') { should include 'xinetd' }
       end
