@@ -55,12 +55,9 @@ describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
   let(:profile) { Inspec::ProfileContext.new(nil, backend, {}) }
 
-  def get_rule
-    profile.rules.values[0]
-  end
-
-  def get_checks
-    Inspec::Rule.prepare_checks(get_rule)
+  def get_checks(rule_index = 0)
+    rule = profile.rules.values[rule_index]
+    Inspec::Rule.prepare_checks(rule)
   end
 
   it 'must be able to load empty content' do
@@ -178,8 +175,8 @@ describe Inspec::ProfileContext do
       it 'doesnt extend into other control files' do
         profile.load_control_file(if_false + control)
         profile.load_control_file(control_2)
-        check_1 = get_checks
-        check_2 = Inspec::Rule.prepare_checks(profile.rules.values[1])
+        check_1 = get_checks(0)
+        check_2 = get_checks(1)
         check_1[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
         check_2[0][1][0].must_be_nil
       end
