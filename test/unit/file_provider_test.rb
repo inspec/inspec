@@ -166,24 +166,6 @@ describe Inspec::TarProvider do
     end
   end
 
-  describe 'applied to a pax-formatted tar archive' do
-    let(:target) { MockLoader.profile_pax_tgz('complete-profile') }
-
-    it 'must contain all files' do
-      subject.files.sort.must_equal %w{inspec.yml libraries/testlib.rb
-        controls/filesystem_spec.rb files/a_sub_dir/sub_items.conf
-        files/items.conf}.sort
-    end
-
-    it 'must not read if the file isnt included' do
-      subject.read('file-not-in-archive').must_be_nil
-    end
-
-    it 'must read the contents of the file' do
-      subject.read('inspec.yml').must_match(/^name: complete$/)
-    end
-  end
-
   describe 'applied to a tar with an empty filename' do
     # Just a placeholder, it will be ignored anyway:
     let(:cls) {
