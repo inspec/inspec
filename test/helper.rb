@@ -11,7 +11,6 @@ end
 
 require 'minitest/autorun'
 require 'minitest/spec'
-require 'mixlib/shellout'
 require 'webmock/minitest'
 require 'mocha/setup'
 require 'fileutils'
