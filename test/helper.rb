@@ -43,6 +43,7 @@ Inspec::Log.logger = Logger.new(nil)
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = {
+    alpine:     { name: 'alpine', family: 'alpine', release: '3.6.2', arch: 'x86_64' },
     arch:       { name: 'arch', family: 'arch', release: nil, arch: nil },
     centos5:    { name: 'centos', family: 'redhat', release: '5.11', arch: 'x86_64' },
     centos6:    { name: 'centos', family: 'redhat', release: '6.6', arch: 'x86_64' },
@@ -194,6 +195,8 @@ class MockLoader
     mock.commands = {
       'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
+      'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
+      'ps --help' => empty.call,
       'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
       'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
       'Remove-Item win_secpol.cfg' => cmd.call('success'),

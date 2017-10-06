@@ -160,4 +160,16 @@ describe 'Inspec::Resources::Processes' do
     resource = MockLoader.new(:windows).load_resource('processes', 'unicorn.exe')
     _(resource.exists?).must_equal false
   end
+
+  it 'returns the correct command for busybox ps' do
+    resource = MockLoader.new(:alpine).load_resource('processes')
+    resource.expects(:busybox_ps?).returns(true)
+    resource.send(:ps_configuration_for_linux)[0].must_equal 'ps -o pid,vsz,rss,tty,stat,time,ruser,args'
+  end
+
+  it 'returns the correct command for non-busybox linux' do
+    resource = MockLoader.new(:centos7).load_resource('processes')
+    resource.expects(:busybox_ps?).returns(false)
+    resource.send(:ps_configuration_for_linux)[0].must_equal 'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command'
+  end
 end
