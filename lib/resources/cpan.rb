@@ -25,7 +25,7 @@ module Inspec::Resources
 
       # this resource is not supported on Windows
       skip_resource 'The `cpan` resource is not supported on your OS yet.' if inspec.os.windows?
-      return skip_resource 'cpan not found' unless inspec.command(@perl_cmd).exist?
+      return skip_resource 'perl not found' unless inspec.command(@perl_cmd).exist?
     end
 
     def info
