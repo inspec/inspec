@@ -18,7 +18,7 @@ A `processes` resource block declares the name of the process to be tested, and 
 
 where
 
-* `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly.
+* `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
 * `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
 
 <br>
