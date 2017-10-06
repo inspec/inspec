@@ -40,13 +40,13 @@ module Inspec::Resources
       # [2] '0.4.0'
 
       # this captures any version:
-      # versions = s.scan(/\[\d+\]\s+(?:["'])(.+)(?:["'])/)
+      # versions = s.scan(/\[\d+\]\s+(?:\p{Initial_Punctuation})(.+)(?:\p{Final_Punctuation})/)
       # versions.each {|v|
       #   puts ">>> #{v}"
       # }
 
       # ... but just capture the first match for the moment
-      params = /^\[\d+\]\s+(?:["'])(.+)(?:["'])$/.match(cmd.stdout.chomp)
+      params = /^\[\d+\]\s+(?:\p{Initial_Punctuation})(.+)(?:\p{Final_Punctuation})$/.match(cmd.stdout.chomp)
       @info = {
           installed: !params.nil?,
           type: 'cran',
