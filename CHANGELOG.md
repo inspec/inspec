@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.6 -->
-## [v1.40.6](https://github.com/chef/inspec/tree/v1.40.6) (2017-10-05)
+<!-- latest_release 1.40.7 -->
+## [v1.40.7](https://github.com/chef/inspec/tree/v1.40.7) (2017-10-06)
 
-#### Merged Pull Requests
-- Add Segment tag to enable Google Analytics [#2220](https://github.com/chef/inspec/pull/2220) ([hamburglar](https://github.com/hamburglar))
+#### Bug Fixes
+- Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.40.0 -->
 ### Changes since 1.40.0 release
+
+#### Bug Fixes
+- Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick)) <!-- 1.40.7 -->
 
 #### Enhancements
 - Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
