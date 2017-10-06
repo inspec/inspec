@@ -157,6 +157,8 @@ module Inspec::Resources
   class WindowsGroup < GroupInfo
     # returns all local groups
     def groups
+      return @@groups_cache if defined?(@@groups_cache)
+
       script = <<-EOH
 Function  ConvertTo-SID { Param([byte[]]$BinarySID)
   (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
@@ -183,7 +185,7 @@ $groups | ConvertTo-Json -Depth 3
 
       # ensure we have an array of groups
       groups = [groups] if !groups.is_a?(Array)
-      groups
+      @@groups_cache = groups
     end
   end
 end
