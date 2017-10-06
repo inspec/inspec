@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.8 -->
-## [v1.40.8](https://github.com/chef/inspec/tree/v1.40.8) (2017-10-06)
+<!-- latest_release 1.40.9 -->
+## [v1.40.9](https://github.com/chef/inspec/tree/v1.40.9) (2017-10-06)
 
-#### Bug Fixes
-- Support symbol keys in ObjectTraverser [#2221](https://github.com/chef/inspec/pull/2221) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.40.0 -->
@@ -15,6 +15,7 @@
 - Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick)) <!-- 1.40.7 -->
 
 #### Enhancements
+- Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick)) <!-- 1.40.9 -->
 - Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
 
 #### Merged Pull Requests
