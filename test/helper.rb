@@ -216,6 +216,7 @@ class MockLoader
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DBD::Pg" => cmd.call('perl-print-version'),
+      "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       'pip show django' => cmd.call('pip-show-django'),
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
