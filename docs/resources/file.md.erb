@@ -110,9 +110,9 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test the mtime for a file
 
-    describe file('/').mtime.to_i do
-      it { should <= Time.now.to_i }
-      it { should >= Time.now.to_i - 1000}
+    describe file('/') do
+      its('mtime') { should <= Time.now.to_i }
+      its('mtime') { should >= Time.now.to_i - 1000 }
     end
 
 ### Test that a file's size is between 64 and 10240
@@ -421,15 +421,11 @@ The `mode` matcher tests if the mode assigned to the file matches the specified 
 
 ### mtime
 
-The `mtime` matcher tests if the file modification time for the file matches the specified value:
+The `mtime` matcher tests if the file modification time for the file matches the specified value. The mtime, where supported, is returned as the number of seconds since the epoch.
 
-    its('mtime') { should eq 'October 31 2015 12:10:45' }
-
-or:
-
-    describe file('/').mtime.to_i do
-      it { should <= Time.now.to_i }
-      it { should >= Time.now.to_i - 1000}
+    describe file('/') do
+      its('mtime') { should <= Time.now.to_i }
+      its('mtime') { should >= Time.now.to_i - 1000 }
     end
 
 ### owner
