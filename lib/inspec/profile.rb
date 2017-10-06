@@ -93,12 +93,20 @@ module Inspec
       @writable = options[:writable] || false
       @profile_id = options[:id]
       @cache = options[:cache] || Cache.new
-      @backend = options[:backend] || Inspec::Backend.create(options.select { |k, _| k != 'target' })
       @attr_values = options[:attributes]
       @tests_collected = false
       @libraries_loaded = false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
+      # if a backend has already been created, clone it so each profile has its own unique backend object
+      # otherwise, create a new backend object
+      #
+      # This is necessary since we store the RuntimeProfile on the backend object. If a user runs `inspec exec`
+      # with multiple profiles, only the RuntimeProfile for the last-loaded profile will be available if
+      # we share the backend between profiles.
+      #
+      # This will cause issues if a profile attempts to load a file via `inspec.profile.file`
+      @backend = options[:backend].nil? ? Inspec::Backend.create(options) : options[:backend].dup
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
 
