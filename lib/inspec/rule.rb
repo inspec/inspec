@@ -94,6 +94,10 @@ module Inspec
       @tags
     end
 
+    def source_file
+      @__file
+    end
+
     # Skip all checks if only_if is false
     #
     # @param [Type] &block returns true if tests are added, false otherwise

@@ -45,7 +45,7 @@ module Inspec
         include Inspec::DSL::RequireOverride
         include resources_dsl
 
-        attr_writer :skip_file
+        attr_accessor :skip_file
 
         def initialize(backend, conf, dependencies, require_loader)
           @backend = backend
@@ -131,9 +131,17 @@ module Inspec
           profile_context_owner.unregister_rule(id)
         end
 
-        def only_if
-          return unless block_given?
-          @skip_file ||= !yield
+        define_method :only_if do |&block|
+          return unless block
+          return if @skip_file == true || block.yield == true
+
+          # Apply `set_skip_rule` for other rules in the same file
+          profile_context_owner.rules.values.each do |r|
+            sources_match = r.source_file == block.source_location[0]
+            Inspec::Rule.set_skip_rule(r, true) if sources_match
+          end
+
+          @skip_file = true
         end
 
         alias_method :rule, :control
