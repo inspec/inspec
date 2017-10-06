@@ -139,21 +139,21 @@ EOF
       elsif topic == 'matchers'
         print_matchers_help
       elsif !Inspec::Resource.registry[topic].nil?
-        puts <<EOF
-#{mark 'Name:'} #{topic}
+        topic_info = Inspec::Resource.registry[topic]
+        info = "#{mark 'Name:'} #{topic}\n\n"
+        unless topic_info.desc.nil?
+          info += "#{mark 'Description:'}\n\n"
+          info += "#{topic_info.desc}\n\n"
+        end
 
-#{mark 'Description:'}
+        unless topic_info.example.nil?
+          info += "#{mark 'Example:'}\n"
+          info += "#{print_example(topic_info.example)}\n\n"
+        end
 
-#{Inspec::Resource.registry[topic].desc}
-
-#{mark 'Example:'}
-#{print_example(Inspec::Resource.registry[topic].example)}
-
-#{mark 'Web Reference:'}
-
-https://www.inspec.io/docs/reference/resources/#{topic}
-
-EOF
+        info += "#{mark 'Web Reference:'}\n\n"
+        info += "https://www.inspec.io/docs/reference/resources/#{topic}\n\n"
+        puts info
       else
         puts "The resource #{topic} does not exist. For a list of valid resources, type: help resources"
       end
