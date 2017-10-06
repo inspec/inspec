@@ -25,7 +25,12 @@ describe ObjectTraverser do
         123,
         456,
         { 'array1hashkey1' => 1, 'array1hashkey2' => 2 },
-      ]
+      ],
+      :symbol_key_1 => 123,
+      :symbol_key_2 => {
+        :symbol_under_symbol => 456,
+        'string_under_symbol' => 789
+      }
     }
   end
 
@@ -76,5 +81,11 @@ describe ObjectTraverser do
   it 'returns values from a nested hash within an array, accessing the array using methods' do
     subject.extract_value(['array2', 'last', 'array1hashkey1'], sample_data).must_equal(1)
     subject.extract_value(['array2', 'last', 'array1hashkey2'], sample_data).must_equal(2)
+  end
+
+  it 'supports returning values with symbol keys' do
+    subject.extract_value([:symbol_key_1], sample_data).must_equal(123)
+    subject.extract_value([:symbol_key_2, :symbol_under_symbol], sample_data).must_equal(456)
+    subject.extract_value([:symbol_key_2, 'string_under_symbol'], sample_data).must_equal(789)
   end
 end
