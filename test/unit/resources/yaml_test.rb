@@ -30,5 +30,13 @@ describe 'Inspec::Resources::YAML' do
     it 'doesnt resolve symbol-notation names' do
       _(resource.send(:'driver.customize.memory')).must_be_nil
     end
+
+    it 'supports fetching by symbol keys' do
+      _(resource.send(:symbol_key)).must_equal 123
+    end
+
+    it 'support fetching by symbol keys in array syntax for rspec-its' do
+      _(resource.send(:[], :symbol_key_deep, 'foo')).must_equal 'bar'
+    end
   end
 end
