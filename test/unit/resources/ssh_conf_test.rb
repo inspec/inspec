@@ -35,5 +35,18 @@ describe 'Inspec::Resources::SshConf' do
         '/etc/ssh/ssh_host_ecdsa_key',
       ]
     end
+
+    it 'check bad path' do
+      resource = load_resource('sshd_config', '/etc/ssh/sshd_config_does_not_exist')
+      _(resource.send(:read_content)).must_equal "Can't find file \"/etc/ssh/sshd_config_does_not_exist\""
+      _(resource.Protocol).must_be_nil
+    end
+
+    it 'check cannot read' do
+      Inspec::Resources::FileResource.any_instance.stubs(:size).at_least_once.returns(5)
+      resource = load_resource('sshd_config', '/etc/ssh/sshd_config_empty')
+      _(resource.send(:read_content)).must_equal "Can't read file \"/etc/ssh/sshd_config_empty\""
+      _(resource.Protocol).must_be_nil
+    end
   end
 end

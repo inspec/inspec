@@ -104,11 +104,16 @@ class MockLoader
       end
       md
     }
+    emptyfile = lambda {
+      mockfile.call('emptyfile')
+    }
 
     mock.files = {
       '/proc/net/bonding/bond0' => mockfile.call('bond0'),
       '/etc/ssh/ssh_config' => mockfile.call('ssh_config'),
       '/etc/ssh/sshd_config' => mockfile.call('sshd_config'),
+      '/etc/ssh/sshd_config_does_not_exist' => mockfile.call('sshd_config_does_not_exist'),
+      '/etc/ssh/sshd_config_empty' => emptyfile.call,
       '/etc/passwd' => mockfile.call('passwd'),
       '/etc/shadow' => mockfile.call('shadow'),
       '/etc/ntp.conf' => mockfile.call('ntp.conf'),
