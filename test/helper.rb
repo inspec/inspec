@@ -11,6 +11,7 @@ end
 
 require 'minitest/autorun'
 require 'minitest/spec'
+require 'mixlib/shellout'
 require 'webmock/minitest'
 require 'mocha/setup'
 require 'fileutils'
@@ -471,11 +472,12 @@ class MockLoader
 
   def self.profile_tgz(name)
     path = File.join(home, 'mock', 'profiles', name)
-    dst = File.join(Dir.tmpdir, Dir::Tmpname.make_tmpname(name, '.tar.gz'))
+    dst = File.join(Dir.mktmpdir, "#{name}.tar.gz")
 
     # generate relative paths
     files = Dir.glob("#{path}/**/*")
     relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
 
     require 'inspec/archive/tar'
     tag = Inspec::Archive::TarArchiveGenerator.new
@@ -484,9 +486,24 @@ class MockLoader
     dst
   end
 
+  def self.profile_pax_tgz(name)
+    path = File.join(home, 'mock', 'profiles', name)
+    dst = File.join(Dir.mktmpdir, "#{name}.tar.gz")
+
+    # generate relative paths
+    files = Dir.glob("#{path}/**/*").delete_if { |x| !File.file?(x) }
+    relatives = files.map { |e| Pathname.new(e).relative_path_from(Pathname.new(path)).to_s }
+
+    cmd = Mixlib::ShellOut.new("tar --format=pax -czf #{dst} #{relatives.join(' ')}", cwd: path)
+    cmd.run_command
+    cmd.error!
+
+    dst
+  end
+
   def self.profile_zip(name, opts = {})
     path = File.join(home, 'mock', 'profiles', name)
-    dst = File.join(Dir.tmpdir, Dir::Tmpname.make_tmpname(name, '.zip'))
+    dst = File.join(Dir.mktmpdir, "#{name}.zip")
 
     # rubyzip only works relative paths
     files = Dir.glob("#{path}/**/*")
