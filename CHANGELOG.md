@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.12 -->
-## [v1.40.12](https://github.com/chef/inspec/tree/v1.40.12) (2017-10-06)
+<!-- latest_release 1.40.13 -->
+## [v1.40.13](https://github.com/chef/inspec/tree/v1.40.13) (2017-10-07)
 
-#### Bug Fixes
-- ssl resource: properly raise error when unable to determine if port is enabled [#2205](https://github.com/chef/inspec/pull/2205) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.40.0 -->
@@ -17,6 +17,7 @@
 - Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick)) <!-- 1.40.7 -->
 
 #### Enhancements
+- Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff)) <!-- 1.40.13 -->
 - processes resource: support busybox ps [#2222](https://github.com/chef/inspec/pull/2222) ([adamleff](https://github.com/adamleff)) <!-- 1.40.10 -->
 - Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick)) <!-- 1.40.9 -->
 - Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
