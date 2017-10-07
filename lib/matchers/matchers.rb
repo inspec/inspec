@@ -316,6 +316,8 @@ RSpec::Matchers.define :cmp do |first_expected|
       return actual.to_i.method(op).call(expected)
     elsif expected.is_a?(Float) && float?(actual)
       return actual.to_f.method(op).call(expected)
+    elsif actual.is_a?(Symbol) && expected.is_a?(String)
+      return actual.to_s.method(op).call(expected)
     elsif octal?(expected) && actual.is_a?(Integer)
       return actual.method(op).call(expected.to_i(8))
     end
