@@ -2,7 +2,7 @@
 
 ## Roadmap
 
-This repository is the development repository for InSpec for Azure. Once [RFC Platforms](https://github.com/chef/inspec/issues/1661) is fully implemented in InSpec, this repository is going to be merged into core InSpec.
+This repository is the development repository for InSpec for VmWare. Once [RFC Platforms](https://github.com/chef/inspec/issues/1661) is fully implemented in InSpec, this repository is going to be merged into core InSpec.
 
 As of now, Azure resources are implemented as an InSpec resource pack. It will ship with the required resources to write your own Azure tests:
 
@@ -109,8 +109,8 @@ control 'azure-1' do
 
   describe azure_virtual_machine(name: 'example-01', resource_group: 'MyResourceGroup') do
     its('sku') { should eq '16.04.0-LTS' }
-    its('publisher') { should eq 'Canonical' }
-    its('offer') { should eq 'UbuntuServer' }
+    its('publisher') { should ieq 'Canonical' }
+    its('offer') { should ieq 'UbuntuServer' }
   end
 end
 ```
@@ -244,9 +244,9 @@ control 'azure-1' do
 end
 ```
 
-## Testing
+## Integration Testing
 
-The `test/integration/verify/controls` directory contains all of the tests that are run during integration tests. These can be used as examples of how to use this resource pack.
+Our integration tests spin up an environment with terraform 0.10+ and verify the result with InSpec. The `test/integration/verify/controls` directory contains all of the tests that are run during integration tests. These can be used as examples of how to use this resource pack.
 
 Rake tasks have been configured to enable the running of the integration tests:
 

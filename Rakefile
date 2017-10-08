@@ -30,6 +30,12 @@ namespace :test do
   #  sh("bundle exec inspec check #{dir}")
   #end
 
+  task :init_workspace do
+    # Initialize terraform workspace
+    cmd = format("cd %s/build/ && terraform init", integration_dir)
+    sh(cmd)
+  end
+
   task :setup_integration_tests do
 
     azure_backend = AzureConnection.new
@@ -40,6 +46,7 @@ namespace :test do
     admin_password = Passgen::generate(length: 12, uppercase: true, lowercase: true, symbols: true, digits: true)
 
     puts "----> Setup"
+
     # Create the plan that can be applied to Azure
     cmd = format("cd %s/build/ && terraform plan -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var='storage_account_name=%s' -var='admin_password=%s' -out inspec-azure.plan", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id], sa_name, admin_password)
     sh(cmd)
@@ -51,7 +58,7 @@ namespace :test do
 
   task :run_integration_tests do
     puts "----> Run"
-    
+
     cmd = format("bundle exec inspec exec %s/verify", integration_dir)
     sh(cmd)
   end
@@ -69,6 +76,7 @@ namespace :test do
 
   desc "Perform Integration Tests"
   task :integration do
+    Rake::Task["test:init_workspace"].execute
     Rake::Task["test:cleanup_integration_tests"].execute
     Rake::Task["test:setup_integration_tests"].execute
     Rake::Task["test:run_integration_tests"].execute
