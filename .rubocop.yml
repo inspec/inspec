@@ -72,3 +72,5 @@ Style/SpaceAroundOperators:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false
+Lint/RescueWithoutErrorClass:
+  Enabled: false

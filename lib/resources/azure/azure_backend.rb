@@ -143,6 +143,7 @@ class Helpers
     # get a vm from the named resource group
     begin
       compute_mgmt.client.virtual_machines.get(rg_name, name)
+    # TODO: we should avoid doing a general rescue, will be covered with InSpec 2.0 integration
     rescue => e
       e.error_message
     end
