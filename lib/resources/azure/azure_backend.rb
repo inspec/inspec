@@ -196,7 +196,7 @@ class ResourceManagement
   #
   # @return [Azure::ARM::Resources::Models::ResourceListResult] Object containing array of all the resources
   def get_resources(name)
-    client.resource_groups.list_resources_as_lazy(name) if exists(name)
+    client.resources.list_by_resource_group_as_lazy(name) if exists(name)
   end
 end
 
