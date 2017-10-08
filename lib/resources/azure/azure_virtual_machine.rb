@@ -308,9 +308,14 @@ class AzureVm < Inspec.resource(1)
       # Interrogate Azure for the NIC details
       public_ip = helpers.network_mgmt.client.public_ipaddresses.get(public_ip_resource_group_name, public_ip_name)
 
-      # update the config with the information about the public IP
-      config['public_ipaddress']['domain_name_label'] = public_ip.dns_settings.domain_name_label
-      config['public_ipaddress']['dns_fqdn'] = public_ip.dns_settings.fqdn
+      # update the config with the information about the public IP if public dns settings are available
+      if !public_ip.dns_settings.nil?
+        config['public_ipaddress']['domain_name_label'] = public_ip.dns_settings.domain_name_label
+        config['public_ipaddress']['dns_fqdn'] = public_ip.dns_settings.fqdn
+      else
+        config['public_ipaddress']['domain_name_label'] = nil
+        config['public_ipaddress']['dns_fqdn'] = nil
+      end
     end
 
     # return object
