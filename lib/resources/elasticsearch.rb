@@ -90,7 +90,7 @@ module Inspec::Resources
       end
         "
 
-    def initialize(opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def initialize(opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
       return skip_resource 'Package `curl` not avaiable on the host' unless inspec.command('curl').exist?
 
       url        = opts.fetch(:url, 'https://0.0.0.0:9200/')
@@ -99,7 +99,7 @@ module Inspec::Resources
       ssl_verify = opts.fetch(:ssl_verify, true)
 
       url = "-H 'Content-Type: application/json' " + url
-      url += "_nodes/"
+      url += '_nodes/'
       url += " -u #{username}:#{password}" unless username.nil? || password.nil?
       url += ' -k' if ssl_verify.eql?(false)
 
