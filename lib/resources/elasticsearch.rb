@@ -104,8 +104,11 @@ module Inspec::Resources
       url += ' -k' if ssl_verify.eql?(false)
 
       cmd = inspec.command("curl #{url}")
+
+      # the following lines captures known possible errors and provides compact skip resource messeges
       return skip_resource 'Connection refused please check ip and port provided' if cmd.stderr =~ /Failed to connect/
       return skip_resource "Connection refused Peer's Certificate issuer is not recognized" if cmd.stderr =~ /Peer's Certificate issuer is not recognized/
+
       return skip_resource "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status.zero?
 
       begin
