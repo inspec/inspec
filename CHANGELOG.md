@@ -7,31 +7,32 @@
 - Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.40.0 -->
-### Changes since 1.40.0 release
-
-#### Bug Fixes
-- ssl resource: properly raise error when unable to determine if port is enabled [#2205](https://github.com/chef/inspec/pull/2205) ([jquick](https://github.com/jquick)) <!-- 1.40.12 -->
-- Fix loading profile files when executing multiple profiles [#2223](https://github.com/chef/inspec/pull/2223) ([adamleff](https://github.com/adamleff)) <!-- 1.40.11 -->
-- Support symbol keys in ObjectTraverser [#2221](https://github.com/chef/inspec/pull/2221) ([adamleff](https://github.com/adamleff)) <!-- 1.40.8 -->
-- Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick)) <!-- 1.40.7 -->
-
-#### Enhancements
-- Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff)) <!-- 1.40.13 -->
-- processes resource: support busybox ps [#2222](https://github.com/chef/inspec/pull/2222) ([adamleff](https://github.com/adamleff)) <!-- 1.40.10 -->
-- Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick)) <!-- 1.40.9 -->
-- Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
-- http resource: properly execute tests on remote target [#2209](https://github.com/chef/inspec/pull/2209) ([adamleff](https://github.com/adamleff)) <!-- 1.40.5 -->
-- Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett)) <!-- 1.40.2 -->
-
+<!-- release_rollup since=1.41.0 -->
+### Changes since 1.41.0 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.41.0](https://github.com/chef/inspec/tree/v1.41.0) (2017-10-09)
+
+#### Enhancements
+- Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett))
+- http resource: properly execute tests on remote target [#2209](https://github.com/chef/inspec/pull/2209) ([adamleff](https://github.com/adamleff))
+- Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick))
+- Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick))
+- processes resource: support busybox ps [#2222](https://github.com/chef/inspec/pull/2222) ([adamleff](https://github.com/adamleff))
+- Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff))
+
+#### Bug Fixes
+- Add nil check for sshd config file [#2217](https://github.com/chef/inspec/pull/2217) ([jquick](https://github.com/jquick))
+- Support symbol keys in ObjectTraverser [#2221](https://github.com/chef/inspec/pull/2221) ([adamleff](https://github.com/adamleff))
+- Fix loading profile files when executing multiple profiles [#2223](https://github.com/chef/inspec/pull/2223) ([adamleff](https://github.com/adamleff))
+- ssl resource: properly raise error when unable to determine if port is enabled [#2205](https://github.com/chef/inspec/pull/2205) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-28)
 
 #### New Resources
 - firewalld resource: inspect the status and configuration of firewalld [#2074](https://github.com/chef/inspec/pull/2074) ([dromazmj](https://github.com/dromazmj))
-<!-- latest_stable_release -->
 
 ## [v1.39.0](https://github.com/chef/inspec/tree/v1.39.0) (2017-09-25)
 
