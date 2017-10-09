@@ -21,13 +21,9 @@
 - processes resource: support busybox ps [#2222](https://github.com/chef/inspec/pull/2222) ([adamleff](https://github.com/adamleff)) <!-- 1.40.10 -->
 - Update shell resource help to return what is defined [#2219](https://github.com/chef/inspec/pull/2219) ([jquick](https://github.com/jquick)) <!-- 1.40.9 -->
 - Add output for port/protocol for host resource. [#2202](https://github.com/chef/inspec/pull/2202) ([jquick](https://github.com/jquick)) <!-- 1.40.3 -->
-
-#### Merged Pull Requests
-- Add Segment tag to enable Google Analytics [#2220](https://github.com/chef/inspec/pull/2220) ([hamburglar](https://github.com/hamburglar)) <!-- 1.40.6 -->
 - http resource: properly execute tests on remote target [#2209](https://github.com/chef/inspec/pull/2209) ([adamleff](https://github.com/adamleff)) <!-- 1.40.5 -->
-- Adding examples of using expect syntax [#2213](https://github.com/chef/inspec/pull/2213) ([adamleff](https://github.com/adamleff)) <!-- 1.40.4 -->
 - Add bsd platform family to etc_hosts resource [#2192](https://github.com/chef/inspec/pull/2192) ([ctbarrett](https://github.com/ctbarrett)) <!-- 1.40.2 -->
-- Clean-up kitchen-inspec reference doc [#2208](https://github.com/chef/inspec/pull/2208) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.40.1 -->
+
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
