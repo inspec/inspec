@@ -5,9 +5,10 @@ product_key: inspec
 rubygems:
  - inspec
 
-docker:
-  build_args:
-    - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
+docker_images:
+  - inspec:
+      build_args:
+        - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
