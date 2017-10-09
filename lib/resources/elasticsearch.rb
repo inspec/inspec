@@ -53,7 +53,7 @@ module Inspec::Resources
       makes uses of FilterTable and its functionality can be used "
 
     example "
-      describe elasticsearch(es_ip:'0.0.0.0', es_port:'9200', es_user:'elastic', es_pass:'changeme', https:true, self_signed_cert:true).nodes do
+      describe elasticsearch(url:'http://myhost:9201/', username:'elastic', password:'changeme', ssl_verify:false).nodes do
         it { should exist }
       end
 
@@ -93,18 +93,15 @@ module Inspec::Resources
     def initialize(opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       return skip_resource 'Package `curl` not avaiable on the host' unless inspec.command('curl').exist?
 
-      es_ip            = opts.fetch(:es_ip, '0.0.0.0')
-      es_port          = opts.fetch(:es_port, '9200')
-      es_user          = opts.fetch(:es_user, nil)
-      es_pass          = opts.fetch(:es_pass, nil)
-      https            = opts.fetch(:https, true)
-      self_signed_cert = opts.fetch(:self_signed_cert, false)
+      url        = opts.fetch(:url, 'https://0.0.0.0:9200/')
+      username   = opts.fetch(:username, nil)
+      password   = opts.fetch(:password, nil)
+      ssl_verify = opts.fetch(:ssl_verify, true)
 
-      url = "-H 'Content-Type: application/json' "
-      url += https ? 'https' : 'http'
-      url += "://#{es_ip}:#{es_port}/_nodes/"
-      url += " -u #{es_user}:#{es_pass}" unless es_user.nil? || es_pass.nil?
-      url += ' -k' if self_signed_cert.eql?(true)
+      url = "-H 'Content-Type: application/json' " + url
+      url += "_nodes/"
+      url += " -u #{username}:#{password}" unless username.nil? || password.nil?
+      url += ' -k' if ssl_verify.eql?(false)
 
       cmd = inspec.command("curl #{url}")
       return skip_resource 'Connection refused please check ip and port provided' if cmd.stderr =~ /Failed to connect/
@@ -117,7 +114,7 @@ module Inspec::Resources
         return skip_resource "Couldn't parse ES data: #{e.message}"
       end
 
-      return skip_resource "Security Exception: #{@content['error']}" unless @content['error'].nil?
+      return skip_resource "#{@content['error']['type']}: #{@content['error']['reason']}" unless @content['error'].nil?
       return skip_resource 'Invalid node provided' unless !@content['_nodes']['successful'].zero?
 
       @nodes = []

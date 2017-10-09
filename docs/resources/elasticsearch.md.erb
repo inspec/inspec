@@ -6,26 +6,23 @@ title: The Elasticsearch Resource
 
 Use the Elasticsearch InSpec audit resource to test the Elasticsearch configuration
 settings. The data is extracted from the live elasticsearch cluster using the curl
-command and default url `http://localhost:9200/_nodes/`. The resource can be called
-with user cridentials, https or http. The resource makes uses of FilterTable and
-its functionality can be used.
+command and default url `http://localhost:9200/_nodes/`. The resource makes uses of 
+FilterTable and its functionality can be used.
 
 ## Syntax
 
 An `elasticsearch` resource is called with the elasticsearch params;
 
-    describe elasticsearch(es_ip:'0.0.0.0', es_port:'9200', es_user:'elastic', es_pass:'changeme', https:true, self_signed_cert:true).nodes do
+    describe elasticsearch(url:'https://myhost:9201/', username:'elastic', password:'changeme', ssl_verify:true).nodes do
       its('property') { should include 'value' }
     end
 
 where
 
-* `es_ip` elasticsearch ip address, default : 0.0.0.0
-* `es_port` elasticsearch port address, default : 9200
-* `es_user` elasticsearch user name, default : nil
-* `es_pass` elasticsearch user password, default : nil
-* `https(bool)` elasticsearch connection protocol, default : true
-* `self_signed_cert(bool)` elasticsearch uses self-signed certificate , default : false
+* `url` url to reach elasticsearch, default : https://0.0.0.0:9200/
+* `username` elasticsearch user name, default : nil
+* `password` elasticsearch user password, default : nil
+* `ssl_verify(bool)` perform ssl verification with curl command, default : true
 * `.where()` filter may specify a specific item and value, to which the matchers are compared
 * `.entries()` filter will return the entries that satisfy the where() condition
 * `'name'`, `'cluster_name'`, `'version'` etc. are valid filters for this resource
