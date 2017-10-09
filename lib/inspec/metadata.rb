@@ -219,7 +219,9 @@ module Inspec
       return unless metadata.params[:title].nil?
 
       # create a new name based on the original target if it exists
-      metadata.params[:name] = "tests from #{original_target}" unless original_target.to_s.empty?
+      # Crudely slug the target to not contain slashes, to avoid breaking
+      # unit tests that look for warning sequences
+      metadata.params[:name] = "tests from #{original_target}".gsub(/[\\\/]/, '.') unless original_target.to_s.empty?
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)
