@@ -105,7 +105,7 @@ module Inspec::Resources
 
       cmd = inspec.command("curl #{url}")
 
-      # the following lines captures known possible errors and provides compact skip resource messeges
+      # the following lines captures known possible curl command errors and provides compact skip resource messeges
       return skip_resource 'Connection refused please check ip and port provided' if cmd.stderr =~ /Failed to connect/
       return skip_resource "Connection refused Peer's Certificate issuer is not recognized" if cmd.stderr =~ /Peer's Certificate issuer is not recognized/
 
