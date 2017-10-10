@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.40.13 -->
-## [v1.40.13](https://github.com/chef/inspec/tree/v1.40.13) (2017-10-07)
+<!-- latest_release 1.41.1 -->
+## [v1.41.1](https://github.com/chef/inspec/tree/v1.41.1) (2017-10-10)
 
 #### Enhancements
-- Enhance cmp matcher to work with symbols, fix file documentation [#2224](https://github.com/chef/inspec/pull/2224) ([adamleff](https://github.com/adamleff))
+- Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
+
+#### Enhancements
+- Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
