@@ -59,9 +59,11 @@ module Inspec::Resources
       os = inspec.os
       if os.linux?
         LinuxPorts.new(inspec)
-      elsif %w{darwin aix}.include?(os[:family])
+      elsif os.aix?
         # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
         #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
+        AixPorts.new(inspec)
+      elsif os.darwin?
         # Darwin: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/lsof.8.html
         LsofPorts.new(inspec)
       elsif os.windows?
@@ -260,6 +262,121 @@ module Inspec::Resources
       end
 
       procs
+    end
+  end
+
+  class AixPorts < PortsInfo
+    def info
+      ports_via_netstat || ports_via_lsof
+    end
+
+    def ports_via_lsof
+      return nil unless inspec.command('lsof').exist?
+      LsofPorts.new(inspec).info
+    end
+
+    def ports_via_netstat
+      return nil unless inspec.command('netstat').exist?
+
+      cmd = inspec.command('netstat -Aan | grep LISTEN')
+      return nil unless cmd.exit_status.to_i.zero?
+
+      ports = []
+      # parse all lines
+      cmd.stdout.each_line do |line|
+        port_info = parse_netstat_line(line)
+
+        # only push protocols we are interested in
+        next unless %w{tcp tcp6 udp udp6}.include?(port_info['protocol'])
+        ports.push(port_info)
+      end
+
+      ports
+    end
+
+    def parse_netstat_line(line)
+      # parse each line
+      # 1 - Socket, 2 - Proto, 3 - Receive-Q, 4 - Send-Q, 5 - Local address, 6 - Foreign Address, 7 - State
+      parsed = /^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)?\s+(\S+)/.match(line)
+      return {} if parsed.nil?
+
+      # parse ip4 and ip6 addresses
+      protocol = parsed[2].downcase
+
+      # detect protocol if not provided
+      protocol += '6' if parsed[5].count(':') > 1 && %w{tcp udp}.include?(protocol)
+      protocol.chop! if %w{tcp4 upd4}.include?(protocol)
+
+      # extract host and port information
+      host, port = parse_net_address(parsed[5], protocol)
+      return {} if host.nil?
+
+      # extract PID
+      cmd = inspec.command("rmsock #{parsed[1]} tcpcb")
+      parsed_pid = /^The socket (\S+) is being held by proccess (\d+) \((\S+)\)/.match(cmd.stdout)
+      return {} if parsed_pid.nil?
+      process = parsed_pid[3]
+      pid = parsed_pid[2]
+      pid = pid.to_i if pid =~ /^\d+$/
+
+      {
+        'port'     => port,
+        'address'  => host,
+        'protocol' => protocol,
+        'process'  => process,
+        'pid'      => pid,
+      }
+    end
+
+    def parse_net_address(net_addr, protocol)
+      # local/foreign addresses on AIX use a '.' to separate the addresss
+      # from the port
+      address, _sep, port = net_addr.rpartition('.')
+      if protocol.eql?('tcp6') || protocol.eql?('udp6')
+        ip6addr = address
+        # AIX uses the wildcard character for ipv6 addresses listening on
+        # all interfaces.
+        ip6addr = '::' if ip6addr =~ /^\*$/
+
+        # v6 addresses need to end in a double-colon when using
+        # shorthand notation. netstat ends with a single colon.
+        # IPAddr will fail to properly parse an address unless it
+        # uses a double-colon for short-hand notation.
+        ip6addr += ':' if ip6addr =~ /\w:$/
+
+        begin
+          ip_parser = IPAddr.new(ip6addr)
+        rescue IPAddr::InvalidAddressError
+          # This IP is not parsable. There appears to be a bug in netstat
+          # output that truncates link-local IP addresses:
+          # example: udp6 0 0 fe80::42:acff:fe11::123 :::* 0 54550 3335/ntpd
+          # actual link address: inet6 fe80::42:acff:fe11:5/64 scope link
+          #
+          # in this example, the "5" is truncated making the netstat output
+          # an invalid IP address.
+          return [nil, nil]
+        end
+
+        # Check to see if this is a IPv4 address in a tcp6/udp6 line.
+        # If so, don't put brackets around the IP or URI won't know how
+        # to properly handle it.
+        # example: f000000000000000 tcp6       0      0 127.0.0.1.8005          *.*                    LISTEN
+        if ip_parser.ipv4?
+          ip_addr = URI("addr://#{ip6addr}:#{port}")
+          host = ip_addr.host
+        else
+          ip_addr = URI("addr://[#{ip6addr}]:#{port}")
+          host = ip_addr.host[1..ip_addr.host.size-2]
+        end
+      else
+        ip4addr = address
+        # In AIX the wildcard character is used to match all interfaces
+        ip4addr = '0.0.0.0' if ip4addr =~ /^\*$/
+        ip_addr = URI("addr://#{ip4addr}:#{port}")
+        host = ip_addr.host
+      end
+
+      [host, port.to_i]
     end
   end
 
