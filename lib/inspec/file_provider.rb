@@ -137,7 +137,16 @@ module Inspec
       @contents = {}
       @files = []
       walk_tar(@path) do |tar|
-        @files = tar.map(&:full_name).find_all { |x| !x.empty? }
+        @files = tar.find_all(&:file?)
+
+        # delete all entries with no name
+        @files = @files.find_all { |x| !x.full_name.empty? }
+
+        # delete all entries that have a PaxHeader
+        @files = @files.delete_if { |x| x.full_name.include?('PaxHeader/') }
+
+        # replace all items of the array simply with the relative filename of the file
+        @files.map! { |x| Pathname.new(x.full_name).relative_path_from(Pathname.new('.')).to_s }
       end
     end
 
@@ -157,7 +166,7 @@ module Inspec
       # NB `TarReader` includes `Enumerable` beginning with Ruby 2.x
       walk_tar(@path) do |tar|
         tar.each do |entry|
-          next unless entry.file? && file == entry.full_name
+          next unless entry.file? && [file, "./#{file}"].include?(entry.full_name)
           res = entry.read
           break
         end
@@ -182,8 +191,19 @@ module Inspec
       if @prefix.nil?
         raise "Could not determine path prefix for #{parent}"
       end
-      @files = parent.files.find_all { |x| x.start_with?(prefix) && x != prefix }
+
+      # select all files that begin with the prefix, and strip off the prefix from the file.
+      #
+      # strip off any leading top-level relative path (./) which is common in
+      # PAX-formatted tar files. Do not do any translation of the path if the
+      # path is an absolute path.
+      @files = parent.files
+                     .find_all { |x| x.start_with?(prefix) && x != prefix }
                      .map { |x| x[prefix.length..-1] }
+                     .map do |x|
+                       path = Pathname.new(x)
+                       path.absolute? ? path.to_s : path.relative_path_from(Pathname.new('.')).to_s
+                     end
     end
 
     def abs_path(file)
