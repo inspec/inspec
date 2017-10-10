@@ -44,7 +44,13 @@ module Inspec
           @__backend_runner__ = backend
           @__resource_name__ = name
           # call the resource initializer
-          super(*args)
+          begin
+            super(*args)
+          rescue Inspec::Exceptions::ResourceSkipped => e
+            skip_resource(e.message)
+          rescue Inspec::Exceptions::ResourceFailed => e
+            fail_resource(e.message)
+          end
         end
 
         def self.desc(description = nil)
@@ -63,6 +69,14 @@ module Inspec
 
         def skip_resource(message)
           @resource_skipped = message
+        end
+
+        def resource_failed
+          @resource_failed if defined?(@resource_failed)
+        end
+
+        def fail_resource(message)
+          @resource_failed = message
         end
 
         def inspec
