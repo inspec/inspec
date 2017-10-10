@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.1 -->
-## [v1.41.1](https://github.com/chef/inspec/tree/v1.41.1) (2017-10-10)
+<!-- latest_release 1.41.2 -->
+## [v1.41.2](https://github.com/chef/inspec/tree/v1.41.2) (2017-10-10)
 
-#### Enhancements
-- Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus))
+#### Bug Fixes
+- Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
+
+#### Bug Fixes
+- Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
 #### Enhancements
 - Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
