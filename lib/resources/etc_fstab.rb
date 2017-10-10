@@ -9,7 +9,7 @@ module Inspec::Resources
     name 'etc_fstab'
     desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
     example "
-      nfs_systems = etc_fstab.nfs_file_systems
+      nfs_systems = etc_fstab.nfs_file_systems.entries
       nfs_systems.each do |file_system|
         describe file_system do
           its ('mount_options') { should include 'nosuid' }
@@ -50,7 +50,7 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def nfs_file_systems
-      where { file_system_type.match(/nfs/) }.entries
+      where { file_system_type.match(/nfs/) }
     end
 
     def home_mount_options
