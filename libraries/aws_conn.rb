@@ -4,7 +4,7 @@ class AWSConnection
   def initialize
     require 'aws-sdk'
     opts = {
-      region: ENV['AWS_DEFAULT_REGION'],
+      region: ENV['AWS_REGION'] || ENV['AWS_DEFAULT_REGION'],
       credentials: Aws::Credentials.new(
         ENV['AWS_ACCESS_KEY_ID'],
         ENV['AWS_SECRET_ACCESS_KEY'],

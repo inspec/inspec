@@ -15,7 +15,7 @@ As of now, AWS resources are implemented as an InSpec resource pack. It will shi
 
 To run the profile, use InSpec with an environment variable for AWS credentials:
 
-- `AWS_DEFAULT_REGION`
+- `AWS_REGION`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
@@ -92,7 +92,7 @@ bundle exec rake test
 ### Integration tests
 
 To run the integration tests, please make sure all required environment variables like `AWS_ACCESS_KEY_ID`
-, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` are set properly. (`AWS_DEFAULT_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. If you want to use a specific terraform environment, set environment variable `INSPEC_TERRAFORM_ENV`. Integration tests can be executed via:
+, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` are set properly. (`AWS_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. If you want to use a specific terraform environment, set environment variable `INSPEC_TERRAFORM_ENV`. Integration tests can be executed via:
 
 ```
 bundle exec rake test:integration
