@@ -6,7 +6,7 @@ module Inspec
     class AttributesFileDoesNotExist < ArgumentError; end
     class AttributesFileNotReadable < ArgumentError; end
     class ResourceFailed < StandardError; end
-    class SecretsBackendNotFound < ArgumentError; end
     class ResourceSkipped < StandardError; end
+    class SecretsBackendNotFound < ArgumentError; end
   end
 end
