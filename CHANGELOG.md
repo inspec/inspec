@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.2 -->
-## [v1.41.2](https://github.com/chef/inspec/tree/v1.41.2) (2017-10-10)
+<!-- latest_release 1.41.3 -->
+## [v1.41.3](https://github.com/chef/inspec/tree/v1.41.3) (2017-10-11)
 
-#### Bug Fixes
-- Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
+
+#### Merged Pull Requests
+- Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
 
 #### Bug Fixes
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
