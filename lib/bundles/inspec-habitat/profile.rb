@@ -17,6 +17,10 @@ module Habitat
       creator.delete_work_dir
     end
 
+    def self.setup(path)
+      new(path).setup
+    end
+
     def self.upload(path, options = {})
       uploader = new(path, options)
       uploader.upload
@@ -41,10 +45,11 @@ module Habitat
       verify_profile
       vendor_profile_dependencies
       copy_profile_to_work_dir
-      create_plan
-      create_run_hook
-      create_settings_file
-      create_default_config
+      create_habitat_directories(work_dir)
+      create_plan(work_dir)
+      create_run_hook(work_dir)
+      create_settings_file(work_dir)
+      create_default_config(work_dir)
 
       # returns the path to the .hart file in the work directory
       build_hart
@@ -78,6 +83,18 @@ module Habitat
     def delete_work_dir
       Habitat::Log.debug("Deleting work directory #{work_dir}")
       FileUtils.rm_rf(work_dir) if Dir.exist?(work_dir)
+    end
+
+    def setup
+      Habitat::Log.info("Setting up profile at #{path} for Habitat...")
+      create_profile_object
+      verify_profile
+      vendor_profile_dependencies
+      create_habitat_directories(path)
+      create_plan(path)
+      create_run_hook(path)
+      create_settings_file(path)
+      create_default_config(path)
     end
 
     private
@@ -151,20 +168,26 @@ module Habitat
       return @work_dir if @work_dir
 
       @work_dir ||= Dir.mktmpdir('inspec-habitat-exporter')
-      Dir.mkdir(File.join(@work_dir, 'src'))
-      Dir.mkdir(File.join(@work_dir, 'habitat'))
-      Dir.mkdir(File.join(@work_dir, 'habitat', 'config'))
-      Dir.mkdir(File.join(@work_dir, 'habitat', 'hooks'))
       Habitat::Log.debug("Generated work directory #{@work_dir}")
 
       @work_dir
+    end
+
+    def create_habitat_directories(parent_directory)
+      [
+        File.join(parent_directory, 'habitat'),
+        File.join(parent_directory, 'habitat', 'config'),
+        File.join(parent_directory, 'habitat', 'hooks'),
+      ].each do |dir|
+        Dir.mkdir(dir) unless Dir.exist?(dir)
+      end
     end
 
     def copy_profile_to_work_dir
       Habitat::Log.info('Copying profile contents to the work directory...')
       profile.files.each do |f|
         src = File.join(profile.root_path, f)
-        dst = File.join(work_dir, 'src', f)
+        dst = File.join(work_dir, f)
         if File.directory?(f)
           Habitat::Log.debug("Creating directory #{dst}")
           FileUtils.mkdir_p(dst)
@@ -175,26 +198,26 @@ module Habitat
       end
     end
 
-    def create_plan
-      plan_file = File.join(work_dir, 'habitat', 'plan.sh')
+    def create_plan(directory)
+      plan_file = File.join(directory, 'habitat', 'plan.sh')
       Habitat::Log.info("Generating Habitat plan at #{plan_file}...")
       File.write(plan_file, plan_contents)
     end
 
-    def create_run_hook
-      run_hook_file = File.join(work_dir, 'habitat', 'hooks', 'run')
+    def create_run_hook(directory)
+      run_hook_file = File.join(directory, 'habitat', 'hooks', 'run')
       Habitat::Log.info("Generating a Habitat run hook at #{run_hook_file}...")
       File.write(run_hook_file, run_hook_contents)
     end
 
-    def create_settings_file
-      settings_file = File.join(work_dir, 'habitat', 'config', 'settings.sh')
+    def create_settings_file(directory)
+      settings_file = File.join(directory, 'habitat', 'config', 'settings.sh')
       Habitat::Log.info("Generating a settings file at #{settings_file}...")
       File.write(settings_file, "SLEEP_TIME={{cfg.sleep_time}}\n")
     end
 
-    def create_default_config
-      default_toml = File.join(work_dir, 'habitat', 'default.toml')
+    def create_default_config(directory)
+      default_toml = File.join(directory, 'habitat', 'default.toml')
       Habitat::Log.info("Generating Habitat's default.toml configuration...")
       File.write(default_toml, 'sleep_time = 300')
     end
@@ -308,7 +331,7 @@ EOL
       plan += <<-EOL
 
 do_build() {
-  cp -vr $PLAN_CONTEXT/../src/* $HAB_CACHE_SRC_PATH/$pkg_dirname
+  cp -vr $PLAN_CONTEXT/../* $HAB_CACHE_SRC_PATH/$pkg_dirname
 }
 
 do_install() {
@@ -321,6 +344,7 @@ do_install() {
     profile_contents=(${profile_contents[@]/$item/})
   done
 
+  mkdir ${pkg_prefix}/dist
   cp -r ${profile_contents[@]} ${pkg_prefix}/dist/
 }
       EOL
