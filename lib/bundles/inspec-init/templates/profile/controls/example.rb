@@ -1,5 +1,5 @@
 # encoding: utf-8
-# copyright: 2015, The Authors
+# copyright: 2017, The Authors
 
 title 'sample section'
 
