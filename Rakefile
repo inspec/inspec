@@ -42,7 +42,8 @@ namespace :test do
 
   task :configure_test_environment, :namespace do |t, args|
     puts "----> Creating terraform environment"
-    sh("cd #{integration_dir}/build/ && terraform env new #{args[:namespace]}")
+    sh("cd #{integration_dir}/build/ && terraform init")
+    sh("cd #{integration_dir}/build/ && terraform workspace new #{args[:namespace]}")
   end
 
   task :setup_integration_tests do
@@ -69,8 +70,8 @@ namespace :test do
 
   task :destroy_test_environment, :namespace do |t, args|
     puts "----> Destroying terraform environment"
-    sh("cd #{integration_dir}/build/ && terraform env select default")
-    sh("cd #{integration_dir}/build && terraform env delete #{args[:namespace]}")
+    sh("cd #{integration_dir}/build/ && terraform workspace select default")
+    sh("cd #{integration_dir}/build && terraform workspace delete #{args[:namespace]}")
   end
 
   task :integration do
