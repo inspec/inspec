@@ -1,7 +1,7 @@
 # author: Christoph Hartmann
 
-class Ec2 < Inspec.resource(1)
-  name 'aws_ec2'
+class AwsEc2Instance < Inspec.resource(1)
+  name 'aws_ec2_instance'
   desc 'Verifies settings for an EC2 instance'
 
   example "
@@ -41,6 +41,7 @@ class Ec2 < Inspec.resource(1)
   alias instance_id id
 
   def exists?
+    return false if instance.nil?
     instance.exists?
   end
 
@@ -67,7 +68,7 @@ class Ec2 < Inspec.resource(1)
     instance_type image_id vpc_id
   }.each do |attribute|
     define_method attribute do
-      instance.send(attribute)
+      instance.send(attribute) if instance
     end
   end
 
@@ -89,5 +90,20 @@ class Ec2 < Inspec.resource(1)
 
   def instance
     @instance ||= @ec2_resource.instance(id)
+  end
+end
+
+# Deprecated
+class AwsEc2 < AwsEc2Instance
+  name 'aws_ec2'
+
+  def initialize(opts, conn = AWSConnection.new)
+    deprecated
+    super(opts, conn)
+  end
+
+  def deprecated
+    warn '[DEPRECATION] `aws_ec2(parameter)` is deprecated. ' \
+         'Please use `aws_ec2_instance(parameter)` instead.'
   end
 end
