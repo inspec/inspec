@@ -8,11 +8,11 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
 
   example "
     describe aws_iam_password_policy do
-      its('requires_lowercase_letters?') { should be true }
+      its('requires_lowercase_characters?') { should be true }
     end
 
     describe aws_iam_password_policy do
-      its('requires_uppercase_letters?') { should be true }
+      its('requires_uppercase_characters?') { should be true }
     end
   "
 
