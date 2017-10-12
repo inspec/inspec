@@ -37,7 +37,7 @@ module Inspec
       Inspec::Resource.registry
     end
 
-    def __register(name, obj)
+    def __register(name, obj) # rubocop:disable Metrics/MethodLength
       cl = Class.new(obj) do
         def initialize(backend, name, *args)
           @resource_skipped = nil
