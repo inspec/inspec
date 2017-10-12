@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.3 -->
-## [v1.41.3](https://github.com/chef/inspec/tree/v1.41.3) (2017-10-11)
+<!-- latest_release 1.41.4 -->
+## [v1.41.4](https://github.com/chef/inspec/tree/v1.41.4) (2017-10-12)
 
 #### Merged Pull Requests
-- Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey))
+- Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
 
 #### Merged Pull Requests
+- Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto)) <!-- 1.41.4 -->
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
 
 #### Bug Fixes
