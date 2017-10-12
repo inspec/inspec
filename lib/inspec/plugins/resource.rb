@@ -40,9 +40,13 @@ module Inspec
     def __register(name, obj)
       cl = Class.new(obj) do
         def initialize(backend, name, *args)
+          @resource_skipped = nil
+          @resource_failed = nil
+
           # attach the backend to this instance
           @__backend_runner__ = backend
           @__resource_name__ = name
+
           # call the resource initializer
           begin
             super(*args)
@@ -63,20 +67,32 @@ module Inspec
           @example = example
         end
 
-        def resource_skipped
-          @resource_skipped if defined?(@resource_skipped)
-        end
-
         def skip_resource(message)
           @resource_skipped = message
         end
 
-        def resource_failed
-          @resource_failed if defined?(@resource_failed)
+        def resource_skipped?
+          !@resource_skipped.nil?
         end
+
+        def resource_skipped_message
+          @resource_skipped
+        end
+        # This alias exists for backwards compatibility
+        # It is more idiomatic to have a `?` and `_message` methods
+        # TODO: Remove in InSpec 2.0
+        alias_method :resource_skipped, :resource_skipped_message
 
         def fail_resource(message)
           @resource_failed = message
+        end
+
+        def resource_failed?
+          !@resource_failed.nil?
+        end
+
+        def resource_failed_message
+          @resource_failed
         end
 
         def inspec

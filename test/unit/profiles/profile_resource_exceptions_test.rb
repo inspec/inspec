@@ -23,42 +23,42 @@ describe 'resource exception' do
 
   describe 'within initialize' do
     it 'skips resource when `Inspec::Exceptions::ResourceSkipped` is raised' do
-      checks[0][0][1][0].resource_skipped.must_equal 'Skipping because reasons'
-      checks[0][0][1][0].resource_failed.must_be_nil
+      checks[0][0][1][0].resource_skipped_message.must_equal 'Skipping because reasons'
+      checks[0][0][1][0].resource_failed?.must_equal false
     end
 
     it 'fails resource when `Inspec::Exceptions::ResourceFailed` is raised' do
-      checks[1][0][1][0].resource_failed.must_equal 'Failing because reasons'
-      checks[1][0][1][0].resource_skipped.must_be_nil
+      checks[1][0][1][0].resource_failed_message.must_equal 'Failing because reasons'
+      checks[1][0][1][0].resource_skipped?.must_equal false
     end
 
     it 'does not affect other tests' do
-      checks[2][0][1][0].resource_failed.must_be_nil
-      checks[2][0][1][0].resource_skipped.must_be_nil
+      checks[2][0][1][0].resource_failed?.must_equal false
+      checks[2][0][1][0].resource_skipped?.must_equal false
     end
   end
 
   describe 'within a matcher' do
     it 'skips resource when `Inspec::Exceptions::ResourceSkipped` is raised' do
-      checks[4][0][1][0].resource_skipped.must_equal 'Skipping inside matcher'
-      checks[4][0][1][0].resource_failed.must_be_nil
+      checks[4][0][1][0].resource_skipped_message.must_equal 'Skipping inside matcher'
+      checks[4][0][1][0].resource_failed?.must_equal false
     end
 
     it 'fails resource when `Inspec::Exceptions::ResourceFailed` is raised' do
-      checks[3][0][1][0].resource_failed.must_equal 'Failing inside matcher'
-      checks[3][0][1][0].resource_skipped.must_be_nil
+      checks[3][0][1][0].resource_failed_message.must_equal 'Failing inside matcher'
+      checks[3][0][1][0].resource_skipped?.must_equal false
     end
   end
 
   describe 'within a control' do
     it 'skips resource when `Inspec::Exceptions::ResourceSkipped` is raised' do
-      checks[5][0][1][0].resource_skipped.must_equal 'Skipping because reasons'
-      checks[5][0][1][0].resource_failed.must_be_nil
+      checks[5][0][1][0].resource_skipped_message.must_equal 'Skipping because reasons'
+      checks[5][0][1][0].resource_failed?.must_equal false
     end
 
     it 'fails resource when `Inspec::Exceptions::ResourceFailed` is raised' do
-      checks[5][1][1][0].resource_failed.must_equal 'Failing because reasons'
-      checks[5][1][1][0].resource_skipped.must_be_nil
+      checks[5][1][1][0].resource_failed_message.must_equal 'Failing because reasons'
+      checks[5][1][1][0].resource_skipped?.must_equal false
     end
   end
 end

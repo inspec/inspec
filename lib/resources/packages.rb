@@ -63,7 +63,7 @@ module Inspec::Resources
     end
 
     def filtered_packages
-      warn "The packages resource is not yet supported on OS #{inspec.os.name}" if resource_skipped
+      warn "The packages resource is not yet supported on OS #{inspec.os.name}" if resource_skipped?
       @list
     end
   end

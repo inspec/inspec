@@ -233,12 +233,12 @@ module Inspec
 
       return nil if arg.empty?
 
-      if arg[0].respond_to?(:resource_skipped) && !arg[0].resource_skipped.nil?
-        return rspec_skipped_block(arg, opts)
+      if arg[0].respond_to?(:resource_skipped?) && arg[0].resource_skipped?
+        return rspec_skipped_block(arg, opts, arg[0].resource_skipped_message)
       end
 
-      if arg[0].respond_to?(:resource_failed) && !arg[0].resource_failed.nil?
-        return rspec_failed_block(arg, opts)
+      if arg[0].respond_to?(:resource_failed?) && arg[0].resource_failed?
+        return rspec_failed_block(arg, opts, arg[0].resource_failed_message)
       end
 
       # If neither skipped nor failed then add the resource
@@ -272,19 +272,19 @@ module Inspec
       true
     end
 
-    def rspec_skipped_block(arg, opts)
+    def rspec_skipped_block(arg, opts, message)
       @test_collector.example_group(*arg, opts) do
         # Send custom `it` block to RSpec
-        it arg[0].resource_skipped
+        it message
       end
     end
 
-    def rspec_failed_block(arg, opts)
+    def rspec_failed_block(arg, opts, message)
       @test_collector.example_group(*arg, opts) do
         # Send custom `it` block to RSpec
         it '' do
           # Raising here to fail the test and get proper formatting
-          raise Inspec::Exceptions::ResourceFailed, arg[0].resource_failed
+          raise Inspec::Exceptions::ResourceFailed, message
         end
       end
     end
