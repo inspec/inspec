@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.4 -->
-## [v1.41.4](https://github.com/chef/inspec/tree/v1.41.4) (2017-10-12)
+<!-- latest_release 1.41.5 -->
+## [v1.41.5](https://github.com/chef/inspec/tree/v1.41.5) (2017-10-12)
 
 #### Merged Pull Requests
-- Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto))
+- etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
 
 #### Merged Pull Requests
+- etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12)) <!-- 1.41.5 -->
 - Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto)) <!-- 1.41.4 -->
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
 
