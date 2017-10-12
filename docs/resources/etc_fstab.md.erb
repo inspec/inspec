@@ -100,7 +100,7 @@ The following examples show how to use this InSpec resource.
 
 ### Check all partitions that have type of 'nfs'.
 
-    nfs_systems = etc_fstab.nfs_file_systems
+    nfs_systems = etc_fstab.nfs_file_systems.entries
     nfs_systems.each do |partition|
       describe partition do
         its('mount_options') { should include 'nosuid' }
