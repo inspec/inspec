@@ -70,14 +70,8 @@ The `content` matcher return the value of the environment variable:
 
 ### split
 
-The `split` splits the content with the `:` deliminator:
+The `split` matcher splits the value of the environment variable with the `:` deliminator (use the `;` deliminator if Windows):
 
-    its('split') { should include (':') }
+    its('split') { should include ('/usr/bin') }
 
-or:
-
-    its('split') { should_not include ('.') }
-
-Use `-1` to test for cases where there is a trailing colon (`:`), such as `dir1::dir2:`:
-
-    its('split') { should include ('-1') }
+Note: the `split` matcher returns an array including `""` for cases where there is a trailing colon (`:`), such as `dir1::dir2:`
