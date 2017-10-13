@@ -41,7 +41,7 @@ describe Inspec::ShellDetector do
   # Small hack to ensure we can test on windows
   it "returns nil immediately if running on windows" do
     RbConfig::CONFIG.expects(:[]).with('host_os').returns('mswin')
-    subject.shell!.must_equal(nil)
+    subject.shell!.must_be_nil
   end
 
   describe "not on windows" do
@@ -72,7 +72,7 @@ describe Inspec::ShellDetector do
 
     it "returns nil if the shell isn't in the whitelist" do
       no_proc; with_ps(""); with_env("badshell"); with_pwuid("/usr/bin/badshell")
-      subject.shell!.must_equal(nil)
+      subject.shell!.must_be_nil
     end
   end
 end
