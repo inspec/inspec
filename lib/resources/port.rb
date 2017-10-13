@@ -547,13 +547,33 @@ module Inspec::Resources
       # the netstat-provided data
       host = '0.0.0.0' if host == '*'
 
-      # parse the process name from the processes information
-      process_match = parsed[6].match(/users:\(\(\"(\S+)\"/)
-      process = process_match.nil? ? nil : process_match[1]
+      # in case process list parsing is not successfull
+      process = nil
+      pid = nil
 
-      # parse the PID from the processes information
-      pid_match = parsed[6].match(/pid=(\d+)/)
-      pid = pid_match.nil? ? nil : pid_match[1].to_i
+      # parse process and pid from the process list
+      #
+      # remove the "users:((" and  "))" parts
+      # input: users:((\"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8))
+      # res: \"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8
+      process_list_match = parsed[6].match(/users:\(\((.+)\)\)/)
+      if process_list_match
+        # list entires are seperated by "," the braces can also be removed
+        # input: \"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8
+        # res: ["\"nginx\",pid=583,fd=8", "\"nginx\",pid=582,fd=8", "\"nginx\",pid=580,fd=8", "\"nginx\",pid=579,fd=8"]
+        process_list = process_list_match[1].split('),(')
+        # To stay backwards compatible with netstat we need to select
+        # the last element in the resulting array.
+        # res: "\"nginx\",pid=579,fd=8"
+
+        # parse the process name from the process list
+        process_match = process_list.last.match(/^\"(\S+)\"/)
+        process = process_match.nil? ? nil : process_match[1]
+
+        # parse the PID from the process list
+        pid_match = process_list.last.match(/pid=(\d+)/)
+        pid = pid_match.nil? ? nil : pid_match[1].to_i
+      end
 
       {
         'port'     => port,
