@@ -141,13 +141,19 @@ describe Inspec::ProfileContext do
       it 'alters controls when positive' do
         profile.load(if_false + control)
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
 
       it 'alters non-controls when positive' do
         profile.load(if_false + describe)
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
 
       it 'doesnt alter controls when negative' do
@@ -165,13 +171,19 @@ describe Inspec::ProfileContext do
       it 'doesnt overwrite falsy only_ifs' do
         profile.load(if_false + if_true + control)
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
 
       it 'doesnt overwrite falsy only_ifs' do
         profile.load(if_true + if_false + control)
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
     end
 
@@ -286,7 +298,10 @@ describe Inspec::ProfileContext do
       it 'skips with only_if == false' do
         profile.load(format(context_format, 'only_if { false }'))
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
 
       it 'does nothing with only_if == false' do
@@ -297,13 +312,19 @@ describe Inspec::ProfileContext do
       it 'doesnt overwrite falsy only_ifs' do
         profile.load(format(context_format, "only_if { false }\nonly_if { true }"))
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
 
       it 'doesnt overwrite falsy only_ifs' do
         profile.load(format(context_format, "only_if { true }\nonly_if { false }"))
         get_checks.length.must_equal 1
+        get_checks[0][1][0].resource_skipped?.must_equal true
         get_checks[0][1][0].resource_skipped_message.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_failed?.must_equal false
+        get_checks[0][1][0].resource_failed_message.must_be_nil
       end
     end
   end
