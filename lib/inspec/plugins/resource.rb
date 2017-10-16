@@ -78,10 +78,11 @@ module Inspec
         def resource_skipped_message
           @resource_skipped
         end
-        # This alias exists for backwards compatibility
-        # It is more idiomatic to have a `?` and `_message` methods
-        # TODO: Remove in InSpec 2.0
-        alias_method :resource_skipped, :resource_skipped_message
+
+        def resource_skipped
+          warn('[DEPRECATION] Use `resource_skipped_message` for the resource skipped message. This method will be removed in InSpec 2.0.')
+          @resource_skipped
+        end
 
         def fail_resource(message)
           @resource_failed = message

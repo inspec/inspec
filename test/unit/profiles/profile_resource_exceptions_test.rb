@@ -61,4 +61,11 @@ describe 'resource exception' do
       checks[5][1][1][0].resource_skipped?.must_equal false
     end
   end
+
+  describe 'when using deprecated `resource_skip` method' do
+    it 'warns the user' do
+      _, err = capture_io { checks[0][0][1][0].resource_skipped }
+      err.must_match(/DEPRECATION/)
+    end
+  end
 end
