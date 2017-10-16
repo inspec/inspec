@@ -9,7 +9,6 @@ require_relative 'api/login'
 
 module Compliance
   class ServerConfigurationMissing < StandardError; end
-  class CannotDetermineServerType < StandardError; end
 
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
@@ -244,9 +243,11 @@ module Compliance
     end
 
     def self.determine_server_type(url, insecure)
-      return :automate if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
-      return :compliance if Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
-      raise CannotDetermineServerType, "Unable to determine if #{url} is a Chef Automate or Chef Compliance server"
+      if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
+        :automate
+      elsif Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
+        :compliance
+      end
     end
   end
 end

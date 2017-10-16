@@ -52,14 +52,6 @@ describe Compliance::API do
         Compliance::API.expects(:determine_server_type).returns(:automate)
       end
 
-      it 'raises an error if `https://SERVER` is missing' do
-        options = automate_options
-        options.delete('server')
-        err = proc { Compliance::API.login(options) }.must_raise(ArgumentError)
-        err.message.must_match(/Please specify a server.*/)
-        err.message.lines.length.must_equal(1)
-      end
-
       it 'raises an error if `--user` is missing' do
         options = automate_options
         options.delete('user')
@@ -91,7 +83,7 @@ describe Compliance::API do
         options = automate_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration/)
+        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Automate/)
         fake_config['automate']['ent'].must_equal('automate')
         fake_config['automate']['token_type'].must_equal('usertoken')
         fake_config['user'].must_equal('someone')
@@ -104,14 +96,6 @@ describe Compliance::API do
     describe 'when target is a Chef Compliance server' do
       before do
         Compliance::API.expects(:determine_server_type).returns(:compliance)
-      end
-
-      it 'raises an error if `https://SERVER` is missing' do
-        options = compliance_options
-        options.delete('server')
-        err = proc { Compliance::API.login(options) }.must_raise(ArgumentError)
-        err.message.must_match(/Please specify a server.*/)
-        err.message.lines.length.must_equal(1)
       end
 
       it 'raises an error if `--user` and `--refresh-token` are missing' do
@@ -139,11 +123,26 @@ describe Compliance::API do
         options = compliance_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/API access token stored/)
+        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Compliance/)
         fake_config['user'].must_equal('someone')
         fake_config['server'].must_equal('https://compliance.example.com/api')
         fake_config['server_type'].must_equal('compliance')
         fake_config['token'].must_equal('token')
+      end
+    end
+
+    describe 'when target is neither a Chef Compliance nor Chef Automate server' do
+      it 'raises an error if `https://SERVER` is missing' do
+        options = {}
+        err = proc { Compliance::API.login(options) }.must_raise(ArgumentError)
+        err.message.must_match(/Please specify a server.*/)
+        err.message.lines.length.must_equal(1)
+      end
+
+      it 'rasies a `CannotDetermineServerType` error' do
+        Compliance::API.expects(:determine_server_type).returns(nil)
+        err = proc { Compliance::API.login(automate_options) }.must_raise(StandardError)
+        err.message.must_match(/Unable to determine/)
       end
     end
   end

@@ -6,11 +6,23 @@
 module Compliance
   class API
     module Login
-      def login(options)
-        options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure']).to_s
+      class CannotDetermineServerType < StandardError; end
 
-        return Login::ComplianceServer.login(options) if options['server_type'] == 'compliance'
-        Login::AutomateServer.login(options)
+      def login(options)
+        raise ArgumentError, 'Please specify a server using `inspec compliance login https://SERVER`' unless options['server']
+
+        options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure'])
+
+        case options['server_type']
+        when :automate
+          config = Login::AutomateServer.login(options)
+        when :compliance
+          config = Login::ComplianceServer.login(options)
+        else
+          raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a Chef Automate or Chef Compliance server"
+        end
+
+        puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
       end
 
       module AutomateServer
@@ -19,14 +31,14 @@ module Compliance
 
           options['url'] = options['server'] + '/compliance'
           token = options['dctoken'] || options['token']
-          puts store_access_token(options, token)
+          store_access_token(options, token)
         end
 
         def self.store_access_token(options, token)
-          token_info = if options['token']
-                         { type: 'usertoken', msg: 'automate user token' }
+          token_type = if options['token']
+                         'usertoken'
                        else
-                         { type: 'dctoken', msg: 'data colletor token' }
+                         'dctoken'
                        end
 
           config = Compliance::Configuration.new
@@ -35,23 +47,22 @@ module Compliance
 
           config['automate'] = {}
           config['automate']['ent'] = options['ent']
-          config['automate']['token_type'] = token_info[:type]
+          config['automate']['token_type'] = token_type
           config['server'] = options['url']
           config['user'] = options['user']
           config['insecure'] = options['insecure'] || false
-          config['server_type'] = options['server_type']
-
+          config['server_type'] = options['server_type'].to_s
           config['token'] = token
           config['version'] = Compliance::API.version(config)
+
           config.store
-          "Stored configuration for Chef Automate: '#{config['server']}' with user: '#{config['user']}', ent: '#{config['automate']['ent']}' and your #{token_info[:msg]}"
+          config
         end
 
         # Automate login requires `--ent`, `--user`, and either `--token` or `--dctoken`
         def self.verify_thor_options(o)
           error_msg = []
 
-          error_msg.push('Please specify a server using `inspec compliance login https://SERVER`') if o['server'].nil?
           error_msg.push('Please specify a user using `--user=\'USER\'`') if o['user'].nil?
           error_msg.push('Please specify an enterprise using `--ent=\'automate\'`') if o['ent'].nil?
 
@@ -70,17 +81,12 @@ module Compliance
           options['url'] = options['server'] + '/api'
 
           if options['user'] && options['token']
-            success = true
-            msg = compliance_store_access_token(options, options['token'])
+            compliance_store_access_token(options, options['token'])
           elsif options['user'] && options['password']
-            success, msg = compliance_login_user_pass(options)
+            compliance_login_user_pass(options)
           elsif options['refresh_token']
-            success, msg = compliance_login_refresh_token(options)
+            compliance_login_refresh_token(options)
           end
-
-          raise msg unless success
-
-          puts msg
         end
 
         def self.compliance_login_user_pass(options)
@@ -90,9 +96,9 @@ module Compliance
             options['password'],
             options['insecure'],
           )
-          msg += "\n" + compliance_store_access_token(options, token) if success
 
-          [success, msg]
+          raise msg unless success
+          compliance_store_access_token(options, token)
         end
 
         def self.compliance_login_refresh_token(options)
@@ -101,9 +107,9 @@ module Compliance
             options['refresh_token'],
             options['insecure'],
           )
-          msg += "\n" + compliance_store_access_token(options, token) if success
 
-          [success, msg]
+          raise msg unless success
+          compliance_store_access_token(options, token)
         end
 
         def self.compliance_store_access_token(options, token)
@@ -113,13 +119,12 @@ module Compliance
           config['user'] = options['user'] if options['user']
           config['server'] = options['url']
           config['insecure'] = options['insecure'] || false
-          config['server_type'] = options['server_type']
+          config['server_type'] = options['server_type'].to_s
           config['token'] = token
           config['version'] = Compliance::API.version(config)
 
           config.store
-
-          'API access token stored'
+          config
         end
 
         # Compliance login requires `--user` or `--refresh_token`

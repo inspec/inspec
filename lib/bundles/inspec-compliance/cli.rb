@@ -73,10 +73,7 @@ module Compliance
       warn '[DEPRECATION] `inspec compliance login_automate` is deprecated. Please use `inspec compliance login`'
       options['server'] = server
 
-      if options['usertoken']
-        warn '[DEPRECATION] `--usertoken` is deprecated. Please use `--token`.'
-        options['token'] = options['usertoken']
-      end
+      options['token'] = options['usertoken'] if options['usertoken']
 
       Compliance::API.login(options)
     end

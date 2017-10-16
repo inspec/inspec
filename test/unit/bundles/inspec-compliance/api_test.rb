@@ -266,13 +266,13 @@ describe Compliance::API do
       Compliance::API.determine_server_type(url, true).must_equal(:compliance)
     end
 
-    it 'raises a `Compliance::CannotDetermineServerType` error if no response returns favorably' do
+    it 'returns `nil` if no response returns favorably' do
       bad_response = mock
       bad_response.stubs(:code).returns('404')
       url = 'https://bad.example.com'
       Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
       Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(bad_response)
-      proc { Compliance::API.determine_server_type(url, true) }.must_raise(Compliance::CannotDetermineServerType)
+      Compliance::API.determine_server_type(url, true).must_be_nil
     end
   end
 end
