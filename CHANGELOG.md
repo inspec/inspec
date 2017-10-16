@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.5 -->
-## [v1.41.5](https://github.com/chef/inspec/tree/v1.41.5) (2017-10-12)
+<!-- latest_release 1.41.6 -->
+## [v1.41.6](https://github.com/chef/inspec/tree/v1.41.6) (2017-10-16)
 
-#### Merged Pull Requests
-- etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12))
+#### Enhancements
+- Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -19,6 +19,7 @@
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
 #### Enhancements
+- Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman)) <!-- 1.41.6 -->
 - Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
 <!-- release_rollup -->
 
