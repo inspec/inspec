@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.42.0 -->
-## [v1.42.0](https://github.com/chef/inspec/tree/v1.42.0) (2017-10-17)
+<!-- latest_release 1.42.1 -->
+## [v1.42.1](https://github.com/chef/inspec/tree/v1.42.1) (2017-10-17)
 
 #### Enhancements
-- Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff))
+- Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -23,6 +23,7 @@
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
 #### Enhancements
+- Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.42.1 -->
 - Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff)) <!-- 1.42.0 -->
 - Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman)) <!-- 1.41.6 -->
 - Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
