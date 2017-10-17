@@ -85,7 +85,7 @@ module Inspec::Resources
       conditions.each do |k, v|
         idx = fields[k.to_sym]
         next if idx.nil?
-        res = res.select { |x| x[idx] == v.to_s }
+        res = res.select { |x| x[idx].to_s == v.to_s }
       end
 
       EtcGroupView.new(self, res)
