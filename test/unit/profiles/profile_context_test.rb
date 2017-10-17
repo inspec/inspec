@@ -55,12 +55,9 @@ describe Inspec::ProfileContext do
   let(:backend) { MockLoader.new.backend }
   let(:profile) { Inspec::ProfileContext.new(nil, backend, {}) }
 
-  def get_rule
-    profile.rules.values[0]
-  end
-
-  def get_checks
-    Inspec::Rule.prepare_checks(get_rule)
+  def get_checks(rule_index = 0)
+    rule = profile.rules.values[rule_index]
+    Inspec::Rule.prepare_checks(rule)
   end
 
   it 'must be able to load empty content' do
@@ -121,7 +118,8 @@ describe Inspec::ProfileContext do
       let(:if_true) { "only_if { true }\n" }
       let(:if_false) { "only_if { false }\n" }
       let(:describe) { "describe nil do its(:to_i) { should eq rand } end\n" }
-      let(:control) { "control 1 do\n#{describe}end" }
+      let(:control) { "control 1 do\n#{describe}\nend\n" }
+      let(:control_2) { "control 2 do\n#{describe}\nend\n" }
 
       it 'provides the keyword' do
         profile.load(if_true)
@@ -172,6 +170,46 @@ describe Inspec::ProfileContext do
         profile.load(if_true + if_false + control)
         get_checks.length.must_equal 1
         get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'doesnt extend into other control files' do
+        fake_control_file = if_false + control
+        profile.load_control_file(fake_control_file, '(eval)', nil)
+        profile.load_control_file(control_2, '(eval)', nil)
+        first_file_check = get_checks(0)
+        second_file_check = get_checks(1)
+        first_file_check[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        second_file_check[0][1][0].must_be_nil
+      end
+
+      it 'applies to the controls above it when at the bottom of the file' do
+        fake_control_file = control + if_false
+        profile.load_control_file(fake_control_file, '(eval)', 1)
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'applies to the controls below it when at the top of the file' do
+        fake_control_file = if_false + control
+        profile.load_control_file(fake_control_file, '(eval)', 1)
+        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'applies to the controls above and below it when at the middle of the file' do
+        fake_control_file = control + if_false + control_2
+        profile.load_control_file(fake_control_file, '(eval)', 1)
+        check_top = get_checks(0)
+        check_bottom = get_checks(1)
+        check_top[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        check_bottom[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+      end
+
+      it 'applies to the describe blocks above and below it when at the middle of the file' do
+        fake_control_file = describe + if_false + describe
+        profile.load_control_file(fake_control_file, '(eval)', 1)
+        check_top = get_checks(0)
+        check_bottom = get_checks(1)
+        check_top[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        check_bottom[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
       end
     end
 

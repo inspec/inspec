@@ -127,6 +127,8 @@ module Inspec
     end
 
     def load_control_file(*args)
+      # Set `skip_file` to `false` between file loads to prevent skips from spanning multiple control files
+      control_eval_context.skip_file = false
       load_with_context(control_eval_context, *args)
     end
     alias load load_control_file
