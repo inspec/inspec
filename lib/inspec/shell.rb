@@ -42,7 +42,7 @@ module Inspec
 
       # configure pry shell prompt
       Pry.config.prompt_name = 'inspec'
-      Pry.prompt = [proc { "#{readline_ignore("\e[0;32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
+      Pry.prompt = [proc { "#{readline_ignore("\e[1m\e[32m")}#{Pry.config.prompt_name}> #{readline_ignore("\e[0m")}" }]
 
       # Add a help menu as the default intro
       Pry.hooks.add_hook(:before_session, 'inspec_intro') do
@@ -79,7 +79,7 @@ module Inspec
     end
 
     def mark(x)
-      "#{readline_ignore("\033[1m")}#{x}#{readline_ignore("\033[0m")}"
+      "\e[1m\e[39m#{x}\e[0m"
     end
 
     def print_example(example)
@@ -106,8 +106,8 @@ module Inspec
       puts <<EOF
 You are currently running on:
 
-    OS platform:  #{mark ctx.os[:name] || 'unknown'}
-    OS family:  #{mark ctx.os[:family] || 'unknown'}
+    OS platform: #{mark ctx.os[:name] || 'unknown'}
+    OS family: #{mark ctx.os[:family] || 'unknown'}
     OS release: #{mark ctx.os[:release] || 'unknown'}
 EOF
     end
