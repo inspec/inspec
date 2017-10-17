@@ -29,7 +29,7 @@ module Inspec
       @resource_dsl
     end
 
-    def initialize(id, profile_id, _opts, &block)
+    def initialize(id, profile_id, opts, &block)
       @impact = nil
       @title = nil
       @desc = nil
@@ -44,6 +44,7 @@ module Inspec
       @__checks = []
       @__skip_rule = nil
       @__merge_count = 0
+      @__mock = opts[:mock] || false
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
@@ -104,7 +105,15 @@ module Inspec
     # @return [nil]
     def only_if
       return unless block_given?
-      @__skip_rule ||= !yield
+
+      # Ignore error if a mock connection
+      # Example: `inspec check` with `only_if { os.name.include?('windows' }`
+      begin
+        @__skip_rule ||= !yield
+      rescue => e
+        return if @__mock == true
+        raise e
+      end
     end
 
     # Describe will add one or more tests to this control. There is 2 ways

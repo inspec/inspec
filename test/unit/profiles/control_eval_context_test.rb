@@ -40,6 +40,7 @@ EOF
 
   it 'provides rules with access to the given DSL' do
     profile_context.stubs(:current_load).returns({file: "<test content>"})
+    backend.stubs(:mock_transport?).returns(true)
     eval_context.instance_eval(control_content)
     profile_context.all_rules.each do |rule|
       # Turn each rule into an example group and run it, none of the

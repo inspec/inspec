@@ -13,7 +13,7 @@ module Inspec
   # as the basic DSL of the control files (describe, control, title,
   # etc).
   #
-  class ControlEvalContext
+  class ControlEvalContext # rubocop:disable Metrics/ClassLength
     # Create the context for controls. This includes all components of the DSL,
     # including matchers and resources.
     #
@@ -70,6 +70,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
+          opts[:mock] = true if @backend.mock_transport?
           register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
@@ -133,7 +134,16 @@ module Inspec
 
         define_method :only_if do |&block|
           return unless block
-          return if @skip_file == true || block.yield == true
+          return if @skip_file == true
+
+          begin
+            return if block.yield == true
+          rescue => e
+            # Ignore error if a mock connection
+            # Example: `inspec check` with `only_if { os.name.include?('windows' }`
+            return if @backend.mock_transport?
+            raise e
+          end
 
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|

@@ -29,4 +29,11 @@ describe 'inspec check' do
       out.exit_status.must_equal 0
     end
   end
+
+  describe 'inspec check with a profile containing only_if' do
+    it 'ignores the `only_if`' do
+      out = inspec('check ' + File.join(profile_path, 'only-if-os-nope'))
+      out.exit_status.must_equal 0
+    end
+  end
 end
