@@ -84,6 +84,13 @@ module Inspec::Resources
       file_permission_granted?('execute', by_usergroup, by_specific_user)
     end
 
+    def allowed?(permission, opts = {})
+      return false unless exist?
+      return skip_resource '`allowed?` is not supported on your OS yet.' if @perms_provider.nil?
+
+      file_permission_granted?(permission, opts[:by], opts[:by_user])
+    end
+
     def mounted?(expected_options = nil, identical = false)
       mounted = file.mounted
 
@@ -206,18 +213,82 @@ module Inspec::Resources
     end
 
     def check_file_permission_by_user(access_type, user, path)
-      access_rule = case access_type
-                    when 'read'
-                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'Read\', \'ListDirectory\')'
-                    when 'write'
-                      '@(\'FullControl\', \'Modify\', \'Write\')'
-                    when 'execute'
-                      '@(\'FullControl\', \'Modify\', \'ReadAndExecute\', \'ExecuteFile\')'
-                    else
-                      raise 'Invalid access_type provided'
-                    end
+      access_rule = translate_perm_names(access_type)
+      access_rule = convert_to_powershell_array(access_rule)
+
       cmd = inspec.command("@(@((Get-Acl '#{path}').access | Where-Object {$_.AccessControlType -eq 'Allow' -and $_.IdentityReference -eq '#{user}' }) | Where-Object {($_.FileSystemRights.ToString().Split(',') | % {$_.trim()} | ? {#{access_rule} -contains $_}) -ne $null}) | measure | % { $_.Count }")
       cmd.stdout.chomp == '0' ? false : true
+    end
+
+    private
+
+    def convert_to_powershell_array(arr)
+      if arr.empty?
+        '@()'
+      else
+        %{@('#{arr.join("', '")}')}
+      end
+    end
+
+    # Translates a developer-friendly string into a list of acceptable
+    # FileSystemRights that match it, because Windows has a fun heirarchy
+    # of permissions that are able to be noted in multiple ways.
+    #
+    # See also: https://www.codeproject.com/Reference/871338/AccessControl-FileSystemRights-Permissions-Table
+    def translate_perm_names(access_type)
+      names = translate_common_perms(access_type)
+      names ||= translate_granular_perms(access_type)
+      names ||= translate_uncommon_perms(access_type)
+      raise 'Invalid access_type provided' unless names
+    end
+
+    def translate_common_perms(access_type)
+      case access_type
+      when 'full-control'
+        %w{FullControl}
+      when 'modify'
+        translate_perm_names('full-control') + %w{Modify}
+      when 'read'
+        translate_perm_names('modify') + %w{ReadAndExecute Read}
+      when 'write'
+        translate_perm_names('modify') + %w{Write}
+      when 'execute'
+        translate_perm_names('modify') + %w{ReadAndExecute ExecuteFile Traverse}
+      when 'delete'
+        translate_perm_names('modify') + %w{Delete}
+      end
+    end
+
+    def translate_uncommon_perms(access_type)
+      case access_type
+      when 'delete-subdirectories-and-files'
+        translate_perm_names('full-control') + %w{DeleteSubdirectoriesAndFiles}
+      when 'change-permissions'
+        translate_perm_names('full-control') + %w{ChangePermissions}
+      when 'take-ownership'
+        translate_perm_names('full-control') + %w{TakeOwnership}
+      end
+    end
+
+    def translate_granular_perms(access_type)
+      case access_type
+      when 'write-data', 'create-files'
+        translate_perm_names('write') + %w{WriteData CreateFiles}
+      when 'append-data', 'create-directories'
+        translate_perm_names('write') + %w{CreateDirectories AppendData}
+      when 'write-extended-attributes'
+        translate_perm_names('write') + %w{WriteExtendedAttributes}
+      when 'write-attributes'
+        translate_perm_names('write') + %w{WriteAttributes}
+      when 'read-data', 'list-directory'
+        translate_perm_names('read') + %w{ReadData ListDirectory}
+      when 'read-attributes'
+        translate_perm_names('read') + %w{ReadAttributes}
+      when 'read-extended-attributes'
+        translate_perm_names('read') + %w{ReadExtendedAttributes}
+      when 'read-permissions'
+        translate_perm_names('read') + %w{ReadPermissions}
+      end
     end
   end
 end
