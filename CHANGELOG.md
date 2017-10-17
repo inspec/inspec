@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.8 -->
-## [v1.41.8](https://github.com/chef/inspec/tree/v1.41.8) (2017-10-17)
+<!-- latest_release 1.41.9 -->
+## [v1.41.9](https://github.com/chef/inspec/tree/v1.41.9) (2017-10-17)
 
-#### Bug Fixes
-- Fix `only_if` behavior when used outside controls [#2216](https://github.com/chef/inspec/pull/2216) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
 
 #### Merged Pull Requests
+- Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.9 -->
 - etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12)) <!-- 1.41.5 -->
 - Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto)) <!-- 1.41.4 -->
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
