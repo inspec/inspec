@@ -31,15 +31,16 @@ A `shadow` resource block declares one (or more) users and associated user infor
 
 or with a filter:
 
-    describe shadow.uid(filter) do
+    describe shadow.filter(value).method do
       its('users') { should cmp 'root' }
       its('count') { should eq 1 }
     end
 
 where
 
-* `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
-* `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering; `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
+* `shadow.filter(value)` defines filtering, such as `shadow.users(/name/)`
+* `filter` may take any of the following arguments: `expiry_dates`, `inactive_days`, `last_changes`, `max_days`, `min_days`, `passwords`, `users`, and `warn_days`
+* `method` may take one of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `shadow` lines), and `params` (returns an array of maps for all entries)
 
 <br>
 
@@ -72,7 +73,7 @@ The `count` matcher tests the number of times the named user appears in `/etc/sh
 
     its('count') { should eq 1 }
 
-TThis matcher is best used in conjunction with filters. For example:
+This matcher is best used in conjunction with filters. For example:
 
     describe shadow.users('dannos') do
        its('count') { should eq 1 }
@@ -114,11 +115,9 @@ The `passwords` matcher tests if passwords are
 
 * Encrypted
 * Have direct logins disabled, as indicated by an asterisk (`*`)
-* In the `/etc/shadow` file, as indicated by the letter x (`x`)
 
 For example:
 
-    its('passwords') { should eq ['x'] }
     its('passwords') { should cmp '*' }
 
 ### users
