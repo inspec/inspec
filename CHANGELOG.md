@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.10 -->
-## [v1.41.10](https://github.com/chef/inspec/tree/v1.41.10) (2017-10-17)
+<!-- latest_release 1.42.0 -->
+## [v1.42.0](https://github.com/chef/inspec/tree/v1.42.0) (2017-10-17)
 
-#### Merged Pull Requests
-- PR to resolve the weird encoding issue within inspec shell [#2234](https://github.com/chef/inspec/pull/2234) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+#### Enhancements
+- Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -23,6 +23,7 @@
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
 #### Enhancements
+- Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff)) <!-- 1.42.0 -->
 - Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman)) <!-- 1.41.6 -->
 - Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
 <!-- release_rollup -->
