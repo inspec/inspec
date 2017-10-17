@@ -6,3 +6,4 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 udp        0      0 0.0.0.0:111             0.0.0.0:*                   0          8689        545/rpcbind
 tcp6       0      0 192.168.1.123:8005      :::*                    LISTEN      0          21703       1234/java
 udp6       0      0 fe80::42:acff:fe11::123 :::*                                0          54550       3335/ntpd
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      0          14427       579/nginx: worker p

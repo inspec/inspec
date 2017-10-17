@@ -17,11 +17,11 @@ describe 'Inspec::Resources::Port' do
 
   it 'lists all ports' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port')
-    _(resource.entries.length).must_equal 7
+    _(resource.entries.length).must_equal 8
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ udp tcp tcp6 }
-    _(resource.pids).must_equal [1146, 1222, 1722]
-    _(resource.processes).must_equal ['dhclient', 'sshd', 'java']
+    _(resource.pids).must_equal [1146, 1222, 1722, 579]
+    _(resource.processes).must_equal ['dhclient', 'sshd', 'java', 'nginx']
     _(resource.addresses).must_equal ['0.0.0.0', '10.0.2.15', 'fe80::a00:27ff:fe32:ed09', '::']
   end
 
@@ -52,6 +52,16 @@ describe 'Inspec::Resources::Port' do
     _(resource.protocols).must_equal ['udp']
     _(resource.pids).must_equal [1146]
     _(resource.processes).must_equal ['dhclient']
+    _(resource.addresses).must_equal ['0.0.0.0']
+  end
+
+  it 'properly handles multiple processes using one fd' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('port', '80')
+    _(resource.entries.length).must_equal 1
+    _(resource.listening?).must_equal true
+    _(resource.protocols).must_equal ['tcp']
+    _(resource.pids).must_equal [579]
+    _(resource.processes).must_equal ['nginx']
     _(resource.addresses).must_equal ['0.0.0.0']
   end
 
