@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.7 -->
-## [v1.41.7](https://github.com/chef/inspec/tree/v1.41.7) (2017-10-17)
+<!-- latest_release 1.41.8 -->
+## [v1.41.8](https://github.com/chef/inspec/tree/v1.41.8) (2017-10-17)
 
 #### Bug Fixes
-- Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee))
+- Fix `only_if` behavior when used outside controls [#2216](https://github.com/chef/inspec/pull/2216) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -16,6 +16,7 @@
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
 
 #### Bug Fixes
+- Fix `only_if` behavior when used outside controls [#2216](https://github.com/chef/inspec/pull/2216) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.41.8 -->
 - Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee)) <!-- 1.41.7 -->
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
