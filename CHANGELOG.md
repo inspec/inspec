@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.41.6 -->
-## [v1.41.6](https://github.com/chef/inspec/tree/v1.41.6) (2017-10-16)
+<!-- latest_release 1.41.7 -->
+## [v1.41.7](https://github.com/chef/inspec/tree/v1.41.7) (2017-10-17)
 
-#### Enhancements
-- Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman))
+#### Bug Fixes
+- Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -16,6 +16,7 @@
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
 
 #### Bug Fixes
+- Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee)) <!-- 1.41.7 -->
 - Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
 
 #### Enhancements
