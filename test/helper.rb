@@ -179,6 +179,8 @@ class MockLoader
       '/etc/init/ssh.conf' => mockfile.call('upstart_ssh_enabled.conf'),
       '/etc/hosts.allow' => mockfile.call('hosts.allow'),
       '/etc/hosts.deny' => mockfile.call('hosts.deny'),
+      '/fakepath/fakefile' => emptyfile.call,
+      'C:/fakepath/fakefile' => emptyfile.call,
     }
 
     # create all mock commands
@@ -194,6 +196,18 @@ class MockLoader
     cmd_exit_1 = mock.mock_command('', '', '', 1)
 
     mock.commands = {
+      '' => empty.call,
+      'sh -c \'find /no/such/mock -type f -maxdepth 1\'' => empty.call,
+      'type "brew"' => empty.call,
+      'bash -c \'type "pip"\'' => empty.call,
+      'bash -c \'type "/test/path/pip"\'' => empty.call,
+      'type "netstat"' => empty.call,
+      'sh -c \'find /etc/apache2/ports.conf -type l -maxdepth 1\'' => empty.call,
+      'sh -c \'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1\'' => empty.call,
+      'sh -c \'find /etc/httpd/mods-enabled/*.conf -type l -maxdepth 1\'' => empty.call,
+      'sh -c \'find /etc/httpd/conf-enabled/*.conf -type f -maxdepth 1\'' => empty.call,
+      'find /sys/class/net/eth1/ -maxdepth 1 -type f -exec sh -c \'echo "[$(basename {})]"; cat {} || echo -n\' \;' => empty.call,
+      'Get-Package -Name \'Not available\' | ConvertTo-Json' => empty.call,
       'ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command' => cmd.call('ps-axo'),
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
