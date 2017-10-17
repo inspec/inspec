@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.42.1 -->
-## [v1.42.1](https://github.com/chef/inspec/tree/v1.42.1) (2017-10-17)
+<!-- latest_release 1.42.2 -->
+## [v1.42.2](https://github.com/chef/inspec/tree/v1.42.2) (2017-10-17)
 
-#### Enhancements
-- Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+#### Merged Pull Requests
+- Fix typo in error message in postgres resource [#2248](https://github.com/chef/inspec/pull/2248) ([rndmh3ro](https://github.com/rndmh3ro))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
 ### Changes since 1.41.0 release
 
 #### Merged Pull Requests
+- Fix typo in error message in postgres resource [#2248](https://github.com/chef/inspec/pull/2248) ([rndmh3ro](https://github.com/rndmh3ro)) <!-- 1.42.2 -->
 - PR to resolve the weird encoding issue within inspec shell [#2234](https://github.com/chef/inspec/pull/2234) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.10 -->
 - Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.9 -->
 - etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12)) <!-- 1.41.5 -->
