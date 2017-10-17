@@ -7,14 +7,19 @@ module Habitat
   class HabitatProfileCLI < Thor
     namespace 'habitat profile'
 
-    desc 'create PATH', 'Create a Habitat artifact for the profile found at PATH'
+    desc 'create PATH', 'Create a one-time Habitat artifact for the profile found at PATH'
     option :output_dir, type: :string, required: false,
       desc: 'Directory in which to save the generated Habitat artifact. Default: current directory'
     def create(path)
       Habitat::Profile.create(path, options)
     end
 
-    desc 'upload PATH', 'Create a Habitat artifact for the profile found at PATH, and upload it to a Habitat Depot'
+    desc 'setup PATH', 'Configure the profile at PATH for Habitat, including a plan and hooks'
+    def setup(path)
+      Habitat::Profile.setup(path)
+    end
+
+    desc 'upload PATH', 'Create a one-time Habitat artifact for the profile found at PATH, and upload it to a Habitat Depot'
     def upload(path)
       Habitat::Profile.upload(path, options)
     end
