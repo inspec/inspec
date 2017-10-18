@@ -21,7 +21,7 @@ module Inspec
       { id: id, title: title, desc: desc, impact: impact, tests: tests.map(&:to_hash), tags: tags.map(&:to_hash) }
     end
 
-    def to_ruby
+    def to_ruby # rubocop:disable Metrics/AbcSize
       res = ["control #{id.inspect} do"]
       res.push "  title #{title.inspect}" unless title.to_s.empty?
       res.push "  desc  #{prettyprint_text(desc, 2)}" unless desc.to_s.empty?
