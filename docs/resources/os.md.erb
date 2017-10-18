@@ -138,3 +138,24 @@ For example, both of the following tests should have the same result:
         its('processes') { should include 'xinetd' }
       end
     end
+
+## os.windows? helpers
+
+Use `os.windows*` helpers to enable more granular testing of Windows versions.
+
+* `windows?`
+* `windows_7?`
+* `windows_8?`
+* `windows_8_1?`
+* `windows_10?`
+* `windows_server_2008?`
+* `windows_server_2008_r2?`
+* `windows_server_2012?`
+* `windows_server_2012_r2?`
+* `windows_server_2016?`
+
+To test for Windows 2008R2 use:
+
+    describe os.windows_server_2008_r2? do
+       it { should eq true }
+    end
