@@ -275,12 +275,15 @@ end
       control.id = 'sample.control.id'
       control.title = 'Sample Control Important Title'
       control.desc = 'The most critical control the world has ever seen'
+      control.refs = ['simple ref', {ref: 'title', url: 'my url'}]
       control.impact = 1.0
       control.to_ruby.must_equal '
 control "sample.control.id" do
   title "Sample Control Important Title"
   desc  "The most critical control the world has ever seen"
   impact 1.0
+  ref   "simple ref"
+  ref   ({:ref=>"title", :url=>"my url"})
   describe command("ls /etc") do
     its("exit_status") { should eq 0 }
   end

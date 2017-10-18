@@ -2,10 +2,11 @@
 
 module Inspec
   class Control
-    attr_accessor :id, :title, :desc, :impact, :tests, :tags
+    attr_accessor :id, :title, :desc, :impact, :tests, :tags, :refs
     def initialize
       @tests = []
       @tags = []
+      @refs = []
     end
 
     def add_test(t)
@@ -26,12 +27,19 @@ module Inspec
       res.push "  desc  #{prettyprint_text(desc, 2)}" unless desc.to_s.empty?
       res.push "  impact #{impact}" unless impact.nil?
       tags.each { |t| res.push(indent(t.to_ruby, 2)) }
+      refs.each { |t| res.push("  ref   #{print_ref(t)}") }
       tests.each { |t| res.push(indent(t.to_ruby, 2)) }
       res.push 'end'
       res.join("\n")
     end
 
     private
+
+    def print_ref(x)
+      return x.inspect if x.is_a?(String)
+      raise "Cannot process the ref: #{x}" unless x.is_a?(Hash)
+      '('+x.inspect+')'
+    end
 
     # Pretty-print a text block of InSpec code
     #
