@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.42.2 -->
-## [v1.42.2](https://github.com/chef/inspec/tree/v1.42.2) (2017-10-17)
+<!-- latest_release 1.42.3 -->
+## [v1.42.3](https://github.com/chef/inspec/tree/v1.42.3) (2017-10-18)
 
-#### Merged Pull Requests
-- Fix typo in error message in postgres resource [#2248](https://github.com/chef/inspec/pull/2248) ([rndmh3ro](https://github.com/rndmh3ro))
+#### Enhancements
+- windows_hotfix resource: Replace WMI query with PowerShell cmdlet &quot;get-hotfix&quot; [#2252](https://github.com/chef/inspec/pull/2252) ([mattray](https://github.com/mattray))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.41.0 -->
@@ -23,6 +23,7 @@
 - Resolve the weird encoding issue within inspec shell [#2234](https://github.com/chef/inspec/pull/2234) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.10 -->
 
 #### Enhancements
+- windows_hotfix resource: Replace WMI query with PowerShell cmdlet &quot;get-hotfix&quot; [#2252](https://github.com/chef/inspec/pull/2252) ([mattray](https://github.com/mattray)) <!-- 1.42.3 -->
 - Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.42.1 -->
 - Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff)) <!-- 1.42.0 -->
 - Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman)) <!-- 1.41.6 -->
