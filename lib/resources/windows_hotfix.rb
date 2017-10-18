@@ -18,7 +18,7 @@ module Inspec::Resources
       @content = nil
       os = inspec.os
       return skip_resource 'The `windows_hotfix` resource is not a feature of your OS.' unless os.windows?
-      query = "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = '" + @id + "'\""
+      query = "get-hotfix -id #{@id}"
       cmd = inspec.powershell(query)
       @content = cmd.stdout
     end
