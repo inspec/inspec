@@ -38,10 +38,10 @@ module Inspec::Resources
       # set PERL5LIB environment variable if a custom lib path is given
       lib_path = @perl_lib_path.nil? ? '' : "PERL5LIB=#{@perl_lib_path} "
       cmd = inspec.command("#{lib_path+@perl_cmd} -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' #{@package_name}")
+      @info[:installed] = cmd.exit_status.zero?
       return @info unless cmd.exit_status.zero?
 
       @info[:version] = cmd.stdout.strip
-      @info[:installed] = true
       @info
     end
 

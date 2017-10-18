@@ -15,9 +15,11 @@ describe 'Inspec::Resources::Cpan' do
   end
   it 'verify info for non-installed packages' do
     resource = load_resource('cpan', 'DOES::Not::Exist')
+    pkg = {type: 'cpan', name: 'DOES::Not::Exist', installed: false}
     _(resource.installed?).must_equal false
-    _(resource.version).must_equal nil
+    _(resource.version).must_be_nil
     _(resource.info[:name]).must_equal 'DOES::Not::Exist'
     _(resource.info[:type]).must_equal 'cpan'
+    _(resource.info).must_equal pkg
   end
 end
