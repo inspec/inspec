@@ -1,0 +1,62 @@
+---
+title: About the cpan Resource
+---
+
+# cpan
+
+Use the `cpan` InSpec audit resource to test Perl modules that are installed by system packages or the CPAN installer.
+
+## Syntax
+
+A `cpan` resource block declares a package and (optionally) a package version:
+
+    describe cpan('package_name') do
+      it { should be_installed }
+    end
+
+where
+
+* `'package_name'` is the name of the package, such as `'DBD::Pg'`
+* `be_installed` tests to see if the package described above is installed
+
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
+
+### version
+
+The `version` matcher tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if DBD::Pg is installed on the system
+
+    describe cpan('DBD:Pg') do
+      it { should be_installed }
+    end
+
+### Test if DBD::Pg 3.7.0 is installed on the system
+
+    describe cpan('DBD::Pg') do
+      it { should be_installed }
+      its('version') { should eq '3.7.0' }
+    end
+    
+### Test if DBD::Pg is installed within a custom PERL5LIB path on the system
+
+Hint: You can pass multiple path's separated by colon `/path/to/perl5/lib:/usr/share/perl5/vendor_perl/lib/perl5`
+
+    describe cpan('DBD::Pg', '/home/jdoe/perl5/lib/perl5') do
+      it { should be_installed }
+    end
