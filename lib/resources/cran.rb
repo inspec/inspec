@@ -19,7 +19,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name, perl_lib_path = nil)
+    def initialize(package_name)
       @package_name = package_name
       @r_cmd = 'Rscript'
 
@@ -38,8 +38,8 @@ module Inspec::Resources
       return @info unless cmd.exit_status.zero?
 
       # Extract package version from Rscript output
-      # Output includes unicode punctuation characters like so:
-      # [1] ‘0.5.1’
+      # Output includes unicode punctuation (backticks) characters like so:
+      # [1] '0.5.1'
       #
       # So make sure command output is converted to unicode, as it returns ASCII-8BIT by default
       utf8_stdout = cmd.stdout.chomp.force_encoding(Encoding::UTF_8)

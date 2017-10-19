@@ -240,6 +240,7 @@ class MockLoader
       '/opt/opscode/embedded/bin/gem list --local -a -q ^knife-backup$' => cmd.call('gem-list-local-a-q-knife-backup'),
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
+      "Rscript -e 'packageVersion(\"DoesNotExist\")'" => cmd.call('r-print-version-not-installed'),
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       'pip show django' => cmd.call('pip-show-django'),
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
