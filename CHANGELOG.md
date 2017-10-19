@@ -1,37 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.42.3 -->
-## [v1.42.3](https://github.com/chef/inspec/tree/v1.42.3) (2017-10-18)
-
-#### Enhancements
-- windows_hotfix resource: Replace WMI query with PowerShell cmdlet &quot;get-hotfix&quot; [#2252](https://github.com/chef/inspec/pull/2252) ([mattray](https://github.com/mattray))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.41.0 -->
-### Changes since 1.41.0 release
-
-#### Merged Pull Requests
-- Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.9 -->
-- Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto)) <!-- 1.41.4 -->
-- Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.41.3 -->
-
-#### Bug Fixes
-- Fix `only_if` behavior when used outside controls [#2216](https://github.com/chef/inspec/pull/2216) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.41.8 -->
-- Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee)) <!-- 1.41.7 -->
-- Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff)) <!-- 1.41.2 -->
-- Fix typo in error message in postgres resource [#2248](https://github.com/chef/inspec/pull/2248) ([rndmh3ro](https://github.com/rndmh3ro)) <!-- 1.42.2 -->
-- Resolve the weird encoding issue within inspec shell [#2234](https://github.com/chef/inspec/pull/2234) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 1.41.10 -->
-
-#### Enhancements
-- windows_hotfix resource: Replace WMI query with PowerShell cmdlet &quot;get-hotfix&quot; [#2252](https://github.com/chef/inspec/pull/2252) ([mattray](https://github.com/mattray)) <!-- 1.42.3 -->
-- Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.42.1 -->
-- Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff)) <!-- 1.42.0 -->
-- Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman)) <!-- 1.41.6 -->
-- Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus)) <!-- 1.41.1 -->
-- etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12)) <!-- 1.41.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.42.3](https://github.com/chef/inspec/tree/v1.42.3) (2017-10-19)
+
+#### Enhancements
+- etc_fstab resource: properly namespace the resource, add nfs_file_systems documentation [#2190](https://github.com/chef/inspec/pull/2190) ([jburns12](https://github.com/jburns12))
+- Uses netstat to detect open ports on AIX [#2210](https://github.com/chef/inspec/pull/2210) ([cattywampus](https://github.com/cattywampus))
+- Add missed &#39;html&#39; to &#39;format&#39; option explanation and arrange formatters in alphabetical order [#2244](https://github.com/chef/inspec/pull/2244) ([strangeman](https://github.com/strangeman))
+- Add inspec habitat profile setup command [#2239](https://github.com/chef/inspec/pull/2239) ([adamleff](https://github.com/adamleff))
+- Extend Windows ACL matchers [#1744](https://github.com/chef/inspec/pull/1744) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- windows_hotfix resource: Replace WMI query with PowerShell cmdlet &quot;get-hotfix&quot; [#2252](https://github.com/chef/inspec/pull/2252) ([mattray](https://github.com/mattray))
+
+#### Bug Fixes
+- Resolve the weird encoding issue within inspec shell [#2234](https://github.com/chef/inspec/pull/2234) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Fix typo in error message in postgres resource [#2248](https://github.com/chef/inspec/pull/2248) ([rndmh3ro](https://github.com/rndmh3ro))
+- Support PAX-formatted tar files, standardize file lists [#2225](https://github.com/chef/inspec/pull/2225) ([adamleff](https://github.com/adamleff))
+- Fix port ressource ss line parsing [#2243](https://github.com/chef/inspec/pull/2243) ([narkaTee](https://github.com/narkaTee))
+- Fix `only_if` behavior when used outside controls [#2216](https://github.com/chef/inspec/pull/2216) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey))
+- Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto))
+- Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+<!-- latest_stable_release -->
+
 ## [v1.41.0](https://github.com/chef/inspec/tree/v1.41.0) (2017-10-09)
 
 #### Enhancements
@@ -47,7 +45,6 @@
 - Support symbol keys in ObjectTraverser [#2221](https://github.com/chef/inspec/pull/2221) ([adamleff](https://github.com/adamleff))
 - Fix loading profile files when executing multiple profiles [#2223](https://github.com/chef/inspec/pull/2223) ([adamleff](https://github.com/adamleff))
 - ssl resource: properly raise error when unable to determine if port is enabled [#2205](https://github.com/chef/inspec/pull/2205) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.40.0](https://github.com/chef/inspec/tree/v1.40.0) (2017-09-28)
 
