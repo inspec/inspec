@@ -73,7 +73,7 @@ module LinuxMountParser
       type_split = mount_line.split(' type ')
       fs_path = type_split[0]
       other_opts = type_split[1]
-      fs, path = fs_path.match(/^(.+?)\son\s(\/.+?)$/).captures
+      fs, path = fs_path.match(%r{^(.+?)\son\s(/.+?)$}).captures
       mount = [fs, 'on', path, 'type']
       mount.concat other_opts.scan(/\S+/)
     else
@@ -106,9 +106,9 @@ module LinuxMountParser
   end
 
   # Device-/Sharename or Mountpoint includes whitespaces?
-  def includes_whitespaces? mount_line
+  def includes_whitespaces?(mount_line)
     ws = mount_line.match(/^(.+)\son\s(.+)\stype\s.*$/)
-    ws.captures[0].include? " " or ws.captures[1].include? " "
+    ws.captures[0].include? ' ' or ws.captures[1].include? ' '
   end
 end
 
