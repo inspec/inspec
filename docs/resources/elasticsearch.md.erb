@@ -1,0 +1,123 @@
+---
+title: The Elasticsearch Resource
+---
+
+# elasticsearch
+
+Use the Elasticsearch InSpec audit resource to test the Elasticsearch configuration
+settings. The data is extracted from the live elasticsearch cluster using the curl
+command and default url `http://localhost:9200/_nodes/`. The resource makes uses of 
+FilterTable and its functionality can be used.
+
+## Syntax
+
+An `elasticsearch` resource is called with the elasticsearch params;
+
+    describe elasticsearch(url:'https://myhost:9201/', username:'elastic', password:'changeme', ssl_verify:true).nodes do
+      its('property') { should include 'value' }
+    end
+
+where
+
+* `url` url to reach elasticsearch, default : https://0.0.0.0:9200/
+* `username` elasticsearch user name, default : nil
+* `password` elasticsearch user password, default : nil
+* `ssl_verify(bool)` perform ssl verification with curl command, default : true
+* `.where()` filter may specify a specific item and value, to which the matchers are compared
+* `.entries()` filter will return the entries that satisfy the where() condition
+* `'name'`, `'cluster_name'`, `'version'` etc. are valid filters for this resource
+* `'property'` is a configuration setting to be tested
+* `{ should include 'value' }` is the value that is expected
+
+## Supported Properties
+
+    'build_hash', 'cluster_name', 'host', 'http', 'ingest', 'ip', 'jvm', 'module_list', 'modules', 'name', 'node_id', 'os', 'plugin_list', 'plugins', 'process', 'roles', 'settings', 'total_indexing_buffer', 'transport', 'transport_address', 'version'
+
+## Property Examples and Return Types
+
+### exist (bool)
+This `'exist'` checks if the nodes data is collected by the resource.
+
+    describe elasticsearch.nodes do
+      it { should exist }
+    end
+
+### cluster_name ([String])
+The `'cluster_name'` returns and array of strings that contain the cluster names of the
+nodes in the cluster or the nodes that match the where condition
+
+    describe elasticsearch.nodes do
+      its('cluster_name') { should cmp 'elasticsearch' }
+    end
+
+### node_id ([String])
+
+The `'node_id'` returns and array of strings that contain the node ids of the
+nodes in the cluster or the nodes that match the where condition
+
+    describe elasticsearch.nodes do
+      its('node_id') { should include 'my_node_id' }
+    end
+
+### count (Int)
+
+The return the count of nodes in the cluster or the count of nodes that match
+the `where` condition
+
+    # Verify the count of nodes in the cluster
+
+    describe elasticsearch.nodes do
+      its('count') { should eq 3 }
+    end
+
+### roles ([[String]])
+
+The return the array of string that lists the roles of nodes in the cluster or
+the nodes that match the `where` condition
+
+    # Verify the roles of a node in the cluster
+    elasticsearch.nodes.where{name == 'my_node' }.roles.each do |node_roles|
+      describe node_roles do
+        it { should include 'master' }
+      end
+    end
+
+## Property Filter Examples
+
+    # Verify that for all nodes in cluster `elastisearch` has `mlockall` as true
+
+    elasticsearch.nodes.where{ cluster_name == 'elasticsearch' }.process.each do |node_process|
+      describe node_process do
+        its('mlockall') { should be false }
+      end
+    end
+
+    # Verify the conf path of the node that matches the name package-centos-72
+
+    elasticsearch.nodes.where{name == 'package-centos-72' }.settings.each do |node_settings|
+      describe node_settings do
+        its('path.conf') {should cmp '/etc/elasticsearch'}
+      end
+    end
+
+    # Verify the version of the node all the nodes
+
+    elasticsearch.nodes.version.each do |node_version|
+      describe node_version do
+        it{ should be > '1.2.0' }
+      end
+    end
+
+    #Verify that the count of nodes with mlockall set as false is 0
+
+    describe elasticsearch.nodes.where{ process.mlockall == false }.count do
+      it{ should eq 0 }
+    end
+
+    #Verify the host OS of the node
+
+    elasticsearch.nodes.os.each do |node_os|
+      describe node_os do
+        its('name'){ should_not cmp 'MacOS' }
+      end
+    end
