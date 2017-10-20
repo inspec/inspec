@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.43.0 -->
+## [v1.43.0](https://github.com/chef/inspec/tree/v1.43.0) (2017-10-20)
+
+#### New Resources
+- new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.42.3 -->
+### Changes since 1.42.3 release
+
+#### New Resources
+- new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff)) <!-- 1.43.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
