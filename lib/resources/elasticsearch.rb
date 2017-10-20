@@ -95,6 +95,8 @@ module Inspec::Resources
     private
 
     def parse_cluster(content)
+      return [] unless content['nodes']
+
       nodes = []
 
       content['nodes'].each do |node_id, node_data|
