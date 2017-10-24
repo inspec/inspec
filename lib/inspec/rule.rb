@@ -110,9 +110,9 @@ module Inspec
       # Example: `inspec check` with `only_if { os.name.include?('windows' }`
       begin
         @__skip_rule ||= !yield
-      rescue => e
+      rescue
         return if @__mock == true
-        raise e
+        raise
       end
     end
 

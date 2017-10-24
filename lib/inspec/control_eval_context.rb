@@ -138,11 +138,11 @@ module Inspec
 
           begin
             return if block.yield == true
-          rescue => e
+          rescue
             # Ignore error if a mock connection
             # Example: `inspec check` with `only_if { os.name.include?('windows' }`
             return if @backend.mock_transport?
-            raise e
+            raise
           end
 
           # Apply `set_skip_rule` for other rules in the same file
