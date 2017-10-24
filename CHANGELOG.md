@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.1 -->
-## [v1.43.1](https://github.com/chef/inspec/tree/v1.43.1) (2017-10-24)
+<!-- latest_release 1.43.2 -->
+## [v1.43.2](https://github.com/chef/inspec/tree/v1.43.2) (2017-10-24)
 
-#### Bug Fixes
-- Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Include ref when writing out inspec control objects [#2259](https://github.com/chef/inspec/pull/2259) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.42.3 -->
 ### Changes since 1.42.3 release
+
+#### Enhancements
+- Include ref when writing out inspec control objects [#2259](https://github.com/chef/inspec/pull/2259) ([arlimus](https://github.com/arlimus)) <!-- 1.43.2 -->
 
 #### Bug Fixes
 - Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.1 -->
