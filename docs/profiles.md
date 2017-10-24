@@ -323,7 +323,7 @@ The tests in `example.rb` can now access this file:
     my_services = yaml(content: inspec.profile.file('services.yml')).params
 
     my_services.each do |s|
-      describe service(s['name']) do
+      describe service(s['service_name']) do
         it { should be_running }
       end
 
