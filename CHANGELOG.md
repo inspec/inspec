@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.0 -->
-## [v1.43.0](https://github.com/chef/inspec/tree/v1.43.0) (2017-10-20)
+<!-- latest_release 1.43.1 -->
+## [v1.43.1](https://github.com/chef/inspec/tree/v1.43.1) (2017-10-24)
 
-#### New Resources
-- new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff))
+#### Bug Fixes
+- Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.42.3 -->
 ### Changes since 1.42.3 release
+
+#### Bug Fixes
+- Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.1 -->
 
 #### New Resources
 - new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff)) <!-- 1.43.0 -->
