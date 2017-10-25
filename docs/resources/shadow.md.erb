@@ -29,17 +29,31 @@ A `shadow` resource block declares one (or more) users and associated user infor
       its('users') { should_not include 'forbidden_user' }
     end
 
-or with a filter:
+or with a single query:
 
-    describe shadow.uid(filter) do
-      its('users') { should cmp 'root' }
+    describe shadow.users('root') do
       its('count') { should eq 1 }
     end
 
-where
+or with a filter:
 
-* `homes`, `gids`, `passwords`, `shells`, `uids`, and `users` are valid accessors for `passwd`
-* `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering; `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
+    describe shadow.filter(min_days: '0', max_days: '99999') do
+      its('count') { should eq 1 }
+    end
+
+The following properties are available:
+
+* `users`
+* `passwords`
+* `last_changes`
+* `min_days`
+* `max_days`
+* `warn_days`
+* `inactive_days`
+* `expiry_date`
+* `reserved`
+
+Properties can be used as a single query or can be joined together with the `.filter` method.
 
 <br>
 
@@ -72,7 +86,7 @@ The `count` matcher tests the number of times the named user appears in `/etc/sh
 
     its('count') { should eq 1 }
 
-TThis matcher is best used in conjunction with filters. For example:
+This matcher is best used in conjunction with filters. For example:
 
     describe shadow.users('dannos') do
        its('count') { should eq 1 }
