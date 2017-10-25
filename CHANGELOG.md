@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.3 -->
-## [v1.43.3](https://github.com/chef/inspec/tree/v1.43.3) (2017-10-25)
+<!-- latest_release 1.43.4 -->
+## [v1.43.4](https://github.com/chef/inspec/tree/v1.43.4) (2017-10-25)
 
 #### New Resources
-- cpan resource: check for Perl module installation [#2254](https://github.com/chef/inspec/pull/2254) ([mgrobelin](https://github.com/mgrobelin))
+- cran resource: check for R module installation [#2255](https://github.com/chef/inspec/pull/2255) ([mgrobelin](https://github.com/mgrobelin))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.42.3 -->
@@ -17,6 +17,7 @@
 - Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.1 -->
 
 #### New Resources
+- cran resource: check for R module installation [#2255](https://github.com/chef/inspec/pull/2255) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.4 -->
 - cpan resource: check for Perl module installation [#2254](https://github.com/chef/inspec/pull/2254) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.3 -->
 - new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff)) <!-- 1.43.0 -->
 <!-- release_rollup -->
