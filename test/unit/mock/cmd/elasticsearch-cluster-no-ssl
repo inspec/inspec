@@ -1,0 +1,23 @@
+{
+  "_nodes": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0
+  },
+  "cluster_name": "no_ssl",
+  "nodes": {
+    "N1XoIhE6RWGAMTS1fSdsLg": {
+      "name": "N1XoIhE",
+      "modules": [],
+      "plugins": [],
+      "settings": {
+        "cluster": {
+          "name": "no_ssl"
+        },
+        "node": {
+          "name": "N1XoIhE"
+        }
+      }
+    }
+  }
+}

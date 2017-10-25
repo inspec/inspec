@@ -202,6 +202,7 @@ class MockLoader
       'bash -c \'type "pip"\'' => empty.call,
       'bash -c \'type "/test/path/pip"\'' => empty.call,
       'bash -c \'type "Rscript"\'' => empty.call,
+      'bash -c \'type "perl"\'' => empty.call,
       'type "netstat"' => empty.call,
       'sh -c \'find /etc/apache2/ports.conf -type l -maxdepth 1\'' => empty.call,
       'sh -c \'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1\'' => empty.call,
@@ -241,6 +242,8 @@ class MockLoader
       'npm ls -g --json bower' => cmd.call('npm-ls-g--json-bower'),
       "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
       "Rscript -e 'packageVersion(\"DoesNotExist\")'" => cmd.call('r-print-version-not-installed'),
+      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DBD::Pg" => cmd.call('perl-print-version'),
+      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DOES::Not::Exist" => cmd_exit_1,
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       'pip show django' => cmd.call('pip-show-django'),
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
@@ -364,9 +367,9 @@ class MockLoader
       # hostname windows
       '$env:computername' => cmd.call('$env-computername'),
       # windows_hotfix windows
-      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB4019215'\"" => cmd.call('kb4019215'),
+      'get-hotfix -id KB4019215' => cmd.call('kb4019215'),
       # windows_hotfix windows doesn't exist
-      "Get-WmiObject -class \"win32_quickfixengineering\" -filter \"HotFixID = 'KB9999999'\"" => empty.call(),
+      'get-hotfix -id KB9999999' => empty.call(),
       # windows_task doesnt exist
       "schtasks /query /v /fo csv /tn 'does-not-exist' | ConvertFrom-Csv | Select @{N='URI';E={$_.TaskName}},@{N='State';E={$_.Status.ToString()}},'Logon Mode','Last Result','Task To Run','Run As User','Scheduled Task State' | ConvertTo-Json -Compress"  => cmd.call('schtasks-error'),
       # windows_task exist
@@ -449,10 +452,17 @@ class MockLoader
       'type "lsof"' => empty.call,
 
       # http resource - remote worker'
+      %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
       "curl -i -X GET --connect-timeout 60 'http://www.example.com'" => cmd.call('http-remote-no-options'),
       "curl -i -X GET --connect-timeout 60 --user 'user:pass' 'http://www.example.com'" => cmd.call('http-remote-basic-auth'),
       '2bdc8826b66efa554bdebd8cc5f3eaf7bfba5ada36adc7904a6b178d331395ea' => cmd.call('http-remote-post'),
       "curl -i -X GET --connect-timeout 60 -H 'accept=application/json' -H 'foo=bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
+
+      # elasticsearch resource
+      "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-nodes-default'),
+      "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-no-ssl'),
+      "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
+      "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
     }
     @backend
   end
