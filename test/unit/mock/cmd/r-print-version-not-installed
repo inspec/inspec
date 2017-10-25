@@ -1,0 +1,3 @@
+Error in packageVersion("DoesNotExist") : 
+  package ‘DoesNotExist’ not found
+Execution halted
