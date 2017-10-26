@@ -117,8 +117,8 @@ module Inspec
 
       if params[:name] =~ %r{[\/\\]}
         warnings.push("Your profile name (#{params[:name]}) contains a slash " \
-          "which will not be permitted in InSpec 2.0. Please change your profile " \
-          "name in the `inspec.yml` file.")
+          'which will not be permitted in InSpec 2.0. Please change your profile ' \
+          'name in the `inspec.yml` file.')
       end
 
       # if version is set, ensure it is correct
