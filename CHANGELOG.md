@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.4 -->
-## [v1.43.4](https://github.com/chef/inspec/tree/v1.43.4) (2017-10-25)
+<!-- latest_release 1.43.5 -->
+## [v1.43.5](https://github.com/chef/inspec/tree/v1.43.5) (2017-10-26)
 
-#### New Resources
-- cran resource: check for R module installation [#2255](https://github.com/chef/inspec/pull/2255) ([mgrobelin](https://github.com/mgrobelin))
+#### Enhancements
+- Add Chef Automate support to `inspec compliance login` [#2203](https://github.com/chef/inspec/pull/2203) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.42.3 -->
 ### Changes since 1.42.3 release
 
 #### Enhancements
+- Add Chef Automate support to `inspec compliance login` [#2203](https://github.com/chef/inspec/pull/2203) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.5 -->
 - Include ref when writing out inspec control objects [#2259](https://github.com/chef/inspec/pull/2259) ([arlimus](https://github.com/arlimus)) <!-- 1.43.2 -->
 
 #### Bug Fixes
