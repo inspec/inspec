@@ -341,7 +341,8 @@ describe Inspec::Profile do
       let(:profile_name) { 'slash-in-name/not-allowed' }   # But not here
       it 'issues a deprecation warning' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_path}"]
-        logger.expect :warn, nil, ["Profile names containing slashes (#{profile_name}) are deprecated."]
+        logger.expect :warn, nil, ["Your profile name (#{profile_name}) contains a slash which " \
+          "will not be permitted in InSpec 2.0. Please change your profile name in the `inspec.yml` file."]
         logger.expect :info, nil, ['Metadata OK.']
         logger.expect :info, nil, ['Found 1 controls.']
 

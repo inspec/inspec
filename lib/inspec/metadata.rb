@@ -116,7 +116,9 @@ module Inspec
       end
 
       if params[:name] =~ %r{[\/\\]}
-        warnings.push("Profile names containing slashes (#{params[:name]}) are deprecated.")
+        warnings.push("Your profile name (#{params[:name]}) contains a slash " \
+          "which will not be permitted in InSpec 2.0. Please change your profile " \
+          "name in the `inspec.yml` file.")
       end
 
       # if version is set, ensure it is correct
