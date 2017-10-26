@@ -206,7 +206,8 @@ namespace :docs do
     docs = ResourceDocs.new(src)
     resources = Dir[File.join(src, 'resources/*.md.erb')]
                 .map { |x| x.sub(/^#{src}/, '') }
-    puts "Found #{src.length} resource docs"
+                .sort
+    puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
