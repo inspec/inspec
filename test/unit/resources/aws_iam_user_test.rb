@@ -8,62 +8,53 @@ class AwsIamUserTest < Minitest::Test
 
   def setup
     @mock_user_provider = Minitest::Mock.new
+    @mock_dets_provider = Minitest::Mock.new
+    @mock_dets_prov_ini = Minitest::Mock.new
+    @mock_user = { name: Username }
   end
 
-  def test_mfa_enabled_returns_true_if_mfa_enabled
-    @mock_user_provider.expect(
-      :user,
-      { has_mfa_enabled?: true },
-      [Username],
-    )
-    assert(
-      AwsIamUser.new(
-        { name: Username },
-        @mock_user_provider,
-      ).has_mfa_enabled?,
-    )
+  def test_that_mfa_enable_returns_true_if_mfa_enabled
+    @mock_user_provider.expect :user, @mock_user, [Username]
+    @mock_dets_provider.expect :has_mfa_enabled?, true
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [@mock_user]
+    assert AwsIamUser.new(
+      @mock_user,
+      @mock_user_provider,
+      @mock_dets_prov_ini,
+    ).has_mfa_enabled?
   end
 
-  def test_mfa_enabled_returns_false_if_mfa_is_not_enabled
-    @mock_user_provider.expect(
-      :user,
-      { has_mfa_enabled?: false },
-      [Username],
-    )
-    refute(
-      AwsIamUser.new(
-        { name: Username },
-        @mock_user_provider,
-      ).has_mfa_enabled?,
-    )
+  def test_that_mfa_enable_returns_false_if_mfa_is_not_enabled
+    @mock_user_provider.expect :user, @mock_user, [Username]
+    @mock_dets_provider.expect :has_mfa_enabled?, false
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [@mock_user]
+    refute AwsIamUser.new(
+      @mock_user,
+      @mock_user_provider,
+      @mock_dets_prov_ini,
+    ).has_mfa_enabled?
   end
 
-  def test_console_password_returns_true_if_console_password_has_been_set
-    @mock_user_provider.expect(
-      :user,
-      { has_console_password?: true },
-      [Username],
-    )
-    assert(
-      AwsIamUser.new(
-        { name: Username },
-        @mock_user_provider,
-      ).has_console_password?,
-    )
+  def test_that_console_password_returns_true_if_console_password_set
+    @mock_user_provider.expect :user, @mock_user, [Username]
+    @mock_dets_provider.expect :has_console_password?, true
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [@mock_user]
+    assert AwsIamUser.new(
+      @mock_user,
+      @mock_user_provider,
+      @mock_dets_prov_ini,
+    ).has_console_password?
   end
 
-  def test_console_password_returns_false_if_console_password_has_not_been_set
-    @mock_user_provider.expect(
-      :user,
-      { has_console_password?: false },
-      [Username],
-    )
-    refute(
-      AwsIamUser.new(
-        { name: Username },
-        @mock_user_provider,
-      ).has_console_password?,
-    )
+  def test_that_console_password_returns_false_if_console_password_not_set
+    @mock_user_provider.expect :user, @mock_user, [Username]
+    @mock_dets_provider.expect :has_console_password?, false
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [@mock_user]
+    refute AwsIamUser.new(
+      @mock_user,
+      @mock_user_provider,
+      @mock_dets_prov_ini,
+    ).has_console_password?
   end
 
   def test_that_access_keys_returns_aws_iam_access_key_resources
@@ -71,11 +62,9 @@ class AwsIamUserTest < Minitest::Test
     stub_access_key_resource = Object.new
     mock_access_key_factory = Minitest::Mock.new
 
-    @mock_user_provider.expect(
-      :user,
-      { access_keys: [stub_aws_access_key] },
-      [Username],
-    )
+    @mock_user_provider.expect :user, @mock_user, [Username]
+    @mock_dets_provider.expect :access_keys, [stub_aws_access_key]
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [@mock_user]
     mock_access_key_factory.expect(
       :create_access_key,
       stub_access_key_resource,
@@ -85,8 +74,9 @@ class AwsIamUserTest < Minitest::Test
     assert_equal(
       stub_access_key_resource,
       AwsIamUser.new(
-        { name: Username },
+        @mock_user,
         @mock_user_provider,
+        @mock_dets_prov_ini,
         mock_access_key_factory,
       ).access_keys[0],
     )
@@ -95,13 +85,16 @@ class AwsIamUserTest < Minitest::Test
   end
 
   def test_to_s
-    @mock_user_provider.expect(
-      :user,
-      { name: Username, has_mfa_enabled?: true },
-      [Username],
-    )
+    test_user = { name: Username, has_mfa_enabled?: true }
+    @mock_user_provider.expect :user, test_user, [Username]
+    @mock_dets_provider.expect :name, Username
+    @mock_dets_prov_ini.expect :create, @mock_dets_provider, [test_user]
     expected = "IAM User #{Username}"
-    test = AwsIamUser.new({ name: Username }, @mock_user_provider).to_s
+    test = AwsIamUser.new(
+      { name: Username },
+      @mock_user_provider,
+      @mock_dets_prov_ini,
+    ).to_s
     assert_equal expected, test
   end
 end

@@ -21,14 +21,27 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
   filter.connect(self, :collect_user_details)
 
-  def initialize(aws_user_provider = AwsIam::UserProvider.new,
-                 user_factory = AwsIamUserFactory.new)
+  def initialize(
+    aws_user_provider = AwsIam::UserProvider.new,
+    aws_user_details_provider_ini = AwsIam::UserDetailsProviderInitializer.new,
+    user_factory = AwsIamUserFactory.new
+  )
     @user_provider = aws_user_provider
+    @aws_user_details_provider_ini = aws_user_details_provider_ini
     @user_factory = user_factory
   end
 
   def collect_user_details
     @users_cache ||= @user_provider.list_users unless @user_provider.nil?
+    @users_cache.map do |aws_user|
+      details_provider = @aws_user_details_provider_ini.create(aws_user)
+      {
+        name: details_provider.name,
+        has_mfa_enabled?: details_provider.has_mfa_enabled?,
+        has_console_password?: details_provider.has_console_password?,
+        access_keys: details_provider.access_keys,
+      }
+    end
   end
 
   def users
