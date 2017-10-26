@@ -32,7 +32,7 @@ module Compliance
         if config['token'].nil? && config['refresh_token'].nil?
           if config['server_type'] == 'automate'
             server = 'automate'
-            msg = 'inspec compliance login_automate https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --usertoken USERTOKEN'
+            msg = 'inspec compliance login https://your_automate_server --user USER --ent ENT --dctoken DCTOKEN or --token USERTOKEN'
           else
             server = 'compliance'
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
@@ -90,8 +90,7 @@ EOF
 
       raise 'Unable to determine compliance profile name. This can be caused by ' \
         'an incorrect server in your configuration. Try to login to compliance ' \
-        'via the `inspec compliance login` or `inspec compliance login_automate` ' \
-        'commands.' if m.nil?
+        'via the `inspec compliance login` command.' if m.nil?
 
       "#{m[:owner]}/#{m[:id]}"
     end

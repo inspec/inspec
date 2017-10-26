@@ -5,13 +5,16 @@
 require 'net/http'
 require 'uri'
 
+require_relative 'api/login'
+
 module Compliance
-  class ServerConfigurationMissing < StandardError
-  end
+  class ServerConfigurationMissing < StandardError; end
 
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
   class API # rubocop:disable Metrics/ClassLength
+    extend Compliance::API::Login
+
     # return all compliance profiles available for the user
     def self.profiles(config)
       # Chef Compliance
@@ -237,6 +240,14 @@ module Compliance
       return nil unless config.key?('version')
       return nil unless config['version'].is_a?(Hash)
       config['version']['version']
+    end
+
+    def self.determine_server_type(url, insecure)
+      if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
+        :automate
+      elsif Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
+        :compliance
+      end
     end
   end
 end

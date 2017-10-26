@@ -245,4 +245,34 @@ describe Compliance::API do
       Compliance::API.exist?(config, 'admin/missing-in-action').must_equal false
     end
   end
+
+  describe '.determine_server_type' do
+    it 'returns `automate` when a 401 is received from `https://automate.example.com/compliance/version`' do
+      good_response = mock
+      good_response.stubs(:code).returns('401')
+      url = 'https://automate.example.com'
+      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(good_response)
+      Compliance::API.determine_server_type(url, true).must_equal(:automate)
+    end
+
+    it 'returns `compliance` when a 200 is received from `https://compliance.example.com/api/version`' do
+      good_response = mock
+      good_response.stubs(:code).returns('200')
+      bad_response = mock
+      bad_response.stubs(:code).returns('404')
+      url = 'https://compliance.example.com'
+      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
+      Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(good_response)
+      Compliance::API.determine_server_type(url, true).must_equal(:compliance)
+    end
+
+    it 'returns `nil` if no response returns favorably' do
+      bad_response = mock
+      bad_response.stubs(:code).returns('404')
+      url = 'https://bad.example.com'
+      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
+      Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(bad_response)
+      Compliance::API.determine_server_type(url, true).must_be_nil
+    end
+  end
 end

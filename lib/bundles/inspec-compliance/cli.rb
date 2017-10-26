@@ -18,78 +18,64 @@ module Compliance
       namespace
     end
 
-    desc "login SERVER --insecure --user='USER' --token='TOKEN'", 'Log in to a Chef Compliance SERVER'
+    desc "login https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --token='TOKEN'", 'Log in to a Chef Compliance/Chef Automate SERVER'
+    long_desc <<-LONGDESC
+      `login` allows you to use InSpec with Chef Automate or a Chef Compliance Server
+
+      You need to a token for communication. More information about token retrieval
+      is available at:
+        https://docs.chef.io/api_automate.html#authentication-methods
+        https://docs.chef.io/api_compliance.html#obtaining-an-api-token
+    LONGDESC
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
     option :user, type: :string, required: false,
-      desc: 'Chef Compliance Username'
+      desc: 'Username'
     option :password, type: :string, required: false,
-      desc: 'Chef Compliance Password'
-    option :apipath, type: :string, default: '/api',
-      desc: 'Set the path to the API, defaults to /api'
+      desc: 'Password (Chef Compliance Only)'
     option :token, type: :string, required: false,
-      desc: 'Chef Compliance access token'
+      desc: 'Access token'
     option :refresh_token, type: :string, required: false,
-      desc: 'Chef Compliance refresh token'
-    def login(server) # rubocop:disable Metrics/AbcSize
-      # show warning if the Compliance Server does not support
-
+      desc: 'Chef Compliance refresh token (Chef Compliance Only)'
+    option :dctoken, type: :string, required: false,
+      desc: 'Data Collector token (Chef Automate Only)'
+    option :ent, type: :string, required: false,
+      desc: 'Enterprise for Chef Automate reporting (Chef Automate Only)'
+    def login(server)
       options['server'] = server
-      url = options['server'] + options['apipath']
-
-      if !options['user'].nil? && !options['password'].nil?
-        # username / password
-        _success, msg = login_username_password(url, options['user'], options['password'], options['insecure'])
-      elsif !options['user'].nil? && !options['token'].nil?
-        # access token
-        _success, msg = store_access_token(url, options['user'], options['token'], options['insecure'])
-      elsif !options['refresh_token'].nil? && !options['user'].nil?
-        # refresh token
-        _success, msg = store_refresh_token(url, options['refresh_token'], true, options['user'], options['insecure'])
-        # TODO: we should login with the refreshtoken here
-      elsif !options['refresh_token'].nil?
-        _success, msg = login_refreshtoken(url, options)
-      else
-        puts 'Please run `inspec compliance login SERVER` with options --token or --refresh_token, --user, and --insecure or --not-insecure'
-        exit 1
-      end
-
-      puts '', msg
+      Compliance::API.login(options)
     end
 
-    desc "login_automate SERVER --insecure --user='USER' --ent='ENT' --usertoken='TOKEN'", 'Log in to an Automate SERVER'
+    desc "login_automate https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --usertoken='TOKEN'", 'Log in to a Chef Automate SERVER (DEPRECATED: Please use `login`)'
     long_desc <<-LONGDESC
-      `login_automate` allows you to use InSpec with Chef Automate
+      This commmand is deprecated and will be removed, please use `--login`.
 
-      You need to a user-token for communication with Chef Automate. More
-      information about token retrieval for Automate is available at:
-      https://docs.chef.io/api_delivery.html
+      `login_automate` allows you to use InSpec with Chef Automate.
+
+      You need to a token for communication. More information about token retrieval
+      is available at:
+        https://docs.chef.io/api_automate.html#authentication-methods
+        https://docs.chef.io/api_compliance.html#obtaining-an-api-token
     LONGDESC
-    option :dctoken, type: :string,
-      desc: 'Data Collector token'
-    option :usertoken, type: :string,
-      desc: 'Automate user token'
-    option :user, type: :string,
-      desc: 'Automate username'
-    option :ent, type: :string,
-      desc: 'Enterprise for Chef Automate reporting'
     option :insecure, aliases: :k, type: :boolean,
       desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
-    def login_automate(server) # rubocop:disable Metrics/AbcSize
+    option :user, type: :string, required: true,
+      desc: 'Username'
+    option :usertoken, type: :string, required: false,
+      desc: 'Access token (DEPRECATED: Please use `--token`)'
+    option :token, type: :string, required: false,
+      desc: 'Access token'
+    option :dctoken, type: :string, required: false,
+      desc: 'Data Collector token'
+    option :ent, type: :string, required: true,
+      desc: 'Enterprise for Chef Automate reporting'
+    def login_automate(server)
+      warn '[DEPRECATION] `inspec compliance login_automate` is deprecated. Please use `inspec compliance login`'
       options['server'] = server
-      url = options['server'] + '/compliance'
 
-      if url && !options['user'].nil? && !options['ent'].nil? && (!options['dctoken'].nil? || !options['usertoken'].nil?)
-        msg = login_automate_config(url, options['user'], options['dctoken'], options['usertoken'], options['ent'], options['insecure'])
-        puts '', msg
-        exit 0
-      end
+      options['token'] = options['usertoken'] if options['usertoken']
 
-      # parameters are missing if we reach here
-      puts 'Please specify an user using `--user \'USER\'`' if options['user'].nil?
-      puts 'Please specify an enterprise using `--ent \'cd\'`' if options['ent'].nil?
-      puts 'Please specify a token using `--usertoken=\'AUTOMATE_TOKEN\'`' if options['usertoken'].nil? && options['dctoken'].nil?
-      exit 1
+      Compliance::API.login(options)
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
@@ -111,7 +97,7 @@ module Compliance
         exit 1
       end
     rescue Compliance::ServerConfigurationMissing
-      puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
+      STDERR.puts "\nServer configuration information is missing. Please login using `inspec compliance login`"
       exit 1
     end
 
@@ -272,109 +258,9 @@ module Compliance
 
     private
 
-    def login_automate_config(url, user, dctoken, usertoken, ent, insecure) # rubocop:disable Metrics/ParameterLists
-      config = Compliance::Configuration.new
-      config.clean
-      config['user'] = user
-      config['server'] = url
-      config['automate'] = {}
-      config['automate']['ent'] = ent
-      config['server_type'] = 'automate'
-      config['insecure'] = insecure
-
-      # determine token method being used
-      if !dctoken.nil?
-        config['token'] = dctoken
-        token_type = 'dctoken'
-        token_msg = 'data collector token'
-      else
-        config['token'] = usertoken
-        token_type = 'usertoken'
-        token_msg = 'automate user token'
-      end
-      config['automate']['token_type'] = token_type
-      config['version'] = Compliance::API.version(config)
-      config.store
-      msg = "Stored configuration for Chef Automate: '#{url}' with user: '#{user}', ent: '#{ent}' and your #{token_msg}"
-      msg
-    end
-
-    def login_refreshtoken(url, options)
-      success, msg, _access_token = Compliance::API.get_token_via_refresh_token(url, options['refresh_token'], options['insecure'])
-      if success
-        config = Compliance::Configuration.new
-        config.clean
-        config['server'] = url
-        config['insecure'] = options['insecure']
-        config['server_type'] = 'compliance'
-        config['version'] = Compliance::API.version(config)
-        config.store
-      end
-
-      [success, msg]
-    end
-
-    def login_username_password(url, username, password, insecure)
-      config = Compliance::Configuration.new
-      config.clean
-      success, msg, api_token = Compliance::API.get_token_via_password(url, username, password, insecure)
-      if success
-        config['server'] = url
-        config['user'] = username
-        config['token'] = api_token
-        config['insecure'] = insecure
-        config['server_type'] = 'compliance'
-        config['version'] = Compliance::API.version(config)
-        config.store
-        success = true
-      end
-      [success, msg]
-    end
-
-    # saves a user access token (limited time)
-    def store_access_token(url, user, token, insecure)
-      config = Compliance::Configuration.new
-      config.clean
-      config['server'] = url
-      config['insecure'] = insecure
-      config['user'] = user
-      config['token'] = token
-      config['server_type'] = 'compliance'
-      config['version'] = Compliance::API.version(config)
-      config.store
-
-      [true, 'API access token stored']
-    end
-
-    # saves a refresh token supplied by the user
-    def store_refresh_token(url, refresh_token, verify, user, insecure)
-      config = Compliance::Configuration.new
-      config.clean
-      config['server'] = url
-      config['refresh_token'] = refresh_token
-      config['user'] = user
-      config['insecure'] = insecure
-      config['server_type'] = 'compliance'
-      config['version'] = Compliance::API.version(config)
-
-      if !verify
-        config.store
-        success = true
-        msg = 'API refresh token stored'
-      else
-        success, msg, _access_token= Compliance::API.get_token_via_refresh_token(url, refresh_token, insecure)
-        if success
-          config.store
-          msg = 'API access token verified'
-        end
-      end
-
-      [success, msg]
-    end
-
     def loggedin(config)
       serverknown = !config['server'].nil?
-      puts 'You need to login first with `inspec compliance login` or `inspec compliance login_automate`' if !serverknown
+      puts 'You need to login first with `inspec compliance login`' if !serverknown
       serverknown
     end
   end
