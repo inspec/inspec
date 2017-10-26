@@ -1,5 +1,4 @@
 # author: Christoph Hartmann
-
 class AwsEc2Instance < Inspec.resource(1)
   name 'aws_ec2_instance'
   desc 'Verifies settings for an EC2 instance'
@@ -7,10 +6,12 @@ class AwsEc2Instance < Inspec.resource(1)
   example "
     describe aws_ec2_instance('i-123456') do
       it { should be_running }
+      it { should have_roles }
     end
 
     describe aws_ec2_instance(name: 'my-instance') do
       it { should be_running }
+      it { should have_roles }
     end
   "
 
@@ -19,6 +20,7 @@ class AwsEc2Instance < Inspec.resource(1)
     @opts.is_a?(Hash) ? @display_name = @opts[:name] : @display_name = opts
     @ec2_client = conn.ec2_client
     @ec2_resource = conn.ec2_resource
+    @iam_resource = conn.iam_resource
   end
 
   def id
@@ -84,6 +86,20 @@ class AwsEc2Instance < Inspec.resource(1)
 
   def to_s
     "EC2 Instance #{@display_name}"
+  end
+
+  def has_roles?
+    instance_profile = instance.iam_instance_profile
+
+    if instance_profile
+      roles = @iam_resource.instance_profile(
+        instance_profile.arn.gsub(%r{^.*\/}, ''),
+      ).roles
+    else
+      roles = nil
+    end
+
+    roles && !roles.empty?
   end
 
   private

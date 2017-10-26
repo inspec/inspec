@@ -53,7 +53,7 @@ control "aws-1" do
   impact 0.7
   title 'Checks the machine is running'
 
-  describe aws_ec2('i-my-ec2-instance-id') do
+  describe aws_ec2_instance('my-ec2-machine') do
     it { should be_running }
   end
 end
@@ -61,7 +61,7 @@ end
 
 ### Available Resources
 
- * `aws_ec2` - This resource reads information about an ec2 instance
+ * `aws_ec2_instance` - This resource reads information about an ec2 instance
  * `aws_iam_access_key` - Verifies settings for AWS IAM access keys
  * `aws_iam_password_policy` - Verifies iam password policy
  * `aws_iam_root_user` - Verifies settings for AWS root account
