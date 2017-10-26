@@ -97,7 +97,7 @@ describe 'Inspec::Resources::NginxConf' do
   it 'skips the resource if it cannot parse the config' do
     resource = MockLoader.new(:ubuntu1404).load_resource('nginx_conf', '/etc/nginx/failed.conf')
     _(resource.params).must_equal({})
-    _(resource.instance_variable_get(:@resource_skipped)).must_equal "Cannot parse NginX config in /etc/nginx/failed.conf."
+    _(resource.resource_exception_message).must_equal "Cannot parse NginX config in /etc/nginx/failed.conf."
   end
 
   describe '#http' do

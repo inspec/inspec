@@ -234,11 +234,11 @@ module Inspec
       return nil if arg.empty?
 
       if arg[0].respond_to?(:resource_skipped?) && arg[0].resource_skipped?
-        return rspec_skipped_block(arg, opts, arg[0].resource_skipped_message)
+        return rspec_skipped_block(arg, opts, arg[0].resource_exception_message)
       end
 
       if arg[0].respond_to?(:resource_failed?) && arg[0].resource_failed?
-        return rspec_failed_block(arg, opts, arg[0].resource_failed_message)
+        return rspec_failed_block(arg, opts, arg[0].resource_exception_message)
       end
 
       # If neither skipped nor failed then add the resource
