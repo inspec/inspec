@@ -45,10 +45,13 @@ namespace :test do
     sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
     admin_password = Passgen::generate(length: 12, uppercase: true, lowercase: true, symbols: true, digits: true)
 
+    # Use the first 4 characters of the storage account to create a suffix
+    suffix = sa_name[0..3]
+
     puts "----> Setup"
 
     # Create the plan that can be applied to Azure
-    cmd = format("cd %s/build/ && terraform plan -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var='storage_account_name=%s' -var='admin_password=%s' -out inspec-azure.plan", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id], sa_name, admin_password)
+    cmd = format("cd %s/build/ && terraform plan -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'storage_account_name=%s' -var 'admin_password=%s' -var 'suffix=%s' -out inspec-azure.plan", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id], sa_name, admin_password, suffix)
     sh(cmd)
 
     # Apply the plan on Azure
@@ -69,7 +72,7 @@ namespace :test do
     creds = azure_backend.spn
 
     puts "----> Cleanup"
-    cmd = format("cd %s/build/ && terraform destroy -force -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var='admin_password=dummy' -var='storage_account_name=dummy'", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id])
+    cmd = format("cd %s/build/ && terraform destroy -force -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'admin_password=dummy' -var 'storage_account_name=dummy' -var 'suffix=dummy'", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id])
     sh(cmd)
 
   end

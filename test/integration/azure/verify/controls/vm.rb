@@ -32,6 +32,6 @@ control 'azure-vm-external-1.0' do
 
   describe azure_virtual_machine(name: 'Linux-External-VM', resource_group: 'Inspec-Azure') do
     it { should have_public_ipaddress }
-    its('domain_name_label') { should eq 'linux-external-1' }
+    its('domain_name_label') { should include 'linux-external-1' }
   end
 end

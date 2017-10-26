@@ -7,6 +7,10 @@ variable "client_id" {}
 variable "client_secret" {}
 variable "tenant_id" {}
 
+# Set a unique string which will be appended to public facing items
+# to ensure there are no clashes
+variable "suffix" {}
+
 variable "location" {
   default = "West Europe"
 }
@@ -47,7 +51,7 @@ resource "azurerm_public_ip" "public_ip_1" {
   location                     = "${var.location}"
   resource_group_name          = "${azurerm_resource_group.rg.name}"
   public_ip_address_allocation = "dynamic"
-  domain_name_label            = "linux-external-1"
+  domain_name_label            = "linux-external-1-${var.suffix}"
 }
 
 # Create the virtual network for the machines
