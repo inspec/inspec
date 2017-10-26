@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.5 -->
-## [v1.43.5](https://github.com/chef/inspec/tree/v1.43.5) (2017-10-26)
-
-#### Enhancements
-- Add Chef Automate support to `inspec compliance login` [#2203](https://github.com/chef/inspec/pull/2203) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.42.3 -->
-### Changes since 1.42.3 release
-
-#### Enhancements
-- Add Chef Automate support to `inspec compliance login` [#2203](https://github.com/chef/inspec/pull/2203) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.5 -->
-- Include ref when writing out inspec control objects [#2259](https://github.com/chef/inspec/pull/2259) ([arlimus](https://github.com/arlimus)) <!-- 1.43.2 -->
-
-#### Bug Fixes
-- Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.1 -->
-
-#### New Resources
-- cran resource: check for R module installation [#2255](https://github.com/chef/inspec/pull/2255) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.4 -->
-- cpan resource: check for Perl module installation [#2254](https://github.com/chef/inspec/pull/2254) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.3 -->
-- new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff)) <!-- 1.43.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.43.5](https://github.com/chef/inspec/tree/v1.43.5) (2017-10-26)
+
+#### New Resources
+- new resource: elasticsearch resource, test cluster/node state [#2261](https://github.com/chef/inspec/pull/2261) ([adamleff](https://github.com/adamleff))
+- cpan resource: check for Perl module installation [#2254](https://github.com/chef/inspec/pull/2254) ([mgrobelin](https://github.com/mgrobelin))
+- cran resource: check for R module installation [#2255](https://github.com/chef/inspec/pull/2255) ([mgrobelin](https://github.com/mgrobelin))
+
+#### Enhancements
+- Include ref when writing out inspec control objects [#2259](https://github.com/chef/inspec/pull/2259) ([arlimus](https://github.com/arlimus))
+- Add Chef Automate support to `inspec compliance login` [#2203](https://github.com/chef/inspec/pull/2203) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Bug Fixes
+- Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.42.3](https://github.com/chef/inspec/tree/v1.42.3) (2017-10-19)
 
 #### Enhancements
@@ -45,7 +43,6 @@
 - Update the profile tempate [#2238](https://github.com/chef/inspec/pull/2238) ([nathenharvey](https://github.com/nathenharvey))
 - Fix documentation of `split` matcher [#2240](https://github.com/chef/inspec/pull/2240) ([eramoto](https://github.com/eramoto))
 - Squashed some unit test warnings [#2242](https://github.com/chef/inspec/pull/2242) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
-<!-- latest_stable_release -->
 
 ## [v1.41.0](https://github.com/chef/inspec/tree/v1.41.0) (2017-10-09)
 
