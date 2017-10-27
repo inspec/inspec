@@ -492,6 +492,12 @@ module Inspec
         code: Inspec::MethodSource.code_at(location, source_reader),
         source_location: location,
       }
+      # Don't try to read code if the control is inherited from another profile
+      if rule.instance_variable_get(:@__profile_id) == name
+        controls[id][:code] = Inspec::MethodSource.code_at(location, source_reader)
+      else
+        controls[id][:code] = ''
+      end
 
       groups[file] ||= {
         title: rule.instance_variable_get(:@__group_title),
