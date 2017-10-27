@@ -11,6 +11,8 @@ module Compliance
       def login(options)
         raise ArgumentError, 'Please specify a server using `inspec compliance login https://SERVER`' unless options['server']
 
+        options['server'] = URI("https://#{options['server']}").to_s if URI(options['server']).scheme.nil?
+
         options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure'])
 
         case options['server_type']
