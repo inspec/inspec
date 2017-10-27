@@ -124,15 +124,10 @@ The `min_days` matcher tests the minimum number of days a password must exist, b
 
 ### passwords
 
-The `passwords` matcher tests if passwords are
-
-* Encrypted
-* Have direct logins disabled, as indicated by an asterisk (`*`)
-* In the `/etc/shadow` file, as indicated by the letter x (`x`)
+The `passwords` matcher returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
 
 For example:
 
-    its('passwords') { should eq ['x'] }
     its('passwords') { should cmp '*' }
 
 ### users
