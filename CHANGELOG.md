@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.43.6 -->
+## [v1.43.6](https://github.com/chef/inspec/tree/v1.43.6) (2017-10-27)
+
+#### Bug Fixes
+- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.43.5 -->
+### Changes since 1.43.5 release
+
+#### Bug Fixes
+- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
