@@ -54,5 +54,51 @@ module Inspec::Resources
     def to_s
       'Operating System Detection'
     end
+
+    # Windows release numbers from https://en.wikipedia.org/wiki/Ver_(command)
+    # 6.0.6001 6.0.6002
+    def windows_server_2008?
+      windows? and release =~ /6.0.600/ ? true : false
+    end
+
+    # 6.1.7600 6.1.7600.16385 6.1.7601
+    def windows_7?
+      windows? and release =~ /6.1.760/ ? true : false
+    end
+
+    # 6.1.7600 6.1.7600.16385 6.1.7601
+    def windows_server_2008_r2?
+      windows? and release =~ /6.1.760/ ? true : false
+    end
+
+    # 6.2.9200 6.2.9200.16384
+    def windows_8?
+      windows? and release =~ /6.2.9200/ ? true : false
+    end
+
+    # 6.2.9200
+    def windows_server_2012?
+      windows? and release =~ /6.2.9200/ ? true : false
+    end
+
+    # 6.3.9600
+    def windows_8_1?
+      windows? and release =~ /6.3.9600/ ? true : false
+    end
+
+    # 6.3.9600
+    def windows_server_2012_r2?
+      windows? and release =~ /6.3.9600/ ? true : false
+    end
+
+    # 10.0.10240 10.0.10586 10.0.14393 10.0.14915 10.0.15063 10.0.16241
+    def windows_10?
+      windows? and release =~ /10.0/ ? true : false
+    end
+
+    # 10.0.14393
+    def windows_server_2016?
+      windows? and release =~ /10.0.14393/ ? true : false
+    end
   end
 end

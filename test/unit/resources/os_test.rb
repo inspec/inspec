@@ -12,6 +12,8 @@ describe 'Inspec::Resources::Os' do
     _(resource.family).must_equal 'redhat'
     _(resource.release).must_equal '7.1.1503'
     _(resource.arch).must_equal 'x86_64'
+    _(resource.windows_server_2008_r2?).must_equal false
+    _(resource.windows_server_2016?).must_equal false
   end
 
   it 'read env variable on Windows' do
@@ -20,6 +22,10 @@ describe 'Inspec::Resources::Os' do
     _(resource.family).must_equal 'windows'
     _(resource.release).must_equal '6.2.9200'
     _(resource.arch).must_equal 'x86_64'
+    _(resource.windows?).must_equal true
+    _(resource.windows_server_2012?).must_equal true
+    _(resource.windows_server_2012_r2?).must_equal false
+    _(resource.windows_server_2008?).must_equal false
   end
 
   it 'verify os parsing on Debian' do
