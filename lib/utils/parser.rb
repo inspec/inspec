@@ -67,7 +67,7 @@ module LinuxMountParser
   # this parses the output of mount command (only tested on linux)
   # this method expects only one line of the mount output
   def parse_mount_options(mount_line, compatibility = false)
-    if includes_whitespaces? mount_line
+    if includes_whitespaces?(mount_line)
       # Device-/Sharenames and Mountpoints including whitespaces require special treatment:
       # We use the keyword ' type ' to split up and rebuild the desired array of fields
       type_split = mount_line.split(' type ')
