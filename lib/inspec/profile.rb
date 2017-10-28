@@ -489,7 +489,6 @@ module Inspec
         refs: rule.ref,
         tags: rule.tag,
         checks: Inspec::Rule.checks(rule),
-        code: Inspec::MethodSource.code_at(location, source_reader),
         source_location: location,
       }
       # Don't try to read code if the control is inherited from another profile
