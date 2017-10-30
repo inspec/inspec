@@ -79,12 +79,13 @@ module Compliance
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
-
+    option :user, type: :string, required: false,
+      desc: 'Username whose profiles to list'
     def profiles
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      msg, profiles = Compliance::API.profiles(config)
+      msg, profiles = Compliance::API.profiles(config, options)
       profiles.sort_by! { |hsh| hsh['title'] }
       if !profiles.empty?
         # iterate over profiles

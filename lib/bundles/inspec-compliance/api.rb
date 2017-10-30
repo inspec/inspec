@@ -16,13 +16,16 @@ module Compliance
     extend Compliance::API::Login
 
     # return all compliance profiles available for the user
-    def self.profiles(config)
+    # the user is either specified in the options hash or by default
+    # the username of the account is used that is logged in
+    def self.profiles(config, options = {})
       # Chef Compliance
       if is_compliance_server?(config)
         url = "#{config['server']}/user/compliance"
       # Chef Automate
       elsif is_automate_server?(config)
-        url = "#{config['server']}/profiles/#{config['user']}"
+        user = options['user'] || config['user']
+        url = "#{config['server']}/profiles/#{user}"
       else
         raise ServerConfigurationMissing
       end
