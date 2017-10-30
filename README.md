@@ -13,11 +13,13 @@ As of now, AWS resources are implemented as an InSpec resource pack. It will shi
 
 ## Get started
 
-To run the profile, use InSpec with an environment variable for AWS credentials:
+Before running the profile with InSpec, define environment variables with your AWS region and credentials.  InSpec supports the following variables:
 
 - `AWS_REGION`
+- `AWS_DEFAULT_REGION`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
 
 Those variables are defined in [AWS CLI Docs](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
 
