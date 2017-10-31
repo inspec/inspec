@@ -79,13 +79,17 @@ module Compliance
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
-    option :user, type: :string, required: false,
-      desc: 'Username whose profiles to list'
+    option :owner, type: :string, required: false,
+      desc: 'owner whose profiles to list'
     def profiles
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      msg, profiles = Compliance::API.profiles(config, options)
+      # overwrite user
+      c = config.dup
+      c['owner'] = options['owner']
+
+      msg, profiles = Compliance::API.profiles(config)
       profiles.sort_by! { |hsh| hsh['title'] }
       if !profiles.empty?
         # iterate over profiles
@@ -146,10 +150,15 @@ module Compliance
 
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
     option :overwrite, type: :boolean, default: false,
-      desc: 'Overwrite existing profile on Chef Compliance.'
+      desc: 'Overwrite existing profile on Server.'
+    option :owner, type: :string, required: false,
+      desc: 'Owner that should own the profile'
     def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
       config = Compliance::Configuration.new
       return if !loggedin(config)
+
+      c = config.dup
+      c['owner'] = options['owner']
 
       unless File.exist?(path)
         puts "Directory #{path} does not exist."
@@ -178,18 +187,18 @@ module Compliance
       end
 
       # determine user information
-      if (config['token'].nil? && config['refresh_token'].nil?) || config['user'].nil?
+      if (c['token'].nil? && c['refresh_token'].nil?) || c['user'].nil?
         error.call('Please login via `inspec compliance login`')
       end
 
       # owner
-      owner = config['user']
+      owner = c['owner'] || c['user']
       # read profile name from inspec.yml
       profile_name = profile.params[:name]
 
       # check that the profile is not uploaded already,
       # confirm upload to the user (overwrite with --force)
-      if Compliance::API.exist?(config, "#{owner}/#{profile_name}") && !options['overwrite']
+      if Compliance::API.exist?(c, "#{owner}/#{profile_name}") && !options['overwrite']
         error.call('Profile exists on the server, use --overwrite')
       end
 
@@ -211,9 +220,9 @@ module Compliance
       puts "Start upload to #{owner}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      Compliance::API.is_automate_server?(config) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
+      Compliance::API.is_automate_server?(c) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
       puts upload_msg
-      success, msg = Compliance::API.upload(config, owner, pname, archive_path)
+      success, msg = Compliance::API.upload(c, owner, pname, archive_path)
 
       if success
         puts 'Successfully uploaded profile'

@@ -18,14 +18,15 @@ module Compliance
     # return all compliance profiles available for the user
     # the user is either specified in the options hash or by default
     # the username of the account is used that is logged in
-    def self.profiles(config, options = {})
+    def self.profiles(config)
+      owner = config['owner'] || config['user']
+
       # Chef Compliance
       if is_compliance_server?(config)
         url = "#{config['server']}/user/compliance"
       # Chef Automate
       elsif is_automate_server?(config)
-        user = options['user'] || config['user']
-        url = "#{config['server']}/profiles/#{user}"
+        url = "#{config['server']}/profiles/#{owner}"
       else
         raise ServerConfigurationMissing
       end
@@ -48,9 +49,8 @@ module Compliance
         elsif is_automate_server_pre_080?(config)
           mapped_profiles = profiles.values.flatten
         else
-          owner_id = config['user']
           mapped_profiles = profiles.map { |e|
-            e['owner_id'] = owner_id
+            e['owner_id'] = owner
             e
           }
         end
@@ -88,8 +88,12 @@ module Compliance
 
     # verifies that a profile
     def self.exist?(config, profile)
-      _msg, profiles = Compliance::API.profiles(config)
       owner, id, ver = profile_split(profile)
+
+      c = config.dup
+      c['owner'] = owner
+      _msg, profiles = Compliance::API.profiles(config)
+
       if !profiles.empty?
         profiles.any? do |p|
           p['owner_id'] == owner &&
@@ -107,10 +111,10 @@ module Compliance
         url = "#{config['server']}/owners/#{owner}/compliance/#{profile_name}/tar"
       # Chef Automate pre 0.8.0
       elsif is_automate_server_pre_080?(config)
-        url = "#{config['server']}/#{config['user']}"
+        url = "#{config['server']}/#{owner}"
       # Chef Automate
       else
-        url = "#{config['server']}/profiles/#{config['user']}"
+        url = "#{config['server']}/profiles/#{owner}"
       end
 
       headers = get_headers(config)
