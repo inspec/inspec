@@ -98,6 +98,7 @@ module FilterTable
       table = @params
       conditions.each do |field, condition|
         filters += " #{field} == #{condition.inspect}"
+        @resource.send(field) if @resource.respond_to?(field)
         table = filter_lines(table, field, condition)
       end
 
@@ -121,6 +122,13 @@ module FilterTable
       f = @resource.to_s + @filters.to_s + ' one entry'
       @params.map do |line|
         new_entry(line, f)
+      end
+    end
+
+    def resolve_column(func, args, field)
+      @params.each_with_index do |line, i|
+        mapped_args = args.map { |x| line[x] }
+        @params[i][field] = func.call(*mapped_args)
       end
     end
 
@@ -255,8 +263,10 @@ module FilterTable
       return ->(cond = Show) { c.block.call(self, cond) } if !c.block.nil?
 
       lambda { |condition = Show, &cond_block|
+        r = where(nil)
+        r.resolve_column(c.opts[:lazy], c.opts[:args] || [], c.field_name) if c.opts.key?(:lazy)
         if condition == Show && !block_given?
-          r = where(nil).get_field(c.field_name)
+          r = r.get_field(c.field_name)
           r = r.flatten.uniq.compact if c.opts[:style] == :simple
           r
         else
