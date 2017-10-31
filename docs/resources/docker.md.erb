@@ -18,7 +18,7 @@ A `docker` resource block declares allows you to write test for many containers:
 
 or:
 
-    describe docker.containers.where { name == 'flamboyant_colden' } do
+    describe docker.containers.where { names == 'flamboyant_colden' } do
       it { should be_running }
     end
 
