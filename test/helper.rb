@@ -340,6 +340,7 @@ class MockLoader
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
+      "mount | grep -- ' on /mnt/Research & Development'" => cmd.call("mount-whitespaces"),
       # solaris 10 package manager
       'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
       # solaris 11 package manager
