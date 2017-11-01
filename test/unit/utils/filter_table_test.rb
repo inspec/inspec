@@ -184,4 +184,43 @@ describe FilterTable do
       instance.baz(/zzz/).params.must_equal []
     end
   end
+
+  describe 'with lazy loading field' do
+    before {
+      factory
+        .add_accessor(:where)
+        .add(:deferred, {
+          :lazy => Proc.new { |foo, bar| foo.to_s + " + " + bar.to_s },
+          :args => [:foo, :bar]
+          }).connect(resource, :data)
+    }
+
+    it 'can expose a data column' do
+      instance.deferred(123).must_be_kind_of(FilterTable::Table)
+    end
+
+    it 'retrieves all entries' do
+      instance.deferred.must_equal(["3 + true", "2 + false", "2 + false"])
+    end
+
+    it 'filter by existing strings' do
+      instance.deferred('3 + true').params.must_equal [data[0]]
+    end
+
+    it 'filter by existing strings using where' do
+      instance.where( { deferred: '3 + true'} ).params.must_equal [data[0]]
+    end
+
+    it 'filter by missing string' do
+      instance.deferred('num').params.must_equal []
+    end
+
+    it 'filter by existing regex' do
+      instance.deferred(/A/i).params.must_equal [data[1], data[2]]
+    end
+
+    it 'filter by missing regex' do
+      instance.deferred(/zzz/).params.must_equal []
+    end
+  end
 end
