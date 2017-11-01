@@ -108,7 +108,6 @@ describe Inspec::Profile do
       it 'prints loads of warnings' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :error, nil, ["Missing profile version in inspec.yml"]
-        logger.expect :warn, nil, ["Missing profile title in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile maintainer in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile copyright in inspec.yml"]
@@ -125,7 +124,7 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 6
+        result[:warnings].length.must_equal 5
       end
     end
     
@@ -136,7 +135,6 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ["Missing profile version in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile title in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile summary in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile maintainer in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile copyright in metadata.rb"]
@@ -153,7 +151,7 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*legacy-empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 7
+        result[:warnings].length.must_equal 6
       end
     end
 

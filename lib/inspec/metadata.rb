@@ -223,7 +223,10 @@ module Inspec
       # create a new name based on the original target if it exists
       # Crudely slug the target to not contain slashes, to avoid breaking
       # unit tests that look for warning sequences
-      metadata.params[:name] = "tests from #{original_target}".gsub(%r{[\\\/]}, '.') unless original_target.to_s.empty?
+      unless original_target.to_s.empty?
+        metadata.params[:title] = "tests from #{original_target}"
+        metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.') 
+      end
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)
