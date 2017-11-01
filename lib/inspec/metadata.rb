@@ -225,7 +225,7 @@ module Inspec
       # unit tests that look for warning sequences
       unless original_target.to_s.empty?
         metadata.params[:title] = "tests from #{original_target}"
-        metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.') 
+        metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.')
       end
     end
 
