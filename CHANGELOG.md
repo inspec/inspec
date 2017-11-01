@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.6 -->
-## [v1.43.6](https://github.com/chef/inspec/tree/v1.43.6) (2017-10-27)
+<!-- latest_release 1.43.7 -->
+## [v1.43.7](https://github.com/chef/inspec/tree/v1.43.7) (2017-11-01)
 
 #### Bug Fixes
-- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- mount resource: fix for Device-/Sharenames and Mountpoints including … [#2257](https://github.com/chef/inspec/pull/2257) ([mgrobelin](https://github.com/mgrobelin))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.5 -->
 ### Changes since 1.43.5 release
 
 #### Bug Fixes
+- mount resource: fix for Device-/Sharenames and Mountpoints including … [#2257](https://github.com/chef/inspec/pull/2257) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.7 -->
 - inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.6 -->
 <!-- release_rollup -->
 
