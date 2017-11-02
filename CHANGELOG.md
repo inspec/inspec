@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.7 -->
-## [v1.43.7](https://github.com/chef/inspec/tree/v1.43.7) (2017-11-01)
+<!-- latest_release 1.43.8 -->
+## [v1.43.8](https://github.com/chef/inspec/tree/v1.43.8) (2017-11-02)
 
 #### Bug Fixes
-- mount resource: fix for Device-/Sharenames and Mountpoints including … [#2257](https://github.com/chef/inspec/pull/2257) ([mgrobelin](https://github.com/mgrobelin))
+- service resource: properly search for SysV Init S files [#2274](https://github.com/chef/inspec/pull/2274) ([Wing924](https://github.com/Wing924))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.5 -->
 ### Changes since 1.43.5 release
 
 #### Bug Fixes
+- service resource: properly search for SysV Init S files [#2274](https://github.com/chef/inspec/pull/2274) ([Wing924](https://github.com/Wing924)) <!-- 1.43.8 -->
 - mount resource: fix for Device-/Sharenames and Mountpoints including … [#2257](https://github.com/chef/inspec/pull/2257) ([mgrobelin](https://github.com/mgrobelin)) <!-- 1.43.7 -->
 - inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.6 -->
 <!-- release_rollup -->
