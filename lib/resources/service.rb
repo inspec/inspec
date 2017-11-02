@@ -397,7 +397,7 @@ module Inspec::Resources
       # read all enabled services from runlevel
       # on rhel via: 'chkconfig --list', is not installed by default
       # bash: for i in `find /etc/rc*.d -name S*`; do basename $i | sed -r 's/^S[0-9]+//'; done | sort | uniq
-      enabled_services_cmd = inspec.command('find /etc/rc*.d /etc/init.d/rc*.d -name S*').stdout
+      enabled_services_cmd = inspec.command('find /etc/rc*.d /etc/init.d/rc*.d -name "S*"').stdout
       service_line = %r{rc(?<runlevel>[0-6])\.d/S[^/]*?#{Regexp.escape service_name}$}
       all_services = enabled_services_cmd.split("\n").map { |line|
         service_line.match(line)
