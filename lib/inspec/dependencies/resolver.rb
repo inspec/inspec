@@ -71,7 +71,7 @@ module Inspec
         end
 
         if !dep.source_satisfies_spec?
-          raise Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.required_version}"
+          raise Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.version_constraints}"
         end
 
         Inspec::Log.debug("Adding dependency #{dep.name} (#{dep.resolved_source})")
