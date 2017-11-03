@@ -165,7 +165,7 @@ module Inspec::Resources
 
         def body
           run_curl
-          @body
+          @body&.strip
         end
 
         def response_headers
@@ -214,7 +214,11 @@ module Inspec::Resources
             cmd << "-H '#{k}: #{v}'"
           end
 
-          cmd << "'#{url}'"
+          if params.nil?
+            cmd << "'#{url}'"
+          else
+            cmd << "'#{url}?#{params.map { |e| e.join('=') }.join('&')}'"
+          end
 
           cmd.join(' ')
         end

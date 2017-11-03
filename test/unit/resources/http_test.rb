@@ -109,5 +109,14 @@ describe 'Inspec::Resources::Http' do
         _(worker.response_headers['mock']).must_equal 'ok'
       end
     end
+
+    describe 'with params' do
+      let(:opts) { { params: { a: 'b', c: 'd' } } }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal 'params ok'
+      end
+    end
   end
 end
