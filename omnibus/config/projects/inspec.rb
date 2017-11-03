@@ -38,6 +38,7 @@ build_version Inspec::VERSION
 build_iteration 1
 
 override 'ruby', version: '2.3.5'
+override 'rubygems', version: '2.6.14'
 
 dependency 'preparation'
 
