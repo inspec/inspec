@@ -210,7 +210,7 @@ module Inspec::Resources
           cmd << "--data #{Shellwords.shellescape(request_body)}" unless request_body.nil?
 
           request_headers.each do |k, v|
-            cmd << "-H '#{k}=#{v}'"
+            cmd << "-H '#{k}: #{v}'"
           end
 
           cmd << "'#{url}'"
