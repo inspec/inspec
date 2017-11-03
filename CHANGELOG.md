@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.43.9 -->
+## [v1.43.9](https://github.com/chef/inspec/tree/v1.43.9) (2017-11-03)
+
+#### Bug Fixes
+- http resource: use proper syntax in `curl` header option [#2285](https://github.com/chef/inspec/pull/2285) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.43.8 -->
+### Changes since 1.43.8 release
+
+#### Bug Fixes
+- http resource: use proper syntax in `curl` header option [#2285](https://github.com/chef/inspec/pull/2285) ([schisamo](https://github.com/schisamo)) <!-- 1.43.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
