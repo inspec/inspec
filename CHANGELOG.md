@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.10 -->
-## [v1.43.10](https://github.com/chef/inspec/tree/v1.43.10) (2017-11-03)
+<!-- latest_release 1.44.0 -->
+## [v1.44.0](https://github.com/chef/inspec/tree/v1.44.0) (2017-11-06)
 
-#### Merged Pull Requests
-- Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
 ### Changes since 1.43.8 release
+
+#### Enhancements
+- Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
 
 #### Merged Pull Requests
 - Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff)) <!-- 1.43.10 -->
