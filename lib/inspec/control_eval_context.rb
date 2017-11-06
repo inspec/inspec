@@ -53,6 +53,7 @@ module Inspec
           @dependencies = dependencies
           @require_loader = require_loader
           @skip_file = false
+          @skip_only_if_eval = conf['check_mode'] || false
         end
 
         define_method :title do |arg|
@@ -70,7 +71,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
-          opts[:mock] = true if @backend.mock_transport?
+          opts[:skip_only_if_eval] = @skip_only_if_eval
           register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
@@ -135,15 +136,9 @@ module Inspec
         define_method :only_if do |&block|
           return unless block
           return if @skip_file == true
+          return if @skip_only_if_eval == true
 
-          begin
-            return if block.yield == true
-          rescue
-            # Ignore error if a mock connection
-            # Example: `inspec check` with `only_if { os.name.include?('windows' }`
-            return if @backend.mock_transport?
-            raise
-          end
+          return if block.yield == true
 
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|

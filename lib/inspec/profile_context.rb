@@ -12,9 +12,11 @@ require 'inspec/objects/attribute'
 
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
-    def self.for_profile(profile, backend, attributes)
+    def self.for_profile(profile, backend, attributes, check_mode)
       new(profile.name, backend, { 'profile' => profile,
-                                   'attributes' => attributes })
+                                   'attributes' => attributes,
+                                   'check_mode' => check_mode,
+                                 })
     end
 
     attr_reader :attributes, :profile_id, :resource_registry, :backend

@@ -44,7 +44,7 @@ module Inspec
       @__checks = []
       @__skip_rule = nil
       @__merge_count = 0
-      @__mock = opts[:mock] || false
+      @__skip_only_if_eval = opts[:skip_only_if_eval]
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
@@ -105,15 +105,9 @@ module Inspec
     # @return [nil]
     def only_if
       return unless block_given?
+      return if @__skip_only_if_eval == true
 
-      # Ignore error if a mock connection
-      # Example: `inspec check` with `only_if { os.name.include?('windows' }`
-      begin
-        @__skip_rule ||= !yield
-      rescue
-        return if @__mock == true
-        raise
-      end
+      @__skip_rule ||= !yield
     end
 
     # Describe will add one or more tests to this control. There is 2 ways

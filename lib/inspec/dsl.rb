@@ -52,7 +52,7 @@ module Inspec::DSL
 
   def self.filter_included_controls(context, profile, &block)
     mock = Inspec::Backend.create({ backend: 'mock' })
-    include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {})
+    include_ctx = Inspec::ProfileContext.for_profile(profile, mock, {}, false)
     include_ctx.load(block) if block_given?
     # remove all rules that were not registered
     context.all_rules.each do |r|

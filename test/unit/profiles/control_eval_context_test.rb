@@ -31,7 +31,7 @@ EOF
   let(:eval_context) do
     c = Inspec::ControlEvalContext.create(profile_context, resource_dsl)
     # A lot of mocking here :(
-    c.new(backend, mock(), mock(), mock())
+    c.new(backend, {}, mock(), mock())
   end
 
   it 'accepts a context and a resource_dsl' do
@@ -40,7 +40,6 @@ EOF
 
   it 'provides rules with access to the given DSL' do
     profile_context.stubs(:current_load).returns({file: "<test content>"})
-    backend.stubs(:mock_transport?).returns(true)
     eval_context.instance_eval(control_content)
     profile_context.all_rules.each do |rule|
       # Turn each rule into an example group and run it, none of the

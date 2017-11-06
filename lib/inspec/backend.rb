@@ -25,14 +25,6 @@ module Inspec
         backend.is_a?(Train::Transports::Local::Connection)
       end
 
-      # Determine whether the connection/transport is a mock
-      # Useful for determining if `only_if` blocks should be evaluated
-      # Example: `inspec check` and `only_if { os.name.include?('windows') }`
-      def mock_transport?
-        return false unless defined?(Train::Transports::Mock)
-        backend.is_a?(Train::Transports::Mock::Connection)
-      end
-
       # Ruby internal for printing a nice name for this class
       def to_s
         'Inspec::Backend::Class'

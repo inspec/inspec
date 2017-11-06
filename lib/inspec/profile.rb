@@ -113,7 +113,7 @@ module Inspec
 
       @runner_context =
         options[:profile_context] ||
-        Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
+        Inspec::ProfileContext.for_profile(self, @backend, @attr_values, options[:check_mode])
     end
 
     def name
