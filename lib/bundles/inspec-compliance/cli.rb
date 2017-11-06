@@ -85,9 +85,8 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      # overwrite user
-      c = config.dup
-      c['owner'] = options['owner']
+      # set owner to config
+      config['owner'] = options['owner'] || config['user']
 
       msg, profiles = Compliance::API.profiles(config)
       profiles.sort_by! { |hsh| hsh['title'] }
@@ -157,8 +156,8 @@ module Compliance
       config = Compliance::Configuration.new
       return if !loggedin(config)
 
-      c = config.dup
-      c['owner'] = options['owner']
+      # set owner to config
+      config['owner'] = options['owner'] || config['user']
 
       unless File.exist?(path)
         puts "Directory #{path} does not exist."
@@ -187,18 +186,16 @@ module Compliance
       end
 
       # determine user information
-      if (c['token'].nil? && c['refresh_token'].nil?) || c['user'].nil?
+      if (config['token'].nil? && config['refresh_token'].nil?) || config['user'].nil?
         error.call('Please login via `inspec compliance login`')
       end
 
-      # owner
-      owner = c['owner'] || c['user']
       # read profile name from inspec.yml
       profile_name = profile.params[:name]
 
       # check that the profile is not uploaded already,
       # confirm upload to the user (overwrite with --force)
-      if Compliance::API.exist?(c, "#{owner}/#{profile_name}") && !options['overwrite']
+      if Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}") && !options['overwrite']
         error.call('Profile exists on the server, use --overwrite')
       end
 
@@ -217,12 +214,12 @@ module Compliance
         archive_path = path
       end
 
-      puts "Start upload to #{owner}/#{profile_name}"
+      puts "Start upload to #{config['owner']}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      Compliance::API.is_automate_server?(c) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
+      Compliance::API.is_automate_server?(config) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
       puts upload_msg
-      success, msg = Compliance::API.upload(c, owner, pname, archive_path)
+      success, msg = Compliance::API.upload(config, config['owner'], pname, archive_path)
 
       if success
         puts 'Successfully uploaded profile'

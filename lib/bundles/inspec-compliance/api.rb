@@ -90,9 +90,10 @@ module Compliance
     def self.exist?(config, profile)
       owner, id, ver = profile_split(profile)
 
-      c = config.dup
-      c['owner'] = owner
-      _msg, profiles = Compliance::API.profiles(config)
+      # ensure that we do not manipulate the configuration object
+      user_config = config.dup
+      user_config['owner'] = owner
+      _msg, profiles = Compliance::API.profiles(user_config)
 
       if !profiles.empty?
         profiles.any? do |p|
