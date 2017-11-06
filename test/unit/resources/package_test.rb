@@ -78,7 +78,7 @@ describe 'Inspec::Resources::Package' do
         'curl',
         rpm_dbpath: '/var/lib/rpmdb_does_not_exist',
       )
-      _(resource.resource_skipped).wont_equal nil
+      _(resource.resource_skipped?).must_equal true
     end
   end
 

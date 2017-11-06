@@ -231,35 +231,18 @@ module Inspec
     def get_check_example(method_name, arg, block)
       opts = block_source_info(block)
 
-      if !arg.empty? &&
-         arg[0].respond_to?(:resource_skipped) &&
-         !arg[0].resource_skipped.nil?
-        return @test_collector.example_group(*arg, opts) do
-          it arg[0].resource_skipped
-        end
-      else
-        # add the resource
-        case method_name
-        when 'describe'
-          return @test_collector.example_group(*arg, opts, &block)
-        when 'expect'
-          return block.example_group
-        when 'describe.one'
-          tests = arg.map do |x|
-            @test_collector.example_group(x[1][0], block_source_info(x[2]), &x[2])
-          end
-          return nil if tests.empty?
-          ok_tests = tests.find_all(&:run)
-          # return all tests if none succeeds; we will just report full failure
-          return tests if ok_tests.empty?
-          # otherwise return all working tests
-          return ok_tests
-        else
-          raise "A rule was registered with #{method_name.inspect}, "\
-               "which isn't understood and cannot be processed."
-        end
+      return nil if arg.empty?
+
+      if arg[0].respond_to?(:resource_skipped?) && arg[0].resource_skipped?
+        return rspec_skipped_block(arg, opts, arg[0].resource_exception_message)
       end
-      nil
+
+      if arg[0].respond_to?(:resource_failed?) && arg[0].resource_failed?
+        return rspec_failed_block(arg, opts, arg[0].resource_exception_message)
+      end
+
+      # If neither skipped nor failed then add the resource
+      add_resource(method_name, arg, opts, block)
     end
 
     def register_rule(rule)
@@ -287,6 +270,47 @@ module Inspec
       end
 
       true
+    end
+
+    def rspec_skipped_block(arg, opts, message)
+      @test_collector.example_group(*arg, opts) do
+        # Send custom `it` block to RSpec
+        it message
+      end
+    end
+
+    def rspec_failed_block(arg, opts, message)
+      @test_collector.example_group(*arg, opts) do
+        # Send custom `it` block to RSpec
+        it '' do
+          # Raising here to fail the test and get proper formatting
+          raise Inspec::Exceptions::ResourceFailed, message
+        end
+      end
+    end
+
+    def add_resource(method_name, arg, opts, block)
+      case method_name
+      when 'describe'
+        @test_collector.example_group(*arg, opts, &block)
+      when 'expect'
+        block.example_group
+      when 'describe.one'
+        tests = arg.map do |x|
+          @test_collector.example_group(x[1][0], block_source_info(x[2]), &x[2])
+        end
+        return nil if tests.empty?
+
+        successful_tests = tests.find_all(&:run)
+
+        # Return all tests if none succeeds; we will just report full failure
+        return tests if successful_tests.empty?
+
+        successful_tests
+      else
+        raise "A rule was registered with #{method_name.inspect}," \
+              "which isn't understood and cannot be processed."
+      end
     end
   end
 end

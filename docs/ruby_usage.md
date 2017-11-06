@@ -114,7 +114,6 @@ methods available, etc. For the above example:
 [3] pry> ls perl_out
 Inspec::Plugins::Resource#methods: inspect
 Inspec::Resources::Cmd#methods: command  exist?  exit_status  result  stderr  stdout  to_s
-Inspec::Plugins::ResourceCommon#methods: resource_skipped  skip_resource
 Inspec::Resource::Registry::Command#methods: inspec
 instance variables: @__backend_runner__  @__resource_name__  @command  @result
 [4] pry> perl_out.stdout.partition('@INC:').last.strip.split("\n")
