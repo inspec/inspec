@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.0 -->
-## [v1.44.0](https://github.com/chef/inspec/tree/v1.44.0) (2017-11-06)
+<!-- latest_release 1.44.1 -->
+## [v1.44.1](https://github.com/chef/inspec/tree/v1.44.1) (2017-11-07)
 
 #### Enhancements
-- Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- allow users to specify user/namespace when fetching profiles from Chef Automate [#2275](https://github.com/chef/inspec/pull/2275) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
 ### Changes since 1.43.8 release
 
 #### Enhancements
+- allow users to specify user/namespace when fetching profiles from Chef Automate [#2275](https://github.com/chef/inspec/pull/2275) ([arlimus](https://github.com/arlimus)) <!-- 1.44.1 -->
 - Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
 
 #### Merged Pull Requests
