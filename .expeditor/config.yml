@@ -10,6 +10,9 @@ docker_images:
       build_args:
         - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
+habitat_packages:
+  - inspec
+
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
   notify_channel: inspec-notify
@@ -43,6 +46,10 @@ merge_actions:
         - "Omnibus: Skip Build"
         - "Expeditor: Skip All"
       only_if: built_in:bump_version
+  - built_in:trigger_habitat_package_build:
+      ignore_labels:
+        - "Habitat: Skip Build"
+        - "Expeditor: Skip All"
 
 artifact_actions:
   promoted_to_unstable:
