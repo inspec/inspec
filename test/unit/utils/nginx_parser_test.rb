@@ -49,6 +49,10 @@ describe NginxParser do
   it 'parses nested groups' do
     _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{:section=>{:identifier=>\"f\"@0}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"g\"@3}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"h\"@6}, :args=>\"\", :expressions=>[]}]}]}]"
   end
+
+  it 'parses quoted identifiers for assignments' do
+    _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@1, :args=>[{:value=>\"1\"@17}]}}]"
+  end
 end
 
 describe NginxTransform do
