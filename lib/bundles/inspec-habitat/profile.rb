@@ -3,7 +3,7 @@
 
 require 'inspec/profile_vendor'
 require 'mixlib/shellout'
-require 'toml'
+require 'tomlrb'
 
 module Habitat
   class Profile # rubocop:disable Metrics/ClassLength
@@ -298,7 +298,7 @@ module Habitat
       config_file = File.join(ENV['HOME'], '.hab', 'etc', 'cli.toml')
       return {} unless File.exist?(config_file)
 
-      @cli_config = TOML.load_file(config_file)
+      @cli_config = Tomlrb.load_file(config_file)
     end
 
     def output_dir

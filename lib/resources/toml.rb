@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Nolan Davidson
 
-require 'toml'
+require 'tomlrb'
 
 module Inspec::Resources
   class TomlConfig < JsonConfig
@@ -16,7 +16,7 @@ module Inspec::Resources
     "
 
     def parse(content)
-      TOML::Parser.new(content).parsed
+      Tomlrb.parse(content)
     end
 
     def to_s
