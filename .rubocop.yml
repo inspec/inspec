@@ -3,7 +3,7 @@ AllCops:
   Exclude:
   - Gemfile
   - Rakefile
-  - 'test/integration/**/*'
+  - 'test/**/*'
   - 'examples/**/*'
   - 'vendor/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'
@@ -16,7 +16,7 @@ Encoding:
 HashSyntax:
   Enabled: true
 LineLength:
-  Enabled: true
+  Enabled: false
 EmptyLinesAroundBlockBody:
   Enabled: false
 MethodLength:
