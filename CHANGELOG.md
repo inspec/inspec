@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.1 -->
-## [v1.44.1](https://github.com/chef/inspec/tree/v1.44.1) (2017-11-07)
+<!-- latest_release 1.44.2 -->
+## [v1.44.2](https://github.com/chef/inspec/tree/v1.44.2) (2017-11-08)
 
-#### Enhancements
-- allow users to specify user/namespace when fetching profiles from Chef Automate [#2275](https://github.com/chef/inspec/pull/2275) ([arlimus](https://github.com/arlimus))
+#### Merged Pull Requests
+- Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
@@ -15,6 +15,7 @@
 - Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
 
 #### Merged Pull Requests
+- Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff)) <!-- 1.44.2 -->
 - Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff)) <!-- 1.43.10 -->
 
 #### Bug Fixes
