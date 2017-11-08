@@ -1,18 +1,19 @@
 //default
 
 code {
-	color: white;
-	border-radius: 4px;
-	background: $color_paragraph;
-	border-color: $color_paragraph;
+	color: $color_paragraph;
+	border: 0px;
+	background: white;
 }
 
 .highlight code {
-  padding-left: 0;
+	color: white;
+	background: $color_paragraph;
+	padding-left: 0;
 }
 
 pre {
-		border-radius: 7px;
+	border-radius: 7px;
     padding: 10px;
     margin-bottom: 1em;
     background: $color_paragraph;
