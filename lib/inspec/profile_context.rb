@@ -12,10 +12,10 @@ require 'inspec/objects/attribute'
 
 module Inspec
   class ProfileContext # rubocop:disable Metrics/ClassLength
-    def self.for_profile(profile, backend, attributes, check_mode)
+    def self.for_profile(profile, backend, attributes)
       new(profile.name, backend, { 'profile' => profile,
                                    'attributes' => attributes,
-                                   'check_mode' => check_mode,
+                                   'check_mode' => profile.check_mode,
                                  })
     end
 
@@ -29,6 +29,7 @@ module Inspec
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
+      @skip_only_if_eval = @conf['check_mode']
       @rules = {}
       @control_subcontexts = []
       @lib_subcontexts = []
@@ -55,7 +56,7 @@ module Inspec
     def control_eval_context
       @control_eval_context ||= begin
                                   ctx = Inspec::ControlEvalContext.create(self, to_resources_dsl)
-                                  ctx.new(@backend, @conf, dependencies, @require_loader)
+                                  ctx.new(@backend, @conf, dependencies, @require_loader, @skip_only_if_eval)
                                 end
     end
 

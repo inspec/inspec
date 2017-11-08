@@ -31,7 +31,7 @@ EOF
   let(:eval_context) do
     c = Inspec::ControlEvalContext.create(profile_context, resource_dsl)
     # A lot of mocking here :(
-    c.new(backend, {}, mock(), mock())
+    c.new(backend, {}, mock(), mock(), false)
   end
 
   it 'accepts a context and a resource_dsl' do

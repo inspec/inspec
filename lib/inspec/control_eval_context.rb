@@ -47,13 +47,13 @@ module Inspec
 
         attr_accessor :skip_file
 
-        def initialize(backend, conf, dependencies, require_loader)
+        def initialize(backend, conf, dependencies, require_loader, skip_only_if_eval)
           @backend = backend
           @conf = conf
           @dependencies = dependencies
           @require_loader = require_loader
           @skip_file = false
-          @skip_only_if_eval = conf['check_mode'] || false
+          @skip_only_if_eval = skip_only_if_eval
         end
 
         define_method :title do |arg|
