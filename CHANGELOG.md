@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.6 -->
-## [v1.44.6](https://github.com/chef/inspec/tree/v1.44.6) (2017-11-09)
+<!-- latest_release 1.44.7 -->
+## [v1.44.7](https://github.com/chef/inspec/tree/v1.44.7) (2017-11-09)
 
-#### Merged Pull Requests
-- Eliminate deprecation warnings on resource skipped messages [#2296](https://github.com/chef/inspec/pull/2296) ([adamleff](https://github.com/adamleff))
+#### Bug Fixes
+- Properly compare profile version strings as SemVer [#2280](https://github.com/chef/inspec/pull/2280) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
@@ -22,6 +22,7 @@
 - Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff)) <!-- 1.43.10 -->
 
 #### Bug Fixes
+- Properly compare profile version strings as SemVer [#2280](https://github.com/chef/inspec/pull/2280) ([adamleff](https://github.com/adamleff)) <!-- 1.44.7 -->
 - nginx resource: support quoted identifiers [#2292](https://github.com/chef/inspec/pull/2292) ([adamleff](https://github.com/adamleff)) <!-- 1.44.3 -->
 - http resource: use proper syntax in `curl` header option [#2285](https://github.com/chef/inspec/pull/2285) ([schisamo](https://github.com/schisamo)) <!-- 1.43.9 -->
 <!-- release_rollup -->
