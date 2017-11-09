@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.7 -->
-## [v1.44.7](https://github.com/chef/inspec/tree/v1.44.7) (2017-11-09)
+<!-- latest_release 1.44.8 -->
+## [v1.44.8](https://github.com/chef/inspec/tree/v1.44.8) (2017-11-09)
 
-#### Bug Fixes
-- Properly compare profile version strings as SemVer [#2280](https://github.com/chef/inspec/pull/2280) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- Issue warning during check if profile name contains slash [#2231](https://github.com/chef/inspec/pull/2231) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
 ### Changes since 1.43.8 release
 
 #### Enhancements
+- Issue warning during check if profile name contains slash [#2231](https://github.com/chef/inspec/pull/2231) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.44.8 -->
 - http resource: supply max-time option using read_timeout and open_timeout [#2289](https://github.com/chef/inspec/pull/2289) ([bdellegrazie](https://github.com/bdellegrazie)) <!-- 1.44.5 -->
 - allow users to specify user/namespace when fetching profiles from Chef Automate [#2275](https://github.com/chef/inspec/pull/2275) ([arlimus](https://github.com/arlimus)) <!-- 1.44.1 -->
 - Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
