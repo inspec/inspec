@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.3 -->
-## [v1.44.3](https://github.com/chef/inspec/tree/v1.44.3) (2017-11-08)
+<!-- latest_release 1.44.4 -->
+## [v1.44.4](https://github.com/chef/inspec/tree/v1.44.4) (2017-11-09)
 
-#### Bug Fixes
-- nginx resource: support quoted identifiers [#2292](https://github.com/chef/inspec/pull/2292) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- Use Ruby 2.4.2 in the Omnibus InSpec packages [#2294](https://github.com/chef/inspec/pull/2294) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
@@ -15,6 +15,7 @@
 - Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
 
 #### Merged Pull Requests
+- Use Ruby 2.4.2 in the Omnibus InSpec packages [#2294](https://github.com/chef/inspec/pull/2294) ([adamleff](https://github.com/adamleff)) <!-- 1.44.4 -->
 - Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff)) <!-- 1.44.2 -->
 - Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff)) <!-- 1.43.10 -->
 
