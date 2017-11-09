@@ -47,7 +47,7 @@ describe Inspec::Resolver do
       dep = FakeDep.new("fake_dep_0")
       dep.expects(:source_satisfies_spec?).returns(false)
       dep.expects(:source_version).returns("1.0.0")
-      dep.expects(:required_version).returns(">= 1.0.1")
+      dep.expects(:version_constraints).returns([">= 1.0.1"])
       lambda { subject.resolve([dep]) }.must_raise Inspec::UnsatisfiedVersionSpecification
     end
   end
