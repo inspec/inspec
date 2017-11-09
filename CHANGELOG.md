@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.5 -->
-## [v1.44.5](https://github.com/chef/inspec/tree/v1.44.5) (2017-11-09)
+<!-- latest_release 1.44.6 -->
+## [v1.44.6](https://github.com/chef/inspec/tree/v1.44.6) (2017-11-09)
 
-#### Enhancements
-- http resource: supply max-time option using read_timeout and open_timeout [#2289](https://github.com/chef/inspec/pull/2289) ([bdellegrazie](https://github.com/bdellegrazie))
+#### Merged Pull Requests
+- Eliminate deprecation warnings on resource skipped messages [#2296](https://github.com/chef/inspec/pull/2296) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.43.8 -->
@@ -16,6 +16,7 @@
 - Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.44.0 -->
 
 #### Merged Pull Requests
+- Eliminate deprecation warnings on resource skipped messages [#2296](https://github.com/chef/inspec/pull/2296) ([adamleff](https://github.com/adamleff)) <!-- 1.44.6 -->
 - Use Ruby 2.4.2 in the Omnibus InSpec packages [#2294](https://github.com/chef/inspec/pull/2294) ([adamleff](https://github.com/adamleff)) <!-- 1.44.4 -->
 - Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff)) <!-- 1.44.2 -->
 - Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff)) <!-- 1.43.10 -->
