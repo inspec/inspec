@@ -454,10 +454,10 @@ class MockLoader
 
       # http resource - remote worker'
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
-      "curl -i -X GET --connect-timeout 60 'http://www.example.com'" => cmd.call('http-remote-no-options'),
-      "curl -i -X GET --connect-timeout 60 --user 'user:pass' 'http://www.example.com'" => cmd.call('http-remote-basic-auth'),
-      '2bdc8826b66efa554bdebd8cc5f3eaf7bfba5ada36adc7904a6b178d331395ea' => cmd.call('http-remote-post'),
-      "curl -i -X GET --connect-timeout 60 -H 'accept: application/json' -H 'foo: bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-no-options'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 --user 'user:pass' 'http://www.example.com'" => cmd.call('http-remote-basic-auth'),
+      'f77ebcedaf6fbe8f02d2f9d4735a90c12311d2ca4b43ece9efa2f2e396491747' => cmd.call('http-remote-post'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 -H 'accept: application/json' -H 'foo: bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
 
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-nodes-default'),

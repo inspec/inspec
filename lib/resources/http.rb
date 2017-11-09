@@ -205,6 +205,7 @@ module Inspec::Resources
         def curl_command
           cmd = ["curl -i -X #{http_method}"]
           cmd << "--connect-timeout #{open_timeout}"
+          cmd << "--max-time #{open_timeout+read_timeout}"
           cmd << "--user \'#{username}:#{password}\'" unless username.nil? || password.nil?
           cmd << '--insecure' unless ssl_verify?
           cmd << "--data #{Shellwords.shellescape(request_body)}" unless request_body.nil?
