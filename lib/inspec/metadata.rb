@@ -11,6 +11,9 @@ require 'utils/spdx'
 
 module Inspec
   # Extract metadata.rb information
+  # A Metadata object may be created and finalized with invalid data.
+  # This allows the check CLI command to analyse the issues.
+  # Use valid? to determine if the metadata is coherent.
   class Metadata # rubocop:disable Metrics/ClassLength
     attr_reader :ref
     attr_accessor :params, :content
@@ -110,6 +113,12 @@ module Inspec
       %w{ name version }.each do |field|
         next unless params[field.to_sym].nil?
         errors.push("Missing profile #{field} in #{ref}")
+      end
+
+      if params[:name] =~ %r{[\/\\]}
+        warnings.push("Your profile name (#{params[:name]}) contains a slash " \
+          'which will not be permitted in InSpec 2.0. Please change your profile ' \
+          'name in the `inspec.yml` file.')
       end
 
       # if version is set, ensure it is correct
@@ -212,7 +221,12 @@ module Inspec
       return unless metadata.params[:title].nil?
 
       # create a new name based on the original target if it exists
-      metadata.params[:name] = "tests from #{original_target}" unless original_target.to_s.empty?
+      # Crudely slug the target to not contain slashes, to avoid breaking
+      # unit tests that look for warning sequences
+      unless original_target.to_s.empty?
+        metadata.params[:title] = "tests from #{original_target}"
+        metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.')
+      end
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)

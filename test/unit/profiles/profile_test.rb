@@ -108,7 +108,6 @@ describe Inspec::Profile do
       it 'prints loads of warnings' do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :error, nil, ["Missing profile version in inspec.yml"]
-        logger.expect :warn, nil, ["Missing profile title in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile summary in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile maintainer in inspec.yml"]
         logger.expect :warn, nil, ["Missing profile copyright in inspec.yml"]
@@ -125,10 +124,10 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 6
+        result[:warnings].length.must_equal 5
       end
     end
-
+    
     describe 'an empty profile (legacy mode)' do
       let(:profile_id) { 'legacy-empty-metadata' }
 
@@ -136,7 +135,6 @@ describe Inspec::Profile do
         logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_id}"]
         logger.expect :warn, nil, ['The use of `metadata.rb` is deprecated. Use `inspec.yml`.']
         logger.expect :error, nil, ["Missing profile version in metadata.rb"]
-        logger.expect :warn, nil, ["Missing profile title in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile summary in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile maintainer in metadata.rb"]
         logger.expect :warn, nil, ["Missing profile copyright in metadata.rb"]
@@ -153,7 +151,7 @@ describe Inspec::Profile do
         result[:summary][:profile].must_match(/tests from .*legacy-empty-metadata/)
         result[:summary][:controls].must_equal 0
         result[:errors].length.must_equal 1
-        result[:warnings].length.must_equal 7
+        result[:warnings].length.must_equal 6
       end
     end
 
@@ -336,6 +334,22 @@ describe Inspec::Profile do
       end
     end
 
+    describe 'a profile with a slash in the name' do
+      let(:profile_path) { 'slash-in-name/not-allowed' } # Slashes allowed here
+      let(:profile_name) { 'slash-in-name/not-allowed' }   # But not here
+      it 'issues a deprecation warning' do
+        logger.expect :info, nil, ["Checking profile in #{home}/mock/profiles/#{profile_path}"]
+        logger.expect :warn, nil, ["Your profile name (#{profile_name}) contains a slash which " \
+          "will not be permitted in InSpec 2.0. Please change your profile name in the `inspec.yml` file."]
+        logger.expect :info, nil, ['Metadata OK.']
+        logger.expect :info, nil, ['Found 1 controls.']
+
+        result = MockLoader.load_profile(profile_path, {logger: logger}).check
+        logger.verify
+        result[:warnings].length.must_equal 1
+      end
+    end
+    
     describe 'shows warning if license is invalid' do
       let(:profile_id) { 'license-invalid' }
       let(:profile_path) { MockLoader.profile_zip(profile_id) }

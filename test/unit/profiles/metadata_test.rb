@@ -63,7 +63,7 @@ describe 'metadata with supported operating systems' do
       res = Inspec::Metadata.from_yaml('mock', '---', nil, logger)
       options = { target: '/path/to/tests' }
       Inspec::Metadata.finalize(res, nil, options, logger)
-      res.params[:name].must_equal('tests from /path/to/tests')
+      res.params[:name].must_equal('tests from .path.to.tests')
     end
 
     it 'does not overwrite an existing name when name exists and profile_id is nil' do
