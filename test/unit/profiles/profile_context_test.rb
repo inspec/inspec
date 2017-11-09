@@ -186,20 +186,20 @@ describe Inspec::ProfileContext do
         profile.load_control_file(control_2, '(eval)', nil)
         first_file_check = get_checks(0)
         second_file_check = get_checks(1)
-        first_file_check[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        first_file_check[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
         second_file_check[0][1][0].must_be_nil
       end
 
       it 'applies to the controls above it when at the bottom of the file' do
         fake_control_file = control + if_false
         profile.load_control_file(fake_control_file, '(eval)', 1)
-        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
       end
 
       it 'applies to the controls below it when at the top of the file' do
         fake_control_file = if_false + control
         profile.load_control_file(fake_control_file, '(eval)', 1)
-        get_checks[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        get_checks[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
       end
 
       it 'applies to the controls above and below it when at the middle of the file' do
@@ -207,8 +207,8 @@ describe Inspec::ProfileContext do
         profile.load_control_file(fake_control_file, '(eval)', 1)
         check_top = get_checks(0)
         check_bottom = get_checks(1)
-        check_top[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
-        check_bottom[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        check_top[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
+        check_bottom[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
       end
 
       it 'applies to the describe blocks above and below it when at the middle of the file' do
@@ -216,8 +216,8 @@ describe Inspec::ProfileContext do
         profile.load_control_file(fake_control_file, '(eval)', 1)
         check_top = get_checks(0)
         check_bottom = get_checks(1)
-        check_top[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
-        check_bottom[0][1][0].resource_skipped.must_equal 'Skipped control due to only_if condition.'
+        check_top[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
+        check_bottom[0][1][0].resource_exception_message.must_equal 'Skipped control due to only_if condition.'
       end
     end
 
