@@ -53,12 +53,12 @@ module Inspec::Resources
       return @contents[path] if @contents.key?(path)
       file = inspec.file(path)
       if !file.file?
-        return skip_resource "Can't find file \"#{path}\""
+        raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}"
       end
 
       @contents[path] = file.content
       if @contents[path].nil? || @contents[path].empty?
-        return skip_resource "Can't read file \"#{path}\""
+        raise Inspec::Exceptions::ResourceSkipped, "Can't read file: #{path}"
       end
 
       @contents[path]
@@ -69,7 +69,6 @@ module Inspec::Resources
       flat_params = parse_xinetd(read_content)
       # we need to map service data in order to use it with filtertable
       params = { 'services' => {} }
-
       # map services that were defined and map it to the service hash
       flat_params.each do |k, v|
         name = k[/^service (.+)$/, 1]
