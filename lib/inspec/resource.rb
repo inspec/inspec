@@ -16,6 +16,10 @@ module Inspec
       @registry ||= default_registry
     end
 
+    def self.supports
+      @supports ||= {}
+    end
+
     def self.new_registry
       default_registry.dup
     end
@@ -131,6 +135,7 @@ require 'resources/packages'
 require 'resources/parse_config'
 require 'resources/passwd'
 require 'resources/pip'
+require 'resources/platform'
 require 'resources/port'
 require 'resources/postgres'
 require 'resources/postgres_conf'

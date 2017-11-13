@@ -117,7 +117,7 @@ module Inspec
         end
 
         define_method :register_control do |control, &block|
-          if @skip_file || !profile_context_owner.profile_supports_os?
+          if @skip_file
             ::Inspec::Rule.set_skip_rule(control, true)
           end
 

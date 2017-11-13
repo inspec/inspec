@@ -136,11 +136,15 @@ module Inspec
     # @returns [TrueClass, FalseClass]
     #
     def supported?
-      supports_os? && supports_runtime?
+      supports_platform? && supports_runtime?
     end
 
-    def supports_os?
-      metadata.supports_transport?(@backend)
+    def supports_platform?
+      # check profile dependencies for supports
+      locked_dependencies.each do |d|
+        return false unless d.supports_platform?
+      end
+      metadata.supports_platform?(@backend)
     end
 
     def supports_runtime?

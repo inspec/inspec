@@ -44,8 +44,6 @@ describe 'example inheritance profile' do
       out = inspec('exec ' + dir + ' -l debug --no-create-lockfile')
       out.stderr.must_equal ''
       out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
-      out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
-      out.stdout.must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
       out.stdout.wont_include 'Fetching URL:'
       out.stdout.wont_include 'Fetched archive moved to:'
     end
