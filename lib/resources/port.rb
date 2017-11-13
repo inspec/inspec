@@ -504,15 +504,42 @@ module Inspec::Resources
       }
     end
 
+    def tokenize_ss_line(line)
+      # iproute-2.6.32-54.el6 output:
+      # Netid State      Recv-Q Send-Q  Local Address:Port Peer Address:Port
+      # udp   UNCONN     0      0       *:111              *:*                 users:(("rpcbind",1123,6)) ino=8680 sk=ffff8801390cf7c0
+      # tcp   LISTEN     0      128     *:22               *:*                 users:(("sshd",3965,3)) ino:11604 sk:ffff88013a3b5800
+      #
+      # iproute-2.6.32-20.el6 output:
+      # Netid            Recv-Q Send-Q  Local Address:Port Peer Address:Port
+      # udp              0      0       *:111              *:*                 users:(("rpcbind",1123,6)) ino=8680 sk=ffff8801390cf7c0
+      # tcp              0      128     *:22               *:*                 users:(("sshd",3965,3)) ino:11604 sk:ffff88013a3b5800
+      tokens = line.split(/\s+/, 7)
+      if tokens[1] =~ /^\d+$/ # iproute-2.6.32-20
+        {
+          netid: tokens[0],
+          local_addr: tokens[3],
+          process_info: tokens[5],
+        }
+      else # iproute-2.6.32-54
+        {
+          netid: tokens[0],
+          local_addr: tokens[4],
+          process_info: tokens[6],
+        }
+      end
+    end
+
     def parse_ss_line(line)
-      parsed = line.split(/\s+/, 7)
+      # parsed = line.split(/\s+/, 7)
+      parsed = tokenize_ss_line(line)
 
       # ss only returns "tcp" and "udp" as the protocol. However, netstat would return
       # "tcp6" and "udp6" as necessary. In order to maintain backward compatibility, we
       # will manually modify the protocol value if the line we're parsing is an IPv6
       # entry.
-      process_info = parsed[6]
-      protocol = parsed[0]
+      process_info = parsed[:process_info]
+      protocol = parsed[:netid]
       protocol += '6' if process_info.include?('v6only:1')
       return nil unless ALLOWED_PROTOCOLS.include?(protocol)
 
@@ -523,7 +550,7 @@ module Inspec::Resources
       #   10.0.2.15:1234
       #   ::ffff:10.0.2.15:9300
       #   fe80::a00:27ff:fe32:ed09%enp0s3:9200
-      parsed_net_address = parsed[4].match(/(\S+):(\*|\d+)$/)
+      parsed_net_address = parsed[:local_addr].match(/(\S+):(\*|\d+)$/)
       return nil if parsed_net_address.nil?
       host = parsed_net_address[1]
       port = parsed_net_address[2]
@@ -556,7 +583,7 @@ module Inspec::Resources
       # remove the "users:((" and  "))" parts
       # input: users:((\"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8))
       # res: \"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8
-      process_list_match = parsed[6].match(/users:\(\((.+)\)\)/)
+      process_list_match = parsed[:process_info].match(/users:\(\((.+)\)\)/)
       if process_list_match
         # list entires are seperated by "," the braces can also be removed
         # input: \"nginx\",pid=583,fd=8),(\"nginx\",pid=582,fd=8),(\"nginx\",pid=580,fd=8),(\"nginx\",pid=579,fd=8

@@ -17,11 +17,11 @@ describe 'Inspec::Resources::Port' do
 
   it 'lists all ports' do
     resource = MockLoader.new(:ubuntu1404).load_resource('port')
-    _(resource.entries.length).must_equal 8
+    _(resource.entries.length).must_equal 9
     _(resource.listening?).must_equal true
     _(resource.protocols).must_equal %w{ udp tcp tcp6 }
     _(resource.pids).must_equal [1146, 1222, 1722, 579]
-    _(resource.processes).must_equal ['dhclient', 'sshd', 'java', 'nginx']
+    _(resource.processes).must_equal ['dhclient', 'sshd', 'java', 'nginx', 'sendmail']
     _(resource.addresses).must_equal ['0.0.0.0', '10.0.2.15', 'fe80::a00:27ff:fe32:ed09', '::']
   end
 
