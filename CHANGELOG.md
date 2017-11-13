@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.44.9 -->
-## [v1.44.9](https://github.com/chef/inspec/tree/v1.44.9) (2017-11-13)
+<!-- latest_release 1.45.0 -->
+## [v1.45.0](https://github.com/chef/inspec/tree/v1.45.0) (2017-11-13)
 
-#### Bug Fixes
-- port resource: handle ss output from older iproute package [#2305](https://github.com/chef/inspec/pull/2305) ([Wing924](https://github.com/Wing924))
+#### Merged Pull Requests
+- Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
 ### Changes since 1.44.8 release
+
+#### Merged Pull Requests
+- Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff)) <!-- 1.45.0 -->
 
 #### Bug Fixes
 - port resource: handle ss output from older iproute package [#2305](https://github.com/chef/inspec/pull/2305) ([Wing924](https://github.com/Wing924)) <!-- 1.44.9 -->
