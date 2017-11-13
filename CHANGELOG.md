@@ -1,20 +1,39 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.43.6 -->
-## [v1.43.6](https://github.com/chef/inspec/tree/v1.43.6) (2017-10-27)
-
-#### Bug Fixes
-- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.43.5 -->
-### Changes since 1.43.5 release
-
-#### Bug Fixes
-- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.43.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.44.8](https://github.com/chef/inspec/tree/v1.44.8) (2017-11-09)
+
+#### Enhancements
+- Add non-halting exception support to resources [#2235](https://github.com/chef/inspec/pull/2235) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- allow users to specify user/namespace when fetching profiles from Chef Automate [#2275](https://github.com/chef/inspec/pull/2275) ([arlimus](https://github.com/arlimus))
+- http resource: supply max-time option using read_timeout and open_timeout [#2289](https://github.com/chef/inspec/pull/2289) ([bdellegrazie](https://github.com/bdellegrazie))
+- Issue warning during check if profile name contains slash [#2231](https://github.com/chef/inspec/pull/2231) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- http resource: use proper syntax in `curl` header option [#2285](https://github.com/chef/inspec/pull/2285) ([schisamo](https://github.com/schisamo))
+- nginx resource: support quoted identifiers [#2292](https://github.com/chef/inspec/pull/2292) ([adamleff](https://github.com/adamleff))
+- Properly compare profile version strings as SemVer [#2280](https://github.com/chef/inspec/pull/2280) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Pin RubyGems to 2.6.14 [#2287](https://github.com/chef/inspec/pull/2287) ([adamleff](https://github.com/adamleff))
+- Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff))
+- Use Ruby 2.4.2 in the Omnibus InSpec packages [#2294](https://github.com/chef/inspec/pull/2294) ([adamleff](https://github.com/adamleff))
+- Eliminate deprecation warnings on resource skipped messages [#2296](https://github.com/chef/inspec/pull/2296) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
+## [v1.43.8](https://github.com/chef/inspec/tree/v1.43.8) (2017-11-02)
+
+#### Bug Fixes
+- inspec compliance login: Ensure supplied server has a proper URI scheme [#2268](https://github.com/chef/inspec/pull/2268) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- mount resource: fix for Device-/Sharenames and Mountpoints including … [#2257](https://github.com/chef/inspec/pull/2257) ([mgrobelin](https://github.com/mgrobelin))
+- service resource: properly search for SysV Init S files [#2274](https://github.com/chef/inspec/pull/2274) ([Wing924](https://github.com/Wing924))
+
 ## [v1.43.5](https://github.com/chef/inspec/tree/v1.43.5) (2017-10-26)
 
 #### New Resources
@@ -28,7 +47,6 @@
 
 #### Bug Fixes
 - Fix regression when uploading compliance profiles [#2264](https://github.com/chef/inspec/pull/2264) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.42.3](https://github.com/chef/inspec/tree/v1.42.3) (2017-10-19)
 

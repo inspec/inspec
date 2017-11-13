@@ -175,7 +175,7 @@ describe Habitat::Profile do
     it 'returns parsed TOML from the hab config file' do
       config_file = File.join(ENV['HOME'], '.hab', 'etc', 'cli.toml')
       File.expects(:exist?).with(config_file).returns(true)
-      TOML.expects(:load_file).with(config_file).returns(foo: 1)
+      Tomlrb.expects(:load_file).with(config_file).returns(foo: 1)
       subject.send(:habitat_cli_config).must_equal(foo: 1)
     end
   end

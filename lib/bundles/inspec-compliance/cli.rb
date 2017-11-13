@@ -79,10 +79,14 @@ module Compliance
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'
-
+    option :owner, type: :string, required: false,
+      desc: 'owner whose profiles to list'
     def profiles
       config = Compliance::Configuration.new
       return if !loggedin(config)
+
+      # set owner to config
+      config['owner'] = options['owner'] || config['user']
 
       msg, profiles = Compliance::API.profiles(config)
       profiles.sort_by! { |hsh| hsh['title'] }
@@ -145,10 +149,15 @@ module Compliance
 
     desc 'upload PATH', 'uploads a local profile to Chef Compliance'
     option :overwrite, type: :boolean, default: false,
-      desc: 'Overwrite existing profile on Chef Compliance.'
+      desc: 'Overwrite existing profile on Server.'
+    option :owner, type: :string, required: false,
+      desc: 'Owner that should own the profile'
     def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, PerceivedComplexity, Metrics/CyclomaticComplexity
       config = Compliance::Configuration.new
       return if !loggedin(config)
+
+      # set owner to config
+      config['owner'] = options['owner'] || config['user']
 
       unless File.exist?(path)
         puts "Directory #{path} does not exist."
@@ -181,14 +190,12 @@ module Compliance
         error.call('Please login via `inspec compliance login`')
       end
 
-      # owner
-      owner = config['user']
       # read profile name from inspec.yml
       profile_name = profile.params[:name]
 
       # check that the profile is not uploaded already,
       # confirm upload to the user (overwrite with --force)
-      if Compliance::API.exist?(config, "#{owner}/#{profile_name}") && !options['overwrite']
+      if Compliance::API.exist?(config, "#{config['owner']}/#{profile_name}") && !options['overwrite']
         error.call('Profile exists on the server, use --overwrite')
       end
 
@@ -207,12 +214,12 @@ module Compliance
         archive_path = path
       end
 
-      puts "Start upload to #{owner}/#{profile_name}"
+      puts "Start upload to #{config['owner']}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
       Compliance::API.is_automate_server?(config) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
       puts upload_msg
-      success, msg = Compliance::API.upload(config, owner, pname, archive_path)
+      success, msg = Compliance::API.upload(config, config['owner'], pname, archive_path)
 
       if success
         puts 'Successfully uploaded profile'

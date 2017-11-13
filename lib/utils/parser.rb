@@ -67,7 +67,19 @@ module LinuxMountParser
   # this parses the output of mount command (only tested on linux)
   # this method expects only one line of the mount output
   def parse_mount_options(mount_line, compatibility = false)
-    mount = mount_line.scan(/\S+/)
+    if includes_whitespaces?(mount_line)
+      # Device-/Sharenames and Mountpoints including whitespaces require special treatment:
+      # We use the keyword ' type ' to split up and rebuild the desired array of fields
+      type_split = mount_line.split(' type ')
+      fs_path = type_split[0]
+      other_opts = type_split[1]
+      fs, path = fs_path.match(%r{^(.+?)\son\s(/.+?)$}).captures
+      mount = [fs, 'on', path, 'type']
+      mount.concat(other_opts.scan(/\S+/))
+    else
+      # ... otherwise we just split the fields by whitespaces
+      mount = mount_line.scan(/\S+/)
+    end
 
     # parse device and type
     mount_options    = { device: mount[0], type: mount[4] }
@@ -91,6 +103,12 @@ module LinuxMountParser
     end
 
     mount_options
+  end
+
+  # Device-/Sharename or Mountpoint includes whitespaces?
+  def includes_whitespaces?(mount_line)
+    ws = mount_line.match(/^(.+)\son\s(.+)\stype\s.*$/)
+    ws.captures[0].include?(' ') or ws.captures[1].include?(' ')
   end
 end
 

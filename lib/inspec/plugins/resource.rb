@@ -37,14 +37,26 @@ module Inspec
       Inspec::Resource.registry
     end
 
-    def __register(name, obj)
+    def __register(name, obj) # rubocop:disable Metrics/MethodLength
       cl = Class.new(obj) do
+        attr_reader :resource_exception_message
+
         def initialize(backend, name, *args)
+          @resource_skipped = false
+          @resource_failed = false
+
           # attach the backend to this instance
           @__backend_runner__ = backend
           @__resource_name__ = name
+
           # call the resource initializer
-          super(*args)
+          begin
+            super(*args)
+          rescue Inspec::Exceptions::ResourceSkipped => e
+            skip_resource(e.message)
+          rescue Inspec::Exceptions::ResourceFailed => e
+            fail_resource(e.message)
+          end
         end
 
         def self.desc(description = nil)
@@ -57,12 +69,29 @@ module Inspec
           @example = example
         end
 
-        def resource_skipped
-          @resource_skipped if defined?(@resource_skipped)
+        def skip_resource(message)
+          @resource_skipped = true
+          @resource_exception_message = message
         end
 
-        def skip_resource(message)
-          @resource_skipped = message
+        def resource_skipped?
+          @resource_skipped
+        end
+
+        def resource_skipped
+          warn('[DEPRECATION] Use `resource_exception_message` for the resource skipped message. This method will be removed in InSpec 2.0.')
+          # Returning `nil` here to match previous behavior
+          return nil if @resource_skipped == false
+          @resource_exception_message
+        end
+
+        def fail_resource(message)
+          @resource_failed = true
+          @resource_exception_message = message
+        end
+
+        def resource_failed?
+          @resource_failed
         end
 
         def inspec

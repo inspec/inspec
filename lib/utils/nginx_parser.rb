@@ -21,8 +21,16 @@ class NginxParser < Parslet::Parser
     (identifier >> values.maybe.as(:args)).as(:assignment) >> str(';') >> filler?
   }
 
-  rule(:identifier) {
+  rule(:standard_identifier) {
     (match('[a-zA-Z]') >> match('\S').repeat).as(:identifier) >> space >> space.repeat
+  }
+
+  rule(:quoted_identifier) {
+    str('"') >> (str('"').absent? >> any).repeat.as(:identifier) >> str('"') >> space.repeat
+  }
+
+  rule(:identifier) {
+    standard_identifier | quoted_identifier
   }
 
   rule(:value) {
@@ -30,6 +38,7 @@ class NginxParser < Parslet::Parser
       str('\\') >> any | match('[#;{]|\s').absent? >> any
     ).repeat).as(:value) >> space.repeat
   }
+
   rule(:values) {
     value.repeat >> space.maybe
   }

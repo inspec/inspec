@@ -286,7 +286,7 @@ class MockLoader
       'service sendmail onestatus' => cmd.call('service-sendmail-onestatus'),
       # services for system 5 e.g. centos6, debian 6
       'service sshd status' => cmd.call('service-sshd-status'),
-      'find /etc/rc*.d /etc/init.d/rc*.d -name S*' => cmd.call('find-etc-rc-d-name-S'),
+      'find /etc/rc*.d /etc/init.d/rc*.d -name "S*"' => cmd.call('find-etc-rc-d-name-S'),
       'ls -1 /etc/init.d/' => cmd.call('ls-1-etc-init.d'),
       # user information for linux
       'id root' => cmd.call('id-root'),
@@ -340,6 +340,7 @@ class MockLoader
       # mount
       "mount | grep -- ' on /'" => cmd.call("mount"),
       "mount | grep -- ' on /mnt/iso-disk'" => cmd.call("mount-multiple"),
+      "mount | grep -- ' on /mnt/Research & Development'" => cmd.call("mount-whitespaces"),
       # solaris 10 package manager
       'pkginfo -l SUNWzfsr' => cmd.call('pkginfo-l-SUNWzfsr'),
       # solaris 11 package manager
@@ -453,10 +454,10 @@ class MockLoader
 
       # http resource - remote worker'
       %{bash -c 'type "curl"'} => cmd.call('bash-c-type-curl'),
-      "curl -i -X GET --connect-timeout 60 'http://www.example.com'" => cmd.call('http-remote-no-options'),
-      "curl -i -X GET --connect-timeout 60 --user 'user:pass' 'http://www.example.com'" => cmd.call('http-remote-basic-auth'),
-      '2bdc8826b66efa554bdebd8cc5f3eaf7bfba5ada36adc7904a6b178d331395ea' => cmd.call('http-remote-post'),
-      "curl -i -X GET --connect-timeout 60 -H 'accept=application/json' -H 'foo=bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-no-options'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 --user 'user:pass' 'http://www.example.com'" => cmd.call('http-remote-basic-auth'),
+      'f77ebcedaf6fbe8f02d2f9d4735a90c12311d2ca4b43ece9efa2f2e396491747' => cmd.call('http-remote-post'),
+      "curl -i -X GET --connect-timeout 60 --max-time 120 -H 'accept: application/json' -H 'foo: bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
 
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-nodes-default'),

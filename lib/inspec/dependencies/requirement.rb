@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'inspec/cached_fetcher'
 require 'inspec/dependencies/dependency_set'
+require 'semverse'
 
 module Inspec
   #
@@ -39,10 +40,10 @@ module Inspec
       req
     end
 
-    attr_reader :cwd, :opts, :required_version
+    attr_reader :cwd, :opts, :version_constraints
     def initialize(name, version_constraints, cache, cwd, opts)
       @name = name
-      @required_version = Gem::Requirement.new(Array(version_constraints))
+      @version_constraints = Array(version_constraints)
       @cache = cache
       @backend = opts[:backend]
       @opts = opts
@@ -62,11 +63,13 @@ module Inspec
     end
 
     def source_satisfies_spec?
-      gem_dep.match?(profile.name, profile.version)
-    end
+      return true if version_constraints.empty?
 
-    def gem_dep
-      @gem_dep ||= Gem::Dependency.new(profile.name, required_version, :runtime)
+      # Semverse::Constraint.satisfy_all returns a list of versions that match all of the
+      # supplied constraints. Since we're only matching against a single version, the return
+      # of satisfy_all will be non-empty if the profile version we have satisfies the constraints.
+      constraints = @version_constraints.map { |x| Semverse::Constraint.new(x) }
+      !Semverse::Constraint.satisfy_all(constraints, Semverse::Version.new(profile.version)).empty?
     end
 
     def resolved_source
@@ -77,7 +80,7 @@ module Inspec
       h = {
         'name' => name,
         'resolved_source' => resolved_source,
-        'version_constraints' => required_version.to_s,
+        'version_constraints' => version_constraints.to_s,
       }
 
       if !dependencies.empty?

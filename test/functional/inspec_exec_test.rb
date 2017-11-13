@@ -142,7 +142,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:out) { inspec('exec ' + example_control + ' --no-create-lockfile') }
 
     it 'prints the control results, then the anonymous describe block results' do
-      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*examples/profile/controls/example.rb})
+      out.stdout.force_encoding(Encoding::UTF_8).must_match(%r{Profile: tests from .*examples.profile.controls.example.rb})
       out.stdout.force_encoding(Encoding::UTF_8).must_include "
 Version: (not specified)
 Target:  local://

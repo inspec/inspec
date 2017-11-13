@@ -65,7 +65,7 @@ describe 'Inspec::Resources::Packages' do
 
   it 'skips on non debian platforms' do
     resource = MockLoader.new(:hpux).load_resource('packages', 'bash')
-    _(resource.resource_skipped).must_equal 'The packages resource is not yet supported on OS hpux'
+    _(resource.resource_exception_message).must_equal 'The packages resource is not yet supported on OS hpux'
   end
 
   it 'fails if the packages name is not a string or regexp' do

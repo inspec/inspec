@@ -23,4 +23,13 @@ describe Inspec::Resources::FileResource do
     iso_resource.send(:options).must_equal(['ro'])
     iso_resource.send(:count).must_equal(2)
   end
+
+  let(:ws_resource) { load_resource('mount', '/mnt/Research & Development') }
+
+  it 'parses the mount data properly even if whitespaces are included' do
+    ws_resource.send(:device).must_equal('//fileserver.corp.internal/Research & Development')
+    ws_resource.send(:type).must_equal('cifs')
+    ws_resource.send(:options).must_equal(['rw','vers=1.0'])
+    ws_resource.send(:count).must_equal(1)
+  end
 end
