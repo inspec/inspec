@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.2 -->
-## [v1.45.2](https://github.com/chef/inspec/tree/v1.45.2) (2017-11-14)
+<!-- latest_release 1.45.3 -->
+## [v1.45.3](https://github.com/chef/inspec/tree/v1.45.3) (2017-11-14)
 
 #### Merged Pull Requests
-- Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff))
+- Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
 ### Changes since 1.44.8 release
 
 #### Merged Pull Requests
+- Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto)) <!-- 1.45.3 -->
 - Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff)) <!-- 1.45.2 -->
 - Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff)) <!-- 1.45.0 -->
 
