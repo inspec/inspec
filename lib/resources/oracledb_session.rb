@@ -60,7 +60,9 @@ module Inspec::Resources
         p = :parse_html_result
       end
 
-      command = "echo \"#{opts}\n#{verify_query(escaped_query)}\nEXIT\" | #{bin} -s #{@user}/#{@password}@//#{@host}:#{@port}/#{@service}"
+      query = verify_query(escaped_query)
+      query += ';' unless query.end_with?(';')
+      command = %{echo "#{opts}\n#{query}\nEXIT" | #{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service}}
       cmd = inspec.command(command)
 
       out = cmd.stdout + "\n" + cmd.stderr
