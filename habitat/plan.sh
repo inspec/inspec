@@ -1,5 +1,6 @@
 pkg_name=inspec
 pkg_origin=chef
+pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
 pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
@@ -24,30 +25,7 @@ pkg_build_deps=(
 )
 pkg_bin_dirs=(bin)
 
-pkg_version() {
-  cat VERSION
-}
-
-do_before() {
-  if [[ ! -f VERSION ]]; then
-    exit_with "habitat/VERSION not found. Run 'rake release_habitat' to ensure it exists" 1
-  fi
-  update_pkg_version
-}
-
 do_prepare() {
-  # If we use the Gemfile in the project ($SRC_PATH/Gemfile), and run `bundle
-  # install` (which we do in `do_build` below), Bundler will write out a
-  # .bundle/config into the $SRC_PATH. If this happens, if you try to use
-  # InSpec outside of the build process it will fail, since the settings used
-  # in this plan will be saved in the .bundle/config.
-  #
-  # Instead, we build a minimal Gemfile in the $CACHE_PATH and bundle using that.
-  cat > "$CACHE_PATH/Gemfile" <<GEMFILE
-source 'https://rubygems.org'
-gem '$pkg_name', '= $pkg_version'
-GEMFILE
-
   export BUNDLE_SILENCE_ROOT_WARNING GEM_HOME GEM_PATH
   BUNDLE_SILENCE_ROOT_WARNING=1
   build_line "Setting BUNDLE_SILENCE_ROOT_WARNING=$BUNDLE_SILENCE_ROOT_WARNING"
@@ -58,12 +36,52 @@ GEMFILE
 }
 
 do_build() {
+  # If we use the Gemfile in the project ($SRC_PATH/Gemfile), and run `bundle
+  # install` (which we do in `do_build` below), Bundler will write out a
+  # .bundle/config into the $SRC_PATH. If this happens, if you try to use
+  # InSpec outside of the build process it will fail, since the settings used
+  # in this plan will be saved in the .bundle/config.
+  #
+  # Instead, we first use Bundler to build up a local cache of gem dependencies.
+  # Then when we build, we'll build the InSpec gem and write out a new Gemfile
+  # to use that instead.
+  #
+  # Building up the local cache of dependencies is necessary because Bundler won't
+  # try and walk the sources if it finds the initial gem in the local cache.
+  build_line "Caching InSpec's gem dependencies..."
+  mkdir -p $CACHE_PATH/vendor/cache
+
+  cat > "$CACHE_PATH/Gemfile" <<GEMFILE
+source 'https://rubygems.org'
+gem '$pkg_name', path: "${PLAN_CONTEXT}/.."
+GEMFILE
+
   bundle install \
     --binstubs "$pkg_prefix/bin" \
     --gemfile "$CACHE_PATH/Gemfile" \
     --jobs "$(nproc)" \
     --path "$pkg_prefix/bundle" \
     --retry 5 \
+    --standalone
+
+  build_line "Building the InSpec gem..."
+  gem build inspec.gemspec
+
+  build_line "Moving the InSpec gem into the cache path..."
+  mv inspec-${pkg_version}.gem ${CACHE_PATH}/vendor/cache
+
+  build_line "Re-bundling with the new InSpec gem..."
+  cat > "$CACHE_PATH/Gemfile" <<GEMFILE
+gem '$pkg_name', '= ${pkg_version}'
+GEMFILE
+
+  bundle install \
+    --binstubs "$pkg_prefix/bin" \
+    --gemfile "$CACHE_PATH/Gemfile" \
+    --jobs "$(nproc)" \
+    --path "$pkg_prefix/bundle" \
+    --retry 5 \
+    --local \
     --standalone
 
   # Delete everything that's not inspec in bin
@@ -77,7 +95,7 @@ do_build() {
 }
 
 do_install() {
-  install -m 0644 Gemfile.lock "$pkg_prefix/Gemfile.lock"
+  install -m 0644 ${CACHE_PATH}/Gemfile.lock "$pkg_prefix/Gemfile.lock"
 }
 
 do_strip() {
