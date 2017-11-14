@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.1 -->
-## [v1.45.1](https://github.com/chef/inspec/tree/v1.45.1) (2017-11-14)
+<!-- latest_release 1.45.2 -->
+## [v1.45.2](https://github.com/chef/inspec/tree/v1.45.2) (2017-11-14)
 
-#### Bug Fixes
-- Fix classname in JUnit formatter [#2283](https://github.com/chef/inspec/pull/2283) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
 ### Changes since 1.44.8 release
 
 #### Merged Pull Requests
+- Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff)) <!-- 1.45.2 -->
 - Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff)) <!-- 1.45.0 -->
 
 #### Bug Fixes
