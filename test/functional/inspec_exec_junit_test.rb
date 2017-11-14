@@ -51,7 +51,7 @@ describe 'inspec exec with junit formatter' do
       end
 
       describe 'the testcase named "gordon_config Can\'t find file ..."' do
-        let(:gordon_yml_tests) { REXML::XPath.match(suite, "//testcase[@class='gordon-1.0' and @name='gordon_config']") }
+        let(:gordon_yml_tests) { REXML::XPath.match(suite, "//testcase[@classname='profile.gordon-1.0' and @name='gordon_config']") }
         let(:first_gordon_test) {gordon_yml_tests.first}
 
         it 'should be unique' do

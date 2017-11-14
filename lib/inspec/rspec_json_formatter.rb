@@ -874,8 +874,9 @@ class InspecRspecJUnit < InspecRspecJson
   private
 
   def build_profile_xml(profile)
+    profile_name = profile[:name]
     profile_xml = REXML::Element.new('testsuite')
-    profile_xml.add_attribute('name', profile[:name])
+    profile_xml.add_attribute('name', profile_name)
     profile_xml.add_attribute('tests', count_profile_tests(profile))
     profile_xml.add_attribute('failed', count_profile_failed_tests(profile))
 
@@ -883,14 +884,14 @@ class InspecRspecJUnit < InspecRspecJson
       next if control[:results].nil?
 
       control[:results].each do |result|
-        profile_xml.add(build_result_xml(control, result))
+        profile_xml.add(build_result_xml(profile_name, control, result))
       end
     end
 
     profile_xml
   end
 
-  def build_result_xml(control, result)
+  def build_result_xml(profile_name, control, result)
     result_xml = REXML::Element.new('testcase')
     result_xml.add_attribute('name', result[:code_desc])
     # if there is no control title, we are likely receiving test results from a
@@ -900,7 +901,7 @@ class InspecRspecJUnit < InspecRspecJson
     # "(generated from test_spec.rb:1 de0ce10e4bbbd4d0ff7a65f4234de8c1)")
     #
     # ... we'll output "Anonymous" instead.
-    result_xml.add_attribute('classname', control[:title].nil? ? 'Anonymous' : control[:id])
+    result_xml.add_attribute('classname', control[:title].nil? ? "#{profile_name}.Anonymous" : "#{profile_name}.#{control[:id]}")
     result_xml.add_attribute('time', result[:run_time])
 
     if result[:status] == 'failed'
