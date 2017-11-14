@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.3 -->
-## [v1.45.3](https://github.com/chef/inspec/tree/v1.45.3) (2017-11-14)
+<!-- latest_release 1.45.4 -->
+## [v1.45.4](https://github.com/chef/inspec/tree/v1.45.4) (2017-11-14)
 
-#### Merged Pull Requests
-- Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto))
+#### Enhancements
+- Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
 ### Changes since 1.44.8 release
+
+#### Enhancements
+- Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff)) <!-- 1.45.4 -->
 
 #### Merged Pull Requests
 - Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto)) <!-- 1.45.3 -->
