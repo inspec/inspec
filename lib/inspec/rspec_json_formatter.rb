@@ -62,6 +62,10 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
         next if e.is_a? RSpec::Expectations::ExpectationNotMetError
         hash[:exception] = e.class.name
         hash[:backtrace] = e.backtrace
+
+        # if the exception indicates the resource author wants to skip the test,
+        # we update the test status here.
+        hash[:status] = 'skipped' if e.is_a?(Inspec::Exceptions::ResourceSkipped)
       end
     end
   end
@@ -571,7 +575,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 
   def print_result(result)
-    test_status = result[:status_type]
+    test_skipped = result[:status] == 'skipped'
+    test_status = test_skipped ? 'skipped' : result[:status_type]
     indicator = INDICATORS[result[:status]]
     indicator = INDICATORS['empty'] if indicator.nil?
     if result[:message]
@@ -821,7 +826,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     end
 
     def update_summary(example)
-      example_status = STATUS_TYPES[example[:status_type]]
+      test_skipped = example[:status] == 'skipped'
+      status_type = test_skipped ? 'skipped' : example[:status_type]
+      example_status = STATUS_TYPES[status_type]
       @summary_status = example_status if example_status > @summary_status
       fails.push(example) if example_status > 0
       passes.push(example) if example_status == STATUS_TYPES['passed']
