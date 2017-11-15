@@ -27,7 +27,7 @@ module Inspec
 
       # Ruby internal for pretty-printing a summary for this class
       def inspect
-        "Inspec::Backend::Class @transport=#{@backend.conn.class}"
+        "Inspec::Backend::Class @transport=#{@backend.connection.class}"
       end
     end
 

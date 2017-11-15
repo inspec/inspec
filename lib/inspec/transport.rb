@@ -4,7 +4,7 @@ require 'train'
 
 module Inspec
   class Transport
-    attr_accessor :cache_resources, :conn
+    attr_accessor :cache_resources, :connection
     include Inspec::Backend::Base
 
     def initialize(config)
@@ -23,8 +23,8 @@ module Inspec
         raise "Can't find transport backend '#{name}'."
       end
 
-      @conn = transport.connection
-      if @conn.nil?
+      @connection = transport.connection
+      if @connection.nil?
         raise "Can't connect to transport backend '#{name}'."
       end
     rescue Train::ClientError => e
@@ -39,17 +39,17 @@ module Inspec
     end
 
     def os
-      @conn.os
+      @connection.os
     end
     alias platform os
 
-    # This is needed for the mock connection which has some
-    # unique method calls
+    # Some Train connections have unique methods (mock_os, uri, etc)
+    # This will catch them accordingly and send them if they exist
     def method_missing(m, *args, &block)
-      if @conn.respond_to?(m)
-        @conn.send(m, *args, &block)
+      if @connection.respond_to?(m)
+        @connection.send(m, *args, &block)
       else
-        raise Train::ClientError, "Undefined method #{m} for train transport"
+        raise Train::ClientError, "Undefined method #{m} for train transport."
       end
     end
 
@@ -57,9 +57,9 @@ module Inspec
       if @cache_resources == true && @file_cache.key?(path)
         @file_cache[path]
       elsif @cache_resources == true
-        @file_cache[path] = @conn.file(path)
+        @file_cache[path] = @connection.file(path)
       else
-        @conn.file(path)
+        @connection.file(path)
       end
     end
 
@@ -67,11 +67,9 @@ module Inspec
       if @cache_resources == true && @cmd_cache.key?(cmd)
         @cmd_cache[cmd]
       elsif @cache_resources == true
-        Inspec::Log.warn('running raw command and caching')
-        @cmd_cache[cmd] = @conn.run_command(cmd)
+        @cmd_cache[cmd] = @connection.run_command(cmd)
       else
-        Inspec::Log.warn('running raw command')
-        @conn.run_command(cmd)
+        @connection.run_command(cmd)
       end
     end
   end

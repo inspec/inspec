@@ -128,7 +128,7 @@ module Inspec
     end
 
     def cache_resources?
-      metadata.params[:cache_resources] || false
+      metadata.params.fetch(:cache_resources, false)
     end
 
     def writable?
