@@ -217,7 +217,7 @@ module XinetdParser
     return [] if dir.nil?
 
     unless inspec.file(dir).directory?
-      return skip_resource "Cannot read folder in #{dir}"
+      raise Inspec::Exceptions::ResourceSkipped, "Can't find folder: #{dir}"
     end
 
     files = inspec.command("find #{dir} -type f").stdout.split("\n")
