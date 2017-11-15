@@ -36,6 +36,7 @@ module Inspec
       summary
       description
       version
+      cache_resources
     }.each do |name|
       define_method name.to_sym do |arg|
         params[name.to_sym] = arg

@@ -46,6 +46,12 @@ describe 'metadata with supported operating systems' do
       res.valid_version?(res.params[:version]).must_equal(true)
     end
 
+    it 'reads the cache_resources from metadata' do
+      res = Inspec::Metadata.from_yaml('mock', "---\ncache_resources: 'true'", nil)
+      Inspec::Metadata.finalize(res, 'mock', empty_options)
+      res.params[:cache_resources].must_equal('true')
+    end
+
     it 'does not accept invalid version from metadata' do
       res = Inspec::Metadata.from_yaml('mock', "---\nversion: '1.1.0.1'", nil)
       Inspec::Metadata.finalize(res, 'mock', empty_options)

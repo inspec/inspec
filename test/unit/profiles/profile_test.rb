@@ -19,6 +19,11 @@ describe Inspec::Profile do
     it 'has no controls' do
       profile.params[:controls].must_equal({})
     end
+
+    it 'has caching disabled' do
+      profile.params[:cache_resources].must_be_nil
+      profile.cache_resources?.must_equal false
+    end
   end
 
   describe 'with an empty profile (legacy mode)' do
@@ -39,6 +44,11 @@ describe Inspec::Profile do
 
     it 'has metadata' do
       profile.params[:name].must_equal 'yumyum profile'
+    end
+
+    it 'has caching enabled' do
+      profile.params[:cache_resources].must_equal true
+      profile.cache_resources?.must_equal true
     end
 
     it 'has no controls' do

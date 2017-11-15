@@ -1,9 +1,4 @@
 # encoding: utf-8
-# copyright: 2015, Dominik Richter
-# author: Dominik Richter
-# author: Christoph Hartmann
-
-require 'train'
 
 module Inspec
   module Backend
@@ -32,7 +27,7 @@ module Inspec
 
       # Ruby internal for pretty-printing a summary for this class
       def inspect
-        "Inspec::Backend::Class @transport=#{backend.class}"
+        "Inspec::Backend::Class @transport=#{@backend.conn.class}"
       end
     end
 
@@ -41,23 +36,12 @@ module Inspec
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
     def self.create(config)
-      conf = Train.target_config(config)
-      name = Train.validate_backend(conf)
-      transport = Train.create(name, conf)
-      if transport.nil?
-        raise "Can't find transport backend '#{name}'."
-      end
-
-      connection = transport.connection
-      if connection.nil?
-        raise "Can't connect to transport backend '#{name}'."
-      end
-
       cls = Class.new do
+        attr_accessor :backend
         include Base
 
-        define_method :backend do
-          connection
+        def initialize(config)
+          @backend = Inspec::Transport.new(config)
         end
 
         Inspec::Resource.registry.each do |id, r|
@@ -67,7 +51,7 @@ module Inspec
         end
       end
 
-      cls.new
+      cls.new(config)
     rescue Train::ClientError => e
       raise "Client error, can't connect to '#{name}' backend: #{e.message}"
     rescue Train::TransportError => e

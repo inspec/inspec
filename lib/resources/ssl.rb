@@ -46,9 +46,9 @@ class SSL < Inspec.resource(1)
     @host = opts[:host]
     if @host.nil?
       # Transports like SSH and WinRM will provide a hostname
-      if inspec.backend.respond_to?('hostname')
+      if inspec.backend.conn.respond_to?('hostname')
         @host = inspec.backend.hostname
-      elsif inspec.backend.class.to_s == 'Train::Transports::Local::Connection'
+      elsif inspec.backend.conn.class.to_s == 'Train::Transports::Local::Connection'
         @host = 'localhost'
       end
     end
