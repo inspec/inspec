@@ -56,12 +56,11 @@ module Inspec::Resources
         raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}"
       end
 
-      @contents[path] = file.content
-      if @contents[path].nil? || @contents[path].empty?
+      if file.content.nil? || file.content.empty?
         raise Inspec::Exceptions::ResourceSkipped, "Can't read file: #{path}"
       end
 
-      @contents[path]
+      @contents[path] = file.content
     end
 
     def read_params
