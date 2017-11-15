@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.5 -->
-## [v1.45.5](https://github.com/chef/inspec/tree/v1.45.5) (2017-11-15)
+<!-- latest_release 1.45.6 -->
+## [v1.45.6](https://github.com/chef/inspec/tree/v1.45.6) (2017-11-15)
 
 #### Bug Fixes
-- oracledb_session resource: fix credential passing to sql/sqlplus [#2308](https://github.com/chef/inspec/pull/2308) ([bratdim](https://github.com/bratdim))
+- xinetd_conf resource: fix false positives when config file or directory doesn&#39;t exist [#2302](https://github.com/chef/inspec/pull/2302) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
@@ -19,6 +19,7 @@
 - Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff)) <!-- 1.45.0 -->
 
 #### Bug Fixes
+- xinetd_conf resource: fix false positives when config file or directory doesn&#39;t exist [#2302](https://github.com/chef/inspec/pull/2302) ([eramoto](https://github.com/eramoto)) <!-- 1.45.6 -->
 - oracledb_session resource: fix credential passing to sql/sqlplus [#2308](https://github.com/chef/inspec/pull/2308) ([bratdim](https://github.com/bratdim)) <!-- 1.45.5 -->
 - Fix classname in JUnit formatter [#2283](https://github.com/chef/inspec/pull/2283) ([adamleff](https://github.com/adamleff)) <!-- 1.45.1 -->
 - port resource: handle ss output from older iproute package [#2305](https://github.com/chef/inspec/pull/2305) ([Wing924](https://github.com/Wing924)) <!-- 1.44.9 -->
