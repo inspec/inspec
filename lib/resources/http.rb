@@ -202,7 +202,7 @@ module Inspec::Resources
           end
         end
 
-        def curl_command
+        def curl_command # rubocop:disable Metrics/AbcSize
           cmd = ["curl -i -X #{http_method}"]
           cmd << "--connect-timeout #{open_timeout}"
           cmd << "--max-time #{open_timeout+read_timeout}"
