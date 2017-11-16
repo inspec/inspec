@@ -165,7 +165,7 @@ module Inspec::Resources
 
         def body
           run_curl
-          @body
+          @body&.strip
         end
 
         def response_headers
@@ -202,7 +202,7 @@ module Inspec::Resources
           end
         end
 
-        def curl_command
+        def curl_command # rubocop:disable Metrics/AbcSize
           cmd = ["curl -i -X #{http_method}"]
           cmd << "--connect-timeout #{open_timeout}"
           cmd << "--max-time #{open_timeout+read_timeout}"
@@ -214,7 +214,11 @@ module Inspec::Resources
             cmd << "-H '#{k}: #{v}'"
           end
 
-          cmd << "'#{url}'"
+          if params.nil?
+            cmd << "'#{url}'"
+          else
+            cmd << "'#{url}?#{params.map { |e| e.join('=') }.join('&')}'"
+          end
 
           cmd.join(' ')
         end
