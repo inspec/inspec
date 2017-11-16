@@ -1,5 +1,6 @@
 ---
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
   - Gemfile
   - Rakefile
@@ -13,6 +14,8 @@ AlignParameters:
   Enabled: true
 Encoding:
   Enabled: true
+FrozenStringLiteralComment:
+  Enabled: false
 HashSyntax:
   Enabled: true
 LineLength:
