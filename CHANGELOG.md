@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.7 -->
-## [v1.45.7](https://github.com/chef/inspec/tree/v1.45.7) (2017-11-16)
+<!-- latest_release 1.45.8 -->
+## [v1.45.8](https://github.com/chef/inspec/tree/v1.45.8) (2017-11-16)
 
 #### Merged Pull Requests
-- Require Ruby 2.3 and later [#2293](https://github.com/chef/inspec/pull/2293) ([adamleff](https://github.com/adamleff))
+- Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
@@ -14,6 +14,7 @@
 - Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff)) <!-- 1.45.4 -->
 
 #### Merged Pull Requests
+- Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff)) <!-- 1.45.8 -->
 - Require Ruby 2.3 and later [#2293](https://github.com/chef/inspec/pull/2293) ([adamleff](https://github.com/adamleff)) <!-- 1.45.7 -->
 - Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto)) <!-- 1.45.3 -->
 - Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff)) <!-- 1.45.2 -->
