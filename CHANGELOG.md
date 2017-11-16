@@ -1,34 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.9 -->
-## [v1.45.9](https://github.com/chef/inspec/tree/v1.45.9) (2017-11-16)
-
-#### Enhancements
-- http resource: Add basic param handling to remote HTTP worker [#2286](https://github.com/chef/inspec/pull/2286) ([schisamo](https://github.com/schisamo))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.44.8 -->
-### Changes since 1.44.8 release
-
-#### Enhancements
-- http resource: Add basic param handling to remote HTTP worker [#2286](https://github.com/chef/inspec/pull/2286) ([schisamo](https://github.com/schisamo)) <!-- 1.45.9 -->
-- Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff)) <!-- 1.45.4 -->
-
-#### Merged Pull Requests
-- Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff)) <!-- 1.45.8 -->
-- Require Ruby 2.3 and later [#2293](https://github.com/chef/inspec/pull/2293) ([adamleff](https://github.com/adamleff)) <!-- 1.45.7 -->
-- Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto)) <!-- 1.45.3 -->
-- Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff)) <!-- 1.45.2 -->
-- Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff)) <!-- 1.45.0 -->
-
-#### Bug Fixes
-- xinetd_conf resource: fix false positives when config file or directory doesn&#39;t exist [#2302](https://github.com/chef/inspec/pull/2302) ([eramoto](https://github.com/eramoto)) <!-- 1.45.6 -->
-- oracledb_session resource: fix credential passing to sql/sqlplus [#2308](https://github.com/chef/inspec/pull/2308) ([bratdim](https://github.com/bratdim)) <!-- 1.45.5 -->
-- Fix classname in JUnit formatter [#2283](https://github.com/chef/inspec/pull/2283) ([adamleff](https://github.com/adamleff)) <!-- 1.45.1 -->
-- port resource: handle ss output from older iproute package [#2305](https://github.com/chef/inspec/pull/2305) ([Wing924](https://github.com/Wing924)) <!-- 1.44.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.45.9](https://github.com/chef/inspec/tree/v1.45.9) (2017-11-16)
+
+#### Enhancements
+- Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff))
+- http resource: Add basic param handling to remote HTTP worker [#2286](https://github.com/chef/inspec/pull/2286) ([schisamo](https://github.com/schisamo))
+
+#### Bug Fixes
+- port resource: handle ss output from older iproute package [#2305](https://github.com/chef/inspec/pull/2305) ([Wing924](https://github.com/Wing924))
+- Fix classname in JUnit formatter [#2283](https://github.com/chef/inspec/pull/2283) ([adamleff](https://github.com/adamleff))
+- oracledb_session resource: fix credential passing to sql/sqlplus [#2308](https://github.com/chef/inspec/pull/2308) ([bratdim](https://github.com/bratdim))
+- xinetd_conf resource: fix false positives when config file or directory doesn&#39;t exist [#2302](https://github.com/chef/inspec/pull/2302) ([eramoto](https://github.com/eramoto))
+
+#### Merged Pull Requests
+- Bumping train to 0.29.1 [#2306](https://github.com/chef/inspec/pull/2306) ([adamleff](https://github.com/adamleff))
+- Habitat build works for all versions, eliminates rake [#2301](https://github.com/chef/inspec/pull/2301) ([adamleff](https://github.com/adamleff))
+- Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto))
+- Require Ruby 2.3 and later [#2293](https://github.com/chef/inspec/pull/2293) ([adamleff](https://github.com/adamleff))
+- Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.44.8](https://github.com/chef/inspec/tree/v1.44.8) (2017-11-09)
 
 #### Enhancements
@@ -47,7 +45,6 @@
 - Switch to tomlrb for TOML parsing [#2295](https://github.com/chef/inspec/pull/2295) ([adamleff](https://github.com/adamleff))
 - Use Ruby 2.4.2 in the Omnibus InSpec packages [#2294](https://github.com/chef/inspec/pull/2294) ([adamleff](https://github.com/adamleff))
 - Eliminate deprecation warnings on resource skipped messages [#2296](https://github.com/chef/inspec/pull/2296) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.43.8](https://github.com/chef/inspec/tree/v1.43.8) (2017-11-02)
 
