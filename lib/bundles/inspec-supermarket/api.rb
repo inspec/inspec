@@ -8,7 +8,7 @@ require 'addressable/uri'
 
 module Supermarket
   class API
-    SUPERMARKET_URL = 'https://supermarket.chef.io'.freeze
+    SUPERMARKET_URL = 'https://supermarket.chef.io'
 
     # displays a list of profiles
     def self.profiles(supermarket_url = SUPERMARKET_URL)

@@ -189,7 +189,7 @@ module Inspec
         logger.warn(
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
           "supports:\n  - os-family: #{x}\n\n")
-        { :'os-family' => x }
+        { :'os-family' => x } # rubocop:disable Style/HashSyntax
       end
     end
 
@@ -203,7 +203,7 @@ module Inspec
         logger.warn(
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
           "supports:\n  - os-family: #{x}\n\n")
-        [{ :'os-family' => x }]
+        [{ :'os-family' => x }] # rubocop:disable Style/HashSyntax
       end
     end
 
