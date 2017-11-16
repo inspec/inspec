@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.8 -->
-## [v1.45.8](https://github.com/chef/inspec/tree/v1.45.8) (2017-11-16)
+<!-- latest_release 1.45.9 -->
+## [v1.45.9](https://github.com/chef/inspec/tree/v1.45.9) (2017-11-16)
 
-#### Merged Pull Requests
-- Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- http resource: Add basic param handling to remote HTTP worker [#2286](https://github.com/chef/inspec/pull/2286) ([schisamo](https://github.com/schisamo))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.44.8 -->
 ### Changes since 1.44.8 release
 
 #### Enhancements
+- http resource: Add basic param handling to remote HTTP worker [#2286](https://github.com/chef/inspec/pull/2286) ([schisamo](https://github.com/schisamo)) <!-- 1.45.9 -->
 - Correctly format skip exceptions in formatters [#2307](https://github.com/chef/inspec/pull/2307) ([adamleff](https://github.com/adamleff)) <!-- 1.45.4 -->
 
 #### Merged Pull Requests
