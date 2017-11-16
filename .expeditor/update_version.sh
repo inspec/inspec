@@ -6,4 +6,4 @@
 
 set -evx
 
-sed -i -r "s/VERSION = '.+'\.freeze/VERSION = '$(cat VERSION)'\.freeze/" lib/inspec/version.rb
+sed -i -r "s/VERSION = '.*'/VERSION = '$(cat VERSION)'/" lib/inspec/version.rb
