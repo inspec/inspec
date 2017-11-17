@@ -14,14 +14,18 @@ module Inspec::Resources
     def parse(content)
       require 'rexml/document'
       REXML::Document.new(content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse XML: #{e.message}"
     end
 
     def value(key)
       REXML::XPath.each(@params, key.first.to_s).map(&:text)
     end
 
-    def to_s
-      "XML #{@path}"
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'XML'
     end
   end
 end

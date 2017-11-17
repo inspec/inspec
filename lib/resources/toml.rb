@@ -17,10 +17,14 @@ module Inspec::Resources
 
     def parse(content)
       Tomlrb.parse(content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse TOML: #{e.message}"
     end
 
-    def to_s
-      "TOML #{@path}"
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'TOML'
     end
   end
 end

@@ -30,10 +30,14 @@ module Inspec::Resources
     # override file load and parse hash from yaml
     def parse(content)
       YAML.load(content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse YAML: #{e.message}"
     end
 
-    def to_s
-      "YAML #{@path}"
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'YAML'
     end
   end
 end

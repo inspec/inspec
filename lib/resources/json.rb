@@ -26,45 +26,11 @@ module Inspec::Resources
     include ObjectTraverser
 
     # make params readable
-    attr_reader :params
+    attr_reader :params, :raw_content
 
     def initialize(opts)
-      @opts = opts
-      if opts.is_a?(Hash)
-        if opts.key?(:content)
-          @file_content = opts[:content]
-        elsif opts.key?(:command)
-          @command = inspec.command(opts[:command])
-          @file_content = @command.stdout
-        end
-      else
-        @path = opts
-        @file = inspec.file(@opts)
-        @file_content = @file.content
-
-        # check if file is available
-        if !@file.file?
-          skip_resource "Can't find file \"#{@path}\""
-          return @params = {}
-        end
-
-        # check if file is readable
-        if @file_content.nil? && !@file.empty?
-          skip_resource "Can't read file \"#{@path}\""
-          return @params = {}
-        end
-      end
-
-      @params = parse(@file_content)
-    end
-
-    def parse(content)
-      require 'json'
-      JSON.parse(content)
-    end
-
-    def value(key)
-      extract_value(key, @params)
+      @raw_content = load_raw_content(opts)
+      @params = parse(@raw_content)
     end
 
     # Shorthand to retrieve a parameter name via `#its`.
@@ -79,12 +45,65 @@ module Inspec::Resources
       value(keys)
     end
 
+    def value(key)
+      # uses ObjectTraverser.extract_value to walk the hash looking for the key,
+      # which may be an Array of keys for a nested Hash.
+      extract_value(key, params)
+    end
+
     def to_s
-      if @opts.is_a?(Hash) && @opts.key?(:content)
-        'Json content'
-      else
-        "Json #{@path}"
+      "#{resource_base_name} #{@resource_name_supplement || 'content'}"
+    end
+
+    # for resources the subclass JsonConfig, this allows specification of the resource
+    # base name in each subclass so we can build a good to_s method
+    def resource_base_name
+      'JSON'
+    end
+
+    private
+
+    def parse(content)
+      require 'json'
+      JSON.parse(content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"
+    end
+
+    def load_raw_content(opts)
+      # if the opts isn't a hash, we assume it's a path to a file
+      unless opts.is_a?(Hash)
+        @resource_name_supplement = opts
+        return load_raw_from_file(opts)
       end
+
+      if opts.key?(:command)
+        @resource_name_supplement = "from command: #{opts[:command]}"
+        load_raw_from_command(opts[:command])
+      elsif opts.key?(:content)
+        opts[:content]
+      else
+        raise Inspec::Exceptions::ResourceFailed, 'No JSON content; must specify a file, command, or raw JSON content'
+      end
+    end
+
+    def load_raw_from_file(path)
+      file = inspec.file(path)
+
+      # these are currently ResourceSkipped to maintain consistency with the resource
+      # pre-refactor (which used skip_resource). These should likely be changed to
+      # ResourceFailed during a major version bump.
+      raise Inspec::Exceptions::ResourceSkipped, "No such file: #{path}" unless file.file?
+      raise Inspec::Exceptions::ResourceSkipped, "File #{path} is empty or is not readable by current user" if file.content.nil? || file.content.empty?
+
+      file.content
+    end
+
+    def load_raw_from_command(command)
+      command_output = inspec.command(command).stdout
+      raise Inspec::Exceptions::ResourceSkipped, "No output from command: #{command}" if command_output.nil? || command_output.empty?
+
+      command_output
     end
   end
 end

@@ -37,7 +37,69 @@ describe 'Inspec::Resources::JSON' do
     let (:resource) { load_resource('json', 'nonexistent.json') }
 
     it 'produces an error' do
-      _(resource.resource_exception_message).must_equal 'Can\'t find file "nonexistent.json"'
+      _(resource.resource_exception_message).must_equal 'No such file: nonexistent.json'
+    end
+  end
+
+  describe '#load_raw_from_file' do
+    let(:path)     { '/path/to/file.txt' }
+    let(:resource) { Inspec::Resources::JsonConfig.allocate }
+    let(:inspec)   { mock }
+    let(:file)     { mock }
+
+    before do
+      resource.stubs(:inspec).returns(inspec)
+      inspec.expects(:file).with(path).returns(file)
+    end
+
+    it 'raises an exception when the file does not exist' do
+      file.expects(:file?).returns(false)
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+    end
+
+    it 'raises an exception if the file content is nil' do
+      file.expects(:file?).returns(true)
+      file.expects(:content).returns(nil)
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+    end
+
+    it 'raises an exception if the file content is empty' do
+      file.expects(:file?).returns(true)
+      file.expects(:content).at_least_once.returns('')
+      proc { resource.send(:load_raw_from_file, path) }.must_raise Inspec::Exceptions::ResourceSkipped
+    end
+
+    it 'returns the file content' do
+      file.expects(:file?).returns(true)
+      file.expects(:content).at_least_once.returns('json goes here')
+      resource.send(:load_raw_from_file, path).must_equal 'json goes here'
+    end
+  end
+
+  describe '#load_raw_from_file' do
+    let(:cmd_str)  { 'curl localhost' }
+    let(:resource) { Inspec::Resources::JsonConfig.allocate }
+    let(:inspec)   { mock }
+    let(:command)  { mock }
+
+    before do
+      resource.stubs(:inspec).returns(inspec)
+      inspec.expects(:command).with(cmd_str).returns(command)
+    end
+
+    it 'raises an exception if command stdout is nil' do
+      command.expects(:stdout).returns(nil)
+      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
+    end
+
+    it 'raises an exception if command stdout is empty' do
+      command.expects(:stdout).returns('')
+      proc { resource.send(:load_raw_from_command, cmd_str) }.must_raise Inspec::Exceptions::ResourceSkipped
+    end
+
+    it 'returns the command output' do
+      command.expects(:stdout).returns('json goes here')
+      resource.send(:load_raw_from_command, cmd_str).must_equal 'json goes here'
     end
   end
 end
