@@ -106,35 +106,37 @@ module Inspec::Resources
     private
 
     def read_content
-      return @content if defined?(@content)
+      return @@content if defined?(@@content)
 
-      # export the security policy
-      cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
-      return nil if cmd.exit_status.to_i != 0
+      begin
+        # export the security policy
+        cmd = inspec.command('secedit /export /cfg win_secpol.cfg')
+        return nil if cmd.exit_status.to_i != 0
 
-      # store file content
-      cmd = inspec.command('Get-Content win_secpol.cfg')
-      return skip_resource "Can't read security policy" if cmd.exit_status.to_i != 0
-      @content = cmd.stdout
+        # store file content
+        cmd = inspec.command('Get-Content win_secpol.cfg')
+        return skip_resource "Can't read security policy" if cmd.exit_status.to_i != 0
+        @@content = cmd.stdout
 
-      if @content.empty? && !file.empty?
-        return skip_resource "Can't read security policy"
+        if @@content.empty? && !file.empty?
+          return skip_resource "Can't read security policy"
+        end
+        @@content
+      ensure
+        # delete temp file
+        inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
       end
-      @content
-    ensure
-      # delete temp file
-      inspec.command('Remove-Item win_secpol.cfg').exit_status.to_i
     end
 
     def read_params
-      return @params if defined?(@params)
-      return @params = {} if read_content.nil?
+      return @@params if defined?(@@params)
+      return @@params = {} if read_content.nil?
 
       conf = SimpleConfig.new(
-        @content,
+        @@content,
         assignment_regex: /^\s*(.*)=\s*(\S*)\s*$/,
       )
-      @params = convert_hash(conf.params)
+      @@params = convert_hash(conf.params)
     end
 
     # extracts the values, this methods detects:

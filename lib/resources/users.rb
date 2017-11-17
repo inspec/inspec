@@ -574,7 +574,7 @@ module Inspec::Resources
 
     # https://msdn.microsoft.com/en-us/library/aa746340(v=vs.85).aspx
     def collect_user_details # rubocop:disable Metrics/MethodLength
-      return @users_cache if defined?(@users_cache)
+      return @@users_cache if defined?(@@users_cache)
       script = <<-EOH
 Function ConvertTo-SID { Param([byte[]]$BinarySID)
   (New-Object System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
@@ -646,7 +646,7 @@ $adsi.Children | where {$_.SchemaClassName -eq 'user'} | ForEach {
       # ensure we have an array of groups
       users = [users] if !users.is_a?(Array)
       # convert keys to symbols
-      @users_cache = users.map { |user| user.each_with_object({}) { |(k, v), h| h[k.to_sym] = v } }
+      @@users_cache = users.map { |user| user.each_with_object({}) { |(k, v), h| h[k.to_sym] = v } }
     end
   end
 end

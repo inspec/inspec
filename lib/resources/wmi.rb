@@ -3,6 +3,7 @@
 # author: Dominik Richter
 
 require 'utils/object_traversal'
+require 'erb'
 
 module Inspec::Resources
   # This resource simplifies the access to wmi
@@ -25,6 +26,44 @@ module Inspec::Resources
     include ObjectTraverser
     attr_accessor :content
 
+    def self.wmi_params
+      @wmi_params ||= []
+    end
+
+    def self.wmi_content
+      return @wmi_content if defined?(@wmi_content)
+
+      # run wmi command and filter empty wmi
+      script = ERB.new(<<-EOH
+$res = @{}
+
+Filter Aggregate
+{
+    $arr = @{}
+    $_.properties | % {
+        $arr.Add($_.name, $_.value)
+    }
+    $arr
+}
+
+Filter Append
+{
+    $res.Add($args[0], $_)
+}
+
+<% self.wmi_params.each do |params| %>
+Get-WmiObject <%= params %> | Aggregate | Append "<%= Base64.encode64(params) %>"
+<% end %>
+
+$res | ConvertTo-Json
+EOH
+                      ).result(binding)
+
+      @wmi_content = nil
+
+      script
+    end
+
     def initialize(wmiclass = nil, opts = nil)
       # verify that this resource is only supported on Windows
       return skip_resource 'The `windows_feature` resource is not supported on your OS.' unless inspec.os.windows?
@@ -37,6 +76,8 @@ module Inspec::Resources
         warn '[DEPRECATION] `wmi(\'wmiclass\')` is deprecated.  Please use `wmi({class: \'wmiclass\'})` instead.'
         @options[:class] = wmiclass
       end
+
+      self.class.wmi_params << params_string
     end
 
     # returns nil, if not existant or value
@@ -52,44 +93,44 @@ module Inspec::Resources
     end
 
     def value(key)
-      extract_value(key, params)
+      extract_value(key, content)
     end
 
-    def params
-      return @content if defined?(@content)
-      @content = {}
-
-      # abort if no options are available
-      return @content unless defined?(@options)
-
+    def params_string
       # filter for supported options
       args = @options.select { |key, _value| [:class, :namespace, :query, :filter].include?(key) }
 
       # convert to Get-WmiObject arguments
       params = ''
       args.each { |key, value| params += " -#{key} \"#{value}\"" }
+      params
+    end
+
+    def key_from_params(params_string)
+      Base64.encode64(params_string)
+    end
+
+    def content
+      key = key_from_params(params_string)
+      return @@content[key] if defined?(@@content)
+      @@content = {}
+
 
       # run wmi command and filter empty wmi
-      script = <<-EOH
-      Filter Aggregate
-      {
-          $arr = @{}
-          $_.properties | % {
-              $arr.Add($_.name, $_.value)
-          }
-          $arr
-      }
-      Get-WmiObject #{params} | Aggregate | ConvertTo-Json
-      EOH
+      script = self.class.wmi_content
 
       # run wmi command
       cmd = inspec.powershell(script)
-      @content = JSON.parse(cmd.stdout)
+      result = JSON.parse(cmd.stdout)
 
-      # make all keys case-insensitive
-      @content = lowercase_keys(@content)
+      # make all sub-keys case-insensitive
+      result.keys.each do |key|
+        @@content[key] = lowercase_keys(result[key])
+      end
+
+      @@content[key]
     rescue JSON::ParserError => _e
-      @content
+      @@content[key]
     end
 
     def to_s
