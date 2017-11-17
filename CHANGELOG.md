@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.45.10 -->
+## [v1.45.10](https://github.com/chef/inspec/tree/v1.45.10) (2017-11-17)
+
+#### Merged Pull Requests
+- Remove debug message from unit test [#2313](https://github.com/chef/inspec/pull/2313) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.45.9 -->
+### Changes since 1.45.9 release
+
+#### Merged Pull Requests
+- Remove debug message from unit test [#2313](https://github.com/chef/inspec/pull/2313) ([eramoto](https://github.com/eramoto)) <!-- 1.45.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
