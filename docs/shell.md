@@ -29,7 +29,7 @@ InSpec), you can use the `-t` flag. We support connecting using ssh,
 WinRm and docker. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
 InSpec. For an ssh connection, use `-i` for specifying ssh key files,
-and the `--sudo*` commands for requesting a privelege escalation after
+and the `--sudo*` commands for requesting a privilege escalation after
 logging in. For a WinRM connection, use `--path` to change the login
 path, `--ssl` to use SSL for transport layer encryption.
 
