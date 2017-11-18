@@ -96,8 +96,12 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      @destination.nil? ? 'crontab for current user' : "crontab for user #{@destination}"
+      @destination.nil? ? 'crontab for current user' : path_or_user
     end
+
+    def path_or_user
+      pou = @destination.include?('/') ? 'path' : 'user'
+      "crontab for #{pou} #{@destination}"
     end
   end
 end
