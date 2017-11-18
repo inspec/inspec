@@ -31,8 +31,8 @@ module Inspec::Resources
 
     include CommentParser
 
-    def initialize(user = nil)
-      @user   = user
+    def initialize(destination = nil)
+      @destination = destination
       @params = read_crontab
 
       return skip_resource 'The `crontab` resource is not supported on your OS.' unless inspec.os.unix?
@@ -73,7 +73,7 @@ module Inspec::Resources
     end
 
     def crontab_cmd
-      @user.nil? ? 'crontab -l' : "crontab -l -u #{@user}"
+      @destination.nil? ? 'crontab -l' : "crontab -l -u #{@destination}"
     end
 
     filter = FilterTable.create
@@ -96,7 +96,8 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      @user.nil? ? 'crontab for current user' : "crontab for user #{@user}"
+      @destination.nil? ? 'crontab for current user' : "crontab for user #{@destination}"
+    end
     end
   end
 end
