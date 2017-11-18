@@ -76,6 +76,14 @@ describe 'Inspec::Resources::Crontab' do
     end
   end
 
+  describe 'query by path' do
+    let(:crontab) { load_resource('crontab', '/etc/cron.d/crondotd') }
+
+    it 'prints a nice to_s string' do
+      _(crontab.to_s).must_equal 'crontab for path /etc/cron.d/crondotd'
+    end
+  end
+
   describe 'special strings' do
     let(:crontab) { load_resource('crontab', 'special') }
 
