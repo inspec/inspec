@@ -100,8 +100,12 @@ module Inspec::Resources
     end
 
     def path_or_user
-      pou = @destination.include?('/') ? 'path' : 'user'
+      pou = path? ? 'path' : 'user'
       "crontab for #{pou} #{@destination}"
+    end
+
+    def path?
+      @destination.include?('/')
     end
   end
 end
