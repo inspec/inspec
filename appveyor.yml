@@ -3,8 +3,6 @@ platform:
   - x64
 
 environment:
-  bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
-
   matrix:
     - ruby_version: "23"
     - ruby_version: "24"
@@ -26,8 +24,6 @@ install:
   - echo %PATH%
   - ruby --version
   - gem --version
-  - appveyor DownloadFile -Url %bundler_url% -FileName bundler.gem
-  - gem install --local bundler --quiet --no-document
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
