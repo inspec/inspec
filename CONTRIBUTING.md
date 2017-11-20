@@ -29,7 +29,7 @@ directory for the existing tests and use ```bundle exec rake test``` to run them
 3. **Up-to-date Documentation:**  Every code change should be reflected in an update for our [documentation](https://github.com/chef/inspec/tree/master/docs). We expect PRs to update the documentation with the code change.
 
 In addition to this it would be nice to include the description of the problem you are solving
-  with your change. You can use [Issue Template](#issuetemplate) in the description section
+  with your change. You can use [Issue Template](https://github.com/chef/inspec/tree/master/ISSUE_TEMPLATE.md) in the description section
   of the pull request.
 
 ### Code Review Process
