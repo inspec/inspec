@@ -31,7 +31,7 @@ task :default do
   exit(1)
 end
 
-namespace :www do
+namespace :www do # rubocop:disable Metrics/BlockLength
   desc 'Builds the tutorial contents'
   task :tutorial do
     Log.section 'Build the online tutorial in tutorial/'

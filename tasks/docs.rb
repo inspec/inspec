@@ -145,7 +145,7 @@ class ResourceDocs
   end
 end
 
-namespace :docs do
+namespace :docs do # rubocop:disable Metrics/BlockLength
   desc 'Create cli docs'
   task :cli do
     # formatter for the output file
@@ -171,7 +171,7 @@ namespace :docs do
       res << f.p('This subcommand has the following syntax:')
       res << f.code("$ inspec #{cmd.usage}", 'bash')
 
-      opts = cmd.options.select { |_, o| !o.hide }
+      opts = cmd.options.reject { |_, o| o.hide }
       unless opts.empty?
         res << f.h3('Options') + f.p('This subcommand has additional options:')
 

@@ -68,7 +68,6 @@ module Inspec
       end
 
       cls.new
-
     rescue Train::ClientError => e
       raise "Client error, can't connect to '#{name}' backend: #{e.message}"
     rescue Train::TransportError => e

@@ -34,7 +34,7 @@ module Inspec::Resources
 
     # Removes leading and trailing whitespace from stdout
     def strip
-      result.stdout.strip unless result.stdout.nil?
+      result.stdout&.strip
     end
 
     def to_s

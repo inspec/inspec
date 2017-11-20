@@ -18,7 +18,7 @@ module Inspec
         # We cannot rely on libraries residing on disk however.
         # TODO: Sandboxing.
         content, path, line = @require_loader.load(rbpath)
-        eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Lint/Eval
+        eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Security/Eval
       end
     end
   end

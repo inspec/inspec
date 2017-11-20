@@ -151,7 +151,7 @@ module FilterTable
       # the struct to hold single items from the #entries method
       entry_struct = Struct.new(*struct_fields.map(&:to_sym)) do
         attr_accessor :__filter
-        def to_s # rubocop:disable Lint/NestedMethodDefinition
+        def to_s
           @__filter || super
         end
       end unless struct_fields.empty?

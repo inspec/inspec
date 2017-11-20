@@ -234,8 +234,8 @@ module XinetdParser
       # extract content line
       nl = rest.index("\n") || (rest.length-1)
       comment = rest.index('#') || (rest.length-1)
-      dst_idx = (comment < nl) ? comment : nl
-      inner_line = (dst_idx == 0) ? '' : rest[0..dst_idx-1].strip
+      dst_idx = comment < nl ? comment : nl
+      inner_line = dst_idx == 0 ? '' : rest[0..dst_idx-1].strip
       # update unparsed content
       rest = rest[nl+1..-1]
       next if inner_line.empty?

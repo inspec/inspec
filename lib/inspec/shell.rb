@@ -103,35 +103,34 @@ module Inspec
 
     def print_target_info
       ctx = @runner.backend
-      puts <<EOF
-You are currently running on:
+      puts <<~EOF
+        You are currently running on:
 
-    OS platform: #{mark ctx.os[:name] || 'unknown'}
-    OS family: #{mark ctx.os[:family] || 'unknown'}
-    OS release: #{mark ctx.os[:release] || 'unknown'}
-EOF
+            OS platform: #{mark ctx.os[:name] || 'unknown'}
+            OS family: #{mark ctx.os[:family] || 'unknown'}
+            OS release: #{mark ctx.os[:release] || 'unknown'}
+      EOF
     end
 
     def help(topic = nil)
       if topic.nil?
 
-        puts <<EOF
+        puts <<~EOF
+          Available commands:
 
-Available commands:
+              `[resource]` - run resource on target machine
+              `help resources` - show all available resources that can be used as commands
+              `help [resource]` - information about a specific resource
+              `help matchers` - show information about common matchers
+              `exit` - exit the InSpec shell
 
-    `[resource]` - run resource on target machine
-    `help resources` - show all available resources that can be used as commands
-    `help [resource]` - information about a specific resource
-    `help matchers` - show information about common matchers
-    `exit` - exit the InSpec shell
+          You can use resources in this environment to test the target machine. For example:
 
-You can use resources in this environment to test the target machine. For example:
+              command('uname -a').stdout
+              file('/proc/cpuinfo').content => "value"
 
-    command('uname -a').stdout
-    file('/proc/cpuinfo').content => "value"
-
-#{print_target_info}
-EOF
+          #{print_target_info}
+        EOF
       elsif topic == 'resources'
         resources.sort.each do |resource|
           puts " - #{resource}"
@@ -164,60 +163,60 @@ EOF
     end
 
     def print_matchers_help
-      puts <<-EOL
-Matchers are used to compare resource values to expectations. While some
-resources implement their own custom matchers, the following matchers are
-common amongst all resources:
+      puts <<~EOL
+        Matchers are used to compare resource values to expectations. While some
+        resources implement their own custom matchers, the following matchers are
+        common amongst all resources:
 
-#{mark 'be'}
+        #{mark 'be'}
 
-The #{mark 'be'} matcher can be used to compare numeric values.
+        The #{mark 'be'} matcher can be used to compare numeric values.
 
-   its('size') { should be >= 10 }
+          its('size') { should be >= 10 }
 
-#{mark 'cmp'}
+        #{mark 'cmp'}
 
-The #{mark 'cmp'} matcher is like #{mark 'eq'} but less restrictive. It will try
-to fit the resource value to the expectation.
+        The #{mark 'cmp'} matcher is like #{mark 'eq'} but less restrictive. It will try
+        to fit the resource value to the expectation.
 
-"Protocol" likely returns a string, but cmp will ensure it's a number before
-comparing:
+        "Protocol" likely returns a string, but cmp will ensure it's a number before
+        comparing:
 
-  its('Protocol') { should cmp 2 }
-  its('Protocol') { should cmp '2' }
+          its('Protocol') { should cmp 2 }
+          its('Protocol') { should cmp '2' }
 
-"users" may return an array, but if it contains only one item, cmp will compare
-it as a string or number as needed:
+        "users" may return an array, but if it contains only one item, cmp will compare
+        it as a string or number as needed:
 
-  its('users') { should cmp 'root' }
+          its('users') { should cmp 'root' }
 
-cmp is not case-sensitive:
+        cmp is not case-sensitive:
 
-  its('log_format') { should cmp 'raw' }
-  its('log_format') { should cmp 'RAW' }
+          its('log_format') { should cmp 'raw' }
+          its('log_format') { should cmp 'RAW' }
 
-#{mark 'eq'}
+        #{mark 'eq'}
 
-The #{mark 'eq'} matcher tests for exact equality of two values. Value type
-(string, number, etc.) is important and must be the same. For a less-restrictive
-comparison matcher, use the #{mark 'cmp'} matcher.
+        The #{mark 'eq'} matcher tests for exact equality of two values. Value type
+        (string, number, etc.) is important and must be the same. For a less-restrictive
+        comparison matcher, use the #{mark 'cmp'} matcher.
 
-  its('RSAAuthentication') { should_not eq 'no' }
+          its('RSAAuthentication') { should_not eq 'no' }
 
-#{mark 'include'}
+        #{mark 'include'}
 
-The #{mark 'include'} matcher tests to see if a value is included in a list.
+        The #{mark 'include'} matcher tests to see if a value is included in a list.
 
-  its('users') { should include 'my_user' }
+          its('users') { should include 'my_user' }
 
-#{mark 'match'}
+        #{mark 'match'}
 
-The #{mark 'match'} matcher can be used to test a string for a match using a
-regular expression.
+        The #{mark 'match'} matcher can be used to test a string for a match using a
+        regular expression.
 
-  its('content') { should_not match /^MyKey:\\s+some value/ }
+          its('content') { should_not match /^MyKey:\\s+some value/ }
 
-For more examples, see: https://www.inspec.io/docs/reference/matchers/
+        For more examples, see: https://www.inspec.io/docs/reference/matchers/
 
       EOL
     end

@@ -14,16 +14,11 @@ class CommandWrapper
     end
 
     wrap = options[:wrap]
-    if !wrap.nil? && !wrap.is_a?(Proc)
-      raise "Called command wrapper with wrap: #{wrap.inspect}. It must be called with a Proc."
-    elsif !wrap.nil?
-      return wrap.call(cmd)
-    end
+    raise "Called command wrapper with wrap: #{wrap.inspect}. It must be called with a Proc." if !wrap.nil? && !wrap.is_a?(Proc)
+    return wrap.call(cmd) unless wrap.nil?
 
     shell = options[:shell]
-    unless UNIX_SHELLS.include?(shell)
-      raise "Don't know how to wrap commands for shell: #{shell.inspect}."
-    end
+    raise "Don't know how to wrap commands for shell: #{shell.inspect}." unless UNIX_SHELLS.include?(shell)
 
     path = options[:path] || shell
     args = options[:args] || '-c'

@@ -134,7 +134,7 @@ module Inspec
         config = File.read(file)
       end
 
-      JSON.load(config)
+      JSON.parse(config)
     rescue JSON::ParserError => e
       puts "Failed to load JSON configuration: #{e}\nConfig was: #{config.inspect}"
       exit 1

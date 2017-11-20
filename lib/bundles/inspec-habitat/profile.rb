@@ -136,27 +136,21 @@ module Habitat
       Habitat::Log.info('Checking to see if Habitat is installed...')
       cmd = Mixlib::ShellOut.new('hab --version')
       cmd.run_command
-      if cmd.error?
-        exit_with_error('Unable to run Habitat commands.', cmd.stderr)
-      end
+      exit_with_error('Unable to run Habitat commands.', cmd.stderr) if cmd.error?
     end
 
     def validate_habitat_origin
-      if habitat_origin.nil?
-        exit_with_error(
-          'Unable to determine Habitat origin name.',
-          'Run `hab setup` or set the HAB_ORIGIN environment variable.',
-        )
-      end
+      exit_with_error(
+        'Unable to determine Habitat origin name.',
+        'Run `hab setup` or set the HAB_ORIGIN environment variable.',
+      ) if habitat_origin.nil?
     end
 
     def validate_habitat_auth_token
-      if habitat_auth_token.nil?
-        exit_with_error(
-          'Unable to determine Habitat auth token for publishing.',
-          'Run `hab setup` or set the HAB_AUTH_TOKEN environment variable.',
-        )
-      end
+      exit_with_error(
+        'Unable to determine Habitat auth token for publishing.',
+        'Run `hab setup` or set the HAB_AUTH_TOKEN environment variable.',
+      ) if habitat_auth_token.nil?
     end
 
     def validate_output_dir
@@ -318,78 +312,78 @@ module Habitat
     end
 
     def plan_contents
-      plan = <<-EOL
-pkg_name=#{package_name}
-pkg_version=#{profile.version}
-pkg_origin=#{habitat_origin}
-pkg_deps=(chef/inspec core/ruby core/hab)
-pkg_svc_user=root
-EOL
+      plan = <<~EOL
+        pkg_name=#{package_name}
+        pkg_version=#{profile.version}
+        pkg_origin=#{habitat_origin}
+        pkg_deps=(chef/inspec core/ruby core/hab)
+        pkg_svc_user=root
+      EOL
 
       plan += "pkg_license='#{profile.metadata.params[:license]}'\n\n" if profile.metadata.params[:license]
 
-      plan += <<-EOL
+      plan += <<~EOL
 
-do_build() {
-  cp -vr $PLAN_CONTEXT/../* $HAB_CACHE_SRC_PATH/$pkg_dirname
-}
+        do_build() {
+          cp -vr $PLAN_CONTEXT/../* $HAB_CACHE_SRC_PATH/$pkg_dirname
+        }
 
-do_install() {
-  local profile_contents
-  local excludes
-  profile_contents=($(ls))
-  excludes=(habitat results *.hart)
+        do_install() {
+          local profile_contents
+          local excludes
+          profile_contents=($(ls))
+          excludes=(habitat results *.hart)
 
-  for item in ${excludes[@]}; do
-    profile_contents=(${profile_contents[@]/$item/})
-  done
+          for item in ${excludes[@]}; do
+            profile_contents=(${profile_contents[@]/$item/})
+          done
 
-  mkdir ${pkg_prefix}/dist
-  cp -r ${profile_contents[@]} ${pkg_prefix}/dist/
-}
+          mkdir ${pkg_prefix}/dist
+          cp -r ${profile_contents[@]} ${pkg_prefix}/dist/
+        }
       EOL
 
       plan
     end
 
     def run_hook_contents
-      <<-EOL
-#!/bin/sh
+      <<~EOL
+        #!/bin/sh
 
-# redirect stderr to stdout
-# ultimately, we'd like to log this somewhere useful, but due to
-# https://github.com/habitat-sh/habitat/issues/2395, we need to
-# avoid doing that for now.
-exec 2>&1
+        # redirect stderr to stdout
+        # ultimately, we'd like to log this somewhere useful, but due to
+        # https://github.com/habitat-sh/habitat/issues/2395, we need to
+        # avoid doing that for now.
+        exec 2>&1
 
-# InSpec will try to create a .cache directory in the user's home directory
-# so this needs to be someplace writeable by the hab user
-export HOME={{pkg.svc_var_path}}
+        # InSpec will try to create a .cache directory in the user's home directory
+        # so this needs to be someplace writeable by the hab user
+        export HOME={{pkg.svc_var_path}}
 
-PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
-RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
-RESULTS_FILE="${RESULTS_DIR}/{{pkg.name}}.json"
+        PROFILE_IDENT="{{pkg.origin}}/{{pkg.name}}"
+        RESULTS_DIR="{{pkg.svc_var_path}}/inspec_results"
+        RESULTS_FILE="${RESULTS_DIR}/{{pkg.name}}.json"
 
-# Create a directory for inspec formatter output
-mkdir -p {{pkg.svc_var_path}}/inspec_results
+        # Create a directory for inspec formatter output
+        mkdir -p {{pkg.svc_var_path}}/inspec_results
 
-while true; do
-  echo "Executing InSpec for ${PROFILE_IDENT}"
-  inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE}
+        while true; do
+          echo "Executing InSpec for ${PROFILE_IDENT}"
+          inspec exec {{pkg.path}}/dist --format=json > ${RESULTS_FILE}
 
-  if [ $? -eq 0 ]; then
-    echo "InSpec run completed successfully."
-  else
-    echo "InSpec run did not complete successfully. If you do not see any errors above,"
-    echo "control failures were detected. Check the InSpec results here for details:"
-    echo ${RESULTS_FILE}
-    echo "Otherwise, troubleshoot any errors shown above."
-  fi
+          if [ $? -eq 0 ]; then
+            echo "InSpec run completed successfully."
+          else
+            echo "InSpec run did not complete successfully. If you do not see any errors above,"
+            echo "control failures were detected. Check the InSpec results here for details:"
+            echo ${RESULTS_FILE}
+            echo "Otherwise, troubleshoot any errors shown above."
+          fi
 
-  source {{pkg.svc_config_path}}/settings.sh
-  echo "sleeping for ${SLEEP_TIME} seconds"
-  sleep ${SLEEP_TIME}
-done
+          source {{pkg.svc_config_path}}/settings.sh
+          echo "sleeping for ${SLEEP_TIME} seconds"
+          sleep ${SLEEP_TIME}
+        done
       EOL
     end
   end

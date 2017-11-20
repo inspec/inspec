@@ -12,6 +12,7 @@ class Logger::JSONFormatter < Logger::Formatter
         'severity'=> severity,
         'time'=> time,
         'msg'=> msg,
-      },)
+      },
+    )
   end
 end

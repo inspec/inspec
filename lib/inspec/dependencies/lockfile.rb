@@ -31,22 +31,22 @@ module Inspec
     # rubocop:disable Style/GuardClause
     def self.validate_lockfile_version!(version)
       if version < MINIMUM_SUPPORTED_VERSION
-        raise <<EOF
-This lockfile specifies a lockfile_version of #{version} which is
-lower than the minimum supported version #{MINIMUM_SUPPORTED_VERSION}.
+        raise <<~EOF
+          This lockfile specifies a lockfile_version of #{version} which is
+          lower than the minimum supported version #{MINIMUM_SUPPORTED_VERSION}.
 
-Please create a new lockfile for this project by running:
+          Please create a new lockfile for this project by running:
 
-    inspec vendor
-EOF
+              inspec vendor
+        EOF
       elsif version > CURRENT_LOCKFILE_VERSION
-        raise <<EOF
-This lockfile claims to be version #{version} which is greater than
-the most recent lockfile version(#{CURRENT_LOCKFILE_VERSION}).
+        raise <<~EOF
+          This lockfile claims to be version #{version} which is greater than
+          the most recent lockfile version(#{CURRENT_LOCKFILE_VERSION}).
 
-This may happen if you are using an older version of inspec than was
-used to create the lockfile.
-EOF
+          This may happen if you are using an older version of inspec than was
+          used to create the lockfile.
+        EOF
       end
     end
     # rubocop:enable Style/GuardClause
@@ -87,9 +87,7 @@ EOF
     end
 
     def parse_content_hash_1(lockfile_content_hash)
-      @deps = if lockfile_content_hash['depends']
-                lockfile_content_hash['depends'].map { |i| symbolize_keys(i) }
-              end
+      @deps = lockfile_content_hash['depends']&.map { |i| symbolize_keys(i) }
     end
 
     def mutate_hash_keys_with(hash, fun)

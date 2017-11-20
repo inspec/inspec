@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
 # Copyright 2015 Dominik Richter
 # author: Dominik Richter

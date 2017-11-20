@@ -70,9 +70,8 @@ module Inspec::Resources
       end
 
       missing_requirements = @host_provider.missing_requirements(protocol)
-      unless missing_requirements.empty?
-        return skip_resource "The following requirements are not met for this resource: #{missing_requirements.join(', ')}"
-      end
+      return skip_resource 'The following requirements are not met for this resource: ' \
+        "#{missing_requirements.join(', ')}" unless missing_requirements.empty?
     end
 
     def proto

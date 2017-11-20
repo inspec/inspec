@@ -48,20 +48,19 @@ module Inspec
     end
 
     def assert_cache_sanity!
-      if target.respond_to?(:key?) && target.key?(:sha256)
-        if fetcher.resolved_source[:sha256] != target[:sha256]
-          raise <<EOF
-The remote source #{fetcher} no longer has the requested content:
+      return unless target.respond_to?(:key?) && target.key?(:sha256)
 
-Request Content Hash: #{target[:sha256]}
- Actual Content Hash: #{fetcher.resolved_source[:sha256]}
+      exception_message = <<~EOF
+        The remote source #{fetcher} no longer has the requested content:
 
-For URL, supermarket, compliance, and other sources that do not
-provide versioned artifacts, this likely means that the remote source
-has changed since your lockfile was generated.
-EOF
-        end
-      end
+        Request Content Hash: #{target[:sha256]}
+        Actual Content Hash: #{fetcher.resolved_source[:sha256]}
+
+        For URL, supermarket, compliance, and other sources that do not
+        provide versioned artifacts, this likely means that the remote source
+        has changed since your lockfile was generated.
+      EOF
+      raise exception_message if fetcher.resolved_source[:sha256] != target[:sha256]
     end
   end
 end

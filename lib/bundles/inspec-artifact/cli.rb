@@ -211,17 +211,12 @@ module Artifact
     def valid_header?(file_alg, file_version, file_keyname)
       public_keyfile = "#{file_keyname}.pem.pub"
       puts "Looking for #{public_keyfile} to verify artifact"
-      if not File.exist? public_keyfile
+      if !File.exist? public_keyfile
         raise "Can't find #{public_keyfile}"
       end
 
-      if not VALID_PROFILE_DIGESTS.member? file_alg
-        raise 'Invalid artifact digest algorithm detected'
-      end
-
-      if not VALID_PROFILE_VERSIONS.member? file_version
-        raise 'Invalid artifact version detected'
-      end
+      raise 'Invalid artifact digest algorithm detected' if !VALID_PROFILE_DIGESTS.member?(file_alg)
+      raise 'Invalid artifact version detected' if !VALID_PROFILE_VERSIONS.member?(file_version)
     end
 
     def verify(file_to_verifiy, &content_block)

@@ -266,7 +266,7 @@ end
 # - compare strings case-insensitive
 # - you expect a number (strings will be converted if possible)
 #
-RSpec::Matchers.define :cmp do |first_expected|
+RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockLength
 
   def integer?(value)
     !(value =~ /\A0+\Z|\A[1-9]\d*\Z/).nil?
@@ -324,7 +324,6 @@ RSpec::Matchers.define :cmp do |first_expected|
 
     # fallback to simple operation
     actual.method(op).call(expected)
-
   rescue NameError => _
     false
   rescue ArgumentError

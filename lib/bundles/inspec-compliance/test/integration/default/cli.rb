@@ -13,7 +13,7 @@ puts "Run test as #{user} in path #{pwd}"
 access_token = ENV['COMPLIANCE_ACCESSTOKEN']
 refresh_token = ENV['COMPLIANCE_REFRESHTOKEN']
 
-%w{refresh_token access_token}.each do |type|
+%w{refresh_token access_token}.each do |type| # rubocop:disable Metrics/BlockLength
   case type
   when 'access_token'
     token_options = "--token '#{access_token}'"

@@ -94,7 +94,7 @@ module Inspec::Resources
 
     # Removes lefthand and righthand whitespace
     def strip(value)
-      value.strip if !value.nil?
+      value&.strip
     end
 
     # Optimize the key value

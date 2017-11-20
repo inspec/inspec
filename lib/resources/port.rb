@@ -242,7 +242,7 @@ module Inspec::Resources
           procs[proc_id] = [] unless procs.key?(proc_id)
 
           # change address '*' to zero
-          host = (port_id =~ /^ipv6:/) ? '[::]' : '0.0.0.0' if host == '*'
+          host = port_id =~ /^ipv6:/ ? '[::]' : '0.0.0.0' if host == '*'
           # entrust URI to scrub the host and port
           begin
             uri = URI("addr://#{host}:#{port}")

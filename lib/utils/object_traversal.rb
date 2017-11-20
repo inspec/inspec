@@ -27,7 +27,7 @@ module ObjectTraverser
   # If the values to return from is an Array, allow returning by index.
   # Otherwise, support methods on the Array itself.
   def extract_from_array(key, value)
-    if key.is_a?(Fixnum)
+    if key.is_a?(Integer)
       value[key]
     elsif value.respond_to?(key.to_sym)
       value.send(key.to_sym)

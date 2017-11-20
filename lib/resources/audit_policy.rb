@@ -43,9 +43,9 @@ module Inspec::Resources
 
       # find line
       target = nil
-      result.each_line {|s|
+      result.each_line do |s|
         target = s.strip if s =~ /\b.*#{key}.*\b/
-      }
+      end
 
       # extract value
       values = nil
