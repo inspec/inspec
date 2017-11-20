@@ -18,7 +18,7 @@ An `ini` resource block declares the configuration settings to be tested:
 
 where
 
-* `'setting_name'` is a synchronization setting defined in the INI file
+* `'setting_name'` is a setting key defined in the INI file
 * `('path')` is the path to the INI file
 * `{ should eq 'value' }` is the value that is expected
 
@@ -28,6 +28,19 @@ For example:
       its('port') { should eq '143' }
       its('server') { should eq '192.0.2.62' }
     end
+
+Settings inside of sections, such as the following:
+
+    [section_name]
+    setting_name = 123
+
+... can be retrieved by prefixing the setting_name with the section.
+
+    its('section_name.setting_name') { should cmp 123 }
+
+In the event a section or setting name has a period in it, the alternate syntax can be used:
+
+    its(['section.with.a.dot.in.it', 'setting.name.with.dots']) { should cmp 'lotsadots' }
 
 <br>
 
