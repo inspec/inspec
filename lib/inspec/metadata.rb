@@ -110,7 +110,7 @@ module Inspec
       errors = []
       warnings = []
 
-      %w{ name version }.each do |field|
+      %w{name version}.each do |field|
         next unless params[field.to_sym].nil?
         errors.push("Missing profile #{field} in #{ref}")
       end
@@ -126,7 +126,7 @@ module Inspec
         errors.push('Version needs to be in SemVer format')
       end
 
-      %w{ title summary maintainer copyright license }.each do |field|
+      %w{title summary maintainer copyright license}.each do |field|
         next unless params[field.to_sym].nil?
         warnings.push("Missing profile #{field} in #{ref}")
       end
@@ -165,11 +165,11 @@ module Inspec
       return obj.map { |i| symbolize_keys(i) } if obj.is_a?(Array)
       return obj unless obj.is_a?(Hash)
 
-      obj.each_with_object({}) {|(k, v), h|
+      obj.each_with_object({}) do |(k, v), h|
         v = symbolize_keys(v) if v.is_a?(Hash)
         v = symbolize_keys(v) if v.is_a?(Array)
         h[k.to_sym] = v
-      }
+      end
     end
 
     def self.finalize_supports_elem(elem, logger)
@@ -188,7 +188,8 @@ module Inspec
         logger ||= Logger.new(nil)
         logger.warn(
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-          "supports:\n  - os-family: #{x}\n\n")
+          "supports:\n  - os-family: #{x}\n\n",
+        )
         { :'os-family' => x } # rubocop:disable Style/HashSyntax
       end
     end
@@ -202,7 +203,8 @@ module Inspec
         logger ||= Logger.new(nil)
         logger.warn(
           "Do not use deprecated `supports: #{x}` syntax. Instead use:\n"\
-          "supports:\n  - os-family: #{x}\n\n")
+          "supports:\n  - os-family: #{x}\n\n",
+        )
         [{ :'os-family' => x }] # rubocop:disable Style/HashSyntax
       end
     end
@@ -223,10 +225,9 @@ module Inspec
       # create a new name based on the original target if it exists
       # Crudely slug the target to not contain slashes, to avoid breaking
       # unit tests that look for warning sequences
-      unless original_target.to_s.empty?
-        metadata.params[:title] = "tests from #{original_target}"
-        metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.')
-      end
+      return if original_target.to_s.empty?
+      metadata.params[:title] = "tests from #{original_target}"
+      metadata.params[:name] = metadata.params[:title].gsub(%r{[\\\/]}, '.')
     end
 
     def self.finalize(metadata, profile_id, options, logger = nil)

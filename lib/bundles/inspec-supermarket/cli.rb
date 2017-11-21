@@ -42,7 +42,7 @@ module Supermarket
       # check that the profile is available
       supermarket_profiles = Supermarket::API.profiles
       found = supermarket_profiles.select { |p|
-        "#{p['tool_owner']}/#{p['slug']}" == profile
+        profile == "#{p['tool_owner']}/#{p['slug']}"
       }
 
       if found.empty?

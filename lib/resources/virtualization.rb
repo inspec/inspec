@@ -76,7 +76,7 @@ module Inspec::Resources
 
       # This file should exist on most Xen systems, normally empty for guests
       if inspec.file('/proc/xen/capabilities').exist? &&
-          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Style/MultilineOperationIndentation
+          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Layout/MultilineOperationIndentation
         @virtualization_data[:role] = 'host'
       end
       true
@@ -120,11 +120,10 @@ module Inspec::Resources
     # guests will have the hypervisor cpu feature that hosts don't have
     def detect_kvm_from_sys
       return false unless inspec.file('/sys/devices/virtual/misc/kvm').exist?
+      @virtualization_data[:system] = 'kvm'
       if inspec.file('/proc/cpuinfo').content =~ /hypervisor/
-        @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'guest'
       else
-        @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'host'
       end
       true
@@ -190,7 +189,7 @@ module Inspec::Resources
       return false unless inspec.file('/proc/self/cgroup').exist?
       cgroup_content = inspec.file('/proc/self/cgroup').content
       if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
-          cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Style/MultilineOperationIndentation
+          cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Layout/MultilineOperationIndentation
         @virtualization_data[:system] = $1 # rubocop:disable Style/PerlBackrefs
         @virtualization_data[:role] = 'guest'
       elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}

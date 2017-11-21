@@ -54,11 +54,11 @@ module Supermarket
 
     def self.find(profile, supermarket_url = SUPERMARKET_URL)
       profiles = Supermarket::API.profiles(supermarket_url)
-      if !profiles.empty?
-        index = profiles.index { |t| same?(profile, t, supermarket_url) }
-        # return profile or nil
-        profiles[index] if !index.nil? && index >= 0
-      end
+      return if profiles.empty?
+
+      index = profiles.index { |t| same?(profile, t, supermarket_url) }
+      # return profile or nil
+      profiles[index] if !index.nil? && index >= 0
     end
 
     # verifies that a profile exists
@@ -75,9 +75,9 @@ module Supermarket
 
     def self.send_request(uri, req)
       # send request
-      res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') {|http|
+      res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         http.request(req)
-      }
+      end
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
   end

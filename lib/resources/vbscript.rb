@@ -37,16 +37,16 @@ module Inspec::Resources
     def initialize(vbscript)
       return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
       @seperator = SecureRandom.uuid
-      cmd = <<-EOH
-$vbscript = @"
-#{vbscript}
-Wscript.Stdout.Write "#{@seperator}"
-"@
-$filename = [System.IO.Path]::GetTempFileName() + ".vbs"
-New-Item $filename -type file -force -value $vbscript | Out-Null
-cscript.exe /nologo $filename
-Remove-Item $filename | Out-Null
-EOH
+      cmd = <<~EOH
+        $vbscript = @"
+        #{vbscript}
+        Wscript.Stdout.Write "#{@seperator}"
+        "@
+        $filename = [System.IO.Path]::GetTempFileName() + ".vbs"
+        New-Item $filename -type file -force -value $vbscript | Out-Null
+        cscript.exe /nologo $filename
+        Remove-Item $filename | Out-Null
+      EOH
       super(cmd)
     end
 

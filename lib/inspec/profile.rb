@@ -106,7 +106,7 @@ module Inspec
       # we share the backend between profiles.
       #
       # This will cause issues if a profile attempts to load a file via `inspec.profile.file`
-      train_options = options.select { |k, _| k != 'target' } # See https://github.com/chef/inspec/pull/1646
+      train_options = options.reject { |k, _| k == 'target' } # See https://github.com/chef/inspec/pull/1646
       @backend = options[:backend].nil? ? Inspec::Backend.create(train_options) : options[:backend].dup
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
@@ -421,7 +421,7 @@ module Inspec
               [['inspec.yml', source_reader.metadata.content]] +
               [['inspec.lock.deps', YAML.dump(deps)]]
 
-      files.sort { |a, b| a[0] <=> b[0] }
+      files.sort_by { |a| a[0] }
            .map { |f| res << f[0] << "\0" << f[1] << "\0" }
 
       res.digest.unpack('H*')[0]

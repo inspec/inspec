@@ -37,15 +37,15 @@ module Compliance
             server = 'compliance'
             msg = "inspec compliance login https://your_compliance_server --user admin --insecure --token 'PASTE TOKEN HERE' "
           end
-          raise Inspec::FetcherFailure, <<EOF
+          raise Inspec::FetcherFailure, <<~EOF
 
-Cannot fetch #{uri} because your #{server} token has not been
-configured.
+            Cannot fetch #{uri} because your #{server} token has not been
+            configured.
 
-Please login using
+            Please login using
 
-    #{msg}
-EOF
+                #{msg}
+          EOF
         end
 
         # verifies that the target e.g base/ssh exists

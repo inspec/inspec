@@ -55,13 +55,13 @@ module Inspec::Resources
     private
 
     def verify_dirs
-      if !inspec.directory(@conf_dir).exist?
-        warn "Default postgresql configuration directory: #{@conf_dir} does not exist. Postgresql may not be installed or we've misidentified the configuration directory."
-      end
+      warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
+        "Postgresql may not be installed or we've misidentified the configuration " \
+        'directory.' unless inspec.directory(@conf_dir).exist?
 
-      if !inspec.directory(@data_dir).exist?
-        warn "Default postgresql data directory: #{@data_dir} does not exist. Postgresql may not be installed or we've misidentified the data directory."
-      end
+      warn "Default postgresql data directory: #{@data_dir} does not exist. " \
+        "Postgresql may not be installed or we've misidentified the data " \
+        'directory.' unless inspec.directory(@data_dir).exist?
     end
 
     def version_from_psql

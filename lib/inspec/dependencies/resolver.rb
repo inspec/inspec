@@ -64,11 +64,9 @@ module Inspec
                             path_string + " -> #{dep.name}"
                           end
 
-        if new_seen_items.key?(dep.resolved_source)
-          raise Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{new_path_string})"
-        else
-          new_seen_items[dep.resolved_source] = true
-        end
+        raise Inspec::CyclicDependencyError, "Dependency #{dep} would cause a dependency cycle (#{new_path_string})" if new_seen_items.key?(dep.resolved_source)
+
+        new_seen_items[dep.resolved_source] = true
 
         if !dep.source_satisfies_spec?
           raise Inspec::UnsatisfiedVersionSpecification, "The profile #{dep.name} from #{dep.resolved_source} has a version #{dep.source_version} which doesn't match #{dep.version_constraints}"

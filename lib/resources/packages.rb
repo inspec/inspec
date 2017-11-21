@@ -97,7 +97,7 @@ module Inspec::Resources
   class Rpms < PkgsManagement
     def build_package_list
       # use two spaces as delimiter in case any of the fields has a space in it
-      command = "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}\\n'"
+      command = "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}\\n'" # rubocop:disable Style/FormatStringToken
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?

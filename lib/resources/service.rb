@@ -51,7 +51,7 @@ module Inspec::Resources
     #
     # @return [boolean] true if all runlevels are disabled
     def disabled?
-      !values.any?
+      values.none?
     end
 
     def to_s
@@ -136,7 +136,7 @@ module Inspec::Resources
         end
       elsif %w{redhat fedora centos oracle}.include?(platform)
         version = os[:release].to_i
-        if (%w{ redhat centos oracle }.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
+        if (%w{redhat centos oracle}.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
@@ -314,7 +314,6 @@ module Inspec::Resources
       enabled_rc_tcpip? || enabled_inittab?
     end
 
-    # #rubocop:disable Style/TrailingComma
     def enabled_rc_tcpip?
       inspec.command(
         "grep -v ^# /etc/rc.tcpip | grep 'start ' | grep -Eq '(/{0,1}| )#{name} '",
@@ -367,10 +366,10 @@ module Inspec::Resources
     end
 
     def version
-      @version ||= (
+      @version ||= begin
         out = inspec.command("#{service_ctl} --version").stdout
         Gem::Version.new(out[/\(upstart ([^\)]+)\)/, 1])
-      )
+      end
     end
   end
 

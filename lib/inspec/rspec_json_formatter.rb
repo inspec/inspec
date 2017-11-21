@@ -455,10 +455,10 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   end
 
   def print_last_control_with_examples
-    if @last_control
-      print_control(@last_control)
-      @last_control.examples.each { |example| print_result(example) }
-    end
+    return unless @last_control
+
+    print_control(@last_control)
+    @last_control.examples.each { |example| print_result(example) }
   end
 
   def last_control_is_anonymous?
@@ -634,8 +634,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     s = format('Profile Summary: %s, %s, %s',
                format_with_color(success_color, success_str),
                format_with_color(failed_color, failed_str),
-               format_with_color(skipped_color, skipped_str),
-              )
+               format_with_color(skipped_color, skipped_str))
     output.puts(s) if summary['total'] > 0
   end
 
@@ -651,8 +650,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
     s = format('Test Summary: %s, %s, %s',
                format_with_color(success_color, "#{summary['passed']} successful"),
                format_with_color(failed_color, failed_str),
-               format_with_color(skipped_color, "#{summary['skipped']} skipped"),
-              )
+               format_with_color(skipped_color, "#{summary['skipped']} skipped"))
 
     output.puts(s)
   end

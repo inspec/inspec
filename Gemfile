@@ -13,7 +13,7 @@ group :test do
   gem 'bundler', '~> 1.5'
   gem 'minitest', '~> 5.5'
   gem 'rake', '~> 10'
-  gem 'rubocop', '= 0.39.0'
+  gem 'rubocop', '= 0.49.1'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
   gem 'mocha', '~> 1.1'

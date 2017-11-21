@@ -146,7 +146,7 @@ module Inspec::Resources
       # @see https://github.com/moby/moby/issues/20625, works for docker 1.13+
       # raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
       # therefore we stick with older approach
-      labels = %w{Command CreatedAt ID Image Labels  Mounts Names Ports RunningFor Size Status}
+      labels = %w{Command CreatedAt ID Image Labels Mounts Names Ports RunningFor Size Status}
 
       # Networks LocalVolumes work with 1.13+ only
       if !version.empty? && Gem::Version.new(version['Client']['Version']) >= Gem::Version.new('1.13')
@@ -183,7 +183,7 @@ module Inspec::Resources
     end
 
     def ensure_container_keys(entry)
-      %w{Command CreatedAt ID Image Labels  Mounts Names Ports RunningFor Size Status Networks LocalVolumes}.each { |key|
+      %w{Command CreatedAt ID Image Labels Mounts Names Ports RunningFor Size Status Networks LocalVolumes}.each { |key|
         entry[key.downcase] = nil if !entry.key?(key.downcase)
       }
       entry

@@ -49,13 +49,11 @@ module Inspec::Resources
     end
 
     def groups(filter = nil)
-      entries = filter || @entries
-      entries.map { |x| x['name'] } if !entries.nil?
+      (filter || @entries)&.map { |x| x['name'] }
     end
 
     def gids(filter = nil)
-      entries = filter || @entries
-      entries.map { |x| x['gid'] } if !entries.nil?
+      (filter || @entries)&.map { |x| x['gid'] }
     end
 
     def users(filter = nil)

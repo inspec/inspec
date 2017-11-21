@@ -40,7 +40,7 @@ module Inspec
       profile_context_owner = profile_context
       profile_id = profile_context.profile_id
 
-      Class.new do
+      Class.new do # rubocop:disable Metrics/BlockLength
         include Inspec::DSL
         include Inspec::DSL::RequireOverride
         include resources_dsl
@@ -80,7 +80,7 @@ module Inspec
         # the describe block in the context of that control.
         #
         define_method :describe do |*args, &block|
-          loc = block_location(block, caller[0])
+          loc = block_location(block, caller(1..1).first)
           id = "(generated from #{loc} #{SecureRandom.hex})"
 
           res = nil

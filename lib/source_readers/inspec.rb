@@ -43,7 +43,8 @@ module SourceReaders
       Inspec::Metadata.from_ref(
         metadata_source,
         @target.read(metadata_source),
-        nil)
+        nil,
+      )
     rescue Psych::SyntaxError => e
       raise "Unable to parse inspec.yml: line #{e.line}, #{e.problem} #{e.context}"
     rescue => e

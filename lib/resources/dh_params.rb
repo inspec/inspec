@@ -26,8 +26,7 @@ class DhParams < Inspec.resource(1)
   def initialize(filename)
     @dh_params_path = filename
     file = inspec.file(@dh_params_path)
-    return skip_resource 'Unable to find DH parameters file ' \
-      "#{@dh_params_path}" unless file.exist?
+    return skip_resource "Unable to find DH parameters file #{@dh_params_path}" unless file.exist?
 
     begin
       @dh_params = OpenSSL::PKey::DH.new file.content

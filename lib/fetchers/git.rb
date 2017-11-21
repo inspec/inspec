@@ -24,14 +24,12 @@ module Fetchers
   # you got to this file during debugging, you may want to look at the
   # omnibus source for hints.
   #
-  class Git < Inspec.fetcher(1) # rubocop:disable ClassLength
+  class Git < Inspec.fetcher(1)
     name 'git'
     priority 200
 
     def self.resolve(target, opts = {})
-      if target.respond_to?(:has_key?) &&target.key?(:git)
-        new(target[:git], opts.merge(target))
-      end
+      new(target[:git], opts.merge(target)) if target.respond_to?(:has_key?) && target.key?(:git)
     end
 
     def initialize(remote_url, opts = {})
@@ -121,10 +119,7 @@ module Fetchers
       if tagged_commit
         tagged_commit.first
       else
-        found = pairs.find { |m| m[1].end_with?(ref_name.to_s) }
-        if found
-          found.first
-        end
+        pairs.find { |m| m[1].end_with?(ref_name.to_s) }&.first
       end
     end
 

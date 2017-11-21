@@ -157,20 +157,20 @@ module Inspec::Resources
   class WindowsGroup < GroupInfo
     # returns all local groups
     def groups
-      script = <<-EOH
-Function  ConvertTo-SID { Param([byte[]]$BinarySID)
-  (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
-}
+      script = <<~EOH
+        Function  ConvertTo-SID { Param([byte[]]$BinarySID)
+          (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
+        }
 
-$Computername =  $Env:Computername
-$adsi  = [ADSI]"WinNT://$Computername"
-$groups = $adsi.Children | where {$_.SchemaClassName -eq  'group'} |  ForEach {
-  $name = $_.Name[0]
-  $sid = ConvertTo-SID -BinarySID $_.ObjectSID[0]
-  $group =[ADSI]$_.Path
-  new-object psobject -property @{name = $group.Name[0]; gid = $sid; domain=$Computername}
-}
-$groups | ConvertTo-Json -Depth 3
+        $Computername =  $Env:Computername
+        $adsi  = [ADSI]"WinNT://$Computername"
+        $groups = $adsi.Children | where {$_.SchemaClassName -eq  'group'} |  ForEach {
+          $name = $_.Name[0]
+          $sid = ConvertTo-SID -BinarySID $_.ObjectSID[0]
+          $group =[ADSI]$_.Path
+          new-object psobject -property @{name = $group.Name[0]; gid = $sid; domain=$Computername}
+        }
+        $groups | ConvertTo-Json -Depth 3
       EOH
       cmd = inspec.powershell(script)
       # cannot rely on exit code for now, successful command returns exit code 1

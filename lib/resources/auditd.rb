@@ -101,7 +101,8 @@ module Inspec::Resources
           'permissions' => perms,
           'key' => key,
           'fields_nokey' => fields_nokey,
-        },)
+        },
+      )
     end
 
     def syscall_rules_for(line)
@@ -128,7 +129,8 @@ module Inspec::Resources
             'permissions' => perms,
             'exit' => exit_field,
             'fields_nokey' => fields_nokey,
-          },)
+          },
+        )
       end
     end
 
@@ -142,7 +144,8 @@ module Inspec::Resources
           'file' => file,
           'key' => key,
           'permissions' => perms,
-        },)
+        },
+      )
     end
 
     def to_s

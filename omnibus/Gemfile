@@ -11,9 +11,9 @@ source 'https://rubygems.org'
 # gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # Use entries from chef's Gemfile
+gem 'license_scout', github: 'chef/license_scout'
 gem 'omnibus', github: 'chef/omnibus'
 gem 'omnibus-software', github: 'chef/omnibus-software'
-gem 'license_scout', github: 'chef/license_scout'
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
@@ -24,7 +24,7 @@ group :development do
   gem 'berkshelf', '~> 4.3'
 
   # Use Test Kitchen with Vagrant for converging the build environment
-  gem 'test-kitchen',    '~> 1.9'
   gem 'kitchen-vagrant', '~> 0.19'
+  gem 'test-kitchen',    '~> 1.9'
   gem 'winrm-fs', '~> 0.4'
 end

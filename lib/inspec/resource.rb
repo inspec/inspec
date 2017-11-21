@@ -66,9 +66,7 @@ module Inspec
   end
 
   def self.validate_resource_dsl_version!(version)
-    if version != 1
-      raise 'Only resource version 1 is supported!'
-    end
+    raise 'Only resource version 1 is supported!' if version != 1
   end
 end
 

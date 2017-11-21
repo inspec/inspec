@@ -24,10 +24,12 @@ module Inspec
           test.negate!
           test
         }.map(&:to_ruby).join("\n")
-        return all_tests
+
+        all_tests
       else
         all_tests = @tests.map(&:to_ruby).join("\n").gsub("\n", "\n  ")
-        return format("describe.one do\n  %s\nend", all_tests)
+
+        format("describe.one do\n  %s\nend", all_tests)
       end
     end
 

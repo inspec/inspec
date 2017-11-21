@@ -16,19 +16,15 @@ module Fetchers
                      resolve_from_hash(target)
                    end
 
-      if local_path
-        new(local_path)
-      end
+      new(local_path) if local_path
     end
 
     def self.resolve_from_hash(target)
-      if target.key?(:path)
-        local_path = target[:path]
-        if target.key?(:cwd)
-          local_path = File.expand_path(local_path, target[:cwd])
-        end
-        local_path
-      end
+      return unless target.key?(:path)
+
+      local_path = target[:path]
+      local_path = File.expand_path(local_path, target[:cwd]) if target.key?(:cwd)
+      local_path
     end
 
     def self.resolve_from_string(target)
@@ -40,9 +36,7 @@ module Fetchers
         target = target.tr('\\', '/')
       end
 
-      if File.exist?(target)
-        target
-      end
+      target if File.exist?(target)
     end
 
     def initialize(target)

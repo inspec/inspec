@@ -63,10 +63,10 @@ module Inspec::Resources
     end
 
     def command
-      if container_info.entries.length == 1
-        cmd = container_info.commands[0]
-        cmd.slice(1, cmd.length - 2)
-      end
+      return unless container_info.entries.length == 1
+
+      cmd = container_info.commands[0]
+      cmd.slice(1, cmd.length - 2)
     end
 
     def image
