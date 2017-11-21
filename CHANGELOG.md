@@ -1,23 +1,21 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.13 -->
-## [v1.45.13](https://github.com/chef/inspec/tree/v1.45.13) (2017-11-21)
-
-#### Merged Pull Requests
-- Bump train to 0.29.2 [#2327](https://github.com/chef/inspec/pull/2327) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.45.9 -->
-### Changes since 1.45.9 release
-
-#### Merged Pull Requests
-- Bump train to 0.29.2 [#2327](https://github.com/chef/inspec/pull/2327) ([adamleff](https://github.com/adamleff)) <!-- 1.45.13 -->
-- Bump Rubocop to 0.49.1 [#2323](https://github.com/chef/inspec/pull/2323) ([adamleff](https://github.com/adamleff)) <!-- 1.45.12 -->
-- Remove bundler install during Appveyor tests [#2322](https://github.com/chef/inspec/pull/2322) ([adamleff](https://github.com/adamleff)) <!-- 1.45.11 -->
-- Remove debug message from unit test [#2313](https://github.com/chef/inspec/pull/2313) ([eramoto](https://github.com/eramoto)) <!-- 1.45.10 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.45.13](https://github.com/chef/inspec/tree/v1.45.13) (2017-11-21)
+
+#### Merged Pull Requests
+- Remove debug message from unit test [#2313](https://github.com/chef/inspec/pull/2313) ([eramoto](https://github.com/eramoto))
+- Remove bundler install during Appveyor tests [#2322](https://github.com/chef/inspec/pull/2322) ([adamleff](https://github.com/adamleff))
+- Bump Rubocop to 0.49.1 [#2323](https://github.com/chef/inspec/pull/2323) ([adamleff](https://github.com/adamleff))
+- Bump train to 0.29.2 [#2327](https://github.com/chef/inspec/pull/2327) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.45.9](https://github.com/chef/inspec/tree/v1.45.9) (2017-11-16)
 
 #### Enhancements
@@ -36,7 +34,6 @@
 - Fix gid filtering for etc_group resource [#2297](https://github.com/chef/inspec/pull/2297) ([eramoto](https://github.com/eramoto))
 - Require Ruby 2.3 and later [#2293](https://github.com/chef/inspec/pull/2293) ([adamleff](https://github.com/adamleff))
 - Update Rubocop to TargetRubyVersion 2.3 [#2311](https://github.com/chef/inspec/pull/2311) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.44.8](https://github.com/chef/inspec/tree/v1.44.8) (2017-11-09)
 
