@@ -1,5 +1,4 @@
 # encoding: utf-8
-# author: Adam Leff
 
 require 'utils/parser'
 require 'utils/filter'
