@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.11 -->
-## [v1.45.11](https://github.com/chef/inspec/tree/v1.45.11) (2017-11-20)
+<!-- latest_release 1.45.12 -->
+## [v1.45.12](https://github.com/chef/inspec/tree/v1.45.12) (2017-11-21)
 
 #### Merged Pull Requests
-- Remove bundler install during Appveyor tests [#2322](https://github.com/chef/inspec/pull/2322) ([adamleff](https://github.com/adamleff))
+- Bump Rubocop to 0.49.1 [#2323](https://github.com/chef/inspec/pull/2323) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.45.9 -->
 ### Changes since 1.45.9 release
 
 #### Merged Pull Requests
+- Bump Rubocop to 0.49.1 [#2323](https://github.com/chef/inspec/pull/2323) ([adamleff](https://github.com/adamleff)) <!-- 1.45.12 -->
 - Remove bundler install during Appveyor tests [#2322](https://github.com/chef/inspec/pull/2322) ([adamleff](https://github.com/adamleff)) <!-- 1.45.11 -->
 - Remove debug message from unit test [#2313](https://github.com/chef/inspec/pull/2313) ([eramoto](https://github.com/eramoto)) <!-- 1.45.10 -->
 <!-- release_rollup -->

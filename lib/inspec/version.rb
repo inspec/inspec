@@ -4,5 +4,5 @@
 # author: Christoph Hartmann
 
 module Inspec
-  VERSION = '1.45.11'
+  VERSION = '1.45.12'
 end
