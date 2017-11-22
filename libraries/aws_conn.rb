@@ -18,6 +18,10 @@ class AWSConnection
     @sns_client ||= Aws::SNS::Client.new
   end
 
+  def cloudwatch_logs_client
+    @cloudwatch_logs_client ||= Aws::CloudWatchLogs::Client.new
+  end
+
   def ec2_resource
     @ec2_resource ||= Aws::EC2::Resource.new
   end

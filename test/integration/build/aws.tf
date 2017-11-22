@@ -73,6 +73,59 @@ resource "aws_iam_access_key" "access_key" {
   pgp_key = "${var.login_profile_pgp_key}"
 }
 
+resource "aws_cloudwatch_log_group" "lmf_lg_1" {
+  name = "${terraform.env}_lmf_lg_1"
+}
+
+# We make a separate log group to test uniqueness of LMF identifiers
+resource "aws_cloudwatch_log_group" "lmf_lg_2" {
+  name = "${terraform.env}_lmf_lg_2"
+}
+
+resource "aws_cloudwatch_log_metric_filter" "lmf_1" {
+  name           = "${terraform.env}_lmf"
+  pattern        = "testpattern01"
+  log_group_name = "${aws_cloudwatch_log_group.lmf_lg_1.name}"
+
+  metric_transformation {
+    name      = "${terraform.env}_KittehCount_1"
+    namespace = "${terraform.env}_YourNamespace_1"
+    value     = "1"
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "lmf_2" {
+  name           = "${terraform.env}_lmf"
+  pattern        = "testpattern02"
+  log_group_name = "${aws_cloudwatch_log_group.lmf_lg_2.name}"
+
+  metric_transformation {
+    name      = "${terraform.env}_KittehCount_3"
+    namespace = "${terraform.env}_YourNamespace_3"
+    value     = "1"
+  }
+}
+
+output "lmf_1_name" {
+  value = "${aws_cloudwatch_log_metric_filter.lmf_1.name}"
+}
+
+output "lmf_2_name" {
+  value = "${aws_cloudwatch_log_metric_filter.lmf_2.name}"
+}
+
+output "lmf_1_metric_1_name" {
+  value = "${terraform.env}_KittehCount_1"
+}
+
+output "lmf_lg_1_name" {
+  value = "${aws_cloudwatch_log_group.lmf_lg_1.name}"
+}
+
+output "lmf_lg_2_name" {
+  value = "${aws_cloudwatch_log_group.lmf_lg_2.name}"
+}
+
 output "mfa_not_enabled_user" {
   value = "${aws_iam_user.mfa_not_enabled_user.name}"
 }

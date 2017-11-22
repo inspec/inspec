@@ -23,6 +23,9 @@ MethodLength:
   Max: 40
 NumericLiterals:
   MinDigits: 10
+Metrics/LineLength:
+  Enabled: true
+  Max: 100
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
@@ -41,6 +44,8 @@ Style/PercentLiteralDelimiters:
     '%W': ()
     '%x': ()
 Style/AlignHash:
+  Enabled: false
+Style/IndentHash:
   Enabled: false
 Style/PredicateName:
   Enabled: false
