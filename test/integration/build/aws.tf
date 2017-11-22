@@ -159,6 +159,10 @@ output "access_key_user" {
   value = "${aws_iam_user.access_key_user.name}"
 }
 
+output "access_key_id" { 
+  value = "${aws_iam_access_key.access_key.id}"
+}
+
 output "example_ec2_name" {
   value = "${aws_instance.example.tags.Name}"
 }
