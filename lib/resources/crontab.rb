@@ -104,7 +104,7 @@ module Inspec::Resources
     end
 
     def path?
-      @destination.include?('/')
+      @destination.to_s.include?('/')
     end
   end
 end
