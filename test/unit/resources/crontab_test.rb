@@ -82,6 +82,27 @@ describe 'Inspec::Resources::Crontab' do
     it 'prints a nice to_s string' do
       _(crontab.to_s).must_equal 'crontab for path /etc/cron.d/crondotd'
     end
+
+    it 'returns all params of the file' do
+      _(crontab.params).must_equal(
+        [{
+          'minute'  => '0',
+          'hour'    => '2',
+          'day'     => '11',
+          'month'   => '9',
+          'weekday' => '4',
+          'command' => '/path/to/crondotd1',
+        },
+        {
+          'minute'  => '1',
+          'hour'    => '3',
+          'day'     => '12',
+          'month'   => '10',
+          'weekday' => '5',
+          'command' => '/path/to/crondotd2 arg1 arg2',
+        }],
+      )
+    end
   end
 
   describe 'special strings' do
