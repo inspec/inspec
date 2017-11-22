@@ -13,6 +13,18 @@ class AwsIamUserDetailsProviderTest < Minitest::Test
     @mock_iam_resource_user = Minitest::Mock.new
   end
 
+  def test_exists_returns_true
+    @mock_iam_resource_user.expect :exists?, true
+    provider = AwsIam::UserDetailsProvider.new(@mock_iam_resource_user)
+    assert provider.exists?
+  end
+
+  def test_exists_returns_false
+    @mock_iam_resource_user.expect :exists?, false
+    provider = AwsIam::UserDetailsProvider.new(@mock_iam_resource_user)
+    refute provider.exists?
+  end
+
   def test_has_mfa_enabled_returns_true
     @mock_iam_resource_user.expect :mfa_devices, ['device']
     provider = AwsIam::UserDetailsProvider.new(@mock_iam_resource_user)

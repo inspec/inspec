@@ -24,6 +24,10 @@ class AwsIamUser < Inspec.resource(1)
     @access_key_factory = access_key_factory
   end
 
+  def exists?
+    @aws_user_details_provider.exists?
+  end
+
   def has_mfa_enabled?
     @aws_user_details_provider.has_mfa_enabled?
   end

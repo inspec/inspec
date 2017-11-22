@@ -7,6 +7,10 @@ module AwsIam
       @aws_user = user
     end
 
+    def exists?
+      @aws_user.exists?
+    end
+
     def name
       @aws_user.name
     end
