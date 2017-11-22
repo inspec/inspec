@@ -24,6 +24,10 @@ module Inspec::Resources
       describe crontab.where { command =~ /a partial command string/ } do
         its('entries.length') { should cmp 1 }
       end
+
+      describe crontab('/etc/cron.d/some_crontab') do
+        its('commands') { should include '/path/to/some/script' }
+      end
     "
 
     attr_reader :params
