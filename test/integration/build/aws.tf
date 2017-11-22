@@ -88,7 +88,7 @@ resource "aws_cloudwatch_log_metric_filter" "lmf_1" {
   log_group_name = "${aws_cloudwatch_log_group.lmf_lg_1.name}"
 
   metric_transformation {
-    name      = "${terraform.env}_KittehCount_1"
+    name      = "${terraform.env}_testmetric_1"
     namespace = "${terraform.env}_YourNamespace_1"
     value     = "1"
   }
@@ -100,10 +100,27 @@ resource "aws_cloudwatch_log_metric_filter" "lmf_2" {
   log_group_name = "${aws_cloudwatch_log_group.lmf_lg_2.name}"
 
   metric_transformation {
-    name      = "${terraform.env}_KittehCount_3"
+    name      = "${terraform.env}_testmetric_3"
     namespace = "${terraform.env}_YourNamespace_3"
     value     = "1"
   }
+}
+
+resource "aws_cloudwatch_metric_alarm" "alarm_1" {
+  alarm_name                = "${terraform.env}-test-alarm-01"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "${terraform.env}_testmetric_1"
+  namespace                 = "${terraform.env}_YourNamespace_1"
+  period                    = "120"
+  statistic                 = "Average"
+  threshold                 = "80"
+  alarm_description         = "This metric is a test metric"
+  insufficient_data_actions = []
+}
+
+output "cloudwatch_alarm_01" {
+  value = "${terraform.env}-test-alarm-01"
 }
 
 output "lmf_1_name" {
@@ -115,7 +132,11 @@ output "lmf_2_name" {
 }
 
 output "lmf_1_metric_1_name" {
-  value = "${terraform.env}_KittehCount_1"
+  value = "${terraform.env}_testmetric_1"
+}
+
+output "lmf_1_metric_1_namespace" {
+  value = "${terraform.env}_YourNamespace_1"
 }
 
 output "lmf_lg_1_name" {
