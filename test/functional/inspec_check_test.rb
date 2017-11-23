@@ -22,4 +22,11 @@ describe 'inspec check' do
       out.exit_status.must_equal 0
     end
   end
+
+  describe 'inspec check with skipping/failing a resource in FilterTable' do
+    it 'can check a profile with special characters in its path' do
+      out = inspec('check ' + File.join(profile_path, 'profile-with-resource-exceptions'))
+      out.exit_status.must_equal 0
+    end
+  end
 end
