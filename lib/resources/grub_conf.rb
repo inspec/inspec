@@ -50,7 +50,7 @@ class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
       @conf_path = path || '/etc/grub.conf'
       @version = 'legacy'
     else
-      @conf_path = path || '/boot/grub/grub.cfg'
+      @conf_path = path || '/boot/grub2/grub.cfg'
       @defaults_path = '/etc/default/grub'
       @version = 'grub2'
     end
