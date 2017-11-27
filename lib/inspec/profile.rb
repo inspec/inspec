@@ -11,7 +11,6 @@ require 'inspec/file_provider'
 require 'inspec/source_reader'
 require 'inspec/metadata'
 require 'inspec/backend'
-require 'inspec/transport'
 require 'inspec/rule'
 require 'inspec/log'
 require 'inspec/profile_context'
@@ -116,7 +115,7 @@ module Inspec
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
 
-      @backend.backend.cache_resources = cache_resources?
+      @backend.cache_resources = cache_resources?
     end
 
     def name

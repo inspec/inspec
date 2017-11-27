@@ -29,8 +29,7 @@ describe 'inspec keyword' do
   it 'is associated with resources' do
     i = load('os.inspec')
     i.wont_be_nil
-    i.backend.connection.must_be_kind_of Train::Transports::Mock::Connection
-    i.backend.must_be_kind_of Inspec::Transport
+    i.backend.must_be_kind_of Train::Transports::Mock::Connection
   end
 
   it 'prints a nice to_s' do

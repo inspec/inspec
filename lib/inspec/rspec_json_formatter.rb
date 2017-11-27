@@ -556,9 +556,9 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   #
   def print_target
     return if @backend.nil?
-    transport = @backend.backend
-    return unless transport.connection.respond_to?(:uri)
-    output.puts('Target:  ' + transport.uri + "\n\n")
+    connection = @backend.backend
+    return unless connection.respond_to?(:uri)
+    output.puts('Target:  ' + connection.uri + "\n\n")
   end
 
   #
