@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.14 -->
-## [v1.45.14](https://github.com/chef/inspec/tree/v1.45.14) (2017-11-27)
+<!-- latest_release 1.45.15 -->
+## [v1.45.15](https://github.com/chef/inspec/tree/v1.45.15) (2017-11-27)
 
 #### Bug Fixes
-- json resource (et. al.): allow inspec check to succeed when using command [#2317](https://github.com/chef/inspec/pull/2317) ([adamleff](https://github.com/adamleff))
+- grub_conf resource: correct grub path for RHEL-7-based OS [#2332](https://github.com/chef/inspec/pull/2332) ([atomic111](https://github.com/atomic111))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.45.13 -->
 ### Changes since 1.45.13 release
 
 #### Bug Fixes
+- grub_conf resource: correct grub path for RHEL-7-based OS [#2332](https://github.com/chef/inspec/pull/2332) ([atomic111](https://github.com/atomic111)) <!-- 1.45.15 -->
 - json resource (et. al.): allow inspec check to succeed when using command [#2317](https://github.com/chef/inspec/pull/2317) ([adamleff](https://github.com/adamleff)) <!-- 1.45.14 -->
 <!-- release_rollup -->
 
