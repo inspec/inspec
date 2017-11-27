@@ -55,12 +55,6 @@ module Inspec::Resources
       "#{resource_base_name} #{@resource_name_supplement || 'content'}"
     end
 
-    # for resources the subclass JsonConfig, this allows specification of the resource
-    # base name in each subclass so we can build a good to_s method
-    def resource_base_name
-      'JSON'
-    end
-
     private
 
     def parse(content)
@@ -104,6 +98,12 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceSkipped, "No output from command: #{command}" if command_output.nil? || command_output.empty?
 
       command_output
+    end
+
+    # for resources the subclass JsonConfig, this allows specification of the resource
+    # base name in each subclass so we can build a good to_s method
+    def resource_base_name
+      'JSON'
     end
   end
 end

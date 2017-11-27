@@ -47,6 +47,8 @@ module Inspec::Resources
       @params.map { |x| x[key.first.to_s] }.compact
     end
 
+    private
+
     # used by JsonConfig to build up a full to_s method
     # based on whether a file path, content, or command was supplied.
     def resource_base_name
