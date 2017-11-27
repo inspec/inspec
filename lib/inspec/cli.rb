@@ -189,6 +189,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   def shell_func
     diagnose
     o = opts.dup
+    o[:debug_shell] = true
 
     json_output = ['json', 'json-min'].include?(opts['format'])
     log_device = json_output ? nil : STDOUT

@@ -15,8 +15,6 @@ module Inspec
         desc: 'Choose a backend: local, ssh, winrm, docker.'
       option :host, type: :string,
         desc: 'Specify a remote host which is tested.'
-      option :backend_cache, type: :boolean, default: false,
-        desc: 'Allow caching for backend file and command calls.'
       option :port, aliases: :p, type: :numeric,
         desc: 'Specify the login port for a remote scan.'
       option :user, type: :string,
@@ -69,6 +67,8 @@ module Inspec
         desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
       option :create_lockfile, type: :boolean, default: true,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
+      option :backend_cache, type: :boolean, default: false,
+        desc: 'Allow caching for backend command output.'
     end
 
     private

@@ -40,7 +40,7 @@ module Inspec
     #
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
-    def self.create(config)
+    def self.create(config) # rubocop:disable Metrics/AbcSize
       conf = Train.target_config(config)
       name = Train.validate_backend(conf)
       transport = Train.create(name, conf)
@@ -53,19 +53,20 @@ module Inspec
         raise "Can't connect to transport backend '#{name}'."
       end
 
+      # set caching settings
+      if config[:backend_cache]
+        connection.enable_cache(:command)
+      elsif config[:debug_shell]
+        connection.disable_cache(:file)
+        connection.disable_cache(:command)
+      elsif !config[:backend_cache] && config[:backend] != :mock
+        connection.disable_cache(:command)
+      end
+
       cls = Class.new do
-        attr_accessor :cache_resources
         include Base
 
-        def initialize
-          @cache_resources = false
-        end
-
         define_method :backend do
-          if @cache_resources
-            connection.enable_cache(:file)
-            connection.enable_cache(:command)
-          end
           connection
         end
 

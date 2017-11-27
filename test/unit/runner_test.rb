@@ -16,7 +16,7 @@ describe Inspec::Runner do
         opts = { backend_cache: true }
         runner = Inspec::Runner.new(opts)
         backend = runner.instance_variable_get(:@backend)
-        backend.cache_resources.must_equal true
+        backend.backend.cache_enabled?(:command).must_equal true
       end
     end
 
@@ -25,12 +25,12 @@ describe Inspec::Runner do
         opts = { backend_cache: false }
         runner = Inspec::Runner.new(opts)
         backend = runner.instance_variable_get(:@backend)
-        backend.cache_resources.must_equal false
+        backend.backend.cache_enabled?(:command).must_equal false
       end
 
       it 'returns a backend without caching as default' do
         backend = runner.instance_variable_get(:@backend)
-        backend.cache_resources.must_equal false
+        backend.backend.cache_enabled?(:command).must_equal false
       end
     end
 

@@ -14,6 +14,16 @@ describe 'inspec shell tests' do
       out
     end
 
+    it 'confirm file caching is disabled' do
+      out = do_shell_c('inspec.backend.cache_enabled?(:file)', 0)
+      out.stdout.chop.must_equal 'false'
+    end
+
+    it 'confirm command caching is disabled' do
+      out = do_shell_c('inspec.backend.cache_enabled?(:command)', 0)
+      out.stdout.chop.must_equal 'false'
+    end
+
     it 'can run ruby expressions (json output)' do
       x = rand
       y = rand
