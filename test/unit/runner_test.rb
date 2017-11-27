@@ -11,6 +11,29 @@ describe Inspec::Runner do
       Inspec::Runner.any_instance.stubs(:validate_attributes_file_readability!)
     end
 
+    describe 'when backend caching is enabled' do
+      it 'returns a backend with caching' do
+        opts = { backend_cache: true }
+        runner = Inspec::Runner.new(opts)
+        backend = runner.instance_variable_get(:@backend)
+        backend.cache_resources.must_equal true
+      end
+    end
+
+    describe 'when backend caching is disabled' do
+      it 'returns a backend without caching' do
+        opts = { backend_cache: false }
+        runner = Inspec::Runner.new(opts)
+        backend = runner.instance_variable_get(:@backend)
+        backend.cache_resources.must_equal false
+      end
+
+      it 'returns a backend without caching as default' do
+        backend = runner.instance_variable_get(:@backend)
+        backend.cache_resources.must_equal false
+      end
+    end
+
     describe 'when no attrs are specified' do
       it 'returns an empty hash' do
         options = {}

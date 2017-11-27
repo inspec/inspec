@@ -53,6 +53,9 @@ module Inspec
 
       load_attributes(@conf)
       configure_transport
+
+      # set caching on backend
+      @backend.cache_resources = @conf[:backend_cache] || false
     end
 
     def tests

@@ -114,8 +114,6 @@ module Inspec
       @runner_context =
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
-
-      @backend.cache_resources = cache_resources?
     end
 
     def name
@@ -124,10 +122,6 @@ module Inspec
 
     def version
       metadata.params[:version]
-    end
-
-    def cache_resources?
-      metadata.params.fetch(:cache_resources, false)
     end
 
     def writable?

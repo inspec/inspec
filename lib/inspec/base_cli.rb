@@ -15,6 +15,8 @@ module Inspec
         desc: 'Choose a backend: local, ssh, winrm, docker.'
       option :host, type: :string,
         desc: 'Specify a remote host which is tested.'
+      option :backend_cache, type: :boolean,
+        desc: 'Allow caching for backend file and command calls.'
       option :port, aliases: :p, type: :numeric,
         desc: 'Specify the login port for a remote scan.'
       option :user, type: :string,
