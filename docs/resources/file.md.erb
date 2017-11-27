@@ -200,6 +200,20 @@ For example, for the following symlink:
 
 This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
+### be\_allowed
+
+The `be_allowed` matcher tests if the file contains a certain permission set, such as `execute` or `write` in Unix and [`full-control` or `modify` in Windows](https://www.codeproject.com/Reference/871338/AccessControl-FileSystemRights-Permissions-Table).
+
+    it { should be_allowed('read') }
+
+Just like with `be_executable` and other permissions, one can check for the permission with respect to the specific user or group.
+
+    it { should be_allowed('full-control', by_user: 'MyComputerName\Administrator') }
+
+OR
+
+    it { should be_allowed('write', by: 'root') }
+
 ### be\_block\_device
 
 The `be_block_device` matcher tests if the file exists as a block device, such as `/dev/disk0` or `/dev/disk0s9`:
