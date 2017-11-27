@@ -203,7 +203,17 @@ module Inspec::Resources
         end
 
         def curl_command # rubocop:disable Metrics/AbcSize
-          cmd = ["curl -i -X #{http_method}"]
+          cmd = ['curl -i']
+
+          # Use curl's --head option when the method requested is HEAD. Otherwise,
+          # the user may experience a timeout when curl does not properly close
+          # the connection after the response is received.
+          if http_method.casecmp('HEAD') == 0
+            cmd << '--head'
+          else
+            cmd << "-X #{http_method}"
+          end
+
           cmd << "--connect-timeout #{open_timeout}"
           cmd << "--max-time #{open_timeout+read_timeout}"
           cmd << "--user \'#{username}:#{password}\'" unless username.nil? || password.nil?

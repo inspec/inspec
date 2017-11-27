@@ -118,5 +118,14 @@ describe 'Inspec::Resources::Http' do
         _(worker.body).must_equal 'params ok'
       end
     end
+
+    describe 'a HEAD request' do
+      let(:http_method) { 'HEAD' }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 301
+        _(worker.response_headers['Location']).must_equal 'http://www.google.com/'
+      end
+    end
   end
 end
