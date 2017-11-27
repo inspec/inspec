@@ -103,6 +103,8 @@ module Inspec::Resources
       @destination.nil? ? 'crontab for current user' : path_or_user
     end
 
+    private
+
     def path_or_user
       pou = path? ? 'path' : 'user'
       "crontab for #{pou} #{@destination}"
