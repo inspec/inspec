@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.45.17 -->
-## [v1.45.17](https://github.com/chef/inspec/tree/v1.45.17) (2017-11-28)
+<!-- latest_release 1.46.0 -->
+## [v1.46.0](https://github.com/chef/inspec/tree/v1.46.0) (2017-11-28)
 
-#### Bug Fixes
-- file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+#### Enhancements
+- allow override of attribute identifier  [#2347](https://github.com/chef/inspec/pull/2347) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.45.13 -->
 ### Changes since 1.45.13 release
+
+#### Enhancements
+- allow override of attribute identifier  [#2347](https://github.com/chef/inspec/pull/2347) ([chris-rock](https://github.com/chris-rock)) <!-- 1.46.0 -->
 
 #### Bug Fixes
 - file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.45.17 -->
