@@ -240,6 +240,8 @@ module Inspec::Resources
       names ||= translate_granular_perms(access_type)
       names ||= translate_uncommon_perms(access_type)
       raise 'Invalid access_type provided' unless names
+
+      names
     end
 
     def translate_common_perms(access_type)
