@@ -39,7 +39,7 @@ module Inspec
     end
 
     def ruby_var_identifier
-      'attr_' + @name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
+      @opts[:identifier] || 'attr_' + @name.downcase.strip.gsub(/\s+/, '-').gsub(/[^\w-]/, '')
     end
 
     def to_hash
@@ -52,7 +52,7 @@ module Inspec
     def to_ruby
       res = ["#{ruby_var_identifier} = attribute('#{@name}',{"]
       res.push "  title: '#{title}'," unless title.to_s.empty?
-      res.push "  default: '#{default}'," unless default.to_s.empty?
+      res.push "  default: #{default.inspect}," unless default.to_s.empty?
       res.push "  description: '#{description}'," unless description.to_s.empty?
       res.push '})'
       res.join("\n")
