@@ -7,10 +7,9 @@ module FilterTable
   module Show; end
 
   class ExceptionCatcher
-    def initialize(original_resource, original_exception, accessors)
+    def initialize(original_resource, original_exception)
       @original_resource = original_resource
       @original_exception = original_exception
-      @accessors = accessors
     end
 
     # This method is called via the runner and signals RSpec to output a block
@@ -33,7 +32,7 @@ module FilterTable
 
     # Capture message chains and return `ExceptionCatcher` objects
     def method_missing(*)
-      ExceptionCatcher.new(@original_resource, @original_exception, @accessors)
+      ExceptionCatcher.new(@original_resource, @original_exception)
     end
 
     # RSpec will check the object returned to see if it responds to a method
@@ -226,7 +225,7 @@ module FilterTable
             filter = table.new(self, method(table_accessor).call, ' with')
             filter.method(method_name.to_sym).call(*args, &block)
           rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
-            FilterTable::ExceptionCatcher.new(resource, e, accessors)
+            FilterTable::ExceptionCatcher.new(resource, e)
           end
         end
       end
