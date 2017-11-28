@@ -56,6 +56,7 @@ module Inspec
       # Set caching settings. We always want to enable caching for
       # the Mock transport for testing.
       if config[:backend_cache] || config[:backend] == :mock
+        connection.enable_cache(:file)
         connection.enable_cache(:command)
       elsif config[:debug_shell]
         connection.disable_cache(:file)
