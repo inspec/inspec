@@ -8,6 +8,8 @@ require 'inspec/resource'
 describe 'Inspec::Resources::SecurityPolicy' do
   it 'verify processes resource' do
     resource = load_resource('security_policy')
+    SecureRandom.expects(:hex).returns('abc123')
+
     _(resource.MaximumPasswordAge).must_equal 42
     _(resource.send('MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel')).must_equal '4,0'
     _(resource.SeUndockPrivilege).must_equal ["S-1-5-32-544"]

@@ -214,9 +214,9 @@ class MockLoader
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
       'ps --help' => empty.call,
-      'Get-Content win_secpol.cfg' => cmd.call('secedit-export'),
-      'secedit /export /cfg win_secpol.cfg' => cmd.call('success'),
-      'Remove-Item win_secpol.cfg' => cmd.call('success'),
+      'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
+      'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
+      'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
