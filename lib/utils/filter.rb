@@ -13,10 +13,16 @@ module FilterTable
       @accessors = accessors
     end
 
+    # This method is called via the runner and signals RSpec to output a block
+    # showing why the resource was skipped. This prevents the resource from
+    # being added to the test collection and being evaluated.
     def resource_skipped?
       @original_exception.is_a?(Inspec::Exceptions::ResourceSkipped)
     end
 
+    # This method is called via the runner and signals RSpec to output a block
+    # showing why the resource failed. This prevents the resource from
+    # being added to the test collection and being evaluated.
     def resource_failed?
       @original_exception.is_a?(Inspec::Exceptions::ResourceFailed)
     end
