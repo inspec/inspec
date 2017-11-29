@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.46.3 -->
+## [v1.46.3](https://github.com/chef/inspec/tree/v1.46.3) (2017-11-29)
+
+#### Bug Fixes
+- Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.46.2 -->
+### Changes since 1.46.2 release
+
+#### Bug Fixes
+- Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick)) <!-- 1.46.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
