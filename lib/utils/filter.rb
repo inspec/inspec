@@ -32,7 +32,7 @@ module FilterTable
 
     # Capture message chains and return `ExceptionCatcher` objects
     def method_missing(*)
-      ExceptionCatcher.new(@original_resource, @original_exception)
+      self
     end
 
     # RSpec will check the object returned to see if it responds to a method
