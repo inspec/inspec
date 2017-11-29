@@ -14,7 +14,7 @@ end
 # Use win32_service with filter, it returns a single service object
 describe wmi({
   class: 'win32_service',
-  filter: "name like '%winrm%'"
+  filter: 'name like "%winrm%"'
 }) do
   its('Status') { should cmp 'ok' }
   its('State') { should cmp 'Running' }

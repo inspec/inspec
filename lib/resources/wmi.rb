@@ -27,7 +27,7 @@ module Inspec::Resources
 
     def initialize(wmiclass = nil, opts = nil)
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_feature` resource is not supported on your OS.' unless inspec.os.windows?
+      return skip_resource 'The `wmi` resource is not supported on your OS.' unless inspec.os.windows?
 
       @options = opts || {}
       # if wmiclass is not a hash, we have to handle deprecation behavior
@@ -67,7 +67,7 @@ module Inspec::Resources
 
       # convert to Get-WmiObject arguments
       params = ''
-      args.each { |key, value| params += " -#{key} \"#{value}\"" }
+      args.each { |key, value| params += " -#{key} \"#{value.gsub('"', '`"')}\"" }
 
       # run wmi command and filter empty wmi
       script = <<-EOH
