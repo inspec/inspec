@@ -29,6 +29,12 @@ module Inspec::Resources
     attr_reader :params, :raw_content
 
     def initialize(opts)
+      # pre-initialize @params to an empty hash. In the event that reading/parsing the data
+      # throws an exception, this allows the resource to still be called outside of a
+      # describe/test and not throw errors when a caller attempts to fetch a value from the params.
+      @params = {}
+
+      # load the raw content from the source, and then parse it
       @raw_content = load_raw_content(opts)
       @params = parse(@raw_content)
     end
