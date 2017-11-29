@@ -6,6 +6,48 @@
 module FilterTable
   module Show; end
 
+  class ExceptionCatcher
+    def initialize(original_resource, original_exception)
+      @original_resource = original_resource
+      @original_exception = original_exception
+    end
+
+    # This method is called via the runner and signals RSpec to output a block
+    # showing why the resource was skipped. This prevents the resource from
+    # being added to the test collection and being evaluated.
+    def resource_skipped?
+      @original_exception.is_a?(Inspec::Exceptions::ResourceSkipped)
+    end
+
+    # This method is called via the runner and signals RSpec to output a block
+    # showing why the resource failed. This prevents the resource from
+    # being added to the test collection and being evaluated.
+    def resource_failed?
+      @original_exception.is_a?(Inspec::Exceptions::ResourceFailed)
+    end
+
+    def resource_exception_message
+      @original_exception.message
+    end
+
+    # Capture message chains and return `ExceptionCatcher` objects
+    def method_missing(*)
+      self
+    end
+
+    # RSpec will check the object returned to see if it responds to a method
+    # before calling it. We need to fake it out and tell it that it does. This
+    # allows it to skip past that check and fall through to #method_missing
+    def respond_to?(_method)
+      true
+    end
+
+    def to_s
+      @original_resource.to_s
+    end
+    alias inspect to_s
+  end
+
   class Trace
     def initialize
       @chain = []
@@ -140,7 +182,7 @@ module FilterTable
       @connectors = {}
     end
 
-    def connect(resource, table_accessor)
+    def connect(resource, table_accessor) # rubocop:disable Metrics/AbcSize
       # create the table structure
       connectors = @connectors
       struct_fields = connectors.values.map(&:field_name)
@@ -170,12 +212,21 @@ module FilterTable
         end
       }
 
-      # define all access methods with the parent resource
+      # Define all access methods with the parent resource
+      # These methods will be configured to return an `ExceptionCatcher` object
+      # that will always return the original exception, but only when called
+      # upon. This will allow method chains in `describe` statements to pass the
+      # `instance_eval` when loaded and only throw-and-catch the exception when
+      # the tests are run.
       accessors = @accessors + @connectors.keys
       accessors.each do |method_name|
         resource.send(:define_method, method_name.to_sym) do |*args, &block|
-          filter = table.new(self, method(table_accessor).call, ' with')
-          filter.method(method_name.to_sym).call(*args, &block)
+          begin
+            filter = table.new(self, method(table_accessor).call, ' with')
+            filter.method(method_name.to_sym).call(*args, &block)
+          rescue Inspec::Exceptions::ResourceFailed, Inspec::Exceptions::ResourceSkipped => e
+            FilterTable::ExceptionCatcher.new(resource, e)
+          end
         end
       end
     end
