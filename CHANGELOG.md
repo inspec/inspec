@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.2 -->
-## [v1.46.2](https://github.com/chef/inspec/tree/v1.46.2) (2017-11-29)
-
-#### Bug Fixes
-- Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.45.13 -->
-### Changes since 1.45.13 release
-
-#### Enhancements
-- allow override of attribute identifier  [#2347](https://github.com/chef/inspec/pull/2347) ([chris-rock](https://github.com/chris-rock)) <!-- 1.46.0 -->
-
-#### Bug Fixes
-- Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.46.2 -->
-- wmi resource: properly escape quotes in WMI query [#2342](https://github.com/chef/inspec/pull/2342) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.46.1 -->
-- file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.45.17 -->
-- http resource: properly support HEAD request with remote worker [#2340](https://github.com/chef/inspec/pull/2340) ([adamleff](https://github.com/adamleff)) <!-- 1.45.16 -->
-- grub_conf resource: correct grub path for RHEL-7-based OS [#2332](https://github.com/chef/inspec/pull/2332) ([atomic111](https://github.com/atomic111)) <!-- 1.45.15 -->
-- json resource (et. al.): allow inspec check to succeed when using command [#2317](https://github.com/chef/inspec/pull/2317) ([adamleff](https://github.com/adamleff)) <!-- 1.45.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.46.2](https://github.com/chef/inspec/tree/v1.46.2) (2017-11-29)
+
+#### Enhancements
+- allow override of attribute identifier  [#2347](https://github.com/chef/inspec/pull/2347) ([chris-rock](https://github.com/chris-rock))
+
+#### Bug Fixes
+- json resource (et. al.): allow inspec check to succeed when using command [#2317](https://github.com/chef/inspec/pull/2317) ([adamleff](https://github.com/adamleff))
+- grub_conf resource: correct grub path for RHEL-7-based OS [#2332](https://github.com/chef/inspec/pull/2332) ([atomic111](https://github.com/atomic111))
+- http resource: properly support HEAD request with remote worker [#2340](https://github.com/chef/inspec/pull/2340) ([adamleff](https://github.com/adamleff))
+- file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- wmi resource: properly escape quotes in WMI query [#2342](https://github.com/chef/inspec/pull/2342) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.45.13](https://github.com/chef/inspec/tree/v1.45.13) (2017-11-21)
 
 #### Merged Pull Requests
@@ -30,7 +28,6 @@
 - Remove bundler install during Appveyor tests [#2322](https://github.com/chef/inspec/pull/2322) ([adamleff](https://github.com/adamleff))
 - Bump Rubocop to 0.49.1 [#2323](https://github.com/chef/inspec/pull/2323) ([adamleff](https://github.com/adamleff))
 - Bump train to 0.29.2 [#2327](https://github.com/chef/inspec/pull/2327) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.45.9](https://github.com/chef/inspec/tree/v1.45.9) (2017-11-16)
 
