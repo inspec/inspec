@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.3 -->
-## [v1.46.3](https://github.com/chef/inspec/tree/v1.46.3) (2017-11-29)
+<!-- latest_release 1.46.4 -->
+## [v1.46.4](https://github.com/chef/inspec/tree/v1.46.4) (2017-11-29)
 
 #### Bug Fixes
-- Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick))
+- json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.46.2 -->
 ### Changes since 1.46.2 release
 
 #### Bug Fixes
+- json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff)) <!-- 1.46.4 -->
 - Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick)) <!-- 1.46.3 -->
 <!-- release_rollup -->
 
