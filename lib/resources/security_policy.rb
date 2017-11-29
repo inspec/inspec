@@ -119,12 +119,8 @@ module Inspec::Resources
       # store file content
       cmd = inspec.command("Get-Content #{export_file}")
       return skip_resource "Can't read security policy" if cmd.exit_status.to_i != 0
-      @content = cmd.stdout
 
-      if @content.empty?
-        return skip_resource "Can't read security policy"
-      end
-      @content
+      @content = cmd.stdout
     ensure
       # delete temp file
       inspec.command("Remove-Item #{export_file}").exit_status.to_i
