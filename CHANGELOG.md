@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.1 -->
-## [v1.46.1](https://github.com/chef/inspec/tree/v1.46.1) (2017-11-29)
+<!-- latest_release 1.46.2 -->
+## [v1.46.2](https://github.com/chef/inspec/tree/v1.46.2) (2017-11-29)
 
 #### Bug Fixes
-- wmi resource: properly escape quotes in WMI query [#2342](https://github.com/chef/inspec/pull/2342) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.45.13 -->
@@ -14,6 +14,7 @@
 - allow override of attribute identifier  [#2347](https://github.com/chef/inspec/pull/2347) ([chris-rock](https://github.com/chris-rock)) <!-- 1.46.0 -->
 
 #### Bug Fixes
+- Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.46.2 -->
 - wmi resource: properly escape quotes in WMI query [#2342](https://github.com/chef/inspec/pull/2342) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.46.1 -->
 - file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.45.17 -->
 - http resource: properly support HEAD request with remote worker [#2340](https://github.com/chef/inspec/pull/2340) ([adamleff](https://github.com/adamleff)) <!-- 1.45.16 -->
