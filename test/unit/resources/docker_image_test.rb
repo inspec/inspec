@@ -19,4 +19,53 @@ describe 'Inspec::Resources::DockerImage' do
       resource.to_s.must_equal 'Docker Image alpine:latest'
     end
   end
+
+  describe '#parse_components_from_image' do
+    let(:resource) { load_resource('docker_image', 'alpine') }
+    let(:parsed)   { resource.send(:parse_components_from_image, image_string) }
+
+    describe 'a nil image string' do
+      let(:image_string) { nil }
+
+      it 'returns an empty hash' do
+        parsed.must_equal({})
+      end
+    end
+
+    describe 'an image string containing a simple repo' do
+      let(:image_string) { 'chef/inspec' }
+
+      it 'returns correct data' do
+        parsed[:repo].must_equal 'chef/inspec'
+        parsed[:tag].must_be_nil
+      end
+    end
+
+    describe 'parses an image string containing a repo with a port number' do
+      let(:image_string) { 'localhost:5000/chef/inspec' }
+
+      it 'returns correct data' do
+        parsed[:repo].must_equal 'localhost:5000/chef/inspec'
+        parsed[:tag].must_be_nil
+      end
+    end
+
+    describe 'parses an image string containing a repo with a tag' do
+      let(:image_string) { 'chef/inspec:1.46.3' }
+
+      it 'returns correct data' do
+        parsed[:repo].must_equal 'chef/inspec'
+        parsed[:tag].must_equal '1.46.3'
+      end
+    end
+
+    describe 'parses an image string containing a repo with a port number and a tag' do
+      let(:image_string) { 'localhost:5000/chef/inspec:1.46.3' }
+
+      it 'returns correct data' do
+        parsed[:repo].must_equal 'localhost:5000/chef/inspec'
+        parsed[:tag].must_equal '1.46.3'
+      end
+    end
+  end
 end
