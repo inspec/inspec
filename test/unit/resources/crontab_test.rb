@@ -39,6 +39,7 @@ describe 'Inspec::Resources::Crontab' do
         'day'     => '11',
         'month'   => '9',
         'weekday' => '4',
+        'user'    => nil,
         'command' => '/path/to/script1',
       },
       {
@@ -47,6 +48,7 @@ describe 'Inspec::Resources::Crontab' do
         'day'     => '12',
         'month'   => '10',
         'weekday' => '5',
+        'user'    => nil,
         'command' => '/path/to/script2 arg1 arg2'
       },
     ])
@@ -118,6 +120,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '*',
           'month'   => '*',
           'weekday' => '*',
+          'user'    => 'special',
           'command' => '/bin/custom_script.sh',
         },
         {
@@ -126,6 +129,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '1',
           'month'   => '1',
           'weekday' => '*',
+          'user'    => 'special',
           'command' => '/usr/local/bin/foo.sh bar'
         },
         {
@@ -134,6 +138,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '-1',
           'month'   => '-1',
           'weekday' => '-1',
+          'user'    => 'special',
           'command' => '/bin/echo "Rebooting" > /var/log/rebooting.log'
         }
       ])
