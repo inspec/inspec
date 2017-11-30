@@ -34,8 +34,10 @@ module Inspec::Resources
 
     include CommentParser
 
-    def initialize(destination = nil)
-      @destination = destination
+    def initialize(opts = {})
+      Hash[opts.map { |k, v| [k.to_sym, v] }] if opts.respond_to?(:fetch)
+      @user = opts.respond_to?(:fetch) ? opts.fetch(:user, nil) : opts
+      @path = opts.fetch(:path, nil) if opts.respond_to?(:fetch)
       @params = read_crontab
 
       return skip_resource 'The `crontab` resource is not supported on your OS.' unless inspec.os.unix?
