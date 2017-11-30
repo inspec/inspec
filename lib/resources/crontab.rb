@@ -90,12 +90,13 @@ module Inspec::Resources
           .add(:days,     field: 'day')
           .add(:months,   field: 'month')
           .add(:weekdays, field: 'weekday')
+          .add(:user,     field: 'user')
           .add(:commands, field: 'command')
 
     # rebuild the crontab line from raw content
     filter.add(:content) { |t, _|
       t.entries.map do |e|
-        [e.minute, e.hour, e.day, e.month, e.weekday, e.command].join(' ')
+        [e.minute, e.hour, e.day, e.month, e.weekday, e.user, e.command].compact.join(' ')
       end.join("\n")
     }
 
