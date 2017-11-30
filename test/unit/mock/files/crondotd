@@ -4,7 +4,7 @@
 
 
 # entry number 1
-0 2 11 9 4 /path/to/crondotd1
+0 2 11 9 4 root /path/to/crondotd1
 
 # entry number 2
-1 3 12 10 5 /path/to/crondotd2 arg1 arg2
+1 3 12 10 5 daemon /path/to/crondotd2 arg1 arg2
