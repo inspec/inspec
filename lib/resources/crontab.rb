@@ -79,7 +79,7 @@ module Inspec::Resources
     end
 
     def crontab_cmd
-      @destination.nil? ? 'crontab -l' : "crontab -l -u #{@destination}"
+      @user.nil? ? 'crontab -l' : "crontab -l -u #{@user}"
     end
 
     filter = FilterTable.create
