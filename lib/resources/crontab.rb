@@ -102,7 +102,13 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      @destination.nil? ? 'crontab for current user' : path_or_user
+      if !@path.nil?
+        "crontab for path #{@path}"
+      elsif !@user.nil?
+        "crontab for user #{@user}"
+      else
+        'crontab for current user'
+      end
     end
 
     private
