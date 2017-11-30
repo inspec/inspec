@@ -15,8 +15,7 @@ module Inspec
     def self.for_profile(profile, backend, attributes)
       new(profile.name, backend, { 'profile' => profile,
                                    'attributes' => attributes,
-                                   'check_mode' => profile.check_mode,
-                                 })
+                                   'check_mode' => profile.check_mode })
     end
 
     attr_reader :attributes, :profile_id, :resource_registry, :backend
