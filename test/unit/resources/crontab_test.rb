@@ -79,7 +79,7 @@ describe 'Inspec::Resources::Crontab' do
   end
 
   describe 'query by path' do
-    let(:crontab) { load_resource('crontab', {path: '/etc/cron.d/crondotd'}) }
+    let(:crontab) { load_resource('crontab', { path: '/etc/cron.d/crondotd' }) }
 
     it 'prints a nice to_s string' do
       _(crontab.to_s).must_equal 'crontab for path /etc/cron.d/crondotd'
