@@ -93,18 +93,27 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '11',
           'month'   => '9',
           'weekday' => '4',
-          'username' => 'root',
+          'user'    => 'root',
           'command' => '/path/to/crondotd1',
         },
-        {
-          'minute'  => '1',
-          'hour'    => '3',
-          'day'     => '12',
-          'month'   => '10',
-          'weekday' => '5',
-          'username' => 'daemon',
-          'command' => '/path/to/crondotd2 arg1 arg2',
-        }],
+         {
+           'minute'  => '1',
+           'hour'    => '3',
+           'day'     => '12',
+           'month'   => '10',
+           'weekday' => '5',
+           'user'    => 'daemon',
+           'command' => '/path/to/crondotd2 arg1 arg2',
+         },
+         {
+           'minute'  => '0',
+           'hour'    => '0',
+           'day'     => '1',
+           'month'   => '1',
+           'weekday' => '*',
+           'user'    => 'root',
+           'command' => '/usr/local/bin/foo.sh bar',
+         }],
       )
     end
   end
