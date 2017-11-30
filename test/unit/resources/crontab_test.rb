@@ -91,6 +91,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '11',
           'month'   => '9',
           'weekday' => '4',
+          'username' => 'root',
           'command' => '/path/to/crondotd1',
         },
         {
@@ -99,6 +100,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '12',
           'month'   => '10',
           'weekday' => '5',
+          'username' => 'daemon',
           'command' => '/path/to/crondotd2 arg1 arg2',
         }],
       )
