@@ -3,6 +3,7 @@
 require 'utils/parser'
 require 'utils/filter'
 
+# rubocop:disable Metrics/ClassLength
 module Inspec::Resources
   class Crontab < Inspec.resource(1)
     name 'crontab'
