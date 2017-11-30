@@ -44,7 +44,7 @@ module Inspec::Resources
     end
 
     def read_crontab
-      ct = path? ? inspec.file(@destination).content : inspec.command(crontab_cmd).stdout
+      ct = @path.nil? ? inspec.command(crontab_cmd).stdout : inspec.file(@path).content
       ct.lines.map { |l| parse_crontab_line(l) }.compact
     end
 
