@@ -8,7 +8,7 @@ module Inspec::Resources
     name 'crontab'
     desc 'Use the crontab InSpec audit resource to test the contents of the crontab for a given user which contains information about scheduled tasks owned by that user.'
     example "
-      describe crontab({user:'root'}) do
+      describe crontab({user: 'root'}) do
         its('commands') { should include '/path/to/some/script' }
       end
 
@@ -25,7 +25,7 @@ module Inspec::Resources
         its('entries.length') { should cmp 1 }
       end
 
-      describe crontab({path:'/etc/cron.d/some_crontab'}) do
+      describe crontab({path: '/etc/cron.d/some_crontab'}) do
         its('commands') { should include '/path/to/some/script' }
       end
     "
