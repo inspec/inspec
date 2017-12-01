@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.4 -->
-## [v1.46.4](https://github.com/chef/inspec/tree/v1.46.4) (2017-11-29)
+<!-- latest_release 1.46.5 -->
+## [v1.46.5](https://github.com/chef/inspec/tree/v1.46.5) (2017-12-01)
 
-#### Bug Fixes
-- json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.46.2 -->
 ### Changes since 1.46.2 release
+
+#### Merged Pull Requests
+- docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff)) <!-- 1.46.5 -->
 
 #### Bug Fixes
 - json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff)) <!-- 1.46.4 -->
