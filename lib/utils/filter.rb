@@ -98,7 +98,7 @@ module FilterTable
       table = @params
       conditions.each do |field, condition|
         filters += " #{field} == #{condition.inspect}"
-        @resource.send(field) if @resource.respond_to?(field)
+        @resource.send(field) if !table[0].key?(field) && @resource.respond_to?(field)
         table = filter_lines(table, field, condition)
       end
 
