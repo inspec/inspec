@@ -190,7 +190,9 @@ describe FilterTable do
       factory
         .add_accessor(:where)
         .add(:deferred, {
-          :lazy => Proc.new { |foo, bar| foo.to_s + " + " + bar.to_s }
+          :lazy => Proc.new { |table_row, condition|
+            table_row[:foo].to_s + " + " + table_row[:bar].to_s
+          }
           }).connect(resource, :data)
     }
 

@@ -125,11 +125,9 @@ module FilterTable
       end
     end
 
-    def resolve_column(func, field)
+    def resolve_column(func, field, cond)
       @params.each_with_index do |line, i|
-        mapped_args = func.parameters.map { |x| x[1] }
-        mapped_vals = line.values_at(*mapped_args)
-        @params[i][field] = func.call(*mapped_vals)
+        @params[i][field] = func.call(line, cond)
       end
     end
 
@@ -265,7 +263,7 @@ module FilterTable
 
       lambda { |condition = Show, &cond_block|
         r = where(nil)
-        r.resolve_column(c.opts[:lazy], c.field_name) if c.opts.key?(:lazy)
+        r.resolve_column(c.opts[:lazy], c.field_name, condition) if c.opts.key?(:lazy)
         if condition == Show && !block_given?
           r = r.get_field(c.field_name)
           r = r.flatten.uniq.compact if c.opts[:style] == :simple
