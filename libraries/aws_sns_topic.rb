@@ -1,5 +1,3 @@
-require 'aws_conn'
-
 class AwsSnsTopic < Inspec.resource(1)
   name 'aws_sns_topic'
   desc 'Verifies settings for an SNS Topic'
@@ -10,48 +8,28 @@ class AwsSnsTopic < Inspec.resource(1)
     end
   "
 
+  include AwsResourceMixin
   attr_reader :arn, :confirmed_subscription_count
-
-  def initialize(raw_params)
-    validated_params = validate_params(raw_params)
-    @arn = validated_params[:arn]
-    search
-  end
-
-  def exists?
-    @exists
-  end
 
   private
 
   def validate_params(raw_params)
-    # Allow passing ARN as a scalar string, not in a hash
-    raw_params = { arn: raw_params } if raw_params.is_a?(String)
-
-    # Remove all expected params from the raw param hash
-    validated_params = {}
-    [
-      :arn,
-    ].each do |expected_param|
-      validated_params[expected_param] = raw_params.delete(expected_param) if raw_params.key?(expected_param)
-    end
-
-    # Any leftovers are unwelcome
-    unless raw_params.empty?
-      raise ArgumentError, "Unrecognized resource param '#{raw_params.keys.first}'"
-    end
-
+    validated_params = check_resource_param_names(
+      raw_params: raw_params,
+      allowed_params: [:arn],
+      allowed_scalar_name: :arn,
+      allowed_scalar_type: String,
+    )
     # Validate the ARN
     unless validated_params[:arn] =~ /^arn:aws:sns:[\w\-]+:\d{12}:[\S]+$/
       raise ArgumentError, 'Malformed ARN for SNS topics.  Expected an ARN of the form ' \
                            "'arn:aws:sns:REGION:ACCOUNT-ID:TOPIC-NAME'"
     end
-
     validated_params
   end
 
-  def search
-    aws_response = AwsSnsTopic::Backend.create.get_topic_attributes(topic_arn: @arn).attributes
+  def fetch_from_aws
+    aws_response = AwsSnsTopic::BackendFactory.create.get_topic_attributes(topic_arn: @arn).attributes
     @exists = true
 
     # The response has a plain hash with CamelCase plain string keys and string values
@@ -60,41 +38,14 @@ class AwsSnsTopic < Inspec.resource(1)
     @exists = false
   end
 
+  # Uses the SDK API to really talk to AWS
   class Backend
-    #=====================================================#
-    #                    API Definition
-    #=====================================================#
-    [
-      :get_topic_attributes,
-    ].each do |method|
-      define_method(:method) do |*_args|
-        raise "Unimplemented abstract method #{method} - internal error"
-      end
-    end
+    class AwsClientApi
+      BackendFactory.set_default_backend(self)
 
-    #=====================================================#
-    #                 Concrete Implementation
-    #=====================================================#
-    # Uses the SDK API to really talk to AWS
-    class AwsClientApi < Backend
       def get_topic_attributes(criteria)
         AWSConnection.new.sns_client.get_topic_attributes(criteria)
       end
-    end
-
-    #=====================================================#
-    #                   Factory Interface
-    #=====================================================#
-    # TODO: move this to a mix-in
-    DEFAULT_BACKEND = AwsClientApi
-    @selected_backend = DEFAULT_BACKEND
-
-    def self.create
-      @selected_backend.new
-    end
-
-    def self.select(klass)
-      @selected_backend = klass
     end
   end
 end

@@ -2,7 +2,9 @@ require 'minitest/autorun'
 require 'minitest/unit'
 require 'minitest/pride'
 
-require 'inspec/resource'
+# Data formats commonly used in testing
+require 'json'
+require 'ostruct'
 
-# Needed for exception classes, etc
-require 'aws-sdk'
+require 'inspec/resource'
+require_relative '../../lib/inspec/aws'

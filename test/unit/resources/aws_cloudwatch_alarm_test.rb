@@ -10,7 +10,7 @@ require 'aws_cloudwatch_alarm'
 #=============================================================================#
 class AwsCWAConstructor < Minitest::Test
   def setup
-    AwsCloudwatchAlarm::Backend.select(AwsMCWAB::Empty)
+    AwsCloudwatchAlarm::BackendFactory.select(AwsMCWAB::Empty)
   end
 
   def test_constructor_some_args_required
@@ -45,7 +45,7 @@ end
 
 class AwsCWARecall < Minitest::Test
   def setup
-    AwsCloudwatchAlarm::Backend.select(AwsMCWAB::Basic)
+    AwsCloudwatchAlarm::BackendFactory.select(AwsMCWAB::Basic)
   end
 
   def test_recall_no_match_is_no_exception
@@ -77,7 +77,7 @@ end
 
 class AwsCWAProperties < Minitest::Test
   def setup
-    AwsCloudwatchAlarm::Backend.select(AwsMCWAB::Basic)
+    AwsCloudwatchAlarm::BackendFactory.select(AwsMCWAB::Basic)
   end
 
   #---------------------------------------

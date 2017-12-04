@@ -2,7 +2,6 @@
 # author: Jeffrey Lyons
 # author: Steffanie Freeman
 # author: Alex Bedley
-require 'aws-sdk'
 require 'helper'
 require 'aws_iam_user_provider'
 

@@ -2,7 +2,6 @@
 # author: Steffanie Freeman
 # author: Simon Varlow
 # author: Chris Redekop
-require 'aws-sdk'
 require 'helper'
 require 'aws_iam_users'
 

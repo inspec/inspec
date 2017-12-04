@@ -1,6 +1,5 @@
 # author: Adnan Duric
 # author: Steffanie Freeman
-require 'aws-sdk'
 require 'helper'
 require 'aws_iam_user_provider'
 require 'aws_iam_user_details_provider'

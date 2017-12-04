@@ -1,5 +1,3 @@
-require 'aws_conn'
-
 class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
   name 'aws_cloudwatch_log_metric_filter'
   desc 'Verifies individual Cloudwatch Log Metric Filters'
@@ -23,50 +21,25 @@ class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
   end
 EOX
 
-  RESOURCE_PARAMS = [
-    :filter_name,
-    :log_group_name,
-    :pattern,
-  ].freeze
-
+  include AwsResourceMixin
   attr_reader :filter_name, :log_group_name, :pattern, :metric_name, :metric_namespace
-
-  def initialize(resource_params)
-    validate_resource_params(resource_params).each do |param, value|
-      instance_variable_set("@#{param}", value)
-    end
-    fetch
-  end
-
-  def exists?
-    @exists
-  end
 
   private
 
-  def validate_resource_params(resource_params)
-    unless resource_params.is_a? Hash
-      raise(
-        ArgumentError, \
-        'Unrecognized format for aws_cloudwatch_log_metric_filter parameters ' \
-        " - use (param: 'value') format ",
-      )
+  def validate_params(raw_params)
+    validated_params = check_resource_param_names(
+      raw_params: raw_params,
+      allowed_params: [:filter_name, :log_group_name, :pattern],
+    )
+    if validated_params.empty?
+      raise ArgumentError, 'You must provide either filter_name, log_group, or pattern to aws_cloudwatch_log_metric_filter.'
     end
-    resource_params.keys.each do |param_name|
-      unless RESOURCE_PARAMS.include?(param_name) # rubocop:disable Style/Next
-        raise(
-          ArgumentError, \
-          "Unrecognized parameter '#{param_name}' for aws_cloudwatch_log_metric_filter." \
-          " Expected one of #{RESOURCE_PARAMS.join(', ')}.",
-        )
-      end
-    end
-    resource_params
+    validated_params
   end
 
-  def fetch
+  def fetch_from_aws
     # get a backend
-    backend = AwsCloudwatchLogMetricFilter::Backend.create
+    backend = BackendFactory.create
 
     # Perform query with remote filtering
     aws_search_criteria = {}
@@ -102,22 +75,9 @@ EOX
   end
 
   class Backend
-    #=====================================================#
-    #                    API Definition
-    #=====================================================#
-    [
-      :describe_metric_filters,
-    ].each do |method|
-      define_method(:method) do |*_args|
-        raise "Unimplemented abstract method #{method} - internal error"
-      end
-    end
-
-    #=====================================================#
-    #                 Concrete Implementation
-    #=====================================================#
     # Uses the cloudwatch API to really talk to AWS
     class AwsClientApi < Backend
+      BackendFactory.set_default_backend(self)
       def describe_metric_filters(criteria)
         cwl_client = AWSConnection.new.cloudwatch_logs_client
         query = {}
@@ -129,25 +89,6 @@ EOX
         aws_response = cwl_client.describe_metric_filters(query)
         aws_response.metric_filters
       end
-    end
-
-    #=====================================================#
-    #                   Factory Interface
-    #=====================================================#
-    # TODO: move this to a mix-in
-    DEFAULT_BACKEND = AwsClientApi
-    @selected_backend = DEFAULT_BACKEND
-
-    def self.create
-      @selected_backend.new
-    end
-
-    def self.select(klass)
-      @selected_backend = klass
-    end
-
-    def self.reset
-      select(DEFAULT_BACKEND)
     end
   end
 end

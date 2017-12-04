@@ -10,7 +10,7 @@ require 'aws_cloudwatch_log_metric_filter'
 #=============================================================================#
 class AwsCWLMFConstructor < Minitest::Test
   def setup
-    AwsCloudwatchLogMetricFilter::Backend.select(AwsMockCWLMFBackend::Empty)
+    AwsCloudwatchLogMetricFilter::BackendFactory.select(AwsMockCWLMFBackend::Empty)
   end
 
   def test_constructor_some_args_required
@@ -38,7 +38,7 @@ end
 class AwsCWLMFSearch < Minitest::Test
   def setup
     # Reset to the Basic kit each time
-    AwsCloudwatchLogMetricFilter::Backend.select(AwsMockCWLMFBackend::Basic)
+    AwsCloudwatchLogMetricFilter::BackendFactory.select(AwsMockCWLMFBackend::Basic)
   end
 
   def test_using_lg_and_lmf_name_when_exactly_one
@@ -79,7 +79,7 @@ end
 class AwsCWLMFProperties < Minitest::Test
   def setup
     # Reset to the Basic kit each time
-    AwsCloudwatchLogMetricFilter::Backend.select(AwsMockCWLMFBackend::Basic)
+    AwsCloudwatchLogMetricFilter::BackendFactory.select(AwsMockCWLMFBackend::Basic)
   end
 
   def test_property_values

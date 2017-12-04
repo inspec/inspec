@@ -1,4 +1,3 @@
-require 'ostruct'
 require 'helper'
 require 'aws_sns_topic'
 
@@ -10,7 +9,7 @@ require 'aws_sns_topic'
 #=============================================================================#
 class AwsSnsTopicConstructorTest < Minitest::Test
   def setup
-    AwsSnsTopic::Backend.select(AwsMSNB::NoSubscriptions)
+    AwsSnsTopic::BackendFactory.select(AwsMSNB::NoSubscriptions)
   end
 
   def test_constructor_some_args_required
@@ -52,13 +51,13 @@ class AwsSnsTopicRecallTest < Minitest::Test
   # what they want from the backend.
 
   def test_recall_no_match_is_no_exception
-    AwsSnsTopic::Backend.select(AwsMSNB::Miss)
+    AwsSnsTopic::BackendFactory.select(AwsMSNB::Miss)
     topic = AwsSnsTopic.new('arn:aws:sns:us-east-1:123456789012:nope')
     refute topic.exists?
   end
 
   def test_recall_match_single_result_works
-    AwsSnsTopic::Backend.select(AwsMSNB::NoSubscriptions)    
+    AwsSnsTopic::BackendFactory.select(AwsMSNB::NoSubscriptions)    
     topic = AwsSnsTopic.new('arn:aws:sns:us-east-1:123456789012:does-not-matter')
     assert topic.exists?
   end
@@ -76,13 +75,13 @@ class AwsSnsTopicPropertiesTest < Minitest::Test
   #       confirmed_subscription_count
   #---------------------------------------
   def test_prop_conf_sub_count_zero
-    AwsSnsTopic::Backend.select(AwsMSNB::NoSubscriptions)
+    AwsSnsTopic::BackendFactory.select(AwsMSNB::NoSubscriptions)
     topic = AwsSnsTopic.new('arn:aws:sns:us-east-1:123456789012:does-not-matter')
     assert_equal(0, topic.confirmed_subscription_count)
   end
 
   def test_prop_conf_sub_count_zero
-    AwsSnsTopic::Backend.select(AwsMSNB::OneSubscription)
+    AwsSnsTopic::BackendFactory.select(AwsMSNB::OneSubscription)
     topic = AwsSnsTopic.new('arn:aws:sns:us-east-1:123456789012:does-not-matter')
     assert_equal(1, topic.confirmed_subscription_count)
   end
@@ -94,13 +93,13 @@ end
 
 module AwsMSNB
 
-  class Miss < AwsSnsTopic::Backend
+  class Miss
     def get_topic_attributes(criteria)
       raise Aws::SNS::Errors::NotFound.new("No SNS topic for #{criteria[:topic_arn]}", 'Nope')
     end
   end
 
-  class NoSubscriptions < AwsSnsTopic::Backend
+  class NoSubscriptions
     def get_topic_attributes(_criteria)
       OpenStruct.new({
         attributes: { # Note that this is a plain hash, odd for AWS SDK
@@ -112,7 +111,7 @@ module AwsMSNB
     end
   end
 
-  class OneSubscription < AwsSnsTopic::Backend
+  class OneSubscription
     def get_topic_attributes(_criteria)
       OpenStruct.new({
         attributes: { # Note that this is a plain hash, odd for AWS SDK

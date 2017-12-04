@@ -1,8 +1,13 @@
 # author: Christoph Hartmann
 
+# This class exists so that we can intercept AWS API connection setup
+# and have an opportunity to provide credentials from another mechanism
+# (such as a train transport URI) in the future.
+#
+# We commit to always supporting the standard AWS environment variables.
+
 class AWSConnection
   def initialize
-    require 'aws-sdk'
     opts = {
       region: ENV['AWS_REGION'] || ENV['AWS_DEFAULT_REGION'],
       credentials: Aws::Credentials.new(
