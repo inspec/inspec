@@ -40,7 +40,7 @@ module Inspec
     #
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
-    def self.create(config) # rubocop:disable Metrics/AbcSize
+    def self.create(config)
       conf = Train.target_config(config)
       name = Train.validate_backend(conf)
       transport = Train.create(name, conf)
@@ -80,7 +80,6 @@ module Inspec
       end
 
       cls.new
-
     rescue Train::ClientError => e
       raise "Client error, can't connect to '#{name}' backend: #{e.message}"
     rescue Train::TransportError => e
