@@ -53,6 +53,18 @@ module Inspec
         raise "Can't connect to transport backend '#{name}'."
       end
 
+      # Set caching settings. We always want to enable caching for
+      # the Mock transport for testing.
+      if config[:backend_cache] || config[:backend] == :mock
+        connection.enable_cache(:file)
+        connection.enable_cache(:command)
+      elsif config[:debug_shell]
+        connection.disable_cache(:file)
+        connection.disable_cache(:command)
+      else
+        connection.disable_cache(:command)
+      end
+
       cls = Class.new do
         include Base
 

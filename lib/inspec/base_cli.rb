@@ -67,6 +67,8 @@ module Inspec
         desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
       option :create_lockfile, type: :boolean, default: true,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
+      option :backend_cache, type: :boolean, default: false,
+        desc: 'Allow caching for backend command output.'
     end
 
     private
