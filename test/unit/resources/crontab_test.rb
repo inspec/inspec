@@ -153,4 +153,18 @@ describe 'Inspec::Resources::Crontab' do
       ])
     end
   end
+
+  describe 'it raises errors' do
+    it 'raises error on unsupported os' do
+      resource = MockLoader.new(:windows).load_resource('crontab', { user: 'special' })
+      _(resource.resource_skipped?).must_equal true
+      _(resource.resource_exception_message).must_equal 'The `crontab` resource is not supported on your OS.'
+    end
+
+    it 'raises error when no user or path supplied' do
+      resource = load_resource('crontab', {})
+      _(resource.resource_failed?).must_equal true
+      _(resource.resource_exception_message).must_equal 'A user or path must be supplied.'
+    end
+  end
 end

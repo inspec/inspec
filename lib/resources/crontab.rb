@@ -3,13 +3,12 @@
 require 'utils/parser'
 require 'utils/filter'
 
-# rubocop:disable Metrics/ClassLength
 module Inspec::Resources
-  class Crontab < Inspec.resource(1)
+  class Crontab < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
     name 'crontab'
     desc 'Use the crontab InSpec audit resource to test the contents of the crontab for a given user which contains information about scheduled tasks owned by that user.'
     example "
-      describe crontab({user: 'root'}) do
+      describe crontab(user: 'root') do
         its('commands') { should include '/path/to/some/script' }
       end
 
@@ -26,7 +25,7 @@ module Inspec::Resources
         its('entries.length') { should cmp 1 }
       end
 
-      describe crontab({path: '/etc/cron.d/some_crontab'}) do
+      describe crontab(path: '/etc/cron.d/some_crontab') do
         its('commands') { should include '/path/to/some/script' }
       end
     "
@@ -35,17 +34,22 @@ module Inspec::Resources
 
     include CommentParser
 
-    def initialize(opts = {})
-      Hash[opts.map { |k, v| [k.to_sym, v] }] if opts.respond_to?(:fetch)
-      @user = opts.respond_to?(:fetch) ? opts.fetch(:user, nil) : opts
-      @path = opts.fetch(:path, nil) if opts.respond_to?(:fetch)
+    def initialize(opts = nil)
+      if opts.respond_to?(:fetch)
+        Hash[opts.map { |k, v| [k.to_sym, v] }]
+        @user = opts.fetch(:user, nil)
+        @path = opts.fetch(:path, nil)
+        raise Inspec::Exceptions::ResourceFailed, 'A user or path must be supplied.' if @user.nil? && @path.nil?
+      else
+        @user = opts
+        @path = nil
+      end
+      raise Inspec::Exceptions::ResourceSkipped, 'The `crontab` resource is not supported on your OS.' unless inspec.os.unix?
       @params = read_crontab
-
-      return skip_resource 'The `crontab` resource is not supported on your OS.' unless inspec.os.unix?
     end
 
     def read_crontab
-      ct = @path.nil? ? inspec.command(crontab_cmd).stdout : inspec.file(@path).content
+      ct = is_system_crontab? ? inspec.file(@path).content : inspec.command(crontab_cmd).stdout
       ct.lines.map { |l| parse_crontab_line(l) }.compact
     end
 
@@ -53,7 +57,7 @@ module Inspec::Resources
       data, = parse_comment_line(l, comment_char: '#', standalone_comments: false)
       return nil if data.nil? || data.empty?
 
-      !@path.nil? ? parse_system_crontab(data) : parse_user_crontab(data)
+      is_system_crontab? ? parse_system_crontab(data) : parse_user_crontab(data)
     end
 
     def crontab_cmd
@@ -81,9 +85,9 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def to_s
-      if !@path.nil?
+      if is_system_crontab?
         "crontab for path #{@path}"
-      elsif !@user.nil?
+      elsif is_user_crontab?
         "crontab for user #{@user}"
       else
         'crontab for current user'
@@ -91,6 +95,14 @@ module Inspec::Resources
     end
 
     private
+
+    def is_system_crontab?
+      !@path.nil?
+    end
+
+    def is_user_crontab?
+      !@user.nil?
+    end
 
     def parse_system_crontab(data)
       case data
