@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.5 -->
-## [v1.46.5](https://github.com/chef/inspec/tree/v1.46.5) (2017-12-01)
+<!-- latest_release 1.46.6 -->
+## [v1.46.6](https://github.com/chef/inspec/tree/v1.46.6) (2017-12-04)
 
-#### Merged Pull Requests
-- docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff))
+#### Bug Fixes
+- key_rsa resource: fix inline shell documentation help, wrong resource name used in examples [#2364](https://github.com/chef/inspec/pull/2364) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.46.2 -->
@@ -14,6 +14,7 @@
 - docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff)) <!-- 1.46.5 -->
 
 #### Bug Fixes
+- key_rsa resource: fix inline shell documentation help, wrong resource name used in examples [#2364](https://github.com/chef/inspec/pull/2364) ([eramoto](https://github.com/eramoto)) <!-- 1.46.6 -->
 - json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff)) <!-- 1.46.4 -->
 - Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick)) <!-- 1.46.3 -->
 <!-- release_rollup -->
