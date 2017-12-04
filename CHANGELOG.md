@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.46.7 -->
-## [v1.46.7](https://github.com/chef/inspec/tree/v1.46.7) (2017-12-04)
+<!-- latest_release 1.47.0 -->
+## [v1.47.0](https://github.com/chef/inspec/tree/v1.47.0) (2017-12-04)
 
-#### Bug Fixes
-- security_policy resource: use PID for filename instead of random [#2368](https://github.com/chef/inspec/pull/2368) ([jquick](https://github.com/jquick))
+#### New Features
+- Enable caching for backend calls [#2309](https://github.com/chef/inspec/pull/2309) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.46.2 -->
 ### Changes since 1.46.2 release
+
+#### New Features
+- Enable caching for backend calls [#2309](https://github.com/chef/inspec/pull/2309) ([jquick](https://github.com/jquick)) <!-- 1.47.0 -->
 
 #### Merged Pull Requests
 - docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff)) <!-- 1.46.5 -->
