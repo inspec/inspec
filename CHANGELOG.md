@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.0 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.47.0](https://github.com/chef/inspec/tree/v1.47.0) (2017-12-04)
 
 #### New Features
 - Enable caching for backend calls [#2309](https://github.com/chef/inspec/pull/2309) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.46.2 -->
-### Changes since 1.46.2 release
-
-#### New Features
-- Enable caching for backend calls [#2309](https://github.com/chef/inspec/pull/2309) ([jquick](https://github.com/jquick)) <!-- 1.47.0 -->
-
-#### Merged Pull Requests
-- docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff)) <!-- 1.46.5 -->
 
 #### Bug Fixes
-- security_policy resource: use PID for filename instead of random [#2368](https://github.com/chef/inspec/pull/2368) ([jquick](https://github.com/jquick)) <!-- 1.46.7 -->
-- key_rsa resource: fix inline shell documentation help, wrong resource name used in examples [#2364](https://github.com/chef/inspec/pull/2364) ([eramoto](https://github.com/eramoto)) <!-- 1.46.6 -->
-- json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff)) <!-- 1.46.4 -->
-- Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick)) <!-- 1.46.3 -->
-<!-- release_rollup -->
+- Unique export file for security policy resource [#2350](https://github.com/chef/inspec/pull/2350) ([jquick](https://github.com/jquick))
+- json resource: ensure params is not nil in event of read/parse failure [#2354](https://github.com/chef/inspec/pull/2354) ([adamleff](https://github.com/adamleff))
+- key_rsa resource: fix inline shell documentation help, wrong resource name used in examples [#2364](https://github.com/chef/inspec/pull/2364) ([eramoto](https://github.com/eramoto))
+- security_policy resource: use PID for filename instead of random [#2368](https://github.com/chef/inspec/pull/2368) ([jquick](https://github.com/jquick))
 
+#### Merged Pull Requests
+- docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff))
 <!-- latest_stable_release -->
+
 ## [v1.46.2](https://github.com/chef/inspec/tree/v1.46.2) (2017-11-29)
 
 #### Enhancements
@@ -36,7 +34,6 @@
 - file resource: fix NilClass error when using advanced windows permissions [#2344](https://github.com/chef/inspec/pull/2344) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 - wmi resource: properly escape quotes in WMI query [#2342](https://github.com/chef/inspec/pull/2342) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 - Allow skipping/failing resources in FilterTable [#2349](https://github.com/chef/inspec/pull/2349) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.45.13](https://github.com/chef/inspec/tree/v1.45.13) (2017-11-21)
 
