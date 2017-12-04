@@ -10,11 +10,11 @@ module Inspec::Resources
     name 'key_rsa'
     desc 'public/private RSA key pair test'
     example "
-      describe rsa_key('/etc/pki/www.mywebsite.com.key') do
+      describe key_rsa('/etc/pki/www.mywebsite.com.key') do
         its('public_key') { should match /BEGIN RSA PUBLIC KEY/ }
       end
 
-      describe rsa_key('/etc/pki/www.mywebsite.com.key', 'passphrase') do
+      describe key_rsa('/etc/pki/www.mywebsite.com.key', 'passphrase') do
         it { should be_private }
         it { should be_public }
       end
