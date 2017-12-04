@@ -10,6 +10,8 @@
 #  }
 #  describe parse_config(audit, options ) do
 
+require 'utils/file_reader'
+
 module Inspec::Resources
   class PConfig < Inspec.resource(1)
     name 'parse_config'
@@ -41,6 +43,8 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     attr_reader :content
     def initialize(content = nil, useropts = nil)
       @opts = {}
@@ -69,21 +73,13 @@ module Inspec::Resources
 
     def parse_file(conf_path)
       @conf_path = conf_path
-
-      # read the file
-      if !inspec.file(conf_path).file?
-        return skip_resource "Can't find file \"#{conf_path}\""
-      end
       @content = read_file(conf_path).to_s
-      if @content.empty? && !inspec.file(conf_path).empty?
-        return skip_resource "Can't read file \"#{conf_path}\""
-      end
 
       read_params
     end
 
     def read_file(path)
-      @files_contents[path] ||= inspec.file(path).content
+      @files_contents[path] ||= read_file_content(path)
     end
 
     def read_params

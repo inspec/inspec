@@ -2,6 +2,7 @@
 
 require 'utils/filter'
 require 'utils/parser'
+require 'utils/file_reader'
 module Inspec::Resources
   class AideConf < Inspec.resource(1)
     name 'aide_conf'
@@ -25,6 +26,7 @@ module Inspec::Resources
     attr_reader :params
 
     include CommentParser
+    include FileReader
 
     def initialize(aide_conf_path = nil)
       @conf_path = aide_conf_path || '/etc/aide.conf'
@@ -55,20 +57,10 @@ module Inspec::Resources
       return @content unless @content.nil?
       @rules = {}
 
-      file = inspec.file(@conf_path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-      raw_conf = file.content
-      if raw_conf.nil?
-        return skip_resource "File can't be opened or is empty \"#{@conf_path}\""
-      end
-      if raw_conf.empty? && !file.empty?
-        return skip_resource "Can't read file \"#{@conf_path}\""
-      end
+      raw_conf = read_file_content(@conf_path)
 
       # If there is a file and it contains content, continue
-      @content = filter_comments(inspec.file(@conf_path).content.lines)
+      @content = filter_comments(raw_conf.lines)
       @params = parse_conf(@content)
     end
 

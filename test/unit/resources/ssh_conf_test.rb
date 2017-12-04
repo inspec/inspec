@@ -38,15 +38,12 @@ describe 'Inspec::Resources::SshConf' do
 
     it 'check bad path' do
       resource = load_resource('sshd_config', '/etc/ssh/sshd_config_does_not_exist')
-      _(resource.send(:read_content)).must_equal "Can't find file \"/etc/ssh/sshd_config_does_not_exist\""
-      _(resource.Protocol).must_be_nil
+      _(resource.resource_exception_message).must_equal "Can't find file: /etc/ssh/sshd_config_does_not_exist"
     end
 
     it 'check cannot read' do
-      Inspec::Resources::FileResource.any_instance.stubs(:size).at_least_once.returns(5)
       resource = load_resource('sshd_config', '/etc/ssh/sshd_config_empty')
-      _(resource.send(:read_content)).must_equal "Can't read file \"/etc/ssh/sshd_config_empty\""
-      _(resource.Protocol).must_be_nil
+      _(resource.resource_exception_message).must_equal "File is empty: /etc/ssh/sshd_config_empty"
     end
   end
 end

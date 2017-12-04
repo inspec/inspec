@@ -3,6 +3,7 @@
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
+require 'utils/file_reader'
 require 'resources/postgres'
 
 module Inspec::Resources
@@ -18,6 +19,7 @@ module Inspec::Resources
     "
 
     include FindFiles
+    include FileReader
     include ObjectTraverser
 
     def initialize(conf_path = nil)
@@ -68,15 +70,6 @@ module Inspec::Resources
       @content = ''
       @params = {}
 
-      # skip if the main configuration file doesn't exist
-      if !inspec.file(@conf_path).file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-      raw_conf = read_file(@conf_path)
-      if raw_conf.empty? && !inspec.file(@conf_path).empty?
-        return skip_resource("Can't read file \"#{@conf_path}\"")
-      end
-
       to_read = [@conf_path]
       until to_read.empty?
         base_dir = File.dirname(to_read[0])
@@ -115,7 +108,7 @@ module Inspec::Resources
     end
 
     def read_file(path)
-      @files_contents[path] ||= inspec.file(path).content
+      @files_contents[path] ||= read_file_content(path)
     end
   end
 end

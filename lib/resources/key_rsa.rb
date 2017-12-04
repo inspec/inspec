@@ -2,6 +2,7 @@
 
 require 'openssl'
 require 'hashie/mash'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)
@@ -20,19 +21,12 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(keypath, passphrase = nil)
       @key_path = keypath
-      @key_file = inspec.file(@key_path)
-      @key = nil
       @passphrase = passphrase
-
-      return skip_resource "Unable to find key file #{@key_path}" unless @key_file.exist?
-
-      begin
-        @key = OpenSSL::PKey.read(@key_file.content, @passphrase)
-      rescue OpenSSL::PKey::RSAError => _
-        return skip_resource "Unable to load key file #{@key_path}"
-      end
+      @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
     end
 
     def public?

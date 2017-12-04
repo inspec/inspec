@@ -12,6 +12,7 @@
 
 require 'utils/parser'
 require 'utils/filter'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Passwd < Inspec.resource(1)
@@ -34,6 +35,7 @@ module Inspec::Resources
     "
 
     include PasswdParser
+    include FileReader
 
     attr_reader :params
     attr_reader :content
@@ -42,7 +44,7 @@ module Inspec::Resources
     def initialize(path = nil, opts = nil)
       opts ||= {}
       @path = path || '/etc/passwd'
-      @content = opts[:content] || inspec.file(@path).content
+      @content = opts[:content] || read_file_content(@path, allow_empty: true)
       @lines = @content.to_s.split("\n")
       @params = parse_passwd(@content)
     end

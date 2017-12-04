@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'hashie'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Runlevels < Hash
@@ -336,6 +337,8 @@ module Inspec::Resources
 
   # @see: http://upstart.ubuntu.com
   class Upstart < ServiceManager
+    include FileReader
+
     def initialize(service_name, service_ctl = nil)
       @service_ctl = service_ctl || 'initctl'
       super
@@ -351,13 +354,14 @@ module Inspec::Resources
       # @see: http://upstart.ubuntu.com/cookbook/#job-states
       # grep for running to indicate the service is there
       running = !status.stdout[%r{start/running}].nil?
+      enabled = info_enabled(service_name)
 
       {
         name: service_name,
         description: nil,
         installed: true,
         running: running,
-        enabled: info_enabled(service_name),
+        enabled: enabled,
         type: 'upstart',
       }
     end
@@ -366,10 +370,7 @@ module Inspec::Resources
 
     def info_enabled(service_name)
       # check if a service is enabled
-      config = inspec.file("/etc/init/#{service_name}.conf").content
-
-      # disregard if the config does not exist
-      return nil if config.nil?
+      config = read_file_content("/etc/init/#{service_name}.conf", allow_empty: true)
 
       !config.match(/^\s*start on/).nil?
     end
