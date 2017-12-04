@@ -73,7 +73,7 @@ class MockLoader
   # pass the os identifier to emulate a specific operating system
   def initialize(os = nil)
     # selects operating system
-    @os = OPERATING_SYSTEMS[os || :ubuntu1404]
+    @platform = OPERATING_SYSTEMS[os || :ubuntu1404]
   end
 
   def backend
@@ -84,11 +84,12 @@ class MockLoader
     @backend = Inspec::Backend.create({ backend: :mock, verbose: true })
     mock = @backend.backend
 
-    # set os emulation
-    mock.mock_os(@os)
-
     # create all mock files
     local = Train.create('local').connection
+
+    # set os emulation
+    mock.mock_os(@platform)
+
     mockfile = lambda { |x|
       path = ::File.join(scriptpath, '/unit/mock/files', x)
       local.file(path)

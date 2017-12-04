@@ -8,7 +8,7 @@ require 'inspec/resource'
 describe 'Inspec::Resources::SecurityPolicy' do
   it 'verify processes resource' do
     resource = load_resource('security_policy')
-    SecureRandom.expects(:hex).returns('abc123')
+    Process.expects(:pid).returns('abc123')
 
     _(resource.MaximumPasswordAge).must_equal 42
     _(resource.send('MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel')).must_equal '4,0'
@@ -18,7 +18,7 @@ describe 'Inspec::Resources::SecurityPolicy' do
 
   it 'parse empty policy file' do
     resource = load_resource('security_policy')
-    SecureRandom.expects(:hex).returns('abc123')
+    Process.expects(:pid).returns('abc123')
     backend = resource.inspec.backend
     backend.commands['Get-Content win_secpol-abc123.cfg'] = backend.mock_command('', '', '', 0)
 

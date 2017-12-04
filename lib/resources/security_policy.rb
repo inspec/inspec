@@ -14,7 +14,6 @@
 # parameters. Therefore we need a combination of Registry and secedit output
 
 require 'hashie'
-require 'securerandom'
 
 module Inspec::Resources
   # known and supported MS privilege rights
@@ -109,8 +108,8 @@ module Inspec::Resources
     def read_content
       return @content if defined?(@content)
 
-      # using random hex to prevent any race conditions with multiple runners
-      export_file = "win_secpol-#{SecureRandom.hex}.cfg"
+      # using process pid to prevent any race conditions with multiple runners
+      export_file = "win_secpol-#{Process.pid}.cfg"
 
       # export the security policy
       cmd = inspec.command("secedit /export /cfg #{export_file}")
