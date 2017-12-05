@@ -1,5 +1,6 @@
 ---
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
   - Gemfile
   - Rakefile
@@ -7,31 +8,76 @@ AllCops:
   - 'examples/**/*'
   - 'vendor/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'
-Documentation:
-  Enabled: false
+  - 'www/tutorial/**/*'
 AlignParameters:
   Enabled: true
-Encoding:
-  Enabled: true
+BlockDelimiters:
+  Enabled: false
+Documentation:
+  Enabled: false
+EmptyLinesAroundBlockBody:
+  Enabled: false
+FrozenStringLiteralComment:
+  Enabled: false
 HashSyntax:
   Enabled: true
 LineLength:
   Enabled: false
-EmptyLinesAroundBlockBody:
+Layout/AlignHash:
+  Enabled: false
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
+Layout/EndOfLine:
+  Enabled: true
+  EnforcedStyle: lf
+Layout/SpaceAroundOperators:
   Enabled: false
 MethodLength:
   Max: 40
-NumericLiterals:
-  MinDigits: 10
-Metrics/LineLength:
-  Enabled: true
-  Max: 100
+Metrics/AbcSize:
+  Max: 33
+Metrics/BlockLength:
+  Max: 50
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
   Max: 11
-Metrics/AbcSize:
-  Max: 33
+Naming/FileName:
+  Enabled: false
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+Naming/PredicateName:
+  Enabled: false
+NumericLiterals:
+  MinDigits: 10
+Security/YAMLLoad:
+  Enabled: false
+Style/AndOr:
+  Enabled: false
+Style/BracesAroundHashParameters:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
+Style/EmptyMethod:
+  Enabled: false
+Style/Encoding:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Style/MethodMissing:
+  Enabled: false
+Style/MultilineIfModifier:
+  Enabled: false
+Style/NegatedIf:
+  Enabled: false
+Style/Not:
+  Enabled: false
+Style/NumericLiteralPrefix:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%':  '{}'
@@ -43,35 +89,11 @@ Style/PercentLiteralDelimiters:
     '%w': '{}'
     '%W': ()
     '%x': ()
-Style/AlignHash:
+Style/SymbolArray:
   Enabled: false
-Style/IndentHash:
-  Enabled: false
-Style/PredicateName:
-  Enabled: false
-Style/ClassAndModuleChildren:
-  Enabled: false
-Style/ConditionalAssignment:
-  Enabled: false
-Style/BracesAroundHashParameters:
-  Enabled: false
-Style/AndOr:
-  Enabled: false
-Style/Not:
-  Enabled: false
-Style/FileName:
-  Enabled: false
-Style/TrailingCommaInLiteral:
-  EnforcedStyleForMultiline: comma
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
-Style/NegatedIf:
-  Enabled: false
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
 Style/UnlessElse:
-  Enabled: false
-BlockDelimiters:
-  Enabled: false
-Style/SpaceAroundOperators:
-  Enabled: false
-Style/IfUnlessModifier:
   Enabled: false

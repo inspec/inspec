@@ -36,7 +36,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
             'by 16 letters or numbers'
     end
 
-    criteria.keys.each do |criterion|
+    criteria.each_key do |criterion|
       unless VALUED_CRITERIA.include?(criterion) # rubocop:disable Style/Next
         raise 'Unrecognized filter criterion for aws_iam_access_keys, ' \
           "'#{criterion}'.  Valid choices are " \

@@ -49,7 +49,7 @@ class AwsEc2Instance < Inspec.resource(1)
 
   # returns the instance state
   def state
-    instance.state.name if instance
+    instance&.state&.name
   end
 
   # helper methods for each state
