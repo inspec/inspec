@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.1 -->
-## [v1.47.1](https://github.com/chef/inspec/tree/v1.47.1) (2017-12-05)
+<!-- latest_release 1.47.2 -->
+## [v1.47.2](https://github.com/chef/inspec/tree/v1.47.2) (2017-12-05)
 
-#### Merged Pull Requests
-- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.47.0 -->
 ### Changes since 1.47.0 release
+
+#### Bug Fixes
+- Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.47.2 -->
 
 #### Merged Pull Requests
 - Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
