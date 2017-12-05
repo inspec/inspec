@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.47.1 -->
+## [v1.47.1](https://github.com/chef/inspec/tree/v1.47.1) (2017-12-05)
+
+#### Merged Pull Requests
+- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.47.0 -->
+### Changes since 1.47.0 release
+
+#### Merged Pull Requests
+- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
