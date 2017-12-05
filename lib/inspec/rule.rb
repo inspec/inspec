@@ -29,7 +29,7 @@ module Inspec
       @resource_dsl
     end
 
-    def initialize(id, profile_id, _opts, &block)
+    def initialize(id, profile_id, opts, &block)
       @impact = nil
       @title = nil
       @desc = nil
@@ -44,6 +44,7 @@ module Inspec
       @__checks = []
       @__skip_rule = nil
       @__merge_count = 0
+      @__skip_only_if_eval = opts[:skip_only_if_eval]
 
       # evaluate the given definition
       instance_eval(&block) if block_given?
@@ -104,6 +105,8 @@ module Inspec
     # @return [nil]
     def only_if
       return unless block_given?
+      return if @__skip_only_if_eval == true
+
       @__skip_rule ||= !yield
     end
 

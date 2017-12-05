@@ -62,6 +62,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
     o = opts.dup
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:check_mode] = true
 
     # run check
     profile = Inspec::Profile.for_target(path, o)

@@ -13,7 +13,7 @@ module Inspec
   # as the basic DSL of the control files (describe, control, title,
   # etc).
   #
-  class ControlEvalContext
+  class ControlEvalContext # rubocop:disable Metrics/ClassLength
     # Create the context for controls. This includes all components of the DSL,
     # including matchers and resources.
     #
@@ -47,12 +47,13 @@ module Inspec
 
         attr_accessor :skip_file
 
-        def initialize(backend, conf, dependencies, require_loader)
+        def initialize(backend, conf, dependencies, require_loader, skip_only_if_eval)
           @backend = backend
           @conf = conf
           @dependencies = dependencies
           @require_loader = require_loader
           @skip_file = false
+          @skip_only_if_eval = skip_only_if_eval
         end
 
         define_method :title do |arg|
@@ -70,6 +71,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
+          opts[:skip_only_if_eval] = @skip_only_if_eval
           register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
@@ -133,7 +135,10 @@ module Inspec
 
         define_method :only_if do |&block|
           return unless block
-          return if @skip_file == true || block.yield == true
+          return if @skip_file == true
+          return if @skip_only_if_eval == true
+
+          return if block.yield == true
 
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|

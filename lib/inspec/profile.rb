@@ -78,7 +78,7 @@ module Inspec
       for_fetcher(fetcher, opts)
     end
 
-    attr_reader :source_reader, :backend, :runner_context
+    attr_reader :source_reader, :backend, :runner_context, :check_mode
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -96,6 +96,7 @@ module Inspec
       @attr_values = options[:attributes]
       @tests_collected = false
       @libraries_loaded = false
+      @check_mode = options[:check_mode] || false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
