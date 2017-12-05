@@ -776,8 +776,8 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
           examples[0][:message].to_s
         else
           [
-            !fails.empty? ? "#{fails.uniq.length} failed" : nil,
-            !skips.empty? ? "#{skips.uniq.length} skipped" : nil,
+            !fails.empty? ? "#{fails.length} failed" : nil,
+            !skips.empty? ? "#{skips.length} skipped" : nil,
           ].compact.join(' ')
         end
 
