@@ -120,7 +120,7 @@ module Inspec
 
     def merged_opts
       # argv overrides json
-      Thor::CoreExt::HashWithIndifferentAccess.new(options_json.merge(options))
+      Thor::CoreExt::HashWithIndifferentAccess.new(options.merge(options_json))
     end
 
     def options_json
