@@ -59,16 +59,24 @@ module Inspec
         desc: 'A list of controls to run. Ignore all other tests.'
       option :format, type: :string,
         desc: 'Which formatter to use: cli, progress, documentation, json, json-min, junit'
-      option :color, type: :boolean, default: true,
+      option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
       option :cache, type: :string,
         desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
-      option :create_lockfile, type: :boolean, default: true,
+      option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
-      option :backend_cache, type: :boolean, default: false,
+      option :backend_cache, type: :boolean,
         desc: 'Allow caching for backend command output.'
+    end
+
+    def self.default_options
+      {
+        color: true,
+        create_lockfile: true,
+        backend_cache: false,
+      }
     end
 
     private
@@ -119,8 +127,15 @@ module Inspec
     end
 
     def merged_opts
-      # argv overrides json
-      Thor::CoreExt::HashWithIndifferentAccess.new(options.merge(options_json))
+      # start with default options
+      opts = BaseCLI.default_options
+
+      # merge in any options from json-config
+      opts.merge!(options_json)
+
+      # merge in any options defined via thor
+      opts.merge!(options)
+      Thor::CoreExt::HashWithIndifferentAccess.new(opts)
     end
 
     def options_json
