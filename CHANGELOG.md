@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.3 -->
-## [v1.47.3](https://github.com/chef/inspec/tree/v1.47.3) (2017-12-05)
+<!-- latest_release 1.47.4 -->
+## [v1.47.4](https://github.com/chef/inspec/tree/v1.47.4) (2017-12-06)
 
 #### Merged Pull Requests
-- Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick))
+- Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.47.0 -->
@@ -14,6 +14,7 @@
 - Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.47.2 -->
 
 #### Merged Pull Requests
+- Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick)) <!-- 1.47.4 -->
 - Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick)) <!-- 1.47.3 -->
 - Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
 <!-- release_rollup -->
