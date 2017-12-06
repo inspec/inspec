@@ -35,7 +35,7 @@ require_relative '../lib/bundles/inspec-compliance'
 require_relative '../lib/bundles/inspec-habitat'
 
 require 'train'
-CMD = Train.create('local').connection
+CMD = Train.create('local', command_runner: :generic).connection
 TMP_CACHE = {}
 
 Inspec::Log.logger = Logger.new(nil)
@@ -85,7 +85,7 @@ class MockLoader
     mock = @backend.backend
 
     # create all mock files
-    local = Train.create('local').connection
+    local = Train.create('local', command_runner: :generic).connection
 
     # set os emulation
     mock.mock_os(@platform)
