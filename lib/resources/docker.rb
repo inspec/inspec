@@ -63,7 +63,7 @@ module Inspec::Resources
   # For compatability with Serverspec we also offer the following resouses:
   # - docker_container
   # - docker_image
-  class Docker < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Docker < Inspec.resource(1)
     name 'docker'
 
     desc "

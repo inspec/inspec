@@ -11,7 +11,7 @@ require 'securerandom'
 require 'inspec/objects/attribute'
 
 module Inspec
-  class ProfileContext # rubocop:disable Metrics/ClassLength
+  class ProfileContext
     def self.for_profile(profile, backend, attributes)
       new(profile.name, backend, { 'profile' => profile,
                                    'attributes' => attributes,

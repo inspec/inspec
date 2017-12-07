@@ -110,7 +110,7 @@ class InspecRspecMiniJson < RSpec::Core::Formatters::JsonFormatter
   end
 end
 
-class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLength
+class InspecRspecJson < InspecRspecMiniJson
   RSpec::Core::Formatters.register self, :stop, :dump_summary
   attr_writer :backend
 
@@ -279,7 +279,7 @@ class InspecRspecJson < InspecRspecMiniJson # rubocop:disable Metrics/ClassLengt
   end
 end
 
-class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
+class InspecRspecCli < InspecRspecJson
   RSpec::Core::Formatters.register self, :close
 
   case RUBY_PLATFORM
@@ -685,7 +685,7 @@ class InspecRspecCli < InspecRspecJson # rubocop:disable Metrics/ClassLength
   # This class wraps a control hash object to provide a useful inteface for
   # maintaining the associated profile, ids, results, title, etc.
   #
-  class Control # rubocop:disable Metrics/ClassLength
+  class Control
     include Comparable
 
     STATUS_TYPES = {

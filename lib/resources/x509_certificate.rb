@@ -6,7 +6,7 @@ require 'openssl'
 require 'hashie/mash'
 
 module Inspec::Resources
-  class X509CertificateResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class X509CertificateResource < Inspec.resource(1)
     name 'x509_certificate'
     desc 'Used to test x.509 certificates'
     example "

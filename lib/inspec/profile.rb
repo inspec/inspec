@@ -21,7 +21,7 @@ require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
 module Inspec
-  class Profile # rubocop:disable Metrics/ClassLength
+  class Profile
     extend Forwardable
 
     def self.resolve_target(target, cache)

@@ -3,7 +3,7 @@
 
 require 'utils/simpleconfig'
 
-class GrubConfig < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+class GrubConfig < Inspec.resource(1)
   name 'grub_conf'
   desc 'Use the grub_conf InSpec audit resource to test the boot config of Linux systems that use Grub.'
   example "

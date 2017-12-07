@@ -43,8 +43,6 @@ module Inspec::Resources
       'Audit Daemon Rules (for auditd version < 2.3)'
     end
   end
-
-  # rubocop:disable Metrics/ClassLength
   class AuditDaemonRules < Inspec.resource(1)
     extend Forwardable
     attr_accessor :rules, :lines

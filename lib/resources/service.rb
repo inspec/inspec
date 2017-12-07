@@ -68,7 +68,7 @@ module Inspec::Resources
   # Ubuntu < 15.04 : upstart
   #
   # TODO: extend the logic to detect the running init system, independently of OS
-  class Service < Inspec.resource(1) # rubocop:disable ClassLength
+  class Service < Inspec.resource(1)
     name 'service'
     desc 'Use the service InSpec audit resource to test if the named service is installed, running and/or enabled.'
     example "

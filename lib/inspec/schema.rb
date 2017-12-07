@@ -2,7 +2,7 @@
 require 'json'
 
 module Inspec
-  class Schema # rubocop:disable Metrics/ClassLength
+  class Schema
     STATISTICS = {
       'type' => 'object',
       'additionalProperties' => false,

@@ -7,7 +7,7 @@ require 'inspec/log'
 require 'inspec/profile_vendor'
 
 module Inspec
-  class BaseCLI < Thor # rubocop:disable Metrics/ClassLength
+  class BaseCLI < Thor
     def self.target_options
       option :target, aliases: :t, type: :string,
         desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'
