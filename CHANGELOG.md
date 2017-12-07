@@ -16,13 +16,13 @@
 
 #### Bug Fixes
 - Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.47.2 -->
-
-#### Merged Pull Requests
 - Remove rainbow dependency, fix duplicate rake gem [#2374](https://github.com/chef/inspec/pull/2374) ([adamleff](https://github.com/adamleff)) <!-- 1.47.8 -->
 - Resolve merge issue with json-config vs thor defaults [#2377](https://github.com/chef/inspec/pull/2377) ([jquick](https://github.com/jquick)) <!-- 1.47.5 -->
+- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
+
+#### Merged Pull Requests
 - Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick)) <!-- 1.47.4 -->
 - Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick)) <!-- 1.47.3 -->
-- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
