@@ -182,6 +182,7 @@ class MockLoader
       '/etc/hosts.deny' => mockfile.call('hosts.deny'),
       '/fakepath/fakefile' => emptyfile.call,
       'C:/fakepath/fakefile' => emptyfile.call,
+      '/etc/cron.d/crondotd' => mockfile.call('crondotd'),
     }
 
     # create all mock commands
