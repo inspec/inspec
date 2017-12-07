@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.6 -->
-## [v1.47.6](https://github.com/chef/inspec/tree/v1.47.6) (2017-12-07)
+<!-- latest_release 1.47.7 -->
+## [v1.47.7](https://github.com/chef/inspec/tree/v1.47.7) (2017-12-07)
 
 #### Enhancements
-- Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick))
+- Allow crontab resource to read crontab at user specified paths. [#2328](https://github.com/chef/inspec/pull/2328) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.47.0 -->
 ### Changes since 1.47.0 release
 
 #### Enhancements
+- Allow crontab resource to read crontab at user specified paths. [#2328](https://github.com/chef/inspec/pull/2328) ([miah](https://github.com/miah)) <!-- 1.47.7 -->
 - Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick)) <!-- 1.47.6 -->
 
 #### Bug Fixes
