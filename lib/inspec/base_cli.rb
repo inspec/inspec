@@ -73,9 +73,11 @@ module Inspec
 
     def self.default_options
       {
-        color: true,
-        create_lockfile: true,
-        backend_cache: false,
+        exec: {
+          'color' => true,
+          'create_lockfile' => true,
+          'backend_cache' => false,
+        },
       }
     end
 
@@ -109,8 +111,8 @@ module Inspec
       puts
     end
 
-    def opts
-      o = merged_opts
+    def opts(type = nil)
+      o = merged_opts(type)
 
       # Due to limitations in Thor it is not possible to set an argument to be
       # both optional and its value to be mandatory. E.g. the user supplying
@@ -126,9 +128,11 @@ module Inspec
       o
     end
 
-    def merged_opts
-      # start with default options
-      opts = BaseCLI.default_options
+    def merged_opts(type = nil)
+      opts = {}
+
+      # start with default options if we have any
+      opts = BaseCLI.default_options[type] unless type.nil?
 
       # merge in any options from json-config
       opts.merge!(options_json)

@@ -152,8 +152,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
   exec_options
   def exec(*targets)
     diagnose
-    configure_logger(opts)
-    o = opts.dup
+    o = opts(:exec).dup
+    configure_logger(o)
 
     # run tests
     run_tests(targets, o)
