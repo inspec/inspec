@@ -8,7 +8,7 @@ require 'tempfile'
 require 'open-uri'
 
 module Fetchers
-  class Url < Inspec.fetcher(1) # rubocop:disable Metrics/ClassLength
+  class Url < Inspec.fetcher(1)
     MIME_TYPES = {
       'application/x-zip-compressed' => '.zip',
       'application/zip' => '.zip',

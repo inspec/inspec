@@ -6,7 +6,7 @@ require 'mixlib/shellout'
 require 'tomlrb'
 
 module Habitat
-  class Profile # rubocop:disable Metrics/ClassLength
+  class Profile
     attr_reader :options, :path, :profile
 
     def self.create(path, options = {})

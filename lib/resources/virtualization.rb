@@ -4,7 +4,7 @@
 require 'hashie/mash'
 
 module Inspec::Resources
-  class Virtualization < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Virtualization < Inspec.resource(1)
     name 'virtualization'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "

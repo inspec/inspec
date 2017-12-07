@@ -47,7 +47,7 @@ require 'json'
 # end
 
 module Inspec::Resources
-  class RegistryKey < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class RegistryKey < Inspec.resource(1)
     name 'registry_key'
     desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
     example "

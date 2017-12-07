@@ -28,7 +28,6 @@ module Inspec
       from_content(content)
     end
 
-    # rubocop:disable Style/GuardClause
     def self.validate_lockfile_version!(version)
       if version < MINIMUM_SUPPORTED_VERSION
         raise <<~EOF
@@ -49,7 +48,6 @@ module Inspec
         EOF
       end
     end
-    # rubocop:enable Style/GuardClause
 
     attr_reader :version, :deps
     def initialize(lockfile_content_hash)

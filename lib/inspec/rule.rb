@@ -8,7 +8,7 @@ require 'inspec/describe'
 require 'inspec/expect'
 
 module Inspec
-  class Rule # rubocop:disable Metrics/ClassLength
+  class Rule
     include ::RSpec::Matchers
 
     #

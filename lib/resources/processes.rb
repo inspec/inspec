@@ -7,7 +7,7 @@ require 'utils/filter'
 require 'ostruct'
 
 module Inspec::Resources
-  class Processes < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Processes < Inspec.resource(1)
     name 'processes'
     desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
     example "

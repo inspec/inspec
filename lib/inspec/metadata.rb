@@ -14,7 +14,7 @@ module Inspec
   # A Metadata object may be created and finalized with invalid data.
   # This allows the check CLI command to analyse the issues.
   # Use valid? to determine if the metadata is coherent.
-  class Metadata # rubocop:disable Metrics/ClassLength
+  class Metadata
     attr_reader :ref
     attr_accessor :params, :content
     def initialize(ref, logger = nil)

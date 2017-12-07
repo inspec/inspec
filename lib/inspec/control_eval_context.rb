@@ -13,7 +13,7 @@ module Inspec
   # as the basic DSL of the control files (describe, control, title,
   # etc).
   #
-  class ControlEvalContext # rubocop:disable Metrics/ClassLength
+  class ControlEvalContext
     # Create the context for controls. This includes all components of the DSL,
     # including matchers and resources.
     #

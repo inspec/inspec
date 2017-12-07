@@ -6,7 +6,7 @@ require 'thor'
 require 'erb'
 
 module Compliance
-  class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
+  class ComplianceCLI < Inspec::BaseCLI
     namespace 'compliance'
 
     # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed

@@ -38,6 +38,8 @@ Metrics/AbcSize:
   Max: 33
 Metrics/BlockLength:
   Max: 50
+Metrics/ClassLength:
+  Enabled: false
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
@@ -59,6 +61,8 @@ Style/EmptyMethod:
 Style/Encoding:
   Enabled: false
 Style/FileName:
+  Enabled: false
+Style/GuardClause:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false

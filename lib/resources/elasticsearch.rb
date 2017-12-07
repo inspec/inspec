@@ -5,7 +5,7 @@ require 'hashie/mash'
 require 'resources/package'
 
 module Inspec::Resources
-  class Elasticsearch < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Elasticsearch < Inspec.resource(1)
     name 'elasticsearch'
     desc "Use the Elasticsearch InSpec audit resource to test the status of nodes in
       an Elasticsearch cluster."

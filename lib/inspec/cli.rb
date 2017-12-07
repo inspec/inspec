@@ -15,7 +15,7 @@ require 'inspec/runner_mock'
 require 'inspec/env_printer'
 require 'inspec/schema'
 
-class Inspec::InspecCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
+class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
                desc: 'Set the log level: info (default), debug, warn, error'
 

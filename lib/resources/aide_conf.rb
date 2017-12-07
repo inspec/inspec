@@ -3,8 +3,6 @@
 
 require 'utils/filter'
 require 'utils/parser'
-
-# rubocop:disable Metrics/ClassLength
 module Inspec::Resources
   class AideConf < Inspec.resource(1)
     name 'aide_conf'

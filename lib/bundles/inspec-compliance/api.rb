@@ -12,7 +12,7 @@ module Compliance
 
   # API Implementation does not hold any state by itself,
   # everything will be stored in local Configuration store
-  class API # rubocop:disable Metrics/ClassLength
+  class API
     extend Compliance::API::Login
 
     # return all compliance profiles available for the user

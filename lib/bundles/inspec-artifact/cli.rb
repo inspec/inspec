@@ -90,8 +90,6 @@ module Artifact
 
   SIGNED_PROFILE_SUFFIX='iaf'
   SIGNED_REPORT_SUFFIX='iar'
-
-  # rubocop:disable Metrics/ClassLength
   class CLI < Inspec::BaseCLI
     namespace 'artifact'
 

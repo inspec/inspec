@@ -9,7 +9,6 @@ require 'utils/filter'
 require 'utils/parser'
 
 module Inspec::Resources
-  # rubocop:disable Metrics/ClassLength
   class AuditDaemon < Inspec.resource(1)
     extend Forwardable
     attr_accessor :lines
