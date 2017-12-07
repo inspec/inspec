@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.0 -->
-## [v1.48.0](https://github.com/chef/inspec/tree/v1.48.0) (2017-12-07)
-
-#### Merged Pull Requests
-- Fix changelog categories, bump minor version for release [#2381](https://github.com/chef/inspec/pull/2381) ([adamleff](https://github.com/adamleff))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.47.0 -->
-### Changes since 1.47.0 release
-
-#### Enhancements
-- Allow crontab resource to read crontab at user specified paths. [#2328](https://github.com/chef/inspec/pull/2328) ([miah](https://github.com/miah)) <!-- 1.47.7 -->
-- Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick)) <!-- 1.47.6 -->
-
-#### Bug Fixes
-- Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.47.2 -->
-- Remove rainbow dependency, fix duplicate rake gem [#2374](https://github.com/chef/inspec/pull/2374) ([adamleff](https://github.com/adamleff)) <!-- 1.47.8 -->
-- Resolve merge issue with json-config vs thor defaults [#2377](https://github.com/chef/inspec/pull/2377) ([jquick](https://github.com/jquick)) <!-- 1.47.5 -->
-- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
-
-#### Merged Pull Requests
-- Fix changelog categories, bump minor version for release [#2381](https://github.com/chef/inspec/pull/2381) ([adamleff](https://github.com/adamleff)) <!-- 1.48.0 -->
-- Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick)) <!-- 1.47.4 -->
-- Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick)) <!-- 1.47.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.48.0](https://github.com/chef/inspec/tree/v1.48.0) (2017-12-07)
+
+#### Enhancements
+- Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick))
+- Allow crontab resource to read crontab at user specified paths. [#2328](https://github.com/chef/inspec/pull/2328) ([miah](https://github.com/miah))
+
+#### Bug Fixes
+- Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick))
+- Resolve merge issue with json-config vs thor defaults [#2377](https://github.com/chef/inspec/pull/2377) ([jquick](https://github.com/jquick))
+- Remove rainbow dependency, fix duplicate rake gem [#2374](https://github.com/chef/inspec/pull/2374) ([adamleff](https://github.com/adamleff))
+- Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick))
+- Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick))
+- Fix changelog categories, bump minor version for release [#2381](https://github.com/chef/inspec/pull/2381) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.47.0](https://github.com/chef/inspec/tree/v1.47.0) (2017-12-04)
 
 #### New Features
@@ -40,7 +38,6 @@
 
 #### Merged Pull Requests
 - docker_image resource: properly handle registries in image strings [#2356](https://github.com/chef/inspec/pull/2356) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.46.2](https://github.com/chef/inspec/tree/v1.46.2) (2017-11-29)
 
