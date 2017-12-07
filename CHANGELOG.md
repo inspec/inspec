@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.8 -->
-## [v1.47.8](https://github.com/chef/inspec/tree/v1.47.8) (2017-12-07)
+<!-- latest_release 1.48.0 -->
+## [v1.48.0](https://github.com/chef/inspec/tree/v1.48.0) (2017-12-07)
 
 #### Merged Pull Requests
-- Remove rainbow dependency, fix duplicate rake gem [#2374](https://github.com/chef/inspec/pull/2374) ([adamleff](https://github.com/adamleff))
+- Fix changelog categories, bump minor version for release [#2381](https://github.com/chef/inspec/pull/2381) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.47.0 -->
@@ -21,6 +21,7 @@
 - Update rspec cli control summary to not uniq fails/skips [#2362](https://github.com/chef/inspec/pull/2362) ([jquick](https://github.com/jquick)) <!-- 1.47.1 -->
 
 #### Merged Pull Requests
+- Fix changelog categories, bump minor version for release [#2381](https://github.com/chef/inspec/pull/2381) ([adamleff](https://github.com/adamleff)) <!-- 1.48.0 -->
 - Fix inspec appveyor test with the new local train transport [#2376](https://github.com/chef/inspec/pull/2376) ([jquick](https://github.com/jquick)) <!-- 1.47.4 -->
 - Update command resource to check for mock backend [#2353](https://github.com/chef/inspec/pull/2353) ([jquick](https://github.com/jquick)) <!-- 1.47.3 -->
 <!-- release_rollup -->
