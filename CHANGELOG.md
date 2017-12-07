@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.47.5 -->
-## [v1.47.5](https://github.com/chef/inspec/tree/v1.47.5) (2017-12-06)
+<!-- latest_release 1.47.6 -->
+## [v1.47.6](https://github.com/chef/inspec/tree/v1.47.6) (2017-12-07)
 
-#### Merged Pull Requests
-- Resolve merge issue with json-config vs thor defaults [#2377](https://github.com/chef/inspec/pull/2377) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.47.0 -->
 ### Changes since 1.47.0 release
+
+#### Enhancements
+- Update default cli options to be uniq per command type [#2378](https://github.com/chef/inspec/pull/2378) ([jquick](https://github.com/jquick)) <!-- 1.47.6 -->
 
 #### Bug Fixes
 - Allow `inspec check` to ignore `only_if` [#2250](https://github.com/chef/inspec/pull/2250) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.47.2 -->
