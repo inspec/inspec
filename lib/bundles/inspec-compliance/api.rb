@@ -251,11 +251,28 @@ module Compliance
     end
 
     def self.determine_server_type(url, insecure)
-      if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
-        :automate
-      elsif Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
-        :compliance
+      automate_endpoint = '/compliance/version'
+      response = Compliance::HTTP.get(url + automate_endpoint, nil, insecure)
+      case response.code
+      when '401'
+        return :automate
+      when '200'
+        # Chef Automate currently returns 401 for `/compliance/version` but some
+        # versions of OpsWorks Chef Automate return 200 and a Chef Manage page
+        # when unauthenticated requests are received.
+        if response.body.include?('Are You Looking For the Chef Server?')
+          Inspec::Log.debug(
+            "Received 200 from #{url}#{automate_endpoint} " \
+            'assuming target is an OpsWorks Chef Automate instance',
+          )
+          return :automate
+        end
       end
+
+      # All versions of Chef Compliance return 200 for `/api/version`
+      compliance_endpoint = '/api/version'
+      response = Compliance::HTTP.get(url + compliance_endpoint, nil, insecure)
+      return :compliance if response.code == '200'
     end
   end
 end
