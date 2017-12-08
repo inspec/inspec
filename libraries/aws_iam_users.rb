@@ -19,46 +19,84 @@ class AwsIamUsers < Inspec.resource(1)
   filter.add_accessor(:where)
         .add_accessor(:entries)
         .add(:exists?) { |x| !x.entries.empty? }
+        .add(:has_mfa_enabled?, field: :has_mfa_enabled)
+        .add(:has_console_password?, field: :has_console_password)
+        .add(:username, field: :user_name)
   filter.connect(self, :collect_user_details)
 
-  def initialize(
-    aws_user_provider = AwsIam::UserProvider.new,
-    aws_user_details_provider_ini = AwsIam::UserDetailsProviderInitializer.new,
-    user_factory = AwsIamUserFactory.new
-  )
-    @user_provider = aws_user_provider
-    @aws_user_details_provider_ini = aws_user_details_provider_ini
-    @user_factory = user_factory
-  end
+  # No resource params => no overridden constructor
+  # AWS API only offers filtering on path prefix;
+  # little other opportunity for server-side filtering.
 
   def collect_user_details
-    @users_cache ||= @user_provider.list_users unless @user_provider.nil?
-    @users_cache.map do |aws_user|
-      details_provider = @aws_user_details_provider_ini.create(aws_user)
-      {
-        name: details_provider.name,
-        has_mfa_enabled?: details_provider.has_mfa_enabled?,
-        has_console_password?: details_provider.has_console_password?,
-        access_keys: details_provider.access_keys,
-      }
-    end
-  end
+    backend = Backend.create
+    users = backend.list_users.users.map(&:to_h)
 
-  def users
-    users = []
-    users ||= @user_provider.list_users unless @user_provider.nil?
-    users.map { |user|
-      @user_factory.create_user(user)
-    }
+    # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
+    users.each do |user|
+      begin
+        _login_profile = backend.get_login_profile(user_name: user[:user_name])
+        user[:has_console_password] = true
+      rescue Aws::IAM::Errors::NoSuchEntity
+        user[:has_console_password] = false
+      end
+      user[:has_console_password?] = user[:has_console_password]
+
+      begin
+        aws_mfa_devices = backend.list_mfa_devices(user_name: user[:user_name])
+        user[:has_mfa_enabled] = !aws_mfa_devices.mfa_devices.empty?
+      rescue Aws::IAM::Errors::NoSuchEntity
+        user[:has_mfa_enabled] = false
+      end
+      user[:has_mfa_enabled?] = user[:has_mfa_enabled]
+    end
+    users
   end
 
   def to_s
     'IAM Users'
   end
 
-  class AwsIamUserFactory
-    def create_user(user)
-      AwsIamUser.new(user: user)
+  # Entry cooker.  Needs discussion.
+  # def users
+  # end
+
+  #===========================================================================#
+  #                        Backend Implementation
+  #===========================================================================#
+  class Backend
+    #=====================================================#
+    #                 Concrete Implementation
+    #=====================================================#
+    # Uses AWS API to really talk to AWS
+    class AwsClientApi < Backend
+      # TODO: delegate this out
+      def list_users(query = {})
+        AWSConnection.new.iam_client.list_users(query)
+      end
+
+      def get_login_profile(query)
+        AWSConnection.new.iam_client.get_login_profile(query)
+      end
+
+      def list_mfa_devices(query)
+        AWSConnection.new.iam_client.list_mfa_devices(query)
+      end
+    end
+
+    #=====================================================#
+    #                   Factory Interface
+    #=====================================================#
+    # TODO: move this to a mix-in
+    DEFAULT_BACKEND = AwsClientApi
+    @selected_backend = DEFAULT_BACKEND
+
+    def self.create
+      @selected_backend.new
+    end
+
+    def self.select(klass)
+      @selected_backend = klass
     end
   end
 end
