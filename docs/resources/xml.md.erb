@@ -28,7 +28,7 @@ This file can be queried using:
     describe xml('/path/to/name.xml') do
       its('root/name') { should eq ['hello'] }
       its('root/meta/creator') { should eq ['John Doe'] }
-      its('root/array[2]/element]) { should eq ['two'] }
+      its('root/array[2]/element') { should eq ['two'] }
     end
 
 where
