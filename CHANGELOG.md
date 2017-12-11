@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.48.1 -->
+## [v1.48.1](https://github.com/chef/inspec/tree/v1.48.1) (2017-12-11)
+
+#### Merged Pull Requests
+- added missing quote [#2386](https://github.com/chef/inspec/pull/2386) ([aboutte](https://github.com/aboutte))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.48.0 -->
+### Changes since 1.48.0 release
+
+#### Merged Pull Requests
+- added missing quote [#2386](https://github.com/chef/inspec/pull/2386) ([aboutte](https://github.com/aboutte)) <!-- 1.48.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
