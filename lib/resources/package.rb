@@ -20,7 +20,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name = nil, opts = {}) # rubocop:disable Metrics/AbcSize
+    def initialize(package_name = nil, opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
       raise Inspec::Exceptions::ResourceFailed, 'Package name required but not specified' if package_name.nil?
 
       @package_name = package_name
@@ -204,8 +204,8 @@ module Inspec::Resources
       }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
-        'Failed to parse JSON from `brew` command. ' \
-        "Error: #{e}"
+            'Failed to parse JSON from `brew` command. ' \
+            "Error: #{e}"
     end
   end
 
@@ -270,8 +270,8 @@ module Inspec::Resources
         package = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
         raise Inspec::Exceptions::ResourceFailed,
-          'Failed to parse JSON from PowerShell. ' \
-          "Error: #{e}"
+              'Failed to parse JSON from PowerShell. ' \
+              "Error: #{e}"
       end
 
       # What if we match multiple packages?  just pick the first one for now.
