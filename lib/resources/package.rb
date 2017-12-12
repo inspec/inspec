@@ -58,7 +58,6 @@ module Inspec::Resources
 
     # returns true it the package is held (if the OS supports it)
     def held?(_provider = nil, _version = nil)
-      return false unless info.key?(:held)
       info[:held] == true
     end
 
