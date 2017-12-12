@@ -42,7 +42,7 @@ module Inspec
       @controls = @conf[:controls] || []
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
-      @cache = Inspec::Cache.new(@conf[:cache])
+      @cache = Inspec::Cache.new(@conf[:vendor_cache])
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
@@ -168,7 +168,7 @@ module Inspec
     #
     def add_target(target, _opts = [])
       profile = Inspec::Profile.for_target(target,
-                                           cache: @cache,
+                                           vendor_cache: @cache,
                                            backend: @backend,
                                            controls: @controls,
                                            attributes: @conf[:attributes])

@@ -43,7 +43,7 @@ module Inspec
         next if content[key].nil?
         # remove prefix
         rel = Pathname.new(key).relative_path_from(Pathname.new('vendor')).to_s
-        tar = Pathname.new(opts[:cache].path).join(rel)
+        tar = Pathname.new(opts[:vendor_cache].path).join(rel)
 
         FileUtils.mkdir_p tar.dirname.to_s
         Inspec::Log.debug "Copy #{tar} to cache directory"
@@ -56,7 +56,7 @@ module Inspec
       rp = file_provider.relative_provider
 
       # copy embedded dependecies into global cache
-      copy_deps_into_cache(rp, opts) unless opts[:cache].nil?
+      copy_deps_into_cache(rp, opts) unless opts[:vendor_cache].nil?
 
       reader = Inspec::SourceReader.resolve(rp)
       if reader.nil?
@@ -67,14 +67,14 @@ module Inspec
     end
 
     def self.for_fetcher(fetcher, opts)
-      opts[:cache] = opts[:cache] || Cache.new
+      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
       path, writable = fetcher.fetch
       for_path(path, opts.merge(target: fetcher.target, writable: writable))
     end
 
     def self.for_target(target, opts = {})
-      opts[:cache] = opts[:cache] || Cache.new
-      fetcher = resolve_target(target, opts[:cache])
+      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
+      fetcher = resolve_target(target, opts[:vendor_cache])
       for_fetcher(fetcher, opts)
     end
 
@@ -92,7 +92,7 @@ module Inspec
       @controls = options[:controls] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
-      @cache = options[:cache] || Cache.new
+      @cache = options[:vendor_cache] || Cache.new
       @attr_values = options[:attributes]
       @tests_collected = false
       @libraries_loaded = false
