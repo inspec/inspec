@@ -8,6 +8,7 @@ module Inspec::Resources
     example "
       describe xml('default.xml') do
         its('key/sub_key') { should eq(['value']) }
+        its(['root/name.with.a.period']) { should cmp 'so_many_dots' }
       end
     "
 

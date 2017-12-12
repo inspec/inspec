@@ -38,6 +38,10 @@ where
 
 <br>
 
+In the event the path contains an element which contains periods, the alternate syntax can be used:
+
+    its(['root/name.with.a.period']) { should cmp 'so_many_dots' }
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
