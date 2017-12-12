@@ -1,324 +1,261 @@
+# frozen_string_literal: true
 
 require 'azure_backend'
 
-# Class to retrieve information about the specified virtual machine
-#
-# @author Russell Seymour
-#
-# @attr_reader [Azure::ARM::Compute::Models::VirtualMachine] vm VM object as retrieved from Azure
-class AzureVm < Inspec.resource(1)
+class AzureVirtualMachine < AzureResourceBase
   name 'azure_virtual_machine'
 
-  desc "
-    This resource gathers information about which image the vm was created from
-  "
+  desc '
+    Inspec Resource to test Azure Virtual Machines
+  '
 
-  example "
-    describe azure_vm(name: 'acme-test-01', resource_group: 'ACME') do
-      its('sku') { should eq '16.04.0-LTS'}
-    end
-  "
-
-  attr_accessor :vm, :nics, :helpers
-
-  # Constructor to retrieve the VM from Azure
+  # Constructor for the resource. This calls the parent constructor to
+  # get the generic resource for the specified machine. This will provide
+  # static methods that are documented
   #
   # @author Russell Seymour
-  #
-  # @param [Hash] opts Hashtable of options
-  #     opts[:host] The name of the host in the resource group.  NOTE, this is the name as seen in Azure and not the name of the machine in the Operating System
-  #     opts[:resource_group] Name of the resource group in which the host will be found
-  def initialize(opts)
-    opts = opts
-    @helpers = Helpers.new
-    @vm = helpers.get_vm(opts[:name], opts[:resource_group])
+  def initialize(opts = {})
+    # The generic resource needs to pass back a Microsoft.Compute/virtualMachines object so force it
+    opts[:type] = 'Microsoft.Compute/virtualMachines'
+    super(opts)
 
-    # Ensure that the vm is an object
-    raise format('An error has occured: %s', vm) if vm.instance_of?(String)
+    # Find the virtual machines
+    resources
 
-    # Parse the Network Interface Cards attached to the machine
-    @nics = parse_nics(vm.network_profile.network_interfaces)
+    create_tag_methods
   end
 
-  filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:accelerated_networking, field: 'enable_accelerated_networking')
-        .add(:ip_forwarding, field: 'enable_ip_forwarding')
-        .add(:location, field: 'location')
-        .add(:name, field: 'name')
-        .add(:primary, field: 'primary')
-        .add(:ip_configurations, field: 'ip_configurations')
+  # Method to catch calls that are not explicitly defined.
+  # This allows the simple attributes of the virtual machine to be read without having
+  # to define each one in turn.
+  #
+  # rubocop:disable Style/MethodMissing
+  # rubocop:disable Metrics/AbcSize
+  #
+  # @param symobl method_id The symbol of the method that has been called
+  #
+  # @return Value of attribute that has been called
+  def method_missing(method_id)
+    # Depending on the method that has been called, determine what value should be returned
+    # These are set as camel case methods to comply with rubocop
+    image_reference_attrs = %w{sku publisher offer}
+    osdisk_attrs = %w{os_type caching create_option disk_size_gb}
+    hardware_profile_attrs = %w{vm_size}
+    os_profile_attrs = %w{computer_name admin_username}
+    osdisk_managed_disk_attrs = %w{storage_account_type}
 
-  filter.connect(self, :nics)
+    # determine the method name to call by converting the snake_case to camelCase
+    # method_name = self.camel_case(method_id.to_s)
+    method_name = method_id.to_s.split('_').inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+    method_name.end_with?('Gb') ? method_name.gsub!(/Gb/, &:upcase) : false
 
-  # Determine the SKU used to create the machine
-  #
-  # @return [String] Showing the sku, e.g. 16.04.0-LTS
-  #
-  def sku
-    vm.storage_profile.image_reference.sku
-  end
-
-  # Determine the publisher of the SKU
-  #
-  # @return [String] Publisher, e.g. Canonical
-  #
-  def publisher
-    vm.storage_profile.image_reference.publisher
-  end
-
-  # Determine the offer from the publisher
-  #
-  # @return [String] offer, e.g. UbuntuServer
-  #
-  def offer
-    vm.storage_profile.image_reference.offer
-  end
-
-  # Determine the size of the machine
-  #
-  # @return [String] Size of the machine, e.g. Standard_DS1_v2
-  #
-  def size
-    vm.hardware_profile.vm_size
-  end
-
-  # Determine the location of the vm
-  #
-  # @return [String] location of the machinem, e.g. westeurope
-  #
-  def location
-    vm.location
-  end
-
-  # State if boot diagnostics is enabled
-  #
-  # @return [Boolean]
-  #
-  def has_boot_diagnostics?
-    if vm.diagnostics_profile
-      vm.diagnostics_profile.boot_diagnostics.enabled
-    else
-      false
+    if image_reference_attrs.include?(method_id.to_s)
+      properties.storageProfile.imageReference.send(method_name)
+    elsif osdisk_attrs.include?(method_id.to_s)
+      properties.storageProfile.osDisk.send(method_name)
+    elsif hardware_profile_attrs.include?(method_id.to_s)
+      properties.hardwareProfile.send(method_name)
+    elsif os_profile_attrs.include?(method_id.to_s)
+      properties.osProfile.send(method_name)
+    elsif osdisk_managed_disk_attrs.include?(method_id.to_s)
+      properties.storageProfile.osDisk.managedDisk.send(method_name)
     end
   end
 
-  # Determine how many network cards are connected to the machine
+  # Return the name of the os disk
   #
-  # @return [Integer]
+  # @return string Name of the OS disk
+  def os_disk_name
+    properties.storageProfile.osDisk.name
+  end
+
+  # Determine if the OS disk is a managed disk
   #
+  # @return boolean
+  def has_managed_osdisk?
+    defined?(properties.storageProfile.osDisk.managedDisk)
+  end
+
+  # Does the machine have any NICs connected
+  #
+  # @return boolean
+  def has_nics?
+    properties.networkProfile.networkInterfaces.count != 0
+  end
+
+  # How many NICs are connected to the machine
+  #
+  # @return integer
   def nic_count
-    vm.network_profile.network_interfaces.length
+    properties.networkProfile.networkInterfaces.count
   end
 
-  # The admin username for the machine
+  # Return an array of the connected NICs so that it can be tested to ensure
+  # the machine is connected properly
   #
-  # @return [String] Admin username when the machine was created, e.g. azure
-  #
-  def admin_username
-    vm.os_profile.admin_username
+  # @return array Array of NIC names connected to the machine
+  def connected_nics
+    nic_names = []
+    properties.networkProfile.networkInterfaces.each do |nic|
+      nic_names << nic.id.split(%r{/}).last
+    end
+    nic_names
   end
 
-  # The computername as seen by the operating system
-  # This might be different to the VM name as seen in Azure
+  # Whether the machine has data disks or not
   #
-  # @return [String]
-  #
-  def computername
-    vm.os_profile.computer_name
+  # @return boolean
+  def has_data_disks?
+    properties.storageProfile.dataDisks.count != 0
   end
 
-  # Alias for computername
+  # How many data disks are connected
   #
-  # @return [String]
-  #
-  def hostname
-    computername
+  # @return integer
+  def data_disk_count
+    properties.storageProfile.dataDisks.count
   end
 
-  # Determine if password authentication is enabled
-  # For Windows this is always True.  On Linux this will be determined
+  # Does the machine allow password authentication
   #
-  # @return [Boolean]
+  # This allows the use of
+  #   it { should have_password_authentication }
+  # within the Inspec profile
   #
+  # @return boolean
+  def has_password_authentication?
+    password_authentication?
+  end
+
+  # Deteremine if the machine allows password authentication
+  #
+  # @return boolean
   def password_authentication?
-    # if the vm has a linux configuration then interrogate that, otherwise return true
-    if !vm.os_profile.linux_configuration.nil?
-      !vm.os_profile.linux_configuration.disable_password_authentication
+    # if the osProfile property has a linuxConfiguration section then interrogate that
+    # otherwise it is a Windows machine and that always has password auth
+    if defined?(properties.osProfile.linuxConfiguration)
+      !properties.osProfile.linuxConfiguration.disablePasswordAuthentication
     else
       true
     end
   end
 
-  # How many SSH keys have been added to the machine
-  # For Windows this will be 0, for Linux this will be determined
+  # Has the machine been given Custom Data at creation
   #
-  # @return [Integer]
+  # This allows the use of
+  #    it { should have_custom_data }
+  # within the Inspec Profile
   #
+  # @return boolean
+  def has_custom_data?
+    custom_data?
+  end
+
+  # Determine if custom data has been set
+  #
+  # @return boolean
+  def custom_data?
+    if defined?(properties.osProfile.CustomData)
+      true
+    else
+      false
+    end
+  end
+
+  # Are any SSH Keys assigned to the machine
+  #
+  # This allows the use of
+  #    it { should have_ssh_keys }
+  # within the Inspec Profile
+  #
+  # @return boolean
+  def has_ssh_keys?
+    ssh_keys?
+  end
+
+  # Determine if any ssh keys have been asigned to the machine
+  #
+  # @return boolean
+  def ssh_keys?
+    if defined?(properties.osProfile.linuxConfiguration.ssh)
+      properties.osProfile.linuxConfiguration.ssh.publicKeys != 0
+    else
+      false
+    end
+  end
+
+  # Return the number of ssh keys that have been assigned to the machine
+  #
+  # @return integer
   def ssh_key_count
-    if !vm.os_profile.linux_configuration.nil? && !vm.os_profile.linux_configuration.ssh.nil?
-      vm.os_profile.linux_configuration.ssh.public_keys.length
+    if defined?(properties.osProfile.linuxConfiguration.ssh)
+      properties.osProfile.linuxConfiguration.ssh.publicKeys.count
     else
       0
     end
   end
 
-  # Determine the Operating system type using the os_disk object
+  # Determine is the specified key is in the ssh_keys list
   #
-  # @return [String] OS type, e.g. Windows or Linux
-  #
-  def os_type
-    vm.storage_profile.os_disk.os_type
-  end
-
-  # Return an array of the private IP addresses so that it is possible
-  # to check if the machine has the correct assigned address
-  #
-  # @return [Array] Array of private ip addresses
-  #
-  def private_ipaddresses
-    # Create an array to hold the addresses
-    addresses = []
-
-    # Iterate around the filter that has been populated
-    entries.each do |entry|
-      entry.ip_configurations.each do |ip_config|
-        addresses << ip_config['private_ipaddress']
-      end
+  # @return array Array of the public keys that are assigned to allow for testing of that key
+  def ssh_keys
+    # iterate around the keys
+    keys = []
+    properties.osProfile.linuxConfiguration.ssh.publicKeys.each do |key|
+      keys << key.keyData
     end
-
-    # return the array to the calling function
-    addresses
+    keys
   end
 
-  # Boolean test to check that the machine has a public IP address
+  # Does the machine have boot diagnostics enabled
   #
-  # @return [boolean]
-  #
-  def has_public_ipaddress?
-    # Define the test value
-    test = false
-
-    entries.each do |entry|
-      entry.ip_configurations.each do |ip_config|
-        if ip_config['public_ipaddress']['attached']
-          test = true
-          break
-        end
-      end
+  # @return boolean
+  def has_boot_diagnostics?
+    if defined?(properties.diagnosticsProfile)
+      properties.diagnosticsProfile.bootDiagnostics.enabled
+    else
+      false
     end
-
-    test
   end
 
-  # Return the domain name label that has been assigned to the machine
+  # Return the URI that has been set for the boot diagnostics storage
   #
-  # @return [String] The domain name label
+  # @return string
+  def boot_diagnostics_storage_uri
+    properties.diagnosticsProfile.bootDiagnostics.storageUri
+  end
+
+  # If this is a windows machine, returns whether the agent was provisioned or not
   #
-  def domain_name_label
-    label = nil
-    entries.each do |entry|
-      entry.ip_configurations.each do |ip_config|
-        if ip_config['public_ipaddress']['attached']
-          label = ip_config['public_ipaddress']['domain_name_label']
-        end
-      end
+  # @return boolean
+  def has_provision_vmagent?
+    if defined?(properties.osProfile.windowsConfiguration)
+      properties.osProfile.windowsConfiguration.provisionVMAgent
+    else
+      false
     end
-
-    label
   end
 
-  private
-
-  # Parse the array of NICs attached to the machine
+  # If a windows machine see if automatic updates for the agent are enabled
   #
-  # @return [Array] Array of all the NICs
-  #
-  def parse_nics(attached_nics)
-    # Iterate around the attached NICs
-    attached_nics.each.map do |attached_nic|
-
-      # Get the name of the resource group and the name of the NIC
-      # This is required as the card might be in a different resource group
-      nic_raw = attached_nic.id.split(%r{/})
-      nic_resource_group_name = nic_raw[4]
-      nic_name = nic_raw.last
-
-      # Interrogate Azure for the NIC details
-      nic = helpers.network_mgmt.client.network_interfaces.get(nic_resource_group_name, nic_name)
-
-      # Parse the NIC
-      parse_nic(nic)
-    end.compact
-  end
-
-  # Parse the indivdual NIC
-  #
-  # @return [Hash] Properties of the indvidual NIC
-  #
-  def parse_nic(nic)
-    # Create the hash table that contains all the information about the NIC
-    {
-      'enable_accelerated_networking' => nic.enable_accelerated_networking,
-      'enable_ip_forwarding' => nic.enable_ipforwarding,
-      'location' => nic.location,
-      'name' => nic.name,
-      'primary' => nic.primary,
-
-      # Parse all the IP configurations for the NIC
-      'ip_configurations' => parse_ip_configurations(nic.ip_configurations),
-    }
-  end
-
-  # Parse the array of IP configurations that are applied to the NIC
-  #
-  # @returns [Array] Array of all the IP configurations
-  #
-  def parse_ip_configurations(ip_configurations)
-    # Iterate around all of the IP configurations
-    ip_configurations.each.map do |ip_configuration|
-      parse_ip_configuration(ip_configuration)
-    end.compact
-  end
-
-  # Parse the IP configuration item
-  #
-  # @return [Hash] Hashtable of the ip_configuration attributes
-  #
-  def parse_ip_configuration(ip_configuration)
-    config = {
-      'name' => ip_configuration.name,
-      'primary' => ip_configuration.primary,
-      'private_ipaddress' => ip_configuration.private_ipaddress,
-      'public_ipaddress' => {
-        'attached' => !ip_configuration.public_ipaddress.nil?,
-      },
-    }
-
-    # if there is a public IP address attached get its details
-    if config['public_ipaddress']['attached']
-
-      # Get the name of the resource group and the name of the NIC
-      # This is required as the card might be in a different resource group
-      public_ip_raw = ip_configuration.public_ipaddress.id.split(%r{/})
-      public_ip_resource_group_name = public_ip_raw[4]
-      public_ip_name = public_ip_raw.last
-
-      # Interrogate Azure for the NIC details
-      public_ip = helpers.network_mgmt.client.public_ipaddresses.get(public_ip_resource_group_name, public_ip_name)
-
-      # update the config with the information about the public IP if public dns settings are available
-      if !public_ip.dns_settings.nil?
-        config['public_ipaddress']['domain_name_label'] = public_ip.dns_settings.domain_name_label
-        config['public_ipaddress']['dns_fqdn'] = public_ip.dns_settings.fqdn
-      else
-        config['public_ipaddress']['domain_name_label'] = nil
-        config['public_ipaddress']['dns_fqdn'] = nil
-      end
+  # @return boolean
+  def has_automatic_agent_update?
+    if defined?(properties.osProfile.windowsConfiguration)
+      properties.osProfile.windowsConfiguration.enableAutomaticUpdates
+    else
+      false
     end
+  end
 
-    # return object
-    config
+  # If this is a windows machine return a boolean to state of the WinRM options
+  # have been set
+  #
+  # @return boolean
+  def has_winrm_options?
+    if defined?(properties.osProfile.windowsConfiguration) && defined?(properties.osProfile.windowsConfiguration.winrm)
+      properties.osProfile.windowsConfiguration.winrm.protocol
+    else
+      false
+    end
   end
 end

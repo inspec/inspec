@@ -1,207 +1,149 @@
+# frozen_string_literal: true
 
 require 'azure_backend'
 
-# Class to test the resources in Resource Groups
-#
-# @author Russell Seymour
-#
-# @attr_reader [Hashtable] items List of items in the resource group
-# @attr_reader [Azure::ARM::Resources::Models::ResourceGroup] rg Resource group under interrogation
-# @attr_reader [Hashtable] counts Hashtable containing the counts of the different types in the resource group
-class AzureRg < Inspec.resource(1)
+class AzureResourceGroup < AzureResourceBase
   name 'azure_resource_group'
 
-  desc "
-    This resource returns information about the specified resource group
-  "
+  desc '
+    Inspec Resource to get metadata about a specific Resource Group
+  '
 
-  example "
-    describe azure_rg(name: 'ACME') do
-      its('nic_count') { should eq 4 }
-      its('vm_count) { should eq 2 }
-    end
-  "
+  attr_reader :name, :location, :id, :total, :counts, :mapping
 
-  attr_reader :items, :rg, :counts
+  # Constructor to get the resource group itself and perform some analysis on the
+  # resources that in the resource group.
+  #
+  # This analysis is defined by the the mapping hashtable which is used to define
+  # the 'has_xxx?' methods (see AzureResourceGroup#create_has_methods) and return
+  # the counts for each type
+  #
+  # @author Russell Seymour
+  def initialize(opts)
+    opts.key?(:name) ? opts[:group_name] = opts[:name] : false
+    # Ensure that the opts only have the name of the resource group set
+    opts.select! { |k, _v| k == :group_name }
+    super(opts)
 
-  # Constructor which retrieves the named resource group and parses all of its items
+    # set the mapping for the Azure Resources
+    @mapping = {
+      nic: 'Microsoft.Network/networkInterfaces',
+      vm: 'Microsoft.Compute/virtualMachines',
+      extension: 'Microsoft.Compute/virtualMachines/extensions',
+      nsg: 'Microsoft.Network/networkSecurityGroups',
+      vnet: 'Microsoft.Network/virtualNetworks',
+      managed_disk: 'Microsoft.Compute/disks',
+      managed_disk_image: 'Microsoft.Compute/images',
+      sa: 'Microsoft.Storage/storageAccounts',
+      public_ip: 'Microsoft.Network/publicIPAddresses',
+    }
+
+    # Get information about the resource group itself
+    resource_group
+
+    # Get information about the resources in the resource group
+    resources
+
+    # Call method to create the has_xxxx? methods
+    create_has_methods
+
+    # Call method to allow access to the tag values
+    create_tag_methods
+  end
+
+  # Return the provisioning state of the resource group
+  #
+  # @author Russell Seymour
+  def provisioning_state
+    properties.provisioningState
+  end
+
+  # Analyze the fully qualified id of the resource group to return the subscription id
+  # that this resource group is part of
+  #
+  # The format of the id is
+  #   /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP_NAME>
+  #
+  # @author Russell Seymour
+  def subscription_id
+    id.split(%r{\/}).reject(&:empty?)[1]
+  end
+
+  # Method to parse the resources that have been returned
+  # This allows the calculations of the amount of resources to be determined
   #
   # @author Russell Seymour
   #
-  # @param [Hash] opts Hashtable of options
-  #     opts[:name] The name of the resource group
-  def initialize(opts)
-    opts = opts
-    helpers = Helpers.new
+  # @param [Hash] resource A hashtable representing the resource group
+  def parse_resource(resource)
+    # return a hash of information
+    parsed = {
+      'name' => resource.name,
+      'type' => resource.type,
+    }
 
-    # Get the named resource group
-    @rg = helpers.resource_mgmt.get_resource_group(opts[:name])
-
-    # If the rg is nil raise error
-    raise format("Unable to find resource group '%s' in Azure subscription '%s'", opts[:name], helpers.azure.subscription_id) if rg.nil?
-
-    # Retrieve the items within the resource group
-    rg_items = helpers.resource_mgmt.get_resources(opts[:name])
-
-    # Parse the resources
-    @items = parse_rg_resources(rg_items.value)
+    parsed
   end
 
-  # Create a FilterTable so that items can be selected
-  filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add_accessor(:count)
-        .add_accessor(:contains)
-        .add(:type, field: 'type')
-        .add(:name, field: 'name')
-        .add(:location, field: 'location')
+  # This method catches the xxx_count calls that are made on the resource.
+  #
+  # The method that is called is stripped of '_count' and then compared with the
+  # mappings table. If that type exists then the number of those items is returned.
+  # However if that type is not in the Resource Group then the method will return
+  # a NoMethodError exception
+  #
+  # @author Russell Seymour
+  #
+  # @param [Symbol] method_id The name of the method that was called
+  #
+  # rubocop:disable Style/MethodMissing
+  def method_missing(method_id)
+    # Determine the mapping_key based on the method_id
+    mapping_key = method_id.to_s.chomp('_count').to_sym
 
-  filter.connect(self, :items)
+    if mapping.key?(mapping_key)
+      # based on the method id get the
+      namespace, type_name = mapping[mapping_key].split(/\./)
 
-  # Determine the location of the resource group
-  #
-  # @return [String Location of the resource group
-  #
-  def location
-    rg.location
-  end
-
-  # Determime how many resources in total there are
-  #
-  # @return [Integer] Total number of items in the resource group
-  #
-  def total
-    counts['total']
-  end
-
-  # Determine how many of a certain type there are
-  #
-  # @return [Integer] Number of specific items in the FilterTable
-  #
-  def count
-    entries.length
-  end
-
-  # Allows tests to be performed on the resources
-  # For example it is possible to check that a resource of a certain name exists
-  #
-  # @param [Hashtable] settings Hashtable of settings which will be used to perform the filter
-  #     settings[:parameter] Name of the parameter being interrogated [name, type, location]
-  #     settings[:value] The expected value of the specified paramater
-  #
-  # @return [Boolean] Whether or not the specified item exists in the resources
-  #
-  def contains(settings)
-    result = false
-
-    entries.each do |entry|
-      if entry[settings[:parameter]] == settings[:value]
-        result = true
-        break
+      # check that the type_name is defined, if not return 0
+      if send(namespace).methods.include?(type_name.to_sym)
+        # return the count for the method id
+        send(namespace).send(type_name)
+      else
+        0
       end
+    else
+      msg = format('undefined method `%s` for %s', method_id, self.class)
+      raise NoMethodError, msg
     end
-
-    result
-  end
-
-  # Helper method to determine the number of NICs in the resource group
-  #
-  # @return [Integer] Number of NICs in the resource group
-  #
-  def nic_count
-    counts['Microsoft.Network/networkInterfaces']
-  end
-
-  # Helper method to determine the number of VMs in the resource group
-  #
-  # @return [Integer] Number of VMs in the resource group
-  #
-  def vm_count
-    counts['Microsoft.Compute/virtualMachines']
-  end
-
-  # Helper method to determine the number of NSGs in the resource group
-  #
-  # @return [Integer] Number of NSGs in the resource group
-  #
-  def nsg_count
-    counts['Microsoft.Network/networkSecurityGroups']
-  end
-
-  # Helper method to determine the number of Virtual Networks in the resource group
-  #
-  # @return [Integer] Number of VNETs in the resource group
-  #
-  def vnet_count
-    counts['Microsoft.Network/virtualNetworks']
-  end
-
-  # Helper method to determine the number of Storage Accounts in the resource group
-  #
-  # @return [Integer] Number of SAs in the resource group
-  #
-  def sa_count
-    counts['Microsoft.Storage/storageAccounts']
-  end
-
-  # Helper method to determine the number of Public IP Addresses in the resource group
-  #
-  # @return [Integer] Number of Public IP Addresses in the resource group
-  #
-  def public_ip_count
-    counts['Microsoft.Network/publicIPAddresses']
-  end
-
-  # Helper method to determine the number of Managed Disk images in the resource group
-  #
-  # @return [Integer] Number of Managed Disk images
-  #
-  def managed_disk_image_count
-    counts['Microsoft.Compute/images']
-  end
-
-  # Helper method to determine the number of Managed Disks in the resource group
-  #
-  # @return [Integer] Number of Managed Disks
-  #
-  def managed_disk_count
-    counts['Microsoft.Compute/disks']
   end
 
   private
 
-  # Parse the Resource Group Resources
+  # For each of the mappings this method creates the has_xxx? method. This allows the use
+  # of the following type of test
   #
-  # @param [Array] resources Array of resources in the resource group
+  #   it { should have_nics }
   #
-  # @return [Array<Hash>] Array of hashes providing the information about the resources for the FilterTable
-  def parse_rg_resources(resources)
-    # Declare the hashtable of counts
-    @counts = {
-      'total' => 0,
-    }
-
-    resources.each.map do |resource|
-      parse_item(resource)
-    end.compact
-  end
-
-  # Parses each resource item and extracts the information to be tested
+  # For example, it will create a has_nics? method that returns a boolean to state of the
+  # resource group has any nics at all.
   #
-  # @return [Hash] Resource information
-  #
-  def parse_item(item)
-    # Increment the count total
-    counts['total'] += 1
+  # @author Russell Seymour
+  # @private
+  def create_has_methods
+    # Create the has methods for each of the mappings
+    # This is a quick test to show that the resource group has at least one of these things
+    mapping.each do |name, type|
+      # Determine the name of the method name
+      method_name = format('has_%ss?', name)
+      namespace, type_name = type.split(/\./)
 
-    # Update the count for the resource type in the count table
-    counts.key?(item.type) ? counts[item.type] +=1 : counts[item.type] = 1
+      # use the namespace and the type_name to determine if the resource group has this type or not
+      result = send(namespace).methods.include?(type_name.to_sym) ? true : false
 
-    {
-      'location' => item.location,
-      'name' => item.name,
-      'type' => item.type,
-    }
+      define_singleton_method method_name do
+        result
+      end
+    end
   end
 end

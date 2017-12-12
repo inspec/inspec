@@ -42,9 +42,9 @@ Style/PercentLiteralDelimiters:
     '%w': '{}'
     '%W': ()
     '%x': ()
-Style/AlignHash:
+Layout/AlignHash:
   Enabled: false
-Style/PredicateName:
+Naming/PredicateName:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -56,7 +56,7 @@ Style/AndOr:
   Enabled: false
 Style/Not:
   Enabled: false
-Style/FileName:
+Naming/FileName:
   Enabled: false
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
@@ -68,7 +68,7 @@ Style/UnlessElse:
   Enabled: false
 BlockDelimiters:
   Enabled: false
-Style/SpaceAroundOperators:
+Layout/SpaceAroundOperators:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false

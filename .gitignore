@@ -6,3 +6,6 @@ inspec.lock
 .kitchen
 *.plan
 *.tfstate*
+local
+.vscode
+.terraform
