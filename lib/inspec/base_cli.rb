@@ -64,6 +64,8 @@ module Inspec
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
       option :cache, type: :string,
+        desc: '[DEPRECATED] Please use --vendor-cache - this will be removed in InSpec 2.0'
+      option :vendor_cache, type: :string,
         desc: 'Use the given path for caching dependencies. (default: ~/.inspec/cache)'
       option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
