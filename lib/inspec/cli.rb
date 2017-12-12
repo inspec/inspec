@@ -159,7 +159,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     # TODO: REMOVE for inspec 2.0
     if o.key?('cache')
       o[:vendor_cache] = o[:cache]
-      o[:logger].warn '[DEPRECATION] The use of `--cache` is being deprecated in InSpec 2.0. Please use `--vendor-cache` instead.'
+      o[:logger].warn '[DEPRECATED] The use of `--cache` is being deprecated in InSpec 2.0. Please use `--vendor-cache` instead.'
     end
 
     # run tests
