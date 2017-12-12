@@ -20,9 +20,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name = nil, opts = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-      raise Inspec::Exceptions::ResourceFailed, 'Package name required but not specified' if package_name.nil?
-
+    def initialize(package_name, opts = {}) # rubocop:disable Metrics/AbcSize
       @package_name = package_name
       @name = @package_name
       @cache = nil

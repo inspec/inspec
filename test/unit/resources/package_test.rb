@@ -6,13 +6,6 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Package' do
-  # any os
-  it 'fails the resource if a package name is not specified' do
-    resource = MockLoader.new(:undefined).load_resource('package', nil)
-    _(resource.resource_failed?).must_equal true
-    _(resource.resource_exception_message).must_equal 'Package name required but not specified'
-  end
-
   # arch linux
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('package', 'curl')
