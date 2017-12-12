@@ -16,8 +16,9 @@ matrix:
   include:
   - rvm: 2.3.5
   - rvm: 2.4.2
+  - rvm: 2.4.2
     script: bundle exec rake $SUITE
-    env: SUITE="lint test test:functional"
+    env: SUITE="test:functional"
   - rvm: 2.4.2
     bundler_args: "--without guard tools"
     script: bundle exec rake $SUITE
