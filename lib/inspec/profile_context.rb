@@ -69,6 +69,12 @@ module Inspec
       @conf['profile'].supports_platform?
     end
 
+    def profile_supports_inspec_version?
+      return true if @conf['profile'].nil?
+
+      @conf['profile'].supports_runtime?
+    end
+
     def remove_rule(id)
       @rules[id] = nil if @rules.key?(id)
       @control_subcontexts.each do |c|

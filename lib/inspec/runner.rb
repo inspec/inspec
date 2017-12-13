@@ -186,7 +186,7 @@ module Inspec
       end
 
       if !profile.supports_platform?
-        raise "This platform (#{@backend.platform.name}/#{@backend.platform.release}) is not supported by this profile and its dependencies."
+        raise "This OS/platform (#{@backend.platform.name}/#{@backend.platform.release}) is not supported by this profile."
       end
 
       true

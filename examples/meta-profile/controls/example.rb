@@ -8,3 +8,6 @@ include_controls 'dev-sec/ssh-baseline'
 include_controls 'ssl-baseline' do
   control "tls1.2"
 end
+
+# inspec knows that it cannot run Windows tests on Linux
+include_controls 'windows-patch-benchmark'

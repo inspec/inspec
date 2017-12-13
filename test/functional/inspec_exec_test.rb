@@ -95,7 +95,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     let(:json) { JSON.load(out.stdout) }
 
     it 'exits with an error' do
-      out.stderr.must_match(/^This platform \(.+\) is not supported by this profile and its dependencies.$/)
+      out.stderr.must_match(/^This OS\/platform \(.+\) is not supported by this profile.$/)
       out.exit_status.must_equal 1
     end
   end
@@ -244,7 +244,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
   describe 'when a dependency does not support our backend platform' do
     it 'skips the controls from that profile' do
       out = inspec("exec #{File.join(profile_path, 'profile-support-skip')} --no-create-lockfile")
-      out.stderr.force_encoding(Encoding::UTF_8).must_include "This platform (ubuntu/14.04) is not supported by this profile and its dependencies.\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\n"
     end
   end
 

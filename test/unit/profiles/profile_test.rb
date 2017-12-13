@@ -21,45 +21,6 @@ describe Inspec::Profile do
     end
   end
 
-  describe 'supports platform method' do
-    let(:profile) do
-      opts = {}
-      opts[:backend] = MockLoader.new(:ubuntu1504).backend
-      MockLoader.load_profile('simple-metadata', opts)
-    end
-
-    it 'without dependencies pass' do
-      supports = [{ 'os-family': 'linux' }]
-      profile.params[:supports] = supports
-      profile.supports_platform?.must_equal true
-    end
-
-    it 'without dependencies fail' do
-      supports = { 'os-family': 'windows' }
-      profile.params[:supports] = supports
-      profile.supports_platform?.must_equal false
-    end
-
-    it 'with dependencies pass' do
-      dep = profile.clone
-      supports = [{ 'os-family': 'linux' }]
-      dep.params[:supports] = supports
-      profile.stubs(:locked_dependencies).returns([dep], [])
-
-      profile.supports_platform?.must_equal true
-    end
-
-    it 'with dependencies fail' do
-      dep = profile.clone
-      supports = [{ 'os-family': 'windows' }]
-      dep.params[:supports] = supports
-      profile.stubs(:locked_dependencies).returns([dep], [])
-
-      profile.supports_platform?.must_equal false
-    end
-
-  end
-
   describe 'with an empty profile (legacy mode)' do
     let(:profile) { MockLoader.load_profile('legacy-empty-metadata') }
 

@@ -140,15 +140,17 @@ module Inspec
     end
 
     def supports_platform?
-      # check profile dependencies for supports
-      locked_dependencies.each do |d|
-        return false unless d.supports_platform?
+      if @supports_platform.nil?
+        @supports_platform = metadata.supports_platform?(@backend)
       end
-      metadata.supports_platform?(@backend)
+      @supports_platform
     end
 
     def supports_runtime?
-      metadata.supports_runtime?
+      if @supports_runtime.nil?
+        @supports_runtime = metadata.supports_runtime?
+      end
+      @supports_runtime
     end
 
     def params

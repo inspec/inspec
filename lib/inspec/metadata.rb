@@ -36,6 +36,7 @@ module Inspec
       summary
       description
       version
+      inspec_version
     }.each do |name|
       define_method name.to_sym do |arg|
         params[name.to_sym] = arg
@@ -53,8 +54,7 @@ module Inspec
     end
 
     def inspec_requirement
-      inspec = params[:supports].find { |x| !x[:inspec].nil? } || {}
-      Gem::Requirement.create(inspec[:inspec])
+      Gem::Requirement.create(params[:inspec_version])
     end
 
     def supports_runtime?

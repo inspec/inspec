@@ -1,2 +1,1 @@
-supports:
-- inspec: 0.18
+inspec_version: 0.18

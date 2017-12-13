@@ -204,28 +204,35 @@ describe 'metadata with supported operating systems' do
     let(:current_version) { Inspec::VERSION }
     let(:next_version) { Gem::Version.new(current_version).bump.to_s }
 
+    def version_meta(params)
+      res = Inspec::Metadata.from_yaml('mock', "---", nil, logger)
+      res.params[:inspec_version] = params
+      Inspec::Metadata.finalize(res, 'mock', empty_options, logger)
+      res
+    end
+
     it 'returns true on testing the current version' do
-      m = supports_meta({ 'inspec' => current_version })
+      m = version_meta(current_version)
       m.supports_runtime?.must_equal true
     end
 
     it 'returns true on testing the current version' do
-      m = supports_meta({ 'inspec' => '= ' + current_version })
+      m = version_meta('= ' + current_version)
       m.supports_runtime?.must_equal true
     end
 
     it 'returns true on testing >= current version' do
-      m = supports_meta({ 'inspec' => '>= ' + current_version })
+      m = version_meta('>= ' + current_version)
       m.supports_runtime?.must_equal true
     end
 
     it 'returns false on testing >= the next version' do
-      m = supports_meta({ 'inspec' => '>= ' + next_version })
+      m = version_meta('>= ' + next_version)
       m.supports_runtime?.must_equal false
     end
 
     it 'returns false on testing > the next version' do
-      m = supports_meta({ 'inspec' => '> ' + next_version })
+      m = version_meta('> ' + next_version)
       m.supports_runtime?.must_equal false
     end
   end

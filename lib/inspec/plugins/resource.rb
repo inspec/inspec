@@ -81,8 +81,8 @@ module Inspec
 
         def check_supports
           status = inspec.platform.supported?(@supports)
-          skip_msg = "Platform #{inspec.platform.name}/#{inspec.platform.release} is not supported with resource [#{@__resource_name__}]"
-          fail_resource(skip_msg) unless status
+          skip_msg = "Platform #{inspec.platform.name}/#{inspec.platform.release} is not supported with resource '#{@__resource_name__.capitalize}'"
+          skip_resource(skip_msg) unless status
         end
 
         def skip_resource(message)

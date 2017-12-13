@@ -121,6 +121,17 @@ module Inspec
             ::Inspec::Rule.set_skip_rule(control, true)
           end
 
+          unless profile_context_owner.profile_supports_platform?
+            platform = inspec.platform
+            msg = "Platform #{platform.name}/#{platform.release} is not supported with profile '#{profile_context_owner.profile_id}'"
+            ::Inspec::Rule.set_skip_rule(control, msg)
+          end
+
+          unless profile_context_owner.profile_supports_inspec_version?
+            msg = "Current InSpec version #{Inspec::VERSION} is not supported with profile '#{profile_context_owner.profile_id}'"
+            ::Inspec::Rule.set_skip_rule(control, msg)
+          end
+
           profile_context_owner.register_rule(control, &block) unless control.nil?
         end
 
