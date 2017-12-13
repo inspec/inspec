@@ -50,7 +50,11 @@ module Inspec::Resources
       status = true
       supports.each do |s|
         s.each do |k, v|
-          if %i(os_family os-family platform_family platform-family).include?(k)
+          # ignore the inspec check for supports
+          # TODO: remove in inspec 2.0
+          if k == :inspec
+            next
+          elsif %i(os_family os-family platform_family platform-family).include?(k)
             status = family?(v)
           elsif %i(os platform).include?(k)
             status = platform?(v)
