@@ -42,7 +42,7 @@ module Inspec::Resources
       @parsed_subject = nil
       @parsed_issuer = nil
       @extensions = nil
-      @cert = OpenSSL::X509::Certificate.new read_file_content(@certpath, allow_empty: true)
+      @cert = OpenSSL::X509::Certificate.new read_file_content(@certpath)
     end
 
     # Forward these methods directly to OpenSSL::X509::Certificate instance

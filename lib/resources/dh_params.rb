@@ -27,7 +27,7 @@ class DhParams < Inspec.resource(1)
 
   def initialize(filename)
     @dh_params_path = filename
-    @dh_params = OpenSSL::PKey::DH.new read_file_content(@dh_params_path, allow_empty: true)
+    @dh_params = OpenSSL::PKey::DH.new read_file_content(@dh_params_path)
   end
 
   # it { should be_dh_params }
