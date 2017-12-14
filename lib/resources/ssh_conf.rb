@@ -61,14 +61,6 @@ module Inspec::Resources
     def read_content
       return @content if defined?(@content)
 
-      # XXX: Leave the following verification into code since in
-      # inspec_vendor_test.rb the vendored profile can not find the file
-      # sshd_config at Travis CI despite the existence of it.
-      file = inspec.file(@conf_path)
-      if !file.file?
-        return skip_resource "Can't find file: #{@conf_path}"
-      end
-
       @content = read_file_content(@conf_path)
     end
 
