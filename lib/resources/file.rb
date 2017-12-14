@@ -269,6 +269,8 @@ module Inspec::Resources
         translate_perm_names('full-control') + %w{ChangePermissions}
       when 'take-ownership'
         translate_perm_names('full-control') + %w{TakeOwnership}
+      when 'synchronize'
+        translate_perm_names('full-control') + %w{Synchronize}
       end
     end
 
