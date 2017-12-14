@@ -19,3 +19,15 @@ output "ec2_security_group_default_vpc_id" {
 output "ec2_security_group_default_group_id" {
   value = "${data.aws_security_group.default.id}"
 }
+
+# Create a security group with a known description 
+# in the default VPC
+resource "aws_security_group" "alpha" {
+  name        = "alpha"
+  description = "SG alpha"
+  vpc_id      = "${data.aws_vpc.default.id}"
+}
+
+output "ec2_security_group_alpha_group_id" {
+  value = "${aws_security_group.alpha.id}"
+}
