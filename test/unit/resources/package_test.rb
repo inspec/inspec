@@ -139,7 +139,7 @@ describe 'Inspec::Resources::Package' do
   # undefined
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('package', 'curl')
-    _(resource.installed?).must_equal false
-    _(resource.info).must_be_nil
+    _(resource.resource_skipped?).must_equal true
+    _(resource.resource_exception_message).must_equal 'The `package` resource is not supported on your OS yet.'
   end
 end
