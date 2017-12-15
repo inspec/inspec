@@ -83,6 +83,7 @@ module Inspec::Resources
           raw_conf,
           assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
           multiple_values: true,
+          strip_values: true,
         ).params
         @params.merge!(params)
 
