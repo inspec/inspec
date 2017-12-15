@@ -13,7 +13,7 @@ As of now, AWS resources are implemented as an InSpec resource pack. It will shi
 
 ## Get started
 
-Before running the profile with InSpec, define environment variables with your AWS region and credentials.  InSpec supports the following variables:
+Before running the profile with InSpec, define environment variables with your AWS region and credentials.  InSpec supports the following standard AWS variables:
 
 - `AWS_REGION`
 - `AWS_DEFAULT_REGION`
@@ -23,7 +23,9 @@ Before running the profile with InSpec, define environment variables with your A
 
 Those variables are defined in [AWS CLI Docs](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
 
-Now you can use `inspec exec inspec-aws`. Please note, that you have to define the AWS target in future: `inspec exec inspec-aws -t aws://accesskey:secret@region`.
+Now you can use `inspec exec inspec-aws`. 
+
+Our future intent is to support an `aws` target for InSpec/Train, so you may also pass credentials `inspec exec inspec-aws -t aws://accesskey:secret@region`.
 
 ## Use the resources
 
@@ -93,20 +95,7 @@ bundle exec rake test
 
 ### Integration tests
 
-To run the integration tests, please make sure all required environment variables like `AWS_ACCESS_KEY_ID`
-, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` are set properly. (`AWS_REGION` **must** be set to **us-east-1** when running the integration tests.) We use terraform to create the AWS setup and InSpec to verify the all aspects. If you want to use a specific terraform environment, set environment variable `INSPEC_TERRAFORM_ENV`. Integration tests can be executed via:
-
-```
-bundle exec rake test:integration
-```
-
-This task sets up test AWS resources, runs the integration tests, and then cleans up the resources.  To perform these tasks independently, please call them individually:
-
-* `bundle exec rake test:configure_test_environment`
-* `bundle exec rake test:setup_integration_tests`
-* `bundle exec rake test:run_integration_tests`
-* `bundle exec rake test:cleanup_integration_tests`
-* `bundle exec rake test:destroy_test_environment`
+Please see TESTING_AGAINST_AWS.md for details on how to setup the needed AWS accounts to perform testing.
 
 ## Kudos
 
