@@ -7,4 +7,4 @@ require 'json'
 require 'ostruct'
 
 require 'inspec/resource'
-require_relative '../../lib/inspec/aws'
+require_relative '../../libraries/_aws'
