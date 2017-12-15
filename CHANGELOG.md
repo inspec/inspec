@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.2 -->
-## [v1.48.2](https://github.com/chef/inspec/tree/v1.48.2) (2017-12-12)
+<!-- latest_release 1.48.3 -->
+## [v1.48.3](https://github.com/chef/inspec/tree/v1.48.3) (2017-12-15)
 
 #### Merged Pull Requests
-- Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff))
+- Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
 ### Changes since 1.48.0 release
 
 #### Merged Pull Requests
+- Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.3 -->
 - Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff)) <!-- 1.48.2 -->
 - added missing quote [#2386](https://github.com/chef/inspec/pull/2386) ([aboutte](https://github.com/aboutte)) <!-- 1.48.1 -->
 <!-- release_rollup -->
