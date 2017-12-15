@@ -91,6 +91,15 @@ An integer, representing how old the access key is.
       it { should_not exist }
     end
 
+### created_with_user
+
+A true / false value indicating if the Access Key was likely created at the same time as the user, by checking if the difference between created_date and user_created_date is less than 1 hour.
+
+    # Do not automatically create keys for users
+    describe aws_iam_access_keys.where { created_with_user } do
+      it { should_not exist }
+    end
+
 ### ever_used
 
 A true / false value indicating if the Access Key has ever been used, based on the last_used_date. See also: `never_used`.
@@ -143,6 +152,15 @@ Searches for access keys owned by the named user. Each user may have zero, one, 
 
     describe aws_iam_access_keys(username: 'bob') do
       it { should exist }
+    end
+
+### user_created_date
+
+The date at which the user was created.
+
+    # Users have to be a week old to have a key
+    describe aws_iam_access_keys.where { user_created_date > Date.now - 7 }
+      it { should_not exist }
     end
 
 ## Properties

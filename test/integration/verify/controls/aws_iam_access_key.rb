@@ -42,6 +42,9 @@ control 'IAM Access Keys' do
                    .where { last_used_days_ago > 0 } do
     it { should exist }    
   end
+  describe all_keys.where { created_with_user } do
+    it { should exist }
+  end
 end
 
 control 'AKS3' do
