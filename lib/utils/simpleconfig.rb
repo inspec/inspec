@@ -74,6 +74,7 @@ class SimpleConfig
     if opts[:multiple_values]
       @vals[m[1]] ||= []
       @vals[m[1]].push(parse_values(m, opts[:key_values]))
+      @vals.each_value { |i| i.collect!(&:strip) } if opts[:strip_values]
     else
       @vals[m[1]] = parse_values(m, opts[:key_values])
     end
@@ -127,6 +128,7 @@ class SimpleConfig
       key_values: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
       multiple_values: false,
+      strip_values: false,
     }
   end
 end
