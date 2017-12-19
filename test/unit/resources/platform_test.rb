@@ -1,11 +1,9 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'helper'
 require 'inspec/resource'
 
-describe 'Inspec::Resources::Os' do
+describe 'Inspec::Resources::Platform' do
   let(:resource) { resource = MockLoader.new(:ubuntu1504).load_resource('os') }
 
   it 'verify platform parsing on Ubuntu' do
@@ -35,10 +33,10 @@ describe 'Inspec::Resources::Os' do
   end
 
   it 'verify family? responds correctly' do
-    _(resource.family?('windows')).must_equal false
-    _(resource.family?('unix')).must_equal true
-    _(resource.family?('ubuntu')).must_equal false
-    _(resource.family?('mac_os_x')).must_equal false
+    _(resource.in_family?('windows')).must_equal false
+    _(resource.in_family?('unix')).must_equal true
+    _(resource.in_family?('ubuntu')).must_equal false
+    _(resource.in_family?('mac_os_x')).must_equal false
   end
 
   it 'verify supported? with multiple families' do

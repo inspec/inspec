@@ -123,12 +123,12 @@ module Inspec
 
           unless profile_context_owner.profile_supports_platform?
             platform = inspec.platform
-            msg = "Platform #{platform.name}/#{platform.release} is not supported with profile '#{profile_context_owner.profile_id}'"
+            msg = "Profile #{profile_context_owner.profile_id} is not supported on platform #{platform.name}/#{platform.release}."
             ::Inspec::Rule.set_skip_rule(control, msg)
           end
 
           unless profile_context_owner.profile_supports_inspec_version?
-            msg = "Current InSpec version #{Inspec::VERSION} is not supported with profile '#{profile_context_owner.profile_id}'"
+            msg = "Profile #{profile_context_owner.profile_id} is not supported on InSpec version (#{Inspec::VERSION})."
             ::Inspec::Rule.set_skip_rule(control, msg)
           end
 

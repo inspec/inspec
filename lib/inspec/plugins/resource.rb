@@ -31,7 +31,7 @@ module Inspec
     def supports(criteria = nil)
       return if criteria.nil?
       Inspec::Resource.supports[@name] ||= []
-      Inspec::Resource.supports[@name].push criteria
+      Inspec::Resource.supports[@name].push(criteria)
     end
 
     def example(example = nil)
@@ -81,7 +81,7 @@ module Inspec
 
         def check_supports
           status = inspec.platform.supported?(@supports)
-          skip_msg = "Platform #{inspec.platform.name}/#{inspec.platform.release} is not supported with resource '#{@__resource_name__.capitalize}'"
+          skip_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           skip_resource(skip_msg) unless status
         end
 

@@ -78,7 +78,7 @@ describe Inspec::Plugins::Resource do
         { os_family: 'windows' },
         { os_family: 'redhat' }
       ])
-      expect = 'Platform ubuntu/14.04 is not supported with resource \'Os\''
+      expect = 'Resource Os is not supported on platform ubuntu/14.04.'
       m.check_supports.must_equal expect
     end
   end

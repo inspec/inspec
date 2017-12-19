@@ -9,8 +9,8 @@ module Inspec::Resources
         it { should eq 'redhat' }
       end
 
-      describe platform.family?('unix') do
-        it { should eq true }
+      describe platform do
+        it { should be_in_family('unix') }
       end
     "
 
@@ -36,7 +36,7 @@ module Inspec::Resources
         @platform.family_hierarchy.include?(name)
     end
 
-    def family?(family)
+    def in_family?(family)
       @platform.family_hierarchy.include?(family)
     end
 
@@ -55,7 +55,7 @@ module Inspec::Resources
           if k == :inspec
             next
           elsif %i(os_family os-family platform_family platform-family).include?(k)
-            status = family?(v)
+            status = in_family?(v)
           elsif %i(os platform).include?(k)
             status = platform?(v)
           elsif %i(os_name os-name platform_name platform-name).include?(k)
