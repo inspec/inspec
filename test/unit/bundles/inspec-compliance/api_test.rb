@@ -281,6 +281,24 @@ describe Compliance::API do
       Compliance::API.determine_server_type(url, insecure).must_equal(:automate)
     end
 
+    it 'returns `nil` if a 200 is received from `https://URL/compliance/version` but not redirected to Chef Manage' do
+      bad_response.stubs(:code).returns('200')
+      bad_response.stubs(:body).returns('No Chef Manage here')
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
+
+      mock_compliance_response = mock
+      mock_compliance_response.stubs(:code).returns('404')
+      Compliance::HTTP.expects(:get)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(mock_compliance_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_be_nil
+    end
+
+
     it 'returns `:compliance` when a 200 is received from `https://URL/api/version`' do
       good_response.stubs(:code).returns('200')
       bad_response.stubs(:code).returns('404')
