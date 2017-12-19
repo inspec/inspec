@@ -156,30 +156,23 @@ module Inspec::Resources
     end
   end
 
-  # OSX uses opendirectory for groups, so `/etc/group` may not be accurate
+  # OSX uses opendirectory for groups, so `/etc/group` may not be fully accurate
+  # This uses `dscacheutil` to get the group info instead of `etc_group`
   class DarwinGroup < GroupInfo
     def groups
-      raw_output = inspec.command('dscacheutil -q group').stdout
-      raw_group_info = raw_output.split("\n\n")
+      group_info = inspec.command('dscacheutil -q group').stdout.split("\n\n")
 
-      group_info = []
+      groups = []
       regex = /^([^:]*?)\s*:\s(.*?)\s*$/
-      raw_group_info.each do |data|
-        group_info << inspec.parse_config(data, assignment_regex: regex).params
+      group_info.each do |data|
+        groups << inspec.parse_config(data, assignment_regex: regex).params
       end
 
-      match_etc_group_output(group_info)
-    end
-
-    # Converts the `dscacheutil` groups to match `inspec.etc_group.entries`
-    def match_etc_group_output(dscacheutil_groups)
-      dscacheutil_groups.each { |g| g['gid'] = g['gid'].to_i }
-
-      # Convert `users` to `members` and ` ` to `,`
-      dscacheutil_groups.each do |g|
+      # Convert the `dscacheutil` groups to match `inspec.etc_group.entries`
+      groups.each { |g| g['gid'] = g['gid'].to_i }
+      groups.each do |g|
         next if g['users'].nil?
-        g['members'] = g['users']
-        dscacheutil_groups.delete(:users)
+        g['members'] = g.delete('users')
         g['members'].tr!(' ', ',')
       end
     end
