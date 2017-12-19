@@ -13,15 +13,13 @@ module Inspec::Resources
     # select group provider based on the operating system
     # returns nil, if no group manager was found for the operating system
     def select_group_manager(os)
-      if os.unix?
-        @group_provider = if os.darwin?
-                            DarwinGroup.new(inspec)
-                          else
-                            UnixGroup.new(inspec)
-                          end
-      elsif os.windows?
-        @group_provider = WindowsGroup.new(inspec)
-      end
+      @group_provider = if os.darwin?
+                          DarwinGroup.new(inspec)
+                        elsif os.unix?
+                          UnixGroup.new(inspec)
+                        elsif os.windows?
+                          WindowsGroup.new(inspec)
+                        end
     end
   end
 
