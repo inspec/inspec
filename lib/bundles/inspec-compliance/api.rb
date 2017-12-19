@@ -280,7 +280,7 @@ module Compliance
         else
           Inspec::Log.debug(
             "Received 200 from #{url}#{automate_endpoint} " \
-            "but not the Chef Manage page. " \
+            'but did not receive the Chef Manage page. ' \
             'Continuing with detection attempts',
           )
           return false
@@ -291,14 +291,15 @@ module Compliance
     def self.target_is_compliance_server?(url, insecure)
       # All versions of Chef Compliance return 200 for `/api/version`
       compliance_endpoint = '/api/version'
+
       response = Compliance::HTTP.get(url + compliance_endpoint, nil, insecure)
-      if response.code == '200'
-        Inspec::Log.debug(
-          "Received 200 from #{url}#{compliance_endpoint} " \
-          'assuming target is a Compliance server',
-        )
-        return true
-      end
+      return false unless response.code == '200'
+
+      Inspec::Log.debug(
+        "Received 200 from #{url}#{compliance_endpoint} " \
+        'assuming target is a Compliance server',
+      )
+      true
     end
   end
 end
