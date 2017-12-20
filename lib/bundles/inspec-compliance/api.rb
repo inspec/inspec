@@ -270,7 +270,7 @@ module Compliance
           "Received 401 from #{url}#{automate_endpoint} " \
           'assuming target is a Chef Automate instance',
         )
-        return true
+        true
       when '200'
         # Chef Automate currently returns 401 for `/compliance/version` but some
         # versions of OpsWorks Chef Automate return 200 and a Chef Manage page
@@ -280,15 +280,21 @@ module Compliance
             "Received 200 from #{url}#{automate_endpoint} " \
             'assuming target is an OpsWorks Chef Automate instance',
           )
-          return true
+          true
         else
           Inspec::Log.debug(
             "Received 200 from #{url}#{automate_endpoint} " \
             'but did not receive the Chef Manage page. ' \
             'Continuing with detection attempts',
           )
-          return false
+          false
         end
+      else
+        Inspec::Log.debug(
+          "Received neither 200 nor 401 from #{url}#{automate_endpoint}. " \
+          'Continuing with detection attempts',
+        )
+        false
       end
     end
 
