@@ -251,10 +251,14 @@ module Compliance
     end
 
     def self.determine_server_type(url, insecure)
-      return :automate if target_is_automate_server?(url, insecure)
-      return :compliance if target_is_compliance_server?(url, insecure)
-      Inspec::Log.debug('Could not determine server type using known endpoints')
-      nil
+      if target_is_automate_server?(url, insecure)
+        :automate
+      elsif target_is_compliance_server?(url, insecure)
+        :compliance
+      else
+        Inspec::Log.debug('Could not determine server type using known endpoints')
+        nil
+      end
     end
 
     def self.target_is_automate_server?(url, insecure)
