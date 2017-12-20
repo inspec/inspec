@@ -16,7 +16,7 @@ An `aws_ec2_security_groups` resource block uses an optional filter to select a 
 
     # Verify you have more than the default security group
     describe aws_ec2_security_groups do
-      its('count') { should be > 1 }
+      its('entries.count') { should be > 1 }
     end
 
 <br>

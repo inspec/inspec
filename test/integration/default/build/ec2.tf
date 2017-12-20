@@ -170,7 +170,7 @@ output "ec2_security_group_default_group_id" {
   value = "${data.aws_security_group.default.id}"
 }
 
-# Create a security group with a known description 
+# Create a security group with a known description
 # in the default VPC
 resource "aws_security_group" "alpha" {
   name        = "alpha"

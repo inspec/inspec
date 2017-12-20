@@ -41,3 +41,10 @@ control "aws_security_groups properties" do
     its('group_ids') { should include fixtures['ec2_security_group_default_group_id'] }
   end
 end
+
+control "aws_ec2_security_groups" do
+  # Verify you have more than the default security group
+  describe aws_ec2_security_groups do
+    its('entries.count') { should be >= 2 }
+  end
+end
