@@ -36,6 +36,7 @@ class GrubConfig < Inspec.resource(1)
     elsif os.debian?
       @conf_path = path || '/boot/grub/grub.cfg'
       @defaults_path = '/etc/default/grub'
+      @grubenv_path = '/boot/grub2/grubenv'
       @version = 'grub2'
     elsif os[:name] == 'amazon'
       @conf_path = path || '/etc/grub.conf'
@@ -52,6 +53,7 @@ class GrubConfig < Inspec.resource(1)
     else
       @conf_path = path || '/boot/grub2/grub.cfg'
       @defaults_path = '/etc/default/grub'
+      @grubenv_path = '/boot/grub2/grubenv'
       @version = 'grub2'
     end
   end
@@ -71,35 +73,62 @@ class GrubConfig < Inspec.resource(1)
   ######################################################################
 
   def grub2_parse_kernel_lines(content, conf)
-    # Find all "menuentry" lines and then parse them into arrays
-    menu_entry = 0
+    menu_entries = extract_menu_entries(content)
+
+    if @kernel == 'default'
+      default_menu_entry(menu_entries, conf['GRUB_DEFAULT'])
+    else
+      menu_entries.select { |entry| entry['name'] == @kernel }[0]
+    end
+  end
+
+  def extract_menu_entries(content)
+    menu_entries = []
+
     lines = content.split("\n")
-    kernel_opts = {}
-    kernel_opts['insmod'] = []
-    lines.each_with_index do |file_line, index|
-      next unless file_line =~ /(^|\s)menuentry\s.*/
-      lines.drop(index+1).each do |kernel_line|
-        next if kernel_line =~ /(^|\s)(menu|}).*/
-        if menu_entry == conf['GRUB_DEFAULT'].to_i && @kernel == 'default'
-          if kernel_line =~ /(^|\s)initrd.*/
-            kernel_opts['initrd'] = kernel_line.split(' ')[1]
-          end
-          if kernel_line =~ /(^|\s)linux.*/
-            kernel_opts['kernel'] = kernel_line.split
-          end
-          if kernel_line =~ /(^|\s)set root=.*/
-            kernel_opts['root'] = kernel_line.split('=')[1].tr('\'', '')
-          end
-          if kernel_line =~ /(^|\s)insmod.*/
-            kernel_opts['insmod'].push(kernel_line.split(' ')[1])
-          end
-        else
-          menu_entry += 1
-          break
+    lines.each_with_index do |line, index|
+      next unless line =~ /^menuentry\s+.*/
+      entry = {}
+      entry['insmod'] = []
+
+      # Extract name from menuentry line
+      capture_data = line.match(/(?:^|\s+).*menuentry\s*['|"](.*)['|"]\s*--/)
+      entry['name'] = capture_data.captures[0]
+
+      # Begin processing from index forward until a `}` line is met
+      lines.drop(index+1).each do |mline|
+        break if mline =~ /^\s*}\s*$/
+        case mline
+        when /(?:^|\s*)initrd.*/
+          entry['initrd'] = mline.split(' ')[1]
+        when /(?:^|\s*)linux.*/
+          entry['kernel'] = mline.split
+        when /(?:^|\s*)set root=.*/
+          entry['root'] = mline.split('=')[1].tr('\'', '')
+        when /(?:^|\s*)insmod.*/
+          entry['insmod'] << mline.split(' ')[1]
         end
       end
+
+      menu_entries << entry
     end
-    kernel_opts
+
+    menu_entries
+  end
+
+  def default_menu_entry(menu_entries, default)
+    if default == 'saved'
+      grubenv_contents = read_file(@grubenv_path)
+      default_name = SimpleConfig.new(grubenv_contents).params['saved_entry']
+      default_entry = menu_entries.select { |k| k['name'] == default_name }[0]
+      return default_entry unless default_entry.nil?
+
+      # It is possible for the saved entry to not be valid . For example, the
+      # grubenv is not being up to date. In these cases, 0 is the default.
+      menu_entries[0]
+    else
+      menu_entries[default.to_i]
+    end
   end
 
   ###################################################################
