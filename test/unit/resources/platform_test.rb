@@ -4,7 +4,7 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Platform' do
-  let(:resource) { resource = MockLoader.new(:ubuntu1504).load_resource('os') }
+  let(:resource) { resource = MockLoader.new(:ubuntu1504).load_resource('platform') }
 
   it 'verify platform parsing on Ubuntu' do
     _(resource.name).must_equal 'ubuntu'
