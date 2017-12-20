@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.3 -->
-## [v1.48.3](https://github.com/chef/inspec/tree/v1.48.3) (2017-12-15)
+<!-- latest_release 1.48.4 -->
+## [v1.48.4](https://github.com/chef/inspec/tree/v1.48.4) (2017-12-20)
 
-#### Merged Pull Requests
-- Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Bug Fixes
+- Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
 ### Changes since 1.48.0 release
+
+#### Bug Fixes
+- Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.4 -->
 
 #### Merged Pull Requests
 - Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.3 -->
