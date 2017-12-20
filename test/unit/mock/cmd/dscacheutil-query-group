@@ -1,0 +1,8 @@
+name: humans
+password: *
+gid: 81
+users: bob sue joe
+
+name: root
+password: *
+gid: 0

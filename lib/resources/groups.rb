@@ -13,11 +13,13 @@ module Inspec::Resources
     # select group provider based on the operating system
     # returns nil, if no group manager was found for the operating system
     def select_group_manager(os)
-      if os.unix?
-        @group_provider = UnixGroup.new(inspec)
-      elsif os.windows?
-        @group_provider = WindowsGroup.new(inspec)
-      end
+      @group_provider = if os.darwin?
+                          DarwinGroup.new(inspec)
+                        elsif os.unix?
+                          UnixGroup.new(inspec)
+                        elsif os.windows?
+                          WindowsGroup.new(inspec)
+                        end
     end
   end
 
@@ -151,6 +153,28 @@ module Inspec::Resources
   class UnixGroup < GroupInfo
     def groups
       inspec.etc_group.entries
+    end
+  end
+
+  # OSX uses opendirectory for groups, so `/etc/group` may not be fully accurate
+  # This uses `dscacheutil` to get the group info instead of `etc_group`
+  class DarwinGroup < GroupInfo
+    def groups
+      group_info = inspec.command('dscacheutil -q group').stdout.split("\n\n")
+
+      groups = []
+      regex = /^([^:]*?)\s*:\s(.*?)\s*$/
+      group_info.each do |data|
+        groups << inspec.parse_config(data, assignment_regex: regex).params
+      end
+
+      # Convert the `dscacheutil` groups to match `inspec.etc_group.entries`
+      groups.each { |g| g['gid'] = g['gid'].to_i }
+      groups.each do |g|
+        next if g['users'].nil?
+        g['members'] = g.delete('users')
+        g['members'].tr!(' ', ',')
+      end
     end
   end
 
