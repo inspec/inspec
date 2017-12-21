@@ -75,6 +75,11 @@ The `interfaces` matcher tests if the named secondary interfaces are available:
 
     its('interfaces') { should eq ['eth0', 'eth1', ...] }
 
+### mode
+The `mode` matcher tests the Bonding Mode:
+
+    its('mode') { should eq 'IEEE 802.3ad Dynamic link aggregation' }
+
 ### params
 
 The `params` matcher tests arbitrary parameters for the bonded network interface:
