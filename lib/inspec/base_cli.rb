@@ -57,6 +57,7 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: 'A list of controls to run. Ignore all other tests.'
+      # TODO: remove in inspec 2.0
       option :format, type: :string,
         desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
@@ -225,6 +226,27 @@ module Inspec
       opts = BaseCLI.parse_reporters(opts) if %i(exec shell).include?(type)
 
       Thor::CoreExt::HashWithIndifferentAccess.new(opts)
+    end
+
+    def clean_reporters(opts)
+      reports = {}
+      stdout = 0
+      unless opts['format'].nil?
+        opts['reporter'] = []
+        opts['reporter'] << opts['format']
+        opts.delete('format')
+      end
+      return if opts['reporter'].nil?
+
+      opts['reporter'].each do |report|
+        k, v = report.split(':')
+        reports[k] = v
+        stdout += 1 if v.nil? || v == '-'
+      end
+
+      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
+
+      opts['reporter'] = reports
     end
 
     def options_json
