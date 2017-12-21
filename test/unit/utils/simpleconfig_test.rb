@@ -118,4 +118,11 @@ describe 'SimpleConfig Default Parser' do
       cur.params.must_equal({'1' => ['2', '3']})
     end
   end
+
+  it 'supports :strip_values for removing trailing whitespace from values' do
+    cur = SimpleConfig.new('ServerAlias www.inspec.test ',
+                           assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
+                           multiple_values: true, strip_values: true)
+    cur.params.must_equal({ 'ServerAlias' => ['www.inspec.test'] })
+  end
 end
