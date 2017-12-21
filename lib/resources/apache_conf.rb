@@ -78,10 +78,17 @@ module Inspec::Resources
         raw_conf = read_file(to_read[0])
         @content += raw_conf
 
-        # parse include file parameters
+        # An explaination of the below regular expression.
+        # Creates two capture groups.
+        # The first group captures the first group of non-whitespace character
+        # surrounded whitespace characters.
+        # The second group contains a conditional with a positive lookahead
+        # (does the line end with one or more spaces?). If the lookahead succeeds
+        # a non-greedy capture takes place, if it fails then a greedy capture takes place.
+        # The regex is terminated by an expression that matches zero or more spaces.
         params = SimpleConfig.new(
           raw_conf,
-          assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
+          assignment_regex: /^\s*(\S+)\s+((?=.*\s+$).*?|.*)\s*$/,
           multiple_values: true,
         ).params
         @params.merge!(params)
