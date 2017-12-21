@@ -5,8 +5,8 @@ module Inspec::Resources
     name 'platform'
     desc 'Use the platform InSpec resource to test the platform on which the system is running.'
     example "
-      describe platform.name do
-        it { should eq 'redhat' }
+      describe platform do
+        its('name') { should eq 'redhat' }
       end
 
       describe platform do
