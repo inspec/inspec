@@ -267,7 +267,7 @@ module Compliance
       case response.code
       when '401'
         Inspec::Log.debug(
-          "Received 401 from #{url}#{automate_endpoint} " \
+          "Received 401 from #{url}#{automate_endpoint} - " \
           'assuming target is a Chef Automate instance',
         )
         true
@@ -277,22 +277,23 @@ module Compliance
         # when unauthenticated requests are received.
         if response.body.include?('Are You Looking For the Chef Server?')
           Inspec::Log.debug(
-            "Received 200 from #{url}#{automate_endpoint} " \
+            "Received 200 from #{url}#{automate_endpoint} - " \
             'assuming target is an OpsWorks Chef Automate instance',
           )
           true
         else
           Inspec::Log.debug(
             "Received 200 from #{url}#{automate_endpoint} " \
-            'but did not receive the Chef Manage page. ' \
-            'Continuing with detection attempts',
+            'but did not receive the Chef Manage page - ' \
+            'assuming target is not a Chef Automate instance',
           )
           false
         end
       else
         Inspec::Log.debug(
-          "Received neither 200 nor 401 from #{url}#{automate_endpoint}. " \
-          'Continuing with detection attempts',
+          "Received unexpected status code #{response.code} " \
+          "from #{url}#{automate_endpoint} - " \
+          'assuming target is not a Chef Automate instance',
         )
         false
       end
@@ -306,7 +307,7 @@ module Compliance
       return false unless response.code == '200'
 
       Inspec::Log.debug(
-        "Received 200 from #{url}#{compliance_endpoint} " \
+        "Received 200 from #{url}#{compliance_endpoint} - " \
         'assuming target is a Compliance server',
       )
       true
