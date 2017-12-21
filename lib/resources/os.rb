@@ -36,17 +36,19 @@ module Inspec::Resources
         if other =~ /[A-Z ]/
           cleaned = other.downcase.tr(' ', '_')
           Inspec::Log.warn "[DEPRECATED] Platform names will become lowercase in InSpec 2.0. Please match on '#{cleaned}' instead of '#{other}'"
+          super(cleaned)
+        else
+          super(other)
         end
-        super(other)
       end
     end
 
-    def [](name)
+    def [](key)
       # convert string to symbol
-      name = name.to_sym if name.is_a? String
-      return self.name if name == :name
+      key = key.to_sym if key.is_a? String
+      return name if key == :name
 
-      inspec.backend.os[name]
+      inspec.backend.os[key]
     end
 
     def name
