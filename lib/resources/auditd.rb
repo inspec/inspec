@@ -33,9 +33,10 @@ module Inspec::Resources
 
     def initialize
       @content = inspec.command('/sbin/auditctl -l').stdout.chomp
+      @version = inspec.command('/sbin/auditctl -v').stdout.chomp
       @params = []
 
-      if @content =~ /^LIST_RULES:/
+      if @version.to_f < 2.3
         return skip_resource 'The version of audit is outdated. The `auditd` resource supports versions of audit >= 2.3.'
       end
       parse_content
