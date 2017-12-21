@@ -27,7 +27,7 @@ module Inspec
     end
 
     def default
-      @opts[:default] || DEFAULT_ATTRIBUTE.new
+      @opts.key?(:default) ? @opts[:default] : DEFAULT_ATTRIBUTE.new
     end
 
     def title

@@ -29,10 +29,19 @@ describe Inspec::Attribute do
   end
 
   describe 'attribute with a default value set' do
-    let(:attribute) { Inspec::Attribute.new('test_attribute', default: 'default_value') }
-
     it 'returns the user-configured default value if no value is assigned' do
+      attribute = Inspec::Attribute.new('test_attribute', default: 'default_value')
       attribute.value.must_equal 'default_value'
+    end
+
+    it 'returns the user-configured default value if no value is assigned (nil)' do
+      attribute = Inspec::Attribute.new('test_attribute', default: nil)
+      attribute.value.must_equal nil
+    end
+
+    it 'returns the user-configured default value if no value is assigned (false)' do
+      attribute = Inspec::Attribute.new('test_attribute', default: false)
+      attribute.value.must_equal false
     end
   end
 end
