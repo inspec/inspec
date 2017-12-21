@@ -57,12 +57,16 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: 'A list of controls to run. Ignore all other tests.'
+      # TODO: remove in inspec 2.0
       option :format, type: :string,
-        desc: 'Which formatter to use: cli, progress, documentation, json, json-min, junit'
+        desc: '[DEPRECATED] Please use --format - this will be removed in InSpec 2.0'
+      option :reporter, type: :array,
+        desc: 'Which reporter(s) to use: cli, documentation, html, progress, json, json-min, json-rspec, junit'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
+      # TODO: remove in inspec 2.0
       option :cache, type: :string,
         desc: '[DEPRECATED] Please use --vendor-cache - this will be removed in InSpec 2.0'
       option :vendor_cache, type: :string,
@@ -71,11 +75,16 @@ module Inspec
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
         desc: 'Allow caching for backend command output.'
+      option :show_progress, type: :boolean,
+        desc: 'Show progress while executing tests.'
     end
 
     def self.default_options
       {
         exec: {
+          reporter: {
+            'cli' => nil,
+          },
           'color' => true,
           'create_lockfile' => true,
           'backend_cache' => false,
@@ -88,7 +97,7 @@ module Inspec
     # helper method to run tests
     def run_tests(targets, opts)
       o = opts.dup
-      log_device = opts['format'] == 'json' ? nil : STDOUT
+      log_device = o[:reporter]&.keys&.grep(/json/)&.any? ? nil : STDOUT
       o[:logger] = Logger.new(log_device)
       o[:logger].level = get_log_level(o.log_level)
 
@@ -100,7 +109,7 @@ module Inspec
       exit 1
     end
 
-    def diagnose
+    def diagnose(opts)
       return unless opts['diagnose']
       puts "InSpec version: #{Inspec::VERSION}"
       puts "Train version: #{Train::VERSION}"
@@ -134,14 +143,39 @@ module Inspec
       opts = {}
 
       # start with default options if we have any
-      opts = BaseCLI.default_options[type] unless type.nil?
+      opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
 
       # merge in any options from json-config
       opts.merge!(options_json)
 
       # merge in any options defined via thor
       opts.merge!(options)
+
+      # clean up reports
+      clean_reporters(opts) if %i(exec shell).include?(type)
+
       Thor::CoreExt::HashWithIndifferentAccess.new(opts)
+    end
+
+    def clean_reporters(opts)
+      reports = {}
+      stdout = 0
+      unless opts['format'].nil?
+        opts['reporter'] = []
+        opts['reporter'] << opts['format']
+        opts.delete('format')
+      end
+      return if opts['reporter'].nil?
+
+      opts['reporter'].each do |report|
+        k, v = report.split(':')
+        reports[k] = v
+        stdout += 1 if v.nil? || v == '-'
+      end
+
+      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
+
+      opts['reporter'] = reports
     end
 
     def options_json
@@ -221,7 +255,7 @@ module Inspec
 
       o[:logger] = Logger.new(STDOUT)
       # output json if we have activated the json formatter
-      if opts['log-format'] == 'json'
+      if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o.log_level)

@@ -101,6 +101,31 @@ module Inspec
       run_tests(with)
     end
 
+    def render_output(run_data)
+      # Test kitchen and the audit cookbook just call the runner
+      # so we need to default to cli here if its not set.
+
+      # copy over any of the old syntex --format
+      # until its remove in 2.0
+      if !@conf[:format].nil?
+        @conf[:reporter] = {}
+        @conf[:reporter][@conf[:format]] = nil
+        @conf.delete(:format)
+      elsif @conf[:reporter].nil? || @conf[:reporter].empty?
+        # add this to exec defaults when this is removed
+        @conf[:reporter] = { 'cli' => nil }
+      end
+
+      @conf[:reporter].each do |k, v|
+        config = {
+          name: k,
+          path: v,
+          run_data: run_data,
+        }
+        Inspec::Reporters.render(config)
+      end
+    end
+
     def write_lockfile(profile)
       return false if !profile.writable?
 
@@ -114,7 +139,9 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      @test_collector.run(with)
+      status, run_data = @test_collector.run(with)
+      render_output(run_data)
+      status
     end
 
     # determine all attributes before the execution, fetch data from secrets backend
