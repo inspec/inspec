@@ -123,13 +123,20 @@ class GrubConfig < Inspec.resource(1)
 
   def default_menu_entry(menu_entries, default)
     if default == 'saved'
-      grubenv_contents = read_file(@grubenv_path)
+      grubenv_contents = inspec.file(@grubenv_path).content
+
+      # The location of the grubenv file is not guaranteed. In the case that
+      # the file does not exist this will return the 0th entry. This will also
+      # return the 0th entry if InSpec lacks permission to read the file. Both
+      # of these reflect the default Grub2 behavior.
+      return menu_entries[0] if grubenv_contents.nil?
+
       default_name = SimpleConfig.new(grubenv_contents).params['saved_entry']
       default_entry = menu_entries.select { |k| k['name'] == default_name }[0]
       return default_entry unless default_entry.nil?
 
       # It is possible for the saved entry to not be valid . For example, the
-      # grubenv is not being up to date. In these cases, 0 is the default.
+      # grubenv is not being up to date. If so, the 0th entry is the default.
       menu_entries[0]
     else
       menu_entries[default.to_i]
