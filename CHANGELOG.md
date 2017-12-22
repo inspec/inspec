@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.8 -->
-## [v1.48.8](https://github.com/chef/inspec/tree/v1.48.8) (2017-12-22)
+<!-- latest_release 1.48.9 -->
+## [v1.48.9](https://github.com/chef/inspec/tree/v1.48.9) (2017-12-22)
 
-#### Merged Pull Requests
-- Add bonding mode matcher to bond resource [#2414](https://github.com/chef/inspec/pull/2414) ([ehanlon](https://github.com/ehanlon))
+#### Bug Fixes
+- Update apache_conf regular expression to exclude whitespace. [#2416](https://github.com/chef/inspec/pull/2416) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
@@ -14,6 +14,7 @@
 - file resource: adds `Synchronize` permission to windows ACL checks [#2399](https://github.com/chef/inspec/pull/2399) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.48.6 -->
 
 #### Bug Fixes
+- Update apache_conf regular expression to exclude whitespace. [#2416](https://github.com/chef/inspec/pull/2416) ([miah](https://github.com/miah)) <!-- 1.48.9 -->
 - Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.4 -->
 
 #### Merged Pull Requests
