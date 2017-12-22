@@ -6,22 +6,23 @@ require 'helper'
 require 'inspec/resource'
 
 describe 'Inspec::Resources::Os' do
-  it 'verify NamedCleaned with uppercase' do
-    cleaner = Inspec::Resources::OSResource::NameCleaned
-    name = cleaner.new('upper_case_with_spaces')
-    _(name == 'Upper Case with Spaces').must_equal true
-  end
+  describe 'NamedCleaned' do
+    let(:cleaner) { Inspec::Resources::OSResource::NameCleaned }
 
-  it 'verify NamedCleaned with uppercase fail' do
-    cleaner = Inspec::Resources::OSResource::NameCleaned
-    name = cleaner.new('upper_case_with_spaces')
-    _(name == 'Upper Case withFAIL Spaces').must_equal false
-  end
+    it 'verify name cleaned with uppercase' do
+      name = cleaner.new('upper_case_with_spaces')
+      _(name == 'Upper Case with Spaces').must_equal true
+    end
 
-  it 'verify NamedCleaned with lowercase' do
-    cleaner = Inspec::Resources::OSResource::NameCleaned
-    name = cleaner.new('lower_case_with_underscore')
-    _(name == 'lower_case_with_underscore').must_equal true
+    it 'verify name cleaned with uppercase fail' do
+      name = cleaner.new('upper_case_with_spaces')
+      _(name == 'Upper Case withFAIL Spaces').must_equal false
+    end
+
+    it 'verify name cleaned with lowercase' do
+      name = cleaner.new('lower_case_with_underscore')
+      _(name == 'lower_case_with_underscore').must_equal true
+    end
   end
 
   it 'verify os parsing on CentOS' do
