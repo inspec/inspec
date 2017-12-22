@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.5 -->
-## [v1.48.5](https://github.com/chef/inspec/tree/v1.48.5) (2017-12-21)
+<!-- latest_release 1.48.6 -->
+## [v1.48.6](https://github.com/chef/inspec/tree/v1.48.6) (2017-12-22)
 
-#### Merged Pull Requests
-- bugfix: default attributes for nil and false [#2410](https://github.com/chef/inspec/pull/2410) ([arlimus](https://github.com/arlimus))
+#### Enhancements
+- file resource: adds `Synchronize` permission to windows ACL checks [#2399](https://github.com/chef/inspec/pull/2399) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
 ### Changes since 1.48.0 release
+
+#### Enhancements
+- file resource: adds `Synchronize` permission to windows ACL checks [#2399](https://github.com/chef/inspec/pull/2399) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.48.6 -->
 
 #### Bug Fixes
 - Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.4 -->
