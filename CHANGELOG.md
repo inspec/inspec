@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.7 -->
-## [v1.48.7](https://github.com/chef/inspec/tree/v1.48.7) (2017-12-22)
+<!-- latest_release 1.48.8 -->
+## [v1.48.8](https://github.com/chef/inspec/tree/v1.48.8) (2017-12-22)
 
 #### Merged Pull Requests
-- Fix OWCA detection for `compliance login` [#2401](https://github.com/chef/inspec/pull/2401) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add bonding mode matcher to bond resource [#2414](https://github.com/chef/inspec/pull/2414) ([ehanlon](https://github.com/ehanlon))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
@@ -17,6 +17,7 @@
 - Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.4 -->
 
 #### Merged Pull Requests
+- Add bonding mode matcher to bond resource [#2414](https://github.com/chef/inspec/pull/2414) ([ehanlon](https://github.com/ehanlon)) <!-- 1.48.8 -->
 - Fix OWCA detection for `compliance login` [#2401](https://github.com/chef/inspec/pull/2401) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.7 -->
 - bugfix: default attributes for nil and false [#2410](https://github.com/chef/inspec/pull/2410) ([arlimus](https://github.com/arlimus)) <!-- 1.48.5 -->
 - Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.3 -->
