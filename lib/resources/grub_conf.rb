@@ -93,7 +93,12 @@ class GrubConfig < Inspec.resource(1)
 
       # Extract name from menuentry line
       capture_data = line.match(/(?:^|\s+).*menuentry\s*['|"](.*)['|"]\s*--/)
-      entry['name'] = capture_data.captures[0]
+
+      if capture_data.captures[0]
+        entry['name'] = capture_data.captures[0]
+      else
+        raise Inspec::Exceptions::ResourceFailed 'Cannot extract menuentry name'
+      end
 
       # Begin processing from index forward until a `}` line is met
       lines.drop(index+1).each do |mline|
