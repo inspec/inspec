@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" default-lazy-init="true">
+  <bean id="dataSource" class="com.myapplication.base.persistency.support.DecoratedDataSource" parent="oracleBaseDataSource" scope="singleton" lazy-init="true">
+    <property name="type" ref="ORACLE_11" />
+    <property name="name" value="MYAPPLICATION" />
+    <property name="url" value="jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD" />
+    <property name="username" value="MYUSERNAME" />
+    <property name="password">
+      <bean class="com.mycorp.core.util.crypt.PasswordHelper" factory-method="decrypt">
+        <constructor-arg value="" />
+      </bean>
+    </property>
+  </bean>
+</beans>

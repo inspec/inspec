@@ -164,6 +164,7 @@ class MockLoader
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
       'default.xml' => mockfile.call('default.xml'),
+      'database.xml' => mockfile.call('database.xml'),
       '/test/path/to/postgres/pg_hba.conf' => mockfile.call('pg_hba.conf'),
       '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
