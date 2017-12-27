@@ -20,7 +20,16 @@ module Inspec::Resources
     end
 
     def value(key)
-      REXML::XPath.each(@params, key.first.to_s).map(&:text)
+      output = []
+      REXML::XPath.each(@params, key.first.to_s) do |element|
+        if element.is_a?(REXML::Attribute)
+          output.push(element.to_s)
+        elsif element.is_a?(REXML::Element)
+          output.push(element.text)
+        end
+      end
+
+      output
     end
 
     private
