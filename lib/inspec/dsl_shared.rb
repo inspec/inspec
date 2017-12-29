@@ -24,7 +24,7 @@ module Inspec
         # context that provides the correct plane to evaluate all required files to.
         # It will ensure that embedded calls to `require` still call this
         # method and get loaded from their correct paths.
-        # return __inspec_binding.eval(content, path, line) if defined?(__inspec_binding)
+        return __inspec_binding.eval(content, path, line) if defined?(__inspec_binding)
 
         eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Security/Eval
       end
