@@ -370,12 +370,14 @@ describe Inspec::ProfileContext do
     end
 
     it 'supports creating a simple library file (no require)' do
+      # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
         ['module A; end', 'libraries/a.rb']
       ])
     end
 
     it 'supports loading across the library' do
+      # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
         ["require 'a'\nA", 'libraries/b.rb'],
         ['module A; end', 'libraries/a.rb']
@@ -383,6 +385,7 @@ describe Inspec::ProfileContext do
     end
 
     it 'supports chain loading across the library' do
+      # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
         ["require 'b'\nA", 'libraries/c.rb'],
         ["require 'a'\nA", 'libraries/b.rb'],
