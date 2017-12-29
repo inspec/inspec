@@ -26,6 +26,7 @@ module Inspec
         # method and get loaded from their correct paths.
         return __inspec_binding.eval(content, path, line) if defined?(__inspec_binding)
 
+        warn("[DEPRECATION] Do not use the `require` keyword in control files. See: https://github.com/chef/inspec/pull/2428")
         eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Security/Eval
       end
     end
