@@ -21,6 +21,14 @@ describe 'Inspec::Resources::MssqlSession' do
     _(resource.port).must_equal '1433'
   end
 
+  it 'verify mssql_session configuration with custom instance' do
+    resource = load_resource('mssql_session', user: 'sa', password: 'yourStrong(!)Password', instance: 'SQL2012INSPEC')
+    _(resource.user).must_equal 'sa'
+    _(resource.password).must_equal 'yourStrong(!)Password'
+    _(resource.host).must_equal 'localhost'
+    _(resource.port).must_equal '1433'
+    _(resource.instance).must_equal 'SQL2012INSPEC'
+  end
 
   it 'verify mssql_session configuration with custom sqlserver port and user in domain' do
     resource = load_resource('mssql_session', user: 'DOMAIN\sa', password: 'yourStrong(!)Password', host: 'localhost', port: '1533')
