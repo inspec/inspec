@@ -31,7 +31,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :password, :host, :port
+    attr_reader :user, :password, :host, :port, :instance
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
