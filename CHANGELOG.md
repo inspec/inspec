@@ -1,19 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.5 -->
-## [v1.48.5](https://github.com/chef/inspec/tree/v1.48.5) (2017-12-21)
+<!-- latest_release 1.48.9 -->
+## [v1.48.9](https://github.com/chef/inspec/tree/v1.48.9) (2017-12-22)
 
-#### Merged Pull Requests
-- bugfix: default attributes for nil and false [#2410](https://github.com/chef/inspec/pull/2410) ([arlimus](https://github.com/arlimus))
+#### Bug Fixes
+- Update apache_conf regular expression to exclude whitespace. [#2416](https://github.com/chef/inspec/pull/2416) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
 ### Changes since 1.48.0 release
 
+#### Enhancements
+- file resource: adds `Synchronize` permission to windows ACL checks [#2399](https://github.com/chef/inspec/pull/2399) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.48.6 -->
+
 #### Bug Fixes
+- Update apache_conf regular expression to exclude whitespace. [#2416](https://github.com/chef/inspec/pull/2416) ([miah](https://github.com/miah)) <!-- 1.48.9 -->
 - Add support for Darwin Directory Service groups [#2403](https://github.com/chef/inspec/pull/2403) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.4 -->
 
 #### Merged Pull Requests
+- Add bonding mode matcher to bond resource [#2414](https://github.com/chef/inspec/pull/2414) ([ehanlon](https://github.com/ehanlon)) <!-- 1.48.8 -->
+- Fix OWCA detection for `compliance login` [#2401](https://github.com/chef/inspec/pull/2401) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.7 -->
 - bugfix: default attributes for nil and false [#2410](https://github.com/chef/inspec/pull/2410) ([arlimus](https://github.com/arlimus)) <!-- 1.48.5 -->
 - Enhance `package` resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.3 -->
 - Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff)) <!-- 1.48.2 -->

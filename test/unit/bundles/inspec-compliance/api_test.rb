@@ -247,32 +247,83 @@ describe Compliance::API do
   end
 
   describe '.determine_server_type' do
-    it 'returns `automate` when a 401 is received from `https://automate.example.com/compliance/version`' do
-      good_response = mock
+    let(:url) { 'https://someserver.onthe.net/' }
+
+    let(:compliance_endpoint) { '/api/version' }
+    let(:automate_endpoint) { '/compliance/version' }
+    let(:headers) { nil }
+    let(:insecure) { true }
+
+    let(:good_response) { mock }
+    let(:bad_response) { mock }
+
+    it 'returns `:automate` when a 401 is received from `https://URL/compliance/version`' do
       good_response.stubs(:code).returns('401')
-      url = 'https://automate.example.com'
-      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(good_response)
-      Compliance::API.determine_server_type(url, true).must_equal(:automate)
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(good_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_equal(:automate)
     end
 
-    it 'returns `compliance` when a 200 is received from `https://compliance.example.com/api/version`' do
-      good_response = mock
+    # Chef Automate currently returns 401 for `/compliance/version` but some
+    # versions of OpsWorks Chef Automate return 200 and a Chef Manage page when
+    # unauthenticated requests are received.
+    it 'returns `:automate` when a 200 is received from `https://URL/compliance/version`' do
       good_response.stubs(:code).returns('200')
-      bad_response = mock
-      bad_response.stubs(:code).returns('404')
-      url = 'https://compliance.example.com'
-      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
-      Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(good_response)
-      Compliance::API.determine_server_type(url, true).must_equal(:compliance)
+      good_response.stubs(:body).returns('Are You Looking For the Chef Server?')
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(good_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_equal(:automate)
     end
 
-    it 'returns `nil` if no response returns favorably' do
-      bad_response = mock
+    it 'returns `nil` if a 200 is received from `https://URL/compliance/version` but not redirected to Chef Manage' do
+      bad_response.stubs(:code).returns('200')
+      bad_response.stubs(:body).returns('No Chef Manage here')
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
+
+      mock_compliance_response = mock
+      mock_compliance_response.stubs(:code).returns('404')
+      Compliance::HTTP.expects(:get)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(mock_compliance_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_be_nil
+    end
+
+
+    it 'returns `:compliance` when a 200 is received from `https://URL/api/version`' do
+      good_response.stubs(:code).returns('200')
       bad_response.stubs(:code).returns('404')
-      url = 'https://bad.example.com'
-      Compliance::HTTP.expects(:get).with(url + '/compliance/version', nil, true).returns(bad_response)
-      Compliance::HTTP.expects(:get).with(url + '/api/version', nil, true).returns(bad_response)
-      Compliance::API.determine_server_type(url, true).must_be_nil
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
+      Compliance::HTTP.expects(:get)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(good_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_equal(:compliance)
+    end
+
+    it 'returns `nil` if it cannot determine the server type' do
+      bad_response.stubs(:code).returns('404')
+
+      Compliance::HTTP.expects(:get)
+        .with(url + automate_endpoint, headers, insecure)
+        .returns(bad_response)
+      Compliance::HTTP.expects(:get)
+        .with(url + compliance_endpoint, headers, insecure)
+        .returns(bad_response)
+
+      Compliance::API.determine_server_type(url, insecure).must_be_nil
     end
   end
 end

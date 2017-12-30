@@ -58,6 +58,10 @@ module Inspec::Resources
       params['Slave Interface']
     end
 
+    def mode
+      params['Bonding Mode'].first
+    end
+
     def to_s
       "Bond #{@bond}"
     end

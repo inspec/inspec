@@ -63,7 +63,8 @@ The following examples show how to use this InSpec audit resource.
 ### Test an AppPool's presence in an applicationHost.config file or the default site under applicationHost.sites
 
     describe xml('applicationHost.config') do
-      its('configuration/system.applicationHost/applicationPools/add@name') { should contain('my_pool') }
+      # using the alternate syntax as described above because of the . in the key name
+      its(['configuration/system.applicationHost/applicationPools/add@name']) { should contain('my_pool') }
     end
 
     describe xml('applicationHost.sites') do

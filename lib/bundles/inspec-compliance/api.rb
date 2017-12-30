@@ -251,11 +251,66 @@ module Compliance
     end
 
     def self.determine_server_type(url, insecure)
-      if Compliance::HTTP.get(url + '/compliance/version', nil, insecure).code == '401'
+      if target_is_automate_server?(url, insecure)
         :automate
-      elsif Compliance::HTTP.get(url + '/api/version', nil, insecure).code == '200'
+      elsif target_is_compliance_server?(url, insecure)
         :compliance
+      else
+        Inspec::Log.debug('Could not determine server type using known endpoints')
+        nil
       end
+    end
+
+    def self.target_is_automate_server?(url, insecure)
+      automate_endpoint = '/compliance/version'
+      response = Compliance::HTTP.get(url + automate_endpoint, nil, insecure)
+      case response.code
+      when '401'
+        Inspec::Log.debug(
+          "Received 401 from #{url}#{automate_endpoint} - " \
+          'assuming target is a Chef Automate instance',
+        )
+        true
+      when '200'
+        # Chef Automate currently returns 401 for `/compliance/version` but some
+        # versions of OpsWorks Chef Automate return 200 and a Chef Manage page
+        # when unauthenticated requests are received.
+        if response.body.include?('Are You Looking For the Chef Server?')
+          Inspec::Log.debug(
+            "Received 200 from #{url}#{automate_endpoint} - " \
+            'assuming target is an OpsWorks Chef Automate instance',
+          )
+          true
+        else
+          Inspec::Log.debug(
+            "Received 200 from #{url}#{automate_endpoint} " \
+            'but did not receive the Chef Manage page - ' \
+            'assuming target is not a Chef Automate instance',
+          )
+          false
+        end
+      else
+        Inspec::Log.debug(
+          "Received unexpected status code #{response.code} " \
+          "from #{url}#{automate_endpoint} - " \
+          'assuming target is not a Chef Automate instance',
+        )
+        false
+      end
+    end
+
+    def self.target_is_compliance_server?(url, insecure)
+      # All versions of Chef Compliance return 200 for `/api/version`
+      compliance_endpoint = '/api/version'
+
+      response = Compliance::HTTP.get(url + compliance_endpoint, nil, insecure)
+      return false unless response.code == '200'
+
+      Inspec::Log.debug(
+        "Received 200 from #{url}#{compliance_endpoint} - " \
+        'assuming target is a Compliance server',
+      )
+      true
     end
   end
 end
