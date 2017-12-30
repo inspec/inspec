@@ -27,6 +27,9 @@ install:
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
+services:
+  - mssql2012sp1 # start SQL Server 2012 SP1 Express
+
 build_script:
   - bundle install --path=vendor/bundle --without integration tools maintenance deploy
 
