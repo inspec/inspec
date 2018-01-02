@@ -51,4 +51,35 @@ describe Inspec::Plugins::Resource do
     end
   end
 
+  describe 'supported platform' do
+    def supports_meta(supports)
+      Inspec::Resource.supports['os'] = supports
+      load_resource('os')
+    end
+
+    it 'loads a profile which supports multiple families' do
+      m = supports_meta([
+        { os_family: 'windows' },
+        { os_family: 'unix' }
+      ])
+      m.check_supports.must_be_nil
+    end
+
+    it 'loads a profile which supports multiple names' do
+      m = supports_meta([
+        { os_family: 'windows', os_name: 'windows_2000'},
+        { os_family: 'unix', os_name: 'ubuntu' }
+      ])
+      m.check_supports.must_be_nil
+    end
+
+    it 'reject a profile which supports multiple families' do
+      m = supports_meta([
+        { os_family: 'windows' },
+        { os_family: 'redhat' }
+      ])
+      expect = 'Resource Os is not supported on platform ubuntu/14.04.'
+      m.check_supports.must_equal expect
+    end
+  end
 end
