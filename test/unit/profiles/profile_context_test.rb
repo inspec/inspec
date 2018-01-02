@@ -393,6 +393,20 @@ describe Inspec::ProfileContext do
       ])
     end
 
+    it 'supports loading a regular ruby gem' do
+      profile.load_libraries([
+        ["require 'erb'\nERB", 'libraries/a.rb']
+      ])
+    end
+
+    it 'fails if a required gem or lib doesnt exist' do
+      proc {
+        profile.load_libraries([
+          ["require 'erbluuuuub'", 'libraries/a.rb']
+        ])
+      }.must_raise LoadError
+    end
+
     it 'fails loading if reference error occur' do
       proc {
         profile.load_libraries([
