@@ -32,7 +32,7 @@ module Inspec::Resources
         @pkgman = Deb.new(inspec)
       elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
         @pkgman = Rpm.new(inspec, opts)
-      elsif ['arch'].include?(os[:family])
+      elsif ['arch'].include?(os[:name])
         @pkgman = Pacman.new(inspec)
       elsif ['darwin'].include?(os[:family])
         @pkgman = Brew.new(inspec)
