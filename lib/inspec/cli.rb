@@ -36,6 +36,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o = opts.dup
     o[:ignore_supports] = true
     o[:backend] = Inspec::Backend.create(target: 'mock://')
+    o[:check_mode] = true
 
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
