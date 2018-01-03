@@ -37,11 +37,22 @@ module Inspec
         include Inspec::DSL::RequireOverride
         def initialize(require_loader)
           @require_loader = require_loader
+          @inspec_binding = nil
+        end
+
+        def __inspec_binding
+          @inspec_binding
         end
       end
 
       c3.const_set(:Inspec, c2)
-      c3.new(require_loader)
+      res = c3.new(require_loader)
+
+      # Provide the local binding for this context which is necessary for
+      # calls to `require` to create all dependent objects in the correct
+      # context.
+      res.instance_variable_set('@inspec_binding', res.instance_eval('binding'))
+      res
     end
   end
 end

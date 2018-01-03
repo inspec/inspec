@@ -369,12 +369,42 @@ describe Inspec::ProfileContext do
       profile.load('Net::POP3').to_s.must_equal 'Net::POP3'
     end
 
+    it 'supports creating a simple library file (no require)' do
+      # this test will throw an exception if chaining doesn't work
+      profile.load_libraries([
+        ['module A; end', 'libraries/a.rb']
+      ])
+    end
+
     it 'supports loading across the library' do
+      # this test will throw an exception if chaining doesn't work
       profile.load_libraries([
         ["require 'a'\nA", 'libraries/b.rb'],
         ['module A; end', 'libraries/a.rb']
       ])
-      profile.load('A').to_s.must_equal 'A'
+    end
+
+    it 'supports chain loading across the library' do
+      # this test will throw an exception if chaining doesn't work
+      profile.load_libraries([
+        ["require 'b'\nA", 'libraries/c.rb'],
+        ["require 'a'\nA", 'libraries/b.rb'],
+        ['module A; end', 'libraries/a.rb']
+      ])
+    end
+
+    it 'supports loading a regular ruby gem' do
+      profile.load_libraries([
+        ["require 'erb'\nERB", 'libraries/a.rb']
+      ])
+    end
+
+    it 'fails if a required gem or lib doesnt exist' do
+      proc {
+        profile.load_libraries([
+          ["require 'erbluuuuub'", 'libraries/a.rb']
+        ])
+      }.must_raise LoadError
     end
 
     it 'fails loading if reference error occur' do

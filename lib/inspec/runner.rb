@@ -185,8 +185,8 @@ module Inspec
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
-      if !profile.supports_os?
-        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
+      if !profile.supports_platform?
+        raise "This OS/platform (#{@backend.platform.name}/#{@backend.platform.release}) is not supported by this profile."
       end
 
       true

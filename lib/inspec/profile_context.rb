@@ -63,10 +63,16 @@ module Inspec
       @control_eval_context = nil
     end
 
-    def profile_supports_os?
+    def profile_supports_platform?
       return true if @conf['profile'].nil?
 
-      @conf['profile'].supports_os?
+      @conf['profile'].supports_platform?
+    end
+
+    def profile_supports_inspec_version?
+      return true if @conf['profile'].nil?
+
+      @conf['profile'].supports_runtime?
     end
 
     def remove_rule(id)
