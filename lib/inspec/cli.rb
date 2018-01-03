@@ -195,7 +195,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string, default: nil, hide: true,
     desc: 'Which formatter to use: cli, documentation, html, json, json-min, junit, progress'
   option :depends, type: :array, default: [],
-    desc: 'A list of local folders that are loaded as dependencies (e.g. for resources)'
+    desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
   def shell_func
     diagnose
     o = opts.dup
