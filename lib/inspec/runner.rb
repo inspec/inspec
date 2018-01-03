@@ -40,6 +40,7 @@ module Inspec
       @conf[:logger] ||= Logger.new(nil)
       @target_profiles = []
       @controls = @conf[:controls] || []
+      @depends = @conf[:depends] || []
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
@@ -217,7 +218,7 @@ module Inspec
 
       # Load local profile dependencies. This is used in inspec shell
       # to provide access to local profiles that add resources.
-      @conf['depends']
+      @depends
         .map { |x| Inspec::Profile.for_path(x, { profile_context: ctx }) }
         .each(&:load_libraries)
 
