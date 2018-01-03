@@ -41,7 +41,6 @@ describe 'Inspec::Resources::XML' do
     it 'retrieves attribute value through xpath' do
       _(resource.send('//property[@name="url"]/@value')).must_equal ['jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD']
       _(resource.send('/beans/bean[@id="dataSource"]/property[@name="url"]/@value')).must_equal ['jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD']
-
     end
   end
 end
