@@ -43,9 +43,9 @@ module Inspec::Resources
       @instance = opts[:instance]
 
       # check if sqlcmd is available
-      raise Inspec::Exceptions::ResourceFailed, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
+      raise Inspec::Exceptions::ResourceSkipped, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
       # check that database is reachable
-      raise Inspec::Exceptions::ResourceFailed, "Can't connect to the MS SQL Server." unless test_connection
+      raise Inspec::Exceptions::ResourceSkipped, "Can't connect to the MS SQL Server." unless test_connection
     end
 
     def query(q)
