@@ -37,4 +37,8 @@ EOF
     eval_context.instance_eval(resource_content)
     old_default_registry.must_equal Inspec::Resource.default_registry
   end
+
+  it 'provides an inspec context for requiring local files' do
+    eval_context.__inspec_binding.must_be_kind_of Binding
+  end
 end
