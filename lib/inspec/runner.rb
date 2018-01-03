@@ -217,7 +217,7 @@ module Inspec
 
       # Load local profile dependencies. This is used in inspec shell
       # to provide access to local profiles that add resources.
-      pros = @conf['depends']
+      @conf['depends']
         .map { |x| Inspec::Profile.for_path(x, { profile_context: ctx }) }
         .each(&:load_libraries)
 
