@@ -14,6 +14,13 @@ describe 'inspec shell tests' do
       out
     end
 
+    it 'loads a dependency' do
+      res = inspec("shell -c 'gordon_config' --depends #{example_profile}")
+      res.stderr.must_equal ''
+      res.exit_status.must_equal 0
+      res.stdout.chop.must_equal 'gordon_config'
+    end
+
     it 'confirm file caching is disabled' do
       out = do_shell_c('inspec.backend.cache_enabled?(:file)', 0)
       out.stdout.chop.must_equal 'false'
@@ -135,6 +142,13 @@ describe 'inspec shell tests' do
       #out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status
       out
+    end
+
+    it 'loads a dependency' do
+      cmd = "echo 'gordon_config' | #{exec_inspec} shell --depends #{example_profile}"
+      res = CMD.run_command(cmd)
+      res.exit_status.must_equal 0
+      res.stdout.must_include "=> gordon_config"
     end
 
     it 'displays the target device information for the user without requiring the help command' do
