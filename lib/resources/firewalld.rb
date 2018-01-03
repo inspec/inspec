@@ -85,7 +85,7 @@ module Inspec::Resources
     end
 
     def has_rule_enabled?(rule, query_zone = default_zone)
-      rule = "rule #{rule}" until rule.include?('rule')
+      rule = "rule #{rule}" unless rule.start_with?('rule')
       firewalld_command("--zone=#{query_zone} --query-rich-rule='#{rule}'") == 'yes'
     end
 
