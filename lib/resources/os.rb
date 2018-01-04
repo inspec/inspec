@@ -32,7 +32,7 @@ module Inspec::Resources
     # helper to collect a hash object easily
     def params
       {
-        name: @platform[:name],
+        name: name,
         family: @platform[:family],
         release: @platform[:release],
         arch: @platform[:arch],
