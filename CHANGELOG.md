@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.49.0 -->
-## [v1.49.0](https://github.com/chef/inspec/tree/v1.49.0) (2018-01-04)
+<!-- latest_release 1.49.1 -->
+## [v1.49.1](https://github.com/chef/inspec/tree/v1.49.1) (2018-01-04)
 
-#### Merged Pull Requests
-- Bump minor version and cleanup changelog for release [#2440](https://github.com/chef/inspec/pull/2440) ([adamleff](https://github.com/adamleff))
+#### Enhancements
+- Deprecate and warn when comparing against OS name with capitals/spaces [#2397](https://github.com/chef/inspec/pull/2397) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
 ### Changes since 1.48.0 release
 
 #### Enhancements
+- Deprecate and warn when comparing against OS name with capitals/spaces [#2397](https://github.com/chef/inspec/pull/2397) ([jquick](https://github.com/jquick)) <!-- 1.49.1 -->
 - Add platform resource and platform supports [#2393](https://github.com/chef/inspec/pull/2393) ([jquick](https://github.com/jquick)) <!-- 1.48.12 -->
 - file resource: adds `Synchronize` permission to windows ACL checks [#2399](https://github.com/chef/inspec/pull/2399) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 1.48.6 -->
 - bond resource: Add bonding mode matcher [#2414](https://github.com/chef/inspec/pull/2414) ([ehanlon](https://github.com/ehanlon)) <!-- 1.48.8 -->
