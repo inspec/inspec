@@ -40,6 +40,7 @@ module Inspec
       @conf[:logger] ||= Logger.new(nil)
       @target_profiles = []
       @controls = @conf[:controls] || []
+      @depends = @conf[:depends] || []
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
@@ -214,6 +215,13 @@ module Inspec
       add_target({ 'inspec.yml' => 'name: inspec-shell' })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
+
+      # Load local profile dependencies. This is used in inspec shell
+      # to provide access to local profiles that add resources.
+      @depends
+        .map { |x| Inspec::Profile.for_path(x, { profile_context: ctx }) }
+        .each(&:load_libraries)
+
       ctx.load(command)
     end
 
