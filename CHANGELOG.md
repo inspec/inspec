@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.48.14 -->
-## [v1.48.14](https://github.com/chef/inspec/tree/v1.48.14) (2018-01-03)
+<!-- latest_release 1.49.0 -->
+## [v1.49.0](https://github.com/chef/inspec/tree/v1.49.0) (2018-01-04)
 
-#### Bug Fixes
-- Modify `inspec json` to use `check_mode` [#2435](https://github.com/chef/inspec/pull/2435) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Bump minor version and cleanup changelog for release [#2440](https://github.com/chef/inspec/pull/2440) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.48.0 -->
@@ -27,6 +27,7 @@
 - package resource: Enhance resource error handling [#2388](https://github.com/chef/inspec/pull/2388) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.48.3 -->
 
 #### Merged Pull Requests
+- Bump minor version and cleanup changelog for release [#2440](https://github.com/chef/inspec/pull/2440) ([adamleff](https://github.com/adamleff)) <!-- 1.49.0 -->
 - Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff)) <!-- 1.48.2 -->
 <!-- release_rollup -->
 
