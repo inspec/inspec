@@ -56,7 +56,7 @@ module Inspec
     def inspec_requirement
       inspec_in_supports = params[:supports].find { |x| !x[:inspec].nil? }
       if inspec_in_supports
-        Inspec::Log.warn '[DEPRECATED] The use of inspec.yml `supports:inspec` is deprecated and will be removed in InSpec 2.0. Please use `inspec_version` instead.'
+        warn '[DEPRECATED] The use of inspec.yml `supports:inspec` is deprecated and will be removed in InSpec 2.0. Please use `inspec_version` instead.'
         Gem::Requirement.create(inspec_in_supports[:inspec])
       else
         # using Gem::Requirement here to allow nil values which
