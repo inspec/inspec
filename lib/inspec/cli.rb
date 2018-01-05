@@ -195,6 +195,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'A single command string to run instead of launching the shell'
   option :format, type: :string, default: nil, hide: true,
     desc: 'Which formatter to use: cli, documentation, html, json, json-min, junit, progress'
+  option :depends, type: :array, default: [],
+    desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
   def shell_func
     diagnose
     o = opts.dup

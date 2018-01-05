@@ -40,6 +40,28 @@ $ inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to wind
 $ inspec shell -t docker://container_id # Login to a docker container.
 ```
 
+## Resource packs
+
+The InSpec shell may use additional keywords provided in resource packs.
+A resource pack is a profile that defines new language terms that can
+be used in InSpec. For example, the profile in `examples/profile` in
+the InSpec git repo defines a `gordon_config` resource. To use these
+resources with the InSpec shell, you will need to download and specify
+them as a dependency.
+
+To use the `gordon_config` resource that is provided in the `examples/profile`
+in the InSpec repo you can run the following:
+
+```bash
+inspec shell --depends examples/profile
+```
+
+Once inside the shell your resource will be available:
+
+```ruby
+inspec> gordon_config
+```
+
 ## Using Ruby in InSpec shell
 
 Since InSpec shell is pry based, you may treat the shell as an
