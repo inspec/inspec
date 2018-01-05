@@ -11,5 +11,5 @@ if os.windows?
 end
 
 describe df('/') do
-  its(:space) { should be >= 1 }
+  its('size') { should be >= 1 }
 end

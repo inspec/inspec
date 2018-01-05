@@ -7,7 +7,7 @@ module Inspec::Resources
     desc 'Use the df InSpec resource to test file system disk space usage'
     example "
       describe df('/') do
-        its(:space) { should be >= 32000 }
+        its('size') { should be >= 32000 }
       end
     "
     attr_reader :partition
@@ -17,7 +17,7 @@ module Inspec::Resources
       @cmd = inspec.command("df #{@partition} --output=size | sed \"/blocks/d; s/ *//g\"")
     end
 
-    def space
+    def size
       @cmd.stdout.to_i
     end
 

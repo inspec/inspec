@@ -13,10 +13,10 @@ describe 'Inspec::Resources::DfResource' do
   end
 
   it 'has more than 1 MB' do
-    _(resource.space).must_be :>=, 1
+    _(resource.size).must_be :>=, 1
   end
 
   it 'must equal 28252316 MB' do
-    _(resource.space).must_equal 28252316
+    _(resource.size).must_equal 28252316
   end
 end

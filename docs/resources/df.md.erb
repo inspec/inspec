@@ -12,13 +12,13 @@ Use the `df` InSpec resource to audit filesystem disk space usage
 A `df` resource block declares tests for disk space in a partion:
 
     describe df('/') do
-      its('space') { should be >= 32000 }
+      its('size') { should be >= 32000 }
     end
 
 where
 
 * `df('/')` states that it will be looking at the root (/) partition
-* `space` is measured in megabytes (MB)
+* `size` is measured in megabytes (MB)
 
 <br>
 
@@ -29,7 +29,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test if the root partition is greater thank 32000 MB
 
     describe df('/') do
-      its('space') { should be >= 32000 }
+      its('size') { should be >= 32000 }
     end
 
 <br>
