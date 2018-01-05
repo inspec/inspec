@@ -40,17 +40,14 @@ $ inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to wind
 $ inspec shell -t docker://container_id # Login to a docker container.
 ```
 
-## Resource packs
+## Resource Packs
 
-The InSpec shell may use additional keywords provided in resource packs.
-A resource pack is a profile that defines new language terms that can
-be used in InSpec. For example, the profile in `examples/profile` in
-the InSpec git repo defines a `gordon_config` resource. To use these
-resources with the InSpec shell, you will need to download and specify
-them as a dependency.
+Use resource packs to share custom resources with other InSpec users.
+A resource pack is an inspec profile that contains only custom resources and no other controls or tests. 
 
-To use the `gordon_config` resource that is provided in the `examples/profile`
-in the InSpec repo you can run the following:
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the InSpec shell, you will need to download and specify them as a dependency.
+
+Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` Github repo in your local environment :
 
 ```bash
 inspec shell --depends examples/profile
@@ -97,12 +94,12 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> file('/Users/ksubramanian').directory?
+inspec> file('/Users/myuser').directory?
 => true
 inspec> os_env('HOME')
 => Environment variable HOME
 inspec> os_env('HOME').content
-=> /Users/ksubramanian
+=> /Users/myuser
 inspec> exit
 ```
 
@@ -126,10 +123,10 @@ replaced with the redefinition and the control is re-run.
 ```bash
 inspec> control 'my_control' do
 inspec>   describe os_env('HOME') do
-inspec>     its('content') { should eq '/Users/ksubramanian' }
+inspec>     its('content') { should eq '/Users/myuser' }
 inspec>   end
 inspec> end
-  ✔  my_control: Environment variable HOME content should eq "/Users/ksubramanian"
+  ✔  my_control: Environment variable HOME content should eq "/Users/myuser"
 
   Summary: 1 successful, 0 failures, 0 skipped
 ```
@@ -158,15 +155,15 @@ If you wish to run a single InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash
-$ inspec shell -c 'describe file("/Users/ksubramanian") do it { should exist } end'}
+$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'}
 Target:  local://
 
-  ✔  File /Users/ksubramanian should exist
+  ✔  File /Users/myuser should exist
 
 Summary: 1 successful, 0 failures, 0 skipped
 ```
 
 ```bash
-$ inspec shell --format json -c 'describe file("/Users/ksubramanian") do it { should exist } end'
-{"version":"0.30.0","profiles":{"":{"supports":[],"controls":{"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)":{"title":null,"desc":null,"impact":0.5,"refs":[],"tags":{},"code":"          rule = rule_class.new(id, profile_id, {}) do\n            res = describe(*args, &block)\n          end\n","source_location":{"ref":"/Users/ksubramanian/repo/chef/inspec/lib/inspec/profile_context.rb","line":184},"results":[{"status":"passed","code_desc":"File /Users/ksubramanian should exist","run_time":0.000747,"start_time":"2016-08-16 11:41:40 -0400"}]}},"groups":{"in_memory.rb":{"title":null,"controls":["(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"]}},"attributes":[]}},"other_checks":[],"summary":{"duration":0.001078,"example_count":1,"failure_count":0,"skip_count":0}}}
+$ inspec shell --format json -c 'describe file("/Users/myuser) do it { should exist } end'
+{"version":"0.30.0","profiles":{"":{"supports":[],"controls":{"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)":{"title":null,"desc":null,"impact":0.5,"refs":[],"tags":{},"code":"          rule = rule_class.new(id, profile_id, {}) do\n            res = describe(*args, &block)\n          end\n","source_location":{"ref":"/Users/myuser/repo/chef/inspec/lib/inspec/profile_context.rb","line":184},"results":[{"status":"passed","code_desc":"File /Users/myuser should exist","run_time":0.000747,"start_time":"2016-08-16 11:41:40 -0400"}]}},"groups":{"in_memory.rb":{"title":null,"controls":["(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"]}},"attributes":[]}},"other_checks":[],"summary":{"duration":0.001078,"example_count":1,"failure_count":0,"skip_count":0}}}
 ```
