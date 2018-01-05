@@ -392,6 +392,7 @@ class MockLoader
       '/sbin/zpool get -Hp all tank' => cmd.call('zpool-get-all-tank'),
       # docker
       "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call('docker-ps-a'),
+      "ec828c1642037127ba411553ac6cdc46939a9659e27c665336aa43f81a2d2cb3" => cmd.call('df'),
       "docker version --format '{{ json . }}'"  => cmd.call('docker-version'),
       "docker info --format '{{ json . }}'" => cmd.call('docker-info'),
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
