@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.49.3 -->
+## [v1.49.3](https://github.com/chef/inspec/tree/v1.49.3) (2018-01-05)
+
+#### Merged Pull Requests
+- Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.49.2 -->
+### Changes since 1.49.2 release
+
+#### Merged Pull Requests
+- Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
