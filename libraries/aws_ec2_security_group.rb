@@ -11,7 +11,7 @@ class AwsEc2SecurityGroup < Inspec.resource(1)
   attr_reader :description, :group_id, :group_name, :vpc_id
 
   def to_s
-    'EC2 Security Group'
+    "EC2 Security Group #{@group_id}"
   end
 
   private
