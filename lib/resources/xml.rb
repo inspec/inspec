@@ -27,7 +27,7 @@ module Inspec::Resources
         elsif element.is_a?(REXML::Element)
           output.push(element.text)
         else
-          raise Inspec::Exceptions::ResourceSkipped, 'We have encountered an unknown class from REXML'
+          raise Inspec::Exceptions::ResourceFailed, "Unknown XML object received (#{element.class}): #{element}"
         end
       end
 
