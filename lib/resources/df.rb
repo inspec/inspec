@@ -1,6 +1,7 @@
 module Inspec::Resources
   class DfResource < Inspec.resource(1)
     name 'df'
+    supports os_family: 'linux'
     desc 'Use the df InSpec resource to test file system disk space usage'
     example "
       describe df('/') do
