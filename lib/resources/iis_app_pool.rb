@@ -19,7 +19,6 @@ class IisAppPool < Inspec.resource(1)
     @pool_name = pool_name
     @pool_path = "IIS:\\AppPools\\#{@pool_name}"
     @cache = nil
-    @inspec = inspec
 
     # verify that this resource is only supported on Windows
     return skip_resource 'The `iis_app_pool` resource is not supported on your OS.' unless inspec.os.windows?
@@ -46,7 +45,23 @@ class IisAppPool < Inspec.resource(1)
   end
 
   def timeout
-    iis_app_pool[:timeout].split[2]
+    iis_app_pool[:timeout]
+  end
+
+  def timeout_days
+    iis_app_pool[:timeout_days]
+  end
+
+  def timeout_hours
+    iis_app_pool[:timeout_hours]
+  end
+
+  def timeout_minutes
+    iis_app_pool[:timeout_minutes]
+  end
+
+  def timeout_seconds
+    iis_app_pool[:timeout_seconds]
   end
 
   def user_identity_type
@@ -62,7 +77,7 @@ class IisAppPool < Inspec.resource(1)
   end
 
   def to_s
-    "iis_app_pool '#{@pool_path}'"
+    "iis_app_pool '#{@pool_name}'"
   end
 
   private
@@ -71,27 +86,28 @@ class IisAppPool < Inspec.resource(1)
     return @cache unless @cache.nil?
 
     command = "Import-Module WebAdministration; Get-Item '#{@pool_path}' | Select-Object * | ConvertTo-Json"
-    cmd = @inspec.command(command)
+    cmd = inspec.command(command)
 
     begin
       pool = JSON.parse(cmd.stdout)
     rescue JSON::ParserError => _e
-      return {}
+      raise Inspec::Exceptions::ResourceFailed, 'Unable to parse app pool JSON'
     end
 
     # map our values to a hash table
-    info = {
+    @cache = {
       pool_name: pool['name'],
       version: pool['managedRuntimeVersion'],
       e32b: pool['enable32BitAppOnWin64'],
       mode: pool['managedPipelineMode'],
       processes: pool['processModel']['maxProcesses'],
-      # Has to be a separate command to get "XX:XX:XX" format
-      timeout: @inspec.command("Get-ItemProperty #{@pool_path} processmodel.idletimeout | select-object value").stdout,
+      timeout: "#{pool['processModel']['idleTimeout']['Hours']}:#{pool['processModel']['idleTimeout']['Minutes']}:#{pool['processModel']['idleTimeout']['Seconds']}",
+      timeout_days: pool['processModel']['idleTimeout']['Days'],
+      timeout_hours: pool['processModel']['idleTimeout']['Hours'],
+      timeout_minutes: pool['processModel']['idleTimeout']['Minutes'],
+      timeout_seconds: pool['processModel']['idleTimeout']['Seconds'],
       user_identity_type: pool['processModel']['identityType'],
       username: pool['processModel']['userName'],
     }
-
-    @cache = info unless info.nil?
   end
 end
