@@ -1,6 +1,3 @@
-# encoding: utf-8
-# author: Jonathan Morley
-
 module Inspec::Resources
   class DfResource < Inspec.resource(1)
     name 'df'
@@ -14,15 +11,26 @@ module Inspec::Resources
 
     def initialize(partition)
       @partition = partition
-      @cmd = inspec.command("df #{@partition} --output=size | sed \"/blocks/d; s/ *//g\"")
     end
 
     def size
-      @cmd.stdout.to_i
+      if inspec.os.linux?
+        command = "df #{partition} --output=size"
+      else
+        raise Inspec::Exceptions::ResourceFailed, 'The `df` resource is not supported on your OS.'
+      end
+
+      @size ||= begin
+        cmd = inspec.command(command)
+        raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
+
+        value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
+        value.to_i
+      end
     end
 
     def to_s
-      "DiskSpace #{@partition}"
+      "DiskSpace #{partition}"
     end
   end
 end
