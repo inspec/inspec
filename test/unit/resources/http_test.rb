@@ -153,15 +153,5 @@ describe 'Inspec::Resources::Http' do
       headers.d.must_equal(4)
       headers.D.must_equal(4)
     end
-
-    it 'emits a warning when an upper-case parameter is provided' do
-      headers.expects(:warn).with('[DEPRECATION] HTTP resource: only use lower-case letters when specifying a header name.')
-      headers.A
-    end
-
-    it 'does not emit a warning when an upper-case parameter is provided' do
-      headers.expects(:warn).never
-      headers.a
-    end
   end
 end

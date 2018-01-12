@@ -241,20 +241,11 @@ module Inspec::Resources
       end
 
       def [](requested_key)
-        unless requested_key.match(/[[:upper:]]/).nil?
-          warn '[DEPRECATION] HTTP resource: only use lower-case letters when specifying a header name.'
-        end
-
         fetch(requested_key.downcase, nil)
       end
 
       def method_missing(requested_key)
-        requested_key = requested_key.to_s
-        unless requested_key.match(/[[:upper:]]/).nil?
-          warn '[DEPRECATION] HTTP resource: only use lower-case letters when specifying a header name.'
-        end
-
-        fetch(requested_key.downcase, nil)
+        fetch(requested_key.to_s.downcase, nil)
       end
     end
   end
