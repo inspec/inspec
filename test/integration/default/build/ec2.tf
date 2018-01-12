@@ -170,6 +170,22 @@ output "ec2_security_group_default_group_id" {
   value = "${data.aws_security_group.default.id}"
 }
 
+resource "aws_vpc" "non_default" {
+  cidr_block = "172.32.0.0/16"
+}
+
+output "vpc_non_default_id" {
+  value = "${aws_vpc.non_default.id}"
+}
+
+output "vpc_non_default_cidr_block" {
+  value = "${aws_vpc.non_default.cidr_block}"
+}
+
+output "vpc_non_default_instance_tenancy" {
+  value = "${aws_vpc.non_default.instance_tenancy}"
+}
+
 # Create a security group with a known description
 # in the default VPC
 resource "aws_security_group" "alpha" {
