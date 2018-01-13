@@ -15,14 +15,8 @@ module Inspec::Resources
     end
 
     def size
-      if inspec.os.linux?
-        command = "df #{partition} --output=size"
-      else
-        raise Inspec::Exceptions::ResourceFailed, 'The `df` resource is not supported on your OS.'
-      end
-
       @size ||= begin
-        cmd = inspec.command(command)
+        cmd = inspec.command("df #{partition} --output=size")
         raise Inspec::Exceptions::ResourceFailed, "Unable to get available space for partition #{partition}" if cmd.stdout.nil? || cmd.stdout.empty? || !cmd.exit_status.zero?
 
         value = cmd.stdout.gsub(/\dK-blocks[\r\n]/, '').strip
