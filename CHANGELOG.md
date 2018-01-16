@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.49.7 -->
-## [v1.49.7](https://github.com/chef/inspec/tree/v1.49.7) (2018-01-16)
+<!-- latest_release 1.49.8 -->
+## [v1.49.8](https://github.com/chef/inspec/tree/v1.49.8) (2018-01-16)
 
-#### Enhancements
-- xml resource: support fetching attributes [#2423](https://github.com/chef/inspec/pull/2423) ([tarcinil](https://github.com/tarcinil))
+#### Bug Fixes
+- package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.49.2 -->
 ### Changes since 1.49.2 release
 
 #### Bug Fixes
+- package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.8 -->
 - firewalld resource: prepend rule string only when necessary [#2430](https://github.com/chef/inspec/pull/2430) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.6 -->
 
 #### Enhancements
