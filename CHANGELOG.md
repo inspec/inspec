@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.49.9 -->
-## [v1.49.9](https://github.com/chef/inspec/tree/v1.49.9) (2018-01-16)
+<!-- latest_release 1.49.10 -->
+## [v1.49.10](https://github.com/chef/inspec/tree/v1.49.10) (2018-01-16)
 
-#### Merged Pull Requests
-- Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff))
+#### Bug Fixes
+- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.49.2 -->
 ### Changes since 1.49.2 release
 
 #### Bug Fixes
+- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff)) <!-- 1.49.10 -->
 - package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.8 -->
 - firewalld resource: prepend rule string only when necessary [#2430](https://github.com/chef/inspec/pull/2430) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.6 -->
 
