@@ -151,10 +151,10 @@ module Inspec::Resources
         val.to_i
       # special handling for SID array
       elsif val =~ /[,]{0,1}\*\S/
-        if (@translate_sid)
+        if @translate_sid
           val.split(',').map { |v|
-              temp = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
-              v = temp.blank? ? v.sub('*S', 'S') : temp
+            temp = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
+            temp.blank? ? v.sub('*S', 'S') : temp
           }
         else
           val.split(',').map { |v|
