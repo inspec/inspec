@@ -64,6 +64,10 @@ module Inspec::Resources
     # returns the package description
     def info
       return @cache if !@cache.nil?
+      # All `@pkgman.info` methods return `{}`. This matches that
+      # behavior if `@pkgman` can't be determined, thus avoiding the
+      # `undefined method 'info' for nil:NilClass` error
+      return {} if @pkgman.nil?
       @pkgman.info(@package_name)
     end
 
