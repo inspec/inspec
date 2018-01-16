@@ -25,13 +25,13 @@ module Inspec::Resources
 
       # Passing no credentials to mssql_session forces it to use Windows authentication
       sql_windows_auth = mssql_session
-      describe sql.query(\"SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') as \\\"login_mode\\\";\").row(0).column('login_mode') do
+      describe sql_windows_auth.query(\"SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') as \\\"login_mode\\\";\").row(0).column('login_mode') do
         its('value') { should_not be_empty }
         its('value') { should cmp == 1 }
       end
     "
 
-    attr_reader :user, :password, :host
+    attr_reader :user, :password, :host, :port, :instance
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -39,12 +39,13 @@ module Inspec::Resources
         warn '[DEPRECATED] use `password` option to supply password instead of `pass`'
       end
       @host = opts[:host] || 'localhost'
+      @port = opts[:port] || '1433'
       @instance = opts[:instance]
 
       # check if sqlcmd is available
-      return skip_resource('sqlcmd is missing') if !inspec.command('sqlcmd').exist?
+      raise Inspec::Exceptions::ResourceSkipped, 'sqlcmd is missing' unless inspec.command('sqlcmd').exist?
       # check that database is reachable
-      return skip_resource("Can't connect to the MS SQL Server.") if !test_connection
+      raise Inspec::Exceptions::ResourceSkipped, "Can't connect to the MS SQL Server." unless test_connection
     end
 
     def query(q)
@@ -53,9 +54,9 @@ module Inspec::Resources
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
       if @instance.nil?
-        cmd_string += " -S '#{@host}'"
+        cmd_string += " -S '#{@host},#{@port}'"
       else
-        cmd_string += " -S '#{@host}\\#{@instance}'"
+        cmd_string += " -S '#{@host},#{@port}\\#{@instance}'"
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
