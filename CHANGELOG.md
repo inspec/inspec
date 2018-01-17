@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.49.10 -->
-## [v1.49.10](https://github.com/chef/inspec/tree/v1.49.10) (2018-01-16)
+<!-- latest_release 1.50.0 -->
+## [v1.50.0](https://github.com/chef/inspec/tree/v1.50.0) (2018-01-17)
 
-#### Bug Fixes
-- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff))
+#### Merged Pull Requests
+- Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.49.2 -->
@@ -20,6 +20,7 @@
 - mssql_session resource: add port parameter [#2429](https://github.com/chef/inspec/pull/2429) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.5 -->
 
 #### Merged Pull Requests
+- Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff)) <!-- 1.50.0 -->
 - Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff)) <!-- 1.49.9 -->
 - Update the inspec support check to warn to stderr. [#2446](https://github.com/chef/inspec/pull/2446) ([jquick](https://github.com/jquick)) <!-- 1.49.4 -->
 - Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.3 -->
