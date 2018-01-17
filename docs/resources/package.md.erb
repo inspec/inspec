@@ -118,8 +118,8 @@ You can also use the `cmp OPERATOR` matcher to perform comparisions using the ve
 
 `cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`.  It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.
 
-### architecture
+### arch
 
-The `architecture` matcher tests the named package's architecture on the system:
+The `arch` matcher tests the named package's architecture on the system:
 
-its('architecture') { should incluce 'x86_64' }
+its('arch') { should incluce 'x86_64' }

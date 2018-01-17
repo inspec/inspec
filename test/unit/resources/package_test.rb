@@ -13,12 +13,12 @@ describe 'Inspec::Resources::Package' do
       name: 'curl',
       installed: true,
       version: '7.37.0-1',
-      architecture: 'x86_64',
+      arch: 'x86_64',
       type: 'pacman',
     }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.37.0-1'
-    _(resource.architecture).must_equal 'x86_64'
+    _(resource.arch).must_equal 'x86_64'
     _(resource.info).must_equal pkg
   end
 
@@ -30,13 +30,13 @@ describe 'Inspec::Resources::Package' do
       installed: true,
       held: false,
       version: '7.35.0-1ubuntu2',
-      architecture: 'amd64',
+      arch: 'amd64',
       type: 'deb',
     }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal false
     _(resource.version).must_equal '7.35.0-1ubuntu2'
-    _(resource.architecture).must_equal 'amd64'
+    _(resource.arch).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
@@ -47,13 +47,13 @@ describe 'Inspec::Resources::Package' do
       installed: true,
       held: true,
       version: '1.2.3-1',
-      architecture: 'amd64',
+      arch: 'amd64',
       type: 'deb',
     }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal true
     _(resource.version).must_equal '1.2.3-1'
-    _(resource.architecture).must_equal 'amd64'
+    _(resource.arch).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
@@ -65,12 +65,12 @@ describe 'Inspec::Resources::Package' do
       installed: true,
       held: false,
       version: '7.35.0-1ubuntu2',
-      architecture: 'amd64',
+      arch: 'amd64',
       type: 'deb',
     }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.35.0-1ubuntu2'
-    _(resource.architecture).must_equal 'amd64'
+    _(resource.arch).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
@@ -81,7 +81,7 @@ describe 'Inspec::Resources::Package' do
         name: 'curl',
         installed: true,
         version: '7.29.0-19.el7',
-        architecture: 'x86_64',
+        arch: 'x86_64',
         type: 'rpm',
       }
     end
@@ -90,23 +90,23 @@ describe 'Inspec::Resources::Package' do
       resource = MockLoader.new(:centos7).load_resource('package', 'curl')
       _(resource.installed?).must_equal true
       _(resource.version).must_equal '7.29.0-19.el7'
-      _(resource.architecture).must_equal 'x86_64'
+      _(resource.arch).must_equal 'x86_64'
       _(resource.info).must_equal pkg
     end
 
-    it 'can parse the correct architecture info whem multiple are present' do
+    it 'can parse the correct arch info whem multiple are present' do
       pkg = {
         name: 'compat-libstdc++-33',
         installed: true,
         version: '3.2.3-72.el7',
-        architecture: ['i686', 'x86_64'],
+        arch: ['i686', 'x86_64'],
         type: 'rpm',
       }
       resource = MockLoader.new(:centos7).load_resource('package', pkg[:name])
       _(resource.installed?).must_equal true
       _(resource.version).must_equal '3.2.3-72.el7'
-      _(resource.architecture).must_include 'i686'
-      _(resource.architecture).must_include 'x86_64'
+      _(resource.arch).must_include 'i686'
+      _(resource.arch).must_include 'x86_64'
       _(resource.info).must_equal pkg
     end
 
@@ -145,7 +145,7 @@ describe 'Inspec::Resources::Package' do
     resource = MockLoader.new(:wrlinux).load_resource('package', 'curl')
     pkg = {
       name: 'curl',
-      architecture: 'x86_64',
+      arch: 'x86_64',
       installed: true,
       version: '7.29.0-19.el7',
       type: 'rpm',
@@ -153,7 +153,7 @@ describe 'Inspec::Resources::Package' do
 
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.29.0-19.el7'
-    _(resource.architecture).must_equal 'x86_64'
+    _(resource.arch).must_equal 'x86_64'
     _(resource.info).must_equal pkg
   end
 
@@ -173,12 +173,12 @@ describe 'Inspec::Resources::Package' do
       name: 'SUNWzfsr',
       installed: true,
       version: '11.10.0-2006.05.18.01.46',
-      architecture: 'i386',
+      arch: 'i386',
       type: 'pkg',
     }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '11.10.0-2006.05.18.01.46'
-    _(resource.architecture).must_equal 'i386'
+    _(resource.arch).must_equal 'i386'
     _(resource.info).must_equal pkg
   end
 

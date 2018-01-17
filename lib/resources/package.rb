@@ -78,9 +78,9 @@ module Inspec::Resources
     end
 
     # return the package architecture
-    def architecture
+    def arch
       info = @pkgman.info(@package_name)
-      info[:architecture]
+      info[:arch]
     end
 
     def to_s
@@ -109,15 +109,15 @@ module Inspec::Resources
     end
 
     def extract_architecture(text, key)
-      architecture = SimpleConfig.new(
+      arch = SimpleConfig.new(
         text,
         assignment_regex: /^\s*(#{key})\s*:\s*(.*?)\s*$/,
         multiple_values: true,
       ).params[key]
 
       # For user experience, convert output to a string instead of `['x86_64']`
-      return architecture[0] if architecture.length == 1
-      architecture
+      return arch[0] if arch.length == 1
+      arch
     end
   end
 
@@ -143,7 +143,7 @@ module Inspec::Resources
         installed: params['Status'].split(' ')[2] == 'installed',
         held: params['Status'].split(' ')[0] == 'hold',
         version: params['Version'],
-        architecture: extract_architecture(cmd_output, 'Architecture'),
+        arch: extract_architecture(cmd_output, 'Architecture'),
         type: 'deb',
       }
     end
@@ -197,7 +197,7 @@ module Inspec::Resources
         name: params['Name'],
         installed: true,
         version: "#{v}-#{r}",
-        architecture: extract_architecture(cmd_output, 'Architecture'),
+        arch: extract_architecture(cmd_output, 'Architecture'),
         type: 'rpm',
       }
     end
@@ -253,7 +253,7 @@ module Inspec::Resources
         name: params['Name'],
         installed: true,
         version: params['Version'],
-        architecture: extract_architecture(cmd_output, 'Architecture'),
+        arch: extract_architecture(cmd_output, 'Architecture'),
         type: 'pacman',
       }
     end
@@ -360,7 +360,7 @@ module Inspec::Resources
         name: params['PKGINST'],
         installed: true,
         version: v[0] + '-' + v[1].split('=')[1],
-        architecture: extract_architecture(cmd_output, 'ARCH'),
+        arch: extract_architecture(cmd_output, 'ARCH'),
         type: 'pkg',
       }
     end
