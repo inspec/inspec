@@ -78,7 +78,7 @@ class GrubConfig < Inspec.resource(1)
     if @kernel == 'default'
       default_menu_entry(menu_entries, conf['GRUB_DEFAULT'])
     else
-      menu_entries.select { |entry| entry['name'] == @kernel }[0]
+      menu_entries.find { |entry| entry['name'] == @kernel }
     end
   end
 
