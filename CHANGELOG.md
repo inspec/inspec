@@ -7,27 +7,30 @@
 - Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.49.2 -->
-### Changes since 1.49.2 release
-
-#### Bug Fixes
-- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff)) <!-- 1.49.10 -->
-- package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.8 -->
-- firewalld resource: prepend rule string only when necessary [#2430](https://github.com/chef/inspec/pull/2430) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.6 -->
-
-#### Enhancements
-- xml resource: support fetching attributes [#2423](https://github.com/chef/inspec/pull/2423) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.7 -->
-- mssql_session resource: add port parameter [#2429](https://github.com/chef/inspec/pull/2429) ([tarcinil](https://github.com/tarcinil)) <!-- 1.49.5 -->
-
-#### Merged Pull Requests
-- Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff)) <!-- 1.50.1 -->
-- Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff)) <!-- 1.50.0 -->
-- Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff)) <!-- 1.49.9 -->
-- Update the inspec support check to warn to stderr. [#2446](https://github.com/chef/inspec/pull/2446) ([jquick](https://github.com/jquick)) <!-- 1.49.4 -->
-- Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.49.3 -->
+<!-- release_rollup since=1.50.1 -->
+### Changes since 1.50.1 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.50.1](https://github.com/chef/inspec/tree/v1.50.1) (2018-01-17)
+
+#### Enhancements
+- mssql_session resource: add port parameter [#2429](https://github.com/chef/inspec/pull/2429) ([tarcinil](https://github.com/tarcinil))
+- xml resource: support fetching attributes [#2423](https://github.com/chef/inspec/pull/2423) ([tarcinil](https://github.com/tarcinil))
+
+#### Bug Fixes
+- firewalld resource: prepend rule string only when necessary [#2430](https://github.com/chef/inspec/pull/2430) ([tarcinil](https://github.com/tarcinil))
+- package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update the inspec support check to warn to stderr. [#2446](https://github.com/chef/inspec/pull/2446) ([jquick](https://github.com/jquick))
+- Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff))
+- Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff))
+- Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.49.2](https://github.com/chef/inspec/tree/v1.49.2) (2018-01-04)
 
 #### Enhancements
@@ -51,7 +54,6 @@
 #### Merged Pull Requests
 - Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff))
 - Bump minor version and cleanup changelog for release [#2440](https://github.com/chef/inspec/pull/2440) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.48.0](https://github.com/chef/inspec/tree/v1.48.0) (2017-12-07)
 
