@@ -77,6 +77,12 @@ module Inspec::Resources
       info[:version]
     end
 
+    # return the package architecture
+    def architecture
+      info = @pkgman.info(@package_name)
+      info[:architecture]
+    end
+
     def to_s
       "System Package #{@package_name}"
     end
@@ -101,6 +107,18 @@ module Inspec::Resources
       # combined into a `ResourceSkipped` exception message.
       []
     end
+
+    def extract_architecture(text, key)
+      architecture = SimpleConfig.new(
+        text,
+        assignment_regex: /^\s*(#{key})\s*:\s*(.*?)\s*$/,
+        multiple_values: true,
+      ).params[key]
+
+      # For user experience, convert output to a string instead of `['x86_64']`
+      return architecture[0] if architecture.length == 1
+      architecture
+    end
   end
 
   # Debian / Ubuntu
@@ -109,8 +127,10 @@ module Inspec::Resources
       cmd = inspec.command("dpkg -s #{package_name}")
       return {} if cmd.exit_status.to_i != 0
 
+      cmd_output = cmd.stdout.chomp
+
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
+        cmd_output,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
@@ -123,6 +143,7 @@ module Inspec::Resources
         installed: params['Status'].split(' ')[2] == 'installed',
         held: params['Status'].split(' ')[0] == 'hold',
         version: params['Version'],
+        architecture: extract_architecture(cmd_output, 'Architecture'),
         type: 'deb',
       }
     end
@@ -149,11 +170,14 @@ module Inspec::Resources
     def info(package_name)
       rpm_cmd = rpm_command(package_name)
       cmd = inspec.command(rpm_cmd)
+
+      cmd_output = cmd.stdout.chomp
+
       # CentOS does not return an error code if the package is not installed,
       # therefore we need to check for emptyness
-      return {} if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
+      return {} if cmd.exit_status.to_i != 0 || cmd_output.empty?
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
+        cmd_output,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
@@ -173,6 +197,7 @@ module Inspec::Resources
         name: params['Name'],
         installed: true,
         version: "#{v}-#{r}",
+        architecture: extract_architecture(cmd_output, 'Architecture'),
         type: 'rpm',
       }
     end
@@ -216,8 +241,10 @@ module Inspec::Resources
       cmd = inspec.command("pacman -Qi #{package_name}")
       return {} if cmd.exit_status.to_i != 0
 
+      cmd_output = cmd.stdout.chomp
+
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
+        cmd_output,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
@@ -226,6 +253,7 @@ module Inspec::Resources
         name: params['Name'],
         installed: true,
         version: params['Version'],
+        architecture: extract_architecture(cmd_output, 'Architecture'),
         type: 'pacman',
       }
     end
@@ -318,8 +346,10 @@ module Inspec::Resources
       cmd = inspec.command("pkginfo -l #{package_name}")
       return {} if cmd.exit_status.to_i != 0
 
+      cmd_output = cmd.stdout.chomp
+
       params = SimpleConfig.new(
-        cmd.stdout.chomp,
+        cmd_output,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: false,
       ).params
@@ -330,6 +360,7 @@ module Inspec::Resources
         name: params['PKGINST'],
         installed: true,
         version: v[0] + '-' + v[1].split('=')[1],
+        architecture: extract_architecture(cmd_output, 'ARCH'),
         type: 'pkg',
       }
     end

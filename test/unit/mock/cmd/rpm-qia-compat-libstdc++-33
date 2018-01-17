@@ -1,0 +1,40 @@
+Name        : compat-libstdc++-33
+Version     : 3.2.3
+Release     : 72.el7
+Architecture: i686
+Install Date: Wed 17 Jan 2018 07:41:11 AM UTC
+Group       : System Environment/Libraries
+Size        : 739520
+License     : GPLv2+ with exceptions
+Signature   : RSA/SHA256, Sat 14 Mar 2015 07:42:42 AM UTC, Key ID 24c6a8a7f4a80eb5
+Source RPM  : compat-gcc-32-3.2.3-72.el7.src.rpm
+Build Date  : Thu 05 Mar 2015 10:51:50 PM UTC
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://gcc.gnu.org
+Summary     : Compatibility standard C++ libraries
+Description :
+The compat-libstdc++ package contains compatibility standard C++ library
+from GCC 3.3.4.
+Name        : compat-libstdc++-33
+Version     : 3.2.3
+Release     : 72.el7
+Architecture: x86_64
+Install Date: Wed 17 Jan 2018 07:41:18 AM UTC
+Group       : System Environment/Libraries
+Size        : 830776
+License     : GPLv2+ with exceptions
+Signature   : RSA/SHA256, Sat 14 Mar 2015 07:42:43 AM UTC, Key ID 24c6a8a7f4a80eb5
+Source RPM  : compat-gcc-32-3.2.3-72.el7.src.rpm
+Build Date  : Thu 05 Mar 2015 11:04:10 PM UTC
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://gcc.gnu.org
+Summary     : Compatibility standard C++ libraries
+Description :
+The compat-libstdc++ package contains compatibility standard C++ library
+from GCC 3.3.4.

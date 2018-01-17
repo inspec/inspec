@@ -9,37 +9,68 @@ describe 'Inspec::Resources::Package' do
   # arch linux
   it 'verify arch linux package parsing' do
     resource = MockLoader.new(:arch).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.37.0-1', type: 'pacman' }
+    pkg = {
+      name: 'curl',
+      installed: true,
+      version: '7.37.0-1',
+      architecture: 'x86_64',
+      type: 'pacman',
+    }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.37.0-1'
+    _(resource.architecture).must_equal 'x86_64'
     _(resource.info).must_equal pkg
   end
 
   # ubuntu
   it 'verify ubuntu package parsing' do
     resource = MockLoader.new(:ubuntu1404).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, held: false, version: '7.35.0-1ubuntu2', type: 'deb' }
+    pkg = {
+      name: 'curl',
+      installed: true,
+      held: false,
+      version: '7.35.0-1ubuntu2',
+      architecture: 'amd64',
+      type: 'deb',
+    }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal false
     _(resource.version).must_equal '7.35.0-1ubuntu2'
+    _(resource.architecture).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
   it 'verify ubuntu package which is held' do
     resource = MockLoader.new(:ubuntu1404).load_resource('package', 'held-package')
-    pkg = { name: 'held-package', installed: true, held: true, version: '1.2.3-1', type: 'deb' }
+    pkg = {
+      name: 'held-package',
+      installed: true,
+      held: true,
+      version: '1.2.3-1',
+      architecture: 'amd64',
+      type: 'deb',
+    }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal true
     _(resource.version).must_equal '1.2.3-1'
+    _(resource.architecture).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
   # mint
   it 'verify mint package parsing' do
     resource = MockLoader.new(:mint17).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, held: false, version: '7.35.0-1ubuntu2', type: 'deb' }
+    pkg = {
+      name: 'curl',
+      installed: true,
+      held: false,
+      version: '7.35.0-1ubuntu2',
+      architecture: 'amd64',
+      type: 'deb',
+    }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.35.0-1ubuntu2'
+    _(resource.architecture).must_equal 'amd64'
     _(resource.info).must_equal pkg
   end
 
@@ -50,6 +81,7 @@ describe 'Inspec::Resources::Package' do
         name: 'curl',
         installed: true,
         version: '7.29.0-19.el7',
+        architecture: 'x86_64',
         type: 'rpm',
       }
     end
@@ -58,6 +90,23 @@ describe 'Inspec::Resources::Package' do
       resource = MockLoader.new(:centos7).load_resource('package', 'curl')
       _(resource.installed?).must_equal true
       _(resource.version).must_equal '7.29.0-19.el7'
+      _(resource.architecture).must_equal 'x86_64'
+      _(resource.info).must_equal pkg
+    end
+
+    it 'can parse the correct architecture info whem multiple are present' do
+      pkg = {
+        name: 'compat-libstdc++-33',
+        installed: true,
+        version: '3.2.3-72.el7',
+        architecture: ['i686', 'x86_64'],
+        type: 'rpm',
+      }
+      resource = MockLoader.new(:centos7).load_resource('package', pkg[:name])
+      _(resource.installed?).must_equal true
+      _(resource.version).must_equal '3.2.3-72.el7'
+      _(resource.architecture).must_include 'i686'
+      _(resource.architecture).must_include 'x86_64'
       _(resource.info).must_equal pkg
     end
 
@@ -94,9 +143,17 @@ describe 'Inspec::Resources::Package' do
   # wrlinux
   it 'verify wrlinux package parsing' do
     resource = MockLoader.new(:wrlinux).load_resource('package', 'curl')
-    pkg = { name: 'curl', installed: true, version: '7.29.0-19.el7', type: 'rpm' }
+    pkg = {
+      name: 'curl',
+      architecture: 'x86_64',
+      installed: true,
+      version: '7.29.0-19.el7',
+      type: 'rpm',
+    }
+
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '7.29.0-19.el7'
+    _(resource.architecture).must_equal 'x86_64'
     _(resource.info).must_equal pkg
   end
 
@@ -112,9 +169,16 @@ describe 'Inspec::Resources::Package' do
   # solaris 10
   it 'verify solaris 10 package parsing' do
     resource = MockLoader.new(:solaris10).load_resource('package', 'SUNWzfsr')
-    pkg = { name: 'SUNWzfsr', installed: true, version: '11.10.0-2006.05.18.01.46', type: 'pkg' }
+    pkg = {
+      name: 'SUNWzfsr',
+      installed: true,
+      version: '11.10.0-2006.05.18.01.46',
+      architecture: 'i386',
+      type: 'pkg',
+    }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '11.10.0-2006.05.18.01.46'
+    _(resource.architecture).must_equal 'i386'
     _(resource.info).must_equal pkg
   end
 
