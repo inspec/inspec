@@ -137,8 +137,8 @@ class GrubConfig < Inspec.resource(1)
     default_entry = menu_entries.select { |k| k['name'] == default_name }[0]
     return default_entry unless default_entry.nil?
 
-    # It is possible for the saved entry to not be valid . For example, the
-    # grubenv is not being up to date. If so, the 0th entry is the default.
+    # It is possible for the saved entry to not be valid . For example, grubenv
+    # not being up to date. If so, the 0th entry is the default.
     menu_entries[0]
   end
 
