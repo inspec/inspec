@@ -121,25 +121,25 @@ class GrubConfig < Inspec.resource(1)
   end
 
   def default_menu_entry(menu_entries, default)
-    if default == 'saved'
-      grubenv_contents = inspec.file(@grubenv_path).content
+    # If the default entry isn't `saved` then a number is used as an index.
+    # By default this is `0`, which would be the first item in the list.
+    return menu_entries[default.to_i] unless default == 'saved'
 
-      # The location of the grubenv file is not guaranteed. In the case that
-      # the file does not exist this will return the 0th entry. This will also
-      # return the 0th entry if InSpec lacks permission to read the file. Both
-      # of these reflect the default Grub2 behavior.
-      return menu_entries[0] if grubenv_contents.nil?
+    grubenv_contents = inspec.file(@grubenv_path).content
 
-      default_name = SimpleConfig.new(grubenv_contents).params['saved_entry']
-      default_entry = menu_entries.select { |k| k['name'] == default_name }[0]
-      return default_entry unless default_entry.nil?
+    # The location of the grubenv file is not guaranteed. In the case that
+    # the file does not exist this will return the 0th entry. This will also
+    # return the 0th entry if InSpec lacks permission to read the file. Both
+    # of these reflect the default Grub2 behavior.
+    return menu_entries[0] if grubenv_contents.nil?
 
-      # It is possible for the saved entry to not be valid . For example, the
-      # grubenv is not being up to date. If so, the 0th entry is the default.
-      menu_entries[0]
-    else
-      menu_entries[default.to_i]
-    end
+    default_name = SimpleConfig.new(grubenv_contents).params['saved_entry']
+    default_entry = menu_entries.select { |k| k['name'] == default_name }[0]
+    return default_entry unless default_entry.nil?
+
+    # It is possible for the saved entry to not be valid . For example, the
+    # grubenv is not being up to date. If so, the 0th entry is the default.
+    menu_entries[0]
   end
 
   ###################################################################
