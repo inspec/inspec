@@ -231,6 +231,7 @@ class MockLoader
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
+      'rpm -qia compat-libstdc++-33' => cmd.call('rpm-qia-compat-libstdc++-33'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
