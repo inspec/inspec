@@ -22,6 +22,7 @@ module Inspec::Reporters
             result_for_report = {
               id: control_id,
               profile_id: profile_id,
+              profile_sha256: profile[:sha256],
               status: result[:status],
               code_desc: result[:code_desc],
             }

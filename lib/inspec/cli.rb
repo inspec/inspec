@@ -39,9 +39,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:check_mode] = true
 
     profile = Inspec::Profile.for_target(target, o)
+    info = profile.info
+    # add in inspec version
+    info[:generated_with_inspec_version] = Inspec::VERSION
     dst = o[:output].to_s
     if dst.empty?
-      puts JSON.dump(profile.info)
+      puts JSON.dump(info)
     else
       if File.exist? dst
         puts "----> updating #{dst}"
@@ -49,7 +52,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         puts "----> creating #{dst}"
       end
       fdst = File.expand_path(dst)
-      File.write(fdst, JSON.dump(profile.info))
+      File.write(fdst, JSON.dump(info))
     end
   rescue StandardError => e
     pretty_handle_exception(e)
