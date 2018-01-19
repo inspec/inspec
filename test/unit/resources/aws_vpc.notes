@@ -1,0 +1,91 @@
+#=============================================================================#
+#                               Search / Recall
+#=============================================================================#
+class AwsVpcRecallTest < Minitest::Test
+  def setup
+    AwsVpc::BackendFactory.select(MAVSB::Three)
+  end
+
+  def test_search_miss_is_not_an_exception
+    user = AwsVpc.new('vpc-87654321')
+    refute user.exists?
+  end
+
+  def test_search_hit_via_scalar_works
+    user = AwsVpc.new('')
+    assert user.exists?
+    assert_equal('erin', user.username)
+  end
+
+  def test_search_hit_via_hash_works
+    user = AwsVpc.new(username: 'erin')
+    assert user.exists?
+    assert_equal('erin', user.username)    
+  end
+end
+
+#=============================================================================#
+#                                Properties
+#=============================================================================#
+
+class AwsVpcPropertiesTest < Minitest::Test
+  def setup
+    AwsVpc::BackendFactory.select(MAVSB::Three)
+  end
+
+  #-----------------------------------------------------#
+  # username property
+  #-----------------------------------------------------#
+  def test_property_username_correct_on_hit
+    user = AwsVpc.new(username: 'erin')
+    assert_equal('erin', user.username)
+  end
+
+  #-----------------------------------------------------#
+  # has_console_password property and predicate
+  #-----------------------------------------------------#
+  def test_property_password_positive
+    user = AwsVpc.new(username: 'erin')
+    assert_equal(true, user.has_console_password)
+    assert_equal(true, user.has_console_password?)
+  end
+
+  def test_property_password_negative
+    user = AwsVpc.new(username: 'leslie')
+    assert_equal(false, user.has_console_password)
+    assert_equal(false, user.has_console_password?)
+  end
+
+  #-----------------------------------------------------#
+  # has_mfa_enabled property and predicate
+  #-----------------------------------------------------#
+  def test_property_mfa_positive
+    user = AwsVpc.new(username: 'erin')
+    assert_equal(true, user.has_mfa_enabled)
+    assert_equal(true, user.has_mfa_enabled?)
+  end
+
+  def test_property_mfa_negative
+    user = AwsVpc.new(username: 'leslie')
+    assert_equal(false, user.has_mfa_enabled)
+    assert_equal(false, user.has_mfa_enabled?)
+  end
+  
+  #-----------------------------------------------------#
+  # access_keys property
+  #-----------------------------------------------------#
+  def test_property_access_keys_positive
+    keys = AwsVpc.new(username: 'erin').access_keys
+    assert_kind_of(Array, keys)
+    assert_equal(keys.length, 2)
+    # We don't currently promise that the results 
+    # will be Inspec resource objects.
+    # assert_kind_of(AwsIamAccessKey, keys.first)    
+  end
+
+  def test_property_access_keys_negative
+    keys = AwsVpc.new(username: 'leslie').access_keys
+    assert_kind_of(Array, keys)
+    assert(keys.empty?)    
+  end
+end
