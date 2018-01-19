@@ -59,7 +59,7 @@ module Inspec
         desc: 'A list of controls to run. Ignore all other tests.'
       # TODO: remove in inspec 2.0
       option :format, type: :string,
-        desc: '[DEPRECATED] Please use --format - this will be removed in InSpec 2.0'
+        desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 2.0'
       option :reporter, type: :array,
         desc: 'Which reporter(s) to use: cli, documentation, html, progress, json, json-min, json-rspec, junit'
       option :color, type: :boolean,
