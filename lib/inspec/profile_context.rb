@@ -116,6 +116,7 @@ module Inspec
       lib_prefix = 'libraries' + File::SEPARATOR
       autoloads = []
 
+      libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
         path = source
         if source.start_with?(lib_prefix)
