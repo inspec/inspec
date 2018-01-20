@@ -250,7 +250,17 @@ module Inspec::Resources
     end
 
     def is_enabled?(service_name)
-      inspec.command("#{service_ctl} is-enabled #{service_name} --quiet").exit_status == 0
+      result = inspec.command("#{service_ctl} is-enabled #{service_name} --quiet")
+      return true if result.exit_status == 0
+
+      # Some systems may not have a `.service` file for a particular service
+      # which causes the `systemctl is-enabled` check to fail despite the
+      # service being enabled. In that event we fallback to `sysv_service`.
+      if result.stderr =~ /Failed to get.*No such file or directory/
+        return inspec.sysv_service(service_name).enabled?
+      end
+
+      false
     end
 
     def is_active?(service_name)

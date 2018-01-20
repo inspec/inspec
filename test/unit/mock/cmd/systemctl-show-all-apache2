@@ -1,0 +1,7 @@
+Id=apache2.service
+Names=apache2.service
+Description=LSB: Apache2 web server
+LoadState=loaded
+UnitFileState=
+SubState=running
+ActiveState=active

@@ -195,6 +195,11 @@ class MockLoader
       mock.mock_command('', '', '', 0)
     }
 
+    cmd_stderr = lambda { |x|
+      stderr = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
+      mock.mock_command('', '', stderr, 1)
+    }
+
     cmd_exit_1 = mock.mock_command('', '', '', 1)
 
     mock.commands = {
@@ -278,6 +283,7 @@ class MockLoader
       'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      'systemctl show --all apache2' => cmd.call('systemctl-show-all-apache2'),
       '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
       'systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
       '/path/to/systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
@@ -447,13 +453,16 @@ class MockLoader
       "bash -c 'type \"firewall-cmd\"'" => cmd.call('firewall-cmd'),
       'rpm -qia firewalld' => cmd.call('pkg-info-firewalld'),
       'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-active apache2 --quiet' => empty.call,
       'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-enabled apache2 --quiet' => cmd_stderr.call('systemctl-is-enabled-apache2-stderr'),
       'systemctl is-active dbus --quiet' => empty.call,
       'systemctl is-enabled dbus --quiet' => empty.call,
       '/path/to/systemctl is-active sshd --quiet' => empty.call,
       '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
       '/usr/sbin/service sshd status' => empty.call,
       '/sbin/service sshd status' => empty.call,
+      'service apache2 status' => cmd_exit_1,
       'type "lsof"' => empty.call,
 
       # http resource - remote worker'
