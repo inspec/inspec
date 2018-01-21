@@ -153,8 +153,8 @@ module Inspec::Resources
       elsif val =~ /[,]{0,1}\*\S/
         if @translate_sid
           val.split(',').map { |v|
-            temp = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
-            temp.blank? ? v.sub('*S', 'S') : temp
+            object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
+            object_name.blank? ? v.sub('*S', 'S') : object_name
           }
         else
           val.split(',').map { |v|
