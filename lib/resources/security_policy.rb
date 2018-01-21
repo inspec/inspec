@@ -80,8 +80,8 @@ module Inspec::Resources
       end
     "
 
-    def initialize(pars = {})
-      @translate_sid = pars[:translate_sid] || false
+    def initialize(opts = {})
+      @translate_sid = opts[:translate_sid] || false
     end
 
     def content
