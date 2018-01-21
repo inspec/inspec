@@ -154,7 +154,7 @@ module Inspec::Resources
         if @translate_sid
           val.split(',').map { |v|
             object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
-            object_name.blank? ? v.sub('*S', 'S') : object_name
+            object_name.empty? || object_name.nil? ? v.sub('*S', 'S') : object_name
           }
         else
           val.split(',').map { |v|

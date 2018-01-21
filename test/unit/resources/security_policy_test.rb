@@ -29,7 +29,7 @@ describe 'Inspec::Resources::SecurityPolicy' do
   end
 
   it 'verify sids are successfully translated or returned SID' do
-    resource = load_resource('security_policy(translate_sid: true)')
+    resource = load_resource('security_policy', translate_sid: true)
     Process.expects(:pid).returns('abc123')
 
     _(resource.MaximumPasswordAge).must_equal 42
