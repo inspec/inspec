@@ -481,7 +481,7 @@ class MockLoader
 
       #security_policy resource SID translation
       "New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
-      "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => empty.call,
+      "New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => empty.call,
     }
     @backend
   end
