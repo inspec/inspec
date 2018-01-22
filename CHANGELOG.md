@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.50.2 -->
-## [v1.50.2](https://github.com/chef/inspec/tree/v1.50.2) (2018-01-18)
-
-#### Bug Fixes
-- grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release 1.50.3 -->
+## [v1.50.3](https://github.com/chef/inspec/tree/v1.50.3) (2018-01-22)
 
 #### Merged Pull Requests
-- Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff))
+- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.50.1 -->
 ### Changes since 1.50.1 release
+
+#### Merged Pull Requests
+- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.50.3 -->
 
 #### Bug Fixes
 - grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.2 -->
