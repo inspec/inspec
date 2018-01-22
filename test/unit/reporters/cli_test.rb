@@ -36,7 +36,8 @@ describe Inspec::Reporters::CLI do
         cli_output = File.open(path + '/../mock/reporters/cli_output', 'r:UTF-8').read
       end
 
-      report.render.must_equal cli_output
+      report.render
+      report.rendered_output.must_equal cli_output
     end
   end
 

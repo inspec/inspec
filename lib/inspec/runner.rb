@@ -104,19 +104,9 @@ module Inspec
     def render_output(run_data)
       # Test kitchen and the audit cookbook just call the runner
       # so we need to default to cli here if its not set.
+      @conf = Inspec::BaseCLI.clean_reporters(@conf)
 
-      # copy over any of the old syntex --format
-      # until its remove in 2.0
-      if !@conf[:format].nil?
-        @conf[:reporter] = {}
-        @conf[:reporter][@conf[:format]] = nil
-        @conf.delete(:format)
-      elsif @conf[:reporter].nil? || @conf[:reporter].empty?
-        # add this to exec defaults when this is removed
-        @conf[:reporter] = { 'cli' => nil }
-      end
-
-      @conf[:reporter].each do |k, v|
+      @conf['reporter'].each do |k, v|
         config = {
           name: k,
           path: v,

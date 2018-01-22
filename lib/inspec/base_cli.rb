@@ -57,16 +57,14 @@ module Inspec
       profile_options
       option :controls, type: :array,
         desc: 'A list of controls to run. Ignore all other tests.'
-      # TODO: remove in inspec 2.0
       option :format, type: :string,
-        desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 2.0'
+        desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
-        desc: 'Which reporter(s) to use: cli, documentation, html, progress, json, json-min, json-rspec, junit'
+        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
         desc: 'Load attributes file (experimental)'
-      # TODO: remove in inspec 2.0
       option :cache, type: :string,
         desc: '[DEPRECATED] Please use --vendor-cache - this will be removed in InSpec 2.0'
       option :vendor_cache, type: :string,
@@ -82,14 +80,43 @@ module Inspec
     def self.default_options
       {
         exec: {
-          reporter: {
+          'reporter' => {
             'cli' => nil,
           },
+          'show_progress' => false,
           'color' => true,
           'create_lockfile' => true,
           'backend_cache' => false,
         },
       }
+    end
+
+    def self.clean_reporters(opts)
+      # Parse report options from CLI
+      if opts['reporter'].is_a?(Array)
+        stdout = 0
+        reports = {}
+        opts['reporter'].each do |report|
+          k, v = report.split(':')
+          reports[k] = v
+          stdout += 1 if v.nil? || v == '-'
+        end
+
+        raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
+
+        opts['reporter'] = reports
+      end
+
+      # Catch anyone using the legacy --format option
+      unless opts['format'].nil?
+        opts['reporter'] = { opts['format'] => nil }
+        opts.delete('format')
+      end
+
+      # Catch any dynamic inspec runners or tests
+      opts['reporter'] = { 'cli' => nil } if opts['reporter'].nil?
+
+      opts
     end
 
     private
@@ -152,30 +179,9 @@ module Inspec
       opts.merge!(options)
 
       # clean up reports
-      clean_reporters(opts) if %i(exec shell).include?(type)
+      BaseCLI.clean_reporters(opts) if %i(exec shell).include?(type)
 
       Thor::CoreExt::HashWithIndifferentAccess.new(opts)
-    end
-
-    def clean_reporters(opts)
-      reports = {}
-      stdout = 0
-      unless opts['format'].nil?
-        opts['reporter'] = []
-        opts['reporter'] << opts['format']
-        opts.delete('format')
-      end
-      return if opts['reporter'].nil?
-
-      opts['reporter'].each do |report|
-        k, v = report.split(':')
-        reports[k] = v
-        stdout += 1 if v.nil? || v == '-'
-      end
-
-      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
-
-      opts['reporter'] = reports
     end
 
     def options_json

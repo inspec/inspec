@@ -38,7 +38,7 @@ module Inspec::Reporters
         end
       end
 
-      output report.to_json
+      output(report.to_json)
     end
   end
 end

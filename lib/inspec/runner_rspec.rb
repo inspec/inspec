@@ -105,6 +105,7 @@ module Inspec
     def set_optional_formatters
       return if @conf[:reporter].nil?
       if @conf[:reporter].key?('json-rspec')
+        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if @conf[:reporter]['json-rspec'].nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
@@ -115,6 +116,7 @@ module Inspec
 
       formats = @conf[:reporter].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
+        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if v.nil?
           RSpec.configuration.add_formatter(k.to_sym)
         else

@@ -8,17 +8,20 @@ module Inspec::Reporters
   def self.render(config)
     case config[:name]
     when 'cli'
-      output = Inspec::Reporters::CLI.new(config).render
+      reporter = Inspec::Reporters::CLI.new(config)
     when 'json'
-      output = Inspec::Reporters::Json.new(config).render
+      reporter = Inspec::Reporters::Json.new(config)
     when 'json-min'
-      output = Inspec::Reporters::JsonMin.new(config).render
+      reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'
-      output = Inspec::Reporters::Junit.new(config).render
+      reporter = Inspec::Reporters::Junit.new(config)
     end
 
+    reporter.render
+    output = reporter.rendered_output
+
     path = config[:path]
-    if path.nil? or path.strip == '-'
+    if path.nil? || path.strip == '-'
       puts output
     else
       File.write(path, output)

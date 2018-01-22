@@ -12,7 +12,8 @@ describe Inspec::Reporters::Json do
   describe '#render' do
     it 'confirm render output' do
       cli_output = File.read(path + '/../mock/reporters/junit_output')
-      report.render.must_equal cli_output
+      report.render
+      report.rendered_output.must_equal cli_output
     end
   end
 end

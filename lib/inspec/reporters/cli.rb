@@ -57,51 +57,50 @@ module Inspec::Reporters
     def render
       run_data[:profiles].each do |profile|
         @control_count = 0
-        output ''
+        output('')
         print_profile_header(profile)
         print_standard_control_results(profile)
         print_anonymous_control_results(profile)
-        output format_message(
-          indentation: 5,
-          message: 'No tests executed.',
-        ) if @control_count == 0
+        output(format_message(
+                 indentation: 5,
+                 message: 'No tests executed.',
+        )) if @control_count == 0
       end
 
-      output ''
+      output('')
       print_profile_summary
       print_tests_summary
-      @output
     end
 
     private
 
     def print_profile_header(profile)
-      output "Profile: #{format_profile_name(profile)}"
-      output "Version: #{profile[:version] || '(not specified)'}"
-      output "Target:  #{run_data[:platform][:target]}" unless run_data[:platform][:target].nil?
-      output ''
+      output("Profile: #{format_profile_name(profile)}")
+      output("Version: #{profile[:version] || '(not specified)'}")
+      output("Target:  #{run_data[:platform][:target]}") unless run_data[:platform][:target].nil?
+      output('')
     end
 
     def print_standard_control_results(profile)
       standard_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
         next if control.results.nil?
-        output format_control_header(control)
+        output(format_control_header(control))
         control.results.each do |result|
-          output format_result(control, result, :standard)
+          output(format_result(control, result, :standard))
           @control_count += 1
         end
       end
-      output '' if @control_count > 0
+      output('') if @control_count > 0
     end
 
     def print_anonymous_control_results(profile)
       anonymous_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
         next if control.results.nil?
-        output format_control_header(control)
+        output(format_control_header(control))
         control.results.each do |result|
-          output format_result(control, result, :anonymous)
+          output(format_result(control, result, :anonymous))
           @control_count += 1
         end
       end

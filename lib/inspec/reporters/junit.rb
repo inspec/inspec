@@ -16,9 +16,8 @@ module Inspec::Reporters
 
       formatter = REXML::Formatters::Pretty.new
       formatter.compact = true
-      output formatter.write(xml_output.xml_decl, '')
-      output formatter.write(xml_output.root, '')
-      @output
+      output(formatter.write(xml_output.xml_decl, ''))
+      output(formatter.write(xml_output.root, ''))
     end
 
     private

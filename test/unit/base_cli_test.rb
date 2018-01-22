@@ -13,7 +13,7 @@ describe 'BaseCLI' do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = { 'format' => 'json', 'backend_cache' => false }
+      expected = { 'format' => 'json', 'backend_cache' => false, 'reporter' => { 'cli' => nil } }
       opts.must_equal expected
     end
 
@@ -25,7 +25,7 @@ describe 'BaseCLI' do
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = { 'format' => 'json', 'backend_cache' => true }
+      expected = { 'format' => 'json', 'backend_cache' => true, 'reporter' => { 'cli' => nil } }
       opts.must_equal expected
     end
 
@@ -40,7 +40,7 @@ describe 'BaseCLI' do
       cli.instance_variable_set(:@options, cli_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = { 'format' => 'json', 'backend_cache' => true }
+      expected = { 'format' => 'json', 'backend_cache' => true, 'reporter' => { 'cli' => nil } }
       opts.must_equal expected
     end
 

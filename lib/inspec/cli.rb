@@ -41,7 +41,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(target, o)
     info = profile.info
     # add in inspec version
-    info[:generated_with_inspec_version] = Inspec::VERSION
+    info[:generator] = {
+      name: 'inspec',
+      version: Inspec::VERSION,
+    }
     dst = o[:output].to_s
     if dst.empty?
       puts JSON.dump(info)
@@ -195,11 +198,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   target_options
   option :command, aliases: :c,
     desc: 'A single command string to run instead of launching the shell'
-  # TODO: remove in inspec 2.0
   option :format, type: :string, default: nil, hide: true,
-    desc: '[DEPRECATED] Please use --format - this will be removed in InSpec 2.0'
+    desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
   option :reporter, type: :array,
-    desc: 'Which reporter(s) to use: cli, documentation, html, progress, json, json-min, json-rspec, junit'
+    desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
   option :depends, type: :array, default: [],
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
   def shell_func
