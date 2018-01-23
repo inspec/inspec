@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.50.5 -->
-## [v1.50.5](https://github.com/chef/inspec/tree/v1.50.5) (2018-01-23)
+<!-- latest_release 1.50.6 -->
+## [v1.50.6](https://github.com/chef/inspec/tree/v1.50.6) (2018-01-23)
 
-#### Enhancements
-- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr))
+#### Bug Fixes
+- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.50.1 -->
@@ -20,6 +20,7 @@
 - Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.50.3 -->
 
 #### Bug Fixes
+- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.6 -->
 - grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.2 -->
 <!-- release_rollup -->
 
