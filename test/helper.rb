@@ -196,8 +196,8 @@ class MockLoader
     }
 
     cmd_exit_1 = lambda { |x = nil|
-      stderr = ::File.read(::File.join(scriptpath, 'unit/mock/cmd', x)) if x
-      mock.mock_command('', '', stderr || '', 1)
+      stderr = x.nil? ? '' : File.read(File.join(scriptpath, 'unit/mock/cmd', x))
+      mock.mock_command('', '', stderr, 1)
     }
 
     mock.commands = {
