@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsVpc < Inspec.resource(1)
   name 'aws_vpc'
   desc 'Verifies settings for AWS VPC'

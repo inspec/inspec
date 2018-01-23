@@ -1,3 +1,5 @@
+require '_aws'
+
 # author: Chris Redekop
 class AwsIamAccessKey < Inspec.resource(1)
   name 'aws_iam_access_key'

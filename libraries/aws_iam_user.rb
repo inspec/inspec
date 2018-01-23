@@ -1,3 +1,5 @@
+require '_aws'
+
 # author: Alex Bedley
 # author: Steffanie Freeman
 # author: Simon Varlow

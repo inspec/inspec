@@ -1,3 +1,5 @@
+require '_aws'
+
 # author: Viktor Yakovlyev
 class AwsIamPasswordPolicy < Inspec.resource(1)
   name 'aws_iam_password_policy'

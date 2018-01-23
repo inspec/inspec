@@ -1,3 +1,5 @@
+require '_aws'
+
 # author: Christoph Hartmann
 class AwsEc2Instance < Inspec.resource(1)
   name 'aws_ec2_instance'
