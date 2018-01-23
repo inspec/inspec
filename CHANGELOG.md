@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.50.4 -->
-## [v1.50.4](https://github.com/chef/inspec/tree/v1.50.4) (2018-01-23)
+<!-- latest_release 1.50.5 -->
+## [v1.50.5](https://github.com/chef/inspec/tree/v1.50.5) (2018-01-23)
 
-#### New Resources
-- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx))
+#### Enhancements
+- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.50.1 -->
 ### Changes since 1.50.1 release
+
+#### Enhancements
+- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr)) <!-- 1.50.5 -->
 
 #### New Resources
 - new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx)) <!-- 1.50.4 -->
