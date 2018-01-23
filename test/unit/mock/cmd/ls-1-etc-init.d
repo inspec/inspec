@@ -1,2 +1,3 @@
 crond
 sshd
+apache2
