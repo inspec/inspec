@@ -6,7 +6,7 @@ class AwsIamRootUser < Inspec.resource(1)
   desc 'Verifies settings for AWS root account'
   example "
     describe aws_iam_root_user do
-      its('access_key_count') { should eq 0 }
+      it { should have_access_key }
     end
   "
 
@@ -14,8 +14,8 @@ class AwsIamRootUser < Inspec.resource(1)
     @client = conn.iam_client
   end
 
-  def access_key_count
-    summary_account['AccountAccessKeysPresent']
+  def has_access_key?
+    summary_account['AccountAccessKeysPresent'] == 1
   end
 
   def has_mfa_enabled?
