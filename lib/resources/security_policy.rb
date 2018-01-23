@@ -74,7 +74,15 @@ module Inspec::Resources
       describe security_policy do
         its('SeNetworkLogonRight') { should include 'S-1-5-11' }
       end
+
+      describe security_policy(translate_sid: true) do
+        its('SeNetworkLogonRight') { should include 'NT AUTHORITY\\Authenticated Users' }
+      end
     "
+
+    def initialize(opts = {})
+      @translate_sid = opts[:translate_sid] || false
+    end
 
     def content
       read_content
@@ -142,10 +150,17 @@ module Inspec::Resources
       if val =~ /^\d+$/
         val.to_i
       # special handling for SID array
-      elsif val =~ /^\*\S/
-        val.split(',').map { |v|
-          v.sub('*S', 'S')
-        }
+      elsif val =~ /[,]{0,1}\*\S/
+        if @translate_sid
+          val.split(',').map { |v|
+            object_name = inspec.command("(New-Object System.Security.Principal.SecurityIdentifier(\"#{v.sub('*S', 'S')}\")).Translate( [System.Security.Principal.NTAccount]).Value").stdout.to_s.strip
+            object_name.empty? || object_name.nil? ? v.sub('*S', 'S') : object_name
+          }
+        else
+          val.split(',').map { |v|
+            v.sub('*S', 'S')
+          }
+        end
       # special handling for string values with "
       elsif !(m = /^\"(.*)\"$/.match(val)).nil?
         m[1]

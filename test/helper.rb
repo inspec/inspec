@@ -222,9 +222,6 @@ class MockLoader
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
       'ps --help' => empty.call,
-      'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
-      'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
-      'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
@@ -480,6 +477,13 @@ class MockLoader
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-no-ssl'),
       "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
       "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
+
+      #security_policy resource calls
+      'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
+      'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
+      'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
+      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
+      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-untranslated'),
     }
     @backend
   end
