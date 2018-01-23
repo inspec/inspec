@@ -18,7 +18,7 @@ The following InSpec-supported universal matchers are available:
 * [`include`](#include) - look for an expected value in a list-valued property
 * [`match`](#match) - look for patterns in text using regular expressions
 
-<br>
+See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about InSpec's built-in matchers.
 
 ## be
 

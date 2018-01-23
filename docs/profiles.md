@@ -29,7 +29,9 @@ where:
 * `files` is the directory with additional files that a profile can access (optional)
 * `README.md` should be used to explain the profile, its scope, and usage
 
-See a complete example profile in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile
+See a complete example profile in the InSpec open source repository: [https://github.com/chef/inspec/tree/master/examples/profile](https://github.com/chef/inspec/tree/master/examples/profile)
+
+Also check out [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about how profiles are structured with hands-on examples.
 
 ## inspec.yml
 
@@ -110,6 +112,8 @@ and to target all of these examples in a single `inspec.yml` file:
 # Profile Dependencies
 
 An InSpec profile can bring in the controls and custom resources from another InSpec profile. Additionally, when inheriting the controls of another profile, a profile can skip or even modify those included controls.
+
+For hands-on examples, check out [Create a custom InSpec profile](https://learn.chef.io/modules/create-a-custom-profile#/) on Learn Chef Rally.
 
 ## Defining the Dependencies
 
@@ -298,7 +302,7 @@ See the full example in the InSpec open source repository: https://github.com/ch
 
 # Profile files
 
-An InSpec profile may contain additional files that can be accessed during tests. This covers use-cases where e.g. a list of ports is provided to be tested.
+An InSpec profile may contain additional files that can be accessed during tests. A profile file enables you separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
 
 To access these files, they must be stored in the `files` directory at the root of a profile. They are accessed by their name relative to this folder with `inspec.profile.file(...)`.
 
@@ -331,6 +335,8 @@ The tests in `example.rb` can now access this file:
         it { should be_listening }
       end
     end
+
+For a more complete example that uses a profile file, see [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally.
 
 # "should" vs. "expect" syntax
 

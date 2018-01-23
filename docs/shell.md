@@ -6,11 +6,13 @@ title: InSpec Shell
 
 The InSpec interactive shell is a pry based REPL that can be used to
 quickly run InSpec controls and tests without having to write it to a
-file. Its functionality is similar to `chef shell` - it provides a way
-to exercise the InSpec DSL, its resources, tests and plugins without
+file. Its functionality is similar to [chef-shell](https://docs.chef.io/chef_shell.html) as it provides a way
+to exercise the InSpec DSL, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
+
+See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally for a hands-on example that uses InSpec shell.
 
 ## Launching the shell
 
