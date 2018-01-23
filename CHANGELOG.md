@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.50.3 -->
-## [v1.50.3](https://github.com/chef/inspec/tree/v1.50.3) (2018-01-22)
+<!-- latest_release 1.50.4 -->
+## [v1.50.4](https://github.com/chef/inspec/tree/v1.50.4) (2018-01-23)
 
-#### Merged Pull Requests
-- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Resources
+- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.50.1 -->
 ### Changes since 1.50.1 release
+
+#### New Resources
+- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx)) <!-- 1.50.4 -->
 
 #### Merged Pull Requests
 - Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.50.3 -->
