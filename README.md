@@ -19,13 +19,9 @@ Before running the profile with InSpec, define environment variables with your A
 - `AWS_DEFAULT_REGION`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
-- `AWS_SESSION_TOKEN`
+- `AWS_SESSION_TOKEN` (optional)
 
 Those variables are defined in [AWS CLI Docs](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
-
-Now you can use `inspec exec inspec-aws`. 
-
-Our future intent is to support an `aws` target for InSpec/Train, so you may also pass credentials `inspec exec inspec-aws -t aws://accesskey:secret@region`.
 
 ## Use the resources
 
@@ -63,6 +59,14 @@ control "aws-1" do
 end
 ```
 
+### Running your profile
+
+Then use `inspec exec my-profile` to execute your new profile.
+
+Our future intent is to support an `aws` target for InSpec/Train, so you may also pass credentials `inspec exec my-profile -t aws://accesskey:secret@region`.  
+
+* See [train/issues/229](https://github.com/chef/train/issues/229).
+
 ### Available Resources
 
  * `aws_ec2_instance` - This resource reads information about an ec2 instance
@@ -80,10 +84,8 @@ end
  * `aws_iam_group`
  * `aws_iam_policy`
  * `aws_iam_role`
- ...
 
-
-## Tests
+## Developing and Testing the AWS Resources Pack
 
 ### Unit tests
 
