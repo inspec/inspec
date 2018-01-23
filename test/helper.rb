@@ -195,12 +195,10 @@ class MockLoader
       mock.mock_command('', '', '', 0)
     }
 
-    cmd_stderr = lambda { |x|
-      stderr = ::File.read(::File.join(scriptpath, '/unit/mock/cmd/'+x))
-      mock.mock_command('', '', stderr, 1)
+    cmd_exit_1 = lambda { |x = nil|
+      stderr = ::File.read(::File.join(scriptpath, 'unit/mock/cmd', x)) if x
+      mock.mock_command('', '', stderr || '', 1)
     }
-
-    cmd_exit_1 = mock.mock_command('', '', '', 1)
 
     mock.commands = {
       '' => empty.call,
@@ -236,7 +234,7 @@ class MockLoader
       'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
+      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       '/usr/local/bin/brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
@@ -250,7 +248,7 @@ class MockLoader
       "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
       "Rscript -e 'packageVersion(\"DoesNotExist\")'" => cmd.call('r-print-version-not-installed'),
       "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DBD::Pg" => cmd.call('perl-print-version'),
-      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DOES::Not::Exist" => cmd_exit_1,
+      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DOES::Not::Exist" => cmd_exit_1.call,
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       'pip show django' => cmd.call('pip-show-django'),
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
@@ -455,14 +453,14 @@ class MockLoader
       'systemctl is-active sshd --quiet' => empty.call,
       'systemctl is-active apache2 --quiet' => empty.call,
       'systemctl is-enabled sshd --quiet' => empty.call,
-      'systemctl is-enabled apache2 --quiet' => cmd_stderr.call('systemctl-is-enabled-apache2-stderr'),
+      'systemctl is-enabled apache2 --quiet' => cmd_exit_1.call('systemctl-is-enabled-apache2-stderr'),
       'systemctl is-active dbus --quiet' => empty.call,
       'systemctl is-enabled dbus --quiet' => empty.call,
       '/path/to/systemctl is-active sshd --quiet' => empty.call,
       '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
       '/usr/sbin/service sshd status' => empty.call,
       '/sbin/service sshd status' => empty.call,
-      'service apache2 status' => cmd_exit_1,
+      'service apache2 status' => cmd_exit_1.call,
       'type "lsof"' => empty.call,
 
       # http resource - remote worker'
