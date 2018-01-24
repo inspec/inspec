@@ -98,8 +98,9 @@ module Inspec
         reports = {}
         opts['reporter'].each do |report|
           k, v = report.split(':')
+          v = nil if v == '-'
           reports[k] = v
-          stdout += 1 if v.nil? || v == '-'
+          stdout += 1 if v.nil?
         end
 
         raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
@@ -122,7 +123,14 @@ module Inspec
     private
 
     def suppress_log_output?(opts)
-      !(%w{json json-min json-rspec junit} & opts['reporter'].keys).empty?
+      match = %w{json json-min json-rspec junit} & opts['reporter'].keys
+      unless match.empty?
+        match.each do |m|
+          # check to see if we are outputting to stdout
+          return true if opts['reporter'][m].nil?
+        end
+      end
+      false
     end
 
     # helper method to run tests
