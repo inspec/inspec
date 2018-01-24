@@ -209,8 +209,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     diagnose(o)
     o[:debug_shell] = true
 
-    json_output = o[:reporter]&.keys&.grep(/json/)&.any?
-    log_device = json_output ? nil : STDOUT
+    log_device = suppress_log_output?(o) ? nil : STDOUT
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o.log_level)
 
@@ -223,7 +222,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if json_output
+    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o['reporter'].keys.include?('json')
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e

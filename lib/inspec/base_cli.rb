@@ -121,10 +121,14 @@ module Inspec
 
     private
 
+    def suppress_log_output?(opts)
+      !(%w{json json-min json-rspec junit} & opts['reporter'].keys).empty?
+    end
+
     # helper method to run tests
     def run_tests(targets, opts)
       o = opts.dup
-      log_device = o[:reporter]&.keys&.grep(/json/)&.any? ? nil : STDOUT
+      log_device = suppress_log_output?(o) ? nil : STDOUT
       o[:logger] = Logger.new(log_device)
       o[:logger].level = get_log_level(o.log_level)
 
@@ -250,7 +254,7 @@ module Inspec
       #
       loc = if o.log_location
               o.log_location
-            elsif %w{json json-min}.include?(o['format'])
+            elsif suppress_log_output?(o)
               STDERR
             else
               STDOUT

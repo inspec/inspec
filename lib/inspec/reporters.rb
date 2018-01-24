@@ -15,6 +15,8 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'
       reporter = Inspec::Reporters::Junit.new(config)
+    else
+      raise NotImplementedError, "'#{config[:name]}' is not a valid reporter type."
     end
 
     reporter.render

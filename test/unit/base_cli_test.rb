@@ -53,4 +53,31 @@ describe 'BaseCLI' do
       opts.must_equal expected
     end
   end
+
+  describe 'suppress_log_output?' do
+    it 'suppresses json' do
+      opts = { 'reporter' => { 'json' => nil } }
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'suppresses json-min' do
+      opts = { 'reporter' => { 'json-min' => '/tmp/json' } }
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'suppresses json-rspec' do
+      opts = { 'reporter' => { 'json-rspec' => nil } }
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'suppresses junit' do
+      opts = { 'reporter' => { 'junit' => nil } }
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'do not suppresses cli' do
+      opts = { 'reporter' => { 'cli' => nil } }
+      cli.send(:suppress_log_output?, opts).must_equal false
+    end
+  end
 end
