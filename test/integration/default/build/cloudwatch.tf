@@ -40,7 +40,7 @@ output "log_metric_filter_1_metric_name" {
 
 resource "aws_cloudwatch_log_metric_filter" "lmf_2" {
   name           = "${terraform.env}_lmf"
-  pattern        = "testpattern02"
+  pattern        = "${terraform.env}testpattern02"
   log_group_name = "${aws_cloudwatch_log_group.lmf_lg_2.name}"
 
   metric_transformation {
@@ -62,6 +62,9 @@ output "log_metric_filter_2_log_group_name" {
   value = "${aws_cloudwatch_log_group.lmf_lg_2.name}"
 }
 
+output "log_metric_filter_2_pattern" {
+  value = "${terraform.env}testpattern02"
+}
 #======================================================#
 #                   Cloudwatch Alarms
 #======================================================#

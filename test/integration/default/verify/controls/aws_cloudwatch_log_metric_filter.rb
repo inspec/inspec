@@ -5,6 +5,7 @@ fixtures = {}
 'log_metric_filter_1_metric_name',
 'log_metric_filter_2_name',
 'log_metric_filter_2_log_group_name',
+'log_metric_filter_2_pattern',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
   fixture_name,
@@ -25,7 +26,7 @@ control "aws_cloudwatch_log_metric_filter recall" do
   end
 
   describe aws_cloudwatch_log_metric_filter(
-    pattern: 'testpattern02',
+    pattern: fixtures['log_metric_filter_2_pattern'],
   ) do
     it { should exist }
   end    
