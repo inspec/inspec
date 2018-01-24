@@ -1,12 +1,49 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 1.50.6 -->
+## [v1.50.6](https://github.com/chef/inspec/tree/v1.50.6) (2018-01-23)
+
+#### Bug Fixes
+- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.50.1 -->
+### Changes since 1.50.1 release
+
+#### Enhancements
+- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr)) <!-- 1.50.5 -->
+
+#### New Resources
+- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx)) <!-- 1.50.4 -->
+
+#### Merged Pull Requests
+- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.50.3 -->
+
+#### Bug Fixes
+- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.6 -->
+- grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.50.1](https://github.com/chef/inspec/tree/v1.50.1) (2018-01-17)
+
+#### Enhancements
+- mssql_session resource: add port parameter [#2429](https://github.com/chef/inspec/pull/2429) ([tarcinil](https://github.com/tarcinil))
+- xml resource: support fetching attributes [#2423](https://github.com/chef/inspec/pull/2423) ([tarcinil](https://github.com/tarcinil))
+
+#### Bug Fixes
+- firewalld resource: prepend rule string only when necessary [#2430](https://github.com/chef/inspec/pull/2430) ([tarcinil](https://github.com/tarcinil))
+- package resource: fix NilClass errors on arch linux [#2437](https://github.com/chef/inspec/pull/2437) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- http resource: make header keys case insensitive [#2457](https://github.com/chef/inspec/pull/2457) ([adamleff](https://github.com/adamleff))
+
+#### Merged Pull Requests
+- Fix package manager detection on Arch Linux [#2436](https://github.com/chef/inspec/pull/2436) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update the inspec support check to warn to stderr. [#2446](https://github.com/chef/inspec/pull/2446) ([jquick](https://github.com/jquick))
+- Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff))
+- Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff))
+- Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff))
+<!-- latest_stable_release -->
+
 ## [v1.49.2](https://github.com/chef/inspec/tree/v1.49.2) (2018-01-04)
 
 #### Enhancements
@@ -30,7 +67,6 @@
 #### Merged Pull Requests
 - Split unit tests from functional [#2391](https://github.com/chef/inspec/pull/2391) ([adamleff](https://github.com/adamleff))
 - Bump minor version and cleanup changelog for release [#2440](https://github.com/chef/inspec/pull/2440) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.48.0](https://github.com/chef/inspec/tree/v1.48.0) (2017-12-07)
 

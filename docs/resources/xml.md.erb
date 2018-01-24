@@ -21,9 +21,13 @@ An `xml` resource block declares the data to be tested. Assume the following XML
         <element>one</element>
         <element>two</element>
       </array>
+      <array>
+        <element value="one"></element>
+        <element value="two"></element>
+      </array>
     </root>
 
-This file can be queried using:
+This file can be queried for elements using:
 
     describe xml('/path/to/name.xml') do
       its('root/name') { should eq ['hello'] }
@@ -31,10 +35,20 @@ This file can be queried using:
       its('root/array[2]/element') { should eq ['two'] }
     end
 
+This file can be queried for attributes using:
+
+    describe xml('/path/to/name.xml') do
+      its('root/array[2]/element/@value') { should eq ['one', 'two'] }
+      its('root/array[2]/element/attribute::value') { should eq ['one', 'two'] }
+      its('root/array[2]/element[2]/attribute::value') { should eq ['two'] }
+    end
+
 where
 
-* `root/name` is an XPath expression
+* `root/name` and `root/array[2]/element/@value` is an XPath expression
 * `should eq ['foo']` tests a value of `root/name` as read from an XML file versus the value declared in the test
+
+In the above example, you see the use of `@` and `attribute::` which are both methods of fetching attributes.
 
 <br>
 
@@ -46,11 +60,15 @@ In the event the path contains an element which contains periods, the alternate 
 
 The following examples show how to use this InSpec audit resource.
 
-### Test an AppPool's presence in an applicationHost.config file
+### Test an AppPool's presence in an applicationHost.config file or the default site under applicationHost.sites
 
     describe xml('applicationHost.config') do
       # using the alternate syntax as described above because of the . in the key name
       its(['configuration/system.applicationHost/applicationPools/add@name']) { should contain('my_pool') }
+    end
+
+    describe xml('applicationHost.sites') do
+      its('site[@name="Default Web Site"]/application/virtualDirectory/@path') { should eq ['/'] }
     end
 
 <br>

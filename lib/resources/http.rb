@@ -47,7 +47,7 @@ module Inspec::Resources
     end
 
     def headers
-      Hashie::Mash.new(@worker.response_headers)
+      @headers ||= Inspec::Resources::Http::Headers.create(@worker.response_headers)
     end
 
     def body
@@ -232,6 +232,20 @@ module Inspec::Resources
 
           cmd.join(' ')
         end
+      end
+    end
+
+    class Headers < Hash
+      def self.create(header_data)
+        header_data.each_with_object(new) { |(k, v), memo| memo[k.to_s.downcase] = v }
+      end
+
+      def [](requested_key)
+        fetch(requested_key.downcase, nil)
+      end
+
+      def method_missing(requested_key)
+        fetch(requested_key.to_s.downcase, nil)
       end
     end
   end

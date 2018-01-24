@@ -6,8 +6,12 @@
 # author: Patrick Muench
 # author: Dominik Richter
 
+require_relative 'docker_object'
+
 module Inspec::Resources
   class DockerContainer < Inspec.resource(1)
+    include Inspec::Resources::DockerObject
+
     name 'docker_container'
     desc ''
     example "
@@ -37,55 +41,39 @@ module Inspec::Resources
       end
     end
 
-    def exist?
-      container_info.exists?
-    end
-
-    # is allways returning the full id
-    def id
-      container_info.ids[0] if container_info.entries.length == 1
-    end
-
     def running?
-      status.downcase.start_with?('up') if container_info.entries.length == 1
+      status.downcase.start_with?('up') if object_info.entries.length == 1
     end
 
     def status
-      container_info.status[0] if container_info.entries.length == 1
+      object_info.status[0] if object_info.entries.length == 1
     end
 
     def labels
-      container_info.labels[0] if container_info.entries.length == 1
+      object_info.labels[0] if object_info.entries.length == 1
     end
 
     def ports
-      container_info.ports[0] if container_info.entries.length == 1
+      object_info.ports[0] if object_info.entries.length == 1
     end
 
     def command
-      return unless container_info.entries.length == 1
+      return unless object_info.entries.length == 1
 
-      cmd = container_info.commands[0]
+      cmd = object_info.commands[0]
       cmd.slice(1, cmd.length - 2)
     end
 
     def image
-      container_info.images[0] if container_info.entries.length == 1
+      object_info.images[0] if object_info.entries.length == 1
     end
 
     def repo
-      return if image.nil? || image_name_from_image.nil?
-      if image.include?('/')                       # host:port/ubuntu:latest
-        repo_part, image_part = image.split('/')   # host:port, ubuntu:latest
-        repo_part + '/' + image_part.split(':')[0] # host:port + / + ubuntu
-      else
-        image_name_from_image.split(':')[0]
-      end
+      parse_components_from_image(image)[:repo] if object_info.entries.size == 1
     end
 
     def tag
-      return if image_name_from_image.nil?
-      image_name_from_image.split(':')[1]
+      parse_components_from_image(image)[:tag] if object_info.entries.size == 1
     end
 
     def to_s
@@ -95,17 +83,7 @@ module Inspec::Resources
 
     private
 
-    def image_name_from_image
-      return if image.nil?
-      # possible image names include:
-      #   alpine
-      #   ubuntu:14.04
-      #   repo.example.com:5000/ubuntu
-      #   repo.example.com:5000/ubuntu:1404
-      image.include?('/') ? image.split('/')[1] : image
-    end
-
-    def container_info
+    def object_info
       return @info if defined?(@info)
       opts = @opts
       @info = inspec.docker.containers.where { names == opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))) }
