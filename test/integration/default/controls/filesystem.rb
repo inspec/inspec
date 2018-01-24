@@ -8,6 +8,6 @@ if os.windows?
   return
 end
 
-describe df('/') do
+describe filesystem('/') do
   its('size') { should be >= 1 }
 end

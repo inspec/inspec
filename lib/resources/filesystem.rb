@@ -1,10 +1,10 @@
 module Inspec::Resources
-  class DfResource < Inspec.resource(1)
-    name 'df'
+  class FileSystemResource < Inspec.resource(1)
+    name 'filesystem'
     supports os_family: 'linux'
-    desc 'Use the df InSpec resource to test file system disk space usage'
+    desc 'Use the filesystem InSpec resource to test file system'
     example "
-      describe df('/') do
+      describe filesystem('/') do
         its('size') { should be >= 32000 }
       end
     "
@@ -25,7 +25,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "DiskSpace #{partition}"
+      "Filesystem #{partition}"
     end
   end
 end
