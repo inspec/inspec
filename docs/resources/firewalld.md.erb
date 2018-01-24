@@ -102,3 +102,5 @@ The `be_running` matcher tests if the firewalld service is running:
 `have_rule_enabled` returns true or false if the rich-rule has been specified in the zone.
 
     it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }
+
+It is not necessary to add the "rule" string, and you can start with the optional flags that are used in firewalld and end with the action

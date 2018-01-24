@@ -128,4 +128,30 @@ describe 'Inspec::Resources::Http' do
       end
     end
   end
+
+  describe 'Inspec::Resource::Http::Headers' do
+    let(:headers) { Inspec::Resources::Http::Headers.create(a: 1, B: 2, 'c' => 3, 'D' => 4) }
+
+    it 'returns the correct data via hash syntax ensuring case-insensitive keys' do
+      headers['a'].must_equal(1)
+      headers['A'].must_equal(1)
+      headers['b'].must_equal(2)
+      headers['B'].must_equal(2)
+      headers['c'].must_equal(3)
+      headers['C'].must_equal(3)
+      headers['d'].must_equal(4)
+      headers['D'].must_equal(4)
+    end
+
+    it 'returns the correct data via method syntax ensuring case-insensitive keys' do
+      headers.a.must_equal(1)
+      headers.A.must_equal(1)
+      headers.b.must_equal(2)
+      headers.B.must_equal(2)
+      headers.c.must_equal(3)
+      headers.C.must_equal(3)
+      headers.d.must_equal(4)
+      headers.D.must_equal(4)
+    end
+  end
 end

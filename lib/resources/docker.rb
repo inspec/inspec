@@ -59,6 +59,25 @@ module Inspec::Resources
     end
   end
 
+  class DockerServiceFilter
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:ids,              field: 'id')
+          .add(:names,            field: 'name')
+          .add(:modes,            field: 'mode')
+          .add(:replicas,         field: 'replicas')
+          .add(:images,           field: 'image')
+          .add(:ports,            field: 'ports')
+          .add(:exists?) { |x| !x.entries.empty? }
+    filter.connect(self, :services)
+
+    attr_reader :services
+    def initialize(services)
+      @services = services
+    end
+  end
+
   # This resource helps to parse information from the docker host
   # For compatability with Serverspec we also offer the following resouses:
   # - docker_container
@@ -77,6 +96,10 @@ module Inspec::Resources
 
       describe docker.images do
         its('repositories') { should_not include 'inssecure_image' }
+      end
+
+      describe docker.services do
+        its('images') { should_not include 'inssecure_image' }
       end
 
       describe docker.version do
@@ -103,6 +126,10 @@ module Inspec::Resources
 
     def images
       DockerImageFilter.new(parse_images)
+    end
+
+    def services
+      DockerServiceFilter.new(parse_services)
     end
 
     def version
@@ -142,6 +169,35 @@ module Inspec::Resources
 
     private
 
+    def parse_json_command(labels, subcommand)
+      # build command
+      format = labels.map { |label| "\"#{label}\": {{json .#{label}}}" }
+      raw = inspec.command("docker #{subcommand} --format '{#{format.join(', ')}}'").stdout
+      output = []
+      # since docker is not outputting valid json, we need to parse each row
+      raw.each_line { |entry|
+        # convert all keys to lower_case to work well with ruby and filter table
+        j = JSON.parse(entry).map { |k, v|
+          [k.downcase, v]
+        }.to_h
+
+        # ensure all keys are there
+        j = ensure_keys(j, labels)
+
+        # strip off any linked container names
+        # Depending on how it was linked, the actual container name may come before
+        # or after the link information, so we'll just look for the first name that
+        # does not include a slash since that is not a valid character in a container name
+        j['names'] = j['names'].split(',').find { |c| !c.include?('/') } if j.key?('names')
+
+        output.push(j)
+      }
+      output
+    rescue JSON::ParserError => _e
+      warn "Could not parse `docker #{subcommand}` output"
+      []
+    end
+
     def parse_containers
       # @see https://github.com/moby/moby/issues/20625, works for docker 1.13+
       # raw_containers = inspec.command('docker ps -a --no-trunc --format \'{{ json . }}\'').stdout
@@ -153,37 +209,15 @@ module Inspec::Resources
         labels.push('Networks')
         labels.push('LocalVolumes')
       end
-      # build command
-      format = labels.map { |label| "\"#{label}\": {{json .#{label}}}" }
-      raw_containers = inspec.command("docker ps -a --no-trunc --format '{#{format.join(', ')}}'").stdout
-      ps = []
-      # since docker is not outputting valid json, we need to parse each row
-      raw_containers.each_line { |entry|
-        j = JSON.parse(entry)
-        # convert all keys to lower_case to work well with ruby and filter table
-        j = j.map { |k, v|
-          [k.downcase, v]
-        }.to_h
-
-        # ensure all keys are there
-        j = ensure_container_keys(j)
-
-        # strip off any linked container names
-        # Depending on how it was linked, the actual container name may come before
-        # or after the link information, so we'll just look for the first name that
-        # does not include a slash since that is not a valid character in a container name
-        j['names'] = j['names'].split(',').find { |c| !c.include?('/') }
-
-        ps.push(j)
-      }
-      ps
-    rescue JSON::ParserError => _e
-      warn 'Could not parse `docker ps` output'
-      []
+      parse_json_command(labels, 'ps -a --no-trunc')
     end
 
-    def ensure_container_keys(entry)
-      %w{Command CreatedAt ID Image Labels Mounts Names Ports RunningFor Size Status Networks LocalVolumes}.each { |key|
+    def parse_services
+      parse_json_command(%w{ID Name Mode Replicas Image Ports}, 'service ls')
+    end
+
+    def ensure_keys(entry, labels)
+      labels.each { |key|
         entry[key.downcase] = nil if !entry.key?(key.downcase)
       }
       entry

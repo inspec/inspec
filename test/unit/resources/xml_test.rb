@@ -26,4 +26,21 @@ describe 'Inspec::Resources::XML' do
       _(resource.send('//name')).must_equal ['Belgian Waffles', 'Strawberry Belgian Waffles']
     end
   end
+
+  describe 'when loading xml with attributes' do
+    let (:resource) { load_resource('xml', 'database.xml') }
+
+    it 'gets params as a document' do
+      _(resource.params).must_be_kind_of REXML::Document
+    end
+
+    it 'retrieves empty array if xpath cannot be found' do
+      _(resource.send('missing')).must_equal []
+    end
+
+    it 'retrieves attribute value through xpath' do
+      _(resource.send('//property[@name="url"]/@value')).must_equal ['jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD']
+      _(resource.send('/beans/bean[@id="dataSource"]/property[@name="url"]/@value')).must_equal ['jdbc:oracle:thin:@databaseserver.domain.tld:1521/DBO.DOMAIN.TLD']
+    end
+  end
 end

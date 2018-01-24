@@ -268,6 +268,27 @@ describe 'Inspec::Resources::Service' do
     _(resource.params).must_equal params
   end
 
+  # debian 8 with systemd but no service file
+  it 'gets the correct service info when the `.service` file is missing' do
+    resource = MockLoader.new(:debian8).load_resource('service', 'apache2')
+    params = Hashie::Mash.new(
+      'ActiveState'   => 'active',
+      'Description'   => 'LSB: Apache2 web server',
+      'Id'            => 'apache2.service',
+      'LoadState'     => 'loaded',
+      'Names'         => 'apache2.service',
+      'SubState'      => 'running',
+      'UnitFileState' => ''
+    )
+    _(resource.type).must_equal 'systemd'
+    _(resource.name).must_equal 'apache2.service'
+    _(resource.description).must_equal 'LSB: Apache2 web server'
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # macos test
   it 'verify mac osx service parsing' do
     resource = MockLoader.new(:osx104).load_resource('service', 'ssh')

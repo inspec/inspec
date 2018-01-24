@@ -11,4 +11,9 @@
     <description>Light Belgian waffles covered with strawberries and whipped cream</description>
     <calories>900</calories>
   </food>
+  <food name="Blueberry Belgian Waffles">
+    <price>$8.95</price>
+    <description>Light Belgian waffles covered with blueberries and whipped cream</description>
+    <calories>700</calories>
+  </food>
 </breakfast_menu>

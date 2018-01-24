@@ -125,6 +125,11 @@ class MockLoader
       '/etc/inetd.conf' => mockfile.call('inetd.conf'),
       '/etc/group' => mockfile.call('etcgroup'),
       '/etc/grub.conf' => mockfile.call('grub.conf'),
+      '/boot/grub2/grub.cfg' => mockfile.call('grub2.cfg'),
+      '/boot/grub2/grubenv' => mockfile.call('grubenv'),
+      '/boot/grub2/grubenv_invalid' => mockfile.call('grubenv_invalid'),
+      '/etc/default/grub' => mockfile.call('grub_defaults'),
+      '/etc/default/grub_with_saved' => mockfile.call('grub_defaults_with_saved'),
       '/etc/audit/auditd.conf' => mockfile.call('auditd.conf'),
       '/etc/mysql/my.cnf' => mockfile.call('mysql.conf'),
       '/etc/mysql/mysql2.conf' => mockfile.call('mysql2.conf'),
@@ -164,6 +169,7 @@ class MockLoader
       'dh_params.dh_pem' => mockfile.call('dh_params.dh_pem'),
       'default.toml' => mockfile.call('default.toml'),
       'default.xml' => mockfile.call('default.xml'),
+      'database.xml' => mockfile.call('database.xml'),
       '/test/path/to/postgres/pg_hba.conf' => mockfile.call('pg_hba.conf'),
       '/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
       'C:/etc/postgresql/9.5/main/pg_ident.conf' => mockfile.call('pg_ident.conf'),
@@ -195,7 +201,10 @@ class MockLoader
       mock.mock_command('', '', '', 0)
     }
 
-    cmd_exit_1 = mock.mock_command('', '', '', 1)
+    cmd_exit_1 = lambda { |x = nil|
+      stderr = x.nil? ? '' : File.read(File.join(scriptpath, 'unit/mock/cmd', x))
+      mock.mock_command('', '', stderr, 1)
+    }
 
     mock.commands = {
       '' => empty.call,
@@ -216,9 +225,6 @@ class MockLoader
       'ps axo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command' => cmd.call('ps-axoZ'),
       'ps -o pid,vsz,rss,tty,stat,time,ruser,args' => cmd.call('ps-busybox'),
       'ps --help' => empty.call,
-      'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
-      'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
-      'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
@@ -231,7 +237,7 @@ class MockLoader
       'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
       'rpm -qia curl' => cmd.call('rpm-qia-curl'),
       'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1,
+      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       '/usr/local/bin/brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
@@ -245,7 +251,7 @@ class MockLoader
       "Rscript -e 'packageVersion(\"DBI\")'" => cmd.call('r-print-version'),
       "Rscript -e 'packageVersion(\"DoesNotExist\")'" => cmd.call('r-print-version-not-installed'),
       "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DBD::Pg" => cmd.call('perl-print-version'),
-      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DOES::Not::Exist" => cmd_exit_1,
+      "perl -le 'eval \"require $ARGV[0]\" and print $ARGV[0]->VERSION or exit 1' DOES::Not::Exist" => cmd_exit_1.call,
       'pip show jinja2' => cmd.call('pip-show-jinja2'),
       'pip show django' => cmd.call('pip-show-django'),
       '/test/path/pip show django' => cmd.call('pip-show-non-standard-django'),
@@ -278,6 +284,7 @@ class MockLoader
       'initctl --version' => cmd.call('initctl--version'),
       # show ssh service Centos 7
       'systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
+      'systemctl show --all apache2' => cmd.call('systemctl-show-all-apache2'),
       '/path/to/systemctl show --all sshd' => cmd.call('systemctl-show-all-sshd'),
       'systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
       '/path/to/systemctl show --all dbus' => cmd.call('systemctl-show-all-dbus'),
@@ -398,6 +405,8 @@ class MockLoader
       "docker inspect 71b5df59442b" => cmd.call('docker-inspec'),
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call('docker-images'),
+      # docker services
+      %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call('docker-service-ls'),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource
@@ -416,8 +425,10 @@ class MockLoader
       %q(psql --version | awk '{ print $NF }' | awk -F. '{ print $1"."$2 }') => cmd.call('psql-version'),
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
-      "4b550bb227058ac5851aa0bc946be794ee46489610f17842700136cf8bb5a0e9" => cmd.call('mssql-getdate'),
-      "aeb859a4ae4288df230916075c0de28781a2b215f41d64ed1ea9c3fd633140fa" => cmd.call('mssql-result'),
+      "cb0efcd12206e9690c21ac631a72be9dd87678aa048e6dae16b8e9353ab6dd64" => cmd.call('mssql-getdate'),
+      "e8bece33e9d550af1fc81a5bc1c72b647b3810db3e567ee9f30feb81f4e3b700" => cmd.call('mssql-getdate'),
+      "53d201ff1cfb8867b79200177b8e2e99dedb700c5fbe15e43820011d7e8b941f" => cmd.call('mssql-getdate'),
+      "7d1a7a0f2bd1e7da9a6904e1f28981146ec01a0323623e12a8579d30a3960a79" => cmd.call('mssql-result'),
       "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
@@ -448,13 +459,16 @@ class MockLoader
       "bash -c 'type \"firewall-cmd\"'" => cmd.call('firewall-cmd'),
       'rpm -qia firewalld' => cmd.call('pkg-info-firewalld'),
       'systemctl is-active sshd --quiet' => empty.call,
+      'systemctl is-active apache2 --quiet' => empty.call,
       'systemctl is-enabled sshd --quiet' => empty.call,
+      'systemctl is-enabled apache2 --quiet' => cmd_exit_1.call('systemctl-is-enabled-apache2-stderr'),
       'systemctl is-active dbus --quiet' => empty.call,
       'systemctl is-enabled dbus --quiet' => empty.call,
       '/path/to/systemctl is-active sshd --quiet' => empty.call,
       '/path/to/systemctl is-enabled sshd --quiet' => empty.call,
       '/usr/sbin/service sshd status' => empty.call,
       '/sbin/service sshd status' => empty.call,
+      'service apache2 status' => cmd_exit_1.call,
       'type "lsof"' => empty.call,
 
       # http resource - remote worker'
@@ -471,6 +485,13 @@ class MockLoader
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-no-ssl'),
       "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-auth'),
       "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call('elasticsearch-cluster-url'),
+
+      #security_policy resource calls
+      'Get-Content win_secpol-abc123.cfg' => cmd.call('secedit-export'),
+      'secedit /export /cfg win_secpol-abc123.cfg' => cmd.call('success'),
+      'Remove-Item win_secpol-abc123.cfg' => cmd.call('success'),
+      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-translated'),
+      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call('security-policy-sid-untranslated'),
     }
     @backend
   end
