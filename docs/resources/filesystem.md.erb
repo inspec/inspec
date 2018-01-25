@@ -1,0 +1,39 @@
+---
+title: About the filesystem Resource
+---
+
+# filesystem
+
+Use the `filesystem` InSpec resource to audit filesystem disk space usage
+<br>
+
+## Syntax
+
+A `filesystem` resource block declares tests for disk space in a partion:
+
+    describe filesystem('/') do
+      its('size') { should be >= 32000 }
+    end
+
+where
+
+* `filesystem('/')` states that it will be looking at the root (/) partition
+* `size` is measured in megabytes (MB)
+
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test if the root partition is greater thank 32000 MB
+
+    describe filesystem('/') do
+      its('size') { should be >= 32000 }
+    end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
