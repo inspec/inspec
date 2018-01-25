@@ -1,31 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.0 -->
-## [v1.51.0](https://github.com/chef/inspec/tree/v1.51.0) (2018-01-25)
-
-#### New Resources
-- filesystem resource: inspect linux filesystems [#2441](https://github.com/chef/inspec/pull/2441) ([tarcinil](https://github.com/tarcinil))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.50.1 -->
-### Changes since 1.50.1 release
-
-#### Enhancements
-- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr)) <!-- 1.50.5 -->
-
-#### New Resources
-- filesystem resource: inspect linux filesystems [#2441](https://github.com/chef/inspec/pull/2441) ([tarcinil](https://github.com/tarcinil)) <!-- 1.51.0 -->
-- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx)) <!-- 1.50.4 -->
-
-#### Merged Pull Requests
-- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.50.3 -->
-
-#### Bug Fixes
-- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.6 -->
-- grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.50.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.51.0](https://github.com/chef/inspec/tree/v1.51.0) (2018-01-25)
+
+#### New Resources
+- new docker_service resource to inspect Docker Swarm services [#2456](https://github.com/chef/inspec/pull/2456) ([mattlqx](https://github.com/mattlqx))
+- filesystem resource: inspect linux filesystems [#2441](https://github.com/chef/inspec/pull/2441) ([tarcinil](https://github.com/tarcinil))
+
+#### Enhancements
+- Update security_policy resource to return Names, not SIDs [#2462](https://github.com/chef/inspec/pull/2462) ([ViolentOr](https://github.com/ViolentOr))
+
+#### Bug Fixes
+- grub_conf resource: fix menuentry detection [#2408](https://github.com/chef/inspec/pull/2408) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- service resource: attempt a SysV fallback if SystemD unit file is not found [#2473](https://github.com/chef/inspec/pull/2473) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v1.50.1](https://github.com/chef/inspec/tree/v1.50.1) (2018-01-17)
 
 #### Enhancements
@@ -43,7 +41,6 @@
 - Bump Omnibus Ruby (and Travis Rubies) to 2.4.3 [#2452](https://github.com/chef/inspec/pull/2452) ([adamleff](https://github.com/adamleff))
 - Bump minor version [#2465](https://github.com/chef/inspec/pull/2465) ([adamleff](https://github.com/adamleff))
 - Bump version manually to trigger Habitat build [#2466](https://github.com/chef/inspec/pull/2466) ([adamleff](https://github.com/adamleff))
-<!-- latest_stable_release -->
 
 ## [v1.49.2](https://github.com/chef/inspec/tree/v1.49.2) (2018-01-04)
 
