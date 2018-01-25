@@ -37,7 +37,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test ports for SSL
 
     describe apache_conf do
-      its('Listen') { should eq '443'}
+      its('Listen') { should include '443' }
     end
 
 <br>
@@ -57,5 +57,5 @@ For example:
 
     describe apache_conf do
       its('MaxClients') { should eq 100 }
-      its('Listen') { should eq '443'}
+      its('Listen') { should include '443' }
     end
