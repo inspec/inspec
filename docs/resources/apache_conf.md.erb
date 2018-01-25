@@ -31,7 +31,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test for blocking .htaccess files on CentOS
 
     describe apache_conf do
-      its('AllowOverride') { should eq 'None' }
+      its('AllowOverride') { should include 'None' }
     end
 
 ### Test ports for SSL
@@ -51,11 +51,11 @@ This InSpec audit resource matches any service that is listed in the Apache conf
 
 or:
 
-    its('Timeout') { should eq 300 }
+    its('Timeout') { should include '300' }
 
 For example:
 
     describe apache_conf do
-      its('MaxClients') { should eq 100 }
+      its('MaxClients') { should include '100' }
       its('Listen') { should include '443' }
     end
