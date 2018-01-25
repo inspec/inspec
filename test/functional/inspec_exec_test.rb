@@ -62,7 +62,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   it 'executes a specs-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'spec_only') + ' --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 1
+    out.exit_status.must_equal 101
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "working"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  should eq \"working\""
@@ -283,7 +283,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     it 'hides sensitive output' do
       out = inspec('exec ' + sensitive_profile  + ' --no-create-lockfile')
       out.stderr.must_equal ''
-      out.exit_status.must_equal 1
+      out.exit_status.must_equal 101
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
       stdout.must_include '∅  should eq "billy"'
       stdout.must_include 'expected: "billy"'

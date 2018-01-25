@@ -74,8 +74,26 @@ module Inspec
     # @return [int] 0 if all went well; otherwise nonzero
     def run(with = nil)
       with ||= RSpec::Core::Runner.new(nil)
-      status = with.run_specs(tests)
-      [status, @formatter.run_data]
+      @rspec_exit_code = with.run_specs(tests)
+      @formatter.results
+    end
+
+    # Return a proper exit code to the runner
+    #
+    # @return [int] exit code
+    def exit_code
+      stats = @formatter.results[:statistics][:controls]
+      if stats[:failed][:total] == 0
+        0
+      elsif stats[:failed][:critical] > 0
+        100
+      elsif stats[:failed][:major] > 0
+        101
+      elsif stats[:failed][:minor] > 0
+        102
+      else
+        @rspec_exit_code
+      end
     end
 
     # Empty the list of registered tests.

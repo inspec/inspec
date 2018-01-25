@@ -23,6 +23,7 @@ module Inspec::Formatters
       run_data[:version] = Inspec::VERSION
       run_data[:statistics] = {
         duration: summary.duration,
+        controls: statistics,
       }
     end
 
@@ -84,6 +85,60 @@ module Inspec::Formatters
 
     private
 
+    def all_unique_controls
+      unique_controls = Set.new
+      run_data[:profiles].each do |profile|
+        profile[:controls].map { |control| unique_controls.add(control) }
+      end
+
+      unique_controls
+    end
+
+    def statistics
+      failed = 0
+      skipped = 0
+      passed = 0
+      critical = 0
+      major = 0
+      minor = 0
+
+      all_unique_controls.each do |control|
+        next unless control[:results]
+        if control[:results].any? { |r| r[:status] == 'failed' }
+          failed += 1
+          if control[:impact] >= 0.7
+            critical += 1
+          elsif control[:impact] >= 0.4
+            major += 1
+          else
+            minor += 1
+          end
+        elsif control[:results].any? { |r| r[:status] == 'skipped' }
+          skipped += 1
+        else
+          passed += 1
+        end
+      end
+
+      total = failed + passed + skipped
+
+      {
+        total: total,
+        passed: {
+          total: passed,
+        },
+        skipped: {
+          total: skipped,
+        },
+        failed: {
+          total: failed,
+          minor: minor,
+          major: major,
+          critical: critical,
+        },
+      }
+    end
+
     def exception_message(exception)
       if exception.is_a?(RSpec::Core::MultipleExceptionError)
         exception.all_exceptions.map(&:message).uniq.join("\n\n")
@@ -111,7 +166,7 @@ module Inspec::Formatters
         status: example.execution_result.status.to_s,
         code_desc: code_description,
         run_time: example.execution_result.run_time,
-        start_time: example.execution_result.started_at.to_s,
+        start_time: example.execution_result.started_at.to_datetime.rfc3339.to_s,
         resource_title: example.metadata[:described_class] || example.metadata[:example_group][:description],
         expectation_message: format_expectation_message(example),
       }

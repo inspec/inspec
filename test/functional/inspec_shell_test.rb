@@ -79,7 +79,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -90,16 +89,15 @@ describe 'inspec shell tests' do
     end
 
     it 'runs anonymous tests that fail (json output)' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1, true)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 101, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs anonymous tests that fail' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 101)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end
@@ -109,7 +107,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -119,17 +116,34 @@ describe 'inspec shell tests' do
       out.stdout.must_include '0 failures'
     end
 
+    it 'runs controls with critical fail' do
+      out = do_shell_c("control \"test\" do impact 1.0; describe file(\"#{__FILE__}\") do it { should_not exist } end end", 100)
+      out.stdout.must_include '0 successful'
+      out.stdout.must_include '1 failure'
+    end
+
+    it 'runs controls with major fail' do
+      out = do_shell_c("control \"test\" do impact 0.6; describe file(\"#{__FILE__}\") do it { should_not exist } end end", 101)
+      out.stdout.must_include '0 successful'
+      out.stdout.must_include '1 failure'
+    end
+
+    it 'runs controls with minor fail' do
+      out = do_shell_c("control \"test\" do impact 0.3; describe file(\"#{__FILE__}\") do it { should_not exist } end end", 102)
+      out.stdout.must_include '0 successful'
+      out.stdout.must_include '1 failure'
+    end
+
     it 'runs controls with multiple tests (json output)' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1, true)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 101, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs controls with multiple tests' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 101)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end

@@ -78,10 +78,6 @@ describe 'inspec exec with json formatter' do
       controls.find { |x| x['id'].nil? }.must_be :nil?
     end
 
-    it 'has no missing checks' do
-      json['other_checks'].must_equal([])
-    end
-
     it 'has results for every control' do
       ex1['results'].length.must_equal 1
       ex2['results'].length.must_equal 1

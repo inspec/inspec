@@ -177,8 +177,6 @@ module Inspec::Reporters
     end
 
     def profile_summary
-      return @profile_summary unless @profile_summary.nil?
-
       failed = 0
       skipped = 0
       passed = 0
@@ -207,7 +205,7 @@ module Inspec::Reporters
 
       total = failed + passed + skipped
 
-      @profile_summary = {
+      {
         'total' => total,
         'failed' => {
           'total' => failed,
@@ -221,8 +219,6 @@ module Inspec::Reporters
     end
 
     def tests_summary
-      return @tests_summary unless @tests_summary.nil?
-
       total = 0
       failed = 0
       skipped = 0
@@ -241,7 +237,12 @@ module Inspec::Reporters
         end
       end
 
-      @tests_summary = { 'total' => total, 'failed' => failed, 'skipped' => skipped, 'passed' => passed }
+      {
+        'total' => total,
+        'failed' => failed,
+        'skipped' => skipped,
+        'passed' => passed,
+      }
     end
 
     def print_profile_summary
