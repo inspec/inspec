@@ -381,7 +381,7 @@ In addition, these test require Docker to be available on your machine or a remo
 List the various test instances available:
 
 ```bash
-bundle exec kitchen list`
+bundle exec kitchen list
 ```
 
 The platforms and test suites are configured in the `.kitchen.yml` file. Once you know which instance you wish to test, test that instance:
