@@ -3,6 +3,7 @@
 
 require 'utils/filter'
 require 'utils/parser'
+
 module Inspec::Resources
   class AideConf < Inspec.resource(1)
     name 'aide_conf'
