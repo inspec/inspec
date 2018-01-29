@@ -6,6 +6,12 @@
 module Inspec::Resources
   class Apache < Inspec.resource(1)
     name 'apache'
+    desc 'Use the apache InSpec audit resource to test if Apache is installed.'
+    example "
+      describe apache do
+        it { should exist }
+      end
+    "
 
     attr_reader :service, :conf_dir, :conf_path, :user
     def initialize
