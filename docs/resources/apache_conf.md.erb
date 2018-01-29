@@ -31,13 +31,19 @@ The following examples show how to use this InSpec audit resource.
 ### Test for blocking .htaccess files on CentOS
 
     describe apache_conf do
-      its('AllowOverride') { should eq 'None' }
+      its('AllowOverride') { should cmp 'None' }
     end
 
 ### Test ports for SSL
 
     describe apache_conf do
-      its('Listen') { should eq '443'}
+      its('Listen') { should cmp '443' }
+    end
+
+### Test multiple ports are listening
+
+    describe apache_conf do
+      its('Listen') { should =~ [ '80', '443' ] }
     end
 
 <br>
@@ -51,11 +57,11 @@ This InSpec audit resource matches any service that is listed in the Apache conf
 
 or:
 
-    its('Timeout') { should eq 300 }
+    its('Timeout') { should cmp '300' }
 
 For example:
 
     describe apache_conf do
-      its('MaxClients') { should eq 100 }
-      its('Listen') { should eq '443'}
+      its('MaxClients') { should cmp '100' }
+      its('Listen') { should cmp '443' }
     end
