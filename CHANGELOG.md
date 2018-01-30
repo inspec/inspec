@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.1 -->
-## [v1.51.1](https://github.com/chef/inspec/tree/v1.51.1) (2018-01-26)
+<!-- latest_release 1.51.2 -->
+## [v1.51.2](https://github.com/chef/inspec/tree/v1.51.2) (2018-01-30)
 
-#### Enhancements
-- packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.0 -->
 ### Changes since 1.51.0 release
+
+#### Merged Pull Requests
+- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus)) <!-- 1.51.2 -->
 
 #### Enhancements
 - packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.1 -->
