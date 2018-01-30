@@ -23,7 +23,13 @@ where
 
 <br>
 
-## Examples
+## Supported Properties 
+
+* 'service', 'conf_dir', 'conf_path', 'user'
+
+<br>
+
+## Property Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -48,7 +54,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test the path of the configuration file
 
     describe apache do
-      its ( 'conf_path' ) { should cmp 'ect/apache2/apache2.conf' }
+      its ( 'conf_path' ) { should cmp 'etc/apache2/apache2.conf' }
     end
 
 ### Test the apache user
@@ -62,10 +68,4 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
-### exist
-
-The `exist` matcher tests if apache exists on the system:
-
-    it { should exist }
+This InSpec audit resource uses the following matchers: `should exist` and `cmp`. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
