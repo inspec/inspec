@@ -1,5 +1,5 @@
 # encoding: utf-8
-# author: Thomas Cate
+# author: Danny Haynes
 
 require 'helper'
 require 'inspec/resource'
