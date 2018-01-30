@@ -137,7 +137,7 @@ module Inspec::Resources
         # that contains the primary config file. We assume the "config path" is the
         # directory that contains the /conf directory, such as /etc/httpd, so that
         # the conf.d directory can be properly located.
-        File.expand_path(File.join(File.dirname(conf_path), '..'))
+        Pathname.new(File.dirname(conf_path)).parent.to_s
       end
     end
 
