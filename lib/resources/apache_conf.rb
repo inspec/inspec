@@ -129,6 +129,18 @@ module Inspec::Resources
       @files_contents[path] ||= inspec.file(path).content
     end
 
+    def conf_dir
+      if inspec.os.debian?
+        File.dirname(conf_path)
+      else
+        # On RHEL-based systems, the configuration is usually in a /conf directory
+        # that contains the primary config file. We assume the "config path" is the
+        # directory that contains the /conf directory, such as /etc/httpd, so that
+        # the conf.d directory can be properly located.
+        File.expand_path(File.join(File.dirname(conf_path), '..'))
+      end
+    end
+
     def to_s
       "Apache Config #{conf_path}"
     end
@@ -140,18 +152,6 @@ module Inspec::Resources
         '/etc/apache2/apache2.conf'
       else
         '/etc/httpd/conf/httpd.conf'
-      end
-    end
-
-    def conf_dir
-      if inspec.os.debian?
-        File.dirname(conf_path)
-      else
-        # On RHEL-based systems, the configuration is usually in a /conf directory
-        # that contains the primary config file. We assume the "config path" is the
-        # directory that contains the /conf directory, such as /etc/httpd, so that
-        # the conf.d directory can be properly located.
-        File.expand_path(File.join(File.dirname(conf_path), '..'))
       end
     end
   end
