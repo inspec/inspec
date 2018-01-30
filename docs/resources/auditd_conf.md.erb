@@ -1,5 +1,5 @@
 ---
-title: About the auditd_conf Resource
+title: The auditd_conf Resource
 ---
 
 # auditd_conf
@@ -23,6 +23,9 @@ where
 * `{ should cmp 'value' }` is the value that is expected
 
 <br>
+
+## Supported Properties
+* `admin_space_left`, `admin_space_left_action`, `action_mail_acct`, `disk_error_action`, `disk_full_action`, `flush`, `freq`, `log_file`, `log_format`, `max_log_file`, `max_log_file_action`, `num_logs`, `space_left`, `space_left_action`
 
 ## Examples
 
@@ -49,17 +52,33 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+<<<<<<< HEAD
 ## Matchers
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
 
+=======
+### Expected Values
+>>>>>>> Updates auditd_conf doc
 
-### keyword
-
-This matcher will matche any keyword that is listed in the `auditd.conf` configuration file. Option names and values are case-insensitive:
+This matcher will match any property listed in the `auditd.conf` configuration file. Property names and expected values are case-insensitive:
 
     its('log_format') { should cmp 'raw' }
 
 or:
 
     its('max_log_file') { should cmp 6 }
+
+<br>
+
+## Matchers
+
+This InSpec audit resource uses the following matchers: 
+
+### `cmp`
+
+The `cmp` matcher compares values across types. 
+
+    its('freq') { should cmp 1 }
+
+ For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
