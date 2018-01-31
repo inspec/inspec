@@ -9,33 +9,43 @@ describe foo('/path/to/foo.txt') do
     it { should_not be_ridiculous }
 end
 ```
-#### Basic Elements:
-* describe **`foo`**
-    * **`foo`** is the _`resource`_
+## Basic Elements:
 
-* describe foo **`('/path/to/foo.txt')`**
-   *  **`('/path/to/foo.txt')`** is the _`resource parameter`_
+### describe **foo**, where
 
-#### Tests:
-* **`its('blah') { should cmp '123' }`**  is an _`individual test`_
-    * **`{ should cmp '123' }`** is a _`condition statement`_
-    * **`should`** is the `condition`
-    * **`cmp`** is the `matcher`
-    * **`123`** is the `expected` result
+        "foo" is the _resource_
 
-* **`{ should exist }`** is a _`condition statement`_
-    * `should` is the condition
-    * `exist` is the matcher
+### describe foo **('/path/to/foo.txt')**, where
 
-* **`{ should be_reasonable }`** is a _`condition statement`_
-    * **`should`** is the _`condition`_
-    *  **`be_reasonable`** is the _`matcher`_
+        "('/path/to/foo.txt')" is the resource parameter
 
-* **`{ should_not be_ridiculous }`** is a _`negative condition statement`_
-    * **`should_not`** is the _`negative condition`_
-    * **`be_ridiculous`** is the _`matcher`_
+## Tests:
+
+### **its('blah') { should cmp '123' }** is an _individual test_, where
+
+        "blah'" is a property
+        { should cmp '123' }is a condition statement
+        "should" is the condition
+        "cmp" is the matcher
+        "123" is the expected result
+
+### **{ should exist }** is a _condition statement_, where
+
+        "should" is the condition
+        "exist" is the matcher
+
+### **{ should be\_reasonable }** is a _condition statement_, where
+    
+        "should" is the condition
+        "be_reasonable" is the matcher
+
+### **{ should\_not be\_ridiculous }** is a _negative condition statement_, where
+
+        "should_not" is the negative condition
+        "be_ridiculous" is the matcher
 
 ## Advanced Syntax
+
 ```
 describe foos('/path/to/foo.txt', ssl_verify: true).where { names == 'blah' } do
     its('jared') { should cmp >= 123 }
@@ -44,33 +54,47 @@ describe foos('/path/to/foo.txt', ssl_verify: true).where { names == 'blah' } do
 end
 ```
 
-#### Advanced Elements:
-* describe **foos**
-    * **`foos`** is a _`plural resource`_
-* describe foos **('/path/to/foo.txt', ssl_verify: true)**
-    * `('/path/to/foo.txt', ssl_verify: true)` are the resource parameters. Resources take one or more parameters.
+## Advanced Elements:
 
-#### Filters:
-* describe foos('/path/to/foo.txt', ssl_verify: true).**where { names == 'blah' }** do
-    * `('/path/to/foo.txt', ssl_verify: true)` are the resource parameters. Resources take one or more parameters.
-    * Filters are used on _plural_ resources
-   *  **`where  { names == 'blah' }`** is an example of a *`filter`*. Some resources support one or more filters.
-   *  **`where  { names == 'blah' }`**  example of a filter clause [research SQL terms for this.]
-   *  **`{ names == 'blah' , has spots}`** are filter criteria
-        *  `names` compares output to 'blah'
-        *  `has spots` evaluates to 'true' or 'false'
+### describe **foos**, where
 
-#### Properties:
-* **its('jared') { should cmp >= 123 }**
-    * **`jared`** is the _`property`_
-    * { should cmp >= 123 } is a conditional statement that uses a matcher with an operator and expected value.
-        * **`cmp`** is the _`matcher`_
-        * **`>=`** is the _`operator`_ (some matchers accept operators)
-        * **`123`** is the _`expected value`_
+        "foos" is a plural resource
 
-#### Properties with advanced usage:
-* some properties may have advanced usage:
-    * its **`('jared.sort.first.monkey') { should be "loud" }`**
-       * **`jared.sort.first.monkey`** is an example of the **`jared`** property with some advanced usage
-    * **`its(['jared', 'monkey.with.dots') { should be "loud" }`**
-       * another example of the **`jared`** property with some advanced usage
+### describe foos **('/path/to/foo.txt', ssl_verify: true)**, where
+
+        "('/path/to/foo.txt', ssl_verify: true)" are the resource parameters. Resources take one or more parameters.
+
+## Filters:
+
+### describe **foos('/path/to/foo.txt', ssl_verify: true)** where { names == 'blah' } do
+
+        "('/path/to/foo.txt', ssl_verify: true)" are the resource parameters. Resources take one or more parameters.
+        Note: Filters are used on plural resources
+
+### **where  { names == 'blah' }** is an example of a **filter**. Some resources support one or more filters.
+
+        "where  { names == 'blah' }" is an example of a filter clause 
+
+### **{ names == 'blah' , has spots}** are filter criteria
+
+        "names" compares output to "blah"
+        "has spots" evaluates to "true" or "false"
+
+## Properties:
+
+### **its('jared') { should cmp >= 123 }**
+
+        "jared" is the property
+        
+### **{ should cmp >= 123 }** is a conditional statement that uses a matcher with an operator and expected value.
+
+        "cmp" is the matcher
+        ">=" is the operator (some matchers accept operators)
+        "123" is the expected value
+
+## Properties with advanced usage:
+
+### Some properties may have advanced usage:
+#### **its `('jared.sort.first.monkey') { should be "loud" }**
+
+        "jared.sort.first.monkey" is an example of the "jared" property with an advanced usage
