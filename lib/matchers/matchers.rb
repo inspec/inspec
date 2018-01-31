@@ -121,19 +121,6 @@ end
 
 # user resource matcher for serverspec compatibility
 # Deprecated: You should not use this matcher anymore
-RSpec::Matchers.define :belong_to_group do |compare_group|
-  match do |user|
-    warn "[DEPRECATION] `belong_to_group` is deprecated.  Please use `its('groups') { should include('root') }` instead."
-    user.groups.include?(compare_group)
-  end
-
-  failure_message do |group|
-    "expected that the user belongs to group `#{group}`"
-  end
-end
-
-# user resource matcher for serverspec compatibility
-# Deprecated: You should not use this matcher anymore
 RSpec::Matchers.define :belong_to_primary_group do |compare_group|
   match do |user|
     warn "[DEPRECATION] `belong_to_primary_group` is deprecated.  Please use `its('group') { should eq 'root' }` instead."
