@@ -23,7 +23,7 @@ end
 
 ### **its('blah') { should cmp '123' }** is an _individual test_, where
 
-  * `blah'` is a _property_
+  * `'blah'` is a _property_
   * { should cmp '123' }is a _condition statement_
   * `should`  is the _condition_
   * `cmp`  is the _matcher_
@@ -95,6 +95,6 @@ end
 ## Properties with advanced usage:
 
 ### Some properties may have advanced usage:
-#### **its `('jared.sort.first.monkey') { should be `loud` }**
+#### **its `('jared.sort.first.monkey') { should be `loud` }`**
 
   * `jared.sort.first.monkey` is an example of the `jared` property with an advanced usage
