@@ -42,7 +42,7 @@ module Inspec::Resources
     end
 
     def to_s
-      'Libuser Configuration'
+      'Libuser Configuration from #{@conf_path}'
     end
 
     ###### NOTE: The following methods have been directly copied from the JSON resource due to bug #1300 (https://github.com/chef/inspec/issues/1300) #####
