@@ -13,7 +13,7 @@ Use the `os_env` InSpec audit resource to test the environment variables for the
 A `os_env` resource block declares an environment variable, and then declares its value:
 
     describe os_env('VARIABLE') do
-      its('matcher') { should eq 1 }
+      its('property') { should eq 1 }
     end
 
 where
