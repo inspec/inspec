@@ -28,8 +28,6 @@ module Inspec::Resources
     include ObjectTraverser
     attr_reader :params, :raw_content
 
-    class UnknownEtcLibUserConf < StandardError; end
-
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.os_env('LIBUSER_CONF').content || '/etc/libuser.conf'
       file = inspec.file(@conf_path)
