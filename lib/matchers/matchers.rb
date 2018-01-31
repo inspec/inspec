@@ -66,17 +66,6 @@ RSpec::Matchers.define :be_executable do
   end
 end
 
-# verifies that no entry in an array contains a value
-RSpec::Matchers.define :contain_match do |regex|
-  match do |arr|
-    warn '[DEPRECATION] `contain_match` is deprecated and will be removed in the next major version. See https://github.com/chef/inspec/issues/738 for more details'
-    arr.inject { |result, i|
-      result = i.match(regex)
-      result || i.match(/$/)
-    }
-  end
-end
-
 RSpec::Matchers.define :contain_duplicates do
   match do |arr|
     dup = arr.select { |element| arr.count(element) > 1 }
