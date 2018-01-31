@@ -66,14 +66,6 @@ RSpec::Matchers.define :be_executable do
   end
 end
 
-# matcher to check /etc/passwd, /etc/shadow and /etc/group
-RSpec::Matchers.define :contain_legacy_plus do
-  match do |file|
-    warn '[DEPRECATION] `contain_legacy_plus` is deprecated and will be removed in the next major version. Please use `describe file(\'/etc/passwd\') do its(\'content\') { should_not match /^\+:/ } end`'
-    file.content =~ /^\+:/
-  end
-end
-
 # verifies that no entry in an array contains a value
 RSpec::Matchers.define :contain_match do |regex|
   match do |arr|
