@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.3 -->
-## [v1.51.3](https://github.com/chef/inspec/tree/v1.51.3) (2018-01-31)
+<!-- latest_release 1.51.4 -->
+## [v1.51.4](https://github.com/chef/inspec/tree/v1.51.4) (2018-01-31)
 
 #### Merged Pull Requests
-- apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff))
+-  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.0 -->
 ### Changes since 1.51.0 release
 
 #### Merged Pull Requests
+-  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel)) <!-- 1.51.4 -->
 - apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff)) <!-- 1.51.3 -->
 - add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus)) <!-- 1.51.2 -->
 
