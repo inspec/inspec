@@ -4,10 +4,7 @@ require 'utils/object_traversal'
 module Inspec::Resources
   class EtcLibUser < Inspec.resource(1)
     name 'etc_libuser'
-    desc 'Use the etc_libuser InSpec audit resource to check the configuration of /etc/libuser.conf.
-          Due to limitations of the RSpec engine and for consistency, please use the method described here
-          (https://github.com/chef/inspec/issues/1543) for accessing the hierarchical values in
-          /etc/libuser.conf'
+    desc 'Use the etc_libuser InSpec audit resource to check the configuration of /etc/libuser.conf.'
     example "
           ---start sample /etc/libuser.conf---
           # See libuser.conf(5) for more information.
@@ -21,7 +18,7 @@ module Inspec::Resources
           ---end sample /etc/libuser.conf---
 
           describe etc_libuser do
-            its(['import','login_defs']){should eq ['/etc/login.defs']}
+            its(['import', 'login_defs']){ should cmp '/etc/login.defs' }
           end
          "
 
