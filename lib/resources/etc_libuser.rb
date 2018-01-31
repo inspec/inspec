@@ -28,7 +28,7 @@ module Inspec::Resources
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.os_env('LIBUSER_CONF').content || '/etc/libuser.conf'
       file = inspec.file(@conf_path)
-      return skip_resource "The `etc_libuser` resource is not supported on your OS. Can't find '#{@conf_path}'." unless file.file?
+      raise Inspec::Exceptions::FailResource, "Can't find '#{@conf_path}'" unless file.file?
       @params = nil
       @raw_content = load_raw_content(@conf_path)
       @params = parse(@raw_content)
@@ -86,15 +86,15 @@ module Inspec::Resources
       # these are currently ResourceSkipped to maintain consistency with the resource
       # pre-refactor (which used skip_resource). These should likely be changed to
       # ResourceFailed during a major version bump.
-      raise Inspec::Exceptions::ResourceSkipped, "No such file: #{path}" unless file.file?
-      raise Inspec::Exceptions::ResourceSkipped, "File #{path} is empty or is not readable by current user" if file.content.nil? || file.content.empty?
+      raise Inspec::Exceptions::ResourceFailed, "No such file: #{path}" unless file.file?
+      raise Inspec::Exceptions::ResourceFailed, "File #{path} is empty or is not readable by current user" if file.content.nil? || file.content.empty?
 
       file.content
     end
 
     def load_raw_from_command(command)
       command_output = inspec.command(command).stdout
-      raise Inspec::Exceptions::ResourceSkipped, "No output from command: #{command}" if command_output.nil? || command_output.empty?
+      raise Inspec::Exceptions::ResourceFailed, "No output from command: #{command}" if command_output.nil? || command_output.empty?
 
       command_output
     end
