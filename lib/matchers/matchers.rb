@@ -86,11 +86,6 @@ RSpec::Matchers.define :be_installed do
   chain :by do
     raise "[UNSUPPORTED] Please use the new resources 'gem', 'npm' or 'pip'."
   end
-
-  chain :with_version do |version|
-    warn "[DEPRECATION] `with_version` is deprecated.  Please use `its('version') { should eq '1.4.1' }` instead."
-    @version = version
-  end
 end
 
 # for services
