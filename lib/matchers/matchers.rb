@@ -164,14 +164,6 @@ RSpec::Matchers.define :have_rule do |rule|
   end
 end
 
-# deprecated
-RSpec::Matchers.define :contain do |rule|
-  match do |resource|
-    warn "[DEPRECATION] `contain` matcher. Please use the following syntax `its('content') { should include('value') }`."
-    expect(resource).to include(rule)
-  end
-end
-
 # `be_in` matcher
 # You can use it in the following cases:
 # - check if an item or array is included in a given array
