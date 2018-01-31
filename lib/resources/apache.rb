@@ -6,9 +6,29 @@
 module Inspec::Resources
   class Apache < Inspec.resource(1)
     name 'apache'
+    desc 'Use the apache InSpec audit resource to retrieve Apache environment settings.'
+    example "
+      describe apache do
+        its ('service') { should cmp 'apache2' }
+      end
+
+      describe apache do
+        its ('conf_dir') { should cmp '/etc/apache2' }
+      end
+
+      describe apache do
+        its ('conf_path') { should cmp '/etc/apache2/apache2.conf' }
+      end
+
+      describe apache do
+        its ('user') { should cmp 'www-data' }
+      end
+    "
 
     attr_reader :service, :conf_dir, :conf_path, :user
     def initialize
+      warn '[DEPRECATED] The `apache` resource is deprecated and will be removed in InSpec 3.0.'
+
       if inspec.os.debian?
         @service = 'apache2'
         @conf_dir = '/etc/apache2/'

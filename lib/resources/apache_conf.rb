@@ -9,6 +9,8 @@ require 'utils/find_files'
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
     name 'apache_conf'
+    supports os_family: 'linux'
+    supports os_family: 'debian'
     desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
     example "
       describe apache_conf do
@@ -18,9 +20,10 @@ module Inspec::Resources
 
     include FindFiles
 
+    attr_reader :conf_path
+
     def initialize(conf_path = nil)
-      @conf_path = conf_path || inspec.apache.conf_path
-      @conf_dir = conf_path ? File.dirname(@conf_path) : inspec.apache.conf_dir
+      @conf_path = conf_path || default_conf_path
       @files_contents = {}
       @content = nil
       @params = nil
@@ -63,17 +66,17 @@ module Inspec::Resources
       @params = {}
 
       # skip if the main configuration file doesn't exist
-      file = inspec.file(@conf_path)
+      file = inspec.file(conf_path)
       if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
+        return skip_resource "Can't find file \"#{conf_path}\""
       end
 
       raw_conf = file.content
       if raw_conf.empty? && !file.empty?
-        return skip_resource("Can't read file \"#{@conf_path}\"")
+        return skip_resource("Can't read file \"#{conf_path}\"")
       end
 
-      to_read = [@conf_path]
+      to_read = [conf_path]
       until to_read.empty?
         raw_conf = read_file(to_read[0])
         @content += raw_conf
@@ -111,7 +114,7 @@ module Inspec::Resources
 
       includes = []
       (include_files + include_files_optional).each do |f|
-        id    = Pathname.new(f).absolute? ? f : File.join(@conf_dir, f)
+        id    = Pathname.new(f).absolute? ? f : File.join(conf_dir, f)
         files = find_files(id, depth: 1, type: 'file')
         files += find_files(id, depth: 1, type: 'link')
 
@@ -126,8 +129,30 @@ module Inspec::Resources
       @files_contents[path] ||= inspec.file(path).content
     end
 
+    def conf_dir
+      if inspec.os.debian?
+        File.dirname(conf_path)
+      else
+        # On RHEL-based systems, the configuration is usually in a /conf directory
+        # that contains the primary config file. We assume the "config path" is the
+        # directory that contains the /conf directory, such as /etc/httpd, so that
+        # the conf.d directory can be properly located.
+        Pathname.new(File.dirname(conf_path)).parent.to_s
+      end
+    end
+
     def to_s
-      "Apache Config #{@conf_path}"
+      "Apache Config #{conf_path}"
+    end
+
+    private
+
+    def default_conf_path
+      if inspec.os.debian?
+        '/etc/apache2/apache2.conf'
+      else
+        '/etc/httpd/conf/httpd.conf'
+      end
     end
   end
 end
