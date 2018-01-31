@@ -119,19 +119,6 @@ RSpec::Matchers.define :be_running do
   end
 end
 
-# user resource matcher for serverspec compatibility
-# Deprecated: You should not use this matcher anymore
-RSpec::Matchers.define :belong_to_primary_group do |compare_group|
-  match do |user|
-    warn "[DEPRECATION] `belong_to_primary_group` is deprecated.  Please use `its('group') { should eq 'root' }` instead."
-    user.group == compare_group
-  end
-
-  failure_message do |group|
-    "expected that the user belongs to primary group `#{group}`"
-  end
-end
-
 # matcher to check if host is reachable
 RSpec::Matchers.define :be_reachable do
   match do |host|
