@@ -10,7 +10,7 @@ sidebar_links:
     link: "/tutorials"
   - title: InSpec and friends
     link: "/docs/reference/inspec_and_friends.html"
-  - title: Inspec Glossary
+  - title: InSpec Glossary
     link: "/docs/reference/glossary.html"
 - title: Reference
   links:
