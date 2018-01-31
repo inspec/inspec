@@ -17,4 +17,11 @@
     text-transform: none;
     font-family: $main-font;
   }
+  & > div {
+    color: $color_paragraph;
+    text-transform: none;
+    font-family: $main-font;
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
 }
