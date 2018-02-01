@@ -55,7 +55,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
         .add_accessor(:entries)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:access_key_ids, field: :access_key_id)
-        .add(:created_date, field: :created_date)
+        .add(:created_date, field: :create_date)
         .add(:created_days_ago, field: :created_days_ago)
         .add(:created_with_user, field: :created_with_user)
         .add(:created_hours_ago, field: :created_hours_ago)

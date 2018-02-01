@@ -136,13 +136,13 @@ class AwsIamAccessKeysPropertiesTest < Minitest::Test
   #    created_date / created_days_ago / created_hours_ago   #
   #----------------------------------------------------------#
   def test_property_created_date
-    assert_kind_of(DateTime, @all_basic.entries.first.created_date)
+    assert_kind_of(DateTime, @all_basic.entries.first.create_date)
 
-    arg_filtered = @all_basic.where(created_date: DateTime.parse('2017-10-27T17:58:00Z'))
+    arg_filtered = @all_basic.where(create_date: DateTime.parse('2017-10-27T17:58:00Z'))
     assert_equal(1, arg_filtered.entries.count)
     assert arg_filtered.access_key_ids.first.end_with?('BOB')
 
-    block_filtered = @all_basic.where { created_date.friday? }
+    block_filtered = @all_basic.where { create_date.friday? }
     assert_equal(1, block_filtered.entries.count)
     assert block_filtered.access_key_ids.first.end_with?('BOB')
   end
@@ -312,7 +312,7 @@ class BasicMAKP < AwsIamAccessKeys::AccessKeyProvider
         username: 'bob',
         access_key_id: 'AKIA1234567890123BOB',
         id: 'AKIA1234567890123BOB',
-        created_date: DateTime.parse('2017-10-27T17:58:00Z'),
+        create_date: DateTime.parse('2017-10-27T17:58:00Z'),
         created_days_ago: 4,
         created_hours_ago: 102,
         created_with_user: true,
@@ -330,7 +330,7 @@ class BasicMAKP < AwsIamAccessKeys::AccessKeyProvider
         username: 'sally',
         access_key_id: 'AKIA12345678901SALLY',
         id: 'AKIA12345678901SALLY',
-        created_date: DateTime.parse('2017-10-22T17:58:00Z'),
+        create_date: DateTime.parse('2017-10-22T17:58:00Z'),
         created_days_ago: 9,
         created_hours_ago: 222,
         created_with_user: false,        
@@ -348,7 +348,7 @@ class BasicMAKP < AwsIamAccessKeys::AccessKeyProvider
         username: 'robin',
         access_key_id: 'AKIA12345678901ROBIN',
         id: 'AKIA12345678901ROBIN',
-        created_date: DateTime.parse('2017-10-31T17:58:00Z'),
+        create_date: DateTime.parse('2017-10-31T17:58:00Z'),
         created_days_ago: 1,
         created_hours_ago: 12,
         created_with_user: true,        

@@ -73,12 +73,12 @@ A true / false value indicating if an Access Key is currently "Active" (the norm
       its('access_key_ids') { should include('AKIA1234567890ABCDEF')}
     end
 
-### created_date
+### create_date
 
 A DateTime identifying when the Access Key was created.  See also `created_days_ago` and `created_hours_ago`.
 
     # Detect keys older than 2017
-    describe aws_iam_access_keys.where { created_date < DateTime.parse('2017-01-01') } do
+    describe aws_iam_access_keys.where { create_date < DateTime.parse('2017-01-01') } do
       it { should_not exist }
     end
 
