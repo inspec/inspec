@@ -121,3 +121,9 @@ The `be_public` matcher tests if the bucket has potentially insecure access cont
 Note: This resource does not detect insecure object ACLs.
 
     it { should_not be_public }
+
+### have_access_logging_enabled
+
+The `have_access_logging_enabled` matcher tests if access logging is enabled for the s3 bucket.
+
+    it { should have_access_logging_enabled }

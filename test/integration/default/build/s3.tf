@@ -42,6 +42,40 @@ output "s3_bucket_private_acl_public_policy_name" {
   value = "${aws_s3_bucket.private_acl_public_policy.id}"
 }
 
+
+resource "aws_s3_bucket" "log_bucket" {
+  bucket        = "inspec-testing-log-bucket-${terraform.env}.chef.io"
+  force_destroy = true
+  acl           = "log-delivery-write"
+}
+
+output "s3_bucket_log_bucket_name" {
+  value = "${aws_s3_bucket.log_bucket.id}"
+}
+
+resource "aws_s3_bucket" "acess_logging_enabled" {
+  bucket = "inspec-testing-acess-logging-enabled-${terraform.env}.chef.io"
+  acl    = "private"
+
+  logging {
+    target_bucket = "${aws_s3_bucket.log_bucket.id}"
+    target_prefix = "log/"
+  }
+}
+
+output "s3_bucket_access_logging_enabled_name" {
+  value = "${aws_s3_bucket.acess_logging_enabled.id}"
+}
+
+resource "aws_s3_bucket" "acess_logging_not_enabled" {
+  bucket = "inspec-testing-acess-logging-not-enabled-${terraform.env}.chef.io"
+  acl    = "private"
+}
+
+output "s3_bucket_access_logging_not_enabled_name" {
+  value = "${aws_s3_bucket.acess_logging_not_enabled.id}"
+}
+
 #=================================================================#
 #                       S3 Bucket Policies
 #=================================================================#

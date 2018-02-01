@@ -35,6 +35,12 @@ class AwsS3Bucket < Inspec.resource(1)
       bucket_policy.any? { |s| s.effect == 'Allow' && s.principal == '*' }
   end
 
+  def has_access_logging_enabled?
+    return unless @exists
+    # This is simple enough to inline it.
+    !AwsS3Bucket::BackendFactory.create.get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
+  end
+
   private
 
   def validate_params(raw_params)
@@ -96,6 +102,10 @@ class AwsS3Bucket < Inspec.resource(1)
 
       def get_bucket_policy(query)
         AWSConnection.new.s3_client.get_bucket_policy(query)
+      end
+
+      def get_bucket_logging(query)
+        AWSConnection.new.s3_client.get_bucket_logging(query)
       end
     end
   end

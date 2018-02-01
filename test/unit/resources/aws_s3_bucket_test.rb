@@ -167,6 +167,14 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   def test_be_public_public_acl
     assert(AwsS3Bucket.new('public').public?)
   end
+
+  def test_has_access_logging_enabled_positive
+    assert(AwsS3Bucket.new('public').has_access_logging_enabled?)
+  end
+
+  def test_has_access_logging_enabled_negative
+    refute(AwsS3Bucket.new('private').has_access_logging_enabled?)
+  end
   
 end
 
@@ -282,6 +290,17 @@ EOP
       }
       unless buckets.key?(query[:bucket])
         raise Aws::S3::Errors::NoSuchBucketPolicy.new(nil, nil)
+      end
+      buckets[query[:bucket]]
+    end
+
+    def get_bucket_logging(query)
+      buckets = {
+        'public' => OpenStruct.new({ logging_enabled: OpenStruct.new({ target_bucket: 'log-bucket' }) }),
+        'private' => OpenStruct.new({ logging_enabled: nil }),
+      }
+      unless buckets.key?(query[:bucket])
+        raise Aws::S3::Errors::NoSuchBucket.new(nil, nil)
       end
       buckets[query[:bucket]]
     end

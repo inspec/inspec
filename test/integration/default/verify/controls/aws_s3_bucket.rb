@@ -5,6 +5,8 @@ fixtures = {}
   's3_bucket_auth_name',
   's3_bucket_private_acl_public_policy_name',  
   's3_bucket_public_region',
+  's3_bucket_access_logging_enabled_name',
+  's3_bucket_access_logging_not_enabled_name',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -109,5 +111,13 @@ control 'aws_s3_bucket matchers test' do
   end
   describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_private_acl_public_policy_name']) do
     it { should be_public }
+  end
+
+  #-----------------  have_access_logging_enabled -----------------#  
+  describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_access_logging_enabled_name']) do
+    it { should have_access_logging_enabled }
+  end
+  describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_access_logging_not_enabled_name']) do
+    it { should_not have_access_logging_enabled }
   end
 end
