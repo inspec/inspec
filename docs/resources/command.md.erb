@@ -10,31 +10,43 @@ Use the `command` InSpec audit resource to test an arbitrary command that is run
 
 ## Syntax
 
-A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+A `command` resource block declares a command to be run, one (or more) expected values, and the location to which that output is sent:
 
     describe command('command') do
       it { should exist }
-      its('property') { should eq 'output' }
+      its('property') { should eq 'value' }
     end
 
 where
 
 * `'command'` must specify a command to be run
-* `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
+* `'property'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
 
 <br>
 
-## Examples
+## Property Examples
 
 The following examples show how to use this InSpec audit resource.
 
-### Test for PostgreSQL database running a RC, development, or beta release
+### exit_status
 
-    describe command('psql -V') do
-      its('stdout') { should eq '/RC/' }
-      its('stdout') { should_not eq '/DEVEL/' }
-      its('stdout') { should_not eq '/BETA/' }
+The `exit_status` property tests the exit status for the command:
+
+    its('exit_status') { should eq 123 }
+
+### stderr
+
+The `stderr` property tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq 'error' }
+
+### stdout
+
+The `stdout` property tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
+
+    describe command('echo 1') do
+       its('stdout') { should match (/[0-9]/) }
     end
 
 ### Test standard output (stdout)
@@ -71,6 +83,14 @@ The following examples show how to use this InSpec audit resource.
 
     describe command('this is not existing').exist? do
       it { should eq false }
+    end
+
+### Test for PostgreSQL database running a RC, development, or beta release
+
+    describe command('psql -V') do
+      its('stdout') { should eq '/RC/' }
+      its('stdout') { should_not eq '/DEVEL/' }
+      its('stdout') { should_not eq '/BETA/' }
     end
 
 ### Verify NTP
@@ -115,22 +135,3 @@ The `exist` matcher tests if a command may be run on the system:
 
     it { should exist }
 
-### exit_status
-
-The `exit_status` matcher tests the exit status for the command:
-
-    its('exit_status') { should eq 123 }
-
-### stderr
-
-The `stderr` matcher tests results of the command as returned in standard error (stderr):
-
-    its('stderr') { should eq 'error' }
-
-### stdout
-
-The `stdout` matcher tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
-
-    describe command('echo 1') do
-       its('stdout') { should match (/[0-9]/) }
-    end
