@@ -60,6 +60,40 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
     assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
     refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
   end
+
+  #------------------------------------------#
+  #           password_ever_used?
+  #------------------------------------------#
+  def test_users_criteria_password_ever_used?
+    AwsIamUsers::Backend.select(Maiusb::Basic)
+    users = AwsIamUsers.new.where { password_ever_used? }
+    assert(2, users.entries.count)
+    assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
+    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+  end
+
+  #------------------------------------------#
+  #           password_never_used?
+  #------------------------------------------#
+  def test_users_criteria_password_never_used?
+    AwsIamUsers::Backend.select(Maiusb::Basic)
+    users = AwsIamUsers.new.where { password_never_used? }
+    assert(1, users.entries.count)
+    assert_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+    refute_includes users.entries.map{ |u| u[:user_name] }, 'carol'
+  end
+
+  #------------------------------------------#
+  #        password_last_used_days_ago
+  #------------------------------------------#
+  def test_users_criteria_has_password_last_used_days_ago_10
+    AwsIamUsers::Backend.select(Maiusb::Basic)
+    users = AwsIamUsers.new.where(password_last_used_days_ago: 10)
+    puts users
+    assert(1, users.entries.count)
+    assert_includes users.entries.map{ |u| u[:user_name] }, 'bob'
+    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+  end
 end
 
 #=============================================================================#
@@ -107,12 +141,12 @@ module Maiusb
           OpenStruct.new({
             user_name: 'bob',
             create_date: DateTime.parse('2017-11-06T16:19:30Z'),
-            password_last_used: DateTime.parse('2017-11-06T19:19:30Z'),
+            password_last_used: Time.now - 10*24*60*60,
             }),
           OpenStruct.new({
             user_name: 'carol',
             create_date: DateTime.parse('2017-10-10T16:19:30Z'),
-            password_last_used: DateTime.parse('2017-10-28T19:19:30Z'),
+            password_last_used: Time.now - 91*24*60*60,
           }),
         ]
       })

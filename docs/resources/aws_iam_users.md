@@ -48,6 +48,33 @@ The following examples show how to use this InSpec audit resource.
       it { should_not exist }
     end
 
+### Test that all users that have a console password should have used it at-least once
+
+    console_users_with_unused_password = aws_iam_users
+                                         .where(has_console_password?: true)
+                                         .where(password_never_used?: false)
+
+    describe console_users_with_unused_password do
+      it { should_not exist }
+    end
+
+### Test that atleast one user exists with console password and used it atleast once
+
+    console_users_with_used_password = aws_iam_users
+                                       .where(has_console_password?: true)
+                                       .where(password_ever_used?: false)
+
+    describe console_users_with_used_password do
+      it { should exist }
+    end
+
+
+### Test that users with used passwords longer that 90 days should not exists
+
+    describe aws_iam_users.where { password_last_used_days_ago > 90 } do
+      it { should_not exist }
+    end
+
 <br>
 
 ## Matchers

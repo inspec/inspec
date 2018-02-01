@@ -11,7 +11,6 @@ class AwsIamUsers < Inspec.resource(1)
     describe aws_iam_users.where(has_mfa_enabled?: false) do
       it { should_not exist }
     end
-
     describe aws_iam_users.where(has_console_password?: true) do
       it { should exist }
     end
@@ -23,6 +22,9 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:has_mfa_enabled?, field: :has_mfa_enabled)
         .add(:has_console_password?, field: :has_console_password)
+        .add(:password_ever_used?, field: :password_ever_used?)
+        .add(:password_never_used?, field: :password_never_used?)
+        .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
         .add(:username, field: :user_name)
   filter.connect(self, :collect_user_details)
 
@@ -51,6 +53,11 @@ class AwsIamUsers < Inspec.resource(1)
         user[:has_mfa_enabled] = false
       end
       user[:has_mfa_enabled?] = user[:has_mfa_enabled]
+      password_last_used = user[:password_last_used]
+      user[:password_ever_used?] = !password_last_used.nil?
+      user[:password_never_used?] = password_last_used.nil?
+      next unless user[:password_ever_used?]
+      user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
     end
     users
   end
