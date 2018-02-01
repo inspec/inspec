@@ -14,7 +14,7 @@ A `command` resource block declares a command to be run, one (or more) expected 
 
     describe bash('command') do
       it { should exist }
-      its('matcher') { should eq 'output' }
+      its('property') { should eq 'output' }
     end
 
 where
