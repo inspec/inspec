@@ -3,6 +3,7 @@ fixtures = {}
   'ec2_security_group_default_vpc_id',
   'ec2_security_group_default_group_id',
   'ec2_security_group_alpha_group_id',
+  'ec2_security_group_alpha_group_name',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -33,7 +34,7 @@ control "aws_ec2_security_group properties" do
   end
 
   describe aws_ec2_security_group(fixtures['ec2_security_group_alpha_group_id']) do
-    its('group_name') { should cmp 'alpha' }
+    its('group_name') { should cmp fixtures['ec2_security_group_alpha_group_name'] }
     its('vpc_id') { should cmp  fixtures['ec2_security_group_default_vpc_id'] }
     its('description') { should cmp 'SG alpha' }
   end
