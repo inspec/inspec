@@ -13,6 +13,7 @@ skip_tags: true
 branches:
   only:
     - master
+    - release-2.0
 
 cache:
   - vendor/bundle -> appveyor.yml
