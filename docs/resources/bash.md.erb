@@ -67,7 +67,7 @@ For a full list of available matchers please visit our [matchers page](https://w
 
 ### exist
 
-The `exist` matcher tests if a command may be run on the system:
+If an absolute path is provided, the `exist` matcher tests if the command exists on the filesystem at the specified location. Otherwise, the `exist` matcher tests if the command is found in the PATH.
 
     it { should exist }
 
