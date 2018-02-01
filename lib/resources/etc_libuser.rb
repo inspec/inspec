@@ -26,7 +26,7 @@ module Inspec::Resources
     attr_reader :params, :raw_content
 
     def initialize(conf_path = nil)
-      @conf_path = conf_path || inspec.os_env('LIBUSER_CONF').content || '/etc/libuser.conf'
+      @conf_path = conf_path || '/etc/libuser.conf'
       file = inspec.file(@conf_path)
       raise Inspec::Exceptions::FailResource, "Can't find '#{@conf_path}'" unless file.file?
       @params = nil
