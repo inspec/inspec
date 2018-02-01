@@ -80,7 +80,7 @@ class AwsSnsTopicPropertiesTest < Minitest::Test
     assert_equal(0, topic.confirmed_subscription_count)
   end
 
-  def test_prop_conf_sub_count_zero
+  def test_prop_conf_sub_count_one
     AwsSnsTopic::BackendFactory.select(AwsMSNB::OneSubscription)
     topic = AwsSnsTopic.new('arn:aws:sns:us-east-1:123456789012:does-not-matter')
     assert_equal(1, topic.confirmed_subscription_count)

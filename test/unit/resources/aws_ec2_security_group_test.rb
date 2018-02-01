@@ -51,7 +51,7 @@ end
 #                               Properties
 #=============================================================================#
 
-class AwsESGSConstructor < Minitest::Test
+class AwsESGSProperties < Minitest::Test
   def setup
     AwsEc2SecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
   end
