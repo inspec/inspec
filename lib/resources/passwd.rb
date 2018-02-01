@@ -26,7 +26,6 @@ module Inspec::Resources
 
       describe passwd.uids(0) do
         its('users') { should cmp 'root' }
-        its('count') { should eq 1 }
       end
 
       describe passwd.shells(/nologin/) do
@@ -60,32 +59,12 @@ module Inspec::Resources
           .add(:homes,     field: 'home')
           .add(:shells,    field: 'shell')
 
-    filter.add(:count) { |t, _|
-      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in the next major version.'
-      t.entries.length
-    }
-
-    filter.add(:usernames) { |t, x|
-      warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
-      t.users(x)
-    }
-
-    filter.add(:username) { |t, x|
-      warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
-      t.users(x)[0]
-    }
-
     # rebuild the passwd line from raw content
     filter.add(:content) { |t, _|
       t.entries.map do |e|
         [e.user, e.password, e.uid, e.gid, e.desc, e.home, e.shell].join(':')
       end.join("\n")
     }
-
-    def uid(x)
-      warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in the next major version.'
-      uids(x)
-    end
 
     filter.connect(self, :params)
 
