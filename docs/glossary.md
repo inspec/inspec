@@ -17,17 +17,17 @@ end
 
 ### describe foo **('/path/to/foo.txt')**, where
 
-  * `('/path/to/foo.txt')` is the _resource parameter_
+  * `'/path/to/foo.txt'` is the _resource parameter_
 
 ## Tests:
 
 ### **its('blah') { should cmp '123' }** is an _individual test_, where
 
-  * `'blah'` is a _property_
-  * { should cmp '123' }is a _condition statement_
+  * `blah` is a _property_
+  * { should cmp '123' } is a _condition statement_
   * `should`  is the _condition_
   * `cmp`  is the _matcher_
-  * `123`  is the _expected result_
+  * `'123'`  is the _expected result_
 
 ### **{ should exist }** is a _condition statement_, where
 
@@ -62,20 +62,19 @@ end
 
 ### describe foos **('/path/to/foo.txt', ssl_verify: true)**, where
 
-  * `('/path/to/foo.txt', ssl_verify: true)` are the _resource parameters_. Resources take one or more parameters.
+  * `'/path/to/foo.txt'` and `ssl_verify: true` are the _resource parameters_. Resources take one or more parameters.
 
 ## Filters:
 
-### describe **foos('/path/to/foo.txt', ssl_verify: true)** where { names == 'blah' } do
+### describe foos ('/path/to/foo.txt', ssl_verify: true)**.where { names == 'blah' }** 
 
-  * `('/path/to/foo.txt', ssl_verify: true)` are the _resource parameters_. Resources take one or more parameters.
-  * Note: Filters are used on plural resources
+  * `.where  { names == 'blah' }` is an example of a **filter**. 
+  * `.where  { names == 'blah' }` is an example of a _filter clause_ 
+  * Some resources support one or more filters.
+  * Filters are used on plural resources. 
+  * Some resources, such as `etc_hosts` are explicitly plural, while others, such as `passwd` are implicitly plural. 
 
-### **where  { names == 'blah' }** is an example of a **filter**. Some resources support one or more filters.
-
-  * `where  { names == 'blah' }` is an example of a _filter clause_ 
-
-### **{ names == 'blah' , has spots}** are filter criteria
+### **{ names == 'my-name' && spots == true }** are filter criteria
 
   * `names` compares output to `blah`
   * `has spots` evaluates to `true` or `false`
@@ -85,7 +84,7 @@ end
 ### **its('jared') { should cmp >= 123 }**
 
   * `jared` is the _property_
-  * 
+  
 ### **{ should cmp >= 123 }** is a conditional statement that uses a matcher with an operator and expected value.
 
   * `cmp`  is the _matcher_
