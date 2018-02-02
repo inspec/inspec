@@ -29,7 +29,9 @@ module Inspec::Resources
       @opts = opts
 
       # Prior to InSpec 2.0 the HTTP test had to be instructed to run on the
-      # remote target machine. This warning will be removed.
+      # remote target machine. This warning will be removed after a few months
+      # to give users an opportunity to remove the unused option from their
+      # profiles.
       if opts.key?(:enable_remote_worker) && !inspec.local_transport?
         warn 'Ignoring `enable_remote_worker` option, the `http` resource ',
              'remote worker is enabled by default for remote targets and ',
