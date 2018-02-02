@@ -13,7 +13,7 @@ Use the `directory` InSpec audit resource to test if the file type is a director
 A `directory` resource block declares the location of the directory to be tested, and then one (or more) matchers:
 
     describe directory('path') do
-      it { should MATCHER 'value' }
+      it { should cmp 'value' }
     end
 
 <br>
