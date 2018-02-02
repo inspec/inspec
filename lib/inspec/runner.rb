@@ -49,6 +49,9 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
+      # parse any ad-hoc runners reporter formats
+      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
+
       # list of profile attributes
       @attributes = []
 
@@ -102,17 +105,10 @@ module Inspec
     end
 
     def render_output(run_data)
-      # Test kitchen and the audit cookbook just call the runner
-      # so we need to default to cli here if its not set.
-      @conf = Inspec::BaseCLI.clean_reporters(@conf)
+      return if @conf['reporter'].nil?
 
-      @conf['reporter'].each do |k, v|
-        config = {
-          name: k,
-          path: v,
-          run_data: run_data,
-        }
-        Inspec::Reporters.render(config)
+      @conf['reporter'].each do |reporter|
+        Inspec::Reporters.render(reporter, run_data)
       end
     end
 

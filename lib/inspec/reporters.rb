@@ -5,8 +5,10 @@ require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
 
 module Inspec::Reporters
-  def self.render(config)
-    case config[:name]
+  def self.render(reporter, run_data)
+    name, config = reporter
+    config[:run_data] = run_data
+    case name
     when 'cli'
       reporter = Inspec::Reporters::CLI.new(config)
     when 'json'
@@ -16,17 +18,16 @@ module Inspec::Reporters
     when 'junit'
       reporter = Inspec::Reporters::Junit.new(config)
     else
-      raise NotImplementedError, "'#{config[:name]}' is not a valid reporter type."
+      raise NotImplementedError, "'#{name}' is not a valid reporter type."
     end
 
     reporter.render
     output = reporter.rendered_output
 
-    path = config[:path]
-    if path.nil? || path.strip == '-'
+    if config['file']
+      File.write(config['file'], output)
+    elsif config['stdout'] == true
       puts output
-    else
-      File.write(path, output)
     end
   end
 end

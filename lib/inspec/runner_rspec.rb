@@ -106,10 +106,10 @@ module Inspec
       return if @conf[:reporter].nil?
       if @conf[:reporter].key?('json-rspec')
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if @conf[:reporter]['json-rspec'].nil?
+        if @conf[:reporter]['json-rspec']&.[]('file').nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
-          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec'])
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec']['file'])
         end
         @conf[:reporter].delete('json-rspec')
       end
@@ -117,10 +117,10 @@ module Inspec
       formats = @conf[:reporter].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if v.nil?
+        if v&.[]('file').nil?
           RSpec.configuration.add_formatter(k.to_sym)
         else
-          RSpec.configuration.add_formatter(k.to_sym, v)
+          RSpec.configuration.add_formatter(k.to_sym, v['file'])
         end
         @conf[:reporter].delete(k)
       end

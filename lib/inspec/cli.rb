@@ -168,8 +168,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       o[:logger].warn '[DEPRECATED] The use of `--cache` is being deprecated in InSpec 2.0. Please use `--vendor-cache` instead.'
     end
 
-    # run tests
-    run_tests(targets, o)
+    runner = Inspec::Runner.new(o)
+    targets.each { |target| runner.add_target(target) }
+
+    exit runner.run
+  rescue ArgumentError, RuntimeError, Train::UserError => e
+    $stderr.puts e.message
+    exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -178,7 +183,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   target_options
   option :format, type: :string
   def detect
-    o = opts.dup
+    o = opts(:detect).dup
     o[:command] = 'os.params'
     (_, res) = run_command(o)
     if o['format'] == 'json'
@@ -222,7 +227,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o['reporter'].keys.include?('json')
+    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o['reporter']&.keys&.include?('json')
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e
