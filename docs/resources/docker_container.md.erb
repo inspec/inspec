@@ -23,7 +23,11 @@ A `docker_container` resource block declares the configuration data to be tested
       its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
     end
 
-The container name can also be passed with the `name` argument:
+## Resource Parameter Examples 
+
+### container
+
+The container name can also be passed with the `name` resource parameter:
 
     describe docker_container(name: 'an-echo-server') do
       it { should exist }
@@ -39,28 +43,9 @@ Alternatively, you can pass in the container id:
 
 <br>
 
-## Examples
+## Property Examples
 
 The following examples show how to use this InSpec resource.
-
-### Verify an running container:
-
-    describe docker_container('an-echo-server') do
-      it { should exist }
-      it { should be_running }
-      its('id') { should_not eq '' }
-      its('image') { should eq 'busybox:latest' }
-      its('repo') { should eq 'busybox' }
-      its('tag') { should eq 'latest' }
-      its('ports') { should eq [] }
-      its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
-    end
-
-<br>
-
-## Matchers
-
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
 
 ### id
 
@@ -91,3 +76,24 @@ The `ports` matcher tests the value the docker ports:
 The `command` matcher tests the value of the container run command:
 
     its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+
+
+### Verify a running container:
+
+    describe docker_container('an-echo-server') do
+      it { should exist }
+      it { should be_running }
+      its('id') { should_not eq '' }
+      its('image') { should eq 'busybox:latest' }
+      its('repo') { should eq 'busybox' }
+      its('tag') { should eq 'latest' }
+      its('ports') { should eq [] }
+      its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+    end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
