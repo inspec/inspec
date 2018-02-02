@@ -32,16 +32,6 @@ where
 
 <br>
 
-## Local vs. Remote
-
-By default, the HTTP test runs on the target machine using `curl`.
-
-If you'd like to execute the HTTP test on the machine running InSpec, you can do the following:
-
-    describe http('http://www.example.com', enable_remote_worker: false) do
-      its('body') { should cmp 'awesome' }
-    end
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.

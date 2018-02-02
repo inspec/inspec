@@ -22,21 +22,26 @@ module Inspec::Resources
         its('Content-Length') { should cmp 258 }
         its('Content-Type') { should cmp 'text/html; charset=UTF-8' }
       end
-
-      # Execute the HTTP call on the machine executing InSpec.
-      describe http('http://localhost:8080', enable_remote_worker: false) do
-        its('body') { should cmp 'local web server on target machine' }
-      end
     "
 
     def initialize(url, opts = {})
       @url = url
       @opts = opts
 
-      if opts[:enable_remote_worker] == false
+      # Prior to InSpec 2.0 the HTTP test had to be instructed to run on the
+      # remote target machine. This warning will be removed.
+      if opts.key?(:enable_remote_worker) && !inspec.local_transport?
+        warn 'Ignoring `enable_remote_worker` option, the `http` resource ',
+             'remote worker is enabled by default for remote targets and ',
+             'cannot be disabled'
+      end
+
+      # Run locally if InSpec is ran locally and remotely if ran remotely
+      if inspec.local_transport?
         @worker = Worker::Local.new(http_method, url, opts)
       elsif !inspec.command('curl').exist?
-        raise Inspec::Exceptions::ResourceSkipped, 'curl is not available on the target machine'
+        raise Inspec::Exceptions::ResourceSkipped,
+              'curl is not available on the target machine'
       else
         @worker = Worker::Remote.new(inspec, http_method, url, opts)
       end
