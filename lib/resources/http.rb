@@ -23,9 +23,8 @@ module Inspec::Resources
         its('Content-Type') { should cmp 'text/html; charset=UTF-8' }
       end
 
-      # properly execute the HTTP call on the scanned machine instead of the
-      # machine executing InSpec. This will be the default behavior in InSpec 2.0.
-      describe http('http://localhost:8080', enable_remote_worker: true) do
+      # Execute the HTTP call on the machine executing InSpec.
+      describe http('http://localhost:8080', enable_remote_worker: false) do
         its('body') { should cmp 'local web server on target machine' }
       end
     "
@@ -34,11 +33,12 @@ module Inspec::Resources
       @url = url
       @opts = opts
 
-      if use_remote_worker?
-        return skip_resource 'curl is not available on the target machine' unless inspec.command('curl').exist?
-        @worker = Worker::Remote.new(inspec, http_method, url, opts)
-      else
+      if opts[:enable_remote_worker] == false
         @worker = Worker::Local.new(http_method, url, opts)
+      elsif !inspec.command('curl').exist?
+        raise Inspec::Exceptions::ResourceSkipped, 'curl is not available on the target machine'
+      else
+        @worker = Worker::Remote.new(inspec, http_method, url, opts)
       end
     end
 
@@ -60,17 +60,6 @@ module Inspec::Resources
 
     def to_s
       "http #{http_method} on #{@url}"
-    end
-
-    private
-
-    def use_remote_worker?
-      return false if inspec.local_transport?
-      return true if @opts[:enable_remote_worker]
-
-      warn "[DEPRECATION] #{self} will execute locally instead of the target machine. To execute remotely, add `enable_remote_worker: true`."
-      warn '[DEPRECATION] `enable_remote_worker: true` will be the default behavior in InSpec 2.0.'
-      false
     end
 
     class Worker
