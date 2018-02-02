@@ -41,9 +41,6 @@ module Inspec::Resources
       # Run locally if InSpec is ran locally and remotely if ran remotely
       if inspec.local_transport?
         @worker = Worker::Local.new(http_method, url, opts)
-      elsif !inspec.command('curl').exist?
-        raise Inspec::Exceptions::ResourceSkipped,
-              'curl is not available on the target machine'
       else
         @worker = Worker::Remote.new(inspec, http_method, url, opts)
       end
@@ -150,6 +147,11 @@ module Inspec::Resources
         attr_reader :inspec
 
         def initialize(inspec, http_method, url, opts)
+          unless inspec.command('curl').exist?
+            raise Inspec::Exceptions::ResourceSkipped,
+                  'curl is not available on the target machine'
+          end
+
           @inspec = inspec
           super(http_method, url, opts)
         end
