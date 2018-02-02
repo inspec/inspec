@@ -6,6 +6,8 @@ title: About the cran Resource
 
 Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository.
 
+<br> 
+
 ## Syntax
 
 A `cran` resource block declares a package and (optionally) a package version:
@@ -19,24 +21,9 @@ where
 * `'package_name'` is the name of the package, such as `'DBI'`
 * `be_installed` tests to see if the package described above is installed
 
+<br>
 
-## Matchers
-
-This InSpec audit resource has the following matchers:
-
-### be_installed
-
-The `be_installed` matcher tests if the named package is installed on the system:
-
-    it { should be_installed }
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
-
-## Examples
+## Resource Parameter Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -52,3 +39,25 @@ The following examples show how to use this InSpec audit resource.
       it { should be_installed }
       its('version') { should eq '0.5.1' }
     end
+
+<br>
+
+## Property Examples
+
+### version
+
+The `version` property tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following matchers:
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }
