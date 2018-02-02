@@ -97,7 +97,7 @@ module Inspec
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
         warn '[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter'
-        opts['reporter'] = [opts['format']]
+        opts['reporter'] = Array(opts['format'])
         opts.delete('format')
       end
 
@@ -105,12 +105,12 @@ module Inspec
       if opts['reporter'].is_a?(Array)
         reports = {}
         opts['reporter'].each do |report|
-          k, v = report.split(':')
-          if v.nil? || v.strip == '-'
-            reports[k] = { 'stdout' => true }
+          reporter_name, target = report.split(':')
+          if target.nil? || target.strip == '-'
+            reports[reporter_name] = { 'stdout' => true }
           else
-            reports[k] = {
-              'file' => v,
+            reports[reporter_name] = {
+              'file' => target,
               'stdout' => false,
             }
           end
@@ -120,9 +120,9 @@ module Inspec
 
       # add in stdout if not specified
       if opts['reporter'].is_a?(Hash)
-        opts['reporter'].each do |k, v|
-          opts['reporter'][k] = {} if v.nil?
-          opts['reporter'][k]['stdout'] = true if opts['reporter'][k].empty?
+        opts['reporter'].each do |reporter_name, config|
+          opts['reporter'][reporter_name] = {} if config.nil?
+          opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
         end
       end
 
@@ -151,7 +151,7 @@ module Inspec
       # check to make sure we are only reporting one type to stdout
       stdout = 0
       reporters.each_value do |v|
-        stdout += 1 if v&.[]('stdout')&.==(true)
+        stdout += 1 if v['stdout'] == true
       end
 
       raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
@@ -165,7 +165,7 @@ module Inspec
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
-          return true if opts['reporter'][m]&.[]('stdout') == true
+          return true if opts['reporter'][m]['stdout'] == true
         end
       end
       false
