@@ -13,7 +13,7 @@ Use the `csv` InSpec audit resource to test configuration data in a CSV file.
 A `csv` resource block declares the configuration data to be tested:
 
     describe csv('file') do
-      its('name') { should eq 'foo' }
+      its('name') { should cmp 'foo' }
     end
 
 where
