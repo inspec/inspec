@@ -18,7 +18,7 @@ A `crontab` resource block declares a user (which defaults to the current user, 
 
 <br>
 
-## Examples
+## Resource Parameter Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -61,6 +61,21 @@ The following examples show how to use this InSpec audit resource.
     describe crontab.commands('/root/reboot.sh') do
       its('hours') { should cmp '-1' }
       its('minutes') { should cmp '-1' }
+    end
+
+<br>
+
+## Property Examples
+
+  ### Test a special time string (i.e., @yearly /root/anual_report.sh)
+
+    describe crontab do
+      its('minutes') { should cmp '0' }
+      its('hours') { should cmp '0' }
+      its('days') { should cmp '1' }
+      its('weekdays') { should cmp '1' }
+      its('user') { should include 'username'}
+      its('commands') { should include '/some/scheduled/task.sh' }
     end
 
 <br>
