@@ -49,31 +49,31 @@ The following examples show how to use this InSpec resource.
 
 ### id
 
-The `id` matcher tests the container id:
+The `id` property tests the container id:
 
     its('id') { should eq 'sha:71b5df59...442b' }
 
 ### repo
 
-The `repo` matcher tests the value of the image repository:
+The `repo` property tests the value of the image repository:
 
     its('repo') { should eq 'busybox' }
 
 ### tag
 
-The `tag` matcher tests the value of the image tag:
+The `tag` property tests the value of the image tag:
 
     its('tag') { should eq 'latest' }
 
 ### ports
 
-The `ports` matcher tests the value the docker ports:
+The `ports` property tests the value the docker ports:
 
     its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
 
 ### command
 
-The `command` matcher tests the value of the container run command:
+The `command` property tests the value of the container run command:
 
     its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
 
