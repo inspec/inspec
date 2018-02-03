@@ -5,7 +5,7 @@ platform: linux
 
 # docker
 
-Use the `docker` InSpec audit resource to test configuration data for docker daemon. It is a very comprehensive resource. Please have a look at [docker_container](docker_container) and [docker_image](docker_image), too.
+Use the `docker` InSpec audit resource to test configuration data for the docker daemon. It is a very comprehensive resource. See also: [docker_container](docker_container) and [docker_image](docker_image), too.
 
 <br>
 
@@ -25,8 +25,8 @@ or:
 
 where
 
-* `.where()` may specify a specific item and value, to which the matchers are compared
-* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid matchers for `containers`
+* `.where()` may specify a specific item and value, to which the resource parameters are compared
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid parameters for `containers`
 
 The `docker` resource block also declares allows you to write test for many images:
 
@@ -42,75 +42,17 @@ or if you want to query specific images:
 
 where
 
-* `.where()` may specify a specific item and value, to which the matchers are compared
-* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid matchers for `containers`
+* `.where()` may specify a specific filter and expected value, against which parameters are compared
 
 <br>
 
-## Examples
+## Supported Resource Parameters
 
-The following examples show how to use this InSpec audit resource.
-
-### Return all running containers
-
-    docker.containers.running?.ids.each do |id|
-      describe docker.object(id) do
-        its('State.Health.Status') { should eq 'healthy' }
-      end
-    end
-
-### Verify a Docker Server and Client version
-
-    describe docker.version do
-      its('Server.Version') { should cmp >= '1.12'}
-      its('Client.Version') { should cmp >= '1.12'}
-    end
-
-### Iterate over all containers to verify host coniguration
-
-    docker.containers.ids.each do |id|
-      # call docker inspect for a specific container id
-      describe docker.object(id) do
-        its(%w(HostConfig Privileged)) { should cmp false }
-        its(%w(HostConfig Privileged)) { should_not cmp true }
-      end
-    end
-
-### Iterate over all images to verify the container was built without ADD instruction
-
-    docker.images.ids.each do |id|
-      describe command("docker history #{id}| grep 'ADD'") do
-        its('stdout') { should eq '' }
-      end
-    end
-
-### Verify that health-checks are enabled for a container
-
-    describe docker.object('71b5df59442b') do
-      its(%w(Config Healthcheck)) { should_not eq nil }
-    end
-
-### Run the DevSec docker baseline  profile
-
-There are two ways to run the `docker-baseline` profile to test Docker via the `docker` resource.
-
-Clone the profile:
-
-    $ git clone https://github.com/dev-sec/cis-docker-benchmark.git
-
-and then run:
-
-    $ inspec exec cis-docker-benchmark
-
-Or execute the profile directly via URL:
-
-    $ inspec exec https://github.com/dev-sec/cis-docker-benchmark
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid parameters for `containers`
 
 <br>
 
-## Matchers
-
-For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+## Resource Parameter Examples
 
 ### containers
 
@@ -162,3 +104,73 @@ For a full list of available matchers, please visit our [matchers page](https://
     describe docker.object(id) do
       its('Configuration.Path') { should eq 'value' }
     end
+
+<br>
+
+## Property Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Return all running containers
+
+    docker.containers.running?.ids.each do |id|
+      describe docker.object(id) do
+        its('State.Health.Status') { should eq 'healthy' }
+      end
+    end
+
+### Verify a Docker Server and Client version
+
+    describe docker.version do
+      its('Server.Version') { should cmp >= '1.12'}
+      its('Client.Version') { should cmp >= '1.12'}
+    end
+
+### Iterate over all containers to verify host coniguration
+
+    docker.containers.ids.each do |id|
+      # call docker inspect for a specific container id
+      describe docker.object(id) do
+        its(%w(HostConfig Privileged)) { should cmp false }
+        its(%w(HostConfig Privileged)) { should_not cmp true }
+      end
+    end
+
+### Iterate over all images to verify the container was built without ADD instruction
+
+    docker.images.ids.each do |id|
+      describe command("docker history #{id}| grep 'ADD'") do
+        its('stdout') { should eq '' }
+      end
+    end
+
+### Verify that health-checks are enabled for a container
+
+    describe docker.object('71b5df59442b') do
+      its(%w(Config Healthcheck)) { should_not eq nil }
+    end
+
+<br>
+
+## How to run the DevSec docker baseline profile
+
+There are two ways to run the `docker-baseline` profile to test Docker via the `docker` resource.
+
+Clone the profile:
+
+    $ git clone https://github.com/dev-sec/cis-docker-benchmark.git
+
+and then run:
+
+    $ inspec exec cis-docker-benchmark
+
+Or execute the profile directly via URL:
+
+    $ inspec exec https://github.com/dev-sec/cis-docker-benchmark
+
+<br>
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
