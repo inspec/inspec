@@ -10,7 +10,7 @@ Use the `file` InSpec audit resource to test all system file types, including fi
 
 ## Syntax
 
-A `file` resource block declares the location of the file type to be tested, the expected file type  (if required), and one (or more) resource properties:
+A `file` resource block declares the location of the file type to be tested, the expected file type  (if required), and one (or more) resource properties.
 
     describe file('path') do
       it { should PROPERTY 'value' }
@@ -18,9 +18,9 @@ A `file` resource block declares the location of the file type to be tested, the
 
 where
 
-* `('path')` is the name of the file and/or the path to the file
-* `PROPERTY` is a valid resource property for this resource
-* `'value'` is the value to be tested
+* `('path')` is the name of the file and/or the path to the file.
+* `PROPERTY` is a valid resource property for this resource'
+* `'value'` is the value to be tested.
 
 <br>
 
@@ -48,7 +48,7 @@ The `file_version` property tests if the file's version matches the specified va
 
 ### group
 
-The `group` property tests if the group to which a file belongs matches the specified value:
+The `group` property tests if the group to which a file belongs matches the specified value.
 
     its('group') { should eq 'admins' }
 
@@ -57,19 +57,19 @@ The following examples show how to use this InSpec audit resource.
 ### link_path
 
 The `link_path` property tests if the file exists at the specified path. If the file is a symlink,
-InSpec will resolve the symlink and return the ultimate linked file:
+InSpec will resolve the symlink and return the ultimate linked file.
 
     its('link_path') { should eq '/some/path/to/file' }
 
 ### md5sum
 
-The `md5sum` property tests if the MD5 checksum for a file matches the specified value:
+The `md5sum` property tests if the MD5 checksum for a file matches the specified value.
 
     its('md5sum') { should eq '3329x3hf9130gjs9jlasf2305mx91s4j' }
 
 ### mode
 
-The `mode` property tests if the mode assigned to the file matches the specified value:
+The `mode` property tests if the mode assigned to the file matches the specified value.
 
     its('mode') { should cmp '0644' }
 
@@ -84,25 +84,25 @@ The `mtime` property tests if the file modification time for the file matches th
 
 ### owner
 
-The `owner` property tests if the owner of the file matches the specified value:
+The `owner` property tests if the owner of the file matches the specified value.
 
     its('owner') { should eq 'root' }
 
 ### product_version
 
-The `product_version` property tests if the file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
+The `product_version` property tests if the file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates.
 
     its('product_version') { should eq 2.3.4 }
 
 ### selinux_label
 
-The `selinux_label` property tests if the SELinux label for a file matches the specified value:
+The `selinux_label` property tests if the SELinux label for a file matches the specified value.
 
     its('selinux_label') { should eq 'system_u:system_r:httpd_t:s0' }
 
 ### sha256sum
 
-The `sha256sum` property tests if the SHA-256 checksum for a file matches the specified value:
+The `sha256sum` property tests if the SHA-256 checksum for a file matches the specified value.
 
     its('sha256sum') { should eq 'b837ch38lh19bb8eaopl8jvxwd2e4g58jn9lkho1w3ed9jbkeicalplaad9k0pjn' }
 
