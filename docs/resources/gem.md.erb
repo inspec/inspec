@@ -24,36 +24,36 @@ where
 
 <br>
 
-## Examples
+## Resource Property Examples
 
 The following examples show how to use this InSpec audit resource.
 
-### Verify that a gem package is installed, with a specific version
+### Verify that a gem package is installed, with a specific version:
 
     describe gem('rubocop') do
       it { should be_installed }
       its('version') { should eq '0.33.0' }
     end
 
-### Verify that a gem package is not installed
+### Verify that a gem package is not installed:
 
     describe gem('rubocop') do
       it { should_not be_installed }
     end
 
-### Verify that a gem package is installed in an omnibus environment
+### Verify that a gem package is installed in an omnibus environment:
 
     describe gem('pry', '/opt/ruby-2.3.1/embedded/bin/gem') do
       it { should be_installed }
     end
 
-### Verify that a gem package is installed in a chef omnibus environment
+### Verify that a gem package is installed in a chef omnibus environment:
 
     describe gem('chef-sugar', :chef) do
       it { should be_installed }
     end
 
-### Verify that a gem package is installed in a chef-server omnibus environment
+### Verify that a gem package is installed in a chef-server omnibus environment:
 
     describe gem('knife-backup', :chef_server) do
       it { should be_installed }
