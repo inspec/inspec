@@ -19,7 +19,7 @@ Use the where clause to match a property to one or more rules in the hosts.deny 
       its ('options') { should include ['values'] }
     end
 
-Use the optional constructor parameter to give an alternative path to hosts.deny
+Use the optional constructor parameter to give an alternative path to hosts.deny:
 
     describe etc_hosts_deny(hosts_path).where { daemon == 'value' } do
       its ('client_list') { should include ['values'] }
