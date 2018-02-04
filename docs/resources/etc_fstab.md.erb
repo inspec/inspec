@@ -33,7 +33,9 @@ Use the optional constructor parameter to give an alternative path to fstab file
       its('file_system_options') { should cmp 'list ' }
     end
 
-where
+<br>
+
+## Supported Resource Properties
 
 * `device_name` is the name associated with the device.
 * `mount_point` is the directory at which the filesystem is configured to be mounted.
@@ -42,7 +44,9 @@ where
 * `dump_options` is a number used by dump to decide if a file system should be backed up.
 * `file_system_options` is a number that specifies the order the file system should be checked.
 
-## Property Examples and Return Types
+<br>
+
+## Property Examples
 
 ### device_name
 
@@ -60,7 +64,7 @@ where
       its('mount_point') { should cmp '/mnt/sr0' }
     end
 
-### file_system_type
+### file\_system_type
 
 `file_system_type` returns a String array of each partitions file system type.
 
@@ -94,7 +98,7 @@ where
 
 <br>
 
-## Examples
+## Property Examples
 
 The following examples show how to use this InSpec resource.
 
@@ -118,3 +122,9 @@ The following examples show how to use this InSpec resource.
     describe etc_fstab.where { mount_point == '/home' } do
       it { should be_configured }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
