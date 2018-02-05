@@ -16,14 +16,14 @@ An etc/hosts rule specifies an IP address and what its hostname is along with op
 
 ## Syntax
 
-Use the `.where` clause to match a property to one or more rules in the hosts file
+Use the `.where` clause to match a property to one or more rules in the hosts file:
 
     describe etc_hosts.where { ip_address == 'value' } do
       its('primary_name') { should cmp 'hostname' }
       its('all_host_names') { should cmp 'list' }
     end
 
-Use the optional resource parameter to give an alternative path to the hosts file
+Use the optional resource parameter to give an alternative path to the hosts file:
 
     describe etc_hosts('path/to/hosts').where { ip_address == 'value' } do
       its('primary_name') { should cmp 'hostname' }
