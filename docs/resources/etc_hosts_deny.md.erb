@@ -12,7 +12,7 @@ Use the `etc_hosts_deny` InSpec audit resource to test rules for rejecting daemo
 
 An etc/hosts.deny rule specifies one or more daemons mapped to one or more clients, with zero or more options for rejecting traffic when found.
 
-Use the where clause to match a property to one or more rules in the hosts.deny file.
+Use the where clause to match a property to one or more rules in the hosts.deny file:
 
     describe etc_hosts_deny.where { daemon == 'value' } do
       its ('client_list') { should include ['values'] }
