@@ -40,7 +40,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### name
 
-The `name` property tests the value of `name` as read from a CSV file versus the value declared in the test:
+The `name` property tests the value of `name` as read from a CSV file compared to the value declared in the test.
 
     its('name') { should cmp 'foo' }
 
