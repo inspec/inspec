@@ -69,7 +69,7 @@ end
 ### describe foos ('/path/to/foo.txt', ssl_verify: true)**.where { names == 'blah' }** 
 
   * `.where  { names == 'blah' }` is an example of a **filter**. 
-  * `.where  { names == 'blah' }` is an example of a _filter clause_ 
+  * `{ names == 'blah' }` is an example of a _filter clause_ 
   * Some resources support one or more filters.
   * Filters are used on plural resources. 
   * Some resources, such as `etc_hosts` are explicitly plural, while others, such as `passwd` are implicitly plural. 
