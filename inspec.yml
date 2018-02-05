@@ -1,7 +1,0 @@
-name: inspec-aws
-title: InSpec AWS Resource Pack
-maintainer: Chef Software Inc.
-copyright: chris@lollyrock.com
-copyright_email: chris@lollyrock.com
-license: Apache 2 license
-version: 1.0.0
