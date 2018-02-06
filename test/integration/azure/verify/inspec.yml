@@ -1,0 +1,4 @@
+name: inspec-azure-integration-tests
+depends:
+  - name: azure
+    path: ../../../
