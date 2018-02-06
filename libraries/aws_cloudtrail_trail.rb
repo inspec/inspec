@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsCloudTrailTrail < Inspec.resource(1)
   name 'aws_cloudtrail_trail'
   desc 'Verifies settings for an individual AWS CloudTrail Trail'

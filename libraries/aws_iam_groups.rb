@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsIamGroups < Inspec.resource(1)
   name 'aws_iam_groups'
   desc 'Verifies settings for AWS IAM groups in bulk'

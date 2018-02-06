@@ -5,7 +5,7 @@ class AwsEc2Instance < Inspec.resource(1)
   name 'aws_ec2_instance'
   desc 'Verifies settings for an EC2 instance'
 
-  example "
+  example <<-EOX
     describe aws_ec2_instance('i-123456') do
       it { should be_running }
       it { should have_roles }
@@ -15,7 +15,7 @@ class AwsEc2Instance < Inspec.resource(1)
       it { should be_running }
       it { should have_roles }
     end
-  "
+EOX
 
   def initialize(opts, conn = AWSConnection.new)
     @opts = opts

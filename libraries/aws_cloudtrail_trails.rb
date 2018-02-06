@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsCloudTrailTrails < Inspec.resource(1)
   name 'aws_cloudtrail_trails'
   desc 'Verifies settings for AWS CloudTrail Trails in bulk'

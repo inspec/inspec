@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsIamPolicy < Inspec.resource(1)
   name 'aws_iam_policy'
   desc 'Verifies settings for individual AWS IAM Policy'

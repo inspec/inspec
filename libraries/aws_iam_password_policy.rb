@@ -5,7 +5,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'
 
-  example "
+  example <<-EOX
     describe aws_iam_password_policy do
       its('requires_lowercase_characters?') { should be true }
     end
@@ -13,7 +13,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     describe aws_iam_password_policy do
       its('requires_uppercase_characters?') { should be true }
     end
-  "
+EOX
 
   def initialize(conn = AWSConnection.new)
     @policy = conn.iam_resource.account_password_policy

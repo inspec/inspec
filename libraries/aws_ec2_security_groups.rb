@@ -3,7 +3,7 @@ require '_aws'
 class AwsEc2SecurityGroups < Inspec.resource(1)
   name 'aws_ec2_security_groups'
   desc 'Verifies settings for AWS Security Groups in bulk'
-  example "
+  example <<-EOX
     # Verify that you have security groups defined
     describe aws_ec2_security_groups do
       it { should exist }
@@ -13,7 +13,7 @@ class AwsEc2SecurityGroups < Inspec.resource(1)
     describe aws_ec2_security_groups do
       its('entries.count') { should be > 1 }
     end
-  "
+EOX
 
   # Constructor.  Args are reserved for row fetch filtering.
   def initialize(raw_criteria = {})

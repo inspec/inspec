@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsKmsKeys < Inspec.resource(1)
   name 'aws_kms_keys'
   desc 'Verifies settings for AWS KMS Keys in bulk'
