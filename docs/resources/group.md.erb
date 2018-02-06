@@ -20,13 +20,24 @@ A `group` resource block declares a group, and then the details to be tested, su
 where
 
 * `'group_name'` must specify the name of a group on the system
-* `exist` and `'gid'` are valid matchers for this resource
+
+<br>
+
+## Supported Properties
+
+domain, domains, gid, gids, name, names
 
 <br>
 
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### gid
+
+The `gid` property tests the named group identifier:
+
+    its('gid') { should eq 1234 }
 
 ### Test the group identifier for the root group
 
@@ -53,8 +64,4 @@ The `exist` matcher tests if the named user exists:
 
     it { should exist }
 
-### gid
 
-The `gid` matcher tests the named group identifier:
-
-    its('gid') { should eq 1234 }
