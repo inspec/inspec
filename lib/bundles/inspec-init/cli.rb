@@ -1,5 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
 
 require 'pathname'
 
@@ -42,8 +41,13 @@ module Init
       base_dir = File.join(dir, 'templates', type)
       # prepare glob for all subdirectories and files
       template = File.join(base_dir, '**', '{*,.*}')
-      # generate target path
-      target = Pathname.new(Dir.pwd).join(attributes[:name])
+      # Use the name attribute to define the path to the profile.
+      profile_path = attributes[:name]
+      # Use slashes (\, /) to split up the name into an Array then use the last entry
+      # to reset the name of the profile.
+      attributes[:name] = attributes[:name].split(%r{\\|\/}).last
+      # Generate the full target path on disk
+      target = Pathname.new(Dir.pwd).join(profile_path)
       puts "Create new #{type} at #{mark_text(target)}"
 
       # check that the directory does not exist
