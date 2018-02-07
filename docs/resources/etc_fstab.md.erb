@@ -4,7 +4,7 @@ title: About the etc_fstab Resource
 
 # etc_fstab
 
-Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a system.
+Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a Linux system.
 
 <br>
 
@@ -74,7 +74,7 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 ### mount_options
 
-`mount_opgie ations` returns a two dimensional array of each partitions mount options.
+`mount_options` returns a two dimensional array of each partitions mount options.
 
     describe etc_fstab.where { mount_point == '/' } do
       its('mount_options') { should eq [['defaults', 'x-systemd.device-timeout=0']] }
