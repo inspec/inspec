@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_sns_topic'
 
 # MSNB = MockSnsBackend
 # Abbreviation not used outside this file

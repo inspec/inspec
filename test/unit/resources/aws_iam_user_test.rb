@@ -1,6 +1,5 @@
 # author: Simon Varlow
 require 'helper'
-require 'aws_iam_user'
 
 # MAUIB = MockAwsIamUserBackend
 # Abbreviation not used outside this file

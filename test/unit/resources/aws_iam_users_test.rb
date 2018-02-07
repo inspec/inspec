@@ -1,6 +1,4 @@
 require 'helper'
-require 'ostruct'
-require 'aws_iam_users'
 
 # Maiusb = Mock AwsIamUsers::Backend
 # Abbreviation not used outside of this file

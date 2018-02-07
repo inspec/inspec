@@ -6,5 +6,4 @@ require 'minitest/pride'
 require 'json'
 require 'ostruct'
 
-require 'inspec/resource'
-require_relative '../../libraries/_aws'
+require_relative 'lib/resource_support/aws'

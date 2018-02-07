@@ -1,6 +1,4 @@
 require 'helper'
-require 'aws_iam_groups'
-require 'date'
 
 # MAIGPB = MockAwsIamGroupsPluralBackend
 # Abbreviation not used outside this file

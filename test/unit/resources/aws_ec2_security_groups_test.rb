@@ -1,6 +1,4 @@
-require 'ostruct'
 require 'helper'
-require 'aws_ec2_security_groups'
 
 # MESGB = MockEc2SecurityGroupBackend
 # Abbreviation not used outside this file

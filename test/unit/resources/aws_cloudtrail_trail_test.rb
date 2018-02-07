@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_cloudtrail_trail'
 
 # MACTTSB = MockAwsCloudTrailTrailSingularBackend
 # Abbreviation not used outside this file

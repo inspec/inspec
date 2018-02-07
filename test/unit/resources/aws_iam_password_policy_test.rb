@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_iam_password_policy'
 
 class AwsIamPasswordPolicyTest < Minitest::Test
   def setup

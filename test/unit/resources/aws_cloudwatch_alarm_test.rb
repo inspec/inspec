@@ -1,6 +1,4 @@
-require 'ostruct'
 require 'helper'
-require 'aws_cloudwatch_alarm'
 
 # MCWAB = MockCloudwatchAlarmBackend
 # Abbreviation not used outside this file

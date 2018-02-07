@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_vpcs'
 
 # MAVPB = MockAwsVpcsPluralBackend
 # Abbreviation not used outside this file

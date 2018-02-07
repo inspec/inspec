@@ -1,7 +1,4 @@
-
-require 'aws-sdk'
 require 'helper'
-require 'aws_iam_access_keys'
 
 #==========================================================#
 #                 Constructor Tests                        #

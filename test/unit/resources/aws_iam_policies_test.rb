@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_iam_policies'
 
 # MAIPPB = MockAwsIamPoliciesPluralBackend
 # Abbreviation not used outside this file

@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'helper'
-require 'aws_s3_bucket'
 
 # MSBSB = MockS3BucketSingleBackend
 # Abbreviation not used outside this file

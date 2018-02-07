@@ -1,7 +1,5 @@
 # author: Chris Redekop
-
 require 'helper'
-require 'aws_iam_access_key'
 
 class AwsIamAccessKeyTest < Minitest::Test
   Username = 'test'.freeze

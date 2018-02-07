@@ -1,6 +1,4 @@
-require 'ostruct'
 require 'helper'
-require 'aws_cloudwatch_log_metric_filter'
 
 # CWLMF = CloudwatchLogMetricFilter
 # Abbreviation not used outside this file

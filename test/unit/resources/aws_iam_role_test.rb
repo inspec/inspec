@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_iam_role'
 
 # MIRB = MockIamRoleBackend
 # Abbreviation not used outside this file
