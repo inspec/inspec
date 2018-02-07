@@ -1,5 +1,3 @@
-require '_aws'
-
 class AwsIamAccessKeys < Inspec.resource(1)
   name 'aws_iam_access_keys'
   desc 'Verifies settings for AWS IAM Access Keys in bulk'

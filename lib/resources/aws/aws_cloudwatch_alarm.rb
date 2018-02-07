@@ -1,5 +1,3 @@
-require '_aws'
-
 class AwsCloudwatchAlarm < Inspec.resource(1)
   name 'aws_cloudwatch_alarm'
   desc <<-EOD

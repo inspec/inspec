@@ -1,5 +1,3 @@
-require '_aws'
-
 class AwsEc2SecurityGroup < Inspec.resource(1)
   name 'aws_ec2_security_group'
   desc 'Verifies settings for an individual AWS Security Group.'

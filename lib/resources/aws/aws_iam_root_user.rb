@@ -1,5 +1,3 @@
-require '_aws'
-
 # author: Miles Tjandrawidjaja
 class AwsIamRootUser < Inspec.resource(1)
   name 'aws_iam_root_user'

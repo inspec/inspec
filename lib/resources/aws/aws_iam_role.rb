@@ -1,5 +1,3 @@
-require '_aws'
-
 class AwsIamRole < Inspec.resource(1)
   name 'aws_iam_role'
   desc 'Verifies settings for an IAM Role'

@@ -1,5 +1,3 @@
-require '_aws'
-
 # author: Matthew Dromazos
 class AwsS3Bucket < Inspec.resource(1)
   name 'aws_s3_bucket'

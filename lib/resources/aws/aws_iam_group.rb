@@ -1,5 +1,3 @@
-require '_aws'
-
 class AwsIamGroup < Inspec.resource(1)
   name 'aws_iam_group'
   desc 'Verifies settings for AWS IAM Group'

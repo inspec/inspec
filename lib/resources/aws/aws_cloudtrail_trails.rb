@@ -42,3 +42,4 @@ class AwsCloudTrailTrails < Inspec.resource(1)
     end
   end
 end
+
