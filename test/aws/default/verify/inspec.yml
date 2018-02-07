@@ -1,4 +1,1 @@
 name: inspec-aws-integration-tests
-depends:
-  - name: aws
-    path: ../../../../
