@@ -74,6 +74,12 @@ module Inspec
   end
 end
 
+# Many resources use FilterTable.
+require 'utils/filter'
+
+# AWS resources are included via their own file.
+require 'resource_support/aws'
+
 require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
