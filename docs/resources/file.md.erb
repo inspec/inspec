@@ -24,6 +24,20 @@ where
 
 <br>
 
+## Supported Resource Properties
+
+### General Resource Properties
+
+content, size, basename, path, owner, group, type 
+
+### Unix/Linux Resource Properties 
+
+symlink, mode, link_path, mtime, size, selinux\_label, md5sum, sha256sum, path, source, source\_path, uid, gid
+
+### Windows Resource Properties
+
+file\_version, product\_version
+
 ## Resource Property Examples
 
 ### content
@@ -42,7 +56,7 @@ The following complete example tests the `pg_hba.conf` file in PostgreSQL for MD
 
 ### file_version
 
-The `file_version` property tests if the file's version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
+The `file_version` property tests if a Windows file's version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates:
 
     its('file_version') { should eq '1.2.3' }
 
@@ -90,7 +104,7 @@ The `owner` property tests if the owner of the file matches the specified value.
 
 ### product_version
 
-The `product_version` property tests if the file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates.
+The `product_version` property tests if a Windows file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates.
 
     its('product_version') { should eq 2.3.4 }
 
@@ -246,11 +260,6 @@ or:
       its('size') { should be 0 }
     end
 
-### Test that a file is not mounted
-
-    describe file('/proc/cpuinfo') do
-      it { should_not be_mounted }
-    end
 
 ### Test an MD5 checksum
 
@@ -396,11 +405,6 @@ The `be_linked_to` matcher tests if the file is linked to the named target:
 
     it { should be_linked_to '/etc/target-file' }
 
-### be_mounted
-
-The `be_mounted` matcher tests if the file is accessible from the file system:
-
-    it { should be_mounted }
 
 ### be\_owned\_by
 
