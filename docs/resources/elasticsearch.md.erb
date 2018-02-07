@@ -116,7 +116,7 @@ Returns a list of enabled modules for each node in the cluster. For more additio
 
 ### modules
 
-Returns detailed information about each enabled module for each node in the cluster. For a succint list of the names of each of the modules enabled, use the `module_list` property. This example uses a additional Ruby to find a specific module and assert a value.
+Returns detailed information about each enabled module for each node in the cluster. For a succint list of the names of each of the modules enabled, use the `module_list` property. This example uses additional Ruby to find a specific module and assert a value.
 
     modules = elasticsearch.modules.first
     lang_groovy_module = modules.find { |mod| mod.name == 'lang-groovy' }
