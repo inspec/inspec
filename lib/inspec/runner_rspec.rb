@@ -4,7 +4,7 @@
 
 require 'rspec/core'
 require 'rspec/its'
-require 'inspec/rspec_json_formatter'
+require 'inspec/formatters'
 
 # There be dragons!! Or borgs, or something...
 # This file and all its contents cannot be unit-tested. both test-suits
@@ -33,7 +33,7 @@ module Inspec
     # @return [nil]
     def add_profile(profile)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a? InspecRspecJson }
+           .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
            .each do |fmt|
         fmt.add_profile(profile)
       end
@@ -45,7 +45,7 @@ module Inspec
     # @return [nil]
     def backend=(backend)
       RSpec.configuration.formatters
-           .find_all { |c| c.is_a? InspecRspecJson }
+           .find_all { |c| c.is_a?(Inspec::Formatters::Base) }
            .each do |fmt|
         fmt.backend = backend
       end
@@ -74,7 +74,8 @@ module Inspec
     # @return [int] 0 if all went well; otherwise nonzero
     def run(with = nil)
       with ||= RSpec::Core::Runner.new(nil)
-      with.run_specs(tests)
+      status = with.run_specs(tests)
+      [status, @formatter.run_data]
     end
 
     # Provide an output hash of the run's report
@@ -98,13 +99,32 @@ module Inspec
 
     private
 
-    FORMATTERS = {
-      'json-min' => 'InspecRspecMiniJson',
-      'json' => 'InspecRspecJson',
-      'json-rspec' => 'InspecRspecVanilla',
-      'cli' => 'InspecRspecCli',
-      'junit' => 'InspecRspecJUnit',
-    }.freeze
+    # Set optional formatters and output
+    #
+    #
+    def set_optional_formatters
+      return if @conf[:reporter].nil?
+      if @conf[:reporter].key?('json-rspec')
+        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
+        if @conf[:reporter]['json-rspec']&.[]('file').nil?
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
+        else
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec']['file'])
+        end
+        @conf[:reporter].delete('json-rspec')
+      end
+
+      formats = @conf[:reporter].select { |k, _v| %w{documentation progress html}.include?(k) }
+      formats.each do |k, v|
+        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
+        if v&.[]('file').nil?
+          RSpec.configuration.add_formatter(k.to_sym)
+        else
+          RSpec.configuration.add_formatter(k.to_sym, v['file'])
+        end
+        @conf[:reporter].delete(k)
+      end
+    end
 
     # Configure the output formatter and stream to be used with RSpec.
     #
@@ -116,10 +136,10 @@ module Inspec
         RSpec.configuration.output_stream = @conf['output']
       end
 
-      format = FORMATTERS[@conf['format']] || @conf['format'] || FORMATTERS['cli']
-      @formatter = RSpec.configuration.add_formatter(format)
+      @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
+      RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
+      set_optional_formatters
       RSpec.configuration.color = @conf['color']
-
       setup_reporting if @conf['report']
     end
 

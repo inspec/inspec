@@ -2,7 +2,6 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'rspec/core/formatters/base_text_formatter'
 require 'pry'
 
 module Inspec

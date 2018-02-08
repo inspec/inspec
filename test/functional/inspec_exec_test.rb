@@ -27,7 +27,6 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
-
 Profile: yumyum profile
 Version: (not specified)
 Target:  local://
@@ -43,7 +42,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
-
 Profile: title (name)
 Version: 1.2.3
 Target:  local://
@@ -66,12 +64,12 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     out.stderr.must_equal ''
     out.exit_status.must_equal 1
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "working should"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  eq \"working\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "working"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  should eq \"working\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\n"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "↺  This will be skipped intentionally"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  eq \"as intended\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "failing"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should eq \"as intended\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
   end
 
@@ -174,8 +172,8 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  undefined method `should_nota'"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should cmp >= 9\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should not cmp == /^\\d$/\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  7 should cmp >= 9\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  7 should not cmp == /^\\d$/\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  7 should cmp == \"7\""
       out.stdout.force_encoding(Encoding::UTF_8).must_include "  expected: \"01147\"
           got: \"01777\"\n"
@@ -287,10 +285,10 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       out.stderr.must_equal ''
       out.exit_status.must_equal 1
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
-      stdout.must_include '∅  eq "billy"'
+      stdout.must_include '∅  should eq "billy"'
       stdout.must_include 'expected: "billy"'
       stdout.must_include 'got: "bob"'
-      stdout.must_include '∅  eq "secret"'
+      stdout.must_include '∅  should eq "secret"'
       stdout.must_include '*** sensitive output suppressed ***'
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, 0 skipped\n"
     end
