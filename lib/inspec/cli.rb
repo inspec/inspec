@@ -32,16 +32,22 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: 'A list of controls to include. Ignore all other tests.'
   profile_options
   def json(target)
-    diagnose
     o = opts.dup
+    diagnose(o)
     o[:ignore_supports] = true
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
 
     profile = Inspec::Profile.for_target(target, o)
+    info = profile.info
+    # add in inspec version
+    info[:generator] = {
+      name: 'inspec',
+      version: Inspec::VERSION,
+    }
     dst = o[:output].to_s
     if dst.empty?
-      puts JSON.dump(profile.info)
+      puts JSON.dump(info)
     else
       if File.exist? dst
         puts "----> updating #{dst}"
@@ -49,7 +55,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         puts "----> creating #{dst}"
       end
       fdst = File.expand_path(dst)
-      File.write(fdst, JSON.dump(profile.info))
+      File.write(fdst, JSON.dump(info))
     end
   rescue StandardError => e
     pretty_handle_exception(e)
@@ -59,8 +65,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize
-    diagnose
     o = opts.dup
+    diagnose(o)
     o[:ignore_supports] = true # we check for integrity only
     o[:backend] = Inspec::Backend.create(target: 'mock://')
     o[:check_mode] = true
@@ -69,7 +75,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
 
-    if opts['format'] == 'json'
+    if o['format'] == 'json'
       puts JSON.generate(result)
     else
       %w{location profile controls timestamp valid}.each do |item|
@@ -128,9 +134,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: 'Ignore profile warnings.'
   def archive(path)
-    diagnose
-
     o = opts.dup
+    diagnose(o)
+
     o[:logger] = Logger.new(STDOUT)
     o[:logger].level = get_log_level(o.log_level)
     o[:backend] = Inspec::Backend.create(target: 'mock://')
@@ -138,13 +144,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(path, o)
     result = profile.check
 
-    if result && !opts[:ignore_errors] == false
+    if result && !o[:ignore_errors] == false
       o[:logger].info 'Profile check failed. Please fix the profile before generating an archive.'
       return exit 1
     end
 
     # generate archive
-    exit 1 unless profile.archive(opts)
+    exit 1 unless profile.archive(o)
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -152,12 +158,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   desc 'exec PATHS', 'run all test files at the specified PATH.'
   exec_options
   def exec(*targets)
-    diagnose
     o = opts(:exec).dup
+    diagnose(o)
     configure_logger(o)
 
-    # run tests
-    run_tests(targets, o)
+    runner = Inspec::Runner.new(o)
+    targets.each { |target| runner.add_target(target) }
+
+    exit runner.run
+  rescue ArgumentError, RuntimeError, Train::UserError => e
+    $stderr.puts e.message
+    exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -166,10 +177,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   target_options
   option :format, type: :string
   def detect
-    o = opts.dup
+    o = opts(:detect).dup
     o[:command] = 'os.params'
     (_, res) = run_command(o)
-    if opts['format'] == 'json'
+    if o['format'] == 'json'
       puts res.to_json
     else
       headline('Operating System Details')
@@ -187,16 +198,18 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :command, aliases: :c,
     desc: 'A single command string to run instead of launching the shell'
   option :format, type: :string, default: nil, hide: true,
-    desc: 'Which formatter to use: cli, documentation, html, json, json-min, junit, progress'
+    desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
+  option :reporter, type: :array,
+    banner: 'one two:/output/file/path',
+    desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
   option :depends, type: :array, default: [],
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'
   def shell_func
-    diagnose
-    o = opts.dup
+    o = opts(:shell).dup
+    diagnose(o)
     o[:debug_shell] = true
 
-    json_output = ['json', 'json-min'].include?(opts['format'])
-    log_device = json_output ? nil : STDOUT
+    log_device = suppress_log_output?(o) ? nil : STDOUT
     o[:logger] = Logger.new(log_device)
     o[:logger].level = get_log_level(o.log_level)
 
@@ -209,7 +222,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     exit res unless run_type == :ruby_eval
 
     # No InSpec tests - just print evaluation output.
-    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if json_output
+    res = (res.respond_to?(:to_json) ? res.to_json : JSON.dump(res)) if o['reporter']&.keys&.include?('json')
     puts res
     exit 0
   rescue RuntimeError, Train::UserError => e
