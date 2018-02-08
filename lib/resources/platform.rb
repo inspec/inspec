@@ -15,13 +15,13 @@ module Inspec::Resources
     "
 
     def initialize
-      @platform = inspec.backend.os
+      @platform = inspec.backend.platform
     end
 
     # add helper methods for easy access of properties
     %w{family release arch}.each do |property|
       define_method(property.to_sym) do
-        @platform.send(property)
+        @platform[property]
       end
     end
 
