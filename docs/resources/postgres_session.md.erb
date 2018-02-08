@@ -13,22 +13,30 @@ Use the `postgres_session` InSpec audit resource to test SQL commands run agains
 
 A `postgres_session` resource block declares the username and password to use for the session, and then the command to be run:
 
-    # Create a PostgreSQL session:
-    sql = postgres_session('username', 'password', 'host')
+```ruby
+# Create a PostgreSQL session:
+sql = postgres_session('username', 'password', 'host')
+```
 
-    # default values:
-    #   username: 'postgres'
-    #   host: 'localhost'
+```ruby
+# default values:
+#   username: 'postgres'
+#   host: 'localhost'
+```
 
-    # Run an SQL query with an optional database to execute
-    sql.query('sql_query', ['database_name'])`
+```ruby
+# Run an SQL query with an optional database to execute
+sql.query('sql_query', ['database_name'])`
+```
 
 A full example is:
 
-    sql = postgres_session('username', 'password', 'host')
-    describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
-      its('output') { should eq '' }
-    end
+```ruby
+sql = postgres_session('username', 'password', 'host')
+describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;') do
+  its('output') { should eq '' }
+end
+```
 
 where `its('output') { should eq '' }` compares the results of the query against the expected result in the test
 
@@ -40,21 +48,27 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test the PostgreSQL shadow password
 
-    sql = postgres_session('my_user', 'password', '192.168.1.2')
+```ruby
+sql = postgres_session('my_user', 'password', '192.168.1.2')
+```
 
-    describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;', ['testdb']) do
-      its('output') { should eq('') }
-    end
+```ruby
+describe sql.query('SELECT * FROM pg_shadow WHERE passwd IS NULL;', ['testdb']) do
+  its('output') { should eq('') }
+end
+```
 
 ### Test for risky database entries
 
-    describe postgres_session('my_user', 'password').query('SELECT count (*)
-                  FROM pg_language
-                  WHERE lanpltrusted = \'f\'
-                  AND lanname!=\'internal\'
-                  AND lanname!=\'c\';', ['postgres']) do
-      its('output') { should eq '0' }
-    end
+```ruby
+describe postgres_session('my_user', 'password').query('SELECT count (*)
+              FROM pg_language
+              WHERE lanpltrusted = \'f\'
+              AND lanname!=\'internal\'
+              AND lanname!=\'c\';', ['postgres']) do
+  its('output') { should eq '0' }
+end
+```
 
 <br>
 
@@ -66,4 +80,6 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `output` matcher tests the results of the query:
 
-    its('output') { should eq(/^0/) }
+```ruby
+its('output') { should eq(/^0/) }
+```

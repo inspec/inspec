@@ -12,11 +12,15 @@ Use the `limits_conf` InSpec audit resource to test configuration settings in th
 
 Entries in the `limits.conf` file are similar to:
 
-    grantmc     soft   nofile   4096
-    grantmc     hard   nofile   63536
+```ruby
+grantmc     soft   nofile   4096
+grantmc     hard   nofile   63536
+```
 
-    ^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
-    domain      type    item    value
+```ruby
+^^^^^^^^^   ^^^^   ^^^^^^   ^^^^^
+domain      type    item    value
+```
 
 <br>
 
@@ -24,10 +28,12 @@ Entries in the `limits.conf` file are similar to:
 
 A `limits_conf` resource block declares a domain to be tested, along with associated type, item, and value:
 
-    describe limits_conf('path') do
-      its('domain') { should include ['type', 'item', 'value'] }
-      its('domain') { should eq ['type', 'item', 'value'] }
-    end
+```ruby
+describe limits_conf('path') do
+  its('domain') { should include ['type', 'item', 'value'] }
+  its('domain') { should eq ['type', 'item', 'value'] }
+end
+```
 
 where
 
@@ -61,15 +67,15 @@ For example:
 
 ### Test limits
 
-    describe limits_conf('path') do
-      its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
-      its('ftp') { should eq ['hard', 'nproc', '0'] }
-    end
+```ruby
+describe limits_conf('path') do
+  its('*') { should include ['soft', 'core', '0'], ['hard', 'rss', '10000'] }
+  its('ftp') { should eq ['hard', 'nproc', '0'] }
+end
+```
 
 <br>
 
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
-

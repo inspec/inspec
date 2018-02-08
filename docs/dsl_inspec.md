@@ -107,7 +107,7 @@ The following test shows how to audit machines running PostgreSQL to ensure that
 ```ruby
 control 'postgres-7' do
   impact 1.0
-  title 'Don't allow empty passwords'
+  title "Don't allow empty passwords"
   describe postgres_session('user', 'pass').query("SELECT * FROM pg_shadow WHERE passwd IS NULL;") do
    its('output') { should eq('') }
   end

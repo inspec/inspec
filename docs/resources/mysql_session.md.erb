@@ -13,9 +13,11 @@ Use the `mysql_session` InSpec audit resource to test SQL commands run against a
 
 A `mysql_session` resource block declares the username and password to use for the session, and then the command to be run:
 
-    describe mysql_session('username', 'password').query('QUERY') do
-      its('stdout') { should match(/expected-result/) }
-    end
+```ruby
+describe mysql_session('username', 'password').query('QUERY') do
+  its('stdout') { should match(/expected-result/) }
+end
+```
 
 where
 
@@ -31,41 +33,57 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for matching databases
 
-    sql = mysql_session('my_user','password')
+```ruby
+sql = mysql_session('my_user','password')
+```
 
-    describe sql.query('show databases like \'test\';') do
-      its('stdout') { should_not match(/test/) }
-    end
+```ruby
+describe sql.query('show databases like \'test\';') do
+  its('stdout') { should_not match(/test/) }
+end
+```
 
 ### Alternate Connection: Different Host
 
-    sql = mysql_session('my_user','password','db.example.com')
+```ruby
+sql = mysql_session('my_user','password','db.example.com')
+```
 
 ### Alternate Connection: Different Port
 
-    sql = mysql_session('my_user','password','localhost',3307)
+```ruby
+sql = mysql_session('my_user','password','localhost',3307)
+```
 
 ### Alternate Connection: Using a socket
 
-    sql = mysql_session('my_user','password', nil, nil, '/var/lib/mysql-default/mysqld.sock')
+```ruby
+sql = mysql_session('my_user','password', nil, nil, '/var/lib/mysql-default/mysqld.sock')
+```
 
 ### Test for a successful query
 
-    describe mysql_session('my_user','password').query('show tables in existing_database;') do
-      its('exit_status') { should eq(0) }
-    end
+```ruby
+describe mysql_session('my_user','password').query('show tables in existing_database;') do
+  its('exit_status') { should eq(0) }
+end
+```
 
 ### Test for a failing query
 
-    describe mysql_session('my_user','password').query('show tables in non_existent_database;') do
-      its('exit_status') { should_not eq(0) }
-    end
+```ruby
+describe mysql_session('my_user','password').query('show tables in non_existent_database;') do
+  its('exit_status') { should_not eq(0) }
+end
+```
 
 ### Test for specific error message
 
-    describe mysql_session('my_user','password').query('show tables in non_existent_database;') do
-      its('stderr') { should match(/Unknown database/) }
-    end
+```ruby
+describe mysql_session('my_user','password').query('show tables in non_existent_database;') do
+  its('stderr') { should match(/Unknown database/) }
+end
+```
 
 <br>
 

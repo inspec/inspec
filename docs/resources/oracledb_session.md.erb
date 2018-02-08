@@ -13,9 +13,11 @@ Use the `oracledb_session` InSpec audit resource to test SQL commands run agains
 
 A `oracledb_session` resource block declares the username and password to use for the session with an optional service to connect to, and then the command to be run:
 
-    describe oracledb_session(user: 'username', password: 'password', service: 'ORCL.localdomain').query('QUERY').row(0).column('result') do
-      its('value') { should eq('') }
-    end
+```ruby
+describe oracledb_session(user: 'username', password: 'password', service: 'ORCL.localdomain').query('QUERY').row(0).column('result') do
+  its('value') { should eq('') }
+end
+```
 
 where
 
@@ -31,19 +33,27 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for matching databases
 
-    sql = oracledb_session(user: 'my_user', pass: 'password')
+```ruby
+sql = oracledb_session(user: 'my_user', pass: 'password')
+```
 
-    describe sql.query('SELECT NAME AS VALUE FROM v$database;').row(0).column('value') do
-      its('value') { should cmp 'ORCL' }
-    end
+```ruby
+describe sql.query('SELECT NAME AS VALUE FROM v$database;').row(0).column('value') do
+  its('value') { should cmp 'ORCL' }
+end
+```
 
 ### Test for matching databases with custom host, SID and sqlplus binary location
 
-    sql = oracledb_session(user: 'my_user', pass: 'password', host: 'oraclehost', sid: 'mysid', sqlplus_bin: '/u01/app/oracle/product/12.1.0/dbhome_1/bin/sqlplus')
+```ruby
+sql = oracledb_session(user: 'my_user', pass: 'password', host: 'oraclehost', sid: 'mysid', sqlplus_bin: '/u01/app/oracle/product/12.1.0/dbhome_1/bin/sqlplus')
+```
 
-    describe sql.query('SELECT NAME FROM v$database;').row(0).column('name') do
-      its('value') { should cmp 'ORCL' }
-    end
+```ruby
+describe sql.query('SELECT NAME FROM v$database;').row(0).column('name') do
+  its('value') { should cmp 'ORCL' }
+end
+```
 
 <br>
 

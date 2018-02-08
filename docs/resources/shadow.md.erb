@@ -18,7 +18,9 @@ Use the `shadow` InSpec audit resource to test the contents of `/etc/shadow`, wh
 
 These entries are defined as a colon-delimited row in the file, one row per user:
 
-    dannos:Gb7crrO5CDF.:10063:0:99999:7:::
+```ruby
+dannos:Gb7crrO5CDF.:10063:0:99999:7:::
+```
 
 <br>
 
@@ -26,21 +28,27 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 A `shadow` resource block declares one (or more) users and associated user information to be tested:
 
-    describe shadow do
-      its('users') { should_not include 'forbidden_user' }
-    end
+```ruby
+describe shadow do
+  its('users') { should_not include 'forbidden_user' }
+end
+```
 
 or with a single query:
 
-    describe shadow.users('root') do
-      its('count') { should eq 1 }
-    end
+```ruby
+describe shadow.users('root') do
+  its('count') { should eq 1 }
+end
+```
 
 or with a filter:
 
-    describe shadow.filter(min_days: '0', max_days: '99999') do
-      its('count') { should eq 1 }
-    end
+```ruby
+describe shadow.filter(min_days: '0', max_days: '99999') do
+  its('count') { should eq 1 }
+end
+```
 
 The following properties are available:
 
@@ -64,16 +72,20 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for a forbidden user
 
-    describe shadow do
-      its('users') { should_not include 'forbidden_user' }
-    end
+```ruby
+describe shadow do
+  its('users') { should_not include 'forbidden_user' }
+end
+```
 
 ### Test that a user appears one time
 
-    describe shadow.users('bin') do
-      its('passwords') { should cmp 'x' }
-      its('count') { should eq 1 }
-    end
+```ruby
+describe shadow.users('bin') do
+  its('passwords') { should cmp 'x' }
+  its('count') { should eq 1 }
+end
+```
 
 <br>
 
@@ -85,43 +97,57 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `count` matcher tests the number of times the named user appears in `/etc/shadow`:
 
-    its('count') { should eq 1 }
+```ruby
+its('count') { should eq 1 }
+```
 
 This matcher is best used in conjunction with filters. For example:
 
-    describe shadow.users('dannos') do
-       its('count') { should eq 1 }
-    end
+```ruby
+describe shadow.users('dannos') do
+   its('count') { should eq 1 }
+end
+```
 
 ### expiry_dates
 
 The `expiry_dates` matcher tests the number of days a user account has been disabled:
 
-    its('expiry_dates') { should eq '' }
+```ruby
+its('expiry_dates') { should eq '' }
+```
 
 ### inactive_days
 
 The `inactive_days` matcher tests the number of days a user must be inactive before the user account is disabled:
 
-    its('inactive_days') { should eq '' }
+```ruby
+its('inactive_days') { should eq '' }
+```
 
 ### last_changes
 
 The `last_changes` matcher tests the last time a password was changed:
 
-    its('last_changes') { should eq '' }
+```ruby
+its('last_changes') { should eq '' }
+```
 
 ### max_days
 
 The `max_days` matcher tests the maximum number of days after which a password must be changed:
 
-    its('max_days') { should eq 90 }
+```ruby
+its('max_days') { should eq 90 }
+```
 
 ### min_days
 
 The `min_days` matcher tests the minimum number of days a password must exist, before it may be changed:
 
-    its('min_days') { should eq 0 }
+```ruby
+its('min_days') { should eq 0 }
+```
 
 ### passwords
 
@@ -129,16 +155,22 @@ The `passwords` matcher returns the encrypted password string from the shadow fi
 
 For example:
 
-    its('passwords') { should cmp '*' }
+```ruby
+its('passwords') { should cmp '*' }
+```
 
 ### users
 
 The `users` matcher tests if the user name exists `/etc/shadow`:
 
-    its('users') { should eq 'root' }
+```ruby
+its('users') { should eq 'root' }
+```
 
 ### warn_days
 
 The `warn_days` matcher tests the number of days a user is warned about an expiring password:
 
-    its('warn_days') { should eq 7 }
+```ruby
+its('warn_days') { should eq 7 }
+```

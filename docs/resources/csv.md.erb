@@ -13,9 +13,11 @@ Use the `csv` InSpec audit resource to test configuration data in a CSV file.
 
 A `csv` resource block declares the configuration data to be tested:
 
-    describe csv('file') do
-      its('name') { should cmp 'foo' }
-    end
+```ruby
+describe csv('file') do
+  its('name') { should cmp 'foo' }
+end
+```
 
 where
 
@@ -31,9 +33,11 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test a CSV file
 
-    describe csv('some_file.csv') do
-      its('setting') { should eq 1 }
-    end
+```ruby
+describe csv('some_file.csv') do
+  its('setting') { should eq 1 }
+end
+```
 
 <br>
 
@@ -43,7 +47,9 @@ The following examples show how to use this InSpec audit resource.
 
 The `name` property tests the value of `name` as read from a CSV file compared to the value declared in the test.
 
-    its('name') { should cmp 'foo' }
+```ruby
+its('name') { should cmp 'foo' }
+```
 
 <br>
 

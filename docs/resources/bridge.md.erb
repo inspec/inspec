@@ -13,10 +13,12 @@ Use the `bridge` InSpec audit resource to test basic network bridge properties, 
 
 A `bridge` resource block declares the bridge to be tested and what interface it should be associated with:
 
-    describe bridge('br0') do
-      it { should exist }
-      it { should have_interface 'eth0' }
-    end
+```ruby
+describe bridge('br0') do
+  it { should exist }
+  it { should have_interface 'eth0' }
+end
+```
 
 <br>
 
@@ -33,9 +35,11 @@ A `bridge` resource block declares the bridge to be tested and what interface it
 
 The `interfaces` property tests if the named interface is present:
 
-    its('interfaces') { should eq 'foo' }
-    its('interfaces') { should eq 'bar' }
-    its('interfaces') { should include('foo') }
+```ruby
+its('interfaces') { should eq 'foo' }
+its('interfaces') { should eq 'bar' }
+its('interfaces') { should include('foo') }
+```
 
 <br>
 
@@ -47,11 +51,15 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `exist` matcher tests if the network bridge is available:
 
-    it { should exist }
+```ruby
+it { should exist }
+```
 
 ### have_interface
 
 The `have_interface` matcher tests if the named interface is defined for the network bridge:
 
-    it { should have_interface 'eth0' }
+```ruby
+it { should have_interface 'eth0' }
+```
 

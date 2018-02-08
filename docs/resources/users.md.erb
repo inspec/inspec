@@ -13,11 +13,13 @@ Use the `users` InSpec audit resource to look up all local users available on th
 
 A `users` resource block declares a user name, and then one (or more) matchers:
 
-    describe users.where(uid: 0).entries do
-      it { should eq ['root'] }
-      its('uids') { should eq [1234] }
-      its('gids') { should eq [1234] }
-    end
+```ruby
+describe users.where(uid: 0).entries do
+  it { should eq ['root'] }
+  its('uids') { should eq [1234] }
+  its('gids') { should eq [1234] }
+end
+```
 
 where
 
@@ -26,15 +28,19 @@ where
 
 For example:
 
-    describe users.where { username =~ /.*/ } do
-      it { should exist }
-    end
+```ruby
+describe users.where { username =~ /.*/ } do
+  it { should exist }
+end
+```
 
 or:
 
-    describe users.where { uid =~ /^S-1-5-[0-9-]+-501$/ } do
-      it { should exist }
-    end
+```ruby
+describe users.where { uid =~ /^S-1-5-[0-9-]+-501$/ } do
+  it { should exist }
+end
+```
 
 <br>
 
@@ -44,9 +50,11 @@ The following examples show how to use this InSpec audit resource.
 
 ### Use a regular expression to find users
 
-    describe users.where { uid =~ /S\-1\-5\-21\-\d+\-\d+\-\d+\-500/ } do
-      it { should exist }
-    end
+```ruby
+describe users.where { uid =~ /S\-1\-5\-21\-\d+\-\d+\-\d+\-500/ } do
+  it { should exist }
+end
+```
 
 <br>
 
@@ -58,13 +66,17 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `exist` matcher tests if the named user exists:
 
-    it { should exist }
+```ruby
+it { should exist }
+```
 
 ### gid
 
 The `gid` matcher tests the group identifier:
 
-    its('gid') { should eq 1234 } }
+```ruby
+its('gid') { should eq 1234 } }
+```
 
 where `1234` represents the user identifier.
 
@@ -72,7 +84,9 @@ where `1234` represents the user identifier.
 
 The `group` matcher tests the group to which the user belongs:
 
-    its('group') { should eq 'root' }
+```ruby
+its('group') { should eq 'root' }
+```
 
 where `root` represents the group.
 
@@ -80,19 +94,25 @@ where `root` represents the group.
 
 The `groups` matcher tests two (or more) groups to which the user belongs:
 
-    its('groups') { should eq ['root', 'other']}
+```ruby
+its('groups') { should eq ['root', 'other']}
+```
 
 ### home
 
 The `home` matcher tests the home directory path for the user:
 
-    its('home') { should eq '/root' }
+```ruby
+its('home') { should eq '/root' }
+```
 
 ### maxdays
 
 The `maxdays` matcher tests the maximum number of days between password changes:
 
-    its('maxdays') { should eq 99 }
+```ruby
+its('maxdays') { should eq 99 }
+```
 
 where `99` represents the maximum number of days.
 
@@ -100,7 +120,9 @@ where `99` represents the maximum number of days.
 
 The `mindays` matcher tests the minimum number of days between password changes:
 
-    its('mindays') { should eq 0 }
+```ruby
+its('mindays') { should eq 0 }
+```
 
 where `0` represents the maximum number of days.
 
@@ -108,13 +130,17 @@ where `0` represents the maximum number of days.
 
 The `shell` matcher tests the path to the default shell for the user:
 
-    its('shell') { should eq '/bin/bash' }
+```ruby
+its('shell') { should eq '/bin/bash' }
+```
 
 ### uid
 
 The `uid` matcher tests the user identifier:
 
-    its('uid') { should eq 1234 } }
+```ruby
+its('uid') { should eq 1234 } }
+```
 
 where `1234` represents the user identifier.
 
@@ -122,6 +148,8 @@ where `1234` represents the user identifier.
 
 The `warndays` matcher tests the number of days a user is warned before a password must be changed:
 
-    its('warndays') { should eq 5 }
+```ruby
+its('warndays') { should eq 5 }
+```
 
 where `5` represents the number of days a user is warned.

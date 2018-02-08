@@ -14,10 +14,12 @@ Microsoft and application vendors use scheduled tasks to perform a variety of sy
 
 A `windows_task` resource block declares the name of the task (as its full path) and tests its configuration:
 
-    describe windows_task('task name uri') do
-      its('parameter') { should eq 'value' }
-      it { should be_enabled }
-    end
+```ruby
+describe windows_task('task name uri') do
+  its('parameter') { should eq 'value' }
+  it { should be_enabled }
+end
+```
 
 where
 

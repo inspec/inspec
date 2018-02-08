@@ -12,7 +12,7 @@ profiles.
 
 Resources may be added to profiles in the libraries folder:
 
-```bash
+```shell
 $ tree examples/profile
 examples/profile
 ...

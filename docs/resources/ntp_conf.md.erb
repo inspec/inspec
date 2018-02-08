@@ -13,9 +13,11 @@ Use the `ntp_conf` InSpec audit resource to test the synchronization settings de
 
 An `ntp_conf` resource block declares the synchronization settings that should be tested:
 
-    describe ntp_conf('path') do
-      its('setting_name') { should eq 'value' }
-    end
+```ruby
+describe ntp_conf('path') do
+  its('setting_name') { should eq 'value' }
+end
+```
 
 where
 
@@ -31,14 +33,16 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for clock drift against named servers
 
-    describe ntp_conf do
-      its('driftfile') { should eq '/var/lib/ntp/ntp.drift' }
-      its('server') { should eq [
-        0.ubuntu.pool.ntp.org,
-        1.ubuntu.pool.ntp.org,
-        2.ubuntu.pool.ntp.org
-      ] }
-    end
+```ruby
+describe ntp_conf do
+  its('driftfile') { should eq '/var/lib/ntp/ntp.drift' }
+  its('server') { should eq [
+    0.ubuntu.pool.ntp.org,
+    1.ubuntu.pool.ntp.org,
+    2.ubuntu.pool.ntp.org
+  ] }
+end
+```
 
 <br>
 
@@ -46,15 +50,21 @@ The following examples show how to use this InSpec audit resource.
 
 This resource matches any service that is listed in the `ntp.conf` file. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-    its('server') { should_not eq nil }
+```ruby
+its('server') { should_not eq nil }
+```
 
 or:
 
-    its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+```ruby
+its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+```
 
 For example:
 
-    describe ntp_conf do
-      its('server') { should_not eq nil }
-      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-    end
+```ruby
+describe ntp_conf do
+  its('server') { should_not eq nil }
+  its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+end
+```

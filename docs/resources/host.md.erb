@@ -13,11 +13,13 @@ Use the `host` InSpec audit resource to test the name used to refer to a specifi
 
 A `host` resource block declares a host name, and then (depending on what is to be tested) a port and/or a protocol:
 
-    describe host('example.com', port: 80, protocol: 'tcp') do
-      it { should be_reachable }
-      it { should be_resolvable }
-      its('ipaddress') { should include '12.34.56.78' }
-    end
+```ruby
+describe host('example.com', port: 80, protocol: 'tcp') do
+  it { should be_reachable }
+  it { should be_resolvable }
+  its('ipaddress') { should include '12.34.56.78' }
+end
+```
 
 where
 
@@ -34,24 +36,30 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify host name is reachable over a specific protocol and port number
 
-    describe host('example.com', port: 80, protocol: 'tcp') do
-      it { should be_reachable }
-    end
+```ruby
+describe host('example.com', port: 80, protocol: 'tcp') do
+  it { should be_reachable }
+end
+```
 
 ### Verify that a specific IP address can be resolved
 
-    describe host('example.com') do
-      it { should be_resolvable }
-      its('ipaddress') { should include '192.168.1.1' }
-    end
+```ruby
+describe host('example.com') do
+  it { should be_resolvable }
+  its('ipaddress') { should include '192.168.1.1' }
+end
+```
 
 ### Review the connection setup and socket contents when checking reachability
 
-    describe host('example.com', port: 12345, protocol: 'tcp') do
-      it { should be_reachable }
-      its('connection') { should_not match /connection refused/ }
-      its('socket') { should match /STATUS_OK/ }
-    end
+```ruby
+describe host('example.com', port: 12345, protocol: 'tcp') do
+  it { should be_reachable }
+  its('connection') { should_not match /connection refused/ }
+  its('socket') { should match /STATUS_OK/ }
+end
+```
 
 <br>
 
@@ -63,16 +71,22 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_reachable` matcher tests if the host name is available:
 
-    it { should be_reachable }
+```ruby
+it { should be_reachable }
+```
 
 ### be_resolvable
 
 The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
 
-    it { should be_resolvable }
+```ruby
+it { should be_resolvable }
+```
 
 ### ipaddress
 
 The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
 
-    its('ipaddress') { should include '93.184.216.34' }
+```ruby
+its('ipaddress') { should include '93.184.216.34' }
+```

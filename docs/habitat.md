@@ -16,20 +16,14 @@ To learn more about Habitat and try our demos and tutorials, visit [https://www.
 
 After creating a Habitat package for an InSpec profile (see CLI commands below) and uploading the package to a Habitat Depot or manually distributing to a host, start the Habitat Supervisor with your package:
 
-```bash
-hab start adamleff/inspec-profile-frontend1
+```shell
+$ hab start adamleff/inspec-profile-frontend1
 ```
 
 The Habitat Supervisor will install InSpec and execute your profile in a loop. By default, the loop runs every 300 seconds but can be changed via the `sleep_time` configuration value:
 
-```bash
-HAB_INSPEC_PROFILE_FRONTEND1="sleep_time = 60" hab start adamleff/inspec-profile-frontend1
-```
-
-The Habitat Supervisor will display output like this:
-
-```
-hab start adamleff/inspec-profile-frontend1
+```shell
+$ HAB_INSPEC_PROFILE_FRONTEND1="sleep_time = 60" hab start adamleff/inspec-profile-frontend1
 ∵ Missing package for core/hab-sup/0.17.0
 » Installing core/hab-sup/0.17.0
 ↓ Downloading core/hab-sup/0.17.0/20170214235450
@@ -86,14 +80,14 @@ adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
 
 #### Syntax
 
-```bash
-inspec habitat profile create PROFILE_DIRECTORY
+```shell
+$ inspec habitat profile create PROFILE_DIRECTORY
 ```
 
 Example:
 
-```bash
-inspec habitat profile create ~/profiles/frontend1
+```shell
+$ inspec habitat profile create ~/profiles/frontend1
 ```
 
 ### inspec habitat profile create
@@ -116,19 +110,19 @@ adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
 
 #### Syntax
 
-```bash
-inspec habitat profile create PROFILE_DIRECTORY
+```shell
+$ inspec habitat profile create PROFILE_DIRECTORY
 ```
 
 #### Example
 
-```bash
-inspec habitat profile create ~/profiles/frontend1
+```shell
+$ inspec habitat profile create ~/profiles/frontend1
 ```
 
 #### Example Output
 
-```
+```shell
 $ habitat profile create ~/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
@@ -157,18 +151,19 @@ Create and then upload a Habitat package for an InSpec profile. Like the `inspec
 
 #### Syntax
 
-```bash
-inspec habitat profile upload PROFILE_DIRECTORY
+```shell
+$ inspec habitat profile upload PROFILE_DIRECTORY
 ```
 
 #### Example
 
-```bash
-inspec habitat profile upload ~/profiles/frontend1
+```shell
+$ inspec habitat profile upload ~/profiles/frontend1
 ```
 
 #### Example Output
-```
+
+```shell
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
 [2017-03-28T13:29:32-04:00] INFO: Copying profile contents to the work directory...

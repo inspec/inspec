@@ -49,63 +49,76 @@ Each profile must have an `inspec.yml` file that defines the following informati
 
 `name` is required; all other profile settings are optional. For example:
 
-    name: ssh
-    title: Basic SSH
-    maintainer: Chef Software, Inc.
-    copyright: Chef Software, Inc.
-    copyright_email: support@chef.io
-    license: Proprietary, All rights reserved
-    summary: Verify that SSH Server and SSH Client are configured securely
-    version: 1.0.0
-    supports:
-      - os-family: linux
-    depends:
-      - name: profile
-        path: ../path/to/profile
+```yaml
+name: ssh
+title: Basic SSH
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Proprietary, All rights reserved
+summary: Verify that SSH Server and SSH Client are configured securely
+version: 1.0.0
+supports:
+  - os-family: linux
+depends:
+  - name: profile
+    path: ../path/to/profile
+```
 
 ## Verify Profiles
 
 Use the `inspec check` command to verify the implementation of a profile:
 
-    $ inspec check examples/profile
+```shell
+$ inspec check examples/profile
+```
 
 # Platform Support
 
 Use the `supports` setting in the `inspec.yml` file to specify one (or more) platforms for which a profile is targeting. The list of supported platforms may contain simple names, names and versions, or detailed flags, and may be combined arbitrarily. For example, to target anything running Debian Linux:
 
-    name: ssh
-    supports:
-      - os-name: debian
+```yaml
+name: ssh
+supports:
+  - os-name: debian
+```
 
 and to target only Ubuntu version 14.04
 
-    name: ssh
-    supports:
-      - os-name: ubuntu
-        release: 14.04
+```yaml
+name: ssh
+supports:
+  - os-name: ubuntu
+    release: 14.04
+```
 
 and to target the entire RedHat platform (including CentOS and Oracle Linux):
 
-    name: ssh
-    supports:
-      - os-family: redhat
+```yaml
+name: ssh
+supports:
+  - os-family: redhat
+```
 
 and to target anything running on Amazon AWS:
 
-    name: ssh
-    supports:
-      - platform: aws
+```yaml
+name: ssh
+supports:
+  - platform: aws
+```
 
 and to target all of these examples in a single `inspec.yml` file:
 
-    name: ssh
-    supports:
-      - os-name: debian
-      - os-name: ubuntu
-        release: 14.04
-      - os-family: redhat
-      - platform: aws
-
+```yaml
+name: ssh
+supports:
+  - os-name: debian
+  - os-name: ubuntu
+    release: 14.04
+  - os-family: redhat
+  - platform: aws
+```
 
 # Profile Dependencies
 
@@ -115,11 +128,13 @@ An InSpec profile can bring in the controls and custom resources from another In
 
 Before a profile can use controls from another profile, the to-be-included profile needs to be specified in the including profile’s `inspec.yml` file in the `depends` section. For each profile to be included, a location for the profile from where to be fetched and a name for the profile should be included. For example:
 
-    depends:
-    - name: linux-baseline
-      url: https://github.com/dev-sec/linux-baseline/archive/master.tar.gz
-    - name: ssh-baseline
-      url: https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz
+```yaml
+depends:
+- name: linux-baseline
+  url: https://github.com/dev-sec/linux-baseline/archive/master.tar.gz
+- name: ssh-baseline
+  url: https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz
+```
 
 InSpec supports a number of dependency sources.
 
@@ -127,21 +142,25 @@ InSpec supports a number of dependency sources.
 
 The `path` setting defines a profile that is located on disk. This setting is typically used during development of profiles and when debugging profiles.
 
-    depends:
-    - name: my-profile
-      path: /absolute/path
-    - name: another
-      path: ../relative/path
+```yaml
+depends:
+- name: my-profile
+  path: /absolute/path
+- name: another
+  path: ../relative/path
+```
 
 ### url
 
 The `url` setting specifies a profile that is located at an HTTP- or HTTPS-based URL. The profile must be accessible via a HTTP GET operation and must be a valid profile archive (zip, tar, or tar.gz format).
 
-    depends:
-    - name: my-profile
-      url: https://my.domain/path/to/profile.tgz
-    - name: profile-via-git
-      url: https://github.com/myusername/myprofile-repo/archive/master.tar.gz
+```yaml
+depends:
+- name: my-profile
+  url: https://my.domain/path/to/profile.tgz
+- name: profile-via-git
+  url: https://github.com/myusername/myprofile-repo/archive/master.tar.gz
+```
 
 ### git
 
@@ -149,13 +168,15 @@ A `git` setting specifies a profile that is located in a git repository, with op
 
 For example:
 
-    depends:
-    - name: git-profile
-      git: http://url/to/repo
-      branch:  desired_branch
-      tag:     desired_version
-      commit:  pinned_commit
-      version: semver_via_tags
+```yaml
+depends:
+- name: git-profile
+  git: http://url/to/repo
+  branch:  desired_branch
+  tag:     desired_version
+  commit:  pinned_commit
+  version: semver_via_tags
+```
 
 ### supermarket
 
@@ -163,9 +184,11 @@ A `supermarket` setting specifies a profile that is located in a cookbook hosted
 
 For example:
 
-    depends:
-    - name: supermarket-profile
-      supermarket: supermarket-username/supermarket-profile
+```yaml
+depends:
+- name: supermarket-profile
+  supermarket: supermarket-username/supermarket-profile
+```
 
 Available Supermarket profiles can be listed with `inspec supermarket profiles`.
 
@@ -175,9 +198,11 @@ A `compliance` setting specifies a profile that is located on the Chef Automate 
 
 For example:
 
-    depends:
-      - name: linux
-        compliance: base/linux
+```yaml
+depends:
+  - name: linux
+    compliance: base/linux
+```
 
 ## Vendoring Dependencies
 
@@ -253,8 +278,10 @@ for use in your profile. If two of your dependencies provide a resource with
 the same name, you can use the `require_resource` DSL function to
 disambiguate the two:
 
-    require_resource(profile: 'my_dep', resource: 'my_res',
-                     as: 'my_res2')
+```ruby
+require_resource(profile: 'my_dep', resource: 'my_res',
+                 as: 'my_res2')
+```
 
 This will allow you to reference the resource `my_res` from the
 profile `my_dep` using the name `my_res2`.
@@ -265,34 +292,40 @@ Attributes may be used in profiles to define secrets, such as user names and pas
 
 For example, a control:
 
-    # define these attributes on the top-level of your file and re-use them across all tests!
-    val_user = attribute('user', default: 'alice', description: 'An identification for the user')
-    val_password = attribute('password', description: 'A value for the password')
+```ruby
+# define these attributes on the top-level of your file and re-use them across all tests!
+val_user = attribute('user', default: 'alice', description: 'An identification for the user')
+val_password = attribute('password', description: 'A value for the password')
 
-    control 'system-users' do
-      impact 0.8
-      desc '
-        This test assures that the user "Bob" has a user installed on the system, along with a
-        specified password.
-      '
+control 'system-users' do
+  impact 0.8
+  desc '
+    This test assures that the user "Bob" has a user installed on the system, along with a
+    specified password.
+  '
 
-      describe val_user do
-        it { should eq 'bob' }
-      end
+  describe val_user do
+    it { should eq 'bob' }
+  end
 
-      describe val_password do
-        it { should eq 'secret' }
-      end
-    end
+  describe val_password do
+    it { should eq 'secret' }
+  end
+end
+```
 
-And a Yaml file named `profile-attribute.yml`:
+And a YAML file named `profile-attribute.yml`:
 
-    user: bob
-    password: secret
+```yaml
+user: bob
+password: secret
+```
 
 The following command runs the tests and applies the secrets specified in `profile-attribute.yml`:
 
-    $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
+```shell
+$ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
+```
 
 See the full example in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile-attribute
 
@@ -304,33 +337,39 @@ To access these files, they must be stored in the `files` directory at the root 
 
 Here is an example for reading and testing a list of ports. The folder structure is:
 
-    examples/profile
-    ├── controls
-    │   ├── example.rb
-    |── files
-    │   └── services.yml
-    └── inspec.yml
+```shell
+examples/profile
+├── controls
+│   ├── example.rb
+|── files
+│   └── services.yml
+└── inspec.yml
+```
 
 With `services.yml` containing:
 
-    - service_name: httpd-alpha
-      port: 80
-    - service_name: httpd-beta
-      port: 8080
+```yaml
+- service_name: httpd-alpha
+  port: 80
+- service_name: httpd-beta
+  port: 8080
+```
 
 The tests in `example.rb` can now access this file:
 
-    my_services = yaml(content: inspec.profile.file('services.yml')).params
+```ruby
+my_services = yaml(content: inspec.profile.file('services.yml')).params
 
-    my_services.each do |s|
-      describe service(s['service_name']) do
-        it { should be_running }
-      end
+my_services.each do |s|
+  describe service(s['service_name']) do
+    it { should be_running }
+  end
 
-      describe port(s['port']) do
-        it { should be_listening }
-      end
-    end
+  describe port(s['port']) do
+    it { should be_listening }
+  end
+end
+```
 
 # "should" vs. "expect" syntax
 
@@ -338,33 +377,42 @@ Users familiar with the RSpec testing framework may know that there are two ways
 
 InSpec will continue to support both methods of writing tests. Consider this `file` test:
 
-    describe file('/tmp/test.txt') do
-      it { should be_file }
-    end
+```ruby
+describe file('/tmp/test.txt') do
+  it { should be_file }
+end
+```
 
 This can be re-written with `expect` syntax
 
-    describe file('/tmp/test.txt') do
-      it 'should be a file' do
-        expect(subject).to(be_file)
-      end
-    end
+```ruby
+describe file('/tmp/test.txt') do
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end
+```
 
 The output of both of the above examples looks like this:
 
-    File /tmp/test.txt
-       ✔  should be a file
-
+```shell
+File /tmp/test.txt
+   ✔  should be a file
+```
 In addition, you can make use of the `subject` keyword to further control your output if you choose:
 
-    describe 'test file' do
-      subject { file('/tmp/test.txt') }
-      it 'should be a file' do
-        expect(subject).to(be_file)
-      end
-    end
+```ruby
+describe 'test file' do
+  subject { file('/tmp/test.txt') }
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end
+```
 
 ... which will render the following output:
 
-    test file
-      ✔  should be a file
+```shell
+test file
+  ✔  should be a file
+```
