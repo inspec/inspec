@@ -8,7 +8,7 @@ Use the `http` InSpec audit resource to test an http endpoint.
 
 <p class="warning">In InSpec 1.40 and earlier, this resource always executes on the host on which <code>inspec exec</code> is run, even if you use the <code>--target</code> option to remotely scan a different host.<br>
 <br>
-Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target, provided <code>curl</code> is available. See the "Local vs. Remote" section below.<br>
+Beginning with InSpec 1.41, you can enable remote targeting for the HTTP test, provided <code>curl</code> is available. See the "Local vs. Remote" section below.<br>
 <br>
 Executing the HTTP test on the remote target will be the default behavior in InSpec 2.0.
 </p>
@@ -48,7 +48,13 @@ Beginning with InSpec 1.41, you can enable the ability to have the HTTP test exe
 
 In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec is testing a remote node.
 
-## Examples
+<br>
+## Supported Resource Properties
+
+body, headers, http_method, status,
+
+<br>
+## Property Examples
 
 The following examples show how to use this InSpec audit resource.
 
