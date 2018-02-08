@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.6 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.51.6](https://github.com/chef/inspec/tree/v1.51.6) (2018-02-08)
 
 #### New Features
 - Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.51.0 -->
-### Changes since 1.51.0 release
-
-#### New Features
-- Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick)) <!-- 1.51.6 -->
-
-#### Merged Pull Requests
-- Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick)) <!-- 1.51.5 -->
--  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel)) <!-- 1.51.4 -->
-- apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff)) <!-- 1.51.3 -->
-- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus)) <!-- 1.51.2 -->
 
 #### Enhancements
-- packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.1 -->
-<!-- release_rollup -->
+- packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
+#### Merged Pull Requests
+- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus))
+- apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff))
+-  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel))
+- Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick))
 <!-- latest_stable_release -->
+
 ## [v1.51.0](https://github.com/chef/inspec/tree/v1.51.0) (2018-01-25)
 
 #### New Resources
@@ -39,7 +37,6 @@
 
 #### Merged Pull Requests
 - Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v1.50.1](https://github.com/chef/inspec/tree/v1.50.1) (2018-01-17)
 
