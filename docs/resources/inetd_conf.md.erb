@@ -24,9 +24,35 @@ where
 
 <br>
 
+## Supported Resource Properties
+
+This resource supports any of the properties listed as services in the `inetd.conf` file. You may want to ensure that specific services do not listen via `inetd.conf`.
+
+<br>
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### Basic tests for inetd_conf services:
+
+    its('shell') { should eq nil }
+
+or:
+
+    its('netstat') { should eq nil }
+
+or:
+
+    its('systat') { should eq nil }
+
+For example:
+
+    describe inetd_conf do
+      its('shell') { should eq nil }
+      its('login') { should eq nil }
+      its('exec') { should eq nil }
+    end
 
 ### Verify that FTP is disabled
 
@@ -63,22 +89,7 @@ then the same test will return `false` for `ftp` and the entire test will fail.
 
 ## Matchers
 
-This resource matches any service that is listed in the `inetd.conf` file. You may want to ensure that specific services do not listen via `inetd.conf`. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+ 
 
-    its('shell') { should eq nil }
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-or:
-
-    its('netstat') { should eq nil }
-
-or:
-
-    its('systat') { should eq nil }
-
-For example:
-
-    describe inetd_conf do
-      its('shell') { should eq nil }
-      its('login') { should eq nil }
-      its('exec') { should eq nil }
-    end
