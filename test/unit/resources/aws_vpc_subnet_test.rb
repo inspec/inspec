@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'helper'
-require 'aws_vpc_subnet'
 
 # MVSSB = MockVpcSubnetSingleBackend
 # Abbreviation not used outside this file

@@ -3,10 +3,11 @@
 # author: Christoph Hartmann
 
 require 'helper'
+require 'inspec/runner_mock'
 
 describe 'inspec keyword' do
   def load(content)
-    runner = Inspec::Runner.new({backend: 'mock'})
+    runner = Inspec::Runner.new({backend: 'mock', test_collector: Inspec::RunnerMock.new})
     runner.eval_with_virtual_profile(content)
   end
 

@@ -7,7 +7,7 @@ describe 'inspec shell tests' do
 
   describe 'cmd' do
     def do_shell_c(code, exit_status, json = false, stderr = '')
-      json_suffix = " --format 'json'" if json
+      json_suffix = " --reporter 'json'" if json
       out = inspec("shell -c '#{code.tr('\'','\\\'')}'#{json_suffix}")
       out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status

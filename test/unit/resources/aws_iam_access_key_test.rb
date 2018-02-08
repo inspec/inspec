@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_iam_access_key'
 
 class AwsIamAccessKeyConstructorTest < Minitest::Test
   def setup

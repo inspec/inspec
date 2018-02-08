@@ -4,6 +4,8 @@
 require 'bundler'
 require 'bundler/gem_tasks'
 require 'rake/testtask'
+require 'passgen'
+require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
 
@@ -144,7 +146,61 @@ namespace :test do
       end
     end
   end
-  task aws: [:'aws:default', :'aws:minimal']  
+  desc "Perform AWS Integration Tests"
+  task aws: [:'aws:default', :'aws:minimal']
+
+  namespace :azure do
+    # Specify the directory for the integration tests
+    integration_dir = 'test/azure'
+
+
+    task :init_workspace do
+      # Initialize terraform workspace
+      sh("cd #{integration_dir}/build/ && terraform init")
+    end
+
+    task :setup_integration_tests do
+      puts '----> Setup'
+      creds = Train.create('azure').connection.connect
+
+      # Determine the storage account name and the admin password
+      sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
+      admin_password = Passgen::generate(length: 12, uppercase: true, lowercase: true, symbols: true, digits: true)
+
+      # Use the first 4 characters of the storage account to create a suffix
+      suffix = sa_name[0..3]
+
+      # Create the plan that can be applied to Azure
+      cmd = format("cd %s/build/ && terraform plan -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'storage_account_name=%s' -var 'admin_password=%s' -var 'suffix=%s' -out inspec-azure.plan", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id], sa_name, admin_password, suffix)
+      sh(cmd)
+
+      # Apply the plan on Azure
+      cmd = format("cd %s/build/ && terraform apply inspec-azure.plan", integration_dir)
+      sh(cmd)
+    end
+
+    task :run_integration_tests do
+      puts '----> Run'
+      sh("bundle exec inspec exec #{integration_dir}/verify -t azure://1e0b427a-d58b-494e-ae4f-ee558463ebbf")
+    end
+
+    task :cleanup_integration_tests do
+      puts '----> Cleanup'
+      creds = Train.create('azure').connection.connect
+
+      cmd = format("cd %s/build/ && terraform destroy -force -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'admin_password=dummy' -var 'storage_account_name=dummy' -var 'suffix=dummy'", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id])
+      sh(cmd)
+    end
+  end
+
+  desc "Perform Azure Integration Tests"
+  task :azure do
+    Rake::Task['test:azure:init_workspace'].execute
+    Rake::Task['test:azure:cleanup_integration_tests'].execute
+    Rake::Task['test:azure:setup_integration_tests'].execute
+    Rake::Task['test:azure:run_integration_tests'].execute
+    Rake::Task['test:azure:cleanup_integration_tests'].execute
+  end
 end
 
 # Print the current version of this gem or update it.

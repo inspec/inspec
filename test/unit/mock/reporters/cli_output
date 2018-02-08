@@ -1,0 +1,17 @@
+
+Profile: InSpec Profile (long_commands)
+Version: 0.1.0
+Target:  local://
+
+[38;5;41m  ✔  tmp-1.0: Create /tmp directory[0m
+[38;5;41m     ✔  File /tmp should be directory[0m
+
+  File /tmp
+[38;5;41m     ✔  should be directory[0m
+  gem package rubocop
+[38;5;208m     ∅  should be installed[0m
+  stdout
+[38;5;41m     ✔  stdout should eq "jquick\n"[0m
+
+Profile Summary: [38;5;41m1 successful control[0m, 0 control failures, 0 controls skipped
+Test Summary: [38;5;41m3 successful[0m, [38;5;9m1 failure[0m, 0 skipped

@@ -53,4 +53,71 @@ describe 'BaseCLI' do
       opts.must_equal expected
     end
   end
+
+  describe 'parse_reporters' do
+    it 'parse cli reporters' do
+      opts = { 'reporter' => ['cli'] }
+      parsed = Inspec::BaseCLI.parse_reporters(opts)
+      assert = { 'reporter' => { 'cli' => { 'stdout' => true }}}
+      parsed.must_equal assert
+    end
+
+    it 'parse cli reporters with format' do
+      opts = { 'format' => 'json' }
+      parsed = Inspec::BaseCLI.parse_reporters(opts)
+      assert = { 'reporter' => { 'json' => { 'stdout' => true }}}
+      parsed.must_equal assert
+    end
+  end
+
+  describe 'validate_reporters' do
+    it 'valid reporter' do
+      stdout = { 'stdout' => true }
+      reporters = { 'json' => stdout }
+      Inspec::BaseCLI.validate_reporters(reporters)
+    end
+
+    it 'invalid reporter type' do
+      reporters = ['json', 'magenta']
+      proc { Inspec::BaseCLI.validate_reporters(reporters) }.must_raise NotImplementedError
+    end
+
+    it 'two reporters outputting to stdout' do
+      stdout = { 'stdout' => true }
+      reporters = { 'json' => stdout, 'cli' => stdout }
+      proc { Inspec::BaseCLI.validate_reporters(reporters) }.must_raise ArgumentError
+    end
+  end
+
+  describe 'suppress_log_output?' do
+    it 'suppresses json' do
+      opts = { 'reporter' => { 'json' => { 'stdout' => true }}}
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'do not suppresses json-min when going to file' do
+      opts = { 'reporter' => { 'json-min' => { 'file' => '/tmp/json' }}}
+      cli.send(:suppress_log_output?, opts).must_equal false
+    end
+
+    it 'suppresses json-rspec' do
+      opts = { 'reporter' => { 'json-rspec' => { 'stdout' => true }}}
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'suppresses junit' do
+      opts = { 'reporter' => { 'junit' => { 'stdout' => true }}}
+      cli.send(:suppress_log_output?, opts).must_equal true
+    end
+
+    it 'do not suppresses cli' do
+      opts = { 'reporter' => { 'cli' => nil } }
+      cli.send(:suppress_log_output?, opts).must_equal false
+    end
+
+    it 'do not suppresses cli' do
+      opts = { 'reporter' => { 'cli' => nil, 'json' => {'file' => '/tmp/json' }}}
+      cli.send(:suppress_log_output?, opts).must_equal false
+    end
+  end
 end

@@ -6,6 +6,8 @@ title: About the cpan Resource
 
 Use the `cpan` InSpec audit resource to test Perl modules that are installed by system packages or the CPAN installer.
 
+<br>
+
 ## Syntax
 
 A `cpan` resource block declares a package and (optionally) a package version:
@@ -19,26 +21,15 @@ where
 * `'package_name'` is the name of the package, such as `'DBD::Pg'`
 * `be_installed` tests to see if the package described above is installed
 
+<br>
 
-## Matchers
+## Supported Resource Parameters
 
-This InSpec audit resource has the following matchers:
+This resource uses package names and perl library paths as resource parameters.
 
-### be_installed
+<br>
 
-The `be_installed` matcher tests if the named package is installed on the system:
-
-    it { should be_installed }
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
-
-## Examples
-
-The following examples show how to use this InSpec audit resource.
+## Resource Parameter Examples
 
 ### Test if DBD::Pg is installed on the system
 
@@ -55,8 +46,33 @@ The following examples show how to use this InSpec audit resource.
     
 ### Test if DBD::Pg is installed within a custom PERL5LIB path on the system
 
-Hint: You can pass multiple path's separated by colon `/path/to/perl5/lib:/usr/share/perl5/vendor_perl/lib/perl5`
+Hint: You can pass multiple paths separated with a colon
+`/path/to/perl5/lib:/usr/share/perl5/vendor_perl/lib/perl5`
 
     describe cpan('DBD::Pg', '/home/jdoe/perl5/lib/perl5') do
       it { should be_installed }
     end
+
+<br>
+
+## Property Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### version
+
+The `version` property tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
+### be_installed
+
+The `be_installed` matcher tests if the named package is installed on the system:
+
+    it { should be_installed }

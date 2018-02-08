@@ -49,6 +49,9 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
+      # parse any ad-hoc runners reporter formats
+      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
+
       # list of profile attributes
       @attributes = []
 
@@ -101,6 +104,14 @@ module Inspec
       run_tests(with)
     end
 
+    def render_output(run_data)
+      return if @conf['reporter'].nil?
+
+      @conf['reporter'].each do |reporter|
+        Inspec::Reporters.render(reporter, run_data)
+      end
+    end
+
     def write_lockfile(profile)
       return false if !profile.writable?
 
@@ -114,7 +125,9 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      @test_collector.run(with)
+      status, run_data = @test_collector.run(with)
+      render_output(run_data)
+      status
     end
 
     # determine all attributes before the execution, fetch data from secrets backend

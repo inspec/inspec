@@ -4,7 +4,7 @@ title: About the etc_fstab Resource
 
 # etc_fstab
 
-Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a system.
+Use the `etc_fstab` InSpec audit resource to test information about all partitions and storage devices on a Linux system.
 
 <br>
 
@@ -13,7 +13,7 @@ Use the `etc_fstab` InSpec audit resource to test information about all partitio
 An etc_fstab rule specifies a device name, its mount point, its mount type, the options its mounted with,
 its dump options, and the order the files system should be checked.
 
-Use the where clause to match a property to one or more rules in the fstab file.
+Use the where clause to match a property to one or more rules in the fstab file:
 
     describe etc_fstab.where { device_name == 'value' } do
       its('mount_point') { should cmp 'hostname' }
@@ -23,7 +23,7 @@ Use the where clause to match a property to one or more rules in the fstab file.
       its('file_system_options') { should cmp 'list' }
     end
 
-Use the optional constructor parameter to give an alternative path to fstab file
+Use the optional constructor parameter to give an alternative path to fstab file:
 
     describe etc_fstab(hosts_path).where { device_name == 'value' } do
       its('mount_point') { should cmp 'hostname' }
@@ -33,7 +33,9 @@ Use the optional constructor parameter to give an alternative path to fstab file
       its('file_system_options') { should cmp 'list ' }
     end
 
-where
+<br>
+
+## Supported Resource Properties
 
 * `device_name` is the name associated with the device.
 * `mount_point` is the directory at which the filesystem is configured to be mounted.
@@ -42,7 +44,9 @@ where
 * `dump_options` is a number used by dump to decide if a file system should be backed up.
 * `file_system_options` is a number that specifies the order the file system should be checked.
 
-## Property Examples and Return Types
+<br>
+
+## Property Examples
 
 ### device_name
 
@@ -60,7 +64,7 @@ where
       its('mount_point') { should cmp '/mnt/sr0' }
     end
 
-### file_system_type
+### file\_system_type
 
 `file_system_type` returns a String array of each partitions file system type.
 
@@ -92,13 +96,7 @@ where
       its('file_system_options') { should cmp 0 }
     end
 
-<br>
-
-## Examples
-
-The following examples show how to use this InSpec resource.
-
-### Check all partitions that have type of 'nfs'.
+### Check all partitions that have type of 'nfs'
 
     nfs_systems = etc_fstab.nfs_file_systems.entries
     nfs_systems.each do |partition|
@@ -107,14 +105,20 @@ The following examples show how to use this InSpec resource.
       end
     end
 
-### Check the partition mounted at /home contains 'nosuid' in its mount_options.
+### Check the partition mounted at /home contains 'nosuid' in its mount_options
 
     describe etc_fstab do
       its('home_mount_options') { should include 'nosuid' }
     end
 
-### Check if a partition is mounted at a point.
+### Check if a partition is mounted at a point
 
     describe etc_fstab.where { mount_point == '/home' } do
       it { should be_configured }
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

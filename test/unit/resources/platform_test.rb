@@ -6,25 +6,6 @@ require 'inspec/resource'
 describe 'Inspec::Resources::Platform' do
   let(:resource) { resource = MockLoader.new(:ubuntu1504).load_resource('platform') }
 
-  describe 'NamedCleaned' do
-    let(:cleaner) { Inspec::Resources::PlatformResource::NameCleaned }
-
-    it 'verify name cleaned with uppercase' do
-      name = cleaner.new('upper_case_with_spaces')
-      _(name == 'Upper Case with Spaces').must_equal true
-    end
-
-    it 'verify name cleaned with uppercase fail' do
-      name = cleaner.new('upper_case_with_spaces')
-      _(name == 'Upper Case withFAIL Spaces').must_equal false
-    end
-
-    it 'verify name cleaned with lowercase' do
-      name = cleaner.new('lower_case_with_underscore')
-      _(name == 'lower_case_with_underscore').must_equal true
-    end
-  end
-
   it 'verify platform parsing on Ubuntu' do
     _(resource.name).must_equal 'ubuntu'
     _(resource.family).must_equal 'debian'

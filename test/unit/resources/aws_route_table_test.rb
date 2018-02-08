@@ -1,5 +1,4 @@
 require 'helper'
-require 'aws_route_table'
 
 class EmptyAwsRouteTableTest < Minitest::Test
   def setup

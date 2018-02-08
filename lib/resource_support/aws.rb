@@ -38,4 +38,3 @@ require 'resources/aws/aws_vpc'
 require 'resources/aws/aws_vpc_subnet'
 require 'resources/aws/aws_vpc_subnets'
 require 'resources/aws/aws_vpcs'
-

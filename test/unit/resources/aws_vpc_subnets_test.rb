@@ -1,6 +1,4 @@
-require 'ostruct'
 require 'helper'
-require 'aws_vpc_subnets'
 
 # MVSB = MockVpcSubnetsBackend
 # Abbreviation not used outside this file

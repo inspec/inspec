@@ -18,7 +18,7 @@ A `crontab` resource block declares a user (which defaults to the current user, 
 
 <br>
 
-## Examples
+## Resource Parameter Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -62,6 +62,23 @@ The following examples show how to use this InSpec audit resource.
       its('hours') { should cmp '-1' }
       its('minutes') { should cmp '-1' }
     end
+
+<br>
+
+## Property Examples
+
+  ### Test a special time string
+
+    describe crontab do
+      its('minutes') { should cmp '0' }
+      its('hours') { should cmp '0' }
+      its('days') { should cmp '1' }
+      its('weekdays') { should cmp '1' }
+      its('user') { should include 'username'}
+      its('commands') { should include '/some/scheduled/task.sh' }
+    end
+
+InSpec will automatically interpret crontab-supported special time strings. For example, a crontab entry set to run `@yearly` can be tested as if the entry was manually configured to run on January 1, 12 AM.
 
 <br>
 

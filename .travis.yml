@@ -12,7 +12,6 @@ bundler_args: "--without integration tools maintenance deploy"
 before_install:
 - gem update --system
 - gem --version
-- rvm @global do gem uninstall bundler -a -x
 - rvm @global do gem install bundler
 - bundle --version
 matrix:
