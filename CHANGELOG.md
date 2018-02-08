@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.8 -->
-## [v1.51.8](https://github.com/chef/inspec/tree/v1.51.8) (2018-02-08)
+<!-- latest_release 1.51.9 -->
+## [v1.51.9](https://github.com/chef/inspec/tree/v1.51.9) (2018-02-08)
 
 #### Merged Pull Requests
-- Refactors iis_app docs [#2541](https://github.com/chef/inspec/pull/2541) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors iis_site doc [#2542](https://github.com/chef/inspec/pull/2542) ([kagarmoe](https://github.com/kagarmoe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.6 -->
 ### Changes since 1.51.6 release
 
 #### Merged Pull Requests
+- Refactors iis_site doc [#2542](https://github.com/chef/inspec/pull/2542) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.9 -->
 - Refactors iis_app docs [#2541](https://github.com/chef/inspec/pull/2541) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.8 -->
 - Refactors http doc [#2540](https://github.com/chef/inspec/pull/2540) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.7 -->
 <!-- release_rollup -->
