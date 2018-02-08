@@ -22,8 +22,9 @@ A `dh_params` resource block declares a parameter file to be tested.
       its('text') { should eq 'PKCS#3 DH Parameters: (2048 bit)...' }
     end
 
+<br>
 
-## Supported Properties
+## Resource Parameter Examples
 
 ### dh_params?
 
@@ -33,13 +34,15 @@ Verify whether file contains DH parameters:
       it { should be_dh_params }
     end
 
-### valid?
+<br>
 
-Verify whether DH parameters are valid:
+## Supported Resource Properties
 
-    describe dh_params('/path/to/file.dh_pem') do
-      it { should be_valid }
-    end
+generator, modulus, prime_length, pem, text
+
+<br>
+
+## Property Examples
 
 ### generator (Integer)
 
@@ -190,3 +193,24 @@ Verify via `openssl dhparam` command:
             4c:f6:c5:e3:a1:52:af:01:c1:4f:c7:42:a0:be:ed:
             cd:13
         generator: 2 (0x2)
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
+### valid?
+
+Verify whether DH parameters are valid:
+
+    describe dh_params('/path/to/file.dh_pem') do
+      it { should be_valid }
+    end
+
+### be\_dh\_params
+
+    describe dh_params('/path/to/file.dh_pem') do
+        it { should be_dh_params}
+    end
+

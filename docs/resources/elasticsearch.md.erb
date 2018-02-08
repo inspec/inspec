@@ -1,12 +1,12 @@
 ---
-title: The Elasticsearch Resource
+title: About the Elasticsearch Resource
 ---
 
 # elasticsearch
 
-The `elasticsearch` resource allows testing of a node status against a running
-Elasticsearch cluster. InSpec will retrieve the node list from the cluster node URL
-provided (defaults to `http://localhost:9200`) and provide the ability to query
+Use the  `elasticsearch` resource to test the status of a node against a running
+Elasticsearch cluster. InSpec retrieves the node list from the cluster node URL
+provided (defaults to `http://localhost:9200`) and provides the ability to query
 a variety of settings and statuses.
 
 ## Syntax
@@ -15,7 +15,9 @@ a variety of settings and statuses.
       its('property') { should cmp 'value' }
     end
 
-The `elasticsearch` resource accepts a number of optional values:
+## Supported Resource parameters
+
+The `elasticsearch` resource accepts a number of optional resource parameters:
 
  * `url`: the top-level URL of an Elasticsearch node in the cluster. If your Elasticsearch installation is not served out of the top-level directory at the host, be sure to specific the full URL; for example: `http://my-load-balancer/elasticsearch`. Default: `http://localhost:9200`
  * `username`: a username to use to log in with HTTP-Basic authentication. If `username` is provided, a `password` must also be provided.
@@ -38,33 +40,13 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
       it { should exist }
     end
 
-## Supported Properties
+## Supported Resource Properties
 
 The following properties are provided:
 
-* build_hash
-* cluster_name
-* host
-* http
-* ingest
-* ip
-* jvm
-* module_list
-* modules
-* node_name
-* node_id
-* os
-* plugin_list
-* plugins
-* process
-* roles
-* settings
-* total_indexing_buffer
-* transport
-* transport_address
-* version
+* build\_hash cluster\_name, host, http, ingest, ip, jvm, module\_list, modules, node\_name, node\_id, os, plugin\_list, plugins, process, roles, settings, total\_indexing\_buffer, transport, transport\_address, version
 
-Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher will help avoid any issues when trying to compare values for when a single match is returned (i.e. when the cluster only contains a single node, or the `where` filter criteria provided only returns a single node).
+Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node, or the `where` filter criteria provided only returns a single node).
 
 ## Property Examples
 
@@ -86,7 +68,7 @@ Returns the cluster names of each of the nodes.
 
 ### host
 
-Returns the hostname of each of the nodes. This may return an IP address of the node is not properly performing DNS resolution or has no hostname set.
+Returns the hostname of each of the nodes. This may return an IP address, if the node is improperly performing DNS resolution or has no hostname set.
 
     describe elasticsearch do
       its('host') { should cmp 'my.hostname.mycompany.biz' }
@@ -134,7 +116,7 @@ Returns a list of enabled modules for each node in the cluster. For more additio
 
 ### modules
 
-Returns detailed information about each enabled module for each node in the cluster. For a succint list of the names of each of the modules enabled, use the `module_list` property. This example uses a bit of additional Ruby to find a specific module and assert a value.
+Returns detailed information about each enabled module for each node in the cluster. For a succint list of the names of each of the modules enabled, use the `module_list` property. This example uses additional Ruby to find a specific module and assert a value.
 
     modules = elasticsearch.modules.first
     lang_groovy_module = modules.find { |mod| mod.name == 'lang-groovy' }
@@ -178,7 +160,7 @@ Returns a list of enabled plugins for each node in the cluster. For more additio
 
 ### plugins
 
-Returns detailed information about each enabled plugin for each node in the cluster. For a succint list of the names of each of the plugins enabled, use the `plugin_list` property. This example uses a bit of additional Ruby to find a specific plugin and assert a value.
+Returns detailed information about each enabled plugin for each node in the cluster. For a succint list of the names of each of the plugins enabled, use the `plugin_list` property. This example uses additional Ruby to find a specific plugin and assert a value.
 
     plugins = elasticsearch.plugins.first
     my_plugin = plugins.find { |plugin| plugin.name == 'my_plugin' }
@@ -243,3 +225,7 @@ Returns the version of Elasticsearch running on each node of the cluster.
     describe elasticsearch do
       its('version') { should cmp '5.5.2' }
     end
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

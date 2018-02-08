@@ -1,5 +1,5 @@
 ---
-title: About the aide_conf Resource
+title: The aide_conf Resource
 ---
 
 # aide_conf
@@ -34,9 +34,13 @@ Use the where clause to match a selection_line to one rule or a particular set o
 
 <br>
 
-## Examples
+## Supported Properties
 
-The following examples show how to use this InSpec audit resource. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+* `conf_path`, `content`, `rules`, `all_have_rule`
+
+## Property Examples
+
+The following examples show how to use this InSpec audit resource. 
 
 ### Test if all selection lines contain the xattr rule
 
@@ -56,16 +60,19 @@ The following examples show how to use this InSpec audit resource. For a full li
       its('rules') { should include ['r', 'sha512'] }
     end
 
+### The usage of all\_have\_rule will return whether or not all selection lines in audit.conf contain a particular rule:
+
+    describe aide_conf.all_have_rule('sha512') do
+      it { should eq true }
+    end
+    
 <br>
 
 ## Matchers
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+This InSpec audit resource uses the matchers `eq` and `include`. 
 
-### all_have_rule
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-The usage of all_have_rule will return whether or not all selection lines in audit.conf contain a particular rule:
 
-    describe aide_conf.all_have_rule('sha512') do
-      it { should eq true }
-    end
