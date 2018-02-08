@@ -201,7 +201,6 @@ output "ec2_security_group_alpha_group_id" {
 #============================================================#
 #                      VPC Subnets
 #============================================================#
-
 resource "aws_subnet" "subnet_01" {
   vpc_id     = "${data.aws_vpc.default.id}"
   cidr_block = "172.31.96.0/20"
