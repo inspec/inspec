@@ -108,7 +108,7 @@ end
 #=============================================================================#
 
 module AwsMCWAB
-  class Empty < AwsCloudwatchAlarm::Backend
+  class Empty < AwsBackendBase
     def describe_alarms_for_metric(_criteria)
       OpenStruct.new({
         metric_alarms: [],
@@ -116,7 +116,7 @@ module AwsMCWAB
     end
   end
 
-  class Basic < AwsCloudwatchAlarm::Backend
+  class Basic < AwsBackendBase
     def describe_alarms_for_metric(criteria)
       OpenStruct.new({
         metric_alarms: [ # rubocop:disable Metrics/BlockLength

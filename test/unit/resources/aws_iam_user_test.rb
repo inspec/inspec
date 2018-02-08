@@ -128,7 +128,7 @@ end
 #=============================================================================#
 
 module MAIUB
-  class Three < AwsIamUser::Backend
+  class Three < AwsBackendBase
     def get_user(criteria)
       people = {
         'erin' => OpenStruct.new({

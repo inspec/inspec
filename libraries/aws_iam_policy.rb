@@ -8,10 +8,11 @@ class AwsIamPolicy < Inspec.resource(1)
       it { should be_attached }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
 
-  attr_reader :arn, :default_version_id, :attachment_count
+  attr_reader :arn, :attachment_count, :default_version_id
 
   def to_s
     "Policy #{@policy_name}"
@@ -68,8 +69,8 @@ class AwsIamPolicy < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsIamPolicy::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     criteria = { max_items: 1000 } # maxItems max value is 1000
     resp = backend.list_policies(criteria)
@@ -92,7 +93,7 @@ class AwsIamPolicy < Inspec.resource(1)
       @attached_roles  = nil
       return
     end
-    backend = AwsIamPolicy::BackendFactory.create
+    backend = AwsIamPolicy::BackendFactory.create(inspec_runner)
     criteria = { policy_arn: arn }
     resp = backend.list_entities_for_policy(criteria)
     @attached_groups = resp.policy_groups.map(&:group_name)
@@ -101,15 +102,16 @@ class AwsIamPolicy < Inspec.resource(1)
   end
 
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
 
       def list_policies(criteria)
-        AWSConnection.new.iam_client.list_policies(criteria)
+        aws_service_client.list_policies(criteria)
       end
 
       def list_entities_for_policy(criteria)
-        AWSConnection.new.iam_client.list_entities_for_policy(criteria)
+        aws_service_client.list_entities_for_policy(criteria)
       end
     end
   end

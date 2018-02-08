@@ -90,7 +90,7 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module AwsMVSB
-  class Basic < AwsVpcSubnets::Backend
+  class Basic < AwsBackendBase
     def describe_subnets
       fixtures = [
         OpenStruct.new({

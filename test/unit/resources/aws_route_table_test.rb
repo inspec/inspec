@@ -28,13 +28,13 @@ end
 
 # MRtbB = Mock Routetable Backend
 module AwsMRtbB
-  class Empty < AwsRouteTable::Backend
+  class Empty < AwsBackendBase
     def describe_route_tables(query)
       OpenStruct.new(route_tables: [])
     end
   end
 
-  class Basic < AwsRouteTable::Backend
+  class Basic < AwsBackendBase
     def describe_route_tables(query)
       fixtures = [
         OpenStruct.new({associations: [],

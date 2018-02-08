@@ -52,13 +52,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MAVPB
-  class Empty < AwsVpcs::Backend
+  class Empty < AwsBackendBase
     def describe_vpcs(query = {})
       OpenStruct.new({ vpcs: [] })
     end
   end
 
-  class Basic < AwsVpcs::Backend
+  class Basic < AwsBackendBase
     def describe_vpcs(query = {})
       fixtures = [
         OpenStruct.new({
@@ -93,5 +93,4 @@ module MAVPB
       OpenStruct.new({ vpcs: selected })
     end
   end
-
 end

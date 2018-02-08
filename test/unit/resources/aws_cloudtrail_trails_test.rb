@@ -74,13 +74,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MACTTPB
-  class Empty < AwsCloudTrailTrails::Backend
+  class Empty < AwsBackendBase
     def describe_trails(query = {})
       OpenStruct.new({ trail_list: [] })
     end
   end
 
-  class Basic < AwsCloudTrailTrails::Backend
+  class Basic < AwsBackendBase
     def describe_trails(query = {})
       fixtures = [
         OpenStruct.new({

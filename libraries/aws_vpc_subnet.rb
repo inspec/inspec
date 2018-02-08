@@ -11,11 +11,12 @@ class AwsVpcSubnet < Inspec.resource(1)
       its('cidr_block') { should eq '10.0.1.0/24' }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
-  attr_reader :vpc_id, :subnet_id, :cidr_block, :availability_zone, :available_ip_address_count,
-              :default_for_az, :mapping_public_ip_on_launch, :available, :ipv_6_cidr_block_association_set,
-              :assigning_ipv_6_address_on_creation
+  include AwsSingularResourceMixin
+  attr_reader :assigning_ipv_6_address_on_creation, :availability_zone, :available_ip_address_count,
+              :available, :cidr_block, :default_for_az, :ipv_6_cidr_block_association_set,
+              :mapping_public_ip_on_launch, :subnet_id, :vpc_id
   alias available? available
   alias default_for_az? default_for_az
   alias mapping_public_ip_on_launch? mapping_public_ip_on_launch
@@ -47,8 +48,8 @@ class AwsVpcSubnet < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsVpcSubnet::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     # Transform into filter format expected by AWS
     filters = []
@@ -79,10 +80,12 @@ class AwsVpcSubnet < Inspec.resource(1)
 
   # Uses the SDK API to really talk to AWS
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::EC2::Client
+
       def describe_subnets(query)
-        AWSConnection.new.ec2_client.describe_subnets(query)
+        aws_service_client.describe_subnets(query)
       end
     end
   end

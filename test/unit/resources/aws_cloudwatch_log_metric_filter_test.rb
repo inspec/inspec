@@ -97,12 +97,12 @@ end
 #                 Support Classes - Mock Data Providers                       #
 #=============================================================================#
 class AwsMockCWLMFBackend
-  class Empty < AwsCloudwatchLogMetricFilter::Backend
+  class Empty < AwsBackendBase
     def describe_metric_filters(_criteria)
       []
     end
   end
-  class Basic < AwsCloudwatchLogMetricFilter::Backend
+  class Basic < AwsBackendBase
     def describe_metric_filters(criteria) # rubocop:disable Metrics/MethodLength
       everything = [
         OpenStruct.new({

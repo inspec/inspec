@@ -8,45 +8,34 @@ class AwsIamAccessKeys < Inspec.resource(1)
       it { should_not exist }
     end
   '
+  supports platform: 'aws'
 
-  VALUED_CRITERIA = [
-    :username,
-    :id,
-    :access_key_id,
-    :created_date,
-  ].freeze
+  include AwsPluralResourceMixin
 
-  # Constructor.  Args are reserved for row fetch filtering.
-  def initialize(filter_criteria = {})
-    filter_criteria = validate_filter_criteria(filter_criteria)
-    @table = AccessKeyProvider.create.fetch(filter_criteria)
-  end
-
-  def validate_filter_criteria(criteria)
-    # Allow passing a scalar string, the Access Key ID.
-    criteria = { access_key_id: criteria } if criteria.is_a? String
-    unless criteria.is_a? Hash
-      raise 'Unrecognized criteria for fetching Access Keys. ' \
-            "Use 'criteria: value' format."
-    end
+  def validate_params(raw_params)
+    recognized_params = check_resource_param_names(
+      raw_params: raw_params,
+      allowed_params: [:username, :id, :access_key_id, :created_date],
+      allowed_scalar_name: :access_key_id,
+      allowed_scalar_type: String,
+    )
 
     # id and access_key_id are aliases; standardize on access_key_id
-    criteria[:access_key_id] = criteria.delete(:id) if criteria.key?(:id)
-    if criteria[:access_key_id] and
-       criteria[:access_key_id] !~ /^AKIA[0-9A-Z]{16}$/
+    recognized_params[:access_key_id] = recognized_params.delete(:id) if recognized_params.key?(:id)
+    if recognized_params[:access_key_id] and
+       recognized_params[:access_key_id] !~ /^AKIA[0-9A-Z]{16}$/
       raise 'Incorrect format for Access Key ID - expected AKIA followed ' \
             'by 16 letters or numbers'
     end
 
-    criteria.each_key do |criterion|
-      unless VALUED_CRITERIA.include?(criterion) # rubocop:disable Style/Next
-        raise 'Unrecognized filter criterion for aws_iam_access_keys, ' \
-          "'#{criterion}'.  Valid choices are " \
-          "#{VALUED_CRITERIA.join(', ')}."
-      end
-    end
+    recognized_params
+  end
 
-    criteria
+  def fetch_from_api
+    # TODO: this interface should be normalized to match the AWS API
+    criteria = {}
+    criteria[:username] = @username if defined? @username
+    @table = BackendFactory.create(inspec_runner).fetch(criteria)
   end
 
   # Underlying FilterTable implementation.
@@ -68,11 +57,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
         .add(:ever_used,           field: :ever_used)
         .add(:never_used,          field: :never_used)
         .add(:user_created_date,   field: :user_created_date)
-  filter.connect(self, :access_key_data)
-
-  def access_key_data
-    @table
-  end
+  filter.connect(self, :table)
 
   def to_s
     'IAM Access Keys'
@@ -82,14 +67,17 @@ class AwsIamAccessKeys < Inspec.resource(1)
   # the users and access keys.  We have an abstract
   # class with a concrete AWS implementation provided here;
   # a few mock implementations are also provided in the unit tests.
-  class AccessKeyProvider
+  class Backend
     # Implementation of AccessKeyProvider which operates by looping over
     # all users, then fetching their access keys.
     # TODO: An alternate, more scalable implementation could be made
     # using the Credential Report.
-    class AwsUserIterator < AccessKeyProvider
+    class AwsUserIterator < AwsBackendBase
+      BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
+
       def fetch(criteria)
-        iam_client = AWSConnection.new.iam_client
+        iam_client = aws_service_client
 
         user_details = {}
         if criteria.key?(:username)
@@ -142,7 +130,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
         key_info[:created_with_user] = (key_info[:create_date] - key_info[:user_created_date]).abs < 1.0/24.0
 
         # Last used is a separate API call
-        iam_client = AWSConnection.new.iam_client
+        iam_client = aws_service_client
         last_used =
           iam_client.get_access_key_last_used(access_key_id: key_info[:access_key_id])
                     .access_key_last_used.last_used_date
@@ -153,26 +141,6 @@ class AwsIamAccessKeys < Inspec.resource(1)
         key_info[:last_used_hours_ago] = ((Time.now - last_used) / (60*60)).to_i
         key_info[:last_used_days_ago] = (key_info[:last_used_hours_ago]/24).to_i
       end
-    end
-
-    DEFAULT_PROVIDER = AwsIamAccessKeys::AccessKeyProvider::AwsUserIterator
-    @selected_implementation = DEFAULT_PROVIDER
-
-    # Use this to change what class is created by create().
-    def self.select(klass)
-      @selected_implementation = klass
-    end
-
-    def self.reset
-      @selected_implementation = DEFAULT_PROVIDER
-    end
-
-    def self.create
-      @selected_implementation.new
-    end
-
-    def fetch(_filter_criteria)
-      raise 'Unimplemented abstract method - internal error.'
     end
   end
 end

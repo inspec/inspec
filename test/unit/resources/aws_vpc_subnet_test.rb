@@ -113,7 +113,7 @@ end
 #=============================================================================#
 
 module AwsMVSSB
-  class Basic < AwsVpcSubnet::Backend
+  class Basic < AwsBackendBase
     def describe_subnets(query)
       subnets = {
         'subnet-12345678' => OpenStruct.new({

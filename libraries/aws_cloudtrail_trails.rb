@@ -8,6 +8,16 @@ class AwsCloudTrailTrails < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
+
+  include AwsPluralResourceMixin
+
+  def validate_params(resource_params)
+    unless resource_params.empty?
+      raise ArgumentError, 'aws_cloudtrail_trails does not accept resource parameters.'
+    end
+    resource_params
+  end
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
@@ -15,31 +25,24 @@ class AwsCloudTrailTrails < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:names, field: :name)
         .add(:trail_arns, field: :trail_arn)
-  filter.connect(self, :trail_data)
-
-  def trail_data
-    @table
-  end
+  filter.connect(self, :table)
 
   def to_s
     'CloudTrail Trails'
   end
 
-  def initialize
-    backend = AwsCloudTrailTrails::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
     @table = backend.describe_trails({}).to_h[:trail_list]
   end
 
-  class BackendFactory
-    extend AwsBackendFactoryMixin
-  end
-
   class Backend
-    class AwsClientApi
-      BackendFactory.set_default_backend(self)
+    class AwsClientApi < AwsBackendBase
+      AwsCloudTrailTrails::BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::CloudTrail::Client
 
       def describe_trails(query)
-        AWSConnection.new.cloudtrail_client.describe_trails(query)
+        aws_service_client.describe_trails(query)
       end
     end
   end

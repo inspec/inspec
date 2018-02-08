@@ -1,5 +1,3 @@
-# @author: Matthew Dromazos
-
 require '_aws'
 
 class AwsVpcSubnets < Inspec.resource(1)
@@ -13,9 +11,19 @@ class AwsVpcSubnets < Inspec.resource(1)
       its('states') { should_not include 'pending' }
     end
   "
+  supports platform: 'aws'
 
-  def initialize
-    backend = AwsVpcSubnets::BackendFactory.create
+  include AwsPluralResourceMixin
+
+  def validate_params(resource_params)
+    unless resource_params.empty?
+      raise ArgumentError, 'aws_vpc_subnets does not accept resource parameters.'
+    end
+    resource_params
+  end
+
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
     @table = backend.describe_subnets.subnets.map(&:to_h)
   end
 
@@ -28,26 +36,19 @@ class AwsVpcSubnets < Inspec.resource(1)
         .add(:subnet_ids, field: :subnet_id)
         .add(:cidr_blocks, field: :cidr_block)
         .add(:states, field: :state)
-  filter.connect(self, :access_key_data)
-
-  def access_key_data
-    @table
-  end
+  filter.connect(self, :table)
 
   def to_s
     'EC2 VPC Subnets'
   end
 
-  class BackendFactory
-    extend AwsBackendFactoryMixin
-  end
-
   class Backend
-    class AwsClientApi < Backend
+    class AwsClientApi < AwsBackendBase
       AwsVpcSubnets::BackendFactory.set_default_backend self
+      self.aws_client_class = Aws::EC2::Client
 
       def describe_subnets(query = {})
-        AWSConnection.new.ec2_client.describe_subnets(query)
+        aws_service_client.describe_subnets(query)
       end
     end
   end

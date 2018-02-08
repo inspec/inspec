@@ -8,8 +8,9 @@ class AwsIamGroup < Inspec.resource(1)
       it { should exist }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
   attr_reader :group_name
 
   def to_s
@@ -33,8 +34,8 @@ class AwsIamGroup < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsIamGroup::BackendFactory.create
+  def fetch_from_api
+    backend = AwsIamGroup::BackendFactory.create(inspec_runner)
 
     begin
       @aws_group_struct = backend.get_group(group_name: group_name)[:group]
@@ -45,10 +46,13 @@ class AwsIamGroup < Inspec.resource(1)
   end
 
   class Backend
-    BackendFactory.set_default_backend(self)
+    class AwsClientApi < AwsBackendBase
+      BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
 
-    def get_group(query)
-      AWSConnection.new.iam_client.get_group(query)
+      def get_group(query)
+        aws_service_client.get_group(query)
+      end
     end
   end
 end

@@ -1,7 +1,7 @@
 # Intended to be pulled in via extend, not include
 module AwsBackendFactoryMixin
-  def create
-    @selected_backend.new
+  def create(inspec)
+    @selected_backend.new(inspec)
   end
 
   def select(klass)

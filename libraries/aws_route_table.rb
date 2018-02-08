@@ -1,3 +1,5 @@
+require '_aws'
+
 class AwsRouteTable < Inspec.resource(1)
   name 'aws_route_table'
   desc 'Verifies settings for an AWS Route Table'
@@ -6,8 +8,9 @@ class AwsRouteTable < Inspec.resource(1)
       its('route_table_id') { should cmp 'rtb-2c60ec44' }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
 
   def to_s
     "Route Table #{@route_table_id}"
@@ -33,8 +36,8 @@ class AwsRouteTable < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsRouteTable::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     if @route_table_id.nil?
       args = nil
@@ -48,11 +51,12 @@ class AwsRouteTable < Inspec.resource(1)
   end
 
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::EC2::Client
 
       def describe_route_tables(query)
-        AWSConnection.new.ec2_client.describe_route_tables(query)
+        aws_service_client.describe_route_tables(query)
       end
     end
   end

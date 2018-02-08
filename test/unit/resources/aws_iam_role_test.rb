@@ -74,13 +74,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module AwsMIRB
-  class Miss
+  class Miss < AwsBackendBase
     def get_role(query)
       raise Aws::IAM::Errors::NoSuchEntity.new('Nope', 'Nope')
     end
   end
 
-  class Basic
+  class Basic < AwsBackendBase
     def get_role(query)
       fixtures = {
         'alpha' => OpenStruct.new({

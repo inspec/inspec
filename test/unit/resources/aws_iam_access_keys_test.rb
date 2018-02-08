@@ -8,14 +8,11 @@ require 'aws_iam_access_keys'
 #==========================================================#
 
 class AwsIamAccessKeysConstructorTest < Minitest::Test
-  # Reset provider back to the implementation default prior
-  # to each test.  Tests must explicitly select an alternate.
   def setup
-    AwsIamAccessKeys::AccessKeyProvider.reset
+    AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
   end
 
   def test_bare_constructor_does_not_explode
-    AwsIamAccessKeys::AccessKeyProvider.select(AlwaysEmptyMAKP)
     AwsIamAccessKeys.new
   end
 end
@@ -25,14 +22,9 @@ end
 #==========================================================#
 
 class AwsIamAccessKeysFilterTest < Minitest::Test
-  # Reset provider back to the implementation default prior
-  # to each test.  Tests must explicitly select an alternate.
-  def setup
-    AwsIamAccessKeys::AccessKeyProvider.reset
-  end
 
   def test_filter_methods_should_exist
-    AwsIamAccessKeys::AccessKeyProvider.select(AlwaysEmptyMAKP)
+    AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     resource = AwsIamAccessKeys.new
     [:where, :'exists?'].each do |meth|
       assert_respond_to(resource, meth)
@@ -40,19 +32,19 @@ class AwsIamAccessKeysFilterTest < Minitest::Test
   end
 
   def test_filter_method_where_should_be_chainable
-    AwsIamAccessKeys::AccessKeyProvider.select(AlwaysEmptyMAKP)
+    AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     resource = AwsIamAccessKeys.new
     assert_respond_to(resource.where, :where)
   end
 
   def test_filter_method_exists_should_probe_empty_when_empty
-    AwsIamAccessKeys::AccessKeyProvider.select(AlwaysEmptyMAKP)
+    AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     resource = AwsIamAccessKeys.new
     refute(resource.exists?)
   end
 
   def test_filter_method_exists_should_probe_present_when_present
-    AwsIamAccessKeys::AccessKeyProvider.select(BasicMAKP)
+    AwsIamAccessKeys::BackendFactory.select(BasicMAKP)
     resource = AwsIamAccessKeys.new
     assert(resource.exists?)
   end
@@ -65,7 +57,7 @@ end
 class AwsIamAccessKeysFilterCriteriaTest < Minitest::Test
   def setup
     # Here we always want no results.
-    AwsIamAccessKeys::AccessKeyProvider.select(AlwaysEmptyMAKP)
+    AwsIamAccessKeys::BackendFactory.select(AlwaysEmptyMAKP)
     @valued_criteria = {
       username: 'bob',
       id: 'AKIA1234567890ABCDEF',
@@ -87,13 +79,13 @@ class AwsIamAccessKeysFilterCriteriaTest < Minitest::Test
 
   # Negative cases
   def test_criteria_when_used_in_constructor_with_bad_criterion
-    assert_raises(RuntimeError) do
+    assert_raises(ArgumentError) do
       AwsIamAccessKeys.new(nope: 'some_val')
     end
   end
 
   def test_criteria_when_used_in_where_with_bad_criterion
-    assert_raises(RuntimeError) do
+    assert_raises(ArgumentError) do
       AwsIamAccessKeys.new(nope: 'some_val')
     end
   end
@@ -128,7 +120,7 @@ end
 class AwsIamAccessKeysPropertiesTest < Minitest::Test
   def setup
     # Reset back to the basic kit each time.
-    AwsIamAccessKeys::AccessKeyProvider.select(BasicMAKP)
+    AwsIamAccessKeys::BackendFactory.select(BasicMAKP)
     @all_basic = AwsIamAccessKeys.new
   end
 
@@ -299,14 +291,14 @@ end
 # MAKP = MockAccessKeyProvider.  Abbreviation not used
 # outside this file.
 
-class AlwaysEmptyMAKP < AwsIamAccessKeys::AccessKeyProvider
+class AlwaysEmptyMAKP < AwsBackendBase
   def fetch(_filter_criteria)
     []
   end
 end
 
-class BasicMAKP < AwsIamAccessKeys::AccessKeyProvider
-  def fetch(_filter_criteria) # rubocop:disable Metrics/MethodLength
+class BasicMAKP < AwsBackendBase
+  def fetch(_filter_criteria)
     [
       {
         username: 'bob',

@@ -1,287 +1,209 @@
-# author: Chris Redekop
-
 require 'helper'
 require 'aws_iam_access_key'
 
-class AwsIamAccessKeyTest < Minitest::Test
-  Username = 'test'.freeze
-  Id = 'id'.freeze
-  Date = 'date'.freeze
+class AwsIamAccessKeyConstructorTest < Minitest::Test
+  def setup
+    AwsIamAccessKey::BackendFactory.select(EmptyMAIKSB)
+  end
 
-  module AccessKeyFactory
-    def aws_iam_access_key(decorator = mock_decorator(stub_access_key))
-      AwsIamAccessKey.new({ username: Username, id: Id }, decorator)
+  # Username or ID are required
+  def test_username_sufficient
+    AwsIamAccessKey.new(username: 'bob')
+  end
+
+  def test_access_key_id_sufficient
+    AwsIamAccessKey.new(access_key_id: 'AKIA1234567890123BOB')
+  end
+
+  def test_id_is_alias_for_access_key_id
+    AwsIamAccessKey.new(id: 'AKIA1234567890123BOB')
+  end
+
+  def test_access_key_id_and_username_ok
+    AwsIamAccessKey.new(username: 'bob', access_key_id: 'AKIA1234567890123BOB')
+  end
+
+  def test_access_key_id_gets_validated
+    assert_raises(ArgumentError) do
+      AwsIamAccessKey.new(access_key_id: 'martians')
     end
+  end
 
-    def stub_access_key(
-      id: Id,
-      status: 'Active',
-      create_date: Date
-    )
-      OpenStruct.new(
-        {
-          nil?: nil,
-          access_key_id: id,
-          status: status,
-          create_date: create_date,
-        },
-      )
+  def test_reject_other_params
+    assert_raises(ArgumentError) do
+      AwsIamAccessKey.new(shoe_size: 9)
     end
   end
+end
 
-  include AccessKeyFactory
-
-  def test_initialize_accepts_fields
-    assert_equal(
-      Id,
-      AwsIamAccessKey.new({ id: Id, username: Username }, nil)
-        .instance_variable_get('@id'),
-    )
+#==========================================================#
+#                    Search / Recall                       #
+#==========================================================#
+class AwsIamAccessKeyRecallTest < Minitest::Test
+  def setup
+    AwsIamAccessKey::BackendFactory.select(BasicMAIKSB)
   end
 
-  def test_initialize_accepts_access_key
-    assert_equal(
-      Id,
-      AwsIamAccessKey.new(
-        {
-          access_key: OpenStruct.new(access_key_id: Id),
-        }, nil
-      ).instance_variable_get('@id'),
-    )
+  def test_recall_access_key_id_hit
+    key = AwsIamAccessKey.new(access_key_id: 'AKIA1234567890123BOB')
+    assert(key.exists?)
   end
 
-  def test_initialize_prefers_access_key
-    assert_equal(
-      Id,
-      AwsIamAccessKey.new(
-        {
-          id: 'foo',
-          access_key: OpenStruct.new(access_key_id: Id),
-        }, nil
-      ).instance_variable_get('@id'),
-    )
+  def test_recall_access_key_id_miss
+    key = AwsIamAccessKey.new(access_key_id: 'AKIA123456789012NOPE')
+    refute(key.exists?)
   end
 
-  def test_exists_returns_true_when_access_key_exists
-    assert aws_iam_access_key.exists?
+  def test_recall_username_hit
+    key = AwsIamAccessKey.new(username: 'bob')
+    assert(key.exists?)
   end
 
-  def test_exists_returns_false_when_sdk_raises
-    mock_decorator = mock_decorator_raise(
-      Aws::IAM::Errors::NoSuchEntity.new(nil, nil),
-    )
-
-    refute aws_iam_access_key(mock_decorator).exists?
-
-    mock_decorator.verify
+  # Recall miss by username
+  def test_recall_username_miss
+    key = AwsIamAccessKey.new(username: 'nope')
+    refute(key.exists?)
   end
 
-  def test_exists_returns_false_when_access_key_does_not_exist
-    mock_decorator = mock_decorator_raise(
-      AwsIamAccessKey::AccessKeyNotFoundError.new,
-    )
+  # Recall multiple hit by username
+  def test_recall_username_multiple
+    assert_raises(RuntimeError) do
+      AwsIamAccessKey.new(username: 'sally')
+    end
+  end
+end
 
-    refute aws_iam_access_key(mock_decorator).exists?
-
-    mock_decorator.verify
+#==========================================================#
+#                       Properties                         #
+#==========================================================#
+class AwsIamAccessKeyPropertiesTest < Minitest::Test
+  def setup
+    AwsIamAccessKey::BackendFactory.select(BasicMAIKSB)
   end
 
-  def test_id_returns_id_when_access_key_exists
-    assert_equal Id, aws_iam_access_key.id
+  def test_property_access_key_id
+    bob = AwsIamAccessKey.new(username: 'bob')
+    assert_equal('AKIA1234567890123BOB', bob.access_key_id)
+    noone = AwsIamAccessKey.new(username: 'roderick')
+    assert_nil(noone.access_key_id)
   end
 
-  def test_active_returns_true_when_access_key_is_active
-    assert aws_iam_access_key.active?
+  def test_property_username
+    sally1 = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901SALLY')
+    assert_equal('sally', sally1.username)
+    noone = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901STEVE')
+    assert_nil(noone.username)
   end
 
-  def test_active_returns_false_when_access_key_is_not_active
-    refute aws_iam_access_key(mock_decorator(stub_access_key(status: 'Foo')))
-      .active?
+  def test_property_status
+    sally1 = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901SALLY')
+    assert_equal('Active', sally1.status)
+    sally2 = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901SALL2')
+    assert_equal('Inactive', sally2.status)
+    noone = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901STEVE')
+    assert_nil(noone.status)
   end
 
-  def test_create_date_returns_create_date_always
-    assert_equal Date, aws_iam_access_key.create_date
+  def test_property_create_date
+    bob = AwsIamAccessKey.new(username: 'bob')
+    assert_kind_of(DateTime, bob.create_date)
+    assert_equal(DateTime.parse('2017-10-27T17:58:00Z'), bob.create_date)
+    noone = AwsIamAccessKey.new(username: 'roderick')
+    assert_nil(noone.create_date)
   end
 
-  def test_last_used_date_returns_last_used_date_always
-    assert_equal(
-      Date,
-      aws_iam_access_key(
-        mock_decorator(
-          nil,
-          OpenStruct.new({ last_used_date: Date }),
-        ),
-      ).last_used_date,
-    )
+  def test_property_last_used_date
+    bob = AwsIamAccessKey.new(username: 'bob')
+    assert_kind_of(DateTime, bob.last_used_date)
+    assert_equal(DateTime.parse('2017-11-30T17:58:00Z'), bob.last_used_date)
+    noone = AwsIamAccessKey.new(username: 'roderick')
+    assert_nil(noone.last_used_date)
   end
 
-  class IamClientDecoratorTest < Minitest::Test
-    include AccessKeyFactory
+end
 
-    def test_get_access_key_raises_when_no_access_keys_found
-      validator = mock_validator
+#==========================================================#
+#                         Matchers                         #
+#==========================================================#
+class AwsIamAccessKeyMatchersTest < Minitest::Test
+  def setup
+    AwsIamAccessKey::BackendFactory.select(BasicMAIKSB)
+  end
 
-      e = assert_raises AwsIamAccessKey::AccessKeyNotFoundError do
-        iam_client_decorator(validator).get_access_key(Username, Id)
+  def test_matcher_be_active
+    sally1 = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901SALLY')
+    assert(sally1.active?)
+    sally2 = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901SALL2')
+    refute(sally2.active?)
+    noone = AwsIamAccessKey.new(access_key_id: 'AKIA12345678901STEVE')
+    assert_nil(noone.active?)
+  end
+end
+
+#==========================================================#
+#                 Mock Support Classes                     #
+#==========================================================#
+
+# MIAKSB = Mock IAM Access Key Singular Backend.  Abbreviation not used
+# outside this file.
+
+class EmptyMAIKSB < AwsBackendBase
+  def list_access_keys(query)
+    raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
+  end
+end
+
+class BasicMAIKSB < AwsBackendBase
+  def list_access_keys(query)
+    fixtures = [
+      # Bob has one active key
+      OpenStruct.new({
+        user_name: 'bob',
+        access_key_id: 'AKIA1234567890123BOB',
+        create_date: DateTime.parse('2017-10-27T17:58:00Z'),
+        status: 'Active',
+      }),
+      # Sally has one active and one inactive key
+      OpenStruct.new({
+        user_name: 'sally',
+        access_key_id: 'AKIA12345678901SALLY',
+        create_date: DateTime.parse('2017-10-22T17:58:00Z'),
+        status: 'Active',
+      }),
+      OpenStruct.new({
+        user_name: 'sally',
+        access_key_id: 'AKIA12345678901SALL2',
+        create_date: DateTime.parse('2017-10-22T17:58:00Z'),
+        status: 'Inactive',
+      }),
+    ]
+    matches = []
+    if query.key?(:user_name)
+      matches = fixtures.select { |k| k.user_name == query[:user_name] }
+      if matches.empty?
+        raise Aws::IAM::Errors::NoSuchEntity.new(nil,nil)
       end
-
-      assert_match(/.*access key not found.*/, e.message)
-      assert_match(/.*#{Username}.*/, e.message)
-      assert_match(/.*#{Id}.*/, e.message)
-
-      validator.verify
+    else
+      matches = fixtures
     end
-
-    def test_get_access_key_raises_when_matching_access_key_not_found
-      validator = mock_validator
-
-      e = assert_raises AwsIamAccessKey::AccessKeyNotFoundError do
-        iam_client_decorator(
-          validator,
-          [stub_access_key(id: 'Foo')],
-        ).get_access_key(Username, Id)
-      end
-
-      assert_match(/.*access key not found.*/, e.message)
-      assert_match(/.*#{Username}.*/, e.message)
-      assert_match(/.*#{Id}.*/, e.message)
-
-      validator.verify
-    end
-
-    def test_get_access_key_returns_access_key_when_access_key_found
-      access_key = stub_access_key
-      validator = mock_validator
-
-      assert_equal(
-        access_key,
-        iam_client_decorator(
-          validator,
-          [access_key],
-        ).get_access_key(Username, Id),
-      )
-
-      validator.verify
-    end
-
-    def test_get_access_key_last_used_returns_last_used_when_last_used_found
-      access_key_last_used = Object.new
-      validator = mock_validator(false)
-
-      assert_equal(
-        access_key_last_used,
-        iam_client_decorator(
-          validator,
-          nil,
-          access_key_last_used,
-        ).get_access_key_last_used(Id),
-      )
-
-      validator.verify
-    end
-
-    class ArgumentValidatorTest < Minitest::Test
-      def test_validate_id_raises_when_id_is_nil
-        argument_validator.validate_id(nil)
-        flunk
-      rescue ArgumentError => e
-        assert_match(/.*missing.*"id".*/, e.message)
-      end
-
-      def test_validate_id_does_nothing_when_id_is_not_nil
-        argument_validator.validate_id(Id)
-      end
-
-      def test_validate_username_raises_when_username_is_nil
-        argument_validator.validate_username(nil)
-        flunk
-      rescue ArgumentError => e
-        assert_match(/.*missing.*"username".*/, e.message)
-      end
-
-      def test_validate_username_does_nothing_when_username_is_not_nil
-        argument_validator.validate_username(Username)
-      end
-
-      def argument_validator
-        AwsIamAccessKey::IamClientDecorator::ArgumentValidator.new
-      end
-    end
-
-    def mock_validator(validate_username = true)
-      mock_validator = Minitest::Mock.new.expect :validate_id, nil, [Id]
-
-      if validate_username
-        mock_validator.expect :validate_username, nil, [Username]
-      end
-
-      mock_validator
-    end
-
-    def mock_conn(access_keys, access_key_last_used = nil)
-      Minitest::Mock.new.expect(
-        :iam_client,
-        mock_client(access_keys, access_key_last_used),
-      )
-    end
-
-    def mock_client(access_keys, access_key_last_used)
-      mock_iam_client = Minitest::Mock.new
-
-      if access_keys
-        mock_iam_client.expect(
-          :list_access_keys,
-          OpenStruct.new({ 'access_key_metadata' => access_keys }),
-          [{ user_name: Username }],
-        )
-      end
-
-      if access_key_last_used
-        mock_iam_client.expect(
-          :get_access_key_last_used,
-          OpenStruct.new({ 'access_key_last_used' => access_key_last_used }),
-          [{ access_key_id: Id }],
-        )
-      end
-
-      mock_iam_client
-    end
-
-    def iam_client_decorator(
-      validator,
-      access_keys = [],
-      access_key_last_used = nil
-    )
-      AwsIamAccessKey::IamClientDecorator.new(
-        validator, mock_conn(access_keys, access_key_last_used)
-      )
-    end
+    OpenStruct.new({ access_key_metadata: matches })
   end
 
-  def mock_decorator(access_key, access_key_last_used = nil)
-    mock_decorator = Minitest::Mock.new
-
-    if access_key
-      mock_decorator.expect :get_access_key, access_key, [Username, Id]
-    end
-
-    if access_key_last_used
-      mock_decorator.expect(
-        :get_access_key_last_used,
-        access_key_last_used,
-        [Id],
-      )
-    end
-
-    mock_decorator
-  end
-
-  def mock_decorator_raise(error)
-    Minitest::Mock.new.expect(:get_access_key, nil) do |username, id|
-      assert_equal Username, username
-      assert_equal Id, id
-
-      raise error
-    end
+  def get_access_key_last_used(query)
+    fixtures = {
+      'AKIA1234567890123BOB' => OpenStruct.new({
+        user_name: 'bob',
+        access_key_last_used: OpenStruct.new({
+          last_used_date: DateTime.parse('2017-11-30T17:58:00Z'),
+        }),
+      }),
+      'AKIA12345678901SALLY' => OpenStruct.new({
+        user_name: 'sally',
+        access_key_last_used: OpenStruct.new({
+          last_used_date: DateTime.parse('2017-11-25T17:58:00Z'),
+        }),
+      }),
+    }
+    fixtures[query[:access_key_id]]
   end
 end

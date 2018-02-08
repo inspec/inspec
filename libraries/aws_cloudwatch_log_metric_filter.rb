@@ -22,9 +22,9 @@ class AwsCloudwatchLogMetricFilter < Inspec.resource(1)
     it { should exist }
   end
 EOX
-
-  include AwsResourceMixin
-  attr_reader :filter_name, :log_group_name, :pattern, :metric_name, :metric_namespace
+  supports platform: 'aws'
+  include AwsSingularResourceMixin
+  attr_reader :filter_name, :log_group_name, :metric_name, :metric_namespace, :pattern
 
   private
 
@@ -39,9 +39,9 @@ EOX
     validated_params
   end
 
-  def fetch_from_aws
+  def fetch_from_api
     # get a backend
-    backend = BackendFactory.create
+    backend = BackendFactory.create(inspec_runner)
 
     # Perform query with remote filtering
     aws_search_criteria = {}
@@ -78,17 +78,18 @@ EOX
 
   class Backend
     # Uses the cloudwatch API to really talk to AWS
-    class AwsClientApi < Backend
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::CloudWatchLogs::Client
+
       def describe_metric_filters(criteria)
-        cwl_client = AWSConnection.new.cloudwatch_logs_client
         query = {}
         query[:filter_name_prefix] = criteria[:filter_name] if criteria[:filter_name]
         query[:log_group_name] = criteria[:log_group_name] if criteria[:log_group_name]
         # 'pattern' is not available as a remote filter,
         # we filter it after the fact locally
         # TODO: handle pagination?  Max 50/page.  Maybe you want a plural resource?
-        aws_response = cwl_client.describe_metric_filters(query)
+        aws_response = aws_service_client.describe_metric_filters(query)
         aws_response.metric_filters
       end
     end

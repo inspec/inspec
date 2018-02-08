@@ -93,13 +93,13 @@ end
 
 module AwsMSNB
 
-  class Miss
+  class Miss < AwsBackendBase
     def get_topic_attributes(criteria)
       raise Aws::SNS::Errors::NotFound.new("No SNS topic for #{criteria[:topic_arn]}", 'Nope')
     end
   end
 
-  class NoSubscriptions
+  class NoSubscriptions < AwsBackendBase
     def get_topic_attributes(_criteria)
       OpenStruct.new({
         attributes: { # Note that this is a plain hash, odd for AWS SDK
@@ -111,7 +111,7 @@ module AwsMSNB
     end
   end
 
-  class OneSubscription
+  class OneSubscription < AwsBackendBase
     def get_topic_attributes(_criteria)
       OpenStruct.new({
         attributes: { # Note that this is a plain hash, odd for AWS SDK

@@ -3,7 +3,7 @@ require '_aws'
 # author: Chris Redekop
 class AwsIamAccessKey < Inspec.resource(1)
   name 'aws_iam_access_key'
-  desc 'Verifies settings for AWS IAM access keys'
+  desc 'Verifies settings for an individual IAM access key'
   example "
     describe aws_iam_access_key(username: 'username', id: 'access-key id') do
       it { should exist }
@@ -12,95 +12,96 @@ class AwsIamAccessKey < Inspec.resource(1)
       its('last_used_date') { should be > Time.now - 90 * 86400 }
     end
   "
+  supports platform: 'aws'
 
-  def initialize(opts, decorator = IamClientDecorator.new)
-    @access_key = opts[:access_key]
-    @username = opts[:username]
-    @id = @access_key ? @access_key.access_key_id : opts[:id]
+  include AwsSingularResourceMixin
+  attr_reader :access_key_id, :create_date, :status, :username
+  alias id access_key_id
 
-    @decorator = decorator
-  end
+  def validate_params(raw_params)
+    recognized_params = check_resource_param_names(
+      raw_params: raw_params,
+      allowed_params: [:username, :id, :access_key_id],
+      allowed_scalar_name: :access_key_id,
+      allowed_scalar_type: String,
+    )
 
-  def exists?
-    !access_key.nil?
-  rescue AccessKeyNotFoundError, Aws::IAM::Errors::NoSuchEntity
-    false
-  end
+    # id and access_key_id are aliases; standardize on access_key_id
+    recognized_params[:access_key_id] = recognized_params.delete(:id) if recognized_params.key?(:id)
 
-  def id
-    access_key.access_key_id
+    # Validate format of access_key_id
+    if recognized_params[:access_key_id] and
+       recognized_params[:access_key_id] !~ /^AKIA[0-9A-Z]{16}$/
+      raise ArgumentError, 'Incorrect format for Access Key ID - expected AKIA followed ' \
+            'by 16 letters or numbers'
+    end
+
+    # One of username and access_key_id is required
+    if recognized_params[:username].nil? && recognized_params[:access_key_id].nil?
+      raise ArgumentError, 'You must provide at lease one of access_key_id or username to aws_iam_access_key'
+    end
+
+    recognized_params
   end
 
   def active?
-    'Active'.eql? access_key.status
-  end
-
-  def create_date
-    access_key.create_date
-  end
-
-  def last_used_date
-    access_key_last_used.last_used_date
+    return nil unless exists?
+    status == 'Active'
   end
 
   def to_s
-    "IAM Access-Key #{@id}"
+    "IAM Access-Key #{access_key_id}"
   end
 
-  class AccessKeyNotFoundError < StandardError
+  def last_used_date
+    return nil unless exists?
+    return @last_used_date if defined? @last_used_date
+    backend = BackendFactory.create(inspec_runner)
+    @last_used_date = backend.get_access_key_last_used({ access_key_id: access_key_id }).access_key_last_used.last_used_date
   end
 
-  class IamClientDecorator
-    def initialize(validator = ArgumentValidator.new,
-                   conn = AWSConnection.new)
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
+    query = {}
+    query[:user_name] = username if username
 
-      @validator = validator
-      @client = conn.iam_client
-    end
+    response = backend.list_access_keys(query)
 
-    def get_access_key(username, id)
-      @validator.validate_username(username)
-      @validator.validate_id(id)
-
-      access_key =
-        @client.list_access_keys({ user_name: username })
-               .access_key_metadata.select { |x| x.access_key_id.eql? id }.first
-
-      if access_key.nil?
-        raise AccessKeyNotFoundError, 'access key not found '.concat(
-          "[username = \"#{username}\", id = \"#{id}\"]",
-        )
-      end
-
-      access_key
-    end
-
-    def get_access_key_last_used(id)
-      @validator.validate_id(id)
-
-      @client.get_access_key_last_used({ access_key_id: id })
-             .access_key_last_used
-    end
-
-    class ArgumentValidator
-      [:username, :id].each do |argument|
-        define_method "validate_#{argument}" do |value|
-          return unless value.nil?
-
-          raise ArgumentError,
-                "missing required resource argument \"#{argument}\""
-        end
+    access_keys = response.access_key_metadata.select do |key|
+      if access_key_id
+        key.access_key_id == access_key_id
+      else
+        true
       end
     end
+
+    if access_keys.empty?
+      @exists = false
+      return
+    end
+
+    if access_keys.count > 1
+      raise 'More than one access key matched for aws_iam_access_key.  Use more specific paramaters, such as access_key_id.'
+    end
+
+    @exists = true
+    @access_key_id = access_keys[0].access_key_id
+    @username = access_keys[0].user_name
+    @create_date = access_keys[0].create_date
+    @status = access_keys[0].status
+    # Last used date is lazily loaded, separate API call
+  rescue Aws::IAM::Errors::NoSuchEntity
+    @exists = false
   end
 
-  private
+  class Backend
+    class AwsClientApi < AwsBackendBase
+      BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
 
-  def access_key
-    @access_key ||= @decorator.get_access_key(@username, @id)
-  end
-
-  def access_key_last_used
-    @access_key_last_used ||= @decorator.get_access_key_last_used(@id)
+      def list_access_keys(query)
+        aws_service_client.list_access_keys(query)
+      end
+    end
   end
 end

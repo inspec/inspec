@@ -8,6 +8,15 @@ class AwsIamPolicies < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
+
+  include AwsPluralResourceMixin
+  def validate_params(resource_params)
+    unless resource_params.empty?
+      raise ArgumentError, 'aws_iam_policies does not accept resource parameters.'
+    end
+    resource_params
+  end
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
@@ -15,31 +24,24 @@ class AwsIamPolicies < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:policy_names, field: :policy_name)
         .add(:arns, field: :arn)
-  filter.connect(self, :policy_data)
-
-  def policy_data
-    @table
-  end
+  filter.connect(self, :table)
 
   def to_s
     'IAM Policies'
   end
 
-  def initialize
-    backend = AwsIamPolicies::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
     @table = backend.list_policies({}).to_h[:policies]
   end
 
-  class BackendFactory
-    extend AwsBackendFactoryMixin
-  end
-
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
 
       def list_policies(query)
-        AWSConnection.new.iam_client.list_policies(query)
+        aws_service_client.list_policies(query)
       end
     end
   end

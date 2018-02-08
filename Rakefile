@@ -66,7 +66,7 @@ namespace :test do
 
       task :"run:#{account}" do
         puts "----> Run"
-        sh("AWS_PROFILE=inspec-aws-test-#{account} bundle exec inspec exec #{integration_dir}/verify --attrs #{attribute_file}")
+        sh("bundle exec inspec exec #{integration_dir}/verify -t aws://${AWS_REGION}/inspec-aws-test-#{account} --attrs #{attribute_file}")
       end
       
       task :"cleanup:#{account}", :tf_workspace do |t, args|
