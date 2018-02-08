@@ -27,10 +27,21 @@ where
 * `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or  ICMP (`protocol: 'icmp'`))
 
 <br>
+## Supported Resource Parameters
 
-## Examples
+connection, icmp, ipaddress, protocol,tcp, socket 
+
+<br>
+
+## Resource Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### ipaddress
+
+The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
+
+    its('ipaddress') { should include '93.184.216.34' }
 
 ### Verify host name is reachable over a specific protocol and port number
 
@@ -70,9 +81,3 @@ The `be_reachable` matcher tests if the host name is available:
 The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
 
     it { should be_resolvable }
-
-### ipaddress
-
-The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
-
-    its('ipaddress') { should include '93.184.216.34' }
