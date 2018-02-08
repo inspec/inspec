@@ -206,6 +206,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string, default: nil, hide: true,
     desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
   option :reporter, type: :array,
+    banner: 'one two:/output/file/path',
     desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
   option :depends, type: :array, default: [],
     desc: 'A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell'

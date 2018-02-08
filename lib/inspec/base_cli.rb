@@ -60,6 +60,7 @@ module Inspec
       option :format, type: :string,
         desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
+        banner: 'one two:/output/file/path',
         desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
