@@ -58,7 +58,10 @@ module Inspec
       option :controls, type: :array,
         desc: 'A list of controls to run. Ignore all other tests.'
       option :format, type: :string,
-        desc: 'Which formatter to use: cli, progress, documentation, json, json-min, junit'
+        desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
+      option :reporter, type: :array,
+        banner: 'one two:/output/file/path',
+        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
@@ -71,36 +74,105 @@ module Inspec
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
         desc: 'Allow caching for backend command output.'
+      option :show_progress, type: :boolean,
+        desc: 'Show progress while executing tests.'
     end
 
     def self.default_options
       {
         exec: {
+          'reporter' => ['cli'],
+          'show_progress' => false,
           'color' => true,
           'create_lockfile' => true,
           'backend_cache' => false,
         },
+        shell: {
+          'reporter' => ['cli'],
+        },
       }
+    end
+
+    def self.parse_reporters(opts)
+      # merge in any legacy formats as reporter
+      # this method will only be used for ad-hoc runners
+      if !opts['format'].nil? && opts['reporter'].nil?
+        warn '[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+        opts['reporter'] = Array(opts['format'])
+        opts.delete('format')
+      end
+
+      # parse out cli to proper report format
+      if opts['reporter'].is_a?(Array)
+        reports = {}
+        opts['reporter'].each do |report|
+          reporter_name, target = report.split(':')
+          if target.nil? || target.strip == '-'
+            reports[reporter_name] = { 'stdout' => true }
+          else
+            reports[reporter_name] = {
+              'file' => target,
+              'stdout' => false,
+            }
+          end
+        end
+        opts['reporter'] = reports
+      end
+
+      # add in stdout if not specified
+      if opts['reporter'].is_a?(Hash)
+        opts['reporter'].each do |reporter_name, config|
+          opts['reporter'][reporter_name] = {} if config.nil?
+          opts['reporter'][reporter_name]['stdout'] = true if opts['reporter'][reporter_name].empty?
+        end
+      end
+
+      validate_reporters(opts['reporter'])
+      opts
+    end
+
+    def self.validate_reporters(reporters)
+      return if reporters.nil?
+
+      valid_types = [
+        'json',
+        'json-min',
+        'json-rspec',
+        'cli',
+        'junit',
+        'html',
+        'documentation',
+        'progress',
+      ]
+
+      reporters.each do |k, _v|
+        raise NotImplementedError, "'#{k}' is not a valid reporter type." unless valid_types.include?(k)
+      end
+
+      # check to make sure we are only reporting one type to stdout
+      stdout = 0
+      reporters.each_value do |v|
+        stdout += 1 if v['stdout'] == true
+      end
+
+      raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
     end
 
     private
 
-    # helper method to run tests
-    def run_tests(targets, opts)
-      o = opts.dup
-      log_device = opts['format'] == 'json' ? nil : STDOUT
-      o[:logger] = Logger.new(log_device)
-      o[:logger].level = get_log_level(o.log_level)
-
-      runner = Inspec::Runner.new(o)
-      targets.each { |target| runner.add_target(target) }
-      exit runner.run
-    rescue ArgumentError, RuntimeError, Train::UserError => e
-      $stderr.puts e.message
-      exit 1
+    def suppress_log_output?(opts)
+      return false if opts['reporter'].nil?
+      match = %w{json json-min json-rspec junit html} & opts['reporter'].keys
+      unless match.empty?
+        match.each do |m|
+          # check to see if we are outputting to stdout
+          return true if opts['reporter'][m]['stdout'] == true
+        end
+      end
+      false
     end
 
-    def diagnose
+    def diagnose(opts)
       return unless opts['diagnose']
       puts "InSpec version: #{Inspec::VERSION}"
       puts "Train version: #{Train::VERSION}"
@@ -132,15 +204,23 @@ module Inspec
 
     def merged_opts(type = nil)
       opts = {}
+      opts[:type] = type unless type.nil?
 
       # start with default options if we have any
-      opts = BaseCLI.default_options[type] unless type.nil?
+      opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
 
       # merge in any options from json-config
       opts.merge!(options_json)
 
+      # remove the default reporter if we are setting a legacy format on the cli
+      opts.delete('reporter') if options['format']
+
       # merge in any options defined via thor
       opts.merge!(options)
+
+      # parse reporter options
+      opts = BaseCLI.parse_reporters(opts) if %i(exec shell).include?(type)
+
       Thor::CoreExt::HashWithIndifferentAccess.new(opts)
     end
 
@@ -210,7 +290,7 @@ module Inspec
       #
       loc = if o.log_location
               o.log_location
-            elsif %w{json json-min}.include?(o['format'])
+            elsif suppress_log_output?(o)
               STDERR
             else
               STDOUT
@@ -221,7 +301,7 @@ module Inspec
 
       o[:logger] = Logger.new(STDOUT)
       # output json if we have activated the json formatter
-      if opts['log-format'] == 'json'
+      if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o.log_level)

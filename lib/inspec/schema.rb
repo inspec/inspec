@@ -147,6 +147,7 @@ module Inspec
       'properties' => {
         'id' => { 'type' => 'string' },
         'profile_id' => { 'type' => %w{string null} },
+        'profile_sha256' => { 'type' => 'string' },
         'status' => { 'type' => 'string' },
         'code_desc' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },

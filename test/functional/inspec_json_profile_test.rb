@@ -19,6 +19,14 @@ describe 'inspec json' do
   describe 'json profile data' do
     let(:json) { JSON.load(inspec('json ' + example_profile).stdout) }
 
+    it 'has a generator name' do
+      json['generator']['name'].must_equal 'inspec'
+    end
+
+    it 'has a generator inspec version' do
+      json['generator']['version'].must_equal Inspec::VERSION
+    end
+
     it 'has a name' do
       json['name'].must_equal 'profile'
     end
