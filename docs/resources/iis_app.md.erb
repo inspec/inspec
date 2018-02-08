@@ -42,7 +42,11 @@ For example:
 
 <br>
 
-## Examples
+## Supported Resource Properties
+application\_pool, path, physical\_path, protocols, site\_name
+
+<br>
+## Resource Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -109,7 +113,7 @@ Testing a web application with https enabled and http enabled:
     it { should have_protocol('https') }
     it { should have_protocol('http') }
 
-### have_physical_path
+### have\_physical\_path
 
 The `have_physical_path` matcher tests if the named path is defined for the web application:
 
