@@ -25,22 +25,8 @@ module Inspec::Resources
       end
     end
 
-    # This is a string override for platform.name.
-    # TODO: removed in inspec 2.0
-    class NameCleaned < String
-      def ==(other)
-        if other =~ /[A-Z ]/
-          cleaned = other.downcase.tr(' ', '_')
-          Inspec::Log.warn "[DEPRECATED] Platform names will become lowercase in InSpec 2.0. Please match on '#{cleaned}' instead of '#{other}'"
-          super(cleaned)
-        else
-          super(other)
-        end
-      end
-    end
-
     def name
-      NameCleaned.new(@platform.name)
+      @platform.name
     end
 
     def [](key)

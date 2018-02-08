@@ -72,7 +72,7 @@ describe 'Inspec::Resources::Package' do
       _(resource.info).must_equal pkg
     end
 
-    it 'can add to `resource_skipped` when `--rpmdb` path does not exist' do
+    it 'can set `resource_skipped` when `--rpmdb` path does not exist' do
       resource = MockLoader.new(:centos7).load_resource(
         'package',
         'curl',
