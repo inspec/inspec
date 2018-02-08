@@ -182,7 +182,7 @@ end
 #=============================================================================#
 
 module AwsMSBSB
-  class Basic < AwsS3Bucket::Backend
+  class Basic < AwsBackendBase
     def get_bucket_acl(query)
       owner_full_control = OpenStruct.new({
         grantee: OpenStruct.new({

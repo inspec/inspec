@@ -51,13 +51,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MAIGPB
-  class Empty < AwsIamGroups::Backend
+  class Empty < AwsBackendBase
     def list_groups(query = {})
       OpenStruct.new({ groups: [] })
     end
   end
 
-  class Basic < AwsIamGroups::Backend
+  class Basic < AwsBackendBase
     def list_groups(query = {})
       fixtures = [
         OpenStruct.new({

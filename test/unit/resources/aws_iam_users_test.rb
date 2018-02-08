@@ -1,11 +1,11 @@
 require 'helper'
 
-# Maiusb = Mock AwsIamUsers::Backend
+# Maiusb = Mock AwsIamUsers::BackendFactory
 # Abbreviation not used outside of this file
 
 class AwsIamUsersTestConstructor < Minitest::Test
   def setup
-    AwsIamUsers::Backend.select(Maiusb::Empty)
+    AwsIamUsers::BackendFactory.select(Maiusb::Empty)
   end
 
   def test_users_no_params_does_not_explode
@@ -20,7 +20,7 @@ end
 class AwsIamUsersTestFilterCriteria < Minitest::Test
   def setup
     # Reset to empty, that's harmless
-    AwsIamUsers::Backend.select(Maiusb::Empty)
+    AwsIamUsers::BackendFactory.select(Maiusb::Empty)
   end
 
   #------------------------------------------#
@@ -32,7 +32,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   end
 
   def test_users_all_returned_when_some_users_no_criteria
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where {}
     assert(3, users.entries.count)
   end
@@ -41,7 +41,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #           has_mfa_enabled?
   #------------------------------------------#
   def test_users_criteria_has_mfa_enabled
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { has_mfa_enabled }
     assert(1, users.entries.count)
     assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
@@ -52,7 +52,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #           has_console_password?
   #------------------------------------------#
   def test_users_criteria_has_console_password?
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { has_console_password }
     assert(2, users.entries.count)
     assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
@@ -63,7 +63,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #           password_ever_used?
   #------------------------------------------#
   def test_users_criteria_password_ever_used?
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { password_ever_used? }
     assert(2, users.entries.count)
     assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
@@ -74,7 +74,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #           password_never_used?
   #------------------------------------------#
   def test_users_criteria_password_never_used?
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { password_never_used? }
     assert(1, users.entries.count)
     assert_includes users.entries.map{ |u| u[:user_name] }, 'alice'
@@ -85,7 +85,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #        password_last_used_days_ago
   #------------------------------------------#
   def test_users_criteria_has_password_last_used_days_ago_10
-    AwsIamUsers::Backend.select(Maiusb::Basic)
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where(password_last_used_days_ago: 10)
     puts users
     assert(1, users.entries.count)
@@ -102,7 +102,7 @@ module Maiusb
   # --------------------------------
   #       Empty - No users
   # --------------------------------
-  class Empty < AwsIamUsers::Backend
+  class Empty < AwsBackendBase
     def list_users
       OpenStruct.new({
         users: []
@@ -126,7 +126,7 @@ module Maiusb
   # Alice has no password or MFA device
   # Bob has a password but no MFA device
   # Carol has a password and MFA device
-  class Basic < AwsIamUsers::Backend
+  class Basic < AwsBackendBase
     # arn, path, user_id omitted
     def list_users
       OpenStruct.new({

@@ -7,8 +7,9 @@ class AwsS3Bucket < Inspec.resource(1)
       it { should exist }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
   attr_reader :bucket_name, :region
 
   def to_s
@@ -17,7 +18,7 @@ class AwsS3Bucket < Inspec.resource(1)
 
   def bucket_acl
     # This is simple enough to inline it.
-    @bucket_acl ||= AwsS3Bucket::BackendFactory.create.get_bucket_acl(bucket: bucket_name).grants
+    @bucket_acl ||= BackendFactory.create(inspec_runner).get_bucket_acl(bucket: bucket_name).grants
   end
 
   def bucket_policy
@@ -36,7 +37,7 @@ class AwsS3Bucket < Inspec.resource(1)
   def has_access_logging_enabled?
     return unless @exists
     # This is simple enough to inline it.
-    !AwsS3Bucket::BackendFactory.create.get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
+    !BackendFactory.create(inspec_runner).get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
   end
 
   private
@@ -55,8 +56,8 @@ class AwsS3Bucket < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsS3Bucket::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     # Since there is no basic "get_bucket" API call, use the
     # region fetch as the existence check.
@@ -70,7 +71,7 @@ class AwsS3Bucket < Inspec.resource(1)
   end
 
   def fetch_bucket_policy
-    backend = AwsS3Bucket::BackendFactory.create
+    backend = BackendFactory.create(inspec_runner)
 
     begin
       # AWS SDK returns a StringIO, we have to read()
@@ -87,23 +88,24 @@ class AwsS3Bucket < Inspec.resource(1)
 
   # Uses the SDK API to really talk to AWS
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::S3::Client
 
       def get_bucket_acl(query)
-        AWSConnection.new.s3_client.get_bucket_acl(query)
+        aws_service_client.get_bucket_acl(query)
       end
 
       def get_bucket_location(query)
-        AWSConnection.new.s3_client.get_bucket_location(query)
+        aws_service_client.get_bucket_location(query)
       end
 
       def get_bucket_policy(query)
-        AWSConnection.new.s3_client.get_bucket_policy(query)
+        aws_service_client.get_bucket_policy(query)
       end
 
       def get_bucket_logging(query)
-        AWSConnection.new.s3_client.get_bucket_logging(query)
+        aws_service_client.get_bucket_logging(query)
       end
     end
   end

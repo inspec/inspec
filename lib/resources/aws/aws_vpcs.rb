@@ -6,36 +6,39 @@ class AwsVpcs < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
+
+  include AwsPluralResourceMixin
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
   filter.add_accessor(:entries)
         .add(:exists?) { |x| !x.entries.empty? }
-  filter.connect(self, :vpc_data)
+  filter.connect(self, :table)
 
-  def vpc_data
-    @table
+  def validate_params(raw_params)
+    # No params yet
+    unless raw_params.empty?
+      raise ArgumentError, 'aws_vpcs does not accept resource parameters'
+    end
+    raw_params
   end
 
   def to_s
     'VPCs'
   end
 
-  def initialize
-    backend = AwsVpcs::BackendFactory.create
-    @table = backend.describe_vpcs.to_h[:vpcs]
-  end
-
-  class BackendFactory
-    extend AwsBackendFactoryMixin
+  def fetch_from_api
+    @table = BackendFactory.create(inspec_runner).describe_vpcs.to_h[:vpcs]
   end
 
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::EC2::Client
 
       def describe_vpcs(query = {})
-        AWSConnection.new.ec2_client.describe_vpcs(query)
+        aws_service_client.describe_vpcs(query)
       end
     end
   end

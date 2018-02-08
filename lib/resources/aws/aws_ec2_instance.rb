@@ -3,7 +3,7 @@ class AwsEc2Instance < Inspec.resource(1)
   name 'aws_ec2_instance'
   desc 'Verifies settings for an EC2 instance'
 
-  example "
+  example <<-EOX
     describe aws_ec2_instance('i-123456') do
       it { should be_running }
       it { should have_roles }
@@ -13,14 +13,26 @@ class AwsEc2Instance < Inspec.resource(1)
       it { should be_running }
       it { should have_roles }
     end
-  "
+EOX
+  supports platform: 'aws'
 
-  def initialize(opts, conn = AWSConnection.new)
+  # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
+  def initialize(opts, conn = nil)
     @opts = opts
     @opts.is_a?(Hash) ? @display_name = @opts[:name] : @display_name = opts
-    @ec2_client = conn.ec2_client
-    @ec2_resource = conn.ec2_resource
-    @iam_resource = conn.iam_resource
+    @ec2_client = conn ? conn.ec2_client : inspec_runner.backend.aws_client(Aws::EC2::Client)
+    @ec2_resource = conn ? conn.ec2_resource : inspec_runner.backend.aws_resource(Aws::EC2::Resource, {})
+    @iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
+  end
+
+  def inspec_runner
+    # When running under inspec-cli, we have an 'inspec' method that
+    # returns the runner. When running under unit tests, we don't
+    # have that, but we still have to call this to pass something
+    # (nil is OK) to the backend.
+    # TODO: remove with https://github.com/chef/inspec-aws/issues/216
+    # TODO: remove after rewrite to include AwsSingularResource
+    inspec if respond_to?(:inspec)
   end
 
   def id
@@ -113,7 +125,7 @@ end
 class AwsEc2 < AwsEc2Instance
   name 'aws_ec2'
 
-  def initialize(opts, conn = AWSConnection.new)
+  def initialize(opts, conn = nil)
     deprecated
     super(opts, conn)
   end

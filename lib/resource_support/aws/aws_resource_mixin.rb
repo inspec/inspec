@@ -3,7 +3,12 @@ module AwsResourceMixin
     validate_params(resource_params).each do |param, value|
       instance_variable_set(:"@#{param}", value)
     end
-    fetch_from_aws
+    fetch_from_api
+  end
+
+  # Default implementation of validate params accepts everything.
+  def validate_params(resource_params)
+    resource_params
   end
 
   def check_resource_param_names(raw_params: {}, allowed_params: [], allowed_scalar_name: nil, allowed_scalar_type: nil)
@@ -32,21 +37,12 @@ module AwsResourceMixin
     recognized_params
   end
 
-  def exists?
-    @exists
-  end
-
-  # This sets up a class, AwsSomeResource::BackendFactory, that
-  # provides a mechanism to create and use backends without
-  # having to know which is selected.  This is mainly used for
-  # unit testing.
-  def self.included(base)
-    # Create a new class, whose body is simply to extend the
-    # backend factory mixin
-    resource_backend_factory_class = Class.new(Object) do
-      extend AwsBackendFactoryMixin
-    end
-    # Name that class
-    base.const_set('BackendFactory', resource_backend_factory_class)
+  def inspec_runner
+    # When running under inspec-cli, we have an 'inspec' method that
+    # returns the runner. When running under unit tests, we don't
+    # have that, but we still have to call this to pass something
+    # (nil is OK) to the backend.
+    # TODO: remove with https://github.com/chef/inspec-aws/issues/216
+    inspec if respond_to?(:inspec)
   end
 end

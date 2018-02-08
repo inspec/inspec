@@ -11,9 +11,10 @@ class AwsIamUser < Inspec.resource(1)
       it { should_not have_console_password }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
-  attr_reader :username, :has_mfa_enabled, :has_console_password, :access_keys
+  include AwsSingularResourceMixin
+  attr_reader :access_keys, :has_console_password, :has_mfa_enabled, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
 
@@ -53,8 +54,8 @@ class AwsIamUser < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
     @aws_user_struct ||= nil # silence unitialized warning
     unless @aws_user_struct
       begin
@@ -84,23 +85,24 @@ class AwsIamUser < Inspec.resource(1)
   end
 
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
 
       def get_user(criteria)
-        AWSConnection.new.iam_client.get_user(criteria)
+        aws_service_client.get_user(criteria)
       end
 
       def get_login_profile(criteria)
-        AWSConnection.new.iam_client.get_login_profile(criteria)
+        aws_service_client.get_login_profile(criteria)
       end
 
       def list_mfa_devices(criteria)
-        AWSConnection.new.iam_client.list_mfa_devices(criteria)
+        aws_service_client.list_mfa_devices(criteria)
       end
 
       def list_access_keys(criteria)
-        AWSConnection.new.iam_client.list_access_keys(criteria)
+        aws_service_client.list_access_keys(criteria)
       end
     end
   end

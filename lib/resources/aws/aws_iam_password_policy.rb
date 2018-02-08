@@ -3,7 +3,7 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   name 'aws_iam_password_policy'
   desc 'Verifies iam password policy'
 
-  example "
+  example <<-EOX
     describe aws_iam_password_policy do
       its('requires_lowercase_characters?') { should be true }
     end
@@ -11,12 +11,25 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
     describe aws_iam_password_policy do
       its('requires_uppercase_characters?') { should be true }
     end
-  "
+EOX
+  supports platform: 'aws'
 
-  def initialize(conn = AWSConnection.new)
-    @policy = conn.iam_resource.account_password_policy
+  # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
+  def initialize(conn = nil)
+    iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
+    @policy = iam_resource.account_password_policy
   rescue Aws::IAM::Errors::NoSuchEntity
     @policy = nil
+  end
+
+  def inspec_runner
+    # When running under inspec-cli, we have an 'inspec' method that
+    # returns the runner. When running under unit tests, we don't
+    # have that, but we still have to call this to pass something
+    # (nil is OK) to the backend.
+    # TODO: remove with https://github.com/chef/inspec-aws/issues/216
+    # TODO: remove after rewrite to include AwsSingularResource
+    inspec if respond_to?(:inspec)
   end
 
   def exists?

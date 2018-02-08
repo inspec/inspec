@@ -7,8 +7,9 @@ class AwsVpc < Inspec.resource(1)
       its('cidr_block') { should cmp '10.0.0.0/16' }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
 
   def to_s
     "VPC #{vpc_id}"
@@ -39,8 +40,8 @@ class AwsVpc < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsVpc::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     if @vpc_id.nil?
       filter = { name: 'isDefault', values: ['true'] }
@@ -56,11 +57,12 @@ class AwsVpc < Inspec.resource(1)
   end
 
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::EC2::Client
 
       def describe_vpcs(query)
-        AWSConnection.new.ec2_client.describe_vpcs(query)
+        aws_service_client.describe_vpcs(query)
       end
     end
   end

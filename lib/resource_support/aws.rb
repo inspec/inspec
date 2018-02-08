@@ -5,7 +5,9 @@ require 'aws-sdk' # TODO: split once ADK v3 is in use
 
 require 'resource_support/aws/aws_backend_factory_mixin'
 require 'resource_support/aws/aws_resource_mixin'
-require 'resource_support/aws/aws_connection'
+require 'resource_support/aws/aws_singular_resource_mixin'
+require 'resource_support/aws/aws_plural_resource_mixin'
+require 'resource_support/aws/aws_backend_base'
 
 # Load all AWS resources
 # TODO: loop over and load entire directory
@@ -29,7 +31,11 @@ require 'resources/aws/aws_iam_root_user'
 require 'resources/aws/aws_iam_user'
 require 'resources/aws/aws_iam_users'
 require 'resources/aws/aws_kms_keys'
+require 'resources/aws/aws_route_table'
 require 'resources/aws/aws_s3_bucket'
 require 'resources/aws/aws_sns_topic'
 require 'resources/aws/aws_vpc'
+require 'resources/aws/aws_vpc_subnet'
+require 'resources/aws/aws_vpc_subnets'
 require 'resources/aws/aws_vpcs'
+

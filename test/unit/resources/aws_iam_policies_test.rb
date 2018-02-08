@@ -73,13 +73,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MAIPPB
-  class Empty < AwsIamPolicies::Backend
+  class Empty < AwsBackendBase
     def list_policies(query = {})
       OpenStruct.new({ policies: [] })
     end
   end
 
-  class Basic < AwsIamPolicies::Backend
+  class Basic < AwsBackendBase
     def list_policies(query = {})
       fixtures = [
         OpenStruct.new({

@@ -6,8 +6,9 @@ class AwsEc2SecurityGroup < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
 
-  include AwsResourceMixin
+  include AwsSingularResourceMixin
   attr_reader :description, :group_id, :group_name, :vpc_id
 
   def to_s
@@ -43,8 +44,8 @@ class AwsEc2SecurityGroup < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
-    backend = AwsEc2SecurityGroup::BackendFactory.create
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
 
     # Transform into filter format expected by AWS
     filters = []
@@ -80,11 +81,12 @@ class AwsEc2SecurityGroup < Inspec.resource(1)
   end
 
   class Backend
-    class AwsClientApi < Backend
+    class AwsClientApi < AwsBackendBase
       AwsEc2SecurityGroup::BackendFactory.set_default_backend self
+      self.aws_client_class = Aws::EC2::Client
 
       def describe_security_groups(query)
-        AWSConnection.new.ec2_client.describe_security_groups(query)
+        aws_service_client.describe_security_groups(query)
       end
     end
   end

@@ -6,9 +6,10 @@ class AwsIamRole < Inspec.resource(1)
       it { should exist }
     end
   "
+  supports platform: 'aws'
 
-  include AwsResourceMixin
-  attr_reader :role_name, :description
+  include AwsSingularResourceMixin
+  attr_reader :description, :role_name
 
   private
 
@@ -25,10 +26,10 @@ class AwsIamRole < Inspec.resource(1)
     validated_params
   end
 
-  def fetch_from_aws
+  def fetch_from_api
     role_info = nil
     begin
-      role_info = AwsIamRole::BackendFactory.create.get_role(role_name: role_name)
+      role_info = BackendFactory.create(inspec_runner).get_role(role_name: role_name)
     rescue Aws::IAM::Errors::NoSuchEntity
       @exists = false
       return
@@ -39,10 +40,11 @@ class AwsIamRole < Inspec.resource(1)
 
   # Uses the SDK API to really talk to AWS
   class Backend
-    class AwsClientApi
+    class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
       def get_role(query)
-        AWSConnection.new.iam_client.get_role(query)
+        aws_service_client.get_role(query)
       end
     end
   end

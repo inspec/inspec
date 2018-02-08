@@ -56,13 +56,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MAIGSB
-  class Empty < AwsIamGroup::Backend
+  class Empty < AwsBackendBase
     def get_group(query = {})
       raise Aws::IAM::Errors::NoSuchEntity.new(nil,nil)
     end
   end
 
-  class Basic < AwsIamGroup::Backend
+  class Basic < AwsBackendBase
     def get_group(query = {})
       fixtures = [
         OpenStruct.new({

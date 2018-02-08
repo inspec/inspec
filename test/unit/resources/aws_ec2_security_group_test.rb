@@ -81,7 +81,7 @@ end
 #=============================================================================#
 
 module AwsMESGSB
-  class Empty < AwsEc2SecurityGroup::Backend
+  class Empty < AwsBackendBase
     def describe_security_groups(_query)
       OpenStruct.new({
         security_groups: [],
@@ -89,7 +89,7 @@ module AwsMESGSB
     end
   end
 
-  class Basic < AwsEc2SecurityGroup::Backend
+  class Basic < AwsBackendBase
     def describe_security_groups(query)
       fixtures = [
         OpenStruct.new({

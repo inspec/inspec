@@ -13,6 +13,9 @@ class AwsIamUsers < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
+
+  include AwsPluralResourceMixin
 
   filter = FilterTable.create
   filter.add_accessor(:where)
@@ -24,18 +27,22 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
         .add(:username, field: :user_name)
-  filter.connect(self, :collect_user_details)
+  filter.connect(self, :table)
 
-  # No resource params => no overridden constructor
-  # AWS API only offers filtering on path prefix;
-  # little other opportunity for server-side filtering.
+  def validate_params(raw_params)
+    # No params yet
+    unless raw_params.empty?
+      raise ArgumentError, 'aws_iam_users does not accept resource parameters'
+    end
+    raw_params
+  end
 
-  def collect_user_details
-    backend = Backend.create
-    users = backend.list_users.users.map(&:to_h)
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
+    @table = backend.list_users.users.map(&:to_h)
 
     # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
-    users.each do |user|
+    @table.each do |user|
       begin
         _login_profile = backend.get_login_profile(user_name: user[:user_name])
         user[:has_console_password] = true
@@ -57,53 +64,33 @@ class AwsIamUsers < Inspec.resource(1)
       next unless user[:password_ever_used?]
       user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
     end
-    users
+    @table
   end
 
   def to_s
     'IAM Users'
   end
 
-  # Entry cooker.  Needs discussion.
-  # def users
-  # end
-
   #===========================================================================#
   #                        Backend Implementation
   #===========================================================================#
   class Backend
-    #=====================================================#
-    #                 Concrete Implementation
-    #=====================================================#
-    # Uses AWS API to really talk to AWS
-    class AwsClientApi < Backend
+    class AwsClientApi < AwsBackendBase
+      BackendFactory.set_default_backend(self)
+      self.aws_client_class = Aws::IAM::Client
+
       # TODO: delegate this out
       def list_users(query = {})
-        AWSConnection.new.iam_client.list_users(query)
+        aws_service_client.list_users(query)
       end
 
       def get_login_profile(query)
-        AWSConnection.new.iam_client.get_login_profile(query)
+        aws_service_client.get_login_profile(query)
       end
 
       def list_mfa_devices(query)
-        AWSConnection.new.iam_client.list_mfa_devices(query)
+        aws_service_client.list_mfa_devices(query)
       end
-    end
-
-    #=====================================================#
-    #                   Factory Interface
-    #=====================================================#
-    # TODO: move this to a mix-in
-    DEFAULT_BACKEND = AwsClientApi
-    @selected_backend = DEFAULT_BACKEND
-
-    def self.create
-      @selected_backend.new
-    end
-
-    def self.select(klass)
-      @selected_backend = klass
     end
   end
 end

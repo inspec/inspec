@@ -73,13 +73,13 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module MAKKPB
-  class Empty < AwsKmsKeys::Backend
+  class Empty < AwsBackendBase
     def list_keys(query = {})
       OpenStruct.new({ keys: [] })
     end
   end
 
-  class Basic < AwsKmsKeys::Backend
+  class Basic < AwsBackendBase
     def list_keys(query = {})
       fixtures = [
         OpenStruct.new({
