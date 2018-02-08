@@ -1,22 +1,22 @@
 ---
-title: About the aws_vpc_subnet Resource
+title: About the aws_subnet Resource
 ---
 
-# aws_vpc_subnet
+# aws_subnet
 
-Use the `aws_vpc_subnet` InSpec audit resource to test properties of a vpc subnet.
+Use the `aws_subnet` InSpec audit resource to test properties of a vpc subnet.
 
-To test properties of a single VPC subnet, use the `aws_vpc_subnet` resource.
+To test properties of a single VPC subnet, use the `aws_subnet` resource.
 
-To test properties of all or a group of VPC subnets, use the `aws_vpc_subnets` resource.
+To test properties of all or a group of VPC subnets, use the `aws_subnets` resource.
 
 <br>
 
 ## Syntax
 
-An `aws_vpc_subnet` resource block uses the parameter to select a VPC and a subnet in the VPC.
+An `aws_subnet` resource block uses the parameter to select a VPC and a subnet in the VPC.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-1234567') do
+    describe aws_subnet(subnet_id: 'subnet-1234567') do
       it { should exist }
       its('cidr_block') { should eq '10.0.1.0/24' }
     end
@@ -32,7 +32,7 @@ This InSpec resource accepts the following parameters, which are used to search 
 A string identifying the subnet that the VPC contains.
 
     # This will error if there is more than the default SG
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should exist }    
     end
 
@@ -44,7 +44,7 @@ A string identifying the subnet that the VPC contains.
 
 Detects whether the network interface on the subnet accepts IPv6 addresses.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should be_assigning_ipv_6_address_on_creation }    
     end
     
@@ -52,7 +52,7 @@ Detects whether the network interface on the subnet accepts IPv6 addresses.
 
 Provides the current state of the subnet.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should be_available }    
     end
 
@@ -60,7 +60,7 @@ Provides the current state of the subnet.
 
 Detects if this is the default subnet for the Availability Zone.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should be_default_for_az }    
     end
 
@@ -68,7 +68,7 @@ Detects if this is the default subnet for the Availability Zone.
 
 The `exist` matcher indicates that a subnet exists for the specified vpc.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should exist }
     end
     
@@ -76,7 +76,7 @@ The `exist` matcher indicates that a subnet exists for the specified vpc.
 
 Provides the ID of the VPC the subnet is in.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       it { should be_mapping_public_ip_on_launch }    
     end
 
@@ -86,7 +86,7 @@ Provides the ID of the VPC the subnet is in.
 
 Provides the Availability Zone of the subnet.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('availability_zone') { should eq 'us-east-1c' }    
     end
 
@@ -94,7 +94,7 @@ Provides the Availability Zone of the subnet.
 
 Provides the number of available IPv4 addresses on the subnet.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('available_ip_address_count') { should eq 251 }    
     end
 
@@ -102,7 +102,7 @@ Provides the number of available IPv4 addresses on the subnet.
 
 Provides the block of ip addresses specified to the subnet.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('cidr_block') { should eq '10.0.1.0/24' }    
     end
 
@@ -110,7 +110,7 @@ Provides the block of ip addresses specified to the subnet.
 
 Provides the ID of the Subnet.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('subnet_id') { should eq 'subnet-12345678' }    
     end
 
@@ -118,6 +118,6 @@ Provides the ID of the Subnet.
 
 Provides the ID of the VPC the subnet is in.
 
-    describe aws_vpc_subnet(subnet_id: 'subnet-12345678') do
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('vpc_id') { should eq 'vpc-12345678' }    
     end

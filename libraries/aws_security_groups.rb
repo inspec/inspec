@@ -1,16 +1,16 @@
 require '_aws'
 
-class AwsEc2SecurityGroups < Inspec.resource(1)
-  name 'aws_ec2_security_groups'
+class AwsSecurityGroups < Inspec.resource(1)
+  name 'aws_security_groups'
   desc 'Verifies settings for AWS Security Groups in bulk'
   example <<-EOX
     # Verify that you have security groups defined
-    describe aws_ec2_security_groups do
+    describe aws_security_groups do
       it { should exist }
     end
 
     # Verify you have more than the default security group
-    describe aws_ec2_security_groups do
+    describe aws_security_groups do
       its('entries.count') { should be > 1 }
     end
 EOX
@@ -67,7 +67,7 @@ EOX
 
   def fetch_from_backend(criteria)
     @table = []
-    backend = AwsEc2SecurityGroups::BackendFactory.create
+    backend = AwsSecurityGroups::BackendFactory.create
     # Note: should we ever implement server-side filtering
     # (and this is a very good resource for that),
     # we will need to reformat the criteria we are sending to AWS.
@@ -86,7 +86,7 @@ EOX
 
   class Backend
     class AwsClientApi < Backend
-      AwsEc2SecurityGroups::BackendFactory.set_default_backend self
+      AwsSecurityGroups::BackendFactory.set_default_backend self
 
       def describe_security_groups(query)
         AWSConnection.new.ec2_client.describe_security_groups(query)
