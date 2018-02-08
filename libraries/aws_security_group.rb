@@ -1,10 +1,10 @@
 require '_aws'
 
-class AwsEc2SecurityGroup < Inspec.resource(1)
-  name 'aws_ec2_security_group'
+class AwsSecurityGroup < Inspec.resource(1)
+  name 'aws_security_group'
   desc 'Verifies settings for an individual AWS Security Group.'
   example '
-    describe aws_ec2_security_group("sg-12345678") do
+    describe aws_security_group("sg-12345678") do
       it { should exist }
     end
   '
@@ -31,17 +31,17 @@ class AwsEc2SecurityGroup < Inspec.resource(1)
     recognized_params[:group_id] = recognized_params.delete(:id) if recognized_params.key?(:id)
 
     if recognized_params.key?(:group_id) && recognized_params[:group_id] !~ /^sg\-[0-9a-f]{8}/
-      raise ArgumentError, 'aws_ec2_security_group security group ID must be in the format "sg-" followed by 8 hexadecimal characters.'
+      raise ArgumentError, 'aws_security_group security group ID must be in the format "sg-" followed by 8 hexadecimal characters.'
     end
 
     if recognized_params.key?(:vpc_id) && recognized_params[:vpc_id] !~ /^vpc\-[0-9a-f]{8}/
-      raise ArgumentError, 'aws_ec2_security_group VPC ID must be in the format "vpc-" followed by 8 hexadecimal characters.'
+      raise ArgumentError, 'aws_security_group VPC ID must be in the format "vpc-" followed by 8 hexadecimal characters.'
     end
 
     validated_params = recognized_params
 
     if validated_params.empty?
-      raise ArgumentError, 'You must provide parameters to aws_ec2_security_group, such as group_name, group_id, or vpc_id.g_group.'
+      raise ArgumentError, 'You must provide parameters to aws_security_group, such as group_name, group_id, or vpc_id.g_group.'
     end
     validated_params
   end

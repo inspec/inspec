@@ -1,6 +1,6 @@
 require 'ostruct'
 require 'helper'
-require 'aws_vpc_subnets'
+require 'aws_subnets'
 
 # MVSB = MockVpcSubnetsBackend
 # Abbreviation not used outside this file
@@ -8,42 +8,42 @@ require 'aws_vpc_subnets'
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
-class AwsVpcSubnetsConstructor < Minitest::Test
+class AwsSubnetsConstructor < Minitest::Test
   def setup
-    AwsVpcSubnets::BackendFactory.select(AwsMVSB::Basic)
+    AwsSubnets::BackendFactory.select(AwsMVSB::Basic)
   end
 
   def test_constructor_no_args_ok
-    AwsVpcSubnets.new
+    AwsSubnets.new
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsVpcSubnets.new(bla: 'blabla') }
+    assert_raises(ArgumentError) { AwsSubnets.new(bla: 'blabla') }
   end
 end
 
 #=============================================================================#
 #                            Filter Criteria
 #=============================================================================#
-class AwsVpcSubnetsFilterCriteria < Minitest::Test
+class AwsSubnetsFilterCriteria < Minitest::Test
   def setup
-    AwsVpcSubnets::BackendFactory.select(AwsMVSB::Basic)
+    AwsSubnets::BackendFactory.select(AwsMVSB::Basic)
   end
 
   def test_filter_vpc_id
-    hit = AwsVpcSubnets.new.where(vpc_id: 'vpc-01234567')
+    hit = AwsSubnets.new.where(vpc_id: 'vpc-01234567')
     assert(hit.exists?)
 
-    miss = AwsVpcSubnets.new.where(vpc_id: 'vpc-87654321')
+    miss = AwsSubnets.new.where(vpc_id: 'vpc-87654321')
     refute(miss.exists?)
 
   end
 
   def test_filter_subnet_id
-    hit = AwsVpcSubnets.new.where(subnet_id: 'subnet-01234567')
+    hit = AwsSubnets.new.where(subnet_id: 'subnet-01234567')
     assert(hit.exists?)
 
-    miss = AwsVpcSubnets.new.where(subnet_id: 'subnet-98765432')
+    miss = AwsSubnets.new.where(subnet_id: 'subnet-98765432')
     refute(miss.exists?)
   end
 
@@ -52,34 +52,34 @@ end
 #=============================================================================#
 #                            Properties
 #=============================================================================#
-class AwsVpcSubnetProperties < Minitest::Test
+class AwsSubnetProperties < Minitest::Test
   def setup
-    AwsVpcSubnets::BackendFactory.select(AwsMVSB::Basic)
+    AwsSubnets::BackendFactory.select(AwsMVSB::Basic)
   end
 
   def test_property_vpc_ids
-    basic = AwsVpcSubnets.new
+    basic = AwsSubnets.new
     assert_kind_of(Array, basic.vpc_ids)
     assert(basic.vpc_ids.include?('vpc-01234567'))
     refute(basic.vpc_ids.include?(nil))
   end
 
   def test_property_subnet_ids
-    basic = AwsVpcSubnets.new
+    basic = AwsSubnets.new
     assert_kind_of(Array, basic.subnet_ids)
     assert(basic.subnet_ids.include?('subnet-01234567'))
     refute(basic.subnet_ids.include?(nil))
   end
 
   def test_property_cidr_blocks
-    basic = AwsVpcSubnets.new
+    basic = AwsSubnets.new
     assert_kind_of(Array, basic.cidr_blocks)
     assert(basic.cidr_blocks.include?('10.0.1.0/24'))
     refute(basic.cidr_blocks.include?(nil))
   end
 
   def test_property_states
-    basic = AwsVpcSubnets.new
+    basic = AwsSubnets.new
     assert_kind_of(Array, basic.states)
     assert(basic.states.include?('available'))
     refute(basic.states.include?(nil))

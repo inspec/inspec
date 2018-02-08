@@ -1,6 +1,6 @@
 require 'ostruct'
 require 'helper'
-require 'aws_ec2_security_group'
+require 'aws_security_group'
 
 # MESGSB = MockEc2SecurityGroupSingleBackend
 # Abbreviation not used outside this file
@@ -8,17 +8,17 @@ require 'aws_ec2_security_group'
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
-class AwsESGSConstructor < Minitest::Test
+class AwsSGSConstructor < Minitest::Test
   def setup
-    AwsEc2SecurityGroup::BackendFactory.select(AwsMESGSB::Empty)
+    AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Empty)
   end
   
   def test_constructor_no_args_raises
-    assert_raises(ArgumentError) { AwsEc2SecurityGroup.new }
+    assert_raises(ArgumentError) { AwsSecurityGroup.new }
   end
 
   def test_constructor_accept_scalar_param
-    AwsEc2SecurityGroup.new('sg-12345678')
+    AwsSecurityGroup.new('sg-12345678')
   end
 
   def test_constructor_expected_well_formed_args
@@ -28,7 +28,7 @@ class AwsESGSConstructor < Minitest::Test
       vpc_id: 'vpc-1234abcd',
       group_name: 'some-group',
     }.each do |param, value| 
-      AwsEc2SecurityGroup.new(param => value)
+      AwsSecurityGroup.new(param => value)
     end
   end
 
@@ -38,12 +38,12 @@ class AwsESGSConstructor < Minitest::Test
       group_id: '1234abcd',
       vpc_id: 'vpc_1234abcd',
     }.each do |param, value| 
-      assert_raises(ArgumentError) { AwsEc2SecurityGroup.new(param => value) }
+      assert_raises(ArgumentError) { AwsSecurityGroup.new(param => value) }
     end
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsEc2SecurityGroup.new(beep: 'boop') }
+    assert_raises(ArgumentError) { AwsSecurityGroup.new(beep: 'boop') }
   end
 end
 
@@ -51,29 +51,29 @@ end
 #                               Properties
 #=============================================================================#
 
-class AwsESGSProperties < Minitest::Test
+class AwsSGSProperties < Minitest::Test
   def setup
-    AwsEc2SecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
+    AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
   end
   
   def test_property_group_id
-    assert_equal('sg-12345678', AwsEc2SecurityGroup.new('sg-12345678').group_id)
-    assert_nil(AwsEc2SecurityGroup.new(group_name: 'my-group').group_id)
+    assert_equal('sg-12345678', AwsSecurityGroup.new('sg-12345678').group_id)
+    assert_nil(AwsSecurityGroup.new(group_name: 'my-group').group_id)
   end
 
   def test_property_group_name
-    assert_equal('beta', AwsEc2SecurityGroup.new('sg-12345678').group_name)
-    assert_nil(AwsEc2SecurityGroup.new('sg-87654321').group_name)
+    assert_equal('beta', AwsSecurityGroup.new('sg-12345678').group_name)
+    assert_nil(AwsSecurityGroup.new('sg-87654321').group_name)
   end
 
   def test_property_vpc_id
-    assert_equal('vpc-aaaabbbb', AwsEc2SecurityGroup.new('sg-aaaabbbb').vpc_id)
-    assert_nil(AwsEc2SecurityGroup.new('sg-87654321').vpc_id)
+    assert_equal('vpc-aaaabbbb', AwsSecurityGroup.new('sg-aaaabbbb').vpc_id)
+    assert_nil(AwsSecurityGroup.new('sg-87654321').vpc_id)
   end
 
   def test_property_description
-    assert_equal('Awesome Group', AwsEc2SecurityGroup.new('sg-12345678').description)
-    assert_nil(AwsEc2SecurityGroup.new('sg-87654321').description)
+    assert_equal('Awesome Group', AwsSecurityGroup.new('sg-12345678').description)
+    assert_nil(AwsSecurityGroup.new('sg-87654321').description)
   end
 
 end

@@ -1,11 +1,11 @@
 require '_aws'
 
-class AwsVpcSubnets < Inspec.resource(1)
-  name 'aws_vpc_subnets'
+class AwsSubnets < Inspec.resource(1)
+  name 'aws_subnets'
   desc 'Verifies settings for VPC Subnets in bulk'
   example "
     # you should be able to test the cidr_block of a subnet
-    describe aws_vpc_subnets.where(vpc_id: 'vpc-123456789') do
+    describe aws_subnets.where(vpc_id: 'vpc-123456789') do
       its('subnet_ids') { should eq ['subnet-12345678', 'subnet-87654321'] }
       its('cidr_blocks') { should eq ['172.31.96.0/20'] }
       its('states') { should_not include 'pending' }
