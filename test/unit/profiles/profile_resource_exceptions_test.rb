@@ -111,12 +111,5 @@ describe 'resource exception' do
     it 'does not affect regular FilterTable usage' do
       checks[12][0][1][0].another_filter.must_equal ['example']
     end
- end
-
-  describe 'when using deprecated `resource_skip` method' do
-    it 'warns the user' do
-      _, err = capture_io { checks[0][0][1][0].resource_skipped }
-      err.must_match(/DEPRECATION/)
-    end
   end
 end

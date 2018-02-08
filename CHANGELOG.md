@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.5 -->
-## [v1.51.5](https://github.com/chef/inspec/tree/v1.51.5) (2018-02-06)
+<!-- latest_release 1.51.6 -->
+## [v1.51.6](https://github.com/chef/inspec/tree/v1.51.6) (2018-02-08)
 
-#### Merged Pull Requests
-- Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick))
+#### New Features
+- Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.0 -->
 ### Changes since 1.51.0 release
+
+#### New Features
+- Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick)) <!-- 1.51.6 -->
 
 #### Merged Pull Requests
 - Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick)) <!-- 1.51.5 -->

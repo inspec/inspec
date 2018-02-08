@@ -15,32 +15,18 @@ module Inspec::Resources
     "
 
     def initialize
-      @platform = inspec.backend.os
+      @platform = inspec.backend.platform
     end
 
     # add helper methods for easy access of properties
     %w{family release arch}.each do |property|
       define_method(property.to_sym) do
-        @platform.send(property)
-      end
-    end
-
-    # This is a string override for platform.name.
-    # TODO: removed in inspec 2.0
-    class NameCleaned < String
-      def ==(other)
-        if other =~ /[A-Z ]/
-          cleaned = other.downcase.tr(' ', '_')
-          Inspec::Log.warn "[DEPRECATED] Platform names will become lowercase in InSpec 2.0. Please match on '#{cleaned}' instead of '#{other}'"
-          super(cleaned)
-        else
-          super(other)
-        end
+        @platform[property]
       end
     end
 
     def name
-      NameCleaned.new(@platform.name)
+      @platform.name
     end
 
     def [](key)

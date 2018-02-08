@@ -8,7 +8,7 @@ describe 'inspec exec with junit formatter' do
   include FunctionalHelper
 
   it 'can execute a simple file with the junit formatter' do
-    out = inspec('exec ' + example_control + ' --format junit --no-create-lockfile')
+    out = inspec('exec ' + example_control + ' --reporter junit --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     doc = REXML::Document.new(out.stdout)
@@ -16,7 +16,7 @@ describe 'inspec exec with junit formatter' do
   end
 
   it 'can execute the profile with the junit formatter' do
-    out = inspec('exec ' + example_profile + ' --format junit --no-create-lockfile')
+    out = inspec('exec ' + example_profile + ' --reporter junit --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     doc = REXML::Document.new(out.stdout)
@@ -24,7 +24,7 @@ describe 'inspec exec with junit formatter' do
   end
 
   describe 'execute a profile with junit formatting' do
-    let(:doc) { REXML::Document.new(inspec('exec ' + example_profile + ' --format junit --no-create-lockfile').stdout) }
+    let(:doc) { REXML::Document.new(inspec('exec ' + example_profile + ' --reporter junit --no-create-lockfile').stdout) }
 
     describe 'the document' do
       it 'has only one testsuite' do

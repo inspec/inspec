@@ -74,6 +74,11 @@ module Inspec
   end
 end
 
+require 'resources/azure/azure_backend.rb'
+require 'resources/azure/azure_generic_resource.rb'
+require 'resources/azure/azure_resource_group.rb'
+require 'resources/azure/azure_virtual_machine.rb'
+require 'resources/azure/azure_virtual_machine_data_disk.rb'
 require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
@@ -81,7 +86,6 @@ require 'resources/apt'
 require 'resources/audit_policy'
 require 'resources/auditd'
 require 'resources/auditd_conf'
-require 'resources/auditd_rules'
 require 'resources/bash'
 require 'resources/bond'
 require 'resources/bridge'
