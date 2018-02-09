@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.14 -->
-## [v1.51.14](https://github.com/chef/inspec/tree/v1.51.14) (2018-02-08)
+<!-- latest_release 1.51.15 -->
+## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
 
 #### Merged Pull Requests
-- Use the version of LicenseScout that comes with the Omnibus gem. [#2554](https://github.com/chef/inspec/pull/2554) ([tduffield](https://github.com/tduffield))
+- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.6 -->
 ### Changes since 1.51.6 release
 
 #### Merged Pull Requests
+- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick)) <!-- 1.51.15 -->
 - Use the version of LicenseScout that comes with the Omnibus gem. [#2554](https://github.com/chef/inspec/pull/2554) ([tduffield](https://github.com/tduffield)) <!-- 1.51.14 -->
 - Refactors grub_conf doc sligtly; adds os metadata [#2537](https://github.com/chef/inspec/pull/2537) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.13 -->
 - Kg/interface [#2550](https://github.com/chef/inspec/pull/2550) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.12 -->
