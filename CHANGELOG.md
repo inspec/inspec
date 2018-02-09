@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.15 -->
-## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
-
-#### Merged Pull Requests
-- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.51.6 -->
-### Changes since 1.51.6 release
-
-#### Merged Pull Requests
-- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick)) <!-- 1.51.15 -->
-- Use the version of LicenseScout that comes with the Omnibus gem. [#2554](https://github.com/chef/inspec/pull/2554) ([tduffield](https://github.com/tduffield)) <!-- 1.51.14 -->
-- Refactors grub_conf doc sligtly; adds os metadata [#2537](https://github.com/chef/inspec/pull/2537) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.13 -->
-- Kg/interface [#2550](https://github.com/chef/inspec/pull/2550) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.12 -->
-- Refactors ini docs [#2544](https://github.com/chef/inspec/pull/2544) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.11 -->
-- Refactors inetd_conf doc [#2543](https://github.com/chef/inspec/pull/2543) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.10 -->
-- Refactors iis_site doc [#2542](https://github.com/chef/inspec/pull/2542) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.9 -->
-- Refactors iis_app docs [#2541](https://github.com/chef/inspec/pull/2541) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.8 -->
-- Refactors http doc [#2540](https://github.com/chef/inspec/pull/2540) ([kagarmoe](https://github.com/kagarmoe)) <!-- 1.51.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
+
+#### Merged Pull Requests
+- Refactors http doc [#2540](https://github.com/chef/inspec/pull/2540) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors iis_app docs [#2541](https://github.com/chef/inspec/pull/2541) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors iis_site doc [#2542](https://github.com/chef/inspec/pull/2542) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors inetd_conf doc [#2543](https://github.com/chef/inspec/pull/2543) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors ini docs [#2544](https://github.com/chef/inspec/pull/2544) ([kagarmoe](https://github.com/kagarmoe))
+- Kg/interface [#2550](https://github.com/chef/inspec/pull/2550) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors grub_conf doc sligtly; adds os metadata [#2537](https://github.com/chef/inspec/pull/2537) ([kagarmoe](https://github.com/kagarmoe))
+- Use the version of LicenseScout that comes with the Omnibus gem. [#2554](https://github.com/chef/inspec/pull/2554) ([tduffield](https://github.com/tduffield))
+- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v1.51.6](https://github.com/chef/inspec/tree/v1.51.6) (2018-02-08)
 
 #### New Features
@@ -36,7 +34,6 @@
 - apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff))
 -  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel))
 - Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.51.0](https://github.com/chef/inspec/tree/v1.51.0) (2018-01-25)
 
