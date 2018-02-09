@@ -111,13 +111,7 @@ module Inspec
     end
 
     def report
-      # if reporter is nil that means a base runner report was used
-      # just return the hash accordingly
-      if @conf['reporter'].nil?
-        @run_data
-      else
-        Inspec::Reporters.report(@conf['reporter'].first, @run_data)
-      end
+      Inspec::Reporters.report(@conf['reporter'].first, @run_data)
     end
 
     def write_lockfile(profile)

@@ -27,7 +27,8 @@ module Inspec::Reporters
     if config['file']
       File.write(config['file'], output)
     elsif config['stdout'] == true
-      puts output
+      print output
+      STDOUT.flush
     end
   end
 
@@ -40,7 +41,8 @@ module Inspec::Reporters
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
     else
-      raise NotImplementedError, "You cannot call report on type '#{name}'."
+      # use base run_data hash for any other report
+      return run_data
     end
 
     reporter.report

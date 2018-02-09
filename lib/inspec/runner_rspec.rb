@@ -131,11 +131,6 @@ module Inspec
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters
       RSpec.configuration.color = @conf['color']
-      setup_reporting if @conf['report']
-    end
-
-    def setup_reporting
-      RSpec.configuration.add_formatter(Inspec::RSpecReporter)
     end
 
     # Make sure that all RSpec example groups use the provided ID.
@@ -163,14 +158,6 @@ module Inspec
       metadata[:desc] = rule.desc
       metadata[:code] = rule.instance_variable_get(:@__code)
       metadata[:source_location] = rule.instance_variable_get(:@__source_location)
-    end
-  end
-
-  class RSpecReporter < RSpec::Core::Formatters::JsonFormatter
-    RSpec::Core::Formatters.register Inspec::RSpecReporter
-
-    def initialize(*)
-      super(StringIO.new)
     end
   end
 end

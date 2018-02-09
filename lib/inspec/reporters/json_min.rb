@@ -5,7 +5,7 @@ require 'json'
 module Inspec::Reporters
   class JsonMin < Base
     def render
-      output(report.to_json)
+      output(report.to_json, false)
     end
 
     def report # rubocop:disable Metrics/AbcSize
