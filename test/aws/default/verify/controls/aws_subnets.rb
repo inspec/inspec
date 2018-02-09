@@ -10,8 +10,8 @@ fixtures = {}
   )
 end
 
-control "aws_vpc_subnets recall" do
-  all_subnets = aws_vpc_subnets
+control "aws_subnets recall" do
+  all_subnets = aws_subnets
   
   # You should be able to get a specific subnet given its id
   describe all_subnets.where(subnet_id: fixtures['ec2_default_vpc_subnet_id']) do
@@ -32,17 +32,17 @@ control "aws_vpc_subnets recall" do
   end
 end
 
-control "aws_vpc_subnets properties of default VPC subnet" do
+control "aws_subnets properties of default VPC subnet" do
   # you should be able to test the cidr_block of a subnet
-  describe aws_vpc_subnets.where(subnet_id: fixtures['ec2_default_vpc_subnet_id']) do
+  describe aws_subnets.where(subnet_id: fixtures['ec2_default_vpc_subnet_id']) do
     its('cidr_blocks') { should include '172.31.96.0/20' }
     its('states') { should_not include 'pending' }
   end
 end
 
-control "aws_vpc_subnets properties of default VPC" do
+control "aws_subnets properties of default VPC" do
   # you should be able to test the cidr_block of a subnet
-  describe aws_vpc_subnets.where(vpc_id: fixtures['ec2_security_group_default_vpc_id']) do
+  describe aws_subnets.where(vpc_id: fixtures['ec2_security_group_default_vpc_id']) do
     its('cidr_blocks') { should include '172.31.96.0/20' }
     its('states') { should include 'available' }
   end

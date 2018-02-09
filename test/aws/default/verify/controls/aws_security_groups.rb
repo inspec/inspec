@@ -11,7 +11,7 @@ fixtures = {}
 end
 
 control "aws_security_groups client-side filtering" do
-  all_groups = aws_ec2_security_groups
+  all_groups = aws_security_groups
 
   # You should always have at least one security group
   describe all_groups do
@@ -37,14 +37,14 @@ end
 
 control "aws_security_groups properties" do
   # You should be able to find the default security group's ID.
-  describe aws_ec2_security_groups.where(vpc_id: fixtures['ec2_security_group_default_vpc_id']) do
+  describe aws_security_groups.where(vpc_id: fixtures['ec2_security_group_default_vpc_id']) do
     its('group_ids') { should include fixtures['ec2_security_group_default_group_id'] }
   end
 end
 
-control "aws_ec2_security_groups" do
+control "aws_security_groups" do
   # Verify you have more than the default security group
-  describe aws_ec2_security_groups do
+  describe aws_security_groups do
     its('entries.count') { should be >= 2 }
   end
 end
