@@ -290,8 +290,10 @@ module Inspec
       #
       loc = if o.log_location
               o.log_location
-            elsif suppress_log_output?(o)
+            elsif o.log_level == 'debug'
               STDERR
+            elsif suppress_log_output?(o)
+              nil
             else
               STDOUT
             end
@@ -299,7 +301,7 @@ module Inspec
       Inspec::Log.init(loc)
       Inspec::Log.level = get_log_level(o.log_level)
 
-      o[:logger] = Logger.new(STDOUT)
+      o[:logger] = Logger.new(loc)
       # output json if we have activated the json formatter
       if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new

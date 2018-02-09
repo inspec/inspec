@@ -54,6 +54,21 @@ describe 'BaseCLI' do
     end
   end
 
+  describe 'configure_logger' do
+    let(:options) do
+      o = {
+        'log_location' => STDERR,
+        'log_level' => 'debug',
+      }
+      Thor::CoreExt::HashWithIndifferentAccess.new(o)
+    end
+
+    it 'sets to stderr for debug' do
+      cli.send(:configure_logger, options)
+      options[:logger]
+    end
+  end
+
   describe 'parse_reporters' do
     it 'parse cli reporters' do
       opts = { 'reporter' => ['cli'] }

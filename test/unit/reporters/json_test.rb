@@ -19,6 +19,14 @@ describe Inspec::Reporters::Json do
     end
   end
 
+  describe '#report' do
+    it 'confirm report output' do
+      output = File.read(path + '/../mock/reporters/json_output')
+      output = JSON.parse(output, symbolize_names: true)
+      report.report.must_equal output
+    end
+  end
+
   describe '#platform' do
     it 'confirm platform output' do
       hash = { name: 'mac_os_x', release: '17.2.0' }

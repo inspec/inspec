@@ -31,8 +31,6 @@ module Inspec
   class Runner
     extend Forwardable
 
-    def_delegator :@test_collector, :report
-
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = []
@@ -112,6 +110,16 @@ module Inspec
       end
     end
 
+    def report
+      # if reporter is nil that means a base runner report was used
+      # just return the hash accordingly
+      if @conf['reporter'].nil?
+        @run_data
+      else
+        Inspec::Reporters.report(@conf['reporter'].first, @run_data)
+      end
+    end
+
     def write_lockfile(profile)
       return false if !profile.writable?
 
@@ -125,8 +133,9 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      status, run_data = @test_collector.run(with)
-      render_output(run_data)
+      status, @run_data = @test_collector.run(with)
+      # dont output anything if we want a report
+      render_output(@run_data) unless @conf['report']
       status
     end
 

@@ -6,7 +6,7 @@ require 'inspec/reporters/junit'
 
 module Inspec::Reporters
   def self.render(reporter, run_data)
-    name, config = reporter
+    name, config = reporter.dup
     config[:run_data] = run_data
     case name
     when 'cli'
@@ -29,5 +29,20 @@ module Inspec::Reporters
     elsif config['stdout'] == true
       puts output
     end
+  end
+
+  def self.report(reporter, run_data)
+    name, config = reporter.dup
+    config[:run_data] = run_data
+    case name
+    when 'json'
+      reporter = Inspec::Reporters::Json.new(config)
+    when 'json-min'
+      reporter = Inspec::Reporters::JsonMin.new(config)
+    else
+      raise NotImplementedError, "You cannot call report on type '#{name}'."
+    end
+
+    reporter.report
   end
 end

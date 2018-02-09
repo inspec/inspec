@@ -78,15 +78,6 @@ module Inspec
       [status, @formatter.run_data]
     end
 
-    # Provide an output hash of the run's report
-    #
-    # @return [Hash] a run's output hash
-    def report
-      reporter = @formatter || RSpec.configuration.formatters[0]
-      return nil if reporter.nil? || !reporter.respond_to?(:output_hash)
-      reporter.output_hash
-    end
-
     # Empty the list of registered tests.
     #
     # @return [nil]
