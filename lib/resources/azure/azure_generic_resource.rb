@@ -11,6 +11,8 @@ module Inspec::Resources
       Inspec Resource to interrogate any Resource type in Azure
     '
 
+    supports platform: 'azure'
+
     attr_accessor :filter, :total, :counts, :name, :type, :location, :probes
 
     def initialize(opts = {})
