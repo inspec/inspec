@@ -59,13 +59,44 @@ describe 'BaseCLI' do
       o = {
         'log_location' => STDERR,
         'log_level' => 'debug',
+        'reporter' => {
+          'json' => {
+            'stdout' => true,
+          },
+        },
       }
       Thor::CoreExt::HashWithIndifferentAccess.new(o)
     end
+    let(:format) do
+      device = options[:logger].instance_variable_get(:"@logdev")
+      device.instance_variable_get(:"@dev")
+    end
+
+    it 'sets to stderr for log_location' do
+      cli.send(:configure_logger, options)
+      format.must_equal STDERR
+    end
 
     it 'sets to stderr for debug' do
+      options.delete('log_location')
       cli.send(:configure_logger, options)
-      options[:logger]
+      format.must_equal STDERR
+    end
+
+    it 'sets to nil for json' do
+      options.delete('log_location')
+      options.delete('log_level')
+      cli.send(:configure_logger, options)
+      format.must_be_nil
+    end
+
+    it 'sets defaults to stdout for everything else' do
+      options.delete('log_location')
+      options.delete('log_level')
+      options.delete('reporter')
+
+      cli.send(:configure_logger, options)
+      format.must_equal STDOUT
     end
   end
 
