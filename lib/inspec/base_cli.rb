@@ -210,10 +210,12 @@ module Inspec
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
 
       # merge in any options from json-config
-      opts.merge!(options_json)
+      json_config = options_json
+      opts.merge!(json_config)
 
       # remove the default reporter if we are setting a legacy format on the cli
-      opts.delete('reporter') if options['format']
+      # or via json-config
+      opts.delete('reporter') if options['format'] || json_config['format']
 
       # merge in any options defined via thor
       opts.merge!(options)
@@ -290,10 +292,8 @@ module Inspec
       #
       loc = if o.log_location
               o.log_location
-            elsif o.log_level == 'debug'
-              STDERR
             elsif suppress_log_output?(o)
-              nil
+              STDERR
             else
               STDOUT
             end
