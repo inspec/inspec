@@ -5,7 +5,11 @@ require 'json'
 module Inspec::Reporters
   class Json < Base
     def render
-      report = {
+      output(report.to_json, false)
+    end
+
+    def report
+      {
         platform: platform,
         profiles: profiles,
         statistics: { duration: run_data[:statistics][:duration] },
@@ -13,8 +17,6 @@ module Inspec::Reporters
         controls: controls,
         other_checks: run_data[:other_checks],
       }
-
-      output(report.to_json)
     end
 
     private
