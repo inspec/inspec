@@ -10,6 +10,8 @@ module Inspec::Resources
       Inspec Resource to get metadata about a specific Resource Group
     '
 
+    supports platform: 'azure'
+
     attr_reader :name, :location, :id, :total, :counts, :mapping
 
     # Constructor to get the resource group itself and perform some analysis on the

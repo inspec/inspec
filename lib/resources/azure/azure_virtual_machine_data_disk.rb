@@ -11,6 +11,8 @@ module Inspec::Resources
       Inspec Resource to ensure that the data disks attached to a machine are correct
     '
 
+    supports platform: 'azure'
+
     # Create a filter table so that tests on the disk can be performed
     filter = FilterTable.create
     filter.add_accessor(:where)

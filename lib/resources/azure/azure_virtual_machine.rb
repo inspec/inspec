@@ -10,6 +10,8 @@ module Inspec::Resources
       Inspec Resource to test Azure Virtual Machines
     '
 
+    supports platform: 'azure'
+
     # Constructor for the resource. This calls the parent constructor to
     # get the generic resource for the specified machine. This will provide
     # static methods that are documented
