@@ -25,11 +25,14 @@ module Inspec::Resources
     "
 
     def initialize
+      @virtualization_data = Hashie::Mash.new
+
       unless inspec.os.linux?
-        skip_resource 'The `virtualization` resource is not supported on your OS yet.'
-      else
-        collect_data_linux
+        raise Inspec::Exceptions::ResourceSkipped,
+              'The `virtualization` resource is not supported on your OS yet.'
       end
+
+      collect_data_linux
     end
 
     # add helper methods for easy access of properties
@@ -229,8 +232,7 @@ module Inspec::Resources
     end
 
     def collect_data_linux # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-      # cache data in an instance var to avoid doing multiple detections for a single test
-      @virtualization_data ||= Hashie::Mash.new
+      # This avoids doing multiple detections in a single test
       return unless @virtualization_data.empty?
 
       # each detect method will return true if it matched and was successfully
