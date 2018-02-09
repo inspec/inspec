@@ -242,6 +242,13 @@ inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_co
 
 # run in a subshell
 inspec exec test.rb --shell [--shell-options ...] [--shell-command ...]
+
+# run a profile targeting AWS using env vars
+inspec exec test.rb -t aws://
+
+# or store your AWS credentials in your ~/.aws/credentials profiles file
+inspec exec test.rb -t aws://us-east-2/my-profile
+
 ```
 
 ### detect
@@ -322,6 +329,7 @@ You may also [browse the Supermarket for shared Compliance Profiles](https://sup
 
 InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
 
+The AWS resources were inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
 
 ## Contribute
 
@@ -339,10 +347,11 @@ The InSpec community and maintainers are very active and helpful. This project b
 
 ## Testing InSpec
 
-We perform `unit` and `integration` tests.
+We offer `unit`, `integration`, and `aws` tests.
 
 - `unit` tests ensure the intended behaviour of the implementation
 - `integration` tests run against Docker-based VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
+- `aws` tests exercise the AWS resources against real AWS accounts
 
 ### Unit tests
 
@@ -360,7 +369,6 @@ You may also run a single test within a file by line number:
 
 ```bash
 bundle exec m test/unit/resources/user_test.rb -l 123
-```
 
 ### Integration tests
 
@@ -396,14 +404,20 @@ You may test all instances in parallel with:
 bundle exec kitchen test -c
 ```
 
+### AWS Tests
+
+Use the rake task `bundle exec rake test:aws` to test the AWS resources against a pair of real AWS accounts.
+
+Please see TESTING_AGAINST_AWS.md for details on how to setup the needed AWS accounts to perform testing.
+
 ## License
 
 |  |  |
 | ------ | --- |
 | **Author:** | Dominik Richter (<drichter@chef.io>) |
 | **Author:** | Christoph Hartmann (<chartmann@chef.io>) |
-| **Copyright:** | Copyright (c) 2015 Chef Software Inc. |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
+| **Copyright:** | Copyright (c) 2017 Chef Software Inc. |
 | **License:** | Apache License, Version 2.0 |
 
 Licensed under the Apache License, Version 2.0 (the "License");

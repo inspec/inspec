@@ -74,6 +74,12 @@ module Inspec
   end
 end
 
+# Many resources use FilterTable.
+require 'utils/filter'
+
+# AWS resources are included via their own file.
+require 'resource_support/aws'
+
 require 'resources/azure/azure_backend.rb'
 require 'resources/azure/azure_generic_resource.rb'
 require 'resources/azure/azure_resource_group.rb'
