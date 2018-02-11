@@ -55,12 +55,28 @@ describe 'Inspec::Resources::Host' do
     _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 
+  it 'check host udp on ubuntu' do
+    resource = MockLoader.new(:ubuntu1404).load_resource('host', 'example.com', port: 1234, protocol: 'udp')
+    _(resource.resolvable?).must_equal true
+    _(resource.reachable?).must_equal true
+    _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto udp'
+  end
+
   it 'check host tcp on centos 7' do
     resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 1234, protocol: 'tcp')
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
+  end
+
+  it 'check host udp on centos 7' do
+    resource = MockLoader.new(:centos7).load_resource('host', 'example.com', port: 1234, protocol: 'udp')
+    _(resource.resolvable?).must_equal true
+    _(resource.reachable?).must_equal true
+    _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto udp'
   end
 
   it 'check host tcp on darwin' do
@@ -196,74 +212,103 @@ EOL
 end
 
 describe Inspec::Resources::LinuxHostProvider do
-  let(:provider)     { Inspec::Resources::LinuxHostProvider.new(inspec) }
-  let(:inspec)       { mock('inspec-backend') }
-  let(:nc_command)   { mock('nc-command') }
-  let(:ncat_command) { mock('ncat-command') }
+  let(:provider)        { Inspec::Resources::LinuxHostProvider.new(inspec) }
+  let(:inspec)          { mock('inspec-backend') }
+  let(:nc_command)      { mock('nc-command') }
+  let(:ncat_command)    { mock('ncat-command') }
+  let(:timeout_command) { mock("timeout-command") }
+  let(:strings_command) { mock("strings-command") }
 
   before do
-    provider.stubs(:inspec).returns(inspec)
+    inspec.stubs(:command).with('nc').returns(nc_command)
+    inspec.stubs(:command).with('ncat').returns(ncat_command)
+    inspec.stubs(:command).with('timeout').returns(timeout_command)
+    inspec.stubs(:command).with("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").returns(strings_command)
   end
 
   describe '#missing_requirements' do
-    it "returns an empty array if nc is installed but ncat is not installed" do
-      inspec.stubs(:command).with('nc').returns(nc_command)
-      nc_command.stubs(:exist?).returns(true)
-      inspec.stubs(:command).with('ncat').returns(ncat_command)
-      ncat_command.stubs(:exist?).returns(false)
+    describe 'bash with net redirects' do
+      before do
+        strings_command.stubs(:exit_status).returns(0)
+        nc_command.stubs(:exist?).returns(false)
+        ncat_command.stubs(:exist?).returns(false)
+      end
 
-      provider.missing_requirements('tcp').must_equal([])
+      it "returns an empty array if timeout is available" do
+        timeout_command.stubs(:exist?).returns(true)
+        provider.missing_requirements('tcp').must_equal([])
+      end
+
+      it "returns a missing requirement when timeout is missing" do
+        timeout_command.stubs(:exist?).returns(false)
+        provider.missing_requirements('tcp').must_equal(['timeout (part of coreutils) must be installed'])
+      end
     end
 
-    it "returns an empty array if nc is not installed but ncat is installed" do
-      inspec.stubs(:command).with('nc').returns(nc_command)
-      nc_command.stubs(:exist?).returns(false)
-      inspec.stubs(:command).with('ncat').returns(ncat_command)
-      ncat_command.stubs(:exist?).returns(true)
+    describe 'bash without net redirects' do
+      before do
+        strings_command.stubs(:exit_status).returns(1)
+      end
 
-      provider.missing_requirements('tcp').must_equal([])
-    end
+      it "returns an empty array if nc is installed but ncat is not installed" do
+        nc_command.stubs(:exist?).returns(true)
+        ncat_command.stubs(:exist?).returns(false)
+        provider.missing_requirements('tcp').must_equal([])
+      end
 
-    it "returns an empty array if both nc and ncat are installed" do
-      inspec.stubs(:command).with('nc').returns(nc_command)
-      nc_command.stubs(:exist?).returns(true)
-      inspec.stubs(:command).with('ncat').returns(ncat_command)
-      ncat_command.stubs(:exist?).returns(true)
+      it "returns an empty array if nc is not installed but ncat is installed" do
+        nc_command.stubs(:exist?).returns(false)
+        ncat_command.stubs(:exist?).returns(true)
+        provider.missing_requirements('tcp').must_equal([])
+      end
 
-      provider.missing_requirements('tcp').must_equal([])
-    end
+      it "returns an empty array if both nc and ncat are installed" do
+        nc_command.stubs(:exist?).returns(true)
+        ncat_command.stubs(:exist?).returns(true)
+        provider.missing_requirements('tcp').must_equal([])
+      end
 
-    it "returns a missing requirement when neither nc nor ncat are installed" do
-      inspec.stubs(:command).with('nc').returns(nc_command)
-      nc_command.stubs(:exist?).returns(false)
-      inspec.stubs(:command).with('ncat').returns(ncat_command)
-      ncat_command.stubs(:exist?).returns(false)
-
-      provider.missing_requirements('tcp').must_equal(['netcat must be installed'])
+      it "returns a missing requirement when neither nc nor ncat are installed" do
+        nc_command.stubs(:exist?).returns(false)
+        ncat_command.stubs(:exist?).returns(false)
+        provider.missing_requirements('tcp').must_equal(['netcat must be installed'])
+      end
     end
   end
 
-  describe '#tcp_check_command' do
-    it 'returns an nc command when nc exists' do
-      inspec.expects(:command).with('nc').returns(nc_command)
-      nc_command.expects(:exist?).returns(true)
-      provider.tcp_check_command('foo', 1234).must_equal 'echo | nc -v -w 1 foo 1234'
+  describe '#netcat_check_command' do
+    before do
+      strings_command.stubs(:exit_status).returns(1)
     end
 
-    it 'returns an ncat command when nc does not exist but ncat exists' do
-      inspec.expects(:command).with('nc').returns(nc_command)
-      inspec.expects(:command).with('ncat').returns(ncat_command)
+    it 'returns an nc command when nc exists tcp' do
+      nc_command.expects(:exist?).returns(true)
+      ncat_command.expects(:exist?).returns(false)
+      provider.netcat_check_command('foo', 1234, 'tcp').must_equal 'echo | nc -v -w 1  foo 1234'
+    end
+
+    it 'returns an nc command when nc exists udp' do
+      nc_command.expects(:exist?).returns(true)
+      ncat_command.expects(:exist?).returns(false)
+      provider.netcat_check_command('foo', 1234, 'udp').must_equal 'echo | nc -v -w 1 -u foo 1234'
+    end
+
+    it 'returns an ncat command when nc does not exist but ncat exists tcp' do
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(true)
-      provider.tcp_check_command('foo', 1234).must_equal 'echo | ncat -v -w 1 foo 1234'
+      provider.netcat_check_command('foo', 1234, 'tcp').must_equal 'echo | ncat -v -w 1  foo 1234'
+    end
+
+    it 'returns an ncat command when nc does not exist but ncat exists udp' do
+      nc_command.expects(:exist?).returns(false)
+      ncat_command.expects(:exist?).returns(true)
+      provider.netcat_check_command('foo', 1234, 'udp').must_equal 'echo | ncat -v -w 1 -u foo 1234'
     end
 
     it 'returns nil if neither nc or ncat exist' do
-      inspec.expects(:command).with('nc').returns(nc_command)
-      inspec.expects(:command).with('ncat').returns(ncat_command)
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(false)
-      provider.tcp_check_command('foo', 1234).must_be_nil
+      provider.netcat_check_command('foo', 1234, 'tcp').must_be_nil
     end
   end
 end
