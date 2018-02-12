@@ -27,6 +27,13 @@ describe Inspec::Runner do
         expected = { 'json' => { 'stdout' => true } }
         config['reporter'].must_equal expected
       end
+
+      it 'delets format if set to a rspec format' do
+        opts = { command_runner: :generic, backend_cache: true, 'format' => 'progress' }
+        runner = Inspec::Runner.new(opts)
+        config = runner.instance_variable_get(:"@conf")
+        config['reporter'].must_equal Hash.new
+      end
     end
 
     describe 'when backend caching is enabled' do

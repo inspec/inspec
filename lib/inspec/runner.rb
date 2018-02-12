@@ -42,13 +42,15 @@ module Inspec
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
+
+      # parse any ad-hoc runners reporter formats
+      # this has to happen before we load the test_collector
+      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
+
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
       end
-
-      # parse any ad-hoc runners reporter formats
-      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
 
       # list of profile attributes
       @attributes = []
