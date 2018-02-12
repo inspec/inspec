@@ -6,9 +6,6 @@ class AwsS3BucketObject < Inspec.resource(1)
   example "
     describe aws_s3_bucket_object(bucket_name: 'bucket_name', key: 'file_name') do
       it { should exist }
-      its('permissions.authUsers') { should be_in [] }
-      its('permissions.owner') { should be_in ['FULL_CONTROL'] }
-      its('permissions.everyone') { should be_in [] }
     end
   "
 
@@ -26,8 +23,6 @@ class AwsS3BucketObject < Inspec.resource(1)
   
   # RSpec will alias this to be_public
   def public?
-    require 'pry'
-    binding.pry
     # first line just for formatting
     false || \
       object_acl.any? { |g| g.grantee.type == 'Group' && g.grantee.uri =~ /AllUsers/ } || \
