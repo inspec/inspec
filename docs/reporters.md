@@ -4,9 +4,12 @@ title: InSpec Reporters
 
 # InSpec Reporters
 
+Introduced in InSpec 1.51.6
+
 InSpec allows you to output your test results to one or more reporters. You can configure the reporter(s) using either the `--json-config` option or the `--reporter` option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
+
 You can specify one or more reporters using the `--reporter` cli flag. You can also specify a output by appending a path seperated by a colon.
 
 Output json to screen.
@@ -17,20 +20,22 @@ or
 inspec exec --reporter json:-
 ```
 
-Output cli to screen, write json to a file.
+Output cli to screen and write json to a file.
 
 ```bash
 inspec exec --reporter cli json:/tmp/output.json
 ```
-Output nothing to screen, write junit and html to a file.
+
+Output nothing to screen and write junit and html to a file.
 
 ```bash
 inspec exec --reporter junit:/tmp/junit.xml html:www/index.html
 ```
-Output json to screen and redirect to file, write junit and html to a file.
+
+Output json to screen and write to a file. Write junit to a file.
 
 ```bash
-inspec exec --reporter json junit:/tmp/junit.xml html:www/index.html > out.json
+inspec exec --reporter json junit:/tmp/junit.xml | tee out.json
 ```
 
 If you are using the cli option `--json-config` you can also set reporters.
@@ -47,7 +52,7 @@ Output cli to screen.
 }
 ```
 
-Output cli to screen, write json to a file.
+Output cli to screen and write json to a file.
 
 ```json
 {
@@ -81,7 +86,7 @@ This renders html code to view your tests in a browser. It includes all the test
 
 ### progress
 
-This reporter is very condensed and gives you a .(pass), f(fail), or *(skip) character per test and a small summary at the end.
+This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(skip) character per test and a small summary at the end.
 
 ### json
 
