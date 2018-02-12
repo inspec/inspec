@@ -1,6 +1,7 @@
 ---
 title: About the kernel_module Resource
 platform: linux
+=======
 ---
 
 # kernel_module
@@ -39,6 +40,12 @@ where
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### version
+
+The `version` property tests if the named module version is on the system:
+
+    its(:version) { should eq '3.2.2' }
 
 ### Test a modules 'version'
 
@@ -82,6 +89,7 @@ The following examples show how to use this InSpec audit resource.
         it { should be_blacklisted }
       end
 
+
 ### Ensure a module is not loaded
 
       describe kernel_module('dhcp') do
@@ -94,14 +102,30 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
+
+### be_blacklisted
+
+The `be_blacklisted` matcher tests if the module is a blacklisted kernel module:
+
+    it { should be_blacklisted }
+
+or, test that it is not a blacklisted kernel module:
+
+    it { should_not be_blacklisted}
+
+### be_disabled
+
+The `be_disabled` matcher tests if the module is disabled:
+
+  it { should be_disabled }
+
+or, test if the module is enabled:
+
+  it { should_not be_disabled }
+
 ### be_loaded
 
 The `be_loaded` matcher tests if the module is a loadable kernel module:
 
     it { should be_loaded }
 
-### version
-
-The `version` matcher tests if the named module version is on the system:
-
-    its(:version) { should eq '3.2.2' }
