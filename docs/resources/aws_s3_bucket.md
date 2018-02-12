@@ -14,9 +14,7 @@ To test properties of a multiple S3 buckets, use the `aws_s3_buckets` resource.
 
 S3 bucket security is a complex matter.  For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html).  S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
 
-As of January 2018, this resource supports evaluating bucket ACLs and bucket policies. We do not support evaluating object ACLs because it introduces scalability concerns in the AWS API; we recommend using AWS mechanisms such as CloudTrail and Config to detect insecure object ACLs.
-
-In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
+As of January 2018, this resource supports evaluating bucket ACLs and bucket policies. In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
 
 ## Syntax
 
