@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.16 -->
-## [v1.51.16](https://github.com/chef/inspec/tree/v1.51.16) (2018-02-12)
+<!-- latest_release 1.51.17 -->
+## [v1.51.17](https://github.com/chef/inspec/tree/v1.51.17) (2018-02-12)
 
 #### Merged Pull Requests
-- Force a default reporter for ad-hoc runners [#2610](https://github.com/chef/inspec/pull/2610) ([jquick](https://github.com/jquick))
+- Allow ad-hoc runners to use rspec formats. [#2621](https://github.com/chef/inspec/pull/2621) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.15 -->
 ### Changes since 1.51.15 release
 
 #### Merged Pull Requests
+- Allow ad-hoc runners to use rspec formats. [#2621](https://github.com/chef/inspec/pull/2621) ([jquick](https://github.com/jquick)) <!-- 1.51.17 -->
 - Force a default reporter for ad-hoc runners [#2610](https://github.com/chef/inspec/pull/2610) ([jquick](https://github.com/jquick)) <!-- 1.51.16 -->
 <!-- release_rollup -->
 
