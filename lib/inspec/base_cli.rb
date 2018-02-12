@@ -93,7 +93,7 @@ module Inspec
       }
     end
 
-    def self.parse_reporters(opts)
+    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
       # merge in any legacy formats as reporter
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
@@ -101,6 +101,9 @@ module Inspec
         opts['reporter'] = Array(opts['format'])
         opts.delete('format')
       end
+
+      # default to cli report for ad-hoc runners
+      opts['reporter'] = ['cli'] if opts['reporter'].nil?
 
       # parse out cli to proper report format
       if opts['reporter'].is_a?(Array)
