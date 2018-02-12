@@ -19,6 +19,14 @@ describe Inspec::Runner do
         expected = { 'cli' => { 'stdout' => true } }
         config['reporter'].must_equal expected
       end
+
+      it 'does not default when format is set' do
+        opts = { command_runner: :generic, backend_cache: true, 'format' => 'json' }
+        runner = Inspec::Runner.new(opts)
+        config = runner.instance_variable_get(:"@conf")
+        expected = { 'json' => { 'stdout' => true } }
+        config['reporter'].must_equal expected
+      end
     end
 
     describe 'when backend caching is enabled' do
