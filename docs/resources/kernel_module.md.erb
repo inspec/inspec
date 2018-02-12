@@ -109,19 +109,11 @@ The `be_blacklisted` matcher tests if the module is a blacklisted kernel module:
 
     it { should be_blacklisted }
 
-or, test that it is not a blacklisted kernel module:
-
-    it { should_not be_blacklisted}
-
 ### be_disabled
 
 The `be_disabled` matcher tests if the module is disabled:
 
-  it { should be_disabled }
-
-or, test if the module is enabled:
-
-  it { should_not be_disabled }
+    it { should be_disabled }
 
 ### be_loaded
 
