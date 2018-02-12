@@ -41,6 +41,7 @@ module Inspec::Reporters
         }
         control[:resource] = c[:resource] if c[:resource]
         control[:skip_message] = c[:skip_message] if c[:skip_message]
+        control[:message] = c[:message] if c[:message]
         control[:exception] = c[:exception] if c[:exception]
         control[:backtrace] = c[:backtrace] if c[:backtrace]
 
@@ -62,6 +63,9 @@ module Inspec::Reporters
         }
         result[:resource] = r[:resource] if r[:resource]
         result[:skip_message] = r[:skip_message] if r[:skip_message]
+        result[:message] = r[:message] if r[:message]
+        result[:exception] = r[:exception] if r[:exception]
+        result[:backtrace] = r[:backtrace] if r[:backtrace]
 
         results << result
       end
