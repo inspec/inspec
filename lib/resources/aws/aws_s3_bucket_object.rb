@@ -16,12 +16,12 @@ class AwsS3BucketObject < Inspec.resource(1)
   def to_s
     "s3://#{@bucket_name}/#{@key}"
   end
-  
+
   def object_acl
     # This is simple enough to inline it.
     @object_acl ||= BackendFactory.create(inspec_runner).get_object_acl(bucket: bucket_name, key: key).grants
   end
-  
+
   # RSpec will alias this to be_public
   def public?
     # first line just for formatting
@@ -45,7 +45,7 @@ class AwsS3BucketObject < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    
+
     begin
       backend.get_object(bucket: bucket_name, key: key)
     rescue Aws::S3::Errors::NoSuchBucket
@@ -55,7 +55,7 @@ class AwsS3BucketObject < Inspec.resource(1)
       @exists = false
       return
     end
-    
+
     @exists = true
   end
 
@@ -64,11 +64,11 @@ class AwsS3BucketObject < Inspec.resource(1)
     class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::S3::Client
-      
+
       def get_object(query)
         aws_service_client.get_object(query)
-      end 
-      
+      end
+
       def get_object_acl(query)
         aws_service_client.get_object_acl(query)
       end
