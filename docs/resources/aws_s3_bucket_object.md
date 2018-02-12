@@ -4,20 +4,24 @@ title: About the aws_s3_bucket_object Resource
 
 # aws_s3_bucket_object
 
-Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a s3 bucket object.
+Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a single AWS bucket object.
 
-To test properties of a single object(file), use the `aws_s3_bucket_object` resource.
 
 <br>
 
+## Limitations
+
+S3 object security is a complex matter.  For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html).  S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
+
+As of January 2018, this resource supports evaluating bucket object ACLs. In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
+
 ## Syntax
 
-An `aws_s3_bucket_object` resource block uses the parameter to select a bucket and a object in the bucket
+An `aws_s3_bucket_object` resource block declares a bucket and an object key by name, and then lists tests to be performed.
 
-    describe aws_s3_bucket_object(bucket_name: 'private_bucket', key: 'private_file') do
+    describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_object_key') do
       it { should exist }
       it { should_not be_public }
-      its('permissions.everyone') { should be_in [] }
     end
 
 <br>
@@ -26,45 +30,52 @@ An `aws_s3_bucket_object` resource block uses the parameter to select a bucket a
 
 The following examples show how to use this InSpec audit resource.
 
-### Test the object ACL to make sure it is not public.
+### Test a object's object-level ACL
 
-    describe aws_s3_bucket_object(name: 'bucket_name', key: 'private_file') do
+    describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
+      its('object_acl.count') { should eq 1 }
+    end
+
+### Check to see if a object appears to be exposed to the public
+
+    # See Limitations section above
+    describe aws_s3_bucket_object(bucket_name: 'test_bucket', key: 'test_key') do
       it { should_not be_public }
     end
-
-### Test authenticated users permissions
-
-ACLs can also be granted at the level of Authenticated Users, meaning any AWS user.
-
-    describe aws_s3_bucket_object(name: 'bucket_name', key: 'private_file.jpg') do
-      its('permissions.authUsers') { should be_in [] }
-    end
-
 <br>
 
-## Supported Properties
+## Unsupported Properties
 
-### permissions (Hash)
+### object_acl
 
-The `permissions` hash property is used for matching the permissions of specific group.
+The `object_acl` property is a low-level property that lists the individual Object ACL grants that are in effect on the object.  Other higher-level properties, such as be\_public, are more concise and easier to use.  You can use the `object_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
-    describe aws_s3_bucket_object(name: 'bucket_name', key: 'public_file.jpg') do
-      # Check examples of 'owner'
-      its('permissions.owner') { should be_in ['FULL_CONTROL'] }
+The value of object_acl is an Array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
 
-      # Check examples of 'authUsers'
-      its('permissions.authUsers') { should be_in ['READ'] }
+    
+    object_acl = aws_s3_bucket_object(bucket_name: 'my_bucket', key: 'object_key')
 
-      # Check examples of 'everyone'
-      its('permissions.everyone') { should be_in ['READ'] }
+    # Look for grants to "AllUsers" (that is, the public)
+    all_users_grants = object_acl.select do |g|
+      g.grantee.type == 'Group' && g.grantee.uri =~ /AllUsers/
+    end
+
+    # Look for grants to "AuthenticatedUsers" (that is, any authenticated AWS user - nearly public)
+    auth_grants = object_acl.select do |g|
+      g.grantee.type == 'Group' && g.grantee.uri =~ /AuthenticatedUsers/
     end
 
 ## Matchers
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### public
+### be_public
 
-The `public` matcher tests if the object is publicly accessible to everyone.
+The `be_public` matcher tests if the object has potentially insecure access controls. This high-level matcher detects several insecure conditions, which may be enhanced in the future. Currently, the matcher reports an insecure object if any of the following conditions are met:
 
-    it { should be_public }
+  1. A object ACL grant exists for the 'AllUsers' group
+  2. A object ACL grant exists for the 'AuthenticatedUsers' group
+
+Note: This resource does not detect insecure object ACLs.
+
+    it { should_not be_public }
