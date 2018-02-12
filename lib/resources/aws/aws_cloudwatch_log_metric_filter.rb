@@ -45,7 +45,12 @@ EOX
     aws_search_criteria = {}
     aws_search_criteria[:filter_name] = filter_name if filter_name
     aws_search_criteria[:log_group_name] = log_group_name if log_group_name
-    aws_results = backend.describe_metric_filters(aws_search_criteria)
+    begin
+      aws_results = backend.describe_metric_filters(aws_search_criteria)
+    rescue Aws::CloudWatchLogs::Errors::ResourceNotFoundException
+      @exists = false
+      return
+    end
 
     # Then perform local filtering
     if pattern
