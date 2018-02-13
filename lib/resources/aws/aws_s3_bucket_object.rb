@@ -14,11 +14,11 @@ class AwsS3BucketObject < Inspec.resource(1)
   attr_reader :bucket_name, :key
 
   def to_s
+    # keep the format that aws uses.
     "s3://#{@bucket_name}/#{@key}"
   end
 
   def object_acl
-    # This is simple enough to inline it.
     @object_acl ||= BackendFactory.create(inspec_runner).get_object_acl(bucket: bucket_name, key: key).grants
   end
 
@@ -47,6 +47,7 @@ class AwsS3BucketObject < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
 
     begin
+      # Just use get_object for exists
       backend.get_object(bucket: bucket_name, key: key)
     rescue Aws::S3::Errors::NoSuchBucket
       @exists = false
@@ -59,7 +60,6 @@ class AwsS3BucketObject < Inspec.resource(1)
     @exists = true
   end
 
-  # Uses the SDK API to really talk to AWS
   class Backend
     class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
