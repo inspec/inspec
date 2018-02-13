@@ -47,7 +47,7 @@ class AwsS3BucketObject < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
 
     begin
-      # Just use get_object for exists
+      # Just use get_object to detect if the bucket exists
       backend.get_object(bucket: bucket_name, key: key)
     rescue Aws::S3::Errors::NoSuchBucket
       @exists = false
