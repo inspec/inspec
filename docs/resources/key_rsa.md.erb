@@ -1,5 +1,6 @@
 ---
 title: The key_rsa Resource
+os: Linux
 ---
 
 # key_rsa
@@ -31,13 +32,11 @@ You can use an optional passphrase with `key_rsa`
 
 ## Supported Properties
 
-### public?
+  * `public_key`, `private_key`, `key_length`
 
-To verify if a key is public use the following:
+<br>
 
-    describe key_rsa('/etc/pki/www.mywebsite.com.key') do
-      it { should be_public }
-    end
+## Property Examples
 
 ### public_key (String)
 
@@ -46,15 +45,6 @@ The `public_key` property returns the public part of the RSA key pair
     describe key_rsa('/etc/pki/www.mywebsite.com.key') do
       its('public_key') { should match "-----BEGIN PUBLIC KEY-----\n3597459df9f3982......" }
     end
-
-### private?
-
-This property verifies that the key includes a private key:
-
-    describe key_rsa('/etc/pki/www.mywebsite.com.key') do
-      it { should be_private }
-    end
-
 
 ### private_key (String)
 
@@ -70,4 +60,24 @@ The `key_length` property allows testing the number of bits in the key pair.
 
     describe key_rsa('/etc/pki/www.mywebsite.com.key') do
       its('key_length') { should eq 2048 }
+    end
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
+### public?
+
+To verify if a key is public use the following:
+
+    describe key_rsa('/etc/pki/www.mywebsite.com.key') do
+      it { should be_public }
+    end
+
+### private?
+
+This property verifies that the key includes a private key:
+
+    describe key_rsa('/etc/pki/www.mywebsite.com.key') do
+      it { should be_private }
     end
