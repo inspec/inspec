@@ -33,6 +33,9 @@ module Inspec
         'start_time' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },
         'resource' => { 'type' => 'string', 'optional' => true },
+        'message' => { 'type' => 'string', 'optional' => true },
+        'exception' => { 'type' => 'string', 'optional' => true },
+        'backtrace' => { 'type' => 'object', 'optional' => true },
       },
     }.freeze
 
@@ -152,6 +155,9 @@ module Inspec
         'code_desc' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },
         'resource' => { 'type' => 'string', 'optional' => true },
+        'message' => { 'type' => 'string', 'optional' => true },
+        'exception' => { 'type' => 'string', 'optional' => true },
+        'backtrace' => { 'type' => 'object', 'optional' => true },
       },
     }.freeze
 

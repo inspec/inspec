@@ -31,8 +31,6 @@ module Inspec
   class Runner
     extend Forwardable
 
-    def_delegator :@test_collector, :report
-
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = []
@@ -44,13 +42,15 @@ module Inspec
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
+
+      # parse any ad-hoc runners reporter formats
+      # this has to happen before we load the test_collector
+      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
+
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
       end
-
-      # parse any ad-hoc runners reporter formats
-      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
 
       # list of profile attributes
       @attributes = []
@@ -112,6 +112,10 @@ module Inspec
       end
     end
 
+    def report
+      Inspec::Reporters.report(@conf['reporter'].first, @run_data)
+    end
+
     def write_lockfile(profile)
       return false if !profile.writable?
 
@@ -125,8 +129,9 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      status, run_data = @test_collector.run(with)
-      render_output(run_data)
+      status, @run_data = @test_collector.run(with)
+      # dont output anything if we want a report
+      render_output(@run_data) unless @conf['report']
       status
     end
 

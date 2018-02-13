@@ -91,7 +91,7 @@ module Inspec
       }
     end
 
-    def self.parse_reporters(opts)
+    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
       # merge in any legacy formats as reporter
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
@@ -99,6 +99,9 @@ module Inspec
         opts['reporter'] = Array(opts['format'])
         opts.delete('format')
       end
+
+      # default to cli report for ad-hoc runners
+      opts['reporter'] = ['cli'] if opts['reporter'].nil?
 
       # parse out cli to proper report format
       if opts['reporter'].is_a?(Array)
@@ -208,10 +211,12 @@ module Inspec
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
 
       # merge in any options from json-config
-      opts.merge!(options_json)
+      json_config = options_json
+      opts.merge!(json_config)
 
       # remove the default reporter if we are setting a legacy format on the cli
-      opts.delete('reporter') if options['format']
+      # or via json-config
+      opts.delete('reporter') if options['format'] || json_config['format']
 
       # merge in any options defined via thor
       opts.merge!(options)
@@ -297,7 +302,7 @@ module Inspec
       Inspec::Log.init(loc)
       Inspec::Log.level = get_log_level(o.log_level)
 
-      o[:logger] = Logger.new(STDOUT)
+      o[:logger] = Logger.new(loc)
       # output json if we have activated the json formatter
       if o['log-format'] == 'json'
         o[:logger].formatter = Logger::JSONFormatter.new

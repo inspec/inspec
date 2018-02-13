@@ -13,9 +13,17 @@ describe Inspec::Reporters::Json do
 
   describe '#render' do
     it 'confirm render output' do
-      cli_output = File.read(path + '/../mock/reporters/json_output')
+      output = File.read(path + '/../mock/reporters/json_output')
       report.render
-      report.rendered_output.must_equal cli_output
+      report.rendered_output.must_equal output
+    end
+  end
+
+  describe '#report' do
+    it 'confirm report output' do
+      output = File.read(path + '/../mock/reporters/json_output')
+      output = JSON.parse(output, symbolize_names: true)
+      report.report.must_equal output
     end
   end
 

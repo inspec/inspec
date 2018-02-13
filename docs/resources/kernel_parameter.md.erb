@@ -1,11 +1,12 @@
 ---
 title: About the kernel_parameter Resource
+os: Linux
 ---
 
 # kernel_parameter
 
 Use the `kernel_parameter` InSpec audit resource to test kernel parameters on Linux platforms.
-
+ These parameters are located under `/proc/cmdline`. 
 <br>
 
 ## Syntax
@@ -42,7 +43,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test if an IPv6 address accepts redirects
 
     describe kernel_parameter('net.ipv6.conf.interface.accept_redirects') do
-      its('value') { should eq 'true' }
+      its('value') { should cmp 'true' }
     end
 
 <br>
@@ -50,9 +51,3 @@ The following examples show how to use this InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
-
-### value
-
-The `value` matcher tests the value assigned to the named IP address versus the value declared in the test:
-
-    its('value') { should eq 0 }

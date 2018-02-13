@@ -76,7 +76,8 @@ describe Inspec::Reporters::CLI do
         File /tmp
       \e[38;5;41m     ✔  should be directory\e[0m
         gem package rubocop
-      \e[38;5;208m     ∅  should be installed\e[0m
+      \e[38;5;208m     ∅  should be installed
+           rubocop is not installed\e[0m
         stdout
       \e[38;5;41m     ✔  stdout should eq \"jquick\\n\"\e[0m
       EOF

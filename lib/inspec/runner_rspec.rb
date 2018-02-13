@@ -78,15 +78,6 @@ module Inspec
       [status, @formatter.run_data]
     end
 
-    # Provide an output hash of the run's report
-    #
-    # @return [Hash] a run's output hash
-    def report
-      reporter = @formatter || RSpec.configuration.formatters[0]
-      return nil if reporter.nil? || !reporter.respond_to?(:output_hash)
-      reporter.output_hash
-    end
-
     # Empty the list of registered tests.
     #
     # @return [nil]
@@ -103,18 +94,18 @@ module Inspec
     #
     #
     def set_optional_formatters
-      return if @conf[:reporter].nil?
-      if @conf[:reporter].key?('json-rspec')
+      return if @conf['reporter'].nil?
+      if @conf['reporter'].key?('json-rspec')
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if @conf[:reporter]['json-rspec']&.[]('file').nil?
+        if @conf['reporter']['json-rspec']&.[]('file').nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec']['file'])
         end
-        @conf[:reporter].delete('json-rspec')
+        @conf['reporter'].delete('json-rspec')
       end
 
-      formats = @conf[:reporter].select { |k, _v| %w{documentation progress html}.include?(k) }
+      formats = @conf['reporter'].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if v&.[]('file').nil?
@@ -122,7 +113,7 @@ module Inspec
         else
           RSpec.configuration.add_formatter(k.to_sym, v['file'])
         end
-        @conf[:reporter].delete(k)
+        @conf['reporter'].delete(k)
       end
     end
 
@@ -140,11 +131,6 @@ module Inspec
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters
       RSpec.configuration.color = @conf['color']
-      setup_reporting if @conf['report']
-    end
-
-    def setup_reporting
-      RSpec.configuration.add_formatter(Inspec::RSpecReporter)
     end
 
     # Make sure that all RSpec example groups use the provided ID.
@@ -172,14 +158,6 @@ module Inspec
       metadata[:desc] = rule.desc
       metadata[:code] = rule.instance_variable_get(:@__code)
       metadata[:source_location] = rule.instance_variable_get(:@__source_location)
-    end
-  end
-
-  class RSpecReporter < RSpec::Core::Formatters::JsonFormatter
-    RSpec::Core::Formatters.register Inspec::RSpecReporter
-
-    def initialize(*)
-      super(StringIO.new)
     end
   end
 end

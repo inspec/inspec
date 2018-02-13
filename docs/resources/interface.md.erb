@@ -22,16 +22,12 @@ An `interface` resource block declares network interface properties to be tested
     end
 
 <br>
+## Resource Properties
 
-## Matchers
+`name`, `speed`
+<br>
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
-
-### be_up
-
-The `be_up` matcher tests if the network interface is available:
-
-    it { should be_up }
+## Resource Property Examples
 
 ### name
 
@@ -44,3 +40,16 @@ The `name` matcher tests if the named network interface exists:
 The `speed` matcher tests the speed of the network interface, in MB/sec:
 
     its('speed') { should eq 1000 }
+
+<br> 
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
+### be_up
+
+The `be_up` matcher tests if the network interface is available:
+
+    it { should be_up }
+
