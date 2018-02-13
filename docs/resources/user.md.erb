@@ -40,7 +40,6 @@ The following examples show how to use this InSpec audit resource.
 
     describe user('root') do
       it { should exist }
-      it { should belong_to_group 'root' }
       its('uid') { should eq 0 }
       its('groups') { should eq ['root'] }
     end
@@ -64,7 +63,7 @@ The `nginx` user is typically `www-data`, but on CentOS it's `nginx`. The follow
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -76,7 +75,7 @@ The `exist` matcher tests if the named user exists:
 
 The `gid` matcher tests the group identifier:
 
-    its('gid') { should eq 1234 } }
+    its('gid') { should eq 1234 }
 
 where `1234` represents the user identifier.
 
@@ -92,7 +91,7 @@ where `root` represents the group.
 
 The `groups` matcher tests two (or more) groups to which the user belongs:
 
-    its('groups') { should eq ['root', 'other']}
+    its('groups') { should eq ['root', 'other'] }
 
 ### home
 
@@ -126,7 +125,7 @@ The `shell` matcher tests the path to the default shell for the user:
 
 The `uid` matcher tests the user identifier:
 
-    its('uid') { should eq 1234 } }
+    its('uid') { should eq 1234 }
 
 where `1234` represents the user identifier.
 
