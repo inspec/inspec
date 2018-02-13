@@ -76,18 +76,6 @@ The following are the current supported reporters:
 
 This is the basic text base report. It includes details about which tests passed and failed and includes an overall summary at the end.
 
-### documentation
-
-This reporter is a very minimal text base report. It shows you which tests passed by name and has a small summary at the end.
-
-### html
-
-This renders html code to view your tests in a browser. It includes all the test and summary information.
-
-### progress
-
-This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(skip) character per test and a small summary at the end.
-
 ### json
 
 This reporter includes all information about the profiles and test results in standard json format.
@@ -96,10 +84,22 @@ This reporter includes all information about the profiles and test results in st
 
 This reporter is a redacted version of the json and only includes test results.
 
-### json-rspec
+### documentation
 
-This reporter includes all information from the rspec runner. Unlike the json reporter this includes rspec specific details.
+This reporter is a very minimal text base report. It shows you which tests passed by name and has a small summary at the end.
 
 ### junit
 
 This reporter outputs the standard junit spec in xml format.
+
+### progress
+
+This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(skip) character per test and a small summary at the end.
+
+### json-rspec
+
+This reporter includes all information from the rspec runner. Unlike the json reporter this includes rspec specific details.
+
+### html
+
+This renders html code to view your tests in a browser. It includes all the test and summary information.
