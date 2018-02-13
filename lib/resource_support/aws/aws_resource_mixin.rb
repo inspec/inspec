@@ -50,15 +50,13 @@ module AwsResourceMixin
 
   # Intercept AWS exceptions
   def catch_aws_errors
-    begin
-      yield
-    rescue Aws::Errors::MissingCredentialsError => e
-      # The AWS error here is unhelpful:
-      # "unable to sign request without credentials set"
-      Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
-      fail_resource("No AWS credentials available")
-    rescue Aws::Errors::ServiceError => e
-      fail_resource e.message
-    end
+    yield
+  rescue Aws::Errors::MissingCredentialsError
+    # The AWS error here is unhelpful:
+    # "unable to sign request without credentials set"
+    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    fail_resource('No AWS credentials available')
+  rescue Aws::Errors::ServiceError => e
+    fail_resource e.message
   end
 end
