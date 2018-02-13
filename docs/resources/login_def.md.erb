@@ -1,5 +1,6 @@
 ---
 title: About the login_defs Resource
+os: Linux
 ---
 
 # login_defs
@@ -23,9 +24,21 @@ where
 
 <br>
 
+## Supported Properties
+
+This resource supports the properties found in the `login.defs` configuration settings.
+
+<br>
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### name
+
+The `name` matcher tests the value of `name` as read from `login.defs` versus the value declared in the test:
+
+    its('name') { should eq 'foo' }
 
 ### Test password expiration settings
 
@@ -55,8 +68,4 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
 
-### name
 
-The `name` matcher tests the value of `name` as read from `login.defs` versus the value declared in the test:
-
-    its('name') { should eq 'foo' }
