@@ -1,10 +1,11 @@
 ---
 title: About the limits_conf Resource
+os: Linux
 ---
 
 # limits_conf
 
-Use the `limits_conf` InSpec audit resource to test configuration settings in the `/etc/security/limits.conf` file. The `limits.conf` defines limits for processes (by user and/or group names) and helps ensure that the system on which those processes are running remains stable. Each process may be assigned a hard or soft limit.
+Use the `limits_conf` InSpec audit resource to test configuration settings in the `/etc/security/limits.conf` file. The `limits.conf` defines limits for processes (by user and/or group names) and helps ensure that the system running those processes remains stable. Each process may be assigned a hard or soft limit.
 
 * Soft limits are maintained by the shell and defines the number of file handles (or open files) available to the user or group after login
 * Hard limits are maintained by the kernel and defines the maximum number of allowed file handles
@@ -38,9 +39,23 @@ where
 
 <br>
 
+## Supported Properties
+
+* `domain`
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
+
+### domain
+
+The `domain` property tests the domain in the `limits.conf` file, along with associated type, item, and value:
+
+    its('domain') { should include ['type', 'item', 'value'] }
+`
+For example:
+
+    its('grantmc') { should include ['hard', 'nofile', '63536'] }
 
 ### Test limits
 
@@ -55,12 +70,4 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
 
-### domain
 
-The `domain` matcher tests the domain in the `limits.conf` file, along with associated type, item, and value:
-
-    its('domain') { should include ['type', 'item', 'value'] }
-`
-For example:
-
-    its('grantmc') { should include ['hard', 'nofile', '63536'] }
