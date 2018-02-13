@@ -16,12 +16,29 @@ EOX
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(conn = nil)
-    iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
-    @policy = iam_resource.account_password_policy
+    catch_aws_errors do
+      iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
+      @policy = iam_resource.account_password_policy
+    end
   rescue Aws::IAM::Errors::NoSuchEntity
     @policy = nil
   end
 
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_resource_mixin.rb
+  def catch_aws_errors
+    yield
+  rescue Aws::Errors::MissingCredentialsError
+    # The AWS error here is unhelpful:
+    # "unable to sign request without credentials set"
+    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    fail_resource('No AWS credentials available')
+  rescue Aws::Errors::ServiceError => e
+    fail_resource e.message
+  end
+
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_singular_resource_mixin.rb
   def inspec_runner
     # When running under inspec-cli, we have an 'inspec' method that
     # returns the runner. When running under unit tests, we don't
