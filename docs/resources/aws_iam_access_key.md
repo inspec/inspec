@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_access_key Resource
+platform: aws
 ---
 
 # aws_iam_access_key
@@ -35,7 +36,7 @@ Access keys are associated with IAM users, who may have zero, one or two access 
       it { should be_active }
     end
 
-You may also use both username and access key id to ensure a particular key is associated with a particular user.
+You may also use both username and access key id to ensure that a particular key is associated with a particular user.
 
     describe aws_iam_access_key(username: 'roderick', access_key_id: 'AKIA12345678ABCD') do
       it { should exist }
@@ -43,31 +44,13 @@ You may also use both username and access key id to ensure a particular key is a
 
 <br>
 
-## Examples
+## Properties
 
-The following examples show how to use this InSpec audit resource.
-
-### Test that an IAM access key is not active
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      it { should_not be_active }
-    end
-
-### Test that an IAM access key is older than one year
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      its('create_date') { should be > Time.now - 365 * 86400 }
-    end
-
-### Test that an IAM access key has been used in the past 90 days
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      its('last_used_date') { should be > Time.now - 90 * 86400 }
-    end
+* `access_key_id`, `create_date`, `last_used_date`, `username`
 
 <br>
 
-## Properties
+## Examples
 
 ### access_key_id
 
@@ -103,6 +86,31 @@ The IAM user that owns this key.
       its('username') { should cmp 'bob' }
     end
 
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test that an IAM access key is not active
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      it { should_not be_active }
+    end
+
+### Test that an IAM access key is older than one year
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      its('create_date') { should be > Time.now - 365 * 86400 }
+    end
+
+### Test that an IAM access key has been used in the past 90 days
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      its('last_used_date') { should be > Time.now - 90 * 86400 }
+    end
+
+<br>
 
 ## Matchers
 

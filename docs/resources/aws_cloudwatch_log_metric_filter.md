@@ -1,5 +1,6 @@
 ---
 title: About the aws_cloudwatch_log_metric_filter Resource
+platform: aws
 ---
 
 # aws_cloudwatch_log_metric_filter
@@ -66,19 +67,12 @@ The filter pattern used to match entries from the logs in the log group.
       it { should exist }
     end
 
-## Matchers
-
-### exist
-
-Matches (i.e., passes the test) if the resource parameters (search criteria) were able to locate exactly one LMF.
-
-    describe aws_cloudwatch_log_metric_filter(
-      log_group_name: 'my-log-group',
-    ) do
-      it { should exist }
-    end
+<br>
 
 ## Properties
+* `filter_name`, `log_group_name`,` metric_name`, `metric_namespace`, `pattern`
+
+## Examples
 
 ### filter_name
 
@@ -127,4 +121,20 @@ The pattern used to match entries from the logs in the log group.
     ) do
       its('pattern') { should cmp 'ERROR' }
     end
+
+<br>
+
+## Matchers
+
+### exist
+
+Matches (i.e., passes the test) if the resource parameters (search criteria) were able to locate exactly one LMF.
+
+    describe aws_cloudwatch_log_metric_filter(
+      log_group_name: 'my-log-group',
+    ) do
+      it { should exist }
+    end
+
+
 

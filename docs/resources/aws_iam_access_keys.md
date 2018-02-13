@@ -46,22 +46,6 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
-## Matchers
-
-### exists
-
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
-
-    # Sally should have at least one access key
-    describe aws_iam_access_keys.where(username: 'sally') do
-      it { should exist }
-    end
-
-    # Don't let fred have access keys
-    describe aws_iam_access_keys.where(username: 'fred') do
-      it { should_not exist }
-    end   
-
 ## Filter Criteria
 
 ### active
@@ -108,7 +92,6 @@ A true / false value indicating if the Access Key has ever been used, based on t
     describe aws_iam_access_keys.where { ever_used } do
       its('access_key_ids') { should include('AKIA1234567890ABCDEF')}
     end
-
 
 ### inactive
 
@@ -163,7 +146,13 @@ The date at which the user was created.
       it { should_not exist }
     end
 
+<br>
+
 ## Properties
+
+* `access_key_ids`, `entries`
+
+## Examples
 
 ### access_key_ids
 
@@ -181,3 +170,23 @@ Provides access to the raw results of the query.  This can be useful for checkin
     describe aws_iam_access_keys do
       its('entries.count') { should be <= 100}
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+
+    # Sally should have at least one access key
+    describe aws_iam_access_keys.where(username: 'sally') do
+      it { should exist }
+    end
+
+    # Don't let fred have access keys
+    describe aws_iam_access_keys.where(username: 'fred') do
+      it { should_not exist }
+    end   

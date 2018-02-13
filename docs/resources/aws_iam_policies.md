@@ -1,14 +1,13 @@
 ---
 title: About the aws_iam_policies Resource
+platform: aws
 ---
 
 # aws_iam_policies
 
 Use the `aws_iam_policies` InSpec audit resource to test properties of some or all AWS IAM Policies.
 
-To test properties of all managed policies that are available in your AWS account, including your own customer-defined managed policies and all AWS managed policies.
-
-A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine whether the request is allowed or denied.
+An AWS IAM policy attaches to an identity or resource, defining their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions defined in the identity or resource policies determines whether the request is allowed or denied.
 
 Each IAM Policy is uniquely identified by either its policy_name or arn.
 
@@ -33,18 +32,13 @@ As this is the initial release of `aws_iam_policies`, its limited functionality 
 
 <br>
 
-## Matchers
-
-### exists
-
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
-
-    # Verify that at least one IAM Policies exists.
-    describe aws_iam_policies
-      it { should exist }
-    end   
-
 ## Properties
+
+* `arns`, `entries`, `policy_names`
+
+<br>
+
+## Examples
 
 ### policy_names
 
@@ -70,3 +64,19 @@ Provides access to the raw results of the query.  This can be useful for checkin
     describe aws_iam_policies do
       its('entries.count') { should be <= 100}
     end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+
+### exists
+
+The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+
+    # Verify that at least one IAM Policies exists.
+    describe aws_iam_policies
+      it { should exist }
+    end   
+

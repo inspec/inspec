@@ -1,5 +1,6 @@
 ---
 title: About the aws_ec2_instance Resource
+platform: aws
 ---
 
 # aws_ec2_instance
@@ -19,6 +20,12 @@ An `aws_ec2_instance` resource block declares the tests for a single AWS EC2 ins
     describe aws_ec2_instance(name: 'my-instance') do
       it { should be_running }
     end
+
+<br>
+
+## Supported Properties
+
+* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
 
 <br>
 

@@ -1,5 +1,6 @@
 ---
 title: About the aws_cloudtrail_trails Resource
+platform: aws
 ---
 
 # aws_cloudtrail_trails
@@ -23,26 +24,21 @@ An `aws_cloudtrail_trails` resource block collects a group of CloudTrail Trails 
 
 <br>
 
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
+## Properties
+* `entries`, `names`, `trail_arns`
 
 <br>
 
-## Matchers
+## Examples
 
-### exists
+### entries
 
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+Provides access to the raw results of the query.  This can be useful for checking counts and other advanced operations.
 
-    # Verify that at least one CloudTrail Trail exists.
-    describe aws_cloudtrail_trails
-      it { should exist }
-    end   
-
-## Properties
+    # Allow at most 100 CloudTrail Trails on the account
+    describe aws_cloudtrail_trails do
+      its('entries.count') { should be <= 100}
+    end
 
 ### names
 
@@ -60,11 +56,26 @@ Provides a list of trail arns for all CloudTrail Trails in the AWS account.
       its('trail_arns') { should include('arn:aws:cloudtrail:us-east-1::trail/trail-1') }
     end
 
-### entries
+<br>
 
-Provides access to the raw results of the query.  This can be useful for checking counts and other advanced operations.
+## Examples
 
-    # Allow at most 100 CloudTrail Trails on the account
-    describe aws_cloudtrail_trails do
-      its('entries.count') { should be <= 100}
-    end
+The following examples show how to use this InSpec audit resource.
+
+As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+
+    # Verify that at least one CloudTrail Trail exists.
+    describe aws_cloudtrail_trails
+      it { should exist }
+    end   
+

@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_groups Resource
+platform: aws
 ---
 
 # aws_iam_groups
@@ -30,6 +31,8 @@ As this is the initial release of `aws_iam_groups`, its limited functionality pr
 <br>
 
 ## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
 
 ### exists
 

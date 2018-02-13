@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_group Resource
+platform: aws
 ---
 
 # aws_iam_group

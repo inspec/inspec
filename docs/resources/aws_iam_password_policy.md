@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_password_policy Resource
+platform: aws
 ---
 
 # aws_iam_password_policy
@@ -17,6 +18,10 @@ An `aws_iam_password_policy` resource block takes no parameters, but uses severa
     end
 
 <br>
+
+## Supported Properties
+
+* `allows_users_to_change_password?`, `expires_passwords`, `max_password_age`,  `minimum_password_length`, `number_of_passwords_to_remember`, `prevents_password_reuse?`, `requires_lowercase_characters` , `requires_uppercase_characters?`, `requires_numbers?`, `requires_symbols?`
 
 ## Examples
 
@@ -66,4 +71,4 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
