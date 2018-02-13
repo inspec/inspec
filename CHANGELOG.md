@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.19 -->
-## [v1.51.19](https://github.com/chef/inspec/tree/v1.51.19) (2018-02-13)
+<!-- latest_release 1.51.20 -->
+## [v1.51.20](https://github.com/chef/inspec/tree/v1.51.20) (2018-02-13)
 
 #### Merged Pull Requests
-- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick))
+- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.18 -->
 ### Changes since 1.51.18 release
 
 #### Merged Pull Requests
+- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.20 -->
 - Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick)) <!-- 1.51.19 -->
 <!-- release_rollup -->
 
