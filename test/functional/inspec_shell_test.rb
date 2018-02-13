@@ -58,10 +58,10 @@ describe 'inspec shell tests' do
     end
 
     it 'retrieves resources (json output)' do
-      out = do_shell_c('os.params', 0, true)
+      out = do_shell_c('platform.params', 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'name'
-      j.keys.must_include 'family'
+      j.keys.must_include 'families'
       j.keys.must_include 'arch'
       j.keys.must_include 'release'
     end
@@ -69,7 +69,7 @@ describe 'inspec shell tests' do
     it 'retrieves resources' do
       out = do_shell_c('os.params', 0)
       out.stdout.must_include 'name'
-      out.stdout.must_include 'family'
+      out.stdout.must_include 'families'
       out.stdout.must_include 'arch'
       out.stdout.must_include 'release'
     end

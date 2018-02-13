@@ -25,6 +25,10 @@ module Inspec::Resources
       end
     end
 
+    def families
+      @platform.family_hierarchy
+    end
+
     def name
       @platform.name
     end
@@ -46,8 +50,19 @@ module Inspec::Resources
       @platform.family_hierarchy.include?(family)
     end
 
-    def families
-      @platform.family_hierarchy
+    def params
+      h = {
+        name: name,
+        families: families,
+      }
+
+      # Avoid adding Release/Arch for APIs
+      unless in_family?('api')
+        h[:release] = release
+        h[:arch] = arch
+      end
+
+      h
     end
 
     def supported?(supports)

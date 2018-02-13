@@ -29,16 +29,6 @@ module Inspec::Resources
       end
     end
 
-    # helper to collect a hash object easily
-    def params
-      {
-        name: name,
-        family: @platform[:family],
-        release: @platform[:release],
-        arch: @platform[:arch],
-      }
-    end
-
     def to_s
       'Operating System Detection'
     end
