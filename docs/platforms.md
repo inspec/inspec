@@ -80,3 +80,9 @@ AZURE_TENANT_ID="6ad89b58-df2e-11e6-bf01-fe55135034f3" inspec exec my-profile -t
 ```
 
 #### Using InSpec Target Syntax
+
+If you have created a `~/.azure/credentials` file as above, you may also use the InSpec command line `--target` / `-t` option to select a subscription ID.  For example:
+
+```bash
+inspec exec my-profile -t azure://2fbdbb02-df2e-11e6-bf01-fe55135034f3
+```

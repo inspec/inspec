@@ -249,6 +249,11 @@ inspec exec test.rb -t aws://
 # or store your AWS credentials in your ~/.aws/credentials profiles file
 inspec exec test.rb -t aws://us-east-2/my-profile
 
+# run a profile targeting Azure using env vars
+inspec exec test.rb -t azure://
+
+# or store your Azure credentials in your ~/.azure/credentials profiles file
+inspec exec test.rb -t azure://subscription_id
 ```
 
 ### detect
