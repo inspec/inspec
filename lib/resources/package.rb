@@ -267,6 +267,12 @@ module Inspec::Resources
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
       EOF
 
+      # We cannot rely on `exit_status` since PowerShell always exits 0 from the
+      # above command. Instead, if no package is found the output of the command
+      # will be `''` so we can use that to return `{}` to match the behavior of
+      # other package managers.
+      return {} if cmd.stdout == ''
+
       begin
         package = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => e
