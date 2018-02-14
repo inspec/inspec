@@ -12,13 +12,13 @@ class AwsConfigurationDeliveryChannel < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :channel_name , :s3_bucket_name, :s3_key_prefix, :sns_topic_arn,
+  attr_reader :channel_name, :s3_bucket_name, :s3_key_prefix, :sns_topic_arn,
               :delivery_frequency
 
   def to_s
     "Configuration_Delivery_Channel: #{@channel_name}"
   end
-  
+
   private
 
   def validate_params(raw_params)
@@ -28,7 +28,7 @@ class AwsConfigurationDeliveryChannel < Inspec.resource(1)
       allowed_scalar_name: :channel_name,
       allowed_scalar_type: String,
     )
-    
+
     # Make sure channel_name is given as param
     if validated_params[:channel_name].nil?
       raise ArgumentError, 'You must provide a channel_name to aws_config_delivery_channel'
