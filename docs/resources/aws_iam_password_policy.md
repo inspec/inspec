@@ -11,17 +11,17 @@ Use the `aws_iam_password_policy` InSpec audit resource to test properties of th
 
 ## Syntax
 
-An `aws_iam_password_policy` resource block takes no parameters, but uses several matchers.
+An `aws_iam_password_policy` resource block takes no parameters.  Several properties and matchers are available.
 
     describe aws_iam_password_policy do
-      its('requires_lowercase_characters?') { should be true }
+      it { should require_lowercase_characters }
     end
 
 <br>
 
 ## Properties
 
-* `allows_users_to_change_password?`, `expires_passwords`, `max_password_age`,  `minimum_password_length`, `number_of_passwords_to_remember`, `prevents_password_reuse?`, `requires_lowercase_characters` , `requires_uppercase_characters?`, `requires_numbers?`, `requires_symbols?`
+* `max_password_age_in_days`,  `minimum_password_length`, `number_of_passwords_to_remember`
 
 ## Examples
 
@@ -30,35 +30,35 @@ The following examples show how to use this InSpec audit resource.
 ### Test that the IAM Password Policy requires lowercase characters, uppercase characters, numbers, symbols, and a minimum length greater than eight
 
     describe aws_iam_password_policy do
-      its('requires_lowercase_characters?') { should be true }
-      its('requires_uppercase_characters?') { should be true }
-      its('requires_numbers?') { should be true }
-      its('requires_symbols?') { should be true }
+      it { should require_lowercase_characters }
+      it { should require_uppercase_characters }
+      it { should require_symbols }
+      it { should require_numbers }
       its('minimum_password_length') { should be > 8 }
     end
 
 ### Test that the IAM Password Policy allows users to change their password
 
     describe aws_iam_password_policy do
-      its('allows_user_to_change_password?') { should be true }
+      it { should allow_users_to_change_passwords }
     end
 
 ### Test that the IAM Password Policy expires passwords
 
     describe aws_iam_password_policy do
-      its('expires_passwords?') { should be true }
+      it { should expire_passwords }
     end
 
 ### Test that the IAM Password Policy has a max password age
 
     describe aws_iam_password_policy do
-      its('max_password_age') { should be > 90 * 86400 }
+      its('max_password_age_in_days') { should be 90 }
     end
 
 ### Test that the IAM Password Policy prevents password reuse
 
     describe aws_iam_password_policy do
-      its('prevents_password_reuse?') { should be true }
+      it { should prevent_password_reuse }
     end
 
 ### Test that the IAM Password Policy requires users to remember 3 previous passwords
@@ -71,4 +71,4 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+* `allows_users_to_change_passwords`, `expire_passwords`, `prevent_password_reuse`, `require_lowercase_characters` , `require_uppercase_characters`, `require_numbers`, `require_symbols`
