@@ -25,6 +25,21 @@ EOX
     @iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
   end
 
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_resource_mixin.rb
+  def catch_aws_errors
+    yield
+  rescue Aws::Errors::MissingCredentialsError
+    # The AWS error here is unhelpful:
+    # "unable to sign request without credentials set"
+    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    fail_resource('No AWS credentials available')
+  rescue Aws::Errors::ServiceError => e
+    fail_resource e.message
+  end
+
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_singular_resource_mixin.rb
   def inspec_runner
     # When running under inspec-cli, we have an 'inspec' method that
     # returns the runner. When running under unit tests, we don't
@@ -37,19 +52,21 @@ EOX
 
   def id
     return @instance_id if defined?(@instance_id)
-    if @opts.is_a?(Hash)
-      first = @ec2_resource.instances(
-        {
-          filters: [{
-            name: 'tag:Name',
-            values: [@opts[:name]],
-          }],
-        },
-      ).first
-      # catch case where the instance is not known
-      @instance_id = first.id unless first.nil?
-    else
-      @instance_id = @opts
+    catch_aws_errors do
+      if @opts.is_a?(Hash)
+        first = @ec2_resource.instances(
+          {
+            filters: [{
+              name: 'tag:Name',
+              values: [@opts[:name]],
+            }],
+          },
+        ).first
+        # catch case where the instance is not known
+        @instance_id = first.id unless first.nil?
+      else
+        @instance_id = @opts
+      end
     end
   end
   alias instance_id id
@@ -61,7 +78,9 @@ EOX
 
   # returns the instance state
   def state
-    instance&.state&.name
+    catch_aws_errors do
+      instance&.state&.name
+    end
   end
 
   # helper methods for each state
@@ -82,18 +101,24 @@ EOX
     instance_type image_id vpc_id
   }.each do |attribute|
     define_method attribute do
-      instance.send(attribute) if instance
+      catch_aws_errors do
+        instance.send(attribute) if instance
+      end
     end
   end
 
   def security_groups
-    @security_groups ||= instance.security_groups.map { |sg|
-      { id: sg.group_id, name: sg.group_name }
-    }
+    catch_aws_errors do
+      @security_groups ||= instance.security_groups.map { |sg|
+        { id: sg.group_id, name: sg.group_name }
+      }
+    end
   end
 
   def tags
-    @tags ||= instance.tags.map { |tag| { key: tag.key, value: tag.value } }
+    catch_aws_errors do
+      @tags ||= instance.tags.map { |tag| { key: tag.key, value: tag.value } }
+    end
   end
 
   def to_s
@@ -101,23 +126,25 @@ EOX
   end
 
   def has_roles?
-    instance_profile = instance.iam_instance_profile
+    catch_aws_errors do
+      instance_profile = instance.iam_instance_profile
 
-    if instance_profile
-      roles = @iam_resource.instance_profile(
-        instance_profile.arn.gsub(%r{^.*\/}, ''),
-      ).roles
-    else
-      roles = nil
+      if instance_profile
+        roles = @iam_resource.instance_profile(
+          instance_profile.arn.gsub(%r{^.*\/}, ''),
+        ).roles
+      else
+        roles = nil
+      end
+
+      roles && !roles.empty?
     end
-
-    roles && !roles.empty?
   end
 
   private
 
   def instance
-    @instance ||= @ec2_resource.instance(id)
+    catch_aws_errors { @instance ||= @ec2_resource.instance(id) }
   end
 end
 

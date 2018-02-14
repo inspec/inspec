@@ -82,6 +82,8 @@ class AwsIamUser < Inspec.resource(1)
 
     # TODO: consider returning Inspec AwsIamAccessKey objects
     @access_keys = backend.list_access_keys(user_name: username).access_key_metadata
+    # If the above call fails, we get nil here; but we promise access_keys will be an array.
+    @access_keys ||= []
   end
 
   class Backend

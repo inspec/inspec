@@ -37,19 +37,40 @@ module Inspec::Resources
 
       @azure = inspec.backend
       @client = azure.azure_client
+      @failed_resource = false
+    end
+
+    def failed_resource?
+      @failed_resource
+    end
+
+    def catch_azure_errors
+      yield
+    rescue MsRestAzure::AzureOperationError => e
+      # e.message is actually a massive stringified JSON, which might be useful in the future.
+      # You want error_message here.
+      fail_resource e.error_message
+      @failed_resource = true
+      nil
     end
 
     # Return information about the resource group
     def resource_group
-      resource_group = client.resource_groups.get(opts[:group_name])
+      catch_azure_errors do
+        resource_group = client.resource_groups.get(opts[:group_name])
 
-      # create the methods for the resource group object
-      dm = AzureResourceDynamicMethods.new
-      dm.create_methods(self, resource_group)
+        # create the methods for the resource group object
+        dm = AzureResourceDynamicMethods.new
+        dm.create_methods(self, resource_group)
+      end
     end
 
     def resources
-      resources = client.resources.list_by_resource_group(opts[:group_name])
+      resources = nil
+      catch_azure_errors do
+        resources = client.resources.list_by_resource_group(opts[:group_name])
+      end
+      return if failed_resource?
 
       # filter the resources based on the type, and the name if they been specified
       resources = filter_resources(resources, opts)
@@ -58,11 +79,15 @@ module Inspec::Resources
       if resources.count == 1
         @total = 1
 
-        # get the apiversion for the resource, if one has not been specified
-        apiversion = azure.get_api_version(resources[0].type, opts)
+        resource = nil
+        catch_azure_errors do
+          # get the apiversion for the resource, if one has not been specified
+          apiversion = azure.get_api_version(resources[0].type, opts)
 
-        # get the resource by id so it can be interrogated
-        resource = client.resources.get_by_id(resources[0].id, apiversion)
+          # get the resource by id so it can be interrogated
+          resource = client.resources.get_by_id(resources[0].id, apiversion)
+        end
+        return if failed_resource?
 
         dm = AzureResourceDynamicMethods.new
 
