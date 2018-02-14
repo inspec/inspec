@@ -72,7 +72,7 @@ EOX
     @policy.minimum_password_length
   end
 
-  def max_password_age
+  def max_password_age_in_days
     raise 'this policy does not expire passwords' unless expire_passwords?
     @policy.max_password_age
   end

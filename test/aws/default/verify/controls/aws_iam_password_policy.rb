@@ -12,7 +12,7 @@ end
 
 control "aws_iam_password_policy properties" do
   describe aws_iam_password_policy do
-    its('max_password_age') { should cmp 365 }
+    its('max_password_age_in_days') { should cmp 365 }
     its('number_of_passwords_to_remember') { should cmp 7 }
   end
 end

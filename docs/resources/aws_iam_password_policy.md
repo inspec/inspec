@@ -21,7 +21,7 @@ An `aws_iam_password_policy` resource block takes no parameters.  Several proper
 
 ## Properties
 
-* `max_password_age`,  `minimum_password_length`, `number_of_passwords_to_remember`
+* `max_password_age_in_days`,  `minimum_password_length`, `number_of_passwords_to_remember`
 
 ## Examples
 
@@ -52,8 +52,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test that the IAM Password Policy has a max password age
 
     describe aws_iam_password_policy do
-      # This value is in days
-      its('max_password_age') { should be 90 }
+      its('max_password_age_in_days') { should be 90 }
     end
 
 ### Test that the IAM Password Policy prevents password reuse

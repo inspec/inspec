@@ -30,7 +30,7 @@ class AwsIamPasswordPolicyTest < Minitest::Test
     @mock_resource.expect :account_password_policy, @mock_policy
 
     e = assert_raises Exception do
-      AwsIamPasswordPolicy.new(@mock_conn).max_password_age
+      AwsIamPasswordPolicy.new(@mock_conn).max_password_age_in_days
     end
 
     assert_equal e.message, 'this policy does not expire passwords'
