@@ -10,7 +10,7 @@ describe 'inspec exec' do
   it 'can execute the profile' do
     out = inspec('exec ' + example_profile  + ' --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 101
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
     stdout.must_include "\e[38;5;41m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
     stdout.must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
@@ -62,7 +62,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   it 'executes a specs-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'spec_only') + ' --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 101
+    out.exit_status.must_equal 100
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "working"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  should eq \"working\""
@@ -106,7 +106,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
       out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
-      out.exit_status.must_equal 0
+      out.exit_status.must_equal 101
     end
   end
 
@@ -283,7 +283,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     it 'hides sensitive output' do
       out = inspec('exec ' + sensitive_profile  + ' --no-create-lockfile')
       out.stderr.must_equal ''
-      out.exit_status.must_equal 101
+      out.exit_status.must_equal 100
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
       stdout.must_include '∅  should eq "billy"'
       stdout.must_include 'expected: "billy"'

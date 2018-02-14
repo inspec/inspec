@@ -29,9 +29,6 @@ module Inspec
               'type' => 'object',
               'properties' => {
                 'total' => { 'type' => 'number' },
-                'minor' => { 'type' => 'number' },
-                'major' => { 'type' => 'number' },
-                'critical' => { 'type' => 'number' },
               },
             },
           },

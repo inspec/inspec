@@ -21,7 +21,7 @@ describe 'inspec exec with json formatter' do
   it 'can execute a profile and validate the json schema' do
     out = inspec('exec ' + example_profile + ' --reporter json --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 101
     data = JSON.parse(out.stdout)
     sout = inspec('schema exec-json')
     schema = JSON.parse(sout.stdout)

@@ -1,4 +1,4 @@
-#b/inspec/runner.rb encoding: utf-8
+# encoding: utf-8
 # copyright: 2017, Chef Software Inc.
 
 require 'helper'

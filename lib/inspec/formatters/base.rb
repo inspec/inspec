@@ -98,21 +98,11 @@ module Inspec::Formatters
       failed = 0
       skipped = 0
       passed = 0
-      critical = 0
-      major = 0
-      minor = 0
 
       all_unique_controls.each do |control|
         next unless control[:results]
         if control[:results].any? { |r| r[:status] == 'failed' }
           failed += 1
-          if control[:impact] >= 0.7
-            critical += 1
-          elsif control[:impact] >= 0.4
-            major += 1
-          else
-            minor += 1
-          end
         elsif control[:results].any? { |r| r[:status] == 'skipped' }
           skipped += 1
         else
@@ -132,9 +122,6 @@ module Inspec::Formatters
         },
         failed: {
           total: failed,
-          minor: minor,
-          major: major,
-          critical: critical,
         },
       }
     end

@@ -83,14 +83,12 @@ module Inspec
     # @return [int] exit code
     def exit_code
       stats = @formatter.results[:statistics][:controls]
-      if stats[:failed][:total] == 0
+      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0
         0
-      elsif stats[:failed][:critical] > 0
+      elsif stats[:failed][:total] > 0
         100
-      elsif stats[:failed][:major] > 0
+      elsif stats[:skipped][:total] > 0
         101
-      elsif stats[:failed][:minor] > 0
-        102
       else
         @rspec_exit_code
       end
