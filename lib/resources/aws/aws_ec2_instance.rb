@@ -147,18 +147,3 @@ EOX
     catch_aws_errors { @instance ||= @ec2_resource.instance(id) }
   end
 end
-
-# Deprecated
-class AwsEc2 < AwsEc2Instance
-  name 'aws_ec2'
-
-  def initialize(opts, conn = nil)
-    deprecated
-    super(opts, conn)
-  end
-
-  def deprecated
-    warn '[DEPRECATION] `aws_ec2(parameter)` is deprecated. ' \
-         'Please use `aws_ec2_instance(parameter)` instead.'
-  end
-end
