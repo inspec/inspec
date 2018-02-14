@@ -107,12 +107,18 @@ EOX
     end
   end
 
+  # Don't document this - it's a bit hard to use.  Our current doctrine
+  # is to use dumb things, like arrays of strings - use security_group_ids instead.
   def security_groups
     catch_aws_errors do
       @security_groups ||= instance.security_groups.map { |sg|
         { id: sg.group_id, name: sg.group_name }
       }
     end
+  end
+
+  def security_group_ids
+    @security_group_ids ||= instance.security_groups.map { |sg| sg.group_id }
   end
 
   def tags
