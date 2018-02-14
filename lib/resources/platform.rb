@@ -54,11 +54,11 @@ module Inspec::Resources
       h = {
         name: name,
         families: families,
+        release: release,
       }
 
-      # Avoid adding Release/Arch for APIs
+      # Avoid adding Arch for APIs (not applicable)
       unless in_family?('api')
-        h[:release] = release
         h[:arch] = arch
       end
 
