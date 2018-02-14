@@ -55,7 +55,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
+* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `security_group_ids`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
 
 <br>
 

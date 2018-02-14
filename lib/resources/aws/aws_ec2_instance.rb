@@ -107,11 +107,19 @@ EOX
     end
   end
 
+  # Don't document this - it's a bit hard to use.  Our current doctrine
+  # is to use dumb things, like arrays of strings - use security_group_ids instead.
   def security_groups
     catch_aws_errors do
       @security_groups ||= instance.security_groups.map { |sg|
         { id: sg.group_id, name: sg.group_name }
       }
+    end
+  end
+
+  def security_group_ids
+    catch_aws_errors do
+      @security_group_ids ||= instance.security_groups.map(&:group_id)
     end
   end
 
@@ -145,20 +153,5 @@ EOX
 
   def instance
     catch_aws_errors { @instance ||= @ec2_resource.instance(id) }
-  end
-end
-
-# Deprecated
-class AwsEc2 < AwsEc2Instance
-  name 'aws_ec2'
-
-  def initialize(opts, conn = nil)
-    deprecated
-    super(opts, conn)
-  end
-
-  def deprecated
-    warn '[DEPRECATION] `aws_ec2(parameter)` is deprecated. ' \
-         'Please use `aws_ec2_instance(parameter)` instead.'
   end
 end
