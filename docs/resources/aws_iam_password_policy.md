@@ -19,7 +19,7 @@ An `aws_iam_password_policy` resource block takes no parameters, but uses severa
 
 <br>
 
-## Supported Properties
+## Properties
 
 * `allows_users_to_change_password?`, `expires_passwords`, `max_password_age`,  `minimum_password_length`, `number_of_passwords_to_remember`, `prevents_password_reuse?`, `requires_lowercase_characters` , `requires_uppercase_characters?`, `requires_numbers?`, `requires_symbols?`
 

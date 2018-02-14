@@ -1,5 +1,6 @@
 ---
 title: About the aws_subnets Resource
+platform: aws
 ---
 
 # aws_subnets
@@ -32,23 +33,11 @@ As this is the initial release of `aws_subnets`, its limited functionality precl
 
 <br>
 
-## Matchers
-
-### exists
-
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
-
-    # You dont always have subnets, so you can test if there are any.
-    describe aws_subnets
-      it { should exist }
-    end
-
-    # Test that there are subnets in a vpc
-    describe aws_subnets.where(vpc_id: 'vpc-12345678')
-      it { should exist }
-    end
-
 ## Filter Criteria
+
+* `vpc_id`, `subnet_id`
+
+## Filter Examples
 
 ### vpc_id
 
@@ -69,8 +58,15 @@ A string identifying a specific subnet.
       its('cidr_blocks') { should eq ['10.0.1.0/24'] }
     end
 
+<br>
 
 ## Properties
+
+* `cidr_blocks`,  `states`, `subnet_ids`,`vpc_ids`
+
+<br>
+
+## Property Examples
 
 ### cidr_blocks
 
@@ -81,13 +77,13 @@ Provides a string that contains the cidr block of ip addresses that can be given
       its('cidr_blocks') { should eq ['10.0.1.0/24'] }
     end
 
-### vpc_ids
+### states
 
-Provides an array containing a string of the vpc_id associated with a subnet.
+Provides an array of strings including if the subnets are available.
 
-    # Examine a specific subnets VPC IDS
-    describe aws_subnets.where( subnet_id: 'subnet-12345678') do
-      its('vpc_ids') { should include 'vpc-12345678' }
+    # Examine a specific vpcs Subnet IDs
+    describe aws_subnets.where( vpc_id: 'vpc-12345678') do
+      its('states') { should_not include 'pending' }
     end
 
 ### subnet_ids
@@ -99,12 +95,32 @@ Provides an array of strings containing the subnet IDs associated with a vpc.
       its('subnet_ids') { should include 'subnet-12345678' }
       its('subnet_ids') { should include 'subnet-98765432' }
     end
-    
-### states
 
-Provides an array of strings including whether the subnets are available or not.
+### vpc_ids
 
-    # Examine a specific vpcs Subnet IDs
-    describe aws_subnets.where( vpc_id: 'vpc-12345678') do
-      its('states') { should_not include 'pending' }
+Provides an array containing a string of the vpc_id associated with a subnet.
+
+    # Examine a specific subnets VPC IDS
+    describe aws_subnets.where( subnet_id: 'subnet-12345678') do
+      its('vpc_ids') { should include 'vpc-12345678' }
+    end
+
+<br>
+
+## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
+
+    # You dont always have subnets, so you can test if there are any.
+    describe aws_subnets
+      it { should exist }
+    end
+
+    # Test that there are subnets in a vpc
+    describe aws_subnets.where(vpc_id: 'vpc-12345678')
+      it { should exist }
     end

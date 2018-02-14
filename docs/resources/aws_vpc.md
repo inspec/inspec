@@ -1,5 +1,6 @@
 ---
 title: About the aws_vpc Resource
+platform: aws
 ---
 
 # aws_vpc
@@ -8,9 +9,9 @@ Use the `aws_vpc` InSpec audit resource to test properties of a single AWS Virtu
 
 To test properties of all or multiple VPCs, use the `aws_vpcs` resource.
 
-A VPC is a networking construct that provides an isolated environment.  A VPC is contained in a geographic region, but spans availability zones in that region.  Within a VPC, you may have multiple subnets, internet gateways, and other networking resources.  Computing resources such as EC2 instances reside on subnets within the VPC.
+A VPC is a networking construct that provides an isolated environment. A VPC is contained in a geographic region, but spans availability zones in that region. A VPC may have multiple subnets, internet gateways, and other networking resources.  Computing resources--such as EC2 instances--reside on subnets within the VPC.
 
-Each VPC is uniquely identified by its VPC ID.  In addition, each VPC has a non-unique CIDR IP Address range (such as 10.0.0.0/16) which it manages. 
+Each VPC is uniquely identified by its VPC ID. In addition, each VPC has a non-unique CIDR IP Address range (such as 10.0.0.0/16) which it manages. 
 
 Every AWS account has at least one VPC, the "default" VPC, in every region.
 
@@ -18,7 +19,7 @@ Every AWS account has at least one VPC, the "default" VPC, in every region.
 
 ## Syntax
 
-An `aws_vpc` resource block identifies a VPC by id.  If no VPC ID is provided, the default VPC is used.
+An `aws_vpc` resource block identifies a VPC by id. If no VPC ID is provided, the default VPC is used.
 
     # Find the default VPC
     describe aws_vpc do
@@ -55,19 +56,13 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
-## Matchers
-
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
-### be_default
-
-The test will pass if the identified VPC is the default VPC for the region.
-
-    describe aws_vpc('vpc-87654321') do
-      it { should be_default }
-    end
-
 ## Properties
+
+* `cidr_block`, `dhcp_options_id`, `state`, `vpc_id`, `instance_tenancy`
+
+<br>
+
+## Property Examples
 
 ### cidr_block
 
@@ -79,10 +74,18 @@ The IPv4 address range that is managed by the VPC.
 
 ### dhcp\_options\_id
 
-The ID of the set of DHCP options you've associated with the VPC (or `default` if the default options are associated with the VPC).
+The ID of the set of DHCP options associated with the VPC (or `default` if the default options are associated with the VPC).
 
     describe aws_vpc do
       its ('dhcp_options_id') { should eq 'dopt-a94671d0' }
+    end
+
+### instance_tenancy
+
+The allowed tenancy of instances launched into the VPC.
+
+    describe aws_vpc do
+      its ('instance_tenancy') { should eq 'default' }
     end
 
 ### state
@@ -101,10 +104,17 @@ The ID of the VPC.
       its('vpc_id') { should eq 'vpc-87654321' }
     end
 
-### instance_tenancy
+<br>
 
-The allowed tenancy of instances launched into the VPC.
+## Matchers
 
-    describe aws_vpc do
-      its ('instance_tenancy') { should eq 'default' }
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_default
+
+The test will pass if the identified VPC is the default VPC for the region.
+
+    describe aws_vpc('vpc-87654321') do
+      it { should be_default }
     end
+

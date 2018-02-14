@@ -15,7 +15,7 @@ To test properties of a single group, use the `aws_iam_group` resource.
 
 An `aws_iam_groups` resource block uses an optional filter to select a collection of IAM groups and then tests that collection.
 
-    # The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+    # The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
     describe aws_iam_groups do
       it { should exist }
     end
@@ -36,7 +36,7 @@ For a full list of available matchers please visit our [matchers page](https://w
 
 ### exists
 
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
 
     describe aws_iam_groups
       it { should exist }

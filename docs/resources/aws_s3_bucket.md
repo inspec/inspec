@@ -1,5 +1,6 @@
 ---
 title: About the aws_s3_bucket Resource
+platform: aws
 ---
 
 # aws_s3_bucket
@@ -12,11 +13,13 @@ To test properties of a multiple S3 buckets, use the `aws_s3_buckets` resource.
 
 ## Limitations
 
-S3 bucket security is a complex matter.  For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html).  S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
+S3 bucket security is a complex matter. For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html). S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
 
 As of January 2018, this resource supports evaluating bucket ACLs and bucket policies. We do not support evaluating object ACLs because it introduces scalability concerns in the AWS API; we recommend using AWS mechanisms such as CloudTrail and Config to detect insecure object ACLs.
 
-In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
+In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket. See the `be_public` section under the Matchers section below.
+
+<br>
 
 ## Syntax
 
@@ -37,19 +40,19 @@ An `aws_s3_bucket` resource block declares a bucket by name, and then lists test
 
 The following examples show how to use this InSpec audit resource.
 
-### Test a bucket's bucket-level ACL
+### Test the bucket-level ACL
 
     describe aws_s3_bucket('test_bucket') do
       its('bucket_acl.count') { should eq 1 }
     end
 
-### Check to see if a bucket has a bucket policy
+### Check if a bucket has a bucket policy
 
     describe aws_s3_bucket('test_bucket') do
       its('bucket_policy') { should be_empty }
     end
 
-### Check to see if a bucket appears to be exposed to the public
+### Check if a bucket appears to be exposed to the public
 
     # See Limitations section above
     describe aws_s3_bucket('test_bucket') do
@@ -57,7 +60,7 @@ The following examples show how to use this InSpec audit resource.
     end
 <br>
 
-## Supported Properties
+## Properties
 
 ### region
 
@@ -72,9 +75,9 @@ The `region` property identifies the AWS Region in which the S3 bucket is locate
 
 ### bucket_acl
 
-The `bucket_acl` property is a low-level property that lists the individual Bucket ACL grants that are in effect on the bucket.  Other higher-level properties, such as be\_public, are more concise and easier to use.  You can use the `bucket_acl` property to investigate which grants are in effect, causing be\_public to fail.
+The `bucket_acl` property is a low-level property that lists the individual Bucket ACL grants  in effect on the bucket.  Other higher-level properties, such as be\_public, are more concise and easier to use. You can use the `bucket_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
-The value of bucket_acl is an Array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
+The value of bucket_acl is  an array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
 
     
     bucket_acl = aws_s3_bucket('my-bucket')
@@ -93,14 +96,14 @@ The value of bucket_acl is an Array of simple objects.  Each object has a `permi
 
 The `bucket_policy` is a low-level property that describes the IAM policy document controlling access to the bucket. The `bucket_policy` property returns a Ruby structure that you can probe to check for particular statements.  We recommend using a higher-level property, such as `be_public`, which is concise and easier to implement in your policy files.
 
-The `bucket_policy` property returns an Array of simple objects, each object being an IAM Policy Statement. See the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-2) for details about the structure of this data.
+The `bucket_policy` property returns an array of simple objects, each object being an IAM Policy Statement. See the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-2) for details about the structure of this data.
 
-If there is no bucket policy, this property will return an empty Array.
+If there is no bucket policy, this property returns an empty array.
 
     bucket_policy = aws_s3_bucket('my-bucket')
 
     # Look for statements that allow the general public to do things
-    # This may be a false positive;  it's possible these statements
+    # This may be a false positive; it's possible these statements
     # could be protected by conditions, such as IP restrictions.
     public_statements = bucket_policy.select do |s|
       s.effect == 'Allow' && s.principal == '*'
@@ -108,7 +111,7 @@ If there is no bucket policy, this property will return an empty Array.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_public
 

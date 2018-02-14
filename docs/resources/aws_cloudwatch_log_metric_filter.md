@@ -35,7 +35,13 @@ An `aws_cloudwatch_log_metric_filter` resource block searches for an LMF, specif
 
 <br>
 
-## Resource Parameters
+## Filter Attributes
+
+* `filter_name`, `log_group_name`, `pattern`
+
+<br>
+
+## Filter Examples
 
 ### filter_name
 
@@ -70,9 +76,12 @@ The filter pattern used to match entries from the logs in the log group.
 <br>
 
 ## Properties
+
 * `filter_name`, `log_group_name`,` metric_name`, `metric_namespace`, `pattern`
 
-## Examples
+<br>
+
+## Property Examples
 
 ### filter_name
 
@@ -125,6 +134,8 @@ The pattern used to match entries from the logs in the log group.
 <br>
 
 ## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 

@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_users Resource
+platform: aws
 ---
 
 # aws_iam_users
@@ -22,6 +23,10 @@ An `aws_iam_users` resource block users a filter to select a group of users and 
 
 <br>
 
+## Filter Criteria
+
+*`has_mfa_enabled`, `has_console_password`, `password_ever_used?`, `password_never_used?`, `password_last_used_days_ago`, `username`
+
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -38,7 +43,7 @@ The following examples show how to use this InSpec audit resource.
       it { should exist }
     end
 
-### Test that all users that have a console password have Multi-Factor Authentication enabled
+### Test that all users who have a console password have Multi-Factor Authentication enabled
 
     console_users_without_mfa = aws_iam_users
                                 .where(has_console_password?: true)
@@ -48,7 +53,7 @@ The following examples show how to use this InSpec audit resource.
       it { should_not exist }
     end
 
-### Test that all users that have a console password should have used it at-least once
+### Test that all users who have a console password have used it at least once
 
     console_users_with_unused_password = aws_iam_users
                                          .where(has_console_password?: true)
@@ -58,7 +63,7 @@ The following examples show how to use this InSpec audit resource.
       it { should_not exist }
     end
 
-### Test that atleast one user exists with console password and used it atleast once
+### Test that at least one user exists who has a console password and has used it at least once
 
     console_users_with_used_password = aws_iam_users
                                        .where(has_console_password?: true)
@@ -69,7 +74,7 @@ The following examples show how to use this InSpec audit resource.
     end
 
 
-### Test that users with used passwords longer that 90 days should not exists
+### Test that users with passwords that have not been used for 90 days do not
 
     describe aws_iam_users.where { password_last_used_days_ago > 90 } do
       it { should_not exist }
@@ -79,4 +84,5 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has no specific matchers.  
+This InSpec audit resource has no specific matchers. 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

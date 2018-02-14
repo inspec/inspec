@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_root_user Resource
+platform: aws
 ---
 
 # aws_iam_root_user
@@ -42,7 +43,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### have_mfa_enabled
 

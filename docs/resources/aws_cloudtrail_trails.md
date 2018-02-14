@@ -24,12 +24,20 @@ An `aws_cloudtrail_trails` resource block collects a group of CloudTrail Trails 
 
 <br>
 
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
+
+<br>
+
 ## Properties
 * `entries`, `names`, `trail_arns`
 
 <br>
 
-## Examples
+## Property Examples
 
 ### entries
 
@@ -58,21 +66,13 @@ Provides a list of trail arns for all CloudTrail Trails in the AWS account.
 
 <br>
 
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-As this is the initial release of `aws_cloudtrail_trails`, its limited functionality precludes examples.
-
-<br>
-
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
 
     # Verify that at least one CloudTrail Trail exists.
     describe aws_cloudtrail_trails

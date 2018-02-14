@@ -1,12 +1,13 @@
 ---
 title: About the aws_iam_policy Resource
+platform: aws
 ---
 
 # aws_iam_policy
 
 Use the `aws_iam_policy` InSpec audit resource to test properties of a single managed AWS IAM Policy.
 
-A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine whether the request is allowed or denied. 
+A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine if the request is allowed or denied. 
 
 Each IAM Policy is uniquely identified by either its policy_name or arn.
 
@@ -53,6 +54,10 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
+* `arn`, `attachment_count`, `attached_groups`, `attached_roles`,`attached_users`, `default_version_id`
+
+## Property Examples
+
 ### arn
 
 "The ARN identifier of the specified policy. An ARN uniquely identifies the policy within AWS."
@@ -61,28 +66,12 @@ The following examples show how to use this InSpec audit resource.
       its('arn') { should cmp "arn:aws:iam::aws:policy/AWSSupportAccess" }
     end
 
-### default_version_id
-
-The default_version_id value of the specified policy.
-
-    describe aws_iam_policy('AWSSupportAccess') do
-      its('default_version_id') { should cmp "v1" }
-    end
-
 ### attachment_count
 
 The count of attached entities for the specified policy.
 
     describe aws_iam_policy('AWSSupportAccess') do
       its('attachment_count') { should cmp 1 }
-    end
-
-### attached_users
-
-The list of usernames of the users attached to the policy.
-
-    describe aws_iam_policy('AWSSupportAccess') do
-      its('attached_users') { should include "test-user" }
     end
 
 ### attached_groups
@@ -101,9 +90,26 @@ The list of rolenames of the roles attached to the policy.
       its('attached_roles') { should include "test-role" }
     end
 
+### attached_users
+
+The list of usernames of the users attached to the policy.
+
+    describe aws_iam_policy('AWSSupportAccess') do
+      its('attached_users') { should include "test-user" }
+    end
+
+### default_version_id
+
+The default_version_id value of the specified policy.
+
+    describe aws_iam_policy('AWSSupportAccess') do
+      its('default_version_id') { should cmp "v1" }
+    end
+
+
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_attached
 
@@ -111,6 +117,14 @@ The test will pass if the identified policy is attached to at least one IAM user
 
     describe aws_iam_policy('AWSSupportAccess') do
       it { should be_attached }
+    end
+
+### be_attached_to_group(GROUPNAME)
+
+The test will pass if the identified policy attached the specified group.
+
+    describe aws_iam_policy('AWSSupportAccess') do
+      it { should be_attached_to_group(GROUPNAME) }
     end
 
 ### be_attached_to_user(USERNAME)
@@ -130,10 +144,3 @@ The test will pass if the identified policy attached the specified role.
     end
 
 
-### be_attached_to_group(GROUPNAME)
-
-The test will pass if the identified policy attached the specified group.
-
-    describe aws_iam_policy('AWSSupportAccess') do
-      it { should be_attached_to_group(GROUPNAME) }
-    end

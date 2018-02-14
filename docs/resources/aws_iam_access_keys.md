@@ -1,5 +1,6 @@
 ---
 title: About the aws_iam_access_keys Resource
+platform: aws
 ---
 
 # aws_iam_access_keys
@@ -47,12 +48,17 @@ The following examples show how to use this InSpec audit resource.
 <br>
 
 ## Filter Criteria
+* `active`, `create_date`, `created_days_ago`, `created_hours_ago`, `created_with_user`, `ever_used`, `inactive`, `last_used_date`, `last_used_hours_ago`, `last_used_days_ago`, `never_used`, `user_created_date`
+
+<br>
+
+## Filter Examples
 
 ### active
 
 A true / false value indicating if an Access Key is currently "Active" (the normal state) in the AWS console.  See also: `inactive`.
 
-    # Check whether a particular key is enabled
+    # Check if a particular key is enabled
     describe aws_iam_access_keys.where { active } do
       its('access_key_ids') { should include('AKIA1234567890ABCDEF')}
     end
@@ -152,7 +158,7 @@ The date at which the user was created.
 
 * `access_key_ids`, `entries`
 
-## Examples
+## Property Examples
 
 ### access_key_ids
 
@@ -175,11 +181,11 @@ Provides access to the raw results of the query.  This can be useful for checkin
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
 
     # Sally should have at least one access key
     describe aws_iam_access_keys.where(username: 'sally') do

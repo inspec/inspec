@@ -1,5 +1,6 @@
 ---
 title: About the aws_route_table Resource
+platform: aws
 ---
 
 # aws_route_table
@@ -19,7 +20,7 @@ Use the `aws_route_table` InSpec audit resource to test properties of a single R
 
 ### route_table_id
 
-This resource expects a single parameter that uniquely identifes the Route Table.  You may pass it as a string, or as the value in a hash:
+This resource expects a single parameter that uniquely identifies the Route Table. You may pass it as a string, or as the value in a hash:
 
   describe aws_route_table('rtb-123abcde') do
     it { should exist }
@@ -30,6 +31,8 @@ This resource expects a single parameter that uniquely identifes the Route Table
   end
 
 ## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 

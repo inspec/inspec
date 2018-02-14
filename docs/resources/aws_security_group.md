@@ -12,7 +12,7 @@ SGs are a networking construct which contain ingress and egress rules for networ
 
 ## Syntax
 
-An `aws_security_group` resource block uses resource parameters to search for a Security Group, and then tests that Security Group.  If no SGs match, no error is raised, but the `exists` matcher will return `false` and all properties will be `nil`.  If more than one SG matches (due to vague search parameters), an error is raised.
+An `aws_security_group` resource block uses resource parameters to search for a Security Group and then tests that Security Group. If no SGs match, no error is raised, but the `exists` matcher returns `false` and all properties will be `nil`. If more than one SG matches (due to vague search parameters), an error is raised.
 
     # Ensure you have a security group with a certain ID
     # This is "safe" - SG IDs are unique within an account
@@ -42,7 +42,7 @@ This InSpec resource accepts the following parameters, which are used to search 
 
 ### id, group_id
 
-The Security Group ID of the Security Group.  This is of the format `sg-` followed by 8 hexadecimal characters.  The ID is unique within your AWS account; using ID ensures that you will never match more than one SG.  The ID is also the default resource parameter, so you may omit the hash syntax.
+The Security Group ID of the Security Group. This is of the format `sg-` followed by 8 hexadecimal characters.  The ID is unique within your AWS account; using ID ensures that you will never match more than one SG. The ID is also the default resource parameter, so you may omit the hash syntax.
 
     # Using Hash syntax 
     describe aws_security_group(id: 'sg-12345678') do
@@ -61,7 +61,7 @@ The Security Group ID of the Security Group.  This is of the format `sg-` follow
 
 ### group_name
 
-The string Name of the Security Group.  Every VPC has a security group named 'default'.  Names are unique within a VPC, but not within an AWS account.
+The string name of the Security Group.  Every VPC has a security group named 'default'. Names are unique within a VPC, but not within an AWS account.
 
     # Get default security group for a certain VPC
     describe aws_security_group(group_name: 'default', vpc_id: vpc_id: 'vpc-12345678') do
@@ -75,7 +75,7 @@ The string Name of the Security Group.  Every VPC has a security group named 'de
 
 ### vpc_id
 
-A string identifying the VPC which contains the security group.  Since VPCs commonly contain many SGs, you should add additional parameters to ensure you find exactly one SG.
+A string identifying the VPC that contains the security group. Since VPCs commonly contain many SGs, you should add additional parameters to ensure you find exactly one SG.
 
     # This will error if there is more than the default SG
     describe aws_security_group(vpc_id: 'vpc-12345678') do
@@ -85,6 +85,8 @@ A string identifying the VPC which contains the security group.  Since VPCs comm
 <br>
 
 ## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

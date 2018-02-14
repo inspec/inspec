@@ -1,12 +1,13 @@
 ---
 title: About the aws_iam_user Resource
+platform: aws
 ---
 
 # aws_iam_user
 
 Use the `aws_iam_user` InSpec audit resource to test properties of a single AWS IAM user.
 
-To test properties of all or multiple users, use the `aws_iam_users` resource.
+To test properties of more than one user, use the `aws_iam_users` resource.
 
 To test properties of the special AWS root user (which owns the account), use the `aws_iam_root_user` resource.
 
@@ -48,7 +49,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### have_console_password
 

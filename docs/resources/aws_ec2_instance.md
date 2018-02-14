@@ -23,12 +23,6 @@ An `aws_ec2_instance` resource block declares the tests for a single AWS EC2 ins
 
 <br>
 
-## Supported Properties
-
-* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
-
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -59,9 +53,15 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+## Properties
+
+* `architecture`, `client_token`, `image_id`,`instance_type`, `key_name`, `launch_time`,`private_ip_address`,  `private_dns_name`, `public_dns_name`, `public_ip_address`,  `root_device_type`, `root_device_name`, `subnet_id`, `tags`,`virtualization_type`, `vpc_id`
+
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_pending
 

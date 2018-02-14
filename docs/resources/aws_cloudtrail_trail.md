@@ -29,9 +29,37 @@ An `aws_cloudtrail_trail` resource block identifies a trail by trail_name.
 
 <br>
 
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test that the specified trail does exist
+
+    describe aws_cloudtrail_trail('trail-name') do
+      it { should exist }
+    end
+
+### Test that the specified trail is encrypted using SSE-KMS
+
+    describe aws_cloudtrail_trail('trail-name') do
+      it { should be_encrypted }
+    end
+
+### Test that the specified trail is a multi region trail
+
+    describe aws_cloudtrail_trail('trail-name') do
+      it { should be_multi_region_trail }
+    end
+
+<br>
+
 ## Properties
 
 * `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`, 
+
+<br>
+
+## Property Examples
 
 ### s3_bucket_name
 
@@ -83,33 +111,9 @@ Specifies the region in which the trail was created.
 
 <br>
 
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test that the specified trail does exist
-
-    describe aws_cloudtrail_trail('trail-name') do
-      it { should exist }
-    end
-
-### Test that the specified trail is encrypted using SSE-KMS
-
-    describe aws_cloudtrail_trail('trail-name') do
-      it { should be_encrypted }
-    end
-
-### Test that the specified trail is a multi region trail
-
-    describe aws_cloudtrail_trail('trail-name') do
-      it { should be_multi_region_trail }
-    end
-
-<br>
-
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_multi_region_trail
 

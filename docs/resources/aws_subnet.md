@@ -1,5 +1,6 @@
 ---
 title: About the aws_subnet Resource
+platform: aws
 ---
 
 # aws_subnet
@@ -38,49 +39,13 @@ A string identifying the subnet that the VPC contains.
 
 <br>
 
-## Matchers
-
-### assigning_ipv_6_address_on_creation
-
-Detects whether the network interface on the subnet accepts IPv6 addresses.
-
-    describe aws_subnet(subnet_id: 'subnet-12345678') do
-      it { should be_assigning_ipv_6_address_on_creation }    
-    end
-    
-### available
-
-Provides the current state of the subnet.
-
-    describe aws_subnet(subnet_id: 'subnet-12345678') do
-      it { should be_available }    
-    end
-
-### default_for_az
-
-Detects if this is the default subnet for the Availability Zone.
-
-    describe aws_subnet(subnet_id: 'subnet-12345678') do
-      it { should be_default_for_az }    
-    end
-
-### exist
-
-The `exist` matcher indicates that a subnet exists for the specified vpc.
-
-    describe aws_subnet(subnet_id: 'subnet-12345678') do
-      it { should exist }
-    end
-    
-### mapping_public_ip_on_launch
-
-Provides the ID of the VPC the subnet is in.
-
-    describe aws_subnet(subnet_id: 'subnet-12345678') do
-      it { should be_mapping_public_ip_on_launch }    
-    end
-
 ## Properties
+
+* `availavailability_zone`, `available_ip_address_count`, `cidr_block`, `subnet_id`, `vpc_id`
+
+<br>
+
+## Property Examples
 
 ### availability_zone
 
@@ -120,4 +85,50 @@ Provides the ID of the VPC the subnet is in.
 
     describe aws_subnet(subnet_id: 'subnet-12345678') do
       its('vpc_id') { should eq 'vpc-12345678' }    
+    end
+
+<br> 
+
+## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### assigning_ipv_6_address_on_creation
+
+Detects if the network interface on the subnet accepts IPv6 addresses.
+
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
+      it { should be_assigning_ipv_6_address_on_creation }    
+    end
+    
+### available
+
+Provides the current state of the subnet.
+
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
+      it { should be_available }    
+    end
+
+### default_for_az
+
+Detects if the subnet is the default subnet for the Availability Zone.
+
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
+      it { should be_default_for_az }    
+    end
+
+### exist
+
+The `exist` matcher indicates that a subnet exists for the specified vpc.
+
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
+      it { should exist }
+    end
+    
+### mapping_public_ip_on_launch
+
+Provides the VPC ID for the subnet.
+
+    describe aws_subnet(subnet_id: 'subnet-12345678') do
+      it { should be_mapping_public_ip_on_launch }    
     end

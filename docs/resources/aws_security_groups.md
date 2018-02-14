@@ -1,12 +1,13 @@
 ---
 title: About the aws_security_groups Resource
+platform: aws
 ---
 
 # aws_security_groups
 
 Use the `aws_security_groups` InSpec audit resource to test properties of some or all security groups.
 
-Security groups are a networking construct which contain ingress and egress rules for network communications.  Security groups may be attached to EC2 instances, as well as certain other AWS resources.  Along with Network Access Control Lists, Security Groups are one of the two main mechanisms of enforcing network-level security.
+Security groups are a networking construct that contain ingress and egress rules for network communications. Security groups may be attached to EC2 instances, as well as certain other AWS resources. Along with Network Access Control Lists, Security Groups are one of the two main mechanisms of enforcing network-level security.
 
 <br>
 
@@ -29,17 +30,6 @@ As this is the initial release of `aws_security_groups`, its limited functionali
 
 <br>
 
-## Matchers
-
-### exists
-
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
-
-    # You will always have at least one SG, the VPC default SG
-    describe aws_security_groups
-      it { should exist }
-    end   
-
 ## Filter Criteria
 
 ### vpc_id
@@ -53,15 +43,25 @@ A string identifying the VPC which contains the security group.
 
 ### group_name
 
-A string identifying a group.  Since groups are contained in VPCs, group names are unique within the AWS account, but not across VPCs.
+A string identifying a group. Since groups are contained in VPCs, group names are unique within the AWS account, but not across VPCs.
 
     # Examine the default security group in all VPCs
     describe aws_security_groups.where( group_name: 'default') do
       it { should exist }
     end
 
-
 ## Properties
+
+* `entries`, `group_ids`
+
+### entries
+
+Provides access to the raw results of the query. This can be useful for checking counts and other advanced operations.
+
+    # Allow at most 100 security groups on the account
+    describe aws_security_groups do
+      its('entries.count') { should be <= 100}
+    end
 
 ### group_ids
 
@@ -71,11 +71,16 @@ Provides a list of all security group IDs matched.
       its('group_ids') { should include('sg-12345678') }
     end
 
-### entries
+## Matchers
 
-Provides access to the raw results of the query.  This can be useful for checking counts and other advanced operations.
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-    # Allow at most 100 security groups on the account
-    describe aws_security_groups do
-      its('entries.count') { should be <= 100}
-    end
+### exists
+
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
+
+    # You will always have at least one SG, the VPC default SG
+    describe aws_security_groups
+      it { should exist }
+    end   
+

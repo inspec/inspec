@@ -25,22 +25,6 @@ An `aws_cloudwatch_alarm` resource block searches for a Cloudwatch Alarm, specif
 
 <br>
 
-## Properties
-
-### alarm_actions
-
-`alarm_actions` returns a list of strings.  Each string is the ARN of an action that will be taken should the alarm be triggered.  
-
-    # Ensure that the alarm has at least one action
-    describe aws_cloudwatch_alarm(
-      metric: 'bed-metric',
-      metric_namespace: 'my-metric-namespace',
-    ) do 
-      its('alarm_actions') { should_not be_empty }
-    end
-
-<br>
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource.
@@ -56,13 +40,33 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+## Properties
+
+* `alarm_actions`
+
+## Property Examples
+
+### alarm_actions
+
+`alarm_actions` returns a list of strings.  Each string is the ARN of an action that will be taken should the alarm be triggered.  
+
+    # Ensure that the alarm has at least one action
+    describe aws_cloudwatch_alarm(
+      metric: 'bed-metric',
+      metric_namespace: 'my-metric-namespace',
+    ) do 
+      its('alarm_actions') { should_not be_empty }
+    end
+
+<br>
+
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 
-The control will pass if a Cloudwatch Alarm could be found. Use should_not if you expect zero matches.
+The control will pass if a Cloudwatch Alarm could be found. Use `should_not` if you expect zero matches.
 
     # Expect good metric
     describe aws_cloudwatch_alarm(

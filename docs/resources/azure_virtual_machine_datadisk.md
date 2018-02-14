@@ -173,7 +173,7 @@ If this is a managed disk then this is the fully qualified id to the disk in Azu
 
 ### subscription_id
 
-If this is a managed disk, this will return the subscription id of where the disk is stored.
+If this is a managed disk, this returns the subscription id of where the disk is stored.
 
 This is derived from the `id`.
 

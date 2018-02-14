@@ -152,11 +152,11 @@ Returns the type of caching that has been set on the operating system disk.
 
 ### create_option
 
-When the operating system disk is created, how it was created is set as an property. This property will return has the disk was created.
+When the operating system disk is created, how it was created is set as an property. This property returns how the disk was created.
 
 ### disk_size_gb
 
-Return the size of the operating system disk.
+Returns the size of the operating system disk.
 
 ### have_data_disks
 
@@ -184,7 +184,7 @@ its('vm_size') { should eq 'Standard_DS2_v2' }
 
 ### computer_name
 
-The computername of the machine. This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
+The name of the machine. This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
 
 ### admin_username
 

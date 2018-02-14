@@ -7,7 +7,7 @@ platform: aws
 
 Use the `aws_iam_policies` InSpec audit resource to test properties of some or all AWS IAM Policies.
 
-An AWS IAM policy attaches to an identity or resource, defining their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions defined in the identity or resource policies determines whether the request is allowed or denied.
+A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine if the request is allowed or denied. 
 
 Each IAM Policy is uniquely identified by either its policy_name or arn.
 
@@ -38,7 +38,7 @@ As this is the initial release of `aws_iam_policies`, its limited functionality 
 
 <br>
 
-## Examples
+## Property Examples
 
 ### policy_names
 
@@ -73,7 +73,7 @@ For a full list of available matchers please visit our [matchers page](https://w
 
 ### exists
 
-The control will pass if the filter returns at least one result. Use should_not if you expect zero matches.
+The control will pass if the filter returns at least one result. Use `should_not` if you expect zero matches.
 
     # Verify that at least one IAM Policies exists.
     describe aws_iam_policies

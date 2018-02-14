@@ -44,13 +44,37 @@ You may also use both username and access key id to ensure that a particular key
 
 <br>
 
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test that an IAM access key is not active
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      it { should_not be_active }
+    end
+
+### Test that an IAM access key is older than one year
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      its('create_date') { should be > Time.now - 365 * 86400 }
+    end
+
+### Test that an IAM access key has been used in the past 90 days
+
+    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
+      its('last_used_date') { should be > Time.now - 90 * 86400 }
+    end
+
+<br>
+
 ## Properties
 
 * `access_key_id`, `create_date`, `last_used_date`, `username`
 
 <br>
 
-## Examples
+## Property Examples
 
 ### access_key_id
 
@@ -88,33 +112,9 @@ The IAM user that owns this key.
 
 <br>
 
-## Examples
-
-The following examples show how to use this InSpec audit resource.
-
-### Test that an IAM access key is not active
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      it { should_not be_active }
-    end
-
-### Test that an IAM access key is older than one year
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      its('create_date') { should be > Time.now - 365 * 86400 }
-    end
-
-### Test that an IAM access key has been used in the past 90 days
-
-    describe aws_iam_access_key(username: 'username', id: 'access-key-id') do
-      its('last_used_date') { should be > Time.now - 90 * 86400 }
-    end
-
-<br>
-
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_active
 
