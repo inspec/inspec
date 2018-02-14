@@ -84,19 +84,19 @@ EOX
   end
 
   #-------------------------- Matchers ----------------------------#
-  [ 
+  [
     :require_lowercase_characters,
     :require_uppercase_characters,
     :require_symbols,
     :require_numbers,
     :expire_passwords,
-  ].each do | matcher_stem |
+  ].each do |matcher_stem|
     # Create our predicates (for example, 'require_symbols?')
     stem_with_question_mark = (matcher_stem.to_s + '?').to_sym
-    define_method stem_with_question_mark do 
+    define_method stem_with_question_mark do
       @policy.send(matcher_stem)
     end
-    # RSpec will expose that as (for example) `be_require_symbols`.  
+    # RSpec will expose that as (for example) `be_require_symbols`.
     # To undo that, we have to make a matcher alias.
     stem_with_be = ('be_' + matcher_stem.to_s).to_sym
     RSpec::Matchers.alias_matcher matcher_stem, stem_with_be
@@ -113,5 +113,4 @@ EOX
     !@policy.password_reuse_prevention.nil?
   end
   RSpec::Matchers.alias_matcher :prevent_password_reuse, :be_prevent_password_reuse
-
 end
