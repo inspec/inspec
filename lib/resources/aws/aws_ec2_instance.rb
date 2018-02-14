@@ -118,7 +118,9 @@ EOX
   end
 
   def security_group_ids
-    @security_group_ids ||= instance.security_groups.map(&:group_id)
+    catch_aws_errors do    
+      @security_group_ids ||= instance.security_groups.map(&:group_id)
+    end
   end
 
   def tags
