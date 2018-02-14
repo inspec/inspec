@@ -118,7 +118,7 @@ EOX
   end
 
   def security_group_ids
-    @security_group_ids ||= instance.security_groups.map { |sg| sg.group_id }
+    @security_group_ids ||= instance.security_groups.map(&:group_id)
   end
 
   def tags
