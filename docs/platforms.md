@@ -4,7 +4,7 @@ New in InSpec 2.0, you may now use certain InSpec resources to audit properties 
 
 In the initial release of InSpec 2.0, support for selected AWS and Azure resources is included.
 
-## AWS Platform Support in InSpec 2.0
+## AWS Platform Support
 
 ### Setting up AWS credentials for InSpec
 
@@ -18,17 +18,40 @@ InSpec uses the standard AWS authentication mechanisms.  Typically, you will cre
 
 You may provide the credentials to InSpec by setting the following environment variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_KEY_ID`.  You may also use `AWS_PROFILE`, or if you are using MFA, `AWS_SESSION_TOKEN`.  See the [AWS Command Line Interface Docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) for details.
 
+Once you have your environment variables set, you can verify your credentials by running:
+
+```bash
+you$ inspec detect -t aws:// 
+
+== Platform Details
+Name:         aws
+Families:     cloud, api
+```
+
 #### Using the InSpec target option to provide credentials
 
-Look for a file in your home directory named `~/.aws/credentials`.  If it does not exist, create it.  Add your credentials as a new profile, in INI format:
+Look for a file in your home directory named `~/.aws/credentials`.  If it does not exist, create it.  Choose a name for your profile; here, we're using the name 'auditing'.  Add your credentials as a new profile, in INI format:
 
 ```
-[my-profile-name]
+[auditing]
 aws_access_key_id = AKIA....
 aws_secret_access_key = 1234....abcd
 ```
 
 You may now run InSpec using the `--target` / `-t` option, using the format `-t aws://region/profile`.  For example, to connect to the Ohio region using a profile named 'auditing', use `-t aws://us-east-2/auditing`.
+
+To verify your credentials, 
+```bash
+you$ inspec detect -t aws:// 
+
+== Platform Details
+Name:         aws
+Families:     cloud, api
+```
+
+#### Verifying your credentials
+
+To verify your credentials
 
 ## Azure Platform Support in InSpec 2.0
 
@@ -46,7 +69,7 @@ The information from the SPN can be specified either in a file `~/.azure/credent
 
 #### Using the Azure Credentials File
 
-The simplest way is to create the file `~/.azure/credentials` with the following format. InSpec is configured to look for this file by default, so no settings are required.
+By default InSpec is configured to look at ~/.azure/credentials, and it should contain:
 
 ```
 [<SUBSCRIPTION_ID>]
@@ -55,7 +78,7 @@ client_secret = "<CLIENT_SECRET>"
 tenant_id = "<TENANT_ID>"
 ```
 
-So to run InSpec now it is as simple as running:
+With the credentials are in place you may now execute InSpec:
 
 ```bash
 inspec exec my-inspec-profile -t azure://
