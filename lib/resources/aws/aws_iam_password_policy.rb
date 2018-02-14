@@ -58,54 +58,60 @@ EOX
     inspec if respond_to?(:inspec)
   end
 
+  def to_s
+    'IAM Password-Policy'
+  end
+
   def exists?
     !@policy.nil?
   end
 
-  def requires_lowercase_characters?
-    @policy.require_lowercase_characters
-  end
-
-  def requires_uppercase_characters?
-    @policy.require_uppercase_characters
-  end
+  #-------------------------- Properties ----------------------------#
 
   def minimum_password_length
     @policy.minimum_password_length
   end
 
-  def requires_numbers?
-    @policy.require_numbers
-  end
-
-  def requires_symbols?
-    @policy.require_symbols
-  end
-
-  def allows_users_to_change_password?
-    @policy.allow_users_to_change_password
-  end
-
-  def expires_passwords?
-    @policy.expire_passwords
-  end
-
   def max_password_age
-    raise 'this policy does not expire passwords' unless expires_passwords?
+    raise 'this policy does not expire passwords' unless expire_passwords?
     @policy.max_password_age
-  end
-
-  def prevents_password_reuse?
-    !@policy.password_reuse_prevention.nil?
   end
 
   def number_of_passwords_to_remember
     raise 'this policy does not prevent password reuse' \
-      unless prevents_password_reuse?
+      unless prevent_password_reuse?
     @policy.password_reuse_prevention
   end
 
-  def to_s
-    'IAM Password-Policy'
+  #-------------------------- Matchers ----------------------------#
+  [ 
+    :require_lowercase_characters,
+    :require_uppercase_characters,
+    :require_symbols,
+    :require_numbers,
+    :expire_passwords,
+  ].each do | matcher_stem |
+    # Create our predicates (for example, 'require_symbols?')
+    stem_with_question_mark = (matcher_stem.to_s + '?').to_sym
+    define_method stem_with_question_mark do 
+      @policy.send(matcher_stem)
+    end
+    # RSpec will expose that as (for example) `be_require_symbols`.  
+    # To undo that, we have to make a matcher alias.
+    stem_with_be = ('be_' + matcher_stem.to_s).to_sym
+    RSpec::Matchers.alias_matcher matcher_stem, stem_with_be
   end
+
+  # This one has an awkward name mapping
+  def allow_users_to_change_passwords?
+    @policy.allow_users_to_change_password
+  end
+  RSpec::Matchers.alias_matcher :allow_users_to_change_passwords, :be_allow_users_to_change_passwords
+
+  # This one has custom logic and renaming
+  def prevent_password_reuse?
+    !@policy.password_reuse_prevention.nil?
+  end
+  RSpec::Matchers.alias_matcher :prevent_password_reuse, :be_prevent_password_reuse
+
 end

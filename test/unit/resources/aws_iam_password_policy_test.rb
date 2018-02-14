@@ -39,13 +39,13 @@ class AwsIamPasswordPolicyTest < Minitest::Test
   def test_prevents_password_reuse_returns_true_when_not_nil
     configure_policy_password_reuse_prevention(value: Object.new)
 
-    assert AwsIamPasswordPolicy.new(@mock_conn).prevents_password_reuse?
+    assert AwsIamPasswordPolicy.new(@mock_conn).prevent_password_reuse?
   end
 
   def test_prevents_password_reuse_returns_false_when_nil
     configure_policy_password_reuse_prevention(value: nil)
 
-    refute AwsIamPasswordPolicy.new(@mock_conn).prevents_password_reuse?
+    refute AwsIamPasswordPolicy.new(@mock_conn).prevent_password_reuse?
   end
 
   def test_number_of_passwords_to_remember_throws_when_nil

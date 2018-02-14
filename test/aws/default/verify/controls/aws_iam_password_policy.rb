@@ -21,13 +21,13 @@ end
 
 control "aws_iam_password_policy matchers" do
   describe aws_iam_password_policy do
-    it { should be_requires_lowercase_characters }
-    it { should be_requires_uppercase_characters }
-    it { should be_requires_numbers }
-    it { should be_requires_symbols }
-    it { should be_allows_users_to_change_password }
-    it { should be_expires_passwords }
-    it { should be_prevents_password_reuse }
+    it { should require_lowercase_characters }
+    it { should require_uppercase_characters }
+    it { should require_numbers }
+    it { should require_symbols }
+    it { should allow_users_to_change_passwords }
+    it { should expire_passwords }
+    it { should prevent_password_reuse }
   end
 end
 
