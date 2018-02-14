@@ -14,7 +14,6 @@ module Inspec::Reporters
         profiles: profiles,
         statistics: {
           duration: run_data[:statistics][:duration],
-          controls: run_data[:statistics][:controls],
         },
         version: run_data[:version],
       }
