@@ -8,6 +8,31 @@ module Inspec
       'additionalProperties' => false,
       'properties' => {
         'duration' => { 'type' => 'number' },
+        'controls' => {
+          'type' => 'object',
+          'optional' => true,
+          'properties' => {
+            'total' => { 'type' => 'number' },
+            'passed' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+            'skipped' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+            'failed' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+          },
+        },
       },
     }.freeze
 
@@ -137,10 +162,6 @@ module Inspec
         },
         'statistics' => STATISTICS,
         'version' => { 'type' => 'string' },
-
-        # DEPRECATED PROPERTIES!! These will be removed with the next major version bump
-        'controls' => 'array',
-        'other_checks' => 'array',
       },
     }.freeze
 
