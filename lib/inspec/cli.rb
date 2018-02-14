@@ -178,17 +178,27 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   def detect
     o = opts(:detect).dup
-    o[:command] = 'os.params'
+    o[:command] = 'platform.params'
     (_, res) = run_command(o)
     if o['format'] == 'json'
       puts res.to_json
     else
-      headline('Operating System Details')
-      %w{name family release arch}.each { |item|
-        puts format('%-10s %s', item.to_s.capitalize + ':',
-                    mark_text(res[item.to_sym]))
+      headline('Platform Details')
+      %w{name families release arch}.each { |item|
+        data = res[item.to_sym]
+
+        # Format Array for better output if applicable
+        data = data.join(', ') if data.is_a?(Array)
+
+        # Do not output fields of data is missing ('unknown' is fine)
+        next if data.nil?
+
+        puts format('%-10s %s', item.to_s.capitalize + ':', mark_text(data))
       }
     end
+  rescue ArgumentError, RuntimeError, Train::UserError => e
+    $stderr.puts e.message
+    exit 1
   rescue StandardError => e
     pretty_handle_exception(e)
   end
