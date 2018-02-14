@@ -65,6 +65,7 @@ This can be done on the command line or from the Azure Portal:
 - PowerShell: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal
 - Azure Portal: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal
 
+
 The information from the SPN can be specified either in a file `~/.azure/credentials`, as environment variables, or using InSpec target URIs.
 
 #### Using the Azure Credentials File
@@ -78,6 +79,11 @@ client_secret = "<CLIENT_SECRET>"
 tenant_id = "<TENANT_ID>"
 ```
 
+    NOTE: In the Azure web portal, these values are labelled differently:
+    * The client_id is referred to as the 'Application ID'
+    * The client_secret is referred to as the 'Key (Password Type)'
+    * The tenant_id is referred to as the 'Directory ID'
+    
 With the credentials are in place you may now execute InSpec:
 
 ```bash
