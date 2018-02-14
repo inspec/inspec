@@ -102,7 +102,7 @@ EOX
   }.each do |attribute|
     define_method attribute do
       catch_aws_errors do
-       instance.send(attribute) if instance
+        instance.send(attribute) if instance
       end
     end
   end
@@ -144,9 +144,9 @@ EOX
   private
 
   def instance
-    catch_aws_errors { @instance ||= @ec2_resource.instance(id) }   
+    catch_aws_errors { @instance ||= @ec2_resource.instance(id) }
   end
-end 
+end
 
 # Deprecated
 class AwsEc2 < AwsEc2Instance
