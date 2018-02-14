@@ -19,7 +19,6 @@ describe Inspec::Reporters::CLI do
 
   def windowize(string)
     string.gsub!('✔', '[PASS]')
-    string.gsub!('∅', '[MAJR]')
     string.gsub!('↺', '[SKIP]')
     string.gsub!('×', '[FAIL]')
     string.gsub!("\e[38;5;41m", "\e[0;1;32m")
@@ -76,7 +75,7 @@ describe Inspec::Reporters::CLI do
         File /tmp
       \e[38;5;41m     ✔  should be directory\e[0m
         gem package rubocop
-      \e[38;5;208m     ∅  should be installed
+      \e[38;5;9m     ×  should be installed
            rubocop is not installed\e[0m
         stdout
       \e[38;5;41m     ✔  stdout should eq \"jquick\\n\"\e[0m
@@ -301,7 +300,7 @@ describe Inspec::Reporters::CLI do
 
   describe '#profile_summary' do
     it 'correct profile summary' do
-      expect = {"total"=>1, "failed"=>{"total"=>0, "critical"=>0, "major"=>0, "minor"=>0}, "skipped"=>0, "passed"=>1}
+      expect = {"total"=>1, "failed"=>0, "skipped"=>0, "passed"=>1}
       report.send(:profile_summary).must_equal expect
     end
   end
