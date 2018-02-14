@@ -4,7 +4,6 @@ class AwsConfigurationRecorder < Inspec.resource(1)
   example "
     describe aws_config_recorder('My_Recorder') do
       it { should exist }
-      it { should be_default }
       it { should be_recording }
       it { should be_all_supported }
       it { should have_include_global_resource_types }
