@@ -67,7 +67,7 @@ The following examples show how to use this InSpec audit resource.
      its('PARAM_X') { should include 'Y' }
     end
 
-## Test a file with an ini-like structure (such as a yum.conf)
+### Test a file with an ini-like structure (such as a yum.conf)
 
     describe parse_config_file('/path/to/yum.conf') do
      its('main') { should include('gpgcheck' => '1') }
