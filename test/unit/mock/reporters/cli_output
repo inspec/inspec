@@ -9,7 +9,7 @@ Target:  local://
   File /tmp
 [38;5;41m     ✔  should be directory[0m
   gem package rubocop
-[38;5;208m     ∅  should be installed
+[38;5;9m     ×  should be installed
      rubocop is not installed[0m
   stdout
 [38;5;41m     ✔  stdout should eq "jquick\n"[0m

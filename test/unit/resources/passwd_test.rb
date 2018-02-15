@@ -47,7 +47,7 @@ describe 'Inspec::Resources::Passwd' do
 
     it 'retrieves singular elements instead of arrays when filter has only one entry' do
       _(child.users).must_equal ['root']
-      _(child.count).must_equal 1
+      _(child.entries.length).must_equal 1
     end
   end
 
@@ -55,25 +55,11 @@ describe 'Inspec::Resources::Passwd' do
     let(:child) { passwd.users(/^www/) }
     it 'filters by user via name (regex)' do
       _(child.users).must_equal ['www-data']
-      _(child.count).must_equal 1
+      _(child.entries.length).must_equal 1
     end
 
     it 'prints a nice to_s string' do
       _(child.to_s).must_equal '/etc/passwd with user == /^www/'
-    end
-  end
-
-  describe 'deprecated calls' do
-    it 'retrieves a username via uid' do
-      _(passwd.uid(0).username).must_equal 'root'
-    end
-
-    it 'retrieves a usercount via uid' do
-      _(passwd.uid(0).count).must_equal 1
-    end
-
-    it 'retrieves usernames' do
-      _(passwd.usernames).must_equal ['root', 'www-data']
     end
   end
 

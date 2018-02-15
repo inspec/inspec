@@ -1,0 +1,74 @@
+---
+title: About the azure_generic_resource Resource
+---
+
+# azure\_generic\_resource
+
+Use the `azure_generic_resource` InSpec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Inspec resource for.
+
+## Syntax
+
+    describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
+      its('property') { should eq 'value' }
+    end
+
+where
+
+* `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
+* `MyResource` is the name of the resource that needs to be checked
+* `property` - This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
+* `value` is the expected output from the chosen property
+
+The options that can be passed to the resource are as follows.
+
+* `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
+* `name`, the name of the Azure resource to test. Example: 'MyVM'
+* `type`, the Azure resource type. Example: 'Microsoft.Compute/virtualMachines'
+* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9 
+
+These options can also be set using the environment variables:
+
+ - `AZURE_RESOURCE_GROUP_NAME`
+ - `AZURE_RESOURCE_NAME`
+ - `AZURE_RESOURCE_TYPE`
+ - `AZURE_RESOURCE_API_VERSION`
+
+When the options have been set as well as the environment variables, the environment variables take priority.
+
+There are _normally_ three standard tests that can be performed on a resource.
+
+* `name`: tests the resource name
+* `type`: tests the resource type
+* `location`: tests the resource's location within Azure
+
+## Example
+
+    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+      its('location') { should eq 'westeurope' }
+    end
+
+## Properties
+
+The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
+
+This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
+
+Please see the integration tests for in depth examples of how this resource can be used.
+
+ - [Generic External VM NIC](../test/integration/verify/controls/generic_external_vm_nic.rb)
+ - [Generic External VM](../test/integration/verify/controls/generic_external_vm.rb)
+ - [Generic Internal VM NIC](../test/integration/verify/controls/generic_internal_vm_nic.rb)
+ - [Generic Internal VM](../test/integration/verify/controls/generic_internal_vm.rb)
+ - [Generic Linux VM Managed OS Disk](../test/integration/verify/controls/generic_linux_vm_manmaged_osdisk.rb)
+ - [Generic Network Security Group](../test/integration/verify/controls/generic_network_security_group.rb)
+ - [Generic Public IP Address](../test/integration/verify/controls/generic_public_ip_address.rb)
+ - [Generic Resources](../test/integration/verify/controls/generic_resources.rb)
+ - [Generic Storage Account](../test/integration/verify/controls/generic_storage_account.rb)
+ - [Generic Virtual Network](../test/integration/verify/controls/generic_virtual_network.rb)
+ - [Generic Windows Internal VM NIC](../test/integration/verify/controls/generic_windows_internal_vm_nic.rb)
+ - [Generic Windows Internal VM](../test/integration/verify/controls/generic_windows_internal_vm.rb)
+
+ ## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+ 

@@ -15,32 +15,22 @@ module Inspec::Resources
     "
 
     def initialize
-      @platform = inspec.backend.os
+      @platform = inspec.backend.platform
     end
 
     # add helper methods for easy access of properties
     %w{family release arch}.each do |property|
       define_method(property.to_sym) do
-        @platform.send(property)
+        @platform[property]
       end
     end
 
-    # This is a string override for platform.name.
-    # TODO: removed in inspec 2.0
-    class NameCleaned < String
-      def ==(other)
-        if other =~ /[A-Z ]/
-          cleaned = other.downcase.tr(' ', '_')
-          Inspec::Log.warn "[DEPRECATED] Platform names will become lowercase in InSpec 2.0. Please match on '#{cleaned}' instead of '#{other}'"
-          super(cleaned)
-        else
-          super(other)
-        end
-      end
+    def families
+      @platform.family_hierarchy
     end
 
     def name
-      NameCleaned.new(@platform.name)
+      @platform.name
     end
 
     def [](key)
@@ -60,8 +50,19 @@ module Inspec::Resources
       @platform.family_hierarchy.include?(family)
     end
 
-    def families
-      @platform.family_hierarchy
+    def params
+      h = {
+        name: name,
+        families: families,
+        release: release,
+      }
+
+      # Avoid adding Arch for APIs (not applicable)
+      unless in_family?('api')
+        h[:arch] = arch
+      end
+
+      h
     end
 
     def supported?(supports)
@@ -70,11 +71,7 @@ module Inspec::Resources
       status = true
       supports.each do |s|
         s.each do |k, v|
-          # ignore the inspec check for supports
-          # TODO: remove in inspec 2.0
-          if k == :inspec
-            next
-          elsif %i(os_family os-family platform_family platform-family).include?(k)
+          if %i(os_family os-family platform_family platform-family).include?(k)
             status = in_family?(v)
           elsif %i(os platform).include?(k)
             status = platform?(v)
