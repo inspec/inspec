@@ -127,6 +127,7 @@ nav li {
   display: inline-block;
   font-weight: 400;
   line-height: 80px;
+  margin-left: 28px;
 
   @include nav-small {
     line-height: 60px;

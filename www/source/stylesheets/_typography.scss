@@ -69,14 +69,6 @@ small {
 	text-transform: uppercase;
 }
 
-li {
-	margin-left: 1.6em; 	// indent for li
-
-	@include nav-small {
-		margin-left: initial;
-	}
-}
-
 hr {
 	margin-left: 0;
 	width: 250px;
