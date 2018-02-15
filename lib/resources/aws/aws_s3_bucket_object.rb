@@ -65,6 +65,7 @@ class AwsS3BucketObject < Inspec.resource(1)
       BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::S3::Client
 
+      # Used to detect if object exists
       def get_object(query)
         aws_service_client.get_object(query)
       end
