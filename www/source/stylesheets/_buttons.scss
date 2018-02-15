@@ -2,7 +2,7 @@
 
 a {
 	@extend %transition;
-	color: $color_link;
+	color: $color_purple;
 	font-family: $main-font;
 }
 
@@ -15,19 +15,19 @@ a {
 	padding: 0.52rem 1.25rem;
 	color: $color_purple;
 	border: 1px solid transparent;
-	border-right: 1px solid $color_link;
+	border-right: 1px solid $color_purple;
 	border-left: 1px solid $color_purple;
 	border-radius: 4px;
 	background: transparent;
 	background-image: linear-gradient(
                     	to right,
                     	$color_purple 0,
-                    	$color_link 100%
+			$color_purple 100%
                     ),
                     linear-gradient(
                     	to right,
                     	$color_purple 0,
-                    	$color_link 100%
+			$color_purple 100%
                     );
 	background-repeat : no-repeat;
 	background-position: 0 0, 0 100%;
