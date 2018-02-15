@@ -213,3 +213,7 @@ output "ec2_default_vpc_subnet_01_id" {
 output "ec2_security_group_alpha_group_name" {
   value = "${aws_security_group.alpha.name}"
 }
+
+output "subnet_01_az" {
+  value = "${aws_subnet.subnet_01.availability_zone}"
+}
