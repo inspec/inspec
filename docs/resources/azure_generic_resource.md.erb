@@ -24,7 +24,7 @@ The options that can be passed to the resource are as follows.
 * `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
 * `name`, the name of the Azure resource to test. Example: 'MyVM'
 * `type`, the Azure resource type. Example: 'Microsoft.Compute/virtualMachines'
-* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9 
+* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9
 
 These options can also be set using the environment variables:
 
@@ -68,7 +68,169 @@ Please see the integration tests for in depth examples of how this resource can 
  - [Generic Windows Internal VM NIC](../test/integration/verify/controls/generic_windows_internal_vm_nic.rb)
  - [Generic Windows Internal VM](../test/integration/verify/controls/generic_windows_internal_vm.rb)
 
- ## Matchers
+### Example Properties
+
+ - `properties.addressSpace.addressPrefixes`
+
+    `its('properties.addressSpace.addressPrefixes') { should include '10.1.1.0/24' }`
+
+ - `properties.creationData.createOption`
+
+    `its('properties.creationData.createOption') { should eq 'FromImage' }`
+
+ - `properties.creationData.imageReference.id`
+
+    `its('properties.creationData.imageReference.id') { should match 'Canonical' }`
+
+ - `properties.diskSizeGB`
+
+    `its('properties.diskSizeGB') { should be > 25 }`
+
+ - `properties.diskState`
+
+    `its('properties.diskState') { should cmp 'Attached' }`
+
+ - `properties.dnsSettings.appliedDnsServers.count`
+
+    `its('properties.dnsSettings.appliedDnsServers.count') { should eq 0 }`
+
+ - `properties.dnsSettings.dnsServers.count`
+
+    `its('properties.dnsSettings.dnsServers.count') { should eq 0 }`
+
+ - `properties.dnsSettings.domainNameLabel`
+
+    `its('properties.dnsSettings.domainNameLabel') { should match 'linux-external-1' }`
+
+ - `properties.enableAcceleratedNetworking`
+
+    `its('properties.enableAcceleratedNetworking') { should be false }`
+
+ - `properties.enableIPForwarding`
+
+    `its('properties.enableIPForwarding') { should be false }`
+
+ - `properties.encryption.keySource`
+
+    `its('properties.encryption.keySource') { should cmp 'Microsoft.Storage' }`
+
+ - `properties.encryption.services.blob.enabled`
+
+    `its('properties.encryption.services.blob.enabled') { should be true }`
+
+ - `properties.encryption.services.file.enabled`
+
+    `its('properties.encryption.services.file.enabled') { should be true }`
+
+ - `properties.hardwareProfile.vmSize`
+
+    `its('properties.hardwareProfile.vmSize') { should cmp 'Standard_DS2_v2' }`
+
+ - `properties.ipConfiguration.id`
+
+    `its('properties.ipConfiguration.id') { should match 'Inspec-NIC-2' }`
+
+ - `properties.ipConfigurations.count`
+
+    `its('properties.ipConfigurations.count') { should eq 1 }`
+
+ - `properties.networkProfile.networkInterfaces.count`
+
+    `its('properties.networkProfile.networkInterfaces.count') { should eq 1 }`
+
+ - `properties.osProfile.adminUsername`
+
+    `its('properties.osProfile.adminUsername') { should eq 'azure' }`
+
+ - `properties.osProfile.computerName`
+
+    `its('properties.osProfile.computerName') { should eq 'linux-external-1' }`
+
+ - `properties.osProfile.linuxConfiguration.disablePasswordAuthentication`
+
+    `its('properties.osProfile.linuxConfiguration.disablePasswordAuthentication') { should be false }`
+
+ - `properties.osProfile.windowsConfiguration.enableAutomaticUpdates`
+
+    `its('properties.osProfile.windowsConfiguration.enableAutomaticUpdates') { should be false }`
+
+ - `properties.osProfile.windowsConfiguration.provisionVMAgent`
+
+    `its('properties.osProfile.windowsConfiguration.provisionVMAgent') { should be true }`
+
+ - `properties.osType`
+
+    `its('properties.osType') { should cmp 'Linux' }`
+
+ - `properties.primaryLocation`
+
+    `its('properties.primaryLocation') { should cmp 'westeurope' }`
+
+ - `properties.provisioningState`
+
+    `its('properties.provisioningState') { should cmp 'Succeeded' }`
+
+ - `properties.publicIPAllocationMethod`
+
+    `its('properties.publicIPAllocationMethod') { should cmp 'Dynamic' }`
+
+ - `properties.statusOfPrimary`
+
+    `its('properties.statusOfPrimary') { should cmp 'available' }`
+
+ - `properties.storageProfile.dataDisks.count`
+
+    `its('properties.storageProfile.dataDisks.count') { should eq 1 }`
+
+ - `properties.storageProfile.imageReference.offer`
+
+    `its('properties.storageProfile.imageReference.offer') { should cmp 'UbuntuServer' }`
+
+ - `properties.storageProfile.imageReference.publisher`
+
+    `its('properties.storageProfile.imageReference.publisher') { should cmp 'Canonical' }`
+
+ - `properties.storageProfile.imageReference.sku`
+
+    `its('properties.storageProfile.imageReference.sku') { should cmp '16.04.0-LTS' }`
+
+ - `properties.storageProfile.osDisk.caching`
+
+    `its('properties.storageProfile.osDisk.caching') { should cmp 'ReadWrite' }`
+
+ - `properties.storageProfile.osDisk.createOption`
+
+    `its('properties.storageProfile.osDisk.createOption') { should cmp 'FromImage' }`
+
+ - `properties.storageProfile.osDisk.managedDisk.id`
+
+    `its('properties.storageProfile.osDisk.managedDisk.id') { should match 'Windows-Internal-OSDisk-MD' }`
+
+ - `properties.storageProfile.osDisk.managedDisk.storageAccountType`
+
+    `its('properties.storageProfile.osDisk.managedDisk.storageAccountType') { should cmp 'Standard_LRS' }`
+
+ - `properties.storageProfile.osDisk.name`
+
+    `its('properties.storageProfile.osDisk.name') { should cmp 'Windows-Internal-OSDisk-MD' }`
+
+ - `properties.storageProfile.osDisk.osType`
+
+    `its('properties.storageProfile.osDisk.osType') { should cmp 'Windows' }`
+
+ - `properties.subnets.count`
+
+    `its('properties.subnets.count') { should eq 1 }`
+
+ - `properties.supportsHttpsTrafficOnly`
+
+    `its('properties.supportsHttpsTrafficOnly') { should be false }`
+
+ - `properties.virtualMachine.id`
+
+    `its('properties.virtualMachine.id') { should match 'Linux-External-VM' }`
+
+## Matchers
 
 For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
- 
+

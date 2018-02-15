@@ -7,8 +7,7 @@ control 'azure-generic-vm-linux-external-2.0' do
   title 'Ensure External VM was built with the correct Image and has the correct properties'
 
   # Ensure that the virtual machine has been created with the correct attributes
-  describe azure_generic_resource(group_name: 'Inspec-Azure',
-                          name: 'Linux-External-VM') do
+  describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-External-VM') do
 
     its('location') { should cmp 'westeurope' }
 
@@ -43,5 +42,4 @@ control 'azure-generic-vm-linux-external-2.0' do
     its('tags') { should include 'Description' }
     its('Description_tag') { should match 'Externally facing' }
   end
-
 end
