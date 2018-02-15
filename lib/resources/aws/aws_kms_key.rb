@@ -13,6 +13,7 @@ class AwsKmsKey < Inspec.resource(1)
   attr_reader :key_id, :arn, :creation_date, :key_usage, :key_state, :description,
               :deletion_date, :valid_to, :external, :has_key_expiration, :has_aws_key_manager,
               :has_rotation_enabled, :enabled
+  # Use aliases for matchers
   alias external? external
   alias enabled? enabled
   alias has_aws_key_manager? has_aws_key_manager
