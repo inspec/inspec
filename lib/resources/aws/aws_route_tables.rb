@@ -6,7 +6,9 @@ class AwsRouteTables < Inspec.resource(1)
       it { should exist }
     end
   '
+  supports platform: 'aws'
 
+  include AwsPluralResourceMixin
   # Underlying FilterTable implementation.
   filter = FilterTable.create
   filter.add_accessor(:entries)
@@ -23,13 +25,24 @@ class AwsRouteTables < Inspec.resource(1)
     'Route Tables'
   end
 
-  def initialize
-    backend = BackendFactory.create(inspec_runner)
-    @table = backend.describe_route_tables({}).to_h[:route_tables] # max value for limit is 1000
+  private
+
+  def validate_params(raw_criteria)
+    unless raw_criteria.is_a? Hash
+      raise 'Unrecognized criteria for fetching Route Tables. ' \
+            "Use 'criteria: value' format."
+    end
+
+    # No criteria yet
+    unless raw_criteria.empty?
+      raise ArgumentError, 'aws_route_tables does not currently accept resource parameters.'
+    end
+    raw_criteria
   end
 
-  class BackendFactory
-    extend AwsBackendFactoryMixin
+  def fetch_from_api
+    backend = BackendFactory.create(inspec_runner)
+    @table = backend.describe_route_tables({}).to_h[:route_tables] # max value for limit is 1000
   end
 
   class Backend
