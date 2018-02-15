@@ -24,7 +24,7 @@ class AwsS3Buckets < Inspec.resource(1)
   def to_s
     'S3 Buckets'
   end
-  
+
   def validate_params(resource_params)
     unless resource_params.empty?
       raise ArgumentError, 'aws_s3_buckets does not accept resource parameters.'
@@ -43,7 +43,7 @@ class AwsS3Buckets < Inspec.resource(1)
     class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend self
       self.aws_client_class = Aws::S3::Client
-      
+
       def list_buckets
         aws_service_client.list_buckets
       end
