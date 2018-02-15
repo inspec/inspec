@@ -23,10 +23,10 @@ github:
     - "Version: Bump Minor"
   version_tag_format: v{{version}}
   release_branch:
-  - master:
-      version_constraint: 2.*
-  - 1-stable:
-      version_constraint: 1.*
+    - master:
+        version_constraint: 2.*
+    - 1-stable:
+        version_constraint: 1.*
 
 changelog:
   categories:
