@@ -254,14 +254,6 @@
 	background-color: $color-dark;
 }
 
-.box-code { // White Box
-	width: 100%;
-	padding: $percent_xs;
-	border-radius: 4px;
-	background-color: $color-dark;
-	margin: 0 0 1rem;
-}
-
 .tooltip-triangle {
 	width: 0;
 	height: 0;
@@ -337,38 +329,12 @@
 
 // form
 
-input.form-item {
-	display: inline;
-	width: 60%;
-
-	@include nav-small {
-		width: 100%;
-		display: block;
-	}
-}
-
-form > button {
-	margin-left: 1em;
-
-	@include nav-small {
-		margin: 0 auto;
-		text-align: center;
-		margin-top: 1em;
-	}
-}
-
-form > button > i {
-	margin-right: 6px;
-}
-
 input[type="email"],
 input[type="text"] {
 	color: $color_dark;
-	border: 1px solid #d3e2e2;
-	-webkit-box-shadow: 0 0 2px $color_shadow;
-	box-shadow: 0 0 2px $color_shadow;
+	border: 1.5px solid white;
 	font-family: $main-font;
-	font-weight: 300;
+	font-weight: 400;
 	margin: 0;
 }
 
@@ -376,9 +342,7 @@ input[type="text"]:focus,
 input[type="text"]:hover,
 input[type="email"]:focus,
 input[type="email"]:hover {
-	border: 1px solid $color_purple;
-	-webkit-box-shadow: 0 0 5px $color_shadow;
-	box-shadow: 0 0 5px $color_shadow;
+	border: 1.5px solid $color_purple;
 }
 
 input::-webkit-input-placeholder,
@@ -463,15 +427,17 @@ form.main-sidebar--search {
 //search input
 
 form.main-sidebar--search input[type="text"] {
-	width: 90%;
+	font-family: $main-font;
+	font-weight: 400;
+	width: 100%;
 	display: inline;
-	margin-top: 1.2em;
-  // overriding some of Swiftype's styles
-  height: 2.4375rem;
-  padding: 0.5rem;
+  height: 45px;
+  padding: 16px;
   box-sizing: border-box;
+	border-radius: 8px;
   background: $color_white;
-  font-size: 1rem;
+  font-size: 1em;
+	color: $color_dark;
 
 	@include nav-small {
 		width:100%;
@@ -481,24 +447,58 @@ form.main-sidebar--search input[type="text"] {
 //Search button
 
 .search { // search icon
-	width: 70px;
-	height: 70px;
-	overflow: hidden;
-	border: 2px solid $color_white;
-	border-radius: 50%;
-	background: $color_white;
+	width: 45px;
+	height: 45px;
+	border: 1.5px solid $color_white;
+	border-radius: 8px;
+	background: transparent;
 	cursor: pointer;
 	position: relative;
-	z-index: 50;
 	float: right;
 	outline: none;
+
+	i {
+		width: 20px;
+		margin-left: 8px;
+		height: auto;
+	}
 
 	@include nav-small {
 		display: none;
 	}
+}
 
-	img {
-		display: block;
-		height: auto;
-	}
+// overriding some of Swiftype's styles
+
+.st-query-present, .st-install-xzyJV6P7pgscygGyyTm8 .st-ui-result .st-ui-type-heading, .st-ui-type-detail {
+	font-family: $main-font;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1em !important;
+	color: $color_dark !important;
+}
+
+a.st-ui-result .st-ui-type-heading, span.st-ui-type-heading {
+	color: $color_purple !important;
+}
+
+.st-ui-type-detail {
+	font-size: 12px !important;
+}
+
+a.st-ui-result .st-ui-type-detail {
+  max-height: 45px;
+  overflow: hidden;
+}
+
+a.st-ui-result {
+  border-bottom: 1.5px solid #E9EDF2 !important;
+}
+
+.st-query-present {
+	margin-top: 16px;
+}
+
+.st-query-present a {
+	text-decoration: none !important;
 }
