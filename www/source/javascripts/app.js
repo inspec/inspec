@@ -6,12 +6,13 @@
 
 var animate = !window.matchMedia('(prefers-reduced-motion)').matches;
 
-particlesJS.load('particles-js',  'particles-second' ,  'particles.json', function() {
+particlesJS.load('particles-js',  'particles-second' , 'particles.json', function() {
   console.log('particles.js loaded - callback');
 });
 
 
 /* Otherwise just put the config content (json): */
+
 
 particlesJS('particles-second',
 

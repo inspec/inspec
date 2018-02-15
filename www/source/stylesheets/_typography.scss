@@ -82,6 +82,10 @@ hr {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5bc8a9', endColorstr='#6063ef',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
+hr.small {
+	width: 150px;
+}
+
 hr.center {
 	margin-left: auto;
 }

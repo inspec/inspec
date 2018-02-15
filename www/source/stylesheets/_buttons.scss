@@ -4,6 +4,7 @@ a {
 	@extend %transition;
 	color: $color_purple;
 	font-family: $main-font;
+	font-weight: 600;
 	text-decoration: underline;
 
 	&:hover {
@@ -12,7 +13,7 @@ a {
 	}
 }
 
-a.button, a {
+a.button, a.link {
 	font-family: $main-font;
 	font-size: 12px;
 	font-weight: 600;

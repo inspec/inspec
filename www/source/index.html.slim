@@ -155,16 +155,16 @@ header.bg-gradient.margin-top-offset.short-bg
     .row
       .large-6.medium-6.columns.z-20
         .box-white.shadow-dark.fit-height
-          .block.margin-under-xs
+          .block.margin-both-xs
             h4.t-purple Test the desired state
             p Verify  the current desired state of your apps and infrastructure according to the code you write.
           .block.margin-under-xs
             h4.t-purple HUMAN-READABLE CODE
             p Reduce friction by writing tests that are easy to understand by anyone.
-          .block.margin-under-xs
+          .block
             h4.t-purple extensible
             p Create custom resources with ease and share them easily with others.
-          a.button.btn-lg.btn-purple.shadow-dark href="/demo" try the inspec demo
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
       .large-6.medium-6.columns.z-20
         .box-dark.shadow-dark.fit-height
          code.t-white.align-vertical control 'sshd-21' do title 'Set SSH Protocol to 2' desc 'A detailed description' impact 1.0 # This is critical ref 'compliance guide, section 2.1' describe sshd_config do its('Protocol') { should cmp 2 } end end

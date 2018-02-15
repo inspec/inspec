@@ -51,12 +51,28 @@ img.diamond {
 	width: 14rem;
 }
 
+.octagons {
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
 img.icon-art {
 	 height: 6rem;
 }
 
 img.icon-logos {
 	height: 20px;
+}
+
+.copy {
+	width: 20px;
+	height: auto;
+	cursor: pointer;
+	margin-right: $percent_xs;
 }
 
 .blue-grid {
@@ -84,8 +100,8 @@ img.grid {
 img.ball {
 	position: absolute;
 	width: 35px;
-	margin-top: 20px;
-	margin-left: 240px;
+	margin-top: 6rem;
+	margin-left: 12rem;
 	-moz-animation: spin 2s linear infinite both;
 	-webkit-animation: spin 2s linear infinite both;
 	animation: spin 2s linear infinite both;
@@ -93,39 +109,16 @@ img.ball {
 
 img.ball:nth-child(2) {
 	width: 55px;
-	margin-top: 110px;
-	margin-left: 150px;
+	margin-top: 14rem;
+	margin-left: 8.5rem;
 }
 
 img.ball:nth-child(3) {
 	width: 75px;
-	margin-top: 130px;
-	margin-left: 290px;
+	margin-top: 10rem;
+  margin-left: 15rem;
 }
 
-// Children page Headers
-
-.child-h {
-	height: 180px; // plus header height
-}
-
-.child-h #particles-second,
-.child-h .purp-shade {
-	height: 180px;
-}
-
-.child-h .row {
-	position: relative;
-	top: 50%;
-	-o-transform: translateY(-50%); // vertically align content inside parent
-	-ms-transform: translateY(-50%);
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-.child-h #particles-second {
-	z-index: 1;
-}
 
 // Animation for Home Page
 
