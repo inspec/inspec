@@ -14,7 +14,7 @@ $main-font: 'Muli','HelveticaNeue', 'Helvetica Neue', 'Helvetica Neue', Helvetic
 //margins
 
 $percent_lg: 12%;
-$percent_md: 100px;
+$percent_md: 125px;
 $percent_sm: 45px;
 $percent_xs: 16px;
 
@@ -48,10 +48,10 @@ $nav-breakpoint: 900px;
 }
 
 %transition {
-	-moz-transition: ease-in-out all .2s;
-	-webkit-transition: ease-in-out all .2s;
-	transition: ease-in-out all .2s;
-  -o-transition: ease-in-out all .2s;
+	-moz-transition: ease-in-out all .5s;
+	-webkit-transition: ease-in-out all .5s;
+	transition: ease-in-out all .5s;
+  -o-transition: ease-in-out all .5s;
 }
 
 //Hide/show div on mobile

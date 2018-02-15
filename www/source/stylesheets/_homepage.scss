@@ -1,20 +1,33 @@
 // Hero Banner - Home Page
 
 header {
-	height: 360px;
-
-	@include nav-small {
-		height: 300px;
-	}
+	width: auto;
+	height: auto;
 }
 
+.short-bg {
+	background-size: 100% 60%;
+	background-repeat: no-repeat;
+}
+
+//number Box
+.num-container {
+	width: $percent_sm;
+	height: $percent_sm;
+	min-width: $percent_sm;
+	background-image: url('/images/octagon.svg');
+	background-size: cover;
+	text-align: center;
+}
+
+.num-container h3 {
+	line-height: $percent_sm;
+}
+
+//particle art
+
 #particles-js { // Animated dot particles
-	z-index: 20;
-	position: absolute;
 	width: 100%;
-	height: 500px;
-	margin-top: -500px;
-	overflow: hidden;
 	background-color: transparent;
 }
 
@@ -22,56 +35,44 @@ header {
 	position: absolute;
 	width: 100%;
 	max-width: 100%;
-	height: 80%;
+	height: 100%;
+	top: 0;
 	overflow: hidden;
 	background-color: transparent;
-
-	@include nav-small { //mobile
-		height: 100%;
-	}
 }
 
-.h-top { // Container for homepage header art
-	height : 360px; //same as header height
-
-	@include nav-small {
-		height: 300px;
-	}
-
-	img {
-		&:first-of-type {// Grid Art
-			z-index: 10;
-			position: absolute;
-			top: 90px;
-			height: 360px;
-
-			@include nav-small {
-				height: 300px;
-				top: 50px;
-			}
-		}
-
-		&:nth-child(3) { // Diamond
-			height: 220px;
-			margin-top : 55px;
-
-			@include nav-small { //mobile
-				height: 190px;
-				margin-top: 35px;
-			}
-		}
-	}
-
-	h1 { // Heading
-		z-index: 10;
-		position: absolute;
-		margin-top: 270px;
-
-		@include nav-small { //mobile
-			margin-top: 210px;
-		}
-	}
+img.diamond {
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 14rem;
 }
+
+img.icon-art {
+	 height: 6rem;
+}
+
+img.icon-logos {
+	height: 20px;
+}
+
+.blue-grid {
+	position: absolute;
+	top: $percent_sm;
+	right: 0;
+	z-index: -1;
+}
+
+.particles {
+	position: absolute;
+  width: 65rem;
+  height: 32.5rem;
+  margin-top: -62.5rem;
+}
+
 
 // Hero illustration for Community
 
@@ -129,6 +130,7 @@ img.ball:nth-child(3) {
 // Animation for Home Page
 
 .grid-animate { // Warping Grid Animation//
+	animation: g-animate 8s linear infinite both;
 	-moz-animation: g-animate 8s linear infinite both;
 	-webkit-animation: g-animate 8s linear infinite both;
 	animation: g-animate 8s linear infinite both;
@@ -147,6 +149,23 @@ img.ball:nth-child(3) {
 
 	75% {
 		-webkit-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+		transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
+	}
+}
+
+@-moz-keyframes g-animate {
+	25% {
+		-moz-transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+		transform: rotateZ(10deg) scale3d(0.7, 1, 1.2);
+	}
+
+	50% {
+		-moz-transform: scale3d(1.2, 0.7, 1);
+		transform: scale3d(1.2, 0.7, 1);
+	}
+
+	75% {
+		-moz-transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
 		transform: rotateZ(10deg) scale3d(0.7, 1.2, 0.5);
 	}
 }
