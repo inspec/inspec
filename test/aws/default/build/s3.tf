@@ -76,16 +76,6 @@ output "s3_bucket_access_logging_not_enabled_name" {
   value = "${aws_s3_bucket.acess_logging_not_enabled.id}"
 }
 
-resource "aws_s3_bucket" "bucket_for_delivery_channel" {
-  bucket        = "inspec-bucket_for_delivery_channel-${terraform.env}.chef.io"
-  acl           = "public-read"
-  force_destroy = true
-}
-
-output "s3_bucket_for_delivery_channel" {
-  value = "${aws_s3_bucket.bucket_for_delivery_channel.id}"
-}
-
 #=================================================================#
 #                       S3 Bucket Policies
 #=================================================================#

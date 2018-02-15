@@ -1,22 +1,21 @@
-class AwsConfigurationDeliveryChannel < Inspec.resource(1)
+class AwsConfigDeliveryChannel < Inspec.resource(1)
   name 'aws_config_delivery_channel'
-  desc 'Verifies settings for AWS Configuration Delivery Channel'
+  desc 'Verifies settings for AWS Config Delivery Channel'
   example "
     describe aws_config_delivery_channel do
       it { should exist }
-      it { should be_default }
-      its('s3_bucket_name') { should_not be_nil }
-      its('sns_topic_arn') { should_not be_nil }
+      its('s3_bucket_name') { should eq 'my_bucket' }
+      its('sns_topic_arn') { should eq arn:aws:sns:us-east-1:721741954427:sns_topic' }
     end
   "
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
   attr_reader :channel_name, :s3_bucket_name, :s3_key_prefix, :sns_topic_arn,
-              :delivery_frequency
+              :delivery_frequency_in_hours
 
   def to_s
-    "Configuration_Delivery_Channel: #{@channel_name}"
+    "Config_Delivery_Channel: #{@channel_name}"
   end
 
   private
@@ -49,7 +48,15 @@ class AwsConfigurationDeliveryChannel < Inspec.resource(1)
     @s3_bucket_name = @channel[:s3_bucket_name]
     @s3_key_prefix = @channel[:s3_key_prefix]
     @sns_topic_arn = @channel[:sns_topic_arn]
-    @delivery_frequency = @channel[:config_snapshot_delivery_properties][:delivery_frequency] unless @channel[:config_snapshot_delivery_properties].nil?
+    @delivery_frequency_in_hours = @channel[:config_snapshot_delivery_properties][:delivery_frequency] unless @channel[:config_snapshot_delivery_properties].nil?
+    frequencies = {
+      'One_Hour' => 1,
+      'TwentyFour_Hours' => 24,
+      'Three_Hours' => 3,
+      'Six_Hours' => 6,
+      'Twelve_Hours' => 12,
+    }
+    @delivery_frequency_in_hours = frequencies[@delivery_frequency_in_hours]
   end
 
   class Backend

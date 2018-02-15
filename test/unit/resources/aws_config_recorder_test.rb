@@ -7,25 +7,25 @@ require 'helper'
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
-class AwsConfigurationDeliveryChannelConstructorTest < Minitest::Test
+class AwsConfigDeliveryChannelConstructorTest < Minitest::Test
   def setup
-    AwsConfigurationDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
   end
   
   def test_constructor_expected_well_formed_args_scalar
-    AwsConfigurationDeliveryChannel.new('default')
+    AwsConfigDeliveryChannel.new('default')
   end
 
   def test_constructor_expected_well_formed_args_hash
-    AwsConfigurationDeliveryChannel.new(channel_name: 'default')
+    AwsConfigDeliveryChannel.new(channel_name: 'default')
   end
   
   def test_constructor_reject_no_params
-    assert_raises(ArgumentError) { AwsConfigurationDeliveryChannel.new }
+    assert_raises(ArgumentError) { AwsConfigDeliveryChannel.new }
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsConfigurationDeliveryChannel.new(bla: 'blabla') }
+    assert_raises(ArgumentError) { AwsConfigDeliveryChannel.new(bla: 'blabla') }
   end
 end
 
@@ -35,19 +35,19 @@ end
 
 class AwsConfigurationDeliveryChannelRecallTest < Minitest::Test
   def setup
-    AwsConfigurationDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
   end
   
   def test_search_hit_via_scalar
-    assert AwsConfigurationDeliveryChannel.new('default').exists?
+    assert AwsConfigDeliveryChannel.new('default').exists?
   end
 
   def test_search_hit_via_hash
-    assert AwsConfigurationDeliveryChannel.new(channel_name: 'default').exists?
+    assert AwsConfigDeliveryChannel.new(channel_name: 'default').exists?
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsConfigurationDeliveryChannel.new(channel_name: 'NonExistentChannel').exists?
+    refute AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').exists?
   end
 end
 
@@ -55,33 +55,33 @@ end
 #                               properties
 #=============================================================================#
 
-class AwsConfigurationDeliveryChannelPropertiesTest < Minitest::Test
+class AwsConfigDeliveryChannelPropertiesTest < Minitest::Test
   def setup
-    AwsConfigurationDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
   end
 
   def test_property_channel_name
-    assert_equal('default', AwsConfigurationDeliveryChannel.new(channel_name: 'default').channel_name)
+    assert_equal('default', AwsConfigDeliveryChannel.new(channel_name: 'default').channel_name)
   end
 
   def test_property_s3_bucket_name
-    assert_equal('default_bucket', AwsConfigurationDeliveryChannel.new(channel_name: 'default').s3_bucket_name)
-    assert_nil(AwsConfigurationDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_bucket_name)
+    assert_equal('default_bucket', AwsConfigDeliveryChannel.new(channel_name: 'default').s3_bucket_name)
+    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_bucket_name)
   end
   
   def test_property_s3_key_prefix
-    assert_equal('docs/', AwsConfigurationDeliveryChannel.new(channel_name: 'default').s3_key_prefix)
-    assert_nil(AwsConfigurationDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_key_prefix)
+    assert_equal('docs/', AwsConfigDeliveryChannel.new(channel_name: 'default').s3_key_prefix)
+    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_key_prefix)
   end
   
   def test_property_sns_topic_arn
-    assert_equal('arn:aws:sns:us-east-1:721741954427:sns_topic', AwsConfigurationDeliveryChannel.new(channel_name: 'default').sns_topic_arn)
-    assert_nil(AwsConfigurationDeliveryChannel.new(channel_name: 'NonExistentChannel').sns_topic_arn)
+    assert_equal('arn:aws:sns:us-east-1:721741954427:sns_topic', AwsConfigDeliveryChannel.new(channel_name: 'default').sns_topic_arn)
+    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').sns_topic_arn)
   end
   
-  def test_property_delivery_frequency
-    assert_equal('TwentyFour_Hours', AwsConfigurationDeliveryChannel.new(channel_name: 'default').delivery_frequency)
-    assert_nil(AwsConfigurationDeliveryChannel.new(channel_name: 'NonExistentChannel').delivery_frequency)
+  def test_property_delivery_frequency_in_hours
+    assert_equal(24, AwsConfigDeliveryChannel.new(channel_name: 'default').delivery_frequency_in_hours)
+    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').delivery_frequency_in_hours)
   end
 end
 

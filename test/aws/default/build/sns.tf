@@ -14,14 +14,6 @@ output "sns_topic_recall_hit_arn" {
   value = "${aws_sns_topic.sns_test_topic_1.arn}"
 }
 
-resource "aws_sns_topic" "sns_topic_for_delivery_log" {
-  name = "${terraform.env}-sns_topic_for_delivery_log"
-}
-
-output "sns_topic_for_delivery_log_arn" {
-  value = "${aws_sns_topic.sns_topic_for_delivery_log.arn}"
-}
-
 resource "aws_sqs_queue" "sqs_test_queue_1" {
   name = "${terraform.env}-test-queue-01"
 }

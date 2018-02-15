@@ -4,7 +4,7 @@ fixtures = {}
   'config_recorder_for_delivery_channel_role_arn',
   's3_bucket_for_delivery_channel',
   'delivery_channel_01_bucket_prefix',
-  'sns_topic_for_delivery_log_arn'
+  'sns_topic_for_delivery_channel_arn'
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -14,7 +14,7 @@ fixtures = {}
 end
 
 #======================================================#
-#               aws_config_recorder - Singular
+#         aws_config_delivery_channel - Plural
 #======================================================#
 
 #-------------------  Recall / Miss -------------------#
@@ -41,7 +41,8 @@ control "aws_config_delivery_channel properties" do
   describe aws_config_delivery_channel(fixtures['delivery_channel_01']) do
     its('s3_bucket_name') { should eq fixtures['s3_bucket_for_delivery_channel'] }
     its('s3_key_prefix') { should eq nil }
-    its('sns_topic_arn') { should eq fixtures['sns_topic_for_delivery_log_arn'] }
-    its('delivery_frequency') { should eq 'TwentyFour_Hours' }
+    its('sns_topic_arn') { should eq fixtures['sns_topic_for_delivery_channel_arn'] }
+    its('delivery_frequency_in_hours') { should eq 24 }
+    its('delivery_frequency_in_hours') { should be > 3 }
   end
 end
