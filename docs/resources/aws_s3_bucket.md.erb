@@ -3,7 +3,7 @@ title: About the aws_s3_bucket Resource
 platform: aws
 ---
 
-# aws_s3_bucket
+# aws\_s3\_bucket
 
 Use the `aws_s3_bucket` InSpec audit resource to test properties of a single AWS bucket.
 
@@ -73,7 +73,7 @@ The `region` property identifies the AWS Region in which the S3 bucket is locate
 
 ## Unsupported Properties
 
-### bucket_acl
+### bucket\_acl
 
 The `bucket_acl` property is a low-level property that lists the individual Bucket ACL grants  in effect on the bucket.  Other higher-level properties, such as be\_public, are more concise and easier to use. You can use the `bucket_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
@@ -92,7 +92,7 @@ The value of bucket_acl is  an array of simple objects.  Each object has a `perm
       g.grantee.type == 'Group' && g.grantee.uri =~ /AuthenticatedUsers/
     end
 
-### bucket_policy
+### bucket\_policy
 
 The `bucket_policy` is a low-level property that describes the IAM policy document controlling access to the bucket. The `bucket_policy` property returns a Ruby structure that you can probe to check for particular statements.  We recommend using a higher-level property, such as `be_public`, which is concise and easier to implement in your policy files.
 
@@ -113,7 +113,7 @@ If there is no bucket policy, this property returns an empty array.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_public
+### be\_public
 
 The `be_public` matcher tests if the bucket has potentially insecure access controls. This high-level matcher detects several insecure conditions, which may be enhanced in the future. Currently, the matcher reports an insecure bucket if any of the following conditions are met:
 
@@ -125,7 +125,7 @@ Note: This resource does not detect insecure object ACLs.
 
     it { should_not be_public }
 
-### have_access_logging_enabled
+### have\_access\_logging\_enabled
 
 The `have_access_logging_enabled` matcher tests if access logging is enabled for the s3 bucket.
 

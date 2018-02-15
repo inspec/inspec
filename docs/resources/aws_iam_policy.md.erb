@@ -66,7 +66,7 @@ The following examples show how to use this InSpec audit resource.
       its('arn') { should cmp "arn:aws:iam::aws:policy/AWSSupportAccess" }
     end
 
-### attachment_count
+### attachment\_count
 
 The count of attached entities for the specified policy.
 
@@ -74,7 +74,7 @@ The count of attached entities for the specified policy.
       its('attachment_count') { should cmp 1 }
     end
 
-### attached_groups
+### attached\_groups
 
 The list of groupnames of the groups attached to the policy.
 
@@ -82,7 +82,7 @@ The list of groupnames of the groups attached to the policy.
       its('attached_groups') { should include "test-group" }
     end
 
-### attached_roles
+### attached\_roles
 
 The list of rolenames of the roles attached to the policy.
 
@@ -90,7 +90,7 @@ The list of rolenames of the roles attached to the policy.
       its('attached_roles') { should include "test-role" }
     end
 
-### attached_users
+### attached\_users
 
 The list of usernames of the users attached to the policy.
 
@@ -98,9 +98,9 @@ The list of usernames of the users attached to the policy.
       its('attached_users') { should include "test-user" }
     end
 
-### default_version_id
+### default\_version\_id
 
-The default_version_id value of the specified policy.
+The 'default_version_id' value of the specified policy.
 
     describe aws_iam_policy('AWSSupportAccess') do
       its('default_version_id') { should cmp "v1" }
@@ -111,7 +111,7 @@ The default_version_id value of the specified policy.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_attached
+### be\_attached
 
 The test will pass if the identified policy is attached to at least one IAM user, group, or role.
 
@@ -119,7 +119,7 @@ The test will pass if the identified policy is attached to at least one IAM user
       it { should be_attached }
     end
 
-### be_attached_to_group(GROUPNAME)
+### be\_attached\_to\_group(GROUPNAME)
 
 The test will pass if the identified policy attached the specified group.
 
@@ -127,7 +127,7 @@ The test will pass if the identified policy attached the specified group.
       it { should be_attached_to_group(GROUPNAME) }
     end
 
-### be_attached_to_user(USERNAME)
+### be\_attached\_to\_user(USERNAME)
 
 The test will pass if the identified policy attached the specified user.
 
@@ -135,7 +135,7 @@ The test will pass if the identified policy attached the specified user.
       it { should be_attached_to_user(USERNAME) }
     end
 
-### be_attached_to_role(ROLENAME)
+### be\_attached\_to\_role(ROLENAME)
 
 The test will pass if the identified policy attached the specified role.
 

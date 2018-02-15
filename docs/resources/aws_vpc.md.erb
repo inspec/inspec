@@ -3,7 +3,7 @@ title: About the aws_vpc Resource
 platform: aws
 ---
 
-# aws_vpc
+# aws\_vpc
 
 Use the `aws_vpc` InSpec audit resource to test properties of a single AWS Virtual Private Cloud (VPC).
 
@@ -64,7 +64,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Property Examples
 
-### cidr_block
+### cidr\_block
 
 The IPv4 address range that is managed by the VPC.
 
@@ -80,7 +80,7 @@ The ID of the set of DHCP options associated with the VPC (or `default` if the d
       its ('dhcp_options_id') { should eq 'dopt-a94671d0' }
     end
 
-### instance_tenancy
+### instance\_tenancy
 
 The allowed tenancy of instances launched into the VPC.
 
@@ -96,7 +96,7 @@ The state of the VPC (`pending` | `available`).
       its ('state') { should eq 'available' }
     end
 
-### vpc_id
+### vpc\_id
 
 The ID of the VPC.
 
@@ -110,7 +110,7 @@ The ID of the VPC.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_default
+### be\_default
 
 The test will pass if the identified VPC is the default VPC for the region.
 

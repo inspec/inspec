@@ -3,7 +3,7 @@ title: About the aws_security_groups Resource
 platform: aws
 ---
 
-# aws_security_groups
+# aws\_security\_groups
 
 Use the `aws_security_groups` InSpec audit resource to test properties of some or all security groups.
 
@@ -32,7 +32,7 @@ As this is the initial release of `aws_security_groups`, its limited functionali
 
 ## Filter Criteria
 
-### vpc_id
+### vpc\_id
 
 A string identifying the VPC which contains the security group.
 
@@ -41,7 +41,7 @@ A string identifying the VPC which contains the security group.
       its('group_ids') { should include('sg-abcdef12')}
     end
 
-### group_name
+### group\_name
 
 A string identifying a group. Since groups are contained in VPCs, group names are unique within the AWS account, but not across VPCs.
 
@@ -52,7 +52,7 @@ A string identifying a group. Since groups are contained in VPCs, group names ar
 
 ## Properties
 
-* `entries`, `group_ids`
+* `entries`, `group\_ids`
 
 ### entries
 
@@ -63,7 +63,7 @@ Provides access to the raw results of the query. This can be useful for checking
       its('entries.count') { should be <= 100}
     end
 
-### group_ids
+### group\_ids
 
 Provides a list of all security group IDs matched.
 

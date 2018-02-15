@@ -2,17 +2,17 @@
 title: About the azure_generic_resource Resource
 ---
 
-# azure_generic_resource
+# azure\_generic\_resource
 
 Use the `azure_generic_resource` Inspec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Inspec resource for.
 
 ## Syntax
 
-```ruby
-describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
-  its('property') { should eq 'value' }
-end
-```
+    ```ruby
+    describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
+      its('property') { should eq 'value' }
+    end
+    ```
 
 where
 
@@ -59,8 +59,6 @@ end
 ## Properties
 
 The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
-
-![Virtual Machine Properties](images/linux_internal_vm_resource.png)
 
 This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
 

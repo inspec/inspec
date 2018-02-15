@@ -2,7 +2,7 @@
 title: About the aws_security_group Resource
 ---
 
-# aws_security_group
+# aws\_security\_group
 
 Use the `aws_security_group` InSpec audit resource to test detailed properties of an individual Security Group (SG).
 
@@ -40,7 +40,7 @@ As this is the initial release of `aws_security_group`, its limited functionalit
 
 This InSpec resource accepts the following parameters, which are used to search for the Security Group.
 
-### id, group_id
+### id, group\_id
 
 The Security Group ID of the Security Group. This is of the format `sg-` followed by 8 hexadecimal characters.  The ID is unique within your AWS account; using ID ensures that you will never match more than one SG. The ID is also the default resource parameter, so you may omit the hash syntax.
 
@@ -59,7 +59,7 @@ The Security Group ID of the Security Group. This is of the format `sg-` followe
       it { should exist }
     end
 
-### group_name
+### group\_name
 
 The string name of the Security Group.  Every VPC has a security group named 'default'. Names are unique within a VPC, but not within an AWS account.
 
@@ -73,7 +73,7 @@ The string name of the Security Group.  Every VPC has a security group named 'de
       it { should exist }
     end
 
-### vpc_id
+### vpc\_id
 
 A string identifying the VPC that contains the security group. Since VPCs commonly contain many SGs, you should add additional parameters to ensure you find exactly one SG.
 
@@ -104,7 +104,7 @@ The control will pass if the specified SG was found.  Use should_not if you want
 
 ## Properties
 
-### group_id
+### group\_id
 
 Provides the Security Group ID.
 
@@ -116,7 +116,7 @@ Provides the Security Group ID.
     # Store the group ID in a Ruby variable for use elsewhere
     sg_id = aws_security_group(group_name: 'default', vpc_id: vpc_id: 'vpc-12345678').group_id
 
-### group_name
+### group\_name
 
 A String reflecting the name that was given to the SG at creation time.
 
@@ -134,7 +134,7 @@ A String reflecting the human-meaningful description that was given to the SG at
       its('description') { should_not be_empty }
     end
 
-### vpc_id
+### vpc\_id
 
 A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VPC that contains the security group.
 

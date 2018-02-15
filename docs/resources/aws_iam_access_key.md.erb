@@ -3,7 +3,7 @@ title: About the aws_iam_access_key Resource
 platform: aws
 ---
 
-# aws_iam_access_key
+# aws\_iam\_access\_key
 
 Use the `aws_iam_access_key` InSpec audit resource to test properties of a single AWS IAM access key.
 
@@ -76,7 +76,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Property Examples
 
-### access_key_id
+### access\_key\_id
 
 The unique ID of this access key.
 
@@ -84,7 +84,7 @@ The unique ID of this access key.
       its('access_key_id') { should cmp 'AKIA12345678ABCD' }
     end
 
-### create_date
+### create\_date
 
 The date and time, as a Ruby DateTime, at which the access key was created.
 
@@ -93,7 +93,7 @@ The date and time, as a Ruby DateTime, at which the access key was created.
       its('create_date') { should be > Time.now - 365 * 86400 }
     end
 
-### last_used_date
+### last\_used\_date
 
 The date and time, as a Ruby DateTime, at which the access key was last_used.
 
@@ -116,7 +116,7 @@ The IAM user that owns this key.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_active
+### be\_active
 
 The `be_active` matcher tests if the described IAM access key is active.
 

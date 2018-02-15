@@ -3,7 +3,7 @@ title: About the aws_iam_root_user Resource
 platform: aws
 ---
 
-# aws_iam_root_user
+# aws\_iam\_root\_user
 
 Use the `aws_iam_root_user` InSpec audit resource to test properties of the root user (owner of the account).
 
@@ -45,13 +45,13 @@ The following examples show how to use this InSpec audit resource.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### have_mfa_enabled
+### have\_mfa\_enabled
 
 The `have_mfa_enabled` matcher tests if the AWS root user has Multi-Factor Authentication enabled, requiring them to enter a secondary code when they login to the web console.
 
     it { should have_mfa_enabled }
 
-### have_access_key
+### have\_access\_key
 
 The `have_access_key` matcher tests if the AWS root user has at least one access key.
 

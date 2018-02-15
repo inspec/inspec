@@ -3,7 +3,7 @@ title: About the aws_cloudwatch_log_metric_filter Resource
 platform: aws
 ---
 
-# aws_cloudwatch_log_metric_filter
+# aws\_cloudwatch\_log\_metric\_filter
 
 Use the `aws_cloudwatch_log_metric_filter` InSpec audit resource to search for and test properties of individual AWS Cloudwatch Log Metric Filters.
 
@@ -43,9 +43,9 @@ An `aws_cloudwatch_log_metric_filter` resource block searches for an LMF, specif
 
 ## Filter Examples
 
-### filter_name
+### filter\_name
 
-This is the identifier of the log metric filter within its log group.  To ensure you have a unique result, you must also provide the log_group_name.
+This is the identifier of the log metric filter within its log group.  To ensure you have a unique result, you must also provide the `log_group_name`.
 
     describe aws_cloudwatch_log_metric_filter(
       filter_name: 'my-filter'
@@ -53,9 +53,9 @@ This is the identifier of the log metric filter within its log group.  To ensure
       it { should exist }
     end
 
-### log_group_name
+### log\_group\_name
 
-The name of the Cloudwatch Log Group that the LMF is watching.  Together with filter_name, this uniquely identifies an LMF.
+The name of the Cloudwatch Log Group that the LMF is watching.  Together with `filter_name`, this uniquely identifies an LMF.
 
     describe aws_cloudwatch_log_metric_filter(
       log_group_name: 'my-log-group',
@@ -83,9 +83,9 @@ The filter pattern used to match entries from the logs in the log group.
 
 ## Property Examples
 
-### filter_name
+### filter\_name
 
-The name of the LMF within the log_group.
+The name of the LMF within the `log_group`.
 
     # Check the name of the LMF that has a certain pattern
     describe aws_cloudwatch_log_metric_filter(
@@ -95,7 +95,7 @@ The name of the LMF within the log_group.
       its('filter_name') { should cmp 'kaboom_lmf' }
     end
 
-### log_group_name
+### log\_group\_name
 
 The name of the log group that the LMF is watching.
 
@@ -106,7 +106,7 @@ The name of the log group that the LMF is watching.
       its('log_group_name') { should cmp 'app-log-group' }
     end
 
-### metric_name, metric_namespace
+### metric\_name, metric\_namespace
 
 The name and namespace of the Cloudwatch Metric that will be updated when the LMF matches.  You also need the `metric_namespace` to uniquely identify the metric.
 

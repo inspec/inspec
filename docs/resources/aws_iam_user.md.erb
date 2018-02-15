@@ -3,7 +3,7 @@ title: About the aws_iam_user Resource
 platform: aws
 ---
 
-# aws_iam_user
+# aws\_iam\_user
 
 Use the `aws_iam_user` InSpec audit resource to test properties of a single AWS IAM user.
 
@@ -51,13 +51,13 @@ The following examples show how to use this InSpec audit resource.
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### have_console_password
+### have\_console\_password
 
 The `have_console_password` matcher tests if the user has a password that could be used to log into the AWS web console.
 
     it { should have_console_password }
 
-### have_mfa_enabled
+### have\_mfa\_enabled
 
 The `have_mfa_enabled` matcher tests if the user has Multi-Factor Authentication enabled, requiring them to enter a secondary code when they login to the web console.
 

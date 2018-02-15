@@ -3,7 +3,7 @@ title: About the aws_kms_keys Resource
 platform: aws
 ---
 
-# aws_kms_keys
+# aws\_kms\_keys
 
 Use the `aws_kms_keys` InSpec audit resource to test properties of some or all AWS KMS Keys.
 
@@ -51,7 +51,7 @@ Provides access to the raw results of a query. This can be useful for checking c
       its('entries.count') { should be <= 100}
     end
 
-### key_arns
+### key\_arns
 
 Provides a list of key arns for all KMS Keys in the AWS account.
 
@@ -59,7 +59,7 @@ Provides a list of key arns for all KMS Keys in the AWS account.
       its('key_arns') { should include('arn:aws:kms:us-east-1::key/key-id') }
     end
 
-### key_ids
+### key\_ids
 
 Provides a list of key ids for all KMS Keys in the AWS account.
 

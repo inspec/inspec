@@ -3,7 +3,7 @@ title: About the aws_iam_access_keys Resource
 platform: aws
 ---
 
-# aws_iam_access_keys
+# aws\_iam\_access\_keys
 
 Use the `aws_iam_access_keys` InSpec audit resource to test properties of some or all IAM Access Keys.
 
@@ -63,7 +63,7 @@ A true / false value indicating if an Access Key is currently "Active" (the norm
       its('access_key_ids') { should include('AKIA1234567890ABCDEF')}
     end
 
-### create_date
+### create\_date
 
 A DateTime identifying when the Access Key was created.  See also `created_days_ago` and `created_hours_ago`.
 
@@ -72,7 +72,7 @@ A DateTime identifying when the Access Key was created.  See also `created_days_
       it { should_not exist }
     end
 
-### created_days_ago, created_hours_ago
+### created\_days\_ago, created\_hours\_ago
 
 An integer, representing how old the access key is.
 
@@ -81,7 +81,7 @@ An integer, representing how old the access key is.
       it { should_not exist }
     end
 
-### created_with_user
+### created\_with\_user
 
 A true / false value indicating if the Access Key was likely created at the same time as the user, by checking if the difference between created_date and user_created_date is less than 1 hour.
 
@@ -90,7 +90,7 @@ A true / false value indicating if the Access Key was likely created at the same
       it { should_not exist }
     end
 
-### ever_used
+### ever\_used
 
 A true / false value indicating if the Access Key has ever been used, based on the last_used_date. See also: `never_used`.
 
@@ -108,7 +108,7 @@ A true / false value indicating if the Access Key has been marked Inactive in th
       it { should_not exist }
     end
 
-### last_used_date
+### last\_used\_date
 
 A DateTime identifying when the Access Key was last used. Returns nil if the key has never been used. See also: `ever_used`, `last_used_days_ago`, `last_used_hours_ago`, and `never_used`.
 
@@ -117,7 +117,7 @@ A DateTime identifying when the Access Key was last used. Returns nil if the key
       it { should_not exist }
     end
 
-### last_used_days_ago, last_used_hours_ago
+### last\_used\_days\_ago, last\_used\_hours\_ago
 
 An integer representing when the key was last used. See also: `ever_used`, `last_used_date`, and `never_used`.
 
@@ -126,9 +126,9 @@ An integer representing when the key was last used. See also: `ever_used`, `last
       it { should_not exist }
     end
 
-### never_used
+### never\_used
 
-A true / false value indicating if the Access Key has never been used, based on the last_used_date. See also: `ever_used`.
+A true / false value indicating if the Access Key has never been used, based on the `last_used_date`. See also: `ever_used`.
 
     # Don't allow unused keys to lay around
     describe aws_iam_access_keys.where { never_used } do
@@ -143,7 +143,7 @@ Searches for access keys owned by the named user. Each user may have zero, one, 
       it { should exist }
     end
 
-### user_created_date
+### user\_created\_date
 
 The date at which the user was created.
 
@@ -160,7 +160,7 @@ The date at which the user was created.
 
 ## Property Examples
 
-### access_key_ids
+### access\_key\_ids
 
 Provides a list of all access key IDs matched.
 

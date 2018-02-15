@@ -3,7 +3,7 @@ title: About the aws_subnets Resource
 platform: aws
 ---
 
-# aws_subnets
+# aws\_subnets
 
 Use the `aws_subnets` InSpec audit resource to test properties of some or all subnets.
 
@@ -39,7 +39,7 @@ As this is the initial release of `aws_subnets`, its limited functionality precl
 
 ## Filter Examples
 
-### vpc_id
+### vpc\_id
 
 A string identifying the VPC which may or may not contain subnets.
 
@@ -49,7 +49,7 @@ A string identifying the VPC which may or may not contain subnets.
       its('subnet_ids') { should include 'subnet-98765432' }
     end
 
-### subnet_id
+### subnet\_id
 
 A string identifying a specific subnet.
 
@@ -68,7 +68,7 @@ A string identifying a specific subnet.
 
 ## Property Examples
 
-### cidr_blocks
+### cidr\_blocks
 
 Provides a string that contains the cidr block of ip addresses that can be given in the subnet.
 
@@ -86,7 +86,7 @@ Provides an array of strings including if the subnets are available.
       its('states') { should_not include 'pending' }
     end
 
-### subnet_ids
+### subnet\_ids
 
 Provides an array of strings containing the subnet IDs associated with a vpc.
 
@@ -96,7 +96,7 @@ Provides an array of strings containing the subnet IDs associated with a vpc.
       its('subnet_ids') { should include 'subnet-98765432' }
     end
 
-### vpc_ids
+### vpc\_ids
 
 Provides an array containing a string of the vpc_id associated with a subnet.
 
