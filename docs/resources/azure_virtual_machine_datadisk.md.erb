@@ -14,17 +14,14 @@ Use this resource to ensure that a specific data disk attached to a machine has 
 
 The name of the resource group and machine are required to use this resource.
 
-    ```ruby
     describe azure_virtual_machine_data_disk(group_name: 'MyResourceGroup', name: 'MyVM') do
       its('property') { should eq 'value' }
     end
-```
 
-where 
+where
 
-* Resource Parameters
-  * `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
-  * `MyResourceGroup` is the name of the resouce group that the machine is in.
+* `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
+* `MyResourceGroup` is the name of the resouce group that the machine is in.
 * `property` is a resource property
 * `value` is the expected output fdrom the matcher
 
@@ -46,12 +43,10 @@ When the options have been set as well as the environment variables, the environ
 
 For example:
 
-    ```ruby
     describe azure_virtual_machine_data_disk(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
       its('count') { should cmp > 0 }
       it { should have_data_disks }
     end
-    ```
 
 <br>
 
@@ -66,11 +61,9 @@ Please refer to the following integration tests for more in depth examples:
  
 ### Check that the first data disk is of the correct size
 
-    ```ruby
     describe azure_virtual_machine_data_disk(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM').where(number: 1) do
       its('size') { should cmp >= 15 }
     end
-    ```
 
 <br>
 
@@ -87,34 +80,26 @@ Please refer to the following integration tests for more in depth examples:
 
 Returns the number of data disks attached to the machine
 
-    ```ruby
     its('count') { should eq 1 }
-```
 
 ### have\_data\_disks
 
 Returns a boolean denoting if any data disks are attached to the machine
 
-    ```ruby
     it { should have_data_disks }
-    ```
 
 ### have\_managed\_disks
 
 Returns a boolean stating if the machine has Managed Disks for data disks.
 
-    ```ruby
     it { should have_managed_disks }
-    ```
 
 **The next set of attributes require the `where` operation to be used on the describe.**
 
 The following code shows an example of how to use the where clause.
 
-    ```ruby
     describe azure_virtual_machine_data_disk(group_name: 'Inspec-Azure', name: 'Windows-Internal-VM').where(number: 1)
     end
-    ```
 
 ### disk
 

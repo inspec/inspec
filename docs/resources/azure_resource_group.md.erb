@@ -10,16 +10,13 @@ Use the `azure_resource_group_resource_counts` InSpec audit resource to check th
 
 The name of the resource group is specified as a parameter on the resource:
 
-    ```ruby
     describe azure_resource_group(name: 'MyResourceGroup') do
-    its('property') { should eq 'value' }
+      its('property') { should eq 'value' }
     end
-    ```
 
 where
 
-* Resource Parameters
-  * `MyResourceGroup` is the name of the resource group being interrogated
+* `MyResourceGroup` is the name of the resource group being interrogated
 * `property` is one a resource property
 * `value` is the expected output from the matcher
 
@@ -35,14 +32,12 @@ Please refer the integration tests for more in depth examples:
 
 ### Test Resource Group has the correct number of resources
 
-    ```ruby
     describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
       its('total') { should eq 7}
-    ```
+    end
 
 ### Ensure that the Resource Group contains the correct resources
 
-    ```ruby
     describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
       its('total') { should eq 7 }
       its('vm_count') { should eq 2 }
@@ -51,7 +46,6 @@ Please refer the integration tests for more in depth examples:
       its('sa_count') { should eq 1 }
       its('vnet_count') { should eq 1 }
     end
-    ```
 
 <br>
 
@@ -82,13 +76,11 @@ When the options have been set as well as the environment variables, the environ
 
 ### Parameter Example
 
-    ```ruby
     describe azure_resource_group_resource_counts(name: 'ChefAutomate') do
-    its('total') { should eq 7}
-    its('nic_count') { should eq 1 }
-    its('vm_count') { should eq 1 }
+      its('total') { should eq 7}
+      its('nic_count') { should eq 1 }
+      its('vm_count') { should eq 1 }
     end
-    ```
 
 <br>
 
@@ -106,17 +98,13 @@ This InSpec audit resource has the following properties:
 
 Returns the name of the resource group.
 
-    ```ruby
     its(name) { should cmp 'nugget' }
-    ```
 
 ### location
 
 Returns where in Azure the resource group is located.
 
-    ```ruby
     its(location) { should cmp 'us-west' }
-    ```
 
 ### id
 
@@ -124,17 +112,13 @@ Returns the full qualified ID of the resource group.
 
 This is in the format `/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP_NAME>`.
 
-    ```ruby
     its(id) { should cmp 'FQDN' }
-    ```
 
 ### provisioning_state
 
 The provisioning state of the resource group.
 
-    ```ruby
     its(provisioning_state) { should cmp '????' }
-    ```
 
 ### subscription_id
 
@@ -142,57 +126,43 @@ Returns the subscription ID which contains the resource group.
 
 This is derived from the `id`.
 
-    ```ruby
     its(subscription_id) { should cmp '????' }
-    ```
 
 ### total
 
 The total number of resources in the resource group
 
-    ```ruby
     its(total) { should eq 5 }
-    ```
 
 ### nic_count
 
 The number of network interface cards in the resource group
 
-    ```ruby
     its(nic_count) { should eq 2 }
-    ```
 
 ### vm_count
 
 The number of virtual machines in the resource group
 
-    ```ruby
     its(vm_count) { should eq 5 }
-    ```
 
 ### vnet_count
 
 The number of virtual networks in the resource group
 
-    ```ruby
     its(vnet_count) { should eq 5 }
-    ```
 
 ### sa_count
 
 The number of storage accounts in the resource group
 
-    ```ruby
     its(sa_count) { should eq 5 }
-    ```
 
 ### public_ip_count
 
 The number of Public IP Addresses in the resource group
 
-    ```ruby
     its(public_ip_count) { should eq 5 }
-    ```
 
 ### managed_disk_image_count
 
@@ -200,9 +170,7 @@ The number of managed disk images that are in the resource group.
 
 These are the items from which managed disks are created which are attached to machines. Generally the images are created from a base image or a custom image (e.g. Packer)
 
-    ```ruby
     its(managed_disk_image_count) { should eq 5 }
-    ```
 
 ### managed_disk_count
 
@@ -210,9 +178,7 @@ The number of managed disks in the resource group.
 
 If a resource group contains one virtual machine with an OS disk and 2 data disks that are all Managed Disks, then the count would be 3.
 
-    ```ruby
     its(managed_disk_count) { should eq 3 }
-    ```
 
 <br>
 
@@ -259,10 +225,9 @@ Use this resource to test `Microsoft.Network/publicIPAddresses`
 
 With these methods the following tests are possible
 
-    ```ruby
     it { should have_nics }
     it { should_not have_extensions }
-    ```
+
 ## Tags
 
 It is possible to test the tags that have been assigned to the resource. There are a number of properties that can be called to check that it has tags, that it has the correct number and that the correct ones are assigned.
@@ -271,25 +236,19 @@ It is possible to test the tags that have been assigned to the resource. There a
 
 This is a simple test to see if the machine has tags assigned to it or not.
 
-    ```ruby
     it { should have_tags }
-    ```
 
 ### tag\_count
 
 Returns the number of tags that are assigned to the resource
 
-    ```ruby
     its ('tag_count') { should eq 2 }
-    ```
 
 ### tags
 
 It is possible to check if a specific tag has been set on the resource.
 
-    ```ruby
     its('tags') { should include 'Owner' }
-    ```
 
 ### xxx\_tag
 
@@ -303,9 +262,7 @@ For example, if the following tag is set on a resource:
 
 Then a property is available called `Owner_tag`.
 
-    ```ruby
     its('Owner_tag') { should cmp 'Russell Seymour' }
-    ```
 
 Note: The tag name is case sensitive which makes the test case sensitive. E.g. `owner_tag` does not equal `Owner_tag`.
 
@@ -319,14 +276,12 @@ Please refer the integration tests for more in depth examples:
 
 ### Test Resource Group has the correct number of resources
 
-    ```ruby
     describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
       its('total') { should eq 7}
-    ```
+    end
 
 ### Ensure that the Resource Group contains the correct resources
 
-    ```ruby
     describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
       its('total') { should eq 7 }
       its('vm_count') { should eq 2 }
@@ -335,7 +290,6 @@ Please refer the integration tests for more in depth examples:
       its('sa_count') { should eq 1 }
       its('vnet_count') { should eq 1 }
     end
-    ```
 
 ## References
 

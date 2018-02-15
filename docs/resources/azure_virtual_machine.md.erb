@@ -10,17 +10,14 @@ Use the `azure_virtual_machine` InSpec audit resource to ensure that a Virtual M
 
 The name of the machine and the resourece group are required as properties to the resource.
 
-    ```ruby
     describe azure_virtual_machine(group_name: 'MyResourceGroup', name: 'MyVM') do
       its('property') { should eq 'value' }
     end
-    ```
 
 where
 
-* Resource Parameters
-  * `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
-  * `MyResourceGroup` is the name of the resource group that the machine is in.
+* `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
+* `MyResourceGroup` is the name of the resource group that the machine is in.
 * `property` is one of
 * `value` is the expected output from the matcher
 
@@ -42,12 +39,10 @@ When the options have been set as well as the environment variables, the environ
 
 For example:
 
-    ```ruby
     describe azure_virtual_machine(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
       its('os_type') { should eq 'Linux' }
       it { should have_boot_diagnostics }
     end
-    ```
 
 <br>
 
@@ -62,21 +57,17 @@ Please refer the integration tests for more in depth examples:
 
 ### Test that the machine was built from a Windows image
 
-    ```ruby
     describe azure_virtual_machine(name: 'Windows-Internal-VM', group_name: 'Inspec-Azure') do
       its('publisher') { should eq 'MicrosoftWindowsServer' }
       its('offer') { should eq 'WindowsServer' }
       its('sku') { should eq '2012-R2-Datacenter' }
     end
-    ```
 
 ### Ensure the machine is in the correct location
 
-    ```ruby
     describe azure_virtual_machine(name: 'Linux-Internal-VM', resource_group: 'Inspec-Azure') do
       its('location') { should eq 'westeurope' }
     end
-    ```
 <br>
 
 ## Properties
@@ -97,9 +88,7 @@ THe Azure Resource type. For a virtual machine this will always return `Microsof
 
 Where the machine is located
 
-```ruby
-its('location') { should eq 'westeurope' }
-```
+    its('location') { should eq 'westeurope' }
 
 ### name
 
@@ -137,9 +126,7 @@ Determine if the operating system disk is a Managed Disks or not.
 
 This test can be used in the following way:
 
-```ruby
-it { should have_managed_osdisk }
-```
+    it { should have_managed_osdisk }
 
 ### caching
 
@@ -157,9 +144,7 @@ Returns the size of the operating system disk.
 
 Denotes if the machine has data disks attached to it or not.
 
-```ruby
-it { should have_data_disks }
-```
+    it { should have_data_disks }
 
 ### data\_disk\_count
 
@@ -173,9 +158,7 @@ This provides the storage account type for a machine that is using managed disks
 
 The size of the machine in Azure
 
-```ruby
-its('vm_size') { should eq 'Standard_DS2_v2' }
-```
+    its('vm_size') { should eq 'Standard_DS2_v2' }
 
 ### computer\_name
 
@@ -193,9 +176,7 @@ Returns a boolean to state if the machine has NICs connected or not.
 
 This has can be used in the following way:
 
-    ```ruby
     it { should have_nics }
-    ```
 
 ### nic\_count
 
@@ -205,9 +186,7 @@ The number of network interface cards that have been attached to the machine
 
 This returns an array of the NIC ids that are connected to the machine. This means that it possible to check that the machine has the correct NIC(s) attached and thus on the correct subnet.
 
-    ```ruby
     its('connected_nics') { should include /Inspec-NIC-1/ }
-    ```
 
 Note the use of the regular expression here. This is because the NIC id is a long string that contains the subscription id, resource group, machine id as well as other things. By using the regular expression the NIC can be checked withouth breaking this string up. It also means that other tests can be performed.
 
@@ -217,17 +196,13 @@ An example of the id string is `/subscriptions/1e0b427a-d58b-494e-ae4f-ee558463e
 
 Returns a boolean to denote if the machine is accessible using a password.
 
-```ruby
-it { should have_password_authentication }
-```
+    it { should have_password_authentication }
 
 ### password\_authentication?
 
 Boolean to state of password authentication is enabled or not for the admin user.
 
-    ```ruby
     its('password_authentication?') { should be false }
-    ```
 
 This only applies to Linux machines and will always return `true` on Windows.
 
@@ -235,25 +210,19 @@ This only applies to Linux machines and will always return `true` on Windows.
 
 Returns a boolean stating if the machine has custom data assigned to it.
 
-    ```ruby
     it { should have_custom_data }
-    ```
 
 ### custom\_data?
 
 Boolean to state if the machine has custom data or not
 
-    ```ruby
     its('custom_data') { should be true }
-    ```
 
 ### have\_ssh\_keys
 
 Boolean to state if the machine has SSH keys assigned to it
 
-    ```ruby
     it { should have_ssh_keys }
-    ```
 
 For a Windows machine this will always be false.
 
@@ -261,9 +230,7 @@ For a Windows machine this will always be false.
 
 Boolean to state of the machine is accessible using SSH keys
 
-    ```ruby
     its('ssh_keys?') { should be true }
-    ```
 
 ### ssh\_key\_count
 
@@ -277,25 +244,19 @@ Returns an array of the keys that are assigned to the machine. This is check if 
 
 Most SSH public keys have a signature at the end of them that can be tested. For example:
 
-    ```ruby
     its('ssh_keys') { should include /azure@inspec.local/ }
-    ```
 
 ### boot\_diagnostics?
 
 Boolean test to see if boot diagnostics have been enabled on the machine
 
-    ```ruby
     it { should have_boot_diagnostics }
-    ```
 
 ### boot\_diagnostics\_storage\_uri
 
 If boot diagnostics are enabled for the machine they will be saved in a storage account. This method returns the URI for the storage account.
 
-    ```ruby
     its('boot_diagnostics_storage_uri') { should match 'ghjgjhgjg' }
-    ```
 
 <br>
 
@@ -316,25 +277,19 @@ It is possible to test the tags that have been assigned to the resource. There a
 
 This is a simple test to see if the machine has tags assigned to it or not.
 
-    ```ruby
     it { should have_tags }
-    ```
 
 ### tag\_count
 
 Returns the number of tags that are assigned to the resource
 
-    ```ruby
     its ('tag_count') { should eq 2 }
-    ```
 
 ### tags
 
 It is possible to check if a specific tag has been set on the resource.
 
-    ```ruby
     its('tags') { should include 'Owner' }
-    ```
 
 ### xxx\_tag
 
@@ -348,9 +303,7 @@ For example, if the following tag is set on a resource:
 
 Then a test is available called `Owner_tag`.
 
-    ```ruby
     its('Owner_tag') { should cmp 'Russell Seymour' }
-    ```
 
 Note: The tag name is case sensitive which makes the test case sensitive. E.g. `owner_tag` does not equal `Owner_tag`.
 

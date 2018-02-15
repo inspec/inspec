@@ -8,11 +8,9 @@ Use the `azure_generic_resource` InSpec audit resource to test any valid Azure R
 
 ## Syntax
 
-    ```ruby
     describe azure_generic_resource(group_name: 'MyResourceGroup', name: 'MyResource') do
       its('property') { should eq 'value' }
     end
-    ```
 
 where
 
@@ -20,8 +18,6 @@ where
 * `MyResource` is the name of the resource that needs to be checked
 * `property` - This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
 * `value` is the expected output from the chosen property
-
-The options that can be passed to the resource are as follows.
 
 The options that can be passed to the resource are as follows.
 
@@ -47,12 +43,9 @@ There are _normally_ three standard tests that can be performed on a resource.
 
 ## Example
 
-    ```ruby
     describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
       its('location') { should eq 'westeurope' }
     end
-    ```
-```
 
 ## Properties
 
