@@ -227,7 +227,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     list = ''
     resources.each do |file|
       name = File.basename(file).sub(/\.md\.erb$/, '')
-      list << f.li(f.a(name.sub('_', '\\_'), 'resources/' + name + '.html'))
+      list << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
     end
     res << f.ul(list)
     dst = File.join(src, 'resources.md')
