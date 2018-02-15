@@ -1,5 +1,6 @@
 ---
 title: About the auditd_conf Resource
+platform: linux
 ---
 
 # auditd_conf
@@ -57,11 +58,11 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### `cmp`
 
-The `cmp` matcher compares values across types. 
+The `cmp` matcher compares values across types.
 
     its('freq') { should cmp 1 }
 
