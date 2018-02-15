@@ -4,7 +4,7 @@ title: About the azure_generic_resource Resource
 
 # azure\_generic\_resource
 
-Use the `azure_generic_resource` Inspec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Inspec resource for.
+Use the `azure_generic_resource` InSpec audit resource to test any valid Azure Resource. This is very useful if you need to test something that we do not yet have a specific Inspec resource for.
 
 ## Syntax
 
@@ -16,20 +16,19 @@ Use the `azure_generic_resource` Inspec audit resource to test any valid Azure R
 
 where
 
-* Resource Parameters
-  * `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
-  * `MyResource` is the name of the resource that needs to be checked
+* `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
+* `MyResource` is the name of the resource that needs to be checked
 * `property` - This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
 * `value` is the expected output from the chosen property
 
 The options that can be passed to the resource are as follows.
 
-| Name        | Description                                                                                                         | Required | Example                           |
-|-------------|---------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------|
-| group_name: | Azure Resource Group to be tested                                                                                   | yes      | MyResourceGroup                   |
-| name:       | Name of the Azure resource to test                                                                                  | no       | MyVM                              |
-| type: | Azure Resource Type to look for | no | Microsoft.Compute/virtualMachines |
-| apiversion: | API Version to use when interrogating the resource. If not set then the latest version for the resoure type is used | no       | 2017-10-9                         |
+The options that can be passed to the resource are as follows.
+
+* `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
+* `name`, the name of the Azure resource to test. Example: 'MyVM'
+* `type`, the Azure resource type. Example: 'Microsoft.Compute/virtualMachines'
+* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9 
 
 These options can also be set using the environment variables:
 
@@ -42,18 +41,17 @@ When the options have been set as well as the environment variables, the environ
 
 There are _normally_ three standard tests that can be performed on a resource.
 
-| Name | Description |
-|------|-------------|
-| name | Name of the resource |
-| type | Type of resource |
-| location | Location of the resource within Azure |
+* `name`: tests the resource name
+* `type`: tests the resource type
+* `location`: tests the resource's location within Azure
 
-For example:
+## Example
 
-```ruby
-describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
-  its('location') { should eq 'westeurope' }
-end
+    ```ruby
+    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+      its('location') { should eq 'westeurope' }
+    end
+    ```
 ```
 
 ## Properties
@@ -76,4 +74,8 @@ Please see the integration tests for in depth examples of how this resource can 
  - [Generic Virtual Network](../test/integration/verify/controls/generic_virtual_network.rb)
  - [Generic Windows Internal VM NIC](../test/integration/verify/controls/generic_windows_internal_vm_nic.rb)
  - [Generic Windows Internal VM](../test/integration/verify/controls/generic_windows_internal_vm.rb)
+
+ ## Matchers
+
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
  

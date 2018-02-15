@@ -83,26 +83,22 @@ A string identifying the VPC that contains the security group. Since VPCs common
     end
 
 <br>
-
-## Matchers
-
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
-### exists
-
-The control will pass if the specified SG was found.  Use should_not if you want to verify that the specified SG does not exist.
-
-    # You will always have at least one SG, the VPC default SG
-    describe aws_security_group(group_name: 'default')
-      it { should exist }
-    end   
-
-    # Make sure we don't have any security groups with the name 'nogood'
-    describe aws_security_group(group_name: 'nogood')
-      it { should_not exist }
-    end 
-
 ## Properties
+
+* `description`, `group_id', `group_name`, `vpc_id`
+
+<br>
+
+## Property Examples
+
+### description
+
+A String reflecting the human-meaningful description that was given to the SG at creation time.
+
+    # Require a description of a particular group
+    describe aws_security_group('sg-12345678') do
+      its('description') { should_not be_empty }
+    end
 
 ### group\_id
 
@@ -125,15 +121,6 @@ A String reflecting the name that was given to the SG at creation time.
       its('group_name') { should cmp 'my_group' }
     end
 
-### description
-
-A String reflecting the human-meaningful description that was given to the SG at creation time.
-
-    # Require a description of a particular group
-    describe aws_security_group('sg-12345678') do
-      its('description') { should_not be_empty }
-    end
-
 ### vpc\_id
 
 A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VPC that contains the security group.
@@ -142,3 +129,24 @@ A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VP
     describe aws_security_group('sg-12345678') do
       its('vpc_id') { should cmp 'vpc-12345678' }
     end
+
+<br>
+
+## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exists
+
+The control will pass if the specified SG was found.  Use should_not if you want to verify that the specified SG does not exist.
+
+    # You will always have at least one SG, the VPC default SG
+    describe aws_security_group(group_name: 'default')
+      it { should exist }
+    end   
+
+    # Make sure we don't have any security groups with the name 'nogood'
+    describe aws_security_group(group_name: 'nogood')
+      it { should_not exist }
+    end 
+
