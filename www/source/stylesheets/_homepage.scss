@@ -145,9 +145,9 @@ img.ball:nth-child(3) {
 // Animation for Home Page
 
 .grid-animate { // Warping Grid Animation//
-	-moz-animation: g-animate 8s linear infinite both;
-	-webkit-animation: g-animate 8s linear infinite both;
-	animation: g-animate 8s linear infinite both;
+	-moz-animation: g-animate 25s linear infinite both;
+	-webkit-animation: g-animate 25s linear infinite both;
+	animation: g-animate 25s linear infinite both;
 }
 
 @-webkit-keyframes g-animate {
