@@ -178,39 +178,99 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 /! use cases
 
 .bg-gradient.margin-top
-  .pad-both.relative
+  .pad-both.relative.slider
     .row
-      .large-7.medium-7.columns
-        h2.t-white.margin-both-sm
-          | Transform your compliance and security requirements into simple code
-    .row
-      .large-6.medium-6.columns.z-20
-        .box-white.shadow-dark.fit-height
-          .block.margin-both-xs
-            h4.t-purple Test the desired state
-            p Verify  the current desired state of your apps and infrastructure according to the code you write.
-          .block.margin-under-xs
-            h4.t-purple HUMAN-READABLE CODE
-            p Reduce friction by writing tests that are easy to understand by anyone.
-          .block
-            h4.t-purple extensible
-            p Create custom resources with ease and share them easily with others.
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
-      .large-6.medium-6.columns.z-20
-        .box-dark.shadow-dark.fit-height
-         pre.t-white.align-vertical-50
-          code control 'sshd-21' do
-          code   title 'Set SSH Protocol to 2'
-          code   desc 'A detailed description'
-          code   impact 1.0 # This is critical ref 'compliance guide, section 2.1'
-          code   describe sshd_config do
-          code    its('Protocol') { should cmp 2 }
-          code   end
-          code end
+      .large-7.medium-7.columns.selectors style="z-index:1"
+        a.button.btn-lg.shadow-dark.margin-top-xs InSpec for Compliance
+        a.button.btn-lg.shadow-dark.margin-top-xs InSpec for Infrastructure
+    .view
+      .row
+        .large-7.medium-7.columns
+          h2.t-white.margin-both-sm
+            | Transform your compliance and security requirements into simple code
+      .row
+        .large-6.medium-6.columns.z-20
+          .box-white.shadow-dark.fit-height
+            .block.margin-both-xs
+              h4.t-purple Codify agreements
+              p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+            .block.margin-under-xs
+              h4.t-purple Add context to your tests
+              p Utilize many fields like descriptions, tags, and impact.
+            .block
+              h4.t-purple Apply to all systems
+              p Analyze everything using the same codified profiles and controls.
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+        .large-6.medium-6.columns.z-20
+          .box-dark.shadow-dark.fit-height
+            pre.t-white.align-vertical-50
+              code control 'sshd-21' do
+              code   title 'Set SSH Protocol to 2'
+              code   desc 'A detailed description'
+              code   impact 1.0 # This is critical ref 'compliance guide, section 2.1'
+              code   describe sshd_config do
+              code    its('Protocol') { should cmp 2 }
+              code   end
+              code end
+    .view
+      .row
+        .large-7.medium-7.columns
+          h2.t-white.margin-both-sm
+            | Solve your infrastructure testing needs simply and efficiently
+      .row
+        .large-6.medium-6.columns.z-20
+          .box-white.shadow-dark.fit-height
+            .block.margin-both-xs
+              h4.t-purple Test the desired state
+              p Verify  the current desired state of your apps and infrastructure according to the code you write.
+            .block.margin-under-xs
+              h4.t-purple HUMAN-READABLE CODE
+              p Reduce friction by writing tests that are easy to understand by anyone.
+            .block
+              h4.t-purple Extensible
+              p Create custom resources with ease and share them easily with others.
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+        .large-6.medium-6.columns.z-20
+          .box-dark.shadow-dark.fit-height
+            pre.t-white.align-vertical-50
+              code describe file('/etc/myapp.conf') do
+              code   it { should exist }
+              code   its('mode') { should cmp 0644 }
+              code end
+              br
+              code describe myapp.conf do
+              code   its('port') { should cmp 8080 }
+              code end
+              br
+              code describe port(8080) do
+              code   it { should be_listening }
+              code end
     #particles-second
-     canvas.particles-js-canvas-el
-
+      canvas.particles-js-canvas-el
 .scrollToTop.shadow-dark
   img#scrollup src="/images/home/arrow.svg"
 
+css:
+  .hidden {
+    display: none;
+  }
+  .slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+  }
 
+  .slide-out {
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+    display: none;
+  }
+
+  @keyframes slide-in {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0%); }
+  }
+
+  @-webkit-keyframes slide-in {
+    0% { transform: translateX(100%); }
+    100% { -webkit-transform: translateX(0%); }
+  }

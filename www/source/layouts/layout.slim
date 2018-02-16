@@ -29,6 +29,7 @@ html
     script src='https://buttons.github.io/buttons.js'
     script src='scripts/inspec_tutorial.js'
     script src='dist/inspec_tutorial.js'
+    script src='javascripts/vendor/jquery.min.js'
     div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
       = "Loading"
 
@@ -45,9 +46,32 @@ html
 
     javascript:
 
-     //code highlighter
+      function initSliders() {
+        var prev = -1;
+        $('.slider .selectors a').click(function(e) {
+          e.stopPropagation()
+
+          var idx = $(this).index();
+          if(prev == idx) return;
+          prev = idx;
+
+          $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+          var el = $('.slider .view')[idx]
+          if(el == null) {
+            console.log("No element for slider index "+idx)
+            return
+          }
+
+          console.log(el)
+          $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+        })
+
+        $('.slider .view').addClass('hidden')
+        $('.slider .selectors a')[0].click()
+      }
 
       $(document).ready(function() {
+        initSliders()
         $('pre code').each(function(i, block) {
           hljs.highlightBlock(block);
         });
