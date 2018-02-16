@@ -158,10 +158,17 @@ class ResourceDocs
       lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
     end
 
+    section_names = lists.keys.find_all { |k| !k.empty? }
+    res << f.ul(
+        f.li(f.a('OS resources', '#os-resources')) +
+        section_names.map { |name|
+          # add a link to the sections
+          f.li(f.a(namify(name)+' resources', '#'+(name+'-resources').downcase))
+        }.join('')
+      )
     res << f.h2('OS resources')
     res << f.ul(lists[''])
-    lists.keys.find_all { |k| !k.empty? }
-      .each do |group|
+    section_names.each do |group|
         res << f.h2(namify(group) + ' resources')
         res << f.ul(lists[group])
       end
