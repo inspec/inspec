@@ -11,6 +11,7 @@ header {
 }
 
 //number Box
+
 .num-container {
 	width: $percent_sm;
 	height: $percent_sm;
@@ -55,6 +56,26 @@ img.diamond {
 	right: 0;
 }
 
+//icons and SUCH
+
+.scrollToTop {
+	width: $percent_sm;
+	height: $percent_sm;
+	border-radius: 50%;
+	position: fixed;
+	background-color: white;
+	right: $percent_xs;
+	bottom: $percent_xs;
+	cursor: pointer;
+	text-align: center;
+}
+
+img#scrollup {
+	width: 20px;
+	height: auto;
+	margin-top: 11px;
+}
+
 img.icon-art {
 	 height: 6rem;
 }
@@ -82,15 +103,6 @@ img.icon-logos {
 	@extend %transition;
 	background-color: rgba(146, 107, 231, 0.2);
 }
-
-
-.blue-grid {
-	position: absolute;
-	top: $percent_sm;
-	right: 0;
-	z-index: -1;
-}
-
 
 // Hero illustration for Community
 
@@ -182,38 +194,6 @@ img.ball:nth-child(3) {
 	}
 }
 
-// Growing HR
-
-hr.first { // Apply to animated HR, JS calls this
-	width: 0px;
-}
-
-.stretch {
-	-moz-animation: grow 0.6s linear 1 both;
-	-webkit-animation: grow 0.6s linear 1 both;
-	animation: grow 0.6s linear 1 both;
-}
-
-@-webkit-keyframes grow {
-	from {
-		width: 0px;
-	}
-
-	to {
-		width: 150px;
-	}
-}
-
-@keyframes grow {
-	from {
-		width: 0px;
-	}
-
-	to {
-		width: 150px;
-	}
-}
-
 // Spin Animation Keyframes
 
 @-moz-keyframes spin {
@@ -280,6 +260,8 @@ hr.first { // Apply to animated HR, JS calls this
   transform: translate3d(0px, 0px, 0px);
 }
 
+//slide-right
+
 .slide-right {
   opacity: 0;
   -moz-transition: all 500ms linear;
@@ -301,6 +283,8 @@ hr.first { // Apply to animated HR, JS calls this
   -ms-transform: translate(0px, 0px);
   transform: translate3d(0px, 0px, 0px);
 }
+
+//slide-up
 
 .slide-up {
   opacity: 0;

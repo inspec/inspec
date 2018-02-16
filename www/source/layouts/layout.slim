@@ -149,7 +149,23 @@ html
       $window.on('scroll resize', check_if_in_view);
       $window.trigger('scroll');
 
+      //scroll to top
+      $(document).ready(function(){
 
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 100) {
+			$('.scrollToTop').fadeIn();
+		} else {
+			$('.scrollToTop').fadeOut();
+		}
+	});
+
+	$('.scrollToTop').click(function(){
+		$('html, body').animate({scrollTop : 0},800);
+		return false;
+	});
+
+      });
       //Animating progress bar for header
 
       $(document).ready(function(){

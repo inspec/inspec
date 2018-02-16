@@ -289,13 +289,13 @@
   border-width: 1.5px 0 1.5px 2px;
   border-style: solid;
   -webkit-border-image:
-    -webkit-linear-gradient(bottom, #6063ef, #47b7d1) 1 100%;
+    -webkit-linear-gradient(#6063ef, #47b7d1) 1 100%;
   -moz-border-image:
-    -moz-linear-gradient(bottom, #6063ef, #47b7d1) 1 100%;
+    -moz-linear-gradient( #6063ef, #47b7d1) 1 100%;
   -o-border-image:
-    -0-linear-gradient(bottom, #6063ef, #47b7d1) 1 100%;
+    -o-linear-gradient(#6063ef, #47b7d1) 1 100%;
   border-image:
-    linear-gradient(bottom, #6063ef, #47b7d1) 1 100%;
+    linear-gradient(#6063ef, #47b7d1) 1 100%;
 }
 
 .triangle-right {
