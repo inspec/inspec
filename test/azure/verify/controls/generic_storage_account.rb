@@ -15,8 +15,6 @@ control 'azure-generic-storage-account-2.0' do
     # There should be no tags
     it { should_not have_tags }
 
-    its('properties.encryption.keySource') { should cmp 'Microsoft.Storage' }
-
     # Check that the blob and file services are enabled
     its('properties.encryption.services.blob.enabled') { should be true }
     its('properties.encryption.services.file.enabled') { should be true }
