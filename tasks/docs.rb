@@ -135,7 +135,45 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
+  def overview_page(resources)
+    f = Markdown
+    res = f.meta(title: 'InSpec Resources Reference')
+    res << f.h1('InSpec Resources Reference')
+    res << f.p('The following list of InSpec resources are available.')
+
+    lib_resources = Dir[File.expand_path(File.join('.', '..', 'lib', 'resources', '*'))]
+    lib_groups = lib_resources.find_all { |x| File.directory?(x) }
+    sections = Hash[lib_groups.map do |x|
+      files = Dir[File.join(x, '*.rb')].map { |x| File.basename(x).sub(/\.rb$/, '') }
+      [File.basename(x), files]
+    end]
+
+    resource_dict = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
+
+    lists = Hash[sections.keys.map { |k| [k, ''] }]
+    lists[''] = ''
+    resource_dict.keys.sort.each do |name|
+      section = sections.find { |k,v| v.include?(name) }
+      l = section.nil?  ? '' : section[0]
+      lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
+    end
+
+    res << f.h2('OS resources')
+    res << f.ul(lists[''])
+    lists.keys.find_all { |k| !k.empty? }
+      .each do |group|
+        res << f.h2(namify(group) + ' resources')
+        res << f.ul(lists[group])
+      end
+
+    res
+  end
+
   private
+
+  def namify(n)
+    n.capitalize.gsub(/\baws\b/i, 'AWS')
+  end
 
   def render_path(path)
     abs = File.join(@root, path)
@@ -222,19 +260,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     progressbar.finish
 
     # Create a resource summary markdown doc
-    f = Markdown
-    res = f.meta(title: 'InSpec Resources Reference')
-    res << f.h1('InSpec Resources Reference')
-    res << f.p('The following InSpec audit resources are available:')
-    list = ''
-    resources.each do |file|
-      name = File.basename(file).sub(/\.md\.erb$/, '')
-      list << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
-    end
-    res << f.ul(list)
     dst = File.join(src, 'resources.md')
     puts "Create #{dst}"
-    File.write(dst, res)
+    File.write(dst, docs.overview_page(resources))
   end
 
   desc 'Clean all rendered docs from www/'
