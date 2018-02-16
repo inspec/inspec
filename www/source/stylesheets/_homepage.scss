@@ -64,11 +64,25 @@ img.icon-logos {
 }
 
 .copy {
+	@extend %transition;
 	width: 20px;
 	height: auto;
 	cursor: pointer;
 	margin-right: $percent_xs;
+
+	&:hover {
+		-webkit-transform: scale(1.2);
+		-ms-transform: scale(1.2);
+		-moz-transform: scale(1.2);
+		transform: scale(1.2);
+	}
 }
+
+.text-focus { //for copied element
+	@extend %transition;
+	background-color: rgba(146, 107, 231, 0.2);
+}
+
 
 .blue-grid {
 	position: absolute;

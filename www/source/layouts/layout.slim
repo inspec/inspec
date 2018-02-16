@@ -53,6 +53,31 @@ html
         });
       });
 
+      //copy to clipboard
+
+      function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+      }
+
+      $('#copy').hover(function() {
+         $('#install').toggleClass("text-focus");
+      });
+
+      $('#copy').click(function() {
+         $(this).removeClass("fa-copy");
+         $(this).addClass("fa-check");
+
+       setTimeout(() => {
+         $(this).removeClass('fa-check').addClass('fa-copy');
+        }, 1500);
+      });
+
+
+
       // homepage content slider
 
       $(function() {
