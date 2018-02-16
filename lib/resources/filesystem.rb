@@ -1,8 +1,7 @@
 module Inspec::Resources
   class FileSystemResource < Inspec.resource(1)
     name 'filesystem'
-    supports platform: 'unix'
-    supports os_family: 'linux'
+    supports platform: 'linux'
     desc 'Use the filesystem InSpec resource to test file system'
     example "
       describe filesystem('/') do
