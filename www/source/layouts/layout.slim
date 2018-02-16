@@ -42,7 +42,16 @@ html
         $('#sidebar').stick_in_parent();
       }
 
+
     javascript:
+
+     //code highlighter
+
+      $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+      });
 
       // homepage content slider
 
@@ -55,6 +64,7 @@ html
             $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
          });
       });
+
 
     javascript:
 

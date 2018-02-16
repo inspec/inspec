@@ -178,7 +178,15 @@ header.bg-gradient.margin-top-offset.short-bg.relative
           a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
       .large-6.medium-6.columns.z-20
         .box-dark.shadow-dark.fit-height
-         code.t-white.align-vertical control 'sshd-21' do title 'Set SSH Protocol to 2' desc 'A detailed description' impact 1.0 # This is critical ref 'compliance guide, section 2.1' describe sshd_config do its('Protocol') { should cmp 2 } end end
+         pre.t-white.align-vertical-50
+          code control 'sshd-21' do
+          code   title 'Set SSH Protocol to 2'
+          code   desc 'A detailed description'
+          code   impact 1.0 # This is critical ref 'compliance guide, section 2.1'
+          code   describe sshd_config do
+          code    its('Protocol') { should cmp 2 }
+          code   end
+          code end
     #particles-second
      canvas.particles-js-canvas-el
 
