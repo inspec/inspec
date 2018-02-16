@@ -68,7 +68,8 @@ html
         })
 
         $('.slider .view').addClass('hidden')
-        $('.slider .selectors a')[0].click()
+        var links = $('.slider .selectors a')
+        if(links[0]!= null) links[0].click()
       }
 
       //run code colors
