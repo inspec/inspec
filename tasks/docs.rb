@@ -210,6 +210,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
+    # Render all resources
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
     resources.each do |file|
       progressbar.log('          '+file)
@@ -220,6 +221,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     end
     progressbar.finish
 
+    # Create a resource summary markdown doc
     f = Markdown
     res = f.meta(title: 'InSpec Resources Reference')
     res << f.h1('InSpec Resources Reference')
