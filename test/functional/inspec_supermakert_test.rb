@@ -20,6 +20,7 @@ describe 'inspec supermakert' do
 
   it 'supermarket exec' do
     out = inspec('supermarket exec dev-sec/ssh-baseline')
+    out.exit_status.wont_equal 1
     out.stderr.must_equal ''
     out.stdout.must_include 'Profile Summary'
     out.stdout.must_include 'Test Summary'
