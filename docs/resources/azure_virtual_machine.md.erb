@@ -5,11 +5,11 @@ platform: azure
 
 # azure\_virtual\_machine
 
-Use the `azure_virtual_machine` InSpec audit resource to ensure that a Virtual Machine has been provisionned correctly.
+Use the `azure_virtual_machine` InSpec audit resource to ensure that a Virtual Machine has been provisioned correctly.
 
 ## Syntax
 
-The name of the machine and the resourece group are required as properties to the resource.
+The name of the machine and the resource group are required as properties to the resource.
 
     describe azure_virtual_machine(group_name: 'MyResourceGroup', name: 'MyVM') do
       its('property') { should eq 'value' }
@@ -17,9 +17,9 @@ The name of the machine and the resourece group are required as properties to th
 
 where
 
-* `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
-* `MyResourceGroup` is the name of the resource group that the machine is in.
-* `property` is one of
+* `MyVm` is the name of the virtual machine as seen in Azure; it is **not** the hostname of the machine
+* `MyResourceGroup` is the name of the machine's resource group
+* `property` is one of the resource properties
 * `value` is the expected output from the matcher
 
 ## Examples
@@ -106,9 +106,9 @@ Name of the Virtual Machine in Azure. Be aware that this is not the computer nam
 
 ### publisher
 
-The publisher of the image from which this machine was built.
+The publisher of this machine's build image.
 
-This will be `nil` if the machine was created from a custom image.
+ `nil` if the machine was created from a custom image.
 
     its('publisher') { should cmp 'MicrosoftWindowsServer' }
 
@@ -116,7 +116,7 @@ This will be `nil` if the machine was created from a custom image.
 
 The offer from the publisher of the build image.
 
-This will be `nil` if the machine was created from a custom image.
+`nil` if the machine was created from a custom image.
 
     its('offer') { should cmp 'WindowsServer' }
 
@@ -124,13 +124,13 @@ This will be `nil` if the machine was created from a custom image.
 
 The item from the publisher that was used to create the image.
 
-This will be `nil` if the machine was created from a custom image.
+`nil` if the machine was created from a custom image.
 
     its('sku') { should cmp '2016-Datacenter' }
 
 ### os\_type
 
-Test that returns the classification in Azure of the operating system type. Ostensibly this will be either `Linux` or `Windows`.
+Test that returns the classification in Azure of the operating system type. Usually either `Linux` or `Windows`.
 
         its('os_type') { should cmp 'Windows' }
 
@@ -148,7 +148,7 @@ Returns the type of caching that has been set on the operating system disk.
 
 ### create\_option
 
-When the operating system disk is created, how it was created is set as an property. This property returns how the disk was created.
+When the operating system disk is created, how it was created is set as a property. This property returns how the disk was created.
 
     its('create_option') { should cmp 'FromImage' }
 

@@ -130,7 +130,7 @@ Returns an integer of size of this disk in GB.
 
 ### lun
 
-The disk number as reported by Azure. This is a zero based index value.
+The disk number as reported by Azure. Has a zero-based index value.
 
     its('lun') { should cmp 0 }
 
@@ -142,7 +142,7 @@ String stating the caching that has been set on the disk.
 
 ### create\_option
 
-How the disk was created. Typically for data disks this will be the string value 'Empty'.
+How the disk was created. Typically for data disks, this will be the string value 'Empty'.
 
     its('create_option') { should cmp 'Empty' }
 
@@ -154,7 +154,7 @@ Boolean stating if the disk is a managed disk or not. If it is not a managed dis
 
 ### vhd\_uri
 
-If this _not_ a managed disk then the `vhd_uri` will be the full URI to the disk in the storage account.
+If this _not_ a managed disk, then the `vhd_uri` will be the full URI to the disk in the storage account.
 
     its('vhd_uri') { should cmp '
 https://primary_storage.blob.core.windows.net/container_name/vm_name.vhd' }
@@ -169,7 +169,7 @@ This derived from the `vhd_uri`.
 
 ### storage\_account\_type
 
-If this is a managed disk this is the storage account type, e.g. `Standard_LRS`
+If this is a managed disk this is the storage account type, e.g. `Standard_LRS`.
 
     its('storage_account_type') { should cmp 'Standard_LRS' }
 
