@@ -1,5 +1,6 @@
 ---
 title: About the docker_container Resource
+platform: linux
 ---
 
 # docker_container
@@ -23,7 +24,7 @@ A `docker_container` resource block declares the configuration data to be tested
       its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
     end
 
-## Resource Parameter Examples 
+## Resource Parameter Examples
 
 ### name
 
@@ -97,5 +98,5 @@ The `command` property tests the value of the container run command:
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
