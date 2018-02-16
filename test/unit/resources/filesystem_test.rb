@@ -20,14 +20,12 @@ describe 'Inspec::Resources::FileSystemResource' do
   describe 'when loading filesystem in unsupported OS family' do
     it 'fails on Windows' do
       resource_fail = MockLoader.new(:windows).load_resource('filesystem', '/')
-      expect = 'Resource Filesystem is not supported on platform windows/6.2.9200.'
-      resource_fail.check_supports.must_equal expect
+      resource_fail.check_supports.must_equal false
     end
 
     it 'fails on FreeBSD (unix-like)' do
       resource_fail = MockLoader.new(:freebsd10).load_resource('filesystem', '/')
-      expect = 'Resource Filesystem is not supported on platform freebsd/10.'
-      resource_fail.check_supports.must_equal expect
+      resource_fail.check_supports.must_equal false
     end
   end
 end

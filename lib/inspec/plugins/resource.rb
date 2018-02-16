@@ -43,8 +43,8 @@ module Inspec
       Inspec::Resource.registry
     end
 
-    def __register(name, obj) # rubocop:disable Metrics/MethodLength
-      cl = Class.new(obj) do
+    def __register(name, obj) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      cl = Class.new(obj) do # rubocop:disable Metrics/BlockLength
         attr_reader :resource_exception_message
 
         def initialize(backend, name, *args)
@@ -57,7 +57,14 @@ module Inspec
           @__resource_name__ = name
 
           # check resource supports
-          check_supports unless @supports.nil?
+          supported = true
+          supported = check_supports unless @supports.nil?
+          if defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
+            # do not exit out for tests
+          elsif supported == false
+            # do not run resource initalize if we are unsupported
+            return
+          end
 
           # call the resource initializer
           begin
@@ -83,6 +90,7 @@ module Inspec
           status = inspec.platform.supported?(@supports)
           skip_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           skip_resource(skip_msg) unless status
+          status
         end
 
         def skip_resource(message)
