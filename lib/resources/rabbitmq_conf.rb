@@ -1,12 +1,11 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/erlang_parser'
 
 module Inspec::Resources
   class RabbitmqConf < Inspec.resource(1)
     name 'rabbitmq_config'
+    supports platform: 'unix'
     desc 'Use the rabbitmq_config InSpec resource to test configuration data '\
          'for the RabbitMQ service located in /etc/rabbitmq/rabbitmq.config on '\
          'Linux and UNIX platforms.'

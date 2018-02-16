@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 # describe pip('Jinja2') do
@@ -11,6 +9,8 @@
 module Inspec::Resources
   class PipPackage < Inspec.resource(1)
     name 'pip'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the pip InSpec audit resource to test packages that are installed using the pip installer.'
     example "
       describe pip('Jinja2') do

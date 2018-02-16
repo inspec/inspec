@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/object_traversal'
 
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
     name 'json'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the json InSpec audit resource to test data in a JSON file.'
     example "
       describe json('policyfile.lock.json') do

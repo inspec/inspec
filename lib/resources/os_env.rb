@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 #
@@ -15,6 +13,8 @@ require 'utils/simpleconfig'
 module Inspec::Resources
   class OsEnv < Inspec.resource(1)
     name 'os_env'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the os_env InSpec audit resource to test the environment variables for the platform on which the system is running.'
     example "
       describe os_env('VARIABLE') do

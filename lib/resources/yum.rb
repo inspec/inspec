@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 # describe yum do
@@ -32,6 +30,7 @@
 module Inspec::Resources
   class Yum < Inspec.resource(1)
     name 'yum'
+    supports platform: 'unix'
     desc 'Use the yum InSpec audit resource to test the configuration of Yum repositories.'
     example "
       describe yum.repo('name') do

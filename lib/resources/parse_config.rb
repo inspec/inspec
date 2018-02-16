@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 # Usage example:
 #
@@ -15,6 +13,8 @@
 module Inspec::Resources
   class PConfig < Inspec.resource(1)
     name 'parse_config'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the parse_config InSpec audit resource to test arbitrary configuration files.'
     example "
       output = command('some-command').stdout

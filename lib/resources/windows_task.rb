@@ -1,9 +1,8 @@
 # encoding: utf-8
-# author: Gary Bright @username-is-already-taken2
-# author: Chris Beard @cdbeard2016
 module Inspec::Resources
   class WindowsTasks < Inspec.resource(1)
     name 'windows_task'
+    supports platform: 'windows'
     desc 'Use the windows_task InSpec audit resource to test task schedules on Microsoft Windows.'
     example "
       describe windows_task('\\Microsoft\\Windows\\Time Synchronization\\SynchronizeTime') do

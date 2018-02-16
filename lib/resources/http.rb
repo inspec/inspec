@@ -1,7 +1,6 @@
 # encoding: utf-8
 # copyright: 2017, Criteo
 # copyright: 2017, Chef Software Inc
-# author: Guilhem Lettron, Christoph Hartmann
 # license: Apache v2
 
 require 'faraday'
@@ -10,6 +9,7 @@ require 'hashie'
 module Inspec::Resources
   class Http < Inspec.resource(1)
     name 'http'
+    supports platform: 'unix'
     desc 'Use the http InSpec audit resource to test http call.'
     example "
       describe http('http://localhost:8080/ping', auth: {user: 'user', pass: 'test'}, params: {format: 'html'}) do
