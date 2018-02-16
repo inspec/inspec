@@ -33,12 +33,24 @@ where
 
 <br>
 
+## Local vs. Remote
+
+Beginning with InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
+
+    describe http('http://www.example.com', enable_remote_worker: true) do
+      its('body') { should cmp 'awesome' }
+    end
+
+In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec is testing a remote node.
+
 <br>
+
 ## Properties
 
 body, headers, http_method, status,
 
 <br>
+
 ## Property Examples
 
 The following examples show how to use this InSpec audit resource.

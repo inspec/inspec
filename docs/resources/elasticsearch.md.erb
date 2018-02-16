@@ -10,11 +10,15 @@ Elasticsearch cluster. InSpec retrieves the node list from the cluster node URL
 provided (defaults to `http://localhost:9200`) and provides the ability to query
 a variety of settings and statuses.
 
+<br>
+
 ## Syntax
 
     describe elasticsearch do
       its('property') { should cmp 'value' }
     end
+
+<br>
 
 ## Supported Resource parameters
 
@@ -41,6 +45,8 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
       it { should exist }
     end
 
+<br>
+
 ## Properties
 
 The following properties are provided:
@@ -48,6 +54,8 @@ The following properties are provided:
 * build\_hash cluster\_name, host, http, ingest, ip, jvm, module\_list, modules, node\_name, node\_id, os, plugin\_list, plugins, process, roles, settings, total\_indexing\_buffer, transport, transport\_address, version
 
 Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node, or the `where` filter criteria provided only returns a single node).
+
+<br>
 
 ## Property Examples
 
@@ -226,6 +234,8 @@ Returns the version of Elasticsearch running on each node of the cluster.
     describe elasticsearch do
       its('version') { should cmp '5.5.2' }
     end
+
+<br>
 
 ## Matchers
 
