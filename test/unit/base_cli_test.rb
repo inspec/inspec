@@ -119,6 +119,13 @@ describe 'BaseCLI' do
       assert = { 'reporter' => { 'json' => { 'stdout' => true }}}
       parsed.must_equal assert
     end
+
+    it 'parse cli reporters with format and output' do
+      opts = { 'format' => 'json', 'output' => '/tmp/inspec_out.json' }
+      parsed = Inspec::BaseCLI.parse_reporters(opts)
+      assert = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
+      parsed.must_equal assert
+    end
   end
 
   describe 'validate_reporters' do
