@@ -9,6 +9,11 @@ code {
   word-wrap: break-word;
 }
 
+.box-dark pre {
+  padding: 0;
+  margin: 0;
+}
+
 .box-code, pre  { // White Box
 	width: 100%;
 	padding: $percent_xs;

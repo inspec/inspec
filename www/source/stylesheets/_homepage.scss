@@ -56,6 +56,14 @@ img.diamond {
 	right: 0;
 }
 
+.blue-grid {
+	position: absolute;
+	top: $percent_sm;
+	right: 0;
+	z-index: -1;
+}
+
+
 //icons and SUCH
 
 .scrollToTop {
@@ -137,7 +145,6 @@ img.ball:nth-child(3) {
 // Animation for Home Page
 
 .grid-animate { // Warping Grid Animation//
-	animation: g-animate 8s linear infinite both;
 	-moz-animation: g-animate 8s linear infinite both;
 	-webkit-animation: g-animate 8s linear infinite both;
 	animation: g-animate 8s linear infinite both;
@@ -306,4 +313,77 @@ img.ball:nth-child(3) {
   -o-transform: translate(0px, 0px);
   -ms-transform: translate(0px, 0px);
   transform: translate3d(0px, 0px, 0px);
+}
+
+//slide-up-slow
+
+.slide-up-slow {
+  opacity: 1;
+  -moz-transform: translate3d(0px, 0px, 0px);
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -o-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  transform: translate3d(0px, 0px, 0px);
+}
+
+.slide-up-slow.in-view {
+	-moz-animation: scrollUp 10s normal forwards ease-in-out;
+	-webkit-animation: scrollUp 10s normal forwards ease-in-out;
+	animation: scrollUp 10s normal forwards ease-in-out;
+}
+
+@-moz-keyframes scrollUp {
+	0% {
+	 -moz-transform: translate3d(0px, 0px, 0px);
+	}
+
+	75% {
+		-moz-transform: translate3d(0px, -100%, 0px);
+	}
+
+	100% {
+	 -moz-transform: translate3d(0px, 0px, 0px);
+	}
+}
+
+@-webkit-keyframes scrollUp {
+	0% {
+	 -webkit-transform: translate3d(0px, 0px, 0px);
+	}
+
+	75% {
+		-webkit-transform: translate3d(0px, -100%, 0px);
+	}
+
+	100% {
+		-webkit-transform: translate3d(0px, 0px, 0px);
+	}
+}
+
+@keyframes scrollUp {
+	0% {
+	 transform: translate3d(0px, 0px, 0px);
+	}
+
+	75% {
+		transform: translate3d(0px, -100%, 0px);
+	}
+
+	100% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+}
+
+.animate-delay-10 {
+	animation-delay: 1000ms;
+	-webkit-animation-delay: 1000ms;
+	-moz-animation-delay: 1000ms;
+	-o-animation-delay: 1000ms;
+}
+
+.animate-delay-20 {
+	animation-delay: 2000ms;
+	-webkit-animation-delay: 2000ms;
+	-moz-animation-delay: 2000ms;
+	-o-animation-delay: 2000ms;
 }

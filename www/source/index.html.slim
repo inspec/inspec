@@ -80,8 +80,18 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       .large-6.medium-6.columns
         .flex.align.slide-right
           .tooltip-triangle
-          .box-dark.tip.shadow
-           code.t-white inspec exec profile_name_goes_here...
+          .box-dark.box-scroll.tip.shadow
+           pre.slide-up-slow.animate-delay-10
+               code control 'example-1.0' do
+               code   impact 0.9
+               code   title 'Ensure login disabled'
+               code   desc 'An optional description...'
+               code   describe sshd_config do
+               code     its('PermitRootLogin') {
+               code       should_not cmp 'yes'
+               code     }
+               code   end
+               code end
   .margin-top-xs
    .row.align
      .large-6.medium-6.columns
@@ -95,7 +105,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
        .flex.align.slide-right
          .tooltip-triangle
          .box-dark.tip.shadow
-          code.t-white inspec exec profile_name_goes_here...
+           pre
+            code inspec exec linux-baseline
   .margin-top-xs
    .row.align
      .large-6.medium-6.columns
@@ -108,8 +119,17 @@ header.bg-gradient.margin-top-offset.short-bg.relative
      .large-6.medium-6.columns
        .flex.align.slide-right
          .tooltip-triangle
-         .box-dark.tip.shadow
-          code.t-white inspec exec profile_name_goes_here...
+         .box-dark.box-scroll.tip.shadow
+           pre.slide-up-slow.animate-delay-20
+            code Profile: InSpec Profile (example_profile)
+            code Version: 0.1.0
+            code Target:  local://
+            br
+            code   ✔  example-1.0: Ensure root login is disabled via SSH
+            code   ✔  SSHD Configuration PermitRootLogin should not cmp == "yes"
+            br
+            code Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+            code Test Summary: 1 successful, 0 failures, 0 skipped
 
 
 /! how it works

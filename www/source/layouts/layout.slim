@@ -93,6 +93,7 @@ html
       var $slide_left = $('.slide-left');
       var $slide_right = $('.slide-right');
       var $slide_up = $('.slide-up');
+      var $slide_up_slow = $('.slide-up-slow');
       var $window = $(window);
 
       function check_if_in_view() {
@@ -144,6 +145,21 @@ html
             $element.removeClass('in-view');
           }
         });
+
+        $.each($slide_up_slow, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
       }
 
       $window.on('scroll resize', check_if_in_view);
@@ -166,6 +182,15 @@ html
 	});
 
       });
+
+      //scrolling code box
+
+      var div = $('#scrolled');
+         setInterval(function(){
+          var pos = div.scrollTop();
+          div.scrollTop(pos + 2);
+      }, 200);
+
       //Animating progress bar for header
 
       $(document).ready(function(){
