@@ -26,12 +26,7 @@ header {
 
 //particle art
 
-#particles-js { // Animated dot particles
-	width: 100%;
-	background-color: transparent;
-}
-
-#particles-second { // Animated line particles
+#particles-js, #particles-second { // Animated line particles
 	position: absolute;
 	width: 100%;
 	max-width: 100%;
@@ -80,13 +75,6 @@ img.icon-logos {
 	top: $percent_sm;
 	right: 0;
 	z-index: -1;
-}
-
-.particles {
-	position: absolute;
-  width: 65rem;
-  height: 32.5rem;
-  margin-top: -62.5rem;
 }
 
 

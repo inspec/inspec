@@ -3,7 +3,7 @@ title: InSpec - Audit and Test Framework
 ---
 
 /! header
-header.bg-gradient.margin-top-offset.short-bg
+header.bg-gradient.margin-top-offset.short-bg.relative
   .row.align.margin-top-sm
     .large-7.medium-7.columns.z-20
       .margin-both
@@ -15,6 +15,8 @@ header.bg-gradient.margin-top-offset.short-bg
             i.fa.fa-cloud-download
             span download inspec 2.0
           a.button.btn-lg.btn-white-o.shadow-dark href="/tutorial" browse tutorials
+        a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
+
     .large-5.medium-5.columns.relative
       /! diamond image
       img.diamond src="/images/home/diamond.png" /
@@ -39,8 +41,17 @@ header.bg-gradient.margin-top-offset.short-bg
         .margin-left-sm
           h4.t-purple speed
           p Significantly faster, with 90% performance gains on Windows and 30% gains on Linux.
+      #expand
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm
+            h4.t-purple Integration
+            p InSpec results can be exported in JUnit format for integration into CD tools like Jenkins, Chef Automate can be used as a source for compliance profiles, and integration with Amazon Simple Systems Manager (SSM) makes it easier to run InSpec in the cloud.
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm
+            h4.t-purple Ease
+            p It’s now easier to write and debug custom resources you create using InSpec Shell.
       .margin-top-xs
-        a Show all new features
+        a#expandBtn Show all new features
   /!  canvas elements
   #particles-js.particles
    canvas.particles-js-canvas-el /

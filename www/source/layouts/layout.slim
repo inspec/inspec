@@ -26,6 +26,7 @@ html
     = partial "layouts/footer"
 
     script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
+    script src='https://buttons.github.io/buttons.js'
     script src='scripts/inspec_tutorial.js'
     script src='dist/inspec_tutorial.js'
     div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
@@ -43,38 +44,35 @@ html
 
     javascript:
 
-      //Parallax Text
+      // homepage content slider
 
-      if (window.innerWidth > 900) { //don't parallax on tablet/mobile
-      $(window).enllax(); //initiate parallax on larger screens
-      }
+      $(function() {
+        $("#expand").hide();
+        $("#expandBtn").html("Show all new features");
 
-    javascript:
-
-      //Code pop-up animation on homepage
-
-      $('.code-trigger').click(function() {
-        $(this).toggleClass('turn-angle');
-        $('.code-pop').slideToggle(500);
+         $('#expandBtn').click(function() {
+            $('#expand').slideToggle("fast");
+            $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
+         });
       });
-
 
     javascript:
 
       //Animate HR on scroll
 
       $(window).scroll(function() {
-
-      var scroll = $(window).scrollTop();
-      var objectSelect = $('#icon-trigger'); //parent that triggers scroll
-      var objectPosition = objectSelect.offset().top;
-      if (scroll > objectPosition) {
-      $('hr.first').addClass('stretch')  //add class animate class to HR
-
-      }
+        var scroll = $(window).scrollTop();
+        var objectSelect = $('#icon-trigger'); //parent that triggers scroll
+        var objectPosition = objectSelect.offset().top;
+        if (scroll > objectPosition) {
+        $('hr.first').addClass('stretch')  //add class animate class to HR
+        }
       });
 
+
+
     javascript:
+
 
       //Animating progress bar for header
 
