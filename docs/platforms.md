@@ -21,11 +21,12 @@ You may provide the credentials to InSpec by setting the following environment v
 Once you have your environment variables set, you can verify your credentials by running:
 
 ```bash
-you$ inspec detect -t aws:// 
+you$ inspec detect -t aws://
 
 == Platform Details
-Name:         aws
-Families:     cloud, api
+Name:      aws
+Families:  cloud, api
+Release:   aws-sdk-v2.10.125
 ```
 
 #### Using the InSpec target option to provide credentials
@@ -40,13 +41,14 @@ aws_secret_access_key = 1234....abcd
 
 You may now run InSpec using the `--target` / `-t` option, using the format `-t aws://region/profile`.  For example, to connect to the Ohio region using a profile named 'auditing', use `-t aws://us-east-2/auditing`.
 
-To verify your credentials, 
+To verify your credentials,
 ```bash
-you$ inspec detect -t aws:// 
+you$ inspec detect -t aws://
 
 == Platform Details
-Name:         aws
-Families:     cloud, api
+Name:      aws
+Families:  cloud, api
+Release:   aws-sdk-v2.10.125
 ```
 
 #### Verifying your credentials
@@ -83,7 +85,7 @@ tenant_id = "<TENANT_ID>"
     * The client_id is referred to as the 'Application ID'
     * The client_secret is referred to as the 'Key (Password Type)'
     * The tenant_id is referred to as the 'Directory ID'
-    
+
 With the credentials are in place you may now execute InSpec:
 
 ```bash
