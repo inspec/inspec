@@ -76,8 +76,6 @@ html
         }, 1500);
       });
 
-
-
       // homepage content slider
 
       $(function() {
@@ -90,23 +88,66 @@ html
          });
       });
 
+      // scroll spy animations
 
-    javascript:
+      var $slide_left = $('.slide-left');
+      var $slide_right = $('.slide-right');
+      var $slide_up = $('.slide-up');
+      var $window = $(window);
 
-      //Animate HR on scroll
+      function check_if_in_view() {
+        var window_height = $window.height();
+        var window_top_position = $window.scrollTop();
+        var window_bottom_position = (window_top_position + window_height);
 
-      $(window).scroll(function() {
-        var scroll = $(window).scrollTop();
-        var objectSelect = $('#icon-trigger'); //parent that triggers scroll
-        var objectPosition = objectSelect.offset().top;
-        if (scroll > objectPosition) {
-        $('hr.first').addClass('stretch')  //add class animate class to HR
-        }
-      });
+        $.each($slide_left, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
 
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
 
+        $.each($slide_right, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
 
-    javascript:
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+
+        $.each($slide_up, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+      }
+
+      $window.on('scroll resize', check_if_in_view);
+      $window.trigger('scroll');
 
 
       //Animating progress bar for header

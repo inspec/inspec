@@ -54,6 +54,10 @@ $nav-breakpoint: 900px;
   -o-transition: ease-in-out all .5s;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 //Hide/show div on mobile
 
 .mobile-hide {
