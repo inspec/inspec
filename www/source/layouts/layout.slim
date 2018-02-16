@@ -50,10 +50,12 @@ html
         var prev = -1;
         $('.slider .selectors a').click(function(e) {
           e.stopPropagation()
-
           var idx = $(this).index();
           if(prev == idx) return;
           prev = idx;
+
+          $('.slider .selectors a').removeClass('selected')
+          $(this).addClass('selected')
 
           $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
           var el = $('.slider .view')[idx]
@@ -62,13 +64,14 @@ html
             return
           }
 
-          console.log(el)
           $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
         })
 
         $('.slider .view').addClass('hidden')
         $('.slider .selectors a')[0].click()
       }
+
+      //run code colors
 
       $(document).ready(function() {
         initSliders()
