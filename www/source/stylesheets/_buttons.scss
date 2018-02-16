@@ -21,6 +21,16 @@ a.button, a.link {
 	text-transform: uppercase;
 }
 
+.a-purple {
+	@extend %transition;
+	cursor: pointer;
+	text-decoration: none;
+
+	&:hover {
+		color: $color_purple;
+	}
+}
+
 // All CTA's
 
 a.button {

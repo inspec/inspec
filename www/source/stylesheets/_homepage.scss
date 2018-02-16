@@ -25,6 +25,12 @@ header {
 	line-height: $percent_sm;
 }
 
+//collapse toggle
+
+#collapseToggle {
+	cursor: pointer;
+}
+
 //particle art
 
 #particles-js, #particles-second, #particles-third { // Animated line particles
@@ -45,6 +51,11 @@ img.diamond {
 	bottom: 28px;
 	right: 0;
 	width: 14rem;
+}
+
+img.avatar {
+	height: 60px;
+	width: auto;
 }
 
 .octagons {
