@@ -7,8 +7,7 @@ control 'azure-generic-vm-linux-internal-2.0' do
   title 'Ensure Internal VM was built with the correct Image and has the correct properties'
 
   # Ensure that the virtual machine has been created with the correct attributes
-  describe azure_generic_resource(group_name: 'Inspec-Azure',
-                          name: 'Linux-Internal-VM') do
+  describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
 
     its('location') { should cmp 'westeurope' }
 
@@ -22,7 +21,7 @@ control 'azure-generic-vm-linux-internal-2.0' do
     its('properties.storageProfile.osDisk.name') { should cmp 'Linux-Internal-OSDisk-MD' }
     its('properties.storageProfile.osDisk.caching') { should cmp 'ReadWrite' }
 
-    # This machine has been setup with a Managed Disk for the OSDisk, ensure that 
+    # This machine has been setup with a Managed Disk for the OSDisk, ensure that
     # it is linked to the correct disk
     its('properties.storageProfile.osDisk.managedDisk.id') { should match 'Linux-Internal-OSDisk-MD' }
 
@@ -43,5 +42,4 @@ control 'azure-generic-vm-linux-internal-2.0' do
     # There should be no tags on the machine
     its('tags.count') { should eq 0 }
   end
-
 end
