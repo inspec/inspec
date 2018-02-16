@@ -1,5 +1,6 @@
 ---
 title: About the cpan Resource
+platform: linux
 ---
 
 # cpan
@@ -43,7 +44,7 @@ This resource uses package names and perl library paths as resource parameters.
       it { should be_installed }
       its('version') { should eq '3.7.0' }
     end
-    
+
 ### Test if DBD::Pg is installed within a custom PERL5LIB path on the system
 
 Hint: You can pass multiple paths separated with a colon
@@ -69,7 +70,7 @@ The `version` property tests if the named package version is on the system:
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_installed
 

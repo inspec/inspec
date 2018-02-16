@@ -1,5 +1,6 @@
 ---
 title: About the package Resource
+platform: os
 ---
 
 # package
@@ -91,7 +92,7 @@ Memcached is an in-memory key-value store that helps improve the performance of 
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be_held
 
@@ -116,4 +117,4 @@ You can also use the `cmp OPERATOR` matcher to perform comparisions using the ve
 
     its('version') { should cmp >= '7.35.0-1ubuntu3.10' }
 
-`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`.  It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.  
+`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`.  It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.
