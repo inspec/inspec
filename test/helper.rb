@@ -421,7 +421,10 @@ class MockLoader
       'timeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: netcat for TCP reachability check on darwin
       'type "nc"' => empty.call,
+      'type "ncat"' => empty.call,
       'nc -vz -G 1 example.com 1234' => empty.call,
+      'gtimeout 1 bash -c "< /dev/tcp/example.com/1234"' => empty.call,
+      'gtimeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # postgres tests

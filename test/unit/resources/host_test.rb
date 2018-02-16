@@ -87,6 +87,14 @@ describe 'Inspec::Resources::Host' do
     _(resource.to_s).must_equal 'Host example.com port 1234 proto tcp'
   end
 
+  it 'check host udp on darwin' do
+    resource = MockLoader.new(:osx104).load_resource('host', 'example.com', port: 1234, protocol: 'udp')
+    _(resource.resolvable?).must_equal true
+    _(resource.reachable?).must_equal true
+    _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
+    _(resource.to_s).must_equal 'Host example.com port 1234 proto udp'
+  end
+
   it 'check host tcp on windows' do
     resource = MockLoader.new(:windows).load_resource('host', 'microsoft.com', port: 1234, protocol: 'tcp')
     _(resource.resolvable?).must_equal true
@@ -105,11 +113,29 @@ describe 'Inspec::Resources::Host' do
 end
 
 describe Inspec::Resources::UnixHostProvider do
+  let(:provider)        { Inspec::Resources::UnixHostProvider.new(inspec) }
+  let(:inspec)          { mock('inspec-backend') }
+  let(:nc_command)      { mock('nc-command') }
+  let(:ncat_command)    { mock('ncat-command') }
+  let(:timeout_command) { mock("timeout-command") }
+  let(:strings_command) { mock("strings-command") }
+
+  before do
+    inspec.stubs(:command).with('nc').returns(nc_command)
+    inspec.stubs(:command).with('ncat').returns(ncat_command)
+    inspec.stubs(:command).with('timeout').returns(timeout_command)
+    inspec.stubs(:command).with("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").returns(strings_command)
+  end
+
   describe '#resolve_with_dig' do
-    let(:provider) { Inspec::Resources::UnixHostProvider.new(inspec) }
-    let(:inspec)   { mock('inspec-backend') }
     let(:v4_command) { mock('v4_command') }
     let(:v6_command) { mock('v6_command') }
+
+    before do
+      strings_command.stubs(:exit_status).returns(0)
+      nc_command.stubs(:exist?).returns(false)
+      ncat_command.stubs(:exist?).returns(false)
+    end
 
     it 'returns an array of IP addresses' do
       ipv4_command_output = <<-EOL
@@ -185,16 +211,20 @@ EOL
   end
 
   describe '#resolve_with_getent' do
+    before do
+      strings_command.stubs(:exit_status).returns(0)
+      nc_command.stubs(:exist?).returns(false)
+      ncat_command.stubs(:exist?).returns(false)
+    end
+
     it 'returns an array of IP addresses when successful' do
       command_output = "123.123.123.123 STREAM testdomain.com\n2607:f8b0:4004:805::200e     STREAM\n"
       command = mock('getent_command')
       command.stubs(:stdout).returns(command_output)
       command.stubs(:exit_status).returns(0)
 
-      inspec = mock('inspec')
       inspec.stubs(:command).with('getent ahosts testdomain.com').returns(command)
 
-      provider = Inspec::Resources::UnixHostProvider.new(inspec)
       provider.resolve_with_getent('testdomain.com').must_equal(['123.123.123.123', '2607:f8b0:4004:805::200e'])
     end
 
@@ -202,29 +232,12 @@ EOL
       command = mock('getent_command')
       command.stubs(:exit_status).returns(1)
 
-      inspec = mock('inspec')
       inspec.stubs(:command).with('getent ahosts testdomain.com').returns(command)
 
-      provider = Inspec::Resources::UnixHostProvider.new(inspec)
       provider.resolve_with_getent('testdomain.com').must_be_nil
     end
   end
-end
 
-describe Inspec::Resources::LinuxHostProvider do
-  let(:provider)        { Inspec::Resources::LinuxHostProvider.new(inspec) }
-  let(:inspec)          { mock('inspec-backend') }
-  let(:nc_command)      { mock('nc-command') }
-  let(:ncat_command)    { mock('ncat-command') }
-  let(:timeout_command) { mock("timeout-command") }
-  let(:strings_command) { mock("strings-command") }
-
-  before do
-    inspec.stubs(:command).with('nc').returns(nc_command)
-    inspec.stubs(:command).with('ncat').returns(ncat_command)
-    inspec.stubs(:command).with('timeout').returns(timeout_command)
-    inspec.stubs(:command).with("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").returns(strings_command)
-  end
 
   describe '#missing_requirements' do
     describe 'bash with net redirects' do
