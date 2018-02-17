@@ -135,7 +135,7 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
-  def overview_page(resources)
+  def overview_page(resources) # rubocop:disable Metrics/AbcSize
     f = Markdown
     res = f.meta(title: 'InSpec Resources Reference')
     res << f.h1('InSpec Resources Reference')
@@ -144,7 +144,7 @@ class ResourceDocs
     lib_resources = Dir[File.expand_path(File.join('.', '..', 'lib', 'resources', '*'))]
     lib_groups = lib_resources.find_all { |x| File.directory?(x) }
     sections = Hash[lib_groups.map do |x|
-      files = Dir[File.join(x, '*.rb')].map { |x| File.basename(x).sub(/\.rb$/, '') }
+      files = Dir[File.join(x, '*.rb')].map { |y| File.basename(y).sub(/\.rb$/, '') }
       [File.basename(x), files]
     end]
 
@@ -153,25 +153,25 @@ class ResourceDocs
     lists = Hash[sections.keys.map { |k| [k, ''] }]
     lists[''] = ''
     resource_dict.keys.sort.each do |name|
-      section = sections.find { |k,v| v.include?(name) }
-      l = section.nil?  ? '' : section[0]
+      section = sections.find { |_, v| v.include?(name) }
+      l = section.nil? ? '' : section[0]
       lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
     end
 
     section_names = lists.keys.find_all { |k| !k.empty? }
     res << f.ul(
-        f.li(f.a('OS resources', '#os-resources')) +
-        section_names.map { |name|
-          # add a link to the sections
-          f.li(f.a(namify(name)+' resources', '#'+(name+'-resources').downcase))
-        }.join('')
-      )
+      f.li(f.a('OS resources', '#os-resources')) +
+      section_names.map { |name|
+        # add a link to the sections
+        f.li(f.a(namify(name)+' resources', '#'+(name+'-resources').downcase))
+      }.join(''),
+    )
     res << f.h2('OS resources')
     res << f.ul(lists[''])
     section_names.each do |group|
-        res << f.h2(namify(group) + ' resources')
-        res << f.ul(lists[group])
-      end
+      res << f.h2(namify(group) + ' resources')
+      res << f.ul(lists[group])
+    end
 
     res
   end
