@@ -25,6 +25,12 @@ header {
 	line-height: $percent_sm;
 }
 
+//collapse toggle
+
+.collapseToggle {
+	cursor: pointer;
+}
+
 //particle art
 
 #particles-js, #particles-second, #particles-third { // Animated line particles
@@ -45,6 +51,11 @@ img.diamond {
 	bottom: 28px;
 	right: 0;
 	width: 14rem;
+}
+
+img.avatar {
+	height: 60px;
+	width: auto;
 }
 
 .octagons {
@@ -145,9 +156,9 @@ img.ball:nth-child(3) {
 // Animation for Home Page
 
 .grid-animate { // Warping Grid Animation//
-	-moz-animation: g-animate 8s linear infinite both;
-	-webkit-animation: g-animate 8s linear infinite both;
-	animation: g-animate 8s linear infinite both;
+	-moz-animation: g-animate 25s linear infinite both;
+	-webkit-animation: g-animate 25s linear infinite both;
+	animation: g-animate 25s linear infinite both;
 }
 
 @-webkit-keyframes g-animate {
@@ -395,9 +406,9 @@ img.ball:nth-child(3) {
 }
 
 .slide-in {
-	animation: slide-in 0.5s forwards;
-	-webkit-animation: slide-in 0.5s forwards;
-	-moz-animation: slide-in 0.5s forwards;
+	animation: slide-in 0.8s forwards;
+	-webkit-animation: slide-in 0.8s forwards;
+	-moz-animation: slide-in 0.8s forwards;
 }
 
 .slide-out {

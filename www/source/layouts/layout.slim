@@ -115,6 +115,29 @@ html
             $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
          });
       });
+      
+      // tutorial content slider
+
+      $(function() {
+        $(".collapseContent").hide();
+        $(".collapsebtn").addClass("fa-plus-square");
+
+         $('.collapseToggle').click(function() {
+            var el = $(this).parent().find('.collapseContent')
+            el.slideToggle("fast")
+            // $('.collapseContent').slideToggle("fast");
+            var btn = $(this).find('.collapsebtn')
+            if(btn.hasClass('fa-minus-square')) {
+              btn.addClass('fa-plus-square')
+              btn.removeClass('fa-minus-square')
+            } else {
+              btn.addClass('fa-minus-square')
+              btn.removeClass('fa-plus-square')
+            }
+         });
+      });
+      
+      
 
       // scroll spy animations
 
