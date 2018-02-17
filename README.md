@@ -84,20 +84,19 @@ gem install inspec
 
 ### Usage via Docker
 
-Download the image and define an alias for convenience:
+Download the image and define a function for convenience:
 
 ```
 docker pull chef/inspec
-alias inspec='docker run -it --rm -v $(pwd):/share chef/inspec'
+function inspec { docker run -it --rm -v $(pwd):/share chef/inspec $@; }
 ```
 
-If you call inspec from cli, it automatically mounts the current directory into the work directory. Therefore you can easily use local tests and key files. Note: Only files in the current directory are available to the container.
+If you call `inspec` from your shell, it automatically mounts the current directory into the Docker container. Therefore you can easily use local tests and key files. Note: Only files in the current directory and sub-directories are available within the container.
 
 ```
 $ ls -1
 vagrant
 test.rb
-
 
 $ inspec exec test.rb -t ssh://root@192.168.64.2:11022 -i vagrant
 ..
