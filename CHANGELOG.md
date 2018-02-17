@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.5 -->
-## [v2.0.5](https://github.com/chef/inspec/tree/v2.0.5) (2018-02-17)
+<!-- latest_release 2.0.6 -->
+## [v2.0.6](https://github.com/chef/inspec/tree/v2.0.6) (2018-02-17)
 
 #### Merged Pull Requests
-- Fixes merge conflict messages [#2677](https://github.com/chef/inspec/pull/2677) ([kagarmoe](https://github.com/kagarmoe))
+- Fix bundle exec calls [#2670](https://github.com/chef/inspec/pull/2670) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.18 -->
 ### Changes since 1.51.18 release
 
 #### Merged Pull Requests
+- Fix bundle exec calls [#2670](https://github.com/chef/inspec/pull/2670) ([jquick](https://github.com/jquick)) <!-- 2.0.6 -->
 - Fixes merge conflict messages [#2677](https://github.com/chef/inspec/pull/2677) ([kagarmoe](https://github.com/kagarmoe)) <!-- 2.0.5 -->
 - Add `Release:` to AWS `inspec detect` example [#2672](https://github.com/chef/inspec/pull/2672) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.4 -->
 - Remove duplicated encryption key test. [#2671](https://github.com/chef/inspec/pull/2671) ([juliandunn](https://github.com/juliandunn)) <!-- 2.0.3 -->
