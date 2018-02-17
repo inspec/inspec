@@ -101,6 +101,7 @@ module Inspec
 
         # see if we are using the legacy output to write to files
         if opts['output']
+          warn '[DEPRECATED] The option \'output\' is being is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
           opts['format'] = "#{opts['format']}:#{opts['output']}"
           opts.delete('output')
         end
