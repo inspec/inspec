@@ -26,8 +26,10 @@ html
     = partial "layouts/footer"
 
     script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
+    script src='https://buttons.github.io/buttons.js'
     script src='scripts/inspec_tutorial.js'
     script src='dist/inspec_tutorial.js'
+    script src='javascripts/vendor/jquery.min.js'
     div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
       = "Loading"
 
@@ -41,40 +43,181 @@ html
         $('#sidebar').stick_in_parent();
       }
 
+
     javascript:
 
-      //Parallax Text
+      function initSliders() {
+        var prev = -1;
+        $('.slider .selectors a').click(function(e) {
+          e.stopPropagation()
+          var idx = $(this).index();
+          if(prev == idx) return;
+          prev = idx;
 
-      if (window.innerWidth > 900) { //don't parallax on tablet/mobile
-      $(window).enllax(); //initiate parallax on larger screens
+          $('.slider .selectors a').removeClass('selected')
+          $(this).addClass('selected')
+
+          $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
+          var el = $('.slider .view')[idx]
+          if(el == null) {
+            console.log("No element for slider index "+idx)
+            return
+          }
+
+          $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
+        })
+
+        $('.slider .view').addClass('hidden')
+        var links = $('.slider .selectors a')
+        if(links[0]!= null) links[0].click()
       }
 
-    javascript:
+      //run code colors
 
-      //Code pop-up animation on homepage
-
-      $('.code-trigger').click(function() {
-        $(this).toggleClass('turn-angle');
-        $('.code-pop').slideToggle(500);
+      $(document).ready(function() {
+        initSliders()
+        $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
       });
 
+      //copy to clipboard
 
-    javascript:
-
-      //Animate HR on scroll
-
-      $(window).scroll(function() {
-
-      var scroll = $(window).scrollTop();
-      var objectSelect = $('#icon-trigger'); //parent that triggers scroll
-      var objectPosition = objectSelect.offset().top;
-      if (scroll > objectPosition) {
-      $('hr.first').addClass('stretch')  //add class animate class to HR
-
+      function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
       }
+
+      $('#copy').hover(function() {
+         $('#install').toggleClass("text-focus");
       });
 
-    javascript:
+      $('#copy').click(function() {
+         $(this).removeClass("fa-copy");
+         $(this).addClass("fa-check");
+
+       setTimeout(() => {
+         $(this).removeClass('fa-check').addClass('fa-copy');
+        }, 1500);
+      });
+
+      // homepage content slider
+
+      $(function() {
+        $("#expand").hide();
+        $("#expandBtn").html("Show all new features");
+
+         $('#expandBtn').click(function() {
+            $('#expand').slideToggle("fast");
+            $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
+         });
+      });
+
+      // scroll spy animations
+
+      var $slide_left = $('.slide-left');
+      var $slide_right = $('.slide-right');
+      var $slide_up = $('.slide-up');
+      var $slide_up_slow = $('.slide-up-slow');
+      var $window = $(window);
+
+      function check_if_in_view() {
+        var window_height = $window.height();
+        var window_top_position = $window.scrollTop();
+        var window_bottom_position = (window_top_position + window_height);
+
+        $.each($slide_left, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+
+        $.each($slide_right, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+
+        $.each($slide_up, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+
+        $.each($slide_up_slow, function() {
+          var $element = $(this);
+          var element_height = $element.outerHeight();
+          var element_top_position = $element.offset().top;
+          var element_bottom_position = (element_top_position + element_height);
+
+          //check to see if this current container is within viewport
+          if ((element_bottom_position >= window_top_position) &&
+              (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+          } else {
+            $element.removeClass('in-view');
+          }
+        });
+      }
+
+      $window.on('scroll resize', check_if_in_view);
+      $window.trigger('scroll');
+
+      //scroll to top
+      $(document).ready(function(){
+
+        $(window).scroll(function(){
+          if ($(this).scrollTop() > 100) {
+            $('.scrollToTop').fadeIn();
+          } else {
+            $('.scrollToTop').fadeOut();
+          }
+        });
+
+        $('.scrollToTop').click(function(){
+          $('html, body').animate({scrollTop : 0},800);
+          return false;
+        });
+
+      });
+
+      //scrolling code box
+
+      var div = $('#scrolled');
+         setInterval(function(){
+          var pos = div.scrollTop();
+          div.scrollTop(pos + 2);
+      }, 200);
 
       //Animating progress bar for header
 

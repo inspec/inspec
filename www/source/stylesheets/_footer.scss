@@ -1,8 +1,8 @@
 
 #main-footer {
-  padding-right: 40px; // Same margins as nav
-  padding-left: 40px;
-  background: $color_heading;
+  padding-right: 45px; // Same margins as nav
+  padding-left: 45px;
+  background: $color_dark;
 }
 
 footer > #dlmsg { // Download Message
@@ -71,6 +71,8 @@ ul.footer--links {
   }
 
   li {
+    margin-left: 28px;
+
     @include nav-small {  //mobile
     margin-left: initial;
     margin-bottom: $percent_sm/2;
@@ -79,8 +81,8 @@ ul.footer--links {
 }
 
 li a.footer--link {
-  color: $color_gray;
-
+  color: $color_white;
+  text-decoration: none;
   &:active,
   &:focus,
   &:hover {
@@ -91,7 +93,7 @@ li a.footer--link {
 // Hex Animation
 
 img#hex {
-  width: 25px;
+  width: 45px;
   -moz-animation: spin 2s linear infinite both;
   -webkit-animation: spin 2s linear infinite both;
   animation: spin 2s linear infinite both;

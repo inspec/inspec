@@ -3,7 +3,7 @@
 nav#main-nav 
   <progress value="0"></progress>
   
-  #main-nav-ctas
+  #main-nav-ctas.shadow
     a.main-nav--logo href="/"
       img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
       
@@ -12,22 +12,22 @@ nav#main-nav
 
     ul.main-nav--links
       li.main-nav--link
-        <a href="/tutorials" class="#{'t-purple' if current_page.url == '/tutorials'}" <span class="main-nav--link-text">Tutorials</span>
+        <a href="/tutorials" class="link #{'t-purple' if current_page.url == '/tutorials'}" <span class="main-nav--link-text">Tutorials</span>
         </a>
       li.main-nav--link
-        <a href="/docs" class="#{'t-purple' if current_page.url == '/docs'}" <span class="main-nav--link-text">Docs</span>
+        <a href="/docs" class="link #{'t-purple' if current_page.url == '/docs'}" <span class="main-nav--link-text">Docs</span>
         </a>
       li.main-nav--link
-        <a href="/community" class="#{'t-purple' if current_page.url == '/community'}" <span class="main-nav--link-text">Community</span>
+        <a href="/community" class="link #{'t-purple' if current_page.url == '/community'}" <span class="main-nav--link-text">Community</span>
         </a>
       li.main-nav--link
-        a href="https://github.com/chef/inspec"
-          i.fa.fa-github-alt
+        a.link href="https://github.com/chef/inspec"
+          i.fa.fa-github
           span.main-nav--link-text Github
-      li.main-nav--link.nav-cta.hide-for-small-only
-        a.btn.try-demo href="/tutorial" Try the Demo
-      li.main-nav--link.nav-cta
-        a.btn href="/downloads"
+      li.nav-cta
+        a.button.btn-sm.btn-purple href="/downloads"
           i.fa.fa-cloud-download
-          span.main-nav--link-text Download
+          | Download
+      li.nav-cta.hide-for-small-only
+        a.button.btn-sm.btn-purple-o href="/tutorial" try demo
           

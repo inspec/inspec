@@ -1,8 +1,9 @@
 h1 {
-	color: $color_heading;
+	color: $color_dark;
 	font-family: $heading-font;
 	font-size: 2.25em;
-	font-weight: 300;
+	font-style: normal;
+	font-weight: 400;
 
 	@include nav-small { //mobile
 		font-size: 1.8em;
@@ -10,10 +11,11 @@ h1 {
 }
 
 h2 {
-	color: $color_heading;
+	color: $color_dark;
 	font-family: $heading-font;
 	font-size: 1.75em;
-	font-weight: 300;
+	font-style: normal;
+	font-weight: 400;
 
 	@include nav-small { //mobile
 		font-size: 1.4em;
@@ -21,10 +23,11 @@ h2 {
 }
 
 h3 {
-	color: $color_heading;
+	color: $color_dark;
 	font-family: $heading-font;
 	font-size: 1.25em;
-	font-weight: 300;
+	font-style: normal;
+	font-weight: 400;
 
 	@include nav-small {   //mobile
 		font-size: 1.2em;
@@ -32,62 +35,63 @@ h3 {
 }
 
 h4 {
-	color: $color_paragraph;
+	color: $color_dark;
 	font-family: $heading-font;
-	font-size: 1.25em;
-	font-weight: 300;
-	line-height: 1.4em;
-
-	@include nav-small {   //mobile
-		font-size: 1.2em;
-		line-height: 1.6em;
-	}
+	font-size: 1em;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
 }
 
 p {
-	@include nav-small { //mobile
-		line-height : 1.6em;
-	}
+	font-family: $main-font;
+	font-style: normal;
+	font-weight: 400;
+	color: $color_dark;
 }
 
 li,
 ol,
 p,
 ul {
-	color: $color_paragraph;
+	color: $color_dark;
 	font-family: $main-font;
-	font-weight: 300;
+	font-style: normal;
+	font-weight: 400;
 	list-style-type: none;
 }
 
 small {
-	@extend %uppercase;
-	color: $color_gray;
 	font-family: $main-font;
-	font-size: 65%;
-}
-
-li {
-	margin-left: 1.6em; 	// indent for li
-
-	@include nav-small {
-		margin-left: initial;
-	}
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
 }
 
 hr {
-	width: 150px;
-	height: 1px;
-	margin-top: 6px;
-	margin-bottom: 6px;
+	margin-left: 0;
+	width: 250px;
+	height: 2px;
+	margin-top: 12px;
+	margin-bottom: 12px;
 	border: 0;
-	background: linear-gradient(
-            	 to right,
-               	$color_hr 0,
-               	$color_link 100%
-               );
-	background-color: $color_hr;
-	filter: progid:dximagetransform.microsoft.gradient(startcolorstr='$color_hr', endcolorstr='$color_link', gradienttype=1 );
+	background: -moz-linear-gradient(-45deg, #5bc8a9 0%, #47b7d1 50%, #6063ef 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #5bc8a9 0%,#47b7d1 50%,#6063ef 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #5bc8a9 0%,#47b7d1 50%,#6063ef 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5bc8a9', endColorstr='#6063ef',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+hr.small {
+	width: 150px;
+}
+
+hr.center {
+	margin-left: auto;
+}
+
+i {
+	margin-right: 8px;
 }
 
 //Increase Text Margin
@@ -99,19 +103,19 @@ hr {
 // Font Colors//
 
 .t-dk {
-	color: $color_heading;
+	color: $color_dark;
 }
 
 .t-white {
 	color: $color_white;
 }
 
-.t-blue {
-	color: $color_link;
+.t-gray {
+	color: $color_gray;
 }
 
-.t-transparent {
-	opacity: 0.6;
+.t-blue {
+	color: $color_blue;
 }
 
 .t-purple {
@@ -120,11 +124,4 @@ hr {
 
 .t-purple > a { //trigger for side bar LI
 	color: $color_purple !important;
-}
-
-.warning {
-    padding: 10px;
-    margin-bottom: 1em;
-    background: $color_lt_yellow;
-    border: 1px solid rgba(255,147,0,0.3);
 }

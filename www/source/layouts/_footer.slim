@@ -1,38 +1,18 @@
 footer#main-footer.dark-bg
   #dlmsg.strict-center
-    img#hex src="/images/hexagon.svg" /
-    h3.t-white.margin-top-xs.txt-margin See how it works in less than 10 minutes!
+    .pad-under-xs
+      img#hex src="/images/octagon.svg" /
+    h3.t-white.pad-under-xs Get started with InSpec and rock on.
 
-    .row.margin-top-xs
-      a.btn.t-white.try-demo.hide-for-small-only href="/tutorial" Try the Demo
-      a.btn.t-white href="https://downloads.chef.io/inspec"
-        i.fa.fa-cloud-download
-        span Download
+    .row.align.columns
+      .strict-center
+        a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs href="/downloads"
+          i.fa.fa-cloud-download
+          span download inspec 2.0
+        a.button.btn-lg.btn-white-o.shadow-dark href="/tutorial" browse tutorials
 
-  .columns.large-4.medium-4.mobile-hide
-    ul.footer--logos
-      li
-        a.footer--logo.inspec href="/"
-          img src="/images/inspec-by-chef-logo.png"
-      li
-        a.footer--logo.chef href="http://www.chef.io"
-            img src="/images/chef-logo.png"
-
-  .columns.large-8.medium-8
-    ul.footer--links.strict-right
-      li
-        a.footer--link href="/legal/licensing" Licensing
-      li
-        a.footer--link href="/legal/terms-and-conditions" Terms &amp; Conditions
-      li
-        a.footer--link href="/legal/trademark-policy" Trademark Policy
-      li
-        a.footer--link href="/legal/privacy-policy" Privacy Policy
-
-
-    //logos for mobile
-
-    .columns.margin-both-xs.mobile-show
+  .flex.align
+    .columns.large-4.medium-4.mobile-hide
       ul.footer--logos
         li
           a.footer--logo.inspec href="/"
@@ -41,5 +21,28 @@ footer#main-footer.dark-bg
           a.footer--logo.chef href="http://www.chef.io"
               img src="/images/chef-logo.png"
 
-  p.strict-center.clear
-    small &copy; Chef Software 2017
+    .columns.large-8.medium-8
+      ul.footer--links.strict-right
+        li
+          a.link.footer--link href="/legal/licensing" Licensing
+        li
+          a.link.footer--link href="/legal/terms-and-conditions" Terms &amp; Conditions
+        li
+          a.link.footer--link href="/legal/trademark-policy" Trademark Policy
+        li
+          a.link.footer--link href="/legal/privacy-policy" Privacy Policy
+
+
+      //logos for mobile
+
+      .columns.margin-both-xs.mobile-show
+        ul.footer--logos
+          li
+            a.footer--logo.inspec href="/"
+              img src="/images/inspec-by-chef-logo.png"
+          li
+            a.footer--logo.chef href="http://www.chef.io"
+                img src="/images/chef-logo.png"
+
+  p.strict-center.pad-under-xs
+    small.t-gray &copy; Chef Software 2017

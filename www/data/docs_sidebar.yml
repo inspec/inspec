@@ -6,6 +6,8 @@ sidebar_links:
     link: "/docs"
   - title: Get InSpec
     link: "/downloads"
+  - title: InSpec for the cloud
+    link: "/docs/reference/platforms.html"
   - title: Tutorials
     link: "/tutorials"
   - title: InSpec and friends

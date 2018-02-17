@@ -6,31 +6,47 @@
 
 //overwriting default ul li styles for side bar
 
-ul.main-sidebar--links {
-  list-style-type: none;
-  margin-bottom: $percent_sm!important;
-
-  @media screen and (max-width: 640px) {
-  	text-align: center;
-	}
-}
-
 #sidebar {
   @media screen and (max-width: 640px) {
     margin-bottom: $percent_md;
   }
 }
 
-ul.main-sidebar--links li {
-  margin-left: 0em;
+ul.main-sidebar--links {
+  list-style-type: none;
+  margin-bottom: $percent_sm !important;
+
+  @media screen and (max-width: 640px) {
+  	text-align: center;
+	}
 }
 
+
 ul.main-sidebar--links li:last-child {
-  margin-bottom: $percent_sm!important;
+  margin-bottom: $percent_sm !important;
 
   @include nav-small {
   	margin-bottom: 0;
 	}
+}
+
+//other styles
+
+li.main-sidebar--link small {
+  padding-bottom: $percent_xs;
+  color: $color_gray;
+}
+
+ul.main-sidebar--list  li {
+  padding-bottom: 4px;
+}
+
+ul.main-sidebar--list  li a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 li > i.focus {

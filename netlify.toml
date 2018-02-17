@@ -1,0 +1,4 @@
+[build]
+  base = "www"
+  publish = "www/build"
+  command = "bundle install && bundle exec rake docs && bundle exec middleman build"

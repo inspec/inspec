@@ -3,94 +3,101 @@ title: InSpec - Community
 description: Interact with the InSpec community - contribute to the project, provide feedback, and ask questions of other community members.
 ---
 
-.row.margin-both-offset
-  .columns.large-6.medium-6.mobile-grow
+/! header
+header.margin-top-offset
+  .row.align
+    .large-7.medium-7.columns.z-20
+      .margin-both
+        h2
+          | InSpec is better with friends.
+          br/
+          | Let’s build together.
+    .large-5.medium-5.columns.relative
+      /! rolling ball images
+      .octagons
+        img.ball.z-20 src="/images/community/glow-ball.png" /
+        img.ball.z-20 src="/images/community/glow-ball.png" /
+        img.ball.z-20 src="/images/community/glow-ball.png" /
+      img.fit src="/images/community/blue-web.svg" /
 
-    h2#icon-trigger data-enllax-ratio=".1" data-enllax-type="foreground"
 
-      | InSpec is better with friends.
-      br/
-      | Let’s build together.
-    hr.strict-left.margin-under-xs
-    h3.clear
-      | Join us on Slack and get answers fast
-    p
-      | Best practices, live discussions, and help from the community.
-    p
-      a.btn.slack href="http://community-slack.chef.io/" Join us on Slack
-    p.margin-under-xs
-      | Once you're logged in, join us in the <strong>#inspec</strong> channel.
-    h3
-      | Discussion Forums
-    p
-      | Post questions, help out fellow community members, and learn about upcoming events. The <a href="https://discourse.chef.io/c/chef-release" target="_blank">release announcements</a> category is a great place to stay in-the-know about new Chef software, too!
-    p.margin-under-xs
-      a.btn.forums href="https://discourse.chef.io/c/inspec" Visit the Forums
-    h3
-      | Upcoming Events
-    p
-      | Find an event in your area to learn about InSpec, try it out for yourself, and meet fellow InSpec community members.
-    p.margin-under-xs
-      a.btn.events href="https://events.chef.io/events/s/category/inspec/" Meet at Events
-    h3
-      | The InSpec Blog
-    p
-      | Recaps of past events, quick how-to guides on new functionality, and lots more can be found on the blog.
-    p.margin-under-xs
-      a.btn.blog href="https://blog.chef.io/category/inspec/" Read Blog Posts
+/! tiles
+.margin-under
+  .row.strict-center
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow.strict-center.fit-height.relative
+          .align-vertical-50
+            small.t-gray slack
+            hr.center.margin-under-xs
+            h3.pad-top-xs Join us on Slack and get answers fast
+            p
+              |  Discover best practices, live discussions, and get help from the community. Once you're logged in, join us in the
+              b.t-purple #inspec
+              | channel.
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="http://community-slack.chef.io/" Join us on Slack
+          .triangle-right
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow.strict-center.fit-height.relative
+          .align-vertical-50
+            small.t-gray forums
+            hr.center.margin-under-xs
+            h3.pad-top-xs Discussion Forums
+            p
+              |  Post questions, help out fellow community members, and learn about upcoming events. The
+              a href="https://discourse.chef.io/c/chef-release" release announcements
+              | category is a great place to stay in-the-know about new Chef software, too!
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://discourse.chef.io/c/inspec" visit the forums
+          .triangle-right
+  .row.strict-center
+    .large-6.medium-6.columns.margin-under-xs.z-20
+      .box-white.shadow.strict-center.fit-height.relative.slide-up
+        .align-vertical-50
+          small.t-gray events
+          hr.center.margin-under-xs
+          h3.pad-top-xs Upcoming Events
+          p
+            | Find an event in your area to learn about InSpec, try it out for yourself, and meet fellow InSpec community members.
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://events.chef.io/events/event-search/category/inspec/" browse inspec events
+        .triangle-right
+    .large-6.medium-6.columns.margin-under-xs.z-20
+      .box-white.shadow.strict-center.fit-height.relative.slide-up
+        .align-vertical-50
+          small.t-gray blog
+          hr.center.margin-under-xs
+          h3.pad-top-xs The InSpec Blog
+          p
+            |  Recaps of past events, quick how-to guides on new functionality, and lots more can be found on the blog.
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://blog.chef.io/category/inspec/" read blog posts
+        .triangle-right
 
-  .columns.large-6.medium-6.relative.mobile-hide
-    img.grid.strict-right src="/images/community/blue-web.svg" /
-    img.ball src="/images/community/glow-ball.png" /
-    img.ball.bright-animate src="/images/community/glow-ball.png" /
-    img.ball src="/images/community/glow-ball.png" /
 
-.row
-  .icon.shadow
-    img src="/images/circ-arrow.svg" /
-.block-angl.blue-gradient.relative
-  .section.purp-shade
+/! bottom-feedback
+
+.bg-gradient
+  .pad-both.relative
+    .row
+      .large-7.medium-7.columns.z-20
+        h2.t-white.margin-under-sm
+          | Whether it’s a code review or a commit, your participation matters.
+    .row.strict-center
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow-dark.strict-center.fit-height.slide-up
+          img.icon-art.margin-both-xs src="/images/community/contribute.svg" /
+          h4.t-purple Contribute
+          p
+            |  InSpec is an OSS project created and supported by active and passionate users. If you would like to contribute, we would love to have you.
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://github.com/chef/inspec" start contributing
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow-dark.strict-center.fit-height.slide-up
+          img.icon-art.margin-both-xs src="/images/community/bugs.svg" /
+          h4.t-purple Give feedback
+          p
+            |  We rely on your feedback to improve InSpec. Whether you found a bug or have a great idea for an improvement, join us on
+            a href="https://github.com/chef/inspec" GitHub
+            | .
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://github.com/chef/inspec/issues" give feedback
     #particles-second
      canvas.particles-js-canvas-el
-    .row.relative-top.padding-top-xl.padding-under
-        .large-6.medium-6.strict-center.column.margin-under-xs
-          .box-white.shadow
-            img.icon-art src="/images/community/contribute.svg" /
-            h3 Contribute to InSpec
-            p
-              | InSpec is an open source project created and supported by active and
-                passionate users. If you would like to contribute, we would love to have you.
-            br/
-            a.btn.margin-top-xs href="https://github.com/chef/inspec" Start Contributing
-            p
 
-        .large-6.medium-6.strict-center.column
-          .box-white.shadow
-            img.icon-art src="/images/community/bugs.svg" /
-            h3 Report Bugs and Request Features
-            p
-              | We rely on your feedback to improve InSpec. <br>Whether you found a bug
-                or have a great idea for an improvement, join us on GitHub.
-            br/
-            a.btn.margin-top-xs href="https://github.com/chef/inspec/issues" Give Feedback
-            p
-
-
-
-    //Old Twitter - Hannah
-    /.row
-    /  .icon.shadow
-    /    img src="/images/circ-arrow.svg" /
-    /.block-angl.blue-gradient
-    /  .section.purp-shade
-    /    .row.triangle-shade
-
-    /      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground"
-
-    /        small.t-dk Inspec on Twitter
-    /        h2.t-white
-    /          | Latest from #inspec
-    /    .row
-    /      .large-12.medium-12.columns.margin-under
-    /        .shadow
-    /          <a class="twitter-grid" href="https://twitter.com/f5hannahmaddy/timelines/817243525699862529">Inspec</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+.scrollToTop.shadow-dark
+   img#scrollup src="/images/home/arrow.svg"
