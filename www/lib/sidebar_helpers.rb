@@ -23,6 +23,10 @@ module SidebarHelpers
   end
 
   def same_link?(one, two)
+    # fix comparing '.html' to empty suffix links
+    if !one.end_with?('.html') && two.end_with?('.html')
+      two = two.sub(/\.html$/, '')
+    end
     strip_trailing_slash(one) == strip_trailing_slash(two)
   end
 

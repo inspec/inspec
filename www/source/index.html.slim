@@ -2,211 +2,283 @@
 title: InSpec - Audit and Test Framework
 ---
 
-/! animated banner
-header.blue-gradient.margin-top-offset
-  .h-top.strict-center.purp-shade
-    h1.columns.t-white.strict-center data-enllax-ratio=".1" data-enllax-type="foreground"  InSpec is compliance as code
-    img.grid-animate.strict-center style="opacity:0.8" src="/images/home/web.svg" /
-    /! diamond image
-    img.strict-center.bright-animate.3d-animate src="/images/home/diamond.png" /
+/! header
+header.bg-gradient.margin-top-offset.short-bg.relative
+  .row.align.margin-top-sm
+    .large-7.medium-7.columns.z-20
+      .margin-both
+        h1.t-white InSpec is compliance as code
+        h3.t-white Turn your compliance, security, and other policy requirements into automated tests.
+        /! buttons
+        .row.align.columns.margin-top-sm
+          a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs href="/downloads"
+            i.fa.fa-cloud-download
+            span download inspec 2.0
+          a.button.btn-lg.btn-white-o.shadow-dark href="/tutorial" browse tutorials
+        a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
+
+    .large-5.medium-5.columns.relative
+      /! diamond image
+      img.diamond src="/images/home/diamond.png" /
+      img.grid-animate.fit.z-20 src="/images/home/web.svg" /
+  /! announcement
+  .row.columns
+    .box-white.shadow.z-20
+      h3 What's new in InSpec 2.0?
+      p See into the cloud for continuous compliance everywhere.
+      .margin-top-sm.brdr-left.large-11.medium-11
+        .margin-left-sm.slide-left
+          h4.t-purple cloud
+          p InSpec now supports testing configurations for cloud provider platforms such as AWS or Azure.  Test additional components, such as Docker containers and network infrastructure — without adding anything extra.
+      .margin-top-xs.brdr-left.large-11.medium-11
+        .margin-left-sm.slide-left
+          h4.t-purple coverage
+          p 30 new resources to get you started writing compliance rules for apps, containers, and system configuration files.
+      .margin-top-xs.brdr-left.large-11.medium-11
+        .margin-left-sm.slide-left
+          h4.t-purple speed
+          p Significantly faster, with 90% performance gains on Windows and 30% gains on Linux.
+      #expand
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm.slide-left
+            h4.t-purple Integration
+            p Chef Automate can be used as a source for compliance profiles and to store InSpec reports. InSpec results can be exported in JUnit format for integration into CI/CD tools like Jenkins.
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm.slide-left
+            h4.t-purple Ease
+            p It’s now easier to write and debug custom resources you create using InSpec Shell.
+        a.button.btn-lg.btn-purple.shadow-dark.z-20.margin-top-xs href="/downloads"
+          i.fa.fa-cloud-download
+          span download inspec 2.0
+      .margin-top-xs
+        a#expandBtn Show all new features
   /!  canvas elements
-  #particles-js
+  #particles-js.particles
    canvas.particles-js-canvas-el /
-  /! style for callout icons
-  .row
-    .icon.shadow.hide-for-small-only
-      img src="/images/circ-arrow.svg" /
-      
-/! Event Details go here
-/!.code-pop
-/!  .strict-center
-/!    p.t-white
-/!      | Hey Seattle, learn how to make the most of InSpec! Join us on Tuesday, May 9.
-/!    a href="https://events.chef.io/events/chef-hq-meetup-inspec/" target="_blank"  Join us!
-    
-/! Second Content
-.row.margin-both
-  .large-9.medium-9.columns data-enllax-ratio=".1" data-enllax-type="foreground"
 
-    h2.txt-margin  Automated testing, codified
-    p#icon-trigger
-      | InSpec is an open-source testing framework for infrastructure with a human-readable language for specifying compliance, security and other policy requirements. Easily integrate automated tests that check for adherence to policy into any stage of your deployment pipeline.
 
-/! Third Content
-#icon-trigger.row.strict-center.margin-under-xs
-  .large-12.columns
-    hr.first/
-    small FEATURES OF INSPEC
-    h2.txt-margin InSpec is compliance by design
-    hr.first/
-/! images with text - grid of 4
-.row.strict-center.margin-under
-  .large-3.medium-3.columns.strict-center
-    img.floating.icon-art src="/images/home/platform.svg" /
-    h3 Platform Agnostic
-    p
-      | InSpec supports all major operating systems and many applications out of the box.
-  .large-3.medium-3.columns.strict-center
-    img.icon-art src="/images/home/free.svg" /
-    h3 Free to run anywhere
-    p
-      | InSpec is a language that can easily express compliance as code, with the freedom to run anywhere.
-  .large-3.medium-3.columns.strict-center
-    img.icon-art src="/images/home/test.svg" /
-    h3 Test locally or remotely
-    p
-      | InSpec provides a local agent, as well as full remote testing support.
-  .large-3.medium-3.columns.strict-center
-    img.icon-art src="/images/home/language.svg" /
-    h3 Extensible language
-    p
-      | Easily extend the InSpec language to cover new operating systems, devices, or applications.
+/! Get started
+.margin-both
+  .row.relative
+   .columns
+     hr
+     small.t-gray How InSpec works
+     h2.txt-margin Get started with InSpec in 3 simple steps
+     hr
+     a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+   .large-5.medium-5.columns.blue-grid
+     img.grid-animate.fit src="/images/community/blue-web.svg"
+  .margin-top-sm
+    .row.align
+      .large-6.medium-6.columns
+        .flex.align
+          .num-container
+            h3.t-purple 1
+          .block.margin-left-sm
+            h4.t-purple write the test
+            p Create simple Ruby-based tests to verify your expected state against the current state of your systems.
+      .large-6.medium-6.columns
+        .flex.align.slide-right
+          .tooltip-triangle
+          .box-dark.box-scroll.tip.shadow
+           pre.slide-up-slow.animate-delay-10
+               code control 'example-1.0' do
+               code   impact 0.9
+               code   title 'Ensure login disabled'
+               code   desc 'An optional description...'
+               code   describe sshd_config do
+               code     its('PermitRootLogin') {
+               code       should_not cmp 'yes'
+               code     }
+               code   end
+               code end
+  .margin-top-xs
+   .row.align
+     .large-6.medium-6.columns
+       .flex.align
+         .num-container
+           h3.t-purple 2
+         .block.margin-left-sm
+           h4.t-purple run the test
+           p Execute your test against your target system locally or remotely with one simple command.
+     .large-6.medium-6.columns
+       .flex.align.slide-right
+         .tooltip-triangle
+         .box-dark.tip.shadow
+           pre
+            code inspec exec linux-baseline
+  .margin-top-xs
+   .row.align
+     .large-6.medium-6.columns
+       .flex.align
+         .num-container
+           h3.t-purple 3
+         .block.margin-left-sm
+           h4.t-purple See the results
+           p See which tests failed, passed and skipped and the expected state against the current state of your target system, in one simple output.
+     .large-6.medium-6.columns
+       .flex.align.slide-right
+         .tooltip-triangle
+         .box-dark.box-scroll.tip.shadow
+           pre.slide-up-slow.animate-delay-20
+            code Profile: InSpec Profile (example_profile)
+            code Version: 0.1.0
+            code Target:  local://
+            br
+            code   ✔  example-1.0: Ensure root login is disabled via SSH
+            code   ✔  SSHD Configuration PermitRootLogin should not cmp == "yes"
+            br
+            code Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+            code Test Summary: 1 successful, 0 failures, 0 skipped
 
-/! Fourth Content
-/! style for callout icons
-.row
-  .icon.shadow
-    img src="/images/circ-arrow.svg" /
-.block-angl.blue-gradient
-  .section.purp-shade
 
-    .row.relative-top 
-      .large-7.medium-7.columns.margin-top-xl.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground" 
+/! how it works
+.row.relative.margin-under-sm
+ .columns.strict-center
+   hr.center
+   small.t-gray Features of InSpec
+   h2.txt-margin InSpec is compliance by design
+   hr.center
 
-        small.t-dk Inspec for compliance
-        h2.t-white
-          | Transform your compliance and security requirements into simple code
+.row.strict-center
+  .large-6.medium-6.columns.margin-under-xs
+    .box-white.shadow.strict-center.fit-height.relative.slide-up
+      img.icon-art.margin-under-xs src="/images/home/platform.svg" /
+      h4.t-purple Platform Agnostic
+      p
+        |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance assessments anywhere.
+      img.icon-logos src="/images/home/platform-logos.svg" /
+      .triangle-right
+  .large-6.medium-6.columns.margin-under-xs
+    .box-white.shadow.strict-center.fit-height.relative.slide-up
+      img.icon-art.margin-under-xs src="/images/home/test.svg" /
+      h4.t-purple Test locally or remotely
+      p
+        |  InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
+      img.icon-logos src="/images/home/test-logos.svg" /
+      .triangle-right
+
+.row.strict-center
+  .large-6.medium-6.columns.margin-under-xs
+    .box-white.shadow.strict-center.fit-height.relative.slide-up
+      img.icon-art.margin-under-xs src="/images/home/run.svg" /
+      h4.t-purple Free to run anywhere
+      p
+        |  InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
+      .triangle-right
+  .large-6.medium-6.columns.margin-under-xs
+    .box-white.shadow.strict-center.fit-height.relative.slide-up
+      img.icon-art.margin-under-xs src="/images/home/extensible.svg" /
+      h4.t-purple Extensible language
+      p
+        |  Easily extend the InSpec language to cover new operating systems, devices, or applications.
+      .triangle-right
+
+
+/! use cases
+
+.bg-gradient.margin-top
+  .pad-both.relative
     #particles-second
-     canvas.particles-js-canvas-el
-    .row
-      .large-5.medium-5.columns.margin-under-xs
+      canvas.particles-js-canvas-el
+    .slider
+      .row
+        .columns.selectors.z-20
+          a.button.btn-lg.btn-slider.shadow-dark for Compliance
+          a.button.btn-lg.btn-slider.shadow-dark for Infrastructure
+          a.button.btn-lg.btn-slider.shadow-dark for Provisioning
+      .view
+        .row
+          .large-7.medium-7.columns
+            h2.t-white.margin-both-sm
+              | Transform your compliance and security requirements into simple code
+        .row
+          .large-6.medium-6.columns.z-20
+            .box-white.shadow-dark.fit-height
+              .block.margin-both-xs
+                h4.t-purple Codify agreements
+                p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
+              .block.margin-under-xs
+                h4.t-purple Add context to your tests
+                p Utilize many fields like descriptions, tags, and impact.
+              .block
+                h4.t-purple Apply to all systems
+                p Analyze everything using the same codified profiles and controls.
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+          .large-6.medium-6.columns.z-20
+            .box-dark.shadow-dark.fit-height
+              pre.t-white.align-vertical-50
+                code control 'sshd-21' do
+                code   title 'Set SSH Protocol to 2'
+                code   desc 'A detailed description'
+                code   impact 1.0 # This is critical ref 'compliance guide, section 2.1'
+                code   describe sshd_config do
+                code    its('Protocol') { should cmp 2 }
+                code   end
+                code end
+      .view
+        .row
+          .large-7.medium-7.columns
+            h2.t-white.margin-both-sm
+              | Solve your infrastructure testing needs simply and efficiently
+        .row
+          .large-6.medium-6.columns.z-20
+            .box-white.shadow-dark.fit-height
+              .block.margin-both-xs
+                h4.t-purple Test the desired state
+                p Verify the current desired state of your apps and infrastructure according to the code you write.
+              .block.margin-under-xs
+                h4.t-purple HUMAN-READABLE CODE
+                p Reduce friction by writing tests that are easy to understand by anyone.
+              .block
+                h4.t-purple Extensible
+                p Create custom resources with ease and share them easily with others.
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+          .large-6.medium-6.columns.z-20
+            .box-dark.shadow-dark.fit-height
+              pre.t-white.align-vertical-50
+                code describe file('/etc/myapp.conf') do
+                code   it { should exist }
+                code   its('mode') { should cmp 0644 }
+                code end
+                br
+                code describe myapp.conf do
+                code   its('port') { should cmp 8080 }
+                code end
+                br
+                code describe port(8080) do
+                code   it { should be_listening }
+                code end
+      .view
+        .row
+          .large-7.medium-7.columns
+            h2.t-white.margin-both-sm
+              | Verify provisioning to cloud providers
+        .row
+          .large-6.medium-6.columns.z-20
+            .box-white.shadow-dark.fit-height
+              .block.margin-both-xs
+                h4.t-purple Test AWS and Azure configuration
+                p Verify all necessary settings of your favorite public cloud providers.
+              .block.margin-under-xs
+                h4.t-purple Test provisioners
+                p InSpec can be used in combination with Cloudformation, Azure resource manager templates and Terraform.
+              .block
+                h4.t-purple Verify security configuration
+                p Ensure that your cloud deployments are not open to malicious attacks due to misconfiguration.
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
+          .large-6.medium-6.columns.z-20
+            .box-dark.shadow-dark.fit-height
+              pre.t-white.align-vertical-50
+                code describe aws_s3_bucket(bucket_name: 'my_secret_files') do
+                code   it { should exist }
+                code   it { should_not be_public }
+                code end
+                br
+                code describe aws_iam_user(username: 'test_user') do
+                code   it { should have_mfa_enabled }
+                code   it { should_not have_console_password }
+                code end
 
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Codify agreements
-        p.t-white
-          | Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
-
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Add context to your tests
-        p.t-white
-          | Utilize many fields like descriptions, tags, and impact.
-
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Apply to all systems
-        p.t-white
-          | Analyze everything using the same codified profiles and controls.
-      /! code
-      .large-6.medium-6.columns
-        .code-example.shadow.relative-top.margin-under
-          code.code-demo
-            span.code-attribute control
-            |  'sshd-21'
-            span.code-attribute  do
-            br/
-            span.code-token.indent   title
-            |  'Set SSH Protocol to 2'
-            br/
-            span.code-token.indent  desc
-            |  'A detailed description'
-            br/
-            span.code-token.indent   impact
-            |  1.0 # This is critical
-            br/
-            span.code-token.indent   ref
-            |  'compliance guide, section 2.1'
-            br/
-            br/
-            span.code-attribute.indent   describe
-
-            |  sshd_config 
-
-            span.code-attribute do
-            br/
-            span.code-attribute.indent &nbsp;&nbsp;its
-            | ('Protocol') { should cmp 2 }
-            br/
-            span.code-attribute.indent end
-            br/
-            span.code-attribute end
-
-          a.btn.strict-right.t-white.try-demo.mobile-hide href="/tutorial" Try the Demo     
-    /! Next row
-    .row
-      .large-6.medium-6.columns.margin-under-xs data-enllax-ratio=".1" data-enllax-type="foreground" 
-
-        small.t-dk Inspec for infrastructure
-        h2.t-white
-          | Solve your infrastructure testing needs simply and efficiently
-    .row
-      .large-5.medium-5.columns.margin-under-xs
-
-        h3.t-white 
-          i.focus.t-dk &GreaterGreater;
-          |  Test the desired state
-        p.t-white Verify your infrastructure matches your expectations.
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Use simple and expressive code
-        p.t-white
-          | Reduce friction by writing tests that are easy to understand by anyone.
-
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Test any system anywhere
-        p.t-white
-          | Run tests locally or remotely on all major operating systems and configurations.
-
-        h3.t-white 
-
-          i.focus.t-dk &GreaterGreater;
-          |  Extensible
-        p.t-white
-          | Create custom resources with ease and share them.
-        /! code
-      .large-6.medium-6.columns
-        .code-example.shadow.relative-top.margin-under
-          code.code-demo
-            span.code-attribute describe
-
-            |  file('/etc/myapp.conf')
-
-            span.code-attribute  do
-            br/
-            span.code-attribute.indent  it
-            |  { should exist }
-            br/
-            span.code-attribute.indent  its
-            | ('mode') { should cmp 0644 }
-            br/
-            span.code-attribute end
-            br/
-            br/
-            span.code-attribute describe
-            |  myapp.conf
-            span.code-attribute  do
-            br/
-            span.code-attribute.indent  its
-            | ('port') { should cmp 8080 }
-            br/
-            span.code-attribute   end
-            br/
-            br/
-            span.code-attribute  describe
-            |  port(8080)
-            span.code-attribute  do
-            br/
-            span.code-attribute.indent  it
-            |  { should be_listening }
-            br/
-            span.code-attribute   end
-          a.btn.strict-right.t-white.try-demo.mobile-hide href="/tutorial" Try the Demo
-
-      
+.scrollToTop.shadow-dark
+  img#scrollup src="/images/home/arrow.svg"

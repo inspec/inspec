@@ -2,72 +2,92 @@
 
 a {
 	@extend %transition;
-	color: $color_link;
+	color: $color_purple;
 	font-family: $main-font;
+	font-weight: 600;
+	text-decoration: underline;
+
+	&:hover {
+		color: $color_purple;
+		opacity: 0.8;
+	}
+}
+
+a.button, a.link {
+	font-family: $main-font;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
 }
 
 // All CTA's
 
-.btn {
-	@extend               %transition;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0.52rem 1.25rem;
-	color: $color_purple;
-	border: 1px solid transparent;
-	border-right: 1px solid $color_link;
-	border-left: 1px solid $color_purple;
-	border-radius: 4px;
-	background: transparent;
-	background-image: linear-gradient(
-                    	to right,
-                    	$color_purple 0,
-                    	$color_link 100%
-                    ),
-                    linear-gradient(
-                    	to right,
-                    	$color_purple 0,
-                    	$color_link 100%
-                    );
-	background-repeat : no-repeat;
-	background-position: 0 0, 0 100%;
-	background-size: 100% 1px;
+a.button {
+	border-radius: 8px;
+	line-height: 24px;
+	text-decoration: none;
+}
+
+.btn-lg {
+	@extend %transition;
+	width: 250px;
+	height: $percent_sm;
+	line-height: $percent_sm;
+	text-align: center;
+}
+
+.btn-sm {
+	@extend %transition;
+	width: 150px;
+	height: $percent_sm;
+	line-height: $percent_sm;
+	text-align: center;
+}
+
+.btn-purple {
+	background-color: $color-purple;
+	color: white;
 
 	&:hover {
-		color: $color_white;
-		border-color: $color_purple;
-		background-image: initial;
-		background-color: $color_purple;
-	}
-
-	&.btn-inverse {
-		color: $color_purple;
-
-		&:hover {
-			color: $color_white;
-			background-color: $color_purple;
-		}
-	}
-	//mobile
-	@media screen and (max-width: 40.063em) {
-	float: initial;
-	padding: 0.8rem 1.6rem;
-	margin: 0 auto;
-	text-align: center;
+		background-color: $color-purple;
+		opacity: 0.8;
 	}
 }
 
-// Form Buttons
-
-button {
-	@extend %transition;
-	padding: 0.6rem 1.25rem;
-	color: $color_white;
-	border: 2px $color-purple;
-	border-radius: 4px;
-	background: $color_purple;
+.btn-purple-o {
+	border: 1.5px solid $color-purple;
+	color: $color-purple;
+	background-color: transparent;
 
 	&:hover {
+		background-color: transparent;
+		color: $color-purple;
 		opacity: 0.8;
+	}
+}
+
+.btn-white-o {
+	border: 1.5px solid $color-white;
+	color: $color-white;
+	background-color: transparent;
+
+	&:hover {
+		background-color: transparent;
+		color: $color-white;
+		opacity: 0.8;
+	}
+}
+
+.btn-slider {
+	border-bottom: 1.5px solid white;
+	margin-bottom: 0;
+	border-radius: 8px 8px 0px 0px !important;
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0.2),rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+	&:hover, &:active, &.selected {
+		background: $color_purple;
 	}
 }

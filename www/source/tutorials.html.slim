@@ -2,124 +2,67 @@
 title: InSpec - Tutorials
 ---
 
-/! animated banner
-header.child-h.blue-gradient.margin-top-offset
-  #particles-second
-   canvas.particles-js-canvas-el /
-  .purp-shade
-    .row
-      .columns.large-8.medium-8
-
-        h2.t-white#icon-trigger data-enllax-direction="horizontal" data-enllax-ratio=".1" data-enllax-type="foreground"
-
+/! header and tiles
+header.bg-gradient.margin-top-offset.short-bg.relative
+  .row
+    .columns.large-7.medium-7.z-20
+      .margin-both
+        h2.t-white#icon-trigger
           | Clear, step-by-step instructions for getting started and building your InSpec skills
+  .row.strict-center
+    .large-6.medium-6.columns.margin-under-xs.z-20
+      .box-white.shadow.strict-center.fit-height.relative.slide-up
+        .align-vertical-50
+          small.t-gray module 1
+          hr.center.margin-under-xs
+          h3.pad-top-xs Try InSpec
+          p
+            |  See how InSpec can help you quickly identify potential compliance and security issues on your infrastructure.
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://learn.chef.io/modules/try-inspec#/"
+            i.fa.fa-book
+            span start learning
+        .triangle-right
+    .large-6.medium-6.columns.margin-under-xs.z-20
+      .box-white.shadow.strict-center.fit-height.relative.slide-up
+        .align-vertical-50
+          small.t-gray module 2
+          hr.center.margin-under-xs
+          h3.pad-top-xs Explore InSpec Resources
+          p
+            |  Build an InSpec profile that verifies whether an NGINX installation meets your requirements.
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://learn.chef.io/modules/explore-inspec-resources#/"
+            i.fa.fa-book
+            span start learning
+        .triangle-right
+  #particles-second
+    canvas.particles-js-canvas-el /
 
+.margin-under
+  .row.strict-center
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow.strict-center.fit-height.relative.slide-up
+          .align-vertical-50
+            small.t-gray module 3
+            hr.center.margin-under-xs
+            h3.pad-top-xs Create an InSpec Profile from Compliance Documentation
+            p
+              |  See how to create a compliance profile from documentation, using the Center for Internet Security (CIS) benchmarks as an example.
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://learn.chef.io/modules/create-profile-from-doc#/"
+              i.fa.fa-book
+              span start learning
+          .triangle-right
+      .large-6.medium-6.columns.margin-under-xs.z-20
+        .box-white.shadow.strict-center.fit-height.relative.slide-up
+          .align-vertical-50
+            small.t-gray module 4
+            hr.center.margin-under-xs
+            h3.pad-top-xs Automating Compliance for Finance
+            p
+              |  Learn how Hewlett Packard Enterprise (HPE) uses InSpec to ensure compliance and security.
+            a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://learn.chef.io/modules/hp-compliance#/"
+              i.fa.fa-book
+              span start learning
+          .triangle-right
 
-
-.row.margin-both
-  .columns.medium-12
-    h3 Tutorials
-
-    hr.strict-left
-
-    br
-    p.clear Learn more about InSpec and earn badges in these interactive tracks on <a href="https://learn.chef.io/">Learn Chef Rally</a>.
-    ul.tutorials--links.no-bullet
-      li
-        a.tutorials--link href="https://learn.chef.io/tracks/compliance-automation/"
-          i.focus &GreaterGreater;
-          |  Compliance Automation with InSpec
-          div  Start here. Downloadable training environments get you started with everything you need.
-      li
-        a.tutorials--link href="https://learn.chef.io/tracks/integrated-compliance/"
-          i.focus &GreaterGreater;
-          |  Integrated Compliance with Chef
-          div  Continue your journey here if you're interested in using Chef to correct potential compliance and security issues.
-    br
-    p.clear Huge thanks to Annie Hedgpeth for creating all of the following fantastic tutorials:
-    ul.tutorials--links.no-bullet
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-1"
-          i.focus &GreaterGreater;
-          |  Day 1
-          span  - Hello World
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-2"
-          i.focus &GreaterGreater;
-          |  Day 2
-          span  - Command Resource Blog Logo
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-3"
-          i.focus &GreaterGreater;
-          |  Day 3
-          span  - File Resource
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-4"
-          i.focus &GreaterGreater;
-          |  Day 4
-          span  - Custom Matchers
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-5"
-          i.focus &GreaterGreater;
-          |  Day 5
-          span  - Create a Profile
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-6"
-          i.focus &GreaterGreater;
-          |  Day 6
-          span  - Ways to Run It and Places to Store It
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-7"
-          i.focus &GreaterGreater;
-          |  Day 7
-          span  - How to Inherit a Profile from Chef Compliance Server
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-8"
-          i.focus &GreaterGreater;
-          |  Day 8
-          span  - Regular Expressions
-      li
-        a.tutorials--link href="http://www.anniehedgie.com/inspec-basics-9"
-          i.focus &GreaterGreater;
-          |  Day 9
-          span  - Attributes
-
-
-    h3.margin-top-xs Guides For Advanced Topics
-    hr.strict-left
-
-    br
-    p.clear Additional huge thanks to Christian Johannsen, Jeremy Miller, and blindscientist for these amazing materials.
-
-    ul.tutorials--links.no-bullet
-      li
-        a.tutorials--link href="http://datatomix.com/?p=236"
-          i.focus &GreaterGreater;
-          span  Windows infrastructure testing using InSpec - Part 1
-      li
-        a.tutorials--link href="http://datatomix.com/?p=238"
-          i.focus &GreaterGreater;
-          span  Windows infrastructure testing using InSpec and Profiles - Part 2
-      li
-        a.tutorials--link href="https://github.com/jeremymv2/chef-intranet-scaffolding/blob/master/README.md"
-          i.focus &GreaterGreater;
-          span  Operating InSpec in an air-gapped environment
-      li
-        a.tutorials--link href="http://scienceofficersblog.blogspot.de/2016/02/testing-ansible-with-inspec.html"
-          i.focus &GreaterGreater;
-          span  Testing Ansible with InSpec
-
-
-      h3.margin-top-xs Podcasts
-      hr.strict-left
-
-      br
-    ul.tutorials--links.no-bullet
-      li
-        a.tutorials--link href="http://foodfightshow.org/2016/02/inspec.html"
-          i.focus &GreaterGreater;
-          span  InSpec Foodfight
-      li
-        a.tutorials--link href="https://www.arresteddevops.com/tdi/"
-          i.focus &GreaterGreater;
-          span  Test Driven Infrastructure With Arthur Maltson and Michael Goetz
+.scrollToTop.shadow-dark
+   img#scrollup src="/images/home/arrow.svg"
