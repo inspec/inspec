@@ -6,6 +6,10 @@ module AwsResourceMixin
     catch_aws_errors do
       fetch_from_api
     end
+  rescue ArgumentError => e
+    # continue with ArgumentError if testing
+    raise unless respond_to?(:inspec)
+    raise Inspec::Exceptions::ResourceFailed, e.message
   end
 
   # Default implementation of validate params accepts everything.
