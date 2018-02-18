@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.9 -->
-## [v2.0.9](https://github.com/chef/inspec/tree/v2.0.9) (2018-02-17)
+<!-- latest_release 2.0.10 -->
+## [v2.0.10](https://github.com/chef/inspec/tree/v2.0.10) (2018-02-18)
 
 #### Merged Pull Requests
-- Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish))
+- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.18 -->
 ### Changes since 1.51.18 release
 
 #### Merged Pull Requests
+- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.10 -->
 - Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.9 -->
 - Hannah Review1 [#2683](https://github.com/chef/inspec/pull/2683) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.8 -->
 - Capture ArgumentErrors from aws. [#2673](https://github.com/chef/inspec/pull/2673) ([jquick](https://github.com/jquick)) <!-- 2.0.7 -->
