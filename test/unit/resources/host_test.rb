@@ -124,6 +124,7 @@ describe Inspec::Resources::UnixHostProvider do
     inspec.stubs(:command).with('nc').returns(nc_command)
     inspec.stubs(:command).with('ncat').returns(ncat_command)
     inspec.stubs(:command).with('timeout').returns(timeout_command)
+    inspec.stubs(:command).with('gtimeout').returns(timeout_command)
     inspec.stubs(:command).with("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").returns(strings_command)
   end
 
@@ -239,8 +240,44 @@ EOL
   end
 
 
+  describe "#ping" do
+    let(:command_response) { mock('response') }
+
+    before do
+      strings_command.stubs(:exit_status).returns(0)
+      ncat_command.stubs(:exist?).returns(false)
+
+      command_response.stubs(:exit_status).returns('0')
+      command_response.stubs(:stdout).returns('foo')
+      command_response.stubs(:stderr).returns('bar')
+    end
+
+    it "calls netcat if available" do
+      nc_command.stubs(:exist?).returns(true)
+      inspec.expects(:command).with('echo | nc -v -w 1  example.com 1234').returns(command_response)
+
+      provider.ping('example.com', '1234', 'tcp')
+    end
+
+    it "uses bash if netcat not available" do
+      nc_command.stubs(:exist?).returns(false)
+      inspec.expects(:command).with('timeout 1 bash -c "< /dev/tcp/example.com/1234"').returns(command_response)
+
+      provider.ping('example.com', '1234', 'tcp')
+    end
+
+    it "uses bash if netcat not available on Darwin" do
+      nc_command.stubs(:exist?).returns(false)
+      inspec.expects(:command).with('gtimeout 1 bash -c "< /dev/tcp/example.com/1234"').returns(command_response)
+
+      darwin_provider = Inspec::Resources::DarwinHostProvider.new(inspec)
+      darwin_provider.ping('example.com', '1234', 'tcp')
+    end
+  end
+
+
   describe '#missing_requirements' do
-    describe 'bash with net redirects' do
+    describe 'bash with net redirects and no netcat' do
       before do
         strings_command.stubs(:exit_status).returns(0)
         nc_command.stubs(:exist?).returns(false)
@@ -254,7 +291,7 @@ EOL
 
       it "returns a missing requirement when timeout is missing" do
         timeout_command.stubs(:exist?).returns(false)
-        provider.missing_requirements('tcp').must_equal(['timeout (part of coreutils) must be installed'])
+        provider.missing_requirements('tcp').must_equal(['timeout (part of coreutils) or netcat must be installed'])
       end
     end
 

@@ -158,11 +158,11 @@ module Inspec::Resources
     def missing_requirements(protocol)
       missing = []
 
-      if %w{tcp udp}.include?(protocol)
+      if %w{tcp udp}.include?(protocol) and !@has_nc and !@has_ncat
         if @has_net_redirections
-          missing << "#{timeout} (part of coreutils) must be installed" unless inspec.command(timeout).exist?
+          missing << "#{timeout} (part of coreutils) or netcat must be installed" unless inspec.command(timeout).exist?
         else
-          missing << 'netcat must be installed' unless @has_nc or @has_ncat
+          missing << 'netcat must be installed'
         end
       end
 
@@ -171,10 +171,10 @@ module Inspec::Resources
 
     def ping(hostname, port, protocol)
       if %w{tcp udp}.include?(protocol)
-        if @has_net_redirections
-          resp = inspec.command("#{timeout} 1 bash -c \"< /dev/#{protocol}/#{hostname}/#{port}\"")
-        else
+        if @has_nc or @has_ncat
           resp = inspec.command(netcat_check_command(hostname, port, protocol))
+        else
+          resp = inspec.command("#{timeout} 1 bash -c \"< /dev/#{protocol}/#{hostname}/#{port}\"")
         end
       else
         # fall back to ping, but we can only test ICMP packages with ping
