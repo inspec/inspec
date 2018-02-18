@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.10 -->
-## [v2.0.10](https://github.com/chef/inspec/tree/v2.0.10) (2018-02-18)
+<!-- latest_release 2.0.11 -->
+## [v2.0.11](https://github.com/chef/inspec/tree/v2.0.11) (2018-02-18)
 
 #### Merged Pull Requests
-- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix legacy reporter output to file [#2667](https://github.com/chef/inspec/pull/2667) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.18 -->
 ### Changes since 1.51.18 release
 
 #### Merged Pull Requests
+- Fix legacy reporter output to file [#2667](https://github.com/chef/inspec/pull/2667) ([jquick](https://github.com/jquick)) <!-- 2.0.11 -->
 - Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.10 -->
 - Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.9 -->
 - Hannah Review1 [#2683](https://github.com/chef/inspec/pull/2683) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.8 -->
