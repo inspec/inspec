@@ -70,7 +70,7 @@ These options can also be set using the environment variables:
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-<br> 
+<br>
 
 ## Parameter Examples
 
@@ -108,13 +108,13 @@ Tests where in Azure the resource group is located.
 
 Tests the full qualified ID of the resource group.
 
-This is in the format `/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP_NAME>`.
+This takes the format: `/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP_NAME>`.
 
     its('id') { should cmp 'FQDN' }
 
 ### provisioning_state
 
-TTests thehe provisioning state of the resource group.
+Tests thehe provisioning state of the resource group.
 
     its('provisioning_state') { should cmp 'Succeeded' }
 
@@ -203,7 +203,7 @@ Use this matcher to test that network security groups exist.
 
     it { should have_nsgs }
 
-### have_vnets 
+### have_vnets
 
 Use this matcher to test that virtual networks exist.
 
