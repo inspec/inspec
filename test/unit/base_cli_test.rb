@@ -119,7 +119,17 @@ describe 'BaseCLI' do
       assert = { 'reporter' => { 'json' => { 'stdout' => true }}}
       parsed.must_equal assert
     end
-  end
+
+    it 'parse cli reporters with format and output' do
+      error = "[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter\n"
+      error += "[DEPRECATED] The option 'output' is being is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path\n"
+      proc {
+        opts = { 'format' => 'json', 'output' => '/tmp/inspec_out.json' }
+        parsed = Inspec::BaseCLI.parse_reporters(opts)
+        assert = { 'reporter' => { 'json' => { 'file' => '/tmp/inspec_out.json', 'stdout' => false }}}
+        parsed.must_equal assert
+      }.must_output nil, error end
+    end
 
   describe 'validate_reporters' do
     it 'valid reporter' do
