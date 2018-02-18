@@ -31,7 +31,7 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '\\"').gsub(/\$/, '\\$')
 
       # run the query
-      command = "mysql -u#{@user} -p#{@pass}"
+      command = "mysql -u#{@user} -p'#{@pass}'"
       if !@socket.nil?
         command += " -S #{@socket}"
       else
