@@ -21,13 +21,11 @@ where
 * `property` is a resource property
 * `value` is the expected output from the matcher
 
-The `count`, `have_data_disks` and `have_managed_disks` are catchall tests that give information about the virtual machine. The specific tests need to be used in conjunction with the `where` option as shown below.
+The options that can be passed to the resource are as follows.
 
-| Name        | Description                                                                                                         | Required | Example                           |
-|-------------|---------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------|
-| group_name: | Azure Resource Group to be tested                                                                                   | yes      | MyResourceGroup                   |
-| name:       | Name of the Azure resource to test                                                                                  | no       | MyVM                              |
-| apiversion: | API Version to use when interrogating the resource. If not set then the latest version for the resoure type is used | no       | 2017-10-9                         |
+* `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
+* `name`, the name of the Azure resource to test. Example: 'MyVM'
+* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9
 
 These options can also be set using the environment variables:
 
