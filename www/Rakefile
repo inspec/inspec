@@ -36,7 +36,7 @@ namespace :www do # rubocop:disable Metrics/BlockLength
   task :demo do
     Log.section 'Build the online demo in demo/'
     sh('cd demo/ && npm install')
-    sh('cd demo/ && gulp build')
+    sh('cd demo/ && $(npm bin)/gulp build')
     Verify.file('demo/dist/index.html')
     Verify.file('demo/dist/css/inspec_tutorial.css')
     Verify.file('demo/dist/scripts/inspec_tutorial.js')
