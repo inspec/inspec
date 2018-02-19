@@ -168,11 +168,11 @@ class ResourceDocs
       format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
              x[0], x[1])
     end.join("\n")
-    res << '
+    res << format('
 <div class="row columns align">
   %s
 </div>
-' % items
+', items)
 
     section = '
 <div class="brdr-left margin-top-sm margin-under-xs">
