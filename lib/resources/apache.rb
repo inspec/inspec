@@ -1,11 +1,10 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 module Inspec::Resources
   class Apache < Inspec.resource(1)
     name 'apache'
+    supports platform: 'unix'
     desc 'Use the apache InSpec audit resource to retrieve Apache environment settings.'
     example "
       describe apache do

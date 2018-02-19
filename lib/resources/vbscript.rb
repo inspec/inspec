@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'securerandom'
 
@@ -23,6 +21,7 @@ module Inspec::Resources
   # @see https://msdn.microsoft.com/en-us/library/aa364991.aspx
   class VBScript < PowershellScript
     name 'vbscript'
+    supports platform: 'windows'
     desc ''
     example "
       script = <<-EOH

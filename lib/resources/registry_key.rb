@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
 
 require 'json'
 
@@ -49,6 +48,7 @@ require 'json'
 module Inspec::Resources
   class RegistryKey < Inspec.resource(1)
     name 'registry_key'
+    supports platform: 'windows'
     desc 'Use the registry_key InSpec audit resource to test key values in the Microsoft Windows registry.'
     example "
       describe registry_key('path\to\key') do

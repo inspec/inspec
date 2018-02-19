@@ -1,9 +1,9 @@
 # encoding: utf-8
-# author: Joseph Benden
 
 module Inspec::Resources
   class ZfsPool < Inspec.resource(1)
     name 'zfs_pool'
+    supports platform: 'unix'
     desc "
       Use the zfs_pool InSpec audit resource to test if the named
       ZFS Pool is present and/or has certain properties.

@@ -1,12 +1,11 @@
 # encoding: utf-8
-# author: Rony Xavier,  rx294@nyu.edu
-# author: Aaron Lippold, lippold@gmail.com
 
 require 'resources/postgres'
 
 module Inspec::Resources
   class PostgresIdentConf < Inspec.resource(1)
     name 'postgres_ident_conf'
+    supports platform: 'unix'
     desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example "

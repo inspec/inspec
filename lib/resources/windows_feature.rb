@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # check for a Windows feature
 # Usage:
@@ -30,6 +28,7 @@
 module Inspec::Resources
   class WindowsFeature < Inspec.resource(1)
     name 'windows_feature'
+    supports platform: 'windows'
     desc 'Use the windows_feature InSpec audit resource to test features on Microsoft Windows.'
     example "
       describe windows_feature('dhcp') do
