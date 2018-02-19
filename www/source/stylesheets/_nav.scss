@@ -6,26 +6,6 @@
   z-index: 1000;
   width: 100%;
   background: $color_white;
-
-  @include nav-large {
-    position: fixed;
-    z-index: 100;
-  }
-
-  &.is-fixed-bottom {
-    @include nav-large {
-      top: auto !important;
-      position: absolute;
-    }
-
-    @media screen and (min-width: 640px) and (max-width: 879px) {
-      bottom: 156px;
-    }
-
-    @media screen and (min-width: 880px) {
-      bottom: 141px;
-    }
-  }
 }
 
 .main-nav--logo {
@@ -40,15 +20,6 @@
   @include nav-small {
     display: none;
   }
-
-  .sidebar-layout-docs & {
-    max-height: calc(100vh - 64px);
-    overflow-y: scroll;
-
-    @include nav-large {
-      max-height: calc(100vh - 107px);
-    }
-  }
 }
 
 #main-nav-ctas {
@@ -57,9 +28,8 @@
   padding-right: $percent_sm;
 
   @include nav-small {
-    padding-left: .9375rem;
-    padding-right: .9375rem;
-    box-shadow: initial;
+    padding-left: $percent_xs;
+    padding-right: $percent_xs;
   }
 
   .main-nav--link-text {
@@ -97,10 +67,6 @@ nav {
   z-index: 200;
   height: 80px;
   margin-bottom: 80px;
-
-  @include nav-small {
-    height: 60px;
-  }
 }
 
 nav ul {
@@ -117,11 +83,10 @@ nav li {
     line-height: 60px;
     clear:both;
     display:block;
-    line-height: initial;
-    padding-top: $percent_sm/2;
-    padding-bottom: $percent_sm/2;
-    border-bottom: 1px solid $color_blue;
-    text-align: center;
+    margin-left: $percent_sm;
+    margin-right: $percent_sm;
+    border-bottom: 1.5px solid #E9EDF2;
+    text-align: left;
   }
 }
 
@@ -135,7 +100,27 @@ nav li.nav-cta {
   margin-left: 28px;
 
   @include nav-small {
-    padding-top: $percent_sm;
+    line-height: 60px;
+    clear:both;
+    display:block;
+    margin-left: $percent_sm;
+    margin-right: $percent_sm;
+    margin-top: $percent_sm;
+    border-bottom: 0px;
+    text-align: left;
+
+    &:last-child {
+      margin-top: 0;
+      padding-bottom: $percent_sm;
+    }
+
+    .btn-sm {
+      max-width: 250px;
+      width: 250px;
+    }
+  }
+
+  @include mobile {
     padding-bottom: $percent_sm;
   }
 }
@@ -153,7 +138,7 @@ nav li.nav-cta a.button {
     display: block;
     font-size: 1.5em;
     float: right;
-    margin-top: 0.75em;
+    line-height: 80px;
   }
 }
 
@@ -169,6 +154,6 @@ a.main-nav--logo {
   margin-left: initial !important;
 
   @include nav-small {
-    margin-top: 0.8em;
+    line-height: 80px;
   }
 }

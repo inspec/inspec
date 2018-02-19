@@ -15,13 +15,6 @@
 	float: right;
 	text-align: right;
 	margin-left: auto;
-
-	@include nav-small{ //mobile
-		float: initial;
-		margin: 0 auto;
-		text-align: center;
-	}
-
 }
 
 .strict-left {
@@ -82,6 +75,13 @@
   transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	-moz-transform: translateY(-50%);
+
+	@include mobile {
+		top: 0;
+		transform: translateY(0);
+		-webkit-transform: translateY(0);
+		-moz-transform: translateY(0);
+	}
 }
 
 .z-10 {
@@ -89,7 +89,7 @@
 }
 
 .z-20 {
-	z-index: 20;
+	z-index: 100;
 }
 
 .relative {
@@ -155,10 +155,6 @@
 
 .margin-top-offset {
 	margin-top: 80px; // add header height
-
-	@include nav-small {
-	margin-top: 60px;
-	}
 }
 
 .margin-top {
@@ -474,10 +470,6 @@ form.main-sidebar--search input[type="text"] {
 		width: 20px;
 		margin-left: 8px;
 		height: auto;
-	}
-
-	@include nav-small {
-		display: none;
 	}
 }
 

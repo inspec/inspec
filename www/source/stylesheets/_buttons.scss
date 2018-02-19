@@ -113,3 +113,10 @@ a.button {
 		background: $color_purple;
 	}
 }
+
+.slider-selectors .btn-slider{
+	width: 33.33% !important;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
