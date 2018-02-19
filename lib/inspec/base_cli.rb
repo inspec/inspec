@@ -95,11 +95,11 @@ module Inspec
       # merge in any legacy formats as reporter
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
-        warn '[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+        warn '[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter'
 
         # see if we are using the legacy output to write to files
         if opts['output']
-          warn '[DEPRECATED] The option \'output\' is being is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
+          warn '[DEPRECATED] The option \'output\' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
           opts['format'] = "#{opts['format']}:#{opts['output']}"
           opts.delete('output')
         end
