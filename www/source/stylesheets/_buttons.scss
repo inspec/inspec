@@ -45,6 +45,7 @@ a.button {
 
 .btn-lg {
 	@extend %transition;
+	max-width: 250px;
 	width: 250px;
 	height: $percent_sm;
 	line-height: $percent_sm;
@@ -53,6 +54,7 @@ a.button {
 
 .btn-sm {
 	@extend %transition;
+	max-width: 150px;
 	width: 150px;
 	height: $percent_sm;
 	line-height: $percent_sm;
@@ -79,6 +81,12 @@ a.button {
 		color: $color-purple;
 		opacity: 0.8;
 	}
+}
+
+.btn-purple-o:focus {
+	border: 1.5px solid $color-purple !important;
+	background-color: $color-purple !important;
+	color: $color-white !important;
 }
 
 .btn-white-o {

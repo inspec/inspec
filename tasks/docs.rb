@@ -159,17 +159,29 @@ class ResourceDocs
     end
 
     section_names = lists.keys.find_all { |k| !k.empty? }
-    res << f.ul(
-      f.li(f.a('OS resources', '#os-resources')) +
+    links = [['#os-resources', 'All OS resources']] +
       section_names.map { |name|
-        # add a link to the sections
-        f.li(f.a(namify(name)+' resources', '#'+(name+'-resources').downcase))
-      }.join(''),
-    )
-    res << f.h2('OS resources')
+        ['#'+(name+'-resources').downcase, namify(name)+' resources']
+      }
+
+    items = links.map { |x|
+        '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>' % [x[0], x[1]]
+      }.join("\n")
+    res << '
+<div class="row columns align">
+  %s
+</div>
+' % items
+
+    section = '
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
+</div>
+'
+    res << section % ['os-resources', 'All OS resources']
     res << f.ul(lists[''])
     section_names.each do |group|
-      res << f.h2(namify(group) + ' resources')
+      res << section % [(group+'-resources').downcase, namify(group) + ' resources']
       res << f.ul(lists[group])
     end
 

@@ -232,6 +232,16 @@ html
           $('html, body').animate({scrollTop : 0},800);
           return false;
         });
+        
+        // scrolling to resource sections
+        $(".resources-button").click(function() {
+          var dst = $(this).attr("href")
+          $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o") 
+          $(this).addClass("btn-purple").removeClass("btn-purple-o")
+          $("html, body").animate({
+              scrollTop: $(dst).offset().top - 105
+          }, 1000);
+        });
 
       });
 
@@ -242,7 +252,7 @@ html
           var pos = div.scrollTop();
           div.scrollTop(pos + 2);
       }, 200);
-
+      
       //Animating progress bar for header
 
       $(document).ready(function(){
