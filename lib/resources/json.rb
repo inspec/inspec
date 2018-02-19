@@ -7,6 +7,8 @@ module Inspec::Resources
     name 'json'
     supports platform: 'unix'
     supports platform: 'windows'
+    supports platform: 'esx'
+    supports platform: 'cisco'
     desc 'Use the json InSpec audit resource to test data in a JSON file.'
     example "
       describe json('policyfile.lock.json') do

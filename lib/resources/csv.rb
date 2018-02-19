@@ -8,6 +8,8 @@ module Inspec::Resources
     name 'csv'
     supports platform: 'unix'
     supports platform: 'windows'
+    supports platform: 'esx'
+    supports platform: 'cisco'
     desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
     example "
       describe csv('example.csv') do
