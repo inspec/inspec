@@ -10,7 +10,6 @@
   @include nav-large {
     position: fixed;
     z-index: 100;
-    width: $side-nav-width;
   }
 
   &.is-fixed-bottom {
@@ -49,21 +48,6 @@
     @include nav-large {
       max-height: calc(100vh - 107px);
     }
-  }
-}
-
-.main-nav--link-icon {
-  position: absolute;
-  top: 13px;
-  left: $side-nav-padding-small;
-  font-size: 0.9em;
-
-  @include nav-large {
-    left: $side-nav-padding-large;
-  }
-
-  @include nav-large {
-    margin-left: 34px;
   }
 }
 

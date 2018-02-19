@@ -20,12 +20,13 @@ $percent_xs: 16px;
 
 //mixins
 
-$side-nav-width: 200px;
-$top-nav-height: 100px;
-$side-nav-padding-large: 10px;
-$side-nav-padding-small: 30px;
-$nav-breakpoint: 900px;
+$nav-breakpoint: 1024px;
 
+$breakpoints: (
+  small: 0px,
+  medium: 640px,
+  large: 900px
+);
 
 @mixin nav-large {
   @media screen and (min-width: #{$nav-breakpoint}) {
