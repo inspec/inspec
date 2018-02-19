@@ -16,7 +16,7 @@ where
 
 * `MyResourceGroup` is the name of the resource group that contains the Azure Resource to be validated
 * `MyResource` is the name of the resource that needs to be checked
-* `property` - This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
+* `property` This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
 * `value` is the expected output from the chosen property
 
 The options that can be passed to the resource are as follows.
@@ -28,18 +28,14 @@ The options that can be passed to the resource are as follows.
 
 These options can also be set using the environment variables:
 
- - `AZURE_RESOURCE_GROUP_NAME`
- - `AZURE_RESOURCE_NAME`
- - `AZURE_RESOURCE_TYPE`
- - `AZURE_RESOURCE_API_VERSION`
+* `AZURE_RESOURCE_GROUP_NAME`
+* `AZURE_RESOURCE_NAME`
+* `AZURE_RESOURCE_TYPE`
+* `AZURE_RESOURCE_API_VERSION`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
-There are _normally_ three standard tests that can be performed on a resource.
-
-* `name`: tests the resource name
-* `type`: tests the resource type
-* `location`: tests the resource's location within Azure
+<br>
 
 ## Example
 
@@ -47,189 +43,98 @@ There are _normally_ three standard tests that can be performed on a resource.
       its('location') { should eq 'westeurope' }
     end
 
+where
+
+* `name`: tests the resource name
+* `type`: tests the resource type
+* `location`: tests the resource's location within Azure
+
+<br>
+
 ## Properties
 
 The properties that can be tested are entirely dependent on the Azure Resource that is under scrutiny. That means the properties vary. The best way to see what is available please use the [Azure Resources Portal](https://resources.azure.com) to select the resource you are interested in and see what can be tested.
 
 This resource allows you to test _any_ valid Azure Resource. The trade off for this is that the language to check each item is not as natural as it would be for a native Inspec resource.
 
-Please see the integration tests for in depth examples of how this resource can be used.
+<br>
 
- - [Generic External VM NIC](../test/integration/verify/controls/generic_external_vm_nic.rb)
- - [Generic External VM](../test/integration/verify/controls/generic_external_vm.rb)
- - [Generic Internal VM NIC](../test/integration/verify/controls/generic_internal_vm_nic.rb)
- - [Generic Internal VM](../test/integration/verify/controls/generic_internal_vm.rb)
- - [Generic Linux VM Managed OS Disk](../test/integration/verify/controls/generic_linux_vm_manmaged_osdisk.rb)
- - [Generic Network Security Group](../test/integration/verify/controls/generic_network_security_group.rb)
- - [Generic Public IP Address](../test/integration/verify/controls/generic_public_ip_address.rb)
- - [Generic Resources](../test/integration/verify/controls/generic_resources.rb)
- - [Generic Storage Account](../test/integration/verify/controls/generic_storage_account.rb)
- - [Generic Virtual Network](../test/integration/verify/controls/generic_virtual_network.rb)
- - [Generic Windows Internal VM NIC](../test/integration/verify/controls/generic_windows_internal_vm_nic.rb)
- - [Generic Windows Internal VM](../test/integration/verify/controls/generic_windows_internal_vm.rb)
+## Property Examples
 
-### Example Properties
+The following examples show how to use some of the InSpec audit properties:
 
- - `properties.addressSpace.addressPrefixes`
+### Tests the virtual machine's location
 
-    `its('properties.addressSpace.addressPrefixes') { should include '10.1.1.0/24' }`
+    its('location') { should cmp 'westeurope' }
 
- - `properties.creationData.createOption`
+### Tests for the presence of a specified address prefix
 
-    `its('properties.creationData.createOption') { should eq 'FromImage' }`
+    its('properties.addressSpace.addressPrefixes') { should include '10.1.1.0/24' }
 
- - `properties.creationData.imageReference.id`
+### Tests that virtual machine was created from the correct disk
 
-    `its('properties.creationData.imageReference.id') { should match 'Canonical' }`
+    its('properties.creationData.createOption') { should eq 'FromImage' }
 
- - `properties.diskSizeGB`
+### Tests that the image is Ubuntu
 
-    `its('properties.diskSizeGB') { should be > 25 }`
+    its('properties.creationData.imageReference.id') { should match 'Canonical' }
+    its('properties.creationData.imageReference.id') { should match 'UbuntuServer' }
+    its('properties.creationData.imageReference.id') { should match '16.04.0-LTS' }
 
- - `properties.diskState`
+### Tests the disk size
 
-    `its('properties.diskState') { should cmp 'Attached' }`
+    its('properties.diskSizeGB') { should be > 25 }
 
- - `properties.dnsSettings.appliedDnsServers.count`
+### Tests the disk state
 
-    `its('properties.dnsSettings.appliedDnsServers.count') { should eq 0 }`
+    its('properties.diskState') { should cmp 'Attached' }
 
- - `properties.dnsSettings.dnsServers.count`
+### Tests that there are no custom DNS settings
 
-    `its('properties.dnsSettings.dnsServers.count') { should eq 0 }`
+    its('properties.dnsSettings.dnsServers.count') { should eq 0 }
+    its('properties.dnsSettings.appliedDnsServers.count') { should eq 0 }
 
- - `properties.dnsSettings.domainNameLabel`
+### Tests that the NIC is connected to the correct machine
 
-    `its('properties.dnsSettings.domainNameLabel') { should match 'linux-external-1' }`
+    its('properties.virtualMachine.id') { should match 'Linux-External-VM' }
 
- - `properties.enableAcceleratedNetworking`
+### Tests that the blob and file services are enabled
 
-    `its('properties.enableAcceleratedNetworking') { should be false }`
+    its('properties.encryption.services.blob.enabled') { should be true }
+    its('properties.encryption.services.file.enabled') { should be true }
+    its('properties.encryption.keySource') { should cmp 'Microsoft.Storage' }
 
- - `properties.enableIPForwarding`
+### Test the hardware profile
 
-    `its('properties.enableIPForwarding') { should be false }`
+    its('properties.hardwareProfile.vmSize') { should cmp 'Standard_DS2_v2' }
 
- - `properties.encryption.keySource`
+### Test the network interfaces
 
-    `its('properties.encryption.keySource') { should cmp 'Microsoft.Storage' }`
+    its('properties.networkProfile.networkInterfaces.count') { should eq 1 }
 
- - `properties.encryption.services.blob.enabled`
+### Test the authentication and OS type
 
-    `its('properties.encryption.services.blob.enabled') { should be true }`
+    its('properties.osProfile.computerName') { should eq 'linux-external-1' }
+    its('properties.osProfile.adminUsername') { should eq 'azure' }
+    its('properties.osProfile.linuxConfiguration.disablePasswordAuthentication') { should be true }
 
- - `properties.encryption.services.file.enabled`
+### Test that the tags are properly set
 
-    `its('properties.encryption.services.file.enabled') { should be true }`
+    it { should have_tags }
+    its('tag_count') { should be 1 }
+    its('tags') { should include 'Description' }
+    its('Description_tag') { should match 'Externally facing' }
 
- - `properties.hardwareProfile.vmSize`
-
-    `its('properties.hardwareProfile.vmSize') { should cmp 'Standard_DS2_v2' }`
-
- - `properties.ipConfiguration.id`
-
-    `its('properties.ipConfiguration.id') { should match 'Inspec-NIC-2' }`
-
- - `properties.ipConfigurations.count`
-
-    `its('properties.ipConfigurations.count') { should eq 1 }`
-
- - `properties.networkProfile.networkInterfaces.count`
-
-    `its('properties.networkProfile.networkInterfaces.count') { should eq 1 }`
-
- - `properties.osProfile.adminUsername`
-
-    `its('properties.osProfile.adminUsername') { should eq 'azure' }`
-
- - `properties.osProfile.computerName`
-
-    `its('properties.osProfile.computerName') { should eq 'linux-external-1' }`
-
- - `properties.osProfile.linuxConfiguration.disablePasswordAuthentication`
-
-    `its('properties.osProfile.linuxConfiguration.disablePasswordAuthentication') { should be false }`
-
- - `properties.osProfile.windowsConfiguration.enableAutomaticUpdates`
-
-    `its('properties.osProfile.windowsConfiguration.enableAutomaticUpdates') { should be false }`
-
- - `properties.osProfile.windowsConfiguration.provisionVMAgent`
-
-    `its('properties.osProfile.windowsConfiguration.provisionVMAgent') { should be true }`
-
- - `properties.osType`
-
-    `its('properties.osType') { should cmp 'Linux' }`
-
- - `properties.primaryLocation`
-
-    `its('properties.primaryLocation') { should cmp 'westeurope' }`
-
- - `properties.provisioningState`
-
-    `its('properties.provisioningState') { should cmp 'Succeeded' }`
-
- - `properties.publicIPAllocationMethod`
-
-    `its('properties.publicIPAllocationMethod') { should cmp 'Dynamic' }`
-
- - `properties.statusOfPrimary`
-
-    `its('properties.statusOfPrimary') { should cmp 'available' }`
-
- - `properties.storageProfile.dataDisks.count`
-
-    `its('properties.storageProfile.dataDisks.count') { should eq 1 }`
-
- - `properties.storageProfile.imageReference.offer`
-
-    `its('properties.storageProfile.imageReference.offer') { should cmp 'UbuntuServer' }`
-
- - `properties.storageProfile.imageReference.publisher`
-
-    `its('properties.storageProfile.imageReference.publisher') { should cmp 'Canonical' }`
-
- - `properties.storageProfile.imageReference.sku`
-
-    `its('properties.storageProfile.imageReference.sku') { should cmp '16.04.0-LTS' }`
-
- - `properties.storageProfile.osDisk.caching`
-
-    `its('properties.storageProfile.osDisk.caching') { should cmp 'ReadWrite' }`
-
- - `properties.storageProfile.osDisk.createOption`
-
-    `its('properties.storageProfile.osDisk.createOption') { should cmp 'FromImage' }`
-
- - `properties.storageProfile.osDisk.managedDisk.id`
-
-    `its('properties.storageProfile.osDisk.managedDisk.id') { should match 'Windows-Internal-OSDisk-MD' }`
-
- - `properties.storageProfile.osDisk.managedDisk.storageAccountType`
-
-    `its('properties.storageProfile.osDisk.managedDisk.storageAccountType') { should cmp 'Standard_LRS' }`
-
- - `properties.storageProfile.osDisk.name`
-
-    `its('properties.storageProfile.osDisk.name') { should cmp 'Windows-Internal-OSDisk-MD' }`
-
- - `properties.storageProfile.osDisk.osType`
-
-    `its('properties.storageProfile.osDisk.osType') { should cmp 'Windows' }`
-
- - `properties.subnets.count`
-
-    `its('properties.subnets.count') { should eq 1 }`
-
- - `properties.supportsHttpsTrafficOnly`
-
-    `its('properties.supportsHttpsTrafficOnly') { should be false }`
-
- - `properties.virtualMachine.id`
-
-    `its('properties.virtualMachine.id') { should match 'Linux-External-VM' }`
+<br>
 
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+<br>
+
+## References
+
+Please see the integration tests for in depth examples of how this resource can be used.
+
+[Inspec Integration Tests for Azure Generic Resources](https://github.com/chef/inspec/tree/master/test/azure/verify/controls)
