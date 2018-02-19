@@ -74,7 +74,7 @@ The information from the SPN can be specified either in the file `~/.azure/crede
 
 By default InSpec is configured to look at ~/.azure/credentials, and it should contain:
 
-```powershell
+```
 [<SUBSCRIPTION_ID>]
 client_id = "<CLIENT_ID>"
 client_secret = "<CLIENT_SECRET>"
