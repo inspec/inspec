@@ -441,7 +441,9 @@ form.main-sidebar--search input[type="text"] {
 	width: 100%;
 	display: inline;
   height: 45px;
-  padding: 16px;
+	line-height: 45px;
+  padding-left: 16px;
+	padding-right: 16px;
   box-sizing: border-box;
 	border-radius: 8px;
   background: $color_white;
