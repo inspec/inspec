@@ -19,7 +19,7 @@ where
 * `MyVm` is the name of the virtual machine as seen in Azure. (It is **not** the hostname of the machine)
 * `InSpec-Azure` is the name of the resouce group that the machine is in.
 * `property` is a resource property
-* `value` is the expected output fdrom the matcher
+* `value` is the expected output from the matcher
 
 The `count`, `have_data_disks` and `have_managed_disks` are catchall tests that give information about the virtual machine. The specific tests need to be used in conjunction with the `where` option as shown below.
 
@@ -31,9 +31,9 @@ The `count`, `have_data_disks` and `have_managed_disks` are catchall tests that 
 
 These options can also be set using the environment variables:
 
- - `AZURE_RESOURCE_GROUP_NAME`
- - `AZURE_RESOURCE_NAME`
- - `AZURE_RESOURCE_API_VERSION`
+* `AZURE_RESOURCE_GROUP_NAME`
+* `AZURE_RESOURCE_NAME`
+* `AZURE_RESOURCE_API_VERSION`
 
 When the options have been set as well as the environment variables, the environment variables take priority.
 
@@ -82,7 +82,7 @@ Use this parameter to define the name of the Azure resource to test.
         ...
     end
 
-<br> 
+<br>
 
 ## Filter Criteria
 
@@ -110,8 +110,7 @@ The '1' based index of the disk attached to the machine.
 
 ## Properties
 
-* `count`, `disk`, `number`, `name`, `size`, `lun`
-, `caching`, `create_option`, `is_managed_disk?`, `vhd_uri`, `storage_account_name`, `storage_account_type`, `id`, `subscription_id`, `resource_group`
+* `count`, `disk`, `number`, `name`, `size`, `lun`, `caching`, `create_option`, `is_managed_disk?`, `vhd_uri`, `storage_account_name`, `storage_account_type`, `id`, `subscription_id`, `resource_group`
 
 <br>
 
@@ -185,7 +184,6 @@ If this is a managed disk this is the storage account type, e.g. `Standard_LRS`
 If this is a managed disk then this is the fully qualified id for the disk in Azure.
 
     its('id') { should cmp '/subscriptions/1234abcd-e567-890f-g123-456h78i9jkl0/resourceGroups/InSpec-Azure' }
-    
 
 ### subscription\_id
 
@@ -202,7 +200,7 @@ If this is a managed disk, this returns the resource group in which the disk is 
 This is derived from the `id`.
 
     its('resource_group') { should cmp 'InSpec-Azure' }
-    
+
 <br>
 
 ## Matchers
@@ -230,4 +228,3 @@ Returns a boolean stating if the machine has Managed Disks for data disks.
 * [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_compute)
 * [Linux Internal Data Disks](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_linux_external_vm_datadisk.rb)
 * [Windows Internal Data Disk](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_windows_internal_vm_datadisk.rb)
- 
