@@ -12,9 +12,9 @@ With InSpec 2.0, you may now use several InSpec resources to audit properties of
 
 InSpec uses the standard AWS authentication mechanisms. Typically, you will create an IAM user specifically for auditing activities.
 
-* 1. Create an IAM user in the AWS console, with your choice of username. Check the box marked "Programmatic Access."
-* 2. On the Permissions screen, choose Direct Attach. Select the AWS-managed IAM Profile named "ReadOnlyAccess." If you wish to restrict the user further, you may do so; see individual InSpec resources to identify which permissions are required.
-* 3. After generating the key, record the Access Key ID and Secret Key.
+* 1 Create an IAM user in the AWS console, with your choice of username. Check the box marked "Programmatic Access."
+* 2 On the Permissions screen, choose Direct Attach. Select the AWS-managed IAM Profile named "ReadOnlyAccess." If you wish to restrict the user further, you may do so; see individual InSpec resources to identify which permissions are required.
+* 3 After generating the key, record the Access Key ID and Secret Key.
 
 #### Using Environment Variables to provide credentials
 
@@ -31,11 +31,11 @@ Families:  cloud, api
 Release:   aws-sdk-v2.10.125
 ```
 
-#### Using the InSpec target option to provide credentials
+#### Using the InSpec target option to provide credentials on AWS
 
 Look for a file in your home directory named `~/.aws/credentials`. If it does not exist, create it. Choose a name for your profile; here, we're using the name 'auditing'. Add your credentials as a new profile, in INI format:
 
-```
+```bash
 [auditing]
 aws_access_key_id = AKIA....
 aws_secret_access_key = 1234....abcd
@@ -60,14 +60,13 @@ Release:   aws-sdk-v2.10.125
 
 ### Setting up Azure credentials for InSpec
 
-To use InSpec Azure resources, you will need to create a Service Principal Name (SPN) for auditing a the Azure subscription.
+To use InSpec Azure resources, you will need to create a Service Principal Name (SPN) for auditing an Azure subscription.
 
 This can be done on the command line or from the Azure Portal:
 
-- Azure CLI: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal-cli
-- PowerShell: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal
-- Azure Portal: https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal
-
+* [Azure CLI](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal-cli)
+* [PowerShell](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authenticate-service-principal)
+* [Azure Portal](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal)
 
 The information from the SPN can be specified either in the file `~/.azure/credentials`, as environment variables, or by using InSpec target URIs.
 
@@ -75,7 +74,7 @@ The information from the SPN can be specified either in the file `~/.azure/crede
 
 By default InSpec is configured to look at ~/.azure/credentials, and it should contain:
 
-```
+```powershell
 [<SUBSCRIPTION_ID>]
 client_id = "<CLIENT_ID>"
 client_secret = "<CLIENT_SECRET>"
@@ -97,10 +96,10 @@ inspec exec my-inspec-profile -t azure://
 
 You may also set the Azure credentials via environment variables:
 
-- `AZURE_SUBSCRIPTION_ID`
-- `AZURE_CLIENT_ID`
-- `AZURE_CLIENT_SECRET`
-- `AZURE_TENANT_ID`
+* `AZURE_SUBSCRIPTION_ID`
+* `AZURE_CLIENT_ID`
+* `AZURE_CLIENT_SECRET`
+* `AZURE_TENANT_ID`
 
 For example:
 
@@ -111,7 +110,7 @@ AZURE_CLIENT_SECRET="Jibr4iwwaaZwBb6W" \
 AZURE_TENANT_ID="6ad89b58-df2e-11e6-bf01-fe55135034f3" inspec exec my-profile -t azure://
 ```
 
-####  Using the InSpec target option to provide credentials
+#### Using the InSpec target option to provide credentials on Azure
 
 If you have created a `~/.azure/credentials` file as above, you may also use the InSpec command line `--target` / `-t` option to select a subscription ID.  For example:
 
