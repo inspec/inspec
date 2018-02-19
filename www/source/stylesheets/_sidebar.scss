@@ -10,6 +10,11 @@
   @media screen and (max-width: 640px) {
     margin-bottom: $percent_md;
   }
+
+  position: absolute;
+}
+#mainbar {
+  margin-left: 25%;
 }
 
 ul.main-sidebar--links {
