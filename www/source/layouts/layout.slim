@@ -10,8 +10,8 @@ html
 
     title = current_page.data.title || "InSpec"
 
-    link rel='stylesheet' type='text/css' href='css/inspec_tutorial.css'
-    link rel='stylesheet' type='text/css' href='stylesheets/vendor/fontawesome.min.css'
+    link rel='stylesheet' type='text/css' href='/css/inspec_tutorial.css'
+    link rel='stylesheet' type='text/css' href='/stylesheets/vendor/fontawesome.min.css'
 
     == stylesheet_link_tag :site
 
@@ -26,11 +26,11 @@ html
 
     = partial "layouts/footer"
 
-    script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
     script src='https://buttons.github.io/buttons.js'
-    script src='scripts/inspec_tutorial.js'
-    script src='dist/inspec_tutorial.js'
-    script src='javascripts/vendor/jquery.min.js'
+    script src='/scripts/inspec_tutorial.js'
+    script src='/dist/inspec_tutorial.js'
+    script src='/javascripts/vendor/jquery.min.js'
+    script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
     div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
       = "Loading"
 
@@ -125,7 +125,7 @@ html
             $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
          });
       });
-      
+
       // tutorial content slider
 
       $(function() {
@@ -146,8 +146,8 @@ html
             }
          });
       });
-      
-      
+
+
 
       // scroll spy animations
 
@@ -241,11 +241,11 @@ html
           $('html, body').animate({scrollTop : 0},800);
           return false;
         });
-        
+
         // scrolling to resource sections
         $(".resources-button").click(function() {
           var dst = $(this).attr("href")
-          $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o") 
+          $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
           $(this).addClass("btn-purple").removeClass("btn-purple-o")
           $("html, body").animate({
               scrollTop: $(dst).offset().top - 105
@@ -261,7 +261,7 @@ html
           var pos = div.scrollTop();
           div.scrollTop(pos + 2);
       }, 200);
-      
+
       //Animating progress bar for header
 
       $(document).ready(function(){
