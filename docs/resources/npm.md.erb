@@ -13,9 +13,11 @@ Use the `npm` InSpec audit resource to test if a global NPM package is installed
 
 A `npm` resource block declares a package and (optionally) a package version:
 
-    describe npm('npm_package_name') do
-      it { should be_installed }
-    end
+```ruby
+describe npm('npm_package_name') do
+  it { should be_installed }
+end
+```
 
 where
 
@@ -30,16 +32,20 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify that bower is installed, with a specific version
 
-    describe npm('bower') do
-      it { should be_installed }
-      its('version') { should eq '1.4.1' }
-    end
+```ruby
+describe npm('bower') do
+  it { should be_installed }
+  its('version') { should eq '1.4.1' }
+end
+```
 
 ### Verify that statsd is not installed
 
-    describe npm('statsd') do
-      it { should_not be_installed }
-    end
+```ruby
+describe npm('statsd') do
+  it { should_not be_installed }
+end
+```
 
 <br>
 
@@ -51,10 +57,14 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_installed` matcher tests if the named Gem package and package version (if specified) is installed:
 
-    it { should be_installed }
+```ruby
+it { should be_installed }
+```
 
 ### version
 
 The `version` matcher tests if the named package version is on the system:
 
-    its('version') { should eq '1.2.3' }
+```ruby
+its('version') { should eq '1.2.3' }
+```

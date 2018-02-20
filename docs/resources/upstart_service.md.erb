@@ -13,11 +13,13 @@ Use the `upstart_service` InSpec audit resource to test a service using Upstart.
 
 An `upstart_service` resource block declares the name of a service and then one (or more) matchers to test the state of the service:
 
-    describe upstart_service('service_name') do
-      it { should be_installed }
-      it { should be_enabled }
-      it { should be_running }
-    end
+```ruby
+describe upstart_service('service_name') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+```
 
 where
 
@@ -26,11 +28,13 @@ where
 
 The path to the service manager's control may be specified for situations where the path isn't available in the current `PATH`. For example:
 
-    describe upstart_service('service_name', '/path/to/control') do
-      it { should be_enabled }
-      it { should be_installed }
-      it { should be_running }
-    end
+```ruby
+describe upstart_service('service_name', '/path/to/control') do
+  it { should be_enabled }
+  it { should be_installed }
+  it { should be_running }
+end
+```
 
 <br>
 
@@ -42,16 +46,22 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_enabled` matcher tests if the named service is enabled:
 
-    it { should be_enabled }
+```ruby
+it { should be_enabled }
+```
 
 ### be_installed
 
 The `be_installed` matcher tests if the named service is installed:
 
-    it { should be_installed }
+```ruby
+it { should be_installed }
+```
 
 ### be_running
 
 The `be_running` matcher tests if the named service is running:
 
-    it { should be_running }
+```ruby
+it { should be_running }
+```

@@ -13,9 +13,11 @@ Use the `windows_hotfix` InSpec audit resource to test if the hotfix has been in
 
 A `windows_hotfix` resource block declares a hotfix to validate:
 
-    describe windows_hotfix('name') do
-      it { should be_installed }
-    end
+```ruby
+describe windows_hotfix('name') do
+  it { should be_installed }
+end
+```
 
 where
 
@@ -30,15 +32,19 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test if KB4012213 is installed
 
-    describe windows_hotfix('KB4012213') do
-      it { should be_installed }
-    end
+```ruby
+describe windows_hotfix('KB4012213') do
+  it { should be_installed }
+end
+```
 
 ### Test that a hotfix is not installed
 
-    describe windows_hotfix('KB9999999') do
-      it { should_not be_installed }
-    end
+```ruby
+describe windows_hotfix('KB9999999') do
+  it { should_not be_installed }
+end
+```
 
 <br>
 
@@ -50,4 +56,6 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_installed` matcher tests if the named hotfix is installed on the system:
 
-    it { should be_installed }
+```ruby
+it { should be_installed }
+```

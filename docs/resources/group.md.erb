@@ -13,10 +13,12 @@ Use the `group` InSpec audit resource to test groups on the system.
 
 A `group` resource block declares a group, and then the details to be tested, such as if the group is a local group, the group identifier, or if the group exists:
 
-    describe group('group_name') do
-      it { should exist }
-      its('gid') { should eq 0 }
-    end
+```ruby
+describe group('group_name') do
+  it { should exist }
+  its('gid') { should eq 0 }
+end
+```
 
 where
 
@@ -31,10 +33,12 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test the group identifier for the root group
 
-    describe group('root') do
-      it { should exist }
-      its('gid') { should eq 0 }
-    end
+```ruby
+describe group('root') do
+  it { should exist }
+  its('gid') { should eq 0 }
+end
+```
 
 <br>
 
@@ -46,16 +50,22 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_local` matcher tests if the group is a local group:
 
-    it { should be_local }
+```ruby
+it { should be_local }
+```
 
 ### exist
 
 The `exist` matcher tests if the named user exists:
 
-    it { should exist }
+```ruby
+it { should exist }
+```
 
 ### gid
 
 The `gid` matcher tests the named group identifier:
 
-    its('gid') { should eq 1234 }
+```ruby
+its('gid') { should eq 1234 }
+```

@@ -13,9 +13,11 @@ Use the `gem` InSpec audit resource to test if a global Gem package is installed
 
 A `gem` resource block declares a package and (optionally) a package version:
 
-    describe gem('gem_package_name', 'gem_binary') do
-      it { should be_installed }
-    end
+```ruby
+describe gem('gem_package_name', 'gem_binary') do
+  it { should be_installed }
+end
+```
 
 where
 
@@ -31,34 +33,44 @@ The following examples show how to use this InSpec audit resource.
 
 ### Verify that a gem package is installed, with a specific version
 
-    describe gem('rubocop') do
-      it { should be_installed }
-      its('version') { should eq '0.33.0' }
-    end
+```ruby
+describe gem('rubocop') do
+  it { should be_installed }
+  its('version') { should eq '0.33.0' }
+end
+```
 
 ### Verify that a gem package is not installed
 
-    describe gem('rubocop') do
-      it { should_not be_installed }
-    end
+```ruby
+describe gem('rubocop') do
+  it { should_not be_installed }
+end
+```
 
 ### Verify that a gem package is installed in an omnibus environment
 
-    describe gem('pry', '/opt/ruby-2.3.1/embedded/bin/gem') do
-      it { should be_installed }
-    end
+```ruby
+describe gem('pry', '/opt/ruby-2.3.1/embedded/bin/gem') do
+  it { should be_installed }
+end
+```
 
 ### Verify that a gem package is installed in a chef omnibus environment
 
-    describe gem('chef-sugar', :chef) do
-      it { should be_installed }
-    end
+```ruby
+describe gem('chef-sugar', :chef) do
+  it { should be_installed }
+end
+```
 
 ### Verify that a gem package is installed in a chef-server omnibus environment
 
-    describe gem('knife-backup', :chef_server) do
-      it { should be_installed }
-    end
+```ruby
+describe gem('knife-backup', :chef_server) do
+  it { should be_installed }
+end
+```
 
 <br>
 
@@ -70,10 +82,14 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `be_installed` matcher tests if the named Gem package is installed:
 
-    it { should be_installed }
+```ruby
+it { should be_installed }
+```
 
 ### version
 
 The `version` matcher tests if the named package version is on the system:
 
-    its('version') { should eq '0.33.0' }
+```ruby
+its('version') { should eq '0.33.0' }
+```

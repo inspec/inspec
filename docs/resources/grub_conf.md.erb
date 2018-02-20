@@ -13,16 +13,20 @@ Grub is a boot loader on the Linux platform used to load and then transfer contr
 
 A `grub_conf` resource block declares a list of settings in a `grub.conf` file:
 
-    describe grub_conf('path', 'kernel') do
-      its('setting') { should eq 'value' }
-    end
+```ruby
+describe grub_conf('path', 'kernel') do
+  its('setting') { should eq 'value' }
+end
+```
 
 or:
 
-    describe grub_conf('path') do
-      its('default') { should eq '0' } #
-      its('setting') { should eq 'value' }
-    end
+```ruby
+describe grub_conf('path') do
+  its('default') { should eq '0' } #
+  its('setting') { should eq 'value' }
+end
+```
 
 where
 
@@ -66,33 +70,41 @@ This file defines two versions of RedHat Enterprise Linux, with version `2.6.32-
 
 The following test verifies the kernel, ensures that kernel is the default kernel, its initial RAM disk (`initrd`), and the timeout:
 
-    describe grub_conf('/etc/grub.conf',  'default') do
-      its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
-      its('initrd') { should include '/initrd-2.6.32-573.7.1.el6.x86_64.img' }
-      its('default') { should_not eq '1' }
-      its('timeout') { should eq '10' }
-    end
+```ruby
+describe grub_conf('/etc/grub.conf',  'default') do
+  its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
+  its('initrd') { should include '/initrd-2.6.32-573.7.1.el6.x86_64.img' }
+  its('default') { should_not eq '1' }
+  its('timeout') { should eq '10' }
+end
+```
 
 The following test verifies the `ramdisk_size` for the non-deault kernel:
 
-    describe grub_conf('/etc/grub.conf',  'Red Hat Enterprise Linux ES (2.6.32-358.14.1.el6.x86_64)') do
-       its('kernel') { should include 'ramdisk_size=400000' }
-     end
+```ruby
+describe grub_conf('/etc/grub.conf',  'Red Hat Enterprise Linux ES (2.6.32-358.14.1.el6.x86_64)') do
+   its('kernel') { should include 'ramdisk_size=400000' }
+ end
+```
 
 ### Test a configuration file and boot configuration
 
-    describe grub_conf('/etc/grub.conf',  'default') do
-      its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
-      its('initrd') { should include '/initramfs-2.6.32-573.el6.x86_64.img=1' }
-      its('default') { should_not eq '1' }
-      its('timeout') { should eq '5' }
-    end
+```ruby
+describe grub_conf('/etc/grub.conf',  'default') do
+  its('kernel') { should include '/vmlinuz-2.6.32-573.7.1.el6.x86_64' }
+  its('initrd') { should include '/initramfs-2.6.32-573.el6.x86_64.img=1' }
+  its('default') { should_not eq '1' }
+  its('timeout') { should eq '5' }
+end
+```
 
 ### Test a specific kernel
 
-    grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
-      its('kernel') { should include 'audit=1' }
-    end
+```ruby
+grub_conf('/etc/grub.conf',  'CentOS (2.6.32-573.12.1.el6.x86_64)') do
+  its('kernel') { should include 'audit=1' }
+end
+```
 
 <br>
 

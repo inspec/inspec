@@ -90,7 +90,7 @@ In addition InSpec provides additional [resources](https://www.inspec.io/docs/re
 
 For most cases, the migration to InSpec is pretty straight forward. First, replace the current verifier in `kitchen.yml` configuration with:
 
-```
+```yaml
 verifier:
   name: inspec
 ```
@@ -100,7 +100,7 @@ Second, rename the directory `test/integration/default/serverspec` to
 
 Third, remove the Serverspec-specific code from the test files.
 
-```
+```ruby
 require 'serverspec'
 
 # Required by serverspec
@@ -109,7 +109,7 @@ set :backend, :exec
 
 InSpec is now configured with Test-Kitchen:
 
-```
+```shell
 kitchen verify package-install-centos-72
 -----> Starting Kitchen (v1.14.2)
 -----> Verifying <package-install-centos-72>...
@@ -145,7 +145,7 @@ Some general recommendations:
 
 InSpec does not attach backend information to test files. All tests are defined independently of any backend. Therefore a Serverspec test file:
 
-```
+```ruby
 require 'serverspec'
 
 # Required by serverspec
@@ -168,7 +168,7 @@ end
 
 will become the following InSpec test file:
 
-```
+```ruby
 describe 'PHP' do
   it 'has php' do
     expect(command('php -v').exit_status).to eq(0)
@@ -190,7 +190,7 @@ As you can see, the InSpec test files just focuses on tests and tries to avoid a
 
 Serverspec and RSpec allow you to define nested describe blocks. We did a survey and found out that most users use nested describe blocks only to improve their output report. We believe the code structure should not change to improve the output of a report. Nevertheless we understand that nested describe blocks help you to structure test code. A sample code block looks like:
 
-```
+```ruby
 describe 'chef-server-directories' do
   describe file('/etc/opscode') do
     it { should be_directory }
@@ -218,7 +218,7 @@ end
 
 In InSpec you would split up groups into files.
 
-```
+```shell
 tests
 ├── server-directories.rb
 ├── other-tests.rb
@@ -227,7 +227,7 @@ tests
 
 Each file can have a top-level description of its content:
 
-```
+```ruby
 title "Chef Server Directories"
 
 describe file('/etc/opscode') do
@@ -260,7 +260,7 @@ Of course. We still prefer the `should` syntax for UX reasons. We did surveys wi
 
 ### `should` syntax with InSpec
 
-```
+```ruby
 describe command('php -v') do
   its('exit_status') { should eq 0 }
 end
@@ -276,7 +276,7 @@ end
 
 ### `expect` syntax with InSpec
 
-```
+```ruby
 describe 'PHP' do
   it 'has php' do
     expect(command('php -v').exit_status).to eq(0)

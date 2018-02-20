@@ -13,9 +13,11 @@ Use the `os_env` InSpec audit resource to test the environment variables for the
 
 A `os_env` resource block declares an environment variable, and then declares its value:
 
-    describe os_env('VARIABLE') do
-      its('property') { should eq 1 }
-    end
+```ruby
+describe os_env('VARIABLE') do
+  its('property') { should eq 1 }
+end
+```
 
 where
 
@@ -30,32 +32,38 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test the PATH environment variable
 
-    describe os_env('PATH') do
-      its('split') { should_not include('') }
-      its('split') { should_not include('.') }
-    end
+```ruby
+describe os_env('PATH') do
+  its('split') { should_not include('') }
+  its('split') { should_not include('.') }
+end
+```
 
 ### Test Habitat environment variables
 
 Habitat uses the `os_env` resource to test environment variables. The environment variables are first defined in a whitespace array, after which each environment variable is tested:
 
-    hab_env_vars = %w(HAB_AUTH_TOKEN
-                      HAB_CACHE_KEY_PATH
-                      HAB_DEPOT_URL
-                      HAB_ORG
-                      HAB_ORIGIN
-                      HAB_ORIGIN_KEYS
-                      HAB_RING
-                      HAB_RING_KEY
-                      HAB_STUDIOS_HOME
-                      HAB_STUDIO_ROOT
-                      HAB_USER)
+```ruby
+hab_env_vars = %w(HAB_AUTH_TOKEN
+                  HAB_CACHE_KEY_PATH
+                  HAB_DEPOT_URL
+                  HAB_ORG
+                  HAB_ORIGIN
+                  HAB_ORIGIN_KEYS
+                  HAB_RING
+                  HAB_RING_KEY
+                  HAB_STUDIOS_HOME
+                  HAB_STUDIO_ROOT
+                  HAB_USER)
+```
 
-    hab_env_vars.each do |e|
-      describe os_env(e) do
-        its('content') { should eq nil }
-      end
-    end
+```ruby
+hab_env_vars.each do |e|
+  describe os_env(e) do
+    its('content') { should eq nil }
+  end
+end
+```
 
 <br>
 
@@ -67,12 +75,16 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `content` matcher return the value of the environment variable:
 
-    its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
+```ruby
+its('content') { should eq '/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin' }
+```
 
 ### split
 
 The `split` matcher splits the value of the environment variable with the `:` deliminator (use the `;` deliminator if Windows):
 
-    its('split') { should include ('/usr/bin') }
+```ruby
+its('split') { should include ('/usr/bin') }
+```
 
 Note: the `split` matcher returns an array including `""` for cases where there is a trailing colon (`:`), such as `dir1::dir2:`

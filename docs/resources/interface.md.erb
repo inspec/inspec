@@ -16,11 +16,13 @@ Use the `interface` InSpec audit resource to test basic network adapter properti
 
 An `interface` resource block declares network interface properties to be tested:
 
-    describe interface('eth0') do
-      it { should be_up }
-      its('speed') { should eq 1000 }
-      its('name') { should eq eth0 }
-    end
+```ruby
+describe interface('eth0') do
+  it { should be_up }
+  its('speed') { should eq 1000 }
+  its('name') { should eq eth0 }
+end
+```
 
 <br>
 
@@ -36,13 +38,17 @@ An `interface` resource block declares network interface properties to be tested
 
 The `name` matcher tests if the named network interface exists:
 
-    its('name') { should eq eth0 }
+```ruby
+its('name') { should eq eth0 }
+```
 
 ### speed
 
 The `speed` matcher tests the speed of the network interface, in MB/sec:
 
-    its('speed') { should eq 1000 }
+```ruby
+its('speed') { should eq 1000 }
+```
 
 <br>
 
@@ -55,4 +61,3 @@ For a full list of available matchers, please visit our [matchers page](https://
 The `be_up` matcher tests if the network interface is available:
 
     it { should be_up }
-

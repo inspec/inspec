@@ -13,9 +13,11 @@ Use the `processes` InSpec audit resource to test properties for programs that a
 
 A `processes` resource block declares the name of the process to be tested, and then declares one (or more) property/value pairs:
 
-    describe processes('process_name') do
-      its('property_name') { should eq ['property_value'] }
-    end
+```ruby
+describe processes('process_name') do
+  its('property_name') { should eq ['property_value'] }
+end
+```
 
 where
 
@@ -30,36 +32,48 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test if the list length for the mysqld process is 1
 
-    describe processes('mysqld') do
-      its('list.length') { should eq 1 }
-    end
+```ruby
+describe processes('mysqld') do
+  its('list.length') { should eq 1 }
+end
+```
 
 ### Test if the process is owned by a specifc user
 
-    describe processes('init') do
-      its('users') { should eq ['root'] }
-    end
+```ruby
+describe processes('init') do
+  its('users') { should eq ['root'] }
+end
+```
 
-    describe processes('winlogon') do
-      its('users') { should cmp "NT AUTHORITY\\SYSTEM" }
-    end
+```ruby
+describe processes('winlogon') do
+  its('users') { should cmp "NT AUTHORITY\\SYSTEM" }
+end
+```
 
 
 ### Test if a high-priority process is running
 
-    describe processes('linux_process') do
-      its('states') { should eq ['R<'] }
-    end
+```ruby
+describe processes('linux_process') do
+  its('states') { should eq ['R<'] }
+end
+```
 
-    describe processes('windows_process') do
-      its('labels') { should cmp "High" }
-    end
+```ruby
+describe processes('windows_process') do
+  its('labels') { should cmp "High" }
+end
+```
 
 ### Test if a process exists on the system
 
-    describe processes('some_process') do
-      it { should exist }
-    end
+```ruby
+describe processes('some_process') do
+  it { should exist }
+end
+```
 
 ### Test for a process using a specific Regexp
 
@@ -67,9 +81,11 @@ If the process name is too common for a string to uniquely find it,
 you may use a regexp. Inclusion of whitespace characters may be
 needed.
 
-    describe processes(Regexp.new("/usr/local/bin/swap -d")) do
-      its('list.length') { should eq 1 }
-    end
+```ruby
+describe processes(Regexp.new("/usr/local/bin/swap -d")) do
+  its('list.length') { should eq 1 }
+end
+```
 
 ### Notes for auditing Windows systems
 
@@ -106,4 +122,6 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 The `property_name` matcher tests the named property for the specified value:
 
-    its('property_name') { should eq ['property_value'] }
+```ruby
+its('property_name') { should eq ['property_value'] }
+```

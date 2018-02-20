@@ -106,7 +106,7 @@ commented out the `require 'pry'; binding.pry;` line. If you remove the
 give you a `pry` shell. Use that to troubleshoot, print variables, see
 methods available, etc. For the above example:
 
-```ruby
+```shell
 [1] pry> perl_out.exit_status
 => 0
 [2] pry> perl_out.stderr
@@ -127,7 +127,7 @@ You can use `pry` inside both the controls DSL and resources. Similarly,
 for dev and test, you can use `inspec shell` which is based on `pry`,
 for example:
 
-```ruby
+```shell
 $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
@@ -159,7 +159,7 @@ However, the `command` resource has a `.stdout` method that will allow you to ma
 Using the above example, you could check the writes on several subdirectories.
 
 ### Example 1:
-```ruby
+```shell
 $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
@@ -180,7 +180,7 @@ Test Summary: 1 successful, 0 failures, 0 skipped
 ```
 
 ### Example 2:
-```ruby
+```shell
 $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help

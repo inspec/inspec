@@ -13,9 +13,11 @@ Use the `inetd_conf` InSpec audit resource to test if a service is listed in the
 
 An `inetd_conf` resource block declares the list of services that are enabled in the `inetd.conf` file:
 
-    describe inetd_conf('path') do
-      its('service_name') { should eq 'value' }
-    end
+```ruby
+describe inetd_conf('path') do
+  its('service_name') { should eq 'value' }
+end
+```
 
 where
 
@@ -59,36 +61,45 @@ For example:
 
 The contents if the `inetd.conf` file contain the following:
 
-    #ftp      stream   tcp   nowait   root   /usr/sbin/tcpd   in.ftpd -l -a
-    #telnet   stream   tcp   nowait   root   /usr/sbin/tcpd   in.telnetd
+```ruby
+#ftp      stream   tcp   nowait   root   /usr/sbin/tcpd   in.ftpd -l -a
+#telnet   stream   tcp   nowait   root   /usr/sbin/tcpd   in.telnetd
+```
 
 and the following test is defined:
 
-    describe inetd_conf do
-      its('ftp') { should eq nil }
-      its('telnet') { should eq nil }
-    end
+```ruby
+describe inetd_conf do
+  its('ftp') { should eq nil }
+  its('telnet') { should eq nil }
+end
+```
 
 Because both the `ftp` and `telnet` Internet services are commented out (`#`), both services are disabled. Consequently, both tests will return `true`. However, if the `inetd.conf` file is set as follows:
 
-    ftp       stream   tcp   nowait   root   /usr/sbin/tcpd   in.ftpd -l -a
-    #telnet   stream   tcp   nowait   root   /usr/sbin/tcpd   in.telnetd
+```ruby
+ftp       stream   tcp   nowait   root   /usr/sbin/tcpd   in.ftpd -l -a
+#telnet   stream   tcp   nowait   root   /usr/sbin/tcpd   in.telnetd
+```
 
 then the same test will return `false` for `ftp` and the entire test will fail.
 
 ### Test if telnet is installed
 
-    describe package('telnetd') do
-      it { should_not be_installed }
-    end
+```ruby
+describe package('telnetd') do
+  it { should_not be_installed }
+end
+```
 
-    describe inetd_conf do
-      its('telnet') { should eq nil }
-    end
+```ruby
+describe inetd_conf do
+  its('telnet') { should eq nil }
+end
+```
 
 <br>
 
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-
