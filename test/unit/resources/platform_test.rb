@@ -25,6 +25,16 @@ describe 'Inspec::Resources::Platform' do
     _(resource.families).must_equal expect
   end
 
+  it 'verify platform detect' do
+    expect = <<EOF
+Name:      \e[1m\e[39mubuntu\e[0m
+Families:  \e[1m\e[39mdebian, linux, unix\e[0m
+Release:   \e[1m\e[39m15.04\e[0m
+Arch:      \e[1m\e[39mx86_64\e[0m
+EOF
+    _(resource.detect).must_equal expect
+  end
+
   it 'verify platform? responds correctly' do
     _(resource.platform?('windows')).must_equal false
     _(resource.platform?('unix')).must_equal true
