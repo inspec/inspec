@@ -47,16 +47,19 @@ html
 
     javascript:
 
-      function initSliders() {
+      function initSlideGroup(group) {
         var prev = -1;
-        $('.slider .selectors a').click(function(e) {
+        var links = $(group).find('a')
+
+        links.click(function(e) {
           e.stopPropagation()
+
+          links.removeClass('selected')
+          $(this).addClass('selected')
+
           var idx = $(this).index();
           if(prev == idx) return;
           prev = idx;
-
-          $('.slider .selectors a').removeClass('selected')
-          $(this).addClass('selected')
 
           $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
           var el = $('.slider .view')[idx]
@@ -68,9 +71,15 @@ html
           $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
         })
 
+        if(links[0] != null) links[0].click();
+      }
+
+      function initSliders() {
         $('.slider .view').addClass('hidden')
-        var links = $('.slider .selectors a')
-        if(links[0]!= null) links[0].click()
+        var groups = $('.slider .selectors')
+        groups.each(function(idx){
+          initSlideGroup(this)
+        })
       }
 
       //run code colors
