@@ -20,7 +20,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
     .large-5.medium-5.columns.relative.mobile-hide
       /! diamond image
       img.diamond src="/images/home/diamond.png" /
-      img.grid-animate.fit.z-20 src="/images/home/web.svg" /
+      img.grid-animate.fit.z-20 src="/images/home/web.svg" onerror="this.src='/images/home/web.png'"/
   /! announcement
   .row.columns
     .box-white.shadow.z-20
@@ -64,7 +64,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
      hr
      a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
    .large-5.medium-5.columns.blue-grid.mobile-hide
-     img.grid-animate.fit src="/images/community/blue-web.svg"
+     img.grid-animate.fit src="/images/community/blue-web.svg" onerror="this.src='/images/community/blue-web.png'"
   .margin-top-sm
     .row.align.mobile-row
       .large-6.medium-6.mobile-12.columns
@@ -140,32 +140,32 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .row.strict-center.mobile-row
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/platform.svg" /
+      img.icon-art.margin-under-xs src="/images/home/platform.svg" onerror="this.src='/images/home/platform.png'" /
       h4.t-purple Platform Agnostic
       p
         |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance assessments anywhere.
-      img.icon-logos src="/images/home/platform-logos.svg" /
+      img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" /
       .triangle-right
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/test.svg" /
+      img.icon-art.margin-under-xs src="/images/home/test.svg" onerror="this.src='/images/home/test.png'" /
       h4.t-purple Test locally or remotely
       p
         |  InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
-      img.icon-logos src="/images/home/test-logos.svg" /
+      img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" /
       .triangle-right
 
 .row.strict-center.mobile-row
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/run.svg" /
+      img.icon-art.margin-under-xs src="/images/home/run.svg" onerror="this.src='/images/home/run.png'" /
       h4.t-purple Free to run anywhere
       p
         |  InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
       .triangle-right
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/extensible.svg" /
+      img.icon-art.margin-under-xs src="/images/home/extensible.svg" onerror="this.src='/images/home/extensible.png'" /
       h4.t-purple Extensible language
       p
         |  Easily extend the InSpec language to cover new operating systems, devices, or applications.
@@ -282,4 +282,4 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 code end
 
 .scrollToTop.shadow-dark
-  img#scrollup src="/images/home/arrow.svg"
+  img#scrollup src="/images/home/arrow.svg" onerror="this.src='/images/home/arrow.png'"
