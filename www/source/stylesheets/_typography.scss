@@ -6,7 +6,7 @@ h1 {
 	font-weight: 400;
 
 	@include nav-small { //mobile
-		font-size: 1.8em;
+		font-size: 2em;
 	}
 }
 
@@ -16,10 +16,6 @@ h2 {
 	font-size: 1.75em;
 	font-style: normal;
 	font-weight: 400;
-
-	@include nav-small { //mobile
-		font-size: 1.4em;
-	}
 }
 
 h3 {
