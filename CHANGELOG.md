@@ -1,29 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.21 -->
-## [v1.51.21](https://github.com/chef/inspec/tree/v1.51.21) (2018-02-18)
-
-#### Merged Pull Requests
-- Fix legacy reporter output to file (inspec-v1.x) [#2689](https://github.com/chef/inspec/pull/2689) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.51.18 -->
-### Changes since 1.51.18 release
-
-#### Merged Pull Requests
-- Fix legacy reporter output to file (inspec-v1.x) [#2689](https://github.com/chef/inspec/pull/2689) ([jquick](https://github.com/jquick)) <!-- 1.51.21 -->
-- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.20 -->
-- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick)) <!-- 1.51.19 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.51.21](https://github.com/chef/inspec/tree/v1.51.21) (2018-02-20)
+
+#### Merged Pull Requests
+- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick))
+- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix legacy reporter output to file (inspec-v1.x) [#2689](https://github.com/chef/inspec/pull/2689) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v1.51.18](https://github.com/chef/inspec/tree/v1.51.18) (2018-02-12)
 
 #### Merged Pull Requests
 - Force a default reporter for ad-hoc runners [#2610](https://github.com/chef/inspec/pull/2610) ([jquick](https://github.com/jquick))
 - Allow ad-hoc runners to use rspec formats. [#2621](https://github.com/chef/inspec/pull/2621) ([jquick](https://github.com/jquick))
 - Add json fields to schema and add tests. [#2618](https://github.com/chef/inspec/pull/2618) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
 
