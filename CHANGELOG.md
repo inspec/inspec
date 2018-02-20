@@ -1,44 +1,41 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.16 -->
-## [v2.0.16](https://github.com/chef/inspec/tree/v2.0.16) (2018-02-20)
-
-#### Merged Pull Requests
-- HM Mobile IE [#2705](https://github.com/chef/inspec/pull/2705) ([hannah-radish](https://github.com/hannah-radish))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.51.18 -->
-### Changes since 1.51.18 release
-
-#### Merged Pull Requests
-- HM Mobile IE [#2705](https://github.com/chef/inspec/pull/2705) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.16 -->
-- move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus)) <!-- 2.0.15 -->
-- HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.14 -->
-- www: fix sidebar stickiness [#2698](https://github.com/chef/inspec/pull/2698) ([arlimus](https://github.com/arlimus)) <!-- 2.0.13 -->
-- Add correct `supports platform` to resources. [#2674](https://github.com/chef/inspec/pull/2674) ([miah](https://github.com/miah)) <!-- 2.0.12 -->
-- Fix legacy reporter output to file [#2667](https://github.com/chef/inspec/pull/2667) ([jquick](https://github.com/jquick)) <!-- 2.0.11 -->
-- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.10 -->
-- Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.9 -->
-- Hannah Review1 [#2683](https://github.com/chef/inspec/pull/2683) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.8 -->
-- Capture ArgumentErrors from aws. [#2673](https://github.com/chef/inspec/pull/2673) ([jquick](https://github.com/jquick)) <!-- 2.0.7 -->
-- Fix bundle exec calls [#2670](https://github.com/chef/inspec/pull/2670) ([jquick](https://github.com/jquick)) <!-- 2.0.6 -->
-- Fixes merge conflict messages [#2677](https://github.com/chef/inspec/pull/2677) ([kagarmoe](https://github.com/kagarmoe)) <!-- 2.0.5 -->
-- Add `Release:` to AWS `inspec detect` example [#2672](https://github.com/chef/inspec/pull/2672) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.4 -->
-- Remove duplicated encryption key test. [#2671](https://github.com/chef/inspec/pull/2671) ([juliandunn](https://github.com/juliandunn)) <!-- 2.0.3 -->
-- Prevent resources from loading if supports check fails [#2665](https://github.com/chef/inspec/pull/2665) ([jquick](https://github.com/jquick)) <!-- 2.0.2 -->
-- Add in release-2.0 changes to master [#2655](https://github.com/chef/inspec/pull/2655) ([jquick](https://github.com/jquick)) <!-- 2.0.1 -->
-- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.20 -->
-- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick)) <!-- 1.51.19 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.16](https://github.com/chef/inspec/tree/v2.0.16) (2018-02-20)
+
+#### Merged Pull Requests
+- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick))
+- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add in release-2.0 changes to master [#2655](https://github.com/chef/inspec/pull/2655) ([jquick](https://github.com/jquick))
+- Prevent resources from loading if supports check fails [#2665](https://github.com/chef/inspec/pull/2665) ([jquick](https://github.com/jquick))
+- Remove duplicated encryption key test. [#2671](https://github.com/chef/inspec/pull/2671) ([juliandunn](https://github.com/juliandunn))
+- Add `Release:` to AWS `inspec detect` example [#2672](https://github.com/chef/inspec/pull/2672) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fixes merge conflict messages [#2677](https://github.com/chef/inspec/pull/2677) ([kagarmoe](https://github.com/kagarmoe))
+- Fix bundle exec calls [#2670](https://github.com/chef/inspec/pull/2670) ([jquick](https://github.com/jquick))
+- Capture ArgumentErrors from aws. [#2673](https://github.com/chef/inspec/pull/2673) ([jquick](https://github.com/jquick))
+- Hannah Review1 [#2683](https://github.com/chef/inspec/pull/2683) ([hannah-radish](https://github.com/hannah-radish))
+- Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish))
+- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix legacy reporter output to file [#2667](https://github.com/chef/inspec/pull/2667) ([jquick](https://github.com/jquick))
+- Add correct `supports platform` to resources. [#2674](https://github.com/chef/inspec/pull/2674) ([miah](https://github.com/miah))
+- www: fix sidebar stickiness [#2698](https://github.com/chef/inspec/pull/2698) ([arlimus](https://github.com/arlimus))
+- HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish))
+- move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus))
+- HM Mobile IE [#2705](https://github.com/chef/inspec/pull/2705) ([hannah-radish](https://github.com/hannah-radish))
+<!-- latest_stable_release -->
+
 ## [v1.51.18](https://github.com/chef/inspec/tree/v1.51.18) (2018-02-12)
 
 #### Merged Pull Requests
 - Force a default reporter for ad-hoc runners [#2610](https://github.com/chef/inspec/pull/2610) ([jquick](https://github.com/jquick))
 - Allow ad-hoc runners to use rspec formats. [#2621](https://github.com/chef/inspec/pull/2621) ([jquick](https://github.com/jquick))
 - Add json fields to schema and add tests. [#2618](https://github.com/chef/inspec/pull/2618) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
 
