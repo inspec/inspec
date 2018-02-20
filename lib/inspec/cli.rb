@@ -178,13 +178,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   def detect
     o = opts(:detect).dup
-    o[:command] = 'platform.detect(indent: 0, color: 36)'
+    o[:command] = 'platform.params'
     (_, res) = run_command(o)
     if o['format'] == 'json'
       puts res.to_json
     else
       headline('Platform Details')
-      puts res
+      puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 39)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
