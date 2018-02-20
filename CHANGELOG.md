@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.0.17 -->
+## [v2.0.17](https://github.com/chef/inspec/tree/v2.0.17) (2018-02-20)
+
+#### Merged Pull Requests
+- Update shell detect to work with platforms [#2712](https://github.com/chef/inspec/pull/2712) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.16 -->
+### Changes since 2.0.16 release
+
+#### Merged Pull Requests
+- Update shell detect to work with platforms [#2712](https://github.com/chef/inspec/pull/2712) ([jquick](https://github.com/jquick)) <!-- 2.0.17 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
