@@ -1,5 +1,6 @@
 ---
 title: About the azure_resource_group_resource_counts Resource
+platform: azure
 ---
 
 # azure\_resource\_group\_resource\_counts
@@ -20,13 +21,11 @@ where
 * `property` is one a resource property
 * `value` is the expected output from the matcher
 
-The options that can be passed to the resource are as follows.
-
 ## Examples
 
 The following examples show how to use this InSpec audit resource:
 
-### Test Resource Group has the correct number of resources
+### Ensure the Resource Group has the correct number of resources
 
     describe azure_resource_group_resource_counts(name: 'Inspec-Azure') do
       its('total') { should eq 7}
@@ -45,21 +44,29 @@ The following examples show how to use this InSpec audit resource:
 
 <br>
 
-## Resource Parameters
+## Parameters
+
+* `group_name`, `name`
+
+## Parameter Examples
 
 The options that can be passed to the resource are as follows.
 
-### `group_name` (required)
+### group_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
-example: MyResourceGroup
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+        ...
+    end
 
-### `name`
+### name
 
 Use this parameter to define the name of the Azure resource to test.
 
-example:  MyVM
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+        ...
+    end
 
 If both `group_name` and `name` is set then `name` will take priority.
 
@@ -72,12 +79,10 @@ When the options have been set as well as the environment variables, the environ
 
 <br>
 
-## Parameter Examples
+## Parameter Example
 
-    describe azure_resource_group_resource_counts(name: 'ChefAutomate') do
-      its('total') { should eq 7}
-      its('nic_count') { should eq 1 }
-      its('vm_count') { should eq 1 }
+    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+      its('location') { should eq 'westeurope' }
     end
 
 <br>
@@ -253,7 +258,7 @@ Returns the number of tags that are assigned to the resource
 
 It is possible to check if a specific tag has been set on the resource.
 
-    its('tags') { should include 'Owner' }
+    its('tags') { should include 'owner' }
 
 ### xxx\_tag
 
@@ -261,13 +266,11 @@ To get the value of the tag, a number of preoprties have been created from the t
 
 For example, if the following tag is set on a resource:
 
-| Tag Name | Value |
-|----------|-------|
-| Owner | Russell Seymour |
+* owner: JG Jinglehimerschmidt
 
 Then a property is available called `Owner_tag`.
 
-    its('Owner_tag') { should cmp 'Russell Seymour' }
+    its('owner_tag') { should cmp 'JG Jinglehimerschmidt' }
 
 Note: The tag name is case sensitive which makes the test case sensitive. E.g. `owner_tag` does not equal `Owner_tag`.
 
@@ -278,7 +281,4 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 For more information on Azure Ruby SDK resources, see:
 
 * [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
-
-For more exaples on using these resource properties in tests, see:
-
 * [Resource Group](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/resource_group.rb)
