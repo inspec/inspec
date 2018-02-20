@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.14 -->
-## [v2.0.14](https://github.com/chef/inspec/tree/v2.0.14) (2018-02-19)
+<!-- latest_release 2.0.15 -->
+## [v2.0.15](https://github.com/chef/inspec/tree/v2.0.15) (2018-02-20)
 
 #### Merged Pull Requests
-- HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish))
+- move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.18 -->
 ### Changes since 1.51.18 release
 
 #### Merged Pull Requests
+- move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus)) <!-- 2.0.15 -->
 - HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.14 -->
 - www: fix sidebar stickiness [#2698](https://github.com/chef/inspec/pull/2698) ([arlimus](https://github.com/arlimus)) <!-- 2.0.13 -->
 - Add correct `supports platform` to resources. [#2674](https://github.com/chef/inspec/pull/2674) ([miah](https://github.com/miah)) <!-- 2.0.12 -->
