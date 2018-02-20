@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.17 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.0.17](https://github.com/chef/inspec/tree/v2.0.17) (2018-02-20)
 
 #### Merged Pull Requests
 - Update shell detect to work with platforms [#2712](https://github.com/chef/inspec/pull/2712) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.0.16 -->
-### Changes since 2.0.16 release
-
-#### Merged Pull Requests
-- Update shell detect to work with platforms [#2712](https://github.com/chef/inspec/pull/2712) ([jquick](https://github.com/jquick)) <!-- 2.0.17 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.0.16](https://github.com/chef/inspec/tree/v2.0.16) (2018-02-20)
 
 #### Merged Pull Requests
@@ -36,7 +34,6 @@
 - HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish))
 - move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus))
 - HM Mobile IE [#2705](https://github.com/chef/inspec/pull/2705) ([hannah-radish](https://github.com/hannah-radish))
-<!-- latest_stable_release -->
 
 ## [v1.51.18](https://github.com/chef/inspec/tree/v1.51.18) (2018-02-12)
 
