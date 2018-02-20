@@ -63,8 +63,6 @@ Use this parameter to define the type of resources to test.
         ...
     end
 
-
-
 These options can also be set using the environment variables:
 
 * `AZURE_RESOURCE_GROUP_NAME`
@@ -76,7 +74,7 @@ When the options have been set as well as the environment variables, the environ
 
 <br>
 
-## Example
+## Parameter Example
 
     describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM', apiversion: '2.0') do
       its('location') { should eq 'westeurope' }
@@ -162,7 +160,7 @@ The following examples show how to use some of the InSpec audit properties:
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 <br>
 

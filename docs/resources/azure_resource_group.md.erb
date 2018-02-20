@@ -68,7 +68,7 @@ Use this parameter to define the name of the Azure resource to test.
         ...
     end
 
-If both `group_name` and `name` is set then `name` will take priority.
+If both `group_name` and `name` is set then `name` takes priority
 
 These options can also be set using the environment variables:
 
@@ -164,7 +164,7 @@ Tests the number of Public IP Addresses in the resource group.
 
 Tests the number of managed disk images that are in the resource group.
 
-These are the items from which managed disks are created which are attached to machines. Generally the images are created from a base image or a custom image (e.g. Packer).
+Managed disks are created from disk images and then attached to the machines. Generally, the images are created from a base image or a custom image (e.g., Packer)
 
     its('managed_disk_image_count') { should eq 5 }
 
@@ -240,7 +240,7 @@ Use this matcher to test that public ips exist.
 
 ## Tags
 
-It is possible to test the tags that have been assigned to the resource. There are a number of properties that can be called to check that it has tags, that it has the correct number and that the correct ones are assigned.
+It is possible to test the tags that have been assigned to the resource. There are some properties for checking that a resource has tags, that it has the correct number of tags, and that the correct tags are assigned.
 
 ### have\_tags
 
@@ -262,7 +262,7 @@ It is possible to check if a specific tag has been set on the resource.
 
 ### xxx\_tag
 
-To get the value of the tag, a number of preoprties have been created from the tags that are set.
+To get the value of the tag, some properties are created from the tags themselves.
 
 For example, if the following tag is set on a resource:
 
