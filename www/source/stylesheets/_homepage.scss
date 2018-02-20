@@ -292,6 +292,15 @@ img.ball:nth-child(3) {
   -o-transform: translate(100px, 0px);
   -ms-transform: translate(100px, 0px);
   transform: translate3d(100px, 0px, 0px);
+
+	@include mobile {
+		top: 0;
+		-moz-transform: translate3d(0px, 0px, 0px);
+	  -webkit-transform: translate3d(0px, 0px, 0px);
+	  -o-transform: translate(0px, 0px);
+	  -ms-transform: translate(0px, 0px);
+	  transform: translate3d(0px, 0px, 0px);
+	}
 }
 
 .slide-right.in-view {
