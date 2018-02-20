@@ -167,6 +167,23 @@ module Inspec
       raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
     end
 
+    def self.detect(params: {}, indent: 0, color: 39)
+      str = ''
+      params.each { |item, info|
+        data = info
+
+        # Format Array for better output if applicable
+        data = data.join(', ') if data.is_a?(Array)
+
+        # Do not output fields of data is missing ('unknown' is fine)
+        next if data.nil?
+
+        data = "\e[1m\e[#{color}m#{data}\e[0m"
+        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ':', data)
+      }
+      str
+    end
+
     private
 
     def suppress_log_output?(opts)

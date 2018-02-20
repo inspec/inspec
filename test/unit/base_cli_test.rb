@@ -20,6 +20,16 @@ describe 'BaseCLI' do
       opts.must_equal expected
     end
 
+    it 'verify platform detect' do
+      hash = { name: 'test-os', families: 'aws, cloud', release: 'aws-sdk-v1' }
+      expect = <<EOF
+  Name:      \e[1m\e[35mtest-os\e[0m
+  Families:  \e[1m\e[35maws, cloud\e[0m
+  Release:   \e[1m\e[35maws-sdk-v1\e[0m
+EOF
+      _(Inspec::BaseCLI.detect(params: hash, indent: 2, color: 35)).must_equal expect
+    end
+
     it 'json-config options override cli defaults' do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
