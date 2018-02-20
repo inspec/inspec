@@ -184,7 +184,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts res.to_json
     else
       headline('Platform Details')
-      puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 39)
+      puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
