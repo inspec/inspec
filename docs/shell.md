@@ -165,5 +165,51 @@ Summary: 1 successful, 0 failures, 0 skipped
 
 ```bash
 $ inspec shell --format json -c 'describe file("/Users/myuser) do it { should exist } end'
-{"version":"0.30.0","profiles":{"":{"supports":[],"controls":{"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)":{"title":null,"desc":null,"impact":0.5,"refs":[],"tags":{},"code":"          rule = rule_class.new(id, profile_id, {}) do\n            res = describe(*args, &block)\n          end\n","source_location":{"ref":"/Users/myuser/repo/chef/inspec/lib/inspec/profile_context.rb","line":184},"results":[{"status":"passed","code_desc":"File /Users/myuser should exist","run_time":0.000747,"start_time":"2016-08-16 11:41:40 -0400"}]}},"groups":{"in_memory.rb":{"title":null,"controls":["(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"]}},"attributes":[]}},"other_checks":[],"summary":{"duration":0.001078,"example_count":1,"failure_count":0,"skip_count":0}}}
+{
+  "version": "1.49.2",
+  "controls": [{
+    "status": "passed",
+    "code_desc": "File /Users/test should exist",
+    "run_time": 0.002374,
+    "start_time": "2018-01-06 18:32:38 -0500"
+  }],
+  "other_checks": [],
+  "profiles": [{
+    "name": "inspec-shell",
+    "supports": [],
+    "controls": [{
+      "title": null,
+      "desc": null,
+      "impact": 0.5,
+      "refs": [],
+      "tags": {},
+      "code": "",
+      "source_location": {
+        "ref": "/usr/local/lib/ruby/gems/2.4.0/gems/inspec-1.49.2/lib/inspec/control_eval_context.rb",
+        "line": 89
+      },
+      "id": "(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)",
+      "results": [{
+        "status": "passed",
+        "code_desc": "File /Users/test should exist",
+        "run_time": 0.002374,
+        "start_time": "2018-01-06 18:32:38 -0500"
+      }]
+    }],
+    "groups": [{
+      "title": null,
+      "controls": ["(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)"],
+      "id": "unknown"
+    }],
+    "attributes": [],
+    "sha256": "29c070a90b7e3521babf618215573284a790d92907783d5b2c138f411bfd2e74"
+  }],
+  "platform": {
+    "name": "mac_os_x",
+    "release": "17.3.0"
+  },
+  "statistics": {
+    "duration": 0.003171
+  }
+}
 ```
