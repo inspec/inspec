@@ -194,8 +194,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
             h2.t-white.margin-both-sm
               | Transform your compliance and security requirements into simple code
         .row.mobile-row
-          .large-6.medium-6.mobile-12.columns.z-20.mobile-row
-            .box-white.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Codify agreements
                 p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
@@ -206,8 +206,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 h4.t-purple Apply to all systems
                 p Analyze everything using the same codified profiles and controls.
               a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
-          .large-6.medium-6.mobile-12.columns.z-20
-            .box-dark.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code control 'sshd-21' do
                 code   title 'Set SSH Protocol to 2'
@@ -223,8 +223,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
             h2.t-white.margin-both-sm
               | Solve your infrastructure testing needs simply and efficiently
         .row.mobile-row
-          .large-6.medium-6.mobile-12.columns.z-20.mobile-row
-            .box-white.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Test the desired state
                 p Verify the current desired state of your apps and infrastructure according to the code you write.
@@ -235,8 +235,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 h4.t-purple Extensible
                 p Create custom resources with ease and share them easily with others.
               a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
-          .large-6.medium-6.mobile-12.columns.z-20
-            .box-dark.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code describe file('/etc/myapp.conf') do
                 code   it { should exist }
@@ -256,8 +256,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
             h2.t-white.margin-both-sm
               | Verify provisioning to cloud providers
         .row.mobile-row
-          .large-6.medium-6.mobile-12.columns.z-20.mobile-row
-            .box-white.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Test AWS and Azure configuration
                 p Verify all necessary settings of your favorite public cloud providers.
@@ -268,8 +268,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 h4.t-purple Verify security configuration
                 p Ensure that your cloud deployments are not open to malicious attacks due to misconfiguration.
               a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
-          .large-6.medium-6.mobile-12.columns.z-20
-            .box-dark.shadow-dark.fit-height
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code describe aws_s3_bucket(bucket_name: 'my_secret_files') do
                 code   it { should exist }
