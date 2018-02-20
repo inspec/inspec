@@ -1,5 +1,6 @@
 ---
 title:  About the azure_virtual_machine_datadisk Resource
+platform: azure
 ---
 
 # azure\_virtual\_machine\_datadisk
@@ -21,27 +22,6 @@ where
 * `property` is a resource property
 * `value` is the expected output from the matcher
 
-The options that can be passed to the resource are as follows.
-
-* `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
-* `name`, the name of the Azure resource to test. Example: 'MyVM'
-* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9
-
-These options can also be set using the environment variables:
-
-* `AZURE_RESOURCE_GROUP_NAME`
-* `AZURE_RESOURCE_NAME`
-* `AZURE_RESOURCE_API_VERSION`
-
-When the options have been set as well as the environment variables, the environment variables take priority.
-
-For example:
-
-    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM') do
-      its('count') { should cmp > 0 }
-      it { should have_data_disks }
-    end
-
 <br>
 
 ## Examples
@@ -58,7 +38,7 @@ The following examples show to use this InSpec audit resource.
 
 ## Resource Parameters
 
-* `group_name`, `name`
+* `group_name`, `name`, `apiversion`
 
 ## Parameter Examples
 
@@ -79,6 +59,22 @@ Use this parameter to define the name of the Azure resource to test.
     describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
         ...
     end
+
+### apiversion
+
+The API Version to use when querying the resource. Defaults to the latest version for the resoure type is used.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM', apiversion: '2.0') do
+        ...
+    end
+
+These options can also be set using the environment variables:
+
+* `AZURE_RESOURCE_GROUP_NAME`
+* `AZURE_RESOURCE_NAME`
+* `AZURE_RESOURCE_API_VERSION`
+
+When the options have been set as well as the environment variables, the environment variables take priority.
 
 <br>
 
