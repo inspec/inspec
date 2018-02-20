@@ -1,5 +1,6 @@
 ---
 title: About the azure_virtual_machine Resource
+platform: azure
 ---
 
 # azure\_virtual\_machine
@@ -21,58 +22,63 @@ where
 * `property` is one of
 * `value` is the expected output from the matcher
 
-The options that can be passed to the resource are as follows.
+## Examples
 
-| Name        | Description                                                                                                         | Required | Example                           |
-|-------------|---------------------------------------------------------------------------------------------------------------------|----------|-----------------------------------|
-| group_name: | Azure Resource Group to be tested                                                                                   | yes      | MyResourceGroup                   |
-| name:       | Name of the Azure resource to test                                                                                  | no       | MyVM                              |
-| apiversion: | API Version to use when interrogating the resource. If not set then the latest version for the resoure type is used | no       | 2017-10-9                         |
+The following examples show to use this InSpec audit resource.
 
-These options can also be set using the environment variables:
+### Check that the first data disk is of the correct size
 
- - `AZURE_RESOURCE_GROUP_NAME`
- - `AZURE_RESOURCE_NAME`
- - `AZURE_RESOURCE_API_VERSION`
-
-When the options have been set as well as the environment variables, the environment variables take priority.
-
-For example:
-
-    describe azure_virtual_machine(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
-      its('os_type') { should eq 'Linux' }
-      it { should have_boot_diagnostics }
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Linux-Internal-VM').where(number: 1) do
+      its('size') { should cmp >= 15 }
     end
 
 <br>
 
-## Examples
+## Parameters
 
-The following examples show how to use this InSpec audit resource.
+* `group_name`, `name`, `apiversion`
 
-Please refer the integration tests for more in depth examples:
+## Parameter Examples
 
- - [Virtual Machine External VM](../../test/integration/verify/controls/virtual_machine_external_vm.rb)
- - [Virtual Machine Internal VM](../../test/integration/verify/controls/virtual_machine_internal_vm.rb)
+The options that can be passed to the resource are as follows.
 
-### Test that the machine was built from a Windows image
+### group_name (required)
 
-    describe azure_virtual_machine(name: 'Windows-Internal-VM', group_name: 'Inspec-Azure') do
-      its('publisher') { should eq 'MicrosoftWindowsServer' }
-      its('offer') { should eq 'WindowsServer' }
-      its('sku') { should eq '2012-R2-Datacenter' }
+Use this parameter to define the Azure Resource Group to be tested.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+        ...
     end
 
-### Ensure the machine is in the correct location
+### name
 
-    describe azure_virtual_machine(name: 'Linux-Internal-VM', resource_group: 'Inspec-Azure') do
-      its('location') { should eq 'westeurope' }
+Use this parameter to define the name of the Azure resource to test.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+        ...
     end
+
+### apiversion
+
+The API Version to use when querying the resource. Defaults to the latest version for the resoure type is used.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM', apiversion: '2.0') do
+        ...
+    end
+
+These options can also be set using the environment variables:
+
+* `AZURE_RESOURCE_GROUP_NAME`
+* `AZURE_RESOURCE_NAME`
+* `AZURE_RESOURCE_API_VERSION`
+
+When the options have been set as well as the environment variables, the environment variables take priority.
+
 <br>
 
 ## Properties
 
-* [`type`](#type), [`location`](#location), [`name`](#name), [`publisher`](#publisher), [`offer`](#offer), [`sku`](#sku), [`os_type`](#"os_type"), [`os_disk_name`](#os_disk_name), [`have_managed_osdisk`](#have_managed_osdisk?), [`caching`](#caching), `create_option`, `disk_size_gb`, `have_data_disks`, `data_disk_count`  , `storage_account_type`, `vm_size`, `computer_name`, `admin_username`, `have_nics`, `nic_count`, `connected_nics`, `have_password_authentication`, `password_authentication?`, `have_custom_data`, `custom_data?`, `have_ssh_keys`, `ssh_keys?`, `ssh_key_count`, `ssh_keys`, `have_boot_diagnostics`, `boot_diagnostics_storage_uri`
+* `type`, `location`, `name`, `publisher`, `offer`, `sku`, `os_type`, `os_disk_name`, `have_managed_osdisk`, `caching`, `create_option`, `disk_size_gb`, `have_data_disks`, `data_disk_count`  , `storage_account_type`, `vm_size`, `computer_name`, `admin_username`, `have_nics`, `nic_count`, `connected_nics`, `have_password_authentication`, `password_authentication?`, `have_custom_data`, `custom_data?`, `have_ssh_keys`, `ssh_keys?`, `ssh_key_count`, `ssh_keys`, `have_boot_diagnostics`, `boot_diagnostics_storage_uri`
 
 <br>
 
@@ -82,7 +88,9 @@ This InSpec audit resource has the following properties that can be tested:
 
 ### type
 
-THe Azure Resource type. For a virtual machine this will always return `Microsoft.Compute/virtualMachines`
+The Azure Resource type. For a virtual machine this will always return `Microsoft.Compute/virtualMachines`
+
+    its('type') { should cmp 'Microsoft.Compute/virtualMachines' }
 
 ### location
 
@@ -94,11 +102,15 @@ Where the machine is located
 
 Name of the Virtual Machine in Azure. Be aware that this is not the computer name or hostname, rather the name of the machine when seen in the Azure Portal.
 
+    its('name') { should cmp 'InSpec-Azure' }
+
 ### publisher
 
 The publisher of the image from which this machine was built.
 
 This will be `nil` if the machine was created from a custom image.
+
+    its('publisher') { should cmp 'MicrosoftWindowsServer' }
 
 ### offer
 
@@ -106,45 +118,45 @@ The offer from the publisher of the build image.
 
 This will be `nil` if the machine was created from a custom image.
 
+    its('offer') { should cmp 'WindowsServer' }
+
 ### sku
 
 The item from the publisher that was used to create the image.
 
 This will be `nil` if the machine was created from a custom image.
 
+    its('sku') { should cmp '2016-Datacenter' }
+
 ### os\_type
 
 Test that returns the classification in Azure of the operating system type. Ostensibly this will be either `Linux` or `Windows`.
+
+        its('os_type') { should cmp 'Windows' }
 
 ### os\_disk\_name
 
 Return the name of the operating system disk attached to the machine.
 
-### have\_managed\_osdisk
-
-Determine if the operating system disk is a Managed Disks or not.
-
-This test can be used in the following way:
-
-    it { should have_managed_osdisk }
+    its('os_disk_name') { should cmp 'Windows-Internal-OSDisk-MD' }
 
 ### caching
 
 Returns the type of caching that has been set on the operating system disk.
 
+    its('caching') { should cmp 'ReadWrite' }
+
 ### create\_option
 
 When the operating system disk is created, how it was created is set as an property. This property returns how the disk was created.
+
+    its('create_option') { should cmp 'FromImage' }
 
 ### disk\_size\_gb
 
 Returns the size of the operating system disk.
 
-### have\_data\_disks
-
-Denotes if the machine has data disks attached to it or not.
-
-    it { should have_data_disks }
+    its('disk_size_gb') { should be >= 30 }
 
 ### data\_disk\_count
 
@@ -153,6 +165,8 @@ Return the number of data disks that are attached to the machine
 ### storage\_account\_type
 
 This provides the storage account type for a machine that is using managed disks for the operating system disk.
+
+    its('storage_account_type') { should cmp 'Standard_LRS' }
 
 ### vm\_size
 
@@ -164,23 +178,21 @@ The size of the machine in Azure
 
 The name of the machine. This is what was assigned to the machine during deployment and is what _should_ be returned by the `hostname` command.
 
+    its('computer_name') { should cmp 'win-internal-1' }
+
 ### admin\_username
 
 The admin username that was assigned to the machine
 
 NOTE: Azure does not allow the use of `Administrator` as the admin username on a Windows machine
 
-## have\_nics
-
-Returns a boolean to state if the machine has NICs connected or not.
-
-This has can be used in the following way:
-
-    it { should have_nics }
+    its('admin_username') { should cmp 'azure' }
 
 ### nic\_count
 
 The number of network interface cards that have been attached to the machine
+
+    its('nic_count') { should eq 1 }
 
 ### connected\_nics
 
@@ -192,12 +204,6 @@ Note the use of the regular expression here. This is because the NIC id is a lon
 
 An example of the id string is `/subscriptions/1e0b427a-d58b-494e-ae4f-ee558463ebbf/resourceGroups/Inspec-Azure/providers/Microsoft.Network/networkInterfaces/Inspec-NIC-1`
 
-### have\_password\_authentication
-
-Returns a boolean to denote if the machine is accessible using a password.
-
-    it { should have_password_authentication }
-
 ### password\_authentication?
 
 Boolean to state of password authentication is enabled or not for the admin user.
@@ -206,25 +212,11 @@ Boolean to state of password authentication is enabled or not for the admin user
 
 This only applies to Linux machines and will always return `true` on Windows.
 
-### have\_custom\_data
-
-Returns a boolean stating if the machine has custom data assigned to it.
-
-    it { should have_custom_data }
-
-### custom\_data?
+### custom\_data
 
 Boolean to state if the machine has custom data or not
 
     its('custom_data') { should be true }
-
-### have\_ssh\_keys
-
-Boolean to state if the machine has SSH keys assigned to it
-
-    it { should have_ssh_keys }
-
-For a Windows machine this will always be false.
 
 ### ssh\_keys?
 
@@ -238,6 +230,8 @@ Returns how many SSH keys have been applied to the machine.
 
 This only applies to Linux machines and will always return `0` on Windows.
 
+    its('ssh_key_count') { should eq '0' }
+
 ### ssh\_keys
 
 Returns an array of the keys that are assigned to the machine. This is check if the correct keys are assigned.
@@ -245,12 +239,6 @@ Returns an array of the keys that are assigned to the machine. This is check if 
 Most SSH public keys have a signature at the end of them that can be tested. For example:
 
     its('ssh_keys') { should include /azure@inspec.local/ }
-
-### boot\_diagnostics?
-
-Boolean test to see if boot diagnostics have been enabled on the machine
-
-    it { should have_boot_diagnostics }
 
 ### boot\_diagnostics\_storage\_uri
 
@@ -266,8 +254,55 @@ There are a number of built in comparison operrtors that are available to test t
 
 For information on all that are available please refer to the [Inspec Matchers Reference](https://www.inspec.io/docs/reference/matchers/) page.
 
-<br>
+### boot\_diagnostics?
 
+Boolean test to see if boot diagnostics have been enabled on the machine
+
+    it { should have_boot_diagnostics }
+
+### have\_custom\_data
+
+Returns a boolean stating if the machine has custom data assigned to it.
+
+    it { should have_custom_data }
+
+### have\_data\_disks
+
+Denotes if the machine has data disks attached to it or not.
+
+    it { should have_data_disks }
+
+### have\_managed\_osdisk
+
+Determine if the operating system disk is a Managed Disks or not.
+
+This test can be used in the following way:
+
+    it { should have_managed_osdisk }
+
+### have\_nics
+
+Returns a boolean to state if the machine has NICs connected or not.
+
+This has can be used in the following way:
+
+    it { should have_nics }
+
+### have\_password\_authentication
+
+Returns a boolean to denote if the machine is accessible using a password.
+
+    it { should have_password_authentication }
+
+### have\_ssh\_keys
+
+Boolean to state if the machine has SSH keys assigned to it
+
+    it { should have_ssh_keys }
+
+For a Windows machine this will always be false.
+
+<br>
 
 ## Tags
 
@@ -297,18 +332,16 @@ To get the value of the tag, a number of tests have been craeted from the tags t
 
 For example, if the following tag is set on a resource:
 
-| Tag Name | Value |
-|----------|-------|
-| Owner | Russell Seymour |
+* owner: J.G. Jingleheimerschmidt
 
 Then a test is available called `Owner_tag`.
 
-    its('Owner_tag') { should cmp 'Russell Seymour' }
+    its('owner_tag') { should cmp 'J.G. Jingleheimerschmidt' }
 
 Note: The tag name is case sensitive which makes the test case sensitive. E.g. `owner_tag` does not equal `Owner_tag`.
 
-
-
 ## References
 
-- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+* [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+* [Virtual Machine External VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb)
+* [Virtual Machine Internal VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb)
