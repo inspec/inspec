@@ -6,15 +6,15 @@ description: Download InSpec and start using Compliance-as-Code.
 /! header and tiles
 header.bg-gradient.margin-top-offset.short-bg.relative
   .row
-    .columns.large-7.medium-7.z-20
+    .columns.large-7.medium-7.mobile-12.z-20
       .margin-both
         h2.t-white#icon-trigger
           | Compliance as code starts here.
           br
           | Download InSpec and let's get started.
-  .row.strict-center
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+  .row.strict-center.mobile-row
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Ruby gem
@@ -26,11 +26,11 @@ header.bg-gradient.margin-top-offset.short-bg.relative
             a href="https://rubygems.org/gems/inspec" Ruby gem
             ' .
           .box-code.shadow.margin-top-xs
-           i#copy.fa.fa-copy.copy.t-purple onclick="copyToClipboard('#install')"
+           i#copy.fa.fa-copy.copy.t-purple.mobile-hide onclick="copyToClipboard('#install')"
            code#install gem install inspec
         .triangle-right
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Ready-made packages
@@ -45,9 +45,9 @@ header.bg-gradient.margin-top-offset.short-bg.relative
     canvas.particles-js-canvas-el /
 
 .margin-under
-  .row.strict-center
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+  .row.strict-center.mobile-row
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Habitat Packages
@@ -58,8 +58,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
             '  to install InSpec, or include InSpec in your own Habitat packages.
           a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://bldr.habitat.sh/#/pkgs/chef/inspec" InSpec on the depot
         .triangle-right
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Use Your System Package Manager
@@ -75,19 +75,19 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .bg-gradient
   .pad-both.relative
     .row
-      .large-7.medium-7.columns.z-20
+      .large-7.medium-7.mobile-12.columns.z-20
         h2.t-white.margin-under-sm
           | Whether it’s a code review or a commit, your participation matters.
-    .row.strict-center
-      .large-6.medium-6.columns.margin-under-xs.z-20
-        .box-white.shadow-dark.strict-center.fit-height
+    .row.strict-center.mobile-row
+      .large-6.medium-6.mobile-12.columns.margin-under-xs
+        .box-white.shadow-dark.strict-center.fit-height.z-20
           img.icon-art.margin-both-xs src="/images/community/contribute.svg" /
           h4.t-purple Contribute
           p
             |  InSpec is an OSS project created and supported by active and passionate users. If you would like to contribute, we would love to have you.
           a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://github.com/chef/inspec" start contributing
-      .large-6.medium-6.columns.margin-under-xs.z-20
-        .box-white.shadow-dark.strict-center.fit-height
+      .large-6.medium-6.mobile-12.columns.margin-under-xs
+        .box-white.shadow-dark.strict-center.fit-height.z-20
           img.icon-art.margin-both-xs src="/images/community/bugs.svg" /
           h4.t-purple Give feedback
           p

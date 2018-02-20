@@ -15,13 +15,6 @@
 	float: right;
 	text-align: right;
 	margin-left: auto;
-
-	@include nav-small{ //mobile
-		float: initial;
-		margin: 0 auto;
-		text-align: center;
-	}
-
 }
 
 .strict-left {
@@ -82,6 +75,13 @@
   transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	-moz-transform: translateY(-50%);
+
+	@include mobile {
+		top: 0;
+		transform: translateY(0);
+		-webkit-transform: translateY(0);
+		-moz-transform: translateY(0);
+	}
 }
 
 .z-10 {
@@ -89,7 +89,7 @@
 }
 
 .z-20 {
-	z-index: 20;
+	z-index: 100;
 }
 
 .relative {
@@ -155,10 +155,6 @@
 
 .margin-top-offset {
 	margin-top: 80px; // add header height
-
-	@include nav-small {
-	margin-top: 60px;
-	}
 }
 
 .margin-top {
@@ -272,7 +268,7 @@
 	height: 0;
 	border-style: solid;
 	border-width: 4px 8px 4px 0;
-	border-color: transparent $color_dark transparent transparent;
+	border-color: rgba(255, 255, 255, 0) $color_dark rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
 }
 
 .shadow { // dropshadow
@@ -395,7 +391,7 @@ progress { /* Positioning */
 	height: 1.6px;
 	color: $color_purple;
 	border: none;
-	background-color: transparent;
+	background-color: rgba(255, 255, 255, 0);
 	z-index: 500;
 }
 
@@ -445,7 +441,9 @@ form.main-sidebar--search input[type="text"] {
 	width: 100%;
 	display: inline;
   height: 45px;
-  padding: 16px;
+	line-height: 45px;
+  padding-left: 16px;
+	padding-right: 16px;
   box-sizing: border-box;
 	border-radius: 8px;
   background: $color_white;
@@ -464,7 +462,7 @@ form.main-sidebar--search input[type="text"] {
 	height: 45px;
 	border: 1.5px solid $color_white;
 	border-radius: 8px;
-	background: transparent;
+	background: rgba(255, 255, 255, 0);
 	cursor: pointer;
 	position: relative;
 	float: right;
@@ -474,10 +472,6 @@ form.main-sidebar--search input[type="text"] {
 		width: 20px;
 		margin-left: 8px;
 		height: auto;
-	}
-
-	@include nav-small {
-		display: none;
 	}
 }
 

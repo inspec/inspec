@@ -24,11 +24,29 @@ footer span {
   }
 }
 
+
+footer .large-4.medium-4.mobile-hide {
+  @include nav-small {
+    display: none;
+  }
+}
+
+.columns.margin-both-xs.mobile-show {
+  @include nav-small {
+    display: block;
+  }
+}
+
 ul.footer--logos {
   margin-left: 0!important;
 
   @include nav-small {
     text-align: center;
+    width: 100%;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
   }
 }
 

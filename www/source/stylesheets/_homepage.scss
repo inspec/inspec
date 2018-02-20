@@ -17,7 +17,7 @@ header {
 	height: $percent_sm;
 	min-width: $percent_sm;
 	background-image: url('/images/octagon.svg');
-	background-size: cover;
+	background-size: 100% 100%;
 	text-align: center;
 }
 
@@ -40,7 +40,7 @@ header {
 	height: 100%;
 	top: 0;
 	overflow: hidden;
-	background-color: transparent;
+	background-color: rgba(255, 255, 255, 0);
 }
 
 img.diamond {

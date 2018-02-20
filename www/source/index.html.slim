@@ -5,19 +5,19 @@ title: InSpec - Audit and Test Framework
 /! header
 header.bg-gradient.margin-top-offset.short-bg.relative
   .row.align.margin-top-sm
-    .large-7.medium-7.columns.z-20
+    .large-7.medium-7.mobile-12.columns.z-20
       .margin-both
         h1.t-white InSpec is compliance as code
         h3.t-white Turn your compliance, security, and other policy requirements into automated tests.
         /! buttons
-        .row.align.columns.margin-top-sm
-          a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs href="/downloads"
+        .row.align.columns.margin-top-sm.mobile-row-btn
+          a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs.mobile-row-btn href="/downloads"
             i.fa.fa-cloud-download
             span download inspec 2.0
-          a.button.btn-lg.btn-white-o.shadow-dark href="/tutorials" browse tutorials
+          a.button.btn-lg.btn-white-o.shadow-dark.mobile-row-btn href="/tutorials" browse tutorials
         a class="github-button" href="https://github.com/chef/inspec" data-size="large" data-show-count="true" aria-label="Star chef/inspec on GitHub" Star
 
-    .large-5.medium-5.columns.relative
+    .large-5.medium-5.columns.relative.mobile-hide
       /! diamond image
       img.diamond src="/images/home/diamond.png" /
       img.grid-animate.fit.z-20 src="/images/home/web.svg" /
@@ -62,19 +62,19 @@ header.bg-gradient.margin-top-offset.short-bg.relative
      small.t-gray How InSpec works
      h2.txt-margin Get started with InSpec in 3 simple steps
      hr
-     a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
-   .large-5.medium-5.columns.blue-grid
+     a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
+   .large-5.medium-5.columns.blue-grid.mobile-hide
      img.grid-animate.fit src="/images/community/blue-web.svg"
   .margin-top-sm
-    .row.align
-      .large-6.medium-6.columns
+    .row.align.mobile-row
+      .large-6.medium-6.mobile-12.columns
         .flex.align
           .num-container
             h3.t-purple 1
           .block.margin-left-sm
             h4.t-purple write the test
             p Create simple Ruby-based tests to verify your expected state against the current state of your systems.
-      .large-6.medium-6.columns
+      .large-6.medium-6.mobile-12.columns
         .flex.align.slide-right
           .tooltip-triangle
           .box-dark.box-scroll.tip.shadow
@@ -90,30 +90,30 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                code   end
                code end
   .margin-top-xs
-   .row.align
-     .large-6.medium-6.columns
+   .row.align.mobile-row
+     .large-6.medium-6.mobile-12.columns
        .flex.align
          .num-container
            h3.t-purple 2
          .block.margin-left-sm
            h4.t-purple run the test
            p Execute your test against your target system locally or remotely with one simple command.
-     .large-6.medium-6.columns
+     .large-6.medium-6.mobile-12.columns
        .flex.align.slide-right
          .tooltip-triangle
          .box-dark.tip.shadow
            pre
             code $ inspec exec linux-baseline
   .margin-top-xs
-   .row.align
-     .large-6.medium-6.columns
+   .row.align.mobile-row
+     .large-6.medium-6.mobile-12.columns
        .flex.align
          .num-container
            h3.t-purple 3
          .block.margin-left-sm
            h4.t-purple See the results
            p See which tests failed, passed and skipped and the expected state against the current state of your target system, in one simple output.
-     .large-6.medium-6.columns
+     .large-6.medium-6.mobile-12.columns
        .flex.align.slide-right
          .tooltip-triangle
          .box-dark.box-scroll.tip.shadow
@@ -137,8 +137,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
    h2.txt-margin InSpec is compliance by design
    hr.center
 
-.row.strict-center
-  .large-6.medium-6.columns.margin-under-xs
+.row.strict-center.mobile-row
+  .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
       img.icon-art.margin-under-xs src="/images/home/platform.svg" /
       h4.t-purple Platform Agnostic
@@ -146,7 +146,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
         |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance assessments anywhere.
       img.icon-logos src="/images/home/platform-logos.svg" /
       .triangle-right
-  .large-6.medium-6.columns.margin-under-xs
+  .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
       img.icon-art.margin-under-xs src="/images/home/test.svg" /
       h4.t-purple Test locally or remotely
@@ -155,15 +155,15 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       img.icon-logos src="/images/home/test-logos.svg" /
       .triangle-right
 
-.row.strict-center
-  .large-6.medium-6.columns.margin-under-xs
+.row.strict-center.mobile-row
+  .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
       img.icon-art.margin-under-xs src="/images/home/run.svg" /
       h4.t-purple Free to run anywhere
       p
         |  InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
       .triangle-right
-  .large-6.medium-6.columns.margin-under-xs
+  .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
       img.icon-art.margin-under-xs src="/images/home/extensible.svg" /
       h4.t-purple Extensible language
@@ -180,18 +180,22 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       canvas.particles-js-canvas-el
     .slider
       .row
-        .columns.selectors.z-20
+        .columns.selectors.mobile-hide.z-20
           a.button.btn-lg.btn-slider.shadow-dark for Compliance
           a.button.btn-lg.btn-slider.shadow-dark for Infrastructure
           a.button.btn-lg.btn-slider.shadow-dark for Provisioning
+        .columns.selectors.slider-selectors.mobile-show.z-20
+          a.button.btn-lg.btn-slider.shadow-dark Compliance
+          a.button.btn-lg.btn-slider.shadow-dark Infrastructure
+          a.button.btn-lg.btn-slider.shadow-dark Provisioning
       .view
         .row
-          .large-7.medium-7.columns
+          .large-7.medium-7.mobile-12.columns
             h2.t-white.margin-both-sm
               | Transform your compliance and security requirements into simple code
-        .row
-          .large-6.medium-6.columns.z-20
-            .box-white.shadow-dark.fit-height
+        .row.mobile-row
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Codify agreements
                 p Combine profiles and customize them with overlays. Pick controls and define exceptions as code.
@@ -201,9 +205,9 @@ header.bg-gradient.margin-top-offset.short-bg.relative
               .block
                 h4.t-purple Apply to all systems
                 p Analyze everything using the same codified profiles and controls.
-              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
-          .large-6.medium-6.columns.z-20
-            .box-dark.shadow-dark.fit-height
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code control 'sshd-21' do
                 code   title 'Set SSH Protocol to 2'
@@ -215,12 +219,12 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 code end
       .view
         .row
-          .large-7.medium-7.columns
+          .large-7.medium-7.mobile-12.columns
             h2.t-white.margin-both-sm
               | Solve your infrastructure testing needs simply and efficiently
-        .row
-          .large-6.medium-6.columns.z-20
-            .box-white.shadow-dark.fit-height
+        .row.mobile-row
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Test the desired state
                 p Verify the current desired state of your apps and infrastructure according to the code you write.
@@ -230,9 +234,9 @@ header.bg-gradient.margin-top-offset.short-bg.relative
               .block
                 h4.t-purple Extensible
                 p Create custom resources with ease and share them easily with others.
-              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
-          .large-6.medium-6.columns.z-20
-            .box-dark.shadow-dark.fit-height
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code describe file('/etc/myapp.conf') do
                 code   it { should exist }
@@ -248,12 +252,12 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 code end
       .view
         .row
-          .large-7.medium-7.columns
+          .large-7.medium-7.mobile-12.columns
             h2.t-white.margin-both-sm
               | Verify provisioning to cloud providers
-        .row
-          .large-6.medium-6.columns.z-20
-            .box-white.shadow-dark.fit-height
+        .row.mobile-row
+          .large-6.medium-6.mobile-12.columns.mobile-row
+            .box-white.shadow-dark.fit-height.z-20
               .block.margin-both-xs
                 h4.t-purple Test AWS and Azure configuration
                 p Verify all necessary settings of your favorite public cloud providers.
@@ -263,9 +267,9 @@ header.bg-gradient.margin-top-offset.short-bg.relative
               .block
                 h4.t-purple Verify security configuration
                 p Ensure that your cloud deployments are not open to malicious attacks due to misconfiguration.
-              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="/demo" try the inspec demo
-          .large-6.medium-6.columns.z-20
-            .box-dark.shadow-dark.fit-height
+              a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
+          .large-6.medium-6.mobile-12.columns
+            .box-dark.shadow-dark.fit-height.z-20
               pre.t-white.align-vertical-50
                 code describe aws_s3_bucket(bucket_name: 'my_secret_files') do
                 code   it { should exist }

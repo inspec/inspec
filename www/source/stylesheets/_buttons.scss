@@ -74,10 +74,10 @@ a.button {
 .btn-purple-o {
 	border: 1.5px solid $color-purple;
 	color: $color-purple;
-	background-color: transparent;
+	background-color: rgba(255, 255, 255, 0);
 
 	&:hover {
-		background-color: transparent;
+		background-color: rgba(255, 255, 255, 0);
 		color: $color-purple;
 		opacity: 0.8;
 	}
@@ -92,10 +92,10 @@ a.button {
 .btn-white-o {
 	border: 1.5px solid $color-white;
 	color: $color-white;
-	background-color: transparent;
+	background-color: rgba(255, 255, 255, 0);
 
 	&:hover {
-		background-color: transparent;
+		background-color: rgba(255, 255, 255, 0);
 		color: $color-white;
 		opacity: 0.8;
 	}
@@ -112,4 +112,11 @@ a.button {
 	&:hover, &:active, &.selected {
 		background: $color_purple;
 	}
+}
+
+.slider-selectors .btn-slider{
+	width: 33.33% !important;
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

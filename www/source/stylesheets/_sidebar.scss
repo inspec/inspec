@@ -7,25 +7,16 @@
 //overwriting default ul li styles for side bar
 
 #sidebar {
-  @media screen and (max-width: 640px) {
-    margin-bottom: $percent_md;
-  }
-
   position: absolute;
 }
+
 #mainbar {
   margin-left: 25%;
+
+  @include mobile {
+    margin-left: 0 !important;
+  }
 }
-
-ul.main-sidebar--links {
-  list-style-type: none;
-  margin-bottom: $percent_sm !important;
-
-  @media screen and (max-width: 640px) {
-  	text-align: center;
-	}
-}
-
 
 ul.main-sidebar--links li:last-child {
   margin-bottom: $percent_sm !important;
