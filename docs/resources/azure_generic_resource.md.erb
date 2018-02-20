@@ -19,12 +19,51 @@ where
 * `property` This generic resource dynamically creates the properties on the fly based on the type of resource that has been targetted.
 * `value` is the expected output from the chosen property
 
+<br>
+
+## Parameters
+
+* `group_name`, `name`, `apiversion`, `type`
+
+<br>
+
+## Parameter Examples
+
 The options that can be passed to the resource are as follows.
 
-* `group_name`, the Azure resource group to be tested. Example: 'MyResourceGroup' (required)
-* `name`, the name of the Azure resource to test. Example: 'MyVM'
-* `type`, the Azure resource type. Example: 'Microsoft.Compute/virtualMachines'
-* `apiversion`, the API Version to use when querying the resource. Defaults to the latest version for the resoure type is used. Example: 2017-10-9
+### group_name (required)
+
+Use this parameter to define the Azure Resource Group to be tested.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+        ...
+    end
+
+### name
+
+Use this parameter to define the name of the Azure resource to test.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+        ...
+    end
+
+### apiversion
+
+The API Version to use when querying the resource. Defaults to the latest version for the resoure type is used.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM', apiversion: '2.0') do
+        ...
+    end
+
+### type
+
+Use this parameter to define the type of resources to test.
+
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM', apiversion: '2.0', type: 'Microsoft.Compute/virtualMachines') do
+        ...
+    end
+
+
 
 These options can also be set using the environment variables:
 
@@ -39,15 +78,9 @@ When the options have been set as well as the environment variables, the environ
 
 ## Example
 
-    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM', apiversion: '2.0') do
       its('location') { should eq 'westeurope' }
     end
-
-where
-
-* `name`: tests the resource name
-* `type`: tests the resource type
-* `location`: tests the resource's location within Azure
 
 <br>
 
