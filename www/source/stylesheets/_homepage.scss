@@ -16,7 +16,7 @@ header {
 	width: $percent_sm;
 	height: $percent_sm;
 	min-width: $percent_sm;
-	background-image: url('/images/octagon.svg');
+	background-image: url('/images/octagon.png');
 	background-size: 100% 100%;
 	text-align: center;
 }
@@ -93,6 +93,7 @@ img#scrollup {
 	width: 20px;
 	height: auto;
 	margin-top: 11px;
+	z-index: 1000;
 }
 
 img.icon-art {
@@ -291,6 +292,15 @@ img.ball:nth-child(3) {
   -o-transform: translate(100px, 0px);
   -ms-transform: translate(100px, 0px);
   transform: translate3d(100px, 0px, 0px);
+
+	@include mobile {
+		top: 0;
+		-moz-transform: translate3d(0px, 0px, 0px);
+	  -webkit-transform: translate3d(0px, 0px, 0px);
+	  -o-transform: translate(0px, 0px);
+	  -ms-transform: translate(0px, 0px);
+	  transform: translate3d(0px, 0px, 0px);
+	}
 }
 
 .slide-right.in-view {

@@ -5,6 +5,7 @@
   top: 0;
   z-index: 1000;
   width: 100%;
+  max-width: 100%;
   background: $color_white;
 }
 
@@ -30,6 +31,9 @@
   @include nav-small {
     padding-left: $percent_xs;
     padding-right: $percent_xs;
+    -webkit-box-shadow: 0px 15px 60px 0px $color_shadow;
+    -moz-box-shadow: 0px 15px 60px 0px $color_shadow;
+    box-shadow: 0px 15px 60px 0px $color_shadow;
   }
 
   .main-nav--link-text {
@@ -80,9 +84,9 @@ nav li {
   margin-left: 28px;
 
   @include nav-small {
-    line-height: 60px;
-    clear:both;
     display:block;
+    line-height: 60px;
+    clear: both;
     margin-left: $percent_sm;
     margin-right: $percent_sm;
     border-bottom: 1.5px solid #E9EDF2;
@@ -100,9 +104,9 @@ nav li.nav-cta {
   margin-left: 28px;
 
   @include nav-small {
+    display:block;
     line-height: 60px;
     clear:both;
-    display:block;
     margin-left: $percent_sm;
     margin-right: $percent_sm;
     margin-top: $percent_sm;

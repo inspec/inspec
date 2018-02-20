@@ -63,7 +63,7 @@ $mobile-tiny-breakpoint: 640px;
   -o-transition: ease-in-out all .5s;
 }
 
-body {
+body, html {
   overflow-x: hidden;
 }
 
