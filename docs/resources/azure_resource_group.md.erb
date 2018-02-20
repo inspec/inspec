@@ -48,17 +48,25 @@ The following examples show how to use this InSpec audit resource:
 
 The options that can be passed to the resource are as follows.
 
-### `group_name` (required)
+## Parameter Examples
+
+The options that can be passed to the resource are as follows.
+
+### group_name (required)
 
 Use this parameter to define the Azure Resource Group to be tested.
 
-example: MyResourceGroup
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure') do
+        ...
+    end
 
-### `name`
+### name
 
 Use this parameter to define the name of the Azure resource to test.
 
-example:  MyVM
+    describe azure_virtual_machine_data_disk(group_name: 'InSpec-Azure', name: 'Windows-Internal-VM') do
+        ...
+    end
 
 If both `group_name` and `name` is set then `name` will take priority.
 
@@ -71,12 +79,10 @@ When the options have been set as well as the environment variables, the environ
 
 <br>
 
-## Parameter Examples
+## Parameter Example
 
-    describe azure_resource_group_resource_counts(name: 'ChefAutomate') do
-      its('total') { should eq 7}
-      its('nic_count') { should eq 1 }
-      its('vm_count') { should eq 1 }
+    describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Linux-Internal-VM') do
+      its('location') { should eq 'westeurope' }
     end
 
 <br>
