@@ -243,8 +243,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 code   its('mode') { should cmp 0644 }
                 code end
                 br
-                code describe parse_config_file('/etc/myapp.conf') do
-                code   its('port') { should cmp 8080 }
+                code describe apache_conf do
+                code   its('Listen') { should cmp 8080 }
                 code end
                 br
                 code describe port(8080) do
