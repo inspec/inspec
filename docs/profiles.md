@@ -302,7 +302,7 @@ See the full example in the InSpec open source repository: https://github.com/ch
 
 # Profile files
 
-An InSpec profile may contain additional files that can be accessed during tests. A profile file enables you separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
+An InSpec profile may contain additional files that can be accessed during tests. A profile file enables you to separate the logic of your tests from the data your tests check for, for example, the list of ports you require to be open.
 
 To access these files, they must be stored in the `files` directory at the root of a profile. They are accessed by their name relative to this folder with `inspec.profile.file(...)`.
 
