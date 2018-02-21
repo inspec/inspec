@@ -18,6 +18,7 @@ gem 'middleman-compass', '>= 4.0.0'
 gem 'middleman-livereload'
 gem 'middleman-sprockets', '>= 4.0.0'
 gem 'middleman-syntax'
+gem 'middleman-search_engine_sitemap', '~> 1.4'
 gem 'redcarpet'
 
 # Tutorial Gems
