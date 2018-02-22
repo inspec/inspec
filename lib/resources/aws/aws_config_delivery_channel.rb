@@ -39,7 +39,9 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     query = { delivery_channel_names: [@channel_name] }
-    @resp = backend.describe_delivery_channels(query)
+    catch_aws_errors do
+      @resp = backend.describe_delivery_channels(query)
+    end
     @exists = !@resp.empty?
     return unless @exists
 

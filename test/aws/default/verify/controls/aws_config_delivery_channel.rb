@@ -14,7 +14,7 @@ fixtures = {}
 end
 
 #======================================================#
-#         aws_config_delivery_channel - Plural
+#         aws_config_delivery_channel - Singular
 #======================================================#
 
 #-------------------  Recall / Miss -------------------#

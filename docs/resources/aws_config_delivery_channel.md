@@ -32,7 +32,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test how frequent the channel writes configuration changes to the s3 bucket.
 
     describe aws_config_delivery_channel(channel_name: 'my-recorder') do
-      its(delivery_frequency) { should be > 3 }
+      its(delivery_frequency_in_hours) { should be > 3 }
     end
     
 ## Properties
