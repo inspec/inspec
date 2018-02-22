@@ -199,18 +199,17 @@ module Inspec::Resources
       return {} if cmd.exit_status.to_i != 0
 
       pkg = JSON.parse(cmd.stdout)[0]
+
       # If package exists but is not installed, then `brew` output will not
       # contain `pkg['installed'][0]['version']
-      unless pkg.dig('installed', 0, 'version')
-        {}
-      else
-        {
-          name: pkg['name'],
-          installed: true,
-          version: pkg['installed'][0]['version'],
-          type: 'brew',
-        }
-      end
+      return {} unless pkg.dig('installed', 0, 'version')
+
+      {
+        name: pkg['name'],
+        installed: true,
+        version: pkg['installed'][0]['version'],
+        type: 'brew',
+      }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
             'Failed to parse JSON from `brew` command. ' \
