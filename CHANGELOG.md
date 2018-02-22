@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.0.18 -->
+## [v2.0.18](https://github.com/chef/inspec/tree/v2.0.18) (2018-02-22)
+
+#### Merged Pull Requests
+- InSpec SEO [#2725](https://github.com/chef/inspec/pull/2725) ([hannah-radish](https://github.com/hannah-radish))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.17 -->
+### Changes since 2.0.17 release
+
+#### Merged Pull Requests
+- InSpec SEO [#2725](https://github.com/chef/inspec/pull/2725) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.18 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
