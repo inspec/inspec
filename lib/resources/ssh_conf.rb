@@ -1,13 +1,12 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class SshConf < Inspec.resource(1)
     name 'ssh_config'
+    supports platform: 'unix'
     desc 'Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.'
     example "
       describe ssh_config do
@@ -84,6 +83,7 @@ module Inspec::Resources
 
   class SshdConf < SshConf
     name 'sshd_config'
+    supports platform: 'unix'
     desc 'Use the sshd_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges.'
     example "
       describe sshd_config do

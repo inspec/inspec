@@ -58,10 +58,10 @@ describe 'inspec shell tests' do
     end
 
     it 'retrieves resources (json output)' do
-      out = do_shell_c('os.params', 0, true)
+      out = do_shell_c('platform.params', 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'name'
-      j.keys.must_include 'family'
+      j.keys.must_include 'families'
       j.keys.must_include 'arch'
       j.keys.must_include 'release'
     end
@@ -69,7 +69,7 @@ describe 'inspec shell tests' do
     it 'retrieves resources' do
       out = do_shell_c('os.params', 0)
       out.stdout.must_include 'name'
-      out.stdout.must_include 'family'
+      out.stdout.must_include 'families'
       out.stdout.must_include 'arch'
       out.stdout.must_include 'release'
     end
@@ -79,7 +79,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -90,16 +89,15 @@ describe 'inspec shell tests' do
     end
 
     it 'runs anonymous tests that fail (json output)' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1, true)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs anonymous tests that fail' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end
@@ -109,7 +107,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -120,16 +117,15 @@ describe 'inspec shell tests' do
     end
 
     it 'runs controls with multiple tests (json output)' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1, true)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs controls with multiple tests' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end

@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'shellwords'
 
@@ -21,6 +19,8 @@ module Inspec::Resources
     include LinuxMountParser
 
     name 'file'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
     example "
       describe file('path') do

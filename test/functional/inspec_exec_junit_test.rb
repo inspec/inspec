@@ -18,7 +18,7 @@ describe 'inspec exec with junit formatter' do
   it 'can execute the profile with the junit formatter' do
     out = inspec('exec ' + example_profile + ' --reporter junit --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 101
     doc = REXML::Document.new(out.stdout)
     doc.has_elements?.must_equal true
   end

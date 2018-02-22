@@ -8,6 +8,31 @@ module Inspec
       'additionalProperties' => false,
       'properties' => {
         'duration' => { 'type' => 'number' },
+        'controls' => {
+          'type' => 'object',
+          'optional' => true,
+          'properties' => {
+            'total' => { 'type' => 'number' },
+            'passed' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+            'skipped' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+            'failed' => {
+              'type' => 'object',
+              'properties' => {
+                'total' => { 'type' => 'number' },
+              },
+            },
+          },
+        },
       },
     }.freeze
 
@@ -33,6 +58,9 @@ module Inspec
         'start_time' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },
         'resource' => { 'type' => 'string', 'optional' => true },
+        'message' => { 'type' => 'string', 'optional' => true },
+        'exception' => { 'type' => 'string', 'optional' => true },
+        'backtrace' => { 'type' => 'object', 'optional' => true },
       },
     }.freeze
 
@@ -134,10 +162,6 @@ module Inspec
         },
         'statistics' => STATISTICS,
         'version' => { 'type' => 'string' },
-
-        # DEPRECATED PROPERTIES!! These will be removed with the next major version bump
-        'controls' => 'array',
-        'other_checks' => 'array',
       },
     }.freeze
 
@@ -152,6 +176,9 @@ module Inspec
         'code_desc' => { 'type' => 'string' },
         'skip_message' => { 'type' => 'string', 'optional' => true },
         'resource' => { 'type' => 'string', 'optional' => true },
+        'message' => { 'type' => 'string', 'optional' => true },
+        'exception' => { 'type' => 'string', 'optional' => true },
+        'backtrace' => { 'type' => 'object', 'optional' => true },
       },
     }.freeze
 

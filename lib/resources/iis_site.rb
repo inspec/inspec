@@ -16,6 +16,7 @@
 module Inspec::Resources
   class IisSite < Inspec.resource(1)
     name 'iis_site'
+    supports platform: 'windows'
     desc 'Tests IIS site configuration on windows. Supported in server 2012+ only'
     example "
       describe iis_site('Default Web Site') do

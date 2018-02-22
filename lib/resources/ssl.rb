@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Chef Software Inc.
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'sslshake'
 require 'utils/filter'
@@ -11,6 +9,8 @@ require 'parallel'
 # Custom resource based on the InSpec resource DSL
 class SSL < Inspec.resource(1)
   name 'ssl'
+  supports platform: 'unix'
+  supports platform: 'windows'
 
   desc "
     SSL test resource

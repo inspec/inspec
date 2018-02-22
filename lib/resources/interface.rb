@@ -1,13 +1,12 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Aaron Lippold
 
 require 'utils/convert'
 
 module Inspec::Resources
   class NetworkInterface < Inspec.resource(1)
     name 'interface'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the interface InSpec audit resource to test basic network adapter properties, such as name, status, and link speed (in MB/sec).'
     example "
       describe interface('eth0') do

@@ -8,7 +8,7 @@ AllCops:
   - 'examples/**/*'
   - 'vendor/**/*'
   - 'lib/bundles/inspec-init/templates/**/*'
-  - 'www/tutorial/**/*'
+  - 'www/demo/**/*'
 AlignParameters:
   Enabled: true
 BlockDelimiters:

@@ -1,11 +1,11 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name 'command'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
     example "
       describe command('ls -al /') do

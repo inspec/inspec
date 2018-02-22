@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 # describe bridge('br0') do
@@ -11,6 +9,7 @@
 module Inspec::Resources
   class Bridge < Inspec.resource(1)
     name 'bridge'
+    supports platform: 'unix'
     desc 'Use the bridge InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.'
     example "
       describe bridge 'br0' do

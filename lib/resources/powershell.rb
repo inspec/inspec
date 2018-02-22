@@ -1,11 +1,10 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 module Inspec::Resources
   class PowershellScript < Cmd
     name 'powershell'
+    supports platform: 'windows'
     desc 'Use the powershell InSpec audit resource to test a Windows PowerShell script on the Microsoft Windows platform.'
     example "
       script = <<-EOH
