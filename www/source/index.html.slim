@@ -1,5 +1,8 @@
 ---
-title: InSpec - Audit and Test Framework
+title: InSpec - Audit and Automated Testing Framework
+description: InSpec is an open source (OSS) automated testing tool for integration, compliance, security, and other policy requirements. Easily test your network and systems on-site or on cloud platforms such as AWS, Azure, and Docker Containers.
+priority: 1.0
+change_frequency: daily
 ---
 
 /! header
@@ -19,8 +22,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 
     .large-5.medium-5.columns.relative.mobile-hide
       /! diamond image
-      img.diamond src="/images/home/diamond.png" /
-      img.grid-animate.fit.z-20 src="/images/home/web.svg" onerror="this.src='/images/home/web.png'"/
+      img.diamond src="/images/home/diamond.png" alt="image of diamond"/
+      img.grid-animate.fit.z-20 src="/images/home/web.svg" onerror="this.src='/images/home/web.png'" alt="image of grid"/
   /! announcement
   .row.columns
     .box-white.shadow.z-20
@@ -42,7 +45,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
         .margin-top-xs.brdr-left.large-11.medium-11
           .margin-left-sm.slide-left
             h4.t-purple Integration
-            p Chef Automate can be used as a source for compliance profiles and to store InSpec reports. InSpec results can be exported in JUnit format for integration into CI/CD tools like Jenkins.
+            p Chef Automate can be used as a source for compliance profiles and to store InSpec reports for compliance and security audits. InSpec results can be exported in JUnit format for integration into CI/CD tools like Jenkins.
         .margin-top-xs.brdr-left.large-11.medium-11
           .margin-left-sm.slide-left
             h4.t-purple Ease
@@ -64,7 +67,7 @@ header.bg-gradient.margin-top-offset.short-bg.relative
      hr
      a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.mobile-hide href="/demo" try the inspec demo
    .large-5.medium-5.columns.blue-grid.mobile-hide
-     img.grid-animate.fit src="/images/community/blue-web.svg" onerror="this.src='/images/community/blue-web.png'"
+     img.grid-animate.fit src="/images/community/blue-web.svg" onerror="this.src='/images/community/blue-web.png'" alt="image of grid"
   .margin-top-sm
     .row.align.mobile-row
       .large-6.medium-6.mobile-12.columns
@@ -140,32 +143,32 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .row.strict-center.mobile-row
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/platform.svg" onerror="this.src='/images/home/platform.png'" /
+      img.icon-art.margin-under-xs src="/images/home/platform.svg" onerror="this.src='/images/home/platform.png'" alt="image for InSpec platform support"/
       h4.t-purple Platform Agnostic
       p
-        |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance assessments anywhere.
-      img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" /
+        |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance and security tests anywhere.
+      img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" alt="logos for Linux, Windows, Azure, Mac, Ubuntu, Docker container, AWS, VMware"/
       .triangle-right
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/test.svg" onerror="this.src='/images/home/test.png'" /
+      img.icon-art.margin-under-xs src="/images/home/test.svg" onerror="this.src='/images/home/test.png'" alt="image for InSpec remote and local testing"/
       h4.t-purple Test locally or remotely
       p
         |  InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
-      img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" /
+      img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" alt="logos for SSH and WinRM" /
       .triangle-right
 
 .row.strict-center.mobile-row
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/run.svg" onerror="this.src='/images/home/run.png'" /
+      img.icon-art.margin-under-xs src="/images/home/run.svg" onerror="this.src='/images/home/run.png'" alt="image for InSpec freedom"/
       h4.t-purple Free to run anywhere
       p
         |  InSpec is an open-source language that can easily express compliance as code, with the freedom to run anywhere.
       .triangle-right
   .large-6.medium-6.mobile-12.columns.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
-      img.icon-art.margin-under-xs src="/images/home/extensible.svg" onerror="this.src='/images/home/extensible.png'" /
+      img.icon-art.margin-under-xs src="/images/home/extensible.svg" onerror="this.src='/images/home/extensible.png'" alt="image for InSpec's extensible language" /
       h4.t-purple Extensible language
       p
         |  Easily extend the InSpec language to cover new operating systems, devices, or applications.
@@ -282,4 +285,4 @@ header.bg-gradient.margin-top-offset.short-bg.relative
                 code end
 
 .scrollToTop.shadow-dark
-  img#scrollup src="/images/home/arrow.svg" onerror="this.src='/images/home/arrow.png'"
+  img#scrollup src="/images/home/arrow.svg" onerror="this.src='/images/home/arrow.png'" alt="image of scroll to top arrow"
