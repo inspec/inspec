@@ -60,12 +60,8 @@ module Inspec
           supported = true
           supported = check_supports unless @supports.nil?
           test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
-          if test_backend
-            # do not exit out for tests
-          elsif supported == false
-            # do not run resource initalize if we are unsupported
-            return
-          end
+          # do not return if we are supported, or for tests
+          return unless supported || test_backend
 
           # call the resource initializer
           begin
