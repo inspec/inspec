@@ -35,6 +35,11 @@ describe NginxParser do
     _(parsestr('include \'/a/b/c/*.conf\';')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/c/*.conf\"@9}]}}]"
   end
 
+  it 'parses an assignemnt with quotes in quoted value' do
+    _(parsestr('include "/a/b/\'c/*.conf";')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/'c/*.conf\"@9}]}}]"
+    _(parsestr('include \'/a/b/"c/*.conf\';')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/\"c/*.conf\"@9}]}}]"
+  end
+
   it 'parses an empty group' do
     _(parsestr("group {}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>\"\", :expressions=>[]}]"
   end
