@@ -97,7 +97,7 @@ module Inspec::Resources
 
   class PConfigFile < PConfig
     name 'parse_config_file'
-    desc 'Use the parse_config_file InSpec audit resource to test arbitrary configuration files. It works identiacal to parse_config. Instead of using a command output, this resource works with files.'
+    desc 'Use the parse_config_file InSpec resource to test arbitrary configuration files. It works identically to parse_config. Instead of using a command output, this resource works with files.'
     example "
       describe parse_config_file('/path/to/file') do
         its('setting') { should eq 1 }
