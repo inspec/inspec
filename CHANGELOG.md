@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.20 -->
-## [v2.0.20](https://github.com/chef/inspec/tree/v2.0.20) (2018-02-22)
+<!-- latest_release 2.0.21 -->
+## [v2.0.21](https://github.com/chef/inspec/tree/v2.0.21) (2018-02-23)
 
-#### Merged Pull Requests
-- Update maintainers file [#2728](https://github.com/chef/inspec/pull/2728) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.17 -->
 ### Changes since 2.0.17 release
+
+#### Bug Fixes
+- package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
 
 #### Merged Pull Requests
 - Update maintainers file [#2728](https://github.com/chef/inspec/pull/2728) ([jquick](https://github.com/jquick)) <!-- 2.0.20 -->
