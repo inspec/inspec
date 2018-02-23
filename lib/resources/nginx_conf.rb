@@ -94,7 +94,6 @@ module Inspec::Resources
       # into the current data structure
       if data.key?('include')
         data.delete('include').flatten
-            .map { |x| x.gsub(/^["']|["']$/, '') }
             .map { |x| File.expand_path(x, rel_path) }
             .map { |x| find_files(x) }.flatten
             .map { |path| parse_nginx(path) }
