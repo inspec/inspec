@@ -1,12 +1,11 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'resources/file'
 
 module Inspec::Resources
   class Bond < FileResource
     name 'bond'
+    supports platform: 'unix'
     desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
     example "
       describe bond('bond0') do

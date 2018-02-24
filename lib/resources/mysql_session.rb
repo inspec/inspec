@@ -1,12 +1,11 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
-# author: Aaron Lippold
 
 module Inspec::Resources
   class MysqlSession < Inspec.resource(1)
     name 'mysql_session'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the mysql_session InSpec audit resource to test SQL commands run against a MySQL database.'
     example "
       sql = mysql_session('my_user','password','host')

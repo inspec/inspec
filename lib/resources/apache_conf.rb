@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
@@ -9,8 +7,8 @@ require 'utils/find_files'
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
     name 'apache_conf'
-    supports os_family: 'linux'
-    supports os_family: 'debian'
+    supports platform: 'linux'
+    supports platform: 'debian'
     desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
     example "
       describe apache_conf do

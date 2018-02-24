@@ -9,8 +9,10 @@ html
     link href="/favicon.ico" rel="icon"
 
     title = current_page.data.title || "InSpec"
+    meta name= "description" content = current_page.data.description 
 
-    link rel='stylesheet' type='text/css' href='css/inspec_tutorial.css'
+    link rel='stylesheet' type='text/css' href='/css/inspec_tutorial.css'
+    link rel='stylesheet' type='text/css' href='/stylesheets/vendor/fontawesome.min.css'
 
     == stylesheet_link_tag :site
 
@@ -25,11 +27,11 @@ html
 
     = partial "layouts/footer"
 
-    script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
     script src='https://buttons.github.io/buttons.js'
-    script src='scripts/inspec_tutorial.js'
-    script src='dist/inspec_tutorial.js'
-    script src='javascripts/vendor/jquery.min.js'
+    script src='/scripts/inspec_tutorial.js'
+    script src='/dist/inspec_tutorial.js'
+    script src='/javascripts/vendor/jquery.min.js'
+    script src='https://s3.amazonaws.com/menumaker/menumaker.min.js'
     div inspec-tutorial="true" class="inspec-tutorial" hidden="true"
       = "Loading"
 
@@ -46,16 +48,19 @@ html
 
     javascript:
 
-      function initSliders() {
+      function initSlideGroup(group) {
         var prev = -1;
-        $('.slider .selectors a').click(function(e) {
+        var links = $(group).find('a')
+
+        links.click(function(e) {
           e.stopPropagation()
+
+          links.removeClass('selected')
+          $(this).addClass('selected')
+
           var idx = $(this).index();
           if(prev == idx) return;
           prev = idx;
-
-          $('.slider .selectors a').removeClass('selected')
-          $(this).addClass('selected')
 
           $('.slider .view.slide-in').removeClass('slide-in').addClass('slide-out')
           var el = $('.slider .view')[idx]
@@ -67,9 +72,15 @@ html
           $(el).removeClass('slide-out').removeClass('hidden').addClass('slide-in')
         })
 
+        if(links[0] != null) links[0].click();
+      }
+
+      function initSliders() {
         $('.slider .view').addClass('hidden')
-        var links = $('.slider .selectors a')
-        if(links[0]!= null) links[0].click()
+        var groups = $('.slider .selectors')
+        groups.each(function(idx){
+          initSlideGroup(this)
+        })
       }
 
       //run code colors
@@ -115,7 +126,7 @@ html
             $(this).html($(this).html() == 'Collapse new features' ? 'Show all new features' : 'Collapse new features');
          });
       });
-      
+
       // tutorial content slider
 
       $(function() {
@@ -136,8 +147,8 @@ html
             }
          });
       });
-      
-      
+
+
 
       // scroll spy animations
 
@@ -230,6 +241,16 @@ html
         $('.scrollToTop').click(function(){
           $('html, body').animate({scrollTop : 0},800);
           return false;
+        });
+
+        // scrolling to resource sections
+        $(".resources-button").click(function() {
+          var dst = $(this).attr("href")
+          $(".resources-button").removeClass("btn-purple").addClass("btn-purple-o")
+          $(this).addClass("btn-purple").removeClass("btn-purple-o")
+          $("html, body").animate({
+              scrollTop: $(dst).offset().top - 105
+          }, 1000);
         });
 
       });

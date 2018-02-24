@@ -184,17 +184,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       puts res.to_json
     else
       headline('Platform Details')
-      %w{name families release arch}.each { |item|
-        data = res[item.to_sym]
-
-        # Format Array for better output if applicable
-        data = data.join(', ') if data.is_a?(Array)
-
-        # Do not output fields of data is missing ('unknown' is fine)
-        next if data.nil?
-
-        puts format('%-10s %s', item.to_s.capitalize + ':', mark_text(data))
-      }
+      puts Inspec::BaseCLI.detect(params: res, indent: 0, color: 36)
     end
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message

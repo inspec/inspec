@@ -1,36 +1,38 @@
 ---
 title: InSpec - Downloads
-description: Download InSpec and start using Compliance-as-Code.
+description: InSpec is an open source (OSS) automated testing tool for integration, compliance, security, and other policy requirements. Download InSpec packages and start using Compliance-as-Code.
+priority: 0.7
+change_frequency: daily
 ---
 
 /! header and tiles
 header.bg-gradient.margin-top-offset.short-bg.relative
   .row
-    .columns.large-7.medium-7.z-20
+    .columns.large-7.medium-7.mobile-12.z-20
       .margin-both
         h2.t-white#icon-trigger
           | Compliance as code starts here.
           br
           | Download InSpec and let's get started.
-  .row.strict-center
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+  .row.strict-center.mobile-row
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Ruby gem
           hr.center
           p.pad-top-xs.pad-under-xs
-            |  InSpec is included in the
+            ' InSpec is included in the
             a href="https://downloads.chef.io/chefdk" ChefDK
-            | and is available as a standalone
+            '  and is available as a standalone
             a href="https://rubygems.org/gems/inspec" Ruby gem
-            | .
+            ' .
           .box-code.shadow.margin-top-xs
-           i#copy.fa.fa-copy.copy.t-purple onclick="copyToClipboard('#install')"
+           i#copy.fa.fa-copy.copy.t-purple.mobile-hide onclick="copyToClipboard('#install')"
            code#install gem install inspec
         .triangle-right
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Ready-made packages
@@ -45,21 +47,21 @@ header.bg-gradient.margin-top-offset.short-bg.relative
     canvas.particles-js-canvas-el /
 
 .margin-under
-  .row.strict-center
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+  .row.strict-center.mobile-row
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Habitat Packages
           hr.center
           p.pad-top-xs
-            |  Use
+            ' Use
             a href="https://www.habitat.sh/" Habitat
-            | to install InSpec, or include InSpec in your own Habitat packages.
+            '  to install InSpec, or include InSpec in your own Habitat packages.
           a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://bldr.habitat.sh/#/pkgs/chef/inspec" InSpec on the depot
         .triangle-right
-    .large-6.medium-6.columns.margin-under-xs.z-20
-      .box-white.shadow.strict-center.fit-height.relative.slide-up
+    .large-6.medium-6.mobile-12.columns.margin-under-xs
+      .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
           hr.center
           h3 Use Your System Package Manager
@@ -75,28 +77,28 @@ header.bg-gradient.margin-top-offset.short-bg.relative
 .bg-gradient
   .pad-both.relative
     .row
-      .large-7.medium-7.columns.z-20
+      .large-7.medium-7.mobile-12.columns.z-20
         h2.t-white.margin-under-sm
           | Whether it’s a code review or a commit, your participation matters.
-    .row.strict-center
-      .large-6.medium-6.columns.margin-under-xs.z-20
-        .box-white.shadow-dark.strict-center.fit-height
-          img.icon-art.margin-both-xs src="/images/community/contribute.svg" /
+    .row.strict-center.mobile-row
+      .large-6.medium-6.mobile-12.columns.margin-under-xs
+        .box-white.shadow-dark.strict-center.fit-height.z-20
+          img.icon-art.margin-both-xs src="/images/community/contribute.svg" onerror="this.src='/images/community/contribute.png'" alt="image for InSpec contributions"/
           h4.t-purple Contribute
           p
             |  InSpec is an OSS project created and supported by active and passionate users. If you would like to contribute, we would love to have you.
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://github.com/chef/inspec" start contributing
-      .large-6.medium-6.columns.margin-under-xs.z-20
-        .box-white.shadow-dark.strict-center.fit-height
-          img.icon-art.margin-both-xs src="/images/community/bugs.svg" /
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.z-20 href="https://github.com/chef/inspec" start contributing
+      .large-6.medium-6.mobile-12.columns.margin-under-xs
+        .box-white.shadow-dark.strict-center.fit-height.z-20
+          img.icon-art.margin-both-xs src="/images/community/bugs.svg" onerror="this.src='/images/community/bugs.png'" alt="image for InSpec bug reporting"/
           h4.t-purple Give feedback
           p
-            |  We rely on your feedback to improve InSpec. Whether you found a bug or have a great idea for an improvement, join us on
+            ' We rely on your feedback to improve InSpec. Whether you found a bug or have a great idea for an improvement, join us on
             a href="https://github.com/chef/inspec" GitHub
-            | .
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://github.com/chef/inspec/issues" give feedback
+            ' .
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.z-20 href="https://github.com/chef/inspec/issues" give feedback
     #particles-second
      canvas.particles-js-canvas-el
 
 .scrollToTop.shadow-dark
-  img#scrollup src="/images/home/arrow.svg"
+  img#scrollup src="/images/home/arrow.svg" onerror="this.src='/images/home/arrow.png'" alt="image of scroll to top arrow"

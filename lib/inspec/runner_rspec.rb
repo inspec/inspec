@@ -137,12 +137,7 @@ module Inspec
     #
     # @return [nil]
     def configure_output
-      if !@conf['output'] || @conf['output'] == '-'
-        RSpec.configuration.output_stream = $stdout
-      else
-        RSpec.configuration.output_stream = @conf['output']
-      end
-
+      RSpec.configuration.output_stream = $stdout
       @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters

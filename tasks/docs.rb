@@ -135,7 +135,7 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
-  def overview_page(resources) # rubocop:disable Metrics/AbcSize
+  def overview_page(resources) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     f = Markdown
     res = f.meta(title: 'InSpec Resources Reference')
     res << f.h1('InSpec Resources Reference')
@@ -159,17 +159,30 @@ class ResourceDocs
     end
 
     section_names = lists.keys.find_all { |k| !k.empty? }
-    res << f.ul(
-      f.li(f.a('OS resources', '#os-resources')) +
-      section_names.map { |name|
-        # add a link to the sections
-        f.li(f.a(namify(name)+' resources', '#'+(name+'-resources').downcase))
-      }.join(''),
-    )
-    res << f.h2('OS resources')
+    links = [['#os-resources', 'All OS resources']] +
+            section_names.map do |name|
+              ['#'+(name+'-resources').downcase, namify(name)+' resources']
+            end
+
+    items = links.map do |x|
+      format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
+             x[0], x[1])
+    end.join("\n")
+    res << format('
+<div class="row columns align">
+  %s
+</div>
+', items)
+
+    section = '
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
+</div>
+'
+    res << format(section, 'os-resources', 'All OS resources')
     res << f.ul(lists[''])
     section_names.each do |group|
-      res << f.h2(namify(group) + ' resources')
+      res << format(section, (group+'-resources').downcase, namify(group) + ' resources')
       res << f.ul(lists[group])
     end
 

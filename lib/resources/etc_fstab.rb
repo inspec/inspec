@@ -1,12 +1,12 @@
 # encoding: utf-8
 # copyright:
-# author: Matthew Dromazos
 
 require 'utils/parser'
 
 module Inspec::Resources
   class EtcFstab < Inspec.resource(1)
     name 'etc_fstab'
+    supports platform: 'unix'
     desc 'Use the etc_fstab InSpec audit resource to check the configuration of the etc/fstab file.'
     example "
       nfs_systems = etc_fstab.nfs_file_systems.entries

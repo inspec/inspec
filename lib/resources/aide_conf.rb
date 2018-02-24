@@ -1,11 +1,11 @@
 # encoding: utf-8
-# author: Jen Burns, burnsjennifere@gmail.com
 
 require 'utils/filter'
 require 'utils/parser'
 module Inspec::Resources
   class AideConf < Inspec.resource(1)
     name 'aide_conf'
+    supports platform: 'unix'
     desc 'Use the aide_conf InSpec audit resource to test the rules established for
       the file integrity tool AIDE. Controlled by the aide.conf file typically at /etc/aide.conf.'
     example "

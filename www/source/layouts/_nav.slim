@@ -1,15 +1,14 @@
 
 
-nav#main-nav 
+nav#main-nav.shadow
   <progress value="0"></progress>
   
-  #main-nav-ctas.shadow
+  #main-nav-ctas
     a.main-nav--logo href="/"
-      img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'"
+      img src="/images/inspec-by-chef-logo.svg" onerror="this.src='/images/inspec-by-chef-logo.png'" alt="logo for InSpec"
       
     i.fa.fa-bars.main-nav--toggle.strict-right.mobile-show
       
-
     ul.main-nav--links
       li.main-nav--link
         <a href="/tutorials" class="link #{'t-purple' if current_page.url == '/tutorials'}" <span class="main-nav--link-text">Tutorials</span>
@@ -28,6 +27,6 @@ nav#main-nav
         a.button.btn-sm.btn-purple href="/downloads"
           i.fa.fa-cloud-download
           | Download
-      li.nav-cta.hide-for-small-only
-        a.button.btn-sm.btn-purple-o href="/tutorial" try demo
+      li.nav-cta.mobile-hide
+        a.button.btn-sm.btn-purple-o href="/demo" try demo
           

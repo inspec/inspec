@@ -20,12 +20,9 @@ $percent_xs: 16px;
 
 //mixins
 
-$side-nav-width: 200px;
-$top-nav-height: 100px;
-$side-nav-padding-large: 10px;
-$side-nav-padding-small: 30px;
-$nav-breakpoint: 900px;
-
+$nav-breakpoint: 1024px;
+$mobile-breakpoint: 768px;
+$mobile-tiny-breakpoint: 640px;
 
 @mixin nav-large {
   @media screen and (min-width: #{$nav-breakpoint}) {
@@ -35,6 +32,18 @@ $nav-breakpoint: 900px;
 
 @mixin nav-small {
   @media screen and (max-width: $nav-breakpoint) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+@mixin mobile-tiny {
+  @media screen and (max-width: $mobile-tiny-breakpoint) {
     @content;
   }
 }
@@ -54,31 +63,50 @@ $nav-breakpoint: 900px;
   -o-transition: ease-in-out all .5s;
 }
 
-body {
+body, html {
   overflow-x: hidden;
 }
 
 //Hide/show div on mobile
 
 .mobile-hide {
-	display: initial;
+	display: inline-block;
 
-	@include nav-small {
-  	display: none;
+	@include mobile {
+  	display: none !important;
 	}
 }
 
 .mobile-show {
 	display: none;
 
-	@include nav-small {
-  	display: block;
+	@include mobile {
+  	display: block !important;
 	}
 }
 
-.mobile-grow {
-  @include nav-small {
-		width:100%;
+.mobile-12 {
+	display: initial;
+
+	@include mobile {
+  	width: 100% !important;
+	}
+}
+
+.mobile-row {
+  @include mobile {
+		display: block !important;
+    margin-bottom: $percent_sm;
+	}
+}
+
+.mobile-row-btn {
+  @include mobile-tiny {
+		display: block !important;
+
+    .button {
+      margin-left: 0;
+    }
 	}
 }
 

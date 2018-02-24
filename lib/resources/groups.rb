@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/filter'
 
@@ -27,6 +25,8 @@ module Inspec::Resources
     include GroupManagementSelector
 
     name 'groups'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the group InSpec audit resource to test groups on the system. Groups can be filtered.'
     example "
       describe groups.where { name == 'root'} do
@@ -82,6 +82,8 @@ module Inspec::Resources
     include GroupManagementSelector
 
     name 'group'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the group InSpec audit resource to test groups on the system.'
     example "
       describe group('root') do

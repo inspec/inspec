@@ -89,13 +89,13 @@ The `be_stopped` matcher tests if the described EC2 instance state is `stopped`.
 
 ### be\_stopping
 
-The `be_stopping` matcher tests if the described EC2 instance state is `stopping`. This indicates that an AWS stop command has been issued, which will suspend the instance in an OS-unaware manner.  This state should be temporary.
+The `be_stopping` matcher tests if the described EC2 instance state is `stopping`. This indicates that an AWS stop command has been issued, which will suspend the instance in an OS-unaware manner. This state should be temporary.
 
     it { should be_stopping }
 
 ### be\_terminated
 
-The `be_terminated` matcher tests if the described EC2 instance state is `terminated`.  This indicates the instance is permanently halted and will be removed from the instance listing in a short period. This state should be temporary.
+The `be_terminated` matcher tests if the described EC2 instance state is `terminated`. This indicates the instance is permanently halted and will be removed from the instance listing in a short period. This state should be temporary.
 
     it { should be_terminated }
 

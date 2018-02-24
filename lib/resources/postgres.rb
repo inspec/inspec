@@ -1,12 +1,10 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
-# author: Aaron Lippold
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
+    supports platform: 'unix'
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize

@@ -7,7 +7,7 @@ platform: aws
 
 Use the `aws_cloudwatch_log_metric_filter` InSpec audit resource to search for and test properties of individual AWS Cloudwatch Log Metric Filters.
 
-A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks for a specified pattern, and updates a metric about the number times the match occurs.  The metric can also be connected to AWS Cloudwatch Alarms, so that actions can be taken when a match occurs.
+A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks for a specified pattern, and then updates a metric about the number times the match occurs.  The metric can also be connected to AWS Cloudwatch Alarms, so that actions can be taken when a match occurs.
 
 <br>
 
@@ -15,7 +15,7 @@ A Log Metric Filter (LMF) is an AWS resource that observes log traffic, looks fo
 
 An `aws_cloudwatch_log_metric_filter` resource block searches for an LMF, specified by several search options.  If more than one log metric filter matches, an error occurs.
 
-    # Look for a LMF by its filter name and log group name.  This combination
+    # Look for an LMF by its filter name and log group name.  This combination
     # will always either find at most one LMF - no duplicates.
     describe aws_cloudwatch_log_metric_filter(
       filter_name: 'my-filter',

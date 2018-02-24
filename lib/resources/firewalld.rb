@@ -1,5 +1,4 @@
 # encoding: utf-8
-# author: Matthew
 
 module Inspec::Resources
   class FirewallD < Inspec.resource(1)
@@ -9,6 +8,7 @@ module Inspec::Resources
     ###
 
     name 'firewalld'
+    supports platform: 'unix'
     desc 'Use the firewalld resource to check and see if firewalld is configured to grand or deny access to specific hosts or services'
     example "
       describe firewalld do

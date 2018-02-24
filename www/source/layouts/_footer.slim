@@ -1,25 +1,25 @@
 footer#main-footer.dark-bg
   #dlmsg.strict-center
     .pad-under-xs
-      img#hex src="/images/octagon.svg" /
+      img#hex src="/images/octagon.svg" onerror="this.src='/images/octagon.png'" alt="image of octagon spinning" /
     h3.t-white.pad-under-xs Get started with InSpec and rock on.
 
     .row.align.columns
       .strict-center
-        a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs href="/downloads"
+        a.button.btn-lg.btn-purple.shadow-dark.margin-right-xs.mobile-row-btn href="/downloads"
           i.fa.fa-cloud-download
           span download inspec 2.0
-        a.button.btn-lg.btn-white-o.shadow-dark href="/tutorial" browse tutorials
+        a.button.btn-lg.btn-white-o.shadow-dark.mobile-row-btn href="/tutorials" browse tutorials
 
   .flex.align
     .columns.large-4.medium-4.mobile-hide
       ul.footer--logos
         li
           a.footer--logo.inspec href="/"
-            img src="/images/inspec-by-chef-logo.png"
+            img src="/images/inspec-by-chef-logo.png" alt="logo for InSpec"
         li
           a.footer--logo.chef href="http://www.chef.io"
-              img src="/images/chef-logo.png"
+              img src="/images/chef-logo.png" alt="logo for Chef Software"
 
     .columns.large-8.medium-8
       ul.footer--links.strict-right
@@ -39,10 +39,10 @@ footer#main-footer.dark-bg
         ul.footer--logos
           li
             a.footer--logo.inspec href="/"
-              img src="/images/inspec-by-chef-logo.png"
+              img src="/images/inspec-by-chef-logo.png" alt="logo for InSpec"
           li
             a.footer--logo.chef href="http://www.chef.io"
-                img src="/images/chef-logo.png"
+                img src="/images/chef-logo.png" alt="logo for Chef Software"
 
   p.strict-center.pad-under-xs
-    small.t-gray &copy; Chef Software 2017
+    small.t-gray &copy; Chef Software 2015-#{ Time.now.strftime("%Y") }
