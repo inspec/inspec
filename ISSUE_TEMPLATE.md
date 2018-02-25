@@ -1,5 +1,7 @@
 ### 🎛 Description
 
+**Choose one:** is this a 🐛 bug report or 🙋 feature request?
+
 Briefly describe the issue and the expected behavior
 
 ### 🌍 InSpec and Platform Version
