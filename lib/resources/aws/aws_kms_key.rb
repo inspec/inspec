@@ -11,12 +11,12 @@ class AwsKmsKey < Inspec.resource(1)
 
   include AwsSingularResourceMixin
   attr_reader :key_id, :arn, :creation_date, :key_usage, :key_state, :description,
-              :deletion_date, :valid_to, :external, :has_key_expiration, :has_aws_key_manager,
+              :deletion_date, :valid_to, :external, :has_key_expiration, :managed_by_aws,
               :has_rotation_enabled, :enabled
   # Use aliases for matchers
   alias external? external
   alias enabled? enabled
-  alias has_aws_key_manager? has_aws_key_manager
+  alias managed_by_aws? managed_by_aws
   alias has_key_expiration? has_key_expiration
   alias has_rotation_enabled? has_rotation_enabled
 
@@ -49,27 +49,29 @@ class AwsKmsKey < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
 
     query = { key_id: @key_id }
-    resp = backend.describe_key(query)
+    catch_aws_errors do
+      resp = backend.describe_key(query)
 
-    @exists = !resp.empty?
-    return unless @exists
+      @exists = !resp.empty?
+      return unless @exists
 
-    @key = resp.key_metadata.to_h
-    @key_id = @key[:key_id]
-    @arn = @key[:arn]
-    @creation_date = @key[:creation_date]
-    @enabled = @key[:enabled]
-    @description = @key[:description]
-    @key_usage = @key[:key_usage]
-    @key_state = @key[:key_state]
-    @deletion_date = @key[:deletion_date]
-    @valid_to = @key[:valid_to]
-    @external = @key[:origin] == 'EXTERNAL'
-    @has_key_expiration = @key[:expiration_model] == 'KEY_MATERIAL_EXPIRES'
-    @has_aws_key_manager = @key[:key_manager] == 'AWS'
+      @key = resp.key_metadata.to_h
+      @key_id = @key[:key_id]
+      @arn = @key[:arn]
+      @creation_date = @key[:creation_date]
+      @enabled = @key[:enabled]
+      @description = @key[:description]
+      @key_usage = @key[:key_usage]
+      @key_state = @key[:key_state]
+      @deletion_date = @key[:deletion_date]
+      @valid_to = @key[:valid_to]
+      @external = @key[:origin] == 'EXTERNAL'
+      @has_key_expiration = @key[:expiration_model] == 'KEY_MATERIAL_EXPIRES'
+      @managed_by_aws = @key[:key_manager] == 'AWS'
 
-    resp = backend.get_key_rotation_status(query)
-    @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
+      resp = backend.get_key_rotation_status(query)
+      @has_rotation_enabled = resp.key_rotation_enabled unless resp.empty?
+    end
   end
 
   class Backend

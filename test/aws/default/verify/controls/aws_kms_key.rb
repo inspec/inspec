@@ -1,9 +1,8 @@
 fixtures = {}
 [
-  'kms_key_disabled_arn',  
   'kms_key_enabled_arn',
-  'kms_key_recall_hit_arn',
   'kms_key_enabled_key_id',
+  'kms_key_disabled_key_id',
   'kms_key_enabled_key_description'
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
@@ -14,10 +13,10 @@ fixtures = {}
 end
 
 control "aws_kms_key recall" do
-  describe aws_kms_key(fixtures['kms_key_recall_hit_arn']) do
+  describe aws_kms_key(fixtures['kms_key_enabled_key_id']) do
     it { should exist}
   end
-  describe aws_kms_key(key_id: fixtures['kms_key_recall_hit_arn']) do
+  describe aws_kms_key(key_id: fixtures['kms_key_enabled_key_id']) do
     it { should exist }
   end
   describe aws_kms_key('non-existant-key') do
@@ -26,8 +25,9 @@ control "aws_kms_key recall" do
 end
 
 control "aws_kms_key properties" do
-  describe aws_kms_key(fixtures['kms_key_enabled_arn']) do
+  describe aws_kms_key(fixtures['kms_key_enabled_key_id']) do
     its('key_id') { should eq fixtures['kms_key_enabled_key_id'] }
+    its('arn') { should eq fixtures['kms_key_enabled_arn'] }
     its('description') { should eq fixtures['kms_key_enabled_key_description'] }
     its('created_days_ago') { should eq 0 }
     its('key_usage') { should eq 'ENCRYPT_DECRYPT' }
@@ -36,16 +36,16 @@ control "aws_kms_key properties" do
 end
 
 control "aws_kms_key matchers" do
-  describe aws_kms_key(fixtures['kms_key_enabled_arn']) do
+  describe aws_kms_key(fixtures['kms_key_enabled_key_id']) do
     it { should be_enabled }
     it { should_not be_external }
-    it { should_not have_aws_key_manager }
+    it { should_not be_managed_by_aws }
     it { should_not have_key_expiration }
   end
-  describe aws_kms_key(fixtures['kms_key_enabled_arn']) do
+  describe aws_kms_key(fixtures['kms_key_enabled_key_id']) do
     it { should have_rotation_enabled }
   end
-  describe aws_kms_key(fixtures['kms_key_disabled_arn']) do
+  describe aws_kms_key(fixtures['kms_key_disabled_key_id']) do
     it { should_not have_rotation_enabled }
   end
 end

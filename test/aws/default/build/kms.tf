@@ -1,9 +1,6 @@
 #===========================================================================#
-#                                 SNS Topic
+#                                 KMS Key
 #===========================================================================#
-# Test fixture: 
-# sns_topic_1 has one confirmed subscription
-# sns_topic_2 has no subscriptions
 
 resource "aws_kms_key" "kms_key_1" {
   description             = "${terraform.env}-kms_key_1"
@@ -27,6 +24,10 @@ output "kms_key_recall_hit_arn" {
 
 output "kms_key_enabled_key_id" {
   value = "${aws_kms_key.kms_key_1.key_id}"
+}
+
+output "kms_key_disabled_key_id" {
+  value = "${aws_kms_key.kms_key_2.key_id}"
 }
 
 output "kms_key_enabled_key_description" {

@@ -148,11 +148,11 @@ class AwsKmsKeyMatchersTest < Minitest::Test
   end
   
   def test_matcher_has_aws_key_manager_positive
-    assert AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').has_aws_key_manager?
+    assert AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').managed_by_aws?
   end
   
   def test_matcher_has_aws_key_manager_negative
-    refute AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-222222222222').has_aws_key_manager?
+    refute AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-222222222222').managed_by_aws?
   end
 end
 
