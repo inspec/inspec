@@ -20,17 +20,17 @@ To run it live run:
 bundle exec middleman server
 ```
 
-For the online tutorial, take a look at `www/tutorial`.
+For the online demo, take a look at `www/demo`.
 
 ## Building
 
-To build the site to a local static folder (without tutorial):
+To build the site to a local static folder (without demo):
 
 ```bash
 bundle exec middleman build
 ```
 
-To build everything including the online tutorial:
+To build everything including the online demo:
 
 ```
 bundle exec rake www:build

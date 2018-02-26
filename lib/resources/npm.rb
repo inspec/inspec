@@ -1,10 +1,10 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 module Inspec::Resources
   class NpmPackage < Inspec.resource(1)
     name 'npm'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the npm InSpec audit resource to test if a global npm package is installed. npm is the the package manager for Nodejs packages, such as bower and StatsD.'
     example "
       describe npm('bower') do

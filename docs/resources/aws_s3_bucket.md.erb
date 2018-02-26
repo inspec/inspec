@@ -103,7 +103,7 @@ If there is no bucket policy, this property returns an empty array.
     bucket_policy = aws_s3_bucket('my-bucket')
 
     # Look for statements that allow the general public to do things
-    # This may be a false positive; it's possible these statements
+    # This may be a false positive; it is possible these statements
     # could be protected by conditions, such as IP restrictions.
     public_statements = bucket_policy.select do |s|
       s.effect == 'Allow' && s.principal == '*'
@@ -113,7 +113,7 @@ If there is no bucket policy, this property returns an empty array.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_public
 

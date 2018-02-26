@@ -10,10 +10,10 @@ describe 'inspec detect' do
 
     stdout = res.stdout
     stdout.must_include "\n== Platform Details\n\n"
-    stdout.must_include "\nName:      \e[0;36m"
-    stdout.must_include "\nFamilies:  \e[0;36m"
-    stdout.must_include "\nArch:      \e[0;36m"
-    stdout.must_include "\nRelease:   \e[0;36m"
+    stdout.must_include "\nName:      \e[1m\e[36m"
+    stdout.must_include "\nFamilies:  \e[1m\e[36m"
+    stdout.must_include "\nArch:      \e[1m\e[36m"
+    stdout.must_include "\nRelease:   \e[1m\e[36m"
   end
 
   it 'outputs the correct data when target the target an API' do
@@ -23,9 +23,9 @@ describe 'inspec detect' do
 
     stdout = res.stdout
     stdout.must_include "\n== Platform Details\n\n"
-    stdout.must_include "\nName:      \e[0;36m"
-    stdout.must_include "\nFamilies:  \e[0;36m"
-    stdout.must_include "\nRelease:   \e[0;36m"
+    stdout.must_include "\nName:      \e[1m\e[36m"
+    stdout.must_include "\nFamilies:  \e[1m\e[36m"
+    stdout.must_include "\nRelease:   \e[1m\e[36m"
 
     stdout.wont_include "\nArch:"
   end

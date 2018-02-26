@@ -91,11 +91,19 @@ module Inspec
       }
     end
 
-    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize
+    def self.parse_reporters(opts) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # merge in any legacy formats as reporter
       # this method will only be used for ad-hoc runners
       if !opts['format'].nil? && opts['reporter'].nil?
-        warn '[DEPRECATED] The option --format is being is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+        warn '[DEPRECATED] The option --format is being deprecated and will be removed in inspec 3.0. Please use --reporter'
+
+        # see if we are using the legacy output to write to files
+        if opts['output']
+          warn '[DEPRECATED] The option \'output\' is being deprecated and will be removed in inspec 3.0. Please use --reporter name:path'
+          opts['format'] = "#{opts['format']}:#{opts['output']}"
+          opts.delete('output')
+        end
+
         opts['reporter'] = Array(opts['format'])
         opts.delete('format')
       end
@@ -157,6 +165,23 @@ module Inspec
       end
 
       raise ArgumentError, 'The option --reporter can only have a single report outputting to stdout.' if stdout > 1
+    end
+
+    def self.detect(params: {}, indent: 0, color: 39)
+      str = ''
+      params.each { |item, info|
+        data = info
+
+        # Format Array for better output if applicable
+        data = data.join(', ') if data.is_a?(Array)
+
+        # Do not output fields of data is missing ('unknown' is fine)
+        next if data.nil?
+
+        data = "\e[1m\e[#{color}m#{data}\e[0m"
+        str << format("#{' ' * indent}%-10s %s\n", item.to_s.capitalize + ':', data)
+      }
+      str
     end
 
     private

@@ -11,7 +11,7 @@ Use the `aws_iam_access_key` InSpec audit resource to test properties of a singl
 
 ## Syntax
 
-An `aws_iam_access_key` resource block declares the tests for a single AWS IAM access key.  An access key is uniquely identified by its access key id.  
+An `aws_iam_access_key` resource block declares the tests for a single AWS IAM access key. An access key is uniquely identified by its access key id. 
 
     # This is unique - the key will either exist or it won't, but it will never be an error.
     describe aws_iam_access_key(access_key_id: 'AKIA12345678ABCD') do
@@ -27,9 +27,9 @@ An `aws_iam_access_key` resource block declares the tests for a single AWS IAM a
     end
     
 
-Access keys are associated with IAM users, who may have zero, one or two access keys.  You may also lookup an access key by username.  If the user has more than one access key, an error occurs (You may use `aws_iam_access_keys` with the `username` resource parameter to access a user's keys when they have multiple keys.)
+Access keys are associated with IAM users, who may have zero, one or two access keys. You may also lookup an access key by username. If the user has more than one access key, an error occurs (You may use `aws_iam_access_keys` with the `username` resource parameter to access a user's keys when they have multiple keys.)
 
-    # This is not unique.  If the user has zero or one keys, it is not an error.  
+    # This is not unique. If the user has zero or one keys, it is not an error.
     # If they have two, it is an error.
     describe aws_iam_access_key(username: 'roderick') do
       it { should exist }
@@ -114,7 +114,7 @@ The IAM user that owns this key.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_active
 

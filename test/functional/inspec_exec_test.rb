@@ -110,6 +110,18 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     end
   end
 
+  describe 'with a profile that contains skipped resources' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'aws-profile')) }
+    let(:stdout) { out.stdout.force_encoding(Encoding::UTF_8) }
+    it 'exits with an error' do
+      stdout.must_include 'Resource Aws_iam_users is not supported on platform'
+      stdout.must_include 'Resource Aws_iam_access_keys is not supported on platform'
+      stdout.must_include 'Resource Aws_s3_bucket is not supported on platform'
+      stdout.must_include '3 skipped'
+      out.exit_status.must_equal 101
+    end
+  end
+
   describe 'with a profile that is supported on this version of inspec' do
     let(:out) { inspec('exec ' + File.join(profile_path, 'supported_inspec') + ' --no-create-lockfile') }
 

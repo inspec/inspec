@@ -45,7 +45,7 @@ The following examples show how to use this InSpec audit resource.
       it { should be_encrypted }
     end
 
-### Test that the specified trail is a multi region trail
+### Test that the specified trail is a multi-region trail
 
     describe aws_cloudtrail_trail('trail-name') do
       it { should be_multi_region_trail }
@@ -113,11 +113,11 @@ Specifies the region in which the trail was created.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_multi\_region\_trail
 
-The test will pass if the identified trail is a multi region trail.
+The test will pass if the identified trail is a multi-region trail.
 
     describe aws_cloudtrail_trail('trail-name') do
       it { should be_multi_region_trail }

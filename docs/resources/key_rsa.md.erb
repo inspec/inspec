@@ -1,6 +1,6 @@
 ---
 title: The key_rsa Resource
-os: Linux
+platform: os
 ---
 
 # key_rsa
@@ -30,7 +30,7 @@ You can use an optional passphrase with `key_rsa`
 
 <br>
 
-## Supported Properties
+## Properties
 
   * `public_key`, `private_key`, `key_length`
 
@@ -62,9 +62,11 @@ The `key_length` property allows testing the number of bits in the key pair.
       its('key_length') { should eq 2048 }
     end
 
+<br>
+
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### public?
 

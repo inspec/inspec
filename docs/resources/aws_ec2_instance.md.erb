@@ -61,11 +61,11 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### be\_pending
 
-The `be\_pending` matcher tests if the described EC2 instance state is `pending`. This indicates that an instance is provisioning. This state should be temporary.
+The `be_pending` matcher tests if the described EC2 instance state is `pending`. This indicates that an instance is provisioning. This state should be temporary.
 
     it { should be_pending }
 
@@ -89,13 +89,13 @@ The `be_stopped` matcher tests if the described EC2 instance state is `stopped`.
 
 ### be\_stopping
 
-The `be_stopping` matcher tests if the described EC2 instance state is `stopping`. This indicates that an AWS stop command has been issued, which will suspend the instance in an OS-unaware manner.  This state should be temporary.
+The `be_stopping` matcher tests if the described EC2 instance state is `stopping`. This indicates that an AWS stop command has been issued, which will suspend the instance in an OS-unaware manner. This state should be temporary.
 
     it { should be_stopping }
 
 ### be\_terminated
 
-The `be_terminated` matcher tests if the described EC2 instance state is `terminated`.  This indicates the instance is permanently halted and will be removed from the instance listing in a short period. This state should be temporary.
+The `be_terminated` matcher tests if the described EC2 instance state is `terminated`. This indicates the instance is permanently halted and will be removed from the instance listing in a short period. This state should be temporary.
 
     it { should be_terminated }
 

@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class IniConfig < JsonConfig
     name 'ini'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the ini InSpec audit resource to test data in a INI file.'
     example "
       descibe ini do

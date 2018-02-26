@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Richard Nixon
-# author: Christoph Hartmann
 
 require 'openssl'
 require 'hashie/mash'
@@ -8,6 +6,8 @@ require 'hashie/mash'
 module Inspec::Resources
   class X509CertificateResource < Inspec.resource(1)
     name 'x509_certificate'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Used to test x.509 certificates'
     example "
       describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do

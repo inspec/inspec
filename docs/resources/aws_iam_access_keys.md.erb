@@ -7,10 +7,10 @@ platform: aws
 
 Use the `aws_iam_access_keys` InSpec audit resource to test properties of some or all IAM Access Keys.
 
-To test properties of a single Access Key, use the `aws_iam_access_key` resource instead.  
+To test properties of a single Access Key, use the `aws_iam_access_key` resource instead. 
 To test properties of an individual user's access keys, use the `aws_iam_user` resource.
 
-Access Keys are closely related to AWS User resources.  Use this resource to perform audits of all keys or of keys specified by criteria unrelated to any particular user.  
+Access Keys are closely related to AWS User resources. Use this resource to perform audits of all keys or of keys specified by criteria unrelated to any particular user.
 
 <br>
 
@@ -56,7 +56,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### active
 
-A true / false value indicating if an Access Key is currently "Active" (the normal state) in the AWS console.  See also: `inactive`.
+A true / false value indicating if an Access Key is currently "Active" (the normal state) in the AWS console. See also: `inactive`.
 
     # Check if a particular key is enabled
     describe aws_iam_access_keys.where { active } do
@@ -65,7 +65,7 @@ A true / false value indicating if an Access Key is currently "Active" (the norm
 
 ### create\_date
 
-A DateTime identifying when the Access Key was created.  See also `created_days_ago` and `created_hours_ago`.
+A DateTime identifying when the Access Key was created. See also `created_days_ago` and `created_hours_ago`.
 
     # Detect keys older than 2017
     describe aws_iam_access_keys.where { create_date < DateTime.parse('2017-01-01') } do
@@ -170,7 +170,7 @@ Provides a list of all access key IDs matched.
 
 ### entries
 
-Provides access to the raw results of the query.  This can be useful for checking counts and other advanced operations.
+Provides access to the raw results of the query. This can be useful for checking counts and other advanced operations.
 
     # Allow at most 100 access keys on the account
     describe aws_iam_access_keys do
@@ -181,7 +181,7 @@ Provides access to the raw results of the query.  This can be useful for checkin
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

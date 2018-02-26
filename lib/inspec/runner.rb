@@ -258,12 +258,15 @@ module Inspec
 
       return nil if arg.empty?
 
-      if arg[0].respond_to?(:resource_skipped?) && arg[0].resource_skipped?
-        return rspec_skipped_block(arg, opts, arg[0].resource_exception_message)
+      resource = arg[0]
+      # check to see if we are using a filtertable object
+      resource = arg[0].resource if arg[0].class.superclass == FilterTable::Table
+      if resource.respond_to?(:resource_skipped?) && resource.resource_skipped?
+        return rspec_skipped_block(arg, opts, resource.resource_exception_message)
       end
 
-      if arg[0].respond_to?(:resource_failed?) && arg[0].resource_failed?
-        return rspec_failed_block(arg, opts, arg[0].resource_exception_message)
+      if resource.respond_to?(:resource_failed?) && resource.resource_failed?
+        return rspec_failed_block(arg, opts, resource.resource_exception_message)
       end
 
       # If neither skipped nor failed then add the resource

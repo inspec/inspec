@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/command_wrapper'
 require 'resources/command'
@@ -8,6 +6,7 @@ require 'resources/command'
 module Inspec::Resources
   class Bash < Cmd
     name 'bash'
+    supports platform: 'unix'
     desc 'Run a command or script in BASH.'
     example "
       describe bash('ls -al /') do

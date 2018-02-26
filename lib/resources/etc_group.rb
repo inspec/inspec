@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # The file format consists of
 # - group name
@@ -29,6 +27,7 @@ module Inspec::Resources
     include CommentParser
 
     name 'etc_group'
+    supports platform: 'unix'
     desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'
     example "
       describe etc_group do

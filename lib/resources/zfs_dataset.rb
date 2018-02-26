@@ -1,9 +1,9 @@
 # encoding: utf-8
-# author: Joseph Benden
 
 module Inspec::Resources
   class ZfsDataset < Inspec.resource(1)
     name 'zfs_dataset'
+    supports platform: 'unix'
     desc "
       Use the zfs_dataset InSpec audit resource to test if the named
       ZFS Dataset is present and/or has certain properties.

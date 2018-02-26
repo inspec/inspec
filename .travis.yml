@@ -2,7 +2,6 @@ sudo: required
 branches:
   only:
     - master
-    - release-2.0
 language: ruby
 cache: bundler
 dist: trusty

@@ -7,13 +7,13 @@ platform: aws
 
 Use the `aws_cloudwatch_alarm` InSpec audit resource to test properties of a single Cloudwatch Alarm.
 
-Cloudwatch Alarms are currently identified using the metric name and metric namespace.  Future work may allow other approaches to identifying alarms.
+Cloudwatch Alarms are currently identified using the metric name and metric namespace. Future work may allow other approaches to identifying alarms.
 
 <br>
 
 ## Syntax
 
-An `aws_cloudwatch_alarm` resource block searches for a Cloudwatch Alarm, specified by several search options.  If more than one Alarm matches, an error occurs.
+An `aws_cloudwatch_alarm` resource block searches for a Cloudwatch Alarm, specified by several search options. If more than one Alarm matches, an error occurs.
 
     # Look for a specific alarm
     aws_cloudwatch_alarm(
@@ -48,7 +48,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### alarm\_actions
 
-`alarm_actions` returns a list of strings.  Each string is the ARN of an action that will be taken should the alarm be triggered.  
+`alarm_actions` returns a list of strings. Each string is the ARN of an action that will be taken should the alarm be triggered.
 
     # Ensure that the alarm has at least one action
     describe aws_cloudwatch_alarm(
@@ -62,7 +62,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exists
 

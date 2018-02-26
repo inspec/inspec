@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/parser'
 require 'utils/filter'
@@ -11,6 +9,8 @@ require 'ipaddr'
 module Inspec::Resources
   class Port < Inspec.resource(1)
     name 'port'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc "Use the port InSpec audit resource to test basic port properties, such as port, process, if it's listening."
     example "
       describe port(80) do
