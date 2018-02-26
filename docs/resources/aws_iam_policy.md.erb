@@ -7,9 +7,9 @@ platform: aws
 
 Use the `aws_iam_policy` InSpec audit resource to test properties of a single managed AWS IAM Policy.
 
-A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine if the request is allowed or denied. 
+A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions in the policies determine if the request is allowed or denied.
 
-Each IAM Policy is uniquely identified by either its policy_name or arn.
+Each IAM Policy is uniquely identified by either its policy\_name or arn.
 
 <br>
 
@@ -142,5 +142,3 @@ The test will pass if the identified policy attached the specified role.
     describe aws_iam_policy('AWSSupportAccess') do
       it { should be_attached_to_role(ROLENAME) }
     end
-
-
