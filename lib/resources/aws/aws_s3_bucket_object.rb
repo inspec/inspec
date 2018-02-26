@@ -18,7 +18,7 @@ class AwsS3BucketObject < Inspec.resource(1)
     "s3://#{@bucket_name}/#{@key}"
   end
 
-  def object_acl    
+  def object_acl
     return @object_acl if defined? @object_acl
     catch_aws_errors do
       @object_acl = BackendFactory.create(inspec_runner).get_object_acl(bucket: bucket_name, key: key).grants
