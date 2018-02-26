@@ -68,9 +68,9 @@ The where accessor can be used to filter on fields. For example:
 
 The key filter may be useful in evaluating rules with particular key values:
 
-  describe auditd.where { key == "privileged" } do
-    its('permissions') { should include ['x'] }
-  end
+    describe auditd.where { key == "privileged" } do
+      its('permissions') { should include ['x'] }
+    end
 
 <br>
 

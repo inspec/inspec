@@ -11,10 +11,10 @@ Use the `aws_iam_role` InSpec audit resource to test properties of a single IAM 
 
 ## Syntax
 
-  # Ensure that a certain role exists by name
-  describe aws_iam_role('my-role') do
-    it { should exist }
-  end
+    # Ensure that a certain role exists by name
+    describe aws_iam_role('my-role') do
+      it { should exist }
+    end
 
 <br>
 
@@ -24,13 +24,13 @@ Use the `aws_iam_role` InSpec audit resource to test properties of a single IAM 
 
 This resource expects a single parameter that uniquely identifies the IAM Role, the Role Name. You may pass it as a string, or as the value in a hash:
 
-  describe aws_iam_role('my-role') do
-    it { should exist }
-  end
-  # Same
-  describe aws_iam_role(role_name: 'my-role') do
-    it { should exist }
-  end
+    describe aws_iam_role('my-role') do
+      it { should exist }
+    end
+    # Same
+    describe aws_iam_role(role_name: 'my-role') do
+      it { should exist }
+    end
 
 <br>
 
@@ -52,7 +52,7 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 ### exist
 
-Indicates that the Role Name provided was found. Use should_not to test for IAM Roles that should not exist.
+Indicates that the Role Name provided was found. Use `should_not` to test for IAM Roles that should not exist.
 
     describe aws_iam_role('should-be-there') do
       it { should exist }
@@ -61,5 +61,3 @@ Indicates that the Role Name provided was found. Use should_not to test for IAM 
     describe aws_iam_role('should-not-be-there') do
       it { should_not exist }
     end
-
-
