@@ -15,7 +15,7 @@ class AwsSnsSubscription < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :arn, :owner, :raw_message_delivery, :topic_arn, :endpoint, :protocol, 
+  attr_reader :arn, :owner, :raw_message_delivery, :topic_arn, :endpoint, :protocol,
               :confirmation_was_authenticated, :aws_response
 
   alias confirmation_authenticated? confirmation_was_authenticated
@@ -38,7 +38,7 @@ class AwsSnsSubscription < Inspec.resource(1)
       allowed_scalar_name: :subscription_arn,
       allowed_scalar_type: String,
     )
-    
+
     if validated_params.empty?
       raise ArgumentError, 'You must provide a subscription_arn to aws_sns_subscription.'
     end
@@ -57,7 +57,6 @@ class AwsSnsSubscription < Inspec.resource(1)
     @endpoint = @aws_response['Endpoint']
     @protocol = @aws_response['Protocol']
     @confirmation_was_authenticated = @aws_response['ConfirmationWasAuthenticated'].eql?('true')
-
   rescue Aws::SNS::Errors::NotFound
     @exists = false
     return
