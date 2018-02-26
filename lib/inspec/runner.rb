@@ -129,8 +129,9 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      run_data = @test_collector.run(with)
-      render_output(run_data)
+      @run_data = @test_collector.run(with)
+      # dont output anything if we want a report
+      render_output(@run_data) unless @conf['report']
       @test_collector.exit_code
     end
 
