@@ -45,13 +45,13 @@ The following examples show how to use this InSpec audit resource.
 
 The `version` property tests if the named module version is on the system:
 
-    its(:version) { should eq '3.2.2' }
+    its('version') { should eq '3.2.2' }
 
 ### Test a modules 'version'
 
       describe kernel_module('bridge') do
         it { should be_loaded }
-        its(:version) { should cmp >= '2.2.2' }
+        its('version') { should cmp >= '2.2.2' }
       end
 
 ### Test if a module is loaded, not disabled and not blacklisted
