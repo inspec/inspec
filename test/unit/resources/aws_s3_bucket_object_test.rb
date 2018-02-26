@@ -51,9 +51,9 @@ class AwsS3BucketObjectRecallTest < Minitest::Test
   end
 
   def test_searching
-    assert_equal(true, AwsS3BucketObject.new(bucket_name: 'Public Bucket', key: 'public_file.jpg').exists?)
-    assert_equal(false, AwsS3BucketObject.new(bucket_name: 'Public Bucket', key: 'NonExistingObject').exists?)
-    assert_equal(false, AwsS3BucketObject.new(bucket_name: 'NonExistingBucket', key: 'public_file.jpg').exists?)
+    assert(AwsS3BucketObject.new(bucket_name: 'Public Bucket', key: 'public_file.jpg').exists?)
+    refute(AwsS3BucketObject.new(bucket_name: 'Public Bucket', key: 'NonExistingObject').exists?)
+    refute(AwsS3BucketObject.new(bucket_name: 'NonExistingBucket', key: 'public_file.jpg').exists?)
   end
 end
 

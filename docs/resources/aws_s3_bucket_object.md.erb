@@ -2,9 +2,11 @@
 title: About the aws_s3_bucket_object Resource
 ---
 
-# aws_s3_bucket_object
+# aws\_s3\_bucket\_object
 
 Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a single AWS bucket object.
+
+Each S3 Object has a 'key' which can be thought of as the name of the S3 Object which uniquely identifies it.  
 
 
 <br>
@@ -13,7 +15,7 @@ Use the `aws_s3_bucket_object` InSpec audit resource to test properties of a sin
 
 S3 object security is a complex matter.  For details on how AWS evaluates requests for access, please see [the AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-s3-evaluates-access-control.html).  S3 buckets and the objects they contain support three different types of access control: bucket ACLs, bucket policies, and object ACLs.
 
-As of January 2018, this resource supports evaluating bucket object ACLs. In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
+As of January 2018, this resource supports evaluating S3 Object ACLs. In particular, users of the `be_public` matcher should carefully examine the conditions under which the matcher will detect an insecure bucket.  See the `be_public` section under the Matchers section below.
 
 ## Syntax
 
@@ -46,7 +48,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Unsupported Properties
 
-### object_acl
+### object\_acl
 
 The `object_acl` property is a low-level property that lists the individual Object ACL grants that are in effect on the object.  Other higher-level properties, such as be\_public, are more concise and easier to use.  You can use the `object_acl` property to investigate which grants are in effect, causing be\_public to fail.
 
@@ -69,13 +71,13 @@ The value of object_acl is an Array of simple objects.  Each object has a `permi
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers (such as `exist`) please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_public
+### be\_public
 
 The `be_public` matcher tests if the object has potentially insecure access controls. This high-level matcher detects several insecure conditions, which may be enhanced in the future. Currently, the matcher reports an insecure object if any of the following conditions are met:
 
   1. A object ACL grant exists for the 'AllUsers' group
   2. A object ACL grant exists for the 'AuthenticatedUsers' group
 
-Note: This resource does not detect insecure object ACLs.
+Note: This resource does not detect insecure bucket ACLs.
 
     it { should_not be_public }
