@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/parser'
 require 'utils/convert'
@@ -55,6 +53,8 @@ module Inspec::Resources
     include UserManagementSelector
 
     name 'users'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the users InSpec audit resource to test local user profiles. Users can be filtered by groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
       describe users.where { uid == 0 }.entries do
@@ -140,6 +140,8 @@ module Inspec::Resources
   class User < Inspec.resource(1)
     include UserManagementSelector
     name 'user'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the user InSpec audit resource to test user profiles, including the groups to which they belong, the frequency of required password changes, the directory paths to home and shell.'
     example "
       describe user('root') do

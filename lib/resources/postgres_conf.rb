@@ -1,8 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
-# author: Aaron Lippold
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
@@ -11,6 +8,8 @@ require 'resources/postgres'
 module Inspec::Resources
   class PostgresConf < Inspec.resource(1)
     name 'postgres_conf'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the postgres_conf InSpec audit resource to test the contents of the configuration file for PostgreSQL, typically located at /etc/postgresql/<version>/main/postgresql.conf or /var/lib/postgres/data/postgresql.conf, depending on the platform.'
     example "
       describe postgres_conf do

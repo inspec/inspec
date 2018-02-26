@@ -28,5 +28,4 @@ control 'azure-generic-managed-os-disk-1.0' do
     # ensure the disk is attached
     its('properties.diskState') { should cmp 'Attached' }
   end
-
 end

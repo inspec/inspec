@@ -93,7 +93,10 @@ class AwsIamPolicy < Inspec.resource(1)
     end
     backend = AwsIamPolicy::BackendFactory.create(inspec_runner)
     criteria = { policy_arn: arn }
-    resp = backend.list_entities_for_policy(criteria)
+    resp = nil
+    catch_aws_errors do
+      resp = backend.list_entities_for_policy(criteria)
+    end
     @attached_groups = resp.policy_groups.map(&:group_name)
     @attached_users  = resp.policy_users.map(&:user_name)
     @attached_roles  = resp.policy_roles.map(&:role_name)

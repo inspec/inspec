@@ -1,10 +1,10 @@
 # encoding: utf-8
-# author: Thomas Cate
 
 require 'utils/simpleconfig'
 
 class GrubConfig < Inspec.resource(1)
   name 'grub_conf'
+  supports platform: 'unix'
   desc 'Use the grub_conf InSpec audit resource to test the boot config of Linux systems that use Grub.'
   example "
     describe grub_conf('/etc/grub.conf',  'default') do

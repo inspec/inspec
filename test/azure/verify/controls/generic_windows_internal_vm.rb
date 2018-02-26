@@ -22,7 +22,7 @@ control 'azure-generic-vm-windows-internal-2.0' do
     its('properties.storageProfile.osDisk.name') { should cmp 'Windows-Internal-OSDisk-MD' }
     its('properties.storageProfile.osDisk.caching') { should cmp 'ReadWrite' }
 
-    # This machine has been setup with a Managed Disk for the OSDisk, ensure that 
+    # This machine has been setup with a Managed Disk for the OSDisk, ensure that
     # it is linked to the correct disk
     its('properties.storageProfile.osDisk.managedDisk.id') { should match 'Windows-Internal-OSDisk-MD' }
     its('properties.storageProfile.osDisk.managedDisk.storageAccountType') { should cmp 'Standard_LRS' }

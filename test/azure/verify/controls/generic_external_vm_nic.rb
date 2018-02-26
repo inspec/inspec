@@ -6,13 +6,12 @@ control 'azure-generic-vm-external-nic-2.0' do
   title 'Ensure that the NIC for the external VM is correctly setup'
 
   # Ensure that the virtual machine has been created with the correct attributes
-  describe azure_generic_resource(group_name: 'Inspec-Azure',
-                          name: 'Inspec-NIC-2') do
+  describe azure_generic_resource(group_name: 'Inspec-Azure', name: 'Inspec-NIC-2') do
 
     # There should be no tags
     it { should_not have_tags }
-    its('tags.count') { should eq 0 } 
-  
+    its('tags.count') { should eq 0 }
+
     # The resources should be a network interface
     its('type') { should cmp 'Microsoft.Network/networkInterfaces' }
 

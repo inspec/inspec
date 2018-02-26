@@ -10,15 +10,16 @@ class AwsS3Bucket < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :bucket_name, :region
+  attr_reader :bucket_name, :has_access_logging_enabled, :region
 
   def to_s
     "S3 Bucket #{@bucket_name}"
   end
 
   def bucket_acl
-    # This is simple enough to inline it.
-    @bucket_acl ||= BackendFactory.create(inspec_runner).get_bucket_acl(bucket: bucket_name).grants
+    catch_aws_errors do
+      @bucket_acl ||= BackendFactory.create(inspec_runner).get_bucket_acl(bucket: bucket_name).grants
+    end
   end
 
   def bucket_policy
@@ -36,8 +37,9 @@ class AwsS3Bucket < Inspec.resource(1)
 
   def has_access_logging_enabled?
     return unless @exists
-    # This is simple enough to inline it.
-    !BackendFactory.create(inspec_runner).get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
+    catch_aws_errors do
+      @has_access_logging_enabled ||= !BackendFactory.create(inspec_runner).get_bucket_logging(bucket: bucket_name).logging_enabled.nil?
+    end
   end
 
   private
@@ -72,17 +74,18 @@ class AwsS3Bucket < Inspec.resource(1)
 
   def fetch_bucket_policy
     backend = BackendFactory.create(inspec_runner)
-
-    begin
-      # AWS SDK returns a StringIO, we have to read()
-      raw_policy = backend.get_bucket_policy(bucket: bucket_name).policy
-      return JSON.parse(raw_policy.read)['Statement'].map do |statement|
-        lowercase_hash = {}
-        statement.each_key { |k| lowercase_hash[k.downcase] = statement[k] }
-        OpenStruct.new(lowercase_hash)
+    catch_aws_errors do
+      begin
+        # AWS SDK returns a StringIO, we have to read()
+        raw_policy = backend.get_bucket_policy(bucket: bucket_name).policy
+        return JSON.parse(raw_policy.read)['Statement'].map do |statement|
+          lowercase_hash = {}
+          statement.each_key { |k| lowercase_hash[k.downcase] = statement[k] }
+          @bucket_policy = OpenStruct.new(lowercase_hash)
+        end
+      rescue Aws::S3::Errors::NoSuchBucketPolicy
+        @bucket_policy = []
       end
-    rescue Aws::S3::Errors::NoSuchBucketPolicy
-      return []
     end
   end
 

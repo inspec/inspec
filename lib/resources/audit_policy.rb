@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Advanced Auditing:
 # As soon as you start applying Advanced Audit Configuration Policy, legacy policies will be completely ignored.
@@ -26,6 +24,7 @@
 module Inspec::Resources
   class AuditPolicy < Inspec.resource(1)
     name 'audit_policy'
+    supports platform: 'unix'
     desc 'Use the audit_policy InSpec audit resource to test auditing policies on the Microsoft Windows platform. An auditing policy is a category of security-related events to be audited. Auditing is disabled by default and may be enabled for categories like account management, logon events, policy changes, process tracking, privilege use, system events, or object access. For each enabled auditing category property, the auditing level may be set to No Auditing, Not Specified, Success, Success and Failure, or Failure.'
     example "
       describe audit_policy do
