@@ -2,9 +2,6 @@
 #
 # Copyright 2017, Christoph Hartmann
 #
-# author: Christoph Hartmann
-# author: Patrick Muench
-# author: Dominik Richter
 
 require 'utils/filter'
 require 'hashie/mash'
@@ -84,7 +81,7 @@ module Inspec::Resources
   # - docker_image
   class Docker < Inspec.resource(1)
     name 'docker'
-
+    supports platform: 'unix'
     desc "
       A resource to retrieve information about docker
     "

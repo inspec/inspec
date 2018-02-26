@@ -1,11 +1,10 @@
 # encoding: utf-8
-# author: Doc Walker
 
 require 'openssl'
 
 class DhParams < Inspec.resource(1)
   name 'dh_params'
-
+  supports platform: 'unix'
   desc '
     Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH)
     parameters.

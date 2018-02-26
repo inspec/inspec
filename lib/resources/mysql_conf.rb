@@ -1,6 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
@@ -28,6 +27,8 @@ module Inspec::Resources
 
   class MysqlConf < Inspec.resource(1)
     name 'mysql_conf'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf.'
     example "
       describe mysql_conf('path') do

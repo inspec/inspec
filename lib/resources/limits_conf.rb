@@ -1,13 +1,12 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class LimitsConf < Inspec.resource(1)
     name 'limits_conf'
+    supports platform: 'unix'
     desc 'Use the limits_conf InSpec audit resource to test configuration settings in the /etc/security/limits.conf file. The limits.conf defines limits for processes (by user and/or group names) and helps ensure that the system on which those processes are running remains stable. Each process may be assigned a hard or soft limit.'
     example "
       describe limits_conf do

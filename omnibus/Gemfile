@@ -11,7 +11,6 @@ source 'https://rubygems.org'
 # gem 'omnibus-software', github: 'chef/omnibus-software', branch: 'ksubrama/ruby23'
 
 # Use entries from chef's Gemfile
-gem 'license_scout', github: 'chef/license_scout'
 gem 'omnibus', github: 'chef/omnibus'
 gem 'omnibus-software', github: 'chef/omnibus-software'
 
