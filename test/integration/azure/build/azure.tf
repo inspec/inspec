@@ -15,6 +15,11 @@ variable "location" {
   default = "West Europe"
 }
 
+# Output the sub ID so the fixture system has something to chew on
+output "subscription_id" {
+  value = "${var.subscription_id}"
+}
+
 # Configure the Azure RM provider
 provider "azurerm" {
   subscription_id = "${var.subscription_id}"
