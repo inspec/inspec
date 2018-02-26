@@ -11,10 +11,10 @@ Use the `aws_route_table` InSpec audit resource to test properties of a single R
 
 ## Syntax
 
-  # Ensure that a certain route table exists by name
-  describe aws_route_table('rtb-123abcde') do
-    it { should exist }
-  end
+    # Ensure that a certain route table exists by name
+    describe aws_route_table('rtb-123abcde') do
+      it { should exist }
+    end
 
 ## Resource Parameters
 
@@ -22,13 +22,13 @@ Use the `aws_route_table` InSpec audit resource to test properties of a single R
 
 This resource expects a single parameter that uniquely identifies the Route Table. You may pass it as a string, or as the value in a hash:
 
-  describe aws_route_table('rtb-123abcde') do
-    it { should exist }
-  end
-  # Same
-  describe aws_route_table(route_table_id: 'rtb-123abcde') do
-    it { should exist }
-  end
+    describe aws_route_table('rtb-123abcde') do
+      it { should exist }
+    end
+    # Same
+    describe aws_route_table(route_table_id: 'rtb-123abcde') do
+      it { should exist }
+    end
 
 ## Matchers
 
@@ -36,7 +36,7 @@ For a full list of available matchers, please visit our [matchers page](https://
 
 ### exist
 
-Indicates that the Route Table provided was found.  Use should_not to test for Route Tables that should not exist.
+Indicates that the Route Table provided was found.  Use `should_not` to test for Route Tables that should not exist.
 
     describe aws_route_table('should-be-there') do
       it { should exist }
