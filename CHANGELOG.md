@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.24 -->
-## [v2.0.24](https://github.com/chef/inspec/tree/v2.0.24) (2018-02-26)
+<!-- latest_release 2.0.25 -->
+## [v2.0.25](https://github.com/chef/inspec/tree/v2.0.25) (2018-02-26)
 
 #### Merged Pull Requests
-- Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Various small fixes/adjustments to the integration tests for AWS and Azure [#2745](https://github.com/chef/inspec/pull/2745) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.17 -->
@@ -14,6 +14,7 @@
 - package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
 
 #### Merged Pull Requests
+- Various small fixes/adjustments to the integration tests for AWS and Azure [#2745](https://github.com/chef/inspec/pull/2745) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.25 -->
 - Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.24 -->
 - Fix inspec check to work with platforms [#2737](https://github.com/chef/inspec/pull/2737) ([jquick](https://github.com/jquick)) <!-- 2.0.23 -->
 - Reword `it` block in `inspec check` tests to match actual test [#2721](https://github.com/chef/inspec/pull/2721) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.22 -->
