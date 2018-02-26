@@ -16,12 +16,38 @@ EOX
 
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(conn = nil)
-    iam_resource = conn ? conn.iam_resource : inspec_runner.backend.aws_resource(Aws::IAM::Resource, {})
-    @policy = iam_resource.account_password_policy
-  rescue Aws::IAM::Errors::NoSuchEntity
-    @policy = nil
+    catch_aws_errors do
+      begin
+        if conn
+          # We're in a mocked unit test.
+          @policy = conn.iam_resource.account_password_policy
+        else
+          # Don't use the resource approach.  It's a CRUD operation
+          # - if the policy does not exist, you get back a blank object to  populate and save.
+          # Using the Client will throw an exception if no policy exists.
+          @policy = inspec_runner.backend.aws_client(Aws::IAM::Client).get_account_password_policy.password_policy
+        end
+      rescue Aws::IAM::Errors::NoSuchEntity
+        @policy = nil
+      end
+    end
   end
 
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_resource_mixin.rb
+  def catch_aws_errors
+    yield
+  rescue Aws::Errors::MissingCredentialsError
+    # The AWS error here is unhelpful:
+    # "unable to sign request without credentials set"
+    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    fail_resource('No AWS credentials available')
+  rescue Aws::Errors::ServiceError => e
+    fail_resource e.message
+  end
+
+  # TODO: DRY up, see https://github.com/chef/inspec/issues/2633
+  # Copied from resource_support/aws/aws_singular_resource_mixin.rb
   def inspec_runner
     # When running under inspec-cli, we have an 'inspec' method that
     # returns the runner. When running under unit tests, we don't
@@ -32,54 +58,59 @@ EOX
     inspec if respond_to?(:inspec)
   end
 
+  def to_s
+    'IAM Password-Policy'
+  end
+
   def exists?
     !@policy.nil?
   end
 
-  def requires_lowercase_characters?
-    @policy.require_lowercase_characters
-  end
-
-  def requires_uppercase_characters?
-    @policy.require_uppercase_characters
-  end
+  #-------------------------- Properties ----------------------------#
 
   def minimum_password_length
     @policy.minimum_password_length
   end
 
-  def requires_numbers?
-    @policy.require_numbers
-  end
-
-  def requires_symbols?
-    @policy.require_symbols
-  end
-
-  def allows_users_to_change_password?
-    @policy.allow_users_to_change_password
-  end
-
-  def expires_passwords?
-    @policy.expire_passwords
-  end
-
-  def max_password_age
-    raise 'this policy does not expire passwords' unless expires_passwords?
+  def max_password_age_in_days
+    raise 'this policy does not expire passwords' unless expire_passwords?
     @policy.max_password_age
-  end
-
-  def prevents_password_reuse?
-    !@policy.password_reuse_prevention.nil?
   end
 
   def number_of_passwords_to_remember
     raise 'this policy does not prevent password reuse' \
-      unless prevents_password_reuse?
+      unless prevent_password_reuse?
     @policy.password_reuse_prevention
   end
 
-  def to_s
-    'IAM Password-Policy'
+  #-------------------------- Matchers ----------------------------#
+  [
+    :require_lowercase_characters,
+    :require_uppercase_characters,
+    :require_symbols,
+    :require_numbers,
+    :expire_passwords,
+  ].each do |matcher_stem|
+    # Create our predicates (for example, 'require_symbols?')
+    stem_with_question_mark = (matcher_stem.to_s + '?').to_sym
+    define_method stem_with_question_mark do
+      @policy.send(matcher_stem)
+    end
+    # RSpec will expose that as (for example) `be_require_symbols`.
+    # To undo that, we have to make a matcher alias.
+    stem_with_be = ('be_' + matcher_stem.to_s).to_sym
+    RSpec::Matchers.alias_matcher matcher_stem, stem_with_be
   end
+
+  # This one has an awkward name mapping
+  def allow_users_to_change_passwords?
+    @policy.allow_users_to_change_password
+  end
+  RSpec::Matchers.alias_matcher :allow_users_to_change_passwords, :be_allow_users_to_change_passwords
+
+  # This one has custom logic and renaming
+  def prevent_password_reuse?
+    !@policy.password_reuse_prevention.nil?
+  end
+  RSpec::Matchers.alias_matcher :prevent_password_reuse, :be_prevent_password_reuse
 end

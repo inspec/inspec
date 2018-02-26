@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 #
 # Security Configuration and Analysis
 #
@@ -69,6 +67,7 @@ module Inspec::Resources
 
   class SecurityPolicy < Inspec.resource(1)
     name 'security_policy'
+    supports platform: 'windows'
     desc 'Use the security_policy InSpec audit resource to test security policies on the Microsoft Windows platform.'
     example "
       describe security_policy do

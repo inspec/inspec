@@ -1,13 +1,11 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Joseph Benden
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class Mount < Inspec.resource(1)
     name 'mount'
+    supports platform: 'unix'
     desc 'Use the mount InSpec audit resource to test if mount points.'
     example "
       describe mount('/') do

@@ -1,10 +1,10 @@
 # encoding: utf-8
-# author: Matthew Dromazos
 
 require 'utils/parser'
 
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
+  supports platform: 'unix'
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "

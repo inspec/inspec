@@ -1,10 +1,6 @@
 # encoding: utf-8
 #
 # Copyright 2017, Christoph Hartmann
-#
-# author: Christoph Hartmann
-# author: Patrick Muench
-# author: Dominik Richter
 
 require_relative 'docker_object'
 
@@ -13,6 +9,7 @@ module Inspec::Resources
     include Inspec::Resources::DockerObject
 
     name 'docker_container'
+    supports platform: 'unix'
     desc ''
     example "
       describe docker_container('an-echo-server') do

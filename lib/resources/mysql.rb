@@ -1,11 +1,10 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Inspec::Resources
   class Mysql < Inspec.resource(1)
     name 'mysql'
+    supports platform: 'unix'
 
     attr_reader :package, :service, :conf_dir, :conf_path, :data_dir, :log_dir, :log_path, :log_group, :log_dir_group
     def initialize

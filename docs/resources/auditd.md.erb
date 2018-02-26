@@ -1,5 +1,6 @@
 ---
 title: About the auditd Resource
+platform: linux
 ---
 
 # auditd
@@ -67,12 +68,12 @@ The where accessor can be used to filter on fields. For example:
 
 The key filter may be useful in evaluating rules with particular key values:
 
-  describe auditd.where { key == "privileged" } do
-    its('permissions') { should include ['x'] }
-  end
+    describe auditd.where { key == "privileged" } do
+      its('permissions') { should include ['x'] }
+    end
 
 <br>
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

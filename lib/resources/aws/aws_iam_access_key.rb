@@ -54,7 +54,9 @@ class AwsIamAccessKey < Inspec.resource(1)
     return nil unless exists?
     return @last_used_date if defined? @last_used_date
     backend = BackendFactory.create(inspec_runner)
-    @last_used_date = backend.get_access_key_last_used({ access_key_id: access_key_id }).access_key_last_used.last_used_date
+    catch_aws_errors do
+      @last_used_date = backend.get_access_key_last_used({ access_key_id: access_key_id }).access_key_last_used.last_used_date
+    end
   end
 
   def fetch_from_api
