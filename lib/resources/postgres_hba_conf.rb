@@ -1,12 +1,11 @@
 # encoding: utf-8
-# author: Rony Xavier,rx294@nyu.edu
-# author: Aaron Lippold, lippold@gmail.com
 
 require 'resources/postgres'
 
 module Inspec::Resources
   class PostgresHbaConf < Inspec.resource(1)
     name 'postgres_hba_conf'
+    supports platform: 'unix'
     desc 'Use the `postgres_hba_conf` InSpec audit resource to test the client
           authentication data defined in the pg_hba.conf file.'
     example "

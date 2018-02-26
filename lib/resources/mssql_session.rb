@@ -1,7 +1,4 @@
 # encoding: utf-8
-# author: Nolan Davidson
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'hashie/mash'
 require 'utils/database_helpers'
@@ -15,6 +12,7 @@ module Inspec::Resources
   # @see https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-connect-and-query-sqlcmd
   class MssqlSession < Inspec.resource(1)
     name 'mssql_session'
+    supports platform: 'windows'
     desc 'Use the mssql_session InSpec audit resource to test SQL commands run against a MS Sql Server database.'
     example "
       # Using SQL authentication

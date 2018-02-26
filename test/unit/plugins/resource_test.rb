@@ -62,7 +62,8 @@ describe Inspec::Plugins::Resource do
         { os_family: 'windows' },
         { os_family: 'unix' }
       ])
-      m.check_supports.must_be_nil
+      m.check_supports.must_equal true
+      Inspec::Resource.supports['os'] = nil
     end
 
     it 'loads a profile which supports multiple names' do
@@ -70,7 +71,8 @@ describe Inspec::Plugins::Resource do
         { os_family: 'windows', os_name: 'windows_2000'},
         { os_family: 'unix', os_name: 'ubuntu' }
       ])
-      m.check_supports.must_be_nil
+      m.check_supports.must_equal true
+      Inspec::Resource.supports['os'] = nil
     end
 
     it 'reject a profile which supports multiple families' do
@@ -78,8 +80,8 @@ describe Inspec::Plugins::Resource do
         { os_family: 'windows' },
         { os_family: 'redhat' }
       ])
-      expect = 'Resource Os is not supported on platform ubuntu/14.04.'
-      m.check_supports.must_equal expect
+      m.check_supports.must_equal false
+      Inspec::Resource.supports['os'] = nil
     end
   end
 end

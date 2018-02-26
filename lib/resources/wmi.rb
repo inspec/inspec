@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/object_traversal'
 
@@ -11,6 +9,7 @@ module Inspec::Resources
   # We use Get-WmiObject via Powershell to retrieve all values.
   class WMI < Inspec.resource(1)
     name 'wmi'
+    supports platform: 'windows'
     desc 'request wmi information'
     example "
       describe wmi({

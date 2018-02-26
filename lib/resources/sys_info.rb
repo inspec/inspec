@@ -3,6 +3,8 @@ module Inspec::Resources
   # this resource returns additional system informatio
   class System < Inspec.resource(1)
     name 'sys_info'
+    supports platform: 'unix'
+    supports platform: 'windows'
 
     desc 'Use the user InSpec system resource to test for operating system properties.'
     example "

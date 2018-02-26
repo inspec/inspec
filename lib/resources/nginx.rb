@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Aaron Lippold, lippold@gmail.com
-# author: Rony Xavier, rx294@gmail.com
 
 require 'pathname'
 require 'hashie/mash'
@@ -8,6 +6,7 @@ require 'hashie/mash'
 module Inspec::Resources
   class Nginx < Inspec.resource(1)
     name 'nginx'
+    supports platform: 'unix'
     desc 'Use the nginx InSpec audit resource to test information about your NGINX instance.'
     example "
       describe nginx do

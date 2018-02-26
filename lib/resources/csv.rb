@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Parses a csv document
 # This implementation was inspired by a blog post
@@ -8,6 +6,10 @@
 module Inspec::Resources
   class CsvConfig < JsonConfig
     name 'csv'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    supports platform: 'esx'
+    supports platform: 'cisco'
     desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
     example "
       describe csv('example.csv') do

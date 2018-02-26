@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2016, Chef Software Inc.
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'forwardable'
 
@@ -18,6 +16,7 @@ require 'forwardable'
 module Inspec::Resources
   class Shadow < Inspec.resource(1)
     name 'shadow'
+    supports platform: 'unix'
     desc 'Use the shadow InSpec resource to test the contents of /etc/shadow, '\
          'which contains the following information for users that may log into '\
          'the system and/or as users that own running processes.'

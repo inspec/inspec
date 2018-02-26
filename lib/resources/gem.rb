@@ -1,11 +1,10 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Joe Nuspl
 
 module Inspec::Resources
   class GemPackage < Inspec.resource(1)
     name 'gem'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the gem InSpec audit resource to test if a global gem package is installed.'
     example "
       describe gem('rubocop') do

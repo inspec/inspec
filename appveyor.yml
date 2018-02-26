@@ -6,7 +6,7 @@ environment:
   matrix:
     - ruby_version: "23"
     - ruby_version: "24"
-
+    - ruby_version: "25"
 clone_folder: c:\projects\inspec
 clone_depth: 1
 skip_tags: true
@@ -14,6 +14,10 @@ branches:
   only:
     - master
     - release-2.0
+
+matrix:
+  allow_failures:
+    - ruby_version: "25"
 
 cache:
   - vendor/bundle -> appveyor.yml

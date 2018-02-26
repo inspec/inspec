@@ -1,13 +1,12 @@
 # encoding: utf-8
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
-# author: Joshua Timberman
-# author: Alex Pop
 
 require 'utils/filter'
 
 module Inspec::Resources
   class Packages < Inspec.resource(1)
     name 'packages'
+    supports platform: 'unix'
     desc 'Use the packages InSpec audit resource to test properties for multiple packages installed on the system'
     example "
       describe packages(/xserver-xorg.*/) do

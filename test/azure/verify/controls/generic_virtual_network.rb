@@ -18,10 +18,10 @@ control 'azure-generic-virtual-network-2.0' do
     # Ensure that the address prefix for the VNet is correct
     # This will return an array so the `include` matcher needs to be used to
     # see if the specified address prefix is present
-    its('properties.addressSpace.addressPrefixes') { should include '10.1.1.0/24'}
+    its('properties.addressSpace.addressPrefixes') { should include '10.1.1.0/24' }
 
     # There should be one subnet
     its('properties.subnets.count') { should eq 1 }
-    
+
   end
 end

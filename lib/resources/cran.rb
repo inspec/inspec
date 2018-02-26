@@ -1,7 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Markus Grobelin
 
 # Usage:
 # describe cran('DBI') do
@@ -12,6 +9,7 @@
 module Inspec::Resources
   class CranPackage < Inspec.resource(1)
     name 'cran'
+    supports platform: 'unix'
     desc 'Use the `cran` InSpec audit resource to test R modules that are installed from CRAN package repository.'
     example "
       describe cran('DBI') do
