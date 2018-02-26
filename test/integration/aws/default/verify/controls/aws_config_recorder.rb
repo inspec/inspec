@@ -6,7 +6,7 @@ fixtures = {}
   fixtures[fixture_name] = attribute(
     fixture_name,
     default: "default.#{fixture_name}",
-    description: 'See ../build/iam.tf',
+    description: 'See ../build/config.tf',
   )
 end
 
@@ -46,7 +46,7 @@ end
 control "aws_config_recorder matchers" do
   describe aws_config_recorder(fixtures['config_recorder_name']) do
     it { should_not be_recording }
-    it { should be_all_supported }
-    it { should_not have_include_global_resource_types }
+    it { should be_recording_all_resource_types }
+    it { should_not be_recording_all_global_types }
   end
 end

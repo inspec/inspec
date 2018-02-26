@@ -18,19 +18,21 @@ class AwsConfigurationRecorder < Inspec.resource(1)
     "Configuration_Recorder: #{@recorder_name}"
   end
 
-  def all_supported?
-    @all_supported
+  def recording_all_resource_types?
+    @recording_all_resource_types
   end
 
-  def has_include_global_resource_types?
-    @include_global_resource_types
+  def recording_all_global_types?
+    @recording_all_global_types
   end
 
   def status
     return unless @exists
     backend = BackendFactory.create(inspec_runner)
-    @resp = backend.describe_configuration_recorder_status(@query)
-    @status = @resp.configuration_recorders_status.first.to_h
+    catch_aws_errors do
+      @resp = backend.describe_configuration_recorder_status(@query)
+      @status = @resp.configuration_recorders_status.first.to_h
+    end
   end
 
   def recording?
@@ -60,16 +62,23 @@ class AwsConfigurationRecorder < Inspec.resource(1)
     backend = BackendFactory.create(inspec_runner)
     @query = { configuration_recorder_names: [@recorder_name] }
 
-    @resp = backend.describe_configuration_recorders(@query)
-    @exists = !@resp.empty?
-    return unless @exists
+    catch_aws_errors do
+      begin
+        @resp = backend.describe_configuration_recorders(@query)
+      rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
+        @exists = false
+        return
+      end
+      @exists = !@resp.empty?
+      return unless @exists
 
-    @recorder = @resp.configuration_recorders.first.to_h
-    @recorder_name = @recorder[:name]
-    @role_arn = @recorder[:role_arn]
-    @all_supported = @recorder[:recording_group][:all_supported]
-    @include_global_resource_types = @recorder[:recording_group][:include_global_resource_types]
-    @resource_types = @recorder[:recording_group][:resource_types]
+      @recorder = @resp.configuration_recorders.first.to_h
+      @recorder_name = @recorder[:name]
+      @role_arn = @recorder[:role_arn]
+      @recording_all_resource_types = @recorder[:recording_group][:all_supported]
+      @recording_all_global_types = @recorder[:recording_group][:include_global_resource_types]
+      @resource_types = @recorder[:recording_group][:resource_types]
+    end
   end
 
   class Backend
@@ -79,8 +88,6 @@ class AwsConfigurationRecorder < Inspec.resource(1)
 
       def describe_configuration_recorders(query)
         aws_service_client.describe_configuration_recorders(query)
-      rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
-        return {}
       end
 
       def describe_configuration_recorder_status(query)

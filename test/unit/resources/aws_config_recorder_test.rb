@@ -80,13 +80,13 @@ end
 #=============================================================================#
 class AwsConfigurationRecorderPropertiesTest < Minitest::Test
   def test_matcher_all_supported
-    assert AwsConfigurationRecorder.new(recorder_name: 'default').all_supported?
-    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').all_supported?
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').recording_all_resource_types?
+    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').recording_all_resource_types?
   end
   
   def test_matcher_has_include_global_resource_types
-    assert AwsConfigurationRecorder.new(recorder_name: 'default').has_include_global_resource_types?
-    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').has_include_global_resource_types?
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').recording_all_global_types?
+    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').recording_all_global_types?
   end
   
   def test_matcher_recording
@@ -147,7 +147,7 @@ module AwsMCRSB
         'empty' => {}
       }
       return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
-      recorders['empty']
+      raise Aws::ConfigService::Errors::NoSuchConfigurationRecorderException(nil, nil)
     end
   end
 end
