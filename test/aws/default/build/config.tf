@@ -76,7 +76,7 @@ POLICY
 #                      Config S3 Buckets
 #=================================================================#
 resource "aws_s3_bucket" "bucket_for_delivery_channel" {
-  bucket        = "inspec-bucket_for_delivery_channel-${terraform.env}.chef.io"
+  bucket        = "inspec-bucket-for-delivery-channel-${terraform.env}.chef.io"
   acl           = "public-read"
   force_destroy = true
 }
