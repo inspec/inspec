@@ -26,7 +26,7 @@ $ inspec help shell # This will describe inspec shell usage
 
 If you wish to connect to a remote machine (called a target within
 InSpec), you can use the `-t` flag. We support connecting using ssh,
-WinRm and docker. If no target is provided, we implicitly support the
+WinRm and Docker. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
 InSpec. For an ssh connection, use `-i` for specifying ssh key files,
 and the `--sudo*` commands for requesting a privilege escalation after
@@ -37,17 +37,17 @@ path, `--ssl` to use SSL for transport layer encryption.
 $ inspec shell -t ssh://root@192.168.64.2:11022  # Login to remote machine using ssh as root.
 $ inspec shell -t ssh://user@hostname:1234 -i /path/to/user_key  # Login to hostname on port 1234 as user using given ssh key.
 $ inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to windowsmachine over WinRM as UserName.
-$ inspec shell -t docker://container_id # Login to a docker container.
+$ inspec shell -t docker://container_id # Login to a Docker container.
 ```
 
 ## Resource Packs
 
 Use resource packs to share custom resources with other InSpec users.
-A resource pack is an inspec profile that contains only custom resources and no other controls or tests. 
+A resource pack is an InSpec profile that contains only custom resources and no other controls or tests.
 
 For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the InSpec shell, you will need to download and specify them as a dependency.
 
-Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` Github repo in your local environment :
+Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` GitHub repo in your local environment :
 
 ```bash
 inspec shell --depends examples/profile
@@ -155,7 +155,7 @@ If you wish to run a single InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash
-$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'}
+$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'
 Target:  local://
 
   ✔  File /Users/myuser should exist
