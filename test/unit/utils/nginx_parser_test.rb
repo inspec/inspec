@@ -30,14 +30,40 @@ describe NginxParser do
     _(parsestr("assignment a;")).must_equal "[{:assignment=>{:identifier=>\"assignment\"@0, :args=>[{:value=>\"a\"@11}]}}]"
   end
 
-  it 'parses an assignment with a quoted value' do
-    _(parsestr('include "/a/b/c/*.conf";')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/c/*.conf\"@9}]}}]"
-    _(parsestr('include \'/a/b/c/*.conf\';')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/c/*.conf\"@9}]}}]"
+  it 'parses an assignment with a single quoted value' do
+    result = parse("include '/a/b/c/*.conf';")
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal '/a/b/c/*.conf'
   end
 
-  it 'parses an assignemnt with quotes in quoted value' do
-    _(parsestr('include "/a/b/\'c/*.conf";')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/'c/*.conf\"@9}]}}]"
-    _(parsestr('include \'/a/b/"c/*.conf\';')).must_equal "[{:assignment=>{:identifier=>\"include\"@0, :args=>[{:value=>\"/a/b/\"c/*.conf\"@9}]}}]"
+  it 'parses an assignment with a double quoted value' do
+    result = parse('include "/a/b/c/*.conf";')
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal '/a/b/c/*.conf'
+  end
+
+  it 'parses an assignemnt with single quote in a double quoted value' do
+    result = parse('include "/a/\'b/*.conf";')
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal '/a/\'b/*.conf'
+  end
+
+  it 'parses an assignemnt with double quote in a single quoted value' do
+    result = parse("include '/a/\"b/*.conf';")
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal "/a/\"b/*.conf"
+  end
+
+  it 'parses an assignemnt with single quote in a single quoted value' do
+    result = parse("include '/a/\\\'b/*.conf';")
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal "/a/\\\'b/*.conf"
+  end
+
+  it 'parses an assignemnt with double quote in a double quoted value' do
+    result = parse('include "/a/\"b/*.conf";')
+    result[0][:assignment][:identifier].must_equal 'include'
+    result[0][:assignment][:args][0][:value].must_equal '/a/\"b/*.conf'
   end
 
   it 'parses an empty group' do

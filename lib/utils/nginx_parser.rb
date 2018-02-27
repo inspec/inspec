@@ -13,7 +13,6 @@ class NginxParser < Parslet::Parser
   rule(:one_filler) { match('\s+') | match["\n"] | comment }
   rule(:space)   { match('\s+') }
   rule(:comment) { str('#') >> (match["\n\r"].absent? >> any).repeat }
-  rule(:quote) { str("'") | str('"') }
 
   rule(:exp) {
     section | assignment
@@ -27,7 +26,7 @@ class NginxParser < Parslet::Parser
   }
 
   rule(:quoted_identifier) {
-    quote >> (quote.absent? >> any).repeat.as(:identifier) >> quote >> space.repeat
+    str('"') >> (str('"').absent? >> any).repeat.as(:identifier) >> str('"') >> space.repeat
   }
 
   rule(:identifier) {
@@ -40,8 +39,20 @@ class NginxParser < Parslet::Parser
     ).repeat).as(:value) >> space.repeat
   }
 
+  rule(:single_quoted_value) {
+    str("'") >> (
+      str('\\') >> any | str("'").absent? >> any
+    ).repeat.as(:value) >> str("'") >> space.repeat
+  }
+
+  rule(:double_quoted_value) {
+    str('"') >> (
+      str('\\') >> any | str('"').absent? >> any
+    ).repeat.as(:value) >> str('"') >> space.repeat
+  }
+
   rule(:quoted_value) {
-    quote >> (quote.absent? >> any).repeat.as(:value) >> quote >> space.repeat
+    single_quoted_value | double_quoted_value
   }
 
   rule(:value) {
