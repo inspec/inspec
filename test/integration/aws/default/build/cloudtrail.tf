@@ -186,9 +186,6 @@ resource "aws_cloudtrail" "trail_1" {
   cloud_watch_logs_group_arn = "${aws_cloudwatch_log_group.trail_1_log_group.arn}"
   cloud_watch_logs_role_arn  = "${aws_iam_role.cloud_watch_logs_role.arn}"
   kms_key_id                 = "${aws_kms_key.trail_1_key.arn}"
-  provisioner "local-exec" {
-    command = "sleep 10"
-  }
 }
 
 resource "aws_cloudtrail" "trail_2" {
