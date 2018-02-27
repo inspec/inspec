@@ -26,7 +26,7 @@ or:
 where
 
 * `.where()` may specify a specific item and value, to which the resource parameters are compared
-* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid parameters for `containers`
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `status` are valid parameters for `containers`
 
 The `docker` resource block also declares allows you to write test for many images:
 
@@ -111,7 +111,7 @@ Or execute the profile directly via URL:
 
 ## Resource Parameters
 
-* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes` and `'status'` are valid parameters for `containers`
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes` and `status` are valid parameters for `containers`
 
 <br>
 
@@ -119,7 +119,7 @@ Or execute the profile directly via URL:
 
 ### containers
 
-`containers` returns information about containers as returned by [docker ps -a](https://docs.docker.com/engine/reference/commandline/ps/). You can determine specific information about
+`containers` returns information about containers as returned by [docker ps -a](https://docs.docker.com/engine/reference/commandline/ps/).
 
     describe docker.containers do
       its('ids') { should include 'sha:71b5df59...442b' }
@@ -139,7 +139,7 @@ Or execute the profile directly via URL:
 
 ### images
 
-`images` returns information about Docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/). You can determine specific information about
+`images` returns information about Docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/).
 
     describe docker.images do
       its('ids') { should include 'sha:12b5df59...442b' }
