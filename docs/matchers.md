@@ -8,12 +8,12 @@ Inspec uses matchers to help compare resource values to expectations.  Matchers 
 
 The following universal matchers are available:
 
-* `be`
-* `be_in`
-* `cmp`
-* `eq`
-* `include`
-* `match`
+* [`be`](#be) - make numeric comparisons
+* [`be_in`](#be_in) - look for the property value in a list
+* [`cmp`](#cmp) - general-use equality (try this first)
+* [`eq`](#eq) - type-specific equality
+* [`include`](#include) - look for an expected value in a list-valued property
+* [`match`](#match) - look for patterns in text using regular expressions
 
 <br>
 
