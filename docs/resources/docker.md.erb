@@ -109,9 +109,9 @@ Or execute the profile directly via URL:
 
 <br>
 
-## Supported Resource Parameters
+## Resource Parameters
 
-* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes`  and `'status'` are valid parameters for `containers`
+* `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `sizes` and `'status'` are valid parameters for `containers`
 
 <br>
 
@@ -129,6 +129,14 @@ Or execute the profile directly via URL:
       its('labels') { should include 'License=GPLv2,Vendor=CentOS' }
     end
 
+### object('id')
+
+`object` returns low-level information about docker objects. It is calling [docker inspect](https://docs.docker.com/engine/reference/commandline/info/) under the hood.
+
+    describe docker.object(id) do
+      its('Configuration.Path') { should eq 'value' }
+    end
+
 ### images
 
 `images` returns information about docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/). You can determine specific information about
@@ -140,16 +148,6 @@ Or execute the profile directly via URL:
       its('sizes') { should_not include "1.41 GB" }
     end
 
-### version
-
-`info` returns the parsed result of [docker version](https://docs.docker.com/engine/reference/commandline/version/)
-
-    describe docker.version do
-      its('Server.Version') { should cmp >= '1.12'}
-      its('Client.Version') { should cmp >= '1.12'}
-    end
-
-
 ### info
 
 `info` returns the parsed result of [docker info](https://docs.docker.com/engine/reference/commandline/info/)
@@ -158,13 +156,13 @@ Or execute the profile directly via URL:
       its('Configuration.Path') { should eq 'value' }
     end
 
+### version
 
-### object('id')
+`info` returns the parsed result of [docker version](https://docs.docker.com/engine/reference/commandline/version/)
 
-`object` returns low-level information about docker objects. It is calling [docker inspect](https://docs.docker.com/engine/reference/commandline/info/) under the hood.
-
-    describe docker.object(id) do
-      its('Configuration.Path') { should eq 'value' }
+    describe docker.version do
+      its('Server.Version') { should cmp >= '1.12'}
+      its('Client.Version') { should cmp >= '1.12'}
     end
 
 <br>
