@@ -6,7 +6,9 @@ title: InSpec Universal Matchers Reference
 
 Inspec uses matchers to help compare resource values to expectations.  Matchers may be dedicated to a specific resource (such as the `aws_iam_root_user` resource's [`have_mfa_enabled`](https://www.inspec.io/docs/reference/resources/aws_iam_root_user/#have_mfa_enabled) matcher).  If a matcher may be used on any resource type, it is _universal_.
 
-The following universal matchers are available:
+You may also use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs), but those matchers are outside the [scope of support](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec) for InSpec.
+
+The following InSpec-supported universal matchers are available:
 
 * [`be`](#be) - make numeric comparisons
 * [`be_in`](#be_in) - look for the property value in a list
