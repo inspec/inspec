@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.27 -->
-## [v2.0.27](https://github.com/chef/inspec/tree/v2.0.27) (2018-02-27)
+<!-- latest_release 2.0.28 -->
+## [v2.0.28](https://github.com/chef/inspec/tree/v2.0.28) (2018-02-27)
 
 #### Merged Pull Requests
-- http resource: Support OPTIONS method [#2742](https://github.com/chef/inspec/pull/2742) ([cbeckr](https://github.com/cbeckr))
+- New Resource aws_config_recorder [#2635](https://github.com/chef/inspec/pull/2635) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.17 -->
@@ -14,6 +14,7 @@
 - package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
 
 #### Merged Pull Requests
+- New Resource aws_config_recorder [#2635](https://github.com/chef/inspec/pull/2635) ([dromazmj](https://github.com/dromazmj)) <!-- 2.0.28 -->
 - http resource: Support OPTIONS method [#2742](https://github.com/chef/inspec/pull/2742) ([cbeckr](https://github.com/cbeckr)) <!-- 2.0.27 -->
 - Ensure we have a proper exit code and report data for ad-hoc runners [#2747](https://github.com/chef/inspec/pull/2747) ([jquick](https://github.com/jquick)) <!-- 2.0.26 -->
 - Various small fixes/adjustments to the integration tests for AWS and Azure [#2745](https://github.com/chef/inspec/pull/2745) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.25 -->
