@@ -164,7 +164,7 @@ Summary: 1 successful, 0 failures, 0 skipped
 ```
 
 ```bash
-$ inspec shell --format json -c 'describe file("/Users/myuser) do it { should exist } end'
+$ inspec shell --format json -c 'describe file("/Users/test") do it { should exist } end'
 {
   "version": "1.49.2",
   "controls": [{
