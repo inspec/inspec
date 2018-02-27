@@ -9,8 +9,8 @@ relate to each other.
 
 ## RSpec
 
-RSpec is an awesome framework that is widely used to test Ruby code. It
-enables test-driven development (TDD) and helps developers to write
+RSpec is an awesome framework that is widely used by software engineer to test
+Ruby code. It enables test-driven development (TDD) and helps developers to write
 better code every day.
 
 InSpec is built on top of RSpec and uses it as the underlying foundation
@@ -39,6 +39,14 @@ control "sshd-11" do
   end
 end
 ```
+
+That said, InSpec is not RSpec.  InSpec does not support arbitrary RSpec features.  Some key differences:
+
+ * RSpec `describe` blocks are intended to be nested.  In InSpec, `describe` 
+ blocks should not be nested; instead use `control` blocks to describe a 
+ higher-level grouping of tests.
+ * RSpec is a tool designed for software engineers.  It thus supports a very large range of matchers, to enable testing of software engineering constructs such as exceptions, Object Oriented Programming relationships, and so on.  In contrast, InSpec is aimed at compliance practioners and infrastructure testers, so our focus is providing a few, well-supported, easy-to-use universal matchers, such as `cmp`.
+ * RSpec is a separate project from InSpec.  Its release schedule and feature set are beyond the control of the InSpec team.  While you are free to use RSpec-specific features in your InSpec profiles, the InSpec team can only support those features described at [docs.inspec.io](https://docs.inspec.io).
 
 ## Serverspec
 
