@@ -1,11 +1,12 @@
 ---
-title: InSpec Matchers Reference
+title: InSpec Universal Matchers Reference
 ---
 
-# InSpec Matchers Reference
+# InSpec Universal Matchers Reference
 
-Inspec uses matchers to help compare resource values to expectations.
-The following matchers are available:
+Inspec uses matchers to help compare resource values to expectations.  Matchers may be dedicated to a specific resource (such as the `aws_iam_root_user` resource's [`have_mfa_enabled`](https://www.inspec.io/docs/reference/resources/aws_iam_root_user/#have_mfa_enabled) matcher).  If a matcher may be used on any resource type, it is _universal_.
+
+The following universal matchers are available:
 
 * `be`
 * `be_in`
