@@ -5,7 +5,7 @@ require 'hashie/mash'
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)
     name 'virtualization'
-    supports platform: 'unix'
+    supports platform: 'linux'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "
       describe virtualization do
@@ -26,12 +26,6 @@ module Inspec::Resources
 
     def initialize
       @virtualization_data = Hashie::Mash.new
-
-      unless inspec.os.linux?
-        raise Inspec::Exceptions::ResourceSkipped,
-              'The `virtualization` resource is not supported on your OS yet.'
-      end
-
       collect_data_linux
     end
 
