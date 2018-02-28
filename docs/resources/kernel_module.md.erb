@@ -18,7 +18,7 @@ method.
 ## Syntax
 
 A `kernel_module` resource block declares a module name, and then tests if that
-module is a loadable kernel module, if it is enabled, disabled or if it is
+module is a loaded kernel module, if it is enabled, disabled or if it is
 blacklisted:
 
     describe kernel_module('module_name') do
@@ -30,7 +30,7 @@ blacklisted:
 where
 
 * `'module_name'` must specify a kernel module, such as `'bridge'`
-* `{ should be_loaded }` tests if the module is a loadable kernel module
+* `{ should be_loaded }` tests if the module is a loaded kernel module
 * `{ should be_blacklisted }` tests if the module is blacklisted or if the module is disabled via a fake install using /bin/false or /bin/true
 * `{ should be_disabled }` tests if the module is disabled via a fake install using /bin/false or /bin/true
 
@@ -115,6 +115,6 @@ The `be_disabled` matcher tests if the kernel module is disabled:
 
 ### be_loaded
 
-The `be_loaded` matcher tests if the kernel module is loadable:
+The `be_loaded` matcher tests if the kernel module is loaded:
 
     it { should be_loaded }
