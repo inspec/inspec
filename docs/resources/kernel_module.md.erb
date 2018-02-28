@@ -67,28 +67,28 @@ The `version` property tests if the kernel module on the system has the correct 
         it { should be_blacklisted }
       end
 
-### Ensure a kernel module is *not* blacklisted and is loaded
+### Check if  a kernel module is *not* blacklisted and is loaded
 
       describe kernel_module('video') do
         it { should_not be_blacklisted }
         it { should be_loaded }
       end
 
-### Ensure a kernel module is disabled via 'bin_false'
+### Check if  a kernel module is disabled via 'bin_false'
 
       describe kernel_module('sstfb') do
         it { should_not be_loaded }
         it { should be_disabled }
       end
 
-### Ensure a kernel module is 'blacklisted'/'disabled' via 'bin_true'
+### Check if  a kernel module is 'blacklisted'/'disabled' via 'bin_true'
 
       describe kernel_module('nvidiafb') do
         it { should_not be_loaded }
         it { should be_blacklisted }
       end
 
-### Ensure a kernel module is not loaded
+### Check if  a kernel module is not loaded
 
       describe kernel_module('dhcp') do
         it { should_not be_loaded }
