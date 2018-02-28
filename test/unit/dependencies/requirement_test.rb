@@ -84,7 +84,7 @@ describe Inspec::Requirement do
       correct_hash = {
         'name' => 'foo',
         'resolved_source' => resolved_source,
-        'version_constraints' => '>= 0',
+        'version_constraints' => [],
       }
 
       req.to_hash.must_equal correct_hash
