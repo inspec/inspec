@@ -158,7 +158,7 @@ module Inspec::Resources
     def missing_requirements(protocol)
       missing = []
 
-      if %w{tcp udp}.include?(protocol) and !@has_nc and !@has_ncat
+      if %w{tcp udp}.include?(protocol) && !@has_nc && !@has_ncat
         if @has_net_redirections
           missing << "#{timeout} (part of coreutils) or netcat must be installed" unless inspec.command(timeout).exist?
         else
@@ -171,7 +171,7 @@ module Inspec::Resources
 
     def ping(hostname, port, protocol)
       if %w{tcp udp}.include?(protocol)
-        if @has_nc or @has_ncat
+        if @has_nc || @has_ncat
           resp = inspec.command(netcat_check_command(hostname, port, protocol))
         else
           resp = inspec.command("#{timeout} 1 bash -c \"< /dev/#{protocol}/#{hostname}/#{port}\"")
