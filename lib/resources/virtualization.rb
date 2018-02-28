@@ -5,7 +5,7 @@ require 'hashie/mash'
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)
     name 'virtualization'
-    supports platform: 'unix'
+    supports platform: 'linux'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "
       describe virtualization do
@@ -25,11 +25,8 @@ module Inspec::Resources
     "
 
     def initialize
-      unless inspec.os.linux?
-        skip_resource 'The `virtualization` resource is not supported on your OS yet.'
-      else
-        collect_data_linux
-      end
+      @virtualization_data = Hashie::Mash.new
+      collect_data_linux
     end
 
     # add helper methods for easy access of properties
@@ -229,8 +226,7 @@ module Inspec::Resources
     end
 
     def collect_data_linux # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-      # cache data in an instance var to avoid doing multiple detections for a single test
-      @virtualization_data ||= Hashie::Mash.new
+      # This avoids doing multiple detections in a single test
       return unless @virtualization_data.empty?
 
       # each detect method will return true if it matched and was successfully
