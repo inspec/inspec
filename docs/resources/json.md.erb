@@ -43,6 +43,12 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
+### name
+
+The `name` matcher tests the value of the filename as read from a JSON file versus the value declared in the test:
+
+    its('name') { should eq '/tmp/example.json' }
+
 ### Test a cookbook version in a policyfile.lock.json file
 
     describe json('policyfile.lock.json') do
@@ -55,8 +61,3 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### name
-
-The `name` matcher tests the value of `name` as read from a JSON file versus the value declared in the test:
-
-    its('name') { should eq 'foo' }

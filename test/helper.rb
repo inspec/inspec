@@ -482,6 +482,7 @@ class MockLoader
       "curl -i -X GET --connect-timeout 60 --max-time 120 -H 'accept: application/json' -H 'foo: bar' 'http://www.example.com'" => cmd.call('http-remote-headers'),
       "curl -i -X GET --connect-timeout 60 --max-time 120 'http://www.example.com?a=b&c=d'" => cmd.call('http-remote-params'),
       "curl -i --head --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call('http-remote-head-request'),
+      "curl -i -X OPTIONS --connect-timeout 60 --max-time 120 -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: origin, x-requested-with' -H 'Origin: http://www.example.com' 'http://www.example.com'" => cmd.call('http-remote-options-request'),
 
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call('elasticsearch-cluster-nodes-default'),

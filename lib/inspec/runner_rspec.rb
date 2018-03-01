@@ -82,6 +82,7 @@ module Inspec
     #
     # @return [int] exit code
     def exit_code
+      return @rspec_exit_code if @formatter.results.empty?
       stats = @formatter.results[:statistics][:controls]
       if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0
         0

@@ -137,7 +137,7 @@ module Inspec::Resources
           conn.options.timeout      = read_timeout  # open/read timeout in seconds
           conn.options.open_timeout = open_timeout  # connection open timeout in seconds
 
-          @response = conn.send(http_method.downcase) do |req|
+          @response = conn.run_request(http_method.downcase.to_sym, nil, nil, nil) do |req|
             req.body = request_body
           end
         end

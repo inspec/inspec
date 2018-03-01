@@ -44,7 +44,7 @@ This InSpec resource accepts the following parameters, which are used to search 
 
 The Security Group ID of the Security Group. This is of the format `sg-` followed by 8 hexadecimal characters.  The ID is unique within your AWS account; using ID ensures that you will never match more than one SG. The ID is also the default resource parameter, so you may omit the hash syntax.
 
-    # Using Hash syntax 
+    # Using Hash syntax
     describe aws_security_group(id: 'sg-12345678') do
       it { should exist }
     end
@@ -79,7 +79,7 @@ A string identifying the VPC that contains the security group. Since VPCs common
 
     # This will error if there is more than the default SG
     describe aws_security_group(vpc_id: 'vpc-12345678') do
-      it { should exist }    
+      it { should exist }
     end
 
 <br>
@@ -138,15 +138,14 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 ### exists
 
-The control will pass if the specified SG was found.  Use should_not if you want to verify that the specified SG does not exist.
+The control will pass if the specified SG was found.  Use `should_not` if you want to verify that the specified SG does not exist.
 
     # You will always have at least one SG, the VPC default SG
     describe aws_security_group(group_name: 'default')
       it { should exist }
-    end   
+    end
 
     # Make sure we don't have any security groups with the name 'nogood'
     describe aws_security_group(group_name: 'nogood')
       it { should_not exist }
-    end 
-
+    end

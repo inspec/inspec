@@ -198,6 +198,10 @@ output "ec2_security_group_alpha_group_id" {
   value = "${aws_security_group.alpha.id}"
 }
 
+output "ec2_security_group_alpha_group_name" {
+  value = "${aws_security_group.alpha.name}"
+}
+
 #============================================================#
 #                      VPC Subnets
 #============================================================#
@@ -206,10 +210,16 @@ resource "aws_subnet" "subnet_01" {
   cidr_block = "172.31.96.0/20"
 }
 
-output "ec2_default_vpc_subnet_01_id" {
+# Re-output any VPC ID for subnet listings
+output "subnet_vpc_id" {
+  # Use the default VPC since it is gaurenteed
+  value = "${data.aws_vpc.default.id}"
+}
+
+output "subnet_01_id" {
   value = "${aws_subnet.subnet_01.id}"
 }
 
-output "ec2_security_group_alpha_group_name" {
-  value = "${aws_security_group.alpha.name}"
+output "subnet_01_az" {
+  value = "${aws_subnet.subnet_01.availability_zone}"
 }

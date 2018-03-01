@@ -54,7 +54,7 @@ A string identifying a group. Since groups are contained in VPCs, group names ar
 
 ## Properties
 
-* `entries`, `group\_ids`
+* `entries`, `group_ids`
 
 <br>
 
@@ -88,5 +88,4 @@ The control will pass if the filter returns at least one result. Use `should_not
     # You will always have at least one SG, the VPC default SG
     describe aws_security_groups
       it { should exist }
-    end   
-
+    end

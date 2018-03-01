@@ -2,6 +2,7 @@ fixtures = {}
 [
   'ec2_security_group_default_vpc_id',
   'ec2_default_vpc_subnet_01_id',
+  'subnet_01_az',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -32,7 +33,7 @@ control "aws_subnet properties of subnet_01" do
     its('subnet_id') { should eq fixtures['ec2_default_vpc_subnet_01_id'] }
     its('cidr_block') { should eq '172.31.96.0/20' }
     its('available_ip_address_count') { should eq 4091 }
-    its('availability_zone') { should eq 'us-east-1c' }
+    its('availability_zone') { should eq fixtures['subnet_01_az'] }
     its('ipv_6_cidr_block_association_set') { should eq [] }
   end
 end
