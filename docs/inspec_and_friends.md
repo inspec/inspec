@@ -40,13 +40,12 @@ control "sshd-11" do
 end
 ```
 
-That said, InSpec is not RSpec. InSpec does not support arbitrary RSpec features. Some key differences:
+That said, InSpec is not RSpec. Some key differences:
 
- * RSpec `describe` blocks are intended to be nested. In InSpec, `describe` 
- blocks should not be nested; instead use `control` blocks to describe a 
- higher-level grouping of tests.
- * RSpec is a tool designed for software engineers. It thus supports a very large range of matchers, to enable testing of software engineering constructs such as exceptions, Object Oriented Programming relationships, and so on. In contrast, InSpec is aimed at compliance practioners and infrastructure testers, so our focus is providing a few, well-supported, easy-to-use universal matchers, such as `cmp`.
- * RSpec is a separate project from InSpec. Its release schedule and feature set are beyond the control of the InSpec team. While you are free to use RSpec-specific features in your InSpec profiles, the InSpec team can only support those features described at [docs.inspec.io](https://docs.inspec.io).
+ * In InSpec, `describe` blocks should not be nested; instead use `control` blocks to describe a higher-level grouping of tests.
+ * The RSpec `shared_example` sonstruct is not suppoerted.  Instead, create a simple custom resource that executes repetitious tasks.
+ * InSpec is aimed at compliance practitioners and infrastructure testers, so our focus is providing a few, well-supported, easy-to-use [universal matchers](https://www.inspec.io/docs/reference/matchers/), such as `cmp`. In contrast, RSpec is a tool designed for software engineers. It thus supports a very large range of matchers, to enable testing of software engineering constructs such as exceptions, Object Oriented Programming relationships, and so on. 
+ * While InSpec uses parts of the RSpec project and codebase, it is a separate project from InSpec. Rspec's release schedule and feature set are beyond the control of the InSpec team. While it is possible to use many of the RSpec core features within InSpec profiles, InSpec can only guarantee that the features described at [docs.inspec.io](https://docs.inspec.io) will function correctly. Some RSpec core functionality may be removed in future versions of InSpec as needed to ensure stability in the InSpec project.
 
 ## Serverspec
 
