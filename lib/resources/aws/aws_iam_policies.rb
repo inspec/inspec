@@ -30,7 +30,14 @@ class AwsIamPolicies < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.list_policies({}).to_h[:policies]
+    @table = []
+    pagination_opts = {}
+    loop do
+      api_result = backend.list_policies(pagination_opts)
+      @table += api_result.policies.map(&:to_h)
+      pagination_opts = { marker: api_result.marker }
+      break unless api_result.is_truncated
+    end
   end
 
   class Backend
