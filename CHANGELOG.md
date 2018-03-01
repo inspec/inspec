@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.30 -->
-## [v2.0.30](https://github.com/chef/inspec/tree/v2.0.30) (2018-02-28)
+<!-- latest_release 2.0.31 -->
+## [v2.0.31](https://github.com/chef/inspec/tree/v2.0.31) (2018-03-01)
 
 #### Merged Pull Requests
-- virtualization_resource: Fix `NoMethodError` on `nil:NilClass` [#2603](https://github.com/chef/inspec/pull/2603) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Docs: Clarify Matchers page to speak about Universal matchers [#2754](https://github.com/chef/inspec/pull/2754) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.17 -->
@@ -14,6 +14,7 @@
 - package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
 
 #### Merged Pull Requests
+- Docs: Clarify Matchers page to speak about Universal matchers [#2754](https://github.com/chef/inspec/pull/2754) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.31 -->
 - virtualization_resource: Fix `NoMethodError` on `nil:NilClass` [#2603](https://github.com/chef/inspec/pull/2603) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.30 -->
 - Updated omnibus `postinst` script to symlink to appbundle created binstubs [#2732](https://github.com/chef/inspec/pull/2732) ([miah](https://github.com/miah)) <!-- 2.0.29 -->
 - New Resource aws_config_recorder [#2635](https://github.com/chef/inspec/pull/2635) ([dromazmj](https://github.com/dromazmj)) <!-- 2.0.28 -->
