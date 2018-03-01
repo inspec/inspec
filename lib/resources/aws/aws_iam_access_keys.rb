@@ -85,9 +85,14 @@ class AwsIamAccessKeys < Inspec.resource(1)
             # Swallow - a miss on search results should return an empty table
           end
         else
-          # TODO: pagination check and resume
-          iam_client.list_users.users.each do |info|
-            user_details[info.user_name] = info
+          pagination_opts = {}
+          loop do
+            api_result = iam_client.list_users(pagination_opts)
+            api_result.users.each do |info|
+              user_details[info.user_name] = info
+            end
+            break unless api_result.is_truncated
+            pagination_opts[:marker] = api_result.marker
           end
         end
 
