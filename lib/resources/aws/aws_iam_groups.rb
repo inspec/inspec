@@ -35,7 +35,7 @@ class AwsIamGroups < Inspec.resource(1)
       api_result = backend.list_groups(pagination_opts)
       @table += api_result.groups.map(&:to_h)
       pagination_opts = { marker: api_result.marker }
-      break unless api_result.is_truncated 
+      break unless api_result.is_truncated
     end
   end
 
