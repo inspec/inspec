@@ -47,9 +47,9 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add(:user, field: 'user')
-          .add(:password, field: 'password')
-          .add(:last_change, field: 'last_change')
+          .add(:users, field: 'user')
+          .add(:passwords, field: 'password')
+          .add(:last_changes, field: 'last_change')
           .add(:min_days, field: 'min_days')
           .add(:max_days, field: 'max_days')
           .add(:warn_days, field: 'warn_days')
@@ -62,18 +62,35 @@ module Inspec::Resources
       end.join("\n")
     }
 
-    filter.add(:users) { |u, _| u.entries.map(&:user) }
-
     filter.add(:count) { |i, _|
       i.entries.length
     }
 
     filter.connect(self, :params)
 
-    alias users user
-    alias passwords password
-    alias last_changes last_change
-    alias expiry_dates expiry_date
+    def user(filter = nil)
+      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `users` instead.'
+      filter.nil? ? users : users(filter)
+    end
+
+    def password(filter = nil)
+      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `passwords` instead.'
+      filter.nil? ? passwords : passwords(filter)
+    end
+
+    def last_change(filter = nil)
+      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `last_changes` instead.'
+      filter.nil? ? last_changes : last_changes(filter)
+    end
+
+    def expiry_dates(filter = nil)
+      warn '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `expiry_date` instead.'
+      filter.nil? ? expiry_date : expiry_date(filter)
+    end
 
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters

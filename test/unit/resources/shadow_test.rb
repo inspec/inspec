@@ -12,18 +12,15 @@ describe 'Inspec::Resources::Shadow' do
 
   it 'retrieve users via field' do
     _(shadow.users).must_equal %w{root www-data}
-    _(shadow.user).must_equal %w{root www-data}
     _(shadow.count).must_equal 2
   end
 
   it 'retrieve passwords via field' do
     _(shadow.passwords).must_equal %w{x !!}
-    _(shadow.password).must_equal %w{x !!}
   end
 
   it 'retrieve last password change via field' do
     _(shadow.last_changes).must_equal %w{1 10}
-    _(shadow.last_change).must_equal %w{1 10}
   end
 
   it 'retrieve min password days via field' do
@@ -43,7 +40,6 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'retrieve dates when account will expire via field' do
-    _(shadow.expiry_dates).must_equal [nil, "60"]
     _(shadow.expiry_date).must_equal [nil, "60"]
   end
 
@@ -57,6 +53,30 @@ describe 'Inspec::Resources::Shadow' do
       'min_days' => '2', 'max_days' => '3', 'warn_days' => nil,
       'inactive_days' => nil, 'expiry_date' => nil, 'reserved' => nil,
     })
+  end
+
+  it 'returns deprecation notice on user property' do
+    proc { _(shadow.user).must_equal %w{root www-data} }.must_output nil,
+      '[DEPRECATION] The shadow `user` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `users` instead.\n"
+  end
+
+  it 'returns deprecatation notice on password property' do
+    proc { _(shadow.password).must_equal %w{x !!} }.must_output nil,
+      '[DEPRECATION] The shadow `password` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `passwords` instead.\n"
+  end
+
+  it 'returns deprecation notice on last_change property' do
+    proc { _(shadow.last_change).must_equal %w{1 10} }.must_output nil,
+      '[DEPRECATION] The shadow `last_change` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `last_changes` instead.\n"
+  end
+
+  it 'returns deprecation notice on expiry_dates property' do
+    proc { _(shadow.expiry_dates).must_equal [nil, "60"] }.must_output nil,
+      '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `expiry_date` instead.\n"
   end
 
   describe 'filter via name =~ /^www/' do
@@ -97,4 +117,5 @@ describe 'Inspec::Resources::Shadow' do
       _(resource.resource_exception_message).must_equal 'The `shadow` resource is not supported on your OS.'
     end
   end
+
 end
