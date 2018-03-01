@@ -39,7 +39,15 @@ class AwsIamUsers < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.list_users.users.map(&:to_h)
+
+    # loop over list_users because it's paginated (default 100 rows, max 1000)
+    @table = []
+    page_marker = nil
+    begin
+      api_result = backend.list_users(marker:page_marker)
+      @table += api_result.users.map(&:to_h)
+      page_marker = api_result.marker
+    end while api_result.is_truncated
 
     # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
     @table.each do |user|
