@@ -90,6 +90,18 @@ The `mode` property tests if the mode assigned to the file matches the specified
 
     its('mode') { should cmp '0644' }
 
+InSpec [octal](https://en.wikipedia.org/wiki/Leading_zero#0_as_a_prefix) values begin the numeric mode specification with zero.
+
+For example, write:
+
+    { should cmp '0644' }
+
+not
+
+    { should cmp '644' }
+
+Without the zero prefix for the octal value, the InSpec will interpret the it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
+
 ### mtime
 
 The `mtime` property tests if the file modification time for the file matches the specified value. The mtime, where supported, is returned as the number of seconds since the epoch.
