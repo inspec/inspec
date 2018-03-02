@@ -412,7 +412,7 @@ bundle exec kitchen test -c
 
 Use the rake task `bundle exec rake test:aws` to test the AWS resources against a pair of real AWS accounts.
 
-Please see TESTING_AGAINST_AWS.md for details on how to setup the needed AWS accounts to perform testing.
+Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.md) for details on how to setup the needed AWS accounts to perform testing.
 
 ## License
 
