@@ -30,7 +30,14 @@ class AwsKmsKeys < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.list_keys({ limit: 1000 }).to_h[:keys] # max value for limit is 1000
+    @table = []
+    pagination_opts = { limit: 1000 }
+    loop do
+      api_result = backend.list_keys(pagination_opts)
+      @table += api_result.keys.map(&:to_h)
+      break unless api_result.truncated
+      pagination_opts = { marker: api_result.next_marker }
+    end
   end
 
   class Backend
