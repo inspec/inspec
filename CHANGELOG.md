@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.35 -->
-## [v2.0.35](https://github.com/chef/inspec/tree/v2.0.35) (2018-03-02)
+<!-- latest_release 2.0.36 -->
+## [v2.0.36](https://github.com/chef/inspec/tree/v2.0.36) (2018-03-02)
 
-#### Enhancements
-- AWS API Pagination fixes [#2762](https://github.com/chef/inspec/pull/2762) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
 ### Changes since 2.0.32 release
+
+#### Merged Pull Requests
+- Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.36 -->
 
 #### Enhancements
 - AWS API Pagination fixes [#2762](https://github.com/chef/inspec/pull/2762) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.35 -->
