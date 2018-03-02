@@ -34,4 +34,39 @@ describe 'Inspec::Resources::EtcGroup' do
     _(wrong_filter.groups).must_equal []
     _(wrong_filter.users).must_equal []
   end
+
+  it 'verify group filter with gid' do
+    www_filter = resource.where(gid: 33)
+    _(www_filter.gids).must_equal [33]
+    _(www_filter.groups).must_equal ['www-data']
+    _(www_filter.users).must_equal ['www-data', 'root']
+  end
+
+  it 'verify group filter with wrong gid' do
+    www_filter = resource.where(group_id: 60)
+    _(www_filter.gids).must_equal []
+    _(www_filter.groups).must_equal []
+    _(www_filter.users).must_equal []
+  end
+
+  it 'verify group filter with group members' do
+    www_filter = resource.where(users: 'www-data,root')
+    _(www_filter.gids).must_equal [33]
+    _(www_filter.groups).must_equal ['www-data']
+    _(www_filter.users).must_equal ['www-data', 'root']
+  end
+
+  it 'verify group filter with no group members' do
+    www_filter = resource.where(members: '')
+    _(www_filter.gids).must_equal [0, 999]
+    _(www_filter.groups).must_equal ['root', 'GroupWithCaps']
+    _(www_filter.users).must_equal []
+  end
+
+  it 'verify group filter with wrong member' do
+    wrong_filter = resource.where(users: 'wrong_member')
+    _(wrong_filter.gids).must_equal []
+    _(wrong_filter.groups).must_equal []
+    _(wrong_filter.users).must_equal []
+  end
 end

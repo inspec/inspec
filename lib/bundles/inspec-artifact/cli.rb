@@ -79,19 +79,17 @@ module Artifact
   KEY_BITS=2048
   KEY_ALG=OpenSSL::PKey::RSA
 
-  INSPEC_PROFILE_VERSION_1='INSPEC-PROFILE-1'.freeze
-  INSPEC_REPORT_VERSION_1='INSPEC-REPORT-1'.freeze
+  INSPEC_PROFILE_VERSION_1='INSPEC-PROFILE-1'
+  INSPEC_REPORT_VERSION_1='INSPEC-REPORT-1'
 
   ARTIFACT_DIGEST=OpenSSL::Digest::SHA512
-  ARTIFACT_DIGEST_NAME='SHA512'.freeze
+  ARTIFACT_DIGEST_NAME='SHA512'
 
   VALID_PROFILE_VERSIONS=Set.new [INSPEC_PROFILE_VERSION_1]
   VALID_PROFILE_DIGESTS=Set.new [ARTIFACT_DIGEST_NAME]
 
-  SIGNED_PROFILE_SUFFIX='iaf'.freeze
-  SIGNED_REPORT_SUFFIX='iar'.freeze
-
-  # rubocop:disable Metrics/ClassLength
+  SIGNED_PROFILE_SUFFIX='iaf'
+  SIGNED_REPORT_SUFFIX='iar'
   class CLI < Inspec::BaseCLI
     namespace 'artifact'
 
@@ -211,17 +209,12 @@ module Artifact
     def valid_header?(file_alg, file_version, file_keyname)
       public_keyfile = "#{file_keyname}.pem.pub"
       puts "Looking for #{public_keyfile} to verify artifact"
-      if not File.exist? public_keyfile
+      if !File.exist? public_keyfile
         raise "Can't find #{public_keyfile}"
       end
 
-      if not VALID_PROFILE_DIGESTS.member? file_alg
-        raise 'Invalid artifact digest algorithm detected'
-      end
-
-      if not VALID_PROFILE_VERSIONS.member? file_version
-        raise 'Invalid artifact version detected'
-      end
+      raise 'Invalid artifact digest algorithm detected' if !VALID_PROFILE_DIGESTS.member?(file_alg)
+      raise 'Invalid artifact version detected' if !VALID_PROFILE_VERSIONS.member?(file_version)
     end
 
     def verify(file_to_verifiy, &content_block)

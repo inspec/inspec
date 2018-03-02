@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Resource to determine package information
 #
@@ -11,6 +9,8 @@
 module Inspec::Resources
   class Package < Inspec.resource(1)
     name 'package'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the package InSpec audit resource to test if the named package and/or package version is installed on the system.'
     example "
       describe package('nginx') do
@@ -20,7 +20,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(package_name = nil, opts = {}) # rubocop:disable Metrics/AbcSize
+    def initialize(package_name, opts = {}) # rubocop:disable Metrics/AbcSize
       @package_name = package_name
       @name = @package_name
       @cache = nil
@@ -32,7 +32,7 @@ module Inspec::Resources
         @pkgman = Deb.new(inspec)
       elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
         @pkgman = Rpm.new(inspec, opts)
-      elsif ['arch'].include?(os[:family])
+      elsif ['arch'].include?(os[:name])
         @pkgman = Pacman.new(inspec)
       elsif ['darwin'].include?(os[:family])
         @pkgman = Brew.new(inspec)
@@ -45,7 +45,7 @@ module Inspec::Resources
       elsif ['hpux'].include?(os[:family])
         @pkgman = HpuxPkg.new(inspec)
       else
-        return skip_resource 'The `package` resource is not supported on your OS yet.'
+        raise Inspec::Exceptions::ResourceSkipped, 'The `package` resource is not supported on your OS yet.'
       end
 
       evaluate_missing_requirements
@@ -53,28 +53,27 @@ module Inspec::Resources
 
     # returns true if the package is installed
     def installed?(_provider = nil, _version = nil)
-      return false if info.nil?
       info[:installed] == true
     end
 
     # returns true it the package is held (if the OS supports it)
     def held?(_provider = nil, _version = nil)
-      return false if info.nil?
-      return false unless info.key?(:held)
       info[:held] == true
     end
 
     # returns the package description
     def info
       return @cache if !@cache.nil?
-      return nil if @pkgman.nil?
+      # All `@pkgman.info` methods return `{}`. This matches that
+      # behavior if `@pkgman` can't be determined, thus avoiding the
+      # `undefined method 'info' for nil:NilClass` error
+      return {} if @pkgman.nil?
       @pkgman.info(@package_name)
     end
 
     # return the package version
     def version
       info = @pkgman.info(@package_name)
-      return nil if info.nil?
       info[:version]
     end
 
@@ -87,7 +86,7 @@ module Inspec::Resources
     def evaluate_missing_requirements
       missing_requirements_string = @pkgman.missing_requirements.uniq.join(', ')
       return if missing_requirements_string.empty?
-      skip_resource "The following requirements are not met for this resource: #{missing_requirements_string}"
+      raise Inspec::Exceptions::ResourceSkipped, "The following requirements are not met for this resource: #{missing_requirements_string}"
     end
   end
 
@@ -99,7 +98,7 @@ module Inspec::Resources
 
     def missing_requirements
       # Each provider can provide an Array of missing requirements that will be
-      # combined into a `skip_resource` message
+      # combined into a `ResourceSkipped` exception message.
       []
     end
   end
@@ -108,7 +107,7 @@ module Inspec::Resources
   class Deb < PkgManagement
     def info(package_name)
       cmd = inspec.command("dpkg -s #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
@@ -152,7 +151,7 @@ module Inspec::Resources
       cmd = inspec.command(rpm_cmd)
       # CentOS does not return an error code if the package is not installed,
       # therefore we need to check for emptyness
-      return nil if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
+      return {} if cmd.exit_status.to_i != 0 || cmd.stdout.chomp.empty?
       params = SimpleConfig.new(
         cmd.stdout.chomp,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
@@ -195,17 +194,26 @@ module Inspec::Resources
     def info(package_name)
       brew_path = inspec.command('brew').exist? ? 'brew' : '/usr/local/bin/brew'
       cmd = inspec.command("#{brew_path} info --json=v1 #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
-      # parse data
+
+      # If no available formula exists, then `brew` will exit non-zero
+      return {} if cmd.exit_status.to_i != 0
+
       pkg = JSON.parse(cmd.stdout)[0]
+
+      # If package exists but is not installed, then `brew` output will not
+      # contain `pkg['installed'][0]['version']
+      return {} unless pkg.dig('installed', 0, 'version')
+
       {
         name: pkg['name'],
         installed: true,
         version: pkg['installed'][0]['version'],
         type: 'brew',
       }
-    rescue JSON::ParserError => _e
-      return nil
+    rescue JSON::ParserError => e
+      raise Inspec::Exceptions::ResourceFailed,
+            'Failed to parse JSON from `brew` command. ' \
+            "Error: #{e}"
     end
   end
 
@@ -213,7 +221,7 @@ module Inspec::Resources
   class Pacman < PkgManagement
     def info(package_name)
       cmd = inspec.command("pacman -Qi #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
@@ -233,7 +241,7 @@ module Inspec::Resources
   class HpuxPkg < PkgManagement
     def info(package_name)
       cmd = inspec.command("swlist -l product | grep #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
       pkg = cmd.stdout.strip.split(' ')
       {
         name: pkg[0],
@@ -266,10 +274,18 @@ module Inspec::Resources
         Select-Object -Property DisplayName,DisplayVersion | ConvertTo-Json
       EOF
 
+      # We cannot rely on `exit_status` since PowerShell always exits 0 from the
+      # above command. Instead, if no package is found the output of the command
+      # will be `''` so we can use that to return `{}` to match the behavior of
+      # other package managers.
+      return {} if cmd.stdout == ''
+
       begin
         package = JSON.parse(cmd.stdout)
-      rescue JSON::ParserError => _e
-        return nil
+      rescue JSON::ParserError => e
+        raise Inspec::Exceptions::ResourceFailed,
+              'Failed to parse JSON from PowerShell. ' \
+              "Error: #{e}"
       end
 
       # What if we match multiple packages?  just pick the first one for now.
@@ -288,7 +304,7 @@ module Inspec::Resources
   class BffPkg < PkgManagement
     def info(package_name)
       cmd = inspec.command("lslpp -cL #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
 
       bff_pkg = cmd.stdout.split("\n").last.split(':')
       {
@@ -313,7 +329,7 @@ module Inspec::Resources
     # solaris 10
     def solaris10_info(package_name)
       cmd = inspec.command("pkginfo -l #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,
@@ -334,7 +350,7 @@ module Inspec::Resources
     # solaris 11
     def solaris11_info(package_name)
       cmd = inspec.command("pkg info #{package_name}")
-      return nil if cmd.exit_status.to_i != 0
+      return {} if cmd.exit_status.to_i != 0
 
       params = SimpleConfig.new(
         cmd.stdout.chomp,

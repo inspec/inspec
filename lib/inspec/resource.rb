@@ -16,6 +16,10 @@ module Inspec
       @registry ||= default_registry
     end
 
+    def self.supports
+      @supports ||= {}
+    end
+
     def self.new_registry
       default_registry.dup
     end
@@ -66,12 +70,21 @@ module Inspec
   end
 
   def self.validate_resource_dsl_version!(version)
-    if version != 1
-      raise 'Only resource version 1 is supported!'
-    end
+    raise 'Only resource version 1 is supported!' if version != 1
   end
 end
 
+# Many resources use FilterTable.
+require 'utils/filter'
+
+# AWS resources are included via their own file.
+require 'resource_support/aws'
+
+require 'resources/azure/azure_backend.rb'
+require 'resources/azure/azure_generic_resource.rb'
+require 'resources/azure/azure_resource_group.rb'
+require 'resources/azure/azure_virtual_machine.rb'
+require 'resources/azure/azure_virtual_machine_data_disk.rb'
 require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
@@ -79,7 +92,6 @@ require 'resources/apt'
 require 'resources/audit_policy'
 require 'resources/auditd'
 require 'resources/auditd_conf'
-require 'resources/auditd_rules'
 require 'resources/bash'
 require 'resources/bond'
 require 'resources/bridge'
@@ -92,12 +104,14 @@ require 'resources/directory'
 require 'resources/docker'
 require 'resources/docker_container'
 require 'resources/docker_image'
+require 'resources/docker_service'
 require 'resources/elasticsearch'
 require 'resources/etc_fstab'
 require 'resources/etc_group'
 require 'resources/etc_hosts_allow_deny'
 require 'resources/etc_hosts'
 require 'resources/file'
+require 'resources/filesystem'
 require 'resources/firewalld'
 require 'resources/gem'
 require 'resources/groups'
@@ -133,6 +147,7 @@ require 'resources/packages'
 require 'resources/parse_config'
 require 'resources/passwd'
 require 'resources/pip'
+require 'resources/platform'
 require 'resources/port'
 require 'resources/postgres'
 require 'resources/postgres_conf'

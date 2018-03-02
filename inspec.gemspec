@@ -20,16 +20,15 @@ Gem::Specification.new do |spec|
     '{bin,docs,examples,lib}/**/*', File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
 
-  spec.executables   = %w{ inspec }
+  spec.executables   = %w{inspec}
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.1'
+  spec.required_ruby_version = '>= 2.3'
 
-  spec.add_dependency 'train', '~> 0.28'
+  spec.add_dependency 'train', '~> 1.1'
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
-  spec.add_dependency 'rainbow', '~> 2'
   spec.add_dependency 'method_source', '~> 0.8'
   spec.add_dependency 'rubyzip', '~> 1.1'
   spec.add_dependency 'rspec', '~> 3'

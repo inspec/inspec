@@ -22,6 +22,16 @@ describe Inspec::Resources::Cmd do
     resource('env').exit_status.must_equal 0
   end
 
+  it 'exist? returns false on nil os name' do
+    Inspec::Resources::OSResource.any_instance.stubs(:name).returns(nil)
+    resource('test').exist?.must_equal false
+  end
+
+  it 'exist? returns false on mock os name' do
+    Inspec::Resources::OSResource.any_instance.stubs(:name).returns('mock')
+    resource('test').exist?.must_equal false
+  end
+
   it 'raises when called with nil as a command' do
     proc { resource(nil).result }.must_raise StandardError
   end

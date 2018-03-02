@@ -25,7 +25,7 @@ if os.linux?
     it { should cmp 'x' }
   end
 
-  describe passwd.usernames do
+  describe passwd.users do
     it { should include 'root' }
     it { should_not cmp 'root' }
   end

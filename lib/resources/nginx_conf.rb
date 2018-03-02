@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/nginx_parser'
 require 'utils/find_files'
@@ -16,6 +14,7 @@ require 'forwardable'
 module Inspec::Resources
   class NginxConf < Inspec.resource(1)
     name 'nginx_conf'
+    supports platform: 'unix'
     desc 'Use the nginx_conf InSpec resource to test configuration data '\
          'for the NginX web server located in /etc/nginx/nginx.conf on '\
          'Linux and UNIX platforms.'

@@ -6,7 +6,7 @@ require 'thor'
 require 'erb'
 
 module Compliance
-  class ComplianceCLI < Inspec::BaseCLI # rubocop:disable Metrics/ClassLength
+  class ComplianceCLI < Inspec::BaseCLI
     namespace 'compliance'
 
     # TODO: find another solution, once https://github.com/erikhuda/thor/issues/261 is fixed
@@ -46,38 +46,6 @@ module Compliance
       Compliance::API.login(options)
     end
 
-    desc "login_automate https://SERVER --insecure --user='USER' --ent='ENTERPRISE' --usertoken='TOKEN'", 'Log in to a Chef Automate SERVER (DEPRECATED: Please use `login`)'
-    long_desc <<-LONGDESC
-      This commmand is deprecated and will be removed, please use `--login`.
-
-      `login_automate` allows you to use InSpec with Chef Automate.
-
-      You need to a token for communication. More information about token retrieval
-      is available at:
-        https://docs.chef.io/api_automate.html#authentication-methods
-        https://docs.chef.io/api_compliance.html#obtaining-an-api-token
-    LONGDESC
-    option :insecure, aliases: :k, type: :boolean,
-      desc: 'Explicitly allows InSpec to perform "insecure" SSL connections and transfers'
-    option :user, type: :string, required: true,
-      desc: 'Username'
-    option :usertoken, type: :string, required: false,
-      desc: 'Access token (DEPRECATED: Please use `--token`)'
-    option :token, type: :string, required: false,
-      desc: 'Access token'
-    option :dctoken, type: :string, required: false,
-      desc: 'Data Collector token'
-    option :ent, type: :string, required: true,
-      desc: 'Enterprise for Chef Automate reporting'
-    def login_automate(server)
-      warn '[DEPRECATION] `inspec compliance login_automate` is deprecated. Please use `inspec compliance login`'
-      options['server'] = server
-
-      options['token'] = options['usertoken'] if options['usertoken']
-
-      Compliance::API.login(options)
-    end
-
     desc 'profiles', 'list all available profiles in Chef Compliance'
     option :owner, type: :string, required: false,
       desc: 'owner whose profiles to list'
@@ -110,11 +78,20 @@ module Compliance
     def exec(*tests)
       config = Compliance::Configuration.new
       return if !loggedin(config)
+      o = opts(:exec).dup
+      diagnose(o)
+      configure_logger(o)
+
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'compliance://' + Compliance::API.sanitize_profile_name(t) }
-      # execute profile from inspec exec implementation
-      diagnose
-      run_tests(tests, opts)
+
+      runner = Inspec::Runner.new(o)
+      tests.each { |target| runner.add_target(target) }
+
+      exit runner.run
+    rescue ArgumentError, RuntimeError, Train::UserError => e
+      $stderr.puts e.message
+      exit 1
     end
 
     desc 'download PROFILE', 'downloads a profile from Chef Compliance'

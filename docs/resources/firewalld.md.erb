@@ -1,5 +1,6 @@
 ---
 title: About the firewalld Resource
+platform: linux
 ---
 
 # firewalld
@@ -26,10 +27,10 @@ Use the where clause to test open interfaces, sources, and services in active zo
       its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
       its('services') { should cmp ['ssh', 'icmp'] }
     end
-    
+
 <br>
 
-## Supported Properties
+## Properties
 
 ### interfaces
 
@@ -65,7 +66,7 @@ The `default_zone` property displays the default active zone to be used.
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### `be_installed`
 
@@ -102,3 +103,5 @@ The `be_running` matcher tests if the firewalld service is running:
 `have_rule_enabled` returns true or false if the rich-rule has been specified in the zone.
 
     it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }
+
+It is not necessary to add the "rule" string, and you can start with the optional flags that are used in firewalld and end with the action

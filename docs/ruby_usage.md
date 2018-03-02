@@ -73,7 +73,7 @@ independent of programming languages and their resolver mechanisms.
 ## Interactive Debugging with Pry
 
 Here's a sample InSpec control that users Ruby variables to instantiate
-an InSpec resource once and use the content in multipLe tests.
+an InSpec resource once and use the content in multiple tests.
 
 ```ruby
 control 'check-perl' do

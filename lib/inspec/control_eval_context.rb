@@ -40,19 +40,20 @@ module Inspec
       profile_context_owner = profile_context
       profile_id = profile_context.profile_id
 
-      Class.new do
+      Class.new do # rubocop:disable Metrics/BlockLength
         include Inspec::DSL
         include Inspec::DSL::RequireOverride
         include resources_dsl
 
         attr_accessor :skip_file
 
-        def initialize(backend, conf, dependencies, require_loader)
+        def initialize(backend, conf, dependencies, require_loader, skip_only_if_eval)
           @backend = backend
           @conf = conf
           @dependencies = dependencies
           @require_loader = require_loader
           @skip_file = false
+          @skip_only_if_eval = skip_only_if_eval
         end
 
         define_method :title do |arg|
@@ -70,6 +71,7 @@ module Inspec
         define_method :control do |*args, &block|
           id = args[0]
           opts = args[1] || {}
+          opts[:skip_only_if_eval] = @skip_only_if_eval
           register_control(rule_class.new(id, profile_id, opts, &block))
         end
 
@@ -80,7 +82,7 @@ module Inspec
         # the describe block in the context of that control.
         #
         define_method :describe do |*args, &block|
-          loc = block_location(block, caller[0])
+          loc = block_location(block, caller(1..1).first)
           id = "(generated from #{loc} #{SecureRandom.hex})"
 
           res = nil
@@ -115,8 +117,19 @@ module Inspec
         end
 
         define_method :register_control do |control, &block|
-          if @skip_file || !profile_context_owner.profile_supports_os?
+          if @skip_file
             ::Inspec::Rule.set_skip_rule(control, true)
+          end
+
+          unless profile_context_owner.profile_supports_platform?
+            platform = inspec.platform
+            msg = "Profile #{profile_context_owner.profile_id} is not supported on platform #{platform.name}/#{platform.release}."
+            ::Inspec::Rule.set_skip_rule(control, msg)
+          end
+
+          unless profile_context_owner.profile_supports_inspec_version?
+            msg = "Profile #{profile_context_owner.profile_id} is not supported on InSpec version (#{Inspec::VERSION})."
+            ::Inspec::Rule.set_skip_rule(control, msg)
           end
 
           profile_context_owner.register_rule(control, &block) unless control.nil?
@@ -133,7 +146,10 @@ module Inspec
 
         define_method :only_if do |&block|
           return unless block
-          return if @skip_file == true || block.yield == true
+          return if @skip_file == true
+          return if @skip_only_if_eval == true
+
+          return if block.yield == true
 
           # Apply `set_skip_rule` for other rules in the same file
           profile_context_owner.rules.values.each do |r|

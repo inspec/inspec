@@ -11,10 +11,11 @@ require 'securerandom'
 require 'inspec/objects/attribute'
 
 module Inspec
-  class ProfileContext # rubocop:disable Metrics/ClassLength
+  class ProfileContext
     def self.for_profile(profile, backend, attributes)
       new(profile.name, backend, { 'profile' => profile,
-                                   'attributes' => attributes })
+                                   'attributes' => attributes,
+                                   'check_mode' => profile.check_mode })
     end
 
     attr_reader :attributes, :profile_id, :resource_registry, :backend
@@ -27,6 +28,7 @@ module Inspec
       @profile_id = profile_id
       @backend = backend
       @conf = conf.dup
+      @skip_only_if_eval = @conf['check_mode']
       @rules = {}
       @control_subcontexts = []
       @lib_subcontexts = []
@@ -53,7 +55,7 @@ module Inspec
     def control_eval_context
       @control_eval_context ||= begin
                                   ctx = Inspec::ControlEvalContext.create(self, to_resources_dsl)
-                                  ctx.new(@backend, @conf, dependencies, @require_loader)
+                                  ctx.new(@backend, @conf, dependencies, @require_loader, @skip_only_if_eval)
                                 end
     end
 
@@ -61,10 +63,16 @@ module Inspec
       @control_eval_context = nil
     end
 
-    def profile_supports_os?
+    def profile_supports_platform?
       return true if @conf['profile'].nil?
 
-      @conf['profile'].supports_os?
+      @conf['profile'].supports_platform?
+    end
+
+    def profile_supports_inspec_version?
+      return true if @conf['profile'].nil?
+
+      @conf['profile'].supports_runtime?
     end
 
     def remove_rule(id)
@@ -108,6 +116,7 @@ module Inspec
       lib_prefix = 'libraries' + File::SEPARATOR
       autoloads = []
 
+      libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
         path = source
         if source.start_with?(lib_prefix)

@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'yaml'
 
@@ -12,6 +10,10 @@ require 'yaml'
 module Inspec::Resources
   class YamlConfig < JsonConfig
     name 'yaml'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    supports platform: 'esx'
+    supports platform: 'cisco'
     desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
     example "
       describe yaml('config.yaml') do
@@ -30,10 +32,16 @@ module Inspec::Resources
     # override file load and parse hash from yaml
     def parse(content)
       YAML.load(content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse YAML: #{e.message}"
     end
 
-    def to_s
-      "YAML #{@path}"
+    private
+
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'YAML'
     end
   end
 end

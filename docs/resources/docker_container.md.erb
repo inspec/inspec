@@ -1,5 +1,6 @@
 ---
 title: About the docker_container Resource
+platform: linux
 ---
 
 # docker_container
@@ -23,12 +24,20 @@ A `docker_container` resource block declares the configuration data to be tested
       its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
     end
 
-The container name can also be passed with the `name` argument:
+<br>
+
+## Resource Parameter Examples
+
+### name
+
+The container name can also be passed with the `name` resource parameter:
 
     describe docker_container(name: 'an-echo-server') do
       it { should exist }
       it { should be_running }
     end
+
+### id
 
 Alternatively, you can pass in the container id:
 
@@ -39,11 +48,42 @@ Alternatively, you can pass in the container id:
 
 <br>
 
-## Examples
+## Property Examples
 
 The following examples show how to use this InSpec resource.
 
-### Verify an running container:
+### id
+
+The `id` property tests the container id:
+
+    its('id') { should eq 'sha:71b5df59...442b' }
+
+### repo
+
+The `repo` property tests the value of the image repository:
+
+    its('repo') { should eq 'busybox' }
+
+### tag
+
+The `tag` property tests the value of the image tag:
+
+    its('tag') { should eq 'latest' }
+
+### ports
+
+The `ports` property tests the value the docker ports:
+
+    its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
+
+### command
+
+The `command` property tests the value of the container run command:
+
+    its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+
+
+### Verify a running container:
 
     describe docker_container('an-echo-server') do
       it { should exist }
@@ -60,34 +100,5 @@ The following examples show how to use this InSpec resource.
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### id
-
-The `id` matcher tests the container id:
-
-    its('id') { should eq 'sha:71b5df59...442b' }
-
-### repo
-
-The `repo` matcher tests the value of the image repository:
-
-    its('repo') { should eq 'busybox' }
-
-### tag
-
-The `tag` matcher tests the value of the image tag:
-
-    its('tag') { should eq 'latest' }
-
-### ports
-
-The `ports` matcher tests the value the docker ports:
-
-    its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
-
-### command
-
-The `command` matcher tests the value of the container run command:
-
-    its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }

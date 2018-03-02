@@ -65,6 +65,25 @@ describe 'Inspec::Resources::Http' do
         _(worker.body).must_equal 'params ok'
       end
     end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        stub_request(:options, "http://www.example.com/").
+          with(:headers => {'Access-Control-Request-Headers'=>'origin, x-requested-with', 'Access-Control-Request-Method'=>'GET', 'Origin'=>'http://www.example.com'}).
+          to_return(:status => 200, :body => "", :headers => { 'mock' => 'ok', 'Access-Control-Allow-Origin' => 'http://www.example.com', 'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, DELETE', 'Access-Control-Max-Age' => '86400' })
+
+        _(worker.status).must_equal 200
+        _(worker.response_headers['mock']).must_equal 'ok'
+        _(worker.response_headers['access-control-allow-origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['access-control-allow-methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['access-control-max-age']).must_equal '86400'
+      end
+    end
   end
 
   describe 'Inspec::Resource::Http::Worker::Remote' do
@@ -108,6 +127,64 @@ describe 'Inspec::Resources::Http' do
         _(worker.body).must_equal 'headers ok'
         _(worker.response_headers['mock']).must_equal 'ok'
       end
+    end
+
+    describe 'with params' do
+      let(:opts) { { params: { a: 'b', c: 'd' } } }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal 'params ok'
+      end
+    end
+
+    describe 'a HEAD request' do
+      let(:http_method) { 'HEAD' }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 301
+        _(worker.response_headers['Location']).must_equal 'http://www.google.com/'
+      end
+    end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 200
+        _(worker.response_headers['Access-Control-Allow-Origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['Access-Control-Allow-Methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['Access-Control-Max-Age']).must_equal '86400'
+      end
+    end
+  end
+
+  describe 'Inspec::Resource::Http::Headers' do
+    let(:headers) { Inspec::Resources::Http::Headers.create(a: 1, B: 2, 'c' => 3, 'D' => 4) }
+
+    it 'returns the correct data via hash syntax ensuring case-insensitive keys' do
+      headers['a'].must_equal(1)
+      headers['A'].must_equal(1)
+      headers['b'].must_equal(2)
+      headers['B'].must_equal(2)
+      headers['c'].must_equal(3)
+      headers['C'].must_equal(3)
+      headers['d'].must_equal(4)
+      headers['D'].must_equal(4)
+    end
+
+    it 'returns the correct data via method syntax ensuring case-insensitive keys' do
+      headers.a.must_equal(1)
+      headers.A.must_equal(1)
+      headers.b.must_equal(2)
+      headers.B.must_equal(2)
+      headers.c.must_equal(3)
+      headers.C.must_equal(3)
+      headers.d.must_equal(4)
+      headers.D.must_equal(4)
     end
   end
 end

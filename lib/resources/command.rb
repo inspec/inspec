@@ -1,11 +1,11 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 module Inspec::Resources
   class Cmd < Inspec.resource(1)
     name 'command'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the command InSpec audit resource to test an arbitrary command that is run on the system.'
     example "
       describe command('ls -al /') do
@@ -45,9 +45,9 @@ module Inspec::Resources
       result.exit_status.to_i
     end
 
-    def exist?
+    def exist? # rubocop:disable Metrics/AbcSize
       # silent for mock resources
-      return false if inspec.os.name.nil?
+      return false if inspec.os.name.nil? || inspec.os.name == 'mock'
 
       if inspec.os.linux?
         res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
@@ -56,7 +56,7 @@ module Inspec::Resources
       elsif inspec.os.unix?
         res = inspec.backend.run_command("type \"#{@command}\"")
       else
-        warn "`command(#{@command}).exist?` is not suported on your OS: #{inspec.os[:name]}"
+        warn "`command(#{@command}).exist?` is not supported on your OS: #{inspec.os[:name]}"
         return false
       end
       res.exit_status.to_i == 0

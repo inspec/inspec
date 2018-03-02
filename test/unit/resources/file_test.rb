@@ -69,7 +69,7 @@ describe Inspec::Resources::FileResource do
     proc { resource.send('executable?', 'by_usergroup', nil) }.must_raise(RuntimeError)
   end
   it 'responds with errors on unsupported OS' do
-    resource = MockLoader.new(:unsupported).load_resource('file', 'C:/fakepath/fakefile')
+    resource = MockLoader.new(:undefined).load_resource('file', 'C:/fakepath/fakefile')
     resource.stubs(:exist?).returns(true)
     _(resource.exist?).must_equal true
     _(resource.readable?('by_usergroup', 'by_specific_user')).must_equal '`readable?` is not supported on your OS yet.'

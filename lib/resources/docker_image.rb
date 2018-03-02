@@ -1,14 +1,15 @@
 # encoding: utf-8
 #
 # Copyright 2017, Christoph Hartmann
-#
-# author: Christoph Hartmann
-# author: Patrick Muench
-# author: Dominik Richter
+
+require_relative 'docker_object'
 
 module Inspec::Resources
   class DockerImage < Inspec.resource(1)
+    include Inspec::Resources::DockerObject
+
     name 'docker_image'
+    supports platform: 'unix'
     desc ''
     example "
       describe docker_image('alpine:latest') do
@@ -35,24 +36,16 @@ module Inspec::Resources
       @opts = sanitize_options(o)
     end
 
-    def exist?
-      image_info.exists?
-    end
-
-    def id
-      image_info.ids[0] if image_info.entries.size == 1
-    end
-
     def image
-      "#{repo}:#{tag}" if image_info.entries.size == 1
+      "#{repo}:#{tag}" if object_info.entries.size == 1
     end
 
     def repo
-      image_info.repositories[0] if image_info.entries.size == 1
+      object_info.repositories[0] if object_info.entries.size == 1
     end
 
     def tag
-      image_info.tags[0] if image_info.entries.size == 1
+      object_info.tags[0] if object_info.entries.size == 1
     end
 
     def to_s
@@ -63,29 +56,23 @@ module Inspec::Resources
     private
 
     def sanitize_options(opts)
-      if !opts[:image].nil?
-        if !opts[:image].index(':').nil?
-          repo, tag = opts[:image].split(':')
-        else
-          opts[:repo] = opts[:image]
-          opts[:image] = nil
-        end
-        opts[:repo] ||= repo
-        opts[:tag] ||= tag
-      end
+      opts.merge!(parse_components_from_image(opts[:image]))
 
-      if !opts[:id].nil?
-        if opts[:id].index(':').nil?
-          opts[:id] = 'sha256:' + opts[:id]
-        end
-      end
-
+      # assume a "latest" tag if we don't have one
       opts[:tag] ||= 'latest'
-      opts[:image] ||= "#{opts[:repo]}:#{opts[:tag]}" unless opts[:repo].nil?
+
+      # if the ID isn't nil and doesn't contain a hash indicator (indicated by the presence
+      # of a colon, which separates the indicator from the actual hash), we assume it's sha256.
+      opts[:id] = 'sha256:' + opts[:id] unless opts[:id].nil? || opts[:id].include?(':')
+
+      # Assemble/reassemble the image from the repo and tag
+      opts[:image] = "#{opts[:repo]}:#{opts[:tag]}" unless opts[:repo].nil?
+
+      # return the santized opts back to the caller
       opts
     end
 
-    def image_info
+    def object_info
       return @info if defined?(@info)
       opts = @opts
       @info = inspec.docker.images.where {

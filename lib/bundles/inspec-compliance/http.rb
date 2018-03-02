@@ -12,10 +12,8 @@ module Compliance
     def self.get(url, headers = nil, insecure)
       uri = _parse_url(url)
       req = Net::HTTP::Get.new(uri.path)
-      if !headers.nil?
-        headers.each do |key, value|
-          req.add_field(key, value)
-        end
+      headers&.each do |key, value|
+        req.add_field(key, value)
       end
       send_request(uri, req, insecure)
     end
@@ -72,7 +70,6 @@ module Compliance
         http.request(req)
       }
       res
-
     rescue OpenSSL::SSL::SSLError => e
       raise e unless e.message.include? 'certificate verify failed'
 

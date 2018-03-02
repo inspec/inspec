@@ -72,7 +72,7 @@ describe 'Inspec::Resources::Package' do
       _(resource.info).must_equal pkg
     end
 
-    it 'can add to `resource_skipped` when `--rpmdb` path does not exist' do
+    it 'can set `resource_skipped` when `--rpmdb` path does not exist' do
       resource = MockLoader.new(:centos7).load_resource(
         'package',
         'curl',
@@ -128,7 +128,7 @@ describe 'Inspec::Resources::Package' do
   end
 
   # darwin (brew)
-  it 'verify brew package parsing' do
+  it 'can parse ouptut from `brew` when package is installed' do
     resource = MockLoader.new(:osx104).load_resource('package', 'curl')
     pkg = { name: 'curl', installed: true, version: '7.52.1', type: 'brew' }
     _(resource.installed?).must_equal true
@@ -136,10 +136,27 @@ describe 'Inspec::Resources::Package' do
     _(resource.info).must_equal pkg
   end
 
+  it 'can parse ouptut from `brew` when package is not installed but exists' do
+    resource = MockLoader.new(:osx104).load_resource('package', 'nginx')
+    pkg = {}
+    _(resource.installed?).must_equal false
+    _(resource.version).must_be_nil
+    _(resource.info).must_equal pkg
+  end
+
+  it 'returns {} when `brew` exits non-zero' do
+    resource = MockLoader.new(:osx104).load_resource('package', 'nope')
+    pkg = {}
+    _(resource.installed?).must_equal false
+    _(resource.version).must_be_nil
+    _(resource.info).must_equal pkg
+  end
+
   # undefined
   it 'verify package handling on unsupported os' do
     resource = MockLoader.new(:undefined).load_resource('package', 'curl')
-    _(resource.installed?).must_equal false
-    _(resource.info).must_be_nil
+    _(resource.info).must_equal({})
+    _(resource.resource_skipped?).must_equal true
+    _(resource.resource_exception_message).must_equal 'The `package` resource is not supported on your OS yet.'
   end
 end

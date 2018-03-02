@@ -1,14 +1,14 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/filter'
 require 'ostruct'
 
 module Inspec::Resources
-  class Processes < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Processes < Inspec.resource(1)
     name 'processes'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the processes InSpec audit resource to test properties for programs that are running on the system.'
     example "
       describe processes('mysqld') do

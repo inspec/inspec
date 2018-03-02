@@ -1,5 +1,6 @@
 ---
 title: About the os Resource
+platform: os
 ---
 
 # os
@@ -52,9 +53,9 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-## os.family? Helpers
+### os.family? Helpers
 
 The `os` audit resource includes a collection of helpers that enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific helpers to test for specific platforms:
 
@@ -102,7 +103,7 @@ Use the following helpers to test for operating system names, releases, and arch
        it { should eq 'foo' }
     end
 
-## os[:family] Symbols
+### os[:family] Symbols
 
 Use `os[:family]` to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific symbols to test for specific platforms:
 

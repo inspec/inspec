@@ -1,13 +1,13 @@
 # encoding: utf-8
-# author: Richard Nixon
-# author: Christoph Hartmann
 
 require 'openssl'
 require 'hashie/mash'
 
 module Inspec::Resources
-  class X509CertificateResource < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class X509CertificateResource < Inspec.resource(1)
     name 'x509_certificate'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Used to test x.509 certificates'
     example "
       describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
@@ -52,7 +52,7 @@ module Inspec::Resources
     end
 
     # Forward these methods directly to OpenSSL::X509::Certificate instance
-    %w{version not_before not_after signature_algorithm public_key }.each do |m|
+    %w{version not_before not_after signature_algorithm public_key}.each do |m|
       define_method m.to_sym do |*args|
         @cert.method(m.to_sym).call(*args)
       end

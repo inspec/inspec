@@ -39,6 +39,7 @@ describe 'Inspec::Resources::Crontab' do
         'day'     => '11',
         'month'   => '9',
         'weekday' => '4',
+        'user'    => nil,
         'command' => '/path/to/script1',
       },
       {
@@ -47,6 +48,7 @@ describe 'Inspec::Resources::Crontab' do
         'day'     => '12',
         'month'   => '10',
         'weekday' => '5',
+        'user'    => nil,
         'command' => '/path/to/script2 arg1 arg2'
       },
     ])
@@ -76,6 +78,46 @@ describe 'Inspec::Resources::Crontab' do
     end
   end
 
+  describe 'query by path' do
+    let(:crontab) { load_resource('crontab', { path: '/etc/cron.d/crondotd' }) }
+
+    it 'prints a nice to_s string' do
+      _(crontab.to_s).must_equal 'crontab for path /etc/cron.d/crondotd'
+    end
+
+    it 'returns all params of the file' do
+      _(crontab.params).must_equal(
+        [{
+          'minute'  => '0',
+          'hour'    => '2',
+          'day'     => '11',
+          'month'   => '9',
+          'weekday' => '4',
+          'user'    => 'root',
+          'command' => '/path/to/crondotd1',
+        },
+         {
+           'minute'  => '1',
+           'hour'    => '3',
+           'day'     => '12',
+           'month'   => '10',
+           'weekday' => '5',
+           'user'    => 'daemon',
+           'command' => '/path/to/crondotd2 arg1 arg2',
+         },
+         {
+           'minute'  => '0',
+           'hour'    => '0',
+           'day'     => '1',
+           'month'   => '1',
+           'weekday' => '*',
+           'user'    => 'root',
+           'command' => '/usr/local/bin/foo.sh bar',
+         }],
+      )
+    end
+  end
+
   describe 'special strings' do
     let(:crontab) { load_resource('crontab', 'special') }
 
@@ -87,6 +129,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '*',
           'month'   => '*',
           'weekday' => '*',
+          'user'    => 'special',
           'command' => '/bin/custom_script.sh',
         },
         {
@@ -95,6 +138,7 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '1',
           'month'   => '1',
           'weekday' => '*',
+          'user'    => 'special',
           'command' => '/usr/local/bin/foo.sh bar'
         },
         {
@@ -103,9 +147,24 @@ describe 'Inspec::Resources::Crontab' do
           'day'     => '-1',
           'month'   => '-1',
           'weekday' => '-1',
+          'user'    => 'special',
           'command' => '/bin/echo "Rebooting" > /var/log/rebooting.log'
         }
       ])
+    end
+  end
+
+  describe 'it raises errors' do
+    it 'raises error on unsupported os' do
+      resource = MockLoader.new(:windows).load_resource('crontab', { user: 'special' })
+      _(resource.resource_skipped?).must_equal true
+      _(resource.resource_exception_message).must_equal 'The `crontab` resource is not supported on your OS.'
+    end
+
+    it 'raises error when no user or path supplied' do
+      resource = load_resource('crontab', {})
+      _(resource.resource_failed?).must_equal true
+      _(resource.resource_exception_message).must_equal 'A user or path must be supplied.'
     end
   end
 end

@@ -1,5 +1,6 @@
 ---
 title: About the csv Resource
+platform: os
 ---
 
 # csv
@@ -13,7 +14,7 @@ Use the `csv` InSpec audit resource to test configuration data in a CSV file.
 A `csv` resource block declares the configuration data to be tested:
 
     describe csv('file') do
-      its('name') { should eq 'foo' }
+      its('name') { should cmp 'foo' }
     end
 
 where
@@ -36,12 +37,18 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
-## Matchers
-
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+## Property Examples
 
 ### name
 
-The `name` matcher tests the value of `name` as read from a CSV file versus the value declared in the test:
+The `name` property tests the value of `name` as read from a CSV file compared to the value declared in the test.
 
-    its('name') { should eq 'foo' }
+    its('name') { should cmp 'foo' }
+
+<br>
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+

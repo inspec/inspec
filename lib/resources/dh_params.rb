@@ -1,11 +1,10 @@
 # encoding: utf-8
-# author: Doc Walker
 
 require 'openssl'
 
 class DhParams < Inspec.resource(1)
   name 'dh_params'
-
+  supports platform: 'unix'
   desc '
     Use the `dh_params` InSpec audit resource to test Diffie-Hellman (DH)
     parameters.
@@ -26,8 +25,7 @@ class DhParams < Inspec.resource(1)
   def initialize(filename)
     @dh_params_path = filename
     file = inspec.file(@dh_params_path)
-    return skip_resource 'Unable to find DH parameters file ' \
-      "#{@dh_params_path}" unless file.exist?
+    return skip_resource "Unable to find DH parameters file #{@dh_params_path}" unless file.exist?
 
     begin
       @dh_params = OpenSSL::PKey::DH.new file.content

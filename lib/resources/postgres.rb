@@ -1,12 +1,10 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
-# author: Aaron Lippold
 
 module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
+    supports platform: 'unix'
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize
@@ -55,13 +53,13 @@ module Inspec::Resources
     private
 
     def verify_dirs
-      if !inspec.directory(@conf_dir).exist?
-        warn "Default postgresql configuration directory: #{@conf_dir} does not exist. Postgresql may not be installed or we've misidentified the configuration directory."
-      end
+      warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
+        "Postgresql may not be installed or we've misidentified the configuration " \
+        'directory.' unless inspec.directory(@conf_dir).exist?
 
-      if !inspec.directory(@data_dir).exist?
-        warn "Default postgresql data directory: #{@data_dir} does not exist. Postgresql may not be installed or we've misidentified the data directory."
-      end
+      warn "Default postgresql data directory: #{@data_dir} does not exist. " \
+        "Postgresql may not be installed or we've misidentified the data " \
+        'directory.' unless inspec.directory(@data_dir).exist?
     end
 
     def version_from_psql

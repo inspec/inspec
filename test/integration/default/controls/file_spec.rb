@@ -117,7 +117,6 @@ if os.unix?
 
     its('content') { should eq 'hello world' }
     its('content') { should match('world') }
-    its('content') { should contain('hello') }
     its('content') { should include('hello') }
     its('size') { should eq 11 }
     its('md5sum') { should eq '5eb63bbbe01eeed093cb22bb8f5acdc3' }

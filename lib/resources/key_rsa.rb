@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Richard Nixon
-# author: Christoph Hartmann
 
 require 'openssl'
 require 'hashie/mash'
@@ -8,13 +6,15 @@ require 'hashie/mash'
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)
     name 'key_rsa'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'public/private RSA key pair test'
     example "
-      describe rsa_key('/etc/pki/www.mywebsite.com.key') do
+      describe key_rsa('/etc/pki/www.mywebsite.com.key') do
         its('public_key') { should match /BEGIN RSA PUBLIC KEY/ }
       end
 
-      describe rsa_key('/etc/pki/www.mywebsite.com.key', 'passphrase') do
+      describe key_rsa('/etc/pki/www.mywebsite.com.key', 'passphrase') do
         it { should be_private }
         it { should be_public }
       end

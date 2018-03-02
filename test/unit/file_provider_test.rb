@@ -45,7 +45,6 @@ describe Inspec::DirProvider do
 
     it 'must not read files not covered' do
       not_covered = File.expand_path('../../helper.rb', __FILE__)
-      puts "#{not_covered}"
       File.file?(not_covered).must_equal true
       subject.read(not_covered).must_be_nil
     end

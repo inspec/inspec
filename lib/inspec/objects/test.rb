@@ -42,7 +42,7 @@ module Inspec
     def describe_chain
       return nil if @qualifier.empty?
 
-      resource = (@qualifier.length > 1) ? @qualifier[0..-2] : [@qualifier[0]]
+      resource = @qualifier.length > 1 ? @qualifier[0..-2] : [@qualifier[0]]
       res = resource.map { |q| ruby_qualifier(q) }.join('.')
       xres = nil
 

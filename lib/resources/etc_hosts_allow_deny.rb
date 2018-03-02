@@ -1,11 +1,11 @@
 # encoding: utf-8
-# author: Matthew Dromazos
 
 require 'utils/parser'
 
 module Inspec::Resources
   class EtcHostsAllow < Inspec.resource(1)
     name 'etc_hosts_allow'
+    supports platform: 'unix'
     desc 'Use the etc_hosts_allow InSpec audit resource to test the connections
           the client will allow. Controlled by the /etc/hosts.allow file.'
     example "
@@ -101,6 +101,7 @@ module Inspec::Resources
 
   class EtcHostsDeny < EtcHostsAllow
     name 'etc_hosts_deny'
+    supports platform: 'unix'
     desc 'Use the etc_hosts_deny InSpec audit resource to test the connections
           the client will deny. Controlled by the /etc/hosts.deny file.'
     example "

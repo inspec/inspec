@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Parses a csv document
 # This implementation was inspired by a blog post
@@ -8,6 +6,10 @@
 module Inspec::Resources
   class CsvConfig < JsonConfig
     name 'csv'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    supports platform: 'esx'
+    supports platform: 'cisco'
     desc 'Use the csv InSpec audit resource to test configuration data in a CSV file.'
     example "
       describe csv('example.csv') do
@@ -34,6 +36,8 @@ module Inspec::Resources
 
       # convert to hash
       csv.to_a.map(&:to_hash)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse CSV: #{e.message}"
     end
 
     # override the value method from JsonConfig
@@ -45,8 +49,12 @@ module Inspec::Resources
       @params.map { |x| x[key.first.to_s] }.compact
     end
 
-    def to_s
-      "Csv #{@path}"
+    private
+
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'CSV'
     end
   end
 end

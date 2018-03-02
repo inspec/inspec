@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # The file format consists of
 # - group name
@@ -29,6 +27,7 @@ module Inspec::Resources
     include CommentParser
 
     name 'etc_group'
+    supports platform: 'unix'
     desc 'Use the etc_group InSpec audit resource to test groups that are defined on Linux and UNIX platforms. The /etc/group file stores details about each group---group name, password, group identifier, along with a comma-separate list of users that belong to the group.'
     example "
       describe etc_group do
@@ -49,13 +48,11 @@ module Inspec::Resources
     end
 
     def groups(filter = nil)
-      entries = filter || @entries
-      entries.map { |x| x['name'] } if !entries.nil?
+      (filter || @entries)&.map { |x| x['name'] }
     end
 
     def gids(filter = nil)
-      entries = filter || @entries
-      entries.map { |x| x['gid'] } if !entries.nil?
+      (filter || @entries)&.map { |x| x['gid'] }
     end
 
     def users(filter = nil)
@@ -85,7 +82,7 @@ module Inspec::Resources
       conditions.each do |k, v|
         idx = fields[k.to_sym]
         next if idx.nil?
-        res = res.select { |x| x[idx] == v.to_s }
+        res = res.select { |x| x[idx].to_s == v.to_s }
       end
 
       EtcGroupView.new(self, res)

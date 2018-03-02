@@ -21,7 +21,7 @@ require 'inspec/dependencies/lockfile'
 require 'inspec/dependencies/dependency_set'
 
 module Inspec
-  class Profile # rubocop:disable Metrics/ClassLength
+  class Profile
     extend Forwardable
 
     def self.resolve_target(target, cache)
@@ -43,7 +43,7 @@ module Inspec
         next if content[key].nil?
         # remove prefix
         rel = Pathname.new(key).relative_path_from(Pathname.new('vendor')).to_s
-        tar = Pathname.new(opts[:cache].path).join(rel)
+        tar = Pathname.new(opts[:vendor_cache].path).join(rel)
 
         FileUtils.mkdir_p tar.dirname.to_s
         Inspec::Log.debug "Copy #{tar} to cache directory"
@@ -56,7 +56,7 @@ module Inspec
       rp = file_provider.relative_provider
 
       # copy embedded dependecies into global cache
-      copy_deps_into_cache(rp, opts) unless opts[:cache].nil?
+      copy_deps_into_cache(rp, opts) unless opts[:vendor_cache].nil?
 
       reader = Inspec::SourceReader.resolve(rp)
       if reader.nil?
@@ -67,18 +67,18 @@ module Inspec
     end
 
     def self.for_fetcher(fetcher, opts)
-      opts[:cache] = opts[:cache] || Cache.new
+      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
       path, writable = fetcher.fetch
       for_path(path, opts.merge(target: fetcher.target, writable: writable))
     end
 
     def self.for_target(target, opts = {})
-      opts[:cache] = opts[:cache] || Cache.new
-      fetcher = resolve_target(target, opts[:cache])
+      opts[:vendor_cache] = opts[:vendor_cache] || Cache.new
+      fetcher = resolve_target(target, opts[:vendor_cache])
       for_fetcher(fetcher, opts)
     end
 
-    attr_reader :source_reader, :backend, :runner_context
+    attr_reader :source_reader, :backend, :runner_context, :check_mode
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -92,10 +92,11 @@ module Inspec
       @controls = options[:controls] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
-      @cache = options[:cache] || Cache.new
+      @cache = options[:vendor_cache] || Cache.new
       @attr_values = options[:attributes]
       @tests_collected = false
       @libraries_loaded = false
+      @check_mode = options[:check_mode] || false
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
@@ -106,7 +107,7 @@ module Inspec
       # we share the backend between profiles.
       #
       # This will cause issues if a profile attempts to load a file via `inspec.profile.file`
-      train_options = options.select { |k, _| k != 'target' } # See https://github.com/chef/inspec/pull/1646
+      train_options = options.reject { |k, _| k == 'target' } # See https://github.com/chef/inspec/pull/1646
       @backend = options[:backend].nil? ? Inspec::Backend.create(train_options) : options[:backend].dup
       @runtime_profile = RuntimeProfile.new(self)
       @backend.profile = @runtime_profile
@@ -135,15 +136,21 @@ module Inspec
     # @returns [TrueClass, FalseClass]
     #
     def supported?
-      supports_os? && supports_runtime?
+      supports_platform? && supports_runtime?
     end
 
-    def supports_os?
-      metadata.supports_transport?(@backend)
+    def supports_platform?
+      if @supports_platform.nil?
+        @supports_platform = metadata.supports_platform?(@backend)
+      end
+      @supports_platform
     end
 
     def supports_runtime?
-      metadata.supports_runtime?
+      if @supports_runtime.nil?
+        @supports_runtime = metadata.supports_runtime?
+      end
+      @supports_runtime
     end
 
     def params
@@ -421,7 +428,7 @@ module Inspec
               [['inspec.yml', source_reader.metadata.content]] +
               [['inspec.lock.deps', YAML.dump(deps)]]
 
-      files.sort { |a, b| a[0] <=> b[0] }
+      files.sort_by { |a| a[0] }
            .map { |f| res << f[0] << "\0" << f[1] << "\0" }
 
       res.digest.unpack('H*')[0]

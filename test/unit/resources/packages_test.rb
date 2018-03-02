@@ -12,6 +12,7 @@ describe 'Inspec::Resources::Packages' do
       status: 'installed',
       name: 'vim',
       version: '7.4.1689-3ubuntu1.2',
+      architecture: 'amd64',
     })
   end
 
@@ -28,6 +29,7 @@ describe 'Inspec::Resources::Packages' do
       status: "installed",
       name: "overlayroot",
       version: "0.27ubuntu1.2",
+      architecture: 'amd64',
     })
   end
 
@@ -44,12 +46,24 @@ describe 'Inspec::Resources::Packages' do
 
   it 'all packages on Ubuntu' do
     resource = MockLoader.new(:ubuntu1604).load_resource('packages', /.+/)
-    _(resource.entries.length).must_equal 12
+    _(resource.entries.length).must_equal 14
+  end
+
+  it 'can find packages with same name but different architectures on Ubuntu' do
+    resource = MockLoader.new(:ubuntu1604).load_resource('packages', /libc6/)
+    _(resource.architectures).must_include 'amd64'
+    _(resource.architectures).must_include 'i386'
+  end
+
+  it 'can find packages with same name but different architectures on CentOS' do
+    resource = MockLoader.new(:centos6).load_resource('packages', /libstdc/)
+    _(resource.architectures).must_include 'x86_64'
+    _(resource.architectures).must_include 'i686'
   end
 
   it 'all packages on CentOS' do
     resource = MockLoader.new(:centos6).load_resource('packages', /.+/)
-    _(resource.entries.length).must_equal 10
+    _(resource.entries.length).must_equal 12
   end
 
   it 'packages on CentOS' do
@@ -60,6 +74,7 @@ describe 'Inspec::Resources::Packages' do
       status: "installed",
       name: "chef-compliance",
       version: "1.3.1-1.el6",
+      architecture: "x86_64",
     })
   end
 

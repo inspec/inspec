@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # This resource talks with OneGet (https://github.com/OneGet/oneget)
 # Its part of Windows Management Framework 5.0 and part of Windows 10
@@ -12,6 +10,7 @@
 module Inspec::Resources
   class OneGetPackage < Inspec.resource(1)
     name 'oneget'
+    supports platform: 'windows'
     desc 'Use the oneget InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses OneGet, which is part of the Windows Management Framework 5.0 and Windows 10. This resource uses the Get-Package cmdlet to return all of the package names in the OneGet repository.'
     example "
       describe oneget('zoomit') do

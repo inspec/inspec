@@ -208,7 +208,6 @@ begin
     out
   end
   # rubocop:enable all
-
 rescue LoadError
   STDERR.puts "\n*** TomlRb not available.\n\n"
 end

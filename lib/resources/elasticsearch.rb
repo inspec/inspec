@@ -5,8 +5,9 @@ require 'hashie/mash'
 require 'resources/package'
 
 module Inspec::Resources
-  class Elasticsearch < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Elasticsearch < Inspec.resource(1)
     name 'elasticsearch'
+    supports platform: 'unix'
     desc "Use the Elasticsearch InSpec audit resource to test the status of nodes in
       an Elasticsearch cluster."
 
@@ -154,9 +155,7 @@ module Inspec::Resources
         raise 'Connection refused - peer certificate issuer is not recognized'
       end
 
-      if !cmd.exit_status.zero?
-        raise "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}"
-      end
+      raise "Error fetching Elastcsearch data from curl #{url}: #{cmd.stderr}" unless cmd.exit_status.zero?
     end
 
     def verify_json_payload!(content)
@@ -164,9 +163,7 @@ module Inspec::Resources
         raise "#{content['error']['type']}: #{content['error']['reason']}"
       end
 
-      if content['_nodes']['successful'].zero?
-        raise 'No successful nodes available in cluster'
-      end
+      raise 'No successful nodes available in cluster' if content['_nodes']['successful'].zero?
     end
   end
 end

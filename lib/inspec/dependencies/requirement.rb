@@ -111,7 +111,7 @@ module Inspec
 
     # load the profile for the requirement
     def profile
-      return @profile if ! @profile.nil?
+      return @profile unless @profile.nil?
       opts = @opts.dup
       opts[:backend] = @backend
       if !@dependencies.nil?

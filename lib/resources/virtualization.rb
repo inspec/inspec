@@ -1,11 +1,11 @@
 # encoding: utf-8
-# author: Takaaki Furukawa
 
 require 'hashie/mash'
 
 module Inspec::Resources
-  class Virtualization < Inspec.resource(1) # rubocop:disable Metrics/ClassLength
+  class Virtualization < Inspec.resource(1)
     name 'virtualization'
+    supports platform: 'linux'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "
       describe virtualization do
@@ -25,11 +25,8 @@ module Inspec::Resources
     "
 
     def initialize
-      unless inspec.os.linux?
-        skip_resource 'The `virtualization` resource is not supported on your OS yet.'
-      else
-        collect_data_linux
-      end
+      @virtualization_data = Hashie::Mash.new
+      collect_data_linux
     end
 
     # add helper methods for easy access of properties
@@ -76,7 +73,7 @@ module Inspec::Resources
 
       # This file should exist on most Xen systems, normally empty for guests
       if inspec.file('/proc/xen/capabilities').exist? &&
-          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Style/MultilineOperationIndentation
+          inspec.file('/proc/xen/capabilities').content =~ /control_d/i # rubocop:disable Layout/MultilineOperationIndentation
         @virtualization_data[:role] = 'host'
       end
       true
@@ -120,11 +117,10 @@ module Inspec::Resources
     # guests will have the hypervisor cpu feature that hosts don't have
     def detect_kvm_from_sys
       return false unless inspec.file('/sys/devices/virtual/misc/kvm').exist?
+      @virtualization_data[:system] = 'kvm'
       if inspec.file('/proc/cpuinfo').content =~ /hypervisor/
-        @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'guest'
       else
-        @virtualization_data[:system] = 'kvm'
         @virtualization_data[:role] = 'host'
       end
       true
@@ -190,7 +186,7 @@ module Inspec::Resources
       return false unless inspec.file('/proc/self/cgroup').exist?
       cgroup_content = inspec.file('/proc/self/cgroup').content
       if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
-          cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Style/MultilineOperationIndentation
+          cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Layout/MultilineOperationIndentation
         @virtualization_data[:system] = $1 # rubocop:disable Style/PerlBackrefs
         @virtualization_data[:role] = 'guest'
       elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
@@ -230,8 +226,7 @@ module Inspec::Resources
     end
 
     def collect_data_linux # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-      # cache data in an instance var to avoid doing multiple detections for a single test
-      @virtualization_data ||= Hashie::Mash.new
+      # This avoids doing multiple detections in a single test
       return unless @virtualization_data.empty?
 
       # each detect method will return true if it matched and was successfully

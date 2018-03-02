@@ -1,7 +1,4 @@
 # encoding: utf-8
-# author: Nolan Davidson
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'hashie/mash'
 require 'utils/database_helpers'
@@ -15,6 +12,8 @@ module Inspec::Resources
   #
   class OracledbSession < Inspec.resource(1)
     name 'oracledb_session'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the oracledb_session InSpec resource to test commands against an Oracle database'
     example "
       sql = oracledb_session(user: 'my_user', pass: 'password')
@@ -60,7 +59,9 @@ module Inspec::Resources
         p = :parse_html_result
       end
 
-      command = "echo \"#{opts}\n#{verify_query(escaped_query)}\nEXIT\" | #{bin} -s #{@user}/#{@password}@//#{@host}:#{@port}/#{@service}"
+      query = verify_query(escaped_query)
+      query += ';' unless query.end_with?(';')
+      command = %{echo "#{opts}\n#{query}\nEXIT" | #{bin} "#{@user}"/"#{@password}"@#{@host}:#{@port}/#{@service}}
       cmd = inspec.command(command)
 
       out = cmd.stdout + "\n" + cmd.stderr

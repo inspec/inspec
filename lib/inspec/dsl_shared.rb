@@ -18,7 +18,15 @@ module Inspec
         # We cannot rely on libraries residing on disk however.
         # TODO: Sandboxing.
         content, path, line = @require_loader.load(rbpath)
-        eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Lint/Eval
+
+        # If we are in the realm of libraries and the LibraryEvalContext
+        # we should have access to the __inspec_binding, which is a Binding
+        # context that provides the correct plane to evaluate all required files to.
+        # It will ensure that embedded calls to `require` still call this
+        # method and get loaded from their correct paths.
+        return __inspec_binding.eval(content, path, line) if defined?(__inspec_binding)
+
+        eval(content, TOPLEVEL_BINDING, path, line) # rubocop:disable Security/Eval
       end
     end
   end

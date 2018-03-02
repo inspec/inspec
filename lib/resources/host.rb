@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 # describe host('example.com') do
@@ -29,6 +27,8 @@ require 'resolv'
 module Inspec::Resources
   class Host < Inspec.resource(1)
     name 'host'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the host InSpec audit resource to test the name used to refer to a specific host and its availability, including the Internet protocols and ports over which that host name should be available.'
     example "
       describe host('example.com') do
@@ -70,9 +70,8 @@ module Inspec::Resources
       end
 
       missing_requirements = @host_provider.missing_requirements(protocol)
-      unless missing_requirements.empty?
-        return skip_resource "The following requirements are not met for this resource: #{missing_requirements.join(', ')}"
-      end
+      return skip_resource 'The following requirements are not met for this resource: ' \
+        "#{missing_requirements.join(', ')}" unless missing_requirements.empty?
     end
 
     def proto

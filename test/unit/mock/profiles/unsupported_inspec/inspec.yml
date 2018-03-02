@@ -1,2 +1,1 @@
-supports:
-- inspec: '>= 99.0.0'
+inspec_version: '>= 99.0.0'

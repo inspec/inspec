@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/object_traversal'
 
@@ -11,6 +9,7 @@ module Inspec::Resources
   # We use Get-WmiObject via Powershell to retrieve all values.
   class WMI < Inspec.resource(1)
     name 'wmi'
+    supports platform: 'windows'
     desc 'request wmi information'
     example "
       describe wmi({
@@ -27,7 +26,7 @@ module Inspec::Resources
 
     def initialize(wmiclass = nil, opts = nil)
       # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_feature` resource is not supported on your OS.' unless inspec.os.windows?
+      return skip_resource 'The `wmi` resource is not supported on your OS.' unless inspec.os.windows?
 
       @options = opts || {}
       # if wmiclass is not a hash, we have to handle deprecation behavior
@@ -67,7 +66,7 @@ module Inspec::Resources
 
       # convert to Get-WmiObject arguments
       params = ''
-      args.each { |key, value| params += " -#{key} \"#{value}\"" }
+      args.each { |key, value| params += " -#{key} \"#{value.gsub('"', '`"')}\"" }
 
       # run wmi command and filter empty wmi
       script = <<-EOH

@@ -1,12 +1,9 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Aaron Lippold
-# author: Adam Leff
 
 module Inspec::Resources
   class KernelModule < Inspec.resource(1)
     name 'kernel_module'
+    supports platform: 'unix'
     desc 'Use the kernel_module InSpec audit resource to test kernel modules on
     Linux platforms. These parameters are located under /lib/modules. Any submodule
     may be tested using this resource.

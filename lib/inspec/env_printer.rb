@@ -41,7 +41,7 @@ module Inspec
     end
 
     def have_shell?
-      ! (@shell.nil? || @shell.empty?)
+      !(@shell.nil? || @shell.empty?)
     end
 
     def have_shell_completion?
@@ -61,26 +61,26 @@ module Inspec
     end
 
     def print_usage_guidance
-      puts <<EOF
-# To use this, eval it in your shell
-#
-#    #{EVAL_COMMANDS[shell]}
-#
-#
-EOF
+      puts <<~EOF
+        # To use this, eval it in your shell
+        #
+        #    #{EVAL_COMMANDS[shell]}
+        #
+        #
+      EOF
     end
 
     def print_detection_warning(device)
-      device.puts <<EOF
-#
-# The shell #{@shell} was auto-detected. If this is incorrect, please
-# specify a shell explicitly by running:
-#
-#     inspec env SHELLNAME
-#
-# Currently supported shells are: #{shells_with_completions.join(', ')}
-#
-EOF
+      device.puts <<~EOF
+        #
+        # The shell #{@shell} was auto-detected. If this is incorrect, please
+        # specify a shell explicitly by running:
+        #
+        #     inspec env SHELLNAME
+        #
+        # Currently supported shells are: #{shells_with_completions.join(', ')}
+        #
+      EOF
     end
 
     def exit_no_completion
@@ -93,14 +93,14 @@ EOF
       if @detected
         $stderr.puts '# Unable to automatically detect shell and no shell was provided.'
       end
-      $stderr.puts <<EOF
-#
-# Please provide the name of your shell via the command line:
-#
-#    inspec env SHELLNAME
-#
-# Currently supported shells are: #{shells_with_completions.join(', ')}
-EOF
+      $stderr.puts <<~EOF
+        #
+        # Please provide the name of your shell via the command line:
+        #
+        #    inspec env SHELLNAME
+        #
+        # Currently supported shells are: #{shells_with_completions.join(', ')}
+      EOF
       exit 1
     end
 

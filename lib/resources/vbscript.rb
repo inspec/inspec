@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'securerandom'
 
@@ -23,6 +21,7 @@ module Inspec::Resources
   # @see https://msdn.microsoft.com/en-us/library/aa364991.aspx
   class VBScript < PowershellScript
     name 'vbscript'
+    supports platform: 'windows'
     desc ''
     example "
       script = <<-EOH
@@ -37,16 +36,16 @@ module Inspec::Resources
     def initialize(vbscript)
       return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
       @seperator = SecureRandom.uuid
-      cmd = <<-EOH
-$vbscript = @"
-#{vbscript}
-Wscript.Stdout.Write "#{@seperator}"
-"@
-$filename = [System.IO.Path]::GetTempFileName() + ".vbs"
-New-Item $filename -type file -force -value $vbscript | Out-Null
-cscript.exe /nologo $filename
-Remove-Item $filename | Out-Null
-EOH
+      cmd = <<~EOH
+        $vbscript = @"
+        #{vbscript}
+        Wscript.Stdout.Write "#{@seperator}"
+        "@
+        $filename = [System.IO.Path]::GetTempFileName() + ".vbs"
+        New-Item $filename -type file -force -value $vbscript | Out-Null
+        cscript.exe /nologo $filename
+        Remove-Item $filename | Out-Null
+      EOH
       super(cmd)
     end
 

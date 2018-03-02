@@ -6,16 +6,8 @@
 
 var animate = !window.matchMedia('(prefers-reduced-motion)').matches;
 
-particlesJS.load('particles-js',  'particles-second' ,  'particles.json', function() {
-  console.log('particles.js loaded - callback');
-});
-
-
 /* Otherwise just put the config content (json): */
-
-particlesJS('particles-second',
-
-{
+var particlesSecond = {
   "particles": {
     "number": {
       "value": 20,
@@ -131,8 +123,8 @@ particlesJS('particles-second',
     "background_size": "cover"
   }
 }
-
-);
+particlesJS('particles-second', particlesSecond);
+particlesJS('particles-third', particlesSecond);
 
 particlesJS('particles-js',
 
@@ -252,5 +244,4 @@ particlesJS('particles-js',
       "background_size": "cover"
     }
   }
-
 );

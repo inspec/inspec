@@ -54,18 +54,6 @@ class SimpleConfig
   end
 
   def parse_params_line(line, opts)
-    # Deprecation handling
-    if opts.key?(:assignment_re)
-      warn '[DEPRECATION] `:assignment_re` is deprecated in favor of `:assignment_regex` '\
-           'and will be removed in the next major version. See: https://github.com/chef/inspec/issues/1709'
-      opts[:assignment_regex] = opts[:assignment_re]
-    end
-    if opts.key?(:key_vals)
-      warn '[DEPRECATION] `:key_vals` is deprecated in favor of `:key_values` '\
-           'and will be removed in the next major version. See: https://github.com/chef/inspec/issues/1709'
-      opts[:key_values] = opts[:key_vals]
-    end
-
     # now line contains what we are interested in parsing
     # check if it is an assignment
     m = opts[:assignment_regex].match(line)

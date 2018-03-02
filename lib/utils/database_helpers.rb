@@ -10,7 +10,7 @@ module DatabaseHelper
     end
 
     def value
-      @row[@name.downcase]
+      @row.nil? ? '' : @row[@name.downcase]
     end
 
     def to_s

@@ -1,5 +1,6 @@
 ---
 title: About the powershell Resource
+platform: windows
 ---
 
 # powershell
@@ -17,7 +18,7 @@ A `powershell` resource block declares a Powershell script to be tested, and the
     EOH
 
     describe powershell(script) do
-      its('matcher') { should eq 'output' }
+      its('property') { should eq 'output' }
     end
 
 where
@@ -80,7 +81,7 @@ No newline:
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exit_status
 

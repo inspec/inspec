@@ -5,7 +5,7 @@
 #
 
 PROGNAME=`basename $0`
-INSTALLER_DIR=/opt/inspec/embedded
+INSTALLER_DIR=/opt/inspec
 CONFIG_DIR=/etc/inspec
 USAGE="usage: $0"
 

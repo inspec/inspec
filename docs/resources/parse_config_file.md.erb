@@ -1,5 +1,6 @@
 ---
 title: About the parse_config_file Resource
+platform: os
 ---
 
 # parse\_config\_file
@@ -66,7 +67,7 @@ The following examples show how to use this InSpec audit resource.
      its('PARAM_X') { should include 'Y' }
     end
 
-## Test a file with an ini-like structure (such as a yum.conf)
+### Test a file with an ini-like structure (such as a yum.conf)
 
     describe parse_config_file('/path/to/yum.conf') do
      its('main') { should include('gpgcheck' => '1') }
@@ -76,7 +77,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### assignment_regex
 

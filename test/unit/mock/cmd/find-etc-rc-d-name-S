@@ -10,3 +10,7 @@
 /etc/rc.d/rc4.d/S08ip6tables
 /etc/rc.d/rc4.d/S90crond
 /etc/rc.d/rc4.d/S55sshd
+/etc/rc2.d/S02apache2
+/etc/rc3.d/S02apache2
+/etc/rc4.d/S02apache2
+/etc/rc5.d/S02apache2

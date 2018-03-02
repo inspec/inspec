@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class IniConfig < JsonConfig
     name 'ini'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the ini InSpec audit resource to test data in a INI file.'
     example "
       descibe ini do
@@ -18,8 +18,12 @@ module Inspec::Resources
       SimpleConfig.new(content).params
     end
 
-    def to_s
-      "INI #{@path}"
+    private
+
+    # used by JsonConfig to build up a full to_s method
+    # based on whether a file path, content, or command was supplied.
+    def resource_base_name
+      'INI'
     end
   end
 end

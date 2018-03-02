@@ -1,13 +1,12 @@
 # encoding: utf-8
 # copyright: 2017, Chef Software, Inc. <legal@chef.io>
-# author: Joshua Timberman
-# author: Alex Pop
 
 require 'utils/filter'
 
 module Inspec::Resources
   class Packages < Inspec.resource(1)
     name 'packages'
+    supports platform: 'unix'
     desc 'Use the packages InSpec audit resource to test properties for multiple packages installed on the system'
     example "
       describe packages(/xserver-xorg.*/) do
@@ -48,6 +47,7 @@ module Inspec::Resources
           .add(:statuses,  field: 'status', style: :simple)
           .add(:names,     field: 'name')
           .add(:versions,  field: 'version')
+          .add(:architectures, field: 'architecture')
           .connect(self, :filtered_packages)
 
     private
@@ -69,7 +69,7 @@ module Inspec::Resources
   end
 
   class PkgsManagement
-    PackageStruct = Struct.new(:status, :name, :version)
+    PackageStruct = Struct.new(:status, :name, :version, :architecture)
     attr_reader :inspec
     def initialize(inspec)
       @inspec = inspec
@@ -80,7 +80,7 @@ module Inspec::Resources
   class Debs < PkgsManagement
     def build_package_list
       # use two spaces as delimiter in case any of the fields has a space in it
-      command = "dpkg-query -W -f='${db:Status-Abbrev}  ${Package}  ${Version}\\n'"
+      command = "dpkg-query -W -f='${db:Status-Abbrev}  ${Package}  ${Version}  ${Architecture}\\n'"
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?
@@ -97,7 +97,7 @@ module Inspec::Resources
   class Rpms < PkgsManagement
     def build_package_list
       # use two spaces as delimiter in case any of the fields has a space in it
-      command = "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}\\n'"
+      command = "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}  %{ARCH}\\n'" # rubocop:disable Style/FormatStringToken
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil?

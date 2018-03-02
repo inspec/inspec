@@ -1,7 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
-# author: Jen Burns
 
 require 'forwardable'
 require 'utils/filter_array'
@@ -9,13 +6,13 @@ require 'utils/filter'
 require 'utils/parser'
 
 module Inspec::Resources
-  # rubocop:disable Metrics/ClassLength
   class AuditDaemon < Inspec.resource(1)
     extend Forwardable
     attr_accessor :lines
     attr_reader :params
 
     name 'auditd'
+    supports platform: 'unix'
     desc 'Use the auditd InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command.'
     example "
       describe auditd.syscall('chown').where {arch == 'b32'} do
@@ -101,7 +98,8 @@ module Inspec::Resources
           'permissions' => perms,
           'key' => key,
           'fields_nokey' => fields_nokey,
-        },)
+        },
+      )
     end
 
     def syscall_rules_for(line)
@@ -128,7 +126,8 @@ module Inspec::Resources
             'permissions' => perms,
             'exit' => exit_field,
             'fields_nokey' => fields_nokey,
-          },)
+          },
+        )
       end
     end
 
@@ -142,7 +141,8 @@ module Inspec::Resources
           'file' => file,
           'key' => key,
           'permissions' => perms,
-        },)
+        },
+      )
     end
 
     def to_s

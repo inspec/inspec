@@ -30,8 +30,10 @@ EOF
   let(:profile_context) { Inspec::ProfileContext.new('test-profile', backend, {}) }
   let(:eval_context) do
     c = Inspec::ControlEvalContext.create(profile_context, resource_dsl)
-    # A lot of mocking here :(
-    c.new(backend, mock(), mock(), mock())
+    # Options that are mocked below are:
+    # backend, conf, dependencies, require_loader, and skip_only_if_eval
+    # See: `lib/inspec/control_eval_context.rb` for more details
+    c.new(backend, {}, mock(), mock(), false)
   end
 
   it 'accepts a context and a resource_dsl' do

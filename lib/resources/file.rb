@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'shellwords'
 
@@ -21,6 +19,8 @@ module Inspec::Resources
     include LinuxMountParser
 
     name 'file'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the file InSpec audit resource to test all system file types, including files, directories, symbolic links, named pipes, sockets, character devices, block devices, and doors.'
     example "
       describe file('path') do
@@ -240,6 +240,8 @@ module Inspec::Resources
       names ||= translate_granular_perms(access_type)
       names ||= translate_uncommon_perms(access_type)
       raise 'Invalid access_type provided' unless names
+
+      names
     end
 
     def translate_common_perms(access_type)
@@ -267,6 +269,8 @@ module Inspec::Resources
         translate_perm_names('full-control') + %w{ChangePermissions}
       when 'take-ownership'
         translate_perm_names('full-control') + %w{TakeOwnership}
+      when 'synchronize'
+        translate_perm_names('full-control') + %w{Synchronize}
       end
     end
 

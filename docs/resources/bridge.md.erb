@@ -1,13 +1,11 @@
 ---
 title: About the bridge Resource
+platform: linux
 ---
 
 # bridge
 
 Use the `bridge` InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
-
-* On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
-* On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
 
 <br>
 
@@ -22,9 +20,28 @@ A `bridge` resource block declares the bridge to be tested and what interface it
 
 <br>
 
+## Properties
+
+* On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
+* On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
+
+<br>
+
+## Property Examples
+
+### interfaces
+
+The `interfaces` property tests if the named interface is present:
+
+    its('interfaces') { should eq 'foo' }
+    its('interfaces') { should eq 'bar' }
+    its('interfaces') { should include('foo') }
+
+<br>
+
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -38,10 +55,3 @@ The `have_interface` matcher tests if the named interface is defined for the net
 
     it { should have_interface 'eth0' }
 
-### interfaces
-
-The `interfaces` matcher tests if the named interface is present:
-
-    its('interfaces') { should eq 'foo' }
-    its('interfaces') { should eq 'bar' }
-    its('interfaces') { should include('foo') }

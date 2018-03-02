@@ -48,7 +48,7 @@ module Inspec
 
     def profile_opts
       {
-        cache: Inspec::Cache.new(cache_path.to_s),
+        vendor_cache: Inspec::Cache.new(cache_path.to_s),
         backend: Inspec::Backend.create(target: 'mock://'),
       }
     end

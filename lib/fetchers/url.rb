@@ -8,7 +8,7 @@ require 'tempfile'
 require 'open-uri'
 
 module Fetchers
-  class Url < Inspec.fetcher(1) # rubocop:disable Metrics/ClassLength
+  class Url < Inspec.fetcher(1)
     MIME_TYPES = {
       'application/x-zip-compressed' => '.zip',
       'application/zip' => '.zip',
@@ -141,7 +141,7 @@ module Fetchers
 
     # Downloads archive to temporary file with side effect :( of setting @archive_type
     def download_archive_to_temp
-      return @temp_archive_path if ! @temp_archive_path.nil?
+      return @temp_archive_path if !@temp_archive_path.nil?
       Inspec::Log.debug("Fetching URL: #{@target}")
       remote = open(@target, http_opts)
       @archive_type = file_type_from_remote(remote) # side effect :(
