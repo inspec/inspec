@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.33 -->
-## [v2.0.33](https://github.com/chef/inspec/tree/v2.0.33) (2018-03-02)
+<!-- latest_release 2.0.34 -->
+## [v2.0.34](https://github.com/chef/inspec/tree/v2.0.34) (2018-03-02)
 
-#### Bug Fixes
-- command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Fix aws-iam-users pagination [#2761](https://github.com/chef/inspec/pull/2761) ([trickyearlobe](https://github.com/trickyearlobe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
 ### Changes since 2.0.32 release
+
+#### Enhancements
+- Fix aws-iam-users pagination [#2761](https://github.com/chef/inspec/pull/2761) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 2.0.34 -->
 
 #### Bug Fixes
 - command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.33 -->
