@@ -50,7 +50,11 @@ module Inspec::Resources
       return false if inspec.os.name.nil? || inspec.os.name == 'mock'
 
       if inspec.os.linux?
-        res = inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+        res = if inspec.platform.name == 'alpine'
+                inspec.backend.run_command("which \"#{@command}\"")
+              else
+                inspec.backend.run_command("bash -c 'type \"#{@command}\"'")
+              end
       elsif inspec.os.windows?
         res = inspec.backend.run_command("Get-Command \"#{@command}\"")
       elsif inspec.os.unix?
