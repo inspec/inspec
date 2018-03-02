@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.0.33 -->
+## [v2.0.33](https://github.com/chef/inspec/tree/v2.0.33) (2018-03-02)
+
+#### Bug Fixes
+- command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.32 -->
+### Changes since 2.0.32 release
+
+#### Bug Fixes
+- command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.33 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
