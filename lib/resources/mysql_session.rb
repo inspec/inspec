@@ -45,7 +45,7 @@ module Inspec::Resources
 
     private
 
-    def escaped_query(query)
+    def escape_string(query)
       Shellwords.escape(query)
     end
 
@@ -56,8 +56,8 @@ module Inspec::Resources
 
       # construct the query
       command = 'mysql'
-      command += " -u#{escaped_query(@user)}" unless @user.nil?
-      command += " -p#{escaped_query(@pass)}" unless @pass.nil?
+      command += " -u#{escape_string(@user)}" unless @user.nil?
+      command += " -p#{escape_string(@pass)}" unless @pass.nil?
 
       if !@socket.nil?
         command += " -S #{@socket}"
