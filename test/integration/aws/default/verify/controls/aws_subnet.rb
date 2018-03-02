@@ -1,7 +1,7 @@
 fixtures = {}
 [
-  'ec2_security_group_default_vpc_id',
-  'ec2_default_vpc_subnet_01_id',
+  'subnet_vpc_id',
+  'subnet_01_id',
   'subnet_01_az',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
@@ -13,12 +13,12 @@ end
 
 control "aws_subnet recall of subnet_01" do
   # Test hash given subnet_id
-  describe aws_subnet(subnet_id: fixtures['ec2_default_vpc_subnet_01_id']) do
+  describe aws_subnet(subnet_id: fixtures['subnet_01_id']) do
     it { should exist }
   end
   
   # Test scalar works
-  describe aws_subnet(fixtures['ec2_default_vpc_subnet_01_id']) do
+  describe aws_subnet(fixtures['subnet_01_id']) do
     it { should exist }
   end
 
@@ -28,9 +28,9 @@ control "aws_subnet recall of subnet_01" do
 end
 
 control "aws_subnet properties of subnet_01" do
-  describe aws_subnet(subnet_id: fixtures['ec2_default_vpc_subnet_01_id']) do
-    its('vpc_id') { should eq fixtures['ec2_security_group_default_vpc_id'] }
-    its('subnet_id') { should eq fixtures['ec2_default_vpc_subnet_01_id'] }
+  describe aws_subnet(subnet_id: fixtures['subnet_01_id']) do
+    its('vpc_id') { should eq fixtures['subnet_vpc_id'] }
+    its('subnet_id') { should eq fixtures['subnet_01_id'] }
     its('cidr_block') { should eq '172.31.96.0/20' }
     its('available_ip_address_count') { should eq 4091 }
     its('availability_zone') { should eq fixtures['subnet_01_az'] }
@@ -39,7 +39,7 @@ control "aws_subnet properties of subnet_01" do
 end
 
 control "aws_subnet matchers of subnet_01" do
-  describe aws_subnet(subnet_id: fixtures['ec2_default_vpc_subnet_01_id']) do
+  describe aws_subnet(subnet_id: fixtures['subnet_01_id']) do
     it { should be_available }
     it { should_not be_mapping_public_ip_on_launch }
     it { should_not be_default_for_az }
