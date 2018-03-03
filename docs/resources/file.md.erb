@@ -100,7 +100,7 @@ not
 
     { should cmp '644' }
 
-Without the zero prefix for the octal value, the InSpec will interpret the it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
+Without the zero prefix for the octal value, InSpec will interpret it as the _decimal_ value 644, which is octal 1024 or `-----w-r-T`, and any test for a file that is `-rw-r--r--` will fail.
 
 ### mtime
 
