@@ -1,24 +1,40 @@
 ---
-title: Resource DSL
+title: Resource Authoring Guide
 ---
 
-# Resource DSL
+# Resource Authoring Guide
 
 Chef InSpec provides a mechanism for defining custom resources. These become
 available with their respective names and provide easy functionality to
 profiles.
 
-## Resource location
+You may choose to distribute your custom resources as a `resource pack` (a special form of an InSpec profile that contains only resources but no controls). Alternatively, you may be developing resources that you would like to contribute to the InSpec project itself (a `core resource`). The syntax and general guidelines are the same for either approach, but there are some differences in file locations and expectations of code quality.
 
-Resources may be added to profiles in the libraries folder:
+This document will first explore writing a resource to be distributed in a resource pack, then expand into important considerations when writing for a broader audience, such as a resource you'd like to contribute to InSpec core.
+
+## Motivation
+
+Suppose that we work for the local police commisioner, and are responsible for verifying the configuration of a roof-mounted spotlight signal.
+
+## File Structure of a Resource Pack
+
+This is the smallest possible resource pack, containing one custom resource (`gordon_config`).
 
 ```bash
 $ tree examples/profile
 examples/profile
-...
 ├── libraries
 │   └── example_config.rb
 ```
+
+The inspec.yml file is minimal, containing only the name of the profile / resource pack:
+
+```yaml
+name: bat-related-signalling
+```
+
+ A more realistic resource pack would include some other files - mostly related to testing - which we will build up and discuss later.
+
 
 ## Resource structure
 
