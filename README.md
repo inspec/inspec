@@ -86,9 +86,18 @@ gem install inspec
 
 Download the image and define a function for convenience:
 
+For Linux:
+
 ```
 docker pull chef/inspec
 function inspec { docker run -it --rm -v $(pwd):/share chef/inspec $@; }
+```
+
+For Windows (PowerShell):
+
+```
+docker pull chef/inspec
+function inspec { docker run -it --rm -v "$(pwd):/share" chef/inspec $args; }
 ```
 
 If you call `inspec` from your shell, it automatically mounts the current directory into the Docker container. Therefore you can easily use local tests and key files. Note: Only files in the current directory and sub-directories are available within the container.
@@ -274,38 +283,38 @@ Which will provide you with:
 
 Remote Targets
 
-Platform | Versions | Architectures
- --- | --- | ---
-AIX | 6.1, 7.1, 7.2 | ppc64
-CentOS | 5, 6, 7 | i386, x86_64
-Debian | 7, 8 | i386, x86_64
-FreeBSD | 9, 10 | i386, amd64
-Mac OS X | 10.9, 10.10, 10.11 | x86_64
-Oracle Enterprise Linux | 5, 6, 7 | i386, x86_64
-Red Hat Enterprise Linux | 5, 6, 7 | i386, x86_64
-Solaris | 10, 11 | sparc, x86
-Windows | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64
-Ubuntu Linux | | x86, x86_64
-SUSE Linux Enterprise Server  | 11, 12 | x86_64
-Scientific Linux | 5.x, 6.x and 7.x | i386, x86_64
-Fedora  | | x86_64
-OpenSUSE | 13.1/13.2/42.1 | x86_64
-OmniOS | | x86_64
-Gentoo Linux | | x86_64
-Arch Linux | | x86_64
-HP-UX | 11.31 | ia64
+| Platform                     | Versions                                         | Architectures |
+| ---------------------------- | ------------------------------------------------ | ------------- |
+| AIX                          | 6.1, 7.1, 7.2                                    | ppc64         |
+| CentOS                       | 5, 6, 7                                          | i386, x86_64  |
+| Debian                       | 7, 8                                             | i386, x86_64  |
+| FreeBSD                      | 9, 10                                            | i386, amd64   |
+| Mac OS X                     | 10.9, 10.10, 10.11                               | x86_64        |
+| Oracle Enterprise Linux      | 5, 6, 7                                          | i386, x86_64  |
+| Red Hat Enterprise Linux     | 5, 6, 7                                          | i386, x86_64  |
+| Solaris                      | 10, 11                                           | sparc, x86    |
+| Windows                      | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64   |
+| Ubuntu Linux                 |                                                  | x86, x86_64   |
+| SUSE Linux Enterprise Server | 11, 12                                           | x86_64        |
+| Scientific Linux             | 5.x, 6.x and 7.x                                 | i386, x86_64  |
+| Fedora                       |                                                  | x86_64        |
+| OpenSUSE                     | 13.1/13.2/42.1                                   | x86_64        |
+| OmniOS                       |                                                  | x86_64        |
+| Gentoo Linux                 |                                                  | x86_64        |
+| Arch Linux                   |                                                  | x86_64        |
+| HP-UX                        | 11.31                                            | ia64          |
 
 *For Windows, PowerShell 3.0 or above is required.*
 
 In addition, runtime support is provided for:
 
-Platform | Versions
- ---- | ----
-Debian | 8
-RHEL | 6, 7
-Ubuntu | 12.04+
-Windows | 7+
-Windows | 2012+
+| Platform | Versions |
+| -------- | -------- |
+| Debian   | 8        |
+| RHEL     | 6, 7     |
+| Ubuntu   | 12.04+   |
+| Windows  | 7+       |
+| Windows  | 2012+    |
 
 ## Documentation
 
@@ -416,13 +425,13 @@ Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.m
 
 ## License
 
-|  |  |
-| ------ | --- |
-| **Author:** | Dominik Richter (<drichter@chef.io>) |
-| **Author:** | Christoph Hartmann (<chartmann@chef.io>) |
+|                |                                           |
+| -------------- | ----------------------------------------- |
+| **Author:**    | Dominik Richter (<drichter@chef.io>)      |
+| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017 Chef Software Inc. |
-| **License:** | Apache License, Version 2.0 |
+| **Copyright:** | Copyright (c) 2017 Chef Software Inc.     |
+| **License:**   | Apache License, Version 2.0               |
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
