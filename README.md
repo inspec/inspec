@@ -86,12 +86,14 @@ gem install inspec
 
 Download the image and define a function for convenience:
 
+For Linux:
+
 ```
 docker pull chef/inspec
 function inspec { docker run -it --rm -v $(pwd):/share chef/inspec $@; }
 ```
 
-On Windows with Docker for Windows and using PowerShell, you may use the following commands:
+For Windows (PowerShell):
 
 ```
 docker pull chef/inspec
