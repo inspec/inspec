@@ -67,13 +67,13 @@ When installing from source, gem dependencies may require ruby build tools to be
 For CentOS/RedHat/Fedora:
 
 ```bash
-yum -y install ruby ruby-devel make gcc
+yum -y install ruby ruby-devel make gcc gcc-c++
 ```
 
 For Ubuntu:
 
 ```bash
-apt-get -y install ruby ruby-dev gcc make
+apt-get -y install ruby ruby-dev gcc g++ make
 ```
 
 To install inspec from [rubygems](https://rubygems.org/):
