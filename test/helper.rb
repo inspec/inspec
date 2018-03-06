@@ -339,7 +339,8 @@ class MockLoader
       # apt
       "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call('etc-apt'),
       # iptables
-      'iptables  -S' => cmd.call('iptables-s'),
+      '/usr/sbin/iptables  -S' => cmd.call('iptables-s'),
+      %{bash -c 'type "/usr/sbin/iptables"'} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call('find-apache2-ports-conf'),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call('find-httpd-ssl-conf'),
