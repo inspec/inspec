@@ -4,5 +4,5 @@
 # author: Christoph Hartmann
 
 module Inspec
-  VERSION = '2.0.36'
+  VERSION = '2.0.37'
 end
