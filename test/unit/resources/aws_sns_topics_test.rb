@@ -42,7 +42,7 @@ end
 #=============================================================================#
 module AwsMSTB
   class Basic < AwsBackendBase
-    def list_topics
+    def list_topics(query = {})
       topics = OpenStruct.new({
         :topics => [
           OpenStruct.new({topic_arn: 'arn:aws:sns:us-east-1:212312313:test-topic-01'}),

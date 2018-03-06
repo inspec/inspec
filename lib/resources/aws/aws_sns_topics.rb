@@ -19,7 +19,16 @@ class AwsSnsTopics < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.list_topics.topics.map(&:to_h)
+    @table = []
+    pagination_opts = nil
+    catch_aws_errors do
+      loop do
+        api_result = backend.list_topics(pagination_opts)
+        @table += api_result.topics.map(&:to_h)
+        break if api_result.next_token.nil?
+        pagination_opts = { next_token: api_result.next_token }
+      end
+    end
   end
 
   # Underlying FilterTable implementation.
@@ -39,8 +48,8 @@ class AwsSnsTopics < Inspec.resource(1)
       BackendFactory.set_default_backend self
       self.aws_client_class = Aws::SNS::Client
 
-      def list_topics
-        aws_service_client.list_topics
+      def list_topics(pagination_opts)
+        aws_service_client.list_topics(pagination_opts)
       end
     end
   end
