@@ -66,7 +66,7 @@ The following examples show how to use this InSpec audit resource.
 The globally unique identifier for the key.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
-      its('key_id') { should cmp 'arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321' }
+      its('key_id') { should cmp '4321dcba-21io-23de-85he-ab0987654321' }
     end
 
 ### arn
@@ -97,7 +97,7 @@ Specifies the number of days since the key was created.
 
 ### key\_state
 
-Specifies the state of the key one of "Enabled", "Disabled", "PendingDeletion", "PendingImport". To just check if the key is enabled or not, use the be_enabled matcher.
+Specifies the state of the key one of "Enabled", "Disabled", "PendingDeletion", "PendingImport". To just check if the key is enabled or not, use the `be_enabled` matcher.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its('key_state') { should cmp "Enabled" }
@@ -111,20 +111,20 @@ Specifies the description of the key.
       its('description') { should cmp "key-description" }
     end
 
-### deletion\_date
+### deletion\_time
 
 Specifies the date and time after which AWS KMS deletes the key. This value is present only when KeyState is PendingDeletion , otherwise this value is nil.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
-      its('deletion_date') { should cmp > Time.now + 7 * 86400 }
+      its('deletion_time') { should cmp > Time.now + 7 * 86400 }
     end
 
-### valid\_to
+### invalidation\_time
 
-Provides the data and time until the key is not valid.  Once the key is not valid, AWS KMS deletes the key and it becomes unusable.  This value will be null unless the keys Origin is EXTERNAL and its matcher have_key_expiration is set to true.
+Provides the date and time until the key is not valid.  Once the key is not valid, AWS KMS deletes the key and it becomes unusable.  This value will be null unless the keys Origin is EXTERNAL and its matcher have_key_expiration is set to true.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
-      its('valid_to') { should cmp > Time.now + 7 * 86400 }
+      its('invalidation_time') { should cmp > Time.now + 7 * 86400 }
     end
 
 ## Matchers
@@ -140,7 +140,7 @@ The test will pass if the specified key's key_state is set to enabled.
     end
     
 ### be\_external
-Provides whether the source of the key's key material is external or from not.  If it is not external than it was created by AWS KMS.  When it is external, the key material was imported from an existing key management infrastructure or the key lacks key material.
+Provides whether the source of the key's key material is external or not.  If it is not external than it was created by AWS KMS.  When it is external, the key material was imported from an existing key management infrastructure or the key lacks key material.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its { should be_external }

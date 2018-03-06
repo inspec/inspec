@@ -90,14 +90,14 @@ class AwsKmsKeyPropertiesTest < Minitest::Test
     assert_nil(AwsKmsKey.new(key_id: 'non-existant').description)
   end
   
-  def test_property_deletion_date
-    assert_equal(TIME_NOW + 10*24*3600, AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').deletion_date)
-    assert_nil(AwsKmsKey.new(key_id: 'non-existant').deletion_date)
+  def test_property_deletion_time
+    assert_equal(TIME_NOW + 10*24*3600, AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').deletion_time)
+    assert_nil(AwsKmsKey.new(key_id: 'non-existant').deletion_time)
   end
   
-  def test_property_valid_to
-    assert_nil(AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').valid_to)
-    assert_nil(AwsKmsKey.new(key_id: 'non-existant').valid_to)
+  def test_property_invalidation_time
+    assert_nil(AwsKmsKey.new('arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111').invalidation_time)
+    assert_nil(AwsKmsKey.new(key_id: 'non-existant').invalidation_time)
   end
   
   def test_property_created_days_ago
@@ -163,7 +163,7 @@ end
 module MAKKSB
   class Empty < AwsBackendBase
     def describe_key(query)
-      {}
+      raise Aws::KMS::Errors::NotFoundException.new(nil, nil)
     end
   end
 
@@ -203,7 +203,7 @@ module MAKKSB
         fixture.arn == query[:key_id]
       end
       return OpenStruct.new({ key_metadata: selected }) unless selected.nil?
-      {}
+      raise Aws::KMS::Errors::NotFoundException.new(nil, nil)
     end 
 
     def get_key_rotation_status(query)
@@ -221,7 +221,7 @@ module MAKKSB
         fixture.arn == query[:key_id]
       end
       return selected unless selected.nil?
-      {}
+      raise Aws::KMS::Errors::NotFoundException.new(nil, nil)
     end
   end
 end
