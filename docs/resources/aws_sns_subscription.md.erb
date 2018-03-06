@@ -2,7 +2,7 @@
 title: About the aws_sns_subscription Resource
 ---
 
-# aws_sns_subscription
+# aws\_sns\_subscription
 
 Use the `aws_sns_subscription` InSpec audit resource to test detailed properties of a AWS SNS Subscription.
 
@@ -30,7 +30,7 @@ As this is the initial release of `aws_sns_subscription`, its limited functional
 
 This InSpec resource accepts the following parameters, which are used to search for the Security Group.
 
-### subscription_arn
+### subscription\_arn
 
 The ARN (Amazon Resource Name) of the AWS SNS Subscription.
 
@@ -62,7 +62,7 @@ The control will pass if the specified Aws Subscription was found.  Use should_n
       it { should_not exist }
     end 
     
-### be_confirmation_authenticated
+### be\_confirmation\_authenticated
 
 Provides whether or not the subscription confirmation request was authenticated.
 
@@ -70,7 +70,7 @@ Provides whether or not the subscription confirmation request was authenticated.
       it { should be_confirmation_authenticated }
     end 
 
-### have_raw_message_delivery
+### have\_raw\_message\_delivery
 
 Provides whether or not the original message is passed as is, not formatted as a json or yaml.
 
@@ -86,7 +86,14 @@ Provides the destination that the SNS Topic will send notifications to.
 
     # Inspect the endpoint
     describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
-      its('endpoint') { should cmp 'arn:aws:sns:us-east-1::test-topic-02' }
+      # If protocol is 'sms', this should be a phone number:
+      its('endpoint') { should cmp '+16105551234' }
+      # If protocol is 'email' or 'email-json', endpoint should be an email address
+      its('endpoint') { should cmp 'myemail@example.com' }
+      # If protocal is 'http', endpoint should be a URL beginning with 'https://'
+      its('endpoint') { should cmp 'https://www.exampleurl.com' }
+      # If the protocol is 'lambda', its endpoint should be the ARN of a AWS Lambda function
+      its('endpoint') { should cmp 'rn:aws:lambda:us-east-1:account-id:function:myfunction' }
     end
     
 ### owner
@@ -104,10 +111,10 @@ Provides the Subscriptions protocol used. For example http, https, email, email-
 
     # Inspect the endpoint
     describe aws_sns_subscription(subscription_arn: 'arn:aws:sns:us-east-1::test-topic-01:b214aff5-a2c7-438f-a753-8494493f2ff6' ) do
-      its('endpoint') { should cmp 'sqs' }
+      its('protocol') { should cmp 'sqs' }
     end
 
-### topic_arn
+### topic\_arn
 
 Provides the SNS Topic arn that the Subscription is associated with.
 

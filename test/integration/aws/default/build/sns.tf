@@ -44,12 +44,6 @@ resource "aws_sqs_queue" "sqs_for_sub_03" {
   name = "${terraform.env}-sqs_for_sub_03"
 }
 
-data "aws_caller_identity" "current" {}
-
-output "account_id" {
-  value = "${data.aws_caller_identity.current.account_id}"
-}
-
 resource "aws_sns_topic_subscription" "subscription_3" {
   topic_arn = "${aws_sns_topic.topic_for_sub_03.arn}"
   protocol  = "sqs"
