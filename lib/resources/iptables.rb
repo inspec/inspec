@@ -70,7 +70,7 @@ module Inspec::Resources
     private
 
     def find_iptables_or_error
-      ['/usr/sbin/iptables', '/sbin/iptables', 'iptables'].each do |cmd|
+      %w{/usr/sbin/iptables /sbin/iptables iptables}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
       end
 
