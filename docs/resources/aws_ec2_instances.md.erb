@@ -1,0 +1,60 @@
+---
+title: About the aws_ec2_instances Resource
+platform: aws
+---
+
+# aws\_ec2\_instances
+
+Use the `aws_ec2_instances` InSpec audit resource to test properties of multiple AWS EC2 instances.
+
+<br>
+
+## Syntax
+
+An `aws_ec2_instances` resource block declares the tests for multiple AWS EC2 instance with filtering
+on many instance properties.
+
+    # test without filters
+    describe aws_ec2_instances do
+      its('entries.count') ( should eq 22 )
+    end
+
+    # Test with a filter (as params)
+    describe aws_ec2_instances.where(instance_id: 'i-01a2349e944580000') do
+      it { should exist }
+    end
+
+    # Test with a filter (as a block)
+    describe aws_ec2_instances.where{ public_ip_address != nil && state == 'running'} do
+      its('instance_id') { should eq [] }
+    end
+
+    # Test with a wildcard filter (as a block)
+    describe aws_ec2_instances.where{ private_dns_name == /.*eu-west.*/' } do
+      its('instance_id') { should eq [] }
+    end
+
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+### Test that an EC2 instance does not exist
+
+    describe aws_ec2_instances.where(instance_id: 'i-01a2349e944580000') do
+      it('entries') { should eq [] }
+    end
+
+<br>
+
+## Properties
+
+`ami_launch_index`, `image_id`, `instance_id`, `instance_type`, `kernel_id`, `key_name`, `launch_time`, `monitoring`, `placement`, `platform`, `private_dns_name`, `private_ip_address`, `product_codes`, `public_dns_name`, `public_ip_address`, `ramdisk_id`, `state`, `state_transition`, `subnet_id`, `vpc_id`, `architecture`, `block_device_mappings`, `client_token`, `ebs_optimized`, `ena_support`, `hypervisor`, `iam_instance_profile`, `instance_lifecycle`, `elastic_gpu_associations`,  `network_interfaces`, `root_device_name`, `root_device_type`, `security`, `source_dest_check`, `spot_instance_request_id`,  `sriov_net_support`, `state_reason`, `tags`, `virtualization_type`
+
+<br>
+
+## Matchers
+
+This InSpec resource has no special matchers.
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
