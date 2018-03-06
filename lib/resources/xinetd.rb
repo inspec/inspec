@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/parser'
 require 'utils/filter'
@@ -8,6 +6,7 @@ require 'utils/filter'
 module Inspec::Resources
   class XinetdConf < Inspec.resource(1)
     name 'xinetd_conf'
+    supports platform: 'unix'
     desc 'Xinetd services configuration.'
     example "
       describe xinetd_conf.services('chargen') do

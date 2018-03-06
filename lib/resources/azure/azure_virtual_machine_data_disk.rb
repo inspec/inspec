@@ -54,6 +54,7 @@ module Inspec::Resources
     #
     # @author Russell Seymour
     def datadisk_details
+      return if failed_resource?
       # Iterate around the data disks on the machine
       properties.storageProfile.dataDisks.each_with_index.map do |datadisk, index|
         # Call function to parse the data disks and return an object based on the parameters

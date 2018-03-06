@@ -1,13 +1,12 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 
 module Inspec::Resources
   class AuditDaemonConf < Inspec.resource(1)
     name 'auditd_conf'
+    supports platform: 'unix'
     desc "Use the auditd_conf InSpec audit resource to test the configuration settings for the audit daemon. This file is typically located under /etc/audit/auditd.conf' on UNIX and Linux platforms."
     example "
       describe auditd_conf do

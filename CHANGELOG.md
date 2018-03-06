@@ -1,29 +1,90 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.6 -->
+<!-- latest_release 2.0.24 -->
+## [v2.0.24](https://github.com/chef/inspec/tree/v2.0.24) (2018-02-26)
+
+#### Merged Pull Requests
+- Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
+
+<!-- release_rollup since=2.0.17 -->
+### Changes since 2.0.17 release
+
+#### Bug Fixes
+- package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
+
+#### Merged Pull Requests
+- Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.24 -->
+- Fix inspec check to work with platforms [#2737](https://github.com/chef/inspec/pull/2737) ([jquick](https://github.com/jquick)) <!-- 2.0.23 -->
+- Reword `it` block in `inspec check` tests to match actual test [#2721](https://github.com/chef/inspec/pull/2721) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.22 -->
+- Update maintainers file [#2728](https://github.com/chef/inspec/pull/2728) ([jquick](https://github.com/jquick)) <!-- 2.0.20 -->
+- remove release-2.0 branch from Travis [#2718](https://github.com/chef/inspec/pull/2718) ([juliandunn](https://github.com/juliandunn)) <!-- 2.0.19 -->
+- InSpec SEO [#2725](https://github.com/chef/inspec/pull/2725) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.18 -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
+## [v2.0.17](https://github.com/chef/inspec/tree/v2.0.17) (2018-02-20)
+
+#### Merged Pull Requests
+- Update shell detect to work with platforms [#2712](https://github.com/chef/inspec/pull/2712) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
+## [v2.0.16](https://github.com/chef/inspec/tree/v2.0.16) (2018-02-20)
+
+#### Merged Pull Requests
+- Fix the /private/var osx issue causing functional tests to fail [#2616](https://github.com/chef/inspec/pull/2616) ([jquick](https://github.com/jquick))
+- package resource: Fix Windows package detection [#2624](https://github.com/chef/inspec/pull/2624) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add in release-2.0 changes to master [#2655](https://github.com/chef/inspec/pull/2655) ([jquick](https://github.com/jquick))
+- Prevent resources from loading if supports check fails [#2665](https://github.com/chef/inspec/pull/2665) ([jquick](https://github.com/jquick))
+- Remove duplicated encryption key test. [#2671](https://github.com/chef/inspec/pull/2671) ([juliandunn](https://github.com/juliandunn))
+- Add `Release:` to AWS `inspec detect` example [#2672](https://github.com/chef/inspec/pull/2672) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fixes merge conflict messages [#2677](https://github.com/chef/inspec/pull/2677) ([kagarmoe](https://github.com/kagarmoe))
+- Fix bundle exec calls [#2670](https://github.com/chef/inspec/pull/2670) ([jquick](https://github.com/jquick))
+- Capture ArgumentErrors from aws. [#2673](https://github.com/chef/inspec/pull/2673) ([jquick](https://github.com/jquick))
+- Hannah Review1 [#2683](https://github.com/chef/inspec/pull/2683) ([hannah-radish](https://github.com/hannah-radish))
+- Revert download button [#2684](https://github.com/chef/inspec/pull/2684) ([hannah-radish](https://github.com/hannah-radish))
+- Add example profiles for AWS/Azure [#2680](https://github.com/chef/inspec/pull/2680) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Fix legacy reporter output to file [#2667](https://github.com/chef/inspec/pull/2667) ([jquick](https://github.com/jquick))
+- Add correct `supports platform` to resources. [#2674](https://github.com/chef/inspec/pull/2674) ([miah](https://github.com/miah))
+- www: fix sidebar stickiness [#2698](https://github.com/chef/inspec/pull/2698) ([arlimus](https://github.com/arlimus))
+- HM website optimization [#2699](https://github.com/chef/inspec/pull/2699) ([hannah-radish](https://github.com/hannah-radish))
+- move /tutorial to /demo [#2700](https://github.com/chef/inspec/pull/2700) ([arlimus](https://github.com/arlimus))
+- HM Mobile IE [#2705](https://github.com/chef/inspec/pull/2705) ([hannah-radish](https://github.com/hannah-radish))
+
+## [v1.51.18](https://github.com/chef/inspec/tree/v1.51.18) (2018-02-12)
+
+#### Merged Pull Requests
+- Force a default reporter for ad-hoc runners [#2610](https://github.com/chef/inspec/pull/2610) ([jquick](https://github.com/jquick))
+- Allow ad-hoc runners to use rspec formats. [#2621](https://github.com/chef/inspec/pull/2621) ([jquick](https://github.com/jquick))
+- Add json fields to schema and add tests. [#2618](https://github.com/chef/inspec/pull/2618) ([jquick](https://github.com/jquick))
+
+## [v1.51.15](https://github.com/chef/inspec/tree/v1.51.15) (2018-02-09)
+
+#### Merged Pull Requests
+- Refactors http doc [#2540](https://github.com/chef/inspec/pull/2540) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors iis_app docs [#2541](https://github.com/chef/inspec/pull/2541) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors iis_site doc [#2542](https://github.com/chef/inspec/pull/2542) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors inetd_conf doc [#2543](https://github.com/chef/inspec/pull/2543) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors ini docs [#2544](https://github.com/chef/inspec/pull/2544) ([kagarmoe](https://github.com/kagarmoe))
+- Kg/interface [#2550](https://github.com/chef/inspec/pull/2550) ([kagarmoe](https://github.com/kagarmoe))
+- Refactors grub_conf doc sligtly; adds os metadata [#2537](https://github.com/chef/inspec/pull/2537) ([kagarmoe](https://github.com/kagarmoe))
+- Use the version of LicenseScout that comes with the Omnibus gem. [#2554](https://github.com/chef/inspec/pull/2554) ([tduffield](https://github.com/tduffield))
+- Fix runner report and json newline [#2601](https://github.com/chef/inspec/pull/2601) ([jquick](https://github.com/jquick))
+
 ## [v1.51.6](https://github.com/chef/inspec/tree/v1.51.6) (2018-02-08)
 
 #### New Features
 - Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.51.0 -->
-### Changes since 1.51.0 release
-
-#### New Features
-- Add new &quot;reporter&quot; system (replacement for &quot;formatters&quot;), support multiple reporters per run [#2464](https://github.com/chef/inspec/pull/2464) ([jquick](https://github.com/jquick)) <!-- 1.51.6 -->
-
-#### Merged Pull Requests
-- Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick)) <!-- 1.51.5 -->
--  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel)) <!-- 1.51.4 -->
-- apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff)) <!-- 1.51.3 -->
-- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus)) <!-- 1.51.2 -->
 
 #### Enhancements
-- packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.51.1 -->
-<!-- release_rollup -->
+- packages resource: Add `architectures` support [#2469](https://github.com/chef/inspec/pull/2469) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
-<!-- latest_stable_release -->
+#### Merged Pull Requests
+- add Inspec::Describe for abstract describe state [#2010](https://github.com/chef/inspec/pull/2010) ([arlimus](https://github.com/arlimus))
+- apache resource: document and deprecate [#2494](https://github.com/chef/inspec/pull/2494) ([adamleff](https://github.com/adamleff))
+-  Improve links to Learn Chef Rally [#2476](https://github.com/chef/inspec/pull/2476) ([tpetchel](https://github.com/tpetchel))
+- Fix travis-ci bundler issue [#2533](https://github.com/chef/inspec/pull/2533) ([jquick](https://github.com/jquick))
+
 ## [v1.51.0](https://github.com/chef/inspec/tree/v1.51.0) (2018-01-25)
 
 #### New Resources
@@ -39,7 +100,6 @@
 
 #### Merged Pull Requests
 - Sort library files before loading them so load order is predictable [#2475](https://github.com/chef/inspec/pull/2475) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v1.50.1](https://github.com/chef/inspec/tree/v1.50.1) (2018-01-17)
 

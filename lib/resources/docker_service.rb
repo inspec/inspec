@@ -1,11 +1,6 @@
 # encoding: utf-8
 #
 # Copyright 2017, Christoph Hartmann
-#
-# author: Christoph Hartmann
-# author: Patrick Muench
-# author: Dominik Richter
-# author: Matt Kulka
 
 require_relative 'docker_object'
 
@@ -14,6 +9,7 @@ module Inspec::Resources
     include Inspec::Resources::DockerObject
 
     name 'docker_service'
+    supports platform: 'unix'
     desc 'Swarm-mode service'
     example "
       describe docker_service('service1') do

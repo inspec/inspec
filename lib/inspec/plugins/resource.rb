@@ -43,8 +43,8 @@ module Inspec
       Inspec::Resource.registry
     end
 
-    def __register(name, obj) # rubocop:disable Metrics/MethodLength
-      cl = Class.new(obj) do
+    def __register(name, obj) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      cl = Class.new(obj) do # rubocop:disable Metrics/BlockLength
         attr_reader :resource_exception_message
 
         def initialize(backend, name, *args)
@@ -57,7 +57,11 @@ module Inspec
           @__resource_name__ = name
 
           # check resource supports
-          check_supports unless @supports.nil?
+          supported = true
+          supported = check_supports unless @supports.nil?
+          test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
+          # do not return if we are supported, or for tests
+          return unless supported || test_backend
 
           # call the resource initializer
           begin
@@ -66,6 +70,11 @@ module Inspec
             skip_resource(e.message)
           rescue Inspec::Exceptions::ResourceFailed => e
             fail_resource(e.message)
+          rescue NoMethodError => e
+            # The new platform resources have methods generated on the fly
+            # for inspec check to work we need to skip these train errors
+            raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
+            skip_resource(e.message)
           end
         end
 
@@ -83,6 +92,7 @@ module Inspec
           status = inspec.platform.supported?(@supports)
           skip_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
           skip_resource(skip_msg) unless status
+          status
         end
 
         def skip_resource(message)

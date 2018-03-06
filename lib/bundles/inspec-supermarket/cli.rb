@@ -29,12 +29,20 @@ module Supermarket
     desc 'exec PROFILE', 'execute a Supermarket profile'
     exec_options
     def exec(*tests)
+      o = opts(:exec).dup
+      diagnose(o)
+      configure_logger(o)
+
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'supermarket://' + t }
 
-      # execute profile from inspec exec implementation
-      diagnose
-      run_tests(tests, opts)
+      runner = Inspec::Runner.new(o)
+      tests.each { |target| runner.add_target(target) }
+
+      exit runner.run
+    rescue ArgumentError, RuntimeError, Train::UserError => e
+      $stderr.puts e.message
+      exit 1
     end
 
     desc 'info PROFILE', 'display Supermarket profile details'

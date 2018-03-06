@@ -5,6 +5,7 @@
 module Inspec::Resources
   class IisApp < Inspec.resource(1)
     name 'iis_app'
+    supports platform: 'windows'
     desc 'Tests IIS application configuration on windows. Supported in server 2012+ only'
     example "
       describe iis_app('/myapp', 'Default Web Site') do

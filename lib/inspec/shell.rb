@@ -47,7 +47,6 @@ module Inspec
       Pry.hooks.add_hook(:before_session, 'inspec_intro') do
         intro
         print_target_info
-        puts
       end
 
       # Track the rules currently registered and what their merge count is.
@@ -105,9 +104,7 @@ module Inspec
       puts <<~EOF
         You are currently running on:
 
-            OS platform: #{mark ctx.os[:name] || 'unknown'}
-            OS family: #{mark ctx.os[:family] || 'unknown'}
-            OS release: #{mark ctx.os[:release] || 'unknown'}
+        #{Inspec::BaseCLI.detect(params: ctx.platform.params, indent: 4, color: 39)}
       EOF
     end
 

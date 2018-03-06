@@ -1,5 +1,6 @@
 ---
 title: About the xml Resource
+platform: os
 ---
 
 # xml
@@ -50,11 +51,11 @@ where
 
 In the above example, you see the use of `@` and `attribute::` which are both methods of fetching attributes.
 
-<br>
-
 In the event the path contains an element which contains periods, the alternate syntax can be used:
 
     its(['root/name.with.a.period']) { should cmp 'so_many_dots' }
+
+<br>
 
 ## Examples
 
@@ -75,7 +76,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### name
 

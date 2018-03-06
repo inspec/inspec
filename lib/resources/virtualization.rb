@@ -1,11 +1,11 @@
 # encoding: utf-8
-# author: Takaaki Furukawa
 
 require 'hashie/mash'
 
 module Inspec::Resources
   class Virtualization < Inspec.resource(1)
     name 'virtualization'
+    supports platform: 'unix'
     desc 'Use the virtualization InSpec audit resource to test the virtualization platform on which the system is running'
     example "
       describe virtualization do
