@@ -51,9 +51,7 @@ The `content` property tests if contents in the file match the value specified i
 
 The following complete example tests the `pg_hba.conf` file in PostgreSQL for MD5 requirements.  The tests look at all `host` and `local` settings in that file, and then compare the MD5 checksums against the values in the test:
 
-    hba_config_file = '/etc/postgresql/9.1/main/pg_hba.conf'
-
-    describe file(hba_config_file) do
+    describe file('/etc/postgresql/9.1/main/pg_hba.conf') do
       its('content') { should match(%r{local\s.*?all\s.*?all\s.*?md5}) }
       its('content') { should match(%r{host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5}) }
       its('content') { should match(%r{host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5}) }
@@ -167,9 +165,7 @@ or:
 
 ### Test the contents of a file for MD5 requirements
 
-    hba_config_file = '/etc/postgresql/9.1/main/pg_hba.conf'
-
-    describe file(hba_config_file) do
+    describe file('/etc/postgresql/9.1/main/pg_hba.conf') do
       its('content') { should match /local\s.*?all\s.*?all\s.*?md5/ }
       its('content') { should match %r{/host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5/} }
       its('content') { should match %r{/host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5/} }
