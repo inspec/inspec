@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.37 -->
-## [v2.0.37](https://github.com/chef/inspec/tree/v2.0.37) (2018-03-06)
+<!-- latest_release 2.0.38 -->
+## [v2.0.38](https://github.com/chef/inspec/tree/v2.0.38) (2018-03-07)
 
-#### Merged Pull Requests
-- iptables resource: Add support for other bin paths [#2783](https://github.com/chef/inspec/pull/2783) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Host resource: use bash over netcat in Linux [#2607](https://github.com/chef/inspec/pull/2607) ([jvale](https://github.com/jvale))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
@@ -15,6 +15,7 @@
 - Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.36 -->
 
 #### Enhancements
+- Host resource: use bash over netcat in Linux [#2607](https://github.com/chef/inspec/pull/2607) ([jvale](https://github.com/jvale)) <!-- 2.0.38 -->
 - AWS API Pagination fixes [#2762](https://github.com/chef/inspec/pull/2762) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.35 -->
 - Fix aws-iam-users pagination [#2761](https://github.com/chef/inspec/pull/2761) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 2.0.34 -->
 
