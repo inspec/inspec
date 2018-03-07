@@ -415,13 +415,22 @@ class MockLoader
       "modprobe --showconfig" => cmd.call('modprobe-config'),
       # get-process cmdlet for processes resource
       '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call('get-process_processes'),
-      # host resource: check to see if netcat is installed
-      %{bash -c 'type "nc"'} => cmd.call('type-nc'),
-      'type "nc"' => cmd.call('type-nc'),
-      # host resource: netcat for TCP reachability check on linux
-      'echo | nc -v -w 1 example.com 1234' => cmd.call('nc-example-com'),
+      # host resource: TCP/UDP reachability check on linux
+      %{bash -c 'type "nc"'} => empty.call,
+      %{bash -c 'type "ncat"'} => empty.call,
+      %{bash -c 'type "timeout"'} => empty.call,
+      %{strings `which bash` | grep -qE '/dev/(tcp|udp)/'} => empty.call,
+      %{echo | nc -v -w 1 -u example.com 1234} => empty.call,
+      %{echo | nc -v -w 1  example.com 1234} => empty.call,
+      'timeout 1 bash -c "< /dev/tcp/example.com/1234"' => empty.call,
+      'timeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: netcat for TCP reachability check on darwin
-      'nc -vz -G 1 example.com 1234' => cmd.call('nc-example-com'),
+      'type "nc"' => empty.call,
+      'type "ncat"' => empty.call,
+      'type "gtimeout"' => empty.call,
+      'nc -vz -G 1 example.com 1234' => empty.call,
+      'gtimeout 1 bash -c "< /dev/tcp/example.com/1234"' => empty.call,
+      'gtimeout 1 bash -c "< /dev/udp/example.com/1234"' => empty.call,
       # host resource: test-netconnection for reachability check on windows
       'Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue -RemotePort 1234| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json' => cmd.call('Test-NetConnection'),
       # postgres tests

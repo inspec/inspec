@@ -55,13 +55,13 @@ module Inspec::Resources
         @protocol = params.fetch(:protocol, 'icmp')
       end
 
-      return skip_resource 'Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource.' unless
-        %w{icmp tcp}.include?(@protocol)
-
       @host_provider = nil
       if inspec.os.linux?
         @host_provider = LinuxHostProvider.new(inspec)
       elsif inspec.os.windows?
+        return skip_resource 'Invalid protocol: only `tcp` and `icmp` protocols are support for the `host` resource on your OS.' unless
+          %w{icmp tcp}.include?(@protocol)
+
         @host_provider = WindowsHostProvider.new(inspec)
       elsif inspec.os.darwin?
         @host_provider = DarwinHostProvider.new(inspec)
@@ -147,6 +147,69 @@ module Inspec::Resources
   end
 
   class UnixHostProvider < HostProvider
+    def initialize(inspec)
+      super
+
+      @has_nc = inspec.command('nc').exist?
+      @has_ncat = inspec.command('ncat').exist?
+      @has_net_redirections = inspec.command("strings `which bash` | grep -qE '/dev/(tcp|udp)/'").exit_status == 0
+    end
+
+    def missing_requirements(protocol)
+      missing = []
+
+      if %w{tcp udp}.include?(protocol) && !@has_nc && !@has_ncat
+        if @has_net_redirections
+          missing << "#{timeout} (part of coreutils) or netcat must be installed" unless inspec.command(timeout).exist?
+        else
+          missing << 'netcat must be installed'
+        end
+      end
+
+      missing
+    end
+
+    def ping(hostname, port, protocol)
+      if %w{tcp udp}.include?(protocol)
+        if @has_nc || @has_ncat
+          resp = inspec.command(netcat_check_command(hostname, port, protocol))
+        else
+          resp = inspec.command("#{timeout} 1 bash -c \"< /dev/#{protocol}/#{hostname}/#{port}\"")
+        end
+      else
+        # fall back to ping, but we can only test ICMP packages with ping
+        resp = inspec.command("ping -w 1 -c 1 #{hostname}")
+      end
+
+      {
+        success: resp.exit_status.to_i.zero?,
+        connection: resp.stderr,
+        socket: resp.stdout,
+      }
+    end
+
+    def netcat_check_command(hostname, port, protocol)
+      if @has_nc
+        base_cmd = 'nc'
+      elsif @has_ncat
+        base_cmd = 'ncat'
+      else
+        return
+      end
+
+      if protocol == 'udp'
+        extra_flags = '-u'
+      else
+        extra_flags = ''
+      end
+
+      "echo | #{base_cmd} -v -w 1 #{extra_flags} #{hostname} #{port}"
+    end
+
+    def timeout
+      'timeout'
+    end
+
     def resolve_with_dig(hostname)
       addresses = []
 
@@ -191,28 +254,8 @@ module Inspec::Resources
   end
 
   class DarwinHostProvider < UnixHostProvider
-    def missing_requirements(protocol)
-      missing = []
-
-      if protocol == 'tcp'
-        missing << 'netcat must be installed' unless inspec.command('nc').exist?
-      end
-
-      missing
-    end
-
-    def ping(hostname, port, protocol)
-      if protocol == 'tcp'
-        resp = inspec.command("nc -vz -G 1 #{hostname} #{port}")
-      else
-        resp = inspec.command("ping -W 1 -c 1 #{hostname}")
-      end
-
-      {
-        success: resp.exit_status.to_i.zero?,
-        connection: resp.stderr,
-        socket: resp.stdout,
-      }
+    def timeout
+      'gtimeout'
     end
 
     def resolve(hostname)
@@ -221,43 +264,6 @@ module Inspec::Resources
   end
 
   class LinuxHostProvider < UnixHostProvider
-    def missing_requirements(protocol)
-      missing = []
-
-      if protocol == 'tcp' && (!inspec.command('nc').exist? && !inspec.command('ncat').exist?)
-        missing << 'netcat must be installed'
-      end
-
-      missing
-    end
-
-    def ping(hostname, port, protocol)
-      if protocol == 'tcp'
-        resp = inspec.command(tcp_check_command(hostname, port))
-      else
-        # fall back to ping, but we can only test ICMP packages with ping
-        resp = inspec.command("ping -w 1 -c 1 #{hostname}")
-      end
-
-      {
-        success: resp.exit_status.to_i.zero?,
-        connection: resp.stderr,
-        socket: resp.stdout,
-      }
-    end
-
-    def tcp_check_command(hostname, port)
-      if inspec.command('nc').exist?
-        base_cmd = 'nc'
-      elsif inspec.command('ncat').exist?
-        base_cmd = 'ncat'
-      else
-        return
-      end
-
-      "echo | #{base_cmd} -v -w 1 #{hostname} #{port}"
-    end
-
     def resolve(hostname)
       resolve_with_getent(hostname)
     end
