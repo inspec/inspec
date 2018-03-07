@@ -1,16 +1,22 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.20 -->
-## [v2.0.20](https://github.com/chef/inspec/tree/v2.0.20) (2018-02-22)
+<!-- latest_release 2.0.24 -->
+## [v2.0.24](https://github.com/chef/inspec/tree/v2.0.24) (2018-02-26)
 
 #### Merged Pull Requests
-- Update maintainers file [#2728](https://github.com/chef/inspec/pull/2728) ([jquick](https://github.com/jquick))
+- Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.17 -->
 ### Changes since 2.0.17 release
 
+#### Bug Fixes
+- package resource: Fix `brew` package detection [#2730](https://github.com/chef/inspec/pull/2730) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.21 -->
+
 #### Merged Pull Requests
+- Move AWS/Azure tests to integration directory [#2675](https://github.com/chef/inspec/pull/2675) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.24 -->
+- Fix inspec check to work with platforms [#2737](https://github.com/chef/inspec/pull/2737) ([jquick](https://github.com/jquick)) <!-- 2.0.23 -->
+- Reword `it` block in `inspec check` tests to match actual test [#2721](https://github.com/chef/inspec/pull/2721) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.22 -->
 - Update maintainers file [#2728](https://github.com/chef/inspec/pull/2728) ([jquick](https://github.com/jquick)) <!-- 2.0.20 -->
 - remove release-2.0 branch from Travis [#2718](https://github.com/chef/inspec/pull/2718) ([juliandunn](https://github.com/juliandunn)) <!-- 2.0.19 -->
 - InSpec SEO [#2725](https://github.com/chef/inspec/pull/2725) ([hannah-radish](https://github.com/hannah-radish)) <!-- 2.0.18 -->
