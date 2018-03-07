@@ -15,33 +15,33 @@ header.bg-gradient.margin-top-offset.short-bg.relative
           br
           | Download InSpec and let's get started.
   .row.strict-center.mobile-row
+  
     .large-6.medium-6.mobile-12.columns.margin-under-xs
       .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
-          hr.center
-          h3 Ruby gem
-          hr.center
-          p.pad-top-xs.pad-under-xs
-            ' InSpec is included in the
-            a href="https://downloads.chef.io/chefdk" ChefDK
-            '  and is available as a standalone
-            a href="https://rubygems.org/gems/inspec" Ruby gem
-            ' .
-          .box-code.shadow.margin-top-xs
-           i#copy.fa.fa-copy.copy.t-purple.mobile-hide onclick="copyToClipboard('#install')"
-           code#install gem install inspec
+          small.t-gray For all OS
+          hr.center.margin-under-xs
+          h3.pad-top-xs Ready-made packages
+          p
+            ' Installable packages that include everything you need to write and execute profiles
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://downloads.chef.io/inspec"
+            i.fa.fa-cloud-download
+            span download inspec 2.0
         .triangle-right
     .large-6.medium-6.mobile-12.columns.margin-under-xs
       .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
-          hr.center
-          h3 Ready-made packages
-          hr.center
-          p.pad-top-xs
-            |  Installable packages that include everything you need to write and execute profiles.
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://downloads.chef.io/inspec"
-            i.fa.fa-cloud-download
-            span download inspec 2.0
+          small.t-gray For OSX users
+          hr.center.margin-under-xs
+          h3.pad-top-xs Homebrew package
+          p.pad-under-xs
+            ' InSpec is available as a standalone
+            a href="https://brew.sh/" Homebrew
+            '  package.
+          .pad-under-xs
+            .box-code.box-code-overwrite.shadow.margin-top-xs
+             i#copy.fa.fa-copy.copy.t-purple.mobile-hide onclick="copyToClipboard('#install')"
+             code#install brew install inspec
         .triangle-right
   #particles-third
     canvas.particles-js-canvas-el /
@@ -51,10 +51,10 @@ header.bg-gradient.margin-top-offset.short-bg.relative
     .large-6.medium-6.mobile-12.columns.margin-under-xs
       .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
-          hr.center
-          h3 Habitat Packages
-          hr.center
-          p.pad-top-xs
+          small.t-gray For habitat users
+          hr.center.margin-under-xs
+          h3.pad-top-xs Habitat packages
+          p
             ' Use
             a href="https://www.habitat.sh/" Habitat
             '  to install InSpec, or include InSpec in your own Habitat packages.
@@ -63,12 +63,19 @@ header.bg-gradient.margin-top-offset.short-bg.relative
     .large-6.medium-6.mobile-12.columns.margin-under-xs
       .box-white.shadow.strict-center.fit-height.relative.slide-up.z-20
         .align-vertical-50
-          hr.center
-          h3 Use Your System Package Manager
-          hr.center
-          p.pad-top-xs
-            |  The same ready-made packages are available via yum and apt, too.
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs href="https://docs.chef.io/packages.html" learn more
+          small.t-gray For ruby users
+          hr.center.margin-under-xs
+          h3.pad-top-xs Ruby gem
+          p.pad-under-xs
+            ' InSpec is included in the
+            a href="https://downloads.chef.io/chefdk" ChefDK
+            '  and is available as a standalone
+            a href="https://rubygems.org/gems/inspec" Ruby gem
+            ' .
+          .pad-under-xs
+            .box-code.shadow.box-code-overwrite.margin-top-xs
+             i#copy.fa.fa-copy.copy.t-purple.mobile-hide onclick="copyToClipboard('#install')"
+             code#install gem install inspec
         .triangle-right
 
 
@@ -91,12 +98,12 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       .large-6.medium-6.mobile-12.columns.margin-under-xs
         .box-white.shadow-dark.strict-center.fit-height.z-20
           img.icon-art.margin-both-xs src="/images/community/bugs.svg" onerror="this.src='/images/community/bugs.png'" alt="image for InSpec bug reporting"/
-          h4.t-purple Give feedback
+          h4.t-purple Report a bug
           p
             ' We rely on your feedback to improve InSpec. Whether you found a bug or have a great idea for an improvement, join us on
             a href="https://github.com/chef/inspec" GitHub
             ' .
-          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.z-20 href="https://github.com/chef/inspec/issues" give feedback
+          a.button.btn-lg.btn-purple.shadow-dark.margin-top-xs.z-20 href="https://github.com/chef/inspec/issues" report a bug
     #particles-second
      canvas.particles-js-canvas-el
 

@@ -83,8 +83,13 @@ a.button {
 	}
 }
 
-.btn-purple-o:focus {
+.btn-purple-o:focus, .btn-purple-o:active {
 	border: 1.5px solid $color-purple !important;
+	background-color: $color-purple !important;
+	color: $color-white !important;
+}
+
+.btn-purple:focus, .btn-purple:active {
 	background-color: $color-purple !important;
 	color: $color-white !important;
 }

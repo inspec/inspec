@@ -22,6 +22,14 @@ code {
 	margin: 0 0 1rem;
 }
 
+.box-code-overwrite {
+  height: $percent_sm;
+  line-height: $percent_sm;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
+
 .box-code code, pre code, .box-dark code {
   color: white;
   font-weight: normal;
