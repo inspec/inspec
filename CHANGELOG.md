@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.39 -->
-## [v2.0.39](https://github.com/chef/inspec/tree/v2.0.39) (2018-03-07)
+<!-- latest_release 2.0.40 -->
+## [v2.0.40](https://github.com/chef/inspec/tree/v2.0.40) (2018-03-07)
 
-#### Enhancements
-- Update shadow resource to use FilterTable [#2642](https://github.com/chef/inspec/pull/2642) ([miah](https://github.com/miah))
+#### Bug Fixes
+- return 1 as exit code for commands that are not available [#2792](https://github.com/chef/inspec/pull/2792) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
@@ -21,6 +21,7 @@
 - Fix aws-iam-users pagination [#2761](https://github.com/chef/inspec/pull/2761) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 2.0.34 -->
 
 #### Bug Fixes
+- return 1 as exit code for commands that are not available [#2792](https://github.com/chef/inspec/pull/2792) ([chris-rock](https://github.com/chris-rock)) <!-- 2.0.40 -->
 - command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.33 -->
 <!-- release_rollup -->
 
