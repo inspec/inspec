@@ -1,31 +1,31 @@
 # encoding: utf-8
 require 'helper'
 
-# MCDCSB = MockConfigDeliveryChannelSingleBackend
+# MCRSB = MockConfigRecorderSingleBackend
 # Abbreviation not used outside this file
 
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
-class AwsConfigDeliveryChannelConstructorTest < Minitest::Test
+class AwsConfigurationRecorderConstructorTest < Minitest::Test
   def setup
-    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigurationRecorder::BackendFactory.select(AwsMCRSB::Basic)
   end
   
   def test_constructor_expected_well_formed_args_scalar
-    AwsConfigDeliveryChannel.new('default')
+    AwsConfigurationRecorder.new('default')
   end
 
   def test_constructor_expected_well_formed_args_hash
-    AwsConfigDeliveryChannel.new(channel_name: 'default')
+    AwsConfigurationRecorder.new(recorder_name: 'default')
   end
   
   def test_constructor_reject_no_params
-    assert_raises(ArgumentError) { AwsConfigDeliveryChannel.new }
+    assert_raises(ArgumentError) { AwsConfigurationRecorder.new }
   end
 
   def test_constructor_reject_unknown_resource_params
-    assert_raises(ArgumentError) { AwsConfigDeliveryChannel.new(bla: 'blabla') }
+    assert_raises(ArgumentError) { AwsConfigurationRecorder.new(bla: 'blabla') }
   end
 end
 
@@ -33,21 +33,21 @@ end
 #                               Recall
 #=============================================================================#
 
-class AwsConfigurationDeliveryChannelRecallTest < Minitest::Test
+class AwsConfigurationRecorderRecallTest < Minitest::Test
   def setup
-    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigurationRecorder::BackendFactory.select(AwsMCRSB::Basic)
   end
   
   def test_search_hit_via_scalar
-    assert AwsConfigDeliveryChannel.new('default').exists?
+    assert AwsConfigurationRecorder.new('default').exists?
   end
 
   def test_search_hit_via_hash
-    assert AwsConfigDeliveryChannel.new(channel_name: 'default').exists?
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').exists?
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').exists?
+    refute AwsConfigurationRecorder.new(recorder_name: 'NonExistentRecorder').exists?
   end
 end
 
@@ -55,33 +55,43 @@ end
 #                               properties
 #=============================================================================#
 
-class AwsConfigDeliveryChannelPropertiesTest < Minitest::Test
+class AwsConfigurationRecorderPropertiesTest < Minitest::Test
   def setup
-    AwsConfigDeliveryChannel::BackendFactory.select(AwsMCDCSB::Basic)
+    AwsConfigurationRecorder::BackendFactory.select(AwsMCRSB::Basic)
   end
 
-  def test_property_channel_name
-    assert_equal('default', AwsConfigDeliveryChannel.new(channel_name: 'default').channel_name)
+  def test_property_recorder_name
+    assert_equal('default', AwsConfigurationRecorder.new(recorder_name: 'default').recorder_name)
   end
 
-  def test_property_s3_bucket_name
-    assert_equal('default_bucket', AwsConfigDeliveryChannel.new(channel_name: 'default').s3_bucket_name)
-    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_bucket_name)
+  def test_property_role_arn
+    assert_equal('arn:aws:iam::721741954427:role/default', AwsConfigurationRecorder.new(recorder_name: 'default').role_arn)
+    assert_nil(AwsConfigurationRecorder.new(recorder_name: 'NonExistentRecorder').role_arn)
   end
   
-  def test_property_s3_key_prefix
-    assert_equal('docs/', AwsConfigDeliveryChannel.new(channel_name: 'default').s3_key_prefix)
-    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').s3_key_prefix)
+  def test_property_resource_types
+    assert_equal(['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'], AwsConfigurationRecorder.new(recorder_name: 'Recorder_2').resource_types)
+    assert_nil(AwsConfigurationRecorder.new(recorder_name: 'NonExistentRecorder').resource_types)
+  end
+end
+
+#=============================================================================#
+#                               Test Matchers
+#=============================================================================#
+class AwsConfigurationRecorderPropertiesTest < Minitest::Test
+  def test_matcher_all_supported
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').recording_all_resource_types?
+    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').recording_all_resource_types?
   end
   
-  def test_property_sns_topic_arn
-    assert_equal('arn:aws:sns:us-east-1:721741954427:sns_topic', AwsConfigDeliveryChannel.new(channel_name: 'default').sns_topic_arn)
-    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').sns_topic_arn)
+  def test_matcher_has_include_global_resource_types
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').recording_all_global_types?
+    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').recording_all_global_types?
   end
   
-  def test_property_delivery_frequency_in_hours
-    assert_equal(24, AwsConfigDeliveryChannel.new(channel_name: 'default').delivery_frequency_in_hours)
-    assert_nil(AwsConfigDeliveryChannel.new(channel_name: 'NonExistentChannel').delivery_frequency_in_hours)
+  def test_matcher_recording
+    assert AwsConfigurationRecorder.new(recorder_name: 'default').recording?
+    refute AwsConfigurationRecorder.new(recorder_name: 'Recorder_1').recording?
   end
 end
 
@@ -90,25 +100,54 @@ end
 #                               Test Fixtures
 #=============================================================================#
 
-module AwsMCDCSB
+module AwsMCRSB
   class Basic < AwsBackendBase
-    def describe_delivery_channels(query)
-      channels = {
+    def describe_configuration_recorders(query)
+      recorders = {
         'default' => OpenStruct.new({
-          :delivery_channels => [
+          :configuration_recorders => [
             name: "default",
-            s3_bucket_name: 'default_bucket',
-            s3_key_prefix: 'docs/',
-            sns_topic_arn: "arn:aws:sns:us-east-1:721741954427:sns_topic",
-            :config_snapshot_delivery_properties => OpenStruct.new({
-              delivery_frequency: "TwentyFour_Hours",
+            role_arn: "arn:aws:iam::721741954427:role/default",
+            :recording_group => OpenStruct.new({
+              all_supported: true,
+              include_global_resource_types: true,
+              resource_types: []
+            }),
+          ]
+        }),
+        'Recorder_2' => OpenStruct.new({
+          :configuration_recorders => [
+            name: "Recorder_2",
+            role_arn: "arn:aws:iam::721741954427:role/Recorder_1",
+            :recording_group => OpenStruct.new({
+              all_supported: false,
+              include_global_resource_types: false,
+              resource_types: ['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP']
             }),
           ]
         }),
         'empty' => {}
       }
-      return channels[query[:delivery_channel_names][0]] unless channels[query[:delivery_channel_names][0]].nil?
-      channels['empty']
+      return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
+      recorders['empty']
+    end
+    
+    def describe_configuration_recorder_status(query)
+      recorders = {
+        'default' => OpenStruct.new({
+          :configuration_recorders_status => [
+            recording: true,
+          ]
+        }),
+        'Recorder_1' => OpenStruct.new({
+          :configuration_recorders_status => [
+            recording: false,
+          ]
+        }),
+        'empty' => {}
+      }
+      return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
+      raise Aws::ConfigService::Errors::NoSuchConfigurationRecorderException(nil, nil)
     end
   end
 end
