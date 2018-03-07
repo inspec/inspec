@@ -23,10 +23,7 @@ describe 'inspec compliance' do
 
   it 'login server url missing' do
     out = inspec('compliance login')
-    # TODO: We need to convince Thor that this is an error
-    # This will be fixed in the 1.0 release of Thor
-    # See: https://github.com/erikhuda/thor/issues/244
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 1
     out.stderr.must_include 'ERROR: "inspec login" was called with no arguments'
   end
 
@@ -39,7 +36,7 @@ describe 'inspec compliance' do
   it 'try to upload a profile without directory' do
     out = inspec('compliance upload')
     out.stderr.must_include 'ERROR: "inspec upload" was called with no arguments'
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 1
   end
 
   it 'try to upload a profile a non-existing path' do
