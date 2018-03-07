@@ -4,7 +4,7 @@ title: InSpec DSL
 
 # InSpec DSL
 
-InSpec is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |inspec resource| framework is compatible with |chef compliance|.
+InSpec is a run-time framework and rule language used to specify compliance, security, and policy requirements. It includes a collection of resources that help you write auditing controls quickly and easily. The syntax used by both open source and |chef compliance| auditing is the same. The open source |InSpec resource| framework is compatible with |chef compliance|.
 
 The InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
@@ -57,7 +57,7 @@ where
 
 ## Advanced concepts
 
-With inspec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a block of tests with at least one valid check.
+With InSpec it is possible to check if at least one of a collection of checks is true. For example: If a setting is configured in two different locations, you may want to test if either configuration A or configuration B have been set. This is accomplished via `describe.one`. It defines a block of tests with at least one valid check.
 
 ```ruby
 describe.one do
@@ -223,7 +223,7 @@ control 'nutcracker-connect-redis-001' do
 end
 ```
 
-Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using inspec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
+Mixing this with other conditionals (like checking existence of the files etc.) can help to test different test paths using InSpec. This way you can skip certain tests which would 100% fail due to the way servers are prepared, but you know that the same test suites are reused later in different circumstances by different teams.
 
 ## Additional metadata for controls
 

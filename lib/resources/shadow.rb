@@ -1,7 +1,7 @@
 # encoding: utf-8
 # copyright: 2016, Chef Software Inc.
 
-require 'forwardable'
+require 'utils/filter'
 
 # The file format consists of
 # - user
@@ -31,86 +31,71 @@ module Inspec::Resources
       end
     "
 
-    extend Forwardable
     attr_reader :params
-    attr_reader :content
     attr_reader :lines
 
     def initialize(path = '/etc/shadow', opts = nil)
       opts ||= {}
       @path = path || '/etc/shadow'
-      @content = opts[:content] || inspec.file(@path).content
-      @lines = @content.to_s.split("\n")
+      @raw_content = opts[:content] || inspec.file(@path).content
+      @lines = @raw_content.to_s.split("\n")
       @filters = opts[:filters] || ''
+      raise Inspec::Exceptions::ResourceSkipped, 'The `shadow` resource is not supported on your OS.' unless inspec.os.unix?
       @params = @lines.map { |l| parse_shadow_line(l) }
     end
 
-    def filter(hm = {})
-      return self if hm.nil? || hm.empty?
-      res = @params
-      filters = ''
-      hm.each do |attr, condition|
-        condition = condition.to_s if condition.is_a? Integer
-        filters += " #{attr} = #{condition.inspect}"
-        res = res.find_all do |line|
-          case line[attr.to_s]
-          when condition
-            true
-          else
-            false
-          end
-        end
-      end
-      content = res.map { |x| x.values.join(':') }.join("\n")
-      Shadow.new(@path, content: content, filters: @filters + filters)
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:users, field: 'user')
+          .add(:passwords, field: 'password')
+          .add(:last_changes, field: 'last_change')
+          .add(:min_days, field: 'min_days')
+          .add(:max_days, field: 'max_days')
+          .add(:warn_days, field: 'warn_days')
+          .add(:inactive_days, field: 'inactive_days')
+          .add(:expiry_date, field: 'expiry_date')
+
+    filter.add(:content) { |t, _|
+      t.entries.map do |e|
+        [e.user, e.password, e.last_change, e.min_days, e.max_days, e.warn_days, e.inactive_days, e.expiry_date].compact.join(':')
+      end.join("\n")
+    }
+
+    filter.add(:count) { |i, _|
+      i.entries.length
+    }
+
+    filter.connect(self, :params)
+
+    def user(filter = nil)
+      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `users` instead.'
+      filter.nil? ? users : users(filter)
     end
 
-    def entries
-      @lines.map do |line|
-        params = parse_shadow_line(line)
-        Shadow.new(@path, content: line,
-                   filters: "#{@filters} on entry user=#{params['user']}")
-      end
+    def password(filter = nil)
+      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `passwords` instead.'
+      filter.nil? ? passwords : passwords(filter)
     end
 
-    def users(name = nil)
-      name.nil? ? map_data('user') : filter(user: name)
+    def last_change(filter = nil)
+      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `last_changes` instead.'
+      filter.nil? ? last_changes : last_changes(filter)
     end
 
-    def passwords(password = nil)
-      password.nil? ? map_data('password') : filter(password: password)
-    end
-
-    def last_changes(filter_by = nil)
-      filter_by.nil? ? map_data('last_change') : filter(last_change: filter_by)
-    end
-
-    def min_days(filter_by = nil)
-      filter_by.nil? ? map_data('min_days') : filter(min_days: filter_by)
-    end
-
-    def max_days(filter_by = nil)
-      filter_by.nil? ? map_data('max_days') : filter(max_days: filter_by)
-    end
-
-    def warn_days(filter_by = nil)
-      filter_by.nil? ? map_data('warn_days') : filter(warn_days: filter_by)
-    end
-
-    def inactive_days(filter_by = nil)
-      filter_by.nil? ? map_data('inactive_days') : filter(inactive_days: filter_by)
-    end
-
-    def expiry_dates(filter_by = nil)
-      filter_by.nil? ? map_data('expiry_date') : filter(expiry_date: filter_by)
+    def expiry_dates(filter = nil)
+      warn '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `expiry_date` instead.'
+      filter.nil? ? expiry_date : expiry_date(filter)
     end
 
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters
       "/etc/shadow#{f}"
     end
-
-    def_delegator :@params, :length, :count
 
     private
 

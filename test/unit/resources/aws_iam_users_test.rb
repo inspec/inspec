@@ -103,7 +103,7 @@ module Maiusb
   #       Empty - No users
   # --------------------------------
   class Empty < AwsBackendBase
-    def list_users
+    def list_users(criteria = {})
       OpenStruct.new({
         users: []
       })
@@ -128,7 +128,7 @@ module Maiusb
   # Carol has a password and MFA device
   class Basic < AwsBackendBase
     # arn, path, user_id omitted
-    def list_users
+    def list_users(criteria = {})
       OpenStruct.new({
         users: [
           OpenStruct.new({

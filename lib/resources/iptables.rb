@@ -52,8 +52,9 @@ module Inspec::Resources
       return @iptables_cache if defined?(@iptables_cache)
 
       # construct iptables command to read all rules
+      bin = find_iptables_or_error
       table_cmd = "-t #{@table}" if @table
-      iptables_cmd = format('iptables %s -S %s', table_cmd, @chain).strip
+      iptables_cmd = format('%s %s -S %s', bin, table_cmd, @chain).strip
 
       cmd = inspec.command(iptables_cmd)
       return [] if cmd.exit_status.to_i != 0
@@ -64,6 +65,16 @@ module Inspec::Resources
 
     def to_s
       format('Iptables %s %s', @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
+    end
+
+    private
+
+    def find_iptables_or_error
+      %w{/usr/sbin/iptables /sbin/iptables iptables}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, 'Could not find `iptables`'
     end
   end
 end

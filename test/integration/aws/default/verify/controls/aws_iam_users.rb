@@ -1,4 +1,7 @@
-describe aws_iam_users.where(has_console_password?: true)
-                      .where(has_mfa_enabled?: false) do
-  it { should exist }
+
+control "aws_iam_users filtering" do
+  describe aws_iam_users.where(has_console_password?: true)
+                        .where(has_mfa_enabled?: false) do
+    it { should exist }
+  end
 end

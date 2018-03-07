@@ -17,7 +17,7 @@ To test properties of the special AWS root user (which owns the account), use th
 
 An `aws_iam_user` resource block declares a user by name, and then lists tests to be performed.
 
-    describe aws_iam_user(name: 'test_user') do
+    describe aws_iam_user(username: 'test_user') do
       it { should exist }
     end
 
@@ -29,19 +29,19 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test that a user does not exist
 
-    describe aws_iam_user(name: 'gone') do
+    describe aws_iam_user(username: 'gone') do
       it { should_not exist }
     end
 
 ### Test that a user has multi-factor authentication enabled
 
-    describe aws_iam_user(name: 'test_user') do
+    describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
     end
 
 ### Test that a service user does not have a password
 
-    describe aws_iam_user(name: 'test_user') do
+    describe aws_iam_user(username: 'test_user') do
       it { should have_console_password }
     end
 

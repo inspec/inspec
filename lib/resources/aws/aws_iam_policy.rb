@@ -70,18 +70,24 @@ class AwsIamPolicy < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
 
-    criteria = { max_items: 1000 } # maxItems max value is 1000
-    resp = backend.list_policies(criteria)
-    @policy = resp.policies.detect do |policy|
-      policy.policy_name == @policy_name
+    policy = nil
+    pagination_opts = { max_items: 1000 }
+    loop do
+      api_result = backend.list_policies(pagination_opts)
+      policy = api_result.policies.detect do |p|
+        p.policy_name == @policy_name
+      end
+      break if policy # Found it!
+      break unless api_result.is_truncated # Not found and no more results
+      pagination_opts[:marker] = api_result.marker
     end
 
-    @exists = !@policy.nil?
+    @exists = !policy.nil?
 
     return unless @exists
-    @arn = @policy[:arn]
-    @default_version_id = @policy[:default_version_id]
-    @attachment_count = @policy[:attachment_count]
+    @arn = policy[:arn]
+    @default_version_id = policy[:default_version_id]
+    @attachment_count = policy[:attachment_count]
   end
 
   def fetch_attached_entities

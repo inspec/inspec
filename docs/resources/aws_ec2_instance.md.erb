@@ -41,7 +41,7 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test that an EC2 instance is using the correct image ID
 
-    describe aws_iam_instance(name: 'my-instance') do
+    describe aws_ec2_instance(name: 'my-instance') do
       its('image_id') { should eq 'ami-27a58d5c' }
     end
 
