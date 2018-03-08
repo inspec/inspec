@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.43 -->
-## [v2.0.43](https://github.com/chef/inspec/tree/v2.0.43) (2018-03-08)
+<!-- latest_release 2.0.44 -->
+## [v2.0.44](https://github.com/chef/inspec/tree/v2.0.44) (2018-03-08)
 
 #### Enhancements
-- Create reporter output directory if it does not exist [#2798](https://github.com/chef/inspec/pull/2798) ([jquick](https://github.com/jquick))
+- Remove os checks from initialize [#2797](https://github.com/chef/inspec/pull/2797) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
@@ -16,6 +16,7 @@
 - Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.36 -->
 
 #### Enhancements
+- Remove os checks from initialize [#2797](https://github.com/chef/inspec/pull/2797) ([miah](https://github.com/miah)) <!-- 2.0.44 -->
 - Create reporter output directory if it does not exist [#2798](https://github.com/chef/inspec/pull/2798) ([jquick](https://github.com/jquick)) <!-- 2.0.43 -->
 - Update shadow resource to use FilterTable [#2642](https://github.com/chef/inspec/pull/2642) ([miah](https://github.com/miah)) <!-- 2.0.39 -->
 - Host resource: use bash over netcat in Linux [#2607](https://github.com/chef/inspec/pull/2607) ([jvale](https://github.com/jvale)) <!-- 2.0.38 -->
