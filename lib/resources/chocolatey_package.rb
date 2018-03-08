@@ -55,7 +55,7 @@ class ChocoPkg < Inspec.resource(1)
       name: package_name,
       version: nil,
       installed: false,
-      type: 'chocolatey'
+      type: 'chocolatey',
     }
   end
 
@@ -71,10 +71,9 @@ class ChocoPkg < Inspec.resource(1)
 
     return {
       version: out.fetch(package_name),
-      installed: true
+      installed: true,
     }
   rescue JSON::ParserError, KeyError
     return {}
   end
 end
-
