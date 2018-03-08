@@ -25,6 +25,10 @@ module Inspec::Reporters
     output = reporter.rendered_output
 
     if config['file']
+      # create destination directory if it does not exist
+      dirname = File.dirname(config['file'])
+      FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+
       File.write(config['file'], output)
     elsif config['stdout'] == true
       print output

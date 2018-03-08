@@ -37,6 +37,15 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 "
   end
 
+  it 'can execute the profile and write to directory' do
+    outpath = Dir.tmpdir
+    out = inspec("exec #{example_profile} --no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 101
+    File.exist?("#{outpath}/foo/bar/test.json").must_equal true
+    File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
+  end
+
   it 'executes a metadata-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'complete-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
