@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.41 -->
-## [v2.0.41](https://github.com/chef/inspec/tree/v2.0.41) (2018-03-08)
+<!-- latest_release 2.0.42 -->
+## [v2.0.42](https://github.com/chef/inspec/tree/v2.0.42) (2018-03-08)
 
-#### Bug Fixes
-- Fix http with connection error [#2770](https://github.com/chef/inspec/pull/2770) ([Wing924](https://github.com/Wing924))
+#### Merged Pull Requests
+- Added the missing variable reference [#2794](https://github.com/chef/inspec/pull/2794) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
 ### Changes since 2.0.32 release
 
 #### Merged Pull Requests
+- Added the missing variable reference [#2794](https://github.com/chef/inspec/pull/2794) ([frezbo](https://github.com/frezbo)) <!-- 2.0.42 -->
 - iptables resource: Add support for other bin paths [#2783](https://github.com/chef/inspec/pull/2783) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.37 -->
 - Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.36 -->
 
