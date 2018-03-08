@@ -176,9 +176,10 @@ module Inspec::Resources
         def run_curl
           return if @ran_curl
 
-          response = inspec.command(curl_command).stdout
+          cmd_result = inspec.command(curl_command)
+          response = cmd_result.stdout
           @ran_curl = true
-          return if response.nil?
+          return if response.nil? || cmd_result.exit_status != 0
 
           # strip any carriage returns to normalize output
           response.delete!("\r")
