@@ -36,7 +36,7 @@ module Inspec::Resources
         @pkgman = Pacman.new(inspec)
       elsif ['darwin'].include?(os[:family])
         @pkgman = Brew.new(inspec)
-      elsif inspec.os.windows?
+      elsif os.windows?
         @pkgman = WindowsPkg.new(inspec)
       elsif ['aix'].include?(os[:family])
         @pkgman = BffPkg.new(inspec)
