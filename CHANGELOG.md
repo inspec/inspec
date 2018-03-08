@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.40 -->
-## [v2.0.40](https://github.com/chef/inspec/tree/v2.0.40) (2018-03-07)
+<!-- latest_release 2.0.41 -->
+## [v2.0.41](https://github.com/chef/inspec/tree/v2.0.41) (2018-03-08)
 
 #### Bug Fixes
-- return 1 as exit code for commands that are not available [#2792](https://github.com/chef/inspec/pull/2792) ([chris-rock](https://github.com/chris-rock))
+- Fix http with connection error [#2770](https://github.com/chef/inspec/pull/2770) ([Wing924](https://github.com/Wing924))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.32 -->
@@ -21,6 +21,7 @@
 - Fix aws-iam-users pagination [#2761](https://github.com/chef/inspec/pull/2761) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 2.0.34 -->
 
 #### Bug Fixes
+- Fix http with connection error [#2770](https://github.com/chef/inspec/pull/2770) ([Wing924](https://github.com/Wing924)) <!-- 2.0.41 -->
 - return 1 as exit code for commands that are not available [#2792](https://github.com/chef/inspec/pull/2792) ([chris-rock](https://github.com/chris-rock)) <!-- 2.0.40 -->
 - command resource: Add `exist?` for Alpine Linux [#2768](https://github.com/chef/inspec/pull/2768) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.33 -->
 <!-- release_rollup -->
