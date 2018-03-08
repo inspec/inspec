@@ -41,10 +41,6 @@ module Inspec::Resources
     def initialize(path = nil)
       @path = path || '/etc/group'
       @entries = parse_group(@path)
-
-      # skip resource if it is not supported on current OS
-      return skip_resource 'The `etc_group` resource is not supported on your OS.' \
-      unless inspec.os.unix?
     end
 
     def groups(filter = nil)

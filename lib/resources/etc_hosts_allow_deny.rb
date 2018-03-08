@@ -20,7 +20,6 @@ module Inspec::Resources
     include CommentParser
 
     def initialize(hosts_allow_path = nil)
-      return skip_resource 'The `etc_hosts_allow` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_path      = hosts_allow_path || '/etc/hosts.allow'
       @content        = nil
       @params         = nil

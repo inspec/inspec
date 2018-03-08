@@ -23,9 +23,6 @@ module Inspec::Resources
       @site_name = site_name
       @cache = nil
       @inspec = inspec
-
-      # verify that this resource is only supported on Windows
-      return skip_resource 'The `iis_app` resource is not supported on your OS.' unless inspec.os.windows?
     end
 
     def application_pool

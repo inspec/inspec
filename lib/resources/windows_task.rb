@@ -28,9 +28,6 @@ module Inspec::Resources
     def initialize(taskuri)
       @taskuri = taskuri
       @cache = nil
-
-      # verify that this resource is only supported on Windows
-      return skip_resource 'The `windows_task` resource is not supported on your OS.' unless inspec.os.windows?
     end
 
     def exists?
