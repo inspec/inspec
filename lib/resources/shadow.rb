@@ -18,15 +18,15 @@ module Inspec::Resources
     name 'shadow'
     supports platform: 'unix'
     desc 'Use the shadow InSpec resource to test the contents of /etc/shadow, '\
-         'which contains the following information for users that may log into '\
+         'which contains information for users that may log into '\
          'the system and/or as users that own running processes.'
     example "
       describe shadow do
-        its('users') { should_not include 'forbidden_user' }
+        its('user') { should_not include 'forbidden_user' }
       end
 
-      describe shadow.users('bin') do
-        its('passwords') { should cmp 'x' }
+      describe shadow.user('bin') do
+        its('password') { should cmp 'x' }
         its('count') { should eq 1 }
       end
     "
@@ -43,52 +43,74 @@ module Inspec::Resources
       @params = @lines.map { |l| parse_shadow_line(l) }
     end
 
-    filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:users, field: 'user')
-          .add(:passwords, field: 'password')
-          .add(:last_changes, field: 'last_change')
-          .add(:min_days, field: 'min_days')
-          .add(:max_days, field: 'max_days')
-          .add(:warn_days, field: 'warn_days')
-          .add(:inactive_days, field: 'inactive_days')
-          .add(:expiry_date, field: 'expiry_date')
+    filtertable = FilterTable.create
+    filtertable
+      .add_accessor(:where)
+      .add_accessor(:entries)
+      .add(:user, field: 'user')
+      .add(:password, field: 'password')
+      .add(:last_change, field: 'last_change')
+      .add(:min_days, field: 'min_days')
+      .add(:max_days, field: 'max_days')
+      .add(:warn_days, field: 'warn_days')
+      .add(:inactive_days, field: 'inactive_days')
+      .add(:expiry_date, field: 'expiry_date')
+      .add(:reserved, field: 'reserved')
 
-    filter.add(:content) { |t, _|
+    filtertable.add(:content) { |t, _|
       t.entries.map do |e|
         [e.user, e.password, e.last_change, e.min_days, e.max_days, e.warn_days, e.inactive_days, e.expiry_date].compact.join(':')
       end.join("\n")
     }
 
-    filter.add(:count) { |i, _|
+    filtertable.add(:count) { |i, _|
       i.entries.length
     }
 
-    filter.connect(self, :params)
+    filtertable.connect(self, :params)
 
-    def user(filter = nil)
-      warn '[DEPRECATION] The shadow `user` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `users` instead.'
-      filter.nil? ? users : users(filter)
+    def filter(query = {})
+      return self if query.nil? || query.empty?
+      res = @params
+      filters = ''
+      query.each do |attr, condition|
+        condition = condition.to_s if condition.is_a? Integer
+        filters += " #{attr} = #{condition.inspect}"
+        res = res.find_all do |line|
+          case line[attr.to_s]
+          when condition
+            true
+          else
+            false
+          end
+        end
+      end
+      content = res.map { |x| x.values.join(':') }.join("\n")
+      Shadow.new(@path, content: content, filters: @filters + filters)
     end
 
-    def password(filter = nil)
-      warn '[DEPRECATION] The shadow `password` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `passwords` instead.'
-      filter.nil? ? passwords : passwords(filter)
+    def users(query = nil)
+      warn '[DEPRECATION] The shadow `users` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `user` instead.'
+      query.nil? ? user : user(query)
     end
 
-    def last_change(filter = nil)
-      warn '[DEPRECATION] The shadow `last_change` property is deprecated and will be removed' \
-       ' in InSpec 3.0.  Please use `last_changes` instead.'
-      filter.nil? ? last_changes : last_changes(filter)
+    def passwords(query = nil)
+      warn '[DEPRECATION] The shadow `passwords` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `password` instead.'
+      query.nil? ? password : password(query)
     end
 
-    def expiry_dates(filter = nil)
+    def last_changes(query = nil)
+      warn '[DEPRECATION] The shadow `last_changes` property is deprecated and will be removed' \
+       ' in InSpec 3.0.  Please use `last_change` instead.'
+      query.nil? ? last_change : last_change(query)
+    end
+
+    def expiry_dates(query = nil)
       warn '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will be removed' \
        ' in InSpec 3.0.  Please use `expiry_date` instead.'
-      filter.nil? ? expiry_date : expiry_date(filter)
+      query.nil? ? expiry_date : expiry_date(query)
     end
 
     def to_s

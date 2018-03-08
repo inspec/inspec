@@ -11,16 +11,16 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'retrieve users via field' do
-    _(shadow.users).must_equal %w{root www-data}
+    _(shadow.user).must_equal %w{root www-data}
     _(shadow.count).must_equal 2
   end
 
   it 'retrieve passwords via field' do
-    _(shadow.passwords).must_equal %w{x !!}
+    _(shadow.password).must_equal %w{x !!}
   end
 
   it 'retrieve last password change via field' do
-    _(shadow.last_changes).must_equal %w{1 10}
+    _(shadow.last_change).must_equal %w{1 10}
   end
 
   it 'retrieve min password days via field' do
@@ -56,21 +56,21 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'returns deprecation notice on user property' do
-    proc { _(shadow.user).must_equal %w{root www-data} }.must_output nil,
-      '[DEPRECATION] The shadow `user` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `users` instead.\n"
+    proc { _(shadow.users).must_equal %w{root www-data} }.must_output nil,
+      '[DEPRECATION] The shadow `users` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `user` instead.\n"
   end
 
   it 'returns deprecatation notice on password property' do
-    proc { _(shadow.password).must_equal %w{x !!} }.must_output nil,
-      '[DEPRECATION] The shadow `password` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `passwords` instead.\n"
+    proc { _(shadow.passwords).must_equal %w{x !!} }.must_output nil,
+      '[DEPRECATION] The shadow `passwords` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `password` instead.\n"
   end
 
   it 'returns deprecation notice on last_change property' do
-    proc { _(shadow.last_change).must_equal %w{1 10} }.must_output nil,
-      '[DEPRECATION] The shadow `last_change` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `last_changes` instead.\n"
+    proc { _(shadow.last_changes).must_equal %w{1 10} }.must_output nil,
+      '[DEPRECATION] The shadow `last_changes` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `last_change` instead.\n"
   end
 
   it 'returns deprecation notice on expiry_dates property' do
@@ -79,11 +79,18 @@ describe 'Inspec::Resources::Shadow' do
       " be removed in InSpec 3.0.  Please use `expiry_date` instead.\n"
   end
 
+  describe 'multiple filters' do
+    it 'filters with min_days and max_days' do
+      _(shadow.filter(min_days: 20, max_days: 30).user).must_equal ['www-data']
+      _(shadow.filter(last_change: 1, min_days: 2).user).must_equal ['root']
+    end
+  end
+
   describe 'filter via name =~ /^www/' do
-    let(:child) { shadow.users(/^www/) }
+    let(:child) { shadow.user(/^www/) }
 
     it 'filters by user via name (regex)' do
-      _(child.users).must_equal ['www-data']
+      _(child.user).must_equal ['www-data']
       _(child.count).must_equal 1
     end
 
@@ -93,10 +100,10 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   describe 'filter via name = root' do
-    let(:child) { shadow.users('root') }
+    let(:child) { shadow.user('root') }
 
     it 'filters by user name' do
-      _(child.users).must_equal %w{root}
+      _(child.user).must_equal %w{root}
       _(child.count).must_equal 1
     end
   end
@@ -105,7 +112,7 @@ describe 'Inspec::Resources::Shadow' do
     let(:child) { shadow.min_days('20') }
 
     it 'filters by property' do
-      _(child.users).must_equal %w{www-data}
+      _(child.user).must_equal %w{www-data}
       _(child.count).must_equal 1
     end
   end
@@ -118,5 +125,4 @@ describe 'Inspec::Resources::Shadow' do
         .must_equal 'Resource Shadow is not supported on platform windows/6.2.9200.'
     end
   end
-
 end
