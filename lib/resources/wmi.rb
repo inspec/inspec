@@ -25,9 +25,6 @@ module Inspec::Resources
     attr_accessor :content
 
     def initialize(wmiclass = nil, opts = nil)
-      # verify that this resource is only supported on Windows
-      return skip_resource 'The `wmi` resource is not supported on your OS.' unless inspec.os.windows?
-
       @options = opts || {}
       # if wmiclass is not a hash, we have to handle deprecation behavior
       if wmiclass.is_a?(Hash)

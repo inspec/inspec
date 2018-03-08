@@ -40,7 +40,6 @@ module Inspec::Resources
       @raw_content = opts[:content] || inspec.file(@path).content
       @lines = @raw_content.to_s.split("\n")
       @filters = opts[:filters] || ''
-      raise Inspec::Exceptions::ResourceSkipped, 'The `shadow` resource is not supported on your OS.' unless inspec.os.unix?
       @params = @lines.map { |l| parse_shadow_line(l) }
     end
 

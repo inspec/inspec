@@ -17,12 +17,10 @@ module Inspec::Resources
     attr_reader :params, :conf_file
 
     def initialize(ident_conf_path = nil)
-      return skip_resource 'The `postgres_ident_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
       @content = nil
       @params = nil
       read_content
-      return skip_resource '`pg_ident_conf` is not yet supported on your OS' if inspec.os.windows?
     end
 
     filter = FilterTable.create

@@ -4,7 +4,9 @@ require 'utils/parser'
 
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
-  supports platform: 'unix'
+  supports platform: 'linux'
+  supports platform: 'bsd'
+  supports platform: 'windows'
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "
@@ -20,7 +22,6 @@ class EtcHosts < Inspec.resource(1)
   include CommentParser
 
   def initialize(hosts_path = nil)
-    return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.bsd? || inspec.os.linux? || inspec.os.windows?
     @conf_path      = hosts_path || default_hosts_file_path
     @content        = nil
     @params         = nil

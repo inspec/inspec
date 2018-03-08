@@ -34,7 +34,6 @@ module Inspec::Resources
     "
 
     def initialize(vbscript)
-      return skip_resource 'The `vbscript` resource is not supported on your OS yet.' unless inspec.os.windows?
       @seperator = SecureRandom.uuid
       cmd = <<~EOH
         $vbscript = @"

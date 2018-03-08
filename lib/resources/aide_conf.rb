@@ -27,7 +27,6 @@ module Inspec::Resources
     include CommentParser
 
     def initialize(aide_conf_path = nil)
-      return skip_resource 'The `aide_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_path = aide_conf_path || '/etc/aide.conf'
       @content = nil
       @rules = nil

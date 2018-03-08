@@ -18,7 +18,6 @@ module Inspec::Resources
 
     # @todo add checks to ensure that we have data in our file
     def initialize(hba_conf_path = nil)
-      return skip_resource 'The `postgres_hba_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_file = hba_conf_path || File.expand_path('pg_hba.conf', inspec.postgres.conf_dir)
       @content = ''
       @params = {}

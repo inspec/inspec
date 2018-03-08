@@ -8,7 +8,7 @@ module Inspec::Resources
     ###
 
     name 'firewalld'
-    supports platform: 'unix'
+    supports platform: 'linux'
     desc 'Use the firewalld resource to check and see if firewalld is configured to grand or deny access to specific hosts or services'
     example "
       describe firewalld do
@@ -38,7 +38,6 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def initialize
-      return skip_resource 'The `firewalld` resource is not supported on your OS.' unless inspec.os.linux?
       @params = parse_active_zones(active_zones)
     end
 

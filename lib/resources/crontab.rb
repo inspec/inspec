@@ -45,7 +45,6 @@ module Inspec::Resources
         @user = opts
         @path = nil
       end
-      raise Inspec::Exceptions::ResourceSkipped, 'The `crontab` resource is not supported on your OS.' unless inspec.os.unix?
       @params = read_crontab
     end
 

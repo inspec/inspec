@@ -28,7 +28,6 @@ module Inspec::Resources
     include CommentParser
 
     def initialize(fstab_path = nil)
-      return skip_resource 'The `etc_fstab` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_path      = fstab_path || '/etc/fstab'
       @files_contents = {}
       @content        = nil
