@@ -40,9 +40,9 @@ module Inspec::Resources
     def initialize(path = '/etc/shadow', opts = nil)
       opts ||= {}
       @path = path || '/etc/shadow'
+      @filters = opts[:filters] || ''
       @raw_content = opts[:content] || read_file_content(@path, allow_empty: true)
       @lines = @raw_content.to_s.split("\n")
-      @filters = opts[:filters] || ''
       @params = @lines.map { |l| parse_shadow_line(l) }
     end
 
