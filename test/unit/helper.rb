@@ -7,3 +7,5 @@ require 'json'
 require 'ostruct'
 
 require_relative 'lib/resource_support/aws'
+require 'resources/azure/azure_backend'
+
