@@ -60,26 +60,38 @@ module Inspec::Resources
     end
 
 
-    # return the vnet id
+    # return the vNet id
     # @return string id of the network.
     def id
       properties.id
     end
 
-     # return the Azure Resource type
+    # return the Azure Resource type
     # @return string id of the network.
     def type
       properties.type
     end
 
-    # Return the name of the os disk
+    # return the Azure Resource location
+    # @return string location of the network.
+    def location
+      properties.location
+    end
+
+    # return the Azure Resource name
+    # @return string name of the network.
+    def name
+      properties.name
+    end
+
+    # Return the addressPrefixes
     #
-    # @return string Name of the OS disk
+    # @return string properties.addressSpace.addressPrefixes of the vNet
     def address_prefixes
       properties.addressSpace.addressPrefixes
     end
 
-    # How many DNS Server entries are configured
+    # Are there any DNS servers configured
     # for this virtual network
     # @return boolean
     def has_dns_servers?
@@ -103,10 +115,9 @@ module Inspec::Resources
       properties.subnets.count
     end
 
-    # Return an array of the connected NICs so that it can be tested to ensure
-    # the machine is connected properly
+    # Return an array of the connected subnets
     #
-    # @return array Array of NIC names connected to the machine
+    # @return array Array of subnet names connected to the machine
     def connected_subnets
       subnet_names = []
       properties.subnets.each do |subnet|

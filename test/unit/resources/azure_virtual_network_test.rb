@@ -1,5 +1,5 @@
 require 'helper'
-
+require 'resources/azure/azure_backend'
 # AzureBB = MockAzureVirtualNetworkSingularBackend
 # Abbreviation not used outside this file
 
