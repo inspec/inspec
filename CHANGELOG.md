@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.0.46 -->
+## [v2.0.46](https://github.com/chef/inspec/tree/v2.0.46) (2018-03-09)
+
+#### Merged Pull Requests
+- Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.45 -->
+### Changes since 2.0.45 release
+
+#### Merged Pull Requests
+- Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.46 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
