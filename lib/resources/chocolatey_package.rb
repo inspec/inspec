@@ -43,7 +43,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "Package #{package_name}"
+      "Chocolatey package #{package_name}"
     end
 
     private
@@ -53,7 +53,7 @@ module Inspec::Resources
         name: package_name,
         version: nil,
         installed: false,
-        type: 'windows',
+        type: 'chocolatey',
       }
     end
 
