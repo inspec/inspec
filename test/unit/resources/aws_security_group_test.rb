@@ -160,6 +160,7 @@ module AwsMESGSB
           group_name: 'alpha',
           vpc_id: 'vpc-aaaabbbb',
           ip_permissions: [],
+          ip_permissions_egress: [],
         }),
         OpenStruct.new({
           description: 'Awesome Group',
@@ -184,7 +185,17 @@ module AwsMESGSB
                 OpenStruct.new({cidr_ip:"10.1.4.0/24"}),
               ]
             }),
-          ]
+          ],
+          ip_permissions_egress: [
+            OpenStruct.new({
+              from_port: 123,
+              to_port: 123,
+              ip_protocol: "udp",
+              ip_ranges: [
+                OpenStruct.new({cidr_ip:"128.138.140.44/32"}),
+              ]
+            }),
+          ],          
         }),
         OpenStruct.new({
           description: 'Open Group',
@@ -201,6 +212,7 @@ module AwsMESGSB
               ]
             }),
           ],
+          ip_permissions_egress: [],          
         }),
       ]
 

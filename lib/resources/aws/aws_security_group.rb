@@ -9,7 +9,7 @@ class AwsSecurityGroup < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :description, :group_id, :group_name, :vpc_id
+  attr_reader :description, :group_id, :group_name, :vpc_id, :inbound_rules, :outbound_rules
 
   def to_s
     "EC2 Security Group #{@group_id}"
@@ -70,6 +70,8 @@ class AwsSecurityGroup < Inspec.resource(1)
 
     if dsg_response.security_groups.empty?
       @exists = false
+      @inbound_rules = []
+      @outbound_rules = []
       return
     end
 
@@ -78,6 +80,8 @@ class AwsSecurityGroup < Inspec.resource(1)
     @group_id   = dsg_response.security_groups[0].group_id
     @group_name = dsg_response.security_groups[0].group_name
     @vpc_id     = dsg_response.security_groups[0].vpc_id
+    @inbound_rules = dsg_response.security_groups[0].ip_permissions.map(&:to_h)
+    @outbound_rules = dsg_response.security_groups[0].ip_permissions_egress.map(&:to_h)
   end
 
   class Backend
