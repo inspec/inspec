@@ -15,6 +15,11 @@ class AwsSecurityGroup < Inspec.resource(1)
     "EC2 Security Group #{@group_id}"
   end
 
+  def allow?(rules)
+    true
+  end
+  RSpec::Matchers.alias_matcher :allow, :be_allow
+
   private
 
   def validate_params(raw_params)
