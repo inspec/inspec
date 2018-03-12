@@ -152,33 +152,31 @@ A String reflecting the name that was given to the SG at creation time.
 
 ### inbound_rules
 
-A list of the rules that the security group applies to incoming network traffic. This is usually used with the [`allow`](#allow) and [`reject`](#reject) matchers; see them for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. By default, AWS includes a reject-all rule as the last inbound rule.
+A list of the rules that the security group applies to incoming network traffic. This is usually used with the [`allow`](#allow) matcher; see it for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. By default, AWS includes a reject-all rule as the last inbound rule.
 
 If the security group could not be found (that is, `exists` is false), `inbound_rules` will return an empty list.
 
     describe aws_security_group(group_name: linux_servers) do
       # This passes if there is any inbound rule that includes 
       # port 22 and the given IP range, regardless of protocol, etc.
-      its('inbound_rules') { should allow(port: 22, source '10.5.0.0/16') }
+      its('inbound_rules') { should allow(port: 22, ipv4_range '10.5.0.0/16') }
 
-      # You can also treat it at the lower level, as an array of hashes.
-      # This bypasses all smart matching, like port range inclusion
-      its('inbound_rules.first') { should include(action: 'ACCEPT', from: '22', source: '10.2.17.0/24') }
+      # You can also treat it at the lower level, as an array of structures.
+      its('inbound_rules.first') { should include(from_port: '22', ip_ranges: ['10.2.17.0/24']) }
     end
 
 ### outbound_rules
 
-A list of the rules that the security group applies to outgoing network traffic initiated by the AWS resource in the security group. This is usually used with the [`allow`](#allow) and [`reject`](#reject) matchers; see them for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule.
+A list of the rules that the security group applies to outgoing network traffic initiated by the AWS resource in the security group. This is usually used with the [`allow`](#allow) matcher; see it for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule.
 
 If the security group could not be found (that is, `exists` is false), `outbound_rules` will return an empty list.
 
     describe aws_security_group(group_name: isolated_servers) do
-      # Its last rule should be to reject everything
-      its('outbound_rules') { should reject(dest: '0.0.0.0/0', position: :last) }
+      # Its last rule should not allow all traffic anywhere
+      its('outbound_rules') { should_not allow(ipv4_range: '0.0.0.0/0', position: :last) }
 
       # You can also treat it at the lower level, as an array of hashes.
-      # This bypasses all smart matching, like port range inclusion
-      its('outbound_rules.last') { should include(action: 'REJECT', dest: '0.0.0.0/0') }
+      its('outbound_rules.last') { should_not include(ip_ranges:['0.0.0.0/0']) }
     end
 
 ### vpc\_id
@@ -221,7 +219,7 @@ For use with the `inbound_rules` and `outbound_rules` properties, the `allow` ma
       its('outbound_rules') { should allow(protocol: 'tcp', position: 3')}
 
       # Don't allow any service to be open to the world
-      its('inbound_rules') { should_not allow(source: '0.0.0.0/0')}
+      its('inbound_rules') { should_not allow(ipv4_range: '0.0.0.0/0')}
     end
 
 ### be_open_to_the_world
@@ -265,7 +263,3 @@ The control will pass if the specified SG was found.  Use `should_not` if you wa
     describe aws_security_group(group_name: 'nogood')
       it { should_not exist }
     end
-
-### reject
-
-For use with the `inbound_rules` and `outbound_rules` properties, the `reject` matcher enables you to perform queries about what network traffic would _not_ be permitted through the security group rule set. `reject` takes the same key-value list of search criteria as [`allow`](#allow).
