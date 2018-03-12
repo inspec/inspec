@@ -74,6 +74,68 @@ class AwsSGSProperties < Minitest::Test
     assert_nil(AwsSecurityGroup.new('sg-87654321').description)
   end
 
+  def test_property_inbound_rules
+    assert_empty(AwsSecurityGroup.new('sg-87654321').inbound_rules)
+    rules = AwsSecurityGroup.new('sg-12345678').inbound_rules
+    assert_kind_of(Array, rules)
+    assert_kind_of(Hash, rules[0])
+  end
+
+  def test_property_outbound_rules
+    assert_empty(AwsSecurityGroup.new('sg-87654321').outbound_rules)
+    rules = AwsSecurityGroup.new('sg-12345678').outbound_rules
+    assert_kind_of(Array, rules)
+    assert_kind_of(Hash, rules[0])
+  end
+end
+
+#=============================================================================#
+#                               Matchers
+#=============================================================================#
+
+class AwsSGSProperties < Minitest::Test
+  def setup
+    AwsSecurityGroup::BackendFactory.select(AwsMESGSB::Basic)
+  end
+
+  def test_matcher_allow_inbound_empty
+    sg = AwsSecurityGroup.new('sg-aaaabbbb')
+    rules = sg.inbound_rules
+    assert_equal(0, rules.count)
+    refute(sg.allow(rules)) # Should we test this - "open" crieria?
+  end
+
+  def test_matcher_allow_inbound_complex
+    sg = AwsSecurityGroup.new('sg-12345678')
+    rules = sg.inbound_rules
+    assert_equal(2, rules.count)
+    assert(sg.allow(rules, port: 22))
+    assert(sg.allow(rules, port: "22"))
+    assert(sg.allow(rules, to_port: "22", from_port: "22"))
+
+    # OK to specifiy a single IP range if the resource actually has exactly one
+    assert(sg.allow(rules, ipv4_range: "10.1.4.0/24"))
+
+    # Not OK to specify a single IP range if the resource actually has a list
+    refute(sg.allow(rules, ipv4_range: "10.1.2.0/24")) 
+    refute(sg.allow(rules, ipv4_range: "10.1.3.0/24")) 
+    # List for list is OK
+    assert(sg.allow(rules, ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"]))
+    refute(sg.allow(rules, ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))     
+    assert(sg.allow(rules, ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
+
+    # Position pinning
+    assert(sg.allow(rules, ipv4_range: "10.1.4.0/24", position: 2))
+    assert(sg.allow(rules, ipv4_range: "10.1.4.0/24", position: "2"))
+    assert(sg.allow(rules, ipv4_range: "10.1.4.0/24", position: :last))
+    assert(sg.allow(rules, port: 22, position: :first))
+
+    # Protocol
+    assert(sg.allow(rules, protocol: 'tcp', position: 1))
+    assert(sg.allow(rules, protocol: 'any', position: 2))
+    assert(sg.allow(rules, protocol: '-1', position: 2))
+
+  end
 end
 
 #=============================================================================#
@@ -97,12 +159,48 @@ module AwsMESGSB
           group_id: 'sg-aaaabbbb',
           group_name: 'alpha',
           vpc_id: 'vpc-aaaabbbb',
+          ip_permissions: [],
         }),
         OpenStruct.new({
-          description: 'Awesome Group',          
+          description: 'Awesome Group',
           group_id: 'sg-12345678',
           group_name: 'beta',
           vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: 22,
+              to_port: 22,
+              ip_protocol: 'tcp',
+              ip_ranges: [
+                OpenStruct.new({cidr_ip:"10.1.2.0/24"}),
+                OpenStruct.new({cidr_ip:"10.1.3.0/24"}),
+              ]
+            }),
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ip_ranges: [
+                OpenStruct.new({cidr_ip:"10.1.4.0/24"}),
+              ]
+            }),
+          ]
+        }),
+        OpenStruct.new({
+          description: 'Open Group',
+          group_id: 'sg-22223333',
+          group_name: 'gamma',
+          vpc_id: 'vpc-12345678',
+          ip_permissions: [
+            OpenStruct.new({
+              from_port: nil,
+              to_port: nil,
+              ip_protocol: "-1",
+              ip_ranges: [
+                OpenStruct.new({cidr_ip:"0.0.0.0/0"}),
+              ]
+            }),
+          ],
         }),
       ]
 

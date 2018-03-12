@@ -204,7 +204,7 @@ For use with the `inbound_rules` and `outbound_rules` properties, the `allow` ma
   * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `inbound_rules`) or destination (for `outbound_rules`) for traffic.  Each security group rule may have multiple allowed source IP ranges. If the criterion specifies a single CIDR, the rule must also specify a single CIDR and they must match exactly.  If a list is provided, the rule must also supply a list, and the two lists must match exactly, ignoring order.
   * port - Determines if a particular TCP/IP port is allowed exactly; that is, there is a port range that starts and stop on this number. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`.
-  * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values.
+  * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
   * to_port - Determines if there is a rule whose port range ends at the specified number. The word 'to_' does not relate to inbound/outbound directionality; it relates to the port range ("counting _to_").
   
     describe aws_security_group(group_name: 'example-group') do
