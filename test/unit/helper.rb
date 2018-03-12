@@ -7,5 +7,3 @@ require 'json'
 require 'ostruct'
 
 require_relative 'lib/resource_support/aws'
-
-

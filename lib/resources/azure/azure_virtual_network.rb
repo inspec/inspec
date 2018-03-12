@@ -18,8 +18,8 @@ module Inspec::Resources
     #
     # @author Russell Seymour
     def initialize(opts = {})
-      # The generic resource needs to pass back a Microsoft.Compute/virtualNetworks object so force it
-      opts[:type] = 'Microsoft.Compute/virtualNetworks'
+      # The generic resource needs to pass back a Microsoft.Networks/virtualNetworks object so force it
+      opts[:type] = 'Microsoft.Network/virtualNetworks'
       super(opts)
 
       # Find the virtual networks
@@ -40,7 +40,6 @@ module Inspec::Resources
     def method_missing(method_id)
       # Depending on the method that has been called, determine what value should be returned
       # These are set as camel case methods to comply with rubocop
-      
       addressSpace_attrs = %w{addressPrefixes}
       dhcpOptions_attrs = %w{dnsServers}
       subnets_attrs = %w{addressPrefix ipConfigurations id}
@@ -95,7 +94,7 @@ module Inspec::Resources
     # for this virtual network
     # @return boolean
     def has_dns_servers?
-      properties.dhcpOptions.dnsServers.count != 0
+      !dhcpOptions.dnsServers.empty?
     end
 
     # How many dns servers does network have configured
@@ -103,9 +102,9 @@ module Inspec::Resources
     def dns_servers_count
       properties.dhcpOptions.dnsServers.count
     end
-    
+
     def has_subnets?
-      properties.subnets.count != 0
+      !subnets.empty?
     end
 
     # How many subnets are connected to the network
@@ -126,4 +125,5 @@ module Inspec::Resources
       subnet_names
     end
   end
+
 end
