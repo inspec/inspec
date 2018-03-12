@@ -13,7 +13,7 @@ Use the `os` InSpec audit resource to test the platform on which the system is r
 
 An `os` resource block declares the platform to be tested. The platform may specified via matcher or control block name. For example, using a matcher:
 
-    describe os[:family] do
+    describe os.family do
       it { should eq 'platform_family_name' }
     end
 
@@ -33,19 +33,19 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test for RedHat
 
-    describe os[:family] do
+    describe os.family do
       it { should eq 'redhat' }
     end
 
 ### Test for Ubuntu
 
-    describe os[:family] do
+    describe os.family do
       it { should eq 'debian' }
     end
 
 ### Test for Microsoft Windows
 
-    describe os[:family] do
+    describe os.family do
       it { should eq 'windows' }
     end
 
@@ -103,28 +103,28 @@ Use the following helpers to test for operating system names, releases, and arch
        it { should eq 'foo' }
     end
 
-### os[:family] Symbols
+### os.family names
 
-Use `os[:family]` to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific symbols to test for specific platforms:
+Use `os.family` to enable more granular testing of platforms, platform names, architectures, and releases. Use any of the following platform-specific names to test for specific platforms:
 
-* `:aix`
-* `:bsd` For platforms that are part of the Berkeley OS family: `:darwin`, `:freebsd`, `:netbsd`, and `:openbsd`.
-* `:debian`
-* `:hpux`
-* `:linux`. For platforms that are part of the Linux family: `:alpine`, `:amazon`, `:arch`, `:coreos`, `:exherbo`, `:fedora`, `:gentoo`, and `:slackware`.
-* `:redhat`. For platforms that are part of the Redhat family: `:centos`.
-* `:solaris`. For platforms that are part of the Solaris family: `:nexentacore`, `:omnios`, `:openindiana`, `:opensolaris`, and `:smartos`.
-* `:suse`
-* `:unix`
-* `:windows`
+* `aix`
+* `bsd` For platforms that are part of the Berkeley OS family `darwin`, `freebsd`, `netbsd`, and `openbsd`.
+* `debian`
+* `hpux`
+* `linux`. For platforms that are part of the Linux family `alpine`, `amazon`, `arch`, `coreos`, `exherbo`, `fedora`, `gentoo`, and `slackware`.
+* `redhat`. For platforms that are part of the Redhat family `centos`.
+* `solaris`. For platforms that are part of the Solaris family `nexentacore`, `omnios`, `openindiana`, `opensolaris`, and `smartos`.
+* `suse`
+* `unix`
+* `windows`
 
 For example, both of the following tests should have the same result:
 
-    if os[:family] == 'debian'
+    if os.family == 'debian'
       describe port(69) do
         its('processes') { should include 'in.tftpd' }
       end
-    elsif os[:family] == 'redhat'
+    elsif os.family == 'redhat'
       describe port(69) do
         its('processes') { should include 'xinetd' }
       end
