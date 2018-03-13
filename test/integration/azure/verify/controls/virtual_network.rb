@@ -18,7 +18,7 @@ control 'azure-virtual-network-2.0' do
     its('address_prefixes') { should include '10.1.0.0/24' }
 
     # should have subnets attached to it
-    its('has_subnets') { should eq true }
+    it { should have_subnets }
 
     # There should be one subnet
     its('subnets_count') { should eq 1 }

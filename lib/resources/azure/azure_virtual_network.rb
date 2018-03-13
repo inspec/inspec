@@ -32,16 +32,14 @@ module Inspec::Resources
     # This allows the simple attributes of the virtual network to be read without having
     # to define each one in turn.
     #
-    # rubocop:disable Metrics/AbcSize
-    #
     # @param symobl method_id The symbol of the method that has been called
     #
     # @return Value of attribute that has been called
     def method_missing(method_id)
       # Depending on the method that has been called, determine what value should be returned
       # These are set as camel case methods to comply with rubocop
-      addressSpace_attrs = %w{addressPrefixes}
-      dhcpOptions_attrs = %w{dnsServers}
+      address_space_attrs = %w{addressPrefixes}
+      dhcp_options_attrs = %w{dnsServers}
       subnets_attrs = %w{addressPrefix ipConfigurations id}
 
       # determine the method name to call by converting the snake_case to camelCase
@@ -49,15 +47,14 @@ module Inspec::Resources
       method_name = method_id.to_s.split('_').inject([]) { |buffer, e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
       method_name.end_with?('Gb') ? method_name.gsub!(/Gb/, &:upcase) : false
 
-      if addressSpace_attrs.include?(method_id.to_s)
+      if address_space_attrs.include?(method_id.to_s)
         properties.addressSpace.send(method_name)
-      elsif dhcpOptions_attrs.include?(method_id.to_s)
+      elsif dhcp_options_attrs.include?(method_id.to_s)
         properties.dhcpOptions.send(method_name)
       elsif subnets_attrs.include?(method_id.to_s)
         properties.subnets.send(method_name)
       end
     end
-
 
     # return the vNet id
     # @return string id of the network.
@@ -92,9 +89,14 @@ module Inspec::Resources
 
     # Are there any DNS servers configured
     # for this virtual network
+    #
     # @return boolean
     def has_dns_servers?
-      !dhcpOptions.dnsServers.empty?
+      if defined?(properties.dhcpOptions.dnsServers)
+        true
+      else
+        false
+      end
     end
 
     # How many dns servers does network have configured
@@ -103,15 +105,30 @@ module Inspec::Resources
       properties.dhcpOptions.dnsServers.count
     end
 
+    # Does the vNet have subnets?
+    #
+    # This allows the use of
+    #    it { should have_subnets }
+    # within the Inspec Profile
+    #
+    # @return boolean
     def has_subnets?
-      !subnets.empty?
+      if defined?(properties.subnets)
+        properties.subnets.count != 0
+      else
+        false
+      end
     end
 
     # How many subnets are connected to the network
     #
     # @return integer
     def subnets_count
-      properties.subnets.count
+      if defined?(properties.subnets)
+        properties.subnets.count
+      else
+        0
+      end
     end
 
     # Return an array of the connected subnets
@@ -125,5 +142,4 @@ module Inspec::Resources
       subnet_names
     end
   end
-
 end
