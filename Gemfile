@@ -1,5 +1,11 @@
 # encoding: utf-8
 source 'https://rubygems.org'
+
+# override for unf_ext until
+# https://github.com/knu/ruby-unf_ext/pull/39
+# is merged and released
+gem 'unf_ext', '=0.0.7.6', :git => 'https://github.com/jquick/ruby-unf_ext.git'
+
 gemspec
 
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
