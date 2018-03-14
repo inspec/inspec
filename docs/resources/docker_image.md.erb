@@ -5,7 +5,7 @@ platform: linux
 
 # docker_image
 
-Use the `docker_image` InSpec audit resource to verify a docker image.
+Use the `docker_image` InSpec audit resource to verify a Docker image.
 
 <br>
 
@@ -70,7 +70,7 @@ The `tag` property tests the value of image tag:
 
     its('tag') { should eq 'latest' }
 
-### Test a docker image
+### Test a Docker image
 
     describe docker_image('alpine:latest') do
       it { should exist }

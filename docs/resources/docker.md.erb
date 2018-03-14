@@ -139,7 +139,7 @@ Or execute the profile directly via URL:
 
 ### images
 
-`images` returns information about Docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/).
+`images` returns information about a Docker image as returned by [docker images](https://docs.docker.com/engine/reference/commandline/images/).
 
     describe docker.images do
       its('ids') { should include 'sha:12b5df59...442b' }
@@ -183,9 +183,9 @@ Or execute the profile directly via URL:
 
 ### image
 
-  describe docker_container(name: 'an-echo-server') do
-    its('image') { should eq 'busybox:latest' }
-  end
+    describe docker_container(name: 'an-echo-server') do
+      its('image') { should eq 'busybox:latest' }
+    end
 
 ### repo
 

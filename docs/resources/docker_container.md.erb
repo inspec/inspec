@@ -5,7 +5,7 @@ platform: linux
 
 # docker_container
 
-Use the `docker_container` InSpec audit resource to test a docker container.
+Use the `docker_container` InSpec audit resource to test a Docker container.
 
 <br>
 
@@ -72,7 +72,7 @@ The `tag` property tests the value of the image tag:
 
 ### ports
 
-The `ports` property tests the value the docker ports:
+The `ports` property tests the value the Docker ports:
 
     its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
 
@@ -101,4 +101,3 @@ The `command` property tests the value of the container run command:
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
-

@@ -6,11 +6,13 @@ title: InSpec Shell
 
 The InSpec interactive shell is a pry based REPL that can be used to
 quickly run InSpec controls and tests without having to write it to a
-file. Its functionality is similar to `chef shell` - it provides a way
-to exercise the InSpec DSL, its resources, tests and plugins without
+file. Its functionality is similar to [chef-shell](https://docs.chef.io/chef_shell.html) as it provides a way
+to exercise the InSpec DSL, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
+
+See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally for a hands-on example that uses InSpec shell.
 
 ## Launching the shell
 
@@ -25,10 +27,10 @@ $ inspec help shell # This will describe inspec shell usage
 ```
 
 If you wish to connect to a remote machine (called a target within
-InSpec), you can use the `-t` flag. We support connecting using ssh,
-WinRm and Docker. If no target is provided, we implicitly support the
+InSpec), you can use the `-t` flag. We support connecting using SSH,
+WinRM and docker. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
-InSpec. For an ssh connection, use `-i` for specifying ssh key files,
+InSpec. For an SSH connection, use `-i` for specifying SSH key files,
 and the `--sudo*` commands for requesting a privilege escalation after
 logging in. For a WinRM connection, use `--path` to change the login
 path, `--ssl` to use SSL for transport layer encryption.

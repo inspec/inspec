@@ -47,3 +47,4 @@ Use InSpec tests from the local file system:
           inspec_tests:
             - test/integration/default
 
+Check out [Detect and correct with Test Kitchen](https://learn.chef.io/modules/detect-correct-kitchen#/) on Learn Chef Rally for a hands-on look at how to use Test Kitchen to run InSpec profiles.
