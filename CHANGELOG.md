@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.48 -->
-## [v2.0.48](https://github.com/chef/inspec/tree/v2.0.48) (2018-03-12)
+<!-- latest_release 2.0.49 -->
+## [v2.0.49](https://github.com/chef/inspec/tree/v2.0.49) (2018-03-14)
 
-#### Bug Fixes
-- Write version_constraints as an array for inspec.lock [#2619](https://github.com/chef/inspec/pull/2619) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.45 -->
@@ -17,6 +17,7 @@
 - quote password when generating mysql command string [#2685](https://github.com/chef/inspec/pull/2685) ([tolland](https://github.com/tolland)) <!-- 2.0.47 -->
 
 #### Merged Pull Requests
+- Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto)) <!-- 2.0.49 -->
 - Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.46 -->
 <!-- release_rollup -->
 
