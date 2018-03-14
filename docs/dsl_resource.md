@@ -179,26 +179,136 @@ resource registry.
 
 ## Design Considerations for InSpec Resources
 
+### Two Major Audiences
+
+(TODO: discuss user base split between inspec-as-integration-testing vs inspec-as-compliance-tool)
+
 ### Start Small
 
 It's often best to start by creating a bare-bones resource.  If you limit functionality to being able detect the resource on the target and implementing the `exists` matcher, you will have an excellent, clean base from which to start.  A "skeletal" resource lays out the test files, documentation, and the structure of the resource source code, without implementing any difficult or controversial features.  That allows the pull request review process to proceed more quickly.
 
+This also applies when dealing with APIs that return complex data structures.  Try to focus on exposing the elements of the data that directly apply to your use case.  You are not obliged to provide 100% exposure of every possible element or value of a data structure.  See ["Dealing with Complex Properties"](#dealing-with-complex-properties) and ["Low -evel and High-Level Features](#low-level-and-high-level-features).
+
 ### Singular vs Plural
 
-One of the earliest distinctions you will need to make when designing a resource is whether you want to have in-depth auditing of a single resource, or bulk detection of groups of the same resource type.  For example, compare the [package](https://www.inspec.io/docs/reference/resources/package/) and [packages](https://www.inspec.io/docs/reference/resources/packages/) resources.  `package` 
+One of the earliest distinctions you will need to make when designing a resource is whether you want to have in-depth auditing of a single resource, or bulk detection of groups of the same resource type.  For example, compare the [package](https://www.inspec.io/docs/reference/resources/package/) and [packages](https://www.inspec.io/docs/reference/resources/packages/) resources.
 
 ### Properties vs Matchers
 
+(TODO: clarify UX distinction between a property and a matcher.  Link to visual glossary.)
+
 ### Dealing with Complex Properties
+
+Suppose you are dealing with a complex structure - such as this, which describes the local storage on an HPE OneView virtual machine:
+
+```json
+
+{
+  "localStorage": {
+    "controllers": [
+      {
+        "deviceSlot": "1",
+        "initialize": true,
+        "logicalDrives": [
+          {
+            "bootable": false,
+            "driveTechnology": "",
+            "name": "disk-1-1"
+          }
+        ]
+      },
+      {
+        "deviceSlot": "2",
+        "initialize": true,
+        "mode": "RAID",
+        "logicalDrives": [
+          {
+            "bootable": false,
+            "driveTechnology": "",
+            "name": "disk-2-1"
+          },
+          {
+            "bootable": false,
+            "driveTechnology": "",
+            "name": "disk-2-2"
+          }
+        ]
+      }
+    ],
+    "sasLogicalJBODs": [
+      {
+        "deviceSlot": "3",
+        "driveMaxSizeGB": 10
+      }
+    ]
+  }
+}
+```
+
+There is a tremendous amount of information present.  Should it be exposed, and at what level?  The InSpec team recommends that you consider exposing the information at a low, mid, and high level.  You need not do all three on day one; functionality can be added over time as the need arises.
+
+#### Expose the raw data as an unsupported property
+
+One initial step is to expose the data as one or more raw structures, with documentation explaining that the property is unsupported (and directing users to higher-level matchers or properties). This allows users to perform difficult tests, at the expense of usability. 
+
+```ruby
+describe oneview_server_profile('my-server') do
+  its('local_storage_controllers.first') { should include {"initialize": true}}
+  its('local_storage_controllers.last.logical_drives.count') { should cmp 2 }
+end
+```
+
+This approach is taken with the [bucket_policy](https://www.inspec.io/docs/reference/resources/aws_s3_bucket/#bucket_policy) property of `aws_s3_bucket`.  Users are able to access any policy element, but are encouraged to use higher-level matchers.
+
+An advantage of this approach is that it make writing mid-level and high-level properties and matchers based on the low-level property straightforward.
+
+#### Implement properties that return arrays of identifiers
+
+As a mid-level approach, if the data structure contains meaningful identifiers that you can use to retrieve "child" objects, you can implement an InSpec resource for the child object, then add a property to the parent object that returns arrays of identifiers.
+
+For example, suppose that HPE OneView provides an API to retrieve a disk by server ID and disk name.  Then you could do:
+
+```ruby
+oneview_server_profile('my-server').logical_drive_names.each |drive_name| do 
+  describe oneview_logical_drive(server_id: 'my-server', drive_name: drive_name) do
+    it { should_not be_bootable }
+  end
+end
+```
+
+Some things to note:
+
+ * We aren't running any tests against the server - only against the logical drives.  The server is not in a describe block, so it is not treated as a test - merely as an object that can fetch information for us.
+ * The `logical_drive_names` property returns a "dumb array" of strings.  It does not return an array of Hashes, or an array of `oneview_logical_drive` InSpec resources.  This is an example of [Use Raw Properties](#use-raw-properties).
+ * The name `logical_drive_names` is carefully chosen to include the `names` suffix.  This clarifies that you are getting a list of names (Strings), not InSpec Resources or some other identifier.
+
+An example of providing an array of identifiers is the [security_group_ids]() property of `aws_ec2_instance`.
+
+#### Provide high-level matchers for common use-cases
+
+Armed with low- and mid-level properties and matchers, it becomes easier to implement properties and matchers that reflect common use cases.  In some cases, you may start with the high-level features, and wait to expose the lower level features while they are in flux.
+
+This approach is best when driven by the feedback and needs of the [community](#two-major-audiences).  In this case, suppose there was a need to ensure that all local storage was RAID.
+
+```ruby
+describe oneview_server_profile('my-server') do
+  it { should have_all_raid_local_storage }
+end
+```
+
+An example of this approach is the [`be_public`](https://www.inspec.io/docs/reference/resources/aws_s3_bucket/#be_public) matcher of `aws_s3_bucket`.
 
 ### Fluent Naming
 
-* RSpec naming transforms
-* Matcher.alias_matcher
+* TODO: RSpec naming transforms
+* TODO: Matcher.alias_matcher
+* TODO: provide caluclated properties, like age
+* TODO: use units in names
 
 ### Low-Level and High Level Features
 
+### Use Raw Properties
+
 ### Exception handling
 
-### Lazy properties
->>>>>>> Sketching out details of design guide for resources
+### Lazy properties>>>>>>> Sketching out details of design guide for resources
