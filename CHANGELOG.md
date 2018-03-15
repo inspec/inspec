@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.0 -->
-## [v2.1.0](https://github.com/chef/inspec/tree/v2.1.0) (2018-03-15)
-
-#### Enhancements
-- Pin to new Train version and update InSpec defaults [#2827](https://github.com/chef/inspec/pull/2827) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.45 -->
-### Changes since 2.0.45 release
-
-#### Bug Fixes
-- Write version_constraints as an array for inspec.lock [#2619](https://github.com/chef/inspec/pull/2619) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.48 -->
-
-#### Enhancements
-- Pin to new Train version and update InSpec defaults [#2827](https://github.com/chef/inspec/pull/2827) ([jquick](https://github.com/jquick)) <!-- 2.1.0 -->
-- quote password when generating mysql command string [#2685](https://github.com/chef/inspec/pull/2685) ([tolland](https://github.com/tolland)) <!-- 2.0.47 -->
-
-#### Merged Pull Requests
-- Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto)) <!-- 2.0.49 -->
-- Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.46 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.0](https://github.com/chef/inspec/tree/v2.1.0) (2018-03-15)
+
+#### Enhancements
+- quote password when generating mysql command string [#2685](https://github.com/chef/inspec/pull/2685) ([tolland](https://github.com/tolland))
+- Pin to new Train version and update InSpec defaults [#2827](https://github.com/chef/inspec/pull/2827) ([jquick](https://github.com/jquick))
+
+#### Bug Fixes
+- Write version_constraints as an array for inspec.lock [#2619](https://github.com/chef/inspec/pull/2619) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto))
+<!-- latest_stable_release -->
+
 ## [v2.0.45](https://github.com/chef/inspec/tree/v2.0.45) (2018-03-08)
 
 #### Enhancements
@@ -43,7 +41,6 @@
 - Update name of subnet fixture, fixing 3 failing integration tests [#2765](https://github.com/chef/inspec/pull/2765) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - iptables resource: Add support for other bin paths [#2783](https://github.com/chef/inspec/pull/2783) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Added the missing variable reference [#2794](https://github.com/chef/inspec/pull/2794) ([frezbo](https://github.com/frezbo))
-<!-- latest_stable_release -->
 
 ## [v2.0.32](https://github.com/chef/inspec/tree/v2.0.32) (2018-03-01)
 
