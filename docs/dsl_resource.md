@@ -40,11 +40,12 @@ The following attributes can be configured:
 * name - Identifier of the resource (required)
 * desc - Description of the resource (optional)
 * example - Example usage of the resource (optional)
+* supports - Platform restrictions of the resource. Without specifying anything, it implicitly supports all OS's and releases (optional) (starting in InSpec 2.0)
 
 The following methods are available to the resource:
 
 * inspec - Contains a registry of all other resources to interact with the operating system or target in general.
-* skip\_resource - A resource may call this method to indicate, that requirements aren't met. All tests that use this resource will be marked as skipped.
+* skip\_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
 
 The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
@@ -52,6 +53,12 @@ to provide simple access to a configuration file:
 ```ruby
 class GordonConfig < Inspec.resource(1)
   name 'gordon_config'
+
+  # Restrict to only run on the below platforms
+  supports platform_family: 'fedora'
+  supports platform: 'centos', release: '6.9'
+  # Supports `*` for wildcard matcher in the release
+  supports platform: 'centos', release: '7.*'
 
   desc '
     Resource description ...
