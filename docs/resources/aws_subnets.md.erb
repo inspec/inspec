@@ -43,7 +43,7 @@ As this is the initial release of `aws_subnets`, its limited functionality precl
 
 A string identifying the VPC which may or may not contain subnets.
 
-    # Look for all subnts within a vpc.
+    # Look for all subnets within a vpc.
     describe aws_subnets.where( vpc_id: 'vpc-12345678') do
       its('subnet_ids') { should include 'subnet-12345678' }
       its('subnet_ids') { should include 'subnet-98765432' }

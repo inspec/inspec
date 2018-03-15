@@ -11,7 +11,7 @@ Use the `filesystem` InSpec resource to audit filesystem disk space usage.
 
 ## Syntax
 
-A `filesystem` resource block declares tests for disk space in a partion:
+A `filesystem` resource block declares tests for disk space in a partition:
 
     describe filesystem('/') do
       its('size') { should be >= 32000 }

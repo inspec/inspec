@@ -193,7 +193,7 @@ end
 ```
 
 * Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.  The %w() formatting will
-pass rubocop lintng and allow you to access nested mappings.
+pass rubocop linting and allow you to access nested mappings.
 
 ```ruby
 describe yaml('.kitchen.yml') do
