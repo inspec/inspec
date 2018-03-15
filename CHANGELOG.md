@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.0.49 -->
-## [v2.0.49](https://github.com/chef/inspec/tree/v2.0.49) (2018-03-14)
+<!-- latest_release 2.1.0 -->
+## [v2.1.0](https://github.com/chef/inspec/tree/v2.1.0) (2018-03-15)
 
-#### Merged Pull Requests
-- Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto))
+#### Enhancements
+- Pin to new Train version and update InSpec defaults [#2827](https://github.com/chef/inspec/pull/2827) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.45 -->
@@ -14,6 +14,7 @@
 - Write version_constraints as an array for inspec.lock [#2619](https://github.com/chef/inspec/pull/2619) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.0.48 -->
 
 #### Enhancements
+- Pin to new Train version and update InSpec defaults [#2827](https://github.com/chef/inspec/pull/2827) ([jquick](https://github.com/jquick)) <!-- 2.1.0 -->
 - quote password when generating mysql command string [#2685](https://github.com/chef/inspec/pull/2685) ([tolland](https://github.com/tolland)) <!-- 2.0.47 -->
 
 #### Merged Pull Requests
