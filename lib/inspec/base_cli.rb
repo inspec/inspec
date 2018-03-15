@@ -76,7 +76,7 @@ module Inspec
       option :create_lockfile, type: :boolean,
         desc: 'Write out a lockfile based on this execution (unless one already exists)'
       option :backend_cache, type: :boolean,
-        desc: 'Allow caching for backend command output.'
+        desc: 'Allow caching for backend command output. (default: true)'
       option :show_progress, type: :boolean,
         desc: 'Show progress while executing tests.'
     end
@@ -88,7 +88,7 @@ module Inspec
           'show_progress' => false,
           'color' => true,
           'create_lockfile' => true,
-          'backend_cache' => false,
+          'backend_cache' => true,
         },
         shell: {
           'reporter' => ['cli'],
