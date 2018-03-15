@@ -35,12 +35,9 @@ module Inspec::Resources
     def read_params
       return @params if defined?(@params)
 
-      # read the file
-      content = read_file_content(@conf_path)
-
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         multiple_values: false,
       )
       @params = conf.params

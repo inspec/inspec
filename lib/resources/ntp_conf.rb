@@ -38,11 +38,10 @@ module Inspec::Resources
 
     def read_params
       return @params if defined?(@params)
-      content = read_file_content(@conf_path)
 
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
         multiple_values: true,
       )

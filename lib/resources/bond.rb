@@ -26,8 +26,6 @@ module Inspec::Resources
     end
 
     def read_content
-      # parse the file
-      @content = read_file_content(@path, allow_empty: true)
       @params = SimpleConfig.new(
         @content,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
