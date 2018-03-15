@@ -382,6 +382,7 @@ You may also run a single test within a file by line number:
 
 ```bash
 bundle exec m test/unit/resources/user_test.rb -l 123
+```
 
 ### Integration tests
 
