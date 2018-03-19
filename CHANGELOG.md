@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.1 -->
+## [v2.1.1](https://github.com/chef/inspec/tree/v2.1.1) (2018-03-19)
+
+#### New Resources
+- Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.0 -->
+### Changes since 2.1.0 release
+
+#### New Resources
+- Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
