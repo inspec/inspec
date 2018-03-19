@@ -24,6 +24,15 @@ output "s3_bucket_private_name" {
   value = "${aws_s3_bucket.private.id}"
 }
 
+resource "aws_s3_bucket" "public_bucket_for_objects" {
+  bucket        = "inspec-testing-public-objects-${terraform.env}.chef.io"
+  acl           = "public-read"
+}
+
+output "s3_bucket_public_for_objects" {
+  value = "${aws_s3_bucket.public_bucket_for_objects.id}"
+}
+
 resource "aws_s3_bucket" "auth" {
   bucket        = "inspec-testing-auth-${terraform.env}.chef.io"
   acl           = "authenticated-read"
@@ -131,4 +140,29 @@ resource "aws_s3_bucket_policy" "allow-02" {
   ]
 }
 POLICY
+}
+
+#=================================================================#
+#                       S3 Bucket Object
+#=================================================================#
+resource "aws_s3_bucket_object" "inspec_logo_public" {
+  bucket = "${aws_s3_bucket.public_bucket_for_objects.id}"
+  key    = "inspec-logo-public"
+  source = "inspec-logo.png"
+  acl    = "public-read"
+}
+
+resource "aws_s3_bucket_object" "inspec_logo_private" {
+  bucket = "${aws_s3_bucket.public_bucket_for_objects.id}"
+  key    = "inspec-logo-private"
+  source = "inspec-logo.png"
+  acl    = "private"
+}
+
+output "s3_bucket_object_inspec_logo_public" {
+  value = "${aws_s3_bucket_object.inspec_logo_public.id}"
+}
+
+output "s3_bucket_object_inspec_logo_private" {
+  value = "${aws_s3_bucket_object.inspec_logo_private.id}"
 }
