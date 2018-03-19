@@ -12,6 +12,8 @@ require 'resource_support/aws/aws_backend_base'
 # Load all AWS resources
 # TODO: loop over and load entire directory
 # for f in ls lib/resources/aws/*; do t=$(echo $f | cut -c 5- | cut -f1 -d. ); echo "require '${t}'"; done
+require 'resources/aws/aws_billing_report'
+require 'resources/aws/aws_billing_reports'
 require 'resources/aws/aws_cloudtrail_trail'
 require 'resources/aws/aws_cloudtrail_trails'
 require 'resources/aws/aws_cloudwatch_alarm'

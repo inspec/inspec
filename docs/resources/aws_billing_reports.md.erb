@@ -1,0 +1,93 @@
+---
+title: About the aws_billing_reports Resource
+platform: aws
+---
+
+# aws\_billing\_reports
+
+Use the `aws_billing_reports` InSpec audit resource to test properties of a some or all AWS Cost and Billing reports.
+
+<br>
+
+## Syntax
+
+  # Verify the number of Billing Reports in the AWS account.
+  describe aws_billing_reports do
+    its('entries.count') { should cmp 2 }
+  end
+
+  # Use the .where clause to match a property to one or more rules in the available reports.
+  describe aws_billing_reports.where { report_name =~ /inspec.*/ } do
+    its('report_name') { should include 'inspec1' }
+    its('time_unit') { should include 'DAILY' }
+    its('s3_bucket') { should include 'inspec1-s3-bucket' }
+  end
+
+## Properties
+
+  `report_name`, `time_unit`, `compression`, `s3_bucket`, `s3_prefix`, `s3_region`, `additional_artifacts`
+
+<br>
+
+## Propery Examples
+
+### report_name
+ The reports name.
+  describe aws_billing_reports do
+    its('report_name') { should cmp ['inspec1', 'inspec2'] }
+  end
+
+### time_unit
+ The interval of time covered by the report. Valid values: HOURLY, or Daily.
+
+  describe aws_billing_reports do
+    its('time_unit') { should_not include 'HOURLY' }
+  end
+
+### compression
+ The reports compression type. Valid values: ZIP, or GZIP.
+
+  describe aws_billing_reports do
+    its('compression') { should_not include 'ZIP' }
+  end
+
+### s3_bucket
+ A list of the S3 buckets the reports are stored in.
+
+  describe aws_billing_reports do
+    its('s3_bucket') { should cmp ['inspec-s3-bucket', 'example-s3-bucket'] }
+  end
+
+### s3_prefix
+ The prefix that AWS adds to the report when stored.
+
+  describe aws_billing_reports do
+    its('s3_prefix') { should cmp ['inspec1', 'inspec2'] }
+  end
+
+### s3_region
+ The AWS region of the S3 bucket.
+
+  describe aws_billing_reports do
+    its('s3_region') { should cmp ['us-east-1', 'us-west-1'] }
+  end
+
+### additional_artifacts
+ The list of manifests created for the report. Valid values: REDSHIFT, or QUICKSIGHT.
+
+  describe aws_billing_reports do
+    its('additional_artifacts') { should_not include 'QUICKSIGHT' }
+  end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### exist
+
+Indicates that the Billing Report provided was found.  Use `should_not` to test for Billing Reports that should not exist.
+
+  # Verify that at least one Billing Report exists.
+  describe aws_billing_reports
+    it { should exist }
+  end

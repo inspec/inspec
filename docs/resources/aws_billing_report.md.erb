@@ -1,0 +1,99 @@
+
+---
+title: About the aws_billing_report Resource
+platform: aws
+---
+
+# aws\_billing\_report
+
+Use the `aws_billing_report` InSpec audit resource to test properties of a single AWS Cost and Billing report.
+
+<br>
+
+## Syntax
+
+  # Verify the time_unit used by the 'inspec1' Billing Report.
+  describe aws_billing_report('inspec1') do
+    its('time_unit') { should cmp 'DAILY' }
+  end
+
+  # Hash Syntax to verify the time_unit used by the 'inspec1' Billing Report.
+  describe aws_billing_report(report_definition: 'inspec1') do
+    its('time_unit') { should cmp 'DAILY' }
+  end
+
+## Properties
+
+  `report_name`, `time_unit`, `compression`, `s3_bucket`, `s3_prefix`, `s3_region`, `additional_artifacts`
+
+<br>
+
+## Propery Examples
+
+### report_name
+ The report's name.
+  describe aws_billing_report('inspec1') do
+    its('report_name') { should cmp 'inspec1' }
+  end
+
+### time_unit
+ The interval of time covered by the report. Valid values: hourly, or daily.
+
+  describe aws_billing_report('inspec1') do
+    its('time_unit') { should cmp 'hourly' }
+  end
+
+### compression
+ The reports compression type. Valid values: zip, or gzip.
+
+  describe aws_billing_report('inspec1') do
+    its('compression') { should cmp 'zip' }
+  end
+
+### s3_bucket
+ The s3_bucket the report is stored in.
+
+  describe aws_billing_report('inspec1') do
+    its('s3_bucket') { should cmp 'inspec-s3-bucket' }
+  end
+
+### s3_prefix
+ The prefix that AWS adds to the report when stored.
+
+  describe aws_billing_report('inspec1') do
+    its('s3_prefix') { should cmp 'inspec1' }
+  end
+
+### s3_region
+ The AWS region of the S3 bucket.
+
+  describe aws_billing_report('inspec1') do
+    its('s3_region') { should cmp 'us-east-1' }
+  end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be_hourly
+
+  describe aws_billing_report('inspec1') do
+    its('time_unit') { should be_hourly }
+  end
+
+### be_daily
+
+### exist
+
+Indicates that the Billing Report provided was found.  Use `should_not` to test for Billing Reports that should not exist.
+
+  # Verify that the 'inspec1' Billing Report exists.
+  describe aws_billing_report('inspec1') do
+    it { should exist }
+  end
+
+  # Verify that the 'inspec2' Billing Report does not exist.
+  describe aws_billing_report('invalid-inspec') do
+    it { should_not exist }
+  end
+
