@@ -6,9 +6,32 @@ module Inspec::Resources
   class AzureNetworkSecurityGroup < AzureResourceBase
     name 'azure_network_security_group'
 
-    desc '
-      Inspec Resource to test Azure Network Security Groups (NSG)
-    '
+    desc 'Inspec Resource to test Azure Network Security Group settings (NSG)'
+    example "
+    describe azure_network_security_group(group_name: 'Inspec-Azure', name: 'Inspec-NSG') do
+
+      # should have security rules defined.
+      it { should have_security_rules }
+
+      # Should have a rule by specified name
+      its('security_rules') { should include 'SSH-22' }
+
+      # Should not have a RDP rule configured
+      its('security_rules') { should_not include 'RDP' }
+
+      # NSG should have network interfaces attached to it
+      it {should have_subnets }
+
+      # NSG should have network interfaces , at least one or more
+      its('subnets_count?') { should be > 0 }
+
+      # NGG should have one subnet associated with it
+      its('subnets_count?') { should eq 1 }
+
+      # NSG should contain a subnet wit the name InSpec-Subnet
+      its('subnet_names') { should include 'Inspec-Subnet' }
+    end
+    "
 
     supports platform: 'azure'
 
@@ -31,8 +54,6 @@ module Inspec::Resources
     # Method to catch calls that are not explicitly defined.
     # This allows the simple attributes of the virtual machine to be read without having
     # to define each one in turn.
-    #
-    # rubocop:disable Metrics/AbcSize
     #
     # @param symobl method_id The symbol of the method that has been called
     #
@@ -104,7 +125,7 @@ module Inspec::Resources
     end
 
     # Get an array of subnet names
-    # 
+    #
     # @return string Array of names
     def subnet_names
       subnet_names = []
