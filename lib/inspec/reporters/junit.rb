@@ -43,6 +43,7 @@ module Inspec::Reporters
       result_xml = REXML::Element.new('testcase')
       result_xml.add_attribute('name', result[:code_desc])
       result_xml.add_attribute('classname', control[:title].nil? ? "#{profile_name}.Anonymous" : "#{profile_name}.#{control[:id]}")
+      result_xml.add_attribute('target', run_data[:platform][:target].nil? ? '' : run_data[:platform][:target].to_s)
       result_xml.add_attribute('time', result[:run_time])
 
       if result[:status] == 'failed'
