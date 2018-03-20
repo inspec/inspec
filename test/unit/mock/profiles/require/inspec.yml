@@ -1,0 +1,8 @@
+name: require
+title: profile with require dependency tree
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache 2 license
+summary: Demonstrates the use of require in Inspec
+version: 1.0.0
