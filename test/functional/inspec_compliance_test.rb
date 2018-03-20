@@ -24,7 +24,7 @@ describe 'inspec compliance' do
   it 'login server url missing' do
     out = inspec('compliance login')
     out.exit_status.must_equal 1
-    out.stderr.must_include 'ERROR: "inspec login" was called with no arguments'
+    out.stderr.must_include 'ERROR: "inspec compliance login" was called with no arguments'
   end
 
   it 'inspec compliance profiles without authentication' do
@@ -35,7 +35,7 @@ describe 'inspec compliance' do
 
   it 'try to upload a profile without directory' do
     out = inspec('compliance upload')
-    out.stderr.must_include 'ERROR: "inspec upload" was called with no arguments'
+    out.stderr.must_include 'ERROR: "inspec compliance upload" was called with no arguments'
     out.exit_status.must_equal 1
   end
 
