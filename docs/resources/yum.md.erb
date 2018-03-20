@@ -91,7 +91,7 @@ The `repos` matcher tests if a named repo, using either a full identifier (`'upd
 
 ### shortname
 
-The `shortname` matcher names a specific package repository's group identifier. For example, if a repository's group name is "Directory Server", the corresponding group idenfier is typically "directory-server":
+The `shortname` matcher names a specific package repository's group identifier. For example, if a repository's group name is "Directory Server", the corresponding group identifier is typically "directory-server":
 
     describe yum.repo('Directory Server') do
       its('shortname') { should eq 'directory-server' }

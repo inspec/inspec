@@ -40,7 +40,7 @@ The network socket type: `dgram` (a datagram-based service), `raw` (a service th
 
 ### Test a service type
 
-The type of service: `INTERNAL` (a service provided by xinetd), `RPC` (an RPC-based service), `TCPMUX` (a service that is started on a well-known TPCMUX port), or `UNLISTED` (a service that is not listed in a standard system file location).
+The type of service: `INTERNAL` (a service provided by xinetd), `RPC` (an RPC-based service), `TCPMUX` (a service that is started on a well-known TCPMUX port), or `UNLISTED` (a service that is not listed in a standard system file location).
 
     describe xinetd_conf.services('service_name') do
        its('type') { should include 'RPC' }
@@ -93,7 +93,7 @@ All three settings can be tested in the same block as well:
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### be_enabed
+### be_enabled
 
 The `be_enabled` matcher tests if a service listed under `/etc/xinet.d` is enabled:
 

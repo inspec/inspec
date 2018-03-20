@@ -73,7 +73,7 @@ The following test verifies the kernel, ensures that kernel is the default kerne
       its('timeout') { should eq '10' }
     end
 
-The following test verifies the `ramdisk_size` for the non-deault kernel:
+The following test verifies the `ramdisk_size` for the non-default kernel:
 
     describe grub_conf('/etc/grub.conf',  'Red Hat Enterprise Linux ES (2.6.32-358.14.1.el6.x86_64)') do
        its('kernel') { should include 'ramdisk_size=400000' }

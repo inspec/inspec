@@ -100,7 +100,7 @@ control 'windows-account-102' do
 end
 ```
 
-## Are PosgtreSQL passwords empty?
+## Are PostgreSQL passwords empty?
 
 The following test shows how to audit machines running PostgreSQL to ensure that passwords are not empty.
 

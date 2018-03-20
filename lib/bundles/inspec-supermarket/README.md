@@ -6,7 +6,7 @@ To use the CLI, this InSpec add-on adds the following commands:
  * `$ inspec supermarket search` - searches for a compliance profile on supermarket
  * `$ inspec supermarket exec nathenharvey/tmp-compliance-profile` - extends execute to load the profile
 
- Compliance profiles from Supermarket can be executed in two mays:
+ Compliance profiles from Supermarket can be executed in two ways:
 
  - via supermarket exec: `inspec supermarket exec nathenharvey/tmp-compliance-profile`
  - via supermarket scheme: `inspec exec supermarket://nathenharvey/tmp-compliance-profile`

@@ -10,7 +10,7 @@ InSpec allows you to output your test results to one or more reporters. You can 
 
 ## Syntax
 
-You can specify one or more reporters using the `--reporter` cli flag. You can also specify a output by appending a path seperated by a colon.
+You can specify one or more reporters using the `--reporter` cli flag. You can also specify a output by appending a path separated by a colon.
 
 Output json to screen.
 

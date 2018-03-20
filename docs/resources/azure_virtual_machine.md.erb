@@ -200,7 +200,7 @@ This returns an array of the NIC ids that are connected to the machine. This mea
 
     its('connected_nics') { should include /Inspec-NIC-1/ }
 
-Note the use of the regular expression here. This is because the NIC id is a long string that contains the subscription id, resource group, machine id as well as other things. By using the regular expression the NIC can be checked withouth breaking this string up. It also means that other tests can be performed.
+Note the use of the regular expression here. This is because the NIC id is a long string that contains the subscription id, resource group, machine id as well as other things. By using the regular expression the NIC can be checked without breaking this string up. It also means that other tests can be performed.
 
 An example of the id string is `/subscriptions/1e0b427a-d58b-494e-ae4f-ee558463ebbf/resourceGroups/Inspec-Azure/providers/Microsoft.Network/networkInterfaces/Inspec-NIC-1`
 
@@ -250,7 +250,7 @@ If boot diagnostics are enabled for the machine they will be saved in a storage 
 
 ## Matchers
 
-There are a number of built in comparison operrtors that are available to test the result with an expected value.
+There are a number of built in comparison operators that are available to test the result with an expected value.
 
 For information on all that are available please refer to the [Inspec Matchers Reference](https://www.inspec.io/docs/reference/matchers/) page.
 
@@ -328,7 +328,7 @@ It is possible to check if a specific tag has been set on the resource.
 
 ### xxx\_tag
 
-To get the value of the tag, a number of tests have been craeted from the tags that are set.
+To get the value of the tag, a number of tests have been created from the tags that are set.
 
 For example, if the following tag is set on a resource:
 

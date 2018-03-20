@@ -59,7 +59,7 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 ### mount_point
 
-`mount_point` returns a string array of directorys at which filesystems are configured to be mounted.
+`mount_point` returns a string array of directories at which filesystems are configured to be mounted.
 
     describe etc_fstab.where { device_name == '/dev/sr0' } do
       its('mount_point') { should cmp '/mnt/sr0' }
