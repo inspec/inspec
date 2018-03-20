@@ -10,10 +10,6 @@ require 'yaml'
 module Inspec::Resources
   class YamlConfig < JsonConfig
     name 'yaml'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    supports platform: 'esx'
-    supports platform: 'cisco'
     desc 'Use the yaml InSpec audit resource to test configuration data in a YAML file.'
     example "
       describe yaml('config.yaml') do
