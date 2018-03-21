@@ -47,13 +47,6 @@ The following examples show how to use this InSpec audit resource.
       its('SendEnv') { should include('GORDON_CLIENT') }
     end
 
-### Test owner and group permissions
-
-    describe ssh_config do
-      its('owner') { should eq 'root' }
-      its('mode') { should cmp '0644' }
-    end
-
 ### Test SSH configuration
 
     describe ssh_config do
