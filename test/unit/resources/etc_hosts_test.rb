@@ -14,11 +14,9 @@ describe 'Inspec::Resources::EtcHosts' do
     %W{localhost localhost.localdomain localhost6 localhost6.localdomain6}
   end
 
-  it 'Should fail if content is nil' do
-    #resource = load_resource('etc_hosts_empty', '../mock/files/emptyfile')
+  it 'Should skip resource if content is empty' do
     resource = load_resource('etc_hosts', '/etc/hosts_empty')
-
-    -> { entries.primary_name }.must_raise Inspec::Exceptions::ResourceSkipped
+    _(resource.resource_skipped?).must_equal true
   end
 
   it 'Verify etc_hosts filtering by `ip_address`'  do
