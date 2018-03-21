@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.1 -->
-## [v2.1.1](https://github.com/chef/inspec/tree/v2.1.1) (2018-03-19)
+<!-- latest_release 2.1.2 -->
+## [v2.1.2](https://github.com/chef/inspec/tree/v2.1.2) (2018-03-21)
 
-#### New Resources
-- Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj))
+#### Enhancements
+- Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
 ### Changes since 2.1.0 release
+
+#### Enhancements
+- Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick)) <!-- 2.1.2 -->
 
 #### New Resources
 - Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.1 -->
