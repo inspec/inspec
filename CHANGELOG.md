@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.3 -->
-## [v2.1.3](https://github.com/chef/inspec/tree/v2.1.3) (2018-03-21)
+<!-- latest_release 2.1.4 -->
+## [v2.1.4](https://github.com/chef/inspec/tree/v2.1.4) (2018-03-21)
 
-#### Enhancements
-- Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
 ### Changes since 2.1.0 release
+
+#### Bug Fixes
+- Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch)) <!-- 2.1.4 -->
 
 #### Enhancements
 - Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick)) <!-- 2.1.3 -->
