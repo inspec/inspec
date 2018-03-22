@@ -230,7 +230,7 @@ describe Inspec::Reporters::CLI do
     it 'confirm controls' do
       result = report.send(:anonymous_controls_from_profile, profile)
       result.count.must_equal 3
-      result.first[:id].must_match /generated/
+      result.first[:id].must_match(/generated/)
     end
   end
 

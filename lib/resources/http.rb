@@ -74,6 +74,7 @@ module Inspec::Resources
           @http_method = http_method
           @url = url
           @opts = opts
+          @response = nil
         end
 
         private
@@ -152,6 +153,7 @@ module Inspec::Resources
                   'curl is not available on the target machine'
           end
 
+          @ran_curl = false
           @inspec = inspec
           super(http_method, url, opts)
         end
