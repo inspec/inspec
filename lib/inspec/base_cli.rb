@@ -50,6 +50,8 @@ module Inspec
         desc: 'Allow remote scans with self-signed certificates (WinRM).'
       option :json_config, type: :string,
         desc: 'Read configuration from JSON file (`-` reads from stdin).'
+      option :proxy_command, type: :string,
+        desc: 'Specifies the command to use to connect to the server'
     end
 
     def self.profile_options
