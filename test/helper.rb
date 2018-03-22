@@ -177,7 +177,6 @@ class MockLoader
       '/etc/postgresql/9.5/main' => mockfile.call('9.5.main'),
       '/var/lib/postgresql/9.5/main' => mockfile.call('var.9.5.main'),
       '/etc/hosts' => mockfile.call('hosts'),
-      '/etc/hosts_empty' => emptyfile.call,
       'C:\windows\system32\drivers\etc\hosts' => mockfile.call('hosts'),
       '/etc/fstab' => mockfile.call('fstab'),
       'fstab_no_home' => mockfile.call('fstab_no_home'),
