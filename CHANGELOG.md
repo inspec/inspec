@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.6 -->
-## [v2.1.6](https://github.com/chef/inspec/tree/v2.1.6) (2018-03-22)
+<!-- latest_release 2.1.7 -->
+## [v2.1.7](https://github.com/chef/inspec/tree/v2.1.7) (2018-03-22)
 
-#### New Resources
-- New Skeletal Resource aws_sns_topics [#2696](https://github.com/chef/inspec/pull/2696) ([dromazmj](https://github.com/dromazmj))
+#### Bug Fixes
+- Revise /etc/hosts for correctness and clarity [#2863](https://github.com/chef/inspec/pull/2863) ([TrevorBramble](https://github.com/TrevorBramble))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
 ### Changes since 2.1.0 release
 
 #### Bug Fixes
+- Revise /etc/hosts for correctness and clarity [#2863](https://github.com/chef/inspec/pull/2863) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.7 -->
 - Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch)) <!-- 2.1.4 -->
 
 #### Enhancements
