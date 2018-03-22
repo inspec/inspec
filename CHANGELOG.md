@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.4 -->
-## [v2.1.4](https://github.com/chef/inspec/tree/v2.1.4) (2018-03-21)
+<!-- latest_release 2.1.5 -->
+## [v2.1.5](https://github.com/chef/inspec/tree/v2.1.5) (2018-03-22)
 
-#### Bug Fixes
-- Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch))
+#### Enhancements
+- Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
@@ -14,6 +14,7 @@
 - Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch)) <!-- 2.1.4 -->
 
 #### Enhancements
+- Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto)) <!-- 2.1.5 -->
 - Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick)) <!-- 2.1.3 -->
 - Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick)) <!-- 2.1.2 -->
 
