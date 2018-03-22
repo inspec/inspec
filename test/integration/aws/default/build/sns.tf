@@ -35,3 +35,29 @@ resource "aws_sns_topic" "sns_test_topic_2" {
 output "sns_topic_no_subscription_arn" {
   value = "${aws_sns_topic.sns_test_topic_2.arn}"
 }
+
+resource "aws_sns_topic" "topic_for_sub_03" {
+  name = "${terraform.env}-topic_for_sub_3_test"
+}
+
+resource "aws_sqs_queue" "sqs_for_sub_03" {
+  name = "${terraform.env}-sqs_for_sub_03"
+}
+
+resource "aws_sns_topic_subscription" "subscription_3" {
+  topic_arn = "${aws_sns_topic.topic_for_sub_03.arn}"
+  protocol  = "sqs"
+  endpoint  = "${aws_sqs_queue.sqs_for_sub_03.arn}"
+}
+
+output "sns_subscription_03_arn" {
+  value = "${aws_sns_topic_subscription.subscription_3.arn}"
+}
+
+output "sns_topic_3_arn" {
+  value = "${aws_sns_topic.topic_for_sub_03.arn}"
+}
+
+output "sqs_for_sub_03_arn" {
+  value = "${aws_sqs_queue.sqs_for_sub_03.arn}"
+}
