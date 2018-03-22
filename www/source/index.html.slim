@@ -26,28 +26,28 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       img.grid-animate.fit.z-20 src="/images/home/web.svg" onerror="this.src='/images/home/web.png'" alt="image of grid"/
   /! announcement
   .row.columns
-    .box-white.shadow.z-20
-      h3 What's new in InSpec 2.0?
-      p See into the cloud for continuous compliance everywhere.
-      .margin-top-sm.brdr-left.large-11.medium-11
-        .margin-left-sm.slide-left
-          h4.t-purple cloud
-          p InSpec now supports testing configurations for cloud provider platforms such as AWS or Azure.  Test additional components, such as Docker containers and network infrastructure — without adding anything extra.
-      .margin-top-xs.brdr-left.large-11.medium-11
-        .margin-left-sm.slide-left
-          h4.t-purple coverage
-          p 30 new resources to get you started writing compliance rules for apps, containers, and system configuration files.
-      .margin-top-xs.brdr-left.large-11.medium-11
-        .margin-left-sm.slide-left
-          h4.t-purple speed
-          p Significantly faster, with 90% performance gains on Windows and 30% gains on Linux.
+    .box-white.shadow.z-20.slide-left
+      h3.large-11.medium-11 What's new in InSpec 2.0?
+      p.large-11.medium-11 Test AWS, Azure, and your containers; improved performance for Windows and Linux, and more.
       #expand
+        .margin-top-sm.brdr-left.large-11.medium-11
+          .margin-left-sm
+            h4.t-purple cloud
+            p InSpec now supports testing configurations for cloud provider platforms such as AWS or Azure.  Test additional components, such as Docker containers and network infrastructure — without adding anything extra.
         .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm.slide-left
+          .margin-left-sm
+            h4.t-purple coverage
+            p 30 new resources to get you started writing compliance rules for apps, containers, and system configuration files.
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm
+            h4.t-purple speed
+            p Significantly faster, with 90% performance gains on Windows and 30% gains on Linux.
+        .margin-top-xs.brdr-left.large-11.medium-11
+          .margin-left-sm
             h4.t-purple Integration
             p Chef Automate can be used as a source for compliance profiles and to store InSpec reports for compliance and security audits. InSpec results can be exported in JUnit format for integration into CI/CD tools like Jenkins.
         .margin-top-xs.brdr-left.large-11.medium-11
-          .margin-left-sm.slide-left
+          .margin-left-sm
             h4.t-purple Ease
             p It’s now easier to write and debug custom resources you create using InSpec Shell.
       .margin-top-xs
@@ -147,7 +147,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       h4.t-purple Platform Agnostic
       p
         |  InSpec supports all major operating systems and is platform agnostic, allowing you the freedom to run compliance and security tests anywhere.
-      img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" alt="logos for Linux, Windows, Azure, Mac, Ubuntu, Docker container, AWS, VMware"/
+      a title="Linux, Windows/Azure, Mac, Ubuntu, Docker, AWS, VMware, RedHat"
+        img.icon-logos src="/images/home/platform-logos.svg" onerror="this.src='/images/home/platform-logos.png'" alt="logos for Linux, Windows/Azure, Mac, Ubuntu, Docker container, AWS, VMware"/
       .triangle-right
   .large-6.medium-6.columns.mobile-12.margin-under-xs
     .box-white.shadow.strict-center.fit-height.relative.slide-up
@@ -155,7 +156,8 @@ header.bg-gradient.margin-top-offset.short-bg.relative
       h4.t-purple Test locally or remotely
       p
         |  InSpec provides a local agent for host-based assessments, as well as full remote testing support via SSH and WinRM.
-      img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" alt="logos for SSH and WinRM" /
+      a title="SSH, WinRM"
+        img.icon-logos src="/images/home/test-logos.svg" onerror="this.src='/images/home/test-logos.png'" alt="logos for SSH and WinRM" /
       .triangle-right
 
 .row.strict-center.mobile-row

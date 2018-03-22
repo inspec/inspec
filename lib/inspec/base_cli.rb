@@ -8,6 +8,11 @@ require 'inspec/profile_vendor'
 
 module Inspec
   class BaseCLI < Thor
+    # https://github.com/erikhuda/thor/issues/244
+    def self.exit_on_failure?
+      true
+    end
+
     def self.target_options
       option :target, aliases: :t, type: :string,
         desc: 'Simple targeting option using URIs, e.g. ssh://user:pass@host:port'

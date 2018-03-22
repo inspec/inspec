@@ -18,7 +18,7 @@ method.
 ## Syntax
 
 A `kernel_module` resource block declares a module name, and then tests if that
-module is a loadable kernel module, if it is enabled, disabled or if it is
+module is a loaded kernel module, if it is enabled, disabled or if it is
 blacklisted:
 
     describe kernel_module('module_name') do
@@ -30,7 +30,7 @@ blacklisted:
 where
 
 * `'module_name'` must specify a kernel module, such as `'bridge'`
-* `{ should be_loaded }` tests if the module is a loadable kernel module
+* `{ should be_loaded }` tests if the module is a loaded kernel module
 * `{ should be_blacklisted }` tests if the module is blacklisted or if the module is disabled via a fake install using /bin/false or /bin/true
 * `{ should be_disabled }` tests if the module is disabled via a fake install using /bin/false or /bin/true
 
@@ -40,14 +40,20 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
-### Test a modules 'version'
+### version
+
+The `version` property tests if the kernel module on the system has the correct version:
+
+    its('version') { should eq '3.2.2' }
+
+### Test a kernel module's 'version'
 
       describe kernel_module('bridge') do
         it { should be_loaded }
-        its(:version) { should cmp >= '2.2.2' }
+        its('version') { should cmp >= '2.2.2' }
       end
 
-### Test if a module is loaded, not disabled and not blacklisted
+### Test if a kernel module is loaded, not disabled, and not blacklisted
 
       describe kernel_module('video') do
         it { should be_loaded }
@@ -55,34 +61,34 @@ The following examples show how to use this InSpec audit resource.
         it { should_not be_blacklisted }
       end
 
-### Check if a module is blacklisted
+### Check if a kernel module is blacklisted
 
       describe kernel_module('floppy') do
         it { should be_blacklisted }
       end
 
-### Ensure a module is *not* blacklisted and it is loaded
+### Check if  a kernel module is *not* blacklisted and is loaded
 
       describe kernel_module('video') do
         it { should_not be_blacklisted }
         it { should be_loaded }
       end
 
-### Ensure a module is disabled via 'bin_false'
+### Check if  a kernel module is disabled via 'bin_false'
 
       describe kernel_module('sstfb') do
         it { should_not be_loaded }
         it { should be_disabled }
       end
 
-### Ensure a module is 'blacklisted'/'disabled' via 'bin_true'
+### Check if  a kernel module is 'blacklisted'/'disabled' via 'bin_true'
 
       describe kernel_module('nvidiafb') do
         it { should_not be_loaded }
         it { should be_blacklisted }
       end
 
-### Ensure a module is not loaded
+### Check if  a kernel module is not loaded
 
       describe kernel_module('dhcp') do
         it { should_not be_loaded }
@@ -94,14 +100,21 @@ The following examples show how to use this InSpec audit resource.
 
 For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
+
+### be_blacklisted
+
+The `be_blacklisted` matcher tests if the kernel module is a blacklisted module:
+
+    it { should be_blacklisted }
+
+### be_disabled
+
+The `be_disabled` matcher tests if the kernel module is disabled:
+
+    it { should be_disabled }
+
 ### be_loaded
 
-The `be_loaded` matcher tests if the module is a loadable kernel module:
+The `be_loaded` matcher tests if the kernel module is loaded:
 
     it { should be_loaded }
-
-### version
-
-The `version` matcher tests if the named module version is on the system:
-
-    its(:version) { should eq '3.2.2' }

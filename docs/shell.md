@@ -26,7 +26,7 @@ $ inspec help shell # This will describe inspec shell usage
 
 If you wish to connect to a remote machine (called a target within
 InSpec), you can use the `-t` flag. We support connecting using ssh,
-WinRm and docker. If no target is provided, we implicitly support the
+WinRm and Docker. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
 InSpec. For an ssh connection, use `-i` for specifying ssh key files,
 and the `--sudo*` commands for requesting a privilege escalation after
@@ -37,20 +37,17 @@ path, `--ssl` to use SSL for transport layer encryption.
 $ inspec shell -t ssh://root@192.168.64.2:11022  # Login to remote machine using ssh as root.
 $ inspec shell -t ssh://user@hostname:1234 -i /path/to/user_key  # Login to hostname on port 1234 as user using given ssh key.
 $ inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to windowsmachine over WinRM as UserName.
-$ inspec shell -t docker://container_id # Login to a docker container.
+$ inspec shell -t docker://container_id # Login to a Docker container.
 ```
 
-## Resource packs
+## Resource Packs
 
-The InSpec shell may use additional keywords provided in resource packs.
-A resource pack is a profile that defines new language terms that can
-be used in InSpec. For example, the profile in `examples/profile` in
-the InSpec git repo defines a `gordon_config` resource. To use these
-resources with the InSpec shell, you will need to download and specify
-them as a dependency.
+Use resource packs to share custom resources with other InSpec users.
+A resource pack is an InSpec profile that contains only custom resources and no other controls or tests.
 
-To use the `gordon_config` resource that is provided in the `examples/profile`
-in the InSpec repo you can run the following:
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)in the InSpec git repo defines a [`gordon_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/gordon.rb). To use these resources within the InSpec shell, you will need to download and specify them as a dependency.
+
+Once you have local access to the profile, you can use the `gordon_config` custom resource provided in the `examples/profile` GitHub repo in your local environment :
 
 ```bash
 inspec shell --depends examples/profile
@@ -97,12 +94,12 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> file('/Users/ksubramanian').directory?
+inspec> file('/Users/myuser').directory?
 => true
 inspec> os_env('HOME')
 => Environment variable HOME
 inspec> os_env('HOME').content
-=> /Users/ksubramanian
+=> /Users/myuser
 inspec> exit
 ```
 
@@ -126,10 +123,10 @@ replaced with the redefinition and the control is re-run.
 ```bash
 inspec> control 'my_control' do
 inspec>   describe os_env('HOME') do
-inspec>     its('content') { should eq '/Users/ksubramanian' }
+inspec>     its('content') { should eq '/Users/myuser' }
 inspec>   end
 inspec> end
-  ✔  my_control: Environment variable HOME content should eq "/Users/ksubramanian"
+  ✔  my_control: Environment variable HOME content should eq "/Users/myuser"
 
   Summary: 1 successful, 0 failures, 0 skipped
 ```
@@ -158,15 +155,61 @@ If you wish to run a single InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash
-$ inspec shell -c 'describe file("/Users/ksubramanian") do it { should exist } end'}
+$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'
 Target:  local://
 
-  ✔  File /Users/ksubramanian should exist
+  ✔  File /Users/myuser should exist
 
 Summary: 1 successful, 0 failures, 0 skipped
 ```
 
 ```bash
-$ inspec shell --format json -c 'describe file("/Users/ksubramanian") do it { should exist } end'
-{"version":"0.30.0","profiles":{"":{"supports":[],"controls":{"(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)":{"title":null,"desc":null,"impact":0.5,"refs":[],"tags":{},"code":"          rule = rule_class.new(id, profile_id, {}) do\n            res = describe(*args, &block)\n          end\n","source_location":{"ref":"/Users/ksubramanian/repo/chef/inspec/lib/inspec/profile_context.rb","line":184},"results":[{"status":"passed","code_desc":"File /Users/ksubramanian should exist","run_time":0.000747,"start_time":"2016-08-16 11:41:40 -0400"}]}},"groups":{"in_memory.rb":{"title":null,"controls":["(generated from in_memory.rb:1 5aab65c33fb1f133d9244017958eef64)"]}},"attributes":[]}},"other_checks":[],"summary":{"duration":0.001078,"example_count":1,"failure_count":0,"skip_count":0}}}
+$ inspec shell --format json -c 'describe file("/Users/test") do it { should exist } end'
+{
+  "version": "1.49.2",
+  "controls": [{
+    "status": "passed",
+    "code_desc": "File /Users/test should exist",
+    "run_time": 0.002374,
+    "start_time": "2018-01-06 18:32:38 -0500"
+  }],
+  "other_checks": [],
+  "profiles": [{
+    "name": "inspec-shell",
+    "supports": [],
+    "controls": [{
+      "title": null,
+      "desc": null,
+      "impact": 0.5,
+      "refs": [],
+      "tags": {},
+      "code": "",
+      "source_location": {
+        "ref": "/usr/local/lib/ruby/gems/2.4.0/gems/inspec-1.49.2/lib/inspec/control_eval_context.rb",
+        "line": 89
+      },
+      "id": "(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)",
+      "results": [{
+        "status": "passed",
+        "code_desc": "File /Users/test should exist",
+        "run_time": 0.002374,
+        "start_time": "2018-01-06 18:32:38 -0500"
+      }]
+    }],
+    "groups": [{
+      "title": null,
+      "controls": ["(generated from (eval):1 7b6f82c2cc5e4205b3e2c97c8e855f2d)"],
+      "id": "unknown"
+    }],
+    "attributes": [],
+    "sha256": "29c070a90b7e3521babf618215573284a790d92907783d5b2c138f411bfd2e74"
+  }],
+  "platform": {
+    "name": "mac_os_x",
+    "release": "17.3.0"
+  },
+  "statistics": {
+    "duration": 0.003171
+  }
+}
 ```

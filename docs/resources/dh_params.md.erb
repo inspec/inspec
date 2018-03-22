@@ -25,21 +25,9 @@ A `dh_params` resource block declares a parameter file to be tested.
 
 <br>
 
-## Resource Parameter Examples
-
-### dh_params?
-
-Verify whether file contains DH parameters:
-
-    describe dh_params('/path/to/file.dh_pem') do
-      it { should be_dh_params }
-    end
-
-<br>
-
 ## Properties
 
-generator, modulus, prime_length, pem, text
+* `generator`, `modulus`, `prime_length`, `pem`, `text`
 
 <br>
 

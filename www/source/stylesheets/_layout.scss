@@ -256,12 +256,6 @@
 .box-scroll {
 	max-height: 120px;
 	overflow: scroll;
-	-ms-overflow-style: none;  // IE 10+
-	overflow: -moz-scrollbars-none;  // Firefox
-}
-
-.box-scroll::-webkit-scrollbar {
-	display: none;
 }
 
 .tooltip-triangle {

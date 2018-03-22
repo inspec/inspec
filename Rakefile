@@ -151,15 +151,17 @@ namespace :test do
 
   namespace :azure do
     # Specify the directory for the integration tests
-    integration_dir = 'test/integration/azure'
+    integration_dir = File.join(project_dir, 'test', 'integration', 'azure')
+    attribute_file = File.join(integration_dir, '.attribute.yml')
 
-    task :init_workspace do
-      # Initialize terraform workspace
-      sh("cd #{integration_dir}/build/ && terraform init")
-    end
-
-    task :setup_integration_tests do
+    task :setup, :tf_workspace do |t, args|
+      tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
+      abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Setup'
+      sh("cd #{integration_dir}/build/ && terraform init")
+      sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
+
+      # Generate Azure crendentials
       creds = Train.create('azure').connection.connect
 
       # Determine the storage account name and the admin password
@@ -170,35 +172,72 @@ namespace :test do
       suffix = sa_name[0..3]
 
       # Create the plan that can be applied to Azure
-      cmd = format("cd %s/build/ && terraform plan -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'storage_account_name=%s' -var 'admin_password=%s' -var 'suffix=%s' -out inspec-azure.plan", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id], sa_name, admin_password, suffix)
+      cmd  = ""
+      cmd += "cd #{integration_dir}/build/ && terraform plan -out inspec-azure.plan"
+      cmd += " -var 'subscription_id=#{creds[:subscription_id]}' "
+      cmd += " -var 'client_id=#{creds[:client_id]}' "
+      cmd += " -var 'client_secret=#{creds[:client_secret]}' "
+      cmd += " -var 'tenant_id=#{creds[:tenant_id]}' "
+      cmd += " -var 'storage_account_name=#{sa_name}' "
+      cmd += " -var 'admin_password=#{admin_password}' "
+      cmd += " -var 'suffix=#{suffix}' "
       sh(cmd)
 
       # Apply the plan on Azure
-      cmd = format("cd %s/build/ && terraform apply inspec-azure.plan", integration_dir)
+      cmd = "cd #{integration_dir}/build/ && terraform apply inspec-azure.plan"
       sh(cmd)
+
+      # Dump TF outputs to InSpec attributes file
+      Rake::Task["test:azure:dump_attrs"].execute
     end
 
-    task :run_integration_tests do
+    task :"dump_attrs" do
+      sh("cd #{integration_dir}/build/ && terraform output > #{attribute_file}")
+        raw_output = File.read(attribute_file)
+        yaml_output = raw_output.gsub(" = ", " : ")
+        File.open(attribute_file, "w") {|file| file.puts yaml_output}
+      end
+
+    task :run do
       puts '----> Run'
       sh("bundle exec inspec exec #{integration_dir}/verify -t azure://1e0b427a-d58b-494e-ae4f-ee558463ebbf")
     end
 
-    task :cleanup_integration_tests do
+    task :cleanup, :tf_workspace do |t, args|
+      tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
+      abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Cleanup'
+
       creds = Train.create('azure').connection.connect
 
-      cmd = format("cd %s/build/ && terraform destroy -force -var 'subscription_id=%s' -var 'client_id=%s' -var 'client_secret=%s' -var 'tenant_id=%s' -var 'admin_password=dummy' -var 'storage_account_name=dummy' -var 'suffix=dummy'", integration_dir, creds[:subscription_id], creds[:client_id], creds[:client_secret], creds[:tenant_id])
+      cmd  = ""
+      cmd += "cd #{integration_dir}/build/ && terraform destroy -force "
+      cmd += " -var 'subscription_id=#{creds[:subscription_id]}' "
+      cmd += " -var 'client_id=#{creds[:client_id]}' "
+      cmd += " -var 'client_secret=#{creds[:client_secret]}' "
+      cmd += " -var 'tenant_id=#{creds[:tenant_id]}' "
+      cmd += " -var 'storage_account_name=dummy' "
+      cmd += " -var 'admin_password=dummy' "
+      cmd += " -var 'suffix=dummy' "
+
       sh(cmd)
+
+      sh("cd #{integration_dir}/build/ && terraform workspace select default")
+      sh("cd #{integration_dir}/build && terraform workspace delete #{tf_workspace}")
     end
   end
 
   desc "Perform Azure Integration Tests"
   task :azure do
-    Rake::Task['test:azure:init_workspace'].execute
-    Rake::Task['test:azure:cleanup_integration_tests'].execute
-    Rake::Task['test:azure:setup_integration_tests'].execute
-    Rake::Task['test:azure:run_integration_tests'].execute
-    Rake::Task['test:azure:cleanup_integration_tests'].execute
+    tf_workspace = ENV['INSPEC_TERRAFORM_ENV'] || prompt("Please enter a workspace for your integration tests to run in: ")
+    begin
+      Rake::Task["test:azure:setup"].execute({:tf_workspace => tf_workspace})
+      Rake::Task["test:azure:run"].execute
+    rescue
+      abort("Integration testing has failed")
+    ensure
+      Rake::Task["test:azure:cleanup"].execute({:tf_workspace => tf_workspace})
+    end
   end
 end
 

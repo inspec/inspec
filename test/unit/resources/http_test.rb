@@ -65,6 +65,25 @@ describe 'Inspec::Resources::Http' do
         _(worker.body).must_equal 'params ok'
       end
     end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        stub_request(:options, "http://www.example.com/").
+          with(:headers => {'Access-Control-Request-Headers'=>'origin, x-requested-with', 'Access-Control-Request-Method'=>'GET', 'Origin'=>'http://www.example.com'}).
+          to_return(:status => 200, :body => "", :headers => { 'mock' => 'ok', 'Access-Control-Allow-Origin' => 'http://www.example.com', 'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, DELETE', 'Access-Control-Max-Age' => '86400' })
+
+        _(worker.status).must_equal 200
+        _(worker.response_headers['mock']).must_equal 'ok'
+        _(worker.response_headers['access-control-allow-origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['access-control-allow-methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['access-control-max-age']).must_equal '86400'
+      end
+    end
   end
 
   describe 'Inspec::Resource::Http::Worker::Remote' do
@@ -125,6 +144,20 @@ describe 'Inspec::Resources::Http' do
       it 'returns correct data' do
         _(worker.status).must_equal 301
         _(worker.response_headers['Location']).must_equal 'http://www.google.com/'
+      end
+    end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 200
+        _(worker.response_headers['Access-Control-Allow-Origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['Access-Control-Allow-Methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['Access-Control-Max-Age']).must_equal '86400'
       end
     end
   end
