@@ -24,10 +24,9 @@ class EtcHosts < Inspec.resource(1)
   include FileReader
 
   def initialize(hosts_path = nil)
-    @conf_path      = hosts_path || default_hosts_file_path
-    @content        = nil
-    @params         = nil
-    read_content
+    @conf_path = hosts_path || default_hosts_file_path
+    @content   = read_file(@conf_path)
+    @params    = parse_conf(@content)
   end
 
   filter = FilterTable.create
@@ -36,7 +35,6 @@ class EtcHosts < Inspec.resource(1)
         .add(:ip_address,     field: 'ip_address')
         .add(:primary_name,   field: 'primary_name')
         .add(:all_host_names, field: 'all_host_names')
-
   filter.connect(self, :params)
 
   private
@@ -45,16 +43,9 @@ class EtcHosts < Inspec.resource(1)
     inspec.os.windows? ? 'C:\windows\system32\drivers\etc\hosts' : '/etc/hosts'
   end
 
-  def read_content
-    @content = ''
-    @params  = {}
-    @content = read_file(@conf_path)
-    @params  = parse_conf(@content)
-  end
-
   def parse_conf(content)
     content.map do |line|
-      data, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
+      data, _ = parse_comment_line(line, comment_char: '#', standalone_comments: false)
       parse_line(data) unless data == ''
     end.compact
   end
