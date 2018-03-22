@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.9 -->
-## [v2.1.9](https://github.com/chef/inspec/tree/v2.1.9) (2018-03-22)
+<!-- latest_release 2.1.10 -->
+## [v2.1.10](https://github.com/chef/inspec/tree/v2.1.10) (2018-03-22)
 
-#### Enhancements
-- Added support for proxy_command for remote SSH connections [#2385](https://github.com/chef/inspec/pull/2385) ([cbeckr](https://github.com/cbeckr))
+#### Merged Pull Requests
+- Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
 ### Changes since 2.1.0 release
+
+#### Merged Pull Requests
+- Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.10 -->
 
 #### Bug Fixes
 - Revise /etc/hosts for correctness and clarity [#2863](https://github.com/chef/inspec/pull/2863) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.7 -->
