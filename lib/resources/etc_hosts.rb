@@ -27,9 +27,9 @@ class EtcHosts < Inspec.resource(1)
   DEFAULT_WINDOWS_PATH = 'C:\windows\system32\drivers\etc\hosts'.freeze
 
   def initialize(hosts_path = nil)
-    @conf_path = hosts_path || default_hosts_file_path
-    @content   = read_file(@conf_path)
-    @params    = parse_conf(@content.lines)
+    content = read_file_content(hosts_path || default_hosts_file_path)
+
+    @params = parse_conf(content.lines)
   end
 
   FilterTable.create
@@ -44,10 +44,6 @@ class EtcHosts < Inspec.resource(1)
 
   def default_hosts_file_path
     inspec.os.windows? ? DEFAULT_WINDOWS_PATH : DEFAULT_UNIX_PATH
-  end
-
-  def read_file(conf_path = @conf_path)
-    read_file_content(conf_path)
   end
 
   def parse_conf(lines)
