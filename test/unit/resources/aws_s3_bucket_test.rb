@@ -29,14 +29,14 @@ class AwsS3BucketConstructor < Minitest::Test
   end
 end
 
-#=============================================================================#
-#                               Search / Recall
-#=============================================================================#
 class AwsS3BucketPropertiesTest < Minitest::Test
   def setup
     AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
   end
 
+  #===========================================================================#
+  #                               Search / Recall
+  #===========================================================================#
   def test_recall_no_match_is_no_exception
     refute AwsS3Bucket.new('NonExistentBucket').exists?
   end
@@ -46,17 +46,10 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   end
 
   # No need to handle multiple hits; S3 bucket names are globally unique.
-end
 
-#=============================================================================#
-#                               Properties
-#=============================================================================#
-
-class AwsS3BucketPropertiesTest < Minitest::Test
-  def setup
-    AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
-  end
-
+  #===========================================================================#
+  #                               Properties
+  #===========================================================================#
   #---------------------Bucket Name----------------------------#  
   def test_property_bucket_name
     assert_equal('public', AwsS3Bucket.new('public').bucket_name)
@@ -143,17 +136,9 @@ class AwsS3BucketPropertiesTest < Minitest::Test
     assert_empty(bucket_policy)
   end
 
-end
-
-#=============================================================================#
-#                               Test Matchers
-#=============================================================================#
-
-class AwsS3BucketPropertiesTest < Minitest::Test
-  def setup
-    AwsS3Bucket::BackendFactory.select(AwsMSBSB::Basic)
-  end
-
+  #===========================================================================#
+  #                               Test Matchers
+  #===========================================================================#
   def test_be_public_public_acl
     assert(AwsS3Bucket.new('public').public?)
   end
@@ -162,9 +147,6 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   end
   def test_be_public_private_acl
     refute(AwsS3Bucket.new('private').public?)
-  end
-  def test_be_public_public_acl
-    assert(AwsS3Bucket.new('public').public?)
   end
 
   def test_has_access_logging_enabled_positive
