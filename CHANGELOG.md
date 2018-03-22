@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.8 -->
-## [v2.1.8](https://github.com/chef/inspec/tree/v2.1.8) (2018-03-22)
+<!-- latest_release 2.1.9 -->
+## [v2.1.9](https://github.com/chef/inspec/tree/v2.1.9) (2018-03-22)
 
-#### New Resources
-- New Skeletal Resource aws_sns_subscription [#2697](https://github.com/chef/inspec/pull/2697) ([dromazmj](https://github.com/dromazmj))
+#### Enhancements
+- Added support for proxy_command for remote SSH connections [#2385](https://github.com/chef/inspec/pull/2385) ([cbeckr](https://github.com/cbeckr))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
@@ -15,6 +15,7 @@
 - Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch)) <!-- 2.1.4 -->
 
 #### Enhancements
+- Added support for proxy_command for remote SSH connections [#2385](https://github.com/chef/inspec/pull/2385) ([cbeckr](https://github.com/cbeckr)) <!-- 2.1.9 -->
 - Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto)) <!-- 2.1.5 -->
 - Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick)) <!-- 2.1.3 -->
 - Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick)) <!-- 2.1.2 -->
