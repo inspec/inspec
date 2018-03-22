@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.5 -->
-## [v2.1.5](https://github.com/chef/inspec/tree/v2.1.5) (2018-03-22)
+<!-- latest_release 2.1.6 -->
+## [v2.1.6](https://github.com/chef/inspec/tree/v2.1.6) (2018-03-22)
 
-#### Enhancements
-- Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto))
+#### New Resources
+- New Skeletal Resource aws_sns_topics [#2696](https://github.com/chef/inspec/pull/2696) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.0 -->
@@ -19,6 +19,7 @@
 - Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick)) <!-- 2.1.2 -->
 
 #### New Resources
+- New Skeletal Resource aws_sns_topics [#2696](https://github.com/chef/inspec/pull/2696) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.6 -->
 - Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.1 -->
 <!-- release_rollup -->
 
