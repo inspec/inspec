@@ -1,35 +1,33 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.10 -->
-## [v2.1.10](https://github.com/chef/inspec/tree/v2.1.10) (2018-03-22)
-
-#### Merged Pull Requests
-- Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.0 -->
-### Changes since 2.1.0 release
-
-#### Merged Pull Requests
-- Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.10 -->
-
-#### Bug Fixes
-- Revise /etc/hosts for correctness and clarity [#2863](https://github.com/chef/inspec/pull/2863) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.7 -->
-- Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch)) <!-- 2.1.4 -->
-
-#### Enhancements
-- Added support for proxy_command for remote SSH connections [#2385](https://github.com/chef/inspec/pull/2385) ([cbeckr](https://github.com/cbeckr)) <!-- 2.1.9 -->
-- Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto)) <!-- 2.1.5 -->
-- Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick)) <!-- 2.1.3 -->
-- Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick)) <!-- 2.1.2 -->
-
-#### New Resources
-- New Skeletal Resource aws_sns_subscription [#2697](https://github.com/chef/inspec/pull/2697) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.8 -->
-- New Skeletal Resource aws_sns_topics [#2696](https://github.com/chef/inspec/pull/2696) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.6 -->
-- Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.10](https://github.com/chef/inspec/tree/v2.1.10) (2018-03-22)
+
+#### New Resources
+- Skelatal resource: aws_s3_bucket_object [#2620](https://github.com/chef/inspec/pull/2620) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_sns_topics [#2696](https://github.com/chef/inspec/pull/2696) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_sns_subscription [#2697](https://github.com/chef/inspec/pull/2697) ([dromazmj](https://github.com/dromazmj))
+
+#### Enhancements
+- Upgrade Thor to version 0.20.0. [#2843](https://github.com/chef/inspec/pull/2843) ([jquick](https://github.com/jquick))
+- Remove supports binding for generic resources [#2848](https://github.com/chef/inspec/pull/2848) ([jquick](https://github.com/jquick))
+- Unify method in which file content is read across all resources [#2359](https://github.com/chef/inspec/pull/2359) ([eramoto](https://github.com/eramoto))
+- Added support for proxy_command for remote SSH connections [#2385](https://github.com/chef/inspec/pull/2385) ([cbeckr](https://github.com/cbeckr))
+
+#### Bug Fixes
+- Correct support platform for audit_policy [#2850](https://github.com/chef/inspec/pull/2850) ([pwelch](https://github.com/pwelch))
+- Revise /etc/hosts for correctness and clarity [#2863](https://github.com/chef/inspec/pull/2863) ([TrevorBramble](https://github.com/TrevorBramble))
+
+#### Merged Pull Requests
+- Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble))
+<!-- latest_stable_release -->
+
 ## [v2.1.0](https://github.com/chef/inspec/tree/v2.1.0) (2018-03-15)
 
 #### Enhancements
@@ -42,7 +40,6 @@
 #### Merged Pull Requests
 - Docs: Describe support boundary between RSpec and InSpec [#2753](https://github.com/chef/inspec/pull/2753) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Sort file list for unit tests [#2812](https://github.com/chef/inspec/pull/2812) ([eramoto](https://github.com/eramoto))
-<!-- latest_stable_release -->
 
 ## [v2.0.45](https://github.com/chef/inspec/tree/v2.0.45) (2018-03-08)
 
