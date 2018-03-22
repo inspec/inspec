@@ -121,7 +121,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     return true unless criteria.key?(:ipv4_range)
     query = criteria[:ipv4_range]
     query = [query] unless query.is_a?(Array)
-    ranges = rule[:ip_ranges].map {|rng| rng[:cidr_ip] }
+    ranges = rule[:ip_ranges].map { |rng| rng[:cidr_ip] }
     Set.new(query) == Set.new(ranges)
   end
 
