@@ -36,11 +36,11 @@ The following examples show how to use this InSpec audit resource.
     describe aws_security_group(group_name: linux_servers) do
       # This passes if there is any inbound rule that specifies 
       # port 22 and the given IP range, regardless of protocol, etc.
-      its('inbound_rules') { should allow(port: 22, ipv4_range: '10.5.0.0/16') }
+      it { should allow(port: 22, ipv4_range: '10.5.0.0/16') }
 
       # This passes so long as there is no inbound rule that specifies port 22
       # and whose source IP range is 0.0.0.0/0.  Other properties are ignored. 
-      its('inbound_rules') { should_not allow(port: 22, ipv4_range: '0.0.0.0/0') }
+      it { should_not allow(port: 22, ipv4_range: '0.0.0.0/0') }
 
       # This is an alternate way of expressing the previous test.
       # be_open_to_the_world_on_port assumes you want inbound_rules.
@@ -53,11 +53,11 @@ The following examples show how to use this InSpec audit resource.
       # If you have two rules, with one CIDR each: 
       [ '10.7.23.12/32', '10.8.23.12/32'].each do |allowed_destination|
         # this doesn't care about which ports are enabled
-        its('outbound_rules') { should allow(ipv4_range: allowed_destination)}
+        it { should allow(ipv4_range: allowed_destination)}
       end
 
       # If you have one rule, with two CIDRs: 
-      its('outbound_rules') { should allow(ipv4_range: ['10.7.23.12/32', '10.8.23.12/32']}
+      it { should allow(ipv4_range: ['10.7.23.12/32', '10.8.23.12/32']}
 
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
@@ -150,32 +150,27 @@ A String reflecting the name that was given to the SG at creation time.
       its('group_name') { should cmp 'my_group' }
     end
 
-### inbound_rules
+### inbound\_rules
 
-A list of the rules that the security group applies to incoming network traffic. This is usually used with the [`allow`](#allow) matcher; see it for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. By default, AWS includes a reject-all rule as the last inbound rule.
+A list of the rules that the security group applies to incoming network traffic. This is a low-level property that is used by the [`allow_in`](#allow_in) and [`open_to_the_world`](#open_to_the_world) matchers; see them for detailed examples. `inbound_rules` is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-level matchers.
+
+Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. By default, AWS includes a reject-all rule as the last inbound rule.  This implicit rule will not appear in the inbound_rules list.
 
 If the security group could not be found (that is, `exists` is false), `inbound_rules` will return an empty list.
 
     describe aws_security_group(group_name: linux_servers) do
-      # This passes if there is any inbound rule that includes 
-      # port 22 and the given IP range, regardless of protocol, etc.
-      its('inbound_rules') { should allow(port: 22, ipv4_range '10.5.0.0/16') }
-
-      # You can also treat it at the lower level, as an array of structures.
       its('inbound_rules.first') { should include(from_port: '22', ip_ranges: ['10.2.17.0/24']) }
     end
 
-### outbound_rules
+### outbound\_rules
 
-A list of the rules that the security group applies to outgoing network traffic initiated by the AWS resource in the security group. This is usually used with the [`allow`](#allow) matcher; see it for detailed examples. Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule.
+A list of the rules that the security group applies to outgoing network traffic initiated by the AWS resource in the security group. This is a low-level property that is used by the [`allow_out`](#allow_out) matcher; see it for detailed examples. `outbound_rules` is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-levle matchers.
+
+Order is very important in these rules, as the sequentially first rule to match will be applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule; note that Terraform removes this implicit rule. 
 
 If the security group could not be found (that is, `exists` is false), `outbound_rules` will return an empty list.
 
     describe aws_security_group(group_name: isolated_servers) do
-      # Its last rule should not allow all traffic anywhere
-      its('outbound_rules') { should_not allow(ipv4_range: '0.0.0.0/0', position: :last) }
-
-      # You can also treat it at the lower level, as an array of hashes.
       its('outbound_rules.last') { should_not include(ip_ranges:['0.0.0.0/0']) }
     end
 
@@ -194,35 +189,37 @@ A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VP
 
 This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
-### allow
+### allow\_in
 
-For use with the `inbound_rules` and `outbound_rules` properties, the `allow` matcher enables you to perform queries about what network traffic would be permitted through the security group rule set. `allow` takes a key-value list of search criteria:
+### allow\_out
 
-  * from_port - Determines if there is a rule whose port range begins at the specified number. The word 'from_' does not relate to inbound/outbound directionality; it relates to the port range ("counting _from_").
-  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `inbound_rules`) or destination (for `outbound_rules`) for traffic.  Each security group rule may have multiple allowed source IP ranges. If the criterion specifies a single CIDR, the rule must also specify a single CIDR and they must match exactly.  If a list or more than one range is provided, the AWS rule must also supply a list, and the two lists must match set-wise (ignoring order and ignoring duplicates).
+The `allow_in` and `allow_out` matchers enable you to perform queries about what network traffic would be permitted through the security group rule set. `allow_in` and `allow_out` accept a key-value list of search criteria:
+
+  * from_port - Determines if there is a rule whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_").
+  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each security group rule may have multiple allowed source IP ranges. If the criterion specifies a single CIDR, the rule must also specify a single CIDR and they must match exactly.  If a list or more than one range is provided, the AWS rule must also supply a list, and the two lists must match set-wise (ignoring order and ignoring duplicates).
   * port - Determines if a particular TCP/IP port is allowed exactly; that is, there is a port range that starts and stop on this number. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`.
   * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
-  * to_port - Determines if there is a rule whose port range ends at the specified number. The word 'to_' does not relate to inbound/outbound directionality; it relates to the port range ("counting _to_").
+  * to_port - Determines if there is a rule whose port range ends at the specified number. The word 'to_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _to_").
   
     describe aws_security_group(group_name: 'example-group') do
       # Allow RDP from certain range
-      its('inbound_rules') { should allow(port: 3389, ipv4_range: '10.5.0.0/16')}
+      it { should allow(port: 3389, ipv4_range: '10.5.0.0/16')}
 
       # Allow SSH from two ranges
-      its('inbound_rules') { should allow(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24'])}
+      it { should allow(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24'])}
 
       # Check Bacula port range
-      its('inbound_rules') { should allow(from_port: 9101, to_port: 9103, ipv4_range: '10.6.7.0/24')}
+      it { should allow(from_port: 9101, to_port: 9103, ipv4_range: '10.6.7.0/24')}
 
       # Ensure the 3rd outbound rule is TCP-based
-      its('outbound_rules') { should allow(protocol: 'tcp', position: 3')}
+      it { should allow(protocol: 'tcp', position: 3')}
 
       # Don't allow any service to be open to the world
-      its('inbound_rules') { should_not allow(ipv4_range: '0.0.0.0/0')}
+      it { should_not allow(ipv4_range: '0.0.0.0/0')}
     end
 
-### be_open_to_the_world
+### be\_open\_to\_the\_world
 
 This high-level matcher will cause the control to pass if there is any inbound rule that is open to `0.0.0.0/0`, regardless of port.  This is intended to be used with `should_not`.
 
@@ -234,7 +231,7 @@ Note that as of this release, this matcher does not consider:
       it { should_not be_open_to_the_world }
     end
 
-### be_open_to_the_world_on_port
+### be\_open\_to\_the\_world\_on\_port
 
 This high-level matcher will cause the control to pass if there is any inbound rule that is open to `0.0.0.0/0`, on a specific port.
 

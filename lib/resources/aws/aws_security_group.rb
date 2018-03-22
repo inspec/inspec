@@ -17,7 +17,19 @@ class AwsSecurityGroup < Inspec.resource(1)
     "EC2 Security Group #{@group_id}"
   end
 
-  def allow?(rules, criteria = {})
+  def allow_in?(criteria = {})
+    allow(inbound_rules, criteria)
+  end
+  RSpec::Matchers.alias_matcher :allow_in, :be_allow_in
+
+  def allow_out?(criteria = {})
+    allow(outbound_rules, criteria)
+  end
+  RSpec::Matchers.alias_matcher :allow_out, :be_allow_out
+
+  private
+
+  def allow(rules, criteria)
     criteria = allow__check_criteria(criteria)
     rules = allow__focus_on_position(rules, criteria)
 
@@ -29,9 +41,6 @@ class AwsSecurityGroup < Inspec.resource(1)
       matched
     end
   end
-  RSpec::Matchers.alias_matcher :allow, :be_allow
-
-  private
 
   def allow__check_criteria(raw_criteria)
     allowed_criteria = [
@@ -112,7 +121,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     return true unless criteria.key?(:ipv4_range)
     query = criteria[:ipv4_range]
     query = [query] unless query.is_a?(Array)
-    ranges = rule[:ip_ranges].map(&:cidr_ip)
+    ranges = rule[:ip_ranges].map {|rng| rng[:cidr_ip] }
     Set.new(query) == Set.new(ranges)
   end
 

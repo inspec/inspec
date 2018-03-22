@@ -101,7 +101,7 @@ class AwsSGSProperties < Minitest::Test
   def test_matcher_allow_criteria_validation
     sg = AwsSecurityGroup.new('sg-aaaabbbb')
     rules = sg.inbound_rules
-    assert_raises(ArgumentError, "allow should reject unrecognized criteria") { sg.allow?(rules, shoe_size: 9) }
+    assert_raises(ArgumentError, "allow should reject unrecognized criteria") { sg.allow_in?(shoe_size: 9) }
     [
       :from_port,
       :ipv4_range,
@@ -111,7 +111,7 @@ class AwsSGSProperties < Minitest::Test
       :to_port,
     ].each do |criterion|
       # No errors here
-      sg.allow?(rules, criterion => 'dummy')
+      sg.allow_in?(criterion => 'dummy')
     end
   end
 
@@ -119,7 +119,7 @@ class AwsSGSProperties < Minitest::Test
     sg = AwsSecurityGroup.new('sg-aaaabbbb')
     rules = sg.inbound_rules
     assert_equal(0, rules.count)
-    refute(sg.allow?(rules)) # Should we test this - "open" crieria?
+    refute(sg.allow_in?()) # Should we test this - "open" crieria?
   end
 
   def test_matcher_allow_inbound_complex
@@ -128,32 +128,32 @@ class AwsSGSProperties < Minitest::Test
     assert_equal(2, rules.count, "count the number of rules")
 
     # Position pinning
-    assert(sg.allow?(rules, ipv4_range: "10.1.4.0/24", position: 2), "use numeric position")
-    assert(sg.allow?(rules, ipv4_range: "10.1.4.0/24", position: "2"), "use string position")
-    assert(sg.allow?(rules, ipv4_range: "10.1.4.0/24", position: :last), "use :last position")
-    assert(sg.allow?(rules, port: 22, position: :first), "use :first position")
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: 2), "use numeric position")
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: "2"), "use string position")
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: :last), "use :last position")
+    assert(sg.allow_in?(port: 22, position: :first), "use :first position")
 
-    assert(sg.allow?(rules, port: 22), "match on a numeric port")
-    assert(sg.allow?(rules, port: "22"), "match on a string port")
-    assert(sg.allow?(rules, to_port: "22", from_port: "22"), "match on to/from port")
+    assert(sg.allow_in?(port: 22), "match on a numeric port")
+    assert(sg.allow_in?(port: "22"), "match on a string port")
+    assert(sg.allow_in?(to_port: "22", from_port: "22"), "match on to/from port")
 
     # Protocol
-    assert(sg.allow?(rules, protocol: 'tcp'), "match on tcp protocol, unpinned")    
-    assert(sg.allow?(rules, protocol: 'tcp', position: 1), "match on tcp protocol")
-    assert(sg.allow?(rules, protocol: 'any', position: 2), "match on our 'any' alias protocol")
-    assert(sg.allow?(rules, protocol: '-1', position: 2), "match on AWS spec '-1 for any' protocol")
+    assert(sg.allow_in?(protocol: 'tcp'), "match on tcp protocol, unpinned")    
+    assert(sg.allow_in?(protocol: 'tcp', position: 1), "match on tcp protocol")
+    assert(sg.allow_in?(protocol: 'any', position: 2), "match on our 'any' alias protocol")
+    assert(sg.allow_in?(protocol: '-1', position: 2), "match on AWS spec '-1 for any' protocol")
 
     # OK to specifiy a single IP range if the resource actually has exactly one
-    assert(sg.allow?(rules, ipv4_range: "10.1.4.0/24"), "match on 1 ipv4 range as string")
-    assert(sg.allow?(rules, ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
+    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24"), "match on 1 ipv4 range as string")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
 
     # Not OK to specify a single IP range if the resource actually has a list
-    refute(sg.allow?(rules, ipv4_range: "10.1.2.0/24"), "do not match on a list ipv4 range when providing only one value (first)")
-    refute(sg.allow?(rules, ipv4_range: "10.1.3.0/24"), "do not match on a list ipv4 range when providing only one value (last)")
+    refute(sg.allow_in?(ipv4_range: "10.1.2.0/24"), "do not match on a list ipv4 range when providing only one value (first)")
+    refute(sg.allow_in?(ipv4_range: "10.1.3.0/24"), "do not match on a list ipv4 range when providing only one value (last)")
     # List for list is OK
-    assert(sg.allow?(rules, ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"]))
-    refute(sg.allow?(rules, ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))     
-    assert(sg.allow?(rules, ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
+    assert(sg.allow_in?(ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"]))
+    refute(sg.allow_in?(ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))     
+    assert(sg.allow_in?(ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
 
   end
 end
@@ -193,8 +193,10 @@ module AwsMESGSB
               to_port: 22,
               ip_protocol: 'tcp',
               ip_ranges: [
-                OpenStruct.new({cidr_ip:"10.1.2.0/24"}),
-                OpenStruct.new({cidr_ip:"10.1.3.0/24"}),
+                # Apparently AWS returns these as plain hashes, 
+                # nested in two levels of Structs.
+                {cidr_ip:"10.1.2.0/24"},
+                {cidr_ip:"10.1.3.0/24"},
               ]
             }),
             OpenStruct.new({
@@ -202,7 +204,7 @@ module AwsMESGSB
               to_port: nil,
               ip_protocol: "-1",
               ip_ranges: [
-                OpenStruct.new({cidr_ip:"10.1.4.0/24"}),
+                {cidr_ip:"10.1.4.0/24"},
               ]
             }),
           ],
@@ -212,7 +214,7 @@ module AwsMESGSB
               to_port: 123,
               ip_protocol: "udp",
               ip_ranges: [
-                OpenStruct.new({cidr_ip:"128.138.140.44/32"}),
+                {cidr_ip:"128.138.140.44/32"},
               ]
             }),
           ],          
@@ -228,7 +230,7 @@ module AwsMESGSB
               to_port: nil,
               ip_protocol: "-1",
               ip_ranges: [
-                OpenStruct.new({cidr_ip:"0.0.0.0/0"}),
+                {cidr_ip:"0.0.0.0/0"},
               ]
             }),
           ],
