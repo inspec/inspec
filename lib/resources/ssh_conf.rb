@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'utils/simpleconfig'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class SshConf < Inspec.resource(1)
@@ -16,10 +17,13 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(conf_path = nil, type = nil)
       @conf_path = conf_path || '/etc/ssh/ssh_config'
       typename = (@conf_path.include?('sshd') ? 'Server' : 'Client')
       @type = type || "SSH #{typename} configuration #{conf_path}"
+      read_content
     end
 
     def content
@@ -56,17 +60,8 @@ module Inspec::Resources
 
     def read_content
       return @content if defined?(@content)
-      file = inspec.file(@conf_path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
 
-      @content = file.content
-      if @content.nil? || (@content.empty? && !file.size.zero?)
-        return skip_resource "Can't read file \"#{@conf_path}\""
-      end
-
-      @content
+      @content = read_file_content(@conf_path)
     end
 
     def read_params

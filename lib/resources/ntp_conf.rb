@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'utils/simpleconfig'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class NtpConf < Inspec.resource(1)
@@ -15,8 +16,11 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(path = nil)
       @conf_path = path || '/etc/ntp.conf'
+      @content = read_file_content(@conf_path)
     end
 
     def method_missing(name)
@@ -35,20 +39,9 @@ module Inspec::Resources
     def read_params
       return @params if defined?(@params)
 
-      if !inspec.file(@conf_path).file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
-
-      content = inspec.file(@conf_path).content
-      if content.empty? && !inspec.file(@conf_path).empty?
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
-      end
-
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         assignment_regex: /^\s*(\S+)\s+(.*)\s*$/,
         multiple_values: true,
       )

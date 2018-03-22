@@ -20,6 +20,7 @@
 
 require 'utils/convert'
 require 'utils/parser'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class EtcGroup < Inspec.resource(1)
@@ -36,6 +37,8 @@ module Inspec::Resources
         its('users') { should include 'my_user' }
       end
     "
+
+    include FileReader
 
     attr_accessor :gid, :entries
     def initialize(path = nil)
@@ -91,11 +94,8 @@ module Inspec::Resources
     private
 
     def parse_group(path)
-      @content = inspec.file(path).content
-      if @content.nil?
-        skip_resource "Can't access group file in #{path}"
-        return []
-      end
+      @content = read_file_content(path, allow_empty: true)
+
       # iterate over each line and filter comments
       @content.split("\n").each_with_object([]) do |line, lines|
         grp_info = parse_group_line(line)

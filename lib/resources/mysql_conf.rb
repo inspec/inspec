@@ -3,6 +3,7 @@
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
+require 'utils/file_reader'
 require 'utils/hash'
 require 'resources/mysql'
 
@@ -47,6 +48,7 @@ module Inspec::Resources
     "
 
     include FindFiles
+    include FileReader
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.mysql.conf_path
@@ -77,15 +79,6 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-
-      # skip if the main configuration file doesn't exist
-      if !inspec.file(@conf_path).file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-      raw_conf = read_file(@conf_path)
-      if raw_conf.empty? && !inspec.file(@conf_path).empty?
-        return skip_resource("Can't read file \"#{@conf_path}\"")
-      end
 
       to_read = [@conf_path]
       until to_read.empty?
@@ -124,7 +117,7 @@ module Inspec::Resources
     end
 
     def read_file(path)
-      @files_contents[path] ||= inspec.file(path).content
+      @files_contents[path] ||= read_file_content(path)
     end
 
     def to_s

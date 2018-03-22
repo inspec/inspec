@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'openssl'
+require 'utils/file_reader'
 
 class DhParams < Inspec.resource(1)
   name 'dh_params'
@@ -22,17 +23,11 @@ class DhParams < Inspec.resource(1)
     end
   "
 
+  include FileReader
+
   def initialize(filename)
     @dh_params_path = filename
-    file = inspec.file(@dh_params_path)
-    return skip_resource "Unable to find DH parameters file #{@dh_params_path}" unless file.exist?
-
-    begin
-      @dh_params = OpenSSL::PKey::DH.new file.content
-    rescue
-      @dh_params = nil
-      return skip_resource "Unable to load DH parameters #{@dh_params_path}"
-    end
+    @dh_params = OpenSSL::PKey::DH.new read_file_content(@dh_params_path)
   end
 
   # it { should be_dh_params }

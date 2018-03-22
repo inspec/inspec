@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'resources/file'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Bond < FileResource
@@ -13,20 +14,20 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(bond)
       @bond = bond
       @path = "/proc/net/bonding/#{bond}"
       @file = inspec.file(@path)
-      @content = nil
+      @content = read_file_content(@path, allow_empty: true)
       @params = {}
       @loaded = false
     end
 
     def read_content
-      # parse the file
-      @content = @file.content
       @params = SimpleConfig.new(
-        @file.content,
+        @content,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true,
       ).params if @file.exist?

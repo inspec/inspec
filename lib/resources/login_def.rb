@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'utils/simpleconfig'
+require 'utils/file_reader'
 
 # Usage:
 #
@@ -26,8 +27,11 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(path = nil)
       @conf_path = path || '/etc/login.defs'
+      @content = read_file_content(@conf_path)
     end
 
     def method_missing(name)
@@ -37,22 +41,9 @@ module Inspec::Resources
     def read_params
       return @params if defined?(@params)
 
-      # read the file
-      file = inspec.file(@conf_path)
-      if !file.file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
-
-      content = file.content
-      if content.empty? && !file.empty?
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
-      end
-
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         assignment_regex: /^\s*(\S+)\s+(\S*)\s*$/,
         multiple_values: false,
       )

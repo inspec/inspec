@@ -2,6 +2,7 @@
 # copyright: 2016, Chef Software Inc.
 
 require 'utils/filter'
+require 'utils/file_reader'
 
 # The file format consists of
 # - user
@@ -31,15 +32,17 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     attr_reader :params
     attr_reader :lines
 
     def initialize(path = '/etc/shadow', opts = nil)
       opts ||= {}
       @path = path || '/etc/shadow'
-      @raw_content = opts[:content] || inspec.file(@path).content
-      @lines = @raw_content.to_s.split("\n")
       @filters = opts[:filters] || ''
+      @raw_content = opts[:content] || read_file_content(@path, allow_empty: true)
+      @lines = @raw_content.to_s.split("\n")
       @params = @lines.map { |l| parse_shadow_line(l) }
     end
 

@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'utils/object_traversal'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class JsonConfig < Inspec.resource(1)
@@ -22,6 +23,7 @@ module Inspec::Resources
     "
 
     include ObjectTraverser
+    include FileReader
 
     # make params readable
     attr_reader :params, :raw_content
@@ -86,15 +88,7 @@ module Inspec::Resources
     end
 
     def load_raw_from_file(path)
-      file = inspec.file(path)
-
-      # these are currently ResourceSkipped to maintain consistency with the resource
-      # pre-refactor (which used skip_resource). These should likely be changed to
-      # ResourceFailed during a major version bump.
-      raise Inspec::Exceptions::ResourceSkipped, "No such file: #{path}" unless file.file?
-      raise Inspec::Exceptions::ResourceSkipped, "File #{path} is empty or is not readable by current user" if file.content.nil? || file.content.empty?
-
-      file.content
+      read_file_content(path)
     end
 
     def load_raw_from_command(command)

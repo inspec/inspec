@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'utils/file_reader'
 require 'resources/postgres'
 
 module Inspec::Resources
@@ -13,6 +14,8 @@ module Inspec::Resources
         its('map_name') { should eq ['ssl-test'] }
       end
     "
+
+    include FileReader
 
     attr_reader :params, :conf_file
 
@@ -70,7 +73,7 @@ module Inspec::Resources
     end
 
     def read_file(conf_file = @conf_file)
-      inspec.file(conf_file).content.lines
+      read_file_content(conf_file, allow_empty: true).lines
     end
   end
 end

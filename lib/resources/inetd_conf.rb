@@ -2,6 +2,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require 'utils/simpleconfig'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class InetdConf < Inspec.resource(1)
@@ -16,8 +17,11 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(path = nil)
       @conf_path = path || '/etc/inetd.conf'
+      @content = read_file_content(@conf_path)
     end
 
     # overwrite exec to ensure it works with its
@@ -33,21 +37,9 @@ module Inspec::Resources
     def read_params
       return @params if defined?(@params)
 
-      # read the file
-      file = inspec.file(@conf_path)
-      if !file.file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
-
-      content = file.content
-      if content.empty? && !file.empty?
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
-      end
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         assignment_regex: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
         key_values: 6,
         multiple_values: false,

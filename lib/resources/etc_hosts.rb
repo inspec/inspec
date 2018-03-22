@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'utils/parser'
+require 'utils/file_reader'
 
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
@@ -20,6 +21,7 @@ class EtcHosts < Inspec.resource(1)
   attr_reader :params
 
   include CommentParser
+  include FileReader
 
   def initialize(hosts_path = nil)
     @conf_path      = hosts_path || default_hosts_file_path
@@ -68,15 +70,6 @@ class EtcHosts < Inspec.resource(1)
   end
 
   def read_file(conf_path = @conf_path)
-    file = inspec.file(conf_path)
-    if !file.file?
-      return skip_resource "Can't find file. \"#{@conf_path}\""
-    end
-
-    raw_conf = file.content
-    if raw_conf.empty? && !file.empty?
-      return skip_resource("Could not read file contents\" #{@conf_path}\"")
-    end
-    raw_conf.lines
+    read_file_content(conf_path).lines
   end
 end

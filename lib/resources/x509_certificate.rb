@@ -2,6 +2,7 @@
 
 require 'openssl'
 require 'hashie/mash'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class X509CertificateResource < Inspec.resource(1)
@@ -32,6 +33,8 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     # @see https://tools.ietf.org/html/rfc5280#page-23
     def initialize(filename)
       @certpath = filename
@@ -39,16 +42,7 @@ module Inspec::Resources
       @parsed_subject = nil
       @parsed_issuer = nil
       @extensions = nil
-
-      file = inspec.file(@certpath)
-      return skip_resource "Unable to find certificate file #{@certpath}" unless file.exist?
-
-      begin
-        @cert = OpenSSL::X509::Certificate.new file.content
-      rescue OpenSSL::X509::CertificateError
-        @cert = nil
-        return skip_resource "Unable to load certificate #{@certpath}"
-      end
+      @cert = OpenSSL::X509::Certificate.new read_file_content(@certpath)
     end
 
     # Forward these methods directly to OpenSSL::X509::Certificate instance

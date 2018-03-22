@@ -60,6 +60,7 @@ describe 'example inheritance profile' do
       out.exit_status.must_equal 0
 
       out = inspec('json ' + dir + ' --output ' + dst.path)
+      out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       hm = JSON.load(File.read(dst.path))
@@ -84,7 +85,11 @@ describe 'example inheritance profile' do
     prepare_examples('meta-profile') do |dir|
       # ensure the profile is vendored and packaged as tar
       out = inspec('vendor ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
       out = inspec('archive ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       # execute json command
