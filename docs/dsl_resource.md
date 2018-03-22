@@ -177,7 +177,13 @@ resource registry.
 
 ## Contributing a Resource to InSpec Core
 
+InSpec core (that is, the InSpec project at [https://github.com/chef/inspec](https://github.com/chef/inspec)) is an open source project, and welcomes contributions from the community.  For details on the workflow and legal requirements, see our [CONTRIBUTING.md](https://github.com/chef/inspec/blob/master/CONTRIBUTING.md).
+
+When moving from writing resource packs to writing for core, be aware that the standards are fairly high.  InSpec is a security product used by thousands of users.  When a feature or new resource is submitted, it should be complete with documentation, unit tests, and integration tests.
+
 ## Design Considerations for InSpec Resources
+
+In addition to code and testing quality, there are a number of considerations involved when authoring resources.
 
 ### Two Major Audiences
 
@@ -192,6 +198,8 @@ This also applies when dealing with APIs that return complex data structures.  T
 ### Singular vs Plural
 
 One of the earliest distinctions you will need to make when designing a resource is whether you want to have in-depth auditing of a single resource, or bulk detection of groups of the same resource type.  For example, compare the [package](https://www.inspec.io/docs/reference/resources/package/) and [packages](https://www.inspec.io/docs/reference/resources/packages/) resources.
+
+TODO: describe Mixins
 
 ### Properties vs Matchers
 
@@ -307,7 +315,17 @@ An example of this approach is the [`be_public`](https://www.inspec.io/docs/refe
 
 ### Low-Level and High Level Features
 
+High/Low level features were touched on a bit in [Dealing with Complex Properties](#dealing_with_complex_properties), but it's worth expanding a bit on why this distinction is important.
+
+Low-level features expose the nuts-and-bolts of the resource.  If you are dealing with a `process`, you might be able to access information like the parent process ID, perhaps even a list of open files or a deep tree or subprocesses.  Thinking of our [two audiences](#two_major_audiences), this sort of information access is vital to infrastructure-as-code engineers; they need to verify that their provisioning code is behaving as expected, and are comfortable with the technical details, perhaps even writing Ruby code to traverse complex data structures. Compliance practitioners, on the other hand, may find the resulting code to be opaque.  They need to be able to understand the profile in order to certify that it represents the intent of a particular security standard.
+
+High-level features directly address use cases of compliance practitioners, in clear, unambiguous language. While high-level features are less flexible, they can be very powerful. For example, the `be_public` matcher on the `aws_s3_bucket` is straighforward to understand. Its implementation relies on the presence of several low-level features. It is also somewhat future-proof: if additional checks are needed in the future, they can be added to the implementation of be_public, and all users of the matcher will benefit from the change. Alternatively, if someone made the same checks using only the low-level matchers, they would need to update their profile to match.
+
+Overall, having both low- and high-level resources works out best.
+
 ### Use Raw Properties
+
+(TODO: explain returning simple data structures instead of InSpec "child resources").
 
 ### Exception handling
 
