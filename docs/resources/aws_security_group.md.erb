@@ -12,7 +12,7 @@ SGs are a networking construct which contain ingress and egress rules for networ
 
 ## Syntax
 
-An `aws_security_group` resource block uses resource parameters to search for a Security Group and then tests that Security Group. If no SGs match, no error is raised, but the `exists` matcher returns `false` and all properties will be `nil`. If more than one SG matches (due to vague search parameters), an error is raised.
+An `aws_security_group` resource block uses resource parameters to search for a Security Group and then tests that Security Group. If no SGs match, no error is raised, but the `exists` matcher returns `false` and all scalar properties will be `nil`; list properties will be empty lists. If more than one SG matches (due to vague search parameters), an error is raised.
 
     # Ensure you have a security group with a certain ID
     # This is "safe" - SG IDs are unique within an account
@@ -36,11 +36,11 @@ The following examples show how to use this InSpec audit resource.
     describe aws_security_group(group_name: linux_servers) do
       # This passes if there is any inbound rule that specifies 
       # port 22 and the given IP range, regardless of protocol, etc.
-      it { should allow(port: 22, ipv4_range: '10.5.0.0/16') }
+      it { should allow_in(port: 22, ipv4_range: '10.5.0.0/16') }
 
       # This passes so long as there is no inbound rule that specifies port 22
       # and whose source IP range is 0.0.0.0/0.  Other properties are ignored. 
-      it { should_not allow(port: 22, ipv4_range: '0.0.0.0/0') }
+      it { should_not allow_in(port: 22, ipv4_range: '0.0.0.0/0') }
 
       # This is an alternate way of expressing the previous test.
       # be_open_to_the_world_on_port assumes you want inbound_rules.
@@ -53,11 +53,11 @@ The following examples show how to use this InSpec audit resource.
       # If you have two rules, with one CIDR each: 
       [ '10.7.23.12/32', '10.8.23.12/32'].each do |allowed_destination|
         # this doesn't care about which ports are enabled
-        it { should allow(ipv4_range: allowed_destination)}
+        it { should allow_out(ipv4_range: allowed_destination)}
       end
 
       # If you have one rule, with two CIDRs: 
-      it { should allow(ipv4_range: ['10.7.23.12/32', '10.8.23.12/32']}
+      it { should allow_out(ipv4_range: ['10.7.23.12/32', '10.8.23.12/32']}
 
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
@@ -114,7 +114,7 @@ A string identifying the VPC that contains the security group. Since VPCs common
 <br>
 ## Properties
 
-* `description`, `group_id`, `group_name`, `inbound_rules`, `outbound_rules`, `vpc_id`
+* [`description`](#description), [`group_id`](#group_id), [`group_name`](#group_name), [`inbound_rules`](#inbound_rules), [`outbound_rules`](#outbound_rules), [`vpc_id`](#vpc_id)
 
 <br>
 
@@ -187,38 +187,68 @@ A String in the format 'vpc-' followed by 8 hexadecimal characters reflecting VP
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of additional available matchers, please visit our [Universal Matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+* [`allow_in`](#allow_in), [`allow_in_only`](#allow_in_only), [`allow_out`](#allow_out), [`allow_out_only`](#allow_out_only), [`be_open_to_the_world`](#be_open_to_the_world), [`be_open_to_the_world_on_port`](#be_open_to_the_world_on_port)
 
 ### allow\_in
 
 ### allow\_out
 
-The `allow_in` and `allow_out` matchers enable you to perform queries about what network traffic would be permitted through the security group rule set. `allow_in` and `allow_out` accept a key-value list of search criteria:
+### allow\_in\_only
 
-  * from_port - Determines if there is a rule whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_").
-  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each security group rule may have multiple allowed source IP ranges. If the criterion specifies a single CIDR, the rule must also specify a single CIDR and they must match exactly.  If a list or more than one range is provided, the AWS rule must also supply a list, and the two lists must match set-wise (ignoring order and ignoring duplicates).
-  * port - Determines if a particular TCP/IP port is allowed exactly; that is, there is a port range that starts and stop on this number. You may specify the port as a string (`'22'`) or as a number.
+### allow\_out\_only
+
+The `allow` series of matchers enable you to perform queries about what network traffic would be permitted through the security group rule set. 
+
+`allow_in` and `allow_in_exactly` examine inbound rules, and `allow_out` and `allow_out_exactly` examine outbound rules. 
+
+`allow_in` and `allow_out` examine whether there is at least one rule that matches the criteria. `allow_in` and `allow_out` also perform inexact (ie, range-based or subset-based) matching on ports and IP addresses ranges, allowing you to specify a candidate port or IP address and determine if it is covered by a rule.
+
+ `allow_in_only` and `allow_out_only` examine whether there is exactly one rule, and that it matches the criteria (this is useful for ensuring no unexpected rules have been added). Additionally, `allow_in_only` and `allow_out_only` do _not_ perform inexact matching; you must specify exactly the port range or IP address(es) you wish to match.
+
+The matchers accept a key-value list of search criteria.  For a rule to match, it must match all provided criteria.
+
+  * from_port - Determines if there is a rule whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_"). `from_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `from_port` of 1001, it will not match.
+  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS security group rule may have multiple allowed source IP ranges. 
+  * port - Determines if a particular TCP/IP port is reachable. allow_in and allow_out examine whether the specified port is included in the port range of a rule, while allow_in. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`.
   * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
-  * to_port - Determines if there is a rule whose port range ends at the specified number. The word 'to_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _to_").
+  * to_port - Determines if there is a rule whose port range ends at the specified number. The word 'to_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _to_"). `to_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `to_port` of 1999, it will not match.
   
-    describe aws_security_group(group_name: 'example-group') do
+    describe aws_security_group(group_name: 'mixed-functionality-group') do
       # Allow RDP from certain range
-      it { should allow(port: 3389, ipv4_range: '10.5.0.0/16')}
+      it { should allow_in(port: 3389, ipv4_range: '10.5.0.0/16')}
 
       # Allow SSH from two ranges
-      it { should allow(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24'])}
+      it { should allow_in(port: 22, ipv4_range: ['10.5.0.0/16', '10.2.3.0/24'])}
 
       # Check Bacula port range
-      it { should allow(from_port: 9101, to_port: 9103, ipv4_range: '10.6.7.0/24')}
+      it { should allow_in(from_port: 9101, to_port: 9103, ipv4_range: '10.6.7.0/24')}
+
+      # Assuming the AWS SG allows 9001-9003, use inexact matching to check 9002
+      it { should allow_in(port: 9002)}
+
+      # Assuming the AWS SG allows 10.2.1.0/24, use inexact matching to check 10.2.1.33/32
+      it { should allow_in(ipv4_range: '10.2.1.33/32')}
 
       # Ensure the 3rd outbound rule is TCP-based
-      it { should allow(protocol: 'tcp', position: 3')}
+      it { should allow_in(protocol: 'tcp', position: 3')}
 
       # Don't allow any service to be open to the world
-      it { should_not allow(ipv4_range: '0.0.0.0/0')}
+      it { should_not allow_in(ipv4_range: '0.0.0.0/0')}
     end
 
+    describe aws_security_group(group_name: 'single-functionality-group') do
+      # Allow RDP from certain range and nothing else
+      # The SG must have exactly one rule and it must match this exactly
+      it { should allow_in_only(port: 3389, ipv4_range: '10.5.0.0/16')}
+
+      # Because this is an _only matcher, this will fail - _only matchers 
+      # use exact IP matching.
+      it { should allow_in_only(port: 3389, ipv4_range: '10.5.1.34/32')}
+    end
+    
 ### be\_open\_to\_the\_world
 
 This high-level matcher will cause the control to pass if there is any inbound rule that is open to `0.0.0.0/0`, regardless of port.  This is intended to be used with `should_not`.
@@ -238,6 +268,7 @@ This high-level matcher will cause the control to pass if there is any inbound r
 Note that as of this release, this matcher does not consider:
   * Worldwide IPv6 access
   * Transitive access from other unsecured security groups
+  * VPC peering rules to unsecure VPCs
 
     describe aws_security_group(group_name: 'webservers') do
       it { should be_open_to_the_world_on_port(80) }
