@@ -229,7 +229,7 @@ class MockLoader
       'env' => cmd.call('env'),
       '${Env:PATH}'  => cmd.call('$env-PATH'),
       # registry key test using winrm 2.0
-      'e5f668e7130ed40b18a0686b76dac9be5ede33421eb3d125aafd43bcd7b565a6' => cmd.call('reg_schedule'),
+      '9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf' => cmd.call('reg_schedule'),
       'Auditpol /get /subcategory:\'User Account Management\' /r' => cmd.call('auditpol'),
       '/sbin/auditctl -l' => cmd.call('auditctl'),
       '/sbin/auditctl -s' => cmd.call('auditctl-s'),
