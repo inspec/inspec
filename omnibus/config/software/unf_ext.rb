@@ -11,7 +11,7 @@ dependency 'bundler'
 dependency 'appbundler'
 
 license :project_license
-default_version 'b5a0ee7725cb7d3cb8e068c8cab0f8627b2b1225'
+default_version 'c0b3bd922214a172976f6f368c0b4e4fbf91ed78'
 source git: 'https://github.com/jquick/ruby-unf_ext.git'
 
 build do
