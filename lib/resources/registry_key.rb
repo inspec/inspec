@@ -165,7 +165,7 @@ module Inspec::Resources
             $key = $_
             if ("(default)".Equals($key)) { $key = '' }
             $value = New-Object psobject -Property @{
-              "value" =  $reg.GetValue($key);
+              "value" =  $(Get-ItemProperty ('Registry::' + $path)).$key;
               "type"  = $reg.GetValueKind($key);
             }
             $properties | Add-Member NoteProperty $_ $value
