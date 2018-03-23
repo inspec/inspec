@@ -156,7 +156,25 @@ class AwsSGSProperties < Minitest::Test
     assert(sg.allow_in?(ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
 
   end
+
+  def test_matcher_open_to_the_world
+    sg_closed = AwsSecurityGroup.new('sg-12345678')
+    sg_open = AwsSecurityGroup.new('sg-22223333')
+
+    refute(sg_closed.open_to_the_world?)
+    assert(sg_open.open_to_the_world?)
+  end
+
+  def test_matcher_open_to_the_world_on_port
+    sg_closed = AwsSecurityGroup.new('sg-12345678')
+    sg_open = AwsSecurityGroup.new('sg-22223333')
+
+    refute(sg_closed.open_to_the_world_on_port?(22))
+    assert(sg_open.open_to_the_world_on_port?(22))
+  end
 end
+
+
 
 #=============================================================================#
 #                               Test Fixtures
