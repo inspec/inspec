@@ -276,6 +276,7 @@ This high-level matcher will cause the control to pass if there is any inbound r
 Note that as of this release, this matcher does not consider:
   * Worldwide IPv6 access
   * Transitive access from other unsecured security groups
+  * VPC peering rules to unsecure VPCs
 
     describe aws_security_group(group_name: 'no-access') do
       it { should_not be_open_to_the_world }

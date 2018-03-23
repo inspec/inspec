@@ -1,4 +1,5 @@
 require 'set'
+require 'ipaddr'
 
 class AwsSecurityGroup < Inspec.resource(1)
   name 'aws_security_group'
@@ -27,6 +28,16 @@ class AwsSecurityGroup < Inspec.resource(1)
   end
   RSpec::Matchers.alias_matcher :allow_out, :be_allow_out
 
+  def allow_in_only?(criteria = {})
+    allow_only(inbound_rules, criteria)
+  end
+  RSpec::Matchers.alias_matcher :allow_in_only, :be_allow_in_only
+
+  def allow_out_only?(criteria = {})
+    allow_only(outbound_rules, criteria)
+  end
+  RSpec::Matchers.alias_matcher :allow_out_only, :be_allow_out_only
+
   def open_to_the_world?
     allow(inbound_rules, { ipv4_range: '0.0.0.0/0' })
   end
@@ -36,6 +47,14 @@ class AwsSecurityGroup < Inspec.resource(1)
   end
 
   private
+
+  def allow_only(rules, criteria)
+    # allow_{in_out}_only require either a single-rule group, or you 
+    # to select a rule using position.
+    return false unless rules.count == 1 || criteria.key?(:position)
+    criteria.merge!(exact: true)
+    allow(rules, criteria)
+  end
 
   def allow(rules, criteria)
     criteria = allow__check_criteria(criteria)
@@ -58,6 +77,7 @@ class AwsSecurityGroup < Inspec.resource(1)
       :position,
       :protocol,
       :to_port,
+      :exact, # Internal
     ]
     recognized_criteria = {}
     allowed_criteria.each do |expected_criterion|
@@ -100,20 +120,31 @@ class AwsSecurityGroup < Inspec.resource(1)
   end
 
   def allow__match_port(rule, criteria) # rubocop: disable Metrics/CyclomaticComplexity
-    # :port is shorthand for a single-valued port range.
-    criteria[:to_port] = criteria[:from_port] = criteria[:port] if criteria[:port]
-    to = criteria[:to_port]
-    from = criteria[:from_port]
-    # It's a match if neither criteria was specified
-    return true if to.nil? && from.nil?
-    # Normalize to integers
-    to = to.to_i unless to.nil?
-    from = from.to_i unless from.nil?
-    # It's a match if either was specified and the other was not
-    return true if rule[:to_port] == to && from.nil?
-    return true if rule[:from_port] == from && to.nil?
-    # Finally, both must match.
-    rule[:to_port] == to && rule[:from_port] == from
+    if criteria[:exact] || criteria[:from_port] || criteria[:to_port]
+      # Exact match mode
+      # :port is shorthand for a single-valued port range.
+      criteria[:to_port] = criteria[:from_port] = criteria[:port] if criteria[:port]
+      to = criteria[:to_port]
+      from = criteria[:from_port]
+      # It's a match if neither criteria was specified
+      return true if to.nil? && from.nil?
+      # Normalize to integers
+      to = to.to_i unless to.nil?
+      from = from.to_i unless from.nil?
+      # It's a match if either was specified and the other was not
+      return true if rule[:to_port] == to && from.nil?
+      return true if rule[:from_port] == from && to.nil?
+      # Finally, both must match.
+      rule[:to_port] == to && rule[:from_port] == from
+    elsif ! criteria[:port]
+      # port not specified, match anything
+      return true      
+    else
+      # Range membership mode
+      rule_from = rule[:from_port] || 0
+      rule_to = rule[:to_port] || 65535
+      (rule_from..rule_to).cover?(criteria[:port].to_i)
+    end
   end
 
   def allow__match_protocol(rule, criteria)
@@ -130,7 +161,19 @@ class AwsSecurityGroup < Inspec.resource(1)
     query = criteria[:ipv4_range]
     query = [query] unless query.is_a?(Array)
     ranges = rule[:ip_ranges].map { |rng| rng[:cidr_ip] }
-    Set.new(query) == Set.new(ranges)
+    if criteria[:exact] 
+      Set.new(query) == Set.new(ranges)
+    else
+      # CIDR subset mode
+      # "Each of the provided IP ranges must be a member of one of the rule's listed IP ranges"
+      query.all? do |candidate|
+        candidate = IPAddr.new(candidate)
+        ranges.any? do |range|
+          range = IPAddr.new(range)
+          range.include?(candidate)
+        end
+      end
+    end
   end
 
   def validate_params(raw_params)

@@ -124,18 +124,21 @@ class AwsSGSProperties < Minitest::Test
 
   def test_matcher_allow_inbound_complex
     sg = AwsSecurityGroup.new('sg-12345678')
-    rules = sg.inbound_rules
-    assert_equal(2, rules.count, "count the number of rules")
+    assert_equal(3, sg.inbound_rules.count, "count the number of rules for 3-rule group")
 
     # Position pinning
     assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: 2), "use numeric position")
     assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: "2"), "use string position")
-    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24", position: :last), "use :last position")
+    assert(sg.allow_in?(ipv4_range: "10.2.0.0/16", position: :last), "use :last position")
     assert(sg.allow_in?(port: 22, position: :first), "use :first position")
 
+    # Port
     assert(sg.allow_in?(port: 22), "match on a numeric port")
     assert(sg.allow_in?(port: "22"), "match on a string port")
     assert(sg.allow_in?(to_port: "22", from_port: "22"), "match on to/from port")
+    assert(sg.allow_in?(port: 9002, position: 3), "range matching on port with allow_in")
+    refute(sg.allow_in_only?(port: 9002, position: 3), "no range matching on port with allow_in_only")
+    assert(sg.allow_in_only?(from_port: 9001, to_port: 9003, position: 3), "exact range matching on port with allow_in_only")
 
     # Protocol
     assert(sg.allow_in?(protocol: 'tcp'), "match on tcp protocol, unpinned")    
@@ -143,18 +146,34 @@ class AwsSGSProperties < Minitest::Test
     assert(sg.allow_in?(protocol: 'any', position: 2), "match on our 'any' alias protocol")
     assert(sg.allow_in?(protocol: '-1', position: 2), "match on AWS spec '-1 for any' protocol")
 
-    # OK to specifiy a single IP range if the resource actually has exactly one
-    assert(sg.allow_in?(ipv4_range: "10.1.4.0/24"), "match on 1 ipv4 range as string")
+    # IPv4 range testing
     assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
-
-    # Not OK to specify a single IP range if the resource actually has a list
-    refute(sg.allow_in?(ipv4_range: "10.1.2.0/24"), "do not match on a list ipv4 range when providing only one value (first)")
-    refute(sg.allow_in?(ipv4_range: "10.1.3.0/24"), "do not match on a list ipv4 range when providing only one value (last)")
-    # List for list is OK
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/24"]), "match on 1 ipv4 range as array")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32"]), "match on 1 ipv4 range subnet membership")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.33/32", "10.1.4.82/32"]), "match on 2 addrs ipv4 range subnet membership")
+    assert(sg.allow_in?(ipv4_range: ["10.1.4.0/25", "10.1.4.128/25"]), "match on 2 subnets ipv4 range subnet membership")
+    assert(sg.allow_in_only?(ipv4_range: "10.1.4.0/24", position: 2), "exact match on 1 ipv4 range with _only")
+    refute(sg.allow_in_only?(ipv4_range: "10.1.4.33/32", position: 2), "no range membership ipv4 range with _only")
+    assert(sg.allow_in?(ipv4_range: "10.1.2.0/24"), "match on a list ipv4 range when providing only one value (first)")
+    assert(sg.allow_in?(ipv4_range: "10.1.3.0/24"), "match on a list ipv4 range when providing only one value (last)")
+    assert(sg.allow_in?(ipv4_range: ["10.1.2.33/32", "10.1.3.33/32"]), "match on a list of single IPs against a list of subnets")
     assert(sg.allow_in?(ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"]))
-    refute(sg.allow_in?(ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))     
+    refute(sg.allow_in?(ipv4_range: ["10.1.22.0/24", "10.1.33.0/24"]))
     assert(sg.allow_in?(ipv4_range: ["10.1.3.0/24", "10.1.2.0/24"])) # Order is ignored
+    assert(sg.allow_in_only?(ipv4_range: ["10.1.2.0/24", "10.1.3.0/24"], position: 1))
+    refute(sg.allow_in_only?(ipv4_range: ["10.1.2.0/24"], position: 1))
+    refute(sg.allow_in_only?(ipv4_range: ["10.1.3.0/24"], position: 1))
 
+    # Test _only with a 3-rule group, but omitting position
+    refute(sg.allow_in_only?(port: 22), "_only will fail a multi-rule SG even if it has matching criteria")
+    refute(sg.allow_in_only?(), "_only will fail a multi-rule SG even if it has match-any criteria")
+
+    # Test _only with a single rule group (ie, omitting position)
+    sg = AwsSecurityGroup.new('sg-22223333')
+    assert_equal(1, sg.inbound_rules.count, "count the number of rules for 1-rule group")
+    assert(sg.allow_in_only?(ipv4_range: "0.0.0.0/0"), "Match IP range using _only on 1-rule group")
+    assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule group")
+    refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule group")
   end
 
   def test_matcher_open_to_the_world
@@ -223,6 +242,14 @@ module AwsMESGSB
               ip_protocol: "-1",
               ip_ranges: [
                 {cidr_ip:"10.1.4.0/24"},
+              ]
+            }),
+            OpenStruct.new({
+              from_port: 9001,
+              to_port: 9003,
+              ip_protocol: "udp",
+              ip_ranges: [
+                {cidr_ip:"10.2.0.0/16"},
               ]
             }),
           ],

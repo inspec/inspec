@@ -234,6 +234,16 @@ resource "aws_security_group_rule" "alpha_x11" {
   security_group_id = "${aws_security_group.alpha.id}"
 }
 
+resource "aws_security_group_rule" "alpha_all_ports" {
+  type = "ingress"
+  from_port = "0"
+  to_port = "65535"
+  protocol = "tcp"
+  cidr_blocks = ["10.1.2.0/24"]
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+
 #============================================================#
 #                      VPC Subnets
 #============================================================#
