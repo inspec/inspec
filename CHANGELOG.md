@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.11 -->
+## [v2.1.11](https://github.com/chef/inspec/tree/v2.1.11) (2018-03-23)
+
+#### New Resources
+- New Skeletal Resource aws_kms_key [#2746](https://github.com/chef/inspec/pull/2746) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.10 -->
+### Changes since 2.1.10 release
+
+#### New Resources
+- New Skeletal Resource aws_kms_key [#2746](https://github.com/chef/inspec/pull/2746) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.11 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
