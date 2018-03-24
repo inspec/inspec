@@ -49,10 +49,10 @@ class AwsSecurityGroup < Inspec.resource(1)
   private
 
   def allow_only(rules, criteria)
-    # allow_{in_out}_only require either a single-rule group, or you 
+    # allow_{in_out}_only require either a single-rule group, or you
     # to select a rule using position.
     return false unless rules.count == 1 || criteria.key?(:position)
-    criteria.merge!(exact: true)
+    criteria[:exact] = true
     allow(rules, criteria)
   end
 
@@ -119,7 +119,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     rules
   end
 
-  def allow__match_port(rule, criteria) # rubocop: disable Metrics/CyclomaticComplexity
+  def allow__match_port(rule, criteria) # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     if criteria[:exact] || criteria[:from_port] || criteria[:to_port]
       # Exact match mode
       # :port is shorthand for a single-valued port range.
@@ -136,9 +136,9 @@ class AwsSecurityGroup < Inspec.resource(1)
       return true if rule[:from_port] == from && to.nil?
       # Finally, both must match.
       rule[:to_port] == to && rule[:from_port] == from
-    elsif ! criteria[:port]
+    elsif !criteria[:port]
       # port not specified, match anything
-      return true      
+      true
     else
       # Range membership mode
       rule_from = rule[:from_port] || 0
@@ -161,7 +161,7 @@ class AwsSecurityGroup < Inspec.resource(1)
     query = criteria[:ipv4_range]
     query = [query] unless query.is_a?(Array)
     ranges = rule[:ip_ranges].map { |rng| rng[:cidr_ip] }
-    if criteria[:exact] 
+    if criteria[:exact]
       Set.new(query) == Set.new(ranges)
     else
       # CIDR subset mode
