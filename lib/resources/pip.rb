@@ -26,6 +26,7 @@ module Inspec::Resources
     def initialize(package_name, pip_path = nil)
       @package_name = package_name
       @pip_cmd = pip_path || default_pip_path
+
       return skip_resource 'python not found' if paths['Python'].nil?
       return skip_resource 'pip not found' if @pip_cmd.nil?
     end
@@ -35,8 +36,7 @@ module Inspec::Resources
 
       @info = {}
       @info[:type] = 'pip'
-      cmd = inspec.command("#{@pip_cmd} show #{@package_name}")
-      return @info if cmd.exit_status != 0
+      return @info if !cmd_successful?
 
       params = SimpleConfig.new(
         cmd.stdout,
@@ -63,6 +63,31 @@ module Inspec::Resources
 
     private
 
+    def cmd
+      @__cmd ||= inspec.command("#{@pip_cmd} show #{@package_name}")
+    end
+
+    def cmd_successful?
+      result = inspec.command("#{@pip_cmd} show #{@package_name}")
+      return true if result.exit_status == 0
+
+      if result.exit_status != 0
+        # If pip on windows is not the latest, it will create a stderr value along with stdout
+        # Example:
+        #   stdout: "Name: Jinja2\r\nVersion: 2.10..."
+        #   stderr: "You are using pip version 9.0.1, however version 9.0.3 is available..."
+        if inspec.os.windows? && !result.stdout.empty?
+          return true
+        end
+      end
+
+      false
+    end
+
+    # Paths of Python and Pip
+    # {"Pip" => nil, "Python" => "/path/to/python"}
+    #
+    # @return [Hash] of paths
     def paths
       return @__paths if @__paths
       cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
@@ -70,6 +95,9 @@ module Inspec::Resources
       @__paths = JSON.parse(cmd.stdout)
     end
 
+    # Default path of python pip installation
+    #
+    # @return [String] of python pip path
     def default_pip_path
       return 'pip' unless inspec.os.windows?
 
