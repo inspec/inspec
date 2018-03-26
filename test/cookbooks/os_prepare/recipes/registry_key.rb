@@ -24,6 +24,10 @@ if node['platform_family'] == 'windows'
       :type => :dword,
       :data => 0
     },{
+      :name => 'big dword value',
+      :type => :dword,
+      :data => 2147483648
+    },{
       :name => 'qword value',
       :type => :qword,
       :data => 0
