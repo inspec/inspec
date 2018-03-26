@@ -67,13 +67,13 @@ When installing from source, gem dependencies may require ruby build tools to be
 For CentOS/RedHat/Fedora:
 
 ```bash
-yum -y install ruby ruby-devel make gcc
+yum -y install ruby ruby-devel make gcc gcc-c++
 ```
 
 For Ubuntu:
 
 ```bash
-apt-get -y install ruby ruby-dev gcc make
+apt-get -y install ruby ruby-dev gcc g++ make
 ```
 
 To install inspec from [rubygems](https://rubygems.org/):
@@ -84,20 +84,28 @@ gem install inspec
 
 ### Usage via Docker
 
-Download the image and define an alias for convenience:
+Download the image and define a function for convenience:
+
+For Linux:
 
 ```
 docker pull chef/inspec
-alias inspec='docker run -it --rm -v $(pwd):/share chef/inspec'
+function inspec { docker run -it --rm -v $(pwd):/share chef/inspec $@; }
 ```
 
-If you call inspec from cli, it automatically mounts the current directory into the work directory. Therefore you can easily use local tests and key files. Note: Only files in the current directory are available to the container.
+For Windows (PowerShell):
+
+```
+docker pull chef/inspec
+function inspec { docker run -it --rm -v "$(pwd):/share" chef/inspec $args; }
+```
+
+If you call `inspec` from your shell, it automatically mounts the current directory into the Docker container. Therefore you can easily use local tests and key files. Note: Only files in the current directory and sub-directories are available within the container.
 
 ```
 $ ls -1
 vagrant
 test.rb
-
 
 $ inspec exec test.rb -t ssh://root@192.168.64.2:11022 -i vagrant
 ..
@@ -185,7 +193,7 @@ end
 ```
 
 * Test your `kitchen.yml` file to verify that only Vagrant is configured as the driver.  The %w() formatting will
-pass rubocop lintng and allow you to access nested mappings.
+pass rubocop linting and allow you to access nested mappings.
 
 ```ruby
 describe yaml('.kitchen.yml') do
@@ -249,6 +257,11 @@ inspec exec test.rb -t aws://
 # or store your AWS credentials in your ~/.aws/credentials profiles file
 inspec exec test.rb -t aws://us-east-2/my-profile
 
+# run a profile targeting Azure using env vars
+inspec exec test.rb -t azure://
+
+# or store your Azure credentials in your ~/.azure/credentials profiles file
+inspec exec test.rb -t azure://subscription_id
 ```
 
 ### detect
@@ -270,38 +283,38 @@ Which will provide you with:
 
 Remote Targets
 
-Platform | Versions | Architectures
- --- | --- | ---
-AIX | 6.1, 7.1, 7.2 | ppc64
-CentOS | 5, 6, 7 | i386, x86_64
-Debian | 7, 8 | i386, x86_64
-FreeBSD | 9, 10 | i386, amd64
-Mac OS X | 10.9, 10.10, 10.11 | x86_64
-Oracle Enterprise Linux | 5, 6, 7 | i386, x86_64
-Red Hat Enterprise Linux | 5, 6, 7 | i386, x86_64
-Solaris | 10, 11 | sparc, x86
-Windows | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64
-Ubuntu Linux | | x86, x86_64
-SUSE Linux Enterprise Server  | 11, 12 | x86_64
-Scientific Linux | 5.x, 6.x and 7.x | i386, x86_64
-Fedora  | | x86_64
-OpenSUSE | 13.1/13.2/42.1 | x86_64
-OmniOS | | x86_64
-Gentoo Linux | | x86_64
-Arch Linux | | x86_64
-HP-UX | 11.31 | ia64
+| Platform                     | Versions                                         | Architectures |
+| ---------------------------- | ------------------------------------------------ | ------------- |
+| AIX                          | 6.1, 7.1, 7.2                                    | ppc64         |
+| CentOS                       | 5, 6, 7                                          | i386, x86_64  |
+| Debian                       | 7, 8                                             | i386, x86_64  |
+| FreeBSD                      | 9, 10                                            | i386, amd64   |
+| Mac OS X                     | 10.9, 10.10, 10.11                               | x86_64        |
+| Oracle Enterprise Linux      | 5, 6, 7                                          | i386, x86_64  |
+| Red Hat Enterprise Linux     | 5, 6, 7                                          | i386, x86_64  |
+| Solaris                      | 10, 11                                           | sparc, x86    |
+| Windows                      | 7, 8, 8.1, 10, 2008, 2008R2 , 2012, 2012R2, 2016 | x86, x86_64   |
+| Ubuntu Linux                 |                                                  | x86, x86_64   |
+| SUSE Linux Enterprise Server | 11, 12                                           | x86_64        |
+| Scientific Linux             | 5.x, 6.x and 7.x                                 | i386, x86_64  |
+| Fedora                       |                                                  | x86_64        |
+| OpenSUSE                     | 13.1/13.2/42.1                                   | x86_64        |
+| OmniOS                       |                                                  | x86_64        |
+| Gentoo Linux                 |                                                  | x86_64        |
+| Arch Linux                   |                                                  | x86_64        |
+| HP-UX                        | 11.31                                            | ia64          |
 
 *For Windows, PowerShell 3.0 or above is required.*
 
 In addition, runtime support is provided for:
 
-Platform | Versions
- ---- | ----
-Debian | 8
-RHEL | 6, 7
-Ubuntu | 12.04+
-Windows | 7+
-Windows | 2012+
+| Platform | Versions |
+| -------- | -------- |
+| Debian   | 8        |
+| RHEL     | 6, 7     |
+| Ubuntu   | 12.04+   |
+| Windows  | 7+       |
+| Windows  | 2012+    |
 
 ## Documentation
 
@@ -369,6 +382,7 @@ You may also run a single test within a file by line number:
 
 ```bash
 bundle exec m test/unit/resources/user_test.rb -l 123
+```
 
 ### Integration tests
 
@@ -408,17 +422,17 @@ bundle exec kitchen test -c
 
 Use the rake task `bundle exec rake test:aws` to test the AWS resources against a pair of real AWS accounts.
 
-Please see TESTING_AGAINST_AWS.md for details on how to setup the needed AWS accounts to perform testing.
+Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.md) for details on how to setup the needed AWS accounts to perform testing.
 
 ## License
 
-|  |  |
-| ------ | --- |
-| **Author:** | Dominik Richter (<drichter@chef.io>) |
-| **Author:** | Christoph Hartmann (<chartmann@chef.io>) |
+|                |                                           |
+| -------------- | ----------------------------------------- |
+| **Author:**    | Dominik Richter (<drichter@chef.io>)      |
+| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017 Chef Software Inc. |
-| **License:** | Apache License, Version 2.0 |
+| **Copyright:** | Copyright (c) 2017 Chef Software Inc.     |
+| **License:**   | Apache License, Version 2.0               |
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

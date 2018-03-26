@@ -3,7 +3,13 @@ module AwsResourceMixin
     validate_params(resource_params).each do |param, value|
       instance_variable_set(:"@#{param}", value)
     end
-    fetch_from_api
+    catch_aws_errors do
+      fetch_from_api
+    end
+  rescue ArgumentError => e
+    # continue with ArgumentError if testing
+    raise unless respond_to?(:inspec)
+    raise Inspec::Exceptions::ResourceFailed, e.message
   end
 
   # Default implementation of validate params accepts everything.
@@ -44,5 +50,17 @@ module AwsResourceMixin
     # (nil is OK) to the backend.
     # TODO: remove with https://github.com/chef/inspec-aws/issues/216
     inspec if respond_to?(:inspec)
+  end
+
+  # Intercept AWS exceptions
+  def catch_aws_errors
+    yield
+  rescue Aws::Errors::MissingCredentialsError
+    # The AWS error here is unhelpful:
+    # "unable to sign request without credentials set"
+    Inspec::Log.error "It appears that you have not set your AWS credentials.  You may set them using environment variables, or using the 'aws://region/aws_credentials_profile' target.  See https://www.inspec.io/docs/reference/platforms for details."
+    fail_resource('No AWS credentials available')
+  rescue Aws::Errors::ServiceError => e
+    fail_resource e.message
   end
 end

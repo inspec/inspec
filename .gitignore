@@ -32,4 +32,4 @@ profile-1.0.0.tar.gz
 .terraform/
 terraform.tfstate*
 terraform.tfstate.backup
-
+inspec-azure.plan

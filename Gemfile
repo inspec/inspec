@@ -2,8 +2,6 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'train', :git => 'https://github.com/chef/train'
-
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '~> 1.8'
   gem 'rack', '< 2.0'

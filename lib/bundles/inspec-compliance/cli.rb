@@ -78,11 +78,20 @@ module Compliance
     def exec(*tests)
       config = Compliance::Configuration.new
       return if !loggedin(config)
+      o = opts(:exec).dup
+      diagnose(o)
+      configure_logger(o)
+
       # iterate over tests and add compliance scheme
       tests = tests.map { |t| 'compliance://' + Compliance::API.sanitize_profile_name(t) }
-      # execute profile from inspec exec implementation
-      diagnose
-      run_tests(tests, opts)
+
+      runner = Inspec::Runner.new(o)
+      tests.each { |target| runner.add_target(target) }
+
+      exit runner.run
+    rescue ArgumentError, RuntimeError, Train::UserError => e
+      $stderr.puts e.message
+      exit 1
     end
 
     desc 'download PROFILE', 'downloads a profile from Chef Compliance'

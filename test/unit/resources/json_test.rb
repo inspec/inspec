@@ -38,7 +38,7 @@ describe 'Inspec::Resources::JSON' do
     let(:resource) { load_resource('json', 'nonexistent.json') }
 
     it 'produces an error' do
-      _(resource.resource_exception_message).must_equal 'No such file: nonexistent.json'
+      _(resource.resource_exception_message).must_equal "Can't find file: nonexistent.json"
     end
 
     it 'still provides an empty hash for params' do

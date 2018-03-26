@@ -29,7 +29,14 @@ class AwsIamGroups < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.list_groups.to_h[:groups]
+    @table = []
+    pagination_opts = {}
+    loop do
+      api_result = backend.list_groups(pagination_opts)
+      @table += api_result.groups.map(&:to_h)
+      pagination_opts = { marker: api_result.marker }
+      break unless api_result.is_truncated
+    end
   end
 
   class Backend

@@ -132,6 +132,7 @@ module Inspec::Resources
     # @author Russell Seymour
     # @private
     def create_has_methods
+      return if failed_resource?
       # Create the has methods for each of the mappings
       # This is a quick test to show that the resource group has at least one of these things
       mapping.each do |name, type|

@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # The file format consists of
 # - username
@@ -14,10 +12,12 @@
 
 require 'utils/parser'
 require 'utils/filter'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Passwd < Inspec.resource(1)
     name 'passwd'
+    supports platform: 'unix'
     desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
     example "
       describe passwd do
@@ -35,6 +35,7 @@ module Inspec::Resources
     "
 
     include PasswdParser
+    include FileReader
 
     attr_reader :params
     attr_reader :content
@@ -43,7 +44,7 @@ module Inspec::Resources
     def initialize(path = nil, opts = nil)
       opts ||= {}
       @path = path || '/etc/passwd'
-      @content = opts[:content] || inspec.file(@path).content
+      @content = opts[:content] || read_file_content(@path, allow_empty: true)
       @lines = @content.to_s.split("\n")
       @params = parse_passwd(@content)
     end

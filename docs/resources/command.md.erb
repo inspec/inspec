@@ -1,5 +1,6 @@
 ---
 title: About the command Resource
+platform: os
 ---
 
 # command
@@ -111,7 +112,7 @@ The following example shows how to use the `file` audit resource to verify if th
 
 ### Verify WiX
 
-Wix includes serveral tools -- such as `candle` (preprocesses and compiles source files into object files), `light` (links and binds object files to an installer database), and `heat` (harvests files from various input formats). The following example uses a whitespace array and the `file` audit resource to verify if these three tools are present:
+Wix includes several tools -- such as `candle` (preprocesses and compiles source files into object files), `light` (links and binds object files to an installer database), and `heat` (harvests files from various input formats). The following example uses a whitespace array and the `file` audit resource to verify if these three tools are present:
 
     %w(
       candle.exe
@@ -127,7 +128,7 @@ Wix includes serveral tools -- such as `candle` (preprocesses and compiles sourc
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 

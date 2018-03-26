@@ -1,9 +1,10 @@
 # encoding: utf-8
-# author: Jonathan Morley
 
 module Inspec::Resources
   class XmlConfig < JsonConfig
     name 'xml'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the xml InSpec resource to test configuration data in an XML file'
     example "
       describe xml('default.xml') do

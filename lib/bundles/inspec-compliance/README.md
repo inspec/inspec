@@ -14,7 +14,7 @@ To use the CLI, this InSpec add-on adds the following commands:
  * `$ inspec compliance upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
  * `$ inspec compliance logout` - logout of Chef Automate/Chef Compliance
 
-Compliance profiles can be executed in two mays:
+Compliance profiles can be executed in two ways:
 
 - via compliance exec: `inspec compliance exec profile`
 - via compliance scheme: `inspec exec compliance://profile`

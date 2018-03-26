@@ -1,5 +1,6 @@
 ---
 title: About the etc_hosts Resource
+platform: linux
 ---
 
 # etc_hosts
@@ -34,11 +35,11 @@ where
 
 * `ip_address` is the ip address of the hostname in either ipv4 or ipv6 format.
 * `primary_name` is the name associated with the ip address.
-* `all_host_names` is a list including the primary_name as the first entry followed by any aliase names the host has.
+* `all_host_names` is a list including the primary_name as the first entry followed by any alias names the host has.
 
 <br>
 
-## Supported Resource Properties
+## Properties
 
     'ip_address', 'primary_name', 'all_host_names'
 
@@ -70,6 +71,8 @@ where
       its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4'],  ['localhost', 'localhost.localdomain', 'localhost6', 'localhost6.localdomain6']] }
     end
 
+<br>
+
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/erlang_parser'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class RabbitmqConf < Inspec.resource(1)
     name 'rabbitmq_config'
+    supports platform: 'unix'
     desc 'Use the rabbitmq_config InSpec resource to test configuration data '\
          'for the RabbitMQ service located in /etc/rabbitmq/rabbitmq.config on '\
          'Linux and UNIX platforms.'
@@ -16,8 +16,11 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(conf_path = nil)
       @conf_path = conf_path || '/etc/rabbitmq/rabbitmq.config'
+      @content = read_file_content(@conf_path, allow_empty: true)
     end
 
     def params(*opts)
@@ -34,12 +37,7 @@ module Inspec::Resources
 
     def read_content
       return @content if defined?(@content)
-      file = inspec.file(@conf_path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-
-      @content = file.content
+      @content = read_file_content(@conf_path, allow_empty: true)
     end
 
     def read_params
