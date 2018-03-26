@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.13 -->
-## [v2.1.13](https://github.com/chef/inspec/tree/v2.1.13) (2018-03-26)
+<!-- latest_release 2.1.14 -->
+## [v2.1.14](https://github.com/chef/inspec/tree/v2.1.14) (2018-03-26)
 
-#### Bug Fixes
-- Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots))
+#### Enhancements
+- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
 ### Changes since 2.1.10 release
+
+#### Enhancements
+- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
 
 #### Bug Fixes
 - Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots)) <!-- 2.1.13 -->
