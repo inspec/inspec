@@ -26,7 +26,8 @@ module Inspec::Resources
     def initialize(package_name, pip_path = nil)
       @package_name = package_name
       @pip_cmd = pip_path || default_pip_path
-      return skip_resource 'pip not found' unless inspec.command(@pip_cmd).exist?
+      return skip_resource 'python not found' if paths['Python'].nil?
+      return skip_resource 'pip not found' if @pip_cmd.nil?
     end
 
     def info
@@ -62,18 +63,24 @@ module Inspec::Resources
 
     private
 
+    def paths
+      return @__paths if @__paths
+      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+
+      @__paths = JSON.parse(cmd.stdout)
+    end
+
     def default_pip_path
       return 'pip' unless inspec.os.windows?
 
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
-      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
       begin
-        paths = JSON.parse(cmd.stdout)
         # use pip if it on system path
         pipcmd = paths['Pip']
         # calculate path on windows
         if defined?(paths['Python']) && pipcmd.nil?
+          return nil if paths['Pip'].nil?
           pipdir = paths['Python'].split('\\')
           # remove python.exe
           pipdir.pop
