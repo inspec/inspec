@@ -115,3 +115,17 @@ resource "aws_iam_group" "administrators" {
 output "iam_group_administrators" {
   value = "${aws_iam_group.administrators.name}"
 }
+
+#======================================================#
+#                    IAM Group Memberships
+#======================================================#
+
+resource "aws_iam_group_membership" "administrators_membership" {
+  name = "administrators_membership"
+
+  users = [
+    "${aws_iam_user.recall_hit.name}",
+  ]
+
+  group = "${aws_iam_group.administrators.name}"
+}
