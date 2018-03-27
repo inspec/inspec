@@ -23,6 +23,7 @@ group :test do
   gem 'jsonschema', '~> 2.0.2'
   gem 'passgen'
   gem 'm'
+  gem 'pry-byebug'
 end
 
 group :integration do
