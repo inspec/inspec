@@ -3,6 +3,7 @@ require 'helper'
 # MACTTSB = MockAwsCloudTrailTrailSingularBackend
 # Abbreviation not used outside this file
 
+TIME_NOW = Time.now
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
@@ -90,6 +91,11 @@ class AwsCloudTrailTrailPropertiesTest < Minitest::Test
     assert_equal("us-east-1", AwsCloudTrailTrail.new('test-trail-1').home_region)
     assert_nil(AwsCloudTrailTrail.new(trail_name: 'non-existant').home_region)
   end
+  
+  def test_property_delivered_logs_days_ago
+    assert_equal(0, AwsCloudTrailTrail.new('test-trail-1').delivered_logs_days_ago)
+    assert_nil(AwsCloudTrailTrail.new(trail_name: 'non-existant').delivered_logs_days_ago)
+  end
 end
 
 
@@ -165,6 +171,20 @@ module MACTTSB
         fixture.name == query[:trail_name_list].first
       end
       OpenStruct.new({ trail_list: [selected] })
+    end
+    
+    def get_trail_status(query)
+      fixtures = [
+        OpenStruct.new({
+          name: "test-trail-1",
+          latest_cloud_watch_logs_delivery_time: TIME_NOW
+        })
+      ]
+      
+      selected = fixtures.detect do |fixture|
+        fixture.name == query[:name]
+      end
+      selected
     end
   end
 end
