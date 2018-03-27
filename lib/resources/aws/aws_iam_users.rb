@@ -12,6 +12,12 @@ class AwsIamUsers < Inspec.resource(1)
     describe aws_iam_users.where(has_console_password?: true) do
       it { should exist }
     end
+    describe aws_iam_users.where(has_inline_policies?: true) do
+      it { should_not exist }
+    end
+    describe aws_iam_users.where(has_attached_policies?: true) do
+      it { should_not exist }
+    end
   '
   supports platform: 'aws'
 
@@ -23,6 +29,8 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:has_mfa_enabled?, field: :has_mfa_enabled)
         .add(:has_console_password?, field: :has_console_password)
+        .add(:has_inline_policies?, field: :has_inline_policies)
+        .add(:has_attached_policies?, field: :has_attached_policies)
         .add(:password_ever_used?, field: :password_ever_used?)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
@@ -70,6 +78,23 @@ class AwsIamUsers < Inspec.resource(1)
         user[:has_mfa_enabled] = false
       end
       user[:has_mfa_enabled?] = user[:has_mfa_enabled]
+
+      begin
+        aws_inline_policies = backend.list_user_policies(user_name: user[:user_name])
+        user[:has_inline_policies] = !aws_inline_policies.policy_names.empty?
+      rescue => e
+        user[:has_inline_policies] = false
+      end
+      user[:has_inline_policies?] = user[:has_inline_policies]
+
+      begin
+        aws_attached_policies = backend.list_attached_user_policies(user_name: user[:user_name])
+        user[:has_attached_policies] = !aws_attached_policies.attached_policies.empty?
+      rescue
+        user[:has_attached_policies] = false
+      end
+      user[:has_attached_policies?] = user[:has_attached_policies]
+
       password_last_used = user[:password_last_used]
       user[:password_ever_used?] = !password_last_used.nil?
       user[:password_never_used?] = password_last_used.nil?
@@ -102,6 +127,14 @@ class AwsIamUsers < Inspec.resource(1)
 
       def list_mfa_devices(query)
         aws_service_client.list_mfa_devices(query)
+      end
+
+      def list_user_policies(query)
+        aws_service_client.list_user_policies(query)
+      end
+
+      def list_attached_user_policies(query)
+        aws_service_client.list_attached_user_policies(query)
       end
     end
   end

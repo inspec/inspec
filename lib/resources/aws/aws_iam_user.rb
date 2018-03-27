@@ -9,6 +9,8 @@ class AwsIamUser < Inspec.resource(1)
     describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
       it { should_not have_console_password }
+      it { should_not have_inline_user_policies }
+      it { should_not have_attached_user_policies }
     end
   "
   supports platform: 'aws'
@@ -17,6 +19,8 @@ class AwsIamUser < Inspec.resource(1)
   attr_reader :access_keys, :has_console_password, :has_mfa_enabled, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
+  alias has_inline_user_policies? has_inline_user_policies
+  alias has_attached_user_policies? has_attached_user_policies
 
   def name
     warn "[DEPRECATION] - Property ':name' is deprecated on the aws_iam_user resource.  Use ':username' instead."
@@ -84,6 +88,14 @@ class AwsIamUser < Inspec.resource(1)
     @access_keys = backend.list_access_keys(user_name: username).access_key_metadata
     # If the above call fails, we get nil here; but we promise access_keys will be an array.
     @access_keys ||= []
+
+    @inline_policies = backend.list_user_policies(user_name: username).policy_names
+    @inline_policies ||= []
+    @has_inline_user_policies = !@inline_policies.empty?
+
+    @attached_policies = backend.list_attached_user_policies(user_name: username).attached_policies
+    @attached_policies ||= []
+    @has_attached_user_policies = !@attached_policies.empty? 
   end
 
   class Backend
@@ -105,6 +117,14 @@ class AwsIamUser < Inspec.resource(1)
 
       def list_access_keys(criteria)
         aws_service_client.list_access_keys(criteria)
+      end
+
+      def list_user_policies(criteria)
+        aws_service_client.list_user_policies(criteria)
+      end
+      
+      def list_attached_user_policies(criteria)
+        aws_service_client.list_attached_user_policies(criteria)
       end
     end
   end
