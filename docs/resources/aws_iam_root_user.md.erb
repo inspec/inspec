@@ -51,6 +51,18 @@ The `have_mfa_enabled` matcher tests if the AWS root user has Multi-Factor Authe
 
     it { should have_mfa_enabled }
 
+### have\_hardware\_mfa\_enabled
+
+The `have_hardware_mfa_enabled` matcher tests if the AWS root user has Hardware Multi-Factor Authentication device enabled, requiring them to enter a secondary code when they login to the web console.
+
+    it { should have_hardware_mfa_enabled }
+
+### have\_virtual\_mfa\_enabled
+
+The `have_virtual_mfa_enabled` matcher tests if the AWS root user has Virtual Multi-Factor Authentication device enabled, requiring them to enter a secondary code when they login to the web console.
+
+    it { should have_virtual_mfa_enabled }
+
 ### have\_access\_key
 
 The `have_access_key` matcher tests if the AWS root user has at least one access key.
