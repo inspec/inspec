@@ -47,12 +47,12 @@ The following examples show how to use this InSpec audit resource.
 
     # Ensure that the linux_servers group permits SSH from the 10.5.0.0/16 range, but not the world
     describe aws_security_group(group_name: linux_servers) do
-      # This passes if any inbound rule that specifies 
+      # This passes if any inbound rule exists that specifies 
       # port 22 and the given IP range, regardless of protocol, etc.
       it { should allow_in(port: 22, ipv4_range: '10.5.0.0/16') }
 
-      # This passes so long as no inbound rule that specifies port 22
-      # and whose source IP range is 0.0.0.0/0.  Other properties are ignored. 
+      # This passes so long as no inbound rule that specifies port 22 exists
+      # with a source IP range of 0.0.0.0/0.  Other properties are ignored. 
       it { should_not allow_in(port: 22, ipv4_range: '0.0.0.0/0') }
 
       # This is an alternate way of expressing the previous test.
@@ -216,13 +216,13 @@ The `allow` series of matchers enable you to perform queries about what network 
 
 `allow_in` and `allow_in_exactly` examine inbound rules, and `allow_out` and `allow_out_exactly` examine outbound rules. 
 
-`allow_in` and `allow_out` examine if at least one rule that matches the criteria. `allow_in` and `allow_out` also perform inexact (ie, range-based or subset-based) matching on ports and IP addresses ranges, allowing you to specify a candidate port or IP address and determine if it is covered by a rule.
+`allow_in` and `allow_out` examine if at least one rule that matches the criteria exists. `allow_in` and `allow_out` also perform inexact (ie, range-based or subset-based) matching on ports and IP addresses ranges, allowing you to specify a candidate port or IP address and determine if it is covered by a rule.
 
  `allow_in_only` and `allow_out_only` examines if exactly one rule exists (but see `position`, below), and if it matches the criteria (this is useful for ensuring no unexpected rules have been added). Additionally, `allow_in_only` and `allow_out_only` do _not_ perform inexact matching; you must specify exactly the port range or IP address(es) you wish to match.
 
 The matchers accept a key-value list of search criteria.  For a rule to match, it must match all provided criteria.
 
-  * from_port - Determines if a rule whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_"). `from_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `from_port` of 1001, it does not match.
+  * from_port - Determines if a rule exists whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_"). `from_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `from_port` of 1001, it does not match.
   * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS security group rule may have multiple allowed source IP ranges. 
   * port - Determines if a particular TCP/IP port is reachable. allow_in and allow_out examine whether the specified port is included in the port range of a rule, while allow_in. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`. `position` may also be used to enable `allow_in_only` and `allow_out_only` to work with multi-rule security groups.
@@ -261,7 +261,7 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
       it { should allow_in_only(port: 3389, ipv4_range: '10.5.0.0/16', position: 1)}
 
       # Specify position 2 for the SSH rule.  Without `position`, 
-      # allow_in_only only allows there one rule, total.
+      # allow_in_only only allows one rule, total.
       it { should allow_in_only(port: 22, ipv4_range: '10.5.0.0/16', position: 2)}
 
       # Because this is an _only matcher, this fails - _only matchers 
