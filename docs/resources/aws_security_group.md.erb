@@ -110,7 +110,7 @@ The string name of the Security Group.  Every VPC has a security group named 'de
       it { should exist }
     end
 
-    # This throws an error if SG more than one VPC has a 'backend' SG.
+    # This throws an error if more than one VPC has a 'backend' SG.
     describe aws_security_group(group_name: 'backend') do
       it { should exist }
     end
