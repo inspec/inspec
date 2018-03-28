@@ -5,9 +5,9 @@ class AwsSecurityGroup < Inspec.resource(1)
   name 'aws_security_group'
   desc 'Verifies settings for an individual AWS Security Group.'
   example '
-    describe aws_security_group("sg-12345678") do
-      it { should exist }
-    end
+  describe aws_security_group("sg-12345678") do
+    it { should exist }
+  end
   '
   supports platform: 'aws'
 
@@ -81,42 +81,43 @@ class AwsSecurityGroup < Inspec.resource(1)
     ]
     recognized_criteria = {}
     allowed_criteria.each do |expected_criterion|
-      recognized_criteria[expected_criterion] = raw_criteria.delete(expected_criterion) if raw_criteria.key?(expected_criterion)
+      if raw_criteria.key?(expected_criterion)
+        recognized_criteria[expected_criterion] = raw_criteria.delete(expected_criterion)
+      end
     end
 
     # Any leftovers are unwelcome
     unless raw_criteria.empty?
-      raise ArgumentError, "Unrecognized security group rule 'allow' criterion '#{raw_criteria.keys.first}'. Expected criteria: #{allowed_criteria.join(', ')}"
+      raise ArgumentError, "Unrecognized security group rule 'allow' criteria '#{raw_criteria.keys.join(',')}'. Expected criteria: #{allowed_criteria.join(', ')}"
     end
 
     recognized_criteria
   end
 
   def allow__focus_on_position(rules, criteria)
-    if criteria.key?(:position)
-      idx = criteria.delete(:position)
+    return rules unless criteria.key?(:position)
 
-      # Normalize to a zero-based numeric index
-      case # rubocop: disable Style/EmptyCaseCondition
-      when idx.is_a?(Symbol) && idx == :first
-        idx = 0
-      when idx.is_a?(Symbol) && idx == :last
-        idx = rules.count - 1
-      when idx.is_a?(String)
-        idx = idx.to_i - 1 # We document this as 1-based, so adjust to be zero-based.
-      when idx.is_a?(Numeric)
-        idx -= 1 # We document this as 1-based, so adjust to be zero-based.
-      else
-        raise ArgumentError, "aws_security_group 'allow' 'position' criteria must be an integer or the symbols :first or :last"
-      end
+    idx = criteria.delete(:position)
 
-      unless idx < rules.count
-        raise ArgumentError, "aws_security_group 'allow' 'position' criteria #{idx+1} is out of range - there are only #{rules.count} rules for security group #{group_id}."
-      end
-
-      rules = [rules[idx]]
+    # Normalize to a zero-based numeric index
+    case # rubocop: disable Style/EmptyCaseCondition
+    when idx.is_a?(Symbol) && idx == :first
+      idx = 0
+    when idx.is_a?(Symbol) && idx == :last
+      idx = rules.count - 1
+    when idx.is_a?(String)
+      idx = idx.to_i - 1 # We document this as 1-based, so adjust to be zero-based.
+    when idx.is_a?(Numeric)
+      idx -= 1 # We document this as 1-based, so adjust to be zero-based.
+    else
+      raise ArgumentError, "aws_security_group 'allow' 'position' criteria must be an integer or the symbols :first or :last"
     end
-    rules
+
+    unless idx < rules.count
+      raise ArgumentError, "aws_security_group 'allow' 'position' criteria #{idx+1} is out of range - there are only #{rules.count} rules for security group #{group_id}."
+    end
+
+    [rules[idx]]
   end
 
   def allow__match_port(rule, criteria) # rubocop: disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
