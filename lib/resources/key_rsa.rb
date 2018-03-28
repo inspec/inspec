@@ -27,7 +27,7 @@ module Inspec::Resources
       @key_path = keypath
       @passphrase = passphrase
       if @passphrase.is_a? Inspec::Attribute::DEFAULT_ATTRIBUTE
-        return fail_resource "Please provide default value for attribute"
+        return fail_resource 'Please provide default value for attribute'
       end
       begin
         @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
