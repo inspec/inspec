@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.14 -->
-## [v2.1.14](https://github.com/chef/inspec/tree/v2.1.14) (2018-03-26)
+<!-- latest_release 2.1.15 -->
+## [v2.1.15](https://github.com/chef/inspec/tree/v2.1.15) (2018-03-28)
 
-#### Enhancements
-- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry))
+#### Merged Pull Requests
+- Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
 ### Changes since 2.1.10 release
+
+#### Merged Pull Requests
+- Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto)) <!-- 2.1.15 -->
 
 #### Enhancements
 - registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
