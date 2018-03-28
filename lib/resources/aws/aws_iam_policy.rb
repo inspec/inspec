@@ -1,3 +1,6 @@
+require 'json'
+require 'uri'
+
 class AwsIamPolicy < Inspec.resource(1)
   name 'aws_iam_policy'
   desc 'Verifies settings for individual AWS IAM Policy'
@@ -48,6 +51,18 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def attached_to_role?(role_name)
     attached_roles.include?(role_name)
+  end
+
+  def policy
+    return nil unless exists?
+    return @policy if defined?(@policy)
+
+    catch_aws_errors do
+      backend = BackendFactory.create(inspec_runner)
+      gpv_response = backend.get_policy_version(policy_arn: arn, version_id: default_version_id)
+      @policy = JSON.parse(URI.decode_www_form_component(gpv_response.document))
+    end
+    @policy
   end
 
   private

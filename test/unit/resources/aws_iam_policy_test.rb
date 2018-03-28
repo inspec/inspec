@@ -90,6 +90,12 @@ class AwsIamPolicyPropertiesTest < Minitest::Test
     assert_equal(['test-role'], AwsIamPolicy.new('test-policy-1').attached_roles)
     assert_nil(AwsIamPolicy.new(policy_name: 'non-existant').attached_roles)
   end
+
+  def test_property_policy
+    policy = AwsIamPolicy.new('test-policy-1').policy
+    assert_kind_of(Hash, policy)
+    assert_nil(AwsIamPolicy.new(policy_name: 'non-existant').policy)    
+  end
 end
 
 
@@ -196,6 +202,19 @@ module MAIPSB
         policy_roles: [],
       }
       OpenStruct.new( policy[query[:policy_arn]] )
+    end
+
+    def get_policy_version(query)
+      fixtures = {
+        'arn:aws:iam::aws:policy/test-policy-1' => {
+          'v1' => OpenStruct.new(
+            document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22CloudWatchEventsFullAccess%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22events%3A%2A%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22IAMPassRoleForCloudWatchEvents%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22iam%3APassRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22arn%3Aaws%3Aiam%3A%3A%2A%3Arole%2FAWS_Events_Invoke_Targets%22%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%0A%7D'
+          )
+        }
+      }
+      pv = fixtures.dig(query[:policy_arn], query[:version_id])
+      return pv if pv
+      raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
     end
   end
 end
