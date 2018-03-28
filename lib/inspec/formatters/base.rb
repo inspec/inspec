@@ -69,6 +69,7 @@ module Inspec::Formatters
         name: platform(:name),
         release: platform(:release),
         target: backend_target,
+        uuid: platform(:uuid),
       }
     end
 

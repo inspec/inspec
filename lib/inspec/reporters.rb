@@ -3,6 +3,7 @@ require 'inspec/reporters/cli'
 require 'inspec/reporters/json'
 require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
+require 'inspec/reporters/automate'
 
 module Inspec::Reporters
   def self.render(reporter, run_data)
@@ -17,9 +18,14 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::JsonMin.new(config)
     when 'junit'
       reporter = Inspec::Reporters::Junit.new(config)
+    when 'automate'
+      reporter = Inspec::Reporters::Automate.new(config)
     else
       raise NotImplementedError, "'#{name}' is not a valid reporter type."
     end
+
+    # optional send_report method on reporter
+    return reporter.send_report if defined?(reporter.send_report)
 
     reporter.render
     output = reporter.rendered_output

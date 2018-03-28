@@ -16,7 +16,7 @@ describe 'BaseCLI' do
       Inspec::BaseCLI.stubs(:default_options).returns(default_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
 
@@ -37,7 +37,7 @@ EOF
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
 
@@ -51,7 +51,7 @@ EOF
       cli.instance_variable_set(:@options, cli_options)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>true, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
 
@@ -70,7 +70,7 @@ EOF
       cli.expects(:options_json).returns(parsed_json)
 
       opts = cli.send(:merged_opts, :exec)
-      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}}
+      expected = {"backend_cache"=>false, "reporter"=>{"json"=>{"stdout"=>true}}, "type"=>:exec}
       opts.must_equal expected
     end
   end
