@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.16 -->
-## [v2.1.16](https://github.com/chef/inspec/tree/v2.1.16) (2018-03-28)
+<!-- latest_release 2.1.17 -->
+## [v2.1.17](https://github.com/chef/inspec/tree/v2.1.17) (2018-03-28)
 
-#### Merged Pull Requests
-- Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah))
+#### New Resources
+- new resource: aws rds instance (singular) [#2866](https://github.com/chef/inspec/pull/2866) ([HackerShark](https://github.com/HackerShark))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
@@ -21,6 +21,7 @@
 - Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots)) <!-- 2.1.13 -->
 
 #### New Resources
+- new resource: aws rds instance (singular) [#2866](https://github.com/chef/inspec/pull/2866) ([HackerShark](https://github.com/HackerShark)) <!-- 2.1.17 -->
 - New Skeletal Resource aws_config_delivery_channel [#2641](https://github.com/chef/inspec/pull/2641) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.12 -->
 - New Skeletal Resource aws_kms_key [#2746](https://github.com/chef/inspec/pull/2746) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.11 -->
 <!-- release_rollup -->
