@@ -40,7 +40,7 @@ Like the `json` resource, the `yaml` resource can read a file, run a command, or
       its('state') { should eq 'open' }
     end
 
-    describe yaml({ content: \"key1: value1\nkey2: value2\" }) do
+    describe yaml({ content: "\"key1: value1\nkey2: value2\"" }) do
       its('key2') { should cmp 'value2' }
     end
 
@@ -53,7 +53,7 @@ The following examples show how to use this InSpec audit resource.
 ### Test a kitchen.yml file driver
 
     describe yaml('.kitchen.yaml') do
-      its('driver.name') { should eq('vagrant') }
+      its(['driver','name']) { should eq('vagrant') }
     end
 
 <br>
