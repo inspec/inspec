@@ -26,7 +26,14 @@ module Inspec::Resources
     def initialize(keypath, passphrase = nil)
       @key_path = keypath
       @passphrase = passphrase
-      @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
+      if @passphrase.is_a? Inspec::Attribute::DEFAULT_ATTRIBUTE
+        return fail_resource "Please provide default value for attribute"
+      end
+      begin
+        @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
+      rescue OpenSSL::PKey::PKeyError
+        return fail_resource 'passphrase Error'
+      end
     end
 
     def public?
