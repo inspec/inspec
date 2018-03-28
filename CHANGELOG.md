@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.15 -->
-## [v2.1.15](https://github.com/chef/inspec/tree/v2.1.15) (2018-03-28)
+<!-- latest_release 2.1.16 -->
+## [v2.1.16](https://github.com/chef/inspec/tree/v2.1.16) (2018-03-28)
 
 #### Merged Pull Requests
-- Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto))
+- Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
 ### Changes since 2.1.10 release
 
 #### Merged Pull Requests
+- Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
 - Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto)) <!-- 2.1.15 -->
 
 #### Enhancements
