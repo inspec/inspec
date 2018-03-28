@@ -22,7 +22,6 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :content
     def initialize(env = nil)
       @osenv = env
     end

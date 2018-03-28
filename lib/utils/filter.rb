@@ -180,6 +180,7 @@ module FilterTable
     def initialize
       @accessors = []
       @connectors = {}
+      @resource = nil
     end
 
     def connect(resource, table_accessor) # rubocop:disable Metrics/AbcSize

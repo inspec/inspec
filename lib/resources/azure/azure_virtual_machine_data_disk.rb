@@ -17,8 +17,6 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.add_accessor(:where)
           .add_accessor(:entries)
-          .add_accessor(:has_data_disks?)
-          .add_accessor(:count)
           .add(:exists?) { |x| !x.entries.empty? }
           .add(:disk, field: :disk)
           .add(:number, field: :number)
