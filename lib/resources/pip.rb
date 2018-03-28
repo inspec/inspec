@@ -35,7 +35,7 @@ module Inspec::Resources
 
       @info = {}
       @info[:type] = 'pip'
-      return @info if !cmd_successful?
+      return @info unless cmd_successful?
 
       params = SimpleConfig.new(
         cmd.stdout,
@@ -67,15 +67,14 @@ module Inspec::Resources
     end
 
     def cmd_successful?
-      result = cmd
-      return true if result.exit_status == 0
+      return true if cmd.exit_status == 0
 
-      if result.exit_status != 0
+      if cmd.exit_status != 0
         # If pip on windows is not the latest, it will create a stderr value along with stdout
         # Example:
         #   stdout: "Name: Jinja2\r\nVersion: 2.10..."
         #   stderr: "You are using pip version 9.0.1, however version 9.0.3 is available..."
-        if inspec.os.windows? && !result.stdout.empty?
+        if inspec.os.windows? && !cmd.stdout.empty?
           return true
         end
       end
@@ -89,7 +88,12 @@ module Inspec::Resources
     # @return [Hash] of windows_paths
     def windows_paths
       return @__windows_paths if @__windows_paths
-      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
+      cmd = inspec.command(
+        'New-Object -Type PSObject |
+         Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru |
+         Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru |
+         ConvertTo-Json',
+      )
 
       @__windows_paths = JSON.parse(cmd.stdout)
     end
