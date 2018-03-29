@@ -187,6 +187,17 @@ In addition to code and testing quality, there are a number of considerations in
 
 ### Two Major Audiences
 
+Generally speaking, InSpec users fall into two major camps, with different backgrounds, skillsets, and expectations. Adding features to InSpec involves balancing the needs of both groups.
+
+#### Infrastructure-as-Code Testers
+
+Many engineers first experience InSpec as a tool for verifying the results of their configuration management tool.  A common toolchain is using InSpec to test Chef cookbooks (or Ansible roles, or Puppet manifests), using [test kitchen](). This user community may have experience with [serverspec](https://www.inspec.io/docs/reference/inspec_and_friends/#serverspec), and they may have concerns about [compatibility with serverspec](https://www.inspec.io/docs/reference/migration/). Generally speaking, these users often have development backgrounds (though perhaps not Ruby) and are highly "technical". When testing artifacts from their Infrastructure-as-Code development, they may need to perform unusual or hard-to-predict tests, such as examining the results of a software installation in detail.
+
+#### Security and Compliance Practitioners
+
+
+
+
 (TODO: discuss user base split between inspec-as-integration-testing vs inspec-as-compliance-tool)
 
 ### Start Small
@@ -195,11 +206,24 @@ It's often best to start by creating a bare-bones resource.  If you limit functi
 
 This also applies when dealing with APIs that return complex data structures.  Try to focus on exposing the elements of the data that directly apply to your use case.  You are not obliged to provide 100% exposure of every possible element or value of a data structure.  See ["Dealing with Complex Properties"](#dealing-with-complex-properties) and ["Low -evel and High-Level Features](#low-level-and-high-level-features).
 
+### Handling Non-Existence
+
+TODO: writeup points below.
+* return nil from all scalar non-id properties, and document that.
+* return [] from all array non-id properties, and document that.
+* return the ID property provided as a resource param
+
 ### Singular vs Plural
 
 One of the earliest distinctions you will need to make when designing a resource is whether you want to have in-depth auditing of a single resource, or bulk detection of groups of the same resource type.  For example, compare the [package](https://www.inspec.io/docs/reference/resources/package/) and [packages](https://www.inspec.io/docs/reference/resources/packages/) resources.
 
 TODO: describe Mixins
+
+### Writing a Plural Resource
+
+* FilterTable
+* plural inflection on properties 
+* Support fewer properties if they incur n + 1 (until lazy properties)
 
 ### Properties vs Matchers
 
@@ -319,9 +343,13 @@ High/Low level features were touched on a bit in [Dealing with Complex Propertie
 
 Low-level features expose the nuts-and-bolts of the resource.  If you are dealing with a `process`, you might be able to access information like the parent process ID, perhaps even a list of open files or a deep tree or subprocesses.  Thinking of our [two audiences](#two_major_audiences), this sort of information access is vital to infrastructure-as-code engineers; they need to verify that their provisioning code is behaving as expected, and are comfortable with the technical details, perhaps even writing Ruby code to traverse complex data structures. Compliance practitioners, on the other hand, may find the resulting code to be opaque.  They need to be able to understand the profile in order to certify that it represents the intent of a particular security standard.
 
-High-level features directly address use cases of compliance practitioners, in clear, unambiguous language. While high-level features are less flexible, they can be very powerful. For example, the `be_public` matcher on the `aws_s3_bucket` is straighforward to understand. Its implementation relies on the presence of several low-level features. It is also somewhat future-proof: if additional checks are needed in the future, they can be added to the implementation of be_public, and all users of the matcher will benefit from the change. Alternatively, if someone made the same checks using only the low-level matchers, they would need to update their profile to match.
+Mid-level resources provide a happy medium.  While built on low-level features, they provide the ability to explicitly query structures in a more friendly way, while making no assumptions about what the user intends. Because a mid-level feature has the ability to massage the underlying data structures, readability can be greatly improved, making the test much easier to understand by the compliance community.
 
-Overall, having both low- and high-level resources works out best.
+High-level features directly address use cases of compliance practitioners, in clear, less technical language. While high-level features are less flexible, they can be very powerful. A high-level feature bases its implementation on the presence of several low- or mid-level features. It is also somewhat future-proof: if additional checks are needed in the future, they can be added to the implementation of the higher-level matcher, and all users of the matcher will benefit from the change. Alternatively, if someone made the same checks using only the low-level matchers, they would need to update their profile to match.  
+
+A word of caution about high-level matchers.  It is critical that users understand from reading the control code what is (and most critically, what is _not_) being checked.  High level resources by neccesity omit underlying details, which makes them ambiguous by nature.  Abiguity is subjective - your set of assumptions may not match another persons.  A high-level feature must document explicitly what assumptions it makes, but we cannot rely on the user referring to the documentation. 
+
+Overall, having low-level, mid-level, and carefully considered high-level features serves the whole user base.
 
 ### Use Raw Properties
 
