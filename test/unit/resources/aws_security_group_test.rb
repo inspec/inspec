@@ -175,24 +175,7 @@ class AwsSGSProperties < Minitest::Test
     assert(sg.allow_in_only?(protocol: 'any'), "Match protocol using _only on 1-rule group")
     refute(sg.allow_in_only?(port: 22), "no match port using _only on 1-rule group")
   end
-
-  def test_matcher_open_to_the_world
-    sg_closed = AwsSecurityGroup.new('sg-12345678')
-    sg_open = AwsSecurityGroup.new('sg-22223333')
-
-    refute(sg_closed.open_to_the_world?)
-    assert(sg_open.open_to_the_world?)
-  end
-
-  def test_matcher_open_to_the_world_on_port
-    sg_closed = AwsSecurityGroup.new('sg-12345678')
-    sg_open = AwsSecurityGroup.new('sg-22223333')
-
-    refute(sg_closed.open_to_the_world_on_port?(22))
-    assert(sg_open.open_to_the_world_on_port?(22))
-  end
 end
-
 
 
 #=============================================================================#

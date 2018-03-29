@@ -68,8 +68,5 @@ control "aws_security_group matchers" do
     it { should allow_out(ipv4_range: ["10.1.2.0/24", "10.3.2.0/24"], from_port: 6000, to_port: 6007)}
     it { should allow_out(ipv4_range: ["10.1.2.0/24", "10.3.2.0/24"], from_port: 6000, to_port: 6007, position: 1)}
 
-    it { should be_open_to_the_world }
-    it { should_not be_open_to_the_world_on_port(22) }
-    it { should be_open_to_the_world_on_port(80) }    
   end
 end

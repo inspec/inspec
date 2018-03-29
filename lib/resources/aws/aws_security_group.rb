@@ -38,14 +38,6 @@ class AwsSecurityGroup < Inspec.resource(1)
   end
   RSpec::Matchers.alias_matcher :allow_out_only, :be_allow_out_only
 
-  def open_to_the_world?
-    allow(inbound_rules, { ipv4_range: '0.0.0.0/0' })
-  end
-
-  def open_to_the_world_on_port?(port)
-    allow(inbound_rules, { ipv4_range: '0.0.0.0/0', port: port })
-  end
-
   private
 
   def allow_only(rules, criteria)
