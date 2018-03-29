@@ -64,13 +64,13 @@ The following examples show how to use this InSpec audit resource.
     describe aws_security_group(group_name: 'careful_updates') do
 
       # If you have two rules, with one CIDR each: 
-      [ '10.7.23.12/32', '10.8.23.12/32'].each do |allowed_destination|
+      [ '10.7.23.12/32', '10.8.23.12/32' ].each do |allowed_destination|
         # this doesn't care about which ports are enabled
         it { should allow_out(ipv4_range: allowed_destination)}
       end
 
       # If you have one rule, with two CIDRs: 
-      it { should allow_out(ipv4_range: ['10.7.23.12/32', '10.8.23.12/32']}
+      it { should allow_out(ipv4_range: [ '10.7.23.12/32', '10.8.23.12/32' ]}
 
       # Expect exactly three rules.
       its('outbound_rules.count') { should cmp 3 }
