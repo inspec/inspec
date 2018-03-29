@@ -48,10 +48,10 @@ class AwsIamRootUserTest < Minitest::Test
   def test_has_virtual_mfa_enabled_returns_true_when_account_vmfa_devices_is_one
     test_list_virtual_mfa_devices = OpenStruct.new(
       virtual_mfa_devices: [Aws::IAM::Types::VirtualMFADevice.new(
-        serial_number: "arn:aws:iam::123456789011:mfa/root-account-mfa-device",
+        serial_number: 'arn:aws:iam::123456789011:mfa/root-account-mfa-device',
         user: Aws::IAM::Types::User.new(
-          user_id: "123456789011",
-          arn:     "arn:aws:iam::123456789011:root",
+          user_id: '123456789011',
+          arn:     'arn:aws:iam::123456789011:root',
         )
       )]
     )
