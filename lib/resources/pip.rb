@@ -26,7 +26,8 @@ module Inspec::Resources
     def initialize(package_name, pip_path = nil)
       @package_name = package_name
       @pip_cmd = pip_path || default_pip_path
-      return skip_resource 'pip not found' unless inspec.command(@pip_cmd).exist?
+
+      return skip_resource 'pip not found' if @pip_cmd.nil?
     end
 
     def info
@@ -34,8 +35,7 @@ module Inspec::Resources
 
       @info = {}
       @info[:type] = 'pip'
-      cmd = inspec.command("#{@pip_cmd} show #{@package_name}")
-      return @info if cmd.exit_status != 0
+      return @info unless cmd_successful?
 
       params = SimpleConfig.new(
         cmd.stdout,
@@ -62,19 +62,60 @@ module Inspec::Resources
 
     private
 
+    def cmd
+      @__cmd ||= inspec.command("#{@pip_cmd} show #{@package_name}")
+    end
+
+    def cmd_successful?
+      return true if cmd.exit_status == 0
+
+      if cmd.exit_status != 0
+        # If pip on windows is not the latest, it will create a stderr value along with stdout
+        # Example:
+        #   stdout: "Name: Jinja2\r\nVersion: 2.10..."
+        #   stderr: "You are using pip version 9.0.1, however version 9.0.3 is available..."
+        if inspec.os.windows? && !cmd.stdout.empty?
+          return true
+        end
+      end
+
+      false
+    end
+
+    # Paths of Python and Pip on windows
+    # {"Pip" => nil, "Python" => "/path/to/python"}
+    #
+    # @return [Hash] of windows_paths
+    def windows_paths
+      return @__windows_paths if @__windows_paths
+      cmd = inspec.command(
+        'New-Object -Type PSObject |
+         Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru |
+         Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru |
+         ConvertTo-Json',
+      )
+
+      @__windows_paths = JSON.parse(cmd.stdout)
+    end
+
+    # Default path of python pip installation
+    #
+    # @return [String] of python pip path
     def default_pip_path
       return 'pip' unless inspec.os.windows?
 
+      # If python is not found, return with skip_resource
+      return skip_resource 'python not found' if windows_paths['Python'].nil?
+
       # Pip is not on the default path for Windows, therefore we do some logic
       # to find the binary on Windows
-      cmd = inspec.command('New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name Pip -Value (Invoke-Command -ScriptBlock {where.exe pip}) -PassThru | Add-Member -MemberType NoteProperty -Name Python -Value (Invoke-Command -ScriptBlock {where.exe python}) -PassThru | ConvertTo-Json')
       begin
-        paths = JSON.parse(cmd.stdout)
         # use pip if it on system path
-        pipcmd = paths['Pip']
+        pipcmd = windows_paths['Pip']
         # calculate path on windows
-        if defined?(paths['Python']) && pipcmd.nil?
-          pipdir = paths['Python'].split('\\')
+        if defined?(windows_paths['Python']) && pipcmd.nil?
+          return nil if windows_paths['Pip'].nil?
+          pipdir = windows_paths['Python'].split('\\')
           # remove python.exe
           pipdir.pop
           pipcmd = pipdir.push('Scripts').push('pip.exe').join('/')
