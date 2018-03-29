@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.19 -->
-## [v2.1.19](https://github.com/chef/inspec/tree/v2.1.19) (2018-03-29)
+<!-- latest_release 2.1.20 -->
+## [v2.1.20](https://github.com/chef/inspec/tree/v2.1.20) (2018-03-29)
 
-#### Bug Fixes
-- Change route_table_id Regular Expression for correctness [#2885](https://github.com/chef/inspec/pull/2885) ([TrevorBramble](https://github.com/TrevorBramble))
+#### Merged Pull Requests
+- Pin to Train 1.3.0. [#2898](https://github.com/chef/inspec/pull/2898) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
 ### Changes since 2.1.10 release
 
 #### Merged Pull Requests
+- Pin to Train 1.3.0. [#2898](https://github.com/chef/inspec/pull/2898) ([jquick](https://github.com/jquick)) <!-- 2.1.20 -->
 - Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
 - Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto)) <!-- 2.1.15 -->
 
