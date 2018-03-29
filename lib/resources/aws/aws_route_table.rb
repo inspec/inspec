@@ -26,9 +26,11 @@ class AwsRouteTable < Inspec.resource(1)
       allowed_scalar_type: String,
     )
 
-    if validated_params.key?(:route_table_id) && validated_params[:route_table_id] !~ /^rtb\-[0-9a-f]{8}/
-      raise ArgumentError, 'aws_route_table Route Table ID must be in the' \
-       ' format "rtb-" followed by 8 hexadecimal characters.'
+    if validated_params.key?(:route_table_id) &&
+       validated_params[:route_table_id] !~ /^rtb\-[0-9a-f]{8}$/
+      raise ArgumentError,
+            'aws_route_table Route Table ID must be in the' \
+            ' format "rtb-" followed by 8 hexadecimal characters.'
     end
 
     validated_params
