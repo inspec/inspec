@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.20 -->
-## [v2.1.20](https://github.com/chef/inspec/tree/v2.1.20) (2018-03-29)
+<!-- latest_release 2.1.21 -->
+## [v2.1.21](https://github.com/chef/inspec/tree/v2.1.21) (2018-03-29)
 
-#### Merged Pull Requests
-- Pin to Train 1.3.0. [#2898](https://github.com/chef/inspec/pull/2898) ([jquick](https://github.com/jquick))
+#### Bug Fixes
+- Pw/pip windows bug [#2883](https://github.com/chef/inspec/pull/2883) ([pwelch](https://github.com/pwelch))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
@@ -20,6 +20,7 @@
 - registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
 
 #### Bug Fixes
+- Pw/pip windows bug [#2883](https://github.com/chef/inspec/pull/2883) ([pwelch](https://github.com/pwelch)) <!-- 2.1.21 -->
 - Change route_table_id Regular Expression for correctness [#2885](https://github.com/chef/inspec/pull/2885) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.19 -->
 - Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots)) <!-- 2.1.13 -->
 
