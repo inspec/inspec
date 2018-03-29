@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.17 -->
-## [v2.1.17](https://github.com/chef/inspec/tree/v2.1.17) (2018-03-28)
+<!-- latest_release 2.1.18 -->
+## [v2.1.18](https://github.com/chef/inspec/tree/v2.1.18) (2018-03-29)
 
-#### New Resources
-- new resource: aws rds instance (singular) [#2866](https://github.com/chef/inspec/pull/2866) ([HackerShark](https://github.com/HackerShark))
+#### Enhancements
+- powershell resource: Add support other OSs [#2894](https://github.com/chef/inspec/pull/2894) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
@@ -15,6 +15,7 @@
 - Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto)) <!-- 2.1.15 -->
 
 #### Enhancements
+- powershell resource: Add support other OSs [#2894](https://github.com/chef/inspec/pull/2894) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.18 -->
 - registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
 
 #### Bug Fixes
