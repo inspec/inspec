@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.18 -->
-## [v2.1.18](https://github.com/chef/inspec/tree/v2.1.18) (2018-03-29)
+<!-- latest_release 2.1.19 -->
+## [v2.1.19](https://github.com/chef/inspec/tree/v2.1.19) (2018-03-29)
 
-#### Enhancements
-- powershell resource: Add support other OSs [#2894](https://github.com/chef/inspec/pull/2894) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Bug Fixes
+- Change route_table_id Regular Expression for correctness [#2885](https://github.com/chef/inspec/pull/2885) ([TrevorBramble](https://github.com/TrevorBramble))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.10 -->
@@ -19,6 +19,7 @@
 - registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
 
 #### Bug Fixes
+- Change route_table_id Regular Expression for correctness [#2885](https://github.com/chef/inspec/pull/2885) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.19 -->
 - Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots)) <!-- 2.1.13 -->
 
 #### New Resources
