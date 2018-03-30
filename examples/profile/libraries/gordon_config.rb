@@ -41,9 +41,9 @@ class GordonConfig < Inspec.resource(1)
   end
 
   # Example method called by 'it { should exist }'
-  # Returns true or false from the 'File.exists?' method
+  # Returns true or false from the 'File.exist?' method
   def exists?
-    File.exists?(@path)
+    File.exist?(@path)
   end
 
   # Example matcher for the number of commas in the file
