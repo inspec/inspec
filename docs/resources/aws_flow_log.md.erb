@@ -1,0 +1,82 @@
+---
+title: About the aws_flow_log Resource
+platform: aws
+---
+
+# aws\_flow\_low
+
+Use the `aws_flow_log` InSpec audit resource to test properties of a single Flow Log.
+
+## Syntax
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should exist }
+    end
+
+## Resource Parameteres
+### flow_log_id
+
+This resource expects a single parameter that uniquely identifies the Flow Log. You may pass it as a string, or as the value in a hash:
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should exist }
+    end
+
+    describe aws_flow_log(flow_log_id: 'fl-8905f8e0') do
+      it { should exist }
+    end
+
+### subnet_id
+
+To search for a flow log by the associated subnet id:
+
+    describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
+      it { should exist }
+    end
+
+### vpc_id
+
+To search for a flow log by the associated vpc id:
+
+    describe aws_flow_log(vpc_id: 'vpc-96cabaef') do
+      it { should exist }
+    end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### name
+
+The `name` matcher tests the name of the flow log.
+
+  describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
+    its('name') { should cmp 'fl-9c718cf5' }
+  end
+
+### log_group_name
+
+The `log_group_name` matcher tests the name of the associated log group.
+
+  describe aws_flow_log('fl-9c718cf5') do
+    its('log_group_name') { should cmp 'test_log_group' }
+  end
+
+### resource_id
+
+The `resource_id` matcher tests the id of the associated VPC, subnet, or network interface.
+  describe aws_flow_log('fl-9c718cf5') do
+    its('resource_id') { should cmp 'subnet-c6a4319c' }
+  end
+
+### exist
+
+Indicates that the Flow Log provided was found.  Use `should_not` to test for Flow Logs that should not exist.
+
+    describe aws_flow_log('should-be-there') do
+      it { should exist }
+    end
+
+    describe aws_flow_log('should-not-be-there') do
+      it { should_not exist }
+    end
