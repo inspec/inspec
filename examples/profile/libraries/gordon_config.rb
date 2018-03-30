@@ -35,8 +35,8 @@ class GordonConfig < Inspec.resource(1)
       @params['file_size'] = @file.size
       @params['file_path'] = @path
       @params['ruby'] = 'RUBY IS HERE TO HELP ME!'
-    rescue StandardError
-      raise Inspec::Exceptions::ResourceSkipped, "#{@file}: #{$!}"
+    rescue StandardError => e
+      raise Inspec::Exceptions::ResourceSkipped, "#{@file}: #{e.message}"
     end
   end
 
