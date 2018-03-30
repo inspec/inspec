@@ -4,6 +4,9 @@ require 'yaml'
 class GordonConfig < Inspec.resource(1)
   name 'gordon_config'
 
+  supports platform: 'unix'
+  supports platform: 'windows'
+
   desc "
     Gordon's resource description ...
   "
