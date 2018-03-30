@@ -20,7 +20,10 @@ class GordonConfig < Inspec.resource(1)
     @params = {}
     @path = '/tmp/gordon/config.yaml'
     @file = inspec.file(@path)
-    return skip_resource "Can't find file \"#{@path}\"" if !@file.file?
+
+    unless @file.file?
+      raise Inspec::Exceptions::ResourceSkipped, "Can't find file `#{@path}`"
+    end
 
     # Protect from invalid YAML content
     begin
@@ -30,7 +33,7 @@ class GordonConfig < Inspec.resource(1)
       @params['file_path'] = @path
       @params['ruby'] = 'RUBY IS HERE TO HELP ME!'
     rescue Exception
-      return skip_resource "#{@file}: #{$!}"
+      raise Inspec::Exceptions::ResourceSkipped, "#{@file}: #{$!}"
     end
   end
 
