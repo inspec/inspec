@@ -40,7 +40,7 @@ module Inspec
     #
     # @param [Hash] config for the transport backend
     # @return [TransportBackend] enriched transport instance
-    def self.create(config) # rubocop:disable Metrics/AbcSize
+    def self.create(config) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       conf = Train.target_config(config)
       name = Train.validate_backend(conf)
       transport = Train.create(name, conf)
@@ -51,6 +51,14 @@ module Inspec
       connection = transport.connection
       if connection.nil?
         raise "Can't connect to transport backend '#{name}'."
+      end
+
+      # Cisco IOS requires a special implementation of `Net:SSH`. This uses the
+      # SSH transport to identify the platform, but then replaces that transport
+      # with the CiscoIOS transport in order to behave as expected later.
+      if name == 'ssh' && connection.platform.cisco_ios?
+        transport = Train.create('cisco_ios', conf)
+        connection = transport.connection
       end
 
       # Set caching settings. We always want to enable caching for

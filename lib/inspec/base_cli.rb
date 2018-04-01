@@ -26,6 +26,8 @@ module Inspec
         desc: 'The login user for a remote scan.'
       option :password, type: :string, lazy_default: -1,
         desc: 'Login password for a remote scan, if required.'
+      option :enable_password, type: :string, lazy_default: -1,
+        desc: 'Password for enable mode on Cisco IOS devices.'
       option :key_files, aliases: :i, type: :array,
         desc: 'Login key or certificate file for a remote scan.'
       option :path, type: :string,
