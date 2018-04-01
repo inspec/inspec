@@ -16,7 +16,7 @@ describe 'inspec exec' do
     stdout.must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[38;5;247m     ↺  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
+\e[38;5;247m     ↺  Can't find file `/tmp/gordon/config.yaml`\e[0m
 "
     stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
     stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
