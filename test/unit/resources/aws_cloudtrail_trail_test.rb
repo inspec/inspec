@@ -3,7 +3,6 @@ require 'helper'
 # MACTTSB = MockAwsCloudTrailTrailSingularBackend
 # Abbreviation not used outside this file
 
-TIME_NOW = Time.now
 #=============================================================================#
 #                            Constructor Tests
 #=============================================================================#
@@ -177,14 +176,11 @@ module MACTTSB
       fixtures = [
         OpenStruct.new({
           name: "test-trail-1",
-          latest_cloud_watch_logs_delivery_time: TIME_NOW
+          latest_cloud_watch_logs_delivery_time: Time.now
         })
       ]
       
-      selected = fixtures.detect do |fixture|
-        fixture.name == query[:name]
-      end
-      selected
+      fixtures.detect { |f| f.name == query[:name] }
     end
   end
 end
