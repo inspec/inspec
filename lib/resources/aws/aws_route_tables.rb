@@ -42,7 +42,9 @@ class AwsRouteTables < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @table = backend.describe_route_tables({}).to_h[:route_tables] # max value for limit is 1000
+    catch_aws_errors do
+      @table = backend.describe_route_tables({}).to_h[:route_tables]
+    end
   end
 
   class Backend

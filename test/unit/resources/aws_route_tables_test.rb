@@ -8,6 +8,10 @@ class EmptyAwsRouteTablesTest < Minitest::Test
   def test_constructor_no_args_ok
     AwsRouteTables.new
   end
+  
+  def test_search_miss
+    refute AwsRouteTables.new.exists?
+  end
 
   def test_constructor_reject_unknown_resource_params
     assert_raises(ArgumentError) { AwsRouteTables.new(bla: 'blabla') }
@@ -51,24 +55,12 @@ module AwsMRtbB
   class Basic < AwsBackendBase
     def describe_route_tables(query)
       fixtures = [
-        OpenStruct.new({associations: [],
-                          propagating_vgws: [],
+        OpenStruct.new({
                           route_table_id: 'rtb-2c60ec44',
-                          routes: [
-                            {destination_cidr_block: '172.32.1.0/24', gateway_id: 'igw-4fb9e626', origin: 'CreateRoute', state: 'active'},
-                            {destination_cidr_block: '172.31.0.0/16', gateway_id: 'local', origin: 'CreateRouteTable', state: 'active'}
-                          ],
-                          tags: [{key: 'Name', value: 'InSpec'}],
                           vpc_id: 'vpc-169f777e'
         }),
-        OpenStruct.new({associations: [],
-                          propagating_vgws: [],
+        OpenStruct.new({
                           route_table_id: 'rtb-58508630',
-                          routes: [
-                            {destination_cidr_block: '172.33.0.0/16', gateway_id: 'local', origin: 'CreateRouteTable', state: 'active'},
-                            {destination_cidr_block: '0.0.0.0/0', gateway_id: 'igw-4fb9e626', origin: 'CreateRoute', state: 'active'}
-                          ],
-                          tags: [{key: 'Name', value: 'InSpec'}],
                           vpc_id: 'vpc-169f777d'
         })
       ]

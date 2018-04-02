@@ -1,7 +1,7 @@
 fixtures = {}
 [
-  'routetable_rtb_route_table_id',
-  'routetable_rtb_vpc_id',
+  'route_table_1_id',
+  'route_table_1_vpc_id',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -17,7 +17,7 @@ control "aws_route_table exists" do
 end
 
 control "aws_route_table recall" do
-  describe aws_route_table(fixtures['routetable_rtb_route_table_id']) do
+  describe aws_route_table(fixtures['route_table_1_id']) do
     it { should exist}
   end
 end
