@@ -21,6 +21,31 @@ class AwsS3BucketsConstructor < Minitest::Test
 end
 
 #=============================================================================#
+#                               Search / Recall
+#=============================================================================#
+class AwsS3BucketsRecallEmptyTest < Minitest::Test
+
+  def setup
+    AwsS3Buckets::BackendFactory.select(AwsMSBB::Empty)
+  end
+
+  def test_search_miss_via_empty_vpcs
+    refute AwsS3Buckets.new.exists?
+  end
+end
+
+class AwsS3BucketsRecallBasicTest < Minitest::Test
+
+  def setup
+    AwsS3Buckets::BackendFactory.select(AwsMSBB::Basic)
+  end
+
+  def test_search_hit_via_empty_filter
+    assert AwsS3Buckets.new.exists?
+  end
+end
+
+#=============================================================================#
 #                            Properties
 #=============================================================================#
 class AwsS3bucketsProperties < Minitest::Test
@@ -31,7 +56,8 @@ class AwsS3bucketsProperties < Minitest::Test
   def test_property_bucket_names
     basic = AwsS3Buckets.new
     assert_kind_of(Array, basic.bucket_names)
-    assert(basic.bucket_names.include?('bucket_01'))
+    assert(basic.bucket_names.include?('bucket-01'))
+    assert(!basic.bucket_names.include?('NonExistentBucket'))
     refute(basic.bucket_names.include?(nil))
   end
 end
@@ -40,14 +66,20 @@ end
 #                               Test Fixtures
 #=============================================================================#
 module AwsMSBB
+  class Empty < AwsBackendBase
+    def list_buckets
+      OpenStruct.new({ buckets: [] })
+    end
+  end
+  
   class Basic < AwsBackendBase
     def list_buckets
       fixtures = [
         OpenStruct.new({
-          name: "bucket_01",          
+          name: "bucket-01",          
         }),
         OpenStruct.new({
-          name: "bucket_02",
+          name: "bucket-02",
         }),
       ]
       OpenStruct.new({ buckets: fixtures })

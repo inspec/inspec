@@ -22,6 +22,7 @@ control "aws_s3_buckets properties" do
   # you should be able to test the cidr_block of a subnet
   describe aws_s3_buckets do
     its('bucket_names') { should include fixtures['s3_bucket_public_name'], fixtures['s3_bucket_private_name'] }
+    its('bucket_names') { should_not include 'i_dont_exist' }
   end
 end
 
