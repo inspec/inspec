@@ -1,5 +1,6 @@
 ---
 title: About the crontab Resource
+platform: linux
 ---
 
 # crontab
@@ -18,7 +19,7 @@ A `crontab` resource block declares a user (which defaults to the current user, 
 
 <br>
 
-## Resource Parameter Examples
+## Examples
 
 The following examples show how to use this InSpec audit resource.
 
@@ -41,15 +42,15 @@ The following examples show how to use this InSpec audit resource.
       its('entries.length') { should cmp '0' }
     end
 
-### Test that the logged-in user's crontab contains a single command that matches a mattern
+### Test that the logged-in user's crontab contains a single command that matches a pattern
 
     describe crontab.where { command =~ /a partial command string/ } do
       its('entries.length') { should cmp 1 }
     end
 
-### Test a special time string (i.e., @yearly /root/anual_report.sh)
+### Test a special time string (i.e., @yearly /root/annual_report.sh)
 
-    describe crontab.commands('/root/anual_report.sh') do
+    describe crontab.commands('/root/annual_report.sh') do
       its('hours') { should cmp '0' }
       its('minutes') { should cmp '0' }
       its('days') { should cmp '1' }
@@ -67,7 +68,8 @@ The following examples show how to use this InSpec audit resource.
 
 ## Property Examples
 
-  ### Test a special time string
+
+### Test a special time string
 
     describe crontab do
       its('minutes') { should cmp '0' }
@@ -84,4 +86,4 @@ InSpec will automatically interpret crontab-supported special time strings. For 
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

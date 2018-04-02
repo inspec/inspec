@@ -256,7 +256,7 @@ end
 
 ## Are you supporting the `expect` syntax?
 
-Of course. We still prefer the `should` syntax for UX reasons. We did surveys with various types of customers like devops engineers, auditors, managers. All participants who prefered the `expect` syntax have been Ruby experts. All non-Ruby developers found it easier to understand the `should` syntax.
+Of course. We still prefer the `should` syntax for UX reasons. We did surveys with various types of customers like devops engineers, auditors, managers. All participants who preferred the `expect` syntax have been Ruby experts. All non-Ruby developers found it easier to understand the `should` syntax.
 
 ### `should` syntax with InSpec
 

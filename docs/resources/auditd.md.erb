@@ -1,10 +1,11 @@
 ---
 title: About the auditd Resource
+platform: linux
 ---
 
 # auditd
 
-Use the `auditd` InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditcl -l command. This resource supports versions of `audit` >= 2.3.
+Use the `auditd` InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditctl -l command. This resource supports versions of `audit` >= 2.3.
 
 <br>
 
@@ -67,12 +68,12 @@ The where accessor can be used to filter on fields. For example:
 
 The key filter may be useful in evaluating rules with particular key values:
 
-  describe auditd.where { key == "privileged" } do
-    its('permissions') { should include ['x'] }
-  end
+    describe auditd.where { key == "privileged" } do
+      its('permissions') { should include ['x'] }
+    end
 
 <br>
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

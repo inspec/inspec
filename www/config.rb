@@ -52,6 +52,8 @@ activate :sprockets
 activate :autoprefixer
 activate :directory_indexes
 activate :syntax
+set :url_root, 'https://inspec.io'
+activate :search_engine_sitemap
 set :trailing_slash, false
 set :markdown_engine, :redcarpet
 set :markdown, fenced_code_blocks: true, smartypants: true, coderay_line_numbers: :table, tables: true, with_toc_data: true

@@ -1,5 +1,6 @@
 ---
 title: About the shadow Resource
+platform: linux
 ---
 
 # shadow
@@ -26,12 +27,12 @@ These entries are defined as a colon-delimited row in the file, one row per user
 A `shadow` resource block declares one (or more) users and associated user information to be tested:
 
     describe shadow do
-      its('users') { should_not include 'forbidden_user' }
+      its('user') { should_not include 'forbidden_user' }
     end
 
 or with a single query:
 
-    describe shadow.users('root') do
+    describe shadow.user('root') do
       its('count') { should eq 1 }
     end
 
@@ -43,9 +44,9 @@ or with a filter:
 
 The following properties are available:
 
-* `users`
-* `passwords`
-* `last_changes`
+* `user`
+* `password`
+* `last_change`
 * `min_days`
 * `max_days`
 * `warn_days`
@@ -64,13 +65,13 @@ The following examples show how to use this InSpec audit resource.
 ### Test for a forbidden user
 
     describe shadow do
-      its('users') { should_not include 'forbidden_user' }
+      its('user') { should_not include 'forbidden_user' }
     end
 
 ### Test that a user appears one time
 
-    describe shadow.users('bin') do
-      its('passwords') { should cmp 'x' }
+    describe shadow.user('bin') do
+      its('password') { should cmp 'x' }
       its('count') { should eq 1 }
     end
 
@@ -78,7 +79,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### count
 
@@ -88,33 +89,29 @@ The `count` matcher tests the number of times the named user appears in `/etc/sh
 
 This matcher is best used in conjunction with filters. For example:
 
-    describe shadow.users('dannos') do
+    describe shadow.user('dannos') do
        its('count') { should eq 1 }
     end
 
-### expiry_dates
+### user
 
-The `expiry_dates` matcher tests the number of days a user account has been disabled:
+The `user` matcher tests if the username exists `/etc/shadow`:
 
-    its('expiry_dates') { should eq '' }
+    its('user') { should eq 'root' }
 
-### inactive_days
+### password
 
-The `inactive_days` matcher tests the number of days a user must be inactive before the user account is disabled:
+The `password` matcher returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
 
-    its('inactive_days') { should eq '' }
+For example:
 
-### last_changes
+    its('password') { should cmp '*' }
 
-The `last_changes` matcher tests the last time a password was changed:
+### last_change
 
-    its('last_changes') { should eq '' }
+The `last_change` matcher tests the last time a password was changed:
 
-### max_days
-
-The `max_days` matcher tests the maximum number of days after which a password must be changed:
-
-    its('max_days') { should eq 90 }
+    its('last_change') { should be_empty }
 
 ### min_days
 
@@ -122,22 +119,28 @@ The `min_days` matcher tests the minimum number of days a password must exist, b
 
     its('min_days') { should eq 0 }
 
-### passwords
+### max_days
 
-The `passwords` matcher returns the encrypted password string from the shadow file. The returned string may not be an encrypted password, but rather a `*` or similar which indicates that direct logins are not allowed.
+The `max_days` matcher tests the maximum number of days after which a password must be changed:
 
-For example:
-
-    its('passwords') { should cmp '*' }
-
-### users
-
-The `users` matcher tests if the user name exists `/etc/shadow`:
-
-    its('users') { should eq 'root' }
+    its('max_days') { should eq 90 }
 
 ### warn_days
 
 The `warn_days` matcher tests the number of days a user is warned about an expiring password:
 
     its('warn_days') { should eq 7 }
+
+### inactive_days
+
+The `inactive_days` matcher tests the number of days a user must be inactive before the user account is disabled:
+
+    its('inactive_days') { should be_empty }
+
+### expiry_date
+
+The `expiry_date` matcher tests the number of days a user account has been disabled:
+
+    its('expiry_date') { should be_empty }
+
+

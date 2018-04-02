@@ -1,16 +1,15 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class ApacheConf < Inspec.resource(1)
     name 'apache_conf'
-    supports os_family: 'linux'
-    supports os_family: 'debian'
+    supports platform: 'linux'
+    supports platform: 'debian'
     desc 'Use the apache_conf InSpec audit resource to test the configuration settings for Apache. This file is typically located under /etc/apache2 on the Debian and Ubuntu platforms and under /etc/httpd on the Fedora, CentOS, Red Hat Enterprise Linux, and Arch Linux platforms. The configuration settings may vary significantly from platform to platform.'
     example "
       describe apache_conf do
@@ -19,6 +18,7 @@ module Inspec::Resources
     "
 
     include FindFiles
+    include FileReader
 
     attr_reader :conf_path
 
@@ -65,16 +65,7 @@ module Inspec::Resources
       @content = ''
       @params = {}
 
-      # skip if the main configuration file doesn't exist
-      file = inspec.file(conf_path)
-      if !file.file?
-        return skip_resource "Can't find file \"#{conf_path}\""
-      end
-
-      raw_conf = file.content
-      if raw_conf.empty? && !file.empty?
-        return skip_resource("Can't read file \"#{conf_path}\"")
-      end
+      read_file_content(conf_path)
 
       to_read = [conf_path]
       until to_read.empty?
@@ -126,7 +117,7 @@ module Inspec::Resources
     end
 
     def read_file(path)
-      @files_contents[path] ||= inspec.file(path).content
+      @files_contents[path] ||= read_file_content(path)
     end
 
     def conf_dir

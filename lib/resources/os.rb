@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'resources/platform'
 
 module Inspec::Resources
   class OSResource < PlatformResource
     name 'os'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the os InSpec audit resource to test the platform on which the system is running.'
     example "
       describe os[:family] do
@@ -27,16 +27,6 @@ module Inspec::Resources
       define_method(os_family.to_sym) do
         @platform.send(os_family)
       end
-    end
-
-    # helper to collect a hash object easily
-    def params
-      {
-        name: name,
-        family: @platform[:family],
-        release: @platform[:release],
-        arch: @platform[:arch],
-      }
     end
 
     def to_s

@@ -1,10 +1,13 @@
 # encoding: utf-8
-# author: Matthew Dromazos
 
 require 'utils/parser'
+require 'utils/file_reader'
 
 class EtcHosts < Inspec.resource(1)
   name 'etc_hosts'
+  supports platform: 'linux'
+  supports platform: 'bsd'
+  supports platform: 'windows'
   desc 'Use the etc_hosts InSpec audit resource to find an
     ip_address and its associated hosts'
   example "
@@ -18,64 +21,46 @@ class EtcHosts < Inspec.resource(1)
   attr_reader :params
 
   include CommentParser
+  include FileReader
+
+  DEFAULT_UNIX_PATH    = '/etc/hosts'.freeze
+  DEFAULT_WINDOWS_PATH = 'C:\windows\system32\drivers\etc\hosts'.freeze
 
   def initialize(hosts_path = nil)
-    return skip_resource 'The `etc_hosts` resource is not supported on your OS.' unless inspec.os.bsd? || inspec.os.linux? || inspec.os.windows?
-    @conf_path      = hosts_path || default_hosts_file_path
-    @content        = nil
-    @params         = nil
-    read_content
+    content = read_file_content(hosts_path || default_hosts_file_path)
+
+    @params = parse_conf(content.lines)
   end
 
-  filter = FilterTable.create
-  filter.add_accessor(:where)
-        .add_accessor(:entries)
-        .add(:ip_address,     field: 'ip_address')
-        .add(:primary_name,   field: 'primary_name')
-        .add(:all_host_names, field: 'all_host_names')
-
-  filter.connect(self, :params)
+  FilterTable.create
+             .add_accessor(:where)
+             .add_accessor(:entries)
+             .add(:ip_address,     field: 'ip_address')
+             .add(:primary_name,   field: 'primary_name')
+             .add(:all_host_names, field: 'all_host_names')
+             .connect(self, :params)
 
   private
 
   def default_hosts_file_path
-    inspec.os.windows? ? 'C:\windows\system32\drivers\etc\hosts' : '/etc/hosts'
+    inspec.os.windows? ? DEFAULT_WINDOWS_PATH : DEFAULT_UNIX_PATH
   end
 
-  def read_content
-    @content = ''
-    @params  = {}
-    @content = read_file(@conf_path)
-    @params  = parse_conf(@content)
+  def parse_conf(lines)
+    lines.reject(&:empty?).reject(&comment?).map(&parse_data).map(&format_data)
   end
 
-  def parse_conf(content)
-    content.map do |line|
-      data, = parse_comment_line(line, comment_char: '#', standalone_comments: false)
-      parse_line(data) unless data == ''
-    end.compact
+  def comment?
+    parse_options = { comment_char: '#', standalone_comments: false }
+
+    ->(data) { parse_comment_line(data, parse_options).first.empty? }
   end
 
-  def parse_line(line)
-    line_parts = line.split
-    return nil unless line_parts.length >= 2
-    {
-      'ip_address'     => line_parts[0],
-      'primary_name'   => line_parts[1],
-      'all_host_names' => line_parts[1..-1],
-    }
+  def parse_data
+    ->(data) { [data.split[0], data.split[1], data.split[1..-1]] }
   end
 
-  def read_file(conf_path = @conf_path)
-    file = inspec.file(conf_path)
-    if !file.file?
-      return skip_resource "Can't find file. \"#{@conf_path}\""
-    end
-
-    raw_conf = file.content
-    if raw_conf.empty? && !file.empty?
-      return skip_resource("Could not read file contents\" #{@conf_path}\"")
-    end
-    raw_conf.lines
+  def format_data
+    ->(data) { %w{ip_address primary_name all_host_names}.zip(data).to_h }
   end
 end

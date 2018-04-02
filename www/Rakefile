@@ -32,15 +32,15 @@ task :default do
 end
 
 namespace :www do # rubocop:disable Metrics/BlockLength
-  desc 'Builds the tutorial contents'
-  task :tutorial do
-    Log.section 'Build the online tutorial in tutorial/'
-    sh('cd tutorial/ && npm install')
-    sh('cd tutorial/ && gulp build')
-    Verify.file('tutorial/dist/index.html')
-    Verify.file('tutorial/dist/css/inspec_tutorial.css')
-    Verify.file('tutorial/dist/scripts/inspec_tutorial.js')
-    Verify.file('tutorial/dist/dist/inspec_tutorial.js')
+  desc 'Builds the demo contents'
+  task :demo do
+    Log.section 'Build the online demo in demo/'
+    sh('cd demo/ && npm install')
+    sh('cd demo/ && $(npm bin)/gulp build')
+    Verify.file('demo/dist/index.html')
+    Verify.file('demo/dist/css/inspec_tutorial.css')
+    Verify.file('demo/dist/scripts/inspec_tutorial.js')
+    Verify.file('demo/dist/dist/inspec_tutorial.js')
   end
 
   desc 'Builds the middleman site'
@@ -54,15 +54,15 @@ namespace :www do # rubocop:disable Metrics/BlockLength
     Verify.file('build/stylesheets/site.css')
   end
 
-  desc 'Assemble the website site from middleman and the tutorial'
+  desc 'Assemble the website site from middleman and the demo'
   task :assemble do
     Log.section 'Copy only tutorial into middleman build directory'
-    sh('rsync -a --exclude=index.html tutorial/dist/* build/')
-    sh('cp tutorial/dist/index.html build/tutorial.html')
+    sh('rsync -a --exclude=index.html demo/dist/* build/')
+    sh('cp demo/dist/index.html build/demo.html')
   end
 
   desc 'Builds the full site locally'
-  task build: ['www:tutorial', 'www:site', 'www:assemble']
+  task build: ['www:demo', 'www:site', 'www:assemble']
 
   task :clean do
     dst = 'build'

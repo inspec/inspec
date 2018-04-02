@@ -1,5 +1,6 @@
 ---
 title: About the registry_key Resource
+platform: windows
 ---
 
 # registry_key
@@ -41,7 +42,7 @@ A Windows registry key can be used as a string in Ruby code, such as when a regi
 
     HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Themes
 
-may be encloused in a single-quoted string with a single backslash:
+may be enclosed in a single-quoted string with a single backslash:
 
     'HKCU\SOFTWARE\path\to\key\Themes'
 
@@ -90,7 +91,7 @@ where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the f
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/). 
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### children
 

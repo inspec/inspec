@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Verifies apt and ppa repositories
 #
@@ -31,6 +29,7 @@ require 'uri'
 module Inspec::Resources
   class AptRepository < Inspec.resource(1)
     name 'apt'
+    supports platform: 'unix'
     desc 'Use the apt InSpec audit resource to verify Apt repositories on the Debian and Ubuntu platforms, and also PPA repositories on the Ubuntu platform.'
     example "
       describe apt('nginx/stable') do

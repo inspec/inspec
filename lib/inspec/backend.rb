@@ -65,6 +65,7 @@ module Inspec
         connection.disable_cache(:command)
       else
         Inspec::Log.debug 'Option backend_cache is disabled'
+        connection.disable_cache(:file)
         connection.disable_cache(:command)
       end
 

@@ -7,8 +7,9 @@ module Inspec::Reporters
       @output = ''
     end
 
-    def output(str)
-      @output << "#{str}\n"
+    def output(str, newline = true)
+      @output << str
+      @output << "\n" if newline
     end
 
     def rendered_output

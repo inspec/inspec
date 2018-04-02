@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Content-Length: 0
+Connection: keep-alive
+Access-Control-Allow-Origin: http://www.example.com
+Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE
+Access-Control-Max-Age: 86400

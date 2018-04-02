@@ -65,6 +65,25 @@ describe 'Inspec::Resources::Http' do
         _(worker.body).must_equal 'params ok'
       end
     end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        stub_request(:options, "http://www.example.com/").
+          with(:headers => {'Access-Control-Request-Headers'=>'origin, x-requested-with', 'Access-Control-Request-Method'=>'GET', 'Origin'=>'http://www.example.com'}).
+          to_return(:status => 200, :body => "", :headers => { 'mock' => 'ok', 'Access-Control-Allow-Origin' => 'http://www.example.com', 'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, DELETE', 'Access-Control-Max-Age' => '86400' })
+
+        _(worker.status).must_equal 200
+        _(worker.response_headers['mock']).must_equal 'ok'
+        _(worker.response_headers['access-control-allow-origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['access-control-allow-methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['access-control-max-age']).must_equal '86400'
+      end
+    end
   end
 
   describe 'Inspec::Resource::Http::Worker::Remote' do
@@ -125,6 +144,44 @@ describe 'Inspec::Resources::Http' do
       it 'returns correct data' do
         _(worker.status).must_equal 301
         _(worker.response_headers['Location']).must_equal 'http://www.google.com/'
+      end
+    end
+
+    describe 'an OPTIONS request' do
+      let(:http_method) { 'OPTIONS' }
+      let(:opts) { { headers: { 'Access-Control-Request-Method' => 'GET',
+                                'Access-Control-Request-Headers' => 'origin, x-requested-with',
+                                'Origin' => 'http://www.example.com' } } }
+
+      it 'returns correct data' do
+        _(worker.status).must_equal 200
+        _(worker.response_headers['Access-Control-Allow-Origin']).must_equal 'http://www.example.com'
+        _(worker.response_headers['Access-Control-Allow-Methods']).must_equal 'POST, GET, OPTIONS, DELETE'
+        _(worker.response_headers['Access-Control-Max-Age']).must_equal '86400'
+      end
+    end
+
+    describe 'run_curl request' do
+      it 'returns nil when nil is returned' do
+        Inspec::Resources::Cmd.any_instance
+                              .stubs(:stdout)
+                              .returns(nil)
+        _(worker.send(:run_curl)).must_be_nil
+      end
+
+      it 'returns nil when failure is returned' do
+        Inspec::Resources::Cmd.any_instance
+                              .stubs(:exit_status)
+                              .returns(1)
+        _(worker.send(:run_curl)).must_be_nil
+      end
+
+      it 'returns html when html is returned' do
+        Inspec::Resources::Cmd.any_instance
+                              .stubs(:stdout)
+                              .returns("HTTP/1.1 200 OK\nDate: Tue, 03 Oct 2017 20:30:08 GMT\nExpires: -1\nCache-Control: private")
+        assert = ["Date: Tue, 03 Oct 2017 20:30:08 GMT", "Expires: -1", "Cache-Control: private"]
+        _(worker.send(:run_curl)).must_equal assert
       end
     end
   end

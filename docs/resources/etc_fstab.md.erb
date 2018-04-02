@@ -1,5 +1,6 @@
 ---
 title: About the etc_fstab Resource
+platform: linux
 ---
 
 # etc_fstab
@@ -35,7 +36,7 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 <br>
 
-## Supported Resource Properties
+## Properties
 
 * `device_name` is the name associated with the device.
 * `mount_point` is the directory at which the filesystem is configured to be mounted.
@@ -58,7 +59,7 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 ### mount_point
 
-`mount_point` returns a string array of directorys at which filesystems are configured to be mounted.
+`mount_point` returns a string array of directories at which filesystems are configured to be mounted.
 
     describe etc_fstab.where { device_name == '/dev/sr0' } do
       its('mount_point') { should cmp '/mnt/sr0' }
@@ -121,4 +122,4 @@ Use the optional constructor parameter to give an alternative path to fstab file
 
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

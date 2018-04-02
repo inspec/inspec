@@ -36,7 +36,7 @@ describe SourceReaders::InspecReader do
     end
 
     it 'retrieves all extra files' do
-      _(res.data_files.keys).must_equal %w{files/a_sub_dir/sub_items.conf files/items.conf}
+      _(res.data_files.keys.sort).must_equal %w{files/a_sub_dir/sub_items.conf files/items.conf}
       _(res.data_files['files/items.conf']).must_equal "one\ntwo\nthree\n"
       _(res.data_files['files/a_sub_dir/sub_items.conf']).must_equal "[section]\nkey = value\n"
     end

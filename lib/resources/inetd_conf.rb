@@ -1,13 +1,13 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class InetdConf < Inspec.resource(1)
     name 'inetd_conf'
+    supports platform: 'unix'
     desc 'Use the inetd_conf InSpec audit resource to test if a service is enabled in the inetd.conf file on Linux and UNIX platforms. inetd---the Internet service daemon---listens on dedicated ports, and then loads the appropriate program based on a request. The inetd.conf file is typically located at /etc/inetd.conf and contains a list of Internet services associated to the ports on which that service will listen. Only enabled services may handle a request; only services that are required by the system should be enabled.'
     example "
       describe inetd_conf do
@@ -17,8 +17,11 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(path = nil)
       @conf_path = path || '/etc/inetd.conf'
+      @content = read_file_content(@conf_path)
     end
 
     # overwrite exec to ensure it works with its
@@ -34,21 +37,9 @@ module Inspec::Resources
     def read_params
       return @params if defined?(@params)
 
-      # read the file
-      file = inspec.file(@conf_path)
-      if !file.file?
-        skip_resource "Can't find file \"#{@conf_path}\""
-        return @params = {}
-      end
-
-      content = file.content
-      if content.empty? && !file.empty?
-        skip_resource "Can't read file \"#{@conf_path}\""
-        return @params = {}
-      end
       # parse the file
       conf = SimpleConfig.new(
-        content,
+        @content,
         assignment_regex: /^\s*(\S+?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s+(.*?)\s*$/,
         key_values: 6,
         multiple_values: false,

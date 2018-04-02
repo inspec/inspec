@@ -80,7 +80,7 @@ module Inspec
       h = {
         'name' => name,
         'resolved_source' => resolved_source,
-        'version_constraints' => version_constraints.to_s,
+        'version_constraints' => version_constraints,
       }
 
       if !dependencies.empty?

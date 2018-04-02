@@ -13,9 +13,17 @@ describe Inspec::Reporters::Json do
 
   describe '#render' do
     it 'confirm render output' do
-      cli_output = File.read(path + '/../mock/reporters/json_output')
+      output = File.read(path + '/../mock/reporters/json_output')
       report.render
-      report.rendered_output.must_equal cli_output
+      report.rendered_output.must_equal output
+    end
+  end
+
+  describe '#report' do
+    it 'confirm report output' do
+      output = File.read(path + '/../mock/reporters/json_output')
+      output = JSON.parse(output, symbolize_names: true)
+      report.report.must_equal output
     end
   end
 
@@ -23,36 +31,6 @@ describe Inspec::Reporters::Json do
     it 'confirm platform output' do
       hash = { name: 'mac_os_x', release: '17.2.0' }
       report.send(:platform).must_equal hash
-    end
-  end
-
-  describe '#controls' do
-    it 'confirm control output' do
-      hash = {
-        status: 'passed',
-        start_time: '2018-01-05 11:43:04 -0500',
-        run_time: 0.002058,
-        code_desc: 'File /tmp should be directory',
-      }
-      controls = report.send(:controls)
-      controls.first.must_equal hash
-      controls.count.must_equal 4
-    end
-
-    it 'confirm control output with optional' do
-      report.run_data[:controls].first[:resource] = 'File'
-      report.run_data[:controls].first[:skip_message] = 'skipping'
-      hash = {
-        status: 'passed',
-        start_time: '2018-01-05 11:43:04 -0500',
-        run_time: 0.002058,
-        code_desc: 'File /tmp should be directory',
-        resource: 'File',
-        skip_message: 'skipping',
-      }
-      controls = report.send(:controls)
-      controls.first.must_equal hash
-      controls.count.must_equal 4
     end
   end
 

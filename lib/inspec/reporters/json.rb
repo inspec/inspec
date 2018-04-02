@@ -5,16 +5,18 @@ require 'json'
 module Inspec::Reporters
   class Json < Base
     def render
-      report = {
+      output(report.to_json, false)
+    end
+
+    def report
+      {
         platform: platform,
         profiles: profiles,
-        statistics: { duration: run_data[:statistics][:duration] },
+        statistics: {
+          duration: run_data[:statistics][:duration],
+        },
         version: run_data[:version],
-        controls: controls,
-        other_checks: run_data[:other_checks],
       }
-
-      output(report.to_json)
     end
 
     private
@@ -24,27 +26,6 @@ module Inspec::Reporters
         name: run_data[:platform][:name],
         release: run_data[:platform][:release],
       }
-    end
-
-    def controls
-      controls = []
-      return controls if run_data[:controls].nil?
-
-      run_data[:controls].each do |c|
-        control = {
-          status: c[:status],
-          start_time: c[:start_time],
-          run_time: c[:run_time],
-          code_desc: c[:code_desc],
-        }
-        control[:resource] = c[:resource] if c[:resource]
-        control[:skip_message] = c[:skip_message] if c[:skip_message]
-        control[:exception] = c[:exception] if c[:exception]
-        control[:backtrace] = c[:backtrace] if c[:backtrace]
-
-        controls << control
-      end
-      controls
     end
 
     def profile_results(control)
@@ -60,6 +41,9 @@ module Inspec::Reporters
         }
         result[:resource] = r[:resource] if r[:resource]
         result[:skip_message] = r[:skip_message] if r[:skip_message]
+        result[:message] = r[:message] if r[:message]
+        result[:exception] = r[:exception] if r[:exception]
+        result[:backtrace] = r[:backtrace] if r[:backtrace]
 
         results << result
       end
