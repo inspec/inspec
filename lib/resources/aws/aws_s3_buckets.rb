@@ -5,7 +5,7 @@ class AwsS3Buckets < Inspec.resource(1)
   desc 'Verifies settings for AWS S3 Buckets in bulk'
   example "
     describe aws_s3_bucket do
-      its('Bucket_names') { should eq ['my_bucket'] }
+      its('bucket_names') { should eq ['my_bucket'] }
     end
   "
   supports platform: 'aws'
@@ -18,7 +18,6 @@ class AwsS3Buckets < Inspec.resource(1)
         .add_accessor(:entries)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:bucket_names, field: :name)
-        .add(:creation_dates, field: :creation_date)
   filter.connect(self, :table)
 
   def to_s

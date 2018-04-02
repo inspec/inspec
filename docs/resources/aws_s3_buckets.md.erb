@@ -2,9 +2,11 @@
 title: About the aws_s3_buckets Resource
 ---
 
-# aws_s3_buckets
+# aws\_s3\_buckets
 
 Use the `aws_s3_buckets` InSpec audit resource to list all buckets in a single account.
+
+Use the `aws_s3_bucket` InSpec audit resource to perform in-depth auditing of a single S3 bucket.
 
 <br>
 
@@ -39,11 +41,13 @@ The control will pass if the resource contains at least one bucket.
 
 ## Properties
 
-### bucket_names
+### bucket\_names
 
 Provides an array of strings containing the names of the buckets.
 
-    # Examine a specific subnets cidr_blocks
+    # Examine what buckets have been created. 
     describe aws_s3_buckets do
       its('bucket_names') { should eq ['my_bucket'] }
+      # OR
+      its('bucket_names') { should include 'my_bucket' }
     end
