@@ -65,6 +65,11 @@ class AwsIamPolicy < Inspec.resource(1)
     @policy
   end
 
+  def statement_count
+    return nil unless exists?
+    policy['Statement'].count
+  end
+
   private
 
   def validate_params(raw_params)

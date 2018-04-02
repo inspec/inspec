@@ -200,7 +200,6 @@ resource "aws_iam_policy" "gamma" {
       "Action": "*",
       "Effect": "Allow",
       "Resource": "*"
-      ]
     }
   ]
 }

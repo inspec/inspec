@@ -94,7 +94,15 @@ class AwsIamPolicyPropertiesTest < Minitest::Test
   def test_property_policy
     policy = AwsIamPolicy.new('test-policy-1').policy
     assert_kind_of(Hash, policy)
-    assert_nil(AwsIamPolicy.new(policy_name: 'non-existant').policy)    
+    assert(policy.key?('Statement'), "test-policy-1 should have a Statement key when unpacked")
+    assert_equal(1, policy['Statement'].count, "test-policy-1 should have 1 statements when unpacked")
+    assert_nil(AwsIamPolicy.new('non-existant').policy)    
+  end
+
+  def test_property_statement_count
+    assert_nil(AwsIamPolicy.new('non-existant').statement_count)
+    assert_equal(1, AwsIamPolicy.new('test-policy-1').statement_count)
+    assert_equal(2, AwsIamPolicy.new('test-policy-2').statement_count)
   end
 end
 
@@ -164,7 +172,7 @@ module MAIPSB
         OpenStruct.new({
           policy_name: 'test-policy-2',
           arn: 'arn:aws:iam::aws:policy/test-policy-2',
-          default_version_id: 'v2',
+          default_version_id: 'v1',
           attachment_count: 0,
           is_attachable: false,
         }),
@@ -208,6 +216,13 @@ module MAIPSB
       fixtures = {
         'arn:aws:iam::aws:policy/test-policy-1' => {
           'v1' => OpenStruct.new(
+            # This is the integration test fixture "beta"
+            document: '%7B%0A%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22Sid%22%3A%20%22beta01%22%2C%0A%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribeSubnets%22%2C%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribeSecurityGroups%22%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Deny%22%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22arn%3Aaws%3Aec2%3A%3A%3A%2A%22%2C%0A%20%20%20%20%20%20%20%20%22%2A%22%0A%20%20%20%20%20%20%5D%0A%20%20%20%20%7D%0A%20%20%5D%0A%7D%0A'
+          )
+        },
+        'arn:aws:iam::aws:policy/test-policy-2' => {
+          'v1' => OpenStruct.new(
+            # This is AWS-managed CloudWatchEventsFullAccess
             document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22CloudWatchEventsFullAccess%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22events%3A%2A%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22IAMPassRoleForCloudWatchEvents%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22iam%3APassRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22arn%3Aaws%3Aiam%3A%3A%2A%3Arole%2FAWS_Events_Invoke_Targets%22%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%0A%7D'
           )
         }
