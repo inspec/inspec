@@ -1,0 +1,56 @@
+---
+title: About the aws_organizations_member Resource
+---
+
+# aws\_organizations\_member
+
+Use the `aws_organizations_member` InSpec audit resource to test detailed properties of an individual AWS Account within Organizations.
+
+Organizations gives you consolidated billing and management capabilities across multiple AWS Accounts you own.
+
+<br>
+
+## Syntax
+
+An `aws_organizations_member` resource block tests if the current AWS Account is the master account, the `master` matcher will return `true` or `false` accordingly. You can also verify that the property `master_account_id` matches a known value.
+
+    # Ensure you are a child account with a certain ID for the top level account.
+    describe aws_organizations_member do
+      it { should_not be_master }
+      its('master_account_id') { should cmp '111111111111' }
+    end
+
+    # Ensure you are the top level account.
+    describe aws_organizations_member do
+      it { should be_master }
+    end
+
+<br>
+
+## Examples
+
+The following examples show how to use this InSpec audit resource.
+
+As this is the initial release of `aws_organizations_member`, its limited functionality precludes examples.
+
+<br>
+
+## Properties
+
+### master_account_id
+
+The `master_account_id` property identifies the AWS Account ID of the master account in AWS Organizations.
+
+    describe aws_organizations_member do
+      its('master_account_id') { should cmp '111111111111' }
+    end
+
+## Matchers
+
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### be\_master
+
+The `be_master` matcher tests if the account is a 'master' AWS Account.
+
+    it { should_not be_master }
