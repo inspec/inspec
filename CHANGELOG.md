@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.22 -->
-## [v2.1.22](https://github.com/chef/inspec/tree/v2.1.22) (2018-04-03)
+<!-- latest_release 2.1.23 -->
+## [v2.1.23](https://github.com/chef/inspec/tree/v2.1.23) (2018-04-03)
 
-#### Enhancements
-- Add AWS hardware MFA matcher [#2892](https://github.com/chef/inspec/pull/2892) ([pwelch](https://github.com/pwelch))
+#### Merged Pull Requests
+- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.21 -->
 ### Changes since 2.1.21 release
+
+#### Merged Pull Requests
+- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.23 -->
 
 #### Enhancements
 - Add AWS hardware MFA matcher [#2892](https://github.com/chef/inspec/pull/2892) ([pwelch](https://github.com/pwelch)) <!-- 2.1.22 -->
