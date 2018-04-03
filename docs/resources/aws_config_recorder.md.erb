@@ -61,7 +61,7 @@ Provides a list of AWS resource types for which the AWS Config records configura
 
 Indicates if the ConfigurationRecorder will record changes for all resources, regardless of type. If this is true, resource_types is ignored.
 
-      it { should be_all_supported }
+      it { should be_recording_all_resource_types }
       
 ### be\_recording\_all\_global\_types
 
