@@ -88,7 +88,8 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement?(raw_criteria = {})
     return nil unless exists?
     criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
-    # normalize statement structure
+    @statements ||= has_statement__normalize_statements
+
     # focus on SID
     # statements.any? do |statement|
     #   has_statement__effect(statement, criteria)
@@ -128,22 +129,23 @@ class AwsIamPolicy < Inspec.resource(1)
       criteria[provided_key.downcase.to_sym] = criteria.delete(provided_key)
     end
 
-    # Check for array-valued criteria on Resources, Actions, and
-    # Principals; set all_mode if seen
-    [:actions, :principals, :resources].each do |criterion|
-      if criteria.key?(criterion)
-        criteria[(criterion.to_s + '_mode').to_sym] = criteria.kind_of(Array) ? :match_all : :match_any
-      end
-    end
-
-    # Boost all criteria values into arrays
-    [:actions, :principals, :resources].each do |criterion|
-      if criteria.key?(criterion)
-        criteria[criterion] = Array(criteria[criterion])
-      end
-    end
-
     criteria
+  end
+
+  def has_statement__normalize_statements
+    policy['Statement'].map do |statement|
+      # Coerce some values into arrays
+      %w{Action Principal Resource}.each do |field|
+        if statement.key?(field)
+          statement[field] = Array(statement[field])
+        end
+      end
+
+      # Symbolize all keys
+      statement.keys do |field|
+        statement[field.downcase.to_sym] = statement.delete(field)
+      end
+    end
   end
 
   def validate_params(raw_params)
