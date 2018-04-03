@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.23 -->
-## [v2.1.23](https://github.com/chef/inspec/tree/v2.1.23) (2018-04-03)
+<!-- latest_release 2.1.24 -->
+## [v2.1.24](https://github.com/chef/inspec/tree/v2.1.24) (2018-04-03)
 
 #### Merged Pull Requests
-- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.21 -->
 ### Changes since 2.1.21 release
 
 #### Merged Pull Requests
+- Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 2.1.24 -->
 - Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.23 -->
 
 #### Enhancements
