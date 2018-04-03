@@ -5,6 +5,7 @@ module Inspec::Resources
   class Mysql < Inspec.resource(1)
     name 'mysql'
     supports platform: 'unix'
+    desc 'The \'mysql\' resource is a helper for the \'mysql_conf\' & \'mysql_session\' resources.  Please use those instead.'
 
     attr_reader :package, :service, :conf_dir, :conf_path, :data_dir, :log_dir, :log_path, :log_group, :log_dir_group
     def initialize
