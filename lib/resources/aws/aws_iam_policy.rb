@@ -15,6 +15,21 @@ class AwsIamPolicy < Inspec.resource(1)
 
   attr_reader :arn, :attachment_count, :default_version_id
 
+  EXPECTED_CRITERIA = [
+    'Action',      
+    'Effect',
+    'Principal',
+    'Resource',
+    'Sid',      
+  ].freeze
+
+  UNIMPLEMENTED_CRITERIA = [
+    'Conditional',
+    'NotAction',
+    'NotPrincipal',
+    'NotResource',
+  ].freeze
+
   def to_s
     "Policy #{@policy_name}"
   end
@@ -70,7 +85,43 @@ class AwsIamPolicy < Inspec.resource(1)
     policy['Statement'].count
   end
 
+  def has_statement?(raw_criteria = {})
+    return nil unless exists?
+    validated_criteria = has_statement__validate_criteria(raw_criteria)
+    # normalize criteria
+    # normalize statement structure
+    # focus on SID
+    # statements.any? do |statement|
+    #   has_statement__effect(statement, criteria)
+    #   has_statement__resource(statement, criteria)
+    #   has_statement__action(statement, criteria)
+    #   has_statement__principal(statement, criteria)     
+    # end
+    false
+  end
+
   private
+
+  def has_statement__validate_criteria(raw_criteria)
+    recognized_criteria = {}
+    EXPECTED_CRITERIA.each do |expected_criterion|
+      if raw_criteria.key?(expected_criterion)
+        recognized_criteria[expected_criterion] = raw_criteria.delete(expected_criterion)
+      end
+    end
+
+    UNIMPLEMENTED_CRITERIA.each do |unimplemented_criterion|
+      if raw_criteria.key?(unimplemented_criterion)
+        raise ArgumentError, "Criterion '#{unimplemented_criterion}' is not supported for performing have_statement queries."
+      end
+    end
+
+    unless raw_criteria.empty?
+      raise ArgumentError, "Unrecognized criteria #{raw_criteria.keys.join(', ')} to have_statement.  Recognized criteria: #{EXPECTED_CRITERIA.join(', ')}"
+    end
+
+    recognized_criteria
+  end
 
   def validate_params(raw_params)
     validated_params = check_resource_param_names(

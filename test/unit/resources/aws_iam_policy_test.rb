@@ -147,6 +147,43 @@ class AwsIamPolicyMatchersTest < Minitest::Test
   def test_matcher_attached_to_role_negative
     refute AwsIamPolicy.new('test-policy-2').attached_to_role?('test-role')
   end
+
+  def test_have_statement_when_policy_does_not_exist
+    assert_nil AwsIamPolicy.new('nonesuch').has_statement?('Effect' => 'foo')
+  end
+
+  def test_have_statement_when_provided_no_criteria
+    AwsIamPolicy.new('test-policy-1').has_statement?
+  end
+
+  def test_have_statement_when_provided_acceptable_criteria
+    [
+      'Action',
+      'Effect',
+      'Principal',
+      'Resource',
+      'Sid',
+    ].each do |criterion|
+      AwsIamPolicy.new('test-policy-1').has_statement?(criterion => 'dummy')
+    end
+  end
+
+  def test_have_statement_when_provided_unimplemented_criteria
+    [
+      'Conditional',
+      'NotAction',
+      'NotPrincipal',
+      'NotResource',
+    ].each do |criterion|
+      ex = assert_raises(ArgumentError) {AwsIamPolicy.new('test-policy-1').has_statement?(criterion => 'dummy')}
+      assert_match(/not supported/, ex.message)
+    end
+  end
+
+  def test_have_statement_when_provided_unrecognized_criteria
+    ex = assert_raises(ArgumentError) {AwsIamPolicy.new('test-policy-1').has_statement?('foo' => 'dummy')}
+    assert_match(/Unrecognized/, ex.message)
+  end
 end
 
 #=============================================================================#
