@@ -15,20 +15,20 @@ class AwsIamPolicy < Inspec.resource(1)
 
   attr_reader :arn, :attachment_count, :default_version_id
 
-  EXPECTED_CRITERIA = [
-    'Action',      
-    'Effect',
-    'Principal',
-    'Resource',
-    'Sid',      
-  ].freeze
+  EXPECTED_CRITERIA = %w{
+    Action
+    Effect
+    Principal
+    Resource
+    Sid
+  }.freeze
 
-  UNIMPLEMENTED_CRITERIA = [
-    'Conditional',
-    'NotAction',
-    'NotPrincipal',
-    'NotResource',
-  ].freeze
+  UNIMPLEMENTED_CRITERIA = %w{
+    Conditional
+    NotAction
+    NotPrincipal
+    NotResource
+  }.freeze
 
   def to_s
     "Policy #{@policy_name}"
@@ -87,15 +87,14 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement?(raw_criteria = {})
     return nil unless exists?
-    validated_criteria = has_statement__validate_criteria(raw_criteria)
-    # normalize criteria
+    criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
     # normalize statement structure
     # focus on SID
     # statements.any? do |statement|
     #   has_statement__effect(statement, criteria)
     #   has_statement__resource(statement, criteria)
     #   has_statement__action(statement, criteria)
-    #   has_statement__principal(statement, criteria)     
+    #   has_statement__principal(statement, criteria)
     # end
     false
   end
@@ -121,6 +120,30 @@ class AwsIamPolicy < Inspec.resource(1)
     end
 
     recognized_criteria
+  end
+
+  def has_statement__normalize_criteria(criteria)
+    # Transform keys into lowercase symbols
+    criteria.keys.each do |provided_key|
+      criteria[provided_key.downcase.to_sym] = criteria.delete(provided_key)
+    end
+
+    # Check for array-valued criteria on Resources, Actions, and
+    # Principals; set all_mode if seen
+    [:actions, :principals, :resources].each do |criterion|
+      if criteria.key?(criterion)
+        criteria[(criterion.to_s + '_mode').to_sym] = criteria.kind_of(Array) ? :match_all : :match_any
+      end
+    end
+
+    # Boost all criteria values into arrays
+    [:actions, :principals, :resources].each do |criterion|
+      if criteria.key?(criterion)
+        criteria[criterion] = Array(criteria[criterion])
+      end
+    end
+
+    criteria
   end
 
   def validate_params(raw_params)
