@@ -160,7 +160,6 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     {
       'Action' => 'dummy',
       'Effect' => 'Deny',  # This has restictions on the value provided
-      'Principal' => 'dummy',
       'Resource' => 'dummy',
       'Sid' => 'dummy',
     }.each do |criterion, test_value|
@@ -174,6 +173,7 @@ class AwsIamPolicyMatchersTest < Minitest::Test
       'NotAction',
       'NotPrincipal',
       'NotResource',
+      'Principal'
     ].each do |criterion|
       ex = assert_raises(ArgumentError) {AwsIamPolicy.new('test-policy-1').has_statement?(criterion => 'dummy')}
       assert_match(/not supported/, ex.message)

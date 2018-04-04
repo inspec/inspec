@@ -19,7 +19,6 @@ class AwsIamPolicy < Inspec.resource(1)
   EXPECTED_CRITERIA = %w{
     Action
     Effect
-    Principal
     Resource
     Sid
   }.freeze
@@ -29,6 +28,7 @@ class AwsIamPolicy < Inspec.resource(1)
     NotAction
     NotPrincipal
     NotResource
+    Principal
   }.freeze
 
   def to_s
@@ -96,7 +96,6 @@ class AwsIamPolicy < Inspec.resource(1)
         has_statement__effect(statement, criteria) && \
         has_statement__array_criterion(:action, statement, criteria) && \
         has_statement__array_criterion(:resource, statement, criteria)
-      #   has_statement__principal(statement, criteria)
     end
   end
 
@@ -144,7 +143,7 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement__normalize_statements
     policy['Statement'].map do |statement|
       # Coerce some values into arrays
-      %w{Action Principal Resource}.each do |field|
+      %w{Action Resource}.each do |field|
         if statement.key?(field)
           statement[field] = Array(statement[field])
         end
