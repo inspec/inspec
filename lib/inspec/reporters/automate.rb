@@ -5,6 +5,13 @@ require 'net/http'
 
 module Inspec::Reporters
   class Automate < Json
+    def initialize(config)
+      super(config)
+
+      # default to using no ssl for sending reports
+      @config['use_ssl'] = @config['use_ssl'] || false
+    end
+
     def enriched_report
       # grab the report from the parent class
       final_report = report
@@ -14,6 +21,8 @@ module Inspec::Reporters
 
       final_report[:end_time] = Time.now.utc.strftime('%FT%TZ')
       final_report[:node_uuid] = @config['node_uuid'] || @run_data[:platform][:uuid]
+      raise Inspec::ReporterError, 'Cannot find a UUID for your node. Please specify one via json-config.' if final_report[:node_uuid].nil?
+
       final_report[:report_uuid] = uuid_from_string(final_report[:end_time] + final_report[:node_uuid])
 
       # optional json-config passthrough options
@@ -33,12 +42,15 @@ module Inspec::Reporters
       req.body = enriched_report.to_json
       begin
         Inspec::Log.debug "Posting report to Chef Automate: #{uri.path}"
-        Net::HTTP.start(uri.hostname,
-                        uri.port,
-                        use_ssl: uri.scheme == 'https',
-                        verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
-          http.request(req)
+        http = Net::HTTP.new(uri.hostname, uri.port)
+        http.use_ssl = uri.scheme == 'https'
+        if @config['use_ssl'] == true
+          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        else
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
+
+        http.request(req)
         return true
       rescue => e
         Inspec::Log.error "send_report: POST to #{uri.path} returned: #{e.message}"

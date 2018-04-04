@@ -183,7 +183,12 @@ module Inspec::Formatters
 
     def platform(field)
       return nil if @backend.nil?
-      @backend.platform[field]
+      begin
+        @backend.platform[field]
+      rescue Train::Error => e
+        Inspec::Log.error(e.message)
+        nil
+      end
     end
 
     def backend_target
