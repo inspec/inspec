@@ -208,6 +208,29 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     refute(AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Allow'))
     assert(AwsIamPolicy.new('test-policy-2').has_statement?('Effect' => 'Allow'))
   end
+
+  def test_have_statement_when_action_is_provided
+    # Able to match a simple string action when multiple statements present
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'iam:PassRole'))
+    # Able to match a wildcard string action
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'events:*'))
+    # Do not match a wildcard when using strings
+    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => 'events:EnableRule'))
+    # Do match when using a regex
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Action' => /^events\:/))
+    # Able to match one action when the statement has an array of actions
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => 'ec2:DescribeSubnets'))
+    # Do not match if only one action specified as an array when the statement has an array of actions
+    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSubnets']))
+    # Do match if two actions specified when the statement has an array of actions
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSubnets', 'ec2:DescribeSecurityGroups']))
+    # Do match setwise if two actions specified when the statement has an array of actions
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => ['ec2:DescribeSecurityGroups', 'ec2:DescribeSubnets']))
+    # Do match if only one regex action specified when the statement has an array of actions
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => /^ec2\:Describe/))
+    # Do match if one regex action specified in an array when the statement has an array of actions
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => [/^ec2\:Describe/]))
+  end
 end
 
 #=============================================================================#

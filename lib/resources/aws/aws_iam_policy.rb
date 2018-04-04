@@ -1,4 +1,5 @@
 require 'json'
+require 'set'
 require 'uri'
 
 class AwsIamPolicy < Inspec.resource(1)
@@ -92,9 +93,9 @@ class AwsIamPolicy < Inspec.resource(1)
     statements = has_statement__focus_on_sid(@normalized_statements, criteria)
     statements.any? do |statement|
       true && \
-        has_statement__effect(statement, criteria)
+        has_statement__effect(statement, criteria) && \
+        has_statement__array_criterion(:action, statement, criteria)
       #   has_statement__resource(statement, criteria)
-      #   has_statement__action(statement, criteria)
       #   has_statement__principal(statement, criteria)
     end
   end
@@ -172,6 +173,28 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement__effect(statement, criteria)
     !criteria.key?(:effect) || criteria[:effect] == statement[:effect]
+  end
+
+  def has_statement__array_criterion(crit_name, statement, criteria)
+    return true unless criteria.key?(crit_name)
+    check = criteria[crit_name]
+    values = statement[crit_name] # This is an array due to normalize_statements
+
+    if check.is_a?(String)
+      # If check is a string, it only has to match one of the values
+      values.any? { |v| v == check }
+    elsif check.is_a?(Regexp)
+      # If check is a regex, it only has to match one of the values
+      values.any? { |v| v =~ check }
+    elsif check.is_a?(Array) && check.all? { |c| c.is_a? String }
+      # If check is an array of strings, perform setwise check
+      Set.new(values) == Set.new(check)
+    elsif check.is_a?(Array) && check.all? { |c| c.is_a? Regexp }
+      # If check is an array of regexes, all values must match all regexes
+      values.all? { |v| check.all? { |r| v =~ r } }
+    else
+      false
+    end
   end
 
   def validate_params(raw_params)
