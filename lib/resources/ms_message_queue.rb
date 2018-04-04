@@ -89,26 +89,8 @@ module Inspec::Resources
       end
     end
 
-    # If negating `#allowed?`, use this method instead. A lot may be lost serializing and deserializing the
-    # binary values, so it's best to just have PowerShell handle the comparison.
     def denied?(permission, opts = {})
-      script = allowed_wrapper(permission, opts) + "\n\n"
-      script += 'If (($mask -band $target_perm) -ne $target_perm) { Exit 98; } Else { Exit 99; }'
-
-      cmd = inspec.powershell(script)
-
-      case cmd.exit_status
-      when 98 then return true
-      when 99 then return false
-      else
-        # It should never reach here, but for debugging, this will be left in
-        obj = {
-          code: cmd.exit_status,
-          stderr: cmd.stderr,
-          stdout: cmd.stdout,
-        }
-        raise "Problem with P/Invoke: #{obj.inspect}"
-      end
+      !allowed?(permission, opts)
     end
 
     private
