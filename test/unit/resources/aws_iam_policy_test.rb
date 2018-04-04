@@ -231,6 +231,29 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     # Do match if one regex action specified in an array when the statement has an array of actions
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => [/^ec2\:Describe/]))
   end
+
+  def test_have_statement_when_resource_is_provided
+    # Able to match a simple string resource when multiple statements present
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => 'arn:aws:iam::*:role/AWS_Events_Invoke_Targets'))
+    # Able to match a wildcard string resource
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => '*'))
+    # Do not match a wildcard when using strings
+    refute(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => 'arn:aws:events:us-east-1:123456789012:rule/my-rule'))
+    # Do match when using a regex
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Resource' => /AWS_Events_Invoke_Targets$/))
+    # Able to match one resource when the statement has an array of resources
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => 'arn:aws:ec2:::*'))
+    # Do not match if only one resource specified as an array when the statement has an array of resources
+    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['arn:aws:ec2:::*']))
+    # Do match if two resources specified when the statement has an array of resources
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['arn:aws:ec2:::*', '*']))
+    # Do match setwise if two resources specified when the statement has an array of resources
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => ['*', 'arn:aws:ec2:::*']))
+    # Do match if only one regex resource specified when the statement has an array of resources
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => /^arn\:aws\:ec2/))
+    # Do match if one regex resource specified in an array when the statement has an array of resources
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => [/\*/]))
+  end
 end
 
 #=============================================================================#

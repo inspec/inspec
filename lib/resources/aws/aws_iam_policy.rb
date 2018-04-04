@@ -94,8 +94,8 @@ class AwsIamPolicy < Inspec.resource(1)
     statements.any? do |statement|
       true && \
         has_statement__effect(statement, criteria) && \
-        has_statement__array_criterion(:action, statement, criteria)
-      #   has_statement__resource(statement, criteria)
+        has_statement__array_criterion(:action, statement, criteria) && \
+        has_statement__array_criterion(:resource, statement, criteria)
       #   has_statement__principal(statement, criteria)
     end
   end
