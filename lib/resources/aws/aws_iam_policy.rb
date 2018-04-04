@@ -88,16 +88,15 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement?(raw_criteria = {})
     return nil unless exists?
     criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
-    @statements ||= has_statement__normalize_statements
-
-    # focus on SID
-    # statements.any? do |statement|
-    #   has_statement__effect(statement, criteria)
-    #   has_statement__resource(statement, criteria)
-    #   has_statement__action(statement, criteria)
-    #   has_statement__principal(statement, criteria)
-    # end
-    false
+    @normalized_statements ||= has_statement__normalize_statements
+    statements = has_statement__focus_on_sid(@normalized_statements, criteria)
+    statements.any? do |_statement|
+      true
+      #   has_statement__effect(statement, criteria)
+      #   has_statement__resource(statement, criteria)
+      #   has_statement__action(statement, criteria)
+      #   has_statement__principal(statement, criteria)
+    end
   end
 
   private
@@ -142,8 +141,22 @@ class AwsIamPolicy < Inspec.resource(1)
       end
 
       # Symbolize all keys
-      statement.keys do |field|
+      statement.keys.each do |field|
         statement[field.downcase.to_sym] = statement.delete(field)
+      end
+
+      statement
+    end
+  end
+
+  def has_statement__focus_on_sid(statements, criteria)
+    return statements unless criteria.key?(:sid)
+    sid_seek = criteria[:sid]
+    statements.select do |statement|
+      if sid_seek.is_a? Regexp
+        statement[:sid] =~ sid_seek
+      else
+        statement[:sid] == sid_seek
       end
     end
   end
