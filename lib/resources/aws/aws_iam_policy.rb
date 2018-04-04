@@ -90,9 +90,9 @@ class AwsIamPolicy < Inspec.resource(1)
     criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
     @normalized_statements ||= has_statement__normalize_statements
     statements = has_statement__focus_on_sid(@normalized_statements, criteria)
-    statements.any? do |_statement|
-      true
-      #   has_statement__effect(statement, criteria)
+    statements.any? do |statement|
+      true && \
+        has_statement__effect(statement, criteria)
       #   has_statement__resource(statement, criteria)
       #   has_statement__action(statement, criteria)
       #   has_statement__principal(statement, criteria)
@@ -109,14 +109,23 @@ class AwsIamPolicy < Inspec.resource(1)
       end
     end
 
+    # Special message for valid, but unimplemented statement attributes
     UNIMPLEMENTED_CRITERIA.each do |unimplemented_criterion|
       if raw_criteria.key?(unimplemented_criterion)
         raise ArgumentError, "Criterion '#{unimplemented_criterion}' is not supported for performing have_statement queries."
       end
     end
 
+    # If anything is left, it's spurious
     unless raw_criteria.empty?
       raise ArgumentError, "Unrecognized criteria #{raw_criteria.keys.join(', ')} to have_statement.  Recognized criteria: #{EXPECTED_CRITERIA.join(', ')}"
+    end
+
+    # Effect has only 2 permitted values
+    if recognized_criteria.key?('Effect')
+      unless %w{Allow Deny}.include?(recognized_criteria['Effect'])
+        raise ArgumentError, "Criterion 'Effect' for have_statement must be one of 'Allow' or 'Deny' - got '#{recognized_criteria['Effect']}'"
+      end
     end
 
     recognized_criteria
@@ -159,6 +168,10 @@ class AwsIamPolicy < Inspec.resource(1)
         statement[:sid] == sid_seek
       end
     end
+  end
+
+  def has_statement__effect(statement, criteria)
+    !criteria.key?(:effect) || criteria[:effect] == statement[:effect]
   end
 
   def validate_params(raw_params)

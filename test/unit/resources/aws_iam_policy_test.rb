@@ -157,14 +157,14 @@ class AwsIamPolicyMatchersTest < Minitest::Test
   end
 
   def test_have_statement_when_provided_acceptable_criteria
-    [
-      'Action',
-      'Effect',
-      'Principal',
-      'Resource',
-      'Sid',
-    ].each do |criterion|
-      AwsIamPolicy.new('test-policy-1').has_statement?(criterion => 'dummy')
+    {
+      'Action' => 'dummy',
+      'Effect' => 'Deny',  # This has restictions on the value provided
+      'Principal' => 'dummy',
+      'Resource' => 'dummy',
+      'Sid' => 'dummy',
+    }.each do |criterion, test_value|
+      AwsIamPolicy.new('test-policy-1').has_statement?(criterion => test_value)
     end
   end
 
@@ -194,7 +194,19 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Sid' => /eta/))
     assert(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => /CloudWatch/))
     refute(AwsIamPolicy.new('test-policy-2').has_statement?('Sid' => /eta/))
+  end
 
+  def test_have_statement_when_provided_invalid_effect
+    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Disallow') }
+    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'allow') }
+    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => :Allow) }
+    assert_raises(ArgumentError) { AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => :allow) }
+  end
+
+  def test_have_statement_when_effect_is_provided
+    assert(AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Deny'))
+    refute(AwsIamPolicy.new('test-policy-1').has_statement?('Effect' => 'Allow'))
+    assert(AwsIamPolicy.new('test-policy-2').has_statement?('Effect' => 'Allow'))
   end
 end
 
