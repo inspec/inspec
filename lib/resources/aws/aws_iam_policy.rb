@@ -76,7 +76,7 @@ class AwsIamPolicy < Inspec.resource(1)
     catch_aws_errors do
       backend = BackendFactory.create(inspec_runner)
       gpv_response = backend.get_policy_version(policy_arn: arn, version_id: default_version_id)
-      @policy = JSON.parse(URI.decode_www_form_component(gpv_response.document))
+      @policy = JSON.parse(URI.decode_www_form_component(gpv_response.policy_version.document))
     end
     @policy
   end
@@ -256,6 +256,10 @@ class AwsIamPolicy < Inspec.resource(1)
     class AwsClientApi < AwsBackendBase
       BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::IAM::Client
+
+      def get_policy_version(criteria)
+        aws_service_client.get_policy_version(criteria)
+      end
 
       def list_policies(criteria)
         aws_service_client.list_policies(criteria)

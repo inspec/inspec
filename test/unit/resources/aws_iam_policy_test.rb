@@ -363,7 +363,7 @@ module MAIPSB
         }
       }
       pv = fixtures.dig(query[:policy_arn], query[:version_id])
-      return pv if pv
+      return OpenStruct.new(policy_version: pv) if pv
       raise Aws::IAM::Errors::NoSuchEntity.new(nil, nil)
     end
   end

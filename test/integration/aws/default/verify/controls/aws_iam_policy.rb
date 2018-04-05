@@ -48,37 +48,37 @@ control "aws_iam_policy matchers" do
   end
 
   describe aws_iam_policy(fixtures['aws_iam_policy_alpha_name']) do
-    it { should have_statement(Resource: '*')}
-    it { should have_statement(Resource: '*', Sid: 'alpha01')}
-    it { should have_statement(Resource: 'arn:aws:s3:::bobs-stuff', Sid: 'alpha02')}
+    it { should have_statement('Resource' => '*')}
+    it { should have_statement('Resource' => '*', 'Sid' => 'alpha01')}
+    it { should have_statement('Resource' => 'arn:aws:s3:::bobs-stuff', 'Sid' => 'alpha02')}
 
-    it { should have_statement(Effect: 'Allow', Sid: 'alpha01')}
-    it { should have_statement(Effect: 'Deny', Sid: 'alpha02')}
+    it { should have_statement('Effect' => 'Allow', 'Sid' => 'alpha01')}
+    it { should have_statement('Effect' => 'Deny', 'Sid' => 'alpha02')}
 
-    it { should have_statement(Action: 'ec2:Describe*', Sid: 'alpha01')}
-    it { should_not have_statement(Action: 'ec2:Describe')}
-    it { should have_statement(Action: /^ec2:Describe\*$/, Sid: 'alpha01')}
-    it { should have_statement(Action: /^ec2:.+$/, Sid: 'alpha01')}
+    it { should have_statement('Action' => 'ec2:Describe*', 'Sid' => 'alpha01')}
+    it { should_not have_statement('Action' => 'ec2:Describe')}
+    it { should have_statement('Action' => /^ec2:Describe\*$/, 'Sid' => 'alpha01')}
+    it { should have_statement('Action' => /^ec2:.+$/, 'Sid' => 'alpha01')}
 
-    it { should have_statement(Action: 'ec2:Describe*', Resource: '*', Effect: 'Allow') }
-    it { should_not have_statement(Action: 'ec2:Describe*', Resource: 'arn:aws:s3:::bobs-stuff') }
+    it { should have_statement('Action' => 'ec2:Describe*', 'Resource' => '*', 'Effect' => 'Allow') }
+    it { should_not have_statement('Action' => 'ec2:Describe*', 'Resource' => 'arn:aws:s3:::bobs-stuff') }
 
     it { should_not grant_full_admin }
   end
 
   describe aws_iam_policy(fixtures['aws_iam_policy_beta_name']) do
-    it { should have_statement(Action: 'ec2:DescribeSubnets')}
-    it { should have_statement(Action: 'ec2:DescribeSecurityGroups')}
+    it { should have_statement('Action' => 'ec2:DescribeSubnets')}
+    it { should have_statement('Action' => 'ec2:DescribeSecurityGroups')}
     # Array indicates all must match
-    it { should_not have_statement(Action: ['ec2:DescribeSecurityGroups'])}
-    it { should have_statement(Action: ['ec2:DescribeSubnets', 'ec2:DescribeSecurityGroups'])}
-    it { should have_statement(Action: ['ec2:DescribeSecurityGroups', 'ec2:DescribeSubnets'])}
+    it { should_not have_statement('Action' => ['ec2:DescribeSecurityGroups'])}
+    it { should have_statement('Action' => ['ec2:DescribeSubnets', 'ec2:DescribeSecurityGroups'])}
+    it { should have_statement('Action' => ['ec2:DescribeSecurityGroups', 'ec2:DescribeSubnets'])}
     
-    it { should have_statement(Resource: 'arn:aws:ec2:::*')}
-    it { should have_statement(Resource: '*')}
-    it { should_not have_statement(Resource: ['*'])}    
-    it { should have_statement(Resource: ['arn:aws:ec2:::*', '*'])}
-    it { should have_statement(Resource: ['*', 'arn:aws:ec2:::*'])}
+    it { should have_statement('Resource' => 'arn:aws:ec2:::*')}
+    it { should have_statement('Resource' => '*')}
+    it { should_not have_statement('Resource' => ['*'])}    
+    it { should have_statement('Resource' => ['arn:aws:ec2:::*', '*'])}
+    it { should have_statement('Resource' => ['*', 'arn:aws:ec2:::*'])}
   end
 
   describe aws_iam_policy(fixtures['aws_iam_policy_gamma_name']) do
