@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.27 -->
-## [v2.1.27](https://github.com/chef/inspec/tree/v2.1.27) (2018-04-05)
+<!-- latest_release 2.1.28 -->
+## [v2.1.28](https://github.com/chef/inspec/tree/v2.1.28) (2018-04-05)
 
-#### Merged Pull Requests
-- Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick))
+#### New Resources
+- New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.21 -->
 ### Changes since 2.1.21 release
+
+#### New Resources
+- New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.28 -->
 
 #### Merged Pull Requests
 - Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick)) <!-- 2.1.27 -->
