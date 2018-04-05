@@ -8,8 +8,8 @@ module Inspec::Reporters
     def initialize(config)
       super(config)
 
-      # default to using no ssl for sending reports
-      @config['use_ssl'] = @config['use_ssl'] || false
+      # default to not verifying ssl for sending reports
+      @config['verify_ssl'] = @config['verify_ssl'] || false
     end
 
     def enriched_report
@@ -44,7 +44,7 @@ module Inspec::Reporters
         Inspec::Log.debug "Posting report to Chef Automate: #{uri.path}"
         http = Net::HTTP.new(uri.hostname, uri.port)
         http.use_ssl = uri.scheme == 'https'
-        if @config['use_ssl'] == true
+        if @config['verify_ssl'] == true
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         else
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
