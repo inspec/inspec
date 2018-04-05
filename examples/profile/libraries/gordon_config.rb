@@ -4,6 +4,9 @@ require 'yaml'
 class GordonConfig < Inspec.resource(1)
   name 'gordon_config'
 
+  supports platform: 'unix'
+  supports platform: 'windows'
+
   desc "
     Gordon's resource description ...
   "
@@ -20,7 +23,10 @@ class GordonConfig < Inspec.resource(1)
     @params = {}
     @path = '/tmp/gordon/config.yaml'
     @file = inspec.file(@path)
-    return skip_resource "Can't find file \"#{@path}\"" if !@file.file?
+
+    unless @file.file?
+      raise Inspec::Exceptions::ResourceSkipped, "Can't find file `#{@path}`"
+    end
 
     # Protect from invalid YAML content
     begin
@@ -29,25 +35,25 @@ class GordonConfig < Inspec.resource(1)
       @params['file_size'] = @file.size
       @params['file_path'] = @path
       @params['ruby'] = 'RUBY IS HERE TO HELP ME!'
-    rescue Exception
-      return skip_resource "#{@file}: #{$!}"
+    rescue StandardError => e
+      raise Inspec::Exceptions::ResourceSkipped, "#{@file}: #{e.message}"
     end
   end
 
   # Example method called by 'it { should exist }'
-  # Returns true or false from the 'File.exists?' method
+  # Returns true or false from the 'File.exist?' method
   def exists?
-    return File.exists?(@path)
+    File.exist?(@path)
   end
 
   # Example matcher for the number of commas in the file
   def comma_count
     text = @file.content
-    return text.count(',')
+    text.count(',')
   end
 
   # Expose all parameters
   def method_missing(name)
-    return @params[name.to_s]
+    @params[name.to_s]
   end
 end
