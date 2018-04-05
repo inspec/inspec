@@ -162,7 +162,11 @@ module Inspec::Resources
       elsif %w{aix}.include?(platform)
         SrcMstr.new(inspec)
       elsif %w{amazon}.include?(platform)
-        Upstart.new(inspec, service_ctl)
+        if os[:release].start_with?('20\d\d')
+          Upstart.new(inspec, service_ctl)
+        else
+          Systemd.new(inspec, service_ctl)
+        end
       elsif os.solaris?
         Svcs.new(inspec)
       end
