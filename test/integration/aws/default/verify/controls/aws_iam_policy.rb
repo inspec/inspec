@@ -1,6 +1,7 @@
 fixtures = {}
 [
   'aws_iam_policy_alpha_name',
+  'aws_iam_policy_beta_name',
 ].each do |fixture_name|
   fixtures[fixture_name] = attribute(
     fixture_name,
@@ -62,8 +63,6 @@ control "aws_iam_policy matchers" do
 
     it { should have_statement('Action' => 'ec2:Describe*', 'Resource' => '*', 'Effect' => 'Allow') }
     it { should_not have_statement('Action' => 'ec2:Describe*', 'Resource' => 'arn:aws:s3:::bobs-stuff') }
-
-    it { should_not grant_full_admin }
   end
 
   describe aws_iam_policy(fixtures['aws_iam_policy_beta_name']) do
@@ -79,10 +78,5 @@ control "aws_iam_policy matchers" do
     it { should_not have_statement('Resource' => ['*'])}    
     it { should have_statement('Resource' => ['arn:aws:ec2:::*', '*'])}
     it { should have_statement('Resource' => ['*', 'arn:aws:ec2:::*'])}
-  end
-
-  describe aws_iam_policy(fixtures['aws_iam_policy_gamma_name']) do
-    it { should grant_full_admin }    
-  end
-  
+  end  
 end

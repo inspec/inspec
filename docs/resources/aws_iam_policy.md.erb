@@ -230,24 +230,3 @@ Examples:
       # This isn't quite the same; it would also match on a statement that only mentions one of them
       it { should have_statement(Resource: /arn:aws:s3.+:(sally|kim)/) }
     end
-
-
-### grant_full_admin
-
-This high-level matcher detects whether the policy contains a statement that grants "full admin" permissions on the AWS account.  More precisely, the matcher looks for any statement with:
-
-* Effect: 'Allow'
-* Resource: '*'
-* Action: '*'
-
-Examples:
-
-    # Allow full admin for the 'admins' policy
-    describe aws_iam_policy('admins') do
-      it { should grant_full_admin }
-    end
-
-    # Peons should not have admin.
-    describe aws_iam_policy('peons') do
-      it { should_not grant_full_admin }
-    end
