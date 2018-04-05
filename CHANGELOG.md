@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.29 -->
-## [v2.1.29](https://github.com/chef/inspec/tree/v2.1.29) (2018-04-05)
+<!-- latest_release 2.1.30 -->
+## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
 
 #### New Resources
-- New Skeletal Resource aws_s3_buckets [#2653](https://github.com/chef/inspec/pull/2653) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.21 -->
 ### Changes since 2.1.21 release
 
 #### New Resources
+- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.30 -->
 - New Skeletal Resource aws_s3_buckets [#2653](https://github.com/chef/inspec/pull/2653) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.29 -->
 - New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.28 -->
 
