@@ -1,32 +1,30 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.30 -->
-## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
-
-#### New Resources
-- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.21 -->
-### Changes since 2.1.21 release
-
-#### New Resources
-- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.30 -->
-- New Skeletal Resource aws_s3_buckets [#2653](https://github.com/chef/inspec/pull/2653) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.29 -->
-- New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.28 -->
-
-#### Merged Pull Requests
-- Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick)) <!-- 2.1.27 -->
-- Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.26 -->
-- Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 2.1.24 -->
-- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.23 -->
-
-#### Enhancements
-- add systemd service for amazon linux 2 [#2901](https://github.com/chef/inspec/pull/2901) ([zakhark](https://github.com/zakhark)) <!-- 2.1.25 -->
-- Add AWS hardware MFA matcher [#2892](https://github.com/chef/inspec/pull/2892) ([pwelch](https://github.com/pwelch)) <!-- 2.1.22 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
+
+#### New Resources
+- New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- New Skeletal Resource aws_s3_buckets [#2653](https://github.com/chef/inspec/pull/2653) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj))
+
+#### Enhancements
+- Add AWS hardware MFA matcher [#2892](https://github.com/chef/inspec/pull/2892) ([pwelch](https://github.com/pwelch))
+- add systemd service for amazon linux 2 [#2901](https://github.com/chef/inspec/pull/2901) ([zakhark](https://github.com/zakhark))
+
+#### Merged Pull Requests
+- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.1.21](https://github.com/chef/inspec/tree/v2.1.21) (2018-03-29)
 
 #### New Resources
@@ -47,7 +45,6 @@
 - Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto))
 - Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah))
 - Pin to Train 1.3.0. [#2898](https://github.com/chef/inspec/pull/2898) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.10](https://github.com/chef/inspec/tree/v2.1.10) (2018-03-22)
 
