@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.25 -->
-## [v2.1.25](https://github.com/chef/inspec/tree/v2.1.25) (2018-04-05)
+<!-- latest_release 2.1.26 -->
+## [v2.1.26](https://github.com/chef/inspec/tree/v2.1.26) (2018-04-05)
 
-#### Enhancements
-- add systemd service for amazon linux 2 [#2901](https://github.com/chef/inspec/pull/2901) ([zakhark](https://github.com/zakhark))
+#### Merged Pull Requests
+- Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.21 -->
 ### Changes since 2.1.21 release
 
 #### Merged Pull Requests
+- Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.26 -->
 - Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2)) <!-- 2.1.24 -->
 - Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.23 -->
 
