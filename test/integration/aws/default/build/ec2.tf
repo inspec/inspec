@@ -202,6 +202,48 @@ output "ec2_security_group_alpha_group_name" {
   value = "${aws_security_group.alpha.name}"
 }
 
+# NOTE: AWS (in the console and CLI) creates SGs with a default
+# allow all egress.  Terraform removes that rule, unless you specify it here.
+
+# Populate SG Alpha with some rules
+resource "aws_security_group_rule" "alpha_http_world" {
+  type = "ingress"
+  from_port = "80"
+  to_port = "80"
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+resource "aws_security_group_rule" "alpha_ssh_in" {
+  type = "ingress"
+  from_port = "22"
+  to_port = "22"
+  protocol = "tcp"
+  cidr_blocks = ["10.1.2.0/24"]
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+resource "aws_security_group_rule" "alpha_x11" {
+  description = "Only allow X11 out for some reason"  
+  type = "egress"
+  from_port = "6000"
+  to_port = "6007"
+  protocol = "tcp"
+  cidr_blocks = ["10.1.2.0/24", "10.3.2.0/24"]
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+resource "aws_security_group_rule" "alpha_all_ports" {
+  type = "ingress"
+  from_port = "0"
+  to_port = "65535"
+  protocol = "tcp"
+  cidr_blocks = ["10.1.2.0/24"]
+  security_group_id = "${aws_security_group.alpha.id}"
+}
+
+
 #============================================================#
 #                      VPC Subnets
 #============================================================#
