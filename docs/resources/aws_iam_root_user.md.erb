@@ -15,10 +15,10 @@ To test properties of a specific AWS user use the `aws_iam_user` resource.
 
 ## Syntax
 
-An `aws_iam_root_user` resource block requires no parameters but has several matchers
+An `aws_iam_root_user` resource block requires no parameters but has several matchers.
 
     describe aws_iam_root_user do
-      its { should have_mfa_enabled }
+      it { should have_mfa_enabled }
     end
 
 <br>
