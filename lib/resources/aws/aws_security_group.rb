@@ -4,11 +4,11 @@ require 'ipaddr'
 class AwsSecurityGroup < Inspec.resource(1)
   name 'aws_security_group'
   desc 'Verifies settings for an individual AWS Security Group.'
-  example '
-  describe aws_security_group("sg-12345678") do
+  example "
+  describe aws_security_group('sg-12345678') do
     it { should exist }
   end
-  '
+  "
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
