@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.32 -->
-## [v2.1.32](https://github.com/chef/inspec/tree/v2.1.32) (2018-04-06)
+<!-- latest_release 2.1.33 -->
+## [v2.1.33](https://github.com/chef/inspec/tree/v2.1.33) (2018-04-06)
 
 #### New Features
-- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj))
+- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
 ### Changes since 2.1.30 release
 
 #### New Features
+- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
 - aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.32 -->
 - aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.31 -->
 <!-- release_rollup -->
