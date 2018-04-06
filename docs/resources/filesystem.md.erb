@@ -28,7 +28,7 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
-### Test if the root partition is greater thank 32000 MB
+### Test if the root partition is greater than 32000 MB
 
     describe filesystem('/') do
       its('size') { should be >= 32000 }
