@@ -35,6 +35,18 @@ As this is the initial release of `aws_iam_group`, its limited functionality pre
 
 <br>
 
+## Properties
+
+### users
+
+Provides a list of the users that are attached to the group
+
+    describe aws_iam_group('mygroup')
+      its('users') { should include 'iam_user_name' }
+    end
+
+<br>
+
 ## Matchers
 
 ### exists
