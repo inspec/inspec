@@ -304,7 +304,7 @@ Remote Targets
 | Arch Linux                   |                                                  | x86_64        |
 | HP-UX                        | 11.31                                            | ia64          |
 
-*For Windows, PowerShell 3.0 or above is required.*
+*For Windows, PowerShell 5.0 or above is required.*
 
 In addition, runtime support is provided for:
 
