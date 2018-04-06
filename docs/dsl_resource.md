@@ -91,7 +91,7 @@ class GordonConfig < Inspec.resource(1)
       f.content
     else
       # If the file doesn't exist, skip all tests that use gordon_config
-      skip_resource "Can't read config from #{@path}."
+      raise Inspec::Exceptions::ResourceSkipped, "Can't read config at #{@path}"
     end
   end
 end

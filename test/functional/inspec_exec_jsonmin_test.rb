@@ -67,7 +67,7 @@ describe 'inspec exec' do
 
     it 'has a skip_message' do
       ex1['skip_message'].must_be :nil?
-      ex3['skip_message'].must_equal "Can't find file \"/tmp/gordon/config.yaml\""
+      ex3['skip_message'].must_equal "Can't find file `/tmp/gordon/config.yaml`"
     end
   end
 

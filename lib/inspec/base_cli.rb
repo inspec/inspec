@@ -151,18 +151,24 @@ module Inspec
       return if reporters.nil?
 
       valid_types = [
+        'automate',
+        'cli',
+        'documentation',
+        'html',
         'json',
         'json-min',
         'json-rspec',
-        'cli',
         'junit',
-        'html',
-        'documentation',
         'progress',
       ]
 
-      reporters.each do |k, _v|
+      reporters.each do |k, v|
         raise NotImplementedError, "'#{k}' is not a valid reporter type." unless valid_types.include?(k)
+
+        next unless k == 'automate'
+        %w{token url}.each do |option|
+          raise Inspec::ReporterError, "You must specify a automate #{option} via the json-config." if v[option].nil?
+        end
       end
 
       # check to make sure we are only reporting one type to stdout
@@ -237,10 +243,10 @@ module Inspec
 
     def merged_opts(type = nil)
       opts = {}
-      opts[:type] = type unless type.nil?
 
       # start with default options if we have any
       opts = BaseCLI.default_options[type] unless type.nil? || BaseCLI.default_options[type].nil?
+      opts['type'] = type unless type.nil?
 
       # merge in any options from json-config
       json_config = options_json

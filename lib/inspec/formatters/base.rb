@@ -69,6 +69,7 @@ module Inspec::Formatters
         name: platform(:name),
         release: platform(:release),
         target: backend_target,
+        uuid: platform(:uuid),
       }
     end
 
@@ -180,9 +181,17 @@ module Inspec::Formatters
       end
     end
 
+    # This formatter runs for all reports and we cannot error on missing fields.
+    # Return nil if not found or Train error. If needed, we will raise an error inside
+    # the proper report.
     def platform(field)
       return nil if @backend.nil?
-      @backend.platform[field]
+      begin
+        @backend.platform[field]
+      rescue Train::Error => e
+        Inspec::Log.error(e.message)
+        nil
+      end
     end
 
     def backend_target
