@@ -13,7 +13,13 @@ class AwsVpcs < Inspec.resource(1)
   # Underlying FilterTable implementation.
   filter = FilterTable.create
   filter.add_accessor(:entries)
+        .add_accessor(:where)
         .add(:exists?) { |x| !x.entries.empty? }
+        .add(:cidr_blocks, field: :cidr_block)
+        .add(:vpc_ids, field: :vpc_id)
+  # We need a dummy here, so FilterTable will define and populate the dhcp_options_id field
+  filter.add(:dummy, field: :dhcp_options_id)
+        .add(:dhcp_options_ids) { |obj| obj.entries.map(&:dhcp_options_id).uniq }
   filter.connect(self, :table)
 
   def validate_params(raw_params)
@@ -29,7 +35,8 @@ class AwsVpcs < Inspec.resource(1)
   end
 
   def fetch_from_api
-    @table = BackendFactory.create(inspec_runner).describe_vpcs.to_h[:vpcs]
+    describe_vpcs_response = BackendFactory.create(inspec_runner).describe_vpcs
+    @table = describe_vpcs_response.to_h[:vpcs].map(&:to_h)
   end
 
   class Backend

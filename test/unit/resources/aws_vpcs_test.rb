@@ -48,7 +48,7 @@ class AwsVpcsFilterCriteriaTest < Minitest::Test
     hit = AwsVpcs.new.where(:cidr_block => '10.0.0.0/16')
     assert(hit.exists?)
 
-    hit = AwsVpcs.new.where { IPAddr.new('10.0.0.0/8').include? }
+    hit = AwsVpcs.new.where { IPAddr.new('10.0.0.0/8').include? cidr_block }
     assert(hit.exists?)
     assert_equal(2, hit.entries.count)
 
