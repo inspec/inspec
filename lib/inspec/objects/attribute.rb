@@ -6,7 +6,17 @@ module Inspec
     attr_writer :value
 
     DEFAULT_ATTRIBUTE = Class.new do
+      def initialize(name)
+        @name = name
+      end
+
       def method_missing(*_)
+        Inspec::Log.warn(
+          "Returning DEFAULT_ATTRIBUTE for '#{@name}'. "\
+          "Use --attrs to provide a value for '#{@name}' or specify a default  "\
+          "value with `attribute('#{@name}', default: 'somedefault', ...)`.",
+        )
+
         self
       end
 
@@ -27,7 +37,7 @@ module Inspec
     end
 
     def default
-      @opts.key?(:default) ? @opts[:default] : DEFAULT_ATTRIBUTE.new
+      @opts.key?(:default) ? @opts[:default] : DEFAULT_ATTRIBUTE.new(@name)
     end
 
     def title
