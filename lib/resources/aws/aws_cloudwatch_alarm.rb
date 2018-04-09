@@ -3,7 +3,7 @@ class AwsCloudwatchAlarm < Inspec.resource(1)
   desc <<-EOD
   # Look for a specific alarm
   aws_cloudwatch_alarm(
-    metric: 'my-metric-name',
+    metric_name: 'my-metric-name',
     metric_namespace: 'my-metric-namespace',
   ) do
     it { should exist }
