@@ -47,13 +47,13 @@ resource "aws_config_delivery_channel" "delivery_channel_01" {
   s3_bucket_name = "${aws_s3_bucket.bucket_for_delivery_channel.bucket}"
   depends_on     = ["aws_config_configuration_recorder.config_recorder"]
   sns_topic_arn  = "${aws_sns_topic.sns_topic_for_delivery_channel.arn}"
+
   snapshot_delivery_properties = {
     delivery_frequency = "TwentyFour_Hours"
   }
 }
 
-
-output "delivery_channel_01" {
+output "delivery_channel_01_id" {
   value = "${aws_config_delivery_channel.delivery_channel_01.id}"
 }
 
