@@ -68,7 +68,7 @@ class AwsConfigDeliveryChannelPropertiesTest < Minitest::Test
   def test_property_channel_name
     assert_equal('default', AwsConfigDeliveryChannel.new('default').channel_name)
     assert_equal('default', AwsConfigDeliveryChannel.new.channel_name)
-    assert_equal('NonExistentDeliveryChannel',AwsConfigDeliveryChannel.new('NonExistentDeliveryChannel'))    
+    assert_equal('NonExistentDeliveryChannel',AwsConfigDeliveryChannel.new('NonExistentDeliveryChannel').channel_name)    
   end
 
   def test_property_delivery_frequency_in_hours
