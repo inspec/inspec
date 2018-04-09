@@ -156,7 +156,15 @@ class AwsS3BucketPropertiesTest < Minitest::Test
   def test_has_access_logging_enabled_negative
     refute(AwsS3Bucket.new('private').has_access_logging_enabled?)
   end
-  
+
+  def test_has_default_encryption_enabled_positive
+    assert(AwsS3Bucket.new('public').has_default_encryption_enabled?)
+  end
+
+  def test_has_default_encryption_enabled_negative
+    refute(AwsS3Bucket.new('private').has_default_encryption_enabled?)
+  end
+
 end
 
 #=============================================================================#
@@ -280,6 +288,19 @@ EOP
         'public' => OpenStruct.new({ logging_enabled: OpenStruct.new({ target_bucket: 'log-bucket' }) }),
         'private' => OpenStruct.new({ logging_enabled: nil }),
       }
+      unless buckets.key?(query[:bucket])
+        raise Aws::S3::Errors::NoSuchBucket.new(nil, nil)
+      end
+      buckets[query[:bucket]]
+    end
+
+    def get_bucket_encryption(query)
+      buckets = {
+          'public' => OpenStruct.new({ server_side_encryption_configuration: OpenStruct.new({ rules: [] }) })
+      }
+      if query[:bucket].eql?'private'
+        raise Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError.new(nil, nil)
+      end
       unless buckets.key?(query[:bucket])
         raise Aws::S3::Errors::NoSuchBucket.new(nil, nil)
       end
