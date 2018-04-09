@@ -76,7 +76,7 @@ class AwsConfigurationRecorderPropertiesTest < Minitest::Test
   end
   
   def test_property_resource_types
-    assert_equal(['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'], AwsConfigurationRecorder.new(recorder_name: 'Recorder_2').resource_types)
+    assert_equal(['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'], AwsConfigurationRecorder.new(recorder_name: 'default').resource_types)
     assert_nil(AwsConfigurationRecorder.new(recorder_name: 'NonExistentRecorder').resource_types)
   end
 end
@@ -116,7 +116,7 @@ module AwsMCRSB
             :recording_group => OpenStruct.new({
               all_supported: true,
               include_global_resource_types: true,
-              resource_types: []
+              resource_types: ['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'],
             }),
           ]
         }),
