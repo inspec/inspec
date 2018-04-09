@@ -27,7 +27,7 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
       allowed_scalar_name: :channel_name,
       allowed_scalar_type: String,
     )
-
+    
     # Make sure channel_name is given as param
     if validated_params[:channel_name].nil?
       raise ArgumentError, 'You must provide a channel_name to aws_config_delivery_channel'

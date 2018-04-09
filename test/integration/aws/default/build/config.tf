@@ -53,7 +53,7 @@ resource "aws_config_delivery_channel" "delivery_channel_01" {
   }
 }
 
-output "delivery_channel_01_id" {
+output "delivery_channel_01_name" {
   value = "${aws_config_delivery_channel.delivery_channel_01.id}"
 }
 
@@ -97,7 +97,7 @@ resource "aws_s3_bucket" "bucket_for_delivery_channel" {
   force_destroy = true
 }
 
-output "s3_bucket_for_delivery_channel" {
+output "s3_bucket_for_delivery_channel_name" {
   value = "${aws_s3_bucket.bucket_for_delivery_channel.id}"
 }
 
