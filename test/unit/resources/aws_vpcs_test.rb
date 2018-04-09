@@ -48,7 +48,9 @@ class AwsVpcsFilterCriteriaTest < Minitest::Test
     hit = AwsVpcs.new.where(:cidr_block => '10.0.0.0/16')
     assert(hit.exists?)
 
-    hit = AwsVpcs.new.where { IPAddr.new('10.0.0.0/8').include? cidr_block }
+    # This triggers a bug/misfeature in FilterTable - see https://github.com/chef/inspec/issues/2929
+    # hit = AwsVpcs.new.where { IPAddr.new('10.0.0.0/8').include? cidr_block }
+    hit = AwsVpcs.new.where { cidr_block.start_with? '10' }
     assert(hit.exists?)
     assert_equal(2, hit.entries.count)
 
