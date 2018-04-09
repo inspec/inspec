@@ -5,9 +5,9 @@ platform: aws
 
 # aws\_iam\_policy
 
-Use the `aws_iam_policy` InSpec audit resource to test detailed properties of a single managed AWS IAM Policy.  Use `aws_iam_policies` to audit IAM policies in bulk.
+Use the `aws_iam_policy` InSpec audit resource to test properties of a single managed AWS IAM Policy. Use `aws_iam_policies` to audit IAM policies in bulk.
 
-A policy is an entity in AWS that, when attached to an identity or resource, defines their permissions. AWS evaluates these policies when a principal, such as a user, makes a request. Permissions (known as Statements) in the policies determine if the request is allowed or denied.
+A policy defines the permissions of an identity or resource within AWA. AWS evaluates these policies when a principal, such as a user, makes a request. Policy permissions, also called "policy statements" in AWS, determine if a request authorized -- and allow or deny it accordingly.
 
 Each IAM Policy is uniquely identified by either its policy\_name or arn.
 
@@ -56,7 +56,7 @@ The following examples show how to use this InSpec audit resource.
       # Verify that there is at least one statement allowing access to S3
       it { should have_statement(Action: 's3:PutObject', Effect: 'allow') }
 
-      # have_statement does not expand wildcards.  If you want to verify 
+      # have_statement does not expand wildcards. If you want to verify 
       # they are absent, an explicit check is required.
       it { should_not have_statement(Action: 's3:*') }
     end
@@ -119,7 +119,7 @@ The 'default_version_id' value of the specified policy.
 
 ### policy
 
-A low-level property that returns a Ruby Hash structure reflecting the decoded contents of the default version of the policy's policy document. This structure contains the statements that the policy enforces and is useful for performing checks that cannot be expressed using higher-level matchers like `have_statement`.
+Returns the default version of a policy document as a Ruby hash. This hash contains the enforced policy statements and is useful for performing checks that cannot be expressed using higher-level matchers like `have_statement`.
 
 For details regarding the contents of this structure, refer to the [AWS IAM Policy JSON Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).  A set of examples is [also available](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html).
 
@@ -127,12 +127,13 @@ Example:
 
     describe aws_iam_policy('my-policy') do
       # TODO - example?
-      its('policy') { should }
+      # !!Check this sytax!!
+      its('policy') { should have_action 'codecommit:GitPull' }
     end
 
 ### statement\_count
 
-Returns the number of Statements present in the `policy`.
+Returns the number of statements present in the `policy`.
 
     # Make sure there are exactly two statements.
     describe aws_iam_policy('my-policy') do
@@ -177,21 +178,21 @@ The test will pass if the identified policy attached the specified role.
 
 ### have\_statement
 
-Examines the list of statements contained in the policy and passes if at least one of the statements matches. Note that this does _not_ interpret the policy in a request authorization context, as AWS does when a request processed. Rather, `have_statement` examines the literal contents of the IAM policy, and reports on what is present (or absent, when used with `should_not`).
+Examines the list of statements contained in the policy and passes if at least one of the statements matches. This matcher does _not_ interpret the policy in a request authorization context, as AWS does when a request processed. Rather, `have_statement` examines the literal contents of the IAM policy, and reports on what is present (or absent, when used with `should_not`).
 
 `have_statement` accepts the following criteria to search for matching statements. If any statement matches all the criteria, the test is successful.
 
-* `Action` - Expresses the operation being requested. Acceptable literal values are any AWS operation name, including the '*' wildcard character. `Action` may also be a list of such values.
-* `Effect` - Expresses whether the operation is permitted. Acceptable values are 'Deny' and 'Allow'.
+* `Action` - Expresses the requested operation. Acceptable literal values are any AWS operation name, including the '*' wildcard character. `Action` may also use a list of AWS operation names.
+* `Effect` - Expresses if the operation is permitted. Acceptable values are 'Deny' and 'Allow'.
 * `Sid` - A user-provided string identifier for the statement.
-* `Resource` - Expresses the target of the operation. Acceptable values are ARNs, including the '*' wildcard. `Resource` may also be a list of such values.
+* `Resource` - Expresses the operation's target. Acceptable values are ARNs, including the '*' wildcard. `Resource` may also use a list of ARN values.
 
 Please note the following about the behavior of `have_statement`:
-* `Action`, `Sid`, and `Resource` allow using a regular expression instead of a string literal as the search criteria.
-* it does not support wildcard expansion; if you wish to check for a wildcard value, you must check for it explicitly. For example, if the policy includes a statement with `"Action": "s3:*"` and you write a test checking for `Action: "s3:PutObject"`, your test _will not match_.  You must write an additional test checking for the wildcard case. 
-* it does support searching list values.  For example, if a statement contains a list of 3 resources, and you write a `have_statement` test specifying one of those resources, it will match.
-* `Action` and `Resource` allow providing a list of string literals or regular expressions, in which case _all_ must match on the _same_ statement for the test to match. Order is ignored.
-* it does not currently support the `Principal` nor `Conditional` key, nor any of `NotAction`, `NotPrincipal`, or `NotResource`.
+* `Action`, `Sid`, and `Resource` allow using a regular expression as the search critera instead of a string literal.
+* it does not support wildcard expansion; to check for a wildcard value, check for it explicitly. For example, if the policy includes a statement with `"Action": "s3:*"` and the test checks for `Action: "s3:PutObject"`, the test _will not match_. You must write an additional test checking for the wildcard case. 
+* it supports searching list values. For example, if a statement contains a list of 3 resources, and a `have_statement` test specifes _one_ of those resources, it will match.
+* `Action` and `Resource` allow using a list of string literals or regular expressions in a test, in which case _all_ must match on the _same_ statement for the test to match. Order is ignored.
+* it does not support the `Principal` nor `Conditional` key, nor any of `NotAction`, `NotPrincipal`, or `NotResource`.
 
 Examples:
 
@@ -227,6 +228,6 @@ Examples:
       # This policy should refer to both sally and kim's s3 buckets.
       # This will only match if there is a statement that refers to both resources.
       it { should have_statement(Resource: [/arn:aws:s3.+:sally/, /arn:aws:s3.+:kim/]) }
-      # This isn't quite the same; it would also match on a statement that only mentions one of them
+      # It also matches on a statement mentioning only one of them
       it { should have_statement(Resource: /arn:aws:s3.+:(sally|kim)/) }
     end
