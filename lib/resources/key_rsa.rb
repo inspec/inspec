@@ -3,6 +3,7 @@
 require 'openssl'
 require 'hashie/mash'
 require 'utils/file_reader'
+require 'utils/pkey_reader'
 
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)
@@ -22,18 +23,13 @@ module Inspec::Resources
     "
 
     include FileReader
+    include PkeyReader
 
     def initialize(keypath, passphrase = nil)
       @key_path = keypath
       @passphrase = passphrase
-      if @passphrase.is_a? Inspec::Attribute::DEFAULT_ATTRIBUTE
-        return fail_resource 'Please provide default value for attribute'
-      end
-      begin
-        @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
-      rescue OpenSSL::PKey::PKeyError
-        return fail_resource 'passphrase Error'
-      end
+      default_attribute?(passphrase)
+      @key = read_pkey(read_file_content(@key_path, allow_empty: true), @passphrase)
     end
 
     def public?
