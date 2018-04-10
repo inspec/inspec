@@ -162,7 +162,8 @@ namespace :test do
       sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
 
       # Generate Azure crendentials
-      creds = Train.create('azure').connection.connect
+      connection = Train.create('azure').connection
+      creds = connection.options
 
       # Determine the storage account name and the admin password
       sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
@@ -208,7 +209,8 @@ namespace :test do
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Cleanup'
 
-      creds = Train.create('azure').connection.connect
+      connection = Train.create('azure').connection
+      creds = connection.options
 
       cmd  = ""
       cmd += "cd #{integration_dir}/build/ && terraform destroy -force "
