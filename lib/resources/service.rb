@@ -134,9 +134,9 @@ module Inspec::Resources
         else
           SysV.new(inspec, service_ctl || '/usr/sbin/service')
         end
-      elsif %w{redhat fedora centos oracle}.include?(platform)
+      elsif %w{redhat fedora centos oracle cloudlinux}.include?(platform)
         version = os[:release].to_i
-        if (%w{redhat centos oracle}.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
+        if (%w{redhat centos oracle cloudlinux}.include?(platform) && version >= 7) || (platform == 'fedora' && version >= 15)
           Systemd.new(inspec, service_ctl)
         else
           SysV.new(inspec, service_ctl || '/sbin/service')
