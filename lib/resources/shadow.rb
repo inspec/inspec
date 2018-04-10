@@ -34,7 +34,6 @@ module Inspec::Resources
 
     include FileReader
 
-    attr_reader :params
     attr_reader :lines
 
     def initialize(path = '/etc/shadow', opts = nil)
@@ -43,7 +42,7 @@ module Inspec::Resources
       @filters = opts[:filters] || ''
       @raw_content = opts[:content] || read_file_content(@path, allow_empty: true)
       @lines = @raw_content.to_s.split("\n")
-      @params = @lines.map { |l| parse_shadow_line(l) }
+      params
     end
 
     filtertable = FilterTable.create
@@ -74,7 +73,7 @@ module Inspec::Resources
 
     def filter(query = {})
       return self if query.nil? || query.empty?
-      res = @params
+      res = params
       filters = ''
       query.each do |attr, condition|
         condition = condition.to_s if condition.is_a? Integer
@@ -121,10 +120,14 @@ module Inspec::Resources
       "/etc/shadow#{f}"
     end
 
+    def params
+      @params = @lines.nil? ? [] : @lines.map { |l| parse_shadow_line(l) }
+    end
+
     private
 
     def map_data(id)
-      @params.map { |x| x[id] }
+      params.map { |x| x[id] }
     end
 
     # Parse a line of /etc/shadow

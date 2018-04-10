@@ -86,6 +86,24 @@ describe 'Inspec::Resources::Shadow' do
     end
   end
 
+  describe 'when method chained' do
+    let(:unreadable_shadow) { load_resource('shadow', '/etc/unreadable_shadow') }
+    it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
+      users = shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
+      users.each do |user|
+        expect(shadow.users(user).user).must_equal(['www-data'])
+        expect(shadow.users(user).inactive_days).must_equal(['50'])
+      end
+    end
+    it 'cant read /etc/unreadable_shadow and #filter matches nothing' do
+      users = unreadable_shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
+      users.each do |user|
+        expect(shadow.users(user).user).must_equal([])
+        expect(shadow.users(user).inactive_days).must_equal([])
+      end
+    end
+  end
+
   describe 'filter via name =~ /^www/' do
     let(:child) { shadow.user(/^www/) }
 
