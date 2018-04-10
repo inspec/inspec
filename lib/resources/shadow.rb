@@ -34,15 +34,14 @@ module Inspec::Resources
 
     include FileReader
 
-    attr_reader :lines
+    attr_reader :params
 
-    def initialize(path = '/etc/shadow', opts = nil)
-      opts ||= {}
+    def initialize(path = '/etc/shadow', opts = {})
       @path = path || '/etc/shadow'
       @filters = opts[:filters] || ''
-      @raw_content = opts[:content] || read_file_content(@path, allow_empty: true)
-      @lines = @raw_content.to_s.split("\n")
-      params
+      raw_content = opts[:content] || read_file_content(@path, allow_empty: true)
+      @lines = raw_content.to_s.split("\n")
+      @params = set_params
     end
 
     filtertable = FilterTable.create
@@ -73,7 +72,7 @@ module Inspec::Resources
 
     def filter(query = {})
       return self if query.nil? || query.empty?
-      res = params
+      res = set_params
       filters = ''
       query.each do |attr, condition|
         condition = condition.to_s if condition.is_a? Integer
@@ -115,19 +114,25 @@ module Inspec::Resources
       query.nil? ? expiry_date : expiry_date(query)
     end
 
+    def lines
+      warn '[DEPRECATION] The shadow `lines` property is deprecated and will be removed' \
+        ' in InSpec 3.0.'
+      @lines
+    end
+
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters
       "/etc/shadow#{f}"
     end
 
-    def params
-      @params = @lines.nil? ? [] : @lines.map { |l| parse_shadow_line(l) }
-    end
-
     private
 
+    def set_params
+      Array(@lines).map { |l| parse_shadow_line(l) }
+    end
+
     def map_data(id)
-      params.map { |x| x[id] }
+      params.collect { |x| x[id] }
     end
 
     # Parse a line of /etc/shadow
