@@ -44,7 +44,8 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'access all lines of the file' do
-    _(shadow.lines[0]).must_equal 'root:x:1:2:3::::'
+    proc { _(shadow.lines[0]).must_equal 'root:x:1:2:3::::' }.must_output nil,
+      "[DEPRECATION] The shadow `lines` property is deprecated and will be removed in InSpec 3.0.\n"
   end
 
   it 'access all params of the file' do
@@ -87,14 +88,20 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   describe 'when method chained' do
-    let(:unreadable_shadow) { load_resource('shadow', '/etc/unreadable_shadow') }
+    let(:unreadable_shadow) { load_resource('shadow', '/fakepath/fakefile') }
+
     it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
       users = shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
       users.each do |user|
-        expect(shadow.users(user).user).must_equal(['www-data'])
-        expect(shadow.users(user).inactive_days).must_equal(['50'])
+        proc { expect(shadow.users(user).user).must_equal(['www-data']) }.must_output nil,
+          '[DEPRECATION] The shadow `users` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `user` instead.\n"
+        proc { expect(shadow.users(user).inactive_days).must_equal(['50']) }.must_output nil,
+          '[DEPRECATION] The shadow `users` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `user` instead.\n"
       end
     end
+
     it 'cant read /etc/unreadable_shadow and #filter matches nothing' do
       users = unreadable_shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
       users.each do |user|
