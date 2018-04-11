@@ -28,7 +28,6 @@ module Inspec::Resources
     def initialize(keypath, passphrase = nil)
       @key_path = keypath
       @passphrase = passphrase
-      default_attribute?(passphrase)
       @key = read_pkey(read_file_content(@key_path, allow_empty: true), @passphrase)
     end
 
