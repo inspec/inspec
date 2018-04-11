@@ -1,0 +1,4 @@
+{"ID": "2ghswegspre1", "Name": "service1", "Mode": "replicated", "Replicas": "3/3", "Image": "foo/image:1.0", "Ports": "*:1234->1234/tcp"}
+{"ID": "huhcawfiyddo", "Name": "service2", "Mode": "replicated", "Replicas": "3/3", "Image": "foo/image:1.1", "Ports": "*:1234->1234/tcp"}
+{"ID": "msar8lb56wq2", "Name": "service3", "Mode": "replicated", "Replicas": "3/3", "Image": "bar:latest", "Ports": "*:8000->8000/tcp,*:8001->8001/tcp"}
+{"ID": "mdrfkxckau6c", "Name": "service4", "Mode": "global", "Replicas": "3/3", "Image": "bar:latest", "Ports": ""}

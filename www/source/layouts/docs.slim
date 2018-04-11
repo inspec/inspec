@@ -1,24 +1,22 @@
 = wrap_layout :layout do
 
-  /! animated banner
-  header.child-h.blue-gradient.margin-top-offset
+  /! header search
+  header.bg-gradient.margin-top-offset.relative
+    .row
+      .columns.large-12.medium-12.z-20
+        .flex.align.margin-both
+          form.main-sidebar--search.shadow-dark action="/docs/search/" method="get"
+            input.st-default-search-input type="text" placeholder="Search documentation..." name="q"
+
+          button.search.shadow-dark.margin-left-xs action="/docs/search/" method="get"
+            i.fa.fa-search.t-white
     #particles-second
      canvas.particles-js-canvas-el /
-    .purp-shade
-      .row.relative-top.searchbar
-
-        .column.columns
-
-            form.main-sidebar--search action="/docs/search/" method="get"
-              input.st-default-search-input type="text" placeholder="Search Documentation" name="q"
-
-              button.search.shadow action="/docs/search/" method="get"
-                img src="/images/community/search.svg"
 
 
-  .row.margin-both
+  .row.margin-both.relative
 
-    column.columns.large-3.medium-3#sidebar
+    column.columns.large-3.medium-3.mobile-hide#sidebar
      - if locals[:sidebar_layout] == 'docs'
       ul.main-sidebar--links
          - sidebar_data(sidebar_layout).each do |item|
@@ -28,16 +26,19 @@
                - item.links.each do |item_link|
                  li.main-sidebar--list--item--a class=link_classes(current_resource.url, item_link)
                    = link_to item_link.title, item_link.link
-                   i.focus.strict-right &GreaterGreater; 
+                   i.fa.fa-angle-double-right.focus.strict-right
                    - if print_sub_links?(current_resource.url, item_link)
                      ul.main-sidebar--list--item--dropdown
                        - item_link.sub_links.each do |sub_link|
                          li.main-sidebar--list--item  class=link_classes(current_resource.url, sub_link)
                            = link_to sub_link.title, sub_link.link
 
-    column.columns.large-9.medium-9
+    column.columns.large-9.medium-9.mobile-12#mainbar
 
       == yield
+
+    .scrollToTop.shadow-dark
+       img#scrollup src="/images/home/arrow.svg" onerror="this.src='/images/home/arrow.png'"
 
   javascript:
     // Swiftype JS code snippet

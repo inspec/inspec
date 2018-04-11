@@ -1,7 +1,5 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # The file format consists of
 # - username
@@ -14,10 +12,12 @@
 
 require 'utils/parser'
 require 'utils/filter'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Passwd < Inspec.resource(1)
     name 'passwd'
+    supports platform: 'unix'
     desc 'Use the passwd InSpec audit resource to test the contents of /etc/passwd, which contains the following information for users that may log into the system and/or as users that own running processes.'
     example "
       describe passwd do
@@ -26,7 +26,6 @@ module Inspec::Resources
 
       describe passwd.uids(0) do
         its('users') { should cmp 'root' }
-        its('count') { should eq 1 }
       end
 
       describe passwd.shells(/nologin/) do
@@ -36,6 +35,7 @@ module Inspec::Resources
     "
 
     include PasswdParser
+    include FileReader
 
     attr_reader :params
     attr_reader :content
@@ -44,7 +44,7 @@ module Inspec::Resources
     def initialize(path = nil, opts = nil)
       opts ||= {}
       @path = path || '/etc/passwd'
-      @content = opts[:content] || inspec.file(@path).content
+      @content = opts[:content] || read_file_content(@path, allow_empty: true)
       @lines = @content.to_s.split("\n")
       @params = parse_passwd(@content)
     end
@@ -60,32 +60,12 @@ module Inspec::Resources
           .add(:homes,     field: 'home')
           .add(:shells,    field: 'shell')
 
-    filter.add(:count) { |t, _|
-      warn '[DEPRECATION] `passwd.count` is deprecated. Please use `passwd.entries.length` instead. It will be removed in the next major version.'
-      t.entries.length
-    }
-
-    filter.add(:usernames) { |t, x|
-      warn '[DEPRECATION] `passwd.usernames` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
-      t.users(x)
-    }
-
-    filter.add(:username) { |t, x|
-      warn '[DEPRECATION] `passwd.username` is deprecated. Please use `passwd.users` instead. It will be removed in the next major version.'
-      t.users(x)[0]
-    }
-
     # rebuild the passwd line from raw content
     filter.add(:content) { |t, _|
       t.entries.map do |e|
         [e.user, e.password, e.uid, e.gid, e.desc, e.home, e.shell].join(':')
       end.join("\n")
     }
-
-    def uid(x)
-      warn '[DEPRECATION] `passwd.uid(arg)` is deprecated. Please use `passwd.uids(arg)` instead. It will be removed in the next major version.'
-      uids(x)
-    end
 
     filter.connect(self, :params)
 

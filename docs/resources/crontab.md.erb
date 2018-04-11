@@ -1,5 +1,6 @@
 ---
 title: About the crontab Resource
+platform: linux
 ---
 
 # crontab
@@ -41,15 +42,15 @@ The following examples show how to use this InSpec audit resource.
       its('entries.length') { should cmp '0' }
     end
 
-### Test that the logged-in user's crontab contains a single command that matches a mattern
+### Test that the logged-in user's crontab contains a single command that matches a pattern
 
     describe crontab.where { command =~ /a partial command string/ } do
       its('entries.length') { should cmp 1 }
     end
 
-### Test a special time string (i.e., @yearly /root/anual_report.sh)
+### Test a special time string (i.e., @yearly /root/annual_report.sh)
 
-    describe crontab.commands('/root/anual_report.sh') do
+    describe crontab.commands('/root/annual_report.sh') do
       its('hours') { should cmp '0' }
       its('minutes') { should cmp '0' }
       its('days') { should cmp '1' }
@@ -65,6 +66,24 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+## Property Examples
+
+
+### Test a special time string
+
+    describe crontab do
+      its('minutes') { should cmp '0' }
+      its('hours') { should cmp '0' }
+      its('days') { should cmp '1' }
+      its('weekdays') { should cmp '1' }
+      its('user') { should include 'username'}
+      its('commands') { should include '/some/scheduled/task.sh' }
+    end
+
+InSpec will automatically interpret crontab-supported special time strings. For example, a crontab entry set to run `@yearly` can be tested as if the entry was manually configured to run on January 1, 12 AM.
+
+<br>
+
 ## Matchers
 
-For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).

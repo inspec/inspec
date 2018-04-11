@@ -1,9 +1,9 @@
 # encoding: utf-8
-# author: Christoph Hartmann
 
 module Inspec::Resources
   class KernelParameter < Inspec.resource(1)
     name 'kernel_parameter'
+    supports platform: 'unix'
     desc 'Use the kernel_parameter InSpec audit resource to test kernel parameters on Linux platforms.'
     example "
       describe kernel_parameter('net.ipv4.conf.all.forwarding') do

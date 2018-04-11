@@ -31,6 +31,7 @@ module Habitat
     def initialize(path, options = {})
       @path    = path
       @options = options
+      @cli_config = nil
 
       log_level = options.fetch('log_level', 'info')
       Habitat::Log.level(log_level.to_sym)

@@ -1,5 +1,6 @@
 ---
 title: About the command Resource
+platform: os
 ---
 
 # command
@@ -10,31 +11,43 @@ Use the `command` InSpec audit resource to test an arbitrary command that is run
 
 ## Syntax
 
-A `command` resource block declares a command to be run, one (or more) expected outputs, and the location to which that output is sent:
+A `command` resource block declares a command to be run, one (or more) expected values, and the location to which that output is sent:
 
     describe command('command') do
       it { should exist }
-      its('matcher') { should eq 'output' }
+      its('property') { should eq 'value' }
     end
 
 where
 
 * `'command'` must specify a command to be run
-* `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
+* `'property'` is one of `exit_status`, `stderr`, or `stdout`
 * `'output'` tests the output of the command run on the system versus the output value stated in the test
 
 <br>
 
-## Examples
+## Property Examples
 
 The following examples show how to use this InSpec audit resource.
 
-### Test for PostgreSQL database running a RC, development, or beta release
+### exit_status
 
-    describe command('psql -V') do
-      its('stdout') { should eq '/RC/' }
-      its('stdout') { should_not eq '/DEVEL/' }
-      its('stdout') { should_not eq '/BETA/' }
+The `exit_status` property tests the exit status for the command:
+
+    its('exit_status') { should eq 123 }
+
+### stderr
+
+The `stderr` property tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq 'error' }
+
+### stdout
+
+The `stdout` property tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
+
+    describe command('echo 1') do
+       its('stdout') { should match (/[0-9]/) }
     end
 
 ### Test standard output (stdout)
@@ -73,6 +86,14 @@ The following examples show how to use this InSpec audit resource.
       it { should eq false }
     end
 
+### Test for PostgreSQL database running a RC, development, or beta release
+
+    describe command('psql -V') do
+      its('stdout') { should eq '/RC/' }
+      its('stdout') { should_not eq '/DEVEL/' }
+      its('stdout') { should_not eq '/BETA/' }
+    end
+
 ### Verify NTP
 
 The following example shows how to use the `file` audit resource to verify if the `ntp.conf` and `leap-seconds` files are present, and then the `command` resource to verify if NTP is installed and running:
@@ -91,7 +112,7 @@ The following example shows how to use the `file` audit resource to verify if th
 
 ### Verify WiX
 
-Wix includes serveral tools -- such as `candle` (preprocesses and compiles source files into object files), `light` (links and binds object files to an installer database), and `heat` (harvests files from various input formats). The following example uses a whitespace array and the `file` audit resource to verify if these three tools are present:
+Wix includes several tools -- such as `candle` (preprocesses and compiles source files into object files), `light` (links and binds object files to an installer database), and `heat` (harvests files from various input formats). The following example uses a whitespace array and the `file` audit resource to verify if these three tools are present:
 
     %w(
       candle.exe
@@ -107,7 +128,7 @@ Wix includes serveral tools -- such as `candle` (preprocesses and compiles sourc
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### exist
 
@@ -115,22 +136,3 @@ The `exist` matcher tests if a command may be run on the system:
 
     it { should exist }
 
-### exit_status
-
-The `exit_status` matcher tests the exit status for the command:
-
-    its('exit_status') { should eq 123 }
-
-### stderr
-
-The `stderr` matcher tests results of the command as returned in standard error (stderr):
-
-    its('stderr') { should eq 'error' }
-
-### stdout
-
-The `stdout` matcher tests results of the command as returned in standard output (stdout). The following example shows matching output using a regular expression:
-
-    describe command('echo 1') do
-       its('stdout') { should match (/[0-9]/) }
-    end

@@ -135,7 +135,65 @@ class ResourceDocs
     render(x + '.md.erb')
   end
 
+  def overview_page(resources) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    f = Markdown
+    res = f.meta(title: 'InSpec Resources Reference')
+    res << f.h1('InSpec Resources Reference')
+    res << f.p('The following list of InSpec resources are available.')
+
+    lib_resources = Dir[File.expand_path(File.join('.', '..', 'lib', 'resources', '*'))]
+    lib_groups = lib_resources.find_all { |x| File.directory?(x) }
+    sections = Hash[lib_groups.map do |x|
+      files = Dir[File.join(x, '*.rb')].map { |y| File.basename(y).sub(/\.rb$/, '') }
+      [File.basename(x), files]
+    end]
+
+    resource_dict = Hash[resources.map { |file| [File.basename(file).sub(/\.md\.erb$/, ''), file] }]
+
+    lists = Hash[sections.keys.map { |k| [k, ''] }]
+    lists[''] = ''
+    resource_dict.keys.sort.each do |name|
+      section = sections.find { |_, v| v.include?(name) }
+      l = section.nil? ? '' : section[0]
+      lists[l] << f.li(f.a(name.gsub('_', '\\_'), 'resources/' + name + '.html'))
+    end
+
+    section_names = lists.keys.find_all { |k| !k.empty? }
+    links = [['#os-resources', 'All OS resources']] +
+            section_names.map do |name|
+              ['#'+(name+'-resources').downcase, namify(name)+' resources']
+            end
+
+    items = links.map do |x|
+      format('<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>',
+             x[0], x[1])
+    end.join("\n")
+    res << format('
+<div class="row columns align">
+  %s
+</div>
+', items)
+
+    section = '
+<div class="brdr-left margin-top-sm margin-under-xs">
+  <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
+</div>
+'
+    res << format(section, 'os-resources', 'All OS resources')
+    res << f.ul(lists[''])
+    section_names.each do |group|
+      res << format(section, (group+'-resources').downcase, namify(group) + ' resources')
+      res << f.ul(lists[group])
+    end
+
+    res
+  end
+
   private
+
+  def namify(n)
+    n.capitalize.gsub(/\baws\b/i, 'AWS')
+  end
 
   def render_path(path)
     abs = File.join(@root, path)
@@ -210,6 +268,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     puts "Found #{resources.length} resource docs"
     puts "Rendering docs to #{dst}/"
 
+    # Render all resources
     progressbar = ProgressBar.create(total: resources.length, title: 'Rendering')
     resources.each do |file|
       progressbar.log('          '+file)
@@ -220,19 +279,10 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     end
     progressbar.finish
 
-    f = Markdown
-    res = f.meta(title: 'InSpec Resources Reference')
-    res << f.h1('InSpec Resources Reference')
-    res << f.p('The following InSpec audit resources are available:')
-    list = ''
-    resources.each do |file|
-      name = File.basename(file).sub(/\.md\.erb$/, '')
-      list << f.li(f.a(name.sub('_', '\\_'), 'resources/' + name + '.html'))
-    end
-    res << f.ul(list)
+    # Create a resource summary markdown doc
     dst = File.join(src, 'resources.md')
     puts "Create #{dst}"
-    File.write(dst, res)
+    File.write(dst, docs.overview_page(resources))
   end
 
   desc 'Clean all rendered docs from www/'

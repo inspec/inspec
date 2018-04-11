@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 # Usage:
 # describe iptables do
@@ -24,6 +22,7 @@
 module Inspec::Resources
   class IpTables < Inspec.resource(1)
     name 'iptables'
+    supports platform: 'linux'
     desc 'Use the iptables InSpec audit resource to test rules that are defined in iptables, which maintains tables of IP packet filtering rules. There may be more than one table. Each table contains one (or more) chains (both built-in and custom). A chain is a list of rules that match packets. When the rule matches, the rule defines what target to assign to the packet.'
     example "
       describe iptables do
@@ -53,8 +52,9 @@ module Inspec::Resources
       return @iptables_cache if defined?(@iptables_cache)
 
       # construct iptables command to read all rules
+      bin = find_iptables_or_error
       table_cmd = "-t #{@table}" if @table
-      iptables_cmd = format('iptables %s -S %s', table_cmd, @chain).strip
+      iptables_cmd = format('%s %s -S %s', bin, table_cmd, @chain).strip
 
       cmd = inspec.command(iptables_cmd)
       return [] if cmd.exit_status.to_i != 0
@@ -65,6 +65,16 @@ module Inspec::Resources
 
     def to_s
       format('Iptables %s %s', @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
+    end
+
+    private
+
+    def find_iptables_or_error
+      %w{/usr/sbin/iptables /sbin/iptables iptables}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, 'Could not find `iptables`'
     end
   end
 end

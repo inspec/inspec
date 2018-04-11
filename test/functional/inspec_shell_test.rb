@@ -7,11 +7,18 @@ describe 'inspec shell tests' do
 
   describe 'cmd' do
     def do_shell_c(code, exit_status, json = false, stderr = '')
-      json_suffix = " --format 'json'" if json
+      json_suffix = " --reporter 'json'" if json
       out = inspec("shell -c '#{code.tr('\'','\\\'')}'#{json_suffix}")
       out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status
       out
+    end
+
+    it 'loads a dependency' do
+      res = inspec("shell -c 'gordon_config' --depends #{example_profile}")
+      res.stderr.must_equal ''
+      res.exit_status.must_equal 0
+      res.stdout.chop.must_equal 'gordon_config'
     end
 
     it 'confirm file caching is disabled' do
@@ -51,10 +58,10 @@ describe 'inspec shell tests' do
     end
 
     it 'retrieves resources (json output)' do
-      out = do_shell_c('os.params', 0, true)
+      out = do_shell_c('platform.params', 0, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'name'
-      j.keys.must_include 'family'
+      j.keys.must_include 'families'
       j.keys.must_include 'arch'
       j.keys.must_include 'release'
     end
@@ -62,7 +69,7 @@ describe 'inspec shell tests' do
     it 'retrieves resources' do
       out = do_shell_c('os.params', 0)
       out.stdout.must_include 'name'
-      out.stdout.must_include 'family'
+      out.stdout.must_include 'families'
       out.stdout.must_include 'arch'
       out.stdout.must_include 'release'
     end
@@ -72,7 +79,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -83,16 +89,15 @@ describe 'inspec shell tests' do
     end
 
     it 'runs anonymous tests that fail (json output)' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1, true)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs anonymous tests that fail' do
-      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 1)
+      out = do_shell_c("describe file(\"foo/bar/baz\") do it { should exist } end", 100)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end
@@ -102,7 +107,6 @@ describe 'inspec shell tests' do
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
@@ -113,16 +117,15 @@ describe 'inspec shell tests' do
     end
 
     it 'runs controls with multiple tests (json output)' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1, true)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100, true)
       j = JSON.load(out.stdout)
       j.keys.must_include 'version'
       j.keys.must_include 'profiles'
-      j.keys.must_include 'other_checks'
       j.keys.must_include 'statistics'
     end
 
     it 'runs controls with multiple tests' do
-      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 1)
+      out = do_shell_c("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end; describe file(\"foo/bar/baz\") do it { should exist } end end", 100)
       out.stdout.must_include '0 successful'
       out.stdout.must_include '1 failure'
     end
@@ -135,6 +138,13 @@ describe 'inspec shell tests' do
       #out.stderr.must_equal stderr
       out.exit_status.must_equal exit_status
       out
+    end
+
+    it 'loads a dependency' do
+      cmd = "echo 'gordon_config' | #{exec_inspec} shell --depends #{example_profile}"
+      res = CMD.run_command(cmd)
+      res.exit_status.must_equal 0
+      res.stdout.must_include "=> gordon_config"
     end
 
     it 'displays the target device information for the user without requiring the help command' do

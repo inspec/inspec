@@ -1,6 +1,6 @@
 # Example InSpec Profile with Sensitive failures
 
-This profile demostrates resources flagged as sensitive
+This profile demonstrates resources flagged as sensitive
 
 ## Usage
 

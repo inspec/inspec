@@ -58,7 +58,11 @@ describe 'Inspec::Resources::FirewallD' do
     _(centResource.has_port_enabled_in_zone?('22/udp', 'public')).must_equal true
   end
 
-  it 'verify firewalld detects a whether or not a rule is enabled in a zone' do
+  it 'verify firewalld detects a whether or not a rule is enabled in a zone included rule text' do
+    _(centResource.has_rule_enabled?('rule family=ipv4 source address=192.168.0.14 accept', 'public')).must_equal true
+  end
+
+  it 'verify firewalld detects a whether or not a rule is enabled in a zone exluding rule text' do
     _(centResource.has_rule_enabled?('family=ipv4 source address=192.168.0.14 accept', 'public')).must_equal true
   end
 end

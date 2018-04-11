@@ -10,13 +10,13 @@ describe 'inspec exec' do
   it 'can execute the profile' do
     out = inspec('exec ' + example_profile  + ' --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 0
+    out.exit_status.must_equal 101
     stdout = out.stdout.force_encoding(Encoding::UTF_8)
     stdout.must_include "\e[38;5;41m  ✔  ssh-1: Allow only SSH Protocol 2\e[0m\n"
     stdout.must_include "\e[38;5;41m  ✔  tmp-1.0: Create /tmp directory\e[0m\n"
     stdout.must_include "
 \e[38;5;247m  ↺  gordon-1.0: Verify the version number of Gordon (1 skipped)\e[0m
-\e[38;5;247m     ↺  Can't find file \"/tmp/gordon/config.yaml\"\e[0m
+\e[38;5;247m     ↺  Can't find file `/tmp/gordon/config.yaml`\e[0m
 "
     stdout.must_include "\nProfile Summary: \e[38;5;41m2 successful controls\e[0m, 0 control failures, \e[38;5;247m1 control skipped\e[0m\n"
     stdout.must_include "\nTest Summary: \e[38;5;41m4 successful\e[0m, 0 failures, \e[38;5;247m1 skipped\e[0m\n"
@@ -27,7 +27,6 @@ describe 'inspec exec' do
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
-
 Profile: yumyum profile
 Version: (not specified)
 Target:  local://
@@ -38,12 +37,20 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 "
   end
 
+  it 'can execute the profile and write to directory' do
+    outpath = Dir.tmpdir
+    out = inspec("exec #{example_profile} --no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json")
+    out.stderr.must_equal ''
+    out.exit_status.must_equal 101
+    File.exist?("#{outpath}/foo/bar/test.json").must_equal true
+    File.stat("#{outpath}/foo/bar/test.json").size.must_be :>, 0
+  end
+
   it 'executes a metadata-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'complete-metadata') + ' --no-create-lockfile')
     out.stderr.must_equal ''
     out.exit_status.must_equal 0
     out.stdout.must_equal "
-
 Profile: title (name)
 Version: 1.2.3
 Target:  local://
@@ -64,14 +71,14 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   it 'executes a specs-only profile' do
     out = inspec('exec ' + File.join(profile_path, 'spec_only') + ' --no-create-lockfile')
     out.stderr.must_equal ''
-    out.exit_status.must_equal 1
+    out.exit_status.must_equal 100
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Target:  local://"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "working should"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  eq \"working\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "working"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  should eq \"working\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\n"
     out.stdout.force_encoding(Encoding::UTF_8).must_include "↺  This will be skipped intentionally"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "failing should"
-    out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  eq \"as intended\""
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "failing"
+    out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should eq \"as intended\""
     out.stdout.force_encoding(Encoding::UTF_8).must_include "Test Summary: \e[38;5;41m1 successful\e[0m, \e[38;5;9m1 failure\e[0m, \e[38;5;247m1 skipped\e[0m\n"
   end
 
@@ -108,7 +115,19 @@ Test Summary: 0 successful, 0 failures, 0 skipped
       out.stdout.force_encoding(Encoding::UTF_8).must_include "skippy\e[0m\n\e[38;5;247m     ↺  This will be skipped super intentionally.\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "  ↺  CONTROL database: MySQL Session\e[0m\n\e[38;5;247m     ↺  Can't run MySQL SQL checks without authentication\e[0m\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "Profile Summary: 0 successful controls, 0 control failures, \e[38;5;247m2 controls skipped\e[0m\nTest Summary: 0 successful, 0 failures, \e[38;5;247m2 skipped\e[0m\n"
-      out.exit_status.must_equal 0
+      out.exit_status.must_equal 101
+    end
+  end
+
+  describe 'with a profile that contains skipped resources' do
+    let(:out) { inspec('exec ' + File.join(profile_path, 'aws-profile')) }
+    let(:stdout) { out.stdout.force_encoding(Encoding::UTF_8) }
+    it 'exits with an error' do
+      stdout.must_include 'Resource Aws_iam_users is not supported on platform'
+      stdout.must_include 'Resource Aws_iam_access_keys is not supported on platform'
+      stdout.must_include 'Resource Aws_s3_bucket is not supported on platform'
+      stdout.must_include '3 skipped'
+      out.exit_status.must_equal 101
     end
   end
 
@@ -171,9 +190,9 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  undefined method `should_nota'"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory\n"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should cmp >= 9\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  7 should not cmp == /^\\d$/\n"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  7 should cmp == \"7\""
@@ -187,9 +206,9 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it 'should print all the results' do
       out.stdout.force_encoding(Encoding::UTF_8).must_include "×  tmp-1.0: Create /tmp directory (1 failed)\e[0m"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  undefined method `should_nota'"
-      out.stdout.force_encoding(Encoding::UTF_8).must_include "∅  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  undefined method `should_nota'"
+      out.stdout.force_encoding(Encoding::UTF_8).must_include "×  should not be directory\n     expected `File /tmp.directory?` to return false, got true\e[0m"
       out.stdout.force_encoding(Encoding::UTF_8).must_include "✔  profiled-1: Create /tmp directory (profile d)"
     end
   end
@@ -285,12 +304,12 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
     it 'hides sensitive output' do
       out = inspec('exec ' + sensitive_profile  + ' --no-create-lockfile')
       out.stderr.must_equal ''
-      out.exit_status.must_equal 1
+      out.exit_status.must_equal 100
       stdout = out.stdout.force_encoding(Encoding::UTF_8)
-      stdout.must_include '∅  eq "billy"'
+      stdout.must_include '×  should eq "billy"'
       stdout.must_include 'expected: "billy"'
       stdout.must_include 'got: "bob"'
-      stdout.must_include '∅  eq "secret"'
+      stdout.must_include '×  should eq "secret"'
       stdout.must_include '*** sensitive output suppressed ***'
       stdout.must_include "\nTest Summary: \e[38;5;41m2 successful\e[0m, \e[38;5;9m2 failures\e[0m, 0 skipped\n"
     end

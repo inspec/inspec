@@ -28,6 +28,12 @@ module Inspec
       __resource_registry[@name].desc(description)
     end
 
+    def supports(criteria = nil)
+      return if criteria.nil?
+      Inspec::Resource.supports[@name] ||= []
+      Inspec::Resource.supports[@name].push(criteria)
+    end
+
     def example(example = nil)
       return if example.nil?
       __resource_registry[@name].example(example)
@@ -37,17 +43,25 @@ module Inspec
       Inspec::Resource.registry
     end
 
-    def __register(name, obj) # rubocop:disable Metrics/MethodLength
-      cl = Class.new(obj) do
+    def __register(name, obj) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      cl = Class.new(obj) do # rubocop:disable Metrics/BlockLength
         attr_reader :resource_exception_message
 
         def initialize(backend, name, *args)
           @resource_skipped = false
           @resource_failed = false
+          @supports = Inspec::Resource.supports[name]
 
           # attach the backend to this instance
           @__backend_runner__ = backend
           @__resource_name__ = name
+
+          # check resource supports
+          supported = true
+          supported = check_supports unless @supports.nil?
+          test_backend = defined?(Train::Transports::Mock::Connection) && backend.backend.class == Train::Transports::Mock::Connection
+          # do not return if we are supported, or for tests
+          return unless supported || test_backend
 
           # call the resource initializer
           begin
@@ -56,6 +70,11 @@ module Inspec
             skip_resource(e.message)
           rescue Inspec::Exceptions::ResourceFailed => e
             fail_resource(e.message)
+          rescue NoMethodError => e
+            # The new platform resources have methods generated on the fly
+            # for inspec check to work we need to skip these train errors
+            raise unless test_backend && e.receiver.class == Train::Transports::Mock::Connection
+            skip_resource(e.message)
           end
         end
 
@@ -69,6 +88,13 @@ module Inspec
           @example = example
         end
 
+        def check_supports
+          status = inspec.platform.supported?(@supports)
+          skip_msg = "Resource #{@__resource_name__.capitalize} is not supported on platform #{inspec.platform.name}/#{inspec.platform.release}."
+          skip_resource(skip_msg) unless status
+          status
+        end
+
         def skip_resource(message)
           @resource_skipped = true
           @resource_exception_message = message
@@ -76,13 +102,6 @@ module Inspec
 
         def resource_skipped?
           @resource_skipped
-        end
-
-        def resource_skipped
-          warn('[DEPRECATION] Use `resource_exception_message` for the resource skipped message. This method will be removed in InSpec 2.0.')
-          # Returning `nil` here to match previous behavior
-          return nil if @resource_skipped == false
-          @resource_exception_message
         end
 
         def fail_resource(message)

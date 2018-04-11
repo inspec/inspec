@@ -1,9 +1,10 @@
 # encoding: utf-8
-# author: Jonathan Morley
 
 module Inspec::Resources
   class XmlConfig < JsonConfig
     name 'xml'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the xml InSpec resource to test configuration data in an XML file'
     example "
       describe xml('default.xml') do
@@ -20,7 +21,18 @@ module Inspec::Resources
     end
 
     def value(key)
-      REXML::XPath.each(@params, key.first.to_s).map(&:text)
+      output = []
+      REXML::XPath.each(@params, key.first.to_s) do |element|
+        if element.is_a?(REXML::Attribute)
+          output.push(element.to_s)
+        elsif element.is_a?(REXML::Element)
+          output.push(element.text)
+        else
+          raise Inspec::Exceptions::ResourceFailed, "Unknown XML object received (#{element.class}): #{element}"
+        end
+      end
+
+      output
     end
 
     private

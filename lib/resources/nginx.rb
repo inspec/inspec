@@ -1,6 +1,4 @@
 # encoding: utf-8
-# author: Aaron Lippold, lippold@gmail.com
-# author: Rony Xavier, rx294@gmail.com
 
 require 'pathname'
 require 'hashie/mash'
@@ -8,6 +6,7 @@ require 'hashie/mash'
 module Inspec::Resources
   class Nginx < Inspec.resource(1)
     name 'nginx'
+    supports platform: 'unix'
     desc 'Use the nginx InSpec audit resource to test information about your NGINX instance.'
     example "
       describe nginx do
@@ -35,7 +34,7 @@ module Inspec::Resources
       read_content
     end
 
-    %w{compiler_info error_log_path http_client_body_temp_path http_fastcgi_temp_path http_log_path http_proxy_temp_path http_scgi_temp_path http_uwsgi_temp_path lock_path modules_path openssl_version prefix sbin_path service support_info version}.each do |property|
+    %w{error_log_path http_client_body_temp_path http_fastcgi_temp_path http_log_path http_proxy_temp_path http_scgi_temp_path http_uwsgi_temp_path lock_path modules_path prefix sbin_path service version}.each do |property|
       define_method(property.to_sym) do
         @params[property.to_sym]
       end

@@ -1,5 +1,4 @@
 # encoding: utf-8
-# author: Matthew
 
 module Inspec::Resources
   class FirewallD < Inspec.resource(1)
@@ -9,6 +8,7 @@ module Inspec::Resources
     ###
 
     name 'firewalld'
+    supports platform: 'linux'
     desc 'Use the firewalld resource to check and see if firewalld is configured to grand or deny access to specific hosts or services'
     example "
       describe firewalld do
@@ -38,7 +38,6 @@ module Inspec::Resources
     filter.connect(self, :params)
 
     def initialize
-      return skip_resource 'The `etc_hosts_deny` resource is not supported on your OS.' unless inspec.os.linux?
       @params = parse_active_zones(active_zones)
     end
 
@@ -85,8 +84,8 @@ module Inspec::Resources
     end
 
     def has_rule_enabled?(rule, query_zone = default_zone)
-      rule = 'rule ' + rule
-      firewalld_command("--zone=#{query_zone} --query-rich-rule=#{rule}") == 'yes'
+      rule = "rule #{rule}" unless rule.start_with?('rule')
+      firewalld_command("--zone=#{query_zone} --query-rich-rule='#{rule}'") == 'yes'
     end
 
     private

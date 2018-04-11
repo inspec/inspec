@@ -9,11 +9,12 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'inspec/version'
 require 'inspec/exceptions'
 require 'inspec/profile'
-require 'inspec/rspec_json_formatter'
 require 'inspec/rule'
 require 'matchers/matchers'
 require 'inspec/runner'
 require 'inspec/shell'
+require 'inspec/formatters'
+require 'inspec/reporters'
 
 # all utils that may be required by plugins
 require 'inspec/base_cli'

@@ -20,17 +20,23 @@ To run it live run:
 bundle exec middleman server
 ```
 
-For the online tutorial, take a look at `www/tutorial`.
+For the online demo, take a look at `www/demo`.
 
 ## Building
 
-To build the site to a local static folder (without tutorial):
+To build the site to a local static folder (without demo):
 
 ```bash
 bundle exec middleman build
 ```
+* _if you get an error building the css files it could be becuase you don't have node.js installed. e.g._ 
+```
+  == Request: /stylesheets/vendor/fontawesome.min.css
+  == Finishing Request: stylesheets/vendor/fontawesome.min.css (0.0s)
+         error  build/stylesheets/vendor/fontawesome.min.css
+```
 
-To build everything including the online tutorial:
+To build everything including the online demo:
 
 ```
 bundle exec rake www:build

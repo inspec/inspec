@@ -19,6 +19,14 @@ describe 'inspec json' do
   describe 'json profile data' do
     let(:json) { JSON.load(inspec('json ' + example_profile).stdout) }
 
+    it 'has a generator name' do
+      json['generator']['name'].must_equal 'inspec'
+    end
+
+    it 'has a generator inspec version' do
+      json['generator']['version'].must_equal Inspec::VERSION
+    end
+
     it 'has a name' do
       json['name'].must_equal 'profile'
     end
@@ -118,6 +126,13 @@ describe 'inspec json' do
 
     it 'successfully reads a pax-formatted tar file' do
       out = inspec("json #{profile_tgz}")
+      out.exit_status.must_equal 0
+    end
+  end
+
+  describe 'inspec json with a profile containing only_if' do
+    it 'ignores the `only_if`' do
+      out = inspec('json ' + File.join(profile_path, 'only-if-os-nope'))
       out.exit_status.must_equal 0
     end
   end

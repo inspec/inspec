@@ -115,6 +115,9 @@ module Inspec
       @runner_context =
         options[:profile_context] ||
         Inspec::ProfileContext.for_profile(self, @backend, @attr_values)
+
+      @supports_platform = metadata.supports_platform?(@backend)
+      @supports_runtime = metadata.supports_runtime?
     end
 
     def name
@@ -136,15 +139,21 @@ module Inspec
     # @returns [TrueClass, FalseClass]
     #
     def supported?
-      supports_os? && supports_runtime?
+      supports_platform? && supports_runtime?
     end
 
-    def supports_os?
-      metadata.supports_transport?(@backend)
+    def supports_platform?
+      if @supports_platform.nil?
+        @supports_platform = metadata.supports_platform?(@backend)
+      end
+      @supports_platform
     end
 
     def supports_runtime?
-      metadata.supports_runtime?
+      if @supports_runtime.nil?
+        @supports_runtime = metadata.supports_runtime?
+      end
+      @supports_runtime
     end
 
     def params

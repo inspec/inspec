@@ -1,5 +1,6 @@
 ---
 title: About the processes Resource
+platform: os
 ---
 
 # processes
@@ -33,7 +34,7 @@ The following examples show how to use this InSpec audit resource.
       its('list.length') { should eq 1 }
     end
 
-### Test if the process is owned by a specifc user
+### Test if the process is owned by a specific user
 
     describe processes('init') do
       its('users') { should eq ['root'] }
@@ -95,10 +96,11 @@ Below is a mapping table to help you understand what property the unix field map
 |users            |UserName|
 |commands         |Path|
 
+<br>
 
 ## Matchers
 
-This InSpec audit resource has the following matchers. For a full list of available matchers please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 ### property_name
 

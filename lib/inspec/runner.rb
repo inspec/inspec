@@ -31,8 +31,6 @@ module Inspec
   class Runner
     extend Forwardable
 
-    def_delegator :@test_collector, :report
-
     attr_reader :backend, :rules, :attributes
     def initialize(conf = {})
       @rules = []
@@ -40,9 +38,15 @@ module Inspec
       @conf[:logger] ||= Logger.new(nil)
       @target_profiles = []
       @controls = @conf[:controls] || []
+      @depends = @conf[:depends] || []
       @ignore_supports = @conf[:ignore_supports]
       @create_lockfile = @conf[:create_lockfile]
       @cache = Inspec::Cache.new(@conf[:vendor_cache])
+
+      # parse any ad-hoc runners reporter formats
+      # this has to happen before we load the test_collector
+      @conf = Inspec::BaseCLI.parse_reporters(@conf) if @conf[:type].nil?
+
       @test_collector = @conf.delete(:test_collector) || begin
         require 'inspec/runner_rspec'
         RunnerRspec.new(@conf)
@@ -100,6 +104,18 @@ module Inspec
       run_tests(with)
     end
 
+    def render_output(run_data)
+      return if @conf['reporter'].nil?
+
+      @conf['reporter'].each do |reporter|
+        Inspec::Reporters.render(reporter, run_data)
+      end
+    end
+
+    def report
+      Inspec::Reporters.report(@conf['reporter'].first, @run_data)
+    end
+
     def write_lockfile(profile)
       return false if !profile.writable?
 
@@ -113,7 +129,10 @@ module Inspec
     end
 
     def run_tests(with = nil)
-      @test_collector.run(with)
+      @run_data = @test_collector.run(with)
+      # dont output anything if we want a report
+      render_output(@run_data) unless @conf['report']
+      @test_collector.exit_code
     end
 
     # determine all attributes before the execution, fetch data from secrets backend
@@ -185,8 +204,8 @@ module Inspec
              "InSpec v#{Inspec::VERSION}.\n"
       end
 
-      if !profile.supports_os?
-        raise "This OS/platform (#{@backend.os[:name]}) is not supported by this profile."
+      if !profile.supports_platform?
+        raise "This OS/platform (#{@backend.platform.name}/#{@backend.platform.release}) is not supported by this profile."
       end
 
       true
@@ -214,6 +233,13 @@ module Inspec
       add_target({ 'inspec.yml' => 'name: inspec-shell' })
       our_profile = @target_profiles.first
       ctx = our_profile.runner_context
+
+      # Load local profile dependencies. This is used in inspec shell
+      # to provide access to local profiles that add resources.
+      @depends
+        .map { |x| Inspec::Profile.for_path(x, { profile_context: ctx }) }
+        .each(&:load_libraries)
+
       ctx.load(command)
     end
 
@@ -233,12 +259,15 @@ module Inspec
 
       return nil if arg.empty?
 
-      if arg[0].respond_to?(:resource_skipped?) && arg[0].resource_skipped?
-        return rspec_skipped_block(arg, opts, arg[0].resource_exception_message)
+      resource = arg[0]
+      # check to see if we are using a filtertable object
+      resource = arg[0].resource if arg[0].class.superclass == FilterTable::Table
+      if resource.respond_to?(:resource_skipped?) && resource.resource_skipped?
+        return rspec_skipped_block(arg, opts, resource.resource_exception_message)
       end
 
-      if arg[0].respond_to?(:resource_failed?) && arg[0].resource_failed?
-        return rspec_failed_block(arg, opts, arg[0].resource_exception_message)
+      if resource.respond_to?(:resource_failed?) && resource.resource_failed?
+        return rspec_failed_block(arg, opts, resource.resource_exception_message)
       end
 
       # If neither skipped nor failed then add the resource

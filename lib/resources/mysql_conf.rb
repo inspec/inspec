@@ -1,9 +1,9 @@
 # encoding: utf-8
 # copyright: 2015, Vulcano Security GmbH
-# author: Dominik Richter
 
 require 'utils/simpleconfig'
 require 'utils/find_files'
+require 'utils/file_reader'
 require 'utils/hash'
 require 'resources/mysql'
 
@@ -28,6 +28,8 @@ module Inspec::Resources
 
   class MysqlConf < Inspec.resource(1)
     name 'mysql_conf'
+    supports platform: 'unix'
+    supports platform: 'windows'
     desc 'Use the mysql_conf InSpec audit resource to test the contents of the configuration file for MySQL, typically located at /etc/mysql/my.cnf or /etc/my.cnf.'
     example "
       describe mysql_conf('path') do
@@ -46,6 +48,7 @@ module Inspec::Resources
     "
 
     include FindFiles
+    include FileReader
 
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.mysql.conf_path
@@ -76,15 +79,6 @@ module Inspec::Resources
     def read_content
       @content = ''
       @params = {}
-
-      # skip if the main configuration file doesn't exist
-      if !inspec.file(@conf_path).file?
-        return skip_resource "Can't find file \"#{@conf_path}\""
-      end
-      raw_conf = read_file(@conf_path)
-      if raw_conf.empty? && !inspec.file(@conf_path).empty?
-        return skip_resource("Can't read file \"#{@conf_path}\"")
-      end
 
       to_read = [@conf_path]
       until to_read.empty?
@@ -123,7 +117,7 @@ module Inspec::Resources
     end
 
     def read_file(path)
-      @files_contents[path] ||= inspec.file(path).content
+      @files_contents[path] ||= read_file_content(path)
     end
 
     def to_s

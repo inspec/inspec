@@ -23,7 +23,7 @@ against the above JSON file:
 
 ```ruby
 control 'check-interns' do
-  # use the json inspec resource to get the file
+  # use the json InSpec resource to get the file
   json_obj = json('/opt/keys/interns.json')
   describe json_obj do
     its('keys') { should_not eq nil }

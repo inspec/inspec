@@ -25,6 +25,8 @@ describe 'example inheritance profile' do
       out = inspec('vendor --overwrite', "cd #{dir} &&")
       out.stderr.must_equal ''
       out.exit_status.must_equal 0
+      # this fixes the osx /var symlink to /private/var causing this test to fail
+      out.stdout.gsub!('/private/var', '/var')
       out.stdout.must_include "Dependencies for profile #{dir} successfully vendored to #{dir}/vendor"
 
       File.exist?(File.join(dir, 'vendor')).must_equal true
@@ -58,6 +60,7 @@ describe 'example inheritance profile' do
       out.exit_status.must_equal 0
 
       out = inspec('json ' + dir + ' --output ' + dst.path)
+      out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       hm = JSON.load(File.read(dst.path))
@@ -82,7 +85,11 @@ describe 'example inheritance profile' do
     prepare_examples('meta-profile') do |dir|
       # ensure the profile is vendored and packaged as tar
       out = inspec('vendor ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
       out = inspec('archive ' + dir + ' --overwrite')
+      out.stderr.must_equal ''
       out.exit_status.must_equal 0
 
       # execute json command

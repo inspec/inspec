@@ -1,12 +1,14 @@
-ii   bash  4.3-14ubuntu1.1
-rc   fakeroot  1.20.2-1ubuntu1
-rc   libfakeroot  1.20.2-1ubuntu1
-ii   overlayroot  0.27ubuntu1.2
-ii   vim  2:7.4.1689-3ubuntu1.2
-ii   vim-common  2:7.4.1689-3ubuntu1.2
-ii   xorg  1:7.7+13ubuntu3
-ii   xorg-docs-core  1:1.7.1-1ubuntu1
-ii   xserver-common  2:1.18.4-0ubuntu0.2
-ii   xserver-xorg  1:7.7+13ubuntu3
-ii   xserver-xorg-core  2:1.18.4-0ubuntu0.2
-ii   xserver-xorg-input-all  1:7.7+13ubuntu3
+ii   bash  4.3-14ubuntu1.1  amd64
+ii   libc6  2.19-0ubuntu6.14  amd64
+ii   libc6  2.19-0ubuntu6.14  i386
+rc   fakeroot  1.20.2-1ubuntu1  amd64
+rc   libfakeroot  1.20.2-1ubuntu0 amd64
+ii   overlayroot  0.27ubuntu1.2  amd64
+ii   vim  2:7.4.1689-3ubuntu1.2  amd64
+ii   vim-common  2:7.4.1689-3ubuntu1.2  amd64
+ii   xorg  1:7.7+13ubuntu3  amd64
+ii   xorg-docs-core  1:1.7.1-1ubuntu1  amd64
+ii   xserver-common  2:1.18.4-0ubuntu0.2  amd64
+ii   xserver-xorg  1:7.7+13ubuntu3  amd64
+ii   xserver-xorg-core  2:1.18.4-0ubuntu0.2  amd64
+ii   xserver-xorg-input-all  1:7.7+13ubuntu3  amd64

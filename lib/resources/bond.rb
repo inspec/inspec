@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Christoph Hartmann
-# author: Dominik Richter
 
 require 'resources/file'
+require 'utils/file_reader'
 
 module Inspec::Resources
   class Bond < FileResource
     name 'bond'
+    supports platform: 'unix'
     desc 'Use the bond InSpec audit resource to test a logical, bonded network interface (i.e. "two or more network interfaces aggregated into a single, logical network interface"). On Linux platforms, any value in the /proc/net/bonding directory may be tested.'
     example "
       describe bond('bond0') do
@@ -14,20 +14,20 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     def initialize(bond)
       @bond = bond
       @path = "/proc/net/bonding/#{bond}"
       @file = inspec.file(@path)
-      @content = nil
+      @content = read_file_content(@path, allow_empty: true)
       @params = {}
       @loaded = false
     end
 
     def read_content
-      # parse the file
-      @content = @file.content
       @params = SimpleConfig.new(
-        @file.content,
+        @content,
         assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/,
         multiple_values: true,
       ).params if @file.exist?
@@ -56,6 +56,10 @@ module Inspec::Resources
 
     def interfaces
       params['Slave Interface']
+    end
+
+    def mode
+      params['Bonding Mode'].first
     end
 
     def to_s

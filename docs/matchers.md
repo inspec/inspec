@@ -1,20 +1,24 @@
 ---
-title: InSpec Matchers Reference
+title: InSpec Universal Matchers Reference
 ---
 
-# InSpec Matchers Reference
+# InSpec Universal Matchers Reference
 
-Inspec uses matchers to help compare resource values to expectations.
+InSpec uses matchers to help compare resource values to expectations.
 The following matchers are available:
 
-* `be`
-* `be_in`
-* `cmp`
-* `eq`
-* `include`
-* `match`
+You may also use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs), but those matchers are outside of InSpec's [scope of support](https://www.inspec.io/docs/reference/inspec_and_friends/#rspec).
 
-<br>
+The following InSpec-supported universal matchers are available:
+
+* [`be`](#be) - make numeric comparisons
+* [`be_in`](#be_in) - look for the property value in a list
+* [`cmp`](#cmp) - general-use equality (try this first)
+* [`eq`](#eq) - type-specific equality
+* [`include`](#include) - look for an expected value in a list-valued property
+* [`match`](#match) - look for patterns in text using regular expressions
+
+See [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about InSpec's built-in matchers.
 
 ## be
 
@@ -32,7 +36,7 @@ end
 
 ## cmp
 
-Unlike `eq`, cmp is a matcher for less-restrictive comparisons. It will
+Unlike `eq`, `cmp` is a matcher for less-restrictive comparisons. It will
 try to fit the actual value to the type you are comparing it to. This is
 meant to relieve the user from having to write type-casts and
 resolutions.
@@ -116,7 +120,7 @@ describe sshd_config do
 end
 ```
 
-It fails if types don't match. Please keep this in mind, when comparing
+`eq` fails if types don't match. Please keep this in mind, when comparing
 configuration entries that are numbers:
 
 ```ruby

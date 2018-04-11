@@ -1,12 +1,12 @@
 # encoding: utf-8
-# author: Rony Xavier,  rx294@nyu.edu
-# author: Aaron Lippold, lippold@gmail.com
 
+require 'utils/file_reader'
 require 'resources/postgres'
 
 module Inspec::Resources
   class PostgresIdentConf < Inspec.resource(1)
     name 'postgres_ident_conf'
+    supports platform: 'unix'
     desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example "
@@ -15,15 +15,15 @@ module Inspec::Resources
       end
     "
 
+    include FileReader
+
     attr_reader :params, :conf_file
 
     def initialize(ident_conf_path = nil)
-      return skip_resource 'The `postgres_ident_conf` resource is not supported on your OS.' unless inspec.os.linux?
       @conf_file = ident_conf_path || File.expand_path('pg_ident.conf', inspec.postgres.conf_dir)
       @content = nil
       @params = nil
       read_content
-      return skip_resource '`pg_ident_conf` is not yet supported on your OS' if inspec.os.windows?
     end
 
     filter = FilterTable.create
@@ -73,7 +73,7 @@ module Inspec::Resources
     end
 
     def read_file(conf_file = @conf_file)
-      inspec.file(conf_file).content.lines
+      read_file_content(conf_file, allow_empty: true).lines
     end
   end
 end

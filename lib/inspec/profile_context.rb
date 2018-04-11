@@ -38,6 +38,7 @@ module Inspec
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
       @library_eval_context = Inspec::LibraryEvalContext.create(@resource_registry, @require_loader)
+      @current_load = nil
     end
 
     def dependencies
@@ -63,10 +64,16 @@ module Inspec
       @control_eval_context = nil
     end
 
-    def profile_supports_os?
+    def profile_supports_platform?
       return true if @conf['profile'].nil?
 
-      @conf['profile'].supports_os?
+      @conf['profile'].supports_platform?
+    end
+
+    def profile_supports_inspec_version?
+      return true if @conf['profile'].nil?
+
+      @conf['profile'].supports_runtime?
     end
 
     def remove_rule(id)
@@ -110,6 +117,7 @@ module Inspec
       lib_prefix = 'libraries' + File::SEPARATOR
       autoloads = []
 
+      libs.sort_by! { |l| l[1] } # Sort on source path so load order is deterministic
       libs.each do |content, source, line|
         path = source
         if source.start_with?(lib_prefix)

@@ -24,6 +24,7 @@ dependency 'rubygems'
 dependency 'bundler'
 dependency 'rb-readline'
 dependency 'appbundler'
+dependency 'unf_ext'
 
 license :project_license
 

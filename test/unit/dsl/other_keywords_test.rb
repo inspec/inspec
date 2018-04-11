@@ -3,10 +3,11 @@
 # author: Christoph Hartmann
 
 require 'helper'
+require 'inspec/runner_mock'
 
 describe 'inspec keyword' do
   def load(content)
-    runner = Inspec::Runner.new({backend: 'mock'})
+    runner = Inspec::Runner.new({backend: 'mock', test_collector: Inspec::RunnerMock.new})
     runner.eval_with_virtual_profile(content)
   end
 
@@ -46,7 +47,7 @@ describe 'inspec keyword' do
     end
 
     it 'lists all profile files when calling #files' do
-      load_in_profile('inspec.profile.files').must_equal %w{a_sub_dir/sub_items.conf items.conf}
+      load_in_profile('inspec.profile.files').sort.must_equal %w{a_sub_dir/sub_items.conf items.conf}
     end
   end
 
