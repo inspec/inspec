@@ -5,11 +5,11 @@
 if node['platform_family'] == 'windows'
   powershell_script 'Write User TEMP' do
     code <<-EOH
-    [System.Environment]::SetEnvironmentVariable('TEST', 'C:\\TEMPUSER', [System.environmentVariableTarget]::User)
+    [System.Environment]::SetEnvironmentVariable('TEMP', 'C:\\TEMPUSER', [System.environmentVariableTarget]::User)
     EOH
   end   
 end
 
-env 'TEST' do
+env 'TEMP' do
   value 'C:\SYSTEMUSER'
 end
