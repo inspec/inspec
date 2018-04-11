@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.33 -->
-## [v2.1.33](https://github.com/chef/inspec/tree/v2.1.33) (2018-04-06)
+<!-- latest_release 2.1.34 -->
+## [v2.1.34](https://github.com/chef/inspec/tree/v2.1.34) (2018-04-11)
 
-#### New Features
-- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
 ### Changes since 2.1.30 release
+
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
 
 #### New Features
 - AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
