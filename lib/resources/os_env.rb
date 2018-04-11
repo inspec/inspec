@@ -25,7 +25,7 @@ module Inspec::Resources
     def initialize(env = nil, target = nil)
       @osenv = env
       @target = unless target.nil?
-                  if target.downcase == 'system'
+                  if target.casecmp('system') == 0
                     'Machine'
                   else
                     'User'
