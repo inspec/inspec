@@ -44,8 +44,8 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { has_mfa_enabled }
     assert(1, users.entries.count)
-    assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
-    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+    assert_includes users.usernames, 'carol'
+    refute_includes users.usernames, 'alice'
   end
 
   #------------------------------------------#
@@ -55,8 +55,8 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { has_console_password }
     assert(2, users.entries.count)
-    assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
-    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+    assert_includes users.usernames, 'carol'
+    refute_includes users.usernames, 'alice'
   end
 
   #------------------------------------------#
@@ -66,8 +66,8 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { password_ever_used? }
     assert(2, users.entries.count)
-    assert_includes users.entries.map{ |u| u[:user_name] }, 'carol'
-    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+    assert_includes users.usernames, 'carol'
+    refute_includes users.usernames, 'alice'
   end
 
   #------------------------------------------#
@@ -77,8 +77,8 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where { password_never_used? }
     assert(1, users.entries.count)
-    assert_includes users.entries.map{ |u| u[:user_name] }, 'alice'
-    refute_includes users.entries.map{ |u| u[:user_name] }, 'carol'
+    assert_includes users.usernames, 'alice'
+    refute_includes users.usernames, 'carol'
   end
 
   #------------------------------------------#
@@ -87,10 +87,33 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   def test_users_criteria_has_password_last_used_days_ago_10
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where(password_last_used_days_ago: 10)
-    puts users
     assert(1, users.entries.count)
-    assert_includes users.entries.map{ |u| u[:user_name] }, 'bob'
-    refute_includes users.entries.map{ |u| u[:user_name] }, 'alice'
+    assert_includes users.usernames, 'bob'
+    refute_includes users.usernames, 'alice'
+  end
+
+  #------------------------------------------#
+  #        has_inline_policies
+  #------------------------------------------#
+  def test_users_have_inline_policies
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
+    users = AwsIamUsers.new.where(has_inline_policies: true)
+    assert(2, users.entries.count)
+    assert_includes users.usernames, 'bob'
+    assert_includes users.usernames, 'carol'
+    refute_includes users.usernames, 'alice'
+  end
+
+  #------------------------------------------#
+  #        has_attached_policies
+  #------------------------------------------#
+  def test_users_have_attached_policies
+    AwsIamUsers::BackendFactory.select(Maiusb::Basic)
+    users = AwsIamUsers.new.where(has_attached_policies: true)
+    assert(2, users.entries.count)
+    assert_includes users.usernames, 'bob'
+    assert_includes users.usernames, 'carol'
+    refute_includes users.usernames, 'alice'
   end
 end
 
@@ -180,5 +203,48 @@ module Maiusb
         })
       end
     end
+  end
+  def list_user_policies(query)
+    people = {
+      'alice' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+        policy_names: []
+      ),
+      'bob' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+        policy_names: ['bob-inline-01', 'bob-inline-02'],
+      ), 
+      'carol' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+        policy_names: ['carol-inline-01'],
+      )
+    }
+    people[query[:user_name]]
+  end
+
+  def list_attached_user_policies(query)
+    people = {
+      'alice' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+        attached_policies: [],
+      ),
+      'bob' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+        attached_policies: [
+          {
+            policy_arn: 'arn:aws:iam::aws:policy/AdministratorAccess',
+            policy_name: 'AdministratorAccess',
+          },
+        ]
+      ),
+      'carol' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+        attached_policies: [
+          {
+            policy_arn: 'arn:aws:iam::aws:policy/ReadOnlyAccess',
+            policy_name: 'ReadOnlyAccess',
+          },
+          {
+            policy_arn: 'arn:aws:iam::123456789012:policy/some-policy',
+            policy_name: 'some-policy',
+          },
+        ]
+      ),
+    }
+    people[query[:user_name]]
   end
 end
