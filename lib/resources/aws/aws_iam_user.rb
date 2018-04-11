@@ -16,11 +16,10 @@ class AwsIamUser < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :access_keys, :has_console_password, :has_mfa_enabled, :username
+  attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
+              :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
-  alias has_inline_user_policies? has_inline_user_policies
-  alias has_attached_user_policies? has_attached_user_policies
 
   def name
     warn "[DEPRECATION] - Property ':name' is deprecated on the aws_iam_user resource.  Use ':username' instead."
@@ -29,6 +28,16 @@ class AwsIamUser < Inspec.resource(1)
 
   def to_s
     "IAM User #{username}"
+  end
+
+  def has_attached_policies?
+    return nil unless exists?
+    !attached_policy_names.empty?
+  end
+
+  def has_inline_policies?
+    return nil unless exists?
+    !inline_policy_names.empty?
   end
 
   private
@@ -66,6 +75,10 @@ class AwsIamUser < Inspec.resource(1)
         @aws_user_struct = backend.get_user(user_name: username)
       rescue Aws::IAM::Errors::NoSuchEntity
         @exists = false
+        @access_keys = []
+        @inline_policy_names = []
+        @attached_policy_arns = []
+        @attached_policy_names = []
         return
       end
     end
@@ -89,13 +102,11 @@ class AwsIamUser < Inspec.resource(1)
     # If the above call fails, we get nil here; but we promise access_keys will be an array.
     @access_keys ||= []
 
-    @inline_policies = backend.list_user_policies(user_name: username).policy_names
-    @inline_policies ||= []
-    @has_inline_user_policies = !@inline_policies.empty?
+    @inline_policy_names = backend.list_user_policies(user_name: username).policy_names
 
-    @attached_policies = backend.list_attached_user_policies(user_name: username).attached_policies
-    @attached_policies ||= []
-    @has_attached_user_policies = !@attached_policies.empty? 
+    attached_policies = backend.list_attached_user_policies(user_name: username).attached_policies
+    @attached_policy_arns = attached_policies.map { |p| p[:policy_arn] }
+    @attached_policy_names = attached_policies.map { |p| p[:policy_name] }
   end
 
   class Backend
@@ -122,7 +133,7 @@ class AwsIamUser < Inspec.resource(1)
       def list_user_policies(criteria)
         aws_service_client.list_user_policies(criteria)
       end
-      
+
       def list_attached_user_policies(criteria)
         aws_service_client.list_attached_user_policies(criteria)
       end
