@@ -18,6 +18,22 @@ control "aws_iam_root_user has_mfa_enabled property" do
   end
 end
 
+#---------- Property - has_virtual_mfa_enabled ----------#
+# Positive test in 'default' test set
+control "aws_iam_root_user has_virtual_mfa_enabled property" do
+  describe aws_iam_root_user do
+    it { should_not have_virtual_mfa_enabled }
+  end
+end
+
+#---------- Property - has_hardware_mfa_enabled ----------#
+# Positive test in 'default' test set
+control "aws_iam_root_user has_hardware_mfa_enabled property" do
+  describe aws_iam_root_user do
+    it { should_not have_hardware_mfa_enabled }
+  end
+end
+
 #------------- Property - has_access_key -------------#
 # Negative test in 'default' test set
 control "aws_iam_root_user has_access_key property" do

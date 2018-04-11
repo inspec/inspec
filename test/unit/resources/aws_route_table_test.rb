@@ -22,6 +22,16 @@ class BasicAwsRouteTableTest2 < Minitest::Test
   def test_search_hit
     assert AwsRouteTable.new('rtb-2c60ec44').exists?
     assert AwsRouteTable.new('rtb-58508630').exists?
+
+    # not hexadecimal
+    assert_raises(ArgumentError) do
+      AwsRouteTable.new('rtb-xyzxyzxy')
+    end
+
+    # not within length constraint
+    assert_raises(ArgumentError) do
+      AwsRouteTable.new('rtb-abcdef012')
+    end
   end
 end
 

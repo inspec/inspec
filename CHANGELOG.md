@@ -1,27 +1,64 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.14 -->
-## [v2.1.14](https://github.com/chef/inspec/tree/v2.1.14) (2018-03-26)
+<!-- latest_release 2.1.34 -->
+## [v2.1.34](https://github.com/chef/inspec/tree/v2.1.34) (2018-04-11)
 
-#### Enhancements
-- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry))
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski))
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.10 -->
-### Changes since 2.1.10 release
+<!-- release_rollup since=2.1.30 -->
+### Changes since 2.1.30 release
 
-#### Enhancements
-- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.14 -->
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
 
-#### Bug Fixes
-- Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots)) <!-- 2.1.13 -->
-
-#### New Resources
-- New Skeletal Resource aws_config_delivery_channel [#2641](https://github.com/chef/inspec/pull/2641) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.12 -->
-- New Skeletal Resource aws_kms_key [#2746](https://github.com/chef/inspec/pull/2746) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.11 -->
+#### New Features
+- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
+- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.32 -->
+- aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.31 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
+
+#### New Resources
+- New Resource: Chocolatey Package [#2793](https://github.com/chef/inspec/pull/2793) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- New Skeletal Resource aws_s3_buckets [#2653](https://github.com/chef/inspec/pull/2653) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_route_tables [#2643](https://github.com/chef/inspec/pull/2643) ([dromazmj](https://github.com/dromazmj))
+
+#### Enhancements
+- Add AWS hardware MFA matcher [#2892](https://github.com/chef/inspec/pull/2892) ([pwelch](https://github.com/pwelch))
+- add systemd service for amazon linux 2 [#2901](https://github.com/chef/inspec/pull/2901) ([zakhark](https://github.com/zakhark))
+
+#### Merged Pull Requests
+- Wrong matcher name in example for aws_config_recorder [#2899](https://github.com/chef/inspec/pull/2899) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
+- Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
+## [v2.1.21](https://github.com/chef/inspec/tree/v2.1.21) (2018-03-29)
+
+#### New Resources
+- New Skeletal Resource aws_kms_key [#2746](https://github.com/chef/inspec/pull/2746) ([dromazmj](https://github.com/dromazmj))
+- New Skeletal Resource aws_config_delivery_channel [#2641](https://github.com/chef/inspec/pull/2641) ([dromazmj](https://github.com/dromazmj))
+- new resource: aws rds instance (singular) [#2866](https://github.com/chef/inspec/pull/2866) ([HackerShark](https://github.com/HackerShark))
+
+#### Enhancements
+- registry_key resource was returning an incorrect value [#2871](https://github.com/chef/inspec/pull/2871) ([omar-irizarry](https://github.com/omar-irizarry))
+- powershell resource: Add support other OSs [#2894](https://github.com/chef/inspec/pull/2894) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Bug Fixes
+- Pin concurrent-ruby to version 1.0 to fix kitchen-ansible example [#2879](https://github.com/chef/inspec/pull/2879) ([visibilityspots](https://github.com/visibilityspots))
+- Change route_table_id Regular Expression for correctness [#2885](https://github.com/chef/inspec/pull/2885) ([TrevorBramble](https://github.com/TrevorBramble))
+- Pw/pip windows bug [#2883](https://github.com/chef/inspec/pull/2883) ([pwelch](https://github.com/pwelch))
+
+#### Merged Pull Requests
+- Mitigate trivial warning output on test [#2872](https://github.com/chef/inspec/pull/2872) ([eramoto](https://github.com/eramoto))
+- Add `pry-byebug` to our Gemfile.  [#2889](https://github.com/chef/inspec/pull/2889) ([miah](https://github.com/miah))
+- Pin to Train 1.3.0. [#2898](https://github.com/chef/inspec/pull/2898) ([jquick](https://github.com/jquick))
+
 ## [v2.1.10](https://github.com/chef/inspec/tree/v2.1.10) (2018-03-22)
 
 #### New Resources
@@ -41,7 +78,6 @@
 
 #### Merged Pull Requests
 - Remove obsolete mock [#2869](https://github.com/chef/inspec/pull/2869) ([TrevorBramble](https://github.com/TrevorBramble))
-<!-- latest_stable_release -->
 
 ## [v2.1.0](https://github.com/chef/inspec/tree/v2.1.0) (2018-03-15)
 

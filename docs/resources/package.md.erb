@@ -64,11 +64,11 @@ The following examples show how to use this InSpec audit resource.
       it { should_not be_running }
     end
 
-### Verify if some_package is installed according to my_rpmdb
+### Verify if a package is installed according to my rpm database
 
-   describe package('some_package', rpm_dbpath: '/var/lib/my_rpmdb') do
-     it { should be_installed }
-   end
+    describe package('some_package', rpm_dbpath: '/var/lib/my_rpmdb') do
+      it { should be_installed }
+    end
 
 ### Verify if Memcached is installed, enabled, and running
 

@@ -3,6 +3,7 @@ module Inspec::Reporters
     attr_reader :run_data
 
     def initialize(config)
+      @config = config
       @run_data = config[:run_data]
       @output = ''
     end

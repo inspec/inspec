@@ -53,6 +53,21 @@ class AwsIamGroupRecallTest < Minitest::Test
 end
 
 #=============================================================================#
+#                               Properties
+#=============================================================================#
+class AwsIamGroupRecallTest < Minitest::Test
+
+  def setup
+    AwsIamGroup::BackendFactory.select(MAIGSB::Basic)
+  end
+
+  def test_property_users
+    assert_equal(['user1', 'user2'], AwsIamGroup.new('Administrator').users)
+    assert_nil(AwsIamGroup.new('nonexistent').users)
+  end
+end
+
+#=============================================================================#
 #                               Test Fixtures
 #=============================================================================#
 module MAIGSB
@@ -70,7 +85,15 @@ module MAIGSB
           group_name: 'Administrator',
           group_id: 'AGPAQWERQWERQWERQWERQ',
           arn: 'arn:aws:iam::111111111111:group/Administrator',
-          create_date: DateTime.parse('2017-12-14 05:29:57 UTC')
+          create_date: DateTime.parse('2017-12-14 05:29:57 UTC'),
+          users: [
+            OpenStruct.new({
+              user_name: 'user1',
+            }),
+            OpenStruct.new({
+              user_name: 'user2',
+            }),
+          ]
         }),
         OpenStruct.new({
           path: '/',
@@ -89,7 +112,7 @@ module MAIGSB
         raise Aws::IAM::Errors::NoSuchEntity.new(nil,nil)
       end
 
-      OpenStruct.new({ group: selected[0] })
+      OpenStruct.new({ group: selected[0], users: selected[0].users })
     end
   end
 

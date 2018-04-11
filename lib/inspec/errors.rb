@@ -10,4 +10,5 @@ module Inspec
   class UnsatisfiedVersionSpecification < Error; end
   class DuplicateDep < Error; end
   class FetcherFailure < Error; end
+  class ReporterError < Error; end
 end

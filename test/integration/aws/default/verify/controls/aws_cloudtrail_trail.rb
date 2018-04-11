@@ -38,6 +38,7 @@ control "aws_cloudtrail_trail properties" do
     its('cloud_watch_logs_role_arn') { should eq fixtures['cloudtrail_trail_1_cloud_watch_logs_role_arn'] }
     its('cloud_watch_logs_log_group_arn') { should eq fixtures['cloudtrail_trail_1_cloud_watch_logs_group_arn']}
     its('kms_key_id') { should eq fixtures['cloudtrail_trail_1_key_arn'] }
+    its('delivered_logs_days_ago') { should eq 0 }
   end
   describe aws_cloudtrail_trail(fixtures['cloudtrail_trail_2_name']) do
     its('s3_bucket_name') { should eq fixtures['cloudtrail_trail_2_s3_bucket_name'] }

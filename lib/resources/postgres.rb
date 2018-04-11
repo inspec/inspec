@@ -5,6 +5,7 @@ module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name 'postgres'
     supports platform: 'unix'
+    desc 'The \'postgres\' resource is a helper for the \'postgres_conf\', \'postgres_hba_conf\', \'postgres_ident_conf\' & \'postgres_session\' resources.  Please use those instead.'
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
     def initialize

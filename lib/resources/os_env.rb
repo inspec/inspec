@@ -22,8 +22,7 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :content
-    def initialize(env = nil, target = nil)
+    def initialize(env = nil)
       @osenv = env
       @target = unless target.nil?
                   if target.downcase == 'system'

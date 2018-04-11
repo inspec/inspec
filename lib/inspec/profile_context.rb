@@ -38,6 +38,7 @@ module Inspec
       # in the transitive dependency tree of the loaded profile.
       @resource_registry = Inspec::Resource.new_registry
       @library_eval_context = Inspec::LibraryEvalContext.create(@resource_registry, @require_loader)
+      @current_load = nil
     end
 
     def dependencies

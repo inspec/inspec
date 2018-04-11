@@ -108,6 +108,15 @@ Specifies the region in which the trail was created.
     describe aws_cloudtrail_trail('trail-name') do
       its('home_region') { should include "us-east-1" }
     end
+    
+### delivered\_logs\_days\_ago
+
+Specifies the number of days ago the CloudTrail delivered logs to CloudWatch Logs.
+    
+    # Ensure the latest delivery time was recent
+    describe aws_cloudtrail_trail('trail-name') do
+      its('delivered_logs_days_ago') { should eq 0 }
+    end
 
 <br>
 

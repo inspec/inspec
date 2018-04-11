@@ -15,10 +15,10 @@ To test properties of a specific AWS user use the `aws_iam_user` resource.
 
 ## Syntax
 
-An `aws_iam_root_user` resource block requires no parameters but has several matchers
+An `aws_iam_root_user` resource block requires no parameters but has several matchers.
 
     describe aws_iam_root_user do
-      its { should have_mfa_enabled }
+      it { should have_mfa_enabled }
     end
 
 <br>
@@ -50,6 +50,18 @@ This InSpec audit resource has the following special matchers. For a full list o
 The `have_mfa_enabled` matcher tests if the AWS root user has Multi-Factor Authentication enabled, requiring them to enter a secondary code when they login to the web console.
 
     it { should have_mfa_enabled }
+
+### have\_hardware\_mfa\_enabled
+
+The `have_hardware_mfa_enabled` matcher tests if the AWS root user has Hardware Multi-Factor Authentication device enabled, requiring them to enter a secondary code when they login to the web console.
+
+    it { should have_hardware_mfa_enabled }
+
+### have\_virtual\_mfa\_enabled
+
+The `have_virtual_mfa_enabled` matcher tests if the AWS root user has Virtual Multi-Factor Authentication device enabled, requiring them to enter a secondary code when they login to the web console.
+
+    it { should have_virtual_mfa_enabled }
 
 ### have\_access\_key
 
