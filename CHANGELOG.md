@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.35 -->
-## [v2.1.35](https://github.com/chef/inspec/tree/v2.1.35) (2018-04-11)
+<!-- latest_release 2.1.36 -->
+## [v2.1.36](https://github.com/chef/inspec/tree/v2.1.36) (2018-04-11)
 
-#### Enhancements
-- Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble))
+#### Merged Pull Requests
+- Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
@@ -14,6 +14,7 @@
 - Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.35 -->
 
 #### Merged Pull Requests
+- Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown)) <!-- 2.1.36 -->
 - Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
 
 #### New Features
