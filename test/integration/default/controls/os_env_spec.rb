@@ -8,7 +8,7 @@ describe os_env('TEMP') do
 end
 
 descibe os_env('TEMP', 'system') do
-  its('content') { should eq 'C:\SYSTEMUSER' }
+  its('content') { should eq 'C:\TEMPSYSTEM' }
 end
 
 describe os_env('TEMP', 'user') do

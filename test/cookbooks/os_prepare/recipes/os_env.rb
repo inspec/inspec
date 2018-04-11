@@ -7,9 +7,9 @@ if node['platform_family'] == 'windows'
     code <<-EOH
     [System.Environment]::SetEnvironmentVariable('TEMP', 'C:\\TEMPUSER', [System.environmentVariableTarget]::User)
     EOH
-  end   
-end
+  end
 
-env 'TEMP' do
-  value 'C:\SYSTEMUSER'
+  env 'TEMP' do
+    value 'C:\TEMPSYSTEM'
+  end
 end
