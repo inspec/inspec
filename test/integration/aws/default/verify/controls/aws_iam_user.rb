@@ -87,7 +87,7 @@ control "aws_iam_user properties" do
       its('inline_policy_names.count') { should eq inline_count }
 
       # Check for expected inline name(s)
-      for 1..inline_count do |idx|
+      (1..inline_count).each do |idx|
         its('inline_policy_names') { should include "test_#{combo_as_string}_#{idx}"}
       end
 
@@ -102,7 +102,7 @@ control "aws_iam_user properties" do
       its('attached_policy_names.count') { should eq attached_count }
 
       # Check for expected attached name(s) and arn(s)
-      for 1..attached_count do |idx|
+      (1..attached_count).each do |idx|
         its('attached_policy_arns') { should include fixtures["iam_policy_user_attached_#{combo_as_string}_#{idx}_arn"] }
         its('attached_policy_names') { should include fixtures["iam_policy_user_attached_#{combo_as_string}_#{idx}_name"] }
       end
