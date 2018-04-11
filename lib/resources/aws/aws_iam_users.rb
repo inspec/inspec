@@ -92,9 +92,11 @@ class AwsIamUsers < Inspec.resource(1)
 
       user[:inline_policy_names_source] = backend.list_user_policies(user_name: user[:user_name]).policy_names
       user[:has_inline_policies] = !user[:inline_policy_names_source].empty?
+      user[:has_inline_policies?] = user[:has_inline_policies]
 
       attached_policies = backend.list_attached_user_policies(user_name: user[:user_name]).attached_policies
       user[:has_attached_policies] = !attached_policies.empty?
+      user[:has_attached_policies?] = user[:has_attached_policies]
       user[:attached_policy_names_source] = attached_policies.map { |p| p[:policy_name] }
       user[:attached_policy_arns_source] = attached_policies.map { |p| p[:policy_arn] }
 

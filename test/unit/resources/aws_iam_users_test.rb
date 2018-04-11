@@ -97,7 +97,7 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   #------------------------------------------#
   def test_users_have_inline_policies
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
-    users = AwsIamUsers.new.where(has_inline_policies: true)
+    users = AwsIamUsers.new.where(has_inline_policies?: true)
     assert_equal(2, users.entries.count)
     assert_includes users.usernames, 'bob'
     assert_includes users.usernames, 'carol'
