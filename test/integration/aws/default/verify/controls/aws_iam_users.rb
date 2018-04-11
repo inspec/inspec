@@ -27,26 +27,29 @@ control "aws_iam_users filtering" do
     it { should exist }
   end
 
-  describe aws_iam_users.where(has_inline_policies?: true) do
+  describe aws_iam_users.where { user_name =~ /user_for_policies/ }
+                        .where(has_inline_policies: true) do
     its('entries.count') { should eq 3 }
-    its('usernames') { should include fixture['iam_user_for_policies_1i_0a_name'] }
-    its('usernames') { should include fixture['iam_user_for_policies_1i_1a_name'] }
-    its('usernames') { should_not include fixture['iam_user_for_policies_0i_2a_name'] }
+    its('usernames') { should include fixtures['iam_user_for_policies_1i_0a_name'] }
+    its('usernames') { should include fixtures['iam_user_for_policies_1i_1a_name'] }
+    its('usernames') { should_not include fixtures['iam_user_for_policies_0i_2a_name'] }
 
     its('inline_policy_names.count') { should eq 4 }
     its('inline_policy_names') { should include 'test_1i_0a_1' }
     its('attached_policy_names.count') { should eq 1 }
   end
 
-  describe aws_iam_users.where(has_attached_policies?: true) do
+  describe aws_iam_users.where { user_name =~ /user_for_policies/ }
+                        .where(has_attached_policies: true) do
+    # We have 2 users from our fixtures
     its('entries.count') { should eq 2 }
-    its('usernames') { should include fixture['iam_user_for_policies_0i_2a_name'] }
-    its('usernames') { should include fixture['iam_user_for_policies_1i_1a_name'] }
-    its('usernames') { should_not include fixture['iam_user_for_policies_1i_0a_name'] }
+    its('usernames') { should include fixtures['iam_user_for_policies_0i_2a_name'] }
+    its('usernames') { should include fixtures['iam_user_for_policies_1i_1a_name'] }
+    its('usernames') { should_not include fixtures['iam_user_for_policies_1i_0a_name'] }
 
     its('attached_policy_names.count') { should eq 3 }
-    its('attached_policy_names') { should include 'iam_policy_user_attached_1i_1a_1_name' }
+    its('attached_policy_names') { should include fixtures['iam_policy_user_attached_1i_1a_1_name'] }
     its('attached_policy_arns.count') { should eq 3 }    
-    its('attached_policy_arns') { should include 'iam_policy_user_attached_1i_1a_1_arn' }
+    its('attached_policy_arns') { should include fixtures['iam_policy_user_attached_1i_1a_1_arn'] }
   end
 end

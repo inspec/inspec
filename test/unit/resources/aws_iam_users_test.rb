@@ -98,10 +98,18 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   def test_users_have_inline_policies
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where(has_inline_policies: true)
-    assert(2, users.entries.count)
+    assert_equal(2, users.entries.count)
     assert_includes users.usernames, 'bob'
     assert_includes users.usernames, 'carol'
     refute_includes users.usernames, 'alice'
+
+    users.inline_policy_names.each do |name|
+      assert_kind_of(String, name)
+    end
+    assert_includes users.inline_policy_names, 'bob-inline-01'
+    assert_includes users.inline_policy_names, 'bob-inline-02'
+    assert_includes users.inline_policy_names, 'carol-inline-01'
+    assert_equal(3, users.inline_policy_names.count)
   end
 
   #------------------------------------------#
@@ -110,10 +118,23 @@ class AwsIamUsersTestFilterCriteria < Minitest::Test
   def test_users_have_attached_policies
     AwsIamUsers::BackendFactory.select(Maiusb::Basic)
     users = AwsIamUsers.new.where(has_attached_policies: true)
-    assert(2, users.entries.count)
+    assert_equal(2, users.entries.count)
     assert_includes users.usernames, 'bob'
     assert_includes users.usernames, 'carol'
     refute_includes users.usernames, 'alice'
+
+    users.attached_policy_names.each do |name|
+      assert_kind_of(String, name)
+    end
+    assert_includes users.attached_policy_names, 'AdministratorAccess'
+    assert_includes users.attached_policy_names, 'ReadOnlyAccess'
+    assert_equal(2, users.attached_policy_names.count)
+
+    users.attached_policy_arns.each do |arn|
+      assert_kind_of(String, arn)
+    end
+    assert_includes users.attached_policy_arns, 'arn:aws:iam::aws:policy/ReadOnlyAccess'
+    assert_equal(3, users.attached_policy_arns.count)
   end
 end
 
@@ -203,48 +224,48 @@ module Maiusb
         })
       end
     end
-  end
-  def list_user_policies(query)
-    people = {
-      'alice' => Aws::IAM::Types::ListUserPoliciesResponse.new(
-        policy_names: []
-      ),
-      'bob' => Aws::IAM::Types::ListUserPoliciesResponse.new(
-        policy_names: ['bob-inline-01', 'bob-inline-02'],
-      ), 
-      'carol' => Aws::IAM::Types::ListUserPoliciesResponse.new(
-        policy_names: ['carol-inline-01'],
-      )
-    }
-    people[query[:user_name]]
-  end
+    def list_user_policies(query)
+      people = {
+        'alice' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: []
+        ),
+        'bob' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ['bob-inline-01', 'bob-inline-02'],
+        ), 
+        'carol' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ['carol-inline-01'],
+        )
+      }
+      people[query[:user_name]]
+    end
 
-  def list_attached_user_policies(query)
-    people = {
-      'alice' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
-        attached_policies: [],
-      ),
-      'bob' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
-        attached_policies: [
-          {
-            policy_arn: 'arn:aws:iam::aws:policy/AdministratorAccess',
-            policy_name: 'AdministratorAccess',
-          },
-        ]
-      ),
-      'carol' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
-        attached_policies: [
-          {
-            policy_arn: 'arn:aws:iam::aws:policy/ReadOnlyAccess',
-            policy_name: 'ReadOnlyAccess',
-          },
-          {
-            policy_arn: 'arn:aws:iam::123456789012:policy/some-policy',
-            policy_name: 'some-policy',
-          },
-        ]
-      ),
-    }
-    people[query[:user_name]]
+    def list_attached_user_policies(query)
+      people = {
+        'alice' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [],
+        ),
+        'bob' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [
+            {
+              policy_arn: 'arn:aws:iam::aws:policy/AdministratorAccess',
+              policy_name: 'AdministratorAccess',
+            },
+          ]
+        ),
+        'carol' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [
+            {
+              policy_arn: 'arn:aws:iam::aws:policy/ReadOnlyAccess',
+              policy_name: 'ReadOnlyAccess',
+            },
+            {
+              policy_arn: 'arn:aws:iam::123456789012:policy/some-policy',
+              policy_name: 'AdministratorAccess',
+            },
+          ]
+        ),
+      }
+      people[query[:user_name]]
+    end
   end
 end

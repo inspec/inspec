@@ -34,7 +34,16 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:password_ever_used?, field: :password_ever_used?)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
-        .add(:username, field: :user_name)
+        .add(:usernames, field: :user_name)
+        .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
+  # Next three are needed to declare fields for use by the de-duped set
+  filter.add(:dupe_inline_policy_names, field: :inline_policy_names_source)
+        .add(:dupe_attached_policy_names, field: :attached_policy_names_source)
+        .add(:dupe_attached_policy_arns, field: :attached_policy_arns_source)
+  # These three are now able to access the above three in .entries
+  filter.add(:inline_policy_names) { |obj| obj.dupe_inline_policy_names.flatten.uniq }
+        .add(:attached_policy_names) { |obj| obj.dupe_attached_policy_names.flatten.uniq }
+        .add(:attached_policy_arns) { |obj| obj.dupe_attached_policy_arns.flatten.uniq }
   filter.connect(self, :table)
 
   def validate_params(raw_params)
@@ -57,12 +66,14 @@ class AwsIamUsers < Inspec.resource(1)
     table
   end
 
-  def fetch_from_api
+  def fetch_from_api # rubocop: disable Metrics/AbcSize
     backend = BackendFactory.create(inspec_runner)
     @table = fetch_from_api_paginated(backend)
 
     # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
     @table.each do |user|
+      # Some of these throw exceptions to indicate empty results;
+      # others return empty arrays
       begin
         _login_profile = backend.get_login_profile(user_name: user[:user_name])
         user[:has_console_password] = true
@@ -79,21 +90,13 @@ class AwsIamUsers < Inspec.resource(1)
       end
       user[:has_mfa_enabled?] = user[:has_mfa_enabled]
 
-      begin
-        aws_inline_policies = backend.list_user_policies(user_name: user[:user_name])
-        user[:has_inline_policies] = !aws_inline_policies.policy_names.empty?
-      rescue => e
-        user[:has_inline_policies] = false
-      end
-      user[:has_inline_policies?] = user[:has_inline_policies]
+      user[:inline_policy_names_source] = backend.list_user_policies(user_name: user[:user_name]).policy_names
+      user[:has_inline_policies] = !user[:inline_policy_names_source].empty?
 
-      begin
-        aws_attached_policies = backend.list_attached_user_policies(user_name: user[:user_name])
-        user[:has_attached_policies] = !aws_attached_policies.attached_policies.empty?
-      rescue
-        user[:has_attached_policies] = false
-      end
-      user[:has_attached_policies?] = user[:has_attached_policies]
+      attached_policies = backend.list_attached_user_policies(user_name: user[:user_name]).attached_policies
+      user[:has_attached_policies] = !attached_policies.empty?
+      user[:attached_policy_names_source] = attached_policies.map { |p| p[:policy_name] }
+      user[:attached_policy_arns_source] = attached_policies.map { |p| p[:policy_arn] }
 
       password_last_used = user[:password_last_used]
       user[:password_ever_used?] = !password_last_used.nil?
