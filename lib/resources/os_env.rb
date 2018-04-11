@@ -23,8 +23,15 @@ module Inspec::Resources
     "
 
     attr_reader :content
-    def initialize(env = nil)
+    def initialize(env = nil, target = nil)
       @osenv = env
+      @target = unless target.nil?
+                  if target.downcase == 'system'
+                    'Machine'
+                  else
+                    'User'
+                  end
+                end
     end
 
     def split
@@ -38,7 +45,7 @@ module Inspec::Resources
 
     def content
       return @content if defined?(@content)
-      @content = value_for(@osenv) unless @osenv.nil?
+      @content = value_for(@osenv, @target) unless @osenv.nil?
     end
 
     def to_s
@@ -51,9 +58,13 @@ module Inspec::Resources
 
     private
 
-    def value_for(env)
+    def value_for(env, target = nil)
       command = if inspec.os.windows?
-                  "${Env:#{env}}"
+                  if target.nil?
+                    "${Env:#{env}}"
+                  else
+                    "[System.Environment]::GetEnvironmentVariable('#{env}', [System.EnvironmentVariableTarget]::#{target})"
+                  end
                 else
                   'env'
                 end
