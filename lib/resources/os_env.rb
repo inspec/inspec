@@ -22,7 +22,7 @@ module Inspec::Resources
       end
     "
 
-    def initialize(env = nil)
+    def initialize(env = nil, target = nil)
       @osenv = env
       @target = unless target.nil?
                   if target.downcase == 'system'
