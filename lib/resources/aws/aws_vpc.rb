@@ -15,11 +15,8 @@ class AwsVpc < Inspec.resource(1)
     "VPC #{vpc_id}"
   end
 
-  [:cidr_block, :dhcp_options_id, :state, :vpc_id, :instance_tenancy, :is_default].each do |property|
-    define_method(property) do
-      @vpc[property]
-    end
-  end
+  attr_reader :cidr_block, :dhcp_options_id, :instance_tenancy, :is_default,\
+              :state, :vpc_id
 
   alias default? is_default
 
@@ -51,9 +48,16 @@ class AwsVpc < Inspec.resource(1)
 
     resp = backend.describe_vpcs({ filters: [filter] })
 
-    @vpc = resp.vpcs[0].to_h
-    @vpc_id = @vpc[:vpc_id]
-    @exists = !@vpc.empty?
+    vpc = resp.vpcs[0].to_h
+    @exists = !vpc.empty?
+    return unless @exists
+
+    @cidr_block = vpc[:cidr_block]
+    @dhcp_options_id = vpc[:dhcp_options_id]
+    @instance_tenancy = vpc[:instance_tenancy]
+    @is_default = vpc[:is_default]
+    @state = vpc[:state]
+    @vpc_id = vpc[:vpc_id]
   end
 
   class Backend

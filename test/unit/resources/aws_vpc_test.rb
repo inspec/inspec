@@ -71,7 +71,8 @@ class AwsVpcPropertiesTest < Minitest::Test
 
   def test_property_vpc_id
     assert_equal('vpc-aaaabbbb', AwsVpc.new('vpc-aaaabbbb').vpc_id)
-    assert_nil(AwsVpc.new(vpc_id: 'vpc-00000000').vpc_id)
+    # Even on a miss, identifiers should be preserved
+    assert_equal('vpc-00000000', AwsVpc.new(vpc_id: 'vpc-00000000').vpc_id)
   end
 
   def test_property_cidr_block

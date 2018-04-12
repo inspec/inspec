@@ -10,24 +10,23 @@
 #  alpha   | debian  |    N      |  t2.micro
 #   beta   | centos  |    Y      |  t2.small
 
-
 resource "aws_instance" "alpha" {
   ami           = "${data.aws_ami.debian.id}"
   instance_type = "t2.micro"
 
   tags {
-    Name = "${terraform.env}.alpha"
+    Name      = "${terraform.env}.alpha"
     X-Project = "inspec"
   }
 }
 
 resource "aws_instance" "beta" {
-  ami           = "${data.aws_ami.centos.id}"
-  instance_type = "t2.small"
+  ami                  = "${data.aws_ami.centos.id}"
+  instance_type        = "t2.small"
   iam_instance_profile = "${aws_iam_instance_profile.profile_for_ec2_with_role.name}"
 
   tags {
-    Name = "${terraform.env}.beta"
+    Name      = "${terraform.env}.beta"
     X-Project = "inspec"
   }
 }
@@ -76,7 +75,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "profile_for_ec2_with_role" {
-  name  = "${terraform.env}.profile_for_ec2_with_role"
+  name = "${terraform.env}.profile_for_ec2_with_role"
   role = "${aws_iam_role.role_for_ec2_with_role.name}"
 }
 
@@ -88,6 +87,7 @@ output "ec2_instance_has_role_id" {
 output "ec2_instance_type_t2_micro_id" {
   value = "${aws_instance.alpha.id}"
 }
+
 output "ec2_instance_type_t2_small_id" {
   value = "${aws_instance.beta.id}"
 }
@@ -96,8 +96,8 @@ output "ec2_instance_type_t2_small_id" {
 
 # Debian
 data "aws_ami" "debian" {
-  most_recent       = true
-  owners            = ["679593333241"]
+  most_recent = true
+  owners      = ["679593333241"]
 
   filter {
     name   = "name"
@@ -110,21 +110,23 @@ data "aws_ami" "debian" {
   }
 
   filter {
-    name  = "root-device-type"
+    name   = "root-device-type"
     values = ["ebs"]
   }
 }
+
 output "ec2_ami_id_debian" {
   value = "${data.aws_ami.debian.id}"
 }
+
 output "ec2_instance_debian_id" {
   value = "${aws_instance.alpha.id}"
 }
 
 # Centos
 data "aws_ami" "centos" {
-  most_recent       = true
-  owners            = ["679593333241"]
+  most_recent = true
+  owners      = ["679593333241"]
 
   filter {
     name   = "name"
@@ -137,13 +139,15 @@ data "aws_ami" "centos" {
   }
 
   filter {
-    name  = "root-device-type"
+    name   = "root-device-type"
     values = ["ebs"]
   }
 }
+
 output "ec2_ami_id_centos" {
   value = "${data.aws_ami.centos.id}"
 }
+
 output "ec2_instance_centos_id" {
   value = "${aws_instance.beta.id}"
 }
@@ -159,7 +163,7 @@ data "aws_vpc" "default" {
 
 data "aws_security_group" "default" {
   vpc_id = "${data.aws_vpc.default.id}"
-  name = "default"
+  name   = "default"
 }
 
 output "ec2_security_group_default_vpc_id" {
@@ -174,6 +178,18 @@ resource "aws_vpc" "non_default" {
   cidr_block = "172.32.0.0/16"
 }
 
+output "vpc_default_vpc_id" {
+  value = "${data.aws_vpc.default.id}"
+}
+
+output "vpc_default_vpc_cidr_block" {
+  value = "${data.aws_vpc.default.cidr_block}"
+}
+
+output "vpc_default_dhcp_options_id" {
+  value = "${data.aws_vpc.default.dhcp_options_id}"
+}
+
 output "vpc_non_default_id" {
   value = "${aws_vpc.non_default.id}"
 }
@@ -184,6 +200,10 @@ output "vpc_non_default_cidr_block" {
 
 output "vpc_non_default_instance_tenancy" {
   value = "${aws_vpc.non_default.instance_tenancy}"
+}
+
+output "vpc_non_default_dhcp_options_id" {
+  value = "${aws_vpc.non_default.dhcp_options_id}"
 }
 
 # Create a security group with a known description
@@ -207,42 +227,41 @@ output "ec2_security_group_alpha_group_name" {
 
 # Populate SG Alpha with some rules
 resource "aws_security_group_rule" "alpha_http_world" {
-  type = "ingress"
-  from_port = "80"
-  to_port = "80"
-  protocol = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]  
+  type              = "ingress"
+  from_port         = "80"
+  to_port           = "80"
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
 
 resource "aws_security_group_rule" "alpha_ssh_in" {
-  type = "ingress"
-  from_port = "22"
-  to_port = "22"
-  protocol = "tcp"
-  cidr_blocks = ["10.1.2.0/24"]
+  type              = "ingress"
+  from_port         = "22"
+  to_port           = "22"
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.2.0/24"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
 
 resource "aws_security_group_rule" "alpha_x11" {
-  description = "Only allow X11 out for some reason"  
-  type = "egress"
-  from_port = "6000"
-  to_port = "6007"
-  protocol = "tcp"
-  cidr_blocks = ["10.1.2.0/24", "10.3.2.0/24"]
+  description       = "Only allow X11 out for some reason"
+  type              = "egress"
+  from_port         = "6000"
+  to_port           = "6007"
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.2.0/24", "10.3.2.0/24"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
 
 resource "aws_security_group_rule" "alpha_all_ports" {
-  type = "ingress"
-  from_port = "0"
-  to_port = "65535"
-  protocol = "tcp"
-  cidr_blocks = ["10.1.2.0/24"]
+  type              = "ingress"
+  from_port         = "0"
+  to_port           = "65535"
+  protocol          = "tcp"
+  cidr_blocks       = ["10.1.2.0/24"]
   security_group_id = "${aws_security_group.alpha.id}"
 }
-
 
 #============================================================#
 #                      VPC Subnets
