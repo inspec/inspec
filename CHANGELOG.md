@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.41 -->
-## [v2.1.41](https://github.com/chef/inspec/tree/v2.1.41) (2018-04-12)
+<!-- latest_release 2.1.42 -->
+## [v2.1.42](https://github.com/chef/inspec/tree/v2.1.42) (2018-04-12)
 
 #### Enhancements
-- Require a key attribute for the key_rsa resource [#2891](https://github.com/chef/inspec/pull/2891) ([omar-irizarry](https://github.com/omar-irizarry))
+- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
 ### Changes since 2.1.30 release
 
 #### Enhancements
+- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.42 -->
 - Require a key attribute for the key_rsa resource [#2891](https://github.com/chef/inspec/pull/2891) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.41 -->
 - Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah)) <!-- 2.1.39 -->
 - Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.35 -->
