@@ -1,0 +1,167 @@
+---
+title: About the azure_virtual_network Resource
+platform: azure
+---
+
+# azure\_virtual_network
+
+Use the `azure_virtual_network` InSpec audit resource to ensure that a Virtual Network (vNet) has been provisioned correctly.
+
+## Syntax
+
+The name of the vNet and the resource group are required as properties to the resource.
+
+    describe azure_virtual_network(group_name: 'MyResourceGroup', name: 'MyNetworkName') do
+      its('property') { should eq 'value' }
+    end
+
+where
+
+* `MyNetworkName` is the name of the virtual network as seen in Azure
+* `MyResourceGroup` is the name of the network's resource group
+* `property` is one of the resource properties
+* `value` is the expected output from the matcher
+
+## Examples
+
+The following examples show to use this InSpec audit resource.
+
+Check that the vNet is of the correct type and that it is in the correct location. 
+Chheck that the vNet has the correct prefix.  Lastly, check that the virtual network has at least 1 subnet attached to it.
+
+    describe azure_virtual_network(group_name: 'InSpec-Azure', name: 'vnet-01') do
+
+         # Check that this named resource is indeed a virtual network
+        its('type') { should cmp 'Microsoft.Network/virtualNetworks' }
+        its('location') { should cmp 'westeurope' }
+
+
+        # Ensure that the address prefix for the VNet is correct
+        # This will return an array so the `include` matcher needs to be used to
+        # see if the specified address prefix is present
+        its('address_prefixes') { should include '10.1.1.0/24' }
+
+        # There should be one subnet
+        its('subnets_count') { should eq 1 }
+
+    end
+
+<br>
+
+## Parameters
+
+* `group_name`, `name`, `apiversion`
+
+## Parameter Examples
+
+The options that can be passed to the resource are as follows.
+
+### group_name (required)
+
+Use this parameter to define the Azure Resource Group to be tested.
+
+    describe azure_virtual_network(group_name: 'InSpec-Azure') do
+        ...
+    end
+
+### name
+
+Use this parameter to define the name of the Azure resource to test.
+
+    describe azure_virtual_network(group_name: 'InSpec-Azure', name: 'vnet-01') do
+        ...
+    end
+
+### apiversion
+
+The API Version to use when querying the resource. Defaults to the latest version for the resource.
+
+    describe azure_virtual_network(group_name: 'InSpec-Azure', name: 'vnet-01', apiversion: '2.0') do
+        ...
+    end
+
+These options can also be set using the environment variables:
+
+* `AZURE_RESOURCE_GROUP_NAME`
+* `AZURE_RESOURCE_NAME`
+* `AZURE_RESOURCE_API_VERSION`
+
+When the options have been set as well as the environment variables, the environment variables take priority.
+
+<br>
+
+## Properties
+
+* `id`,`type`, `location`, `name`, `address_prefixes`, `has_dns_servers`, `dns_servers_count`, `has_subnets`, `subnets_count`, `connected_subnets`
+
+<br>
+
+## Property Examples
+
+This InSpec audit resource has the following properties that can be tested:
+
+### type
+
+The Azure Resource type. For a virtual network this will always return `Microsoft.Network/virtualNetworks`
+
+    its('type') { should cmp 'Microsoft.Network/virtualNetworks' }
+
+### location
+
+Where the vNet is located
+
+    its('location') { should eq 'westus' }
+
+### name
+
+Name of the Virtual Network in Azure.
+
+    its('name') { should cmp 'vnet-001' }
+
+### address_prefixes
+
+The address space or address prefixes of this virtual network.
+
+    # Ensure that the address prefix for the VNet is correct
+    # This will return an array so the `include` matcher needs to be used to
+    # see if the specified address prefix is present
+    its('address_prefixes') { should include '10.1.1.0/24' }
+
+### has_dns_servers
+
+Check if the virtual network has dns servers.
+
+    its('has_dns_servers') { should eq true }
+
+### dns_servers_count
+
+The count of dns server entries for this network.
+
+    its('dns_servers_count') { should eq > 0 }
+
+### has_subnets
+
+Test that returns the true if there are subnets attached to this vNet, false otherwise.
+
+        its('has_subnets') { should eq true }
+
+### subnets_count
+
+Return the total number of subnets attached to this vNet.
+
+    its('subnets_count') { should eq > 0 }
+
+### connected_subnets
+
+Returns an array of subnet names
+
+    its('connected_subnets') { should include 'vnet-001' }
+
+<br>
+
+
+## References
+
+* [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_network)
+* [Virtual Network](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_network.rb)
+
