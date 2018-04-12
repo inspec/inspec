@@ -119,7 +119,9 @@ The 'default_version_id' value of the specified policy.
 
 ### policy
 
-Returns the default version of a policy document as a Ruby hash. This hash contains the enforced policy statements and is useful for performing checks that cannot be expressed using higher-level matchers like `have_statement`.
+This is a low-level, unsupported property.
+
+Returns the default version of the policy document after decoding as a Ruby hash. This hash contains the policy statements and is useful for performing checks that cannot be expressed using higher-level matchers like `have_statement`.
 
 For details regarding the contents of this structure, refer to the [AWS IAM Policy JSON Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).  A set of examples is [also available](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html).
 
@@ -232,6 +234,6 @@ Examples:
       # This policy should refer to both sally and kim's s3 buckets.
       # This will only match if there is a statement that refers to both resources.
       it { should have_statement(Resource: [/arn:aws:s3.+:sally/, /arn:aws:s3.+:kim/]) }
-      # It also matches on a statement mentioning only one of them
+      # The following also matches on a statement mentioning only one of them
       it { should have_statement(Resource: /arn:aws:s3.+:(sally|kim)/) }
     end
