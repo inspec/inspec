@@ -46,6 +46,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
  * Use `summary` to specify a one line summary for the profile.
  * Use `description` to specify a multiple line description of the profile.
  * Use `version` to specify the profile version.
+ * Use `inspec_version` to place SemVer constraints on the version of InSpec that the profile can run under.
  * Use `supports` to specify a list of supported platform targets.
  * Use `depends` to define a list of profiles on which this profile depends.
 
@@ -64,6 +65,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
     depends:
       - name: profile
         path: ../path/to/profile
+    inspec_version: "~> 2.1"
 
 ## Verify Profiles
 
