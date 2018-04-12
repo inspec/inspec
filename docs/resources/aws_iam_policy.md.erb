@@ -125,10 +125,14 @@ For details regarding the contents of this structure, refer to the [AWS IAM Poli
 
 Example: 
 
-    describe aws_iam_policy('my-policy') do
-      # TODO - example?
-      # !!Check this sytax!!
-      its('policy') { should have_action 'codecommit:GitPull' }
+    # Fetch the policy structure as a Ruby object
+    policy_struct = aws_iam_policy('my-policy').policy
+    # Write a manually-constructed test to check that the policy 
+    # has an IP constraint on the first statement
+    # ( Based on https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html )
+    describe 'Check that we are restricting IP access' do
+      subject { policy_struct['Statement'].first['Condition'] }
+      it { should include 'NotIpAddress' }
     end
 
 ### statement\_count
