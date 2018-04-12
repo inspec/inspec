@@ -1,36 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.43 -->
-## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
-
-#### Merged Pull Requests
-- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.30 -->
-### Changes since 2.1.30 release
-
-#### Enhancements
-- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.42 -->
-- Require a key attribute for the key_rsa resource [#2891](https://github.com/chef/inspec/pull/2891) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.41 -->
-- Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah)) <!-- 2.1.39 -->
-- Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.35 -->
-
-#### Merged Pull Requests
-- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.43 -->
-- Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown)) <!-- 2.1.36 -->
-- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
-
-#### New Features
-- Basic fields for aws_vpcs [#2930](https://github.com/chef/inspec/pull/2930) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.40 -->
-- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.38 -->
-- New attribute JUnit reporter - target [#2839](https://github.com/chef/inspec/pull/2839) ([piotrgo](https://github.com/piotrgo)) <!-- 2.1.37 -->
-- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
-- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.32 -->
-- aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.31 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
+
+#### New Features
+- aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj))
+- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj))
+- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- New attribute JUnit reporter - target [#2839](https://github.com/chef/inspec/pull/2839) ([piotrgo](https://github.com/piotrgo))
+- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Basic fields for aws_vpcs [#2930](https://github.com/chef/inspec/pull/2930) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble))
+- Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah))
+- Require a key attribute for the key_rsa resource [#2891](https://github.com/chef/inspec/pull/2891) ([omar-irizarry](https://github.com/omar-irizarry))
+- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski))
+- Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown))
+- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
 
 #### New Resources
@@ -47,7 +45,6 @@
 - Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
 - Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.21](https://github.com/chef/inspec/tree/v2.1.21) (2018-03-29)
 
