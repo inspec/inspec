@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 1.1"
+  version = "= 1.13.0"
 }
 
 data "aws_caller_identity" "creds" {}
@@ -12,10 +12,8 @@ output "aws_account_id" {
   value = "${data.aws_caller_identity.creds.account_id}"
 }
 
-data "aws_region" "region" {
-  current = true
-}
+data "aws_region" "current" {}
 
 output "aws_region" {
-  value = "${data.aws_region.region.name}"
+  value = "${data.aws_region.current.name}"
 }
