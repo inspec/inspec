@@ -201,7 +201,7 @@ namespace :test do
 
     task :run do
       puts '----> Run'
-      sh("bundle exec inspec exec #{integration_dir}/verify -t azure://1e0b427a-d58b-494e-ae4f-ee558463ebbf")
+      sh("bundle exec inspec exec #{integration_dir}/verify -t azure://")
     end
 
     task :cleanup, :tf_workspace do |t, args|
