@@ -178,7 +178,7 @@ resource "aws_cloudtrail" "trail_1" {
   depends_on                    = ["aws_iam_role_policy.cloud_watch_logs_role_policy"]
   name                          = "${terraform.env}-trail-01"
   s3_bucket_name                = "${aws_s3_bucket.trail_1_bucket.id}"
-  include_global_service_events = false
+  include_global_service_events = true
   enable_logging                = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
