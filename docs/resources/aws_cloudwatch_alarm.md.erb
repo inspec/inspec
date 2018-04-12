@@ -17,7 +17,7 @@ An `aws_cloudwatch_alarm` resource block searches for a Cloudwatch Alarm, specif
 
     # Look for a specific alarm
     aws_cloudwatch_alarm(
-      metric: 'my-metric-name',
+      metric_name: 'my-metric-name',
       metric_namespace: 'my-metric-namespace',
     ) do
       it { should exist }
