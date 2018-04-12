@@ -117,6 +117,99 @@ output "iam_group_administrators" {
 }
 
 #======================================================#
+#                  IAM Policies
+#======================================================#
+
+# Test fixtures:
+# Note: Principal is not allowed on an IAM Policy. (May be allowed on a role?  certainly on s3 bucket?)
+#  alpha
+#    has 2 statements
+#    one is a wildcard on ec2
+#    both have IDs
+#    one is a resource full wildcard
+#    one is Allow, one is Deny
+#    scalar values throughout
+#  beta
+#    one statement
+#    list values for Resource and Action
+#  gamma
+#    allow all
+
+resource "aws_iam_policy" "alpha" {
+  name = "${terraform.env}-alpha"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "alpha01",
+      "Action": "ec2:Describe*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "alpha02",
+      "Action": "s3:GetObject",
+      "Effect": "Deny",
+      "Resource": "arn:aws:s3:::bobs-stuff"
+    }
+  ]
+}
+EOF
+}
+
+output "aws_iam_policy_alpha_name" {
+  value = "${aws_iam_policy.alpha.name}"
+}
+
+resource "aws_iam_policy" "beta" {
+  name = "${terraform.env}-beta"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "beta01",
+      "Action": [
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups"
+      ],
+      "Effect": "Deny",
+      "Resource": [
+        "arn:aws:ec2:::*",
+        "*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+output "aws_iam_policy_beta_name" {
+  value = "${aws_iam_policy.beta.name}"
+}
+
+resource "aws_iam_policy" "gamma" {
+  name = "${terraform.env}-gamma"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "gamma01",
+      "Action": "*",
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+output "aws_iam_policy_gamma_name" {
+  value = "${aws_iam_policy.gamma.name}"
+}
+#======================================================#
 #                    IAM Group Memberships
 #======================================================#
 
