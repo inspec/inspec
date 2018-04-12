@@ -49,10 +49,11 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'access all params of the file' do
-    _(shadow.params[0]).must_equal({
-      'user' => 'root', 'password' => 'x', 'last_change' => '1',
-      'min_days' => '2', 'max_days' => '3', 'warn_days' => nil,
-      'inactive_days' => nil, 'expiry_date' => nil, 'reserved' => nil,
+    _(shadow.entries[0].to_h).must_equal({
+      user: 'root', password: 'x', last_change: '1',
+      min_days: '2', max_days: '3', warn_days: nil,
+      inactive_days: nil, expiry_date: nil, reserved: nil,
+      content: nil, count: nil
     })
   end
 
@@ -91,7 +92,7 @@ describe 'Inspec::Resources::Shadow' do
     let(:unreadable_shadow) { load_resource('shadow', '/fakepath/fakefile') }
 
     it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
-      users = shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
+      users = shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
       users.each do |user|
         proc { expect(shadow.users(user).user).must_equal(['www-data']) }.must_output nil,
           '[DEPRECATION] The shadow `users` property is deprecated and will' \
@@ -103,7 +104,7 @@ describe 'Inspec::Resources::Shadow' do
     end
 
     it 'cant read /etc/unreadable_shadow and #filter matches nothing' do
-      users = unreadable_shadow.filter(password: /[^x]/).params.map { |x| x['user'] }
+      users = unreadable_shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
       users.each do |user|
         expect(shadow.users(user).user).must_equal([])
         expect(shadow.users(user).inactive_days).must_equal([])
