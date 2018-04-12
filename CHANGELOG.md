@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.42 -->
-## [v2.1.42](https://github.com/chef/inspec/tree/v2.1.42) (2018-04-12)
+<!-- latest_release 2.1.43 -->
+## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
 
-#### Enhancements
-- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Merged Pull Requests
+- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
@@ -17,6 +17,7 @@
 - Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.35 -->
 
 #### Merged Pull Requests
+- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.43 -->
 - Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown)) <!-- 2.1.36 -->
 - Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
 
