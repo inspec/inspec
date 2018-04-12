@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.38 -->
-## [v2.1.38](https://github.com/chef/inspec/tree/v2.1.38) (2018-04-12)
+<!-- latest_release 2.1.39 -->
+## [v2.1.39](https://github.com/chef/inspec/tree/v2.1.39) (2018-04-12)
 
-#### New Features
-- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
 ### Changes since 2.1.30 release
 
 #### Enhancements
+- Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah)) <!-- 2.1.39 -->
 - Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble)) <!-- 2.1.35 -->
 
 #### Merged Pull Requests
