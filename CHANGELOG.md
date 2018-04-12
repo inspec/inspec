@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.37 -->
-## [v2.1.37](https://github.com/chef/inspec/tree/v2.1.37) (2018-04-12)
+<!-- latest_release 2.1.38 -->
+## [v2.1.38](https://github.com/chef/inspec/tree/v2.1.38) (2018-04-12)
 
 #### New Features
-- New attribute JUnit reporter - target [#2839](https://github.com/chef/inspec/pull/2839) ([piotrgo](https://github.com/piotrgo))
+- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.30 -->
@@ -18,6 +18,7 @@
 - Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski)) <!-- 2.1.34 -->
 
 #### New Features
+- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.38 -->
 - New attribute JUnit reporter - target [#2839](https://github.com/chef/inspec/pull/2839) ([piotrgo](https://github.com/piotrgo)) <!-- 2.1.37 -->
 - AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
 - aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.32 -->
