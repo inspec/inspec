@@ -83,7 +83,14 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def statement_count
     return nil unless exists?
-    policy['Statement'].count
+    # Typically it is an array of statements
+    if policy['Statement'].is_a? Array
+      policy['Statement'].count    
+    else
+      # But if there is one statement, it is permissable to degenerate the array,
+      # and place the statement as a hash directly under the 'Statement' key
+      return 1
+    end
   end
 
   def has_statement?(raw_criteria = {})
@@ -131,7 +138,7 @@ class AwsIamPolicy < Inspec.resource(1)
     recognized_criteria
   end
 
-  def has_statement__normalize_criteria(criteria)
+  def has_statement__normalize_criteria(criteria)    
     # Transform keys into lowercase symbols
     criteria.keys.each do |provided_key|
       criteria[provided_key.downcase.to_sym] = criteria.delete(provided_key)
@@ -143,6 +150,10 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement__normalize_statements
     policy['Statement'].map do |statement|
       # Coerce some values into arrays
+      # unless statement.kind_of? Hash
+      #   require 'byebug'; byebug 
+      #   puts policy_name
+      # end
       %w{Action Resource}.each do |field|
         if statement.key?(field)
           statement[field] = Array(statement[field])
