@@ -11,6 +11,10 @@ class AwsIamRole < Inspec.resource(1)
   include AwsSingularResourceMixin
   attr_reader :description, :role_name
 
+  def to_s
+    "IAM Role #{role_name}"
+  end
+
   private
 
   def validate_params(raw_params)
