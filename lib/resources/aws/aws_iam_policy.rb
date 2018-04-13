@@ -85,7 +85,7 @@ class AwsIamPolicy < Inspec.resource(1)
     return nil unless exists?
     # Typically it is an array of statements
     if policy['Statement'].is_a? Array
-      policy['Statement'].count    
+      policy['Statement'].count
     else
       # But if there is one statement, it is permissable to degenerate the array,
       # and place the statement as a hash directly under the 'Statement' key
@@ -138,7 +138,7 @@ class AwsIamPolicy < Inspec.resource(1)
     recognized_criteria
   end
 
-  def has_statement__normalize_criteria(criteria)    
+  def has_statement__normalize_criteria(criteria)
     # Transform keys into lowercase symbols
     criteria.keys.each do |provided_key|
       criteria[provided_key.downcase.to_sym] = criteria.delete(provided_key)
@@ -149,10 +149,10 @@ class AwsIamPolicy < Inspec.resource(1)
 
   def has_statement__normalize_statements
     # Some single-statement policies place their statement
-    # directly in policy['Statement'], rather than in an 
+    # directly in policy['Statement'], rather than in an
     # Array within it.  See arn:aws:iam::aws:policy/AWSCertificateManagerReadOnly
     # Thus, coerce to Array.
-    policy['Statement'] = [ policy['Statement'] ] if policy['Statement'].is_a? Hash
+    policy['Statement'] = [policy['Statement']] if policy['Statement'].is_a? Hash
     policy['Statement'].map do |statement|
       # Coerce some values into arrays
       %w{Action Resource}.each do |field|
