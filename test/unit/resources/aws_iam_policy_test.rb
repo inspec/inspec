@@ -103,6 +103,7 @@ class AwsIamPolicyPropertiesTest < Minitest::Test
     assert_nil(AwsIamPolicy.new('non-existant').statement_count)
     assert_equal(1, AwsIamPolicy.new('test-policy-1').statement_count)
     assert_equal(2, AwsIamPolicy.new('test-policy-2').statement_count)
+    assert_equal(1, AwsIamPolicy.new('test-policy-3').statement_count)
   end
 end
 
@@ -230,6 +231,8 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => /^ec2\:Describe/))
     # Do match if one regex action specified in an array when the statement has an array of actions
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Action' => [/^ec2\:Describe/]))
+    # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
+    assert(AwsIamPolicy.new('test-policy-3').has_statement?('Action' => 'acm:GetCertificate'))
   end
 
   def test_have_statement_when_resource_is_provided
@@ -253,6 +256,8 @@ class AwsIamPolicyMatchersTest < Minitest::Test
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => /^arn\:aws\:ec2/))
     # Do match if one regex resource specified in an array when the statement has an array of resources
     assert(AwsIamPolicy.new('test-policy-1').has_statement?('Resource' => [/\*/]))
+    # Able to match a degenerate policy doc in which there is exactly one statement as a hash.
+    assert(AwsIamPolicy.new('test-policy-3').has_statement?('Resource' => '*'))
   end
 end
 
@@ -282,6 +287,13 @@ module MAIPSB
           default_version_id: 'v1',
           attachment_count: 0,
           is_attachable: false,
+        }),
+        OpenStruct.new({
+          policy_name: 'test-policy-3',
+          arn: 'arn:aws:iam::aws:policy/test-policy-3',
+          default_version_id: 'v1',
+          attachment_count: 0,
+          is_attachable: true,
         }),
       ]
       OpenStruct.new({ policies: fixtures })
@@ -360,7 +372,26 @@ module MAIPSB
             # }
             document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22CloudWatchEventsFullAccess%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22events%3A%2A%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22IAMPassRoleForCloudWatchEvents%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22iam%3APassRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22arn%3Aaws%3Aiam%3A%3A%2A%3Arole%2FAWS_Events_Invoke_Targets%22%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%0A%7D'
           )
-        }
+        },
+        'arn:aws:iam::aws:policy/test-policy-3' => {
+          'v1' => OpenStruct.new(
+            # This is AWS-managed AWSCertificateManagerReadOnly
+            #   {
+            #     "Version": "2012-10-17",
+            #     "Statement": {
+            #         "Effect": "Allow",
+            #         "Action": [
+            #             "acm:DescribeCertificate",
+            #             "acm:ListCertificates",
+            #             "acm:GetCertificate",
+            #             "acm:ListTagsForCertificate"
+            #         ],
+            #         "Resource": "*"
+            #     }
+            # }
+            document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3ADescribeCertificate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AListCertificates%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AGetCertificate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AListTagsForCertificate%22%0A%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%7D',
+          )
+        },
       }
       pv = fixtures.dig(query[:policy_arn], query[:version_id])
       return OpenStruct.new(policy_version: pv) if pv
