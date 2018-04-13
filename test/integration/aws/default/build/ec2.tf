@@ -182,7 +182,7 @@ output "vpc_default_vpc_id" {
   value = "${data.aws_vpc.default.id}"
 }
 
-output "vpc_default_vpc_cidr_block" {
+output "vpc_default_cidr_block" {
   value = "${data.aws_vpc.default.cidr_block}"
 }
 
@@ -190,7 +190,7 @@ output "vpc_default_dhcp_options_id" {
   value = "${data.aws_vpc.default.dhcp_options_id}"
 }
 
-output "vpc_non_default_id" {
+output "vpc_non_default_vpc_id" {
   value = "${aws_vpc.non_default.id}"
 }
 

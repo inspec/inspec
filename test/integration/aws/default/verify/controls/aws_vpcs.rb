@@ -3,7 +3,7 @@ fixtures = {}
   'vpc_default_vpc_id',
   'vpc_default_cidr_block',
   'vpc_default_dhcp_options_id',  
-  'vpc_non_default_id',
+  'vpc_non_default_vpc_id',
   'vpc_non_default_cidr_block',
   'vpc_non_default_instance_tenancy',
   'vpc_non_default_dhcp_options_id',    
@@ -25,11 +25,11 @@ control "aws_vpcs recall" do
 end
 
 control "aws_vpcs filtering" do
-  describe aws_vpcs.where { cidr_block.starts_with? '179'} do
-    its('vpc_ids.first') { should cmp fixtures['vpc_non_default_vpc_id'] }
+  describe aws_vpcs.where { cidr_block.start_with? '172'} do
+    its('vpc_ids') { should include fixtures['vpc_non_default_vpc_id'] }
   end
 
-  describe aws_vpcs.where { dhcp_option_set_id == fixtures['vpc_default_dhcp_option_set_id']} do
+  describe aws_vpcs.where { dhcp_options_id == fixtures['vpc_default_dhcp_options_id']} do
     its('vpc_ids') { should include fixtures['vpc_default_vpc_id']}
   end
 end
@@ -40,7 +40,7 @@ control "aws_vpcs properties" do
     its('vpc_ids') { should include fixtures['vpc_non_default_vpc_id'] }
     its('cidr_blocks') { should include fixtures['vpc_default_cidr_block']}
     its('cidr_blocks') { should include fixtures['vpc_non_default_cidr_block']}
-    its('dhcp_option_set_ids') { should include fixtures['vpc_default_dhcp_option_set_id']}
-    its('dhcp_option_set_ids') { should include fixtures['vpc_non_default_dhcp_option_set_id']} 
+    its('dhcp_options_ids') { should include fixtures['vpc_default_dhcp_options_id']}
+    its('dhcp_options_ids') { should include fixtures['vpc_non_default_dhcp_options_id']} 
   end
 end
