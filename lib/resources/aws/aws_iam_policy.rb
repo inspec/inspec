@@ -148,12 +148,13 @@ class AwsIamPolicy < Inspec.resource(1)
   end
 
   def has_statement__normalize_statements
+    # Some single-statement policies place their statement
+    # directly in policy['Statement'], rather than in an 
+    # Array within it.  See arn:aws:iam::aws:policy/AWSCertificateManagerReadOnly
+    # Thus, coerce to Array.
+    policy['Statement'] = [ policy['Statement'] ] if policy['Statement'].is_a? Hash
     policy['Statement'].map do |statement|
       # Coerce some values into arrays
-      # unless statement.kind_of? Hash
-      #   require 'byebug'; byebug 
-      #   puts policy_name
-      # end
       %w{Action Resource}.each do |field|
         if statement.key?(field)
           statement[field] = Array(statement[field])
