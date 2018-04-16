@@ -62,7 +62,8 @@ module Compliance
         # iterate over profiles
         headline('Available profiles:')
         profiles.each { |profile|
-          li("#{profile['title']} v#{profile['version']} (#{mark_text(profile['owner_id'] + '/' + profile['name'])})")
+          owner = profile['owner_id'] || profile['owner']
+          li("#{profile['title']} v#{profile['version']} (#{mark_text(owner + '/' + profile['name'])})")
         }
       else
         puts msg, 'Could not find any profiles'
@@ -194,8 +195,11 @@ module Compliance
       puts "Start upload to #{config['owner']}/#{profile_name}"
       pname = ERB::Util.url_encode(profile_name)
 
-      Compliance::API.is_automate_server?(config) ? upload_msg = 'Uploading to Chef Automate' : upload_msg = 'Uploading to Chef Compliance'
-      puts upload_msg
+      if Compliance::API.is_automate_server?(config) || Compliance::API.is_automate2_server?(config)
+        puts 'Uploading to Chef Automate'
+      else
+        puts 'Uploading to Chef Compliance'
+      end
       success, msg = Compliance::API.upload(config, config['owner'], pname, archive_path)
 
       if success
@@ -229,7 +233,7 @@ module Compliance
       unless config.supported?(:oidc) || config['token'].nil? || config['server_type'] == 'automate'
         config = Compliance::Configuration.new
         url = "#{config['server']}/logout"
-        Compliance::API.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
+        Compliance::HTTP.post(url, config['token'], config['insecure'], !config.supported?(:oidc))
       end
       success = config.destroy
 
