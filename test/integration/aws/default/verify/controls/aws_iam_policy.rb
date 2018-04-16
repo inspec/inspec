@@ -78,5 +78,25 @@ control "aws_iam_policy matchers" do
     it { should_not have_statement('Resource' => ['*'])}    
     it { should have_statement('Resource' => ['arn:aws:ec2:::*', '*'])}
     it { should have_statement('Resource' => ['*', 'arn:aws:ec2:::*'])}
-  end  
+  end
+
+  # AWSCertificateManagerReadOnly has an odd shape:
+  # its Statement list is not an array, but a hash - it's a degenerate form.
+  #   {
+  #     "Version": "2012-10-17",
+  #     "Statement": {
+  #         "Effect": "Allow",
+  #         "Action": [
+  #             "acm:DescribeCertificate",
+  #             "acm:ListCertificates",
+  #             "acm:GetCertificate",
+  #             "acm:ListTagsForCertificate"
+  #         ],
+  #         "Resource": "*"
+  #     }
+  # }
+  describe aws_iam_policy('AWSCertificateManagerReadOnly') do
+    its('statement_count') { should cmp 1 }
+    it { should have_statement 'Effect' => 'Allow', 'Action' => 'acm:GetCertificate' }
+  end
 end
