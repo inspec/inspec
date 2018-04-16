@@ -17,16 +17,14 @@ module Compliance
 
         case options['server_type']
         when :automate2
-          config = Login::Automate2Server.login(options)
+          Login::Automate2Server.login(options)
         when :automate
-          config = Login::AutomateServer.login(options)
+          Login::AutomateServer.login(options)
         when :compliance
-          config = Login::ComplianceServer.login(options)
+          Login::ComplianceServer.login(options)
         else
           raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a Chef Automate or Chef Compliance server"
         end
-
-        puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
       end
 
       module Automate2Server
@@ -40,7 +38,6 @@ module Compliance
 
         def self.store_access_token(options, token)
           config = Compliance::Configuration.new
-
           config.clean
 
           config['automate'] = {}

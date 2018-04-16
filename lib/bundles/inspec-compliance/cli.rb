@@ -44,6 +44,8 @@ module Compliance
     def login(server)
       options['server'] = server
       Compliance::API.login(options)
+      config = Compliance::Configuration.new
+      puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
     end
 
     desc 'profiles', 'list all available profiles in Chef Compliance'

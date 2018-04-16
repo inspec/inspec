@@ -75,7 +75,7 @@ describe Compliance::API do
         options = automate_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Automate/)
+        Compliance::API.login(options)
         fake_config['automate']['ent'].must_equal('automate')
         fake_config['automate']['token_type'].must_equal('dctoken')
         fake_config['user'].must_equal('someone')
@@ -121,7 +121,7 @@ describe Compliance::API do
         options = automate_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Automate/)
+        Compliance::API.login(options)
         fake_config['automate']['ent'].must_equal('automate')
         fake_config['automate']['token_type'].must_equal('usertoken')
         fake_config['user'].must_equal('someone')
@@ -161,7 +161,7 @@ describe Compliance::API do
         options = compliance_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Compliance/)
+        Compliance::API.login(options)
         fake_config['user'].must_equal('someone')
         fake_config['server'].must_equal('https://compliance.example.com/api')
         fake_config['server_type'].must_equal('compliance')

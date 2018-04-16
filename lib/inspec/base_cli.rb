@@ -240,6 +240,9 @@ module Inspec
         raise ArgumentError, "Please provide a value for --#{v}. For example: --#{v}=hello."
       end
 
+      # check for compliance settings
+      Compliance::API.login(o['compliance']) if o['compliance']
+
       o
     end
 
