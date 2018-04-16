@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.44 -->
-## [v2.1.44](https://github.com/chef/inspec/tree/v2.1.44) (2018-04-13)
+<!-- latest_release 2.1.45 -->
+## [v2.1.45](https://github.com/chef/inspec/tree/v2.1.45) (2018-04-16)
 
-#### Enhancements
-- updating output for aws_iam_role to match other AWS resources [#2960](https://github.com/chef/inspec/pull/2960) ([tmonk42](https://github.com/tmonk42))
+#### Bug Fixes
+- aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
 ### Changes since 2.1.43 release
+
+#### Bug Fixes
+- aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.45 -->
 
 #### Enhancements
 - updating output for aws_iam_role to match other AWS resources [#2960](https://github.com/chef/inspec/pull/2960) ([tmonk42](https://github.com/tmonk42)) <!-- 2.1.44 -->
