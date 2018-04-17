@@ -107,8 +107,8 @@ namespace :test do
         sh("aws configure get aws_access_key_id --profile inspec-aws-test-#{account} > /dev/null")
         sh("cd #{integration_dir}/build/ && terraform init -upgrade")
         sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
-        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform plan")
-        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform apply -auto-approve")
+        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform plan -out inspec-aws-#{account}.plan")
+        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform apply -auto-approve inspec-aws-#{account}.plan")
         Rake::Task["test:aws:dump_attrs:#{account}"].execute
       end
 
