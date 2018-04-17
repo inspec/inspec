@@ -98,5 +98,13 @@ control "aws_iam_policy matchers" do
   describe aws_iam_policy('AWSCertificateManagerReadOnly') do
     its('statement_count') { should cmp 1 }
     it { should have_statement 'Effect' => 'Allow', 'Action' => 'acm:GetCertificate' }
+  end  
+  
+  # This policy has a statment with a NotAction, and no Action
+  # We don't yet support NotAction
+  # But if you ask for action, it should not match, and also not explode
+  # arn:aws:iam::aws:policy/PowerUserAccess
+  describe aws_iam_policy('PowerUserAccess') do
+    it { should_not have_statement 'Action' => 'iam:*' }
   end
 end

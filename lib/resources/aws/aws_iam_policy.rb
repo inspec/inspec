@@ -189,7 +189,12 @@ class AwsIamPolicy < Inspec.resource(1)
   def has_statement__array_criterion(crit_name, statement, criteria)
     return true unless criteria.key?(crit_name)
     check = criteria[crit_name]
-    values = statement[crit_name] # This is an array due to normalize_statements
+    # This is an array due to normalize_statements
+    # If it is nil, the statement does not have an entry for that dimension;
+    # but since we were asked to match on it (on nothing), we
+    # decide to never match
+    values = statement[crit_name]
+    return false if values.nil?
 
     if check.is_a?(String)
       # If check is a string, it only has to match one of the values
