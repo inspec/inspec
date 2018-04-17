@@ -13,7 +13,7 @@ To test properties of the special AWS root user (which owns the account), use th
 
 <br>
 
-## Syntax
+## Resource Parameters
 
 An `aws_iam_user` resource block declares a user by name, and then lists tests to be performed.
 
@@ -47,9 +47,51 @@ The following examples show how to use this InSpec audit resource.
 
 <br>
 
+## Properties
+
+### attached\_policy\_arns
+
+Returns a list of IAM Managed Policy ARNs as strings that identify the policies that are attached to the user. If there are no attached policies, returns an empty list.
+
+    describe aws_iam_user('bob') do
+      # This is a customer-managed policy
+      its('attached_policy_arns') { should include 'arn:aws:iam::123456789012:policy/test-inline-policy-01' }
+      # This is an AWS-managed policy
+      its('attached_policy_arns') { should include 'arn:aws:iam::aws:policy/AlexaForBusinessGatewayExecution' }      
+    end
+
+### attached\_policy\_names
+
+Returns a list of IAM Managed Policy Names as strings that identify the policies that are attached to the user. If there are no attached policies, returns an empty list.
+
+    describe aws_iam_user('bob') do
+      # This is a customer-managed policy
+      its('attached_policy_names') { should include 'test-inline-policy-01' }
+      # This is an AWS-managed policy
+      its('attached_policy_names') { should include 'AlexaForBusinessGatewayExecution' }      
+    end
+
+### inline\_policy\_names
+
+Returns a list of IAM Inline Policy Names as strings that identify the inline policies that are directly embedded in the user. If there are no embedded policies, returns an empty list.
+
+    describe aws_iam_user('bob') do
+      its('inline_policy_names') { should include 'test-inline-policy-01' }
+      its('inline_policy_names.count') { should eq 1 }      
+    end
+
+
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](https://www.inspec.io/docs/reference/matchers/).
+This InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
+
+### have\_attached\_policies
+
+The `have\_attached\_policies` matcher tests if the user has at least one IAM managed policy attached to the user.
+
+    describe aws_iam_user('bob') do
+      it { should_not have_attached_policies }
+    end
 
 ### have\_console\_password
 
@@ -57,8 +99,17 @@ The `have_console_password` matcher tests if the user has a password that could 
 
     it { should have_console_password }
 
+### have\_inline\_policies
+
+The `have\_inline\_policies` matcher tests if the user has at least one IAM policy embedded directly in the user record.
+
+    describe aws_iam_user('bob') do
+      it { should_not have_inline_policies }
+    end
+
 ### have\_mfa\_enabled
 
 The `have_mfa_enabled` matcher tests if the user has Multi-Factor Authentication enabled, requiring them to enter a secondary code when they login to the web console.
 
     it { should have_mfa_enabled }
+ 

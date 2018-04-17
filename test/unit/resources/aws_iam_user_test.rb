@@ -65,49 +65,63 @@ class AwsIamUserPropertiesTest < Minitest::Test
     AwsIamUser::BackendFactory.select(MAIUB::Three)
   end
 
+  def test_property_attached_policies
+    noone = AwsIamUser.new('nonesuch')
+    assert_empty(noone.attached_policy_names)
+    assert_empty(noone.attached_policy_arns)
+
+    erin = AwsIamUser.new('erin')
+    assert_empty(erin.attached_policy_names)
+    assert_empty(erin.attached_policy_arns)
+
+    leslie = AwsIamUser.new('leslie')
+    assert_equal(1, leslie.attached_policy_names.count)
+    assert_includes(leslie.attached_policy_names, 'AdministratorAccess')
+    assert_equal(1, leslie.attached_policy_arns.count)
+    assert_includes(leslie.attached_policy_arns, 'arn:aws:iam::aws:policy/AdministratorAccess')
+    
+    jared = AwsIamUser.new('jared')
+    assert_equal(2, jared.attached_policy_names.count)
+    assert_includes(jared.attached_policy_names, 'ReadOnlyAccess')
+    assert_equal(2, jared.attached_policy_arns.count)
+    assert_includes(jared.attached_policy_arns, 'arn:aws:iam::aws:policy/ReadOnlyAccess')
+  end
+
+  def test_property_inline_policies
+    noone = AwsIamUser.new('nonesuch')
+    assert_empty(noone.inline_policy_names)
+
+    erin = AwsIamUser.new('erin')
+    assert_empty(erin.inline_policy_names)
+
+    leslie = AwsIamUser.new('leslie')
+    assert_equal(2, leslie.inline_policy_names.count)
+    assert_includes(leslie.inline_policy_names, 'leslie-inline-01')
+    assert_includes(leslie.inline_policy_names, 'leslie-inline-02')
+    
+    jared = AwsIamUser.new('jared')
+    assert_equal(1, jared.inline_policy_names.count)
+    assert_includes(jared.inline_policy_names, 'jared-inline-01')
+  end
+
   #-----------------------------------------------------#
   # username property
   #-----------------------------------------------------#
   def test_property_username_correct_on_hit
-    user = AwsIamUser.new(username: 'erin')
+    user = AwsIamUser.new('erin')
     assert_equal('erin', user.username)
   end
 
-  #-----------------------------------------------------#
-  # has_console_password property and predicate
-  #-----------------------------------------------------#
-  def test_property_password_positive
-    user = AwsIamUser.new(username: 'erin')
-    assert_equal(true, user.has_console_password)
-    assert_equal(true, user.has_console_password?)
+  def test_property_username_correct_on_miss
+    user = AwsIamUser.new('nonesuch')
+    assert_equal('nonesuch', user.username)
   end
 
-  def test_property_password_negative
-    user = AwsIamUser.new(username: 'leslie')
-    assert_equal(false, user.has_console_password)
-    assert_equal(false, user.has_console_password?)
-  end
-
-  #-----------------------------------------------------#
-  # has_mfa_enabled property and predicate
-  #-----------------------------------------------------#
-  def test_property_mfa_positive
-    user = AwsIamUser.new(username: 'erin')
-    assert_equal(true, user.has_mfa_enabled)
-    assert_equal(true, user.has_mfa_enabled?)
-  end
-
-  def test_property_mfa_negative
-    user = AwsIamUser.new(username: 'leslie')
-    assert_equal(false, user.has_mfa_enabled)
-    assert_equal(false, user.has_mfa_enabled?)
-  end
-  
   #-----------------------------------------------------#
   # access_keys property
   #-----------------------------------------------------#
   def test_property_access_keys_positive
-    keys = AwsIamUser.new(username: 'erin').access_keys
+    keys = AwsIamUser.new('erin').access_keys
     assert_kind_of(Array, keys)
     assert_equal(keys.length, 2)
     # We don't currently promise that the results 
@@ -116,10 +130,59 @@ class AwsIamUserPropertiesTest < Minitest::Test
   end
 
   def test_property_access_keys_negative
-    keys = AwsIamUser.new(username: 'leslie').access_keys
+    keys = AwsIamUser.new('leslie').access_keys
     assert_kind_of(Array, keys)
     assert(keys.empty?)    
   end
+end
+
+#=============================================================================#
+#                                Matchers
+#=============================================================================#
+
+class AwsIamUserMatchersTest < Minitest::Test
+  def setup
+    AwsIamUser::BackendFactory.select(MAIUB::Three)
+  end
+
+  def test_matcher_mfa_positive
+    user = AwsIamUser.new('erin')
+    assert_equal(true, user.has_mfa_enabled)
+    assert_equal(true, user.has_mfa_enabled?)
+  end
+
+  def test_matcher_mfa_negative
+    user = AwsIamUser.new('leslie')
+    assert_equal(false, user.has_mfa_enabled)
+    assert_equal(false, user.has_mfa_enabled?)
+  end
+
+  def test_matcher_password_positive
+    user = AwsIamUser.new('erin')
+    assert_equal(true, user.has_console_password)
+    assert_equal(true, user.has_console_password?)
+  end
+
+  def test_matcher_password_negative
+    user = AwsIamUser.new('leslie')
+    assert_equal(false, user.has_console_password)
+    assert_equal(false, user.has_console_password?)
+  end
+
+  def test_matcher_has_attached_policies
+    assert_nil(AwsIamUser.new('nonesuch').has_attached_policies?)
+    refute(AwsIamUser.new('erin').has_attached_policies?)
+    assert(AwsIamUser.new('leslie').has_attached_policies?)
+    assert(AwsIamUser.new('jared').has_attached_policies?)
+  end
+
+  def test_matcher_has_inline_policies
+    assert_nil(AwsIamUser.new('nonesuch').has_inline_policies?)
+    refute(AwsIamUser.new('erin').has_inline_policies?)
+    assert(AwsIamUser.new('leslie').has_inline_policies?)
+    assert(AwsIamUser.new('jared').has_inline_policies?)
+  end
+
 end
 
 #=============================================================================#
@@ -216,6 +279,7 @@ module MAIUB
       }
       people[criteria[:user_name]]
     end
+
     def list_access_keys(criteria)
       # Erin has 2
       # Leslie has none
@@ -251,5 +315,50 @@ module MAIUB
       }
       people[criteria[:user_name]]
     end
+
+    def list_user_policies(query)
+      people = {
+        'erin' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: []
+        ),
+        'leslie' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ['leslie-inline-01', 'leslie-inline-02'],
+        ), 
+        'jared' => Aws::IAM::Types::ListUserPoliciesResponse.new(
+          policy_names: ['jared-inline-01'],
+        )
+      }
+      people[query[:user_name]]
+    end
+
+    def list_attached_user_policies(query)
+      people = {
+        'erin' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [],
+        ),
+        'leslie' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [
+            {
+              policy_arn: 'arn:aws:iam::aws:policy/AdministratorAccess',
+              policy_name: 'AdministratorAccess',
+            },
+          ]
+        ),
+        'jared' => Aws::IAM::Types::ListAttachedUserPoliciesResponse.new(
+          attached_policies: [
+            {
+              policy_arn: 'arn:aws:iam::aws:policy/ReadOnlyAccess',
+              policy_name: 'ReadOnlyAccess',
+            },
+            {
+              policy_arn: 'arn:aws:iam::123456789012:policy/some-policy',
+              policy_name: 'some-policy',
+            },
+          ]
+        ),
+      }
+      people[query[:user_name]]
+    end
+
   end
 end

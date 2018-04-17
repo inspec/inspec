@@ -12,6 +12,12 @@ class AwsIamUsers < Inspec.resource(1)
     describe aws_iam_users.where(has_console_password?: true) do
       it { should exist }
     end
+    describe aws_iam_users.where(has_inline_policies?: true) do
+      it { should_not exist }
+    end
+    describe aws_iam_users.where(has_attached_policies?: true) do
+      it { should_not exist }
+    end
   '
   supports platform: 'aws'
 
@@ -23,10 +29,21 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:exists?) { |x| !x.entries.empty? }
         .add(:has_mfa_enabled?, field: :has_mfa_enabled)
         .add(:has_console_password?, field: :has_console_password)
+        .add(:has_inline_policies?, field: :has_inline_policies)
+        .add(:has_attached_policies?, field: :has_attached_policies)
         .add(:password_ever_used?, field: :password_ever_used?)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
-        .add(:username, field: :user_name)
+        .add(:usernames, field: :user_name)
+        .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
+  # Next three are needed to declare fields for use by the de-duped set
+  filter.add(:dupe_inline_policy_names, field: :inline_policy_names_source)
+        .add(:dupe_attached_policy_names, field: :attached_policy_names_source)
+        .add(:dupe_attached_policy_arns, field: :attached_policy_arns_source)
+  # These three are now able to access the above three in .entries
+  filter.add(:inline_policy_names) { |obj| obj.dupe_inline_policy_names.flatten.uniq }
+        .add(:attached_policy_names) { |obj| obj.dupe_attached_policy_names.flatten.uniq }
+        .add(:attached_policy_arns) { |obj| obj.dupe_attached_policy_arns.flatten.uniq }
   filter.connect(self, :table)
 
   def validate_params(raw_params)
@@ -49,12 +66,14 @@ class AwsIamUsers < Inspec.resource(1)
     table
   end
 
-  def fetch_from_api
+  def fetch_from_api # rubocop: disable Metrics/AbcSize
     backend = BackendFactory.create(inspec_runner)
     @table = fetch_from_api_paginated(backend)
 
     # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
     @table.each do |user|
+      # Some of these throw exceptions to indicate empty results;
+      # others return empty arrays
       begin
         _login_profile = backend.get_login_profile(user_name: user[:user_name])
         user[:has_console_password] = true
@@ -70,6 +89,17 @@ class AwsIamUsers < Inspec.resource(1)
         user[:has_mfa_enabled] = false
       end
       user[:has_mfa_enabled?] = user[:has_mfa_enabled]
+
+      user[:inline_policy_names_source] = backend.list_user_policies(user_name: user[:user_name]).policy_names
+      user[:has_inline_policies] = !user[:inline_policy_names_source].empty?
+      user[:has_inline_policies?] = user[:has_inline_policies]
+
+      attached_policies = backend.list_attached_user_policies(user_name: user[:user_name]).attached_policies
+      user[:has_attached_policies] = !attached_policies.empty?
+      user[:has_attached_policies?] = user[:has_attached_policies]
+      user[:attached_policy_names_source] = attached_policies.map { |p| p[:policy_name] }
+      user[:attached_policy_arns_source] = attached_policies.map { |p| p[:policy_arn] }
+
       password_last_used = user[:password_last_used]
       user[:password_ever_used?] = !password_last_used.nil?
       user[:password_never_used?] = password_last_used.nil?
@@ -102,6 +132,14 @@ class AwsIamUsers < Inspec.resource(1)
 
       def list_mfa_devices(query)
         aws_service_client.list_mfa_devices(query)
+      end
+
+      def list_user_policies(query)
+        aws_service_client.list_user_policies(query)
+      end
+
+      def list_attached_user_policies(query)
+        aws_service_client.list_attached_user_policies(query)
       end
     end
   end
