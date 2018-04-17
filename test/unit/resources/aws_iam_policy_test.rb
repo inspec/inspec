@@ -291,19 +291,18 @@ module MAIPSB
           is_attachable: false,
         }),
         OpenStruct.new({
-<<<<<<< HEAD
           policy_name: 'test-policy-3',
           arn: 'arn:aws:iam::aws:policy/test-policy-3',
           default_version_id: 'v1',
           attachment_count: 0,
           is_attachable: true,
-=======
+        }),
+        OpenStruct.new({
           policy_name: 'test-policy-4',
           arn: 'arn:aws:iam::aws:policy/test-policy-4',
           default_version_id: 'v1',
           attachment_count: 0,
           is_attachable: false,
->>>>>>> Add unit and integration tests for replicating policy with no action
         }),
       ]
       OpenStruct.new({ policies: fixtures })
@@ -383,7 +382,6 @@ module MAIPSB
             document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22CloudWatchEventsFullAccess%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22events%3A%2A%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Sid%22%3A%20%22IAMPassRoleForCloudWatchEvents%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Action%22%3A%20%22iam%3APassRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22arn%3Aaws%3Aiam%3A%3A%2A%3Arole%2FAWS_Events_Invoke_Targets%22%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%5D%0A%7D'
           )
         },
-<<<<<<< HEAD
         'arn:aws:iam::aws:policy/test-policy-3' => {
           'v1' => OpenStruct.new(
             # This is AWS-managed AWSCertificateManagerReadOnly
@@ -401,7 +399,8 @@ module MAIPSB
             #     }
             # }
             document: '%7B%0A%20%20%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%20%20%22Statement%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3ADescribeCertificate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AListCertificates%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AGetCertificate%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22acm%3AListTagsForCertificate%22%0A%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%7D',
-=======
+          )
+        },
         'arn:aws:iam::aws:policy/test-policy-4' => {
           'v1' => OpenStruct.new(
             # This is arn:aws:iam::aws:policy/PowerUserAccess
@@ -429,7 +428,6 @@ module MAIPSB
             #   ]
             # }
             document: '%7B%0A%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%22NotAction%22%3A%20%5B%22iam%3A%2A%22%2C%20%22organizations%3A%2A%22%5D%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%2C%7B%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%22iam%3ACreateServiceLinkedRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%22iam%3ADeleteServiceLinkedRole%22%2C%0A%20%20%20%20%20%20%20%20%20%20%22iam%3AListRoles%22%2C%0A%20%20%20%20%20%20%20%20%20%20%22organizations%3ADescribeOrganization%22%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%20%20%5D%0A%7D',
->>>>>>> Add unit and integration tests for replicating policy with no action
           )
         },
       }
