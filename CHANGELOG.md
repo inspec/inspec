@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.47 -->
-## [v2.1.47](https://github.com/chef/inspec/tree/v2.1.47) (2018-04-17)
+<!-- latest_release 2.1.48 -->
+## [v2.1.48](https://github.com/chef/inspec/tree/v2.1.48) (2018-04-17)
 
-#### Bug Fixes
-- Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
 ### Changes since 2.1.43 release
+
+#### New Features
+- Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.48 -->
 
 #### Bug Fixes
 - Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.47 -->
