@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.46 -->
-## [v2.1.46](https://github.com/chef/inspec/tree/v2.1.46) (2018-04-17)
+<!-- latest_release 2.1.47 -->
+## [v2.1.47](https://github.com/chef/inspec/tree/v2.1.47) (2018-04-17)
 
 #### Bug Fixes
-- Fixed numerous naming errors in aws_iam_vpcs integration tests [#2961](https://github.com/chef/inspec/pull/2961) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
 ### Changes since 2.1.43 release
 
 #### Bug Fixes
+- Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.47 -->
 - Fixed numerous naming errors in aws_iam_vpcs integration tests [#2961](https://github.com/chef/inspec/pull/2961) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.46 -->
 - aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.45 -->
 
