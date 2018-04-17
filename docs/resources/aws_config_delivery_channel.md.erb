@@ -4,7 +4,7 @@ title: About the aws_config_delivery_channel Resource
 
 # aws_config_delivery_channel
 
-The AWS Config service can monitor and record changes to your AWS resource configurations.  A Delivery Channel can record the changes
+The AWS Config service can monitor and record changes to your AWS resource configurations. A Delivery Channel can record the changes
 to an S3 Bucket, an SNS or both.
 
 Use the `aws_config_delivery_channel` InSpec audit resource to examine how the AWS Config service delivers those change notifications.
@@ -27,7 +27,7 @@ You may specify the Delivery Channel name:
       it { should exist }
     end
 
-However, since you may only have one DDelivery Channel per region, and InSpec connections are per-region, you may also omit the `channel_name` to obtain the one Delivery Channel (if any) that exists:
+However, since you may only have one Delivery Channel per region, and InSpec connections are per-region, you may also omit the `channel_name` to obtain the one Delivery Channel (if any) that exists:
 
     describe aws_config_delivery_channel do
       it { should exist }
@@ -66,7 +66,7 @@ Provides how often the AWS Config sends configuration changes to the s3 bucket i
 
 ### s3\_bucket\_name
 
-Provides the name of the s3 bucket that the channel sends configuration changes to.  This is an optional value since a Delivery Channel can also talk to an SNS.
+Provides the name of the s3 bucket that the channel sends configuration changes to. This is an optional value since a Delivery Channel can also talk to an SNS.
 
     describe aws_config_delivery_channel(channel_name: 'my_channel')
       its('s3_bucket_name') { should eq 'my_bucket' }

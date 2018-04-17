@@ -121,9 +121,13 @@ module AwsMCRSB
           ]
         }),
       }
-      return recorders['default'] if query.empty?
-      return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
-      recorders['empty']
+      if query.empty?
+        return recorders['default']
+      elsif recorders.key?(query[:configuration_recorder_names][0])
+        return recorders[query[:configuration_recorder_names][0]]
+      else
+        raise Aws::ConfigService::Errors::NoSuchConfigurationRecorderException.new(nil, nil)
+      end
     end
     
     def describe_configuration_recorder_status(query = {})

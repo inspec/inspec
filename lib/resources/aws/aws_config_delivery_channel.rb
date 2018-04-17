@@ -34,15 +34,9 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     query = @channel_name ? { delivery_channel_names: [@channel_name] } : {}
-    response = {}
-    begin
-      response = backend.describe_delivery_channels(query)
-    rescue Aws::ConfigService::Errors::NoSuchDeliveryChannelException
-      @exists = false
-      return
-    end
+    response = backend.describe_delivery_channels(query)
 
-    @exists = !response.empty?
+    @exists = !response.delivery_channels.empty?
     return unless exists?
 
     channel = response.delivery_channels.first.to_h
@@ -50,7 +44,7 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
     @s3_bucket_name = channel[:s3_bucket_name]
     @s3_key_prefix = channel[:s3_key_prefix]
     @sns_topic_arn = channel[:sns_topic_arn]
-    @delivery_frequency_in_hours = channel[:config_snapshot_delivery_properties][:delivery_frequency] unless channel[:config_snapshot_delivery_properties].nil?
+    @delivery_frequency_in_hours = channel.dig(:config_snapshot_delivery_properties, :delivery_frequency)
     frequencies = {
       'One_Hour' => 1,
       'TwentyFour_Hours' => 24,
@@ -59,6 +53,8 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
       'Twelve_Hours' => 12,
     }
     @delivery_frequency_in_hours = frequencies[@delivery_frequency_in_hours]
+  rescue Aws::ConfigService::Errors::NoSuchDeliveryChannelException
+    @exists = false
   end
 
   class Backend

@@ -56,16 +56,9 @@ class AwsConfigurationRecorder < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     query = @recorder_name ? { configuration_recorder_names: [@recorder_name] } : {}
+    response = backend.describe_configuration_recorders(query)
 
-    response = nil
-    begin
-      response = backend.describe_configuration_recorders(query)
-    rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
-      @exists = false
-      return
-    end
-
-    @exists = !(response.nil? || response.empty?)
+    @exists = !response.configuration_recorders.empty?
     return unless exists?
 
     if response.configuration_recorders.count > 1
@@ -78,6 +71,9 @@ class AwsConfigurationRecorder < Inspec.resource(1)
     @recording_all_resource_types = recorder[:recording_group][:all_supported]
     @recording_all_global_types = recorder[:recording_group][:include_global_resource_types]
     @resource_types = recorder[:recording_group][:resource_types]
+  rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
+    @exists = false
+    return
   end
 
   class Backend
