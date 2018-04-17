@@ -158,7 +158,7 @@ namespace :test do
       tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Setup'
-      sh("cd #{integration_dir}/build/ && terraform init")
+      sh("cd #{integration_dir}/build/ && terraform init -upgrade")
       sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
 
       # Generate Azure crendentials
