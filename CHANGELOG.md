@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.48 -->
-## [v2.1.48](https://github.com/chef/inspec/tree/v2.1.48) (2018-04-17)
+<!-- latest_release 2.1.49 -->
+## [v2.1.49](https://github.com/chef/inspec/tree/v2.1.49) (2018-04-19)
 
-#### New Features
-- Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- updating kitchen-puppet example for the `puppet_apply` provisioner [#2972](https://github.com/chef/inspec/pull/2972) ([moutons](https://github.com/moutons))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
@@ -14,6 +14,7 @@
 - Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.48 -->
 
 #### Bug Fixes
+- updating kitchen-puppet example for the `puppet_apply` provisioner [#2972](https://github.com/chef/inspec/pull/2972) ([moutons](https://github.com/moutons)) <!-- 2.1.49 -->
 - Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.47 -->
 - Fixed numerous naming errors in aws_iam_vpcs integration tests [#2961](https://github.com/chef/inspec/pull/2961) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.46 -->
 - aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.45 -->
