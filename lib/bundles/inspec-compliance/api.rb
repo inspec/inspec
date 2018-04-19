@@ -4,6 +4,7 @@
 
 require 'net/http'
 require 'uri'
+require 'json'
 
 require_relative 'api/login'
 
@@ -18,12 +19,15 @@ module Compliance
     # return all compliance profiles available for the user
     # the user is either specified in the options hash or by default
     # the username of the account is used that is logged in
-    def self.profiles(config)
+    def self.profiles(config) # rubocop:disable PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       owner = config['owner'] || config['user']
 
       # Chef Compliance
       if is_compliance_server?(config)
         url = "#{config['server']}/user/compliance"
+      # Chef Automate2
+      elsif is_automate2_server?(config)
+        url = "#{config['server']}/compliance/profiles/search"
       # Chef Automate
       elsif is_automate_server?(config)
         url = "#{config['server']}/profiles/#{owner}"
@@ -32,7 +36,13 @@ module Compliance
       end
 
       headers = get_headers(config)
-      response = Compliance::HTTP.get(url, headers, config['insecure'])
+
+      if is_automate2_server?(config)
+        body = { owner: owner }.to_json
+        response = Compliance::HTTP.post_with_headers(url, headers, body, config['insecure'])
+      else
+        response = Compliance::HTTP.get(url, headers, config['insecure'])
+      end
       data = response.body
       response_code = response.code
       case response_code
@@ -48,6 +58,11 @@ module Compliance
         # Chef Automate pre 0.8.0
         elsif is_automate_server_pre_080?(config)
           mapped_profiles = profiles.values.flatten
+        elsif is_automate2_server?(config)
+          mapped_profiles = []
+          profiles['profiles'].each { |p|
+            mapped_profiles << p
+          }
         else
           mapped_profiles = profiles.map { |e|
             e['owner_id'] = owner
@@ -97,7 +112,8 @@ module Compliance
 
       if !profiles.empty?
         profiles.any? do |p|
-          p['owner_id'] == owner &&
+          profile_owner = p['owner_id'] || p['owner']
+          profile_owner == owner &&
             p['name'] == id &&
             (ver.nil? || p['version'] == ver)
         end
@@ -113,13 +129,20 @@ module Compliance
       # Chef Automate pre 0.8.0
       elsif is_automate_server_pre_080?(config)
         url = "#{config['server']}/#{owner}"
+      elsif is_automate2_server?(config)
+        url = "#{config['server']}/compliance/profiles?owner=#{owner}"
       # Chef Automate
       else
         url = "#{config['server']}/profiles/#{owner}"
       end
 
       headers = get_headers(config)
-      res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
+      if is_automate2_server?(config)
+        res = Compliance::HTTP.post_multipart_file(url, headers, archive_path, config['insecure'])
+      else
+        res = Compliance::HTTP.post_file(url, headers, archive_path, config['insecure'])
+      end
+
       [res.is_a?(Net::HTTPSuccess), res.body]
     end
 
@@ -173,7 +196,7 @@ module Compliance
 
     def self.get_headers(config)
       token = get_token(config)
-      if is_automate_server?(config)
+      if is_automate_server?(config) || is_automate2_server?(config)
         headers = { 'chef-delivery-enterprise' => config['automate']['ent'] }
         if config['automate']['token_type'] == 'dctoken'
           headers['x-data-collector-token'] = token
@@ -196,6 +219,7 @@ module Compliance
     def self.target_url(config, profile)
       owner, id, ver = profile_split(profile)
 
+      return "#{config['server']}/compliance/profiles/tar" if is_automate2_server?(config)
       return "#{config['server']}/owners/#{owner}/compliance/#{id}/tar" unless is_automate_server?(config)
 
       if ver.nil?
@@ -238,6 +262,10 @@ module Compliance
       !server_version_from_config(config).nil?
     end
 
+    def self.is_automate2_server?(config)
+      config['server_type'] == 'automate2'
+    end
+
     def self.is_automate_server?(config)
       config['server_type'] == 'automate'
     end
@@ -251,13 +279,29 @@ module Compliance
     end
 
     def self.determine_server_type(url, insecure)
-      if target_is_automate_server?(url, insecure)
+      if target_is_automate2_server?(url, insecure)
+        :automate2
+      elsif target_is_automate_server?(url, insecure)
         :automate
       elsif target_is_compliance_server?(url, insecure)
         :compliance
       else
         Inspec::Log.debug('Could not determine server type using known endpoints')
         nil
+      end
+    end
+
+    def self.target_is_automate2_server?(url, insecure)
+      automate_endpoint = '/dex/auth'
+      response = Compliance::HTTP.get(url + automate_endpoint, nil, insecure)
+      if response.code == '400'
+        Inspec::Log.debug(
+          "Received 400 from #{url}#{automate_endpoint} - " \
+          'assuming target is a Chef Automate2 instance',
+        )
+        true
+      else
+        false
       end
     end
 

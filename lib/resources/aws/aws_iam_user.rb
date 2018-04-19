@@ -9,12 +9,15 @@ class AwsIamUser < Inspec.resource(1)
     describe aws_iam_user(username: 'test_user') do
       it { should have_mfa_enabled }
       it { should_not have_console_password }
+      it { should_not have_inline_user_policies }
+      it { should_not have_attached_user_policies }
     end
   "
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :access_keys, :has_console_password, :has_mfa_enabled, :username
+  attr_reader :access_keys, :attached_policy_names, :attached_policy_arns, \
+              :has_console_password, :has_mfa_enabled, :inline_policy_names, :username
   alias has_mfa_enabled? has_mfa_enabled
   alias has_console_password? has_console_password
 
@@ -25,6 +28,16 @@ class AwsIamUser < Inspec.resource(1)
 
   def to_s
     "IAM User #{username}"
+  end
+
+  def has_attached_policies?
+    return nil unless exists?
+    !attached_policy_names.empty?
+  end
+
+  def has_inline_policies?
+    return nil unless exists?
+    !inline_policy_names.empty?
   end
 
   private
@@ -62,6 +75,10 @@ class AwsIamUser < Inspec.resource(1)
         @aws_user_struct = backend.get_user(user_name: username)
       rescue Aws::IAM::Errors::NoSuchEntity
         @exists = false
+        @access_keys = []
+        @inline_policy_names = []
+        @attached_policy_arns = []
+        @attached_policy_names = []
         return
       end
     end
@@ -84,6 +101,12 @@ class AwsIamUser < Inspec.resource(1)
     @access_keys = backend.list_access_keys(user_name: username).access_key_metadata
     # If the above call fails, we get nil here; but we promise access_keys will be an array.
     @access_keys ||= []
+
+    @inline_policy_names = backend.list_user_policies(user_name: username).policy_names
+
+    attached_policies = backend.list_attached_user_policies(user_name: username).attached_policies
+    @attached_policy_arns = attached_policies.map { |p| p[:policy_arn] }
+    @attached_policy_names = attached_policies.map { |p| p[:policy_name] }
   end
 
   class Backend
@@ -105,6 +128,14 @@ class AwsIamUser < Inspec.resource(1)
 
       def list_access_keys(criteria)
         aws_service_client.list_access_keys(criteria)
+      end
+
+      def list_user_policies(criteria)
+        aws_service_client.list_user_policies(criteria)
+      end
+
+      def list_attached_user_policies(criteria)
+        aws_service_client.list_attached_user_policies(criteria)
       end
     end
   end

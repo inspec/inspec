@@ -12,7 +12,7 @@ class AwsConfigurationRecorder < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :role_arn, :resource_types, :recorder_name, :resp
+  attr_reader :role_arn, :resource_types, :recorder_name
 
   def to_s
     "Configuration_Recorder: #{@recorder_name}"
@@ -27,11 +27,11 @@ class AwsConfigurationRecorder < Inspec.resource(1)
   end
 
   def status
-    return unless @exists
+    return {} unless @exists
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
-      @resp = backend.describe_configuration_recorder_status(@query)
-      @status = @resp.configuration_recorders_status.first.to_h
+      response = backend.describe_configuration_recorder_status(configuration_recorder_names: [@recorder_name])
+      @status = response.configuration_recorders_status.first.to_h
     end
   end
 
@@ -50,35 +50,30 @@ class AwsConfigurationRecorder < Inspec.resource(1)
       allowed_scalar_type: String,
     )
 
-    # Must give it a recorder_name
-    if validated_params[:recorder_name].nil?
-      raise ArgumentError, 'You must provide recorder_name to aws_config_recorder'
-    end
-
     validated_params
   end
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    @query = { configuration_recorder_names: [@recorder_name] }
+    query = @recorder_name ? { configuration_recorder_names: [@recorder_name] } : {}
+    response = backend.describe_configuration_recorders(query)
 
-    catch_aws_errors do
-      begin
-        @resp = backend.describe_configuration_recorders(@query)
-      rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
-        @exists = false
-        return
-      end
-      @exists = !@resp.empty?
-      return unless @exists
+    @exists = !response.configuration_recorders.empty?
+    return unless exists?
 
-      @recorder = @resp.configuration_recorders.first.to_h
-      @recorder_name = @recorder[:name]
-      @role_arn = @recorder[:role_arn]
-      @recording_all_resource_types = @recorder[:recording_group][:all_supported]
-      @recording_all_global_types = @recorder[:recording_group][:include_global_resource_types]
-      @resource_types = @recorder[:recording_group][:resource_types]
+    if response.configuration_recorders.count > 1
+      raise ArgumentError, 'Internal error: unexpectedly received multiple AWS Config Recorder objects from API; expected to be singleton per-region.  Please file a bug report at https://github.com/chef/inspec/issues .'
     end
+
+    recorder = response.configuration_recorders.first.to_h
+    @recorder_name = recorder[:name]
+    @role_arn = recorder[:role_arn]
+    @recording_all_resource_types = recorder[:recording_group][:all_supported]
+    @recording_all_global_types = recorder[:recording_group][:include_global_resource_types]
+    @resource_types = recorder[:recording_group][:resource_types]
+  rescue Aws::ConfigService::Errors::NoSuchConfigurationRecorderException
+    @exists = false
+    return
   end
 
   class Backend

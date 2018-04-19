@@ -2,10 +2,9 @@
 #                                 Route Tables
 #===========================================================================#
 
-
 data "aws_internet_gateway" "default" {
   filter {
-    name = "attachment.vpc-id"
+    name   = "attachment.vpc-id"
     values = ["${data.aws_vpc.default.id}"]
   }
 }
@@ -36,16 +35,8 @@ output "route_table_2_id" {
   value = "${aws_route_table.rtb2.id}"
 }
 
-output "route_table_1_associations" {
-  value = "${aws_route_table.rtb.associations}"
-}
-
 output "route_table_1_propagating_vgws" {
   value = "${aws_route_table.rtb.propagating_vgws}"
-}
-
-output "route_table_1_routes" {
-  value = "${aws_route_table.rtb.routes}"
 }
 
 output "route_table_1_vpc_id" {

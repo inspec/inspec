@@ -1,22 +1,58 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.33 -->
-## [v2.1.33](https://github.com/chef/inspec/tree/v2.1.33) (2018-04-06)
+<!-- latest_release 2.1.54 -->
+## [v2.1.54](https://github.com/chef/inspec/tree/v2.1.54) (2018-04-19)
 
-#### New Features
-- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Add missing `git` to Dockerfile. [#2969](https://github.com/chef/inspec/pull/2969) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.30 -->
-### Changes since 2.1.30 release
+<!-- release_rollup since=2.1.43 -->
+### Changes since 2.1.43 release
+
+#### Merged Pull Requests
+- Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick)) <!-- 2.1.52 -->
 
 #### New Features
-- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.33 -->
-- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.32 -->
-- aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj)) <!-- 2.1.31 -->
+- Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.48 -->
+
+#### Bug Fixes
+- Add missing `git` to Dockerfile. [#2969](https://github.com/chef/inspec/pull/2969) ([miah](https://github.com/miah)) <!-- 2.1.54 -->
+- updating kitchen-puppet example for the `puppet_apply` provisioner [#2972](https://github.com/chef/inspec/pull/2972) ([moutons](https://github.com/moutons)) <!-- 2.1.49 -->
+- Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.47 -->
+- Fixed numerous naming errors in aws_iam_vpcs integration tests [#2961](https://github.com/chef/inspec/pull/2961) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.46 -->
+- aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.45 -->
+
+#### Enhancements
+- Make names for AWS Config service objects optional [#2928](https://github.com/chef/inspec/pull/2928) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.53 -->
+- Upgrade Terraform version pins for integration testing [#2968](https://github.com/chef/inspec/pull/2968) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.51 -->
+- Amazon linux service mgmt detection [#2970](https://github.com/chef/inspec/pull/2970) ([meringu](https://github.com/meringu)) <!-- 2.1.50 -->
+- updating output for aws_iam_role to match other AWS resources [#2960](https://github.com/chef/inspec/pull/2960) ([tmonk42](https://github.com/tmonk42)) <!-- 2.1.44 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
+
+#### New Features
+- aws_iam_group feature: test users in an iam group [#2888](https://github.com/chef/inspec/pull/2888) ([dromazmj](https://github.com/dromazmj))
+- aws_cloudtrail_trail feature: test how many days ago logs were delivered [#2887](https://github.com/chef/inspec/pull/2887) ([dromazmj](https://github.com/dromazmj))
+- AWS Security Group Rules properties and matchers [#2876](https://github.com/chef/inspec/pull/2876) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- New attribute JUnit reporter - target [#2839](https://github.com/chef/inspec/pull/2839) ([piotrgo](https://github.com/piotrgo))
+- Policy Statement Search capability for aws_iam_policy [#2918](https://github.com/chef/inspec/pull/2918) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Basic fields for aws_vpcs [#2930](https://github.com/chef/inspec/pull/2930) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Add warning when returning DEFAULT_ATTRIBUTE [#2934](https://github.com/chef/inspec/pull/2934) ([TrevorBramble](https://github.com/TrevorBramble))
+- Ensure @params in shadow resource always has a valid value. [#2939](https://github.com/chef/inspec/pull/2939) ([miah](https://github.com/miah))
+- Require a key attribute for the key_rsa resource [#2891](https://github.com/chef/inspec/pull/2891) ([omar-irizarry](https://github.com/omar-irizarry))
+- Add Cisco IOS `enable_password` support [#2905](https://github.com/chef/inspec/pull/2905) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+#### Merged Pull Requests
+- Update filesystem.md.erb [#2909](https://github.com/chef/inspec/pull/2909) ([tlmikulski](https://github.com/tlmikulski))
+- Fixes configuration for Azure integrationt tests [#2941](https://github.com/chef/inspec/pull/2941) ([dmccown](https://github.com/dmccown))
+- powershell resource: Add support line for Unix [#2952](https://github.com/chef/inspec/pull/2952) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v2.1.30](https://github.com/chef/inspec/tree/v2.1.30) (2018-04-05)
 
 #### New Resources
@@ -33,7 +69,6 @@
 - Added a description to steer people to correct resource [#2908](https://github.com/chef/inspec/pull/2908) ([username-is-already-taken2](https://github.com/username-is-already-taken2))
 - Update example resource syntax [#2904](https://github.com/chef/inspec/pull/2904) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Add automate reporter [#2902](https://github.com/chef/inspec/pull/2902) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.21](https://github.com/chef/inspec/tree/v2.1.21) (2018-03-29)
 

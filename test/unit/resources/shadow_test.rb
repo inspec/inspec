@@ -44,14 +44,16 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'access all lines of the file' do
-    _(shadow.lines[0]).must_equal 'root:x:1:2:3::::'
+    proc { _(shadow.lines[0]).must_equal 'root:x:1:2:3::::' }.must_output nil,
+      "[DEPRECATION] The shadow `lines` property is deprecated and will be removed in InSpec 3.0.\n"
   end
 
   it 'access all params of the file' do
-    _(shadow.params[0]).must_equal({
-      'user' => 'root', 'password' => 'x', 'last_change' => '1',
-      'min_days' => '2', 'max_days' => '3', 'warn_days' => nil,
-      'inactive_days' => nil, 'expiry_date' => nil, 'reserved' => nil,
+    _(shadow.entries[0].to_h).must_equal({
+      user: 'root', password: 'x', last_change: '1',
+      min_days: '2', max_days: '3', warn_days: nil,
+      inactive_days: nil, expiry_date: nil, reserved: nil,
+      content: nil, count: nil
     })
   end
 
@@ -83,6 +85,30 @@ describe 'Inspec::Resources::Shadow' do
     it 'filters with min_days and max_days' do
       _(shadow.filter(min_days: 20, max_days: 30).user).must_equal ['www-data']
       _(shadow.filter(last_change: 1, min_days: 2).user).must_equal ['root']
+    end
+  end
+
+  describe 'when method chained' do
+    let(:unreadable_shadow) { load_resource('shadow', '/fakepath/fakefile') }
+
+    it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
+      users = shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
+      users.each do |user|
+        proc { expect(shadow.users(user).user).must_equal(['www-data']) }.must_output nil,
+          '[DEPRECATION] The shadow `users` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `user` instead.\n"
+        proc { expect(shadow.users(user).inactive_days).must_equal(['50']) }.must_output nil,
+          '[DEPRECATION] The shadow `users` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `user` instead.\n"
+      end
+    end
+
+    it 'cant read /etc/unreadable_shadow and #filter matches nothing' do
+      users = unreadable_shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
+      users.each do |user|
+        expect(shadow.users(user).user).must_equal([])
+        expect(shadow.users(user).inactive_days).must_equal([])
+      end
     end
   end
 

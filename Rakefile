@@ -105,10 +105,10 @@ namespace :test do
         abort("You must set the environment variable AWS_REGION") unless ENV['AWS_REGION']
         puts "----> Checking for required AWS profile..."
         sh("aws configure get aws_access_key_id --profile inspec-aws-test-#{account} > /dev/null")
-        sh("cd #{integration_dir}/build/ && terraform init")
+        sh("cd #{integration_dir}/build/ && terraform init -upgrade")
         sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
-        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform plan")
-        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform apply")
+        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform plan -out inspec-aws-#{account}.plan")
+        sh("cd #{integration_dir}/build/ && AWS_PROFILE=inspec-aws-test-#{account} terraform apply -auto-approve inspec-aws-#{account}.plan")
         Rake::Task["test:aws:dump_attrs:#{account}"].execute
       end
 
@@ -158,11 +158,12 @@ namespace :test do
       tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Setup'
-      sh("cd #{integration_dir}/build/ && terraform init")
+      sh("cd #{integration_dir}/build/ && terraform init -upgrade")
       sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
 
       # Generate Azure crendentials
-      creds = Train.create('azure').connection.connect
+      connection = Train.create('azure').connection
+      creds = connection.options
 
       # Determine the storage account name and the admin password
       sa_name = (0...15).map { (65 + rand(26)).chr }.join.downcase
@@ -208,7 +209,8 @@ namespace :test do
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Cleanup'
 
-      creds = Train.create('azure').connection.connect
+      connection = Train.create('azure').connection
+      creds = connection.options
 
       cmd  = ""
       cmd += "cd #{integration_dir}/build/ && terraform destroy -force "

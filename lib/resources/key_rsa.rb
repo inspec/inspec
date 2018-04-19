@@ -3,6 +3,7 @@
 require 'openssl'
 require 'hashie/mash'
 require 'utils/file_reader'
+require 'utils/pkey_reader'
 
 module Inspec::Resources
   class RsaKey < Inspec.resource(1)
@@ -22,11 +23,12 @@ module Inspec::Resources
     "
 
     include FileReader
+    include PkeyReader
 
     def initialize(keypath, passphrase = nil)
       @key_path = keypath
       @passphrase = passphrase
-      @key = OpenSSL::PKey.read(read_file_content(@key_path, allow_empty: true), @passphrase)
+      @key = read_pkey(read_file_content(@key_path, allow_empty: true), @passphrase)
     end
 
     def public?

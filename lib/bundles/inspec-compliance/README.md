@@ -37,6 +37,14 @@ Commands:
   inspec compliance version           # displays the version of the Chef Compliance server
 ```
 
+### Login with Chef Automate2
+
+You will need an API token for authentication. You can retrieve one via the admin section of your A2 web gui.
+
+```
+$ inspec compliance login https://automate2.compliance.test --insecure --user 'admin' --token 'zuop..._KzE'
+```
+
 ### Login with Chef Automate
 
 You will need an access token for authentication. You can retrieve one via [UI](https://docs.chef.io/api_delivery.html) or [CLI](https://docs.chef.io/ctl_delivery.html#delivery-token).

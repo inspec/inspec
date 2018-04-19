@@ -1,11 +1,11 @@
 <?xml version='1.0'?>
 <testsuites>
   <testsuite name='long_commands' tests='4' failed='1'>
-    <testcase name='File /tmp should be directory' classname='long_commands.Anonymous' time='0.002058'/>
-    <testcase name='File /tmp should be directory' classname='long_commands.tmp-1.0' time='0.000102'/>
-    <testcase name='gem package rubocop should be installed' classname='long_commands.Anonymous' time='0.000168'>
+    <testcase name='File /tmp should be directory' classname='long_commands.Anonymous' target='local://' time='0.002058'/>
+    <testcase name='File /tmp should be directory' classname='long_commands.tmp-1.0' target='local://' time='0.000102'/>
+    <testcase name='gem package rubocop should be installed' classname='long_commands.Anonymous' target='local://' time='0.000168'>
       <failure message='rubocop is not installed'/>
     </testcase>
-    <testcase name='Command whoami stdout should eq &quot;jquick\n&quot;' classname='long_commands.Anonymous' time='0.034938'/>
+    <testcase name='Command whoami stdout should eq &quot;jquick\n&quot;' classname='long_commands.Anonymous' target='local://' time='0.034938'/>
   </testsuite>
 </testsuites>

@@ -28,29 +28,23 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
       allowed_scalar_type: String,
     )
 
-    # Make sure channel_name is given as param
-    if validated_params[:channel_name].nil?
-      raise ArgumentError, 'You must provide a channel_name to aws_config_delivery_channel'
-    end
-
     validated_params
   end
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-    query = { delivery_channel_names: [@channel_name] }
-    catch_aws_errors do
-      @resp = backend.describe_delivery_channels(query)
-    end
-    @exists = !@resp.empty?
-    return unless @exists
+    query = @channel_name ? { delivery_channel_names: [@channel_name] } : {}
+    response = backend.describe_delivery_channels(query)
 
-    @channel = @resp.delivery_channels.first.to_h
-    @channel_name = @channel[:name]
-    @s3_bucket_name = @channel[:s3_bucket_name]
-    @s3_key_prefix = @channel[:s3_key_prefix]
-    @sns_topic_arn = @channel[:sns_topic_arn]
-    @delivery_frequency_in_hours = @channel[:config_snapshot_delivery_properties][:delivery_frequency] unless @channel[:config_snapshot_delivery_properties].nil?
+    @exists = !response.delivery_channels.empty?
+    return unless exists?
+
+    channel = response.delivery_channels.first.to_h
+    @channel_name = channel[:name]
+    @s3_bucket_name = channel[:s3_bucket_name]
+    @s3_key_prefix = channel[:s3_key_prefix]
+    @sns_topic_arn = channel[:sns_topic_arn]
+    @delivery_frequency_in_hours = channel.dig(:config_snapshot_delivery_properties, :delivery_frequency)
     frequencies = {
       'One_Hour' => 1,
       'TwentyFour_Hours' => 24,
@@ -59,6 +53,8 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
       'Twelve_Hours' => 12,
     }
     @delivery_frequency_in_hours = frequencies[@delivery_frequency_in_hours]
+  rescue Aws::ConfigService::Errors::NoSuchDeliveryChannelException
+    @exists = false
   end
 
   class Backend
@@ -66,10 +62,8 @@ class AwsConfigDeliveryChannel < Inspec.resource(1)
       BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::ConfigService::Client
 
-      def describe_delivery_channels(query)
+      def describe_delivery_channels(query = {})
         aws_service_client.describe_delivery_channels(query)
-      rescue Aws::ConfigService::Errors::NoSuchDeliveryChannelException
-        return {}
       end
     end
   end
