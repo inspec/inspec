@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.53 -->
-## [v2.1.53](https://github.com/chef/inspec/tree/v2.1.53) (2018-04-19)
+<!-- latest_release 2.1.54 -->
+## [v2.1.54](https://github.com/chef/inspec/tree/v2.1.54) (2018-04-19)
 
-#### Enhancements
-- Make names for AWS Config service objects optional [#2928](https://github.com/chef/inspec/pull/2928) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Add missing `git` to Dockerfile. [#2969](https://github.com/chef/inspec/pull/2969) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
@@ -17,6 +17,7 @@
 - Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.48 -->
 
 #### Bug Fixes
+- Add missing `git` to Dockerfile. [#2969](https://github.com/chef/inspec/pull/2969) ([miah](https://github.com/miah)) <!-- 2.1.54 -->
 - updating kitchen-puppet example for the `puppet_apply` provisioner [#2972](https://github.com/chef/inspec/pull/2972) ([moutons](https://github.com/moutons)) <!-- 2.1.49 -->
 - Policy statement search: don&#39;t stacktrace on missing field [#2962](https://github.com/chef/inspec/pull/2962) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.47 -->
 - Fixed numerous naming errors in aws_iam_vpcs integration tests [#2961](https://github.com/chef/inspec/pull/2961) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.46 -->
