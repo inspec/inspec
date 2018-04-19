@@ -7,6 +7,7 @@ provisioner:
   # Not installing chef since inspec is used for testing
   require_chef_for_busser: false
   manifests_path: manifests
+  modules_path: modules
 
 verifier:
   name: inspec
