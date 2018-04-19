@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.51 -->
-## [v2.1.51](https://github.com/chef/inspec/tree/v2.1.51) (2018-04-19)
+<!-- latest_release 2.1.52 -->
+## [v2.1.52](https://github.com/chef/inspec/tree/v2.1.52) (2018-04-19)
 
-#### Enhancements
-- Upgrade Terraform version pins for integration testing [#2968](https://github.com/chef/inspec/pull/2968) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
 ### Changes since 2.1.43 release
+
+#### Merged Pull Requests
+- Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick)) <!-- 2.1.52 -->
 
 #### New Features
 - Inline and attached policies for aws_iam_user and aws_iam_users [#2947](https://github.com/chef/inspec/pull/2947) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.48 -->
