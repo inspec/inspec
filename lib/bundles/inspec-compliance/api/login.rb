@@ -16,15 +16,56 @@ module Compliance
         options['server_type'] = Compliance::API.determine_server_type(options['server'], options['insecure'])
 
         case options['server_type']
+        when :automate2
+          Login::Automate2Server.login(options)
         when :automate
-          config = Login::AutomateServer.login(options)
+          Login::AutomateServer.login(options)
         when :compliance
-          config = Login::ComplianceServer.login(options)
+          Login::ComplianceServer.login(options)
         else
           raise CannotDetermineServerType, "Unable to determine if #{options['server']} is a Chef Automate or Chef Compliance server"
         end
+      end
 
-        puts "Stored configuration for Chef #{config['server_type'].capitalize}: #{config['server']}' with user: '#{config['user']}'"
+      module Automate2Server
+        def self.login(options)
+          verify_thor_options(options)
+
+          options['url'] = options['server'] + '/api/v0'
+          token = options['dctoken'] || options['token']
+          store_access_token(options, token)
+        end
+
+        def self.store_access_token(options, token)
+          config = Compliance::Configuration.new
+          config.clean
+
+          config['automate'] = {}
+          config['automate']['ent'] = 'automate'
+          config['automate']['token_type'] = 'dctoken'
+          config['server'] = options['url']
+          config['user'] = options['user']
+          config['owner'] = options['user']
+          config['insecure'] = options['insecure'] || false
+          config['server_type'] = options['server_type'].to_s
+          config['token'] = token
+          config['version'] = '0'
+
+          config.store
+          config
+        end
+
+        def self.verify_thor_options(o)
+          error_msg = []
+
+          error_msg.push('Please specify a user using `--user=\'USER\'`') if o['user'].nil?
+
+          if o['token'].nil? && o['dctoken'].nil?
+            error_msg.push('Please specify a token using `--token=\'APITOKEN\'`')
+          end
+
+          raise ArgumentError, error_msg.join("\n") unless error_msg.empty?
+        end
       end
 
       module AutomateServer

@@ -136,7 +136,44 @@ module Fetchers
     end
 
     def temp_archive_path
-      @temp_archive_path ||= download_archive_to_temp
+      @temp_archive_path ||= if @config['server_type'] == 'automate2'
+                               download_automate2_archive_to_temp
+                             else
+                               download_archive_to_temp
+                             end
+    end
+
+    def download_automate2_archive_to_temp
+      return @temp_archive_path if !@temp_archive_path.nil?
+
+      Inspec::Log.debug("Fetching URL: #{@target}")
+      json = {
+        owner: @config['profile'][0],
+        name: @config['profile'][1],
+        version: @config['profile'][2],
+      }.to_json
+
+      uri = URI.parse(@target)
+      opts = http_opts
+      opts[:use_ssl] = uri.scheme == 'https'
+
+      req = Net::HTTP::Post.new(uri)
+      opts.each do |key, value|
+        req.add_field(key, value)
+      end
+      req.body = json
+      res = Net::HTTP.start(uri.host, uri.port, opts) { |http|
+        http.request(req)
+      }
+
+      @archive_type = '.tar.gz'
+      archive = Tempfile.new(['inspec-dl-', @archive_type])
+      archive.binmode
+      archive.write(res.body)
+      archive.rewind
+      archive.close
+      Inspec::Log.debug("Archive stored at temporary location: #{archive.path}")
+      @temp_archive_path = archive.path
     end
 
     # Downloads archive to temporary file with side effect :( of setting @archive_type
@@ -155,7 +192,7 @@ module Fetchers
     end
 
     def download_archive(path)
-      download_archive_to_temp
+      temp_archive_path
       final_path = "#{path}#{@archive_type}"
       FileUtils.mkdir_p(File.dirname(final_path))
       FileUtils.mv(temp_archive_path, final_path)
@@ -168,7 +205,7 @@ module Fetchers
       opts = {}
       opts[:ssl_verify_mode] = OpenSSL::SSL::VERIFY_NONE if @insecure
 
-      if @config['server_type'] == 'automate'
+      if @config['server_type'] =~ /automate/
         opts['chef-delivery-enterprise'] = @config['automate']['ent']
         if @config['automate']['token_type'] == 'dctoken'
           opts['x-data-collector-token'] = @config['token']

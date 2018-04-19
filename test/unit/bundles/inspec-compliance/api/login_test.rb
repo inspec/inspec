@@ -47,6 +47,44 @@ describe Compliance::API do
   end
 
   describe '.login' do
+    describe 'when target is a Chef Automate2 server' do
+      before do
+        Compliance::API.expects(:determine_server_type).returns(:automate2)
+      end
+
+      it 'raises an error if `--user` is missing' do
+        options = automate_options
+        options.delete('user')
+        err = proc { Compliance::API.login(options) }.must_raise(ArgumentError)
+        err.message.must_match(/Please specify a user.*/)
+        err.message.lines.length.must_equal(1)
+      end
+
+      it 'raises an error if `--token` and `--dctoken` are missing' do
+        options = automate_options
+        options.delete('token')
+        options.delete('dctoken')
+        err = proc { Compliance::API.login(options) }.must_raise(ArgumentError)
+        err.message.must_match(/Please specify a token.*/)
+        err.message.lines.length.must_equal(1)
+      end
+
+      it 'stores an access token' do
+        stub_request(:get, automate_options['server'] + '/compliance/version')
+          .to_return(status: 200, body: '', headers: {})
+        options = automate_options
+        Compliance::Configuration.expects(:new).returns(fake_config)
+
+        Compliance::API.login(options)
+        fake_config['automate']['ent'].must_equal('automate')
+        fake_config['automate']['token_type'].must_equal('dctoken')
+        fake_config['user'].must_equal('someone')
+        fake_config['server'].must_equal('https://automate.example.com/api/v0')
+        fake_config['server_type'].must_equal('automate2')
+        fake_config['token'].must_equal('token')
+      end
+    end
+
     describe 'when target is a Chef Automate server' do
       before do
         Compliance::API.expects(:determine_server_type).returns(:automate)
@@ -83,7 +121,7 @@ describe Compliance::API do
         options = automate_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Automate/)
+        Compliance::API.login(options)
         fake_config['automate']['ent'].must_equal('automate')
         fake_config['automate']['token_type'].must_equal('usertoken')
         fake_config['user'].must_equal('someone')
@@ -123,7 +161,7 @@ describe Compliance::API do
         options = compliance_options
         Compliance::Configuration.expects(:new).returns(fake_config)
 
-        proc { Compliance::API.login(options) }.must_output(/Stored configuration.*Compliance/)
+        Compliance::API.login(options)
         fake_config['user'].must_equal('someone')
         fake_config['server'].must_equal('https://compliance.example.com/api')
         fake_config['server_type'].must_equal('compliance')
