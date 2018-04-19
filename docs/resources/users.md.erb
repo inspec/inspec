@@ -108,7 +108,7 @@ where `0` represents the maximum number of days.
 
 The `shell` matcher tests the path to the default shell for the user:
 
-    its('shell') { should eq '/bin/bash' }
+    its('shells') { should eq ['/bin/bash'] }
 
 ### uid
 
