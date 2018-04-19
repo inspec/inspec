@@ -17,6 +17,12 @@ end
 #-------------------  Recall / Miss -------------------#
 
 control "aws_config_recorder recall" do
+
+  # Get the singleton if you don't pass a name
+  describe aws_config_recorder do
+    it { should exist }
+  end
+  
   # Test scalar param
   describe aws_config_recorder(fixtures['config_recorder_name']) do
     it { should exist }
@@ -35,6 +41,10 @@ end
 
 #-------------------  Properties -------------------#
 control "aws_config_recorder properties" do
+  describe aws_config_recorder do
+    its('recorder_name') { should eq fixtures['config_recorder_name'] }
+  end
+
   describe aws_config_recorder(fixtures['config_recorder_name']) do
     its('recorder_name') { should eq fixtures['config_recorder_name'] }
     its('role_arn') { should eq fixtures['role_for_config_recorder_arn'] }

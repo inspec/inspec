@@ -8,17 +8,27 @@ Use the `aws_config_recorder` InSpec audit resource to test properties of your A
 
 The AWS Config service can monitor and record changes to your AWS resource configurations.  The Aws Config Recorder is used to detect changes in resource configurations and capture these changes as configuration items.
 
+As of April 2018, you are only permitted one configuration recorder per region.
+
 <br>
 
-## Syntax
+## Resource Parameters
 
 An `aws_config_recorder` resource block declares the tests for a single AWS configuration recorder.
+
+You may specify a recorder by name:
 
     describe aws_config_recorder('my_recorder') do
       it { should exist }
     end
 
     describe aws_config_recorder(recorder_name: 'my-recorder') do
+      it { should exist }
+    end
+
+However, since you may only have one recorder per region, and InSpec connections are per-region, you may also omit the `recorder_name` to obtain the one recorder (if any) that exists:
+
+    describe aws_config_recorder do
       it { should exist }
     end
 

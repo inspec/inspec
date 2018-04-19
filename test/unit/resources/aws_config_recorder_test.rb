@@ -11,7 +11,12 @@ class AwsConfigurationRecorderConstructorTest < Minitest::Test
   def setup
     AwsConfigurationRecorder::BackendFactory.select(AwsMCRSB::Basic)
   end
-  
+
+  def test_constructor_when_no_params_provided
+    AwsConfigurationRecorder.new
+  end
+
+
   def test_constructor_expected_well_formed_args_scalar
     AwsConfigurationRecorder.new('default')
   end
@@ -20,10 +25,6 @@ class AwsConfigurationRecorderConstructorTest < Minitest::Test
     AwsConfigurationRecorder.new(recorder_name: 'default')
   end
   
-  def test_constructor_reject_no_params
-    assert_raises(ArgumentError) { AwsConfigurationRecorder.new }
-  end
-
   def test_constructor_reject_unknown_resource_params
     assert_raises(ArgumentError) { AwsConfigurationRecorder.new(bla: 'blabla') }
   end
@@ -37,7 +38,11 @@ class AwsConfigurationRecorderRecallTest < Minitest::Test
   def setup
     AwsConfigurationRecorder::BackendFactory.select(AwsMCRSB::Basic)
   end
-  
+
+  def test_search_hit_by_default
+    assert AwsConfigurationRecorder.new.exists?
+  end
+
   def test_search_hit_via_scalar
     assert AwsConfigurationRecorder.new('default').exists?
   end
@@ -62,6 +67,7 @@ class AwsConfigurationRecorderPropertiesTest < Minitest::Test
 
   def test_property_recorder_name
     assert_equal('default', AwsConfigurationRecorder.new(recorder_name: 'default').recorder_name)
+    assert_equal('default', AwsConfigurationRecorder.new.recorder_name)
   end
 
   def test_property_role_arn
@@ -70,7 +76,7 @@ class AwsConfigurationRecorderPropertiesTest < Minitest::Test
   end
   
   def test_property_resource_types
-    assert_equal(['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'], AwsConfigurationRecorder.new(recorder_name: 'Recorder_2').resource_types)
+    assert_equal(['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'], AwsConfigurationRecorder.new(recorder_name: 'default').resource_types)
     assert_nil(AwsConfigurationRecorder.new(recorder_name: 'NonExistentRecorder').resource_types)
   end
 end
@@ -95,14 +101,13 @@ class AwsConfigurationRecorderPropertiesTest < Minitest::Test
   end
 end
 
-
 #=============================================================================#
 #                               Test Fixtures
 #=============================================================================#
 
 module AwsMCRSB
   class Basic < AwsBackendBase
-    def describe_configuration_recorders(query)
+    def describe_configuration_recorders(query = {})
       recorders = {
         'default' => OpenStruct.new({
           :configuration_recorders => [
@@ -111,28 +116,21 @@ module AwsMCRSB
             :recording_group => OpenStruct.new({
               all_supported: true,
               include_global_resource_types: true,
-              resource_types: []
+              resource_types: ['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP'],
             }),
           ]
         }),
-        'Recorder_2' => OpenStruct.new({
-          :configuration_recorders => [
-            name: "Recorder_2",
-            role_arn: "arn:aws:iam::721741954427:role/Recorder_1",
-            :recording_group => OpenStruct.new({
-              all_supported: false,
-              include_global_resource_types: false,
-              resource_types: ['AWS::EC2::CustomerGateway', 'AWS::EC2::EIP']
-            }),
-          ]
-        }),
-        'empty' => {}
       }
-      return recorders[query[:configuration_recorder_names][0]] unless recorders[query[:configuration_recorder_names][0]].nil?
-      recorders['empty']
+      if query.empty?
+        return recorders['default']
+      elsif recorders.key?(query[:configuration_recorder_names][0])
+        return recorders[query[:configuration_recorder_names][0]]
+      else
+        raise Aws::ConfigService::Errors::NoSuchConfigurationRecorderException.new(nil, nil)
+      end
     end
     
-    def describe_configuration_recorder_status(query)
+    def describe_configuration_recorder_status(query = {})
       recorders = {
         'default' => OpenStruct.new({
           :configuration_recorders_status => [
