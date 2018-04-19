@@ -71,7 +71,7 @@ resource "aws_iam_role_policy" "cloud_watch_logs_role_policy" {
                 "logs:CreateLogStream"
             ],
             "Resource": [
-                "arn:aws:logs:${data.aws_region.region.name}:${data.aws_caller_identity.creds.account_id}:log-group:${aws_cloudwatch_log_group.trail_1_log_group.name}:log-stream:${data.aws_caller_identity.creds.account_id}_CloudTrail_${data.aws_region.region.name}*"
+                "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.creds.account_id}:log-group:${aws_cloudwatch_log_group.trail_1_log_group.name}:log-stream:${data.aws_caller_identity.creds.account_id}_CloudTrail_${data.aws_region.current.name}*"
             ]
         },
         {
@@ -81,7 +81,7 @@ resource "aws_iam_role_policy" "cloud_watch_logs_role_policy" {
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:${data.aws_region.region.name}:${data.aws_caller_identity.creds.account_id}:log-group:${aws_cloudwatch_log_group.trail_1_log_group.name}:log-stream:${data.aws_caller_identity.creds.account_id}_CloudTrail_${data.aws_region.region.name}*"
+                "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.creds.account_id}:log-group:${aws_cloudwatch_log_group.trail_1_log_group.name}:log-stream:${data.aws_caller_identity.creds.account_id}_CloudTrail_${data.aws_region.current.name}*"
             ]
         }
     ]
@@ -164,7 +164,7 @@ resource "aws_kms_key" "trail_1_key" {
       "Resource": "*",
       "Condition": {
         "StringEquals": {
-          "kms:ViaService": "ec2.${data.aws_region.region.name}.amazonaws.com",
+          "kms:ViaService": "ec2.${data.aws_region.current.name}.amazonaws.com",
           "kms:CallerAccount": "${data.aws_caller_identity.creds.account_id}"
         }
       }
@@ -178,7 +178,7 @@ resource "aws_cloudtrail" "trail_1" {
   depends_on                    = ["aws_iam_role_policy.cloud_watch_logs_role_policy"]
   name                          = "${terraform.env}-trail-01"
   s3_bucket_name                = "${aws_s3_bucket.trail_1_bucket.id}"
-  include_global_service_events = false
+  include_global_service_events = true
   enable_logging                = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true

@@ -1,5 +1,6 @@
 # Configure variables
 variable "storage_account_name" {}
+
 variable "admin_password" {}
 
 variable "subscription_id" {}
@@ -15,17 +16,22 @@ variable "location" {
   default = "West Europe"
 }
 
-# Output the sub ID so the fixture system has something to chew on
-output "subscription_id" {
-  value = "${var.subscription_id}"
+terraform {
+  required_version = "~> 0.11.0"
 }
 
 # Configure the Azure RM provider
 provider "azurerm" {
+  version         = "~> 1.3"
   subscription_id = "${var.subscription_id}"
   client_id       = "${var.client_id}"
   client_secret   = "${var.client_secret}"
   tenant_id       = "${var.tenant_id}"
+}
+
+# Output the sub ID so the fixture system has something to chew on
+output "subscription_id" {
+  value = "${var.subscription_id}"
 }
 
 # Create a resource group for the machine to be created in
@@ -40,10 +46,10 @@ resource "azurerm_resource_group" "rg" {
 
 # Create the storage account to be used
 resource "azurerm_storage_account" "sa" {
-  name                = "${var.storage_account_name}"
-  location            = "${var.location}"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
-  account_tier        = "Standard"
+  name                     = "${var.storage_account_name}"
+  location                 = "${var.location}"
+  resource_group_name      = "${azurerm_resource_group.rg.name}"
+  account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
@@ -66,20 +72,20 @@ resource "azurerm_public_ip" "public_ip_1" {
 
 # Create a network security group so it can be tested
 resource "azurerm_network_security_group" "nsg" {
-  name                  = "Inspec-NSG"
-  location              = "${var.location}"
-  resource_group_name   = "${azurerm_resource_group.rg.name}"
+  name                = "Inspec-NSG"
+  location            = "${var.location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
 
   security_rule {
-    name                        = "SSH-22"
-    priority                    = 100
-    direction                   = "Inbound"
-    access                      = "Allow"
-    protocol                    = "Tcp"
-    source_port_range           = "*"
-    destination_port_range      = "22"
-    source_address_prefix       = "*"
-    destination_address_prefix  = "*"
+    name                       = "SSH-22"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 }
 
@@ -160,9 +166,9 @@ resource "azurerm_virtual_machine" "vm_linux_internal" {
 
   # Create the OS disk
   storage_os_disk {
-    name          = "Linux-Internal-OSDisk-MD"
-    caching       = "ReadWrite"
-    create_option = "FromImage"
+    name              = "Linux-Internal-OSDisk-MD"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
@@ -180,7 +186,7 @@ resource "azurerm_virtual_machine" "vm_linux_internal" {
   # Add boot diagnostics to the machine. These will be added to the 
   # created storage acccount
   boot_diagnostics {
-    enabled = true
+    enabled     = true
     storage_uri = "${azurerm_storage_account.sa.primary_blob_endpoint}"
   }
 }
@@ -230,8 +236,9 @@ resource "azurerm_virtual_machine" "vm_linux_external" {
 
   os_profile_linux_config {
     disable_password_authentication = true
+
     ssh_keys {
-      path = "/home/azure/.ssh/authorized_keys"
+      path     = "/home/azure/.ssh/authorized_keys"
       key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOxB7GqUxppqRBG5pB2fkkhlWkWUWmFjO3ZEc+VW70erOJWfUvhzBDDQziAOVKtNF2NsY0uyRJqwaP1idL0F7GDQtQl+HhkKW1gOCoTrNptJiYfIm05jTETRWObP0kGMPoAWlkWPBluUAI74B4nkvg7SKNpe36IZhuA8/kvVjxBfWy0r/b/dh+QEIb1eE8HfELAN8SrvrydT7My7g0YFT65V00A2HVa5X3oZaBXRKbmd5gZXBJXEbgHZqA9+NnIQkZXH0vkYYOQTANB8taVwjNVftpXzf2zEupONCYOOoIAep2tXuv2YmWuHr/Y5rCv2mK28ZVcM7W9UmwM0CMHZE7 azure@inspec.local"
     }
   }
@@ -254,19 +261,19 @@ resource "azurerm_virtual_machine" "vm_windows_internal" {
 
   # Create the OS disk
   storage_os_disk {
-    name          = "Windows-Internal-OSDisk-MD"
-    caching       = "ReadWrite"
-    create_option = "FromImage"
+    name              = "Windows-Internal-OSDisk-MD"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
   # Create 1 data disk to be used for testing
   storage_data_disk {
-    name          = "Windows-Internal-DataDisk-1-MD"
-    create_option = "Empty"
+    name              = "Windows-Internal-DataDisk-1-MD"
+    create_option     = "Empty"
     managed_disk_type = "Standard_LRS"
-    lun           = 0
-    disk_size_gb  = "1024"
+    lun               = 0
+    disk_size_gb      = "1024"
   }
 
   # Specify the name of the machine and the access credentials
@@ -280,5 +287,3 @@ resource "azurerm_virtual_machine" "vm_windows_internal" {
     provision_vm_agent = true
   }
 }
-
-
