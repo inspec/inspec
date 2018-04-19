@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.52 -->
-## [v2.1.52](https://github.com/chef/inspec/tree/v2.1.52) (2018-04-19)
+<!-- latest_release 2.1.53 -->
+## [v2.1.53](https://github.com/chef/inspec/tree/v2.1.53) (2018-04-19)
 
-#### Merged Pull Requests
-- Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Make names for AWS Config service objects optional [#2928](https://github.com/chef/inspec/pull/2928) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.43 -->
@@ -23,6 +23,7 @@
 - aws_iam_policy statement search fix for degenerate policies [#2958](https://github.com/chef/inspec/pull/2958) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.45 -->
 
 #### Enhancements
+- Make names for AWS Config service objects optional [#2928](https://github.com/chef/inspec/pull/2928) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.53 -->
 - Upgrade Terraform version pins for integration testing [#2968](https://github.com/chef/inspec/pull/2968) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.51 -->
 - Amazon linux service mgmt detection [#2970](https://github.com/chef/inspec/pull/2970) ([meringu](https://github.com/meringu)) <!-- 2.1.50 -->
 - updating output for aws_iam_role to match other AWS resources [#2960](https://github.com/chef/inspec/pull/2960) ([tmonk42](https://github.com/tmonk42)) <!-- 2.1.44 -->
