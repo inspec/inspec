@@ -26,14 +26,15 @@ class BasicAwsFlowLog < Minitest::Test
 
   def test_search_hit
     assert AwsFlowLog.new(flow_log_id: 'fl-abcd1234').exists?
+    assert_equal 'fl-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').flow_log_id
     assert_equal 'inspec-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').log_group_name
     assert_equal 'vpc-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').resource_id
   end
 
   def test_search_miss
     refute AwsFlowLog.new(flow_log_id: 'fl-12341234').exists?
-    refute AwsFlowLog.new(flow_log_id: 'fl-12341234').log_group_name
-    refute AwsFlowLog.new(flow_log_id: 'fl-12341234').resource_id
+    assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').log_group_name
+    assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').resource_id
   end
 end
 

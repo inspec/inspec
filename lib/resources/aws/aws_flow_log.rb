@@ -1,8 +1,11 @@
 class AwsFlowLog < Inspec.resource(1)
   name 'aws_flow_log'
   supports platform: 'aws'
-  desc ''
-  example ''
+  desc 'This resource is used to test the attributes of a Flow Log.'
+  example "
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should exist }
+    end"
 
   include AwsSingularResourceMixin
 
@@ -10,7 +13,7 @@ class AwsFlowLog < Inspec.resource(1)
     "AWS Flow Log #{@flow_log_id}"
   end
 
-  attr_reader :log_group_name, :resource_id, :name
+  attr_reader :log_group_name, :resource_id, :flow_log_id
 
   private
 
@@ -24,7 +27,7 @@ class AwsFlowLog < Inspec.resource(1)
 
     if validated_params.empty?
       raise ArgumentError,
-            'aws_flow_log requires a parameter: flow_log_id, subnet_id, vpc_id'
+            'aws_flow_log requires a parameter: flow_log_id, subnet_id, or vpc_id'
     end
 
     validated_params
@@ -39,7 +42,7 @@ class AwsFlowLog < Inspec.resource(1)
     unless flow_log.nil?
       @log_group_name = flow_log[:log_group_name]
       @resource_id = flow_log[:resource_id]
-      @name = flow_log[:flow_log_id]
+      @flow_log_id = flow_log[:flow_log_id]
     end
   end
 
