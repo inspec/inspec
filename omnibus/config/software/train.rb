@@ -8,7 +8,8 @@ dependency 'bundler'
 dependency 'appbundler'
 
 license :project_license
-source git: 'https://github.com/chef-partners/train.git', branch: 'add-gcp-transport'
+default_version 'add-gcp-transport'
+source git: 'https://github.com/chef-partners/train.git'
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
