@@ -30,6 +30,7 @@ meta-profile-0.2.0.tar.gz
 profile-1.0.0.tar.gz
 .attribute.yml
 .terraform/
+terraform.tfvars
 terraform.tfstate*
 terraform.tfstate.backup
 inspec-azure.plan

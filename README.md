@@ -424,6 +424,12 @@ Use the rake task `bundle exec rake test:aws` to test the AWS resources against 
 
 Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.md) for details on how to setup the needed AWS accounts to perform testing.
 
+### Azure Tests
+
+Use the rake task `bundle exec rake test:azure` to test the Azure resources against an Azure account.
+
+Please see [TESTING_AGAINST_AZURE.md](./test/integration/aws/TESTING_AGAINST_AZURE.md) for details on how to setup the needed Azure accounts to perform testing.
+
 ## License
 
 |                |                                           |
