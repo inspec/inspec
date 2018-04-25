@@ -189,7 +189,14 @@ module Inspec
       # we need to return an attribute object, to allow dermination of default values
       attr = Attribute.new(name, options)
       # read value from given gived values
-      attr.value = @conf['attributes'][attr.name] unless @conf['attributes'].nil?
+      if @conf['attributes']
+        if @conf['attributes'][attr.name]
+          attr.value = @conf['attributes'][attr.name]
+        else
+          # Test if both, the given name and attributes are hierarchical and pick up the value down the hierarchy
+          attr.value = attr.name.split(':').inject(@conf['attributes'], :[])
+        end
+      end
       @attributes.push(attr)
       attr.value
     end
