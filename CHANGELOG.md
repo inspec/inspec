@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.55 -->
+## [v2.1.55](https://github.com/chef/inspec/tree/v2.1.55) (2018-04-26)
+
+#### Enhancements
+- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.54 -->
+### Changes since 2.1.54 release
+
+#### Enhancements
+- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah)) <!-- 2.1.55 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
