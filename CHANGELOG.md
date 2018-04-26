@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.59 -->
-## [v2.1.59](https://github.com/chef/inspec/tree/v2.1.59) (2018-04-26)
-
-#### Bug Fixes
-- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.54 -->
-### Changes since 2.1.54 release
-
-#### Bug Fixes
-- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.59 -->
-
-#### Merged Pull Requests
-- os_env resource returns only user&#39;s environment variable on Windows [#2945](https://github.com/chef/inspec/pull/2945) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.58 -->
-- Fix case where res is nil in etc_group [#2984](https://github.com/chef/inspec/pull/2984) ([chris-rock](https://github.com/chris-rock)) <!-- 2.1.57 -->
-- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.56 -->
-
-#### Enhancements
-- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah)) <!-- 2.1.55 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.59](https://github.com/chef/inspec/tree/v2.1.59) (2018-04-26)
+
+#### Enhancements
+- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah))
+
+#### Bug Fixes
+- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Fix case where res is nil in etc_group [#2984](https://github.com/chef/inspec/pull/2984) ([chris-rock](https://github.com/chris-rock))
+- os_env resource returns only user&#39;s environment variable on Windows [#2945](https://github.com/chef/inspec/pull/2945) ([omar-irizarry](https://github.com/omar-irizarry))
+<!-- latest_stable_release -->
+
 ## [v2.1.54](https://github.com/chef/inspec/tree/v2.1.54) (2018-04-19)
 
 #### New Features
@@ -43,7 +41,6 @@
 
 #### Merged Pull Requests
 - Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
 
