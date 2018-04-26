@@ -120,7 +120,7 @@ module Inspec::Resources
 
     def to_s
       f = @filters.empty? ? '' : ' with'+@filters
-      "/etc/shadow#{f}"
+      "#{@path}#{f}"
     end
 
     private

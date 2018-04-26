@@ -110,6 +110,10 @@ describe 'Inspec::Resources::Shadow' do
         expect(shadow.users(user).inactive_days).must_equal([])
       end
     end
+
+    it 'returns the unreadable_shadow path' do
+      expect(unreadable_shadow.to_s).must_equal '/fakepath/fakefile'
+    end
   end
 
   describe 'filter via name =~ /^www/' do
