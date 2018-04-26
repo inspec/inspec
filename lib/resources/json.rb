@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'utils/object_traversal'
+require 'utils/enumerable_delegation'
 require 'utils/file_reader'
 
 module Inspec::Resources
@@ -37,6 +38,9 @@ module Inspec::Resources
       # load the raw content from the source, and then parse it
       @raw_content = load_raw_content(opts)
       @params = parse(@raw_content)
+
+      # If the JSON content is enumerable, make this object enumerable too
+      extend EnumerableDelegation if @params.respond_to?(:each)
     end
 
     # Shorthand to retrieve a parameter name via `#its`.
