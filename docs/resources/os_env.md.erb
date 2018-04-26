@@ -35,6 +35,19 @@ The following examples show how to use this InSpec audit resource.
       its('split') { should_not include('.') }
     end
 
+### Test the Path environment variable by specifying the target Environment (Windows)
+
+On windows a User's environment variable may obscure the local machine (system) environment variable.  The correct environment variable may be tested as follows:
+
+    describe os_env('PATH', 'target') do
+      its('split') { should_not include('') }
+      its('split') { should_not include('.') }
+    end
+
+where
+
+* `'target'` may be either `system` or `user` 
+
 ### Test Habitat environment variables
 
 Habitat uses the `os_env` resource to test environment variables. The environment variables are first defined in a whitespace array, after which each environment variable is tested:

@@ -36,3 +36,5 @@ end
 
 # docker host testing
 include_recipe('os_prepare::docker_host') unless node['osprepare']['docker']
+
+include_recipe('os_prepare::os_env')
