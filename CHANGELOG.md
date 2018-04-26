@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.56 -->
-## [v2.1.56](https://github.com/chef/inspec/tree/v2.1.56) (2018-04-26)
+<!-- latest_release 2.1.57 -->
+## [v2.1.57](https://github.com/chef/inspec/tree/v2.1.57) (2018-04-26)
 
 #### Merged Pull Requests
-- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Fix case where res is nil in etc_group [#2984](https://github.com/chef/inspec/pull/2984) ([chris-rock](https://github.com/chris-rock))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.54 -->
 ### Changes since 2.1.54 release
 
 #### Merged Pull Requests
+- Fix case where res is nil in etc_group [#2984](https://github.com/chef/inspec/pull/2984) ([chris-rock](https://github.com/chris-rock)) <!-- 2.1.57 -->
 - Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.56 -->
 
 #### Enhancements
