@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.55 -->
-## [v2.1.55](https://github.com/chef/inspec/tree/v2.1.55) (2018-04-26)
+<!-- latest_release 2.1.56 -->
+## [v2.1.56](https://github.com/chef/inspec/tree/v2.1.56) (2018-04-26)
 
-#### Enhancements
-- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah))
+#### Merged Pull Requests
+- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.54 -->
 ### Changes since 2.1.54 release
+
+#### Merged Pull Requests
+- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost)) <!-- 2.1.56 -->
 
 #### Enhancements
 - Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah)) <!-- 2.1.55 -->
