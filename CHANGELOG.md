@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.58 -->
-## [v2.1.58](https://github.com/chef/inspec/tree/v2.1.58) (2018-04-26)
+<!-- latest_release 2.1.59 -->
+## [v2.1.59](https://github.com/chef/inspec/tree/v2.1.59) (2018-04-26)
 
-#### Merged Pull Requests
-- os_env resource returns only user&#39;s environment variable on Windows [#2945](https://github.com/chef/inspec/pull/2945) ([omar-irizarry](https://github.com/omar-irizarry))
+#### Bug Fixes
+- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.54 -->
 ### Changes since 2.1.54 release
+
+#### Bug Fixes
+- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.59 -->
 
 #### Merged Pull Requests
 - os_env resource returns only user&#39;s environment variable on Windows [#2945](https://github.com/chef/inspec/pull/2945) ([omar-irizarry](https://github.com/omar-irizarry)) <!-- 2.1.58 -->
