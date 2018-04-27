@@ -12,9 +12,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/inspec'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w[LICENSE inspec-azure.gemspec] +
-    Dir.glob('lib/resources/azure/**/*', File::FNM_DOTMATCH)
-    .reject { |f| File.directory?(f) }
+  spec.files = %w{LICENSE inspec-azure.gemspec} +
+               Dir.glob('lib/resources/azure/**/*', File::FNM_DOTMATCH)
+                  .reject { |f| File.directory?(f) }
 
   spec.require_paths = ['lib']
 
