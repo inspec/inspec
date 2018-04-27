@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.60 -->
+## [v2.1.60](https://github.com/chef/inspec/tree/v2.1.60) (2018-04-27)
+
+#### Merged Pull Requests
+- Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.59 -->
+### Changes since 2.1.59 release
+
+#### Merged Pull Requests
+- Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.60 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
