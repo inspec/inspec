@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.60 -->
-## [v2.1.60](https://github.com/chef/inspec/tree/v2.1.60) (2018-04-27)
+<!-- latest_release 2.1.61 -->
+## [v2.1.61](https://github.com/chef/inspec/tree/v2.1.61) (2018-04-29)
 
-#### Merged Pull Requests
-- Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.59 -->
 ### Changes since 2.1.59 release
+
+#### Enhancements
+- Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown)) <!-- 2.1.61 -->
 
 #### Merged Pull Requests
 - Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.60 -->
