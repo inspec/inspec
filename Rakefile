@@ -2,12 +2,14 @@
 # encoding: utf-8
 
 require 'bundler'
-require 'bundler/gem_tasks'
+require 'bundler/gem_helper'
 require 'rake/testtask'
 require 'passgen'
 require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
+
+Bundler::GemHelper.install_tasks name: 'inspec'
 
 def prompt(message)
   print(message)
