@@ -211,7 +211,7 @@ end
 RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockLength
 
   def integer?(value)
-    !(value =~ /\A0+\Z|\A[1-9]\d*\Z/).nil?
+    !(value =~ /\A-?0+\Z|\A-?[1-9]\d*\Z/).nil?
   end
 
   def float?(value)
