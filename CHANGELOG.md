@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.61 -->
-## [v2.1.61](https://github.com/chef/inspec/tree/v2.1.61) (2018-04-29)
+<!-- latest_release 2.1.62 -->
+## [v2.1.62](https://github.com/chef/inspec/tree/v2.1.62) (2018-05-02)
 
-#### Enhancements
-- Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown))
+#### Merged Pull Requests
+- cmp should recognise a string being a negative int [#3007](https://github.com/chef/inspec/pull/3007) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.59 -->
@@ -14,6 +14,7 @@
 - Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown)) <!-- 2.1.61 -->
 
 #### Merged Pull Requests
+- cmp should recognise a string being a negative int [#3007](https://github.com/chef/inspec/pull/3007) ([james-stocks](https://github.com/james-stocks)) <!-- 2.1.62 -->
 - Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.60 -->
 <!-- release_rollup -->
 
