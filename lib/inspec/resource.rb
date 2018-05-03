@@ -78,9 +78,9 @@ end
 require 'utils/filter'
 
 # AWS resources are included via their own file.
-require 'resource_support/aws' if Gem.loaded_specs.has_key?('aws-sdk')
+require 'resource_support/aws' if Gem.loaded_specs.key?('aws-sdk')
 
-if Gem.loaded_specs.has_key?('azure_mgmt_resources')
+if Gem.loaded_specs.key?('azure_mgmt_resources')
   require 'resources/azure/azure_backend.rb'
   require 'resources/azure/azure_generic_resource.rb'
   require 'resources/azure/azure_resource_group.rb'
