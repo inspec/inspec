@@ -62,7 +62,8 @@ module Compliance
       config['token'] = Compliance::API.get_token(config)
 
       # Needed for automate2 post request
-      config['profile'] = Compliance::API.profile_split(profile)
+      profile_stub = profile || target[:compliance]
+      config['profile'] = Compliance::API.profile_split(profile_stub)
 
       new(profile_fetch_url, config)
     rescue URI::Error => _e

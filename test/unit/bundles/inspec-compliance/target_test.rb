@@ -50,4 +50,29 @@ describe Compliance::Fetcher do
       proc { fetcher.send(:compliance_profile_name) }.must_raise RuntimeError
     end
   end
+
+  describe 'when the server calls a automate profile' do
+    before do
+      Compliance::Configuration.expects(:new).returns({ 'token' => "123abc" })
+    end
+
+    it 'returns the correct profile name when parsing url' do
+      Compliance::API.stubs(:exist?).returns(true)
+      fetcher = Compliance::Fetcher.resolve('compliance://admin/ssh-baseline')
+      assert = ["admin", "ssh-baseline", nil]
+      fetcher.instance_variable_get(:"@config")['profile'].must_equal assert
+    end
+
+    it 'returns the correct profile name when parsing compliance hash' do
+      Compliance::API.stubs(:exist?).returns(true)
+      hash = {
+        target: "https://a2.instance.com/api/v0/compliance/tar",
+        compliance: "admin/ssh-baseline",
+        sha256: "132j1kjdasfasdoaefaewo12312",
+      }
+      fetcher = Compliance::Fetcher.resolve(hash)
+      assert = ["admin", "ssh-baseline", nil]
+      fetcher.instance_variable_get(:"@config")['profile'].must_equal assert
+    end
+  end
 end
