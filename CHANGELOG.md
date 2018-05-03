@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.22 -->
-## [v1.51.22](https://github.com/chef/inspec/tree/v1.51.22) (2018-05-03)
+<!-- latest_release 1.51.23 -->
+## [v1.51.23](https://github.com/chef/inspec/tree/v1.51.23) (2018-05-03)
 
 #### Merged Pull Requests
-- 1.x - Adjust version test to allow for inspec 2.x being available [#3015](https://github.com/chef/inspec/pull/3015) ([james-stocks](https://github.com/james-stocks))
+- cmp should recognise a string being a negative int (#3007) [#3012](https://github.com/chef/inspec/pull/3012) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.21 -->
 ### Changes since 1.51.21 release
 
 #### Merged Pull Requests
+- cmp should recognise a string being a negative int (#3007) [#3012](https://github.com/chef/inspec/pull/3012) ([james-stocks](https://github.com/james-stocks)) <!-- 1.51.23 -->
 - 1.x - Adjust version test to allow for inspec 2.x being available [#3015](https://github.com/chef/inspec/pull/3015) ([james-stocks](https://github.com/james-stocks)) <!-- 1.51.22 -->
 <!-- release_rollup -->
 
