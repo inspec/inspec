@@ -45,7 +45,7 @@ To search for a flow log by the associated vpc id:
 ## Properties
 ### name
 
-The `flow_log_id` matcher tests the name of the flow log.
+The `flow_log_id` property tests the name of the flow log.
 
   describe aws_flow_log(subnet_id: 'subnet-c6a4319c') do
     its('flow_log_id') { should cmp 'fl-9c718cf5' }
@@ -53,7 +53,7 @@ The `flow_log_id` matcher tests the name of the flow log.
 
 ### log_group_name
 
-The `log_group_name` matcher tests the name of the associated log group.
+The `log_group_name` property tests the name of the associated log group.
 
   describe aws_flow_log('fl-9c718cf5') do
     its('log_group_name') { should cmp 'test_log_group' }
@@ -61,11 +61,19 @@ The `log_group_name` matcher tests the name of the associated log group.
 
 ### resource_id
 
-The `resource_id` matcher tests the id of the associated VPC, subnet, or network interface.
+The `resource_id` property tests the id of the associated VPC, subnet, or network interface.
   describe aws_flow_log('fl-9c718cf5') do
     its('resource_id') { should cmp 'subnet-c6a4319c' }
   end
 
+### resource_type
+
+The `resource_type` property tests the type of resource the Flow Log is attached to.
+The property will return `eni`, `subnet`, and `vpc`.
+
+  describe aws_flow_log('fl-9c718cf5') do
+    its('resource_type') { should cmp 'subnet' }
+  end
 
 ## Matchers
 
@@ -82,3 +90,28 @@ Indicates that the Flow Log provided was found.  Use `should_not` to test for Fl
     describe aws_flow_log('should-not-be-there') do
       it { should_not exist }
     end
+
+### be_attached_to_eni
+
+Indicates that the Flow Log is attached to a ENI resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_eni }
+    end
+
+### be_attached_to_subnet
+
+Indicates that the Flow Log is attached to a subnet resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_subnet }
+    end
+
+### be_attached_to_vpc
+
+Indicates that the Flow Log is attached to a vpc resource.
+
+    describe aws_flow_log('fl-9c718cf5') do
+      it { should be_attached_to_vpc }
+    end
+
