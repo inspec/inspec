@@ -157,6 +157,12 @@ module Fetchers
       opts = http_opts
       opts[:use_ssl] = uri.scheme == 'https'
 
+      if @insecure
+        opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
+      else
+        opts[:verify_mode] = OpenSSL::SSL::VERIFY_PEER
+      end
+
       req = Net::HTTP::Post.new(uri)
       opts.each do |key, value|
         req.add_field(key, value)
