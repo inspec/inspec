@@ -33,10 +33,30 @@ class NginxParser < Parslet::Parser
     standard_identifier | quoted_identifier
   }
 
-  rule(:value) {
-    ((match('[#;{]').absent? >> any) >> (
+  rule(:standard_value) {
+    ((match(/[#;{'"]/).absent? >> any) >> (
       str('\\') >> any | match('[#;{]|\s').absent? >> any
     ).repeat).as(:value) >> space.repeat
+  }
+
+  rule(:single_quoted_value) {
+    str("'") >> (
+      str('\\') >> any | str("'").absent? >> any
+    ).repeat.as(:value) >> str("'") >> space.repeat
+  }
+
+  rule(:double_quoted_value) {
+    str('"') >> (
+      str('\\') >> any | str('"').absent? >> any
+    ).repeat.as(:value) >> str('"') >> space.repeat
+  }
+
+  rule(:quoted_value) {
+    single_quoted_value | double_quoted_value
+  }
+
+  rule(:value) {
+    standard_value | quoted_value
   }
 
   rule(:values) {
