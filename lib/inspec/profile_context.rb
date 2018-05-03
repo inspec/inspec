@@ -7,6 +7,7 @@ require 'inspec/resource'
 require 'inspec/library_eval_context'
 require 'inspec/control_eval_context'
 require 'inspec/require_loader'
+require 'json'
 require 'securerandom'
 require 'inspec/objects/attribute'
 
@@ -194,7 +195,7 @@ module Inspec
           attr.value = @conf['attributes'][attr.name]
         else
           # Test if both, the given name and attributes are hierarchical and pick up the value down the hierarchy
-          attr.value = attr.name.split(':').inject(@conf['attributes'], :[])
+          attr.value = name.split(':').inject(JSON.parse(@conf['attributes'].to_json), :[])
         end
       end
       @attributes.push(attr)
