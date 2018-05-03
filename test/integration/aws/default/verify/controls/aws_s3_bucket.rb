@@ -5,6 +5,8 @@ fixtures = {}
   's3_bucket_auth_name',
   's3_bucket_private_acl_public_policy_name',  
   's3_bucket_public_region',
+  's3_bucket_default_encryption_enabled_name',
+  's3_bucket_default_encryption_not_enabled_name',
   's3_bucket_access_logging_enabled_name',
   's3_bucket_access_logging_not_enabled_name',
 ].each do |fixture_name|
@@ -113,7 +115,15 @@ control 'aws_s3_bucket matchers test' do
     it { should be_public }
   end
 
-  #-----------------  have_access_logging_enabled -----------------#  
+  #-----------------  have_default_encryption_enabled -----------------#
+  describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_default_encryption_enabled_name']) do
+    it { should have_default_encryption_enabled }
+  end
+  describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_default_encryption_not_enabled_name']) do
+    it { should_not have_default_encryption_enabled }
+  end
+
+  #-----------------  have_access_logging_enabled -----------------#
   describe aws_s3_bucket(bucket_name: fixtures['s3_bucket_access_logging_enabled_name']) do
     it { should have_access_logging_enabled }
   end

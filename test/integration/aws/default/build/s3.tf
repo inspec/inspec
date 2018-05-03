@@ -85,6 +85,32 @@ output "s3_bucket_access_logging_not_enabled_name" {
   value = "${aws_s3_bucket.acess_logging_not_enabled.id}"
 }
 
+resource "aws_s3_bucket" "default_encryption_enabled" {
+  bucket = "inspec-testing-defencrypt-enabled-${terraform.env}.chef.io"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+      rule {
+        apply_server_side_encryption_by_default {
+          sse_algorithm     = "aws:kms"
+        }
+      }
+    }
+}
+
+output "s3_bucket_default_encryption_enabled_name" {
+  value = "${aws_s3_bucket.default_encryption_enabled.id}"
+}
+
+resource "aws_s3_bucket" "default_encryption_not_enabled" {
+  bucket = "inspec-testing-defencrypt-not-enabled-${terraform.env}.chef.io"
+  acl    = "private"
+}
+
+output "s3_bucket_default_encryption_not_enabled_name" {
+  value = "${aws_s3_bucket.default_encryption_not_enabled.id}"
+}
+
 #=================================================================#
 #                       S3 Bucket Policies
 #=================================================================#
