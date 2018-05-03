@@ -25,16 +25,39 @@ class BasicAwsFlowLog < Minitest::Test
   end
 
   def test_search_hit
-    assert AwsFlowLog.new(flow_log_id: 'fl-abcd1234').exists?
-    assert_equal 'fl-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').flow_log_id
-    assert_equal 'inspec-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').log_group_name
-    assert_equal 'vpc-abcd1234', AwsFlowLog.new(flow_log_id: 'fl-abcd1234').resource_id
+    assert AwsFlowLog.new(flow_log_id: 'fl-abcd1111').exists?
+  end
+
+  def test_flow_log_id
+    assert_equal 'fl-abcd1111', AwsFlowLog.new(flow_log_id: 'fl-abcd1111').flow_log_id
+  end
+
+  def test_log_group_name
+    assert_equal 'inspec-abcd1111', AwsFlowLog.new(flow_log_id: 'fl-abcd1111').log_group_name
+  end
+
+  def test_resource_id
+    assert_equal 'vpc-abcd1111', AwsFlowLog.new(flow_log_id: 'fl-abcd1111').resource_id
+    assert_equal 'eni-abcd2222', AwsFlowLog.new(flow_log_id: 'fl-abcd2222').resource_id
+    assert_equal 'subnet-abcd3333', AwsFlowLog.new(flow_log_id: 'fl-abcd3333').resource_id
+  end
+
+  def test_resource_type
+    assert_equal 'vpc', AwsFlowLog.new(flow_log_id: 'fl-abcd1111').resource_type
+    assert_equal 'eni', AwsFlowLog.new(flow_log_id: 'fl-abcd2222').resource_type
+    assert_equal 'subnet', AwsFlowLog.new(flow_log_id: 'fl-abcd3333').resource_type
   end
 
   def test_search_miss
     refute AwsFlowLog.new(flow_log_id: 'fl-12341234').exists?
     assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').log_group_name
     assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').resource_id
+  end
+
+  def test_attached_to?
+    assert AwsFlowLog.new(flow_log_id: 'fl-abcd1111').attached_to_vpc?
+    assert AwsFlowLog.new(flow_log_id: 'fl-abcd2222').attached_to_eni?
+    assert AwsFlowLog.new(flow_log_id: 'fl-abcd3333').attached_to_subnet?
   end
 end
 
@@ -51,14 +74,19 @@ module MockAwsFlowLog
       resp = Aws::EC2::Types::DescribeFlowLogsResult.new(
         flow_logs: [
           Aws::EC2::Types::FlowLog.new(
-            flow_log_id: 'fl-abcd1234',
-            log_group_name: 'inspec-abcd1234',
-            resource_id: 'vpc-abcd1234',
+            flow_log_id: 'fl-abcd1111',
+            log_group_name: 'inspec-abcd1111',
+            resource_id: 'vpc-abcd1111',
           ),
           Aws::EC2::Types::FlowLog.new(
-            flow_log_id: 'fl-a1b2c3d4',
-            log_group_name: 'inspec-a1b2c3d4',
-            resource_id: 'vpc-a1b2c3d4',
+            flow_log_id: 'fl-abcd2222',
+            log_group_name: 'inspec-abcd2222',
+            resource_id: 'eni-abcd2222',
+          ),
+          Aws::EC2::Types::FlowLog.new(
+            flow_log_id: 'fl-abcd3333',
+            log_group_name: 'inspec-abcd3333',
+            resource_id: 'subnet-abcd3333',
           )
         ]
       )

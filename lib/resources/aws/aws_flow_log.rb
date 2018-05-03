@@ -13,6 +13,29 @@ class AwsFlowLog < Inspec.resource(1)
     "AWS Flow Log #{@flow_log_id}"
   end
 
+  def resource_type
+    case @resource_id
+    when /^eni/
+      @resource_type = 'eni'
+    when /^subnet/
+      @resource_type = 'subnet'
+    when /^vpc/
+      @resource_type = 'vpc'
+    end
+  end
+
+  def attached_to_eni?
+    resource_type.eql?('eni') ? true : false
+  end
+
+  def attached_to_subnet?
+    resource_type.eql?('subnet') ? true : false
+  end
+
+  def attached_to_vpc?
+    resource_type.eql?('vpc') ? true : false
+  end
+
   attr_reader :log_group_name, :resource_id, :flow_log_id
 
   private
