@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.63 -->
-## [v2.1.63](https://github.com/chef/inspec/tree/v2.1.63) (2018-05-03)
+<!-- latest_release 2.1.64 -->
+## [v2.1.64](https://github.com/chef/inspec/tree/v2.1.64) (2018-05-03)
 
-#### Bug Fixes
-- nginx_conf resource: Fix include paths with quotes [#2726](https://github.com/chef/inspec/pull/2726) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### New Features
+-  #2810 - Add check if aws s3 bucket is encrypted. [#2937](https://github.com/chef/inspec/pull/2937) ([UranusBytes](https://github.com/UranusBytes))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.59 -->
 ### Changes since 2.1.59 release
+
+#### New Features
+-  #2810 - Add check if aws s3 bucket is encrypted. [#2937](https://github.com/chef/inspec/pull/2937) ([UranusBytes](https://github.com/UranusBytes)) <!-- 2.1.64 -->
 
 #### Bug Fixes
 - nginx_conf resource: Fix include paths with quotes [#2726](https://github.com/chef/inspec/pull/2726) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.63 -->
