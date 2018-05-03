@@ -8,8 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
   spec.summary       = 'Just InSpec'
-  spec.description   = 'Core InSpec, local and SSH. See `inspec-aws`, ' \
-                       'and `inspec-azure` for AWS and Azure support.'
+  spec.description   = 'Core InSpec, local support only. See `inspec` for full support.'
   spec.homepage      = 'https://github.com/chef/inspec'
   spec.license       = 'Apache-2.0'
 
