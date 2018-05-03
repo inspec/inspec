@@ -78,13 +78,16 @@ end
 require 'utils/filter'
 
 # AWS resources are included via their own file.
-require 'resource_support/aws'
+require 'resource_support/aws' if Gem.loaded_specs.key?('aws-sdk')
 
-require 'resources/azure/azure_backend.rb'
-require 'resources/azure/azure_generic_resource.rb'
-require 'resources/azure/azure_resource_group.rb'
-require 'resources/azure/azure_virtual_machine.rb'
-require 'resources/azure/azure_virtual_machine_data_disk.rb'
+if Gem.loaded_specs.key?('azure_mgmt_resources')
+  require 'resources/azure/azure_backend.rb'
+  require 'resources/azure/azure_generic_resource.rb'
+  require 'resources/azure/azure_resource_group.rb'
+  require 'resources/azure/azure_virtual_machine.rb'
+  require 'resources/azure/azure_virtual_machine_data_disk.rb'
+end
+
 require 'resources/aide_conf'
 require 'resources/apache'
 require 'resources/apache_conf'
