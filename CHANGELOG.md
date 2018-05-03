@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.65 -->
-## [v2.1.65](https://github.com/chef/inspec/tree/v2.1.65) (2018-05-03)
+<!-- latest_release 2.1.66 -->
+## [v2.1.66](https://github.com/chef/inspec/tree/v2.1.66) (2018-05-03)
 
-#### Enhancements
-- Split inspec into a core gem. [#3008](https://github.com/chef/inspec/pull/3008) ([miah](https://github.com/miah))
+#### Merged Pull Requests
+- Add inspec-core gem to expeditor release [#3018](https://github.com/chef/inspec/pull/3018) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.59 -->
@@ -21,6 +21,7 @@
 - Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown)) <!-- 2.1.61 -->
 
 #### Merged Pull Requests
+- Add inspec-core gem to expeditor release [#3018](https://github.com/chef/inspec/pull/3018) ([jquick](https://github.com/jquick)) <!-- 2.1.66 -->
 - cmp should recognise a string being a negative int [#3007](https://github.com/chef/inspec/pull/3007) ([james-stocks](https://github.com/james-stocks)) <!-- 2.1.62 -->
 - Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.60 -->
 <!-- release_rollup -->
