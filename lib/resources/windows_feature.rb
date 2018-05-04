@@ -40,6 +40,10 @@ module Inspec::Resources
       @feature = feature
       @cache = nil
 
+	  module_cmd = "if (!(get-module servermanager)){ import-module servermanager}"
+      cmd = inspec.command(module_cmd)
+	  cmd.stdout
+	  
       # verify that this resource is only supported on Windows
       return skip_resource 'The `windows_feature` resource is not supported on your OS.' if !inspec.os.windows?
     end
