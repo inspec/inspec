@@ -3,6 +3,16 @@ require 'helper'
 describe Compliance::Fetcher do
   let(:config) { { 'server' => 'myserver' } }
 
+  describe 'when the server is an automate2 server' do
+    before { Compliance::API.expects(:is_automate2_server?).with(config).returns(true) }
+
+    it 'returns the correct owner and profile name' do
+      config['profile'] = ['admin', 'ssh-baseline', nil]
+      fetcher = Compliance::Fetcher.new('myserver/profile', config)
+      fetcher.send(:compliance_profile_name).must_equal 'admin/ssh-baseline'
+    end
+  end
+
   describe 'when the server is an automate server pre-0.8.0' do
     before { Compliance::API.expects(:is_automate_server_pre_080?).with(config).returns(true) }
 
