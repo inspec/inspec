@@ -96,6 +96,12 @@ module Compliance
             %r{^#{@config['server']}/owners/(?<owner>[^/]+)/compliance/(?<id>[^/]+)/tar$}
           end.match(@target)
 
+      if Compliance::API.is_automate2_server?(@config)
+        m = {}
+        m[:owner] = @config['profile'][0]
+        m[:id] = @config['profile'][1]
+      end
+
       raise 'Unable to determine compliance profile name. This can be caused by ' \
         'an incorrect server in your configuration. Try to login to compliance ' \
         'via the `inspec compliance login` command.' if m.nil?
