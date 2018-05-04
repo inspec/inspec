@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.68 -->
+## [v2.1.68](https://github.com/chef/inspec/tree/v2.1.68) (2018-05-04)
+
+#### Merged Pull Requests
+- Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.67 -->
+### Changes since 2.1.67 release
+
+#### Merged Pull Requests
+- Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick)) <!-- 2.1.68 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
