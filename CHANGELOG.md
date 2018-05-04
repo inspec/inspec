@@ -1,20 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.68 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.1.68](https://github.com/chef/inspec/tree/v2.1.68) (2018-05-04)
 
 #### Merged Pull Requests
 - Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.1.67 -->
-### Changes since 2.1.67 release
-
-#### Merged Pull Requests
-- Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick)) <!-- 2.1.68 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.1.67](https://github.com/chef/inspec/tree/v2.1.67) (2018-05-03)
 
 #### New Features
@@ -32,7 +30,6 @@
 - Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - cmp should recognise a string being a negative int [#3007](https://github.com/chef/inspec/pull/3007) ([james-stocks](https://github.com/james-stocks))
 - Add inspec-core gem to expeditor release [#3018](https://github.com/chef/inspec/pull/3018) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.59](https://github.com/chef/inspec/tree/v2.1.59) (2018-04-26)
 
