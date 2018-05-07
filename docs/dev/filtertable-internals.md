@@ -1,0 +1,215 @@
+# Internals of FilterTable
+
+If you just want to _use_ FilterTable, see filtertable-usage.md .  Reading this may make you more confused, not less.
+
+## What makes this hard?
+
+The terminology used for many concepts does not help the reader understand what is going on.  Additionaly, the ways in which the classes relate is not straightforward.  Finally, variable names within the classes are often re-used ('filter' is a favorite) or are too short to be meaningful (x and c are both used as variable names, in long blocks).
+
+FilterTable was created in 2016 in an attempt to consolidate the pluralization features of several resources.  They each had slightly different featuresets, and were all in the wild, so FilterTable exposes some extensive side-effects to provide those features.
+
+## Where is the code?
+
+The main FilterTable code is in [utils/filter.rb](https://github.com/chef/inspec/blob/master/lib/utils/filter.rb).
+
+Also educational is the unit test for FIltertable, at test/unit/utils/filter_table_test.rb
+
+## What are the classes involved?
+
+### FilterTable::Factory
+
+This class is responsible for the definition of the filtertable.  It provides the methods that are used by the resource author to configure the filtertable.
+
+FilterTable::Factory initializes three instance variables:
+```
+  @accessors = []
+  @connectors = {}
+  @resource = nil
+```
+
+###
+
+## What are the major entry points? (FilterTable::Factory)
+
+A resource class using FilterTable typically will call a sequence similar to this, in the class body:
+
+```
+  filter = FilterTable.create
+  filter.add_accessor(:entries)
+        .add(:exists?) { |x| !x.entries.empty? }
+        .add(:thing_ids, field: :thing_id)
+  filter.connect(self, :table)
+```
+
+Each of those calls supports method chaining.
+
+### create
+
+Returns a blank instance of a FilterTable::Factory.
+
+### add\_accessor
+
+Suggested alternate name: register_chainable_filter_method(:new_method_name)
+
+This simply pushes the provided method name onto the `@accessors` instance variable array.  See "accessor" behavior section below for what this does.
+
+After adding the method name to the array, it returns `self` - the FilterTable::Factory instance - so that method chaining will work.
+
+### add
+
+Suggested alternate name 1: register_property_or_matcher_and_filter_criterion
+Suggested alternate name 2: register_connector
+
+This is one of the most confusingly named methods.  `add` requires a symbol (which will be used as a method name _to be added to the resource class_), then also accepts a block and/or additional args.  These things - name, block, and opts - are packed into a simple struct called (very confusingly) a Connector. The name stored in the struct will be `opts[:field]` if provided, and the method name if not.
+
+The Connector struct is then appended to the Hash `@connectors`, keyed on the method name provided.  `self` is then returned for method chaining.
+
+#### Behavior when a block is provided
+
+If a block is provided, it is turned into a Lambda and used as the method body.
+
+TBD: what are the lambda args?
+TBD: what happens if you provide a block and opts?
+
+#### Known Options
+
+You can provide options to `add`, after the desired method name.
+
+##### field
+
+This is the most common option.  It selects an implementation in which the desired method will be defined such that it returns an array of the row values using the specified key.  In other words, this acts as a "column fetcher", like in SQL: "SELECT some_column FROM some_table"
+
+### connect
+
+Suggested alternate name: install_filtertable
+
+This method is called like this: 
+
+```
+filter.connect(self, :data_fetching_method_name)
+```
+
+`filter` is an instance of FilterTable::Factory.  `self` is a reference to the resource class you are authoring. `data_fetching_method_name` is a symbol, the name of a methdo that will return the actual data to be processed by the FilterTable - as an array of hashes.
+
+Note that 'connect' does not refer to Connectors.
+
+`add` and `add_accessor` did nothing other than add register names for methods that we'd like to have added to the resource class.  No filtering ability is present, nor are the methods defined, at this point.
+
+So, `connect`'s job is to actually install everything.
+
+#### Re-pack the "connectors"
+
+First, on lines 188-192, the list of custom methods ("connectors", registered using the `add` method) are repacked into an array of arrays of two elements - the desired method name and the lambda that will be used as the method body.  The lambda is created by the private method `create_connector`.
+
+TBD: what exactly create_connector does
+
+#### Defines a special Struct type to represent rows in the table
+
+At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  
+
+Additionally, an instanace variable, `@__filter` is defined, with an accesor(!). (That's really wierd - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
+
+I think `@__filter` is a trace - a string indicating the filter criteria used to create the table.
+
+CONFUSING NAME: `@__filter` meaning a trace of criteria operations is very confusing - the word "filter" is very overloaded.
+
+Table fields are determined by listing the `field_name`s of the Connectors.  
+
+BUG: this means that any `add` call that uses a block but not options will end up with an attribute in the row Struct.  Thus, `filter.add(:exists?) { ... }` results in a row Struct that includes an attribute named `exists?` which is likely undesired.
+
+POSSIBLE MISFEATURE: Defining a Struct for rows means that people who use `entries` (or other data accessors) interact with something unusual.  The simplest possible thing would be an Array of Hashes.  There is likely something relying on this...
+
+#### Subclass FilterTable::Table into an anonymous class
+
+At line 203, create the local var `table`, which refers to an anonymous class that subclasses FilterTable::Table.  The class is opened and two groups of methods are defined.
+
+Lines 204-206 install the "connector" methods, using the names and lambdas determined on line 188.
+
+Line 208-213 define a method, `new_entry`.  Its job is to append a row to the FilterTable::Table as a row Struct, given a plain Hash (presumably as provided by the data fetching method) and a String piece of tracking information (again, confusingly referred to as "filter").
+
+#### Install methods on the resource
+
+Lines 216-232 install the data table accessors and "connector" methods onto the resource that you are authoring.
+
+Line 222-223 collects the names of the methods to define - by agglomerating the names of the data table accessors and "connector" methods.  They are treated the same.
+
+Line 224 uses `send` with a block to call `define_method` on the resource class that you're authoring.  Using a block with `send` is undocumented, but is treated as an implicit argument (per stackoverflow) , so the end result is that the block is used as the body for the new method being defined.
+
+The method body is wrapped in an exception-catching facility that catches skipped or failed resource excepytions and wraps them in a specialized excepytion catcher class. TBD: understand this better.
+
+Line 226 constructs an instance of the anonymous FilterTable::Table subclass defined at 203.  It passes three args:
+
+1. `self`. TBD: which class is this referring to at this point?
+2. The return value of calling the data fetcher method.
+3. The string ' with', which is probably informing the criteria stringification?
+
+And that new FilterTable::Table subclass instance is stored in a local variable, named, confusingly, "filter".
+
+On line 227, we then immediately call a method on that "FilterTable::Table subclass instance". The method name is the same as the one we're defining on the resource - but we're calling it on the Table.  Recall we defined all the "connector" methods on the Table subclass at line 204-206.  The method gets called with any args or block passed, and since it's the last thing, it provides the return value.
+
+VERY WORRISOME THING: So, the Table subclass has methods for the "connectors" (for example, `thing_ids` or `exist?`.  What about the "accessors" - `where` and `entries`?  Are those in the FilterTable::Table class, or method_missing'd?
+
+## What is its behavior? (FilterTable::Table)
+
+Assume that you have a method, `fetch_data`, which returns a fixed array:
+
+```
+ [ 
+   { id: 1, name: 'Dani', color: 'blue' }, 
+   { id: 2, name: 'Mike', color: 'red' }, 
+   { id: 3, name: 'Erika', color: 'green' }, 
+ ]
+```
+
+Assume that you then perform this sequence in your resource class body:
+```
+filter = FilterTable.create
+filter.add_accessor(:entries)
+filter.add_accessor(:where)
+filter.add(:exists?) { |x| !x.exists.empty? }
+filter.add(:names, field: :name)
+filter.connect(self, :fetch_data)
+```
+
+We know from the above exploration of `connect` that we now have several new methods on the resource class, all of which delegate to the FilterTable::Table implementation.
+
+### FilterTable::Table constructor and internals
+
+Factory calls the FilterTable::Table constructor at 142-144 with three args. Table stores them into instance vars:
+ * @resource - this was passed in as `self`; I think this would be the resource class
+ * @params - the raw table data.  (confusing name)
+ * @filters - This looks to be stringification trace data; the string ' with' was passed in by Factory.
+
+ params and filters get `attr_reader`s.
+
+### `entries` behavior
+
+From usage, I expect entries to return a structure that resembles an array of hashes representing the (filtered) data.
+
+#### A new method `entries` is defined on the class
+
+That is performed by Factory#connect line 224.
+
+#### It delegates to FilterTable::Table#entries
+
+This is a real method defined in filter.rb line 120.
+
+It loops over the provided raw data (@params) and builds an array, calling `new_entry` (see Factory 208-213) on each row; also appending a stringification trace to each entry.  The array is returned.
+
+#### `entries` conclusion
+
+Not Surprising: It does behave as expected - an array of hashlike structs representing the table.  I don't know why it adds in the per-row strigification data - I've never seen that used.
+
+Surprising: this is a real method with a concrete implementation.  That means that you can't call `filter.add_accessor` with arbitrary method names - `:entries` means something very specific.
+
+### `where` behavior
+
+TODO
+
+### `names` - behavior for a basic connector
+
+TODO
+
+### `exists?` - behavior for a block-defined connector
+
+TODO
