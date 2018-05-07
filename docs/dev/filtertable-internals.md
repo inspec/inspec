@@ -14,6 +14,8 @@ The main FilterTable code is in [utils/filter.rb](https://github.com/chef/inspec
 
 Also educational is the unit test for FIltertable, at test/unit/utils/filter_table_test.rb
 
+The file utils/filter_array.rb appears to be unrelated.
+
 ## What are the classes involved?
 
 ### FilterTable::Factory
@@ -27,7 +29,13 @@ FilterTable::Factory initializes three instance variables:
   @resource = nil
 ```
 
-###
+### FilterTable::Table
+
+This is the actual innards of the implementation.  The Factory's goal is to configure a Table sublcass and attach it to the resource you are authoring.  The table is a container for the raw data your resource provides, and performs filtration services.
+
+### FilterTable::ExceptionCatcher
+
+TODO
 
 ## What are the major entry points? (FilterTable::Factory)
 
@@ -78,6 +86,14 @@ You can provide options to `add`, after the desired method name.
 ##### field
 
 This is the most common option.  It selects an implementation in which the desired method will be defined such that it returns an array of the row values using the specified key.  In other words, this acts as a "column fetcher", like in SQL: "SELECT some_column FROM some_table"
+
+TODO: how are fields registered?  Are they validated?  How exactly do they relate to the keys of the hashes in the raw data table?
+
+##### type
+
+`type: :simple` has been seen in the wild
+
+TODO: what are the effects? Other 'type' values allowed?
 
 ### connect
 
@@ -151,7 +167,7 @@ VERY WORRISOME THING: So, the Table subclass has methods for the "connectors" (f
 
 ## What is its behavior? (FilterTable::Table)
 
-Assume that you have a method, `fetch_data`, which returns a fixed array:
+Assume that your resource has a method, `fetch_data`, which returns a fixed array:
 
 ```
  [ 
