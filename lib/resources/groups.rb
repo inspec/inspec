@@ -107,15 +107,7 @@ module Inspec::Resources
     end
 
     def gid
-      gids = group_info.gids
-      if gids.empty?
-        nil
-      # the default case should be one group
-      elsif gids.size == 1
-        gids.entries[0]
-      else
-        raise 'found more than one group with the same name, please use `groups` resource'
-      end
+      flatten_entry(group_info, "gid")
     end
 
     # implements rspec has matcher, to be compatible with serverspec
@@ -124,7 +116,8 @@ module Inspec::Resources
     end
 
     def members
-      group_info.members if inspec.os.windows?
+      return unless inspec.os.windows?
+      flatten_entry(group_info, "members")
     end
 
     def local
@@ -137,6 +130,17 @@ module Inspec::Resources
     end
 
     private
+
+    def flatten_entry(group_info, prop)
+      entries = group_info.entries
+      if entries.empty?
+        nil
+      elsif entries.size == 1
+        entries.first.send(prop)
+      else
+        raise 'found more than one group with the same name, please use `groups` resource'        
+      end
+    end
 
     def group_info
       # we need a local copy for the block
