@@ -34,6 +34,22 @@ describe Inspec::Reporters::Json do
     end
   end
 
+  describe 'report output includes depends' do
+    it 'sets the depends key' do
+      depends = {
+        depends: {
+          'path' => '../child',
+          'name' => 'child',
+        }
+      }
+      data = JSON.parse(File.read(path + '/../mock/reporters/run_data.json'), symbolize_names: true)
+      data[:profiles].first[:depends] = depends
+      json_report = Inspec::Reporters::Json.new({ run_data: data })
+
+      json_report.report[:profiles].first[:depends].must_equal depends
+    end
+  end
+
   describe '#profile_results' do
     it 'confirm profile_results output' do
       hash = {
