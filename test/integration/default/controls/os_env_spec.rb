@@ -7,7 +7,7 @@ describe os_env('TEMP') do
   its('content') {should eq 'C:\TEMPUSER' }
 end
 
-descibe os_env('TEMP', 'system') do
+describe os_env('TEMP', 'system') do
   its('content') { should eq 'C:\TEMPSYSTEM' }
 end
 
