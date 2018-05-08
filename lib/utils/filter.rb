@@ -117,7 +117,12 @@ module FilterTable
         filtered_raw_data = filtered_raw_data.find_all { |row_as_hash| create_eval_context_for_row(row_as_hash, '').instance_eval(&block) }
         # Try to interpret the block for updating the stringification.
         src = Trace.new
-        src.instance_eval(&block)
+        # Swallow any exceptions raised here.
+        # See https://github.com/chef/inspec/issues/2929
+        begin
+          src.instance_eval(&block)
+        rescue # rubocop: disable Lint/HandleExceptions
+        end
         new_criteria_string += Trace.to_ruby(src)
       end
 
