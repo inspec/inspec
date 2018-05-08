@@ -202,7 +202,7 @@ Factory calls the FilterTable::Table constructor at 142-144 with three args. Tab
 
 From usage, I expect entries to return a structure that resembles an array of hashes representing the (filtered) data.
 
-#### A new method `entries` is defined on the class
+#### A new method `entries` is defined on the resource class
 
 That is performed by Factory#connect line 224.
 
@@ -220,7 +220,52 @@ Surprising: this is a real method with a concrete implementation.  That means th
 
 ### `where` behavior
 
-TODO
+From usage, I expect this to take either method params or a block (both of which are magical), perform filtering, and return some object that contains only the filtered rows.
+
+So, what happens when you call `add_accessor(:where)` and then call `resource.where`?
+
+#### A new method `where` is defined on the resource class
+
+That is performed by Factory#connect line 224.
+
+#### It delegates to FilterTable::Table#where
+
+Like `entries`, this is a real implemented method on FilterTable::Table, at line 93.
+
+The method accepts all params as the local var `conditions` which defaults to an empty Hash. A block, if any, is also explicitly assigned the name `block`.
+
+The implementation opens with two guard clauses, both of which will return `self` (which is the FilterTable::Table subclass instance).
+
+MISFEATURE: The first guard clause simply returns the Table if `conditions` is not a Hash.  That would mean that someone called it like: `thing.where(:apples, :bananas, :canteloupes)`.  That misuse is silently ignored; I think we should probably throw a ResourceFailed or something.
+
+The second guard clause is a sensible degenerate case - return the existing Table if there are no conditions and no block.  So `thing.where` is OK.
+
+Line 97 initializes a local var, `filters`, which again is a stringification tracker.
+
+Line 98 confuses things further.  A local var `table` is initialized to the value of instance var `@params`.  The naming here is poorly chosen - @params is the initial raw data (and it has an attr_reader, no need for the @); and `table` is the new _raw data_ - not a new FilterTable class or instance.
+
+Lines 99-102 loop over the provided Hash `conditions`. It repeatedly downfilters `table` by calling the private method `filter_lines` on it.  `filter_lines` does some syntactic sugaring for common types, Ints and Floats and Regexp matching.  Additionally, the 99-102 loop builds up the stringification tracker, `filter`, by stringifying the field name and target value.
+
+BUG: (Issue 2943) - Lines 99-102 do not validate the names of the provided fields.
+
+Line 104-109 begins work if a filtration block has been provided.  At this point, `table` has been initialized with the raw data, and (if method params were provided) has also been filtered down.
+
+Line 105 filters the rows of the raw data using an odd approach: each row is evaluated using `Array#find_all`, with the block `{ |e| new_entry(e, '').instance_eval(&block) }`  `new_entry` wraps each raw row in a Struct (the `''` indicates we're not trying to save stringification data here).  (Recall that new_entry was defined by `FilterTable::Factory#connect`, line 195). Then the provided block is `instance_eval`'d against the Struct.  Because the Struct was defined with attributes (that is, accessor methods) for each declared field name (from FilterTable::Factory#add), you can use field names in the block, and each row-as-struct will be able to respond.
+
+_That just explained a major spooky side-effect for me._
+
+Lines 106-108 do something with stringification tracing.  TODO.
+
+Finally, at line 111, the FilterTable::Table anonymous subclass is again used to construct a new instance, passing on the resource reference, the newly filtered raw data table, and the newly adjusted stringificatioon tracer.
+
+That new Table instance is returned, and thus `where` allows you to chain.
+
+#### `where` conclusion
+
+Unsurprising: How where works with method params.
+Surprising: How where works in block mode, instance_eval'ing against each row-as-Struct.
+Surprising: You can use method-mode and block-mode together if you want.
+Problematic: Many confusing variable names here.  A lot of clarity could be gained by simple search and replace.
 
 ### `names` - behavior for a basic connector
 
