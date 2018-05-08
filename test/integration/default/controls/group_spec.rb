@@ -56,4 +56,16 @@ elsif os.solaris?
     it { should_not exist }
     its('gid') { should eq nil }
   end
+elsif os[:family] == 'windows'
+  describe group('Administrators') do
+    it { should exist }
+    its('gid') { should eq 'S-1-5-32-544' }
+    its('members') { should cmp ['Administrator'] }
+  end
+
+  describe group('Power Users') do
+    it { should exist }
+    its('gid') { should eq 'S-1-5-32-547' }
+    its('members') { should eq [] }
+  end
 end

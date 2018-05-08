@@ -325,7 +325,7 @@ class MockLoader
       # user info for windows (winrm 1.6.0, 1.6.1)
       '27c6cda89fa5d196506251c0ed0d20468b378c5689711981dc1e1e683c7b02c1' => cmd.call('adsiusers'),
       # group info for windows
-      'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
+      '4020573097e910a573e22e8863c4faa434f52910a45714606cad1fb8b060d9e9' => cmd.call('adsigroups'),
       # group info for Darwin
       'dscacheutil -q group' => cmd.call('dscacheutil-query-group'),
       # network interface

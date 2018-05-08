@@ -52,6 +52,7 @@ module Inspec::Resources
           .add(:names,     field: 'name')
           .add(:gids,      field: 'gid')
           .add(:domains,   field: 'domain')
+          .add(:members,   field: 'members')
           .add(:exists?) { |x| !x.entries.empty? }
     filter.connect(self, :collect_group_details)
 
@@ -122,6 +123,10 @@ module Inspec::Resources
       gid == compare_gid
     end
 
+    def members
+      group_info.members if inspec.os.windows?
+    end
+
     def local
       # at this point the implementation only returns local groups
       true
@@ -183,18 +188,22 @@ module Inspec::Resources
   class WindowsGroup < GroupInfo
     # returns all local groups
     def groups
-      script = <<~EOH
-        Function  ConvertTo-SID { Param([byte[]]$BinarySID)
-          (New-Object  System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
+      script = <<-EOH
+        Function ConvertTo-SID { Param([byte[]]$BinarySID)
+          (New-Object System.Security.Principal.SecurityIdentifier($BinarySID,0)).Value
         }
-
-        $Computername =  $Env:Computername
-        $adsi  = [ADSI]"WinNT://$Computername"
-        $groups = $adsi.Children | where {$_.SchemaClassName -eq  'group'} |  ForEach {
+        $Computername = $Env:Computername
+        $adsi = [ADSI]"WinNT://$Computername"
+        $groups = $adsi.Children | where {$_.SchemaClassName -eq 'group'} | ForEach {
           $name = $_.Name[0]
           $sid = ConvertTo-SID -BinarySID $_.ObjectSID[0]
           $group =[ADSI]$_.Path
-          new-object psobject -property @{name = $group.Name[0]; gid = $sid; domain=$Computername}
+          $members = $_.Members() | Foreach-Object { $_.GetType().InvokeMember('Name', 'GetProperty', $null, $_, $null) }
+          # An empty collection of these objects isn't properly converted to an empty array by ConvertTo-Json
+          if(-not [bool]$members) {
+            $members = @()
+          }
+          new-object psobject -property @{name = $group.Name[0]; gid = $sid; domain = $Computername; members = $members}
         }
         $groups | ConvertTo-Json -Depth 3
       EOH
