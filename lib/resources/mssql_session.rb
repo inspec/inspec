@@ -69,10 +69,7 @@ module Inspec::Resources
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /Sqlcmd: Error/
-        # TODO: we need to throw an exception here
-        # change once https://github.com/chef/inspec/issues/1205 is in
-        warn "Could not execute the sql query #{out}"
-        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
+        raise Inspec::Exceptions::ResourceFailed, "Could not execute the sql query #{out}"
       else
         DatabaseHelper::SQLQueryResult.new(cmd, parse_csv_result(cmd))
       end
