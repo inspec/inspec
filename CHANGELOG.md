@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.69 -->
+## [v2.1.69](https://github.com/chef/inspec/tree/v2.1.69) (2018-05-09)
+
+#### Merged Pull Requests
+- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.68 -->
+### Changes since 2.1.68 release
+
+#### Merged Pull Requests
+- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil)) <!-- 2.1.69 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
