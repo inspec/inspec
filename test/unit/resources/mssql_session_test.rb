@@ -10,7 +10,7 @@ describe 'Inspec::Resources::MssqlSession' do
     _(resource.user).must_equal 'sa'
     _(resource.password).must_equal 'yourStrong(!)Password'
     _(resource.host).must_equal 'localhost'
-    _(resource.port).must_equal '1433'
+    _(resource.port).must_be_nil
   end
 
   it 'verify mssql_session configuration with custom hostname' do
@@ -18,7 +18,7 @@ describe 'Inspec::Resources::MssqlSession' do
     _(resource.user).must_equal 'sa'
     _(resource.password).must_equal 'yourStrong(!)Password'
     _(resource.host).must_equal 'inspec.domain.tld'
-    _(resource.port).must_equal '1433'
+    _(resource.port).must_be_nil
   end
 
   it 'verify mssql_session configuration with custom instance' do
@@ -26,7 +26,16 @@ describe 'Inspec::Resources::MssqlSession' do
     _(resource.user).must_equal 'sa'
     _(resource.password).must_equal 'yourStrong(!)Password'
     _(resource.host).must_equal 'localhost'
-    _(resource.port).must_equal '1433'
+    _(resource.port).must_be_nil
+    _(resource.instance).must_equal 'SQL2012INSPEC'
+  end
+
+  it 'verify mssql_session configuration with custom instance and port' do
+    resource = load_resource('mssql_session', user: 'sa', password: 'yourStrong(!)Password', instance: 'SQL2012INSPEC', port: '1691')
+    _(resource.user).must_equal 'sa'
+    _(resource.password).must_equal 'yourStrong(!)Password'
+    _(resource.host).must_equal 'localhost'
+    _(resource.port).must_equal '1691'
     _(resource.instance).must_equal 'SQL2012INSPEC'
   end
 
@@ -36,6 +45,15 @@ describe 'Inspec::Resources::MssqlSession' do
     _(resource.password).must_equal 'yourStrong(!)Password'
     _(resource.host).must_equal 'localhost'
     _(resource.port).must_equal '1533'
+  end
+
+  it 'verify mssql_session configuration with local mode' do
+    resource = load_resource('mssql_session', local_mode: true)
+    _(resource.user).must_be_nil
+    _(resource.password).must_be_nil
+    _(resource.host).must_be_nil
+    _(resource.port).must_be_nil
+    _(resource.local_mode).must_equal true
   end
 
   it 'run a SQL query' do
