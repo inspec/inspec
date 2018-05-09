@@ -105,6 +105,7 @@ module FilterTable
       # If we were provided params, interpret them as criteria to be evaluated
       # against the raw data. Criteria are assumed to be hash keys.
       conditions.each do |raw_field_name, desired_value|
+        raise(ArgumentError, "'#{raw_field_name}' is not a recognized criterion - expected one of #{list_fields.join(', ')}'") unless field?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
       end
@@ -122,6 +123,11 @@ module FilterTable
         begin
           src.instance_eval(&block)
         rescue # rubocop: disable Lint/HandleExceptions
+          # Yes, robocop, ignoring all exceptions is normally
+          # a bad idea.  Here, an exception just means we don't
+          # understand what was in a `where` block, so we can't
+          # meaningfully sytringify it.  We still have a decent
+          # default stringification.
         end
         new_criteria_string += Trace.to_ruby(src)
       end
@@ -155,6 +161,19 @@ module FilterTable
       raw_data.map do |row|
         row[field]
       end
+    end
+
+    def list_fields
+      @__fields_in_raw_data ||= raw_data.reduce([]) do |fields, row|
+        fields.concat(row.keys).uniq
+      end
+    end
+
+    def field?(proposed_field)
+      # Currently we only know about a field if it is present in a at least one row of the raw data.
+      # If we have no rows in the raw data, assume all fields are acceptable (and rely on failing to match on value, nil)
+      return true if raw_data.empty?
+      list_fields.include?(proposed_field)
     end
 
     def to_s
