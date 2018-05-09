@@ -2,7 +2,7 @@ title 'Verify `where` filter can survive an exception being thrown during trace 
 
 require 'ipaddr'
 
-control 'When we check an IPAddr' do
+control '2929_exception_in_where' do
   describe simple_plural([{id: '192.168.1.23'}]).where {
     # IPAddr.new validates its arg.  When the where block 
     # is instance_eval'd for the Trace, this will fail. 
