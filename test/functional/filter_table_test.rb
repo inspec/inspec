@@ -11,16 +11,20 @@ describe '2943 inspec exec for filter table profile, method mode for `where' do
       '2943_pass_no_error_when_no_data',
     ]
 
-    cmd = inspec('exec ' + File.join(profile_path, 'filter_table') + ' --reporter json --no-create-lockfile' + ' --controls ' + controls.join(' '))
+    cmd  = 'exec ' + File.join(profile_path, 'filter_table')
+    cmd += ' --reporter json --no-create-lockfile' 
+    cmd += ' --controls ' + controls.join(' ')
+    cmd = inspec(cmd)
 
-    data = JSON.parse(cmd.stdout)
+    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
+    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
+    data = JSON.parse(output)
     failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
     control_hash = {}
     failed_controls.each do |ctl|
       control_hash[ctl['id']] = ctl['results'][0]['message']
     end
     control_hash.must_be_empty
-    cmd.stderr.must_equal ''
     cmd.exit_status.must_equal 0
   end
 
