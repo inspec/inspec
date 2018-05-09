@@ -1,4 +1,5 @@
 require 'helper'
+require_relative 'aws_billing_backend'
 
 class ConstructorAwsBillingReportsTest < Minitest::Test
   def setup
@@ -39,44 +40,22 @@ class BasicAwsBillingReportsTest < Minitest::Test
 
   def test_where_hit
     abr = AwsBillingReports.new.where { report_name =~ /inspec.*/ }
-    assert_includes abr.compression, 'ZIP'
-    assert_includes abr.s3_bucket, 'inspec-s3-bucket'
+    assert_includes abr.time_unit, 'daily'
+    assert_includes abr.compression, 'zip'
+    assert_includes abr.s3_bucket, 'inspec1-s3-bucket'
   end
 end
 
-module MockAwsBillingReports
-  class Empty < AwsBackendBase
-    def describe_report_definitions
-      OpenStruct.new(report_definitions: [])
-    end
+class PaginatedAwsBillingReportsTest < Minitest::Test
+  def setup
+    AwsBillingReports::BackendFactory.select(MockAwsBillingReports::Paginated)
   end
 
-  class Basic < AwsBackendBase
-    def describe_report_definitions
-      OpenStruct.new(report_definitions: [
-        Aws::CostandUsageReportService::Types::ReportDefinition.new(
-          report_name: 'inspec1',
-          time_unit: 'HOURLY',
-          format: 'textORcsv',
-          compression: 'ZIP',
-          additional_schema_elements: ['RESOURCES'],
-          s3_bucket: 'inspec-s3-bucket',
-          s3_prefix: 'inspec1',
-          s3_region: 'us-east-1',
-          additional_artifacts: ['REDSHIFT'],
-        ),
-        Aws::CostandUsageReportService::Types::ReportDefinition.new(
-          report_name: 'inspec2',
-          time_unit: 'DAILY',
-          format: 'textORcsv',
-          compression: 'GZIP',
-          additional_schema_elements: ['RESOURCES'],
-          s3_bucket: 'inspec-s3-bucket',
-          s3_prefix: 'inspec2',
-          s3_region: 'us-west-1',
-          additional_artifacts: ['QUICKSIGHT'],
-        ),
-      ])
-    end
+  def test_paginated_search_hit_via_scalar
+    assert AwsBillingReports.new.report_name.include?('inspec12')
+  end
+
+  def test_paginated_search_miss_via_scalar
+    refute AwsBillingReports.new.report_name.include?('non-existent')
   end
 end

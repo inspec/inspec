@@ -1,8 +1,9 @@
 require 'helper'
+require_relative 'aws_billing_backend'
 
 class EmptyAwsBillingReportTest < Minitest::Test
   def setup
-    AwsBillingReport::BackendFactory.select(MockAwsBillingReport::Empty)
+    AwsBillingReport::BackendFactory.select(MockAwsBillingReports::Empty)
   end
 
   def test_empty_query
@@ -12,7 +13,7 @@ end
 
 class BasicAwsBillingReportTest < Minitest::Test
   def setup
-    AwsBillingReport::BackendFactory.select(MockAwsBillingReport::Basic)
+    AwsBillingReport::BackendFactory.select(MockAwsBillingReports::Basic)
   end
 
   def test_search_hit_via_scalar
@@ -20,7 +21,7 @@ class BasicAwsBillingReportTest < Minitest::Test
   end
 
   def test_search_miss_via_scalar
-    refute AwsBillingReport.new('non-existant').exists?
+    refute AwsBillingReport.new('non-existent').exists?
   end
 
   def test_search_hit_via_hash_works
@@ -28,7 +29,7 @@ class BasicAwsBillingReportTest < Minitest::Test
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsBillingReport.new(report: 'non-existant').exists?
+    refute AwsBillingReport.new(report: 'non-existent').exists?
   end
 
   def test_search_hit_properties
@@ -63,37 +64,16 @@ class BasicAwsBillingReportTest < Minitest::Test
   end
 end
 
-module MockAwsBillingReport
-  class Empty < AwsBackendBase
-    def describe_report_definitions
-      OpenStruct.new(report_definitions: [])
-    end
+class PaginatedAwsBillingReportTest < Minitest::Test
+  def setup
+    AwsBillingReport::BackendFactory.select(MockAwsBillingReports::Paginated)
   end
 
-  class Basic < AwsBackendBase
-    def describe_report_definitions
-      OpenStruct.new(
-        report_definitions: [
-          Aws::CostandUsageReportService::Types::ReportDefinition.new(
-            report_name: 'inspec1',
-            time_unit: 'HOURLY',
-            format: 'textORcsv',
-            compression: 'ZIP',
-            s3_bucket: 'inspec1-s3-bucket',
-            s3_prefix: 'inspec1/accounting',
-            s3_region: 'us-east-1',
-          ),
-          Aws::CostandUsageReportService::Types::ReportDefinition.new(
-            report_name: 'inspec2',
-            time_unit: 'DAILY',
-            format: 'textORcsv',
-            compression: 'GZIP',
-            s3_bucket: 'inspec2-s3-bucket',
-            s3_prefix: 'inspec2/accounting',
-            s3_region: 'us-west-1',
-          ),
-        ],
-      )
-    end
+  def test_paginated_search_hit_via_scalar
+    assert AwsBillingReport.new('inspec8').exists?
+  end
+
+  def test_paginated_search_miss_via_scalar
+    refute AwsBillingReport.new('non-existent').exists?
   end
 end

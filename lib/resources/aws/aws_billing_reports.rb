@@ -29,8 +29,6 @@ class AwsBillingReports < Inspec.resource(1)
              .add(:s3_bucket, field: :s3_bucket)
              .add(:s3_prefix, field: :s3_prefix)
              .add(:s3_region, field: :s3_region)
-             .add(:additional_artifacts, field: :additional_artifacts)
-             .add(:additional_schema_elements, field: :additional_schema_elements)
   filtertable.connect(self, :table)
 
   def validate_params(resource_params)
@@ -46,9 +44,17 @@ class AwsBillingReports < Inspec.resource(1)
 
   def fetch_from_api
     @table = []
+    pagination_opts = {}
     backend = BackendFactory.create(inspec_runner)
-    backend.describe_report_definitions.report_definitions.each do |r|
-      @table << r.to_h
+    loop do
+      api_result = backend.describe_report_definitions(pagination_opts)
+      api_result.report_definitions.each do |raw_report|
+        report = raw_report.to_h
+        %i(time_unit compression).each { |i| report[i].downcase! }
+        @table << report
+      end
+      pagination_opts = { next_token: api_result.next_token }
+      break unless api_result.next_token
     end
   end
 
@@ -57,8 +63,8 @@ class AwsBillingReports < Inspec.resource(1)
       AwsBillingReports::BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::CostandUsageReportService::Client
 
-      def describe_report_definitions
-        aws_service_client.describe_report_definitions
+      def describe_report_definitions(options = {})
+        aws_service_client.describe_report_definitions(options)
       end
     end
   end

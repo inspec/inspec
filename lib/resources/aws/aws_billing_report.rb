@@ -55,22 +55,32 @@ class AwsBillingReport < Inspec.resource(1)
   end
 
   def fetch_from_api
-    r = report
-    @exists = !r.nil?
-    unless r.nil?
-      @report_name = r.report_name
-      @time_unit = r.time_unit.downcase
-      @format = r.format
-      @compression = r.compression.downcase
-      @s3_bucket = r.s3_bucket
-      @s3_prefix = r.s3_prefix
-      @s3_region = r.s3_region
+    report = find_report(@report)
+    @exists = report.respond_to?(:report_name)
+    if @exists
+      @report_name = report.report_name
+      @time_unit = report.time_unit.downcase
+      @format = report.format
+      @compression = report.compression.downcase
+      @s3_bucket = report.s3_bucket
+      @s3_prefix = report.s3_prefix
+      @s3_region = report.s3_region
     end
   end
 
-  def report
-    definitions = backend.describe_report_definitions.report_definitions
-    definitions.detect { |r| r.report_name.eql?(@report) }
+  def find_report(report)
+    pagination_opts = {}
+    result = nil
+    while result.nil?
+      api_result = backend.describe_report_definitions(pagination_opts)
+      next_token = api_result.next_token
+      result = api_result.report_definitions.find { |r| r.report_name.eql?(report) }
+      pagination_opts = { next_token: next_token }
+
+      next if result.nil? & next_token
+      break if result.nil? & next_token.nil?
+    end
+    result
   end
 
   def backend
@@ -82,8 +92,8 @@ class AwsBillingReport < Inspec.resource(1)
       AwsBillingReport::BackendFactory.set_default_backend(self)
       self.aws_client_class = Aws::CostandUsageReportService::Client
 
-      def describe_report_definitions
-        aws_service_client.describe_report_definitions
+      def describe_report_definitions(options = {})
+        aws_service_client.describe_report_definitions(options)
       end
     end
   end

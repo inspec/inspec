@@ -14,12 +14,12 @@ Use the `aws_billing_report` InSpec audit resource to test properties of a singl
 
   # Verify the time_unit used by the 'inspec1' Billing Report.
   describe aws_billing_report('inspec1') do
-    its('time_unit') { should cmp 'DAILY' }
+    its('time_unit') { should cmp 'daily' }
   end
 
   # Hash Syntax to verify the time_unit used by the 'inspec1' Billing Report.
   describe aws_billing_report(report_definition: 'inspec1') do
-    its('time_unit') { should cmp 'DAILY' }
+    its('time_unit') { should cmp 'daily' }
   end
 
 ## Properties
