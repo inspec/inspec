@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.69 -->
-## [v2.1.69](https://github.com/chef/inspec/tree/v2.1.69) (2018-05-09)
+<!-- latest_release 2.1.70 -->
+## [v2.1.70](https://github.com/chef/inspec/tree/v2.1.70) (2018-05-10)
 
-#### Merged Pull Requests
-- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil))
+#### Bug Fixes
+- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.68 -->
 ### Changes since 2.1.68 release
+
+#### Bug Fixes
+- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick)) <!-- 2.1.70 -->
 
 #### Merged Pull Requests
 - Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil)) <!-- 2.1.69 -->
