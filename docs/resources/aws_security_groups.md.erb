@@ -92,6 +92,6 @@ The control will pass if the filter returns at least one result. Use `should_not
 
 ## AWS Permissions
 
-Your IAM User will need the `ec2:DescribeSecurityGroups` action set to allow.
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `ec2:DescribeSecurityGroups` action with Effect set to Allow.
 
 You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html).

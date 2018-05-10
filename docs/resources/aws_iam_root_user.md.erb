@@ -71,6 +71,6 @@ The `have_access_key` matcher tests if the AWS root user has at least one access
 
 ## AWS Permissions
 
-Your IAM User will need the `iam:GetAccountSummary` action set to allow.
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:GetAccountSummary` action with Effect set to Allow.
 
 You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

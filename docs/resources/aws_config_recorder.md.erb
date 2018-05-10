@@ -75,12 +75,12 @@ Indicates if the ConfigurationRecorder will record changes for all resources, re
 
 ### be\_recording\_all\_global\_types
 
-Indicates whether the ConfigurationRecorder will record changes for global resource types (such as IAM Users).
+Indicates whether the ConfigurationRecorder will record changes for global resource types (such as [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)s).
 
       it { should be_recording_all_global_types }
 
 ## AWS Permissions
 
-Your IAM User will need the `config:DescribeConfigurationRecorders` action set to allow.
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `config:DescribeConfigurationRecorders` action with Effect set to Allow.
 
 You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS Config](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsconfig.html).

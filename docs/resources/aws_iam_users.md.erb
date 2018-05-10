@@ -274,6 +274,6 @@ The test passes if at least one user in the filtered set has MFA enabled (virtua
 
 ## AWS Permissions
 
-Your IAM User will need the `iam:ListUsers`, `iam:GetLoginProfile`, `iam:ListMFADevices`, `iam:ListAccessKeys`, `iam:ListUserPolicies`, and `iam:ListAttachedUserPolicies` action set to allow.
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:ListUsers`, `iam:GetLoginProfile`, `iam:ListMFADevices`, `iam:ListAccessKeys`, `iam:ListUserPolicies`, and `iam:ListAttachedUserPolicies` action with Effect set to Allow.
 
 You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

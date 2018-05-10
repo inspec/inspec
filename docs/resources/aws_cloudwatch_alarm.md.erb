@@ -86,6 +86,6 @@ The control will pass if a Cloudwatch Alarm could be found. Use `should_not` if 
 
 ## AWS Permissions
 
-Your IAM User will need the `cloudwatch:DescribeAlarmsForMetric` action set to allow.
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `cloudwatch:DescribeAlarmsForMetric` action with Effect set to Allow.
 
 You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html).
