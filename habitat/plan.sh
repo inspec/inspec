@@ -20,6 +20,7 @@ pkg_deps=(
   core/bind
   core/curl
   core/docker
+  core/git
   core/less
   core/mysql-client
   core/netcat
