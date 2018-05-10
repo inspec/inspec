@@ -1,34 +1,31 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.72 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.1.72](https://github.com/chef/inspec/tree/v2.1.72) (2018-05-10)
 
 #### New Resources
 - Skeletal aws_ec2_instances resource [#3023](https://github.com/chef/inspec/pull/3023) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.1.68 -->
-### Changes since 2.1.68 release
-
-#### New Resources
-- Skeletal aws_ec2_instances resource [#3023](https://github.com/chef/inspec/pull/3023) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.72 -->
 
 #### Enhancements
-- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins)) <!-- 2.1.71 -->
+- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins))
 
 #### Bug Fixes
-- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick)) <!-- 2.1.70 -->
+- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick))
 
 #### Merged Pull Requests
-- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil)) <!-- 2.1.69 -->
-<!-- release_rollup -->
-
+- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil))
 <!-- latest_stable_release -->
+
 ## [v2.1.68](https://github.com/chef/inspec/tree/v2.1.68) (2018-05-04)
 
 #### Merged Pull Requests
 - Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.67](https://github.com/chef/inspec/tree/v2.1.67) (2018-05-03)
 
