@@ -99,7 +99,7 @@ True or false. Filters the users to include only those that have at least one IA
 
 ### has\_console\_password
 
-True or false. Filters the users to include only those that have a console password (that is, they are able to login to the AWS web UI using a password). 
+True or false. Filters the users to include only those that have a console password (that is, they are able to login to the AWS web UI using a password).
 
     # No console passwords for anyone
     describe aws_iam_users.where(has_console_password: true) do
@@ -143,8 +143,8 @@ Integer. Filters the users to include only those who used their password a certa
     end
 
     # This filter is often more useful in block mode, using a greater-than
-    # Here, audit users who have not logged in in the last 30 days 
-    describe aws_iam_users.where do 
+    # Here, audit users who have not logged in in the last 30 days
+    describe aws_iam_users.where do
       password_ever_used && password_last_used_days_ago > 30
     end do
       it { should_not exist' }
@@ -169,8 +169,8 @@ String. Filters the users to include only those whose username matches the value
       it { should_not have_console_password }
     end
 
-    # Method call example. This is a poor use of aws_iam_users (plural); 
-    # if you want to audit an individual user whose username you know, use 
+    # Method call example. This is a poor use of aws_iam_users (plural);
+    # if you want to audit an individual user whose username you know, use
     # aws_iam_user (singular)
     # Verify Bob exists
     describe aws_iam_users.where(username: 'bob') do
@@ -222,7 +222,7 @@ Array of strings. Each entry is the name of a user that matched. There will be e
 
 ## Matchers
 
-This InSpec audit resource has the following resource-specific matchers. 
+This InSpec audit resource has the following resource-specific matchers.
 For a full list of available matchers, please visit our [universal matchers page](https://www.inspec.io/docs/reference/matchers/).
 
 As a plural resource, all matchers beginning with `have_` will return true if _any_ of the selected users match.
@@ -271,3 +271,9 @@ The test passes if at least one user in the filtered set has MFA enabled (virtua
     describe aws_iam_users do
       it { should have_mfa_enabled }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:ListUsers`, `iam:GetLoginProfile`, `iam:ListMFADevices`, `iam:ListAccessKeys`, `iam:ListUserPolicies`, and `iam:ListAttachedUserPolicies` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

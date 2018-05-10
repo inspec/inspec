@@ -7,7 +7,7 @@ platform: aws
 
 Use the `aws_kms_keys` InSpec audit resource to test properties of some or all AWS KMS Keys.
 
-AWS Key Management Service (KMS) is a managed service that makes creating and controlling your encryption keys for your data easier. KMS uses Hardware Security Modules (HSMs) to protect the security of your keys. 
+AWS Key Management Service (KMS) is a managed service that makes creating and controlling your encryption keys for your data easier. KMS uses Hardware Security Modules (HSMs) to protect the security of your keys.
 
 AWS Key Management Service is integrated with several other AWS services to help you protect the data you store with these services.
 
@@ -80,5 +80,10 @@ The control will pass if the filter returns at least one result. Use `should_not
     # Verify that at least one KMS Key exists.
     describe aws_kms_keys
       it { should exist }
-    end   
+    end
 
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `kms:ListKeys` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS Key Management Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awskeymanagementservice.html).

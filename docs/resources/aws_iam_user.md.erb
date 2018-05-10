@@ -57,7 +57,7 @@ Returns a list of IAM Managed Policy ARNs as strings that identify the policies 
       # This is a customer-managed policy
       its('attached_policy_arns') { should include 'arn:aws:iam::123456789012:policy/test-inline-policy-01' }
       # This is an AWS-managed policy
-      its('attached_policy_arns') { should include 'arn:aws:iam::aws:policy/AlexaForBusinessGatewayExecution' }      
+      its('attached_policy_arns') { should include 'arn:aws:iam::aws:policy/AlexaForBusinessGatewayExecution' }
     end
 
 ### attached\_policy\_names
@@ -68,7 +68,7 @@ Returns a list of IAM Managed Policy Names as strings that identify the policies
       # This is a customer-managed policy
       its('attached_policy_names') { should include 'test-inline-policy-01' }
       # This is an AWS-managed policy
-      its('attached_policy_names') { should include 'AlexaForBusinessGatewayExecution' }      
+      its('attached_policy_names') { should include 'AlexaForBusinessGatewayExecution' }
     end
 
 ### inline\_policy\_names
@@ -77,7 +77,7 @@ Returns a list of IAM Inline Policy Names as strings that identify the inline po
 
     describe aws_iam_user('bob') do
       its('inline_policy_names') { should include 'test-inline-policy-01' }
-      its('inline_policy_names.count') { should eq 1 }      
+      its('inline_policy_names.count') { should eq 1 }
     end
 
 
@@ -112,4 +112,9 @@ The `have\_inline\_policies` matcher tests if the user has at least one IAM poli
 The `have_mfa_enabled` matcher tests if the user has Multi-Factor Authentication enabled, requiring them to enter a secondary code when they login to the web console.
 
     it { should have_mfa_enabled }
- 
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:GetUser`, `iam:GetLoginProfile`, `iam:ListMFADevices`, `iam:ListAccessKeys`, `iam:ListUserPolicies`, and `iam:ListAttachedUserPolicies` actions set to allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

@@ -56,3 +56,9 @@ The control will pass if a group with the given group name exists.
     describe aws_iam_group('mygroup')
       it { should exist }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:GetGroup` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

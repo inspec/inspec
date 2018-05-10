@@ -99,7 +99,7 @@ The name of the LMF within the `log_group`.
 
 The name of the log group that the LMF is watching.
 
-    # Check which log group the LMF 'error-watcher' is watching 
+    # Check which log group the LMF 'error-watcher' is watching
     describe aws_cloudwatch_log_metric_filter(
       filter_name: 'error-watcher',
     ) do
@@ -147,5 +147,8 @@ Matches (i.e., passes the test) if the resource parameters (search criteria) wer
       it { should exist }
     end
 
+## AWS Permissions
 
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `cloudwatch:DescribeAlarmsForMetric` action with Effect set to Allow.
 
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html).

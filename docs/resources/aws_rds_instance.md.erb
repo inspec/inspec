@@ -58,3 +58,9 @@ The control will pass if the specified RDS instance was found.  Use should_not i
     describe aws_rds_instance('nogood') do
       it { should_not exist }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `rds:DescribeDBInstances` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon RDS](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonrds.html).

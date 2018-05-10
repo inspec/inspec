@@ -61,3 +61,9 @@ Indicates that the ARN provided was found.  Use `should_not` to test for SNS top
     describe aws_sns_topic('arn:aws:sns:*::bad-news') do
       it { should_not exist }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `sns:GetTopicAttributes` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon SNS](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsns.html).

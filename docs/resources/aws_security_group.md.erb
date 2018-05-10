@@ -20,7 +20,7 @@ While this resource provides facilities for searching inbound and outbound rules
 
 ## Syntax
 
-Resource parameters: group_id, group_name, id, vpc_id 
+Resource parameters: group_id, group_name, id, vpc_id
 
 An `aws_security_group` resource block uses resource parameters to search for and then test a Security Group. If no SGs match, no error is raised, but the `exists` matcher returns `false`, and all scalar properties are `nil`. List properties returned under these conditions are empty lists. If more than one SG matches (due to vague search parameters), an error is raised.
 
@@ -36,13 +36,13 @@ An `aws_security_group` resource block uses resource parameters to search for an
       it { should exist }
     end
 
-    # Ensure you have a Security Group with a specific name.  Names are 
+    # Ensure you have a Security Group with a specific name.  Names are
     # unique within a VPC but not across VPCs.
     # Using only Group returns an error if multiple SGs match.
     describe aws_security_group(group_name: 'my-group') do
       it { should exist }
     end
-    # Add vpc_id to ensure uniqueness. 
+    # Add vpc_id to ensure uniqueness.
     describe aws_security_group(group_name: 'my-group', vpc_id: 'vpc-12345678') do
       it { should exist }
     end
@@ -53,15 +53,15 @@ An `aws_security_group` resource block uses resource parameters to search for an
 
 The following examples show how to use this InSpec audit resource.
 
-    # Ensure that the linux_servers Security Group permits 
+    # Ensure that the linux_servers Security Group permits
     # SSH from the 10.5.0.0/16 range, but not the world.
     describe aws_security_group(group_name: linux_servers) do
-      # This passes if any inbound rule exists that specifies 
+      # This passes if any inbound rule exists that specifies
       # port 22 and the given IP range, regardless of protocol, etc.
       it { should allow_in(port: 22, ipv4_range: '10.5.0.0/16') }
 
       # This passes so long as no inbound rule that specifies port 22 exists
-      # with a source IP range of 0.0.0.0/0.  Other properties are ignored. 
+      # with a source IP range of 0.0.0.0/0.  Other properties are ignored.
       it { should_not allow_in(port: 22, ipv4_range: '0.0.0.0/0') }
 
     end
@@ -69,13 +69,13 @@ The following examples show how to use this InSpec audit resource.
     # Ensure that the careful_updates Security Group may only initiate contact with specific IPs.
     describe aws_security_group(group_name: 'careful_updates') do
 
-      # If you have two rules, with one CIDR each: 
+      # If you have two rules, with one CIDR each:
       [ '10.7.23.12/32', '10.8.23.12/32' ].each do |allowed_destination|
         # This doesn't care about which ports are enabled
         it { should allow_out(ipv4_range: allowed_destination) }
       end
 
-      # If you have one rule with two CIDRs: 
+      # If you have one rule with two CIDRs:
       it { should allow_out(ipv4_range: [ '10.7.23.12/32', '10.8.23.12/32' ] }
 
       # Expect exactly three rules.
@@ -185,7 +185,7 @@ If the Security Group could not be found (that is, `exists` is false), `inbound_
 
 A list of the rules that the Security Group applies to outgoing network traffic initiated by the AWS resource in the Security Group. This is a low-level property that is used by the [`allow_out`](#allow_out) matcher; see it for detailed examples. `outbound_rules` is provided here for those wishing to use Ruby code to inspect the rules directly, instead of using higher-level matchers.
 
-Order is critical in these rules, as the sequentially first rule to match is applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule; note that Terraform removes this implicit rule. 
+Order is critical in these rules, as the sequentially first rule to match is applied to network traffic. Outbound rules are typically used when it is desirable to restrict which portions of the internet, if any, a resource may access. By default, AWS includes an allow-all rule as the last outbound rule; note that Terraform removes this implicit rule.
 
 If the Security Group could not be found (that is, `exists` is false), `outbound_rules` returns an empty list.
 
@@ -218,9 +218,9 @@ This InSpec audit resource has the following special matchers. For a full list o
 
 ### allow\_out\_only
 
-The `allow` series of matchers enable you to perform queries about what network traffic would be permitted through the Security Group rule set. 
+The `allow` series of matchers enable you to perform queries about what network traffic would be permitted through the Security Group rule set.
 
-`allow_in` and `allow_in_exactly` examine inbound rules, and `allow_out` and `allow_out_exactly` examine outbound rules. 
+`allow_in` and `allow_in_exactly` examine inbound rules, and `allow_out` and `allow_out_exactly` examine outbound rules.
 
 `allow_in` and `allow_out` examine if at least one rule that matches the criteria exists. `allow_in` and `allow_out` also perform inexact (ie, range-based or subset-based) matching on ports and IP addresses ranges, allowing you to specify a candidate port or IP address and determine if it is covered by a rule.
 
@@ -229,12 +229,12 @@ The `allow` series of matchers enable you to perform queries about what network 
 The matchers accept a key-value list of search criteria.  For a rule to match, it must match all provided criteria.
 
   * from_port - Determines if a rule exists whose port range begins at the specified number. The word 'from_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _from_"). `from_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `from_port` of 1001, it does not match.
-  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges. 
+  * ipv4_range - Specifies an IPv4 address or subnet as a CIDR, or a list of them, to be checked as a permissible origin (for `allow_in`) or destination (for `allow_out`) for traffic.  Each AWS Security Group rule may have multiple allowed source IP ranges.
   * port - Determines if a particular TCP/IP port is reachable. allow_in and allow_out examine whether the specified port is included in the port range of a rule, while allow_in. You may specify the port as a string (`'22'`) or as a number.
   * position - A one-based index into the list of rules. If provided, this restricts the evaluation to the rule at that position. You may also use the special values `:first` and `:last`. `position` may also be used to enable `allow_in_only` and `allow_out_only` to work with multi-rule Security Groups.
   * protocol - Specifies the IP protocol. 'tcp', 'udp', and 'icmp' are some typical values. The string "-1" or 'any' is used to indicate any protocol.
   * to_port - Determines if a rule exists whose port range ends at the specified number. The word 'to_' does *not* relate to inbound/outbound directionality; it relates to the port range ("counting _to_"). `to_port` is an exact criterion; so if the rule allows 1000-2000 and you specify a `to_port` of 1999, it does not match.
-  
+
     describe aws_security_group(group_name: 'mixed-functionality-group') do
       # Allow RDP from defined range
       it { should allow_in(port: 3389, ipv4_range: '10.5.0.0/16') }
@@ -258,23 +258,23 @@ The matchers accept a key-value list of search criteria.  For a rule to match, i
       it { should_not allow_in(ipv4_range: '0.0.0.0/0') }
     end
 
-    # Suppose you have a Group that should allow SSH and RDP from 
-    # the admin network, 10.5.0.0/16. The resource has 2 rules to 
+    # Suppose you have a Group that should allow SSH and RDP from
+    # the admin network, 10.5.0.0/16. The resource has 2 rules to
     # allow this, and you want to ensure no others have been added.
     describe aws_security_group(group_name: 'admin-group') do
       # Allow RDP from a defined range and nothing else
       # The SG must have this rule in position 1 and it must match this exactly
       it { should allow_in_only(port: 3389, ipv4_range: '10.5.0.0/16', position: 1) }
 
-      # Specify position 2 for the SSH rule.  Without `position`, 
+      # Specify position 2 for the SSH rule.  Without `position`,
       # allow_in_only only allows one rule, total.
       it { should allow_in_only(port: 22, ipv4_range: '10.5.0.0/16', position: 2) }
 
-      # Because this is an _only matcher, this fails - _only matchers 
+      # Because this is an _only matcher, this fails - _only matchers
       # use exact IP matching.
       it { should allow_in_only(port: 3389, ipv4_range: '10.5.1.34/32', position: 1) }
     end
-    
+
 ### exists
 
 The control passes if the specified Security Group was found.  Use `should_not` if you want to verify that the specified SG does not exist.
@@ -288,3 +288,9 @@ The control passes if the specified Security Group was found.  Use `should_not` 
     describe aws_security_group(group_name: 'nogood')
       it { should_not exist }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `ec2:DescribeSecurityGroups` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html).

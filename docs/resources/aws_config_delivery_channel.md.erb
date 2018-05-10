@@ -44,7 +44,7 @@ The following examples show how to use this InSpec audit resource.
     describe aws_config_delivery_channel(channel_name: 'my-recorder') do
       its(delivery_frequency_in_hours) { should be > 3 }
     end
-    
+
 ## Properties
 
 ### channel\_name
@@ -71,7 +71,7 @@ Provides the name of the s3 bucket that the channel sends configuration changes 
     describe aws_config_delivery_channel(channel_name: 'my_channel')
       its('s3_bucket_name') { should eq 'my_bucket' }
     end
-    
+
 ### s3\_key\_prefix
 
 Provides the s3 object key prefix (or "path") under which configuration data will be recorded.
@@ -79,7 +79,7 @@ Provides the s3 object key prefix (or "path") under which configuration data wil
     describe aws_config_delivery_channel(channel_name: 'my_channel')
       its('s3_key_prefix') { should eq 'log/' }
     end
-    
+
 ### sns\_topic\_arn
 
 Provides the ARN of the SNS topic for which the channel sends notifications about configuration changes.
@@ -87,10 +87,15 @@ Provides the ARN of the SNS topic for which the channel sends notifications abou
     describe aws_config_delivery_channel(channel_name: 'my_channel')
       its('sns_topic_arn') { should eq 'arn:aws:sns:us-east-1:721741954427:sns_topic' }
     end
-    
+
 <br>
 
 ## Matchers
 
 This resource provides no matchers, aside from the standard `exist` matcher.
 
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `config:DescribeDeliveryChannels` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS Config](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsconfig.html).

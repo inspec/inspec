@@ -43,7 +43,7 @@ The following examples show how to use this InSpec audit resource.
     describe aws_config_recorder(recorder_name: 'my-recorder') do
       it { should be_recording }
     end
-    
+
 ## Properties
 
 ### role\_arn
@@ -53,7 +53,7 @@ Provides the IAM role arn associated with the configuration recorder.  The role 
     describe aws_config_recorder(username: 'bob')
       its('role_arn') { should eq 'arn:aws:iam::721741954427:role/My_Recorder' }
     end
-    
+
 ### resource\_types
 
 Provides a list of AWS resource types for which the AWS Config records configuration will change. Note that if be_recording_all_resource_types is true than this property is meaningless and will return and empty array.
@@ -62,7 +62,7 @@ Provides a list of AWS resource types for which the AWS Config records configura
       its('resource_types') { should include 'AWS::EC2::CustomerGateway' }
       its('resource_types') { should include 'AWS::EC2::EIP' }
     end
-    
+
 <br>
 
 ## Matchers
@@ -72,10 +72,15 @@ Provides a list of AWS resource types for which the AWS Config records configura
 Indicates if the ConfigurationRecorder will record changes for all resources, regardless of type. If this is true, resource_types is ignored.
 
       it { should be_recording_all_resource_types }
-      
+
 ### be\_recording\_all\_global\_types
 
-Indicates whether the ConfigurationRecorder will record changes for global resource types (such as IAM Users).
+Indicates whether the ConfigurationRecorder will record changes for global resource types (such as [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal)s).
 
       it { should be_recording_all_global_types }
 
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `config:DescribeConfigurationRecorders` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS Config](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsconfig.html).
