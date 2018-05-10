@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.70 -->
-## [v2.1.70](https://github.com/chef/inspec/tree/v2.1.70) (2018-05-10)
+<!-- latest_release 2.1.71 -->
+## [v2.1.71](https://github.com/chef/inspec/tree/v2.1.71) (2018-05-10)
 
-#### Bug Fixes
-- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick))
+#### Enhancements
+- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.68 -->
 ### Changes since 2.1.68 release
+
+#### Enhancements
+- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins)) <!-- 2.1.71 -->
 
 #### Bug Fixes
 - Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick)) <!-- 2.1.70 -->
