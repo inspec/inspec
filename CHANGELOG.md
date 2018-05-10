@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.23 -->
-## [v1.51.23](https://github.com/chef/inspec/tree/v1.51.23) (2018-05-03)
+<!-- latest_release 1.51.24 -->
+## [v1.51.24](https://github.com/chef/inspec/tree/v1.51.24) (2018-05-10)
 
-#### Merged Pull Requests
-- cmp should recognise a string being a negative int (#3007) [#3012](https://github.com/chef/inspec/pull/3012) ([james-stocks](https://github.com/james-stocks))
+#### Bug Fixes
+- Allow the depends key to be exposed in json profiles report 1.x [#3035](https://github.com/chef/inspec/pull/3035) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.21 -->
 ### Changes since 1.51.21 release
+
+#### Bug Fixes
+- Allow the depends key to be exposed in json profiles report 1.x [#3035](https://github.com/chef/inspec/pull/3035) ([jquick](https://github.com/jquick)) <!-- 1.51.24 -->
 
 #### Merged Pull Requests
 - cmp should recognise a string being a negative int (#3007) [#3012](https://github.com/chef/inspec/pull/3012) ([james-stocks](https://github.com/james-stocks)) <!-- 1.51.23 -->
