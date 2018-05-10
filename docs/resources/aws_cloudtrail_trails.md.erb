@@ -77,5 +77,10 @@ The control will pass if the filter returns at least one result. Use `should_not
     # Verify that at least one CloudTrail Trail exists.
     describe aws_cloudtrail_trails
       it { should exist }
-    end   
+    end
 
+## AWS Permissions
+
+Your IAM User will need the `cloudtrail:DescribeTrails` action set to allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscloudtrail.html).
