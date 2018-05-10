@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.71 -->
-## [v2.1.71](https://github.com/chef/inspec/tree/v2.1.71) (2018-05-10)
+<!-- latest_release 2.1.72 -->
+## [v2.1.72](https://github.com/chef/inspec/tree/v2.1.72) (2018-05-10)
 
-#### Enhancements
-- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins))
+#### New Resources
+- Skeletal aws_ec2_instances resource [#3023](https://github.com/chef/inspec/pull/3023) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.68 -->
 ### Changes since 2.1.68 release
+
+#### New Resources
+- Skeletal aws_ec2_instances resource [#3023](https://github.com/chef/inspec/pull/3023) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.72 -->
 
 #### Enhancements
 - Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins)) <!-- 2.1.71 -->
