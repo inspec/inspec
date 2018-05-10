@@ -27,7 +27,7 @@ describe 'inspec compliance' do
     # This will be fixed in the 1.0 release of Thor
     # See: https://github.com/erikhuda/thor/issues/244
     out.exit_status.must_equal 0
-    out.stderr.must_include 'ERROR: "inspec login" was called with no arguments'
+    out.stderr.must_include 'ERROR: "inspec compliance login" was called with no arguments'
   end
 
   it 'inspec compliance profiles without authentication' do
@@ -38,7 +38,7 @@ describe 'inspec compliance' do
 
   it 'try to upload a profile without directory' do
     out = inspec('compliance upload')
-    out.stderr.must_include 'ERROR: "inspec upload" was called with no arguments'
+    out.stderr.must_include 'ERROR: "inspec compliance upload" was called with no arguments'
     out.exit_status.must_equal 0
   end
 
