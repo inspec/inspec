@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 1.51.24 -->
-## [v1.51.24](https://github.com/chef/inspec/tree/v1.51.24) (2018-05-10)
+<!-- latest_release 1.51.25 -->
+## [v1.51.25](https://github.com/chef/inspec/tree/v1.51.25) (2018-05-10)
 
-#### Bug Fixes
-- Allow the depends key to be exposed in json profiles report 1.x [#3035](https://github.com/chef/inspec/pull/3035) ([jquick](https://github.com/jquick))
+#### Merged Pull Requests
+- Backport ci verify scripts [#3038](https://github.com/chef/inspec/pull/3038) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.51.21 -->
@@ -14,6 +14,7 @@
 - Allow the depends key to be exposed in json profiles report 1.x [#3035](https://github.com/chef/inspec/pull/3035) ([jquick](https://github.com/jquick)) <!-- 1.51.24 -->
 
 #### Merged Pull Requests
+- Backport ci verify scripts [#3038](https://github.com/chef/inspec/pull/3038) ([miah](https://github.com/miah)) <!-- 1.51.25 -->
 - cmp should recognise a string being a negative int (#3007) [#3012](https://github.com/chef/inspec/pull/3012) ([james-stocks](https://github.com/james-stocks)) <!-- 1.51.23 -->
 - 1.x - Adjust version test to allow for inspec 2.x being available [#3015](https://github.com/chef/inspec/pull/3015) ([james-stocks](https://github.com/james-stocks)) <!-- 1.51.22 -->
 <!-- release_rollup -->
