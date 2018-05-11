@@ -113,7 +113,7 @@ In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec
       ...
     end
 
-### headers 
+### headers
 
 `{headers}` may be specified for http request headers.
 
@@ -135,7 +135,7 @@ In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec
 
 `open_timeout` may be specified for a timeout for opening connections (default to 60).
 
-    describe('http://localhost:8080/ping', 
+    describe('http://localhost:8080/ping',
                   open_timeout: '90') do
       ...
     end
@@ -144,7 +144,7 @@ In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec
 
 `read_timeout` may be specified for a timeout for reading connections (default to 60).
 
-    describe('http://localhost:8080/ping', 
+    describe('http://localhost:8080/ping',
                   read_timeout: '90') do
       ...
     end
@@ -153,8 +153,8 @@ In InSpec 2.0, the HTTP test will automatically execute remotely whenever InSpec
 
 `ssl_verify` may be specified to enable or disable verification of SSL certificates (default to `true`).
 
-    describe('http://localhost:8080/ping', 
-                  ssl_verify: 'true') do
+    describe('http://localhost:8080/ping',
+                  ssl_verify: true) do
       ...
     end
 
