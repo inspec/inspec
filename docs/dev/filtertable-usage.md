@@ -8,13 +8,13 @@ Plural resources examine platform objects in bulk. For example, sorting through 
 
 Singular resources, in contrast, are designed to examine a particular platform object in detail, _when you know an identifier_. For example, you would use a singular resource to fetch a VM by its ID, then interrogate its networking configuration. Singular resources are able to provide richer properties and matchers than plural resources, because the semantics are clearer.
 
-If you can't tell if the resource you are authoring is singular or plural, STOP and consult with a team member. This is a fundamental design question, and while we have had some resources that "straddle the fence" in the past, they ar very difficult to use and maintain.
+If you can't tell if the resource you are authoring is singular or plural, STOP and consult with a team member. This is a fundamental design question, and while we have had some resources that "straddle the fence" in the past, they are very difficult to use and maintain.
 
 ### Should I use FilterTable to represent list properties?
 
 Suppose you have a person, and you want to represent that person's shoes.  Should you use FilterTable for that?
 
-NO.  FilterTable is intended to represent pluralities inherent to the resource, not a property of the resource.  So, you would use FilterTable to represent _people_.  To represent shoes, you could have a simple, dumb array-of-strings property on Person.  Or, you could create a new resource, Shoe, or Shoes, which has a person_name or person_id property. Or expose a complex structure as a low-level property, and create mid-level properties/matchers that compute on the values internally (`shoe_fit?`, `has_shoes_for_occasion?('red_carpet')`)
+NO.  FilterTable is intended to represent pluralities inherent to the resource itself, not a property of the resource.  So, you would use FilterTable to represent _people_.  To represent shoes, you could have a simple, dumb array-of-strings property on Person.  Or, you could create a new resource, Shoe, or Shoes, which has a person_name or person_id property. Or expose a complex structure as a low-level property, and create mid-level properties/matchers that compute on the values internally (`shoe_fit?`, `has_shoes_for_occasion?('red_carpet')`)
 
 ### May I have multiple FilterTable installations on a class?
 
@@ -31,12 +31,14 @@ Suppose you are writing a resource, `things`.  You want it to behave like any pl
 require 'utils/filter'
 
 class Thing < Inspec.resource(1)
-  #... other Resource DSL work
+  #... other Resource DSL work goes here ...
 
+  # FilterTable setup
   filter_table_config = FilterTable.create
   filter_table_config.add_accessor(:where)
   filter_table_config.add_accessor(:entries)
   filter_table_config.add(:exist?) { |filter_table| !filter_table.entries.empty? }
+  filter_table_config.add(:count) { |filter_table| filter_table.entries.count }
   filter_table_config.add(:thing_ids, field: :thing_id)
   filter_table_config.add(:colors, field: :color, type: :simple)
   filter_table_config.connect(self, :fetch_data)
@@ -45,8 +47,8 @@ class Thing < Inspec.resource(1)
     # This method should return an array of hashes - the raw data.  We'll hardcode it here.
     [ 
       { thing_id: 1, color: :red },
-      { thing_id: 2, color: :blue, size: 'big' },
-      { thing_id: 2, color: :red },
+      { thing_id: 2, color: :blue, tackiness: 'very' },
+      { thing_id: 3, color: :red },
     ]
   end
 
@@ -71,7 +73,7 @@ With a (fairly standard) implementation like that above, what behavior do you ge
 
 ### Your class is still just a Resource class
 
-Nothing special immediately happends to your class or instances of it.  The data fetcher is not called yet.
+Nothing special immediately happens to your class or instances of it.  The data fetcher is not called yet.
 
 ### Instances of your class can create a specialized FilterTable::Table instance
 
@@ -84,44 +86,202 @@ The resource class gains a method, `where`.  If called with a single `nil` param
 ```ruby
   describe things.where(nil)
     it { should exist }
-    its('entries.count') { should cmp 3 }
+    its('count') { should cmp 3 }
   end
 
   # This works, too, but for different internal reasons
   describe things.where
     it { should exist }
-    its('entries.count') { should cmp 3 }
+    its('count') { should cmp 3 }
   end
 ```
 
-### A `where` method you can call with hash params
+### A `where` method you can call with hash params, with loose matching
 
 If you call `where` as a method with no block and passing hash params, with keys you know are in the raw data, it will fetch the raw data, then filter row-wise and return the resulting Table.
 
+Multiple criteria are joined with a logical AND.
+
+The filtering is fancy, not just straight equality.
+
 ```ruby
-  describe things.where(nil)
-    it { should exist }
-    its('entries.count') { should cmp 3 }
+  describe things.where(color: :red) do
+    its('count') { should cmp 2 }
   end
 
-  # This works, too, but for different internal reasons
-  describe things.where
-    it { should exist }
-    its('entries.count') { should cmp 3 }
+  # Regexes
+  describe things.where(color: /^re/) do
+    its('count') { should cmp 2 }
   end
+
+  # It eventually falls out to === comparison
+  # Here, range membership 1..2
+  describe things.where(thing_id: (1..2)) do
+    its('count') { should cmp 2 }
+  end
+
+  # Things that don't exist are silently ignored, but do not match
+  # See https://github.com/chef/inspec/issues/2943
+  describe things.where(none_such: :nope) do
+    its('count') { should cmp 0 }
+  end
+
+  # irregular rows are supported
+  # Only one row has the :tackiness key, with value 'very'.
+  describe things.where(tackiness: 'very') do
+    its('count') { should cmp 1 }
+  end
+
 ```
-
 
 ### A `where` method you can call with a block, referencing some fields
 
+You can also call the `where` method with a block. The block is executed row-wise. If it returns truthy, the row is included in the results. Additionally, within the block each field declared with the `add` configuration method is available as a data accessor.
 
-### You can chain off of `where` without re-fetching raw data
+```ruby
 
-### You get an `exist?` matcher defined on the resource
+  # You can have any logic you want in the block
+  describe things.where { true } do
+    its('count') { should cmp 3 }
+  end
+
+  # You can access any field you declared using `add`
+  describe things.where { thing_id > 2 } do
+    its('count') { should cmp 1 }
+  end
+```
+
+### You can chain off of `where` or any other Table without re-fetching raw data
+
+The first time `where` is called, the data fetcher method is called.  `where` performs filtration on the raw data table.  It then constructs a new FilterTable::Table, directly passing in the filtered raw data; this is then the return value from `where`.
+
+```ruby
+  # This only calls fetch_data once
+  describe things.where(color: :red).where { thing_id > 2 } do
+    its('count') { should cmp 1 }
+  end
+```
+
+Some other methods return a Table object, and they may be chained without a re-fetch as well.
 
 ### An `entries` method that will return an array of Structs
 
-### A `thing_ids` method that will return an array of plain values
+The other `add_accessor` call enables a pre-defined method, `entries`.  `entries` is much simpler than `where` - in fact, its behavior is unrelated.  It returns an encapsulated version of the raw data - a plain array, containing Structs as row-entries.  Each struct has an attribute for each time you called `add`.
+
+Overall, in my opinion, `entries` is less useful than `params` (which returns the raw data).  Wrapping in Structs does not seem to add much benefit.
+
+Importantly, note that the return value of `entries` is not the resource, nor the Table - in other words, you cannot chain it. However, you can call `entries` on any Table.
+
+If you call `entries` without chaining it after `where`, calling entries will trigger the call to the data fetching method.
+
+```ruby
+
+  # Access the entries array
+  describe things.entries do
+    # This is Array#count, not the resource's `count` method
+    its('count') { should cmp 3}
+  end
+
+  # Access the entries array after chaining off of where
+  describe things.where(color: :red).entries do
+    # This is Array#count, not the resource's or table's `count` method
+    its('count') { should cmp 2}
+  end
+
+  # You can access the struct elements as a method, as a hash keyed on symbol, or as a hash keyed on string
+  describe things.entries.first.color do
+    it { should cmp :red }
+  end
+  describe things.entries.first[:color] do
+    it { should cmp :red }
+  end
+  describe things.entries.first['color'] do
+    it { should cmp :red }
+  end
+```
+
+### You get an `exist?` matcher defined on the resource and the table
+
+This `add` call:
+```ruby
+filter_table_config.add(:exist?) { |filter_table| !filter_table.entries.empty? }
+```
+
+causes a new method to be defined on both the resource class and the Table class.  The body of the method is taken from the block that is provided.  When the method it called, it will recieve the FilterTable::Table instance as its first parameter.  (It may also accept a second param, but that doesn't make sense for this method - see thing_ids).
+
+As when you are implementing matchers on a singular resource, the only thing that distinuishes this as a matcher is the fact that it ends in `?`.
+
+```ruby
+  # Bare call on the matcher (called as a method on the resource)
+  describe things do
+    it { should exist }
+  end
+
+  # Chained on where (called as a method on the Table)
+  describe things.where(color: :red) do
+    it { should exist }
+  end
+```
+
+### You get an `count` property defined on the resource and the table
+
+This `add` call:
+```ruby
+filter_table_config.add(:count) { |filter_table| filter_table.entries.count }
+```
+
+causes a new method to be defined on both the resource class and the Table class.  As with `exists?`, the body is taken from the block.
+
+```ruby
+  # Bare call on the property (called as a method on the resource)
+  describe things do
+    its('count') { should cmp 3 }
+  end
+
+  # Chained on where (called as a method on the Table)
+  describe things.where(color: :red) do
+    its('count') { should cmp 2 }
+  end
+```
+
+### A `thing_ids` method that will return an array of plain values when called without params
+
+This `add` call:
+```ruby
+filter_table_config.add(:thing_ids, field: :thing_id)
+```
+
+will cause a method to be defined on both the resource and the Table. Note that this `add` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
+
+The implementation provided by Factory changes behaviro based on calling pattern.  If no params or block is provided, a simple array is returned, containing the column-wise values in the raw data.
+
+```ruby
+
+  # Use it to check for presence / absence of a member
+  # This retains nice output formatting - we're testing on a Table associated with a Things resource
+  describe things.where(color: :red) do
+    its('thing_ids') { should include 3 }
+  end
+
+  # Equivalent but with poor formatting - we're testing an anonymous array
+  describe things.where(color: :red).thing_ids do
+    it { should include 3 }
+  end
+
+  # Use as a test-less enumerator
+  things.where(color: :red).thing_ids.each do |thing_id|
+    # Do something with thing_id, maybe 
+    # describe thing(thing_id) do ... 
+  end
+
+  # Can be used without where - enumerates all Thing IDs with no filter
+  things.thing_ids.each do |thing_id|
+    # Do something with thing_id, maybe 
+    # describe thing(thing_id) do ... 
+  end
+
+```
+
 
 ### A `thing_ids` method that can filter on a value and return a Table
 
@@ -129,16 +289,33 @@ If you call `where` as a method with no block and passing hash params, with keys
 
 ### A `colors` method that will return a flattened and uniq'd array of values
 
-
 ### You can call `params` on any Table to get the raw data
+
+
 
 ### You can call `resource` on any Table to get the resource instance
 
-### The Table will have methods defined on it as well
 
 ## Gotchas and Surprises
 
 ### Methods defined with `add` will change their return type based on their call pattern
+
+To me, calling things.thing_ids should always return the same type of value.  But if you call it with args or a block, it not only runs a filter, but also changes its return type to Table.
+
+```ruby
+
+  # This is an Array of color values (symbols, here)
+  things.colors
+
+  # This is a FilterTable::Table and these are equivalent
+  things.colors(:red) 
+  things.where(color: :red)
+
+  # This is a FilterTable::Table and these are equivalent
+  things.colors { color == :red } # I think there is a bug here which makes this never match  
+  things.where(color: :red)
+
+```
 
 ### `entries` will not have fields present in the raw data
 
@@ -146,10 +323,35 @@ If you call `where` as a method with no block and passing hash params, with keys
 
 ### `add` does not know about what fields are in the raw data
 
-### Raw data access is sensitive to symbols vs strings
+### `where` param-mode and raw data access is sensitive to symbols vs strings
+
+
 
 ### You can't call resource methods on a Table directly
 
 ### You can't use a column name in a `where` block unless it was declared as a field using `add`
 
+```ruby
+  # This will give a NameError - :tackiness is in the raw
+  # data hash but not declared using `add`.
+  describe things.where { tackiness == 'very' } do
+    its('count') { should cmp 1 }
+  end
+  # NameError: undefined local variable or method `tackiness' for #<struct :exists?=nil, count=nil, id=nil>
+
+  # But this works:
+  describe things.where(tackiness: 'very') do
+    its('count') { should cmp 1 }
+  end
+```
+
 ### You can in fact filter for `nil` values
+
+### There is no obvious accessor for the Table instance
+
+You can in fact get the FilterTable::Table instance byt calling `where` with no args.  But that is not obvious.
+
+### There is no way to get the FilterTable::Factory object used to configure the resource
+
+Especially while developing in inspec shell, it would be nice to be able to get at the FilterTable::Factory object, perhaps to add more accessors.
+
