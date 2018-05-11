@@ -60,7 +60,7 @@ elsif os[:family] == 'windows'
   describe group('Administrators') do
     it { should exist }
     its('gid') { should eq 'S-1-5-32-544' }
-    its('members') { should cmp ['Administrator'] }
+    its('members') { should include 'Administrator' }
   end
 
   describe group('Power Users') do

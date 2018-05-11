@@ -91,6 +91,10 @@ module Inspec::Resources
         it { should exist }
         its('gid') { should eq 0 }
       end
+
+      describe group('Administrators') do
+        its('members') { should include 'Administrator' }
+      end
     "
 
     def initialize(groupname)
