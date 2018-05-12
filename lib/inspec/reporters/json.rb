@@ -105,6 +105,7 @@ module Inspec::Reporters
           copyright_email: p[:copyright_email],
           supports: p[:supports],
           attributes: p[:attributes],
+          depends: p[:depends],
           groups: profile_groups(p),
           controls: profile_controls(p),
         }

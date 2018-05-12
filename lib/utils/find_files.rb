@@ -17,17 +17,20 @@ module FindFiles
 
   # ignores errors
   def find_files(path, opts = {})
-    find_files_or_error(path, opts) || []
+    find_files_or_warn(path, opts) || []
   end
 
-  def find_files_or_error(path, opts = {})
+  def find_files_or_warn(path, opts = {})
     depth = opts[:depth]
     type = TYPES[opts[:type].to_sym] if opts[:type]
 
-    cmd = "sh -c \'find #{path}"
+    # If `path` contains a `'` we must modify how we quote the `sh -c` argument
+    quote = path.include?("'") ? '"' : '\''
+
+    cmd = "sh -c #{quote}find #{path}"
     cmd += " -type #{type}" unless type.nil?
     cmd += " -maxdepth #{depth.to_i}" if depth.to_i > 0
-    cmd += "\'"
+    cmd += quote
 
     result = inspec.command(cmd)
     exit_status = result.exit_status

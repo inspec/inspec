@@ -79,7 +79,7 @@ The `bucket_acl` property is a low-level property that lists the individual Buck
 
 The value of bucket_acl is  an array of simple objects.  Each object has a `permission` property and a `grantee` property.  The `permission` property will be a string such as 'READ', 'WRITE' etc (See the [AWS documentation](https://docs.aws.amazon.com/sdkforruby/api/Aws/S3/Client.html#get_bucket_acl-instance_method) for a full list).  The `grantee` property contains sub-properties, such as `type` and `uri`.
 
-    
+
     bucket_acl = aws_s3_bucket('my-bucket')
 
     # Look for grants to "AllUsers" (that is, the public)
@@ -132,3 +132,15 @@ Note: This resource does not detect insecure object ACLs.
 The `have_access_logging_enabled` matcher tests if access logging is enabled for the s3 bucket.
 
     it { should have_access_logging_enabled }
+
+### have\_default\_encryption\_enabled
+
+The `have_default_encryption_enabled` matcher tests if default encryption is enabled for the s3 bucket.
+
+    it { should have_default_encryption_enabled }
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `s3:GetBucketAcl`, `s3:GetBucketLocation`, `s3:GetBucketLogging`, `s3:GetBucketPolicy`, and `s3:GetEncryptionConfiguration` actions set to allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html).

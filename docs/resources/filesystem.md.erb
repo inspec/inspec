@@ -20,7 +20,7 @@ A `filesystem` resource block declares tests for disk space in a partition:
 where
 
 * `filesystem('/')` states that the resource will look at the root (/) partition.
-* `size` is measured in megabytes (MB).
+* `size` is measured in kilobytes (KB).
 
 <br>
 
@@ -28,7 +28,7 @@ where
 
 The following examples show how to use this InSpec audit resource.
 
-### Test if the root partition is greater than 32000 MB
+### Test if the root partition is greater than 32000 KB
 
     describe filesystem('/') do
       its('size') { should be >= 32000 }

@@ -11,7 +11,7 @@ To test properties of all or multiple VPCs, use the `aws_vpcs` resource.
 
 A VPC is a networking construct that provides an isolated environment. A VPC is contained in a geographic region, but spans availability zones in that region. A VPC may have multiple subnets, internet gateways, and other networking resources. Computing resources--such as EC2 instances--reside on subnets within the VPC.
 
-Each VPC is uniquely identified by its VPC ID. In addition, each VPC has a non-unique CIDR IP Address range (such as 10.0.0.0/16) which it manages. 
+Each VPC is uniquely identified by its VPC ID. In addition, each VPC has a non-unique CIDR IP Address range (such as 10.0.0.0/16) which it manages.
 
 Every AWS account has at least one VPC, the "default" VPC, in every region.
 
@@ -118,3 +118,8 @@ The test will pass if the identified VPC is the default VPC for the region.
       it { should be_default }
     end
 
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `ec2:DescribeVpcs` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html).

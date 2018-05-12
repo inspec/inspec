@@ -71,6 +71,19 @@ if os.linux?
     it { should_not cmp >= 13 }
   end
 
+  describe '-12' do
+    it { should cmp -12 }
+    it { should cmp < -11 }
+    it { should cmp > -13 }
+    it { should_not cmp < -12 }
+    it { should_not cmp > -12 }
+    it { should cmp <= -12 }
+    it { should cmp >= -12 }
+    it { should cmp >= -666 }
+    it { should_not cmp <= -13 }
+    it { should_not cmp >= -11 }
+  end
+
   # versions
   describe '2.4.12' do
     it { should cmp == '2.4.12' }

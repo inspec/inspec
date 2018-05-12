@@ -4,6 +4,7 @@ product_key: inspec
 
 rubygems:
  - inspec
+ - inspec-core
 
 docker_images:
   - inspec:
@@ -55,6 +56,9 @@ merge_actions:
       ignore_labels:
         - "Habitat: Skip Build"
         - "Expeditor: Skip All"
+  - built_in:build_gem:
+      only_if:
+        - built_in:bump_version
 
 artifact_actions:
   promoted_to_unstable:

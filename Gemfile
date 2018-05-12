@@ -1,6 +1,6 @@
 # encoding: utf-8
 source 'https://rubygems.org'
-gemspec
+gemspec name: 'inspec'
 
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '~> 1.8'

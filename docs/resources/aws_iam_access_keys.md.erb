@@ -7,7 +7,7 @@ platform: aws
 
 Use the `aws_iam_access_keys` InSpec audit resource to test properties of some or all IAM Access Keys.
 
-To test properties of a single Access Key, use the `aws_iam_access_key` resource instead. 
+To test properties of a single Access Key, use the `aws_iam_access_key` resource instead.
 To test properties of an individual user's access keys, use the `aws_iam_user` resource.
 
 Access Keys are closely related to AWS User resources. Use this resource to perform audits of all keys or of keys specified by criteria unrelated to any particular user.
@@ -26,12 +26,12 @@ An `aws_iam_access_keys` resource block uses an optional filter to select a grou
     # Don't let fred have access keys, using filter argument syntax
     describe aws_iam_access_keys.where(username: 'fred') do
       it { should_not exist }
-    end  
+    end
 
     # Don't let fred have access keys, using filter block syntax (most flexible)
     describe aws_iam_access_keys.where { username == 'fred' } do
       it { should_not exist }
-    end    
+    end
 
 <br>
 
@@ -43,7 +43,7 @@ The following examples show how to use this InSpec audit resource.
 
     describe aws_iam_access_keys.where { created_days_ago > 90 } do
       it { should_not exist }
-    end 
+    end
 
 <br>
 
@@ -195,4 +195,10 @@ The control will pass if the filter returns at least one result. Use `should_not
     # Don't let fred have access keys
     describe aws_iam_access_keys.where(username: 'fred') do
       it { should_not exist }
-    end   
+    end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:ListAccessKeys`, and `iam:ListUsers` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

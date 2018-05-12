@@ -47,7 +47,21 @@ module Inspec
       @__skip_only_if_eval = opts[:skip_only_if_eval]
 
       # evaluate the given definition
-      instance_eval(&block) if block_given?
+      return unless block_given?
+      begin
+        instance_eval(&block)
+      rescue StandardError => e
+        # We've encountered an exception while trying to eval the code inside the
+        # control block. We need to prevent the exception from bubbling up, and
+        # fail the control. Controls are failed by having a failed resource within
+        # them; but since our control block is unsafe (and opaque) to us, let's
+        # make a dummy and fail that.
+        location = block.source_location.compact.join(':')
+        describe 'Control Source Code Error' do
+          # Rubocop thinks we are raising an exception - we're actually calling RSpec's fail()
+          its(location) { fail e.message } # rubocop: disable Style/SignalException
+        end
+      end
     end
 
     def to_s

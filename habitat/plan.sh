@@ -15,9 +15,18 @@ pkg_deps=(
   core/libxslt
   core/net-tools
   core/ruby
+
+  # Needed for some InSpec resources
+  core/bind
+  core/curl
+  core/docker
+  core/git
+  core/less
+  core/mysql-client
+  core/netcat
+  core/postgresql
 )
 pkg_build_deps=(
-  core/bundler
   core/gcc
   core/make
   core/readline
@@ -26,76 +35,45 @@ pkg_build_deps=(
 pkg_bin_dirs=(bin)
 
 do_prepare() {
-  export BUNDLE_SILENCE_ROOT_WARNING GEM_HOME GEM_PATH
-  BUNDLE_SILENCE_ROOT_WARNING=1
-  build_line "Setting BUNDLE_SILENCE_ROOT_WARNING=$BUNDLE_SILENCE_ROOT_WARNING"
-  GEM_HOME="$pkg_prefix/vendor/bundle"
+  export GEM_HOME="$pkg_prefix/lib"
   build_line "Setting GEM_HOME=$GEM_HOME"
-  GEM_PATH="$(pkg_path_for bundler):$GEM_HOME"
+  export GEM_PATH="$GEM_HOME"
   build_line "Setting GEM_PATH=$GEM_PATH"
 }
 
+do_unpack() {
+  mkdir -pv "$HAB_CACHE_SRC_PATH/$pkg_dirname"
+  cp -R "$PLAN_CONTEXT"/../ "$HAB_CACHE_SRC_PATH/$pkg_dirname"
+}
+
 do_build() {
-  # If we use the Gemfile in the project ($SRC_PATH/Gemfile), and run `bundle
-  # install` (which we do in `do_build` below), Bundler will write out a
-  # .bundle/config into the $SRC_PATH. If this happens, if you try to use
-  # InSpec outside of the build process it will fail, since the settings used
-  # in this plan will be saved in the .bundle/config.
-  #
-  # Instead, we first use Bundler to build up a local cache of gem dependencies.
-  # Then when we build, we'll build the InSpec gem and write out a new Gemfile
-  # to use that instead.
-  #
-  # Building up the local cache of dependencies is necessary because Bundler won't
-  # try and walk the sources if it finds the initial gem in the local cache.
-  build_line "Caching InSpec's gem dependencies..."
-  mkdir -p $CACHE_PATH/vendor/cache
-
-  cat > "$CACHE_PATH/Gemfile" <<GEMFILE
-source 'https://rubygems.org'
-gem '$pkg_name', path: "${PLAN_CONTEXT}/.."
-GEMFILE
-
-  bundle install \
-    --binstubs "$pkg_prefix/bin" \
-    --gemfile "$CACHE_PATH/Gemfile" \
-    --jobs "$(nproc)" \
-    --path "$pkg_prefix/bundle" \
-    --retry 5 \
-    --standalone
-
-  build_line "Building the InSpec gem..."
-  gem build inspec.gemspec
-
-  build_line "Moving the InSpec gem into the cache path..."
-  mv inspec-${pkg_version}.gem ${CACHE_PATH}/vendor/cache
-
-  build_line "Re-bundling with the new InSpec gem..."
-  cat > "$CACHE_PATH/Gemfile" <<GEMFILE
-gem '$pkg_name', '= ${pkg_version}'
-GEMFILE
-
-  bundle install \
-    --binstubs "$pkg_prefix/bin" \
-    --gemfile "$CACHE_PATH/Gemfile" \
-    --jobs "$(nproc)" \
-    --path "$pkg_prefix/bundle" \
-    --retry 5 \
-    --local \
-    --standalone
-
-  # Delete everything that's not inspec in bin
-  find "$pkg_prefix/bin" -type f -not -name 'inspec' -delete
-
-  fix_interpreter "$pkg_prefix/bin/inspec" core/coreutils bin/env
-
-  # Insert the SSL cert path into the inspec executable
-  sed -i "2iENV['SSL_CERT_FILE'] = '$(pkg_path_for cacerts)/ssl/cert.pem'" \
-    "$pkg_prefix/bin/inspec"
+  pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
+    gem build inspec.gemspec
+  popd
 }
 
 do_install() {
-  install -m 0644 ${CACHE_PATH}/Gemfile.lock "$pkg_prefix/Gemfile.lock"
+  pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
+    gem install inspec-*.gem --no-document
+  popd
+
+  wrap_inspec_bin
+}
+
+# Need to wrap the InSpec binary to ensure GEM_HOME/GEM_PATH is correct
+wrap_inspec_bin() {
+  local bin="$pkg_prefix/bin/$pkg_name"
+  local real_bin="$GEM_HOME/gems/inspec-${pkg_version}/bin/inspec"
+  build_line "Adding wrapper $bin to $real_bin"
+  cat <<EOF > "$bin"
+#!$(pkg_path_for busybox-static)/bin/sh
+export SSL_CERT_FILE=$(pkg_path_for cacerts)/ssl/cert.pem
+set -e
+export GEM_HOME="$GEM_HOME"
+export GEM_PATH="$GEM_PATH"
+exec $(pkg_path_for core/ruby)/bin/ruby $real_bin \$@
+EOF
+  chmod -v 755 "$bin"
 }
 
 do_strip() {

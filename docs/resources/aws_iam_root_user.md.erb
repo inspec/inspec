@@ -68,3 +68,9 @@ The `have_virtual_mfa_enabled` matcher tests if the AWS root user has Virtual Mu
 The `have_access_key` matcher tests if the AWS root user has at least one access key.
 
     it { should have_access_key }
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `iam:GetAccountSummary` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Identity And Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_identityandaccessmanagement.html).

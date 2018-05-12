@@ -7,6 +7,57 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.72](https://github.com/chef/inspec/tree/v2.1.72) (2018-05-10)
+
+#### New Resources
+- Skeletal aws_ec2_instances resource [#3023](https://github.com/chef/inspec/pull/3023) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Add git dependency to habitat plan. [#3037](https://github.com/chef/inspec/pull/3037) ([phiggins](https://github.com/phiggins))
+
+#### Bug Fixes
+- Allow the depends key to be exposed in json profiles report [#3033](https://github.com/chef/inspec/pull/3033) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil))
+<!-- latest_stable_release -->
+
+## [v2.1.68](https://github.com/chef/inspec/tree/v2.1.68) (2018-05-04)
+
+#### Merged Pull Requests
+- Fix the A2 vendoring with depends on the A2 server [#3022](https://github.com/chef/inspec/pull/3022) ([jquick](https://github.com/jquick))
+
+## [v2.1.67](https://github.com/chef/inspec/tree/v2.1.67) (2018-05-03)
+
+#### New Features
+-  #2810 - Add check if aws s3 bucket is encrypted. [#2937](https://github.com/chef/inspec/pull/2937) ([UranusBytes](https://github.com/UranusBytes))
+
+#### Enhancements
+- Refactors Terraform plan to break out steps [#2996](https://github.com/chef/inspec/pull/2996) ([dmccown](https://github.com/dmccown))
+- Split inspec into a core gem. [#3008](https://github.com/chef/inspec/pull/3008) ([miah](https://github.com/miah))
+
+#### Bug Fixes
+- nginx_conf resource: Fix include paths with quotes [#2726](https://github.com/chef/inspec/pull/2726) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add A2 support for profile compliance depends [#3014](https://github.com/chef/inspec/pull/3014) ([jquick](https://github.com/jquick))
+
+#### Merged Pull Requests
+- Update Habitat plan [#3000](https://github.com/chef/inspec/pull/3000) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- cmp should recognise a string being a negative int [#3007](https://github.com/chef/inspec/pull/3007) ([james-stocks](https://github.com/james-stocks))
+- Add inspec-core gem to expeditor release [#3018](https://github.com/chef/inspec/pull/3018) ([jquick](https://github.com/jquick))
+
+## [v2.1.59](https://github.com/chef/inspec/tree/v2.1.59) (2018-04-26)
+
+#### Enhancements
+- Update shadow#to_s to return @path instead of hardcoded `/etc/shadow` [#2978](https://github.com/chef/inspec/pull/2978) ([miah](https://github.com/miah))
+
+#### Bug Fixes
+- Catch exceptions in control blocks and fail the control [#2987](https://github.com/chef/inspec/pull/2987) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Makes JSON resource enumerable, despite method_missing magic [#2910](https://github.com/chef/inspec/pull/2910) ([TheLonelyGhost](https://github.com/TheLonelyGhost))
+- Fix case where res is nil in etc_group [#2984](https://github.com/chef/inspec/pull/2984) ([chris-rock](https://github.com/chris-rock))
+- os_env resource returns only user&#39;s environment variable on Windows [#2945](https://github.com/chef/inspec/pull/2945) ([omar-irizarry](https://github.com/omar-irizarry))
+
 ## [v2.1.54](https://github.com/chef/inspec/tree/v2.1.54) (2018-04-19)
 
 #### New Features
@@ -27,7 +78,6 @@
 
 #### Merged Pull Requests
 - Add A2 support to the inspec-compliance toolset [#2963](https://github.com/chef/inspec/pull/2963) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.43](https://github.com/chef/inspec/tree/v2.1.43) (2018-04-12)
 

@@ -22,7 +22,7 @@ An aws_kms_key resource block identifies a key by key_arn or the key id.
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
     end
-    
+
     # Find a kms key by just the id
     describe aws_kms_key('4321dcba-21io-23de-85he-ab0987654321') do
       it { should exist }
@@ -79,7 +79,7 @@ The ARN identifier of the specified key. An ARN uniquely identifies the key with
 
 ### creation_date
 
-Specifies the date and time when the key was created. 
+Specifies the date and time when the key was created.
 
     # Makes sure that the key was created at least 10 days ago
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
@@ -138,14 +138,14 @@ The test will pass if the specified key's key_state is set to enabled.
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should be_enabled }
     end
-    
+
 ### be\_external
 Provides whether the source of the key's key material is external or not.  If it is not external than it was created by AWS KMS.  When it is external, the key material was imported from an existing key management infrastructure or the key lacks key material.
 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its { should be_external }
     end
-    
+
 ### be\_managed\_by\_aws
 
 Provides whether or not the key manager is from AWS. If it is not managed by AWS, it is managed by the customer.
@@ -153,7 +153,7 @@ Provides whether or not the key manager is from AWS. If it is not managed by AWS
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       its { should be_managed_by_aws }
     end
-    
+
 ### have\_key\_expiration
 
 Specifies whether the key's key material expires. This value is null unless the keys Origin is External.
@@ -169,3 +169,9 @@ The test will pass if automatic rotation of the key material is enabled for the 
     describe aws_kms_key('arn:aws:kms:us-east-1::key/4321dcba-21io-23de-85he-ab0987654321') do
       it { should have_rotation_enabled }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `kms:DescribeKey`, and `kms:GetKeyRotationStatus` actions set to allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS Key Management Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awskeymanagementservice.html).

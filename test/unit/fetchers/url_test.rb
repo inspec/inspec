@@ -108,6 +108,55 @@ describe Fetchers::Url do
 
   end
 
+  describe 'download_automate2_archive_to_temp' do
+    let(:target) { 'https://myurl/file.tar.gz' }
+    let(:options) do
+      {
+        'automate' => {
+          'ent' => 'automate',
+          'token_type' => 'dctoken',
+        },
+        'token' => '1234abcd',
+        'server_type' => 'automate2',
+        'profile' => ['admin', 'ssh-baseline', '2.0']
+      }
+    end
+    let(:subject) { Fetchers::Url.resolve(target, options) }
+
+    it "downloads tar to tmp file" do
+      mock = Object.new
+      mock.stubs(:body).returns('this is the body')
+      Net::HTTP.expects(:start)
+               .returns(mock)
+
+      path = subject.send(:download_automate2_archive_to_temp)
+      File.read(path).must_equal 'this is the body'
+    end
+
+    it "sets default http options" do
+      mock = Object.new
+      mock.stubs(:body).returns('this is the body')
+      opts = {"chef-delivery-enterprise"=>"automate", "x-data-collector-token"=>"1234abcd", :use_ssl=>true, :verify_mode=>1}
+      Net::HTTP.expects(:start)
+               .with('myurl', 443, opts)
+               .returns(mock)
+
+      subject.send(:download_automate2_archive_to_temp)
+    end
+
+    it "sets insecure http options" do
+      options['insecure'] = true
+      mock = Object.new
+      mock.stubs(:body).returns('this is the body')
+      opts = {:ssl_verify_mode => 0, "chef-delivery-enterprise"=>"automate", "x-data-collector-token"=>"1234abcd", :use_ssl=>true, :verify_mode=>0}
+      Net::HTTP.expects(:start)
+               .with('myurl', 443, opts)
+               .returns(mock)
+
+      subject.send(:download_automate2_archive_to_temp)
+    end
+  end
+
   describe 'applied to a valid url (mocked tar.gz)' do
     let(:mock_file) { MockLoader.profile_tgz('complete-profile') }
     let(:target) { 'http://myurl/file.tar.gz' }

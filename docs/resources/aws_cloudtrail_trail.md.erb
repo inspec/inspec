@@ -55,7 +55,7 @@ The following examples show how to use this InSpec audit resource.
 
 ## Properties
 
-* `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`, 
+* `s3_bucket_name`, `trail_arn`, `cloud_watch_logs_role_arn`, `cloud_watch_logs_log_group_arn`, `kms_key_id`, `home_region`,
 
 <br>
 
@@ -95,7 +95,7 @@ Specifies a log group name using an Amazon Resource Name (ARN), a unique identif
 
 ### kms\_key\_id
 
-Specifies the KMS key ID to used to encrypt the logs delivered by CloudTrail. 
+Specifies the KMS key ID to used to encrypt the logs delivered by CloudTrail.
 
     describe aws_cloudtrail_trail('trail-name') do
       its('kms_key_id') { should include "key-arn" }
@@ -108,11 +108,11 @@ Specifies the region in which the trail was created.
     describe aws_cloudtrail_trail('trail-name') do
       its('home_region') { should include "us-east-1" }
     end
-    
+
 ### delivered\_logs\_days\_ago
 
 Specifies the number of days ago the CloudTrail delivered logs to CloudWatch Logs.
-    
+
     # Ensure the latest delivery time was recent
     describe aws_cloudtrail_trail('trail-name') do
       its('delivered_logs_days_ago') { should eq 0 }
@@ -147,3 +147,9 @@ The test will pass if the identified trail has log file integrity validation is 
     describe aws_cloudtrail_trail('trail-name') do
       it { should be_log_file_validation_enabled }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `cloudtrail:DescribeTrails` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for AWS CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscloudtrail.html).

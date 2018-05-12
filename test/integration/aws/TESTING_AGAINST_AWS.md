@@ -13,7 +13,7 @@ We use the AWS CLI credentials system to manage credentials.
 
 ### Installing Terraform
 
-Download [Terraform](https://www.terraform.io/downloads.html).  We require at least v0.10 . To install and choose from multiple Terraform versions, consider using [tfenv](https://github.com/kamatama41/tfenv).
+Download [Terraform](https://www.terraform.io/downloads.html).  We require at least v0.10. To install and choose from multiple Terraform versions, consider using [tfenv](https://github.com/kamatama41/tfenv).
 
 ### Installing AWS CLI
 

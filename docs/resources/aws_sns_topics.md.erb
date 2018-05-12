@@ -50,3 +50,9 @@ Provides an array of all SNS Topic arns.
     describe aws_sns_topics do
       its('topic_arns') { should include 'arn:aws:sns:us-east-1:333344445555:MyTopic' }
     end
+
+## AWS Permissions
+
+Your [Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html#intro-structure-principal) will need the `sns:ListTopics` action with Effect set to Allow.
+
+You can find detailed documentation at [Actions, Resources, and Condition Keys for Amazon SNS](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsns.html).

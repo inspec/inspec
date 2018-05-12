@@ -2,12 +2,14 @@
 # encoding: utf-8
 
 require 'bundler'
-require 'bundler/gem_tasks'
+require 'bundler/gem_helper'
 require 'rake/testtask'
 require 'passgen'
 require 'train'
 require_relative 'tasks/maintainers'
 require_relative 'tasks/spdx'
+
+Bundler::GemHelper.install_tasks name: 'inspec'
 
 def prompt(message)
   print(message)
@@ -152,14 +154,29 @@ namespace :test do
   namespace :azure do
     # Specify the directory for the integration tests
     integration_dir = File.join(project_dir, 'test', 'integration', 'azure')
+    tf_vars_file = File.join(integration_dir, 'build', 'terraform.tfvars')
     attribute_file = File.join(integration_dir, '.attribute.yml')
 
     task :setup, :tf_workspace do |t, args|
       tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
-      puts '----> Setup'
+
+      puts '----> Setup Terraform Workspace'
+
       sh("cd #{integration_dir}/build/ && terraform init -upgrade")
       sh("cd #{integration_dir}/build/ && terraform workspace new #{tf_workspace}")
+
+      Rake::Task["test:azure:vars"].execute
+      Rake::Task["test:azure:plan"].execute
+      Rake::Task["test:azure:apply"].execute
+    end
+
+    desc "Generate terraform.tfvars file"
+    task :vars do |t, args|
+
+      next if File.exist?(tf_vars_file)
+
+      puts '----> Generating Vars'
 
       # Generate Azure crendentials
       connection = Train.create('azure').connection
@@ -172,23 +189,43 @@ namespace :test do
       # Use the first 4 characters of the storage account to create a suffix
       suffix = sa_name[0..3]
 
-      # Create the plan that can be applied to Azure
-      cmd  = ""
-      cmd += "cd #{integration_dir}/build/ && terraform plan -out inspec-azure.plan"
-      cmd += " -var 'subscription_id=#{creds[:subscription_id]}' "
-      cmd += " -var 'client_id=#{creds[:client_id]}' "
-      cmd += " -var 'client_secret=#{creds[:client_secret]}' "
-      cmd += " -var 'tenant_id=#{creds[:tenant_id]}' "
-      cmd += " -var 'storage_account_name=#{sa_name}' "
-      cmd += " -var 'admin_password=#{admin_password}' "
-      cmd += " -var 'suffix=#{suffix}' "
-      sh(cmd)
+      content = <<~VARS
+        subscription_id = "#{creds[:subscription_id]}"
+        client_id = "#{creds[:client_id]}"
+        client_secret = "#{creds[:client_secret]}"
+        tenant_id = "#{creds[:tenant_id]}"
+        storage_account_name = "#{sa_name}"
+        admin_password = "#{admin_password}"
+        suffix = "#{suffix}"
+      VARS
 
-      # Apply the plan on Azure
-      cmd = "cd #{integration_dir}/build/ && terraform apply inspec-azure.plan"
-      sh(cmd)
+      content << "location = \"#{ENV['AZURE_LOCATION']}\"\n" if ENV['AZURE_LOCATION']
 
-      # Dump TF outputs to InSpec attributes file
+      File.write(tf_vars_file, content)
+    end
+
+    desc "generate plan from state using terraform.tfvars file"
+    task :plan, [:tf_workspace] => [:vars] do |t, args|
+      tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
+      abort("You must set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
+
+      puts '----> Generating Plan'
+
+      result = sh("cd #{integration_dir}/build/ && terraform workspace select #{tf_workspace}")
+
+      sh("cd #{integration_dir}/build/ && terraform plan -out inspec-azure.plan")
+    end
+
+    desc "apply terraform plan"
+    task :apply, [:tf_workspace] => [:plan] do |t, args|
+      tf_workspace = args[:tf_workspace] || ENV['INSPEC_TERRAFORM_ENV']
+      abort("You must set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
+      puts '----> Applying Plan'
+
+      sh("cd #{integration_dir}/build/ && terraform workspace select #{tf_workspace}")
+
+      sh("cd #{integration_dir}/build/ && terraform apply inspec-azure.plan")
+
       Rake::Task["test:azure:dump_attrs"].execute
     end
 
@@ -197,7 +234,7 @@ namespace :test do
         raw_output = File.read(attribute_file)
         yaml_output = raw_output.gsub(" = ", " : ")
         File.open(attribute_file, "w") {|file| file.puts yaml_output}
-      end
+    end
 
     task :run do
       puts '----> Run'
@@ -209,23 +246,11 @@ namespace :test do
       abort("You must either call the top-level test:azure task, or set the INSPEC_TERRAFORM_ENV variable.") unless tf_workspace
       puts '----> Cleanup'
 
-      connection = Train.create('azure').connection
-      creds = connection.options
-
-      cmd  = ""
-      cmd += "cd #{integration_dir}/build/ && terraform destroy -force "
-      cmd += " -var 'subscription_id=#{creds[:subscription_id]}' "
-      cmd += " -var 'client_id=#{creds[:client_id]}' "
-      cmd += " -var 'client_secret=#{creds[:client_secret]}' "
-      cmd += " -var 'tenant_id=#{creds[:tenant_id]}' "
-      cmd += " -var 'storage_account_name=dummy' "
-      cmd += " -var 'admin_password=dummy' "
-      cmd += " -var 'suffix=dummy' "
-
-      sh(cmd)
+      sh("cd #{integration_dir}/build/ && terraform destroy -force ")
 
       sh("cd #{integration_dir}/build/ && terraform workspace select default")
       sh("cd #{integration_dir}/build && terraform workspace delete #{tf_workspace}")
+      File.delete(tf_vars_file)
     end
   end
 

@@ -32,6 +32,14 @@ describe 'Inspec::Resources::JSON' do
     it 'doesnt resolve symbol-notation names' do
       _(resource.send(:'x.y.z')).must_be_nil
     end
+
+    it 'is enumerability matches its data' do
+      enum = load_resource('json', content: '["a","b"]')
+      not_enum = load_resource('json', content: '525600')
+
+      _(enum.respond_to?(:each)).must_equal true
+      _(not_enum.respond_to?(:each)).must_equal false
+    end
   end
 
   describe 'when loading a nonexistent file' do
