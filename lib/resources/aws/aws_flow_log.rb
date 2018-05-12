@@ -10,7 +10,7 @@ class AwsFlowLog < Inspec.resource(1)
   include AwsSingularResourceMixin
 
   def to_s
-    "AWS Flow Log #{@flow_log_id}"
+    "AWS Flow Log #{id}"
   end
 
   def resource_type
@@ -76,6 +76,12 @@ class AwsFlowLog < Inspec.resource(1)
       filter = @subnet_id || @vpc_id
       { filter: [{ name: 'resource-id', values: [filter] }] }
     end
+  end
+
+  def id
+    return @flow_log_id if @flow_log_id
+    return @subnet_id if @subnet_id
+    return @vpc_id if @vpc_id
   end
 
   def backend

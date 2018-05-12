@@ -43,7 +43,7 @@ To search for a flow log by the associated vpc id:
     end
 
 ## Properties
-### name
+### flow_log_id
 
 The `flow_log_id` property tests the name of the flow log.
 
@@ -69,7 +69,7 @@ The `resource_id` property tests the id of the associated VPC, subnet, or networ
 ### resource_type
 
 The `resource_type` property tests the type of resource the Flow Log is attached to.
-The property will return `eni`, `subnet`, and `vpc`.
+The property will return `eni`, `subnet`, or `vpc`.
 
   describe aws_flow_log('fl-9c718cf5') do
     its('resource_type') { should cmp 'subnet' }

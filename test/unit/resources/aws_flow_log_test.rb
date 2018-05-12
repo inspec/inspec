@@ -28,6 +28,15 @@ class BasicAwsFlowLog < Minitest::Test
     assert AwsFlowLog.new(flow_log_id: 'fl-abcd1111').exists?
   end
 
+  def test_to_s
+    assert_equal 'AWS Flow Log fl-abcd1234',
+      AwsFlowLog.new(flow_log_id: 'fl-abcd1234').to_s
+    assert_equal 'AWS Flow Log fl-abcd3333',
+      AwsFlowLog.new(subnet_id: 'subnet-abcd3333').to_s
+    assert_equal 'AWS Flow Log fl-abcd1111',
+      AwsFlowLog.new(vpc_id: 'vpc-abcd1111').to_s
+  end
+
   def test_flow_log_id
     assert_equal 'fl-abcd1111', AwsFlowLog.new(flow_log_id: 'fl-abcd1111').flow_log_id
   end
@@ -49,9 +58,27 @@ class BasicAwsFlowLog < Minitest::Test
   end
 
   def test_search_miss
-    refute AwsFlowLog.new(flow_log_id: 'fl-12341234').exists?
-    assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').log_group_name
-    assert_nil AwsFlowLog.new(flow_log_id: 'fl-12341234').resource_id
+    flowlog = AwsFlowLog.new(flow_log_id: 'fl-12341234')
+    refute flowlog.exists?
+    assert_nil flowlog.log_group_name
+    assert_nil flowlog.resource_id
+    assert_equal 'AWS Flow Log fl-12341234', flowlog.to_s
+  end
+
+  def test_search_subnet_miss
+    flowlog = AwsFlowLog.new(subnet_id: 'subnet-12341234')
+    refute flowlog.exists?
+    assert_nil flowlog.log_group_name
+    assert_nil flowlog.resource_id
+    assert_equal 'AWS Flow Log subnet-12341234', flowlog.to_s
+  end
+
+  def test_search_vpc_miss
+    flowlog = AwsFlowLog.new(vpc_id: 'vpc-12341234')
+    refute flowlog.exists?
+    assert_nil flowlog.log_group_name
+    assert_nil flowlog.resource_id
+    assert_equal 'AWS Flow Log vpc-12341234', flowlog.to_s
   end
 
   def test_attached_to?
