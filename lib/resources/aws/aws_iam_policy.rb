@@ -93,8 +93,9 @@ class AwsIamPolicy < Inspec.resource(1)
     end
   end
 
-  def has_statement?(raw_criteria = {})
+  def has_statement?(provided_criteria = {})
     return nil unless exists?
+    raw_criteria = provided_criteria.dup # provided_criteria is used for output formatting - can't delete from it.
     criteria = has_statement__normalize_criteria(has_statement__validate_criteria(raw_criteria))
     @normalized_statements ||= has_statement__normalize_statements
     statements = has_statement__focus_on_sid(@normalized_statements, criteria)
