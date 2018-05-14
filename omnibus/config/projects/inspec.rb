@@ -42,6 +42,10 @@ override 'ruby', version: '2.4.3'
 # This issue is not evident in 2.6.x, hence the pin.
 override 'rubygems', version: '2.6.14'
 
+# grab the current train release from rubygems.org
+train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
+override 'train', version: "v#{train_stable}"
+
 dependency 'preparation'
 
 dependency 'inspec'
