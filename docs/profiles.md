@@ -29,7 +29,7 @@ where:
 * `files` is the directory with additional files that a profile can access (optional)
 * `README.md` should be used to explain the profile, its scope, and usage
 
-See a complete example profile in the InSpec open source repository: [https://github.com/chef/inspec/tree/master/examples/profile](https://github.com/chef/inspec/tree/master/examples/profile)
+See a complete example profile in the InSpec open source repository: [Example InSpec Profile](https://github.com/chef/inspec/tree/master/examples/profile)
 
 Also check out [Explore InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on Learn Chef Rally to learn more about how profiles are structured with hands-on examples.
 
@@ -300,7 +300,7 @@ The following command runs the tests and applies the secrets specified in `profi
 
     $ inspec exec examples/profile-attribute --attrs examples/profile-attribute.yml
 
-See the full example in the InSpec open source repository: https://github.com/chef/inspec/tree/master/examples/profile-attribute
+See the full example in the InSpec open source repository: [Example InSpec Profile with Attributes](https://github.com/chef/inspec/tree/master/examples/profile-attribute)
 
 # Profile files
 

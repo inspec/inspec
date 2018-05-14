@@ -38,15 +38,19 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test that the logged-in user's crontab has no tasks set to run on every hour and every minute
 
-    describe crontab.where({'hour' => '*', 'minute' => '*'}) do
-      its('entries.length') { should cmp '0' }
-    end
+```ruby
+describe crontab.where({'hour' => '*', 'minute' => '*'}) do
+  its('entries.length') { should cmp '0' }
+end
+```
 
 ### Test that the logged-in user's crontab contains a single command that matches a pattern
 
-    describe crontab.where { command =~ /a partial command string/ } do
-      its('entries.length') { should cmp 1 }
-    end
+```ruby
+describe crontab.where { command =~ /a partial command string/ } do
+  its('entries.length') { should cmp 1 }
+end
+```
 
 ### Test a special time string (i.e., @yearly /root/annual_report.sh)
 

@@ -53,5 +53,8 @@
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
     "uglify-loader": "^1.3.0"
+  },
+  "resolutions": {
+    "natives": "1.1.3"
   }
 }

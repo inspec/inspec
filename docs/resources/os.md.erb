@@ -120,22 +120,24 @@ Use `os.family` to enable more granular testing of platforms, platform names, ar
 
 For example, both of the following tests should have the same result:
 
-    if os.family == 'debian'
-      describe port(69) do
-        its('processes') { should include 'in.tftpd' }
-      end
-    elsif os.family == 'redhat'
-      describe port(69) do
-        its('processes') { should include 'xinetd' }
-      end
-    end
+```ruby
+if os.family == 'debian'
+  describe port(69) do
+    its('processes') { should include 'in.tftpd' }
+  end
+elsif os.family == 'redhat'
+  describe port(69) do
+    its('processes') { should include 'xinetd' }
+  end
+end
 
-    if os.debian?
-      describe port(69) do
-        its('processes') { should include 'in.tftpd' }
-      end
-    elsif os.redhat?
-      describe port(69) do
-        its('processes') { should include 'xinetd' }
-      end
-    end
+if os.debian?
+  describe port(69) do
+    its('processes') { should include 'in.tftpd' }
+  end
+elsif os.redhat?
+  describe port(69) do
+    its('processes') { should include 'xinetd' }
+  end
+end
+```
