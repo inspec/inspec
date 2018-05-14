@@ -68,16 +68,59 @@ After adding the method name to the array, it returns `self` - the FilterTable::
 Suggested alternate name 1: register_property_or_matcher_and_filter_criterion
 Suggested alternate name 2: register_connector
 
-This is one of the most confusingly named methods.  `add` requires a symbol (which will be used as a method name _to be added to the resource class_), then also accepts a block and/or additional args.  These things - name, block, and opts - are packed into a simple struct called (very confusingly) a Connector. The name stored in the struct will be `opts[:field]` if provided, and the method name if not.
+This is one of the most confusingly named methods.  `add` requires a symbol (which will be used as a method name _to be added to the resource class_), then also accepts a block and/or additional args.  These things - name, block, and opts - are packed into a simple struct called a Connector. The name stored in the struct will be `opts[:field]` if provided, and the method name if not.
 
 The Connector struct is then appended to the Hash `@connectors`, keyed on the method name provided.  `self` is then returned for method chaining.
 
 #### Behavior when a block is provided
 
+This behavior is implemented by line 256.
+
 If a block is provided, it is turned into a Lambda and used as the method body.
 
-TBD: what are the lambda args?
-TBD: what happens if you provide a block and opts?
+The block will be provided two arguments (though most users only use the first):
+1. The FilterTable::Table instance that wraps the raw data.  
+2. An optional value used as an additional opportunity to filter.
+
+For example, this is common:
+```
+filter.add(:exists?) { |x| !x.entries.empty? }
+```
+
+Here, `x` is the Table instance, which exposes the `entries` method (which returns an array, one entry for each raw data row).
+
+You could also implement a more sophisticated property, which semantically should re-filter the table based on the candidate value, and return the new table.
+
+```
+filter.add(:smaller_than) { |table, threshold| table.where { some_field <= threshold } }
+```
+
+```
+things.smaller_than(12)
+```
+
+If you provide _both_ a block and opts, only the block is used, and the options are ignored.
+
+#### Behavior when no block is provided
+
+If you do not provide a block, you _must_ provide a `:field` option (though that does no appear to be enforced). The behavior is to define a method with the name provided, that has a conditional return type. The methodd body is defined in lines 258-266.
+
+If called without arguments, it returns an array of the values in the raw data for that column.  
+```
+things.thing_ids => [1,2,3,4]
+```
+
+If called with an argument, it instead calls `where` passing the name of the field and the argument, effectively filtering.
+```
+things.thing_ids(2) => FilterTable::Table that only contains a row where thing_id = 2
+```
+
+If called with a block, it passes the block to where.
+```
+things.thing_ids { some_code } => Same as things.where { some_code }
+```
+
+POSSIBLE BUG: I think this case is broken; it certainly seems ill-advised.
 
 #### Known Options
 
@@ -87,13 +130,18 @@ You can provide options to `add`, after the desired method name.
 
 This is the most common option.  It selects an implementation in which the desired method will be defined such that it returns an array of the row values using the specified key.  In other words, this acts as a "column fetcher", like in SQL: "SELECT some_column FROM some_table"
 
-TODO: how are fields registered?  Are they validated?  How exactly do they relate to the keys of the hashes in the raw data table?
+Internally, (line 195-200), a Struct type is created to repressent a row of raw data.  The struct's attribute list is taken from the `field` options passed to `add`.
+
+* No checking is performed to see if the field name is actually a column in the raw data (the raw data hasn't been fetched yet, so we can't check).
+* You can't have two `add` calls that reference the same field, because the Struct would see that as a duplicate attribute.
+
+POSSIBLE BUG: We could deduplicate the field names when defining the Struct, thus allowing multiple properties to use the same field.
 
 ##### type
 
-`type: :simple` has been seen in the wild
+`type: :simple` has been seen in the wild. When you call the method like `things.thing_ids => Array`, this has the very useful effect of flattening and uniq'ing the returned array.
 
-TODO: what are the effects? Other 'type' values allowed?
+No other values for `:type` have been seen.
 
 ### connect
 
@@ -121,17 +169,17 @@ TBD: what exactly create_connector does
 
 #### Defines a special Struct type to represent rows in the table
 
-At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  
+At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  THe motivation fot this struct type is to implement the block-mode behavior of `where`.  Because each struct represents a row, and it has the attributes (accessors) for the fields, block-mode `where` is implemented by instance-evaling against each row as a struct.
 
-Additionally, an instanace variable, `@__filter` is defined, with an accesor(!). (That's really wierd - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
+Additionally, an instanace variable, `@__filter` is defined, with an accessor(!). (That's really wierd - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
 
-I think `@__filter` is a trace - a string indicating the filter criteria used to create the table.
+I think `@__filter` is a trace - a string indicating the filter criteria used to create the table.  I found no location where this per-row trace data was used.
 
 CONFUSING NAME: `@__filter` meaning a trace of criteria operations is very confusing - the word "filter" is very overloaded.
 
 Table fields are determined by listing the `field_name`s of the Connectors.  
 
-BUG: this means that any `add` call that uses a block but not options will end up with an attribute in the row Struct.  Thus, `filter.add(:exists?) { ... }` results in a row Struct that includes an attribute named `exists?` which is likely undesired.
+BUG: this means that any `add` call that uses a block but not options will end up with an attribute in the row Struct.  Thus, `filter.add(:exists?) { ... }` results in a row Struct that includes an attribute named `exists?` which may be undesired.
 
 POSSIBLE MISFEATURE: Defining a Struct for rows means that people who use `entries` (or other data accessors) interact with something unusual.  The simplest possible thing would be an Array of Hashes.  There is likely something relying on this...
 
@@ -266,11 +314,3 @@ Unsurprising: How where works with method params.
 Surprising: How where works in block mode, instance_eval'ing against each row-as-Struct.
 Surprising: You can use method-mode and block-mode together if you want.
 Problematic: Many confusing variable names here.  A lot of clarity could be gained by simple search and replace.
-
-### `names` - behavior for a basic connector
-
-TODO
-
-### `exists?` - behavior for a block-defined connector
-
-TODO
