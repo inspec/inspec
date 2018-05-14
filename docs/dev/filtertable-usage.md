@@ -253,7 +253,7 @@ filter_table_config.add(:thing_ids, field: :thing_id)
 
 will cause a method to be defined on both the resource and the Table. Note that this `add` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
 
-The implementation provided by Factory changes behaviro based on calling pattern.  If no params or block is provided, a simple array is returned, containing the column-wise values in the raw data.
+The implementation provided by Factory changes behavior based on calling pattern.  If no params or block is provided, a simple array is returned, containing the column-wise values in the raw data.
 
 ```ruby
 
@@ -282,19 +282,102 @@ The implementation provided by Factory changes behaviro based on calling pattern
 
 ```
 
-
-### A `thing_ids` method that can filter on a value and return a Table
-
-### A `thing_ids` method that can filter on a block and return a Table
-
 ### A `colors` method that will return a flattened and uniq'd array of values
+
+This method behaves just like `thing_ids`, except that it returns the values of the `color` column.  In addition, the `type: :simple` option causes it to flatten and uniq the array of values when called without args or a block.
+
+```ruby
+  # Three rows in the data: red, blue, red
+  describe things.colors do
+    its('count') { should cmp 2 }
+    it { should include :red }
+    it { should include :blue }
+  end
+
+```
+
+### A `colors` method that can filter on a value and return a Table
+
+You also get this for `thing_ids`.  This is unrelated to `type: :simple` for `colors`.
+
+People definitely use this in the wild.  It reads badly to me; I think this is a legacy usage that we should consider deprecating. To me, this seems to imply that there is a sub-resource (here, colors) we are auditing.
+
+```ruby
+  # Filter on colors 
+  describe things.colors(:red) do
+    its('count') { should cmp 2 }    
+  end
+
+  # Same, but doesn't imply we're now operating on some 'color' resource
+  describe things.where(color: :red) do
+    its('count') { should cmp 2 }  
+  end
+```
+
+### A `colors` method that can filter on a block and return a Table
+
+You also get this for `thing_ids`.  This is unrelated to `type: :simple` for `colors`.
+
+I haven't seen this used in the wild, but its existence gives me a headache.
+
+```ruby
+  # Example A, B, C, and D are semantically the same
+
+  # A: Filter both on colors and the block 
+  describe things.colors(:red) { thing_id < 2 } do
+    its('count') { should cmp 1 }    
+    its('thing_ids') { should include 1 }    
+  end
+
+  # B use one where block 
+  describe things.where { color == :red && thing_id < 2 } do
+    its('count') { should cmp 1 }    
+    its('thing_ids') { should include 1 }    
+  end
+
+  # C use two where blocks 
+  describe things.where { color == :red }.where { thing_id < 2 } do
+    its('count') { should cmp 1 }    
+    its('thing_ids') { should include 1 }    
+  end
+
+  # D use a where param and a where block 
+  describe things.where(color: :red) { thing_id < 2 } do
+    its('count') { should cmp 1 }    
+    its('thing_ids') { should include 1 }    
+  end
+
+  # This has nothing to do with colors at all, and may be broken - the lack of an arg to `colors` may make it never match
+  describe things.colors { thing_id < 2 } do
+    its('count') { should cmp 1 }
+  end
+```
 
 ### You can call `params` on any Table to get the raw data
 
+People _definitely_ use this out in the wild. Unlike `entries`, which wraps each row in a Struct and omits undeclared fields, `params` simply returns the actual raw data array-of-hashes.  It is not `dup`'d.
 
+```ruby
+  tacky_things = things.where(color: :blue).params.select { |row| row[:tackiness] }
+  tacky_things.map { |row| row[:thing_id] }.each do |thing_id|
+    # Use to audit a singular Thing
+    describe thing(thing_id) do
+      it { should_not be_paisley }
+    end
+  end
+```
 
 ### You can call `resource` on any Table to get the resource instance
 
+You could use this to do something fairly complicated.
+
+```ruby
+  describe things.where do # Just getting a Table object
+    its('resource.some_method') { should cmp 'some_value' }
+  end
+```
+
+However, the resource instance won't know about the filtration, so I'm not sure what good this does.  Chances are, someone is doing something horrid using this feature in the wild.
 
 ## Gotchas and Surprises
 
@@ -319,13 +402,17 @@ To me, calling things.thing_ids should always return the same type of value.  Bu
 
 ### `entries` will not have fields present in the raw data
 
+`entries` will only know about the fields declared by `add` with `field:`. And...
+
 ### `entries` will have things that are not fields
+
+Each time you call `add` - even for things like `count` and `exists?` - that will add an attribute to the Struct that is used to represent a row.  Those attributes will always be nil.
 
 ### `add` does not know about what fields are in the raw data
 
+This is because the raw data fetcher is not called until as late as possible.  That's good - it might be expensive - but it also means we can't scan it for columns.  There are ways around that.
+
 ### `where` param-mode and raw data access is sensitive to symbols vs strings
-
-
 
 ### You can't call resource methods on a Table directly
 
@@ -345,11 +432,15 @@ To me, calling things.thing_ids should always return the same type of value.  Bu
   end
 ```
 
+### The eval context of a where block is an anonymous Struct class
+
+You can't get to the resource or the table from there.  (It's the Entry Struct type).
+
 ### You can in fact filter for `nil` values
 
 ### There is no obvious accessor for the Table instance
 
-You can in fact get the FilterTable::Table instance byt calling `where` with no args.  But that is not obvious.
+You can in fact get the FilterTable::Table instance by calling `where` with no args.  But that is not obvious.
 
 ### There is no way to get the FilterTable::Factory object used to configure the resource
 
