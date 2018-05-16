@@ -1,6 +1,6 @@
 pkg_name=inspec
 pkg_origin=chef
-pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
+pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
 pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
@@ -43,7 +43,7 @@ do_prepare() {
 
 do_unpack() {
   mkdir -pv "$HAB_CACHE_SRC_PATH/$pkg_dirname"
-  cp -R "$PLAN_CONTEXT"/../../ "$HAB_CACHE_SRC_PATH/$pkg_dirname"
+  cp -R "$PLAN_CONTEXT"/../ "$HAB_CACHE_SRC_PATH/$pkg_dirname"
 }
 
 do_build() {
