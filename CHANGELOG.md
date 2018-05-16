@@ -1,27 +1,25 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.78 -->
-## [v2.1.78](https://github.com/chef/inspec/tree/v2.1.78) (2018-05-16)
-
-#### Merged Pull Requests
-- Adds middleware dependecy for Azure [#3061](https://github.com/chef/inspec/pull/3061) ([dmccown](https://github.com/dmccown))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.72 -->
-### Changes since 2.1.72 release
-
-#### Merged Pull Requests
-- Adds middleware dependecy for Azure [#3061](https://github.com/chef/inspec/pull/3061) ([dmccown](https://github.com/dmccown)) <!-- 2.1.78 -->
-- Add train GCP transport [#3046](https://github.com/chef/inspec/pull/3046) ([jquick](https://github.com/jquick)) <!-- 2.1.77 -->
-- Fix www build for node v10 [#3049](https://github.com/chef/inspec/pull/3049) ([miah](https://github.com/miah)) <!-- 2.1.76 -->
-- Add a passthrough for report_uuid [#3057](https://github.com/chef/inspec/pull/3057) ([jquick](https://github.com/jquick)) <!-- 2.1.75 -->
-- Updating Copy To Clipboard for ruby users InSpec installation command [#3054](https://github.com/chef/inspec/pull/3054) ([subramani95](https://github.com/subramani95)) <!-- 2.1.74 -->
-
-#### Bug Fixes
-- Fix matcher output when the args to the matcher are a hash for two resources [#3044](https://github.com/chef/inspec/pull/3044) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.73 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.78](https://github.com/chef/inspec/tree/v2.1.78) (2018-05-16)
+
+#### Bug Fixes
+- Fix matcher output when the args to the matcher are a hash for two resources [#3044](https://github.com/chef/inspec/pull/3044) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Updating Copy To Clipboard for ruby users InSpec installation command [#3054](https://github.com/chef/inspec/pull/3054) ([subramani95](https://github.com/subramani95))
+- Add a passthrough for report_uuid [#3057](https://github.com/chef/inspec/pull/3057) ([jquick](https://github.com/jquick))
+- Fix www build for node v10 [#3049](https://github.com/chef/inspec/pull/3049) ([miah](https://github.com/miah))
+- Add train GCP transport [#3046](https://github.com/chef/inspec/pull/3046) ([jquick](https://github.com/jquick))
+- Adds middleware dependecy for Azure [#3061](https://github.com/chef/inspec/pull/3061) ([dmccown](https://github.com/dmccown))
+<!-- latest_stable_release -->
+
 ## [v2.1.72](https://github.com/chef/inspec/tree/v2.1.72) (2018-05-10)
 
 #### New Resources
@@ -35,7 +33,6 @@
 
 #### Merged Pull Requests
 - Fix typo in os_env_spec [#3028](https://github.com/chef/inspec/pull/3028) ([Happycoil](https://github.com/Happycoil))
-<!-- latest_stable_release -->
 
 ## [v2.1.68](https://github.com/chef/inspec/tree/v2.1.68) (2018-05-04)
 
