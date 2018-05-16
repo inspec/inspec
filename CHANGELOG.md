@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.73 -->
+## [v2.1.73](https://github.com/chef/inspec/tree/v2.1.73) (2018-05-16)
+
+#### Bug Fixes
+- Fix matcher output when the args to the matcher are a hash for two resources [#3044](https://github.com/chef/inspec/pull/3044) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.72 -->
+### Changes since 2.1.72 release
+
+#### Bug Fixes
+- Fix matcher output when the args to the matcher are a hash for two resources [#3044](https://github.com/chef/inspec/pull/3044) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.73 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
