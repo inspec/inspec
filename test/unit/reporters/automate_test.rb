@@ -11,6 +11,7 @@ describe Inspec::Reporters::Automate do
       'node_uuid' => "22ad2f99-f84f-5456-95a0-7e91b4b66690",
       'node_name' => "test_node",
       'environment' => "prod",
+      'report_uuid' => "22ad2f99-f84f-5456-95a0-7e91b4b12345",
     }
   end
   let(:report) do 
@@ -24,6 +25,7 @@ describe Inspec::Reporters::Automate do
       report.enriched_report[:node_uuid].must_equal "22ad2f99-f84f-5456-95a0-7e91b4b66690"
       report.enriched_report[:node_name].must_equal "test_node"
       report.enriched_report[:environment].must_equal "prod"
+      report.enriched_report[:report_uuid].must_equal "22ad2f99-f84f-5456-95a0-7e91b4b12345"
     end
   end
 
