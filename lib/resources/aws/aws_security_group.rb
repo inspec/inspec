@@ -19,22 +19,22 @@ class AwsSecurityGroup < Inspec.resource(1)
   end
 
   def allow_in?(criteria = {})
-    allow(inbound_rules, criteria)
+    allow(inbound_rules, criteria.dup)
   end
   RSpec::Matchers.alias_matcher :allow_in, :be_allow_in
 
   def allow_out?(criteria = {})
-    allow(outbound_rules, criteria)
+    allow(outbound_rules, criteria.dup)
   end
   RSpec::Matchers.alias_matcher :allow_out, :be_allow_out
 
   def allow_in_only?(criteria = {})
-    allow_only(inbound_rules, criteria)
+    allow_only(inbound_rules, criteria.dup)
   end
   RSpec::Matchers.alias_matcher :allow_in_only, :be_allow_in_only
 
   def allow_out_only?(criteria = {})
-    allow_only(outbound_rules, criteria)
+    allow_only(outbound_rules, criteria.dup)
   end
   RSpec::Matchers.alias_matcher :allow_out_only, :be_allow_out_only
 
