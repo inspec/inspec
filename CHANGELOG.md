@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.76 -->
-## [v2.1.76](https://github.com/chef/inspec/tree/v2.1.76) (2018-05-16)
+<!-- latest_release 2.1.77 -->
+## [v2.1.77](https://github.com/chef/inspec/tree/v2.1.77) (2018-05-16)
 
 #### Merged Pull Requests
-- Fix www build for node v10 [#3049](https://github.com/chef/inspec/pull/3049) ([miah](https://github.com/miah))
+- Add train GCP transport [#3046](https://github.com/chef/inspec/pull/3046) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.72 -->
 ### Changes since 2.1.72 release
 
 #### Merged Pull Requests
+- Add train GCP transport [#3046](https://github.com/chef/inspec/pull/3046) ([jquick](https://github.com/jquick)) <!-- 2.1.77 -->
 - Fix www build for node v10 [#3049](https://github.com/chef/inspec/pull/3049) ([miah](https://github.com/miah)) <!-- 2.1.76 -->
 - Add a passthrough for report_uuid [#3057](https://github.com/chef/inspec/pull/3057) ([jquick](https://github.com/jquick)) <!-- 2.1.75 -->
 - Updating Copy To Clipboard for ruby users InSpec installation command [#3054](https://github.com/chef/inspec/pull/3054) ([subramani95](https://github.com/subramani95)) <!-- 2.1.74 -->
