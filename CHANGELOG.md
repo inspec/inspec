@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.82 -->
+## [v2.1.82](https://github.com/chef/inspec/tree/v2.1.82) (2018-05-17)
+
+#### Merged Pull Requests
+- Update ruby required version. [#3070](https://github.com/chef/inspec/pull/3070) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.81 -->
+### Changes since 2.1.81 release
+
+#### Merged Pull Requests
+- Update ruby required version. [#3070](https://github.com/chef/inspec/pull/3070) ([jquick](https://github.com/jquick)) <!-- 2.1.82 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
