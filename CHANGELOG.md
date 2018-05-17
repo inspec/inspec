@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.79 -->
-## [v2.1.79](https://github.com/chef/inspec/tree/v2.1.79) (2018-05-17)
+<!-- latest_release 2.1.80 -->
+## [v2.1.80](https://github.com/chef/inspec/tree/v2.1.80) (2018-05-17)
 
 #### Merged Pull Requests
-- Add job_uuid passthrough for automate report [#3064](https://github.com/chef/inspec/pull/3064) ([jquick](https://github.com/jquick))
+- Bump train pin [#3065](https://github.com/chef/inspec/pull/3065) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.78 -->
 ### Changes since 2.1.78 release
 
 #### Merged Pull Requests
+- Bump train pin [#3065](https://github.com/chef/inspec/pull/3065) ([jquick](https://github.com/jquick)) <!-- 2.1.80 -->
 - Add job_uuid passthrough for automate report [#3064](https://github.com/chef/inspec/pull/3064) ([jquick](https://github.com/jquick)) <!-- 2.1.79 -->
 <!-- release_rollup -->
 
