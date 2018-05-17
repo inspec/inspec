@@ -12,7 +12,11 @@ docker_images:
         - GEM_SOURCE: http://artifactory.chef.co/omnibus-gems-local
 
 habitat_packages:
-  - inspec
+  - inspec:
+    source: habitat/inspec
+  - automate-inspec:
+    source: habitat/automate-inspec
+
 
 # Slack channel in Chef Software slack to send notifications about build failures, etc
 slack:
