@@ -1,21 +1,19 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.80 -->
-## [v2.1.80](https://github.com/chef/inspec/tree/v2.1.80) (2018-05-17)
-
-#### Merged Pull Requests
-- Bump train pin [#3065](https://github.com/chef/inspec/pull/3065) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.78 -->
-### Changes since 2.1.78 release
-
-#### Merged Pull Requests
-- Bump train pin [#3065](https://github.com/chef/inspec/pull/3065) ([jquick](https://github.com/jquick)) <!-- 2.1.80 -->
-- Add job_uuid passthrough for automate report [#3064](https://github.com/chef/inspec/pull/3064) ([jquick](https://github.com/jquick)) <!-- 2.1.79 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.80](https://github.com/chef/inspec/tree/v2.1.80) (2018-05-17)
+
+#### Merged Pull Requests
+- Add job_uuid passthrough for automate report [#3064](https://github.com/chef/inspec/pull/3064) ([jquick](https://github.com/jquick))
+- Bump train pin [#3065](https://github.com/chef/inspec/pull/3065) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.1.78](https://github.com/chef/inspec/tree/v2.1.78) (2018-05-16)
 
 #### Bug Fixes
@@ -27,7 +25,6 @@
 - Fix www build for node v10 [#3049](https://github.com/chef/inspec/pull/3049) ([miah](https://github.com/miah))
 - Add train GCP transport [#3046](https://github.com/chef/inspec/pull/3046) ([jquick](https://github.com/jquick))
 - Adds middleware dependecy for Azure [#3061](https://github.com/chef/inspec/pull/3061) ([dmccown](https://github.com/dmccown))
-<!-- latest_stable_release -->
 
 ## [v2.1.72](https://github.com/chef/inspec/tree/v2.1.72) (2018-05-10)
 
