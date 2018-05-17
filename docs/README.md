@@ -38,3 +38,4 @@ The stability indices are as follows:
 * `Stability: Experimental` - New features may change or are removed in future versions
 * `Stability: Stable` - API is well established and proofed. Maintaining compatibility is a high priority
 * `Stability: Locked` - Only security and performance fixes are allowed
+
