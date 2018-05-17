@@ -102,7 +102,7 @@ https://www.chef.io/online-master-agreement
 =========================================================================
 EOL
   echo 'Set the environment variable MLSA_ACCEPTED to true to accept'
-  exit 1
+  exit 19  
 fi
 
 exec $(pkg_path_for core/ruby)/bin/ruby $real_bin \$@
