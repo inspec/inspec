@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.81 -->
+## [v2.1.81](https://github.com/chef/inspec/tree/v2.1.81) (2018-05-17)
+
+#### Merged Pull Requests
+- Update Train pin to pull in msi env [#3068](https://github.com/chef/inspec/pull/3068) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.80 -->
+### Changes since 2.1.80 release
+
+#### Merged Pull Requests
+- Update Train pin to pull in msi env [#3068](https://github.com/chef/inspec/pull/3068) ([jquick](https://github.com/jquick)) <!-- 2.1.81 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
