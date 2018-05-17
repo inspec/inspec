@@ -1,7 +1,3 @@
-# This is a repackaging of InSpec for Automate 2.
-# Changes:
-#  * After installing inspec as a gem, install inspec-scap as a gem
-#  * Force acceptance of a license to use inspec (TODO)
 pkg_name=automate-inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
@@ -26,18 +22,16 @@ pkg_deps=(
   core/less
   core/mysql-client
   core/netcat
-  # TODO: inspec has core/postgresql listed here; why doesn't this file?
+  core/postgresql
 )
 pkg_build_deps=(
   core/gcc
   core/git
   core/make
+  core/readline
+  core/sed
 )
 pkg_bin_dirs=(bin)
-
-# Implementaion notes:
-# * We assume we're being built from the inspec repo in the root directory
-# * So, we already have the inspec files; but we need to fetch the inspec-scap code
 
 do_prepare() {
   export GEM_HOME="$pkg_prefix/lib"
@@ -46,54 +40,41 @@ do_prepare() {
   build_line "Setting GEM_PATH=$GEM_PATH"
 }
 
-do_download() {
-  # TODO: I can't get the token auth to work - it wants a username and then the token as password.  
-  # git clone --depth=1 https://$GITHUB_TOKEN@github.com/chef/inspec-scap.git $INSPEC_SCAP_SRC_CACHE
-  # https://github.com/chef/inspec-scap/archive/master.tar.gz
-  # https://github.com/chef/inspec-scap/archive/1.7.0.tar.gz
-  # Cheating by placing tarballs in mirror/
-  true
-}
-
 do_unpack() {
-  # Copy in the inspec source into the build area
-  export INSPEC_MAIN_SRC_CACHE="$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec"
-  mkdir -pv "$INSPEC_MAIN_SRC_CACHE"
-  cp -R "$PLAN_CONTEXT"/../../ "$INSPEC_MAIN_SRC_CACHE"
-
-  # Now obtain inspec-scap
+  export INSPEC_SRC_CACHE="$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec"
   export INSPEC_SCAP_SRC_CACHE="$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec-scap"
-  # TODO: this line is buried, should be moved to top
-  export INSPEC_SCAP_VERSION=1.7.0 
+
+  build_line "Copying InSpec source to $INSPEC_SRC_CACHE"
+  mkdir -pv "$INSPEC_SRC_CACHE"
+  cp -R "$PLAN_CONTEXT/../../" "$INSPEC_SRC_CACHE"
+
   build_line "Cloning InSpec SCAP source to $INSPEC_SCAP_SRC_CACHE"
   mkdir -pv "$INSPEC_SCAP_SRC_CACHE"
-  pushd $INSPEC_SCAP_SRC_CACHE
-    # TODO, clone, don't untar
-    tar xzf /src/mirror/inspec-scap-"$INSPEC_SCAP_VERSION".tar.gz
-  popd
+  git clone --depth=1 https://$GITHUB_TOKEN@github.com/chef/inspec-scap.git $INSPEC_SCAP_SRC_CACHE
 }
 
 do_build() {
-  # First build InSpec
-  pushd "$INSPEC_MAIN_SRC_CACHE"
+  build_line "Building InSpec gem"
+  pushd "$INSPEC_SRC_CACHE" > /dev/null
     gem build inspec.gemspec
-  popd
-  attach
-  # Now build inspec-scap
-  pushd "$INSPEC_SCAP_SRC_CACHE/inspec-scap-$INSPEC_SCAP_VERSION"
+  popd > /dev/null
+
+  build_line "Building InSpec SCAP gem"
+  pushd "$INSPEC_SCAP_SRC_CACHE" > /dev/null
     gem build inspec-scap.gemspec
-  popd
+  popd > /dev/null
 }
 
 do_install() {
-  # First install InSpec
-  pushd "$INSPEC_MAIN_SRC_CACHE"
+  build_line "Installing InSpec gem"
+  pushd "$INSPEC_SRC_CACHE" > /dev/null
     gem install inspec-*.gem --no-document
-  popd
-  # Now install inspec-scap
-  pushd "$INSPEC_SCAP_SRC_CACHE/inspec-scap-$INSPEC_SCAP_VERSION"
+  popd > /dev/null
+
+  build_line "Installing InSpec SCAP gem"
+  pushd "$INSPEC_SCAP_SRC_CACHE" > /dev/null
     gem install inspec-scap-*.gem --no-document
-  popd
+  popd > /dev/null
 
   wrap_inspec_bin
 }
@@ -109,6 +90,19 @@ export SSL_CERT_FILE=$(pkg_path_for cacerts)/ssl/cert.pem
 set -e
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
+
+if [[ -z \$MLSA_ACCEPTED ]]; then
+  cat <<EOL
+=========================================================================
+Use of this Software is subject to the terms of the Chef Online Master
+License and Services Agreement. You can find the latest copy of the agreement here:
+
+https://www.chef.io/online-master-agreement
+=========================================================================
+EOL
+  echo 'Set the environment variable MLSA_ACCEPTED to true to accept'
+  exit 1
+fi
 
 exec $(pkg_path_for core/ruby)/bin/ruby $real_bin \$@
 EOF
