@@ -22,7 +22,8 @@ pkg_deps=(
   core/less
   core/mysql-client
   core/netcat
-  core/postgresql
+  # See https://github.com/chef/inspec/issues/3002
+  core/postgresql/9.6.8
 )
 pkg_build_deps=(
   core/gcc
