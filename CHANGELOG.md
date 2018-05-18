@@ -1,26 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.83 -->
-## [v2.1.83](https://github.com/chef/inspec/tree/v2.1.83) (2018-05-18)
-
-#### Merged Pull Requests
-- Test new gem builds [#3071](https://github.com/chef/inspec/pull/3071) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.81 -->
-### Changes since 2.1.81 release
-
-#### Merged Pull Requests
-- Test new gem builds [#3071](https://github.com/chef/inspec/pull/3071) ([jquick](https://github.com/jquick)) <!-- 2.1.83 -->
-- Update ruby required version. [#3070](https://github.com/chef/inspec/pull/3070) ([jquick](https://github.com/jquick)) <!-- 2.1.82 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.83](https://github.com/chef/inspec/tree/v2.1.83) (2018-05-18)
+
+#### Merged Pull Requests
+- Update ruby required version. [#3070](https://github.com/chef/inspec/pull/3070) ([jquick](https://github.com/jquick))
+- Test new gem builds [#3071](https://github.com/chef/inspec/pull/3071) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.1.81](https://github.com/chef/inspec/tree/v2.1.81) (2018-05-17)
 
 #### Merged Pull Requests
 - Update Train pin to pull in msi env [#3068](https://github.com/chef/inspec/pull/3068) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.80](https://github.com/chef/inspec/tree/v2.1.80) (2018-05-17)
 
