@@ -27,7 +27,7 @@ class AwsElbs < Inspec.resource(1)
         .add(:external_ports, field: :external_ports, style: :simple)
         .add(:instance_ids, field: :instance_ids, style: :simple)        
         .add(:internal_ports, field: :internal_ports, style: :simple)
-        .add(:names, field: :name)
+        .add(:elb_names, field: :elb_name)
         .add(:security_group_ids, field: :security_group_ids, style: :simple)
         .add(:subnet_ids, field: :subnet_ids, style: :simple)
         .add(:vpc_ids, field: :vpc_id)
@@ -57,7 +57,7 @@ class AwsElbs < Inspec.resource(1)
         external_ports: lb_struct.listener_descriptions.map {|ld| ld.listener.load_balancer_port },
         instance_ids: lb_struct.instances.map {|i| i.instance_id },
         internal_ports: lb_struct.listener_descriptions.map {|ld| ld.listener.instance_port },
-        name: lb_struct.load_balancer_name,
+        elb_name: lb_struct.load_balancer_name,
         security_group_ids: lb_struct.security_groups,
         subnet_ids: lb_struct.subnets,
         vpc_id: lb_struct.vpc_id,
