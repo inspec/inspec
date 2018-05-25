@@ -25,12 +25,12 @@ class AwsElbs < Inspec.resource(1)
         .add(:availability_zones, field: :availability_zones, style: :simple)
         .add(:dns_names, field: :dns_name)
         .add(:external_ports, field: :external_ports, style: :simple)
-        .add(:instance_ids, field: :instance_ids, style: :simple)        
+        .add(:instance_ids, field: :instance_ids, style: :simple)
         .add(:internal_ports, field: :internal_ports, style: :simple)
         .add(:elb_names, field: :elb_name)
         .add(:security_group_ids, field: :security_group_ids, style: :simple)
         .add(:subnet_ids, field: :subnet_ids, style: :simple)
-        .add(:vpc_ids, field: :vpc_id)
+        .add(:vpc_ids, field: :vpc_id, style: :simple)
   filter.connect(self, :table)
 
   def to_s
@@ -54,9 +54,9 @@ class AwsElbs < Inspec.resource(1)
       {
         availability_zones: lb_struct.availability_zones,
         dns_name: lb_struct.dns_name,
-        external_ports: lb_struct.listener_descriptions.map {|ld| ld.listener.load_balancer_port },
-        instance_ids: lb_struct.instances.map {|i| i.instance_id },
-        internal_ports: lb_struct.listener_descriptions.map {|ld| ld.listener.instance_port },
+        external_ports: lb_struct.listener_descriptions.map { |ld| ld.listener.load_balancer_port },
+        instance_ids: lb_struct.instances.map(&:instance_id),
+        internal_ports: lb_struct.listener_descriptions.map { |ld| ld.listener.instance_port },
         elb_name: lb_struct.load_balancer_name,
         security_group_ids: lb_struct.security_groups,
         subnet_ids: lb_struct.subnets,

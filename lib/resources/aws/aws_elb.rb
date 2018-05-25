@@ -9,7 +9,7 @@ class AwsElb < Inspec.resource(1)
   supports platform: 'aws'
 
   include AwsSingularResourceMixin
-  attr_reader :availability_zones, :dns_name, :elb_name, :external_ports, 
+  attr_reader :availability_zones, :dns_name, :elb_name, :external_ports,
               :instance_ids, :internal_ports, :security_group_ids,
               :subnet_ids, :vpc_id
 
@@ -37,27 +37,35 @@ class AwsElb < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
 
-    begin
-      lbs = backend.describe_load_balancers(load_balancer_names: [elb_name]).load_balancer_descriptions
-      @exists = !lbs.empty?
-      return unless exists?
-      # Load balancer names are uniq; we will either have 0 or 1 result
-      unpack_describe_elbs_response(lbs.first)
-    rescue Aws::IAM::Errors::NoSuchEntity   # TODO correct
-      @exists = false
+    lbs = backend.describe_load_balancers(load_balancer_names: [elb_name]).load_balancer_descriptions
+    @exists = !lbs.empty?
+    unless exists?
+      populate_as_missing
+      return
     end
+    # Load balancer names are uniq; we will either have 0 or 1 result
+    unpack_describe_elbs_response(lbs.first)
   end
 
   def unpack_describe_elbs_response(lb_struct)
     @availability_zones = lb_struct.availability_zones
     @dns_name = lb_struct.dns_name
-    @external_ports = lb_struct.listener_descriptions.map {|ld| ld.listener.load_balancer_port }
-    @instance_ids = lb_struct.instances.map {|i| i.instance_id }
-    @internal_ports = lb_struct.listener_descriptions.map {|ld| ld.listener.instance_port }
+    @external_ports = lb_struct.listener_descriptions.map { |ld| ld.listener.load_balancer_port }
+    @instance_ids = lb_struct.instances.map(&:instance_id)
+    @internal_ports = lb_struct.listener_descriptions.map { |ld| ld.listener.instance_port }
     @elb_name = lb_struct.load_balancer_name
     @security_group_ids = lb_struct.security_groups
     @subnet_ids = lb_struct.subnets
     @vpc_id = lb_struct.vpc_id
+  end
+
+  def populate_as_missing
+    @availability_zones = []
+    @external_ports = []
+    @instance_ids = []
+    @internal_ports = []
+    @security_group_ids = []
+    @subnet_ids = []
   end
 
   class Backend

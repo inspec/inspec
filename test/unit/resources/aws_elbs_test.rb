@@ -116,9 +116,6 @@ class AwsElbsFilterCriteriaTest < Minitest::Test
     miss = AwsElbs.new.where(:vpc_id => 'vpc-09876543')
     refute(miss.exists?)
   end
-
-  # names
-  
 end
 
 #=============================================================================#
@@ -131,22 +128,68 @@ class AwsElbsProperties < Minitest::Test
     @elbs = AwsElbs.new
   end
 
-  # count
-  # availability_zones
-  # dns_names
-  # external_ports
-  # instance_ids       
-  # internal_ports
-  # names
-  # security_group_ids
-  # subnet_ids
-  # vpc_ids
+  def test_properties_with_availability_zones
+    assert_includes(@elbs.availability_zones, 'us-east-1a')
+    assert_includes(@elbs.availability_zones, 'us-east-1e')
+    assert_equal(4, @elbs.availability_zones.count)
+    refute_includes(@elbs.availability_zones, nil)
+  end
 
-  # def test_property_vpc_ids
-  #   assert_includes(@elbs.vpc_ids, 'vpc-aaaabbbb')
-  #   assert_includes(@elbs.vpc_ids, 'vpc-12344321')
-  #   refute_includes(@elbs.vpc_ids, nil)
-  # end
+  def test_properties_with_dns_names
+    assert_includes(@elbs.dns_names, '999999.us-east-1.aws.amazon.com')
+    assert_includes(@elbs.dns_names, '12345678.us-east-2.aws.amazon.com')
+    assert_equal(3, @elbs.dns_names.count)
+    refute_includes(@elbs.dns_names, nil)
+  end
+
+  def test_properties_with_elb_names
+    assert_includes(@elbs.elb_names, 'kang-the-alien')
+    assert_includes(@elbs.elb_names, 'kangaroo')
+    assert_equal(3, @elbs.elb_names.count)
+    refute_includes(@elbs.elb_names, nil)
+  end
+
+  def test_properties_with_external_ports
+    assert_includes(@elbs.external_ports, 80)
+    assert_includes(@elbs.external_ports, 631)
+    assert_equal(3, @elbs.external_ports.count)
+    refute_includes(@elbs.external_ports, nil)
+  end
+  
+  def test_properties_with_instance_ids
+    assert_includes(@elbs.instance_ids, 'i-87654321')
+    assert_includes(@elbs.instance_ids, 'i-12345678')
+    assert_equal(3, @elbs.instance_ids.count)
+    refute_includes(@elbs.instance_ids, nil)
+  end
+
+  def test_properties_with_internal_ports
+    assert_includes(@elbs.internal_ports, 80)
+    assert_includes(@elbs.internal_ports, 1001)
+    assert_equal(2, @elbs.internal_ports.count)
+    refute_includes(@elbs.internal_ports, nil)
+  end
+
+  def test_properties_with_security_group_ids
+    assert_includes(@elbs.security_group_ids, 'sg-12345678')
+    assert_includes(@elbs.security_group_ids, 'sg-99998888')
+    assert_equal(4, @elbs.security_group_ids.count)
+    refute_includes(@elbs.security_group_ids, nil)
+  end
+
+  def test_properties_with_subnet_ids
+    assert_includes(@elbs.subnet_ids, 'subnet-ccccdddd')
+    assert_includes(@elbs.subnet_ids, 'subnet-12345678')
+    assert_equal(3, @elbs.subnet_ids.count)
+    refute_includes(@elbs.subnet_ids, nil)
+  end
+
+  def test_property_vpc_ids
+    assert_includes(@elbs.vpc_ids, 'vpc-87654321')
+    assert_includes(@elbs.vpc_ids, 'vpc-12345678')
+    assert_equal(2, @elbs.vpc_ids.count)    
+    refute_includes(@elbs.vpc_ids, nil)
+  end
 
 end
 #=============================================================================#
@@ -249,6 +292,7 @@ module MAEPB
             security_groups: [
               'sg-12345678',
               'sg-99998888',
+              'sg-01010101',
             ],
             subnets: [
               'subnet-ccccdddd',
