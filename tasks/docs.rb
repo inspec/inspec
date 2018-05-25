@@ -221,24 +221,6 @@ namespace :versioned_docs do
   end
 end
 
-namespace :versioned_docs do
-  desc 'Renders a specific version of the docs based on a tag'
-  task :render_docs_version, [:fetch_doc_tag] do |doc_version|
-    # cd to the temp render directory/www
-    # run bundle install
-    # run rake docs
-    # make version-numbered directory in gh_pages area
-    # move rendered files
-    # re-write URLs
-  end
-
-  task :generate do |doc_version|
-    doc_version_dir = "/tmp/inspec-#{doc_version}"
-    sh "mkdir #{doc_version_dir}"
-    sh  "git archive #{doc_version} | tar -x -C #{doc_version_dir}"
-  end
-end
-
 namespace :docs do # rubocop:disable Metrics/BlockLength
   desc 'Create cli docs'
   task :cli do
