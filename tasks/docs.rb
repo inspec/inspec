@@ -203,8 +203,28 @@ class ResourceDocs
   end
 end
 
+namespace :versioned_docs do
+  desc 'Renders a specific version of the docs based on a tag'
+  task :render_docs_version, [:fetch_doc_tag] do |doc_version|
+    # cd to the temp render directory/www
+    # run bundle install
+    # run rake docs
+    # make version-numbered directory in gh_pages area
+    # move rendered files
+    # re-write URLs
+  end
+
+  task :fetch_doc_tag do |doc_version|
+    # Make temp render dir if not exist
+    # Clone or pull provided version
+  end
+
+end
+
+
+
 namespace :docs do # rubocop:disable Metrics/BlockLength
-  desc 'Create cli docs'
+  desc 'Create cli docs'  
   task :cli do
     # formatter for the output file
     f = Markdown
