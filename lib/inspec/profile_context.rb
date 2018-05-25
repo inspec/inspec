@@ -7,7 +7,6 @@ require 'inspec/resource'
 require 'inspec/library_eval_context'
 require 'inspec/control_eval_context'
 require 'inspec/require_loader'
-require 'json'
 require 'securerandom'
 require 'inspec/objects/attribute'
 
@@ -190,14 +189,7 @@ module Inspec
       # we need to return an attribute object, to allow dermination of default values
       attr = Attribute.new(name, options)
       # read value from given gived values
-      if @conf['attributes']
-        if @conf['attributes'][attr.name]
-          attr.value = @conf['attributes'][attr.name]
-        else
-          # Test if both, the given name and attributes are hierarchical and pick up the value down the hierarchy
-          attr.value = name.split(':').inject(JSON.parse(@conf['attributes'].to_json), :[])
-        end
-      end
+      attr = Attribute.lookup(name, options, @conf['attributes'])
       @attributes.push(attr)
       attr.value
     end
