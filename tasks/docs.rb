@@ -219,14 +219,12 @@ namespace :versioned_docs do
     end
   end
 
-  task :fetch_doc_tag do |doc_version|
-    # Make temp render dir if not exist
-    # Clone or pull provided version
+  task :generate do |doc_version|
+    doc_version_dir = File.join(WWW_DIR, '../', "inspec-#{doc_version}")
+    sh "mkdir #{doc_version_dir}"
+    sh  "git archive #{doc_version} | tar -x -C #{doc_version_dir}"
   end
-
 end
-
-
 
 namespace :docs do # rubocop:disable Metrics/BlockLength
   desc 'Create cli docs'  
