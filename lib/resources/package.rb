@@ -181,7 +181,7 @@ module Inspec::Resources
 
     def rpm_command(package_name)
       cmd = ''
-      cmd += 'rpm -qia'
+      cmd += 'rpm -qi'
       cmd += " --dbpath #{@dbpath}" if @dbpath
       cmd += ' ' + package_name
 
