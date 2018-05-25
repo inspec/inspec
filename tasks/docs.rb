@@ -215,7 +215,7 @@ namespace :versioned_docs do
   end
 
   task :generate do |doc_version|
-    doc_version_dir = "/tmp/inspec-#{doc_version}"
+    doc_version_dir = File.join(WWW_DIR, '../', "inspec-#{doc_version}")
     sh "mkdir #{doc_version_dir}"
     sh  "git archive #{doc_version} | tar -x -C #{doc_version_dir}"
   end
