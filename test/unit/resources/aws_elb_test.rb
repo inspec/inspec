@@ -141,9 +141,7 @@ end
 module MAESB
   class Empty < AwsBackendBase
     def describe_load_balancers(query = {})
-      Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
-        load_balancer_descriptions: []
-      )
+      raise Aws::ElasticLoadBalancing::Errors::LoadBalancerNotFound.new(nil, nil)
     end
   end
 
@@ -247,11 +245,16 @@ module MAESB
       )
 
       if query[:load_balancer_names]
-        Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
-          load_balancer_descriptions: data.load_balancer_descriptions.select do |lbd|
-             query[:load_balancer_names].include? lbd.load_balancer_name 
-          end
-        )
+        result = data.load_balancer_descriptions.select do |lbd|
+          query[:load_balancer_names].include? lbd.load_balancer_name 
+        end
+        if result.empty?
+          raise Aws::ElasticLoadBalancing::Errors::LoadBalancerNotFound.new(nil, nil)
+        else 
+          Aws::ElasticLoadBalancing::Types::DescribeAccessPointsOutput.new(
+            load_balancer_descriptions: result
+          )
+        end
       else
         data
       end 

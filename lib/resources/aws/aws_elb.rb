@@ -36,15 +36,15 @@ class AwsElb < Inspec.resource(1)
 
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
-
-    lbs = backend.describe_load_balancers(load_balancer_names: [elb_name]).load_balancer_descriptions
-    @exists = !lbs.empty?
-    unless exists?
+    begin
+      lbs = backend.describe_load_balancers(load_balancer_names: [elb_name]).load_balancer_descriptions
+      @exists = true
+      # Load balancer names are uniq; we will either have 0 or 1 result
+      unpack_describe_elbs_response(lbs.first)
+    rescue Aws::ElasticLoadBalancing::Errors::LoadBalancerNotFound
+      @exists = false
       populate_as_missing
-      return
     end
-    # Load balancer names are uniq; we will either have 0 or 1 result
-    unpack_describe_elbs_response(lbs.first)
   end
 
   def unpack_describe_elbs_response(lb_struct)
