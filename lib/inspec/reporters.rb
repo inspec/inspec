@@ -4,6 +4,7 @@ require 'inspec/reporters/json'
 require 'inspec/reporters/json_min'
 require 'inspec/reporters/junit'
 require 'inspec/reporters/automate'
+require 'inspec/reporters/yaml'
 
 module Inspec::Reporters
   def self.render(reporter, run_data)
@@ -20,6 +21,8 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::Junit.new(config)
     when 'automate'
       reporter = Inspec::Reporters::Automate.new(config)
+    when 'yaml'
+      reporter = Inspec::Reporters::Yaml.new(config)
     else
       raise NotImplementedError, "'#{name}' is not a valid reporter type."
     end
@@ -50,6 +53,8 @@ module Inspec::Reporters
       reporter = Inspec::Reporters::Json.new(config)
     when 'json-min'
       reporter = Inspec::Reporters::JsonMin.new(config)
+    when 'yaml'
+      reporter = Inspec::Reporters::Yaml.new(config)
     else
       # use base run_data hash for any other report
       return run_data

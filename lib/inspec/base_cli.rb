@@ -162,6 +162,7 @@ module Inspec
         'json-rspec',
         'junit',
         'progress',
+        'yaml'
       ]
 
       reporters.each do |k, v|
