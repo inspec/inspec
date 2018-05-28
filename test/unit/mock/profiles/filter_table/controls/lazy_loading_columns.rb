@@ -24,6 +24,7 @@ control '2370_where_block' do
   describe lazy_loader(fresh_data.call).where { lazy_3 == 1 } do
     its('count') { should cmp 1 }
     its('lazy_3s.first') { should cmp 1 }
+    its('resource.lazy_3_call_count') { should == 3 }    
   end
 end
 
@@ -46,6 +47,7 @@ control '2370_where_method' do
   describe lazy_loader(fresh_data.call).where(lazy_3: 1) do
     its('count') { should cmp 1 }
     its('lazy_3s.first') { should cmp 1 }
+    its('resource.lazy_3_call_count') { should == 3 }    
   end
 end
 
@@ -62,7 +64,8 @@ control '2370_populate_once' do
   desc 'When we have already triggered a populate, the proc should not be called again'
   describe lazy_loader(fresh_data.call).where { lazy_3.kind_of? Integer }.where { lazy_3.kind_of? Integer } do
     its('count') { should cmp 3 }
-    its('lazy_3s.first') { should == 0 }
+    its('lazy_3s.first') { should == 1 }
+    its('resource.lazy_3_call_count') { should == 3 }
   end
 end
 
@@ -101,7 +104,7 @@ end
 
 control '2370_list_property_filter_block' do
   desc 'When we call a list property on a lazy column with a filter block, we should get a filtered table'
-  describe lazy_loader(fresh_data.call).lazy_3s { lazy_3s == 2 } do
+  describe lazy_loader(fresh_data.call).lazy_3s(2) { lazy_3 == 2 } do
     its('count') { should cmp 1 }
     its('lazy_3s.first') { should cmp 2 }
   end

@@ -185,9 +185,10 @@ module FilterTable
     alias inspect to_s
 
     def populate_lazy_field(field_name, criterion)
-      return unless is_field_lazy?(field_name)      
+      return unless is_field_lazy?(field_name)
       return if field_populated?(field_name)
-      @params.each do |row|
+      raw_data.each do |row|
+        next if row.key?(field_name) # skip row if pre-existing data is present
         row[field_name] = callback_for_lazy_field(field_name).call(row, criterion, self)
       end
       @populated_lazy_columns[field_name] = true
@@ -301,7 +302,7 @@ module FilterTable
       # knows which fields are populated, and how to populate them) and we'll need to 
       # override the getter method for each lazy field, so it will trigger 
       # population if needed.  Keep in mind we don't have to adjust the constructor
-      # args of the row struct; also the Struct class will already have provided 
+      # args of the row struct; also the Struct class will already have provided
       # a setter for each field.
       custom_properties.values.each do |property_info|
         next unless property_info.opts[:lazy]
