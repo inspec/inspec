@@ -303,9 +303,9 @@ module Inspec::Reporters
 
       def title_for_report
         # if this is an anonymous control, just grab the resource title from any result entry
-        return results.first[:resource_title] if anonymous?
+        return results.first[:resource_title].to_s if anonymous?
 
-        title_for_report = "#{id}: #{title || results.first[:resource_title]}"
+        title_for_report = "#{id}: #{title || results.first[:resource_title].to_s}"
 
         # we will not add any additional data to the title if there's only
         # zero or one test for this control.
