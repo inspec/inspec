@@ -264,6 +264,7 @@ module FilterTable
       # A context in which you can access the fields as accessors
       row_eval_context_type = Struct.new(*struct_fields.map(&:to_sym)) do
         attr_accessor :criteria_string
+        attr_accessor :filter_table
         def to_s
           @criteria_string || super
         end
@@ -287,13 +288,39 @@ module FilterTable
         # Install a method that can wrap all the fields into a context with accessors
         define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
           return row_eval_context_type.new if row_as_hash.nil?
-          res = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
-          res.criteria_string = criteria_string
-          res
+          context = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
+          context.criteria_string = criteria_string
+          context.filter_table = self
+          context
         end
       }
 
-      # Define all access methods with the parent resource_class
+      # Now that the table class is defined and the row eval context struct is defined, 
+      # extend the row eval context struct to support triggering population of lazy fields
+      # in where blocks. To do that, we'll need a reference to the table (which
+      # knows which fields are populated, and how to populate them) and we'll need to 
+      # override the getter method for each lazy field, so it will trigger 
+      # population if needed.  Keep in mind we don't have to adjust the constructor
+      # args of the row struct; also the Struct class will already have provided 
+      # a setter for each field.
+      custom_properties.values.each do |property_info|
+        next unless property_info.opts[:lazy]
+        field_name = property_info.field_name.to_sym
+        row_eval_context_type.send(:define_method, field_name) do
+          unless filter_table.field_populated?(field_name)
+            filter_table.populate_lazy_field(field_name,NoCriteriaProvided) # No access to criteria here
+            # OK, the underlying raw data has the value in the first row 
+            # (because we would trigger population only on the first row)
+            # We could just return the value, but we need to set it on this Struct in case it is referenced multiple times
+            # in the where block.
+            self[field_name] = filter_table.raw_data[0][field_name]
+          end
+          # Now return the value using the Struct getter, whether newly populated or not
+          self[field_name]
+        end
+      end
+
+      # Define all access methods with the parent resource
       # These methods will be configured to return an `ExceptionCatcher` object
       # that will always return the original exception, but only when called
       # upon. This will allow method chains in `describe` statements to pass the
