@@ -89,6 +89,7 @@ module FilterTable
       @raw_data = raw_data
       @raw_data = [] if @raw_data.nil?
       @criteria_string = criteria_string
+      @populated_lazy_columns = {}
     end
 
     # Filter the raw data based on criteria (as method params) or by evaling a
@@ -106,6 +107,7 @@ module FilterTable
       # against the raw data. Criteria are assumed to be hash keys.
       conditions.each do |raw_field_name, desired_value|
         raise(ArgumentError, "'#{raw_field_name}' is not a recognized criterion - expected one of #{list_fields.join(', ')}'") unless field?(raw_field_name)
+        populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
       end
@@ -182,6 +184,33 @@ module FilterTable
 
     alias inspect to_s
 
+    def populate_lazy_field(field_name, criterion)
+      return unless is_field_lazy?(field_name)      
+      return if field_populated?(field_name)
+      @params.each do |row|
+        row[field_name] = callback_for_lazy_field(field_name).call(row, criterion, self)
+      end
+      @populated_lazy_columns[field_name] = true
+    end
+
+    def is_field_lazy?(sought_field_name)
+      custom_properties_schema.values.any? do |property_struct|
+        sought_field_name == property_struct.field_name && \
+        property_struct.opts[:lazy]
+     end
+    end
+
+    def callback_for_lazy_field(field_name)
+      return unless is_field_lazy?(field_name)
+      custom_properties_schema.values.find do |property_struct| 
+        property_struct.field_name == field_name
+      end.opts[:lazy]
+    end
+
+    def field_populated?(field_name)
+      @populated_lazy_columns[field_name]
+    end
+
     private
 
     def matches_float(x, y)
@@ -250,6 +279,10 @@ module FilterTable
         properties_to_define.each do |property_info|
           define_method property_info[:method_name], &property_info[:method_body]
         end
+
+        define_method :custom_properties_schema do
+          custom_properties
+        end        
 
         # Install a method that can wrap all the fields into a context with accessors
         define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
@@ -332,6 +365,10 @@ module FilterTable
         lambda do |filter_criteria_value = NoCriteriaProvided, &cond_block|
           if filter_criteria_value == NoCriteriaProvided && !block_given?
             # No second-order block given.  Just return an array of the values in the selected column.
+            result = where(nil)
+            if custom_property_struct.opts[:lazy]
+              result.populate_lazy_field(custom_property_struct.field_name, filter_criteria_value)
+            end
             result = where(nil).get_column_values(custom_property_struct.field_name) # TODO: the where(nil). is likely unneeded
             result = result.flatten.uniq.compact if custom_property_struct.opts[:style] == :simple
             result
