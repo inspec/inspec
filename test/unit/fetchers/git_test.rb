@@ -70,7 +70,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     def expect_mv_into_place
-      FileUtils.expects(:cp_r).with('test-tmp-dir', 'fetchpath')
+      FileUtils.expects(:cp_r).with('test-tmp-dir/.', 'fetchpath')
     end
 
     it "resolves to the revision of master by default" do
