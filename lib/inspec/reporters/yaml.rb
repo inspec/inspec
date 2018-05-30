@@ -7,7 +7,7 @@ module Inspec::Reporters
     def render
       config = {}
       config[:run_data] = run_data
-      # output(Inspec::Reporters::Json.new(config).report.to_yaml, false)
+      output(Inspec::Reporters::Json.new(config).report.to_yaml, false)
     end
   end
 end
