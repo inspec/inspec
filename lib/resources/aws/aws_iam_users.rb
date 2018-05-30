@@ -23,20 +23,42 @@ class AwsIamUsers < Inspec.resource(1)
 
   include AwsPluralResourceMixin
 
+  def self.lazy_get_login_profile(row, criterion, table)
+    backend = BackendFactory.create(table.resource.inspec_runner)
+    begin
+      _login_profile = backend.get_login_profile(user_name: row[:user_name])
+      row[:has_console_password] = true
+    rescue Aws::IAM::Errors::NoSuchEntity
+      row[:has_console_password] = false
+    end
+    row[:has_console_password?] = row[:has_console_password]
+  end
+
   filter = FilterTable.create
   filter.add_accessor(:where)
         .add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
-        .add(:has_mfa_enabled?, field: :has_mfa_enabled)
-        .add(:has_console_password?, field: :has_console_password)
-        .add(:has_inline_policies?, field: :has_inline_policies)
-        .add(:has_attached_policies?, field: :has_attached_policies)
+        # Summary methods
+  filter.add(:exists?) { |table| !table.params.empty? }
+        .add(:count) { |table| table.params.count }
+
+        # These are included on the initial fetch
+  filter.add(:usernames, field: :user_name)
+        .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
         .add(:password_ever_used?, field: :password_ever_used?)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
-        .add(:usernames, field: :user_name)
-        .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
+
+        # These are handled by the get_login_profile lazy fetcher
+  filter.add(:has_console_password?, field: :has_console_password, lazy: self.method(:lazy_get_login_profile))
+
+
+  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled)
+
+  filter.add(:has_inline_policies?, field: :has_inline_policies)
+        .add(:has_inline_policies?, field: :has_inline_policies)
         .add(:inline_policy_names, field: :inline_policy_names, style: :simple)
+
+  filter.add(:has_attached_policies?, field: :has_attached_policies)        
         .add(:attached_policy_names, field: :attached_policy_names, style: :simple)
         .add(:attached_policy_arns, field: :attached_policy_arns, style: :simple)
   filter.connect(self, :table)
@@ -67,16 +89,16 @@ class AwsIamUsers < Inspec.resource(1)
 
     # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
     @table.each do |user|
+
+      password_last_used = user[:password_last_used]
+      user[:password_ever_used?] = !password_last_used.nil?
+      user[:password_never_used?] = password_last_used.nil?
+      if user[:password_ever_used?]
+        user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
+      end
+
       # Some of these throw exceptions to indicate empty results;
       # others return empty arrays
-      begin
-        _login_profile = backend.get_login_profile(user_name: user[:user_name])
-        user[:has_console_password] = true
-      rescue Aws::IAM::Errors::NoSuchEntity
-        user[:has_console_password] = false
-      end
-      user[:has_console_password?] = user[:has_console_password]
-
       begin
         aws_mfa_devices = backend.list_mfa_devices(user_name: user[:user_name])
         user[:has_mfa_enabled] = !aws_mfa_devices.mfa_devices.empty?
@@ -95,11 +117,6 @@ class AwsIamUsers < Inspec.resource(1)
       user[:attached_policy_names] = attached_policies.map { |p| p[:policy_name] }
       user[:attached_policy_arns] = attached_policies.map { |p| p[:policy_arn] }
 
-      password_last_used = user[:password_last_used]
-      user[:password_ever_used?] = !password_last_used.nil?
-      user[:password_never_used?] = password_last_used.nil?
-      next unless user[:password_ever_used?]
-      user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
     end
     @table
   end
@@ -107,6 +124,8 @@ class AwsIamUsers < Inspec.resource(1)
   def to_s
     'IAM Users'
   end
+
+
 
   #===========================================================================#
   #                        Backend Implementation
