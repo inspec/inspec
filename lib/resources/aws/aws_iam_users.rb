@@ -23,7 +23,7 @@ class AwsIamUsers < Inspec.resource(1)
 
   include AwsPluralResourceMixin
 
-  def self.lazy_get_login_profile(row, criterion, table)
+  def self.lazy_get_login_profile(row, _criterion, table)
     backend = BackendFactory.create(table.resource.inspec_runner)
     begin
       _login_profile = backend.get_login_profile(user_name: row[:user_name])
@@ -32,6 +32,17 @@ class AwsIamUsers < Inspec.resource(1)
       row[:has_console_password] = false
     end
     row[:has_console_password?] = row[:has_console_password]
+  end
+
+  def self.lazy_list_mfa_devices(row, _criterion, table)
+    backend = BackendFactory.create(table.resource.inspec_runner)
+    begin
+      aws_mfa_devices = backend.list_mfa_devices(user_name: row[:user_name])
+      row[:has_mfa_enabled] = !aws_mfa_devices.mfa_devices.empty?
+    rescue Aws::IAM::Errors::NoSuchEntity
+      row[:has_mfa_enabled] = false
+    end
+    row[:has_mfa_enabled?] = row[:has_mfa_enabled]
   end
 
   filter = FilterTable.create
@@ -48,11 +59,10 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:password_never_used?, field: :password_never_used?)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
 
-        # These are handled by the get_login_profile lazy fetcher
+  # Remaining properties / criteria are handled lazily, grouped by fetcher
   filter.add(:has_console_password?, field: :has_console_password, lazy: self.method(:lazy_get_login_profile))
 
-
-  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled)
+  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled, lazy: self.method(:lazy_list_mfa_devices))
 
   filter.add(:has_inline_policies?, field: :has_inline_policies)
         .add(:has_inline_policies?, field: :has_inline_policies)
@@ -99,13 +109,6 @@ class AwsIamUsers < Inspec.resource(1)
 
       # Some of these throw exceptions to indicate empty results;
       # others return empty arrays
-      begin
-        aws_mfa_devices = backend.list_mfa_devices(user_name: user[:user_name])
-        user[:has_mfa_enabled] = !aws_mfa_devices.mfa_devices.empty?
-      rescue Aws::IAM::Errors::NoSuchEntity
-        user[:has_mfa_enabled] = false
-      end
-      user[:has_mfa_enabled?] = user[:has_mfa_enabled]
 
       user[:inline_policy_names] = backend.list_user_policies(user_name: user[:user_name]).policy_names
       user[:has_inline_policies] = !user[:inline_policy_names].empty?
