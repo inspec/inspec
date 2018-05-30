@@ -191,7 +191,7 @@ module FilterTable
         next if row.key?(field_name) # skip row if pre-existing data is present
         callback_for_lazy_field(field_name).call(row, criterion, self)
       end
-      mark_lazy_field_populated(field_name)      
+      mark_lazy_field_populated(field_name)
     end
 
     def is_field_lazy?(sought_field_name)
@@ -215,7 +215,7 @@ module FilterTable
     def mark_lazy_field_populated(field_name)
       @populated_lazy_columns[field_name] = true
     end
-    
+
     private
 
     def matches_float(x, y)

@@ -45,14 +45,30 @@ class AwsIamUsers < Inspec.resource(1)
     row[:has_mfa_enabled?] = row[:has_mfa_enabled]
   end
 
+  def self.lazy_list_user_policies(row, _criterion, table)
+    backend = BackendFactory.create(table.resource.inspec_runner)
+    row[:inline_policy_names] = backend.list_user_policies(user_name: row[:user_name]).policy_names
+    row[:has_inline_policies] = !row[:inline_policy_names].empty?
+    row[:has_inline_policies?] = row[:has_inline_policies]
+  end
+
+  def self.lazy_list_attached_policies(row, _criterion, table)
+    backend = BackendFactory.create(table.resource.inspec_runner)
+    attached_policies = backend.list_attached_user_policies(user_name: row[:user_name]).attached_policies
+    row[:has_attached_policies] = !attached_policies.empty?
+    row[:has_attached_policies?] = row[:has_attached_policies]
+    row[:attached_policy_names] = attached_policies.map { |p| p[:policy_name] }
+    row[:attached_policy_arns] = attached_policies.map { |p| p[:policy_arn] }
+  end
+
   filter = FilterTable.create
   filter.add_accessor(:where)
         .add_accessor(:entries)
-        # Summary methods
+  # Summary methods
   filter.add(:exists?) { |table| !table.params.empty? }
         .add(:count) { |table| table.params.count }
 
-        # These are included on the initial fetch
+  # These are included on the initial fetch
   filter.add(:usernames, field: :user_name)
         .add(:username) { |res| res.entries.map { |row| row[:user_name] } } # We should deprecate this; plural resources get plural properties
         .add(:password_ever_used?, field: :password_ever_used?)
@@ -60,17 +76,18 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
 
   # Remaining properties / criteria are handled lazily, grouped by fetcher
-  filter.add(:has_console_password?, field: :has_console_password, lazy: self.method(:lazy_get_login_profile))
+  filter.add(:has_console_password?, field: :has_console_password, lazy: method(:lazy_get_login_profile))
 
-  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled, lazy: self.method(:lazy_list_mfa_devices))
+  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled, lazy: method(:lazy_list_mfa_devices))
 
-  filter.add(:has_inline_policies?, field: :has_inline_policies)
-        .add(:has_inline_policies?, field: :has_inline_policies)
-        .add(:inline_policy_names, field: :inline_policy_names, style: :simple)
+  filter.add(:has_inline_policies?, field: :has_inline_policies?, lazy: method(:lazy_list_user_policies))
+        .add(:has_inline_policies, field: :has_inline_policies, lazy: method(:lazy_list_user_policies))
+        .add(:inline_policy_names, field: :inline_policy_names, style: :simple, lazy: method(:lazy_list_user_policies))
 
-  filter.add(:has_attached_policies?, field: :has_attached_policies)        
-        .add(:attached_policy_names, field: :attached_policy_names, style: :simple)
-        .add(:attached_policy_arns, field: :attached_policy_arns, style: :simple)
+  filter.add(:has_attached_policies?, field: :has_attached_policies?, lazy: method(:lazy_list_attached_policies))
+        .add(:has_attached_policies, field: :has_attached_policies, lazy: method(:lazy_list_attached_policies))
+        .add(:attached_policy_names, field: :attached_policy_names, style: :simple, lazy: method(:lazy_list_attached_policies))
+        .add(:attached_policy_arns, field: :attached_policy_arns, style: :simple, lazy: method(:lazy_list_attached_policies))
   filter.connect(self, :table)
 
   def validate_params(raw_params)
@@ -93,33 +110,17 @@ class AwsIamUsers < Inspec.resource(1)
     table
   end
 
-  def fetch_from_api # rubocop: disable Metrics/AbcSize
+  def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     @table = fetch_from_api_paginated(backend)
 
-    # TODO: lazy columns - https://github.com/chef/inspec-aws/issues/100
     @table.each do |user|
-
       password_last_used = user[:password_last_used]
       user[:password_ever_used?] = !password_last_used.nil?
       user[:password_never_used?] = password_last_used.nil?
       if user[:password_ever_used?]
         user[:password_last_used_days_ago] = ((Time.now - password_last_used) / (24*60*60)).to_i
       end
-
-      # Some of these throw exceptions to indicate empty results;
-      # others return empty arrays
-
-      user[:inline_policy_names] = backend.list_user_policies(user_name: user[:user_name]).policy_names
-      user[:has_inline_policies] = !user[:inline_policy_names].empty?
-      user[:has_inline_policies?] = user[:has_inline_policies]
-
-      attached_policies = backend.list_attached_user_policies(user_name: user[:user_name]).attached_policies
-      user[:has_attached_policies] = !attached_policies.empty?
-      user[:has_attached_policies?] = user[:has_attached_policies]
-      user[:attached_policy_names] = attached_policies.map { |p| p[:policy_name] }
-      user[:attached_policy_arns] = attached_policies.map { |p| p[:policy_arn] }
-
     end
     @table
   end
@@ -127,8 +128,6 @@ class AwsIamUsers < Inspec.resource(1)
   def to_s
     'IAM Users'
   end
-
-
 
   #===========================================================================#
   #                        Backend Implementation
