@@ -5,9 +5,7 @@ require 'yaml'
 module Inspec::Reporters
   class Yaml < Base
     def render
-      config = {}
-      config[:run_data] = run_data
-      output(Inspec::Reporters::Json.new(config).report.to_yaml, false)
+      output(Inspec::Reporters::Json.new({ run_data: run_data }).report.to_yaml, false)
     end
   end
 end

@@ -1,0 +1,54 @@
+---
+controls:
+- status: passed
+  code_desc: File /tmp should exist
+  run_time: 0.00173205
+  start_time: '2018-05-30T23:56:02+05:30'
+  resource_title: File /tmp
+  expectation_message: should exist
+other_checks: []
+profiles:
+- supports: []
+  title: tests from t.rb
+  name: tests from t.rb
+  controls:
+  - title:
+    desc:
+    impact: 0.5
+    refs: []
+    tags: {}
+    code: ''
+    source_location:
+      ref: "/home/frezbo/git/work/ruby/inspec/lib/inspec/control_eval_context.rb"
+      line: 89
+    id: "(generated from t.rb:1 cfd5529e4dffb56c61632e6bbf9e7d55)"
+    results:
+    - status: passed
+      code_desc: File /tmp should exist
+      run_time: 0.00173205
+      start_time: '2018-05-30T23:56:02+05:30'
+      resource_title: File /tmp
+      expectation_message: should exist
+  groups:
+  - title:
+    controls:
+    - "(generated from t.rb:1 cfd5529e4dffb56c61632e6bbf9e7d55)"
+    id: t.rb
+  attributes: []
+  sha256: 9260af15d2b7568443df4d9d2556f773f425f92491c97eb1d201c535c7a9f5e0
+platform:
+  name: fedora
+  release: '28'
+  target: local://
+  uuid: 4af37b60-aa52-41ce-9926-032d2cdf6993
+version: 2.1.83
+statistics:
+  duration: 0.014576913
+  controls:
+    total: 1
+    passed:
+      total: 1
+    skipped:
+      total: 0
+    failed:
+      total: 0
