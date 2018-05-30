@@ -76,9 +76,11 @@ class AwsIamUsers < Inspec.resource(1)
         .add(:password_last_used_days_ago, field: :password_last_used_days_ago)
 
   # Remaining properties / criteria are handled lazily, grouped by fetcher
-  filter.add(:has_console_password?, field: :has_console_password, lazy: method(:lazy_get_login_profile))
+  filter.add(:has_console_password?, field: :has_console_password?, lazy: method(:lazy_get_login_profile))
+        .add(:has_console_password, field: :has_console_password, lazy: method(:lazy_get_login_profile))
 
-  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled, lazy: method(:lazy_list_mfa_devices))
+  filter.add(:has_mfa_enabled?, field: :has_mfa_enabled?, lazy: method(:lazy_list_mfa_devices))
+        .add(:has_mfa_enabled, field: :has_mfa_enabled, lazy: method(:lazy_list_mfa_devices))
 
   filter.add(:has_inline_policies?, field: :has_inline_policies?, lazy: method(:lazy_list_user_policies))
         .add(:has_inline_policies, field: :has_inline_policies, lazy: method(:lazy_list_user_policies))
