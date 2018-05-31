@@ -117,7 +117,7 @@ module Inspec
         if @conf['reporter']['json-rspec']&.[]('file').nil?
           RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson)
         else
-          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf[:reporter]['json-rspec']['file'])
+          RSpec.configuration.add_formatter(Inspec::Formatters::RspecJson, @conf['reporter']['json-rspec']['file'])
         end
         @conf['reporter'].delete('json-rspec')
       end
