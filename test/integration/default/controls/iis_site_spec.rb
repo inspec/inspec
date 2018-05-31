@@ -33,10 +33,19 @@ describe iis_website('Default Web Site') do
 end
 
 describe iis_app('/TestApp', 'Default Web Site') do
-  it { sould exist }
+  it { should exist }
   it { should have_application_pool('DefaultAppPool') }
   it { should have_protocols('http') }
   it { should have_site_name('Default Web Site') }
   it { should have_physical_path('C:\\inetpub\\wwwroot\\Test') }
   it { should have_path('\\TestApp') }
+end
+
+# test testing a non existing website
+describe iis_site('DeletedSite') do
+  it { should_not exist }
+  its('app_pool') { should eq nil }
+  its('bindings') { should eq nil }
+  its('state') { should eq nil }
+  its('path') { should eq nil }
 end
