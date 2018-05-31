@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 2.1.84 -->
+## [v2.1.84](https://github.com/inspec/inspec/tree/v2.1.84) (2018-05-31)
+
+#### Merged Pull Requests
+- Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.83 -->
+### Changes since 2.1.83 release
+
+#### Merged Pull Requests
+- Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick)) <!-- 2.1.84 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
