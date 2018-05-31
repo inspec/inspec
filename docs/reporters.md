@@ -20,6 +20,14 @@ or
 inspec exec --reporter json:-
 ```
 
+Output yaml to screen
+
+```bash
+inspec exec --reporter yaml
+or
+inspec exec --reporter yaml:-
+```
+
 Output cli to screen and write json to a file.
 
 ```bash
@@ -83,6 +91,10 @@ This reporter includes all information about the profiles and test results in st
 ### json-min
 
 This reporter is a redacted version of the json and only includes test results.
+
+### yaml
+
+This reporter includes all information about the profiles and test results in standard yaml format.
 
 ### documentation
 

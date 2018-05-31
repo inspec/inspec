@@ -2,21 +2,36 @@
     {
         "gid":  "S-1-5-32-544",
         "domain":  "WIN-CIV7VMLVHLD",
-        "name":  "Administrators"
+        "name":  "Administrators",
+        "members": [
+            "Administrators",
+            "Domain Admins"
+        ]
     },
     {
         "gid":  "S-1-5-32-546",
         "domain":  "WIN-CIV7VMLVHLD",
-        "name":  "Guests"
+        "name":  "Guests",
+        "members": [
+            "Guest"
+        ]
     },
     {
         "gid":  "S-1-5-32-547",
         "domain":  "WIN-CIV7VMLVHLD",
-        "name":  "Power Users"
+        "name":  "Power Users",
+        "members": [
+
+        ]
     },
     {
         "gid":  "S-1-5-32-545",
         "domain":  "WIN-CIV7VMLVHLD",
-        "name":  "Users"
+        "name":  "Users",
+        "members":  [
+                "INTERACTIVE",
+                "Authenticated Users",
+                "Domain Users"
+            ]
     }
 ]

@@ -29,15 +29,22 @@ module Inspec::Resources
       end
     "
 
-    attr_reader :user, :password, :host, :port, :instance
+    attr_reader :user, :password, :host, :port, :instance, :local_mode
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
       if opts[:pass]
         warn '[DEPRECATED] use `password` option to supply password instead of `pass`'
       end
-      @host = opts[:host] || 'localhost'
-      @port = opts[:port] || '1433'
+      @local_mode = opts[:local_mode]
+      unless local_mode?
+        @host = opts[:host] || 'localhost'
+        if opts.key?(:port)
+          @port = opts[:port]
+        else
+          @port = '1433'
+        end
+      end
       @instance = opts[:instance]
 
       # check if sqlcmd is available
@@ -51,18 +58,22 @@ module Inspec::Resources
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
-      if @instance.nil?
-        cmd_string += " -S '#{@host},#{@port}'"
-      else
-        cmd_string += " -S '#{@host},#{@port}\\#{@instance}'"
+      unless local_mode?
+        if @port.nil?
+          cmd_string += " -S '#{@host}"
+        else
+          cmd_string += " -S '#{@host},#{@port}"
+        end
+        if @instance.nil?
+          cmd_string += "'"
+        else
+          cmd_string += "\\#{@instance}'"
+        end
       end
       cmd = inspec.command(cmd_string)
       out = cmd.stdout + "\n" + cmd.stderr
       if cmd.exit_status != 0 || out =~ /Sqlcmd: Error/
-        # TODO: we need to throw an exception here
-        # change once https://github.com/chef/inspec/issues/1205 is in
-        warn "Could not execute the sql query #{out}"
-        DatabaseHelper::SQLQueryResult.new(cmd, Hashie::Mash.new({}))
+        raise Inspec::Exceptions::ResourceFailed, "Could not execute the sql query #{out}"
       else
         DatabaseHelper::SQLQueryResult.new(cmd, parse_csv_result(cmd))
       end
@@ -73,6 +84,10 @@ module Inspec::Resources
     end
 
     private
+
+    def local_mode?
+      !!@local_mode # rubocop:disable Style/DoubleNegation
+    end
 
     def test_connection
       !query('select getdate()').empty?

@@ -1,0 +1,10 @@
+name: git depends
+title: InSpec example simple inheritance
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+copyright_email: support@chef.io
+license: Apache 2 license
+version: 1.0.0
+depends:
+  - name: ssh
+    git: https://github.com/dev-sec/ssh-baseline.git

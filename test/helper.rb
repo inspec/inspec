@@ -240,9 +240,9 @@ class MockLoader
       'yum -v repolist all'  => cmd.call('yum-repolist-all'),
       'dpkg -s curl' => cmd.call('dpkg-s-curl'),
       'dpkg -s held-package' => cmd.call('dpkg-s-held-package'),
-      'rpm -qia curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qia-curl'),
-      'rpm -qia --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
+      'rpm -qi curl' => cmd.call('rpm-qi-curl'),
+      'rpm -qi --dbpath /var/lib/fake_rpmdb curl' => cmd.call('rpm-qi-curl'),
+      'rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl' => cmd_exit_1.call,
       'pacman -Qi curl' => cmd.call('pacman-qi-curl'),
       'brew info --json=v1 curl' => cmd.call('brew-info--json-v1-curl'),
       'brew info --json=v1 nginx' => cmd.call('brew-info--json-v1-nginx'),
@@ -325,7 +325,7 @@ class MockLoader
       # user info for windows (winrm 1.6.0, 1.6.1)
       '27c6cda89fa5d196506251c0ed0d20468b378c5689711981dc1e1e683c7b02c1' => cmd.call('adsiusers'),
       # group info for windows
-      'd8d5b3e3355650399e23857a526ee100b4e49e5c2404a0a5dbb7d85d7f4de5cc' => cmd.call('adsigroups'),
+      '4020573097e910a573e22e8863c4faa434f52910a45714606cad1fb8b060d9e9' => cmd.call('adsigroups'),
       # group info for Darwin
       'dscacheutil -q group' => cmd.call('dscacheutil-query-group'),
       # network interface
@@ -449,10 +449,14 @@ class MockLoader
       # mssql tests
       "bash -c 'type \"sqlcmd\"'" => cmd.call('mssql-sqlcmd'),
       "cb0efcd12206e9690c21ac631a72be9dd87678aa048e6dae16b8e9353ab6dd64" => cmd.call('mssql-getdate'),
+      "7109e5d809058cd3e9cad108e21e91234d2638db4a4f81fadfde21e071a423dc" => cmd.call('mssql-getdate'),
+      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
+      "148af1d7706d9cf81097f66d5b891ddfca719445d60fa582befad118f51b9d92" => cmd.call('mssql-getdate'),
+      "9a1dfd9e403053efb1fd1970a77a241e5c7a9eae34e6f6c56904fa8189bc2e45" => cmd.call('mssql-getdate'),
       "e8bece33e9d550af1fc81a5bc1c72b647b3810db3e567ee9f30feb81f4e3b700" => cmd.call('mssql-getdate'),
       "53d201ff1cfb8867b79200177b8e2e99dedb700c5fbe15e43820011d7e8b941f" => cmd.call('mssql-getdate'),
+      "4b550bb227058ac5851aa0bc946be794ee46489610f17842700136cf8bb5a0e9" => cmd.call('mssql-getdate'),
       "7d1a7a0f2bd1e7da9a6904e1f28981146ec01a0323623e12a8579d30a3960a79" => cmd.call('mssql-result'),
-      "5c2bc0f0568d11451d6cf83aff02ee3d47211265b52b6c5d45f8e57290b35082" => cmd.call('mssql-getdate'),
       # oracle
       "bash -c 'type \"sqlplus\"'" => cmd.call('oracle-cmd'),
       "527f243fe9b01fc7b7d78eb1ef5200e272b011aa07c9f59836d950107d6d2a5c" => cmd.call('oracle-result'),
