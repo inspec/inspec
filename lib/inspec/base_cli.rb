@@ -70,7 +70,7 @@ module Inspec
         desc: '[DEPRECATED] Please use --reporter - this will be removed in InSpec 3.0'
       option :reporter, type: :array,
         banner: 'one two:/output/file/path',
-        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit'
+        desc: 'Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml'
       option :color, type: :boolean,
         desc: 'Use colors in output.'
       option :attrs, type: :array,
@@ -162,6 +162,7 @@ module Inspec
         'json-rspec',
         'junit',
         'progress',
+        'yaml',
       ]
 
       reporters.each do |k, v|
@@ -203,7 +204,7 @@ module Inspec
 
     def suppress_log_output?(opts)
       return false if opts['reporter'].nil?
-      match = %w{json json-min json-rspec junit html} & opts['reporter'].keys
+      match = %w{json json-min json-rspec junit html yaml documentation progress} & opts['reporter'].keys
       unless match.empty?
         match.each do |m|
           # check to see if we are outputting to stdout
