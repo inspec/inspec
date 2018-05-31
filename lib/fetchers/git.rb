@@ -50,7 +50,7 @@ module Fetchers
         Dir.mktmpdir do |tmpdir|
           checkout(tmpdir)
           Inspec::Log.debug("Checkout of #{resolved_ref} successful. Moving checkout to #{dir}")
-          FileUtils.cp_r(tmpdir, @repo_directory)
+          FileUtils.cp_r(tmpdir + '/.', @repo_directory)
         end
       end
       @repo_directory

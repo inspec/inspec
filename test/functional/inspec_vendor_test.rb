@@ -34,6 +34,25 @@ describe 'example inheritance profile' do
     end
   end
 
+  it 'can vendor profile dependencies from git' do
+    git_depends_path = File.join(profile_path, 'git-depends')
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(git_depends_path + '/.', tmpdir)
+      File.exist?(File.join(tmpdir, 'vendor')).must_equal false
+
+      out = inspec('vendor ' + tmpdir + ' --overwrite')
+      out.stderr.must_equal ''
+      out.exit_status.must_equal 0
+
+      out.stdout.must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
+
+      File.exist?(File.join(tmpdir, 'vendor')).must_equal true
+      File.exist?(File.join(tmpdir, 'inspec.lock')).must_equal true
+      File.exist?(File.join(tmpdir, 'vendor', 'accb84911787830f5b973f3e49de78bbff931946', 'README.md')).must_equal true
+    end
+  end
+
   it 'ensure nothing is loaded from external source if vendored profile is used' do
     prepare_examples('meta-profile') do |dir|
       out = inspec('vendor ' + dir + ' --overwrite')
