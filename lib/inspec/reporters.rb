@@ -7,6 +7,7 @@ require 'inspec/reporters/automate'
 require 'inspec/reporters/yaml'
 
 module Inspec::Reporters
+  # rubocop:disable Metrics/CyclomaticComplexity
   def self.render(reporter, run_data)
     name, config = reporter.dup
     config[:run_data] = run_data
