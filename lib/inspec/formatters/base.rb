@@ -155,7 +155,7 @@ module Inspec::Formatters
         code_desc: code_description,
         run_time: example.execution_result.run_time,
         start_time: example.execution_result.started_at.to_datetime.rfc3339.to_s,
-        resource_title: example.metadata[:described_class].to_s || example.metadata[:example_group][:description].to_s,
+        resource_title: example.metadata[:example_group][:description],
         expectation_message: format_expectation_message(example),
       }
 

@@ -303,9 +303,9 @@ module Inspec::Reporters
 
       def title_for_report
         # if this is an anonymous control, just grab the resource title from any result entry
-        return results.first[:resource_title].to_s if anonymous?
+        return results.first[:resource_title] if anonymous?
 
-        title_for_report = "#{id}: #{title || results.first[:resource_title].to_s}"
+        title_for_report = "#{id}: #{title || results.first[:resource_title]}"
 
         # we will not add any additional data to the title if there's only
         # zero or one test for this control.
@@ -314,7 +314,6 @@ module Inspec::Reporters
         # append a failure summary if appropriate.
         title_for_report += " (#{failure_count} failed)" if failure_count > 0
         title_for_report += " (#{skipped_count} skipped)" if skipped_count > 0
-
         title_for_report
       end
 
