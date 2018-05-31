@@ -1,39 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.84 -->
-## [v2.1.84](https://github.com/inspec/inspec/tree/v2.1.84) (2018-05-31)
-
-#### New Features
-- Enhance groups resource with members property [#3029](https://github.com/inspec/inspec/pull/3029)
-- Adding YAML reporter [#3081](https://github.com/inspec/inspec/pull/3081)
-
-#### Enhancements
-- Remove unneeded "-a" from the RPM query for performance improvement [#3077](https://github.com/inspec/inspec/pull/3077)
-- mssql_session default port and local_mode [#3031](https://github.com/inspec/inspec/pull/3031)
-
-#### Bug Fixes
-- handle nil properties in iis_site [#3040](https://github.com/inspec/inspec/pull/3040)
-- Fixing wrong attribute reference for rspec output [#3080](https://github.com/inspec/inspec/pull/3080)
-- Fix the git fetcher to vendor correctly [#3097](https://github.com/inspec/inspec/pull/3097)
-
-#### Merged Pull Requests
-- Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.83 -->
-### Changes since 2.1.83 release
-
-#### Merged Pull Requests
-- Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick)) <!-- 2.1.84 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.84](https://github.com/inspec/inspec/tree/v2.1.84) (2018-05-31)
+
+#### Merged Pull Requests
+- Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v2.1.83](https://github.com/chef/inspec/tree/v2.1.83) (2018-05-18)
 
 #### Merged Pull Requests
 - Update ruby required version. [#3070](https://github.com/chef/inspec/pull/3070) ([jquick](https://github.com/jquick))
 - Test new gem builds [#3071](https://github.com/chef/inspec/pull/3071) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.81](https://github.com/chef/inspec/tree/v2.1.81) (2018-05-17)
 
