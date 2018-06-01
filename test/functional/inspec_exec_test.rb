@@ -328,4 +328,13 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
       controls.select { |c| c['results'][0]['status'] == 'passed' }.count.must_be :>, 1
     end
   end
+
+  describe 'when using multiple custom resources with each other' do
+    let(:out) { inspec('exec ' + File.join(examples_path, 'custom-resource') + ' --no-create-lockfile') }
+
+    it 'completes the run with failed controls but no exception' do
+      out.stderr.must_be_empty
+      out.exit_status.must_equal 0
+    end
+  end
 end
