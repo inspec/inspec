@@ -1,5 +1,30 @@
 require 'functional/helper'
 
+describe '3109 they / their support' do
+  include FunctionalHelper
+  it 'positive tests should pass' do
+    controls = [
+      '3109_their',
+    ]
+
+    cmd  = 'exec ' + File.join(profile_path, 'filter_table')
+    cmd += ' --reporter json --no-create-lockfile' 
+    cmd += ' --controls ' + controls.join(' ')
+    cmd = inspec(cmd)
+
+    # RSpec keeps issuing a deprecation count to stdout; I can't seem to disable it.
+    output = cmd.stdout.split("\n").reject {|line| line =~ /deprecation/}.join("\n")
+    data = JSON.parse(output)
+    failed_controls = data['profiles'][0]['controls'].select { |ctl| ctl['results'][0]['status'] == 'failed' }
+    control_hash = {}
+    failed_controls.each do |ctl|
+      control_hash[ctl['id']] = ctl['results'][0]['message']
+    end
+    control_hash.must_be_empty
+    cmd.exit_status.must_equal 0
+  end
+end
+
 describe '2943 inspec exec for filter table profile, method mode for `where' do
   include FunctionalHelper
 
