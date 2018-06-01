@@ -258,8 +258,11 @@ module FilterTable
     CustomPropertyType = Struct.new(:field_name, :block, :opts)
 
     def initialize
-      @filter_methods = []
+      @filter_methods = [:where, :entries, :raw_data]
       @custom_properties = {}
+      register_custom_matcher(:exist?) { |table| !table.raw_data.empty? }
+      register_custom_property(:count) { |table|  table.raw_data.count }
+
       @resource = nil # TODO: this variable is never initialized
     end
 
@@ -355,7 +358,11 @@ module FilterTable
         # TODO: @resource is never initialized
         throw RuntimeError, "Called filter.add_accessor for resource #{@resource} with method name nil!"
       end
-      @filter_methods.push(method_name.to_sym)
+      if @filter_methods.include? method_name.to_sym
+        # TODO: issue deprecation warning?
+      else
+        @filter_methods.push(method_name.to_sym)
+      end
       self
     end
 
@@ -367,8 +374,12 @@ module FilterTable
         throw RuntimeError, "Called filter.add for resource #{@resource} with method name nil!"
       end
 
-      @custom_properties[property_name.to_sym] =
-        CustomPropertyType.new(opts[:field] || property_name, property_implementation, opts)
+      if @custom_properties.key?(method_name.to_sym)
+        # TODO: issue deprecation warning?
+      else
+        @custom_properties[method_name.to_sym] =
+          CustomPropertyType.new(opts[:field] || property_name, property_implementation, opts)
+      end
       self
     end
 
