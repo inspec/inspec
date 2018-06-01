@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.85 -->
-## [v2.1.85](https://github.com/inspec/inspec/tree/v2.1.85) (2018-06-01)
+<!-- latest_release 2.1.86 -->
+## [v2.1.86](https://github.com/inspec/inspec/tree/v2.1.86) (2018-06-01)
 
-#### Merged Pull Requests
-- support local npm package searches [#3105](https://github.com/inspec/inspec/pull/3105) ([arlimus](https://github.com/arlimus))
+#### Enhancements
+- Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
 ### Changes since 2.1.84 release
+
+#### Enhancements
+- Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
 
 #### Merged Pull Requests
 - support local npm package searches [#3105](https://github.com/inspec/inspec/pull/3105) ([arlimus](https://github.com/arlimus)) <!-- 2.1.85 -->
