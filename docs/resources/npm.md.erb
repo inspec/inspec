@@ -22,6 +22,14 @@ where
 * `('npm_package_name')` must specify an NPM package, such as `'bower'` or `'statsd'`
 * `be_installed` is a valid matcher for this resource
 
+You can also specify additional options:
+
+    describe npm('npm_package_name', path: '/path/to/project') do
+      it { should be_installed }
+    end
+
+The `path` specifies a folder, that contains a `node_modules` subdirectory. It emulates running `npm` inside the specified folder. This way you can inspect local NPM installations as well as global ones.
+
 <br>
 
 ## Examples
