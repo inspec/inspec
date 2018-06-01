@@ -32,7 +32,7 @@ class AwsIamGroupsRecallEmptyTest < Minitest::Test
   end
 
   def test_search_miss_via_empty_groups
-    refute AwsIamGroups.new.exists?
+    refute AwsIamGroups.new.exist?
   end
 end
 
@@ -43,7 +43,7 @@ class AwsIamGroupsRecallBasicTest < Minitest::Test
   end
 
   def test_search_hit_via_empty_query
-    assert AwsIamGroups.new.exists?
+    assert AwsIamGroups.new.exist?
   end
 end
 

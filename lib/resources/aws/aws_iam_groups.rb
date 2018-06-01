@@ -19,8 +19,7 @@ class AwsIamGroups < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add_accessor(:entries)
-        .add(:exists?) { |x| !x.entries.empty? }
+  filter.add(:group_names, field: :group_name)
   filter.connect(self, :table)
 
   def to_s
