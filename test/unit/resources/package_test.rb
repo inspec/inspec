@@ -103,7 +103,7 @@ describe 'Inspec::Resources::Package' do
   # windows
   it 'verify windows package parsing' do
     resource = MockLoader.new(:windows).load_resource('package', 'Chef Client v12.12.15')
-    pkg = { name: 'Chef Client v12.12.15', installed: true, version: '12.12.15.1', type: 'windows' }
+    pkg = { name: 'Chef Client v12.12.15 ', installed: true, version: '12.12.15.1', type: 'windows' }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal '12.12.15.1'
     _(resource.info).must_equal pkg
