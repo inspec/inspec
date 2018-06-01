@@ -267,8 +267,6 @@ module FilterTable
     end
 
     def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name) # rubocop: disable Metrics/AbcSize, Metrics/MethodLength
-      struct_fields = @custom_properties.values.map(&:field_name)
-
       # A context in which you can access the fields as accessors
       non_block_struct_fields = @custom_properties.values.select { |property_info| !property_info.block}.map(&:field_name)
       row_eval_context_type = Struct.new(*non_block_struct_fields.map(&:to_sym)) do
