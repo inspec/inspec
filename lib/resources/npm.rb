@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'shellwords'
+
 module Inspec::Resources
   class NpmPackage < Inspec.resource(1)
     name 'npm'
@@ -10,17 +12,28 @@ module Inspec::Resources
       describe npm('bower') do
         it { should be_installed }
       end
+
+      describe npm('tar', path: '/path/to/project') do
+        it { should be_installed }
+      end
     "
 
-    def initialize(package_name)
+    def initialize(package_name, opts = {})
       @package_name = package_name
+      @location = opts[:path]
       @cache = nil
     end
 
     def info
       return @info if defined?(@info)
 
-      cmd = inspec.command("npm ls -g --json #{@package_name}")
+      if @location
+        npm = "cd #{Shellwords.escape @location} && npm"
+      else
+        npm = 'npm -g'
+      end
+
+      cmd = inspec.command("#{npm} ls --json #{@package_name}")
       @info = {
         name: @package_name,
         type: 'npm',

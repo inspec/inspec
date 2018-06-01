@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bower": {
+      "version": "1.4.2",
+      "from": "bower@*",
+      "resolved": "https://registry.npmjs.org/bower/-/bower-1.4.1.tgz"
+    }
+  }
+}
