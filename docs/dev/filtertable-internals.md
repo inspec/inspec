@@ -12,7 +12,7 @@ FilterTable was created in 2016 in an attempt to consolidate the pluralization f
 
 The main FilterTable code is in [utils/filter.rb](https://github.com/chef/inspec/blob/master/lib/utils/filter.rb).
 
-Also educational is the unit test for FIltertable, at test/unit/utils/filter_table_test.rb
+Also educational is the unit test for Filtertable, at test/unit/utils/filter_table_test.rb
 
 The file utils/filter_array.rb appears to be unrelated.
 
@@ -103,7 +103,7 @@ If you provide _both_ a block and opts, only the block is used, and the options 
 
 #### Behavior when no block is provided
 
-If you do not provide a block, you _must_ provide a `:field` option (though that does no appear to be enforced). The behavior is to define a method with the name provided, that has a conditional return type. The methodd body is defined in lines 258-266.
+If you do not provide a block, you _must_ provide a `:field` option (though that does no appear to be enforced). The behavior is to define a method with the name provided, that has a conditional return type. The method body is defined in lines 258-266.
 
 If called without arguments, it returns an array of the values in the raw data for that column.  
 ```
