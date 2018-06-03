@@ -42,10 +42,10 @@ class Thing < Inspec.resource(1)
   filter_table_config.add(:thing_ids, field: :thing_id)
   filter_table_config.add(:colors, field: :color, type: :simple)
   filter_table_config.connect(self, :fetch_data)
-  
-  def fetch_data 
+
+  def fetch_data
     # This method should return an array of hashes - the raw data.  We'll hardcode it here.
-    [ 
+    [
       { thing_id: 1, color: :red },
       { thing_id: 2, color: :blue, tackiness: 'very' },
       { thing_id: 3, color: :red },
@@ -207,9 +207,9 @@ This `add` call:
 filter_table_config.add(:exist?) { |filter_table| !filter_table.entries.empty? }
 ```
 
-causes a new method to be defined on both the resource class and the Table class.  The body of the method is taken from the block that is provided.  When the method it called, it will recieve the FilterTable::Table instance as its first parameter.  (It may also accept a second param, but that doesn't make sense for this method - see thing_ids).
+causes a new method to be defined on both the resource class and the Table class.  The body of the method is taken from the block that is provided.  When the method it called, it will receive the FilterTable::Table instance as its first parameter.  (It may also accept a second param, but that doesn't make sense for this method - see thing_ids).
 
-As when you are implementing matchers on a singular resource, the only thing that distinuishes this as a matcher is the fact that it ends in `?`.
+As when you are implementing matchers on a singular resource, the only thing that distinguishes this as a matcher is the fact that it ends in `?`.
 
 ```ruby
   # Bare call on the matcher (called as a method on the resource)
@@ -270,14 +270,14 @@ The implementation provided by Factory changes behavior based on calling pattern
 
   # Use as a test-less enumerator
   things.where(color: :red).thing_ids.each do |thing_id|
-    # Do something with thing_id, maybe 
-    # describe thing(thing_id) do ... 
+    # Do something with thing_id, maybe
+    # describe thing(thing_id) do ...
   end
 
   # Can be used without where - enumerates all Thing IDs with no filter
   things.thing_ids.each do |thing_id|
-    # Do something with thing_id, maybe 
-    # describe thing(thing_id) do ... 
+    # Do something with thing_id, maybe
+    # describe thing(thing_id) do ...
   end
 
 ```
@@ -303,14 +303,14 @@ You also get this for `thing_ids`.  This is unrelated to `type: :simple` for `co
 People definitely use this in the wild.  It reads badly to me; I think this is a legacy usage that we should consider deprecating. To me, this seems to imply that there is a sub-resource (here, colors) we are auditing.
 
 ```ruby
-  # Filter on colors 
+  # Filter on colors
   describe things.colors(:red) do
-    its('count') { should cmp 2 }    
+    its('count') { should cmp 2 }
   end
 
   # Same, but doesn't imply we're now operating on some 'color' resource
   describe things.where(color: :red) do
-    its('count') { should cmp 2 }  
+    its('count') { should cmp 2 }
   end
 ```
 
@@ -323,28 +323,28 @@ I haven't seen this used in the wild, but its existence gives me a headache.
 ```ruby
   # Example A, B, C, and D are semantically the same
 
-  # A: Filter both on colors and the block 
+  # A: Filter both on colors and the block
   describe things.colors(:red) { thing_id < 2 } do
-    its('count') { should cmp 1 }    
-    its('thing_ids') { should include 1 }    
+    its('count') { should cmp 1 }
+    its('thing_ids') { should include 1 }
   end
 
-  # B use one where block 
+  # B use one where block
   describe things.where { color == :red && thing_id < 2 } do
-    its('count') { should cmp 1 }    
-    its('thing_ids') { should include 1 }    
+    its('count') { should cmp 1 }
+    its('thing_ids') { should include 1 }
   end
 
-  # C use two where blocks 
+  # C use two where blocks
   describe things.where { color == :red }.where { thing_id < 2 } do
-    its('count') { should cmp 1 }    
-    its('thing_ids') { should include 1 }    
+    its('count') { should cmp 1 }
+    its('thing_ids') { should include 1 }
   end
 
-  # D use a where param and a where block 
+  # D use a where param and a where block
   describe things.where(color: :red) { thing_id < 2 } do
-    its('count') { should cmp 1 }    
-    its('thing_ids') { should include 1 }    
+    its('count') { should cmp 1 }
+    its('thing_ids') { should include 1 }
   end
 
   # This has nothing to do with colors at all, and may be broken - the lack of an arg to `colors` may make it never match
@@ -391,11 +391,11 @@ To me, calling things.thing_ids should always return the same type of value.  Bu
   things.colors
 
   # This is a FilterTable::Table and these are equivalent
-  things.colors(:red) 
+  things.colors(:red)
   things.where(color: :red)
 
   # This is a FilterTable::Table and these are equivalent
-  things.colors { color == :red } # I think there is a bug here which makes this never match  
+  things.colors { color == :red } # I think there is a bug here which makes this never match
   things.where(color: :red)
 
 ```
