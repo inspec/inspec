@@ -114,7 +114,7 @@ module FilterTable
       # against the struct.
       if block_given?
         # Perform the filtering.
-        filtered_raw_data = filtered_raw_data.find_all { |e| new_entry(e, '').instance_eval(&block) }
+        filtered_raw_data = filtered_raw_data.find_all { |row_as_hash| create_eval_context_for_row(row_as_hash, '').instance_eval(&block) }
         # Try to interpret the block for updating the stringification.
         src = Trace.new
         src.instance_eval(&block)
@@ -124,9 +124,9 @@ module FilterTable
       self.class.new(resource, filtered_raw_data, new_criteria_string)
     end
 
-    def new_entry(*_)
+    def create_eval_context_for_row(*_)
       raise "#{self.class} must not be used on its own. It must be inherited "\
-           'and the #new_entry method must be implemented. This is an internal '\
+           'and the #create_eval_context_for_row method must be implemented. This is an internal '\
            'error and should not happen.'
     end
 
@@ -142,7 +142,7 @@ module FilterTable
     def entries
       row_criteria_string = resource.to_s + criteria_string + ' one entry'
       raw_data.map do |row|
-        new_entry(row, row_criteria_string)
+        create_eval_context_for_row(row, row_criteria_string)
       end
     end
 
@@ -208,8 +208,8 @@ module FilterTable
     def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name)
       struct_fields = @custom_properties.values.map(&:field_name)
 
-      # the struct to hold single items from the #entries method
-      entry_struct_type = Struct.new(*struct_fields.map(&:to_sym)) do
+      # A context in which you can access the fields as accessors
+      row_eval_context_type = Struct.new(*struct_fields.map(&:to_sym)) do
         attr_accessor :criteria_string
         def to_s
           @criteria_string || super
@@ -227,10 +227,10 @@ module FilterTable
           define_method property_info[:method_name], &property_info[:method_body]
         end
 
-        # Install a special new_entry method to boost raw rows into a Struct
-        define_method :new_entry do |row_as_hash, criteria_string = ''|
-          return entry_struct_type.new if row_as_hash.nil?
-          res = entry_struct_type.new(*struct_fields.map { |field| row_as_hash[field] })
+        # Install a method that can wrap all the fields into a context with accessors
+        define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
+          return row_eval_context_type.new if row_as_hash.nil?
+          res = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
           res.criteria_string = criteria_string
           res
         end
@@ -283,6 +283,8 @@ module FilterTable
     end
 
     alias add register_custom_property
+    alias register_row_property register_custom_property
+    alias register_table_property register_custom_property
 
     private
 

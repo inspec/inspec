@@ -35,15 +35,15 @@ class Thing < Inspec.resource(1)
 
   # FilterTable setup
   filter_table_config = FilterTable.create
-  filter_table_config.add_accessor(:where)
-  filter_table_config.add_accessor(:entries)
-  filter_table_config.add(:exist?) { |filter_table| !filter_table.entries.empty? }
-  filter_table_config.add(:count) { |filter_table| filter_table.entries.count }
-  filter_table_config.add(:thing_ids, field: :thing_id)
-  filter_table_config.add(:colors, field: :color, type: :simple)
-  filter_table_config.connect(self, :fetch_data)
-
-  def fetch_data
+  filter_table_config.register_filter_method(:where)
+  filter_table_config.register_filter_method(:entries)
+  filter_table_config.register_custom_property(:exist?) { |filter_table| !filter_table.entries.empty? }
+  filter_table_config.register_custom_property(:count) { |filter_table| filter_table.entries.count }
+  filter_table_config.register_custom_property(:thing_ids, field: :thing_id)
+  filter_table_config.register_custom_property(:colors, field: :color, type: :simple)
+  filter_table_config.install_filter_methods_on_resource(self, :fetch_data)
+  
+  def fetch_data 
     # This method should return an array of hashes - the raw data.  We'll hardcode it here.
     [
       { thing_id: 1, color: :red },
@@ -61,9 +61,9 @@ end
 
 Note that all of the methods on `filter_table_config` support chaining, so you will sometimes see it as:
 ```ruby
-  filter_table_config.add_accessor(:where)
-                     .add_accessor(:entries)
-                     .add(:exist?) { |filter_table| !filter_table.entries.empty? }
+  filter_table_config.register_filter_method(:where)
+                     .register_filter_method(:entries)
+                     .register_custom_property(:exist?) { |filter_table| !filter_table.entries.empty? }
 ```
 etc.
 
@@ -136,7 +136,7 @@ The filtering is fancy, not just straight equality.
 
 ### A `where` method you can call with a block, referencing some fields
 
-You can also call the `where` method with a block. The block is executed row-wise. If it returns truthy, the row is included in the results. Additionally, within the block each field declared with the `add` configuration method is available as a data accessor.
+You can also call the `where` method with a block. The block is executed row-wise. If it returns truthy, the row is included in the results. register_custom_propertyitionally, within the block each field declared with the `register_custom_property` configuration method is available as a data accessor.
 
 ```ruby
 
@@ -145,7 +145,7 @@ You can also call the `where` method with a block. The block is executed row-wis
     its('count') { should cmp 3 }
   end
 
-  # You can access any field you declared using `add`
+  # You can access any field you declared using `register_custom_property`
   describe things.where { thing_id > 2 } do
     its('count') { should cmp 1 }
   end
@@ -166,7 +166,7 @@ Some other methods return a Table object, and they may be chained without a re-f
 
 ### An `entries` method that will return an array of Structs
 
-The other `add_accessor` call enables a pre-defined method, `entries`.  `entries` is much simpler than `where` - in fact, its behavior is unrelated.  It returns an encapsulated version of the raw data - a plain array, containing Structs as row-entries.  Each struct has an attribute for each time you called `add`.
+The other `register_filter_method` call enables a pre-defined method, `entries`.  `entries` is much simpler than `where` - in fact, its behavior is unrelated.  It returns an encapsulated version of the raw data - a plain array, containing Structs as row-entries.  Each struct has an attribute for each time you called `register_custom_property`.
 
 Overall, in my opinion, `entries` is less useful than `params` (which returns the raw data).  Wrapping in Structs does not seem to add much benefit.
 
@@ -202,9 +202,9 @@ If you call `entries` without chaining it after `where`, calling entries will tr
 
 ### You get an `exist?` matcher defined on the resource and the table
 
-This `add` call:
+This `register_custom_property` call:
 ```ruby
-filter_table_config.add(:exist?) { |filter_table| !filter_table.entries.empty? }
+filter_table_config.register_custom_property(:exist?) { |filter_table| !filter_table.entries.empty? }
 ```
 
 causes a new method to be defined on both the resource class and the Table class.  The body of the method is taken from the block that is provided.  When the method it called, it will receive the FilterTable::Table instance as its first parameter.  (It may also accept a second param, but that doesn't make sense for this method - see thing_ids).
@@ -225,9 +225,9 @@ As when you are implementing matchers on a singular resource, the only thing tha
 
 ### You get an `count` property defined on the resource and the table
 
-This `add` call:
+This `register_custom_property` call:
 ```ruby
-filter_table_config.add(:count) { |filter_table| filter_table.entries.count }
+filter_table_config.register_custom_property(:count) { |filter_table| filter_table.entries.count }
 ```
 
 causes a new method to be defined on both the resource class and the Table class.  As with `exists?`, the body is taken from the block.
@@ -246,12 +246,12 @@ causes a new method to be defined on both the resource class and the Table class
 
 ### A `thing_ids` method that will return an array of plain values when called without params
 
-This `add` call:
+This `register_custom_property` call:
 ```ruby
-filter_table_config.add(:thing_ids, field: :thing_id)
+filter_table_config.register_custom_property(:thing_ids, field: :thing_id)
 ```
 
-will cause a method to be defined on both the resource and the Table. Note that this `add` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
+will cause a method to be defined on both the resource and the Table. Note that this `register_custom_property` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
 
 The implementation provided by Factory changes behavior based on calling pattern.  If no params or block is provided, a simple array is returned, containing the column-wise values in the raw data.
 
@@ -381,7 +381,7 @@ However, the resource instance won't know about the filtration, so I'm not sure 
 
 ## Gotchas and Surprises
 
-### Methods defined with `add` will change their return type based on their call pattern
+### Methods defined with `register_custom_property` will change their return type based on their call pattern
 
 To me, calling things.thing_ids should always return the same type of value.  But if you call it with args or a block, it not only runs a filter, but also changes its return type to Table.
 
@@ -402,13 +402,13 @@ To me, calling things.thing_ids should always return the same type of value.  Bu
 
 ### `entries` will not have fields present in the raw data
 
-`entries` will only know about the fields declared by `add` with `field:`. And...
+`entries` will only know about the fields declared by `register_custom_property` with `field:`. And...
 
 ### `entries` will have things that are not fields
 
-Each time you call `add` - even for things like `count` and `exists?` - that will add an attribute to the Struct that is used to represent a row.  Those attributes will always be nil.
+Each time you call `register_custom_property` - even for things like `count` and `exists?` - that will add an attribute to the Struct that is used to represent a row.  Those attributes will always be nil.
 
-### `add` does not know about what fields are in the raw data
+### `register_custom_property` does not know about what fields are in the raw data
 
 This is because the raw data fetcher is not called until as late as possible.  That's good - it might be expensive - but it also means we can't scan it for columns.  There are ways around that.
 
@@ -416,11 +416,11 @@ This is because the raw data fetcher is not called until as late as possible.  T
 
 ### You can't call resource methods on a Table directly
 
-### You can't use a column name in a `where` block unless it was declared as a field using `add`
+### You can't use a column name in a `where` block unless it was declared as a field using `register_custom_property`
 
 ```ruby
   # This will give a NameError - :tackiness is in the raw
-  # data hash but not declared using `add`.
+  # data hash but not declared using `register_custom_property`.
   describe things.where { tackiness == 'very' } do
     its('count') { should cmp 1 }
   end
