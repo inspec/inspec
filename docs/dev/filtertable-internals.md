@@ -169,7 +169,7 @@ TBD: what exactly create_connector does
 
 #### Defines a special Struct type to represent rows in the table
 
-At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  THe motivation fot this struct type is to implement the block-mode behavior of `where`.  Because each struct represents a row, and it has the attributes (accessors) for the fields, block-mode `where` is implemented by instance-evaling against each row as a struct.
+At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  The motivation for this struct type is to implement the block-mode behavior of `where`.  Because each struct represents a row, and it has the attributes (accessors) for the fields, block-mode `where` is implemented by instance-evaling against each row as a struct.
 
 Additionally, an instanace variable, `@__filter` is defined, with an accessor(!). (That's really wierd - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
 
@@ -205,7 +205,7 @@ Line 226 constructs an instance of the anonymous FilterTable::Table subclass def
 
 1. `self`. TBD: which class is this referring to at this point?
 2. The return value of calling the data fetcher method.
-3. The string ' with', which is probably informing the criteria stringification?
+3. The string ' with', which is probably informing the criteria stringification. The extra space is intentional, as it follows the resource name: 'my_things with color == :red' might be a result.
 
 And that new FilterTable::Table subclass instance is stored in a local variable, named, confusingly, "filter".
 
