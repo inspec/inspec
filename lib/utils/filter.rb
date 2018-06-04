@@ -283,8 +283,8 @@ module FilterTable
     end
 
     alias add register_custom_property
-    alias register_row_property register_custom_property
-    alias register_table_property register_custom_property
+    alias register_list_property register_custom_property
+    alias register_custom_matcher register_custom_property
 
     private
 
