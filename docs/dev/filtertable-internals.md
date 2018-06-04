@@ -4,7 +4,7 @@ If you just want to _use_ FilterTable, see filtertable-usage.md .  Reading this 
 
 ## What makes this hard?
 
-The terminology used for many concepts does not help the reader understand what is going on.  Additionaly, the ways in which the classes relate is not straightforward.  Finally, variable names within the classes are often re-used ('filter' is a favorite) or are too short to be meaningful (x and c are both used as variable names, in long blocks).
+The terminology used for many concepts does not help the reader understand what is going on.  Additionally, the ways in which the classes relate is not straightforward.  Finally, variable names within the classes are often re-used ('filter' is a favorite) or are too short to be meaningful (x and c are both used as variable names, in long blocks).
 
 FilterTable was created in 2016 in an attempt to consolidate the pluralization features of several resources.  They each had slightly different featuresets, and were all in the wild, so FilterTable exposes some extensive side-effects to provide those features.
 
@@ -31,7 +31,7 @@ FilterTable::Factory initializes three instance variables:
 
 ### FilterTable::Table
 
-This is the actual innards of the implementation.  The Factory's goal is to configure a Table sublcass and attach it to the resource you are authoring.  The table is a container for the raw data your resource provides, and performs filtration services.
+This is the actual innards of the implementation.  The Factory's goal is to configure a Table subclass and attach it to the resource you are authoring.  The table is a container for the raw data your resource provides, and performs filtration services.
 
 ### FilterTable::ExceptionCatcher
 
@@ -79,7 +79,7 @@ This behavior is implemented by line 256.
 If a block is provided, it is turned into a Lambda and used as the method body.
 
 The block will be provided two arguments (though most users only use the first):
-1. The FilterTable::Table instance that wraps the raw data.  
+1. The FilterTable::Table instance that wraps the raw data.
 2. An optional value used as an additional opportunity to filter.
 
 For example, this is common:
@@ -105,7 +105,7 @@ If you provide _both_ a block and opts, only the block is used, and the options 
 
 If you do not provide a block, you _must_ provide a `:field` option (though that does no appear to be enforced). The behavior is to define a method with the name provided, that has a conditional return type. The method body is defined in lines 258-266.
 
-If called without arguments, it returns an array of the values in the raw data for that column.  
+If called without arguments, it returns an array of the values in the raw data for that column.
 ```
 things.thing_ids => [1,2,3,4]
 ```
@@ -130,7 +130,7 @@ You can provide options to `add`, after the desired method name.
 
 This is the most common option.  It selects an implementation in which the desired method will be defined such that it returns an array of the row values using the specified key.  In other words, this acts as a "column fetcher", like in SQL: "SELECT some_column FROM some_table"
 
-Internally, (line 195-200), a Struct type is created to repressent a row of raw data.  The struct's attribute list is taken from the `field` options passed to `add`.
+Internally, (line 195-200), a Struct type is created to represent a row of raw data.  The struct's attribute list is taken from the `field` options passed to `add`.
 
 * No checking is performed to see if the field name is actually a column in the raw data (the raw data hasn't been fetched yet, so we can't check).
 * You can't have two `add` calls that reference the same field, because the Struct would see that as a duplicate attribute.
@@ -147,13 +147,13 @@ No other values for `:type` have been seen.
 
 Suggested alternate name: install_filtertable
 
-This method is called like this: 
+This method is called like this:
 
 ```
 filter.connect(self, :data_fetching_method_name)
 ```
 
-`filter` is an instance of FilterTable::Factory.  `self` is a reference to the resource class you are authoring. `data_fetching_method_name` is a symbol, the name of a methdo that will return the actual data to be processed by the FilterTable - as an array of hashes.
+`filter` is an instance of FilterTable::Factory.  `self` is a reference to the resource class you are authoring. `data_fetching_method_name` is a symbol, the name of a method that will return the actual data to be processed by the FilterTable - as an array of hashes.
 
 Note that 'connect' does not refer to Connectors.
 
@@ -171,13 +171,13 @@ TBD: what exactly create_connector does
 
 At lines 195-200, a new Struct type is defined, with attributes for each of the known table fields.  The motivation for this struct type is to implement the block-mode behavior of `where`.  Because each struct represents a row, and it has the attributes (accessors) for the fields, block-mode `where` is implemented by instance-evaling against each row as a struct.
 
-Additionally, an instanace variable, `@__filter` is defined, with an accessor(!). (That's really wierd - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
+Additionally, an instance variable, `@__filter` is defined, with an accessor(!). (That's really weird - double-underscore usually means "intended to be private"). `to_s` is implemented, using `@__filter`, or `super` if not defined.  I guess we then rely on the `Struct` class to stringify?
 
 I think `@__filter` is a trace - a string indicating the filter criteria used to create the table.  I found no location where this per-row trace data was used.
 
 CONFUSING NAME: `@__filter` meaning a trace of criteria operations is very confusing - the word "filter" is very overloaded.
 
-Table fields are determined by listing the `field_name`s of the Connectors.  
+Table fields are determined by listing the `field_name`s of the Connectors.
 
 BUG: this means that any `add` call that uses a block but not options will end up with an attribute in the row Struct.  Thus, `filter.add(:exists?) { ... }` results in a row Struct that includes an attribute named `exists?` which may be undesired.
 
@@ -199,7 +199,7 @@ Line 222-223 collects the names of the methods to define - by agglomerating the 
 
 Line 224 uses `send` with a block to call `define_method` on the resource class that you're authoring.  Using a block with `send` is undocumented, but is treated as an implicit argument (per stackoverflow) , so the end result is that the block is used as the body for the new method being defined.
 
-The method body is wrapped in an exception-catching facility that catches skipped or failed resource excepytions and wraps them in a specialized excepytion catcher class. TBD: understand this better.
+The method body is wrapped in an exception-catching facility that catches skipped or failed resource exceptions and wraps them in a specialized exception catcher class. TBD: understand this better.
 
 Line 226 constructs an instance of the anonymous FilterTable::Table subclass defined at 203.  It passes three args:
 
@@ -218,10 +218,10 @@ VERY WORRISOME THING: So, the Table subclass has methods for the "connectors" (f
 Assume that your resource has a method, `fetch_data`, which returns a fixed array:
 
 ```
- [ 
-   { id: 1, name: 'Dani', color: 'blue' }, 
-   { id: 2, name: 'Mike', color: 'red' }, 
-   { id: 3, name: 'Erika', color: 'green' }, 
+ [
+   { id: 1, name: 'Dani', color: 'blue' },
+   { id: 2, name: 'Mike', color: 'red' },
+   { id: 3, name: 'Erika', color: 'green' },
  ]
 ```
 
@@ -262,7 +262,7 @@ It loops over the provided raw data (@params) and builds an array, calling `new_
 
 #### `entries` conclusion
 
-Not Surprising: It does behave as expected - an array of hashlike structs representing the table.  I don't know why it adds in the per-row strigification data - I've never seen that used.
+Not Surprising: It does behave as expected - an array of hashlike structs representing the table.  I don't know why it adds in the per-row stringification data - I've never seen that used.
 
 Surprising: this is a real method with a concrete implementation.  That means that you can't call `filter.add_accessor` with arbitrary method names - `:entries` means something very specific.
 
@@ -284,7 +284,7 @@ The method accepts all params as the local var `conditions` which defaults to an
 
 The implementation opens with two guard clauses, both of which will return `self` (which is the FilterTable::Table subclass instance).
 
-MISFEATURE: The first guard clause simply returns the Table if `conditions` is not a Hash.  That would mean that someone called it like: `thing.where(:apples, :bananas, :canteloupes)`.  That misuse is silently ignored; I think we should probably throw a ResourceFailed or something.
+MISFEATURE: The first guard clause simply returns the Table if `conditions` is not a Hash.  That would mean that someone called it like: `thing.where(:apples, :bananas, :cantaloupes)`.  That misuse is silently ignored; I think we should probably throw a ResourceFailed or something.
 
 The second guard clause is a sensible degenerate case - return the existing Table if there are no conditions and no block.  So `thing.where` is OK.
 
@@ -304,7 +304,7 @@ _That just explained a major spooky side-effect for me._
 
 Lines 106-108 do something with stringification tracing.  TODO.
 
-Finally, at line 111, the FilterTable::Table anonymous subclass is again used to construct a new instance, passing on the resource reference, the newly filtered raw data table, and the newly adjusted stringificatioon tracer.
+Finally, at line 111, the FilterTable::Table anonymous subclass is again used to construct a new instance, passing on the resource reference, the newly filtered raw data table, and the newly adjusted stringification tracer.
 
 That new Table instance is returned, and thus `where` allows you to chain.
 
