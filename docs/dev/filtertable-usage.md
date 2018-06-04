@@ -39,8 +39,8 @@ class Thing < Inspec.resource(1)
   filter_table_config.register_filter_method(:entries)
   filter_table_config.register_custom_matcher(:exist?) { |filter_table| !filter_table.entries.empty? }
   filter_table_config.register_custom_property(:count) { |filter_table| filter_table.entries.count }
-  filter_table_config.register_list_property(:thing_ids, field: :thing_id)
-  filter_table_config.register_list_property(:colors, field: :color, style: :simple)
+  filter_table_config.register_column(:thing_ids, field: :thing_id)
+  filter_table_config.register_column(:colors, field: :color, style: :simple)
   filter_table_config.install_filter_methods_on_resource(self, :fetch_data)
   
   def fetch_data 
@@ -145,7 +145,7 @@ You can also call the `where` method with a block. The block is executed row-wis
     its('count') { should cmp 3 }
   end
 
-  # You can access any fields you declared using `register_list_property`
+  # You can access any fields you declared using `register_column`
   describe things.where { thing_id > 2 } do
     its('count') { should cmp 1 }
   end
@@ -166,7 +166,7 @@ Some other methods return a Table object, and they may be chained without a re-f
 
 ### An `entries` method that will return an array of Structs
 
-The other `register_filter_method` call enables a pre-defined method, `entries`.  `entries` is much simpler than `where` - in fact, its behavior is unrelated.  It returns an encapsulated version of the raw data - a plain array, containing Structs as row-entries.  Each struct has an attribute for each time you called `register_list_property`.
+The other `register_filter_method` call enables a pre-defined method, `entries`.  `entries` is much simpler than `where` - in fact, its behavior is unrelated.  It returns an encapsulated version of the raw data - a plain array, containing Structs as row-entries.  Each struct has an attribute for each time you called `register_column`.
 
 Overall, in my opinion, `entries` is less useful than `params` (which returns the raw data).  Wrapping in Structs does not seem to add much benefit.
 
@@ -246,12 +246,12 @@ causes a new method to be defined on both the resource class and the Table class
 
 ### A `thing_ids` method that will return an array of plain values when called without params
 
-This `register_list_property` call:
+This `register_column` call:
 ```ruby
-filter_table_config.register_list_property(:thing_ids, field: :thing_id)
+filter_table_config.register_column(:thing_ids, field: :thing_id)
 ```
 
-will cause a method to be defined on both the resource and the Table. Note that this `register_list_property` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
+will cause a method to be defined on both the resource and the Table. Note that this `register_column` call does not provide a block; so FilterTable::Factory generates a method body.  The `:field` option specifies which column to access in the raw data (that is, which hash key in the array-of-hashes).
 
 The implementation provided by Factory changes behavior based on calling pattern.  If no params or block is provided, a simple array is returned, containing the column-wise values in the raw data.
 
@@ -381,7 +381,7 @@ However, the resource instance won't know about the filtration, so I'm not sure 
 
 ## Gotchas and Surprises
 
-### Methods defined with `register_list_property` will change their return type based on their call pattern
+### Methods defined with `register_column` will change their return type based on their call pattern
 
 To me, calling things.thing_ids should always return the same type of value.  But if you call it with args or a block, it not only runs a filter, but also changes its return type to Table.
 
@@ -402,13 +402,13 @@ To me, calling things.thing_ids should always return the same type of value.  Bu
 
 ### `entries` will not have fields present in the raw data
 
-`entries` will only know about the fields declared by `register_list_property` with `field:`. And...
+`entries` will only know about the fields declared by `register_column` with `field:`. And...
 
 ### `entries` will have things that are not fields
 
-Each time you call `register_custom_property`, `register_custom_matcher` or `register_list_property` - even for things like `count` and `exists?` - that will add an attribute to the Struct that is used to represent a row.  Those attributes will always be nil.
+Each time you call `register_custom_property`, `register_custom_matcher` or `register_column` - even for things like `count` and `exists?` - that will add an attribute to the Struct that is used to represent a row.  Those attributes will always be nil.
 
-### `register_list_property` does not know about what fields are in the raw data
+### `register_column` does not know about what fields are in the raw data
 
 This is because the raw data fetcher is not called until as late as possible.  That's good - it might be expensive - but it also means we can't scan it for columns.  There are ways around that.
 
@@ -416,7 +416,7 @@ This is because the raw data fetcher is not called until as late as possible.  T
 
 ### You can't call resource methods on a Table directly
 
-### You can't use a column name in a `where` block unless it was declared as a field using `register_list_property`
+### You can't use a column name in a `where` block unless it was declared as a field using `register_column`
 
 ```ruby
   # This will give a NameError - :tackiness is in the raw

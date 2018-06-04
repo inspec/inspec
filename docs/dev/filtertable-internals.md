@@ -64,6 +64,18 @@ This simply pushes the provided method name onto the `@filter_methods` instance 
 
 After adding the method name to the array, it returns `self` - the FilterTable::Factory instance - so that method chaining will work.
 
+### register\_column
+
+Legacy name (alias): `add`
+
+This is currently simply an alias for `register_custom_property`.  See it for details.  By calling it with a distinctive name, we'll be able to add functionality in the future (especially around introspection).
+
+### register\_custom\_matcher
+
+Legacy name (alias): `add`
+
+This is currently simply an alias for `register_custom_property`.  See it for details. By calling it with a distinctive name, we'll be able to add functionality in the future (especially around introspection).
+
 ### register\_custom\_property
 
 Legacy name (alias): `add`
