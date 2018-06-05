@@ -268,7 +268,7 @@ module FilterTable
 
     def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name) # rubocop: disable Metrics/AbcSize, Metrics/MethodLength
       # A context in which you can access the fields as accessors
-      non_block_struct_fields = @custom_properties.values.select { |property_info| !property_info.block}.map(&:field_name)
+      non_block_struct_fields = @custom_properties.values.reject(&:block).map(&:field_name)
       row_eval_context_type = Struct.new(*non_block_struct_fields.map(&:to_sym)) do
         attr_accessor :criteria_string
         attr_accessor :filter_table
@@ -373,10 +373,10 @@ module FilterTable
         throw RuntimeError, "Called filter.add for resource #{@resource} with method name nil!"
       end
 
-      if @custom_properties.key?(method_name.to_sym)
+      if @custom_properties.key?(property_name.to_sym)
         # TODO: issue deprecation warning?
       else
-        @custom_properties[method_name.to_sym] =
+        @custom_properties[property_name.to_sym] =
           CustomPropertyType.new(opts[:field] || property_name, property_implementation, opts)
       end
       self
