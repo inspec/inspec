@@ -4,7 +4,7 @@ are_we_worried_about_2929_breaking_filtration = false
 
 only_if { are_we_worried_about_2929_breaking_filtration }
 
-control 'When the data has no rows, there should be zero iterations witth one where call' do
+control 'When the data has no rows, there should be zero iterations with one where call' do
   $count = 0
   describe simple_plural([]).where { $count += 1; true } do
     subject { $count }
