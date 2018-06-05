@@ -89,6 +89,7 @@ module FilterTable
       @raw_data = raw_data
       @raw_data = [] if @raw_data.nil?
       @criteria_string = criteria_string
+      @populated_lazy_columns = {}
     end
 
     # Filter the raw data based on criteria (as method params) or by evaling a
@@ -106,6 +107,7 @@ module FilterTable
       # against the raw data. Criteria are assumed to be hash keys.
       conditions.each do |raw_field_name, desired_value|
         raise(ArgumentError, "'#{raw_field_name}' is not a recognized criterion - expected one of #{list_fields.join(', ')}'") unless field?(raw_field_name)
+        populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
       end
@@ -173,7 +175,7 @@ module FilterTable
       # Currently we only know about a field if it is present in a at least one row of the raw data.
       # If we have no rows in the raw data, assume all fields are acceptable (and rely on failing to match on value, nil)
       return true if raw_data.empty?
-      list_fields.include?(proposed_field)
+      list_fields.include?(proposed_field) || is_field_lazy?(proposed_field)
     end
 
     def to_s
@@ -181,6 +183,38 @@ module FilterTable
     end
 
     alias inspect to_s
+
+    def populate_lazy_field(field_name, criterion)
+      return unless is_field_lazy?(field_name)
+      return if field_populated?(field_name)
+      raw_data.each do |row|
+        next if row.key?(field_name) # skip row if pre-existing data is present
+        callback_for_lazy_field(field_name).call(row, criterion, self)
+      end
+      mark_lazy_field_populated(field_name)
+    end
+
+    def is_field_lazy?(sought_field_name)
+      custom_properties_schema.values.any? do |property_struct|
+        sought_field_name == property_struct.field_name && \
+          property_struct.opts[:lazy]
+      end
+    end
+
+    def callback_for_lazy_field(field_name)
+      return unless is_field_lazy?(field_name)
+      custom_properties_schema.values.find do |property_struct|
+        property_struct.field_name == field_name
+      end.opts[:lazy]
+    end
+
+    def field_populated?(field_name)
+      @populated_lazy_columns[field_name]
+    end
+
+    def mark_lazy_field_populated(field_name)
+      @populated_lazy_columns[field_name] = true
+    end
 
     private
 
@@ -229,12 +263,13 @@ module FilterTable
       @resource = nil # TODO: this variable is never initialized
     end
 
-    def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name)
+    def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name) # rubocop: disable Metrics/AbcSize, Metrics/MethodLength
       struct_fields = @custom_properties.values.map(&:field_name)
 
       # A context in which you can access the fields as accessors
       row_eval_context_type = Struct.new(*struct_fields.map(&:to_sym)) do
         attr_accessor :criteria_string
+        attr_accessor :filter_table
         def to_s
           @criteria_string || super
         end
@@ -245,22 +280,53 @@ module FilterTable
       end
 
       # Define the filter table subclass
+      custom_properties = @custom_properties # We need a local var, not an instance var, for a closure below
       table_class = Class.new(Table) {
         # Install each custom property onto the FilterTable subclass
         properties_to_define.each do |property_info|
           define_method property_info[:method_name], &property_info[:method_body]
         end
 
+        define_method :custom_properties_schema do
+          custom_properties
+        end
+
         # Install a method that can wrap all the fields into a context with accessors
         define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
           return row_eval_context_type.new if row_as_hash.nil?
-          res = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
-          res.criteria_string = criteria_string
-          res
+          context = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
+          context.criteria_string = criteria_string
+          context.filter_table = self
+          context
         end
       }
 
-      # Define all access methods with the parent resource_class
+      # Now that the table class is defined and the row eval context struct is defined,
+      # extend the row eval context struct to support triggering population of lazy fields
+      # in where blocks. To do that, we'll need a reference to the table (which
+      # knows which fields are populated, and how to populate them) and we'll need to
+      # override the getter method for each lazy field, so it will trigger
+      # population if needed.  Keep in mind we don't have to adjust the constructor
+      # args of the row struct; also the Struct class will already have provided
+      # a setter for each field.
+      @custom_properties.values.each do |property_info|
+        next unless property_info.opts[:lazy]
+        field_name = property_info.field_name.to_sym
+        row_eval_context_type.send(:define_method, field_name) do
+          unless filter_table.field_populated?(field_name)
+            filter_table.populate_lazy_field(field_name, NoCriteriaProvided) # No access to criteria here
+            # OK, the underlying raw data has the value in the first row
+            # (because we would trigger population only on the first row)
+            # We could just return the value, but we need to set it on this Struct in case it is referenced multiple times
+            # in the where block.
+            self[field_name] = filter_table.raw_data[0][field_name]
+          end
+          # Now return the value using the Struct getter, whether newly populated or not
+          self[field_name]
+        end
+      end
+
+      # Define all access methods with the parent resource
       # These methods will be configured to return an `ExceptionCatcher` object
       # that will always return the original exception, but only when called
       # upon. This will allow method chains in `describe` statements to pass the
@@ -332,6 +398,10 @@ module FilterTable
         lambda do |filter_criteria_value = NoCriteriaProvided, &cond_block|
           if filter_criteria_value == NoCriteriaProvided && !block_given?
             # No second-order block given.  Just return an array of the values in the selected column.
+            result = where(nil)
+            if custom_property_struct.opts[:lazy]
+              result.populate_lazy_field(custom_property_struct.field_name, filter_criteria_value)
+            end
             result = where(nil).get_column_values(custom_property_struct.field_name) # TODO: the where(nil). is likely unneeded
             result = result.flatten.uniq.compact if custom_property_struct.opts[:style] == :simple
             result
