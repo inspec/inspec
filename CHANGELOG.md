@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.1.88 -->
-## [v2.1.88](https://github.com/inspec/inspec/tree/v2.1.88) (2018-06-05)
+<!-- latest_release 2.2.0 -->
+## [v2.2.0](https://github.com/inspec/inspec/tree/v2.2.0) (2018-06-05)
 
-#### Merged Pull Requests
-- Refactor: Perform internal rename and add comments to FilterTable [#3047](https://github.com/inspec/inspec/pull/3047) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Bug Fixes
+- Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
 ### Changes since 2.1.84 release
+
+#### Bug Fixes
+- Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.0 -->
 
 #### Enhancements
 - Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
