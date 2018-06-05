@@ -58,6 +58,14 @@ module Inspec::Resources
 
     def status(name = nil)
       @status_content ||= inspec.command('/sbin/auditctl -s').stdout.chomp
+
+      # See: https://github.com/inspec/inspec/issues/3113
+      if @status_content =~ /^AUDIT_STATUS/
+        @status_content = @status_content.gsub('AUDIT_STATUS: ', '')
+                                         .tr(' ', "\n")
+                                         .tr('=', ' ')
+      end
+
       @status_params ||= Hash[@status_content.scan(/^([^ ]+) (.*)$/)]
 
       return @status_params[name] if name
