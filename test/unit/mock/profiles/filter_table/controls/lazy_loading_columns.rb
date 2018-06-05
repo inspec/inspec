@@ -32,7 +32,7 @@ control '2370_where_block_only_referenced' do
   desc 'When we call where as a block, lazy columns should not load unless referenced'
   describe lazy_loader(fresh_data.call).where { color == :red } do
     [ :lazy_1, :lazy_2, :lazy_3, :lazy_4 ].each do |lazy_field|
-      its('params.first.keys') { should_not include lazy_field }
+      its('raw_data.first.keys') { should_not include lazy_field }
     end
   end
 end

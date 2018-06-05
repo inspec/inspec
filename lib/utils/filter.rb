@@ -280,6 +280,7 @@ module FilterTable
       end
 
       # Define the filter table subclass
+      custom_properties = @custom_properties # We need a local var, not an instance var, for a closure below
       table_class = Class.new(Table) {
         # Install each custom property onto the FilterTable subclass
         properties_to_define.each do |property_info|
@@ -287,7 +288,7 @@ module FilterTable
         end
 
         define_method :custom_properties_schema do
-          @custom_properties
+          custom_properties
         end
 
         # Install a method that can wrap all the fields into a context with accessors
