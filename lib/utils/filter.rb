@@ -175,7 +175,7 @@ module FilterTable
       # Currently we only know about a field if it is present in a at least one row of the raw data.
       # If we have no rows in the raw data, assume all fields are acceptable (and rely on failing to match on value, nil)
       return true if raw_data.empty?
-      list_fields.include?(proposed_field)
+      list_fields.include?(proposed_field) || is_field_lazy?(proposed_field)
     end
 
     def to_s
