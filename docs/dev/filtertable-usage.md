@@ -379,6 +379,90 @@ You could use this to do something fairly complicated.
 
 However, the resource instance won't know about the filtration, so I'm not sure what good this does.  Chances are, someone is doing something horrid using this feature in the wild.
 
+## Lazy Loading
+
+### What is Lazy Loading
+
+In some cases, the raw data may require multiple actions to populate.  For example, if you wanted a list of processes, and their open files, you might need to call 'ps' once, then 'lsof' one or more times.  That would become slow, and so you would only want to do it if you knew it was going to be used.
+
+Lazy loaded columns are absent in the raw data, until they are accessed (either by method-where, block-where, or a list property).  When they are accessed, a user-provided Lambda is called, which populates one or more columns.  FilterTable remembers which lazy columns have been populated, and will not call the lambda again.
+
+### Declaring a lazy field
+
+You declare a field to be lazy by providing an option, `lazy`, whose value is the lambda to be called.
+
+You can use the 'stabby lambda' syntax:
+
+```ruby
+filter_table_config.register_column(
+  :open_files,
+  field: :files,
+  lazy: ->() {|r,c,t| r[:files] = lookup_files_for_pid(r[:pid])},
+)
+```
+
+You can also refer to a *class* method.  You cannot use an instance method, because FilterTable binds to the resource class, not the resource instance.
+
+```ruby
+def self.populate_lsof(row, criteria, table)
+  row[:files] = ...
+end
+filter_table_config.register_column(
+  :open_files,
+  field: :files,
+  lazy: method(:populate_lsof),
+)
+```
+
+### Arguments to the fetcher lambda
+
+The lambda will be provided three arguments:
+
+1. `row`.  This is a Hash, the current row of the raw_data. You will likely need to examine this to find an ID value or other field that will act as a search key for your fetch.  You are expected to add one or more entries to this hash, as a result of your fetch.
+2. `condition`.  In some cases, a condition (desired value) is provided; the semantics of this are up to you.
+3. `table`. A reference to the FilterTable.  You can use this to access other context - including the entire raw data (`table.raw_data`) or the resource instance (`table.resource_instance`).
+
+### Clobbering
+
+Lazy-loading will not clobber an existing value in raw data.  For example:
+
+```ruby
+# Your raw data table:
+[
+  { id: 1 },
+  { id: 2, color: :blue },
+  { id: 3 },
+]
+
+# On lazy load, set all rows to color red
+filter_table_config.register_column(
+  :colors,
+  field: :color,
+  lazy: ->() { |r,c,t| r[:color] = :red },
+)
+
+# Trigger a fetch
+my_resource.colors => [:red, :blue, :red]
+
+# Raw data now:
+[
+  { id: 1, color: :red },
+  { id: 2, color: :blue },
+  { id: 3, color: :red },
+]
+```
+Note that not only was the `:color` blue not overwritten, in fact the fetcher lambda was only called twice.
+
+### Can I set multiple columns at once?
+
+Yes.  If your fetching action provides you with data to populate multiple columns, you are free to set any columns you wish in the `row`.
+
+You can even have multiple lazy columns share an implementation; the first one to be called will populate all the columns that share that implementation, and if any of the others are later triggered, the no-clobber effect will kick in, and the fetcher will not be called again.
+
+### Can I set multiple rows at once?
+
+Yes.  Using `table.raw_data`, you could perform a column-at-once population.  After the fetcher was called for the first row, all other rows would already be populated, so the fetcher would not be called again due to the no-clobber effect.
+
 ## Gotchas and Surprises
 
 ### Methods defined with `register_column` will change their return type based on their call pattern
