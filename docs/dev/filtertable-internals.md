@@ -144,7 +144,7 @@ You can provide options to `register_custom_property` / `add`, after the desired
 
 This is the most common option.  It selects an implementation in which the desired method will be defined such that it returns an array of the row values using the specified key.  In other words, this acts as a "column fetcher", like in SQL: "SELECT some_column FROM some_table"
 
-Internally, (line 212-217), a Struct type is created to repressent a row of raw data.  The struct's attribute list is taken from the `field` options passed to `register_custom_property` / `add`.  This new type is strored as `row_eval_context_type`.  It is used as the evaluation context for block-mode `where` calls. 
+Internally, (line 236-241), a Struct type is created to repressent a row of raw data.  The struct's attribute list is taken from the `field` options passed to `register_custom_property` / `add`.  This new type is strored as `row_eval_context_type`.  It is used as the evaluation context for block-mode `where` calls. 
 
 * No checking is performed to see if the field name is actually a column in the raw data (the raw data hasn't been fetched yet, so we can't check).
 * You can't have two `register_custom_property` / `add` calls that reference the same field, because the Struct would see that as a duplicate attribute.
@@ -153,7 +153,7 @@ POSSIBLE BUG: We could deduplicate the field names when defining the Struct, thu
 
 ##### style
 
-The `style` option is intended to effect post-processing of the return value from the generated method.  To date there is only one recognized value, `:simple`, which flattens, uniq's, and compact's the array value of the property.  This is implemented on line 312.
+The `style` option is intended to effect post-processing of the return value from the generated method.  To date there is only one recognized value, `:simple`, which flattens, uniq's, and compact's the array value of the property.  This is implemented on line 336.
 
 No other values for `:style` have been seen.
 
@@ -195,29 +195,29 @@ POSSIBLE MISFEATURE: Defining a Struct for rows means that people who use `entri
 
 #### Subclass FilterTable::Table into an anonymous class
 
-At line 224, create the local var `table_class`, which refers to an anonymous class that subclasses FilterTable::Table.  The class is opened and two groups of methods are defined.
+At line 248, create the local var `table_class`, which refers to an anonymous class that subclasses FilterTable::Table.  The class is opened and two groups of methods are defined.
 
-Lines 226-228 install the "custom_property" methods, using the names and lambdas determined on line 219.
+Lines 269-280 install the "custom_property" methods, using the names and lambdas determined on line 244.
 
-Line 231-236 define a method, `create_eval_context_for_row`.  This is used when executing a block-mode `where`; see line 117.
+Line 255-260 define a method, `create_eval_context_for_row`.  This is used when executing a block-mode `where`; see line 118.
 
 #### Install methods on the resource
 
-Lines 245-256 install the "filter_methods" and "custom properties" methods onto the resource that you are authoring.
+Lines 269-280 install the "filter_methods" and "custom properties" methods onto the resource that you are authoring.
 
-Line 245-246 collects the names of the methods to define - by agglomerating the names of the "filter_methods" and "custom properties" methods.  They are treated the same.
+Line 269-270 collects the names of the methods to define - by agglomerating the names of the "filter_methods" and "custom properties" methods.  They are treated the same.
 
-Line 247 uses `send` with a block to call `define_method` on the resource class that you're authoring.  Using a block with `send` is undocumented, but is treated as an implicit argument (per stackoverflow) , so the end result is that the block is used as the body for the new method being defined.
+Line 271 uses `send` with a block to call `define_method` on the resource class that you're authoring.  Using a block with `send` is undocumented, but is treated as an implicit argument (per stackoverflow) , so the end result is that the block is used as the body for the new method being defined.
 
 The method body is wrapped in an exception-catching facility that catches skipped or failed resource exceptions and wraps them in a specialized exception catcher class. TBD: understand this better.
 
-Line 250 constructs an instance of the anonymous FilterTable::Table subclass defined at 224.  It passes three args:
+Line 274 constructs an instance of the anonymous FilterTable::Table subclass defined at 248.  It passes three args:
 
 1. `self`. A reference to the resource instance.
 2. The return value of calling the data fetcher method (that is an array of hashes, the raw data).
 3. The string ' with', which is probably informing the criteria stringification. The extra space is intentional, as it follows the resource name: 'my_things with color == :red' might be a result.
 
-On line 227, we then immediately call a method on that "FilterTable::Table subclass instance". The method name is the same as the one we're defining on the resource - but we're calling it on the Table.  Recall we defined all the "custom_property" methods on the Table subclass at line 226-228.  The method gets called with any args or block passed, and since it's the last thing, it provides the return value.
+On line 275, we then immediately call a method on that "FilterTable::Table subclass instance". The method name is the same as the one we're defining on the resource - but we're calling it on the Table.  Recall we defined all the "custom_property" methods on the Table subclass at line 250-252.  The method gets called with any args or block passed, and since it's the last thing, it provides the return value.
 
 VERY WORRISOME THING: So, the Table subclass has methods for the "custom_properties" (for example, `thing_ids` or `exist?`.  What about the "filter_methods" - `where` and `entries`?  Are those in the FilterTable::Table class, or method_missing'd?
 
@@ -260,7 +260,7 @@ We know from the above exploration of `install_filter_methods_on_resource` / `co
 ### FilterTable::Table constructor and internals
 
 Factory calls the FilterTable::Table constructor at 87-92 with three args. Table stores them into instance vars:
- * @resource_instance - this was passed in as `self` from line 250
+ * @resource_instance - this was passed in as `self` from line 274
  * @raw_data - an array of hashes
  * @criteria_string - This looks to be stringification trace data; the string ' with' was passed in by Factory.
 
@@ -272,11 +272,11 @@ From usage, I expect entries to return a structure that resembles an array of ha
 
 #### A new method `entries` is defined on the resource class
 
-That is performed by Factory#connect line 247.
+That is performed by Factory#connect line 271.
 
 #### It delegates to FilterTable::Table#entries
 
-This is a real method defined in filter.rb line 142.
+This is a real method defined in filter.rb line 153.
 
 It loops over the provided raw data (@raw_data) and builds an array, calling `create_eval_context_for_row` (see Factory 231-236) on each row; also appending a stringification trace to each entry.  The array is returned.
 
@@ -296,7 +296,7 @@ So, what happens when you call `register_filter_method(:where)` and then call `r
 
 #### A new method `where` is defined on the resource class
 
-That is performed by Factory#connect line 247.
+That is performed by Factory#connect line 271.
 
 #### It delegates to FilterTable::Table#where
 
@@ -316,17 +316,15 @@ Line 103 initializes a var to track the `filtered_raw_data`.
 
 Lines 107-110 loop over the provided Hash `conditions`. It repeatedly downfilters `filtered_raw_data` by calling the private method `filter_raw_data` on it.  `filter_raw_data` does some syntactic sugaring for common types, Ints and Floats and Regexp matching.  Additionally, the 107-110 loop builds up the stringification tracker, `new_criteria_string`, by stringifying the field name and target value.
 
-BUG: (Issue 2943) - Lines 107-110 do not validate the names of the provided fields.
+Line 116-133 begins work if a filtration block has been provided.  At this point, `filtered_raw_data` has been initialized with the raw data, and (if method params were provided) has also been filtered down.
 
-Line 115-122 begins work if a filtration block has been provided.  At this point, `filtered_raw_data` has been initialized with the raw data, and (if method params were provided) has also been filtered down.
-
-Line 117 filters the rows of the raw data using an interesting approach. Each row is inflated to a Struct using `create_eval_context_for_row` (see line 231). Then the provided block is `instance_eval`'d against the Struct.  Because the Struct was defined with attributes (that is, accessor methods) for each declared field name (from FilterTable::Factory#register_custom_property), you can use field names in the block, and each row-as-struct will be able to respond.
+Line 118 filters the rows of the raw data using an interesting approach. Each row is inflated to a Struct using `create_eval_context_for_row` (see line 255). Then the provided block is `instance_eval`'d against the Struct.  Because the Struct was defined with attributes (that is, accessor methods) for each declared field name (from FilterTable::Factory#register_custom_property), you can use field names in the block, and each row-as-struct will be able to respond.
 
 _That just explained a major spooky side-effect for me._
 
-Lines 119-121 do something with stringification tracing.  TODO.
+Lines 120-132 do something with stringification tracing.  TODO.
 
-Finally, at line 124, the FilterTable::Table anonymous subclass is again used to construct a new instance, passing on the resource reference, the newly filtered raw data table, and the newly adjusted stringificatioon tracer.
+Finally, at line 135, the FilterTable::Table anonymous subclass is again used to construct a new instance, passing on the resource reference, the newly filtered raw data table, and the newly adjusted stringificatioon tracer.
 
 That new Table instance is returned, and thus `where` allows you to chain.
 
