@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.0 -->
-## [v2.2.0](https://github.com/inspec/inspec/tree/v2.2.0) (2018-06-05)
+<!-- latest_release 2.2.1 -->
+## [v2.2.1](https://github.com/inspec/inspec/tree/v2.2.1) (2018-06-05)
 
-#### Bug Fixes
-- Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
@@ -17,6 +17,7 @@
 - Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
 
 #### Merged Pull Requests
+- Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.1 -->
 - Refactor: Perform internal rename and add comments to FilterTable [#3047](https://github.com/inspec/inspec/pull/3047) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.88 -->
 - Spellcheck FilterTable Developer Documentation [#3111](https://github.com/inspec/inspec/pull/3111) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.87 -->
 - support local npm package searches [#3105](https://github.com/inspec/inspec/pull/3105) ([arlimus](https://github.com/arlimus)) <!-- 2.1.85 -->
