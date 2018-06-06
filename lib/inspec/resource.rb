@@ -50,8 +50,16 @@ module Inspec
           define_method id.to_sym do |*args|
             r.new(backend, id.to_s, *args)
           end
+
+          # confirm backend custom resources have access to other custom resources
+          next if backend.respond_to?(id)
+          backend.class.send(:define_method, id.to_sym) do |*args|
+            r.new(backend, id.to_s, *args)
+          end
         end
 
+        # attach backend so we have access to all resources and
+        # the train connection object
         define_method :inspec do
           backend
         end
