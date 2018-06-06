@@ -28,16 +28,14 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:type,     field: 'type')
-          .add(:database, field: 'database')
-          .add(:user,     field: 'user')
-          .add(:address,  field: 'address')
-          .add(:auth_method, field: 'auth_method')
-          .add(:auth_params, field: 'auth_params')
+    filter.register_column(:type,     field: 'type')
+          .register_column(:database, field: 'database')
+          .register_column(:user,     field: 'user')
+          .register_column(:address,  field: 'address')
+          .register_column(:auth_method, field: 'auth_method')
+          .register_column(:auth_params, field: 'auth_params')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     def to_s
       "Postgres Hba Config #{@conf_file}"

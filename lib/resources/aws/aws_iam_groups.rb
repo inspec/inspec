@@ -19,8 +19,8 @@ class AwsIamGroups < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.add(:group_names, field: :group_name)
-  filter.connect(self, :table)
+  filter.register_column(:group_names, field: :group_name)
+  filter.install_filter_methods_on_resource(self, :table)
 
   def to_s
     'IAM Groups'

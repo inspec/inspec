@@ -44,12 +44,10 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:selection_lines, field: 'selection_line')
-          .add(:rules,           field: 'rules')
+    filter.register_column(:selection_lines, field: 'selection_line')
+          .register_column(:rules,           field: 'rules')
 
-    filter.connect(self, :params)
+    filter.install_filter_methods_on_resource(self, :params)
 
     private
 

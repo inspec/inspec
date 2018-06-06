@@ -61,21 +61,19 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:labels,   field: 'label')
-          .add(:pids,     field: 'pid')
-          .add(:cpus,     field: 'cpu')
-          .add(:mem,      field: 'mem')
-          .add(:vsz,      field: 'vsz')
-          .add(:rss,      field: 'rss')
-          .add(:tty,      field: 'tty')
-          .add(:states,   field: 'stat')
-          .add(:start,    field: 'start')
-          .add(:time,     field: 'time')
-          .add(:users,    field: 'user')
-          .add(:commands, field: 'command')
-          .connect(self, :filtered_processes)
+    filter.register_column(:labels,   field: 'label')
+          .register_column(:pids,     field: 'pid')
+          .register_column(:cpus,     field: 'cpu')
+          .register_column(:mem,      field: 'mem')
+          .register_column(:vsz,      field: 'vsz')
+          .register_column(:rss,      field: 'rss')
+          .register_column(:tty,      field: 'tty')
+          .register_column(:states,   field: 'stat')
+          .register_column(:start,    field: 'start')
+          .register_column(:time,     field: 'time')
+          .register_column(:users,    field: 'user')
+          .register_column(:commands, field: 'command')
+          .install_filter_methods_on_resource(self, :filtered_processes)
 
     private
 

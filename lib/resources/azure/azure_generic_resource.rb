@@ -33,17 +33,13 @@ module Inspec::Resources
 
     # Define the filter table so that it can be interrogated
     @filter = FilterTable.create
-    @filter.add_accessor(:count)
-           .add_accessor(:entries)
-           .add_accessor(:where)
-           .add_accessor(:contains)
-           .add(:exist?, field: 'exist?')
-           .add(:type, field: 'type')
-           .add(:name, field: 'name')
-           .add(:location, field: 'location')
-           .add(:properties, field: 'properties')
+    @filter.register_filter_method(:contains)
+           .register_column(:type, field: 'type')
+           .register_column(:name, field: 'name')
+           .register_column(:location, field: 'location')
+           .register_column(:properties, field: 'properties')
 
-    @filter.connect(self, :probes)
+    @filter.install_filter_methods_on_resource(self, :probes)
 
     def parse_resource(resource)
       # return a hash of information

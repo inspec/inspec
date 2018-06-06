@@ -39,15 +39,13 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add_accessor(:entries)
-          .add(:ports,     field: 'port', style: :simple)
-          .add(:addresses, field: 'address', style: :simple)
-          .add(:protocols, field: 'protocol', style: :simple)
-          .add(:processes, field: 'process', style: :simple)
-          .add(:pids,      field: 'pid', style: :simple)
-          .add(:listening?) { |x| !x.entries.empty? }
-    filter.connect(self, :info)
+    filter.register_column(:ports,     field: 'port', style: :simple)
+          .register_column(:addresses, field: 'address', style: :simple)
+          .register_column(:protocols, field: 'protocol', style: :simple)
+          .register_column(:processes, field: 'process', style: :simple)
+          .register_column(:pids,      field: 'pid', style: :simple)
+          .register_custom_matcher(:listening?) { |x| !x.entries.empty? }
+    filter.install_filter_methods_on_resource(self, :info)
 
     def to_s
       "Port #{@port}"

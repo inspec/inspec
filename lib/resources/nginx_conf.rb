@@ -156,9 +156,8 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add(:servers, field: 'server')
-          .connect(self, :server_table)
+    filter.register_column(:servers, field: 'server')
+          .install_filter_methods_on_resource(self, :server_table)
 
     def locations
       servers.map(&:locations).flatten
@@ -184,9 +183,8 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
-    filter.add_accessor(:where)
-          .add(:locations, field: 'location')
-          .connect(self, :location_table)
+    filter.register_column(:locations, field: 'location')
+          .install_filter_methods_on_resource(self, :location_table)
 
     def to_s
       server = ''
