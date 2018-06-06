@@ -18,8 +18,7 @@ class AwsKmsKeys < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-        .register_column(:key_arns, field: :key_arn)
+  filter.register_column(:key_arns, field: :key_arn)
         .register_column(:key_ids, field: :key_id)
   filter.install_filter_methods_on_resource(self, :table)
 

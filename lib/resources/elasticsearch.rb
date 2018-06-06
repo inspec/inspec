@@ -45,7 +45,6 @@ module Inspec::Resources
           .register_column(:module_list,           field: 'module_list')
           .register_column(:node_id,               field: 'node_id')
           .register_column(:ingest,                field: 'ingest')
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
           .register_custom_property(:node_count) { |t, _|
             t.entries.length
           }

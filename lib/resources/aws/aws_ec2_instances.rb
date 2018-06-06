@@ -18,8 +18,7 @@ class AwsEc2Instances < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-        .register_column(:instance_ids, field: :instance_id)
+  filter.register_column(:instance_ids, field: :instance_id)
   filter.install_filter_methods_on_resource(self, :table)
 
   def to_s

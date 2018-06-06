@@ -27,8 +27,7 @@ class AwsSubnets < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-        .register_column(:vpc_ids, field: :vpc_id)
+  filter.register_column(:vpc_ids, field: :vpc_id)
         .register_column(:subnet_ids, field: :subnet_id)
         .register_column(:cidr_blocks, field: :cidr_block)
         .register_column(:states, field: :state)

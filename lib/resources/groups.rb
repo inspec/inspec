@@ -51,7 +51,6 @@ module Inspec::Resources
           .register_column(:gids,      field: 'gid')
           .register_column(:domains,   field: 'domain')
           .register_column(:members,   field: 'members')
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s

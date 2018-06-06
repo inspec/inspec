@@ -15,8 +15,7 @@ module Inspec::Resources
 
     # Create a filter table so that tests on the disk can be performed
     filter = FilterTable.create
-    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-          .register_column(:disk, field: :disk)
+    filter.register_column(:disk, field: :disk)
           .register_column(:number, field: :number)
           .register_column(:name, field: :name)
           .register_column(:size, field: :size)

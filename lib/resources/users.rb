@@ -81,7 +81,6 @@ module Inspec::Resources
           .register_column(:maxdays,   field: :maxdays)
           .register_column(:warndays,  field: :warndays)
           .register_column(:disabled,  field: :disabled)
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
           .register_custom_matcher(:disabled?) { |x| x.where { disabled == false }.entries.empty? }
           .register_custom_matcher(:enabled?) { |x| x.where { disabled == true }.entries.empty? }
     filter.install_filter_methods_on_resource(self, :collect_user_details)

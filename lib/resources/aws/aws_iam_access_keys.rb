@@ -38,8 +38,7 @@ class AwsIamAccessKeys < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
-  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-        .register_column(:access_key_ids, field: :access_key_id)
+  filter.register_column(:access_key_ids, field: :access_key_id)
         .register_column(:created_date, field: :create_date)
         .register_column(:created_days_ago, field: :created_days_ago)
         .register_column(:created_with_user, field: :created_with_user)

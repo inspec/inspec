@@ -22,8 +22,7 @@ module Inspec::Resources
           .register_column(:running_for,    field: 'runningfor')
           .register_column(:sizes,          field: 'size')
           .register_column(:status,         field: 'status')
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-          .register_column(:running?) { |x|
+          .register_custom_matcher(:running?) { |x|
             x.where { status.downcase.start_with?('up') }
           }
     filter.install_filter_methods_on_resource(self, :containers)
@@ -43,7 +42,6 @@ module Inspec::Resources
           .register_column(:digests,          field: 'digest')
           .register_column(:created,          field: 'createdat')
           .register_column(:created_since,    field: 'createdsize')
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.install_filter_methods_on_resource(self, :images)
 
     attr_reader :images
@@ -60,7 +58,6 @@ module Inspec::Resources
           .register_column(:replicas,         field: 'replicas')
           .register_column(:images,           field: 'image')
           .register_column(:ports,            field: 'ports')
-          .register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.install_filter_methods_on_resource(self, :services)
 
     attr_reader :services
