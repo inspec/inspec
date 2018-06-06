@@ -258,22 +258,24 @@ module FilterTable
     CustomPropertyType = Struct.new(:field_name, :block, :opts)
 
     def initialize
-      @filter_methods = []
+      @filter_methods = [:where, :entries, :raw_data]
       @custom_properties = {}
+      register_custom_matcher(:exist?) { |table| !table.raw_data.empty? }
+      register_custom_property(:count) { |table|  table.raw_data.count }
+
       @resource = nil # TODO: this variable is never initialized
     end
 
     def install_filter_methods_on_resource(resource_class, raw_data_fetcher_method_name) # rubocop: disable Metrics/AbcSize, Metrics/MethodLength
-      struct_fields = @custom_properties.values.map(&:field_name)
-
       # A context in which you can access the fields as accessors
-      row_eval_context_type = Struct.new(*struct_fields.map(&:to_sym)) do
+      non_block_struct_fields = @custom_properties.values.reject(&:block).map(&:field_name)
+      row_eval_context_type = Struct.new(*non_block_struct_fields.map(&:to_sym)) do
         attr_accessor :criteria_string
         attr_accessor :filter_table
         def to_s
           @criteria_string || super
         end
-      end unless struct_fields.empty?
+      end unless non_block_struct_fields.empty?
 
       properties_to_define = @custom_properties.map do |method_name, custom_property_structure|
         { method_name: method_name, method_body: create_custom_property_body(custom_property_structure) }
@@ -294,7 +296,7 @@ module FilterTable
         # Install a method that can wrap all the fields into a context with accessors
         define_method :create_eval_context_for_row do |row_as_hash, criteria_string = ''|
           return row_eval_context_type.new if row_as_hash.nil?
-          context = row_eval_context_type.new(*struct_fields.map { |field| row_as_hash[field] })
+          context = row_eval_context_type.new(*non_block_struct_fields.map { |field| row_as_hash[field] })
           context.criteria_string = criteria_string
           context.filter_table = self
           context
@@ -355,7 +357,11 @@ module FilterTable
         # TODO: @resource is never initialized
         throw RuntimeError, "Called filter.add_accessor for resource #{@resource} with method name nil!"
       end
-      @filter_methods.push(method_name.to_sym)
+      if @filter_methods.include? method_name.to_sym
+        # TODO: issue deprecation warning?
+      else
+        @filter_methods.push(method_name.to_sym)
+      end
       self
     end
 
@@ -367,8 +373,12 @@ module FilterTable
         throw RuntimeError, "Called filter.add for resource #{@resource} with method name nil!"
       end
 
-      @custom_properties[property_name.to_sym] =
-        CustomPropertyType.new(opts[:field] || property_name, property_implementation, opts)
+      if @custom_properties.key?(property_name.to_sym)
+        # TODO: issue deprecation warning?
+      else
+        @custom_properties[property_name.to_sym] =
+          CustomPropertyType.new(opts[:field] || property_name, property_implementation, opts)
+      end
       self
     end
 

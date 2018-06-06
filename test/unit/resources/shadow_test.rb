@@ -53,7 +53,6 @@ describe 'Inspec::Resources::Shadow' do
       user: 'root', password: 'x', last_change: '1',
       min_days: '2', max_days: '3', warn_days: nil,
       inactive_days: nil, expiry_date: nil, reserved: nil,
-      content: nil, count: nil
     })
   end
 

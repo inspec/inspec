@@ -35,15 +35,11 @@ class Thing < Inspec.resource(1)
 
   # FilterTable setup
   filter_table_config = FilterTable.create
-  filter_table_config.register_filter_method(:where)
-  filter_table_config.register_filter_method(:entries)
-  filter_table_config.register_custom_matcher(:exist?) { |filter_table| !filter_table.entries.empty? }
-  filter_table_config.register_custom_property(:count) { |filter_table| filter_table.entries.count }
   filter_table_config.register_column(:thing_ids, field: :thing_id)
   filter_table_config.register_column(:colors, field: :color, style: :simple)
   filter_table_config.install_filter_methods_on_resource(self, :fetch_data)
-  
-  def fetch_data 
+
+  def fetch_data
     # This method should return an array of hashes - the raw data.  We'll hardcode it here.
     [
       { thing_id: 1, color: :red },
@@ -61,15 +57,20 @@ end
 
 Note that all of the methods on `filter_table_config` support chaining, so you will sometimes see it as:
 ```ruby
-  filter_table_config.register_filter_method(:where)
-                     .register_filter_method(:entries)
-                     .register_custom_matcher(:exist?) { |filter_table| !filter_table.entries.empty? }
+  filter_table_config = FilterTable.create
+                        .register_column(:thing_ids, field: :thing_id)
+                        .register_column(:colors, field: :color, style: :simple)
+                        .install_filter_methods_on_resource(self, :fetch_data)
 ```
 etc.
 
 ## Standard behavior
 
 With a (fairly standard) implementation like that above, what behavior do you get out of the box?
+
+### Some things are defined for you
+
+In the past, you needed to request certain methods be installed.  These are now installed automatically: `where`, `entries`, `raw_data`, `count`, and `exist?`.  You only have to declare your columns unique to your resource, and then attach the data fetcher.
 
 ### Your class is still just a Resource class
 
