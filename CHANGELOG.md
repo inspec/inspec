@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.5 -->
-## [v2.2.5](https://github.com/inspec/inspec/tree/v2.2.5) (2018-06-06)
+<!-- latest_release 2.2.6 -->
+## [v2.2.6](https://github.com/inspec/inspec/tree/v2.2.6) (2018-06-06)
 
-#### Merged Pull Requests
-- Clean up issues in documentation [#3058](https://github.com/inspec/inspec/pull/3058) ([miah](https://github.com/miah))
+#### Bug Fixes
+- Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
 ### Changes since 2.1.84 release
 
 #### Bug Fixes
+- Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah)) <!-- 2.2.6 -->
 - Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.0 -->
 
 #### Enhancements
