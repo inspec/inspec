@@ -5,6 +5,8 @@
 require 'rspec/core'
 require 'rspec/its'
 require 'inspec/formatters'
+# They / Their can only be used with RSpec runner
+require 'inspec/they_their'
 
 # There be dragons!! Or borgs, or something...
 # This file and all its contents cannot be unit-tested. both test-suits
