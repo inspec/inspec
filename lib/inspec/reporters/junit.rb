@@ -27,6 +27,7 @@ module Inspec::Reporters
       profile_xml.add_attribute('name', profile[:name])
       profile_xml.add_attribute('tests', count_profile_tests(profile))
       profile_xml.add_attribute('failed', count_profile_failed_tests(profile))
+      profile_xml.add_attribute('failures', count_profile_failed_tests(profile))
 
       profile[:controls].each do |control|
         next if control[:results].nil?

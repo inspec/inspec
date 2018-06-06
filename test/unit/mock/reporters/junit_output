@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <testsuites>
-  <testsuite name='long_commands' tests='4' failed='1'>
+  <testsuite name='long_commands' tests='4' failed='1' failures='1'>
     <testcase name='File /tmp should be directory' classname='long_commands.Anonymous' target='local://' time='0.002058'/>
     <testcase name='File /tmp should be directory' classname='long_commands.tmp-1.0' target='local://' time='0.000102'/>
     <testcase name='gem package rubocop should be installed' classname='long_commands.Anonymous' target='local://' time='0.000168'>
