@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.4 -->
-## [v2.2.4](https://github.com/inspec/inspec/tree/v2.2.4) (2018-06-06)
+<!-- latest_release 2.2.5 -->
+## [v2.2.5](https://github.com/inspec/inspec/tree/v2.2.5) (2018-06-06)
 
 #### Merged Pull Requests
-- Update Junit.rb to add failures attribute [#3086](https://github.com/inspec/inspec/pull/3086) ([scboucher](https://github.com/scboucher))
+- Clean up issues in documentation [#3058](https://github.com/inspec/inspec/pull/3058) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
@@ -19,6 +19,7 @@
 - Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
 
 #### Merged Pull Requests
+- Clean up issues in documentation [#3058](https://github.com/inspec/inspec/pull/3058) ([miah](https://github.com/miah)) <!-- 2.2.5 -->
 - Update Junit.rb to add failures attribute [#3086](https://github.com/inspec/inspec/pull/3086) ([scboucher](https://github.com/scboucher)) <!-- 2.2.4 -->
 - Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.1 -->
 - Refactor: Perform internal rename and add comments to FilterTable [#3047](https://github.com/inspec/inspec/pull/3047) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.88 -->
