@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.1 -->
-## [v2.2.1](https://github.com/inspec/inspec/tree/v2.2.1) (2018-06-05)
+<!-- latest_release 2.2.2 -->
+## [v2.2.2](https://github.com/inspec/inspec/tree/v2.2.2) (2018-06-06)
 
-#### Merged Pull Requests
-- Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Enhancements
+- Add common methods to FilterTable [#3104](https://github.com/inspec/inspec/pull/3104) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
@@ -14,6 +14,7 @@
 - Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.0 -->
 
 #### Enhancements
+- Add common methods to FilterTable [#3104](https://github.com/inspec/inspec/pull/3104) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.2 -->
 - Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
 
 #### Merged Pull Requests
