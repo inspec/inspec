@@ -55,58 +55,58 @@ end
 
 * Compare strings to numbers
 
-    ```ruby
-    describe sshd_config do
-      its('Protocol') { should eq '2' }
+```ruby
+describe sshd_config do
+  its('Protocol') { should eq '2' }
 
-      its('Protocol') { should cmp '2' }
-      its('Protocol') { should cmp 2 }
-    end
-    ```
+  its('Protocol') { should cmp '2' }
+  its('Protocol') { should cmp 2 }
+end
+```
 
 * String comparisons are not case-sensitive
 
-    ```ruby
-    describe auditd_conf do
-      its('log_format') { should cmp 'raw' }
-      its('log_format') { should cmp 'RAW' }
-    end
-    ```
+```ruby
+describe auditd_conf do
+  its('log_format') { should cmp 'raw' }
+  its('log_format') { should cmp 'RAW' }
+end
+```
 * Recognize versions embedded in strings
 
-    ```ruby
-    describe package(curl) do
-      its('version') { should cmp > '7.35.0-1ubuntu2.10' }
-    end
-    ```
+```ruby
+describe package(curl) do
+  its('version') { should cmp > '7.35.0-1ubuntu2.10' }
+end
+```
 
 * Compare arrays with only one entry to a value
 
-    ```ruby
-    describe passwd.uids(0) do
-      its('users') { should cmp 'root' }
-      its('users') { should cmp ['root'] }
-    end
-    ```
+```ruby
+describe passwd.uids(0) do
+  its('users') { should cmp 'root' }
+  its('users') { should cmp ['root'] }
+end
+```
 
 * Single-value arrays of strings may also be compared to a regex
 
-    ```ruby
-    describe auditd_conf do
-      its('log_format') { should cmp /raw/i }
-    end
-    ```
+```ruby
+describe auditd_conf do
+  its('log_format') { should cmp /raw/i }
+end
+```
 
 * Improved printing of octal comparisons
 
-    ```ruby
-    describe file('/proc/cpuinfo') do
-      its('mode') { should cmp '0345' }
-    end
+```ruby
+describe file('/proc/cpuinfo') do
+  its('mode') { should cmp '0345' }
+end
 
-    expected: 0345
-    got: 0444
-    ```
+expected: 0345
+got: 0444
+```
 <br>
 
 ## eq

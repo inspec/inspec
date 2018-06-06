@@ -92,7 +92,7 @@ sign the certificate.
     end
 
 
-### validity_in_days (Float)
+### validity\_in\_days (Float)
 
 The `validity_in_days` property can be used to check that certificates are not in
 danger of expiring soon.
@@ -101,7 +101,7 @@ danger of expiring soon.
       its('validity_in_days') { should be > 30 }
     end
 
-### not_before and not_after (Time)
+### not\_before and not\_after (Time)
 
 The `not_before` and `not_after` properties expose the start and end dates of certificate
 validity. They are exposed as ruby Time class so that date arithmetic can be easily performed.
