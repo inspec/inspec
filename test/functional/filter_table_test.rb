@@ -5,6 +5,7 @@ describe '3109 they / their support' do
   it 'positive tests should pass' do
     controls = [
       '3109_their',
+      '3109_they',
     ]
 
     cmd  = 'exec ' + File.join(profile_path, 'filter_table')

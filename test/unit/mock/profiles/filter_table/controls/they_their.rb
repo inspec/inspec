@@ -17,3 +17,15 @@ control '3109_their' do
     their('ids.count') { should eq 3 }
   end
 end
+
+control '3109_they' do
+  desc 'they should work as an alias for it'
+  describe simple_plural(fresh_data.call) do
+    it { should exist }
+    they { should exist }
+  end
+  describe simple_plural(fresh_data.call).raw_data.first do
+    it { should_not be_a_kind_of(Struct) }
+    they { should_not be_a_kind_of(Struct) }
+  end
+end
