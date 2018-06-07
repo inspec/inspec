@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.6 -->
-## [v2.2.6](https://github.com/inspec/inspec/tree/v2.2.6) (2018-06-06)
+<!-- latest_release 2.2.7 -->
+## [v2.2.7](https://github.com/inspec/inspec/tree/v2.2.7) (2018-06-07)
 
-#### Bug Fixes
-- Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah))
+#### New Resources
+- Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
 ### Changes since 2.1.84 release
+
+#### New Resources
+- Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah)) <!-- 2.2.7 -->
 
 #### Bug Fixes
 - Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah)) <!-- 2.2.6 -->
