@@ -1,7 +1,5 @@
 # Contains resources and outputs related to testing the aws_ec2_* resources.
 
-# This is the 
-
 #======================================================#
 #                    EC2 Instances
 #======================================================#
