@@ -266,9 +266,18 @@ resource "aws_security_group_rule" "alpha_all_ports" {
 #============================================================#
 #                      VPC Subnets
 #============================================================#
+
+variable "base_cidr" {
+  default = "172.31.48.0/20"
+}
+
 resource "aws_subnet" "subnet_01" {
   vpc_id     = "${data.aws_vpc.default.id}"
-  cidr_block = "172.31.96.0/20"
+  cidr_block = "${cidrsubnet(var.base_cidr, 8, 0)}"
+
+  tags {
+    Name = "${terraform.env}.subnet_01"
+  }
 }
 
 # Re-output any VPC ID for subnet listings
@@ -283,4 +292,211 @@ output "subnet_01_id" {
 
 output "subnet_01_az" {
   value = "${aws_subnet.subnet_01.availability_zone}"
+}
+
+#============================================================#
+#                      ELB testing
+#============================================================#
+
+# Use default VPC - "${data.aws_vpc.default.id}"
+
+# Use two subnets.
+# Fixture data:
+
+# ELB alpha
+#  - single subnet on AZ a
+#  - not externally facing
+#  - sends 80 to 8080
+#  - zero instances
+# ELB beta
+#  - dual subnet on AZ a and c
+#  - externally facing
+#  - sends 80 to 80
+#  - two instances
+
+# A pair of subnets
+resource "aws_subnet" "elb_a" {
+  vpc_id            = "${data.aws_vpc.default.id}"
+  availability_zone = "${data.aws_region.current.name}a"
+  cidr_block        = "${cidrsubnet(var.base_cidr, 8, 1)}"
+
+  tags {
+    Name = "${terraform.env}.elb_a"
+  }
+}
+
+output "elb_subnet_a_id" {
+  value = "${aws_subnet.elb_a.id}"
+}
+
+output "elb_vpc_id" {
+  value = "${data.aws_vpc.default.id}"
+}
+
+resource "aws_subnet" "elb_c" {
+  vpc_id            = "${data.aws_vpc.default.id}"
+  availability_zone = "${data.aws_region.current.name}c"
+  cidr_block        = "${cidrsubnet(var.base_cidr, 8, 2)}"
+
+  tags {
+    Name = "${terraform.env}.elb_c"
+  }
+}
+
+output "elb_subnet_c_id" {
+  value = "${aws_subnet.elb_c.id}"
+}
+
+# A security group for the ELB so it is accessible via the web
+resource "aws_security_group" "elb_world_to_lb" {
+  vpc_id = "${data.aws_vpc.default.id}"
+
+  # HTTP access from anywhere
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+output "elb_security_group_to_lb_id" {
+  value = "${aws_security_group.elb_world_to_lb.id}"
+}
+
+resource "aws_security_group" "elb_lb_to_instances" {
+  vpc_id = "${data.aws_vpc.default.id}"
+
+  # HTTP access from the VPC
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${data.aws_vpc.default.cidr_block}"]
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["${data.aws_vpc.default.cidr_block}"]
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+output "elb_security_group_to_instances_id" {
+  value = "${aws_security_group.elb_lb_to_instances.id}"
+}
+
+resource "aws_elb" "alpha" {
+  name = "${terraform.env}-alpha"
+
+  subnets = [
+    "${aws_subnet.elb_a.id}",
+  ]
+
+  security_groups = [
+    "${aws_security_group.elb_world_to_lb.id}",
+  ]
+
+  instances = []
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+}
+
+output "elb_alpha_name" {
+  value = "${aws_elb.alpha.name}"
+}
+
+output "elb_alpha_dns_name" {
+  value = "${aws_elb.alpha.dns_name}"
+}
+
+resource "aws_elb" "beta" {
+  name = "${terraform.env}-beta"
+
+  subnets = [
+    "${aws_subnet.elb_a.id}",
+    "${aws_subnet.elb_c.id}",
+  ]
+
+  security_groups = [
+    "${aws_security_group.elb_world_to_lb.id}",
+  ]
+
+  instances = [
+    "${aws_instance.elb_beta_1.id}",
+    "${aws_instance.elb_beta_2.id}",
+  ]
+
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+}
+
+output "elb_beta_name" {
+  value = "${aws_elb.beta.name}"
+}
+
+output "elb_beta_dns_name" {
+  value = "${aws_elb.beta.dns_name}"
+}
+
+resource "aws_instance" "elb_beta_1" {
+  instance_type = "t2.micro"
+  ami           = "${data.aws_ami.debian.id}"
+  subnet_id     = "${aws_subnet.elb_c.id}"
+
+  vpc_security_group_ids = [
+    "${aws_security_group.elb_lb_to_instances.id}",
+  ]
+
+  tags {
+    Name = "${terraform.env}.elb_beta_1"
+  }
+}
+
+output "elb_beta_instance_1_id" {
+  value = "${aws_instance.elb_beta_1.id}"
+}
+
+resource "aws_instance" "elb_beta_2" {
+  instance_type = "t2.micro"
+  ami           = "${data.aws_ami.debian.id}"
+  subnet_id     = "${aws_subnet.elb_a.id}"
+
+  vpc_security_group_ids = [
+    "${aws_security_group.elb_lb_to_instances.id}",
+  ]
+
+  tags {
+    Name = "${terraform.env}.elb_beta_2"
+  }
+}
+
+output "elb_beta_instance_2_id" {
+  value = "${aws_instance.elb_beta_2.id}"
 }
