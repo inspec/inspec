@@ -12,6 +12,7 @@ class AwsVpcs < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:cidr_blocks, field: :cidr_block)
         .register_column(:vpc_ids, field: :vpc_id)
   # We need a dummy here, so FilterTable will define and populate the dhcp_options_id field

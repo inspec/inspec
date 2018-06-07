@@ -24,6 +24,7 @@ module Inspec::Resources
     "
 
     filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:cluster_name,          field: 'cluster_name')
           .register_column(:node_name,             field: 'name')
           .register_column(:transport_address,     field: 'transport_address')

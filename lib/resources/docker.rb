@@ -10,6 +10,7 @@ module Inspec::Resources
   class DockerContainerFilter
     # use filtertable for containers
     filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:commands,       field: 'command')
           .register_column(:ids,            field: 'id')
           .register_column(:images,         field: 'image')
@@ -35,6 +36,7 @@ module Inspec::Resources
 
   class DockerImageFilter
     filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:ids,              field: 'id')
           .register_column(:repositories,     field: 'repository')
           .register_column(:tags,             field: 'tag')
@@ -52,6 +54,7 @@ module Inspec::Resources
 
   class DockerServiceFilter
     filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:ids,              field: 'id')
           .register_column(:names,            field: 'name')
           .register_column(:modes,            field: 'mode')

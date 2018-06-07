@@ -70,6 +70,7 @@ module Inspec::Resources
     end
 
     filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:usernames, field: :username)
           .register_column(:uids,      field: :uid)
           .register_column(:gids,      field: :gid)

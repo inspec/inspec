@@ -18,6 +18,7 @@ class AwsIamPolicies < Inspec.resource(1)
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:policy_names, field: :policy_name)
         .register_column(:arns, field: :arn)
   filter.install_filter_methods_on_resource(self, :table)

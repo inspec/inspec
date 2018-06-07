@@ -18,6 +18,7 @@ EOX
 
   # Underlying FilterTable implementation.
   filter = FilterTable.create
+  filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
   filter.register_column(:group_ids, field: :group_id)
   filter.install_filter_methods_on_resource(self, :table)
 
