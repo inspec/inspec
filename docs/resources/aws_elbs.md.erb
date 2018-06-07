@@ -51,7 +51,7 @@ Returns the FQDN of the load balancer.  This is the hostname which is exposed to
 
 ### elb\_name
 
-The name of the ELB within AWS. The ELB name is unique within the region. If you know the full ELB name, you should use the `aws_elb` resource instead, as it is much more efficient  for testing a specific ELB.
+The name of the ELB within AWS. The ELB name is unique within the region. If you know the full ELB name, you should use the `aws_elb` resource instead, as it is much more efficient for testing a specific ELB.
 
     # Find ELBs whose name ends in `prod`
     describe aws_elbs.where(elb_name: /prod$/) do
