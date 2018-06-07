@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.7 -->
-## [v2.2.7](https://github.com/inspec/inspec/tree/v2.2.7) (2018-06-07)
+<!-- latest_release 2.2.8 -->
+## [v2.2.8](https://github.com/inspec/inspec/tree/v2.2.8) (2018-06-07)
 
 #### New Resources
-- Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah))
+- Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.84 -->
 ### Changes since 2.1.84 release
 
 #### New Resources
+- Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.8 -->
 - Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah)) <!-- 2.2.7 -->
 
 #### Bug Fixes
