@@ -16,7 +16,6 @@ class EmptyAwsFlowLog < Minitest::Test
   def test_rejects_unrecognized_params
     assert_raises(ArgumentError) { AwsFlowLog.new(shoe_size: 9) }
   end
-
 end
 
 class BasicAwsFlowLog < Minitest::Test
