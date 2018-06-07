@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-We want to be able to test AWS-related InSpec resources against AWS itself.  This means we need to create constructs ("test fixtures") in AWS to examine using InSpec.  For cost management, we also want to be able to destroy 
+We want to be able to test AWS-related InSpec resources against AWS itself.  This means we need to create constructs ("test fixtures") in AWS to examine using InSpec.  For cost management, we also want to be able to destroy
 
 ## General Approach
 
@@ -34,7 +34,7 @@ such as enabling MFA on the root account, we manually set one value in the "defa
 
 All tests (and test fixtures) that do not require special handling are placed in the "default" set.  That includes both positive and negative checks.
 
-Note that some tests will fail for the first day or two after you set up the accounts, due to the tests checking properties such as the last usage time of an access key, for example.  
+Note that some tests will fail for the first day or two after you set up the accounts, due to the tests checking properties such as the last usage time of an access key, for example.
 
 Additionally, the first time you run the tests, you will need to accept the user agreement in the AWS marketplace for the linux AMIs we use.  You'll need to do it 4 times, once for each of debian and centos on the two accounts.
 
