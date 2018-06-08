@@ -7,37 +7,39 @@
 - Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.84 -->
-### Changes since 2.1.84 release
-
-#### New Resources
-- Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.8 -->
-- Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah)) <!-- 2.2.7 -->
-
-#### Bug Fixes
-- Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah)) <!-- 2.2.6 -->
-- Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.0 -->
-
-#### Enhancements
-- Allow custom resources to access all other resources [#3108](https://github.com/inspec/inspec/pull/3108) ([jquick](https://github.com/jquick)) <!-- 2.2.3 -->
-- Add common methods to FilterTable [#3104](https://github.com/inspec/inspec/pull/3104) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.2 -->
-- Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick)) <!-- 2.1.86 -->
-
-#### Merged Pull Requests
-- Clean up issues in documentation [#3058](https://github.com/inspec/inspec/pull/3058) ([miah](https://github.com/miah)) <!-- 2.2.5 -->
-- Update Junit.rb to add failures attribute [#3086](https://github.com/inspec/inspec/pull/3086) ([scboucher](https://github.com/scboucher)) <!-- 2.2.4 -->
-- Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.1 -->
-- Refactor: Perform internal rename and add comments to FilterTable [#3047](https://github.com/inspec/inspec/pull/3047) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.1.88 -->
-- Spellcheck FilterTable Developer Documentation [#3111](https://github.com/inspec/inspec/pull/3111) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.1.87 -->
-- support local npm package searches [#3105](https://github.com/inspec/inspec/pull/3105) ([arlimus](https://github.com/arlimus)) <!-- 2.1.85 -->
+<!-- release_rollup since=2.2.10 -->
+### Changes since 2.2.10 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.2.10](https://github.com/inspec/inspec/tree/v2.2.10) (2018-06-08)
+
+#### New Resources
+- Adds a aws_flow_log resource with unit and integration testing. [#2906](https://github.com/inspec/inspec/pull/2906) ([miah](https://github.com/miah))
+- Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Enhancements
+- Detect windows packages with trailing/leading spaces [#3106](https://github.com/inspec/inspec/pull/3106) ([jquick](https://github.com/jquick))
+- Add common methods to FilterTable [#3104](https://github.com/inspec/inspec/pull/3104) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Allow custom resources to access all other resources [#3108](https://github.com/inspec/inspec/pull/3108) ([jquick](https://github.com/jquick))
+
+#### Bug Fixes
+- Two fixes to FilterTable `where` criteria handling [#3045](https://github.com/inspec/inspec/pull/3045) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update documentation for shadow resource. [#3042](https://github.com/inspec/inspec/pull/3042) ([miah](https://github.com/miah))
+
+#### Merged Pull Requests
+- support local npm package searches [#3105](https://github.com/inspec/inspec/pull/3105) ([arlimus](https://github.com/arlimus))
+- Spellcheck FilterTable Developer Documentation [#3111](https://github.com/inspec/inspec/pull/3111) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Refactor: Perform internal rename and add comments to FilterTable [#3047](https://github.com/inspec/inspec/pull/3047) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add lazy-loading to FilterTable [#3093](https://github.com/inspec/inspec/pull/3093) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update Junit.rb to add failures attribute [#3086](https://github.com/inspec/inspec/pull/3086) ([scboucher](https://github.com/scboucher))
+- Clean up issues in documentation [#3058](https://github.com/inspec/inspec/pull/3058) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v2.1.84](https://github.com/inspec/inspec/tree/v2.1.84) (2018-05-31)
 
 #### Merged Pull Requests
 - Generate new org builds [#3087](https://github.com/inspec/inspec/pull/3087) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v2.1.83](https://github.com/chef/inspec/tree/v2.1.83) (2018-05-18)
 
