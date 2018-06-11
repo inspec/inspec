@@ -52,6 +52,23 @@ module Inspec::Resources
     end
   end
 
+  class DockerPluginFilter
+    filter = FilterTable.create
+    filter.add_accessor(:where)
+          .add_accessor(:entries)
+          .add(:ids,              field: 'id')
+          .add(:names,            field: 'name')
+          .add(:versions,         field: 'version')
+          .add(:enabled,          field: 'enabled')
+          .add(:exists?) { |x| !x.entries.empty? }
+    filter.connect(self, :plugins)
+
+    attr_reader :plugins
+    def initialize(plugins)
+      @plugins = plugins
+    end
+  end
+
   class DockerServiceFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
@@ -89,6 +106,10 @@ module Inspec::Resources
         its('repositories') { should_not include 'inssecure_image' }
       end
 
+      describe docker.plugins.where { name == 'rexray/ebs' } do
+        it { should exist }
+      end
+
       describe docker.services do
         its('images') { should_not include 'inssecure_image' }
       end
@@ -117,6 +138,10 @@ module Inspec::Resources
 
     def images
       DockerImageFilter.new(parse_images)
+    end
+
+    def plugins
+      DockerPluginFilter.new(parse_plugins)
     end
 
     def services
@@ -224,6 +249,18 @@ module Inspec::Resources
       c_images
     rescue JSON::ParserError => _e
       warn 'Could not parse `docker images` output'
+      []
+    end
+
+    def parse_plugins
+      plugins = inspec.command('docker plugin ls --format \'{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }\'').stdout
+      c_plugins = []
+      plugins.each_line { |entry|
+        c_plugins.push(JSON.parse(entry))
+      }
+      c_plugins
+    rescue JSON::ParserError => _e
+      warn 'Could not parse `docker plugin ls` output'
       []
     end
   end

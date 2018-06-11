@@ -24,6 +24,13 @@ describe 'Inspec::Resources::Docker' do
       _(resource.services.images).must_equal ["foo/image:1.0", "foo/image:1.1", "bar:latest", "bar:latest"]
     end
 
+    it 'check docker plugins parsing' do
+      _(resource.plugins.ids).must_equal ["6ea8176de74b", "771d3ee7c7ea"]
+      _(resource.plugins.names).must_equal ["store/weaveworks/net-plugin", "docker4x/cloudstor"]
+      _(resource.plugins.versions).must_equal ["2.3.0", "18.03.1-ce-aws1"]
+      _(resource.plugins.enabled).must_equal [true, false]
+    end
+
     it 'check docker version parsing' do
       _(resource.version.Server.Version).must_equal '17.03.0-ce'
       _(resource.version.Client.Version).must_equal '17.03.0-ce'
