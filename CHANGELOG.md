@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.8 -->
-## [v2.2.8](https://github.com/inspec/inspec/tree/v2.2.8) (2018-06-07)
+<!-- latest_release 2.2.11 -->
+## [v2.2.11](https://github.com/inspec/inspec/tree/v2.2.11) (2018-06-11)
 
-#### New Resources
-- Add aws_elb and aws_elbs resources [#3079](https://github.com/inspec/inspec/pull/3079) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### Merged Pull Requests
+- Translate `auditd -s` RHEL output to match CentOS [#3114](https://github.com/inspec/inspec/pull/3114) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.10 -->
 ### Changes since 2.2.10 release
+
+#### Merged Pull Requests
+- Translate `auditd -s` RHEL output to match CentOS [#3114](https://github.com/inspec/inspec/pull/3114) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.11 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
