@@ -15,10 +15,6 @@ branches:
     - master
     - release-2.0
 
-matrix:
-  allow_failures:
-    - ruby_version: "25"
-
 cache:
   - vendor/bundle -> appveyor.yml
 
