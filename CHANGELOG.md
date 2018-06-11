@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 2.2.11 -->
-## [v2.2.11](https://github.com/inspec/inspec/tree/v2.2.11) (2018-06-11)
+<!-- latest_release 2.2.12 -->
+## [v2.2.12](https://github.com/inspec/inspec/tree/v2.2.12) (2018-06-11)
 
-#### Merged Pull Requests
-- Translate `auditd -s` RHEL output to match CentOS [#3114](https://github.com/inspec/inspec/pull/3114) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Enhancements
+- Fix unit tests for ruby 2.5 [#3125](https://github.com/inspec/inspec/pull/3125) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.2.10 -->
 ### Changes since 2.2.10 release
+
+#### Enhancements
+- Fix unit tests for ruby 2.5 [#3125](https://github.com/inspec/inspec/pull/3125) ([jquick](https://github.com/jquick)) <!-- 2.2.12 -->
 
 #### Merged Pull Requests
 - Translate `auditd -s` RHEL output to match CentOS [#3114](https://github.com/inspec/inspec/pull/3114) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 2.2.11 -->
