@@ -261,7 +261,7 @@ describe Inspec::ProfileContext do
     describe 'adds a check via describe' do
       let(:check) {
         profile.load(format(context_format,
-          "describe os[:family] { it { must_equal 'debian' } }"
+          "describe(os[:family]) { it { must_equal 'debian' } }"
           ))
         get_checks[0]
       }
