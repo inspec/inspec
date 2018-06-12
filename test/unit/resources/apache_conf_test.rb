@@ -11,7 +11,7 @@ describe 'Inspec::Resources::ApacheConf' do
     resource = MockLoader.new(:ubuntu1404).load_resource('apache_conf')
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
-    _(resource.params('ServerRoot')).must_equal ['"/etc/apache2"']
+    _(resource.params('ServerRoot')).must_equal ['/etc/apache2']
     _(resource.params('ServerAlias')).must_equal ['inspec.test www.inspec.test io.inspec.test']
     _(resource.params('Listen').sort).must_equal ['443', '80']
     # sourced using a linked file in conf-enabled/
@@ -27,7 +27,7 @@ describe 'Inspec::Resources::ApacheConf' do
     resource = MockLoader.new(:centos6).load_resource('apache_conf')
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
-    _(resource.params('ServerRoot')).must_equal ['"/etc/httpd"']
+    _(resource.params('ServerRoot')).must_equal ['/etc/httpd']
     _(resource.params('Listen').sort).must_equal ['443', '80']
 
     # sourced using an absolute path in httpd.conf

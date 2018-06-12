@@ -85,6 +85,12 @@ module Inspec::Resources
           assignment_regex: /^\s*(\S+)\s+((?=.*\s+$).*?|.*)\s*$/,
           multiple_values: true,
         ).params
+
+        # Capture and use any non-whitespace between quotes in values
+        params.values.each.map do |x|
+          x.map! { |y| y.gsub(/['"](\S+)['"]/, '\1') }
+        end
+
         @params.merge!(params)
 
         to_read = to_read.drop(1)
