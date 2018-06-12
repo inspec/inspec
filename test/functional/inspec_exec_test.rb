@@ -301,7 +301,7 @@ Test Summary: \e[38;5;41m2 successful\e[0m, 0 failures, 0 skipped\n"
 
     it 'completes the run with failed controls but no exception' do
       out.stderr.must_be_empty
-      out.exit_status.must_equal 100
+      out.exit_status.must_equal 1
       controls.count.must_equal 10
       controls.select { |c| c['results'][0]['status'] == 'failed' }.count.must_be :>, 1
       controls.select { |c| c['results'][0]['status'] == 'passed' }.count.must_be :>, 1
