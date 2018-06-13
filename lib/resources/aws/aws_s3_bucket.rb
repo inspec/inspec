@@ -12,7 +12,6 @@ class AwsS3Bucket < Inspec.resource(1)
   include AwsSingularResourceMixin
   attr_reader :bucket_name, :has_default_encryption_enabled, :has_access_logging_enabled, :region
 
-
   def to_s
     "S3 Bucket #{@bucket_name}"
   end
