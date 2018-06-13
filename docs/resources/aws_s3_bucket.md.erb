@@ -58,12 +58,6 @@ The following examples show how to use this InSpec audit resource.
     describe aws_s3_bucket('test_bucket') do
       it { should_not be_public }
     end
-
-### Check if a bucket tag exists
-
-    describe aws_ec2_instance('i-090c29e4f4c165b74') do
-      its('tags') { should include(key: 'Name', value: /^*$/) }
-    end
 <br>
 
 ## Properties
@@ -80,6 +74,13 @@ The `region` property identifies the AWS Region in which the S3 bucket is locate
 ### tags
 
 The `tags` property is a hash of tags associated with the bucket.
+
+    describe aws_s3_bucket('test_bucket') do
+      #Check for a specific key and value
+      its('tags') { should include(key: 'Delete-After', value: '20180613'}
+      #Check the given tag exists
+      its('tags') { should include(key: 'Name', value: /^*$/)}
+    end
 
 ## Unsupported Properties
 
