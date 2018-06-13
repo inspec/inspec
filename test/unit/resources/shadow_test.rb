@@ -57,27 +57,27 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   it 'returns deprecation notice on user property' do
-    proc { _(shadow.users).must_equal %w{root www-data} }.must_output nil,
-      '[DEPRECATION] The shadow `users` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `user` instead.\n"
+    proc { _(shadow.user).must_equal %w{root www-data} }.must_output nil,
+      '[DEPRECATION] The shadow `user` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `users` instead.\n"
   end
 
   it 'returns deprecatation notice on password property' do
-    proc { _(shadow.passwords).must_equal %w{x !!} }.must_output nil,
-      '[DEPRECATION] The shadow `passwords` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `password` instead.\n"
+    proc { _(shadow.password).must_equal %w{x !!} }.must_output nil,
+      '[DEPRECATION] The shadow `password` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `passwords` instead.\n"
   end
 
   it 'returns deprecation notice on last_change property' do
-    proc { _(shadow.last_changes).must_equal %w{1 10} }.must_output nil,
-      '[DEPRECATION] The shadow `last_changes` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `last_change` instead.\n"
+    proc { _(shadow.last_change).must_equal %w{1 10} }.must_output nil,
+      '[DEPRECATION] The shadow `last_change` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `last_changes` instead.\n"
   end
 
-  it 'returns deprecation notice on expiry_dates property' do
-    proc { _(shadow.expiry_dates).must_equal [nil, "60"] }.must_output nil,
-      '[DEPRECATION] The shadow `expiry_dates` property is deprecated and will' \
-      " be removed in InSpec 3.0.  Please use `expiry_date` instead.\n"
+  it 'returns deprecation notice on expiry_date property' do
+    proc { _(shadow.expiry_date).must_equal [nil, "60"] }.must_output nil,
+      '[DEPRECATION] The shadow `expiry_date` property is deprecated and will' \
+      " be removed in InSpec 3.0.  Please use `expiry_dates` instead.\n"
   end
 
   describe 'multiple filters' do
@@ -92,13 +92,13 @@ describe 'Inspec::Resources::Shadow' do
 
     it 'can read /etc/shadow and #filter matches user with no password and inactive_days' do
       users = shadow.filter(password: /[^x]/).entries.map { |x| x['user'] }
-      users.each do |user|
-        proc { expect(shadow.users(user).user).must_equal(['www-data']) }.must_output nil,
-          '[DEPRECATION] The shadow `users` property is deprecated and will' \
-          " be removed in InSpec 3.0.  Please use `user` instead.\n"
-        proc { expect(shadow.users(user).inactive_days).must_equal(['50']) }.must_output nil,
-          '[DEPRECATION] The shadow `users` property is deprecated and will' \
-          " be removed in InSpec 3.0.  Please use `user` instead.\n"
+      users.each do |expected_user|
+        proc { expect(shadow.user(expected_user).users).must_equal(['www-data']) }.must_output nil,
+          '[DEPRECATION] The shadow `user` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `users` instead.\n"
+        proc { expect(shadow.user(expected_user).inactive_days).must_equal(['50']) }.must_output nil,
+          '[DEPRECATION] The shadow `user` property is deprecated and will' \
+          " be removed in InSpec 3.0.  Please use `users` instead.\n"
       end
     end
 
@@ -116,10 +116,10 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   describe 'filter via name =~ /^www/' do
-    let(:child) { shadow.user(/^www/) }
+    let(:child) { shadow.users(/^www/) }
 
     it 'filters by user via name (regex)' do
-      _(child.user).must_equal ['www-data']
+      _(child.users).must_equal ['www-data']
       _(child.count).must_equal 1
     end
 
@@ -129,10 +129,10 @@ describe 'Inspec::Resources::Shadow' do
   end
 
   describe 'filter via name = root' do
-    let(:child) { shadow.user('root') }
+    let(:child) { shadow.users('root') }
 
     it 'filters by user name' do
-      _(child.user).must_equal %w{root}
+      _(child.users).must_equal %w{root}
       _(child.count).must_equal 1
     end
   end
@@ -141,7 +141,7 @@ describe 'Inspec::Resources::Shadow' do
     let(:child) { shadow.min_days('20') }
 
     it 'filters by property' do
-      _(child.user).must_equal %w{www-data}
+      _(child.users).must_equal %w{www-data}
       _(child.count).must_equal 1
     end
   end
