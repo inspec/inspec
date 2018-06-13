@@ -12,6 +12,7 @@ class AwsS3Bucket < Inspec.resource(1)
   include AwsSingularResourceMixin
   attr_reader :bucket_name, :has_default_encryption_enabled, :has_access_logging_enabled, :region
 
+
   def to_s
     "S3 Bucket #{@bucket_name}"
   end
@@ -19,6 +20,12 @@ class AwsS3Bucket < Inspec.resource(1)
   def bucket_acl
     catch_aws_errors do
       @bucket_acl ||= BackendFactory.create(inspec_runner).get_bucket_acl(bucket: bucket_name).grants
+    end
+  end
+
+  def tags
+    catch_aws_errors do
+      @tags ||= BackendFactory.create(inspec_runner).get_bucket_tagging(bucket: bucket_name).tag_set.map { |tag| { key: tag.key, value: tag.value } }
     end
   end
 
@@ -131,6 +138,10 @@ class AwsS3Bucket < Inspec.resource(1)
 
       def get_bucket_encryption(query)
         aws_service_client.get_bucket_encryption(query)
+      end
+
+      def get_bucket_tagging(query)
+        aws_service_client.get_bucket_tagging(query)
       end
     end
   end
